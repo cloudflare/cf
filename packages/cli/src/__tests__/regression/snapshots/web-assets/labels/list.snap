@@ -1,0 +1,990 @@
+[
+  {
+    "case": "no-args",
+    "argv": [
+      "web-assets",
+      "labels",
+      "list"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/api_gateway/labels",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "only --page",
+    "argv": [
+      "web-assets",
+      "labels",
+      "list",
+      "--page",
+      "1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/api_gateway/labels?page=1",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "only --per-page",
+    "argv": [
+      "web-assets",
+      "labels",
+      "list",
+      "--per-page",
+      "1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/api_gateway/labels?per_page=1",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "only --order",
+    "argv": [
+      "web-assets",
+      "labels",
+      "list",
+      "--order",
+      "name"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/api_gateway/labels?order=name",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "--order value 1",
+    "argv": [
+      "web-assets",
+      "labels",
+      "list",
+      "--order",
+      "description"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/api_gateway/labels?order=description",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "--order value 2",
+    "argv": [
+      "web-assets",
+      "labels",
+      "list",
+      "--order",
+      "created_at"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/api_gateway/labels?order=created_at",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "--order value 3",
+    "argv": [
+      "web-assets",
+      "labels",
+      "list",
+      "--order",
+      "last_updated"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/api_gateway/labels?order=last_updated",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "--order value 4",
+    "argv": [
+      "web-assets",
+      "labels",
+      "list",
+      "--order",
+      "mapped_resources.operations"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/api_gateway/labels?order=mapped_resources.operations",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "only --direction",
+    "argv": [
+      "web-assets",
+      "labels",
+      "list",
+      "--direction",
+      "asc"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/api_gateway/labels?direction=asc",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "--direction value 1",
+    "argv": [
+      "web-assets",
+      "labels",
+      "list",
+      "--direction",
+      "desc"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/api_gateway/labels?direction=desc",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "only --source",
+    "argv": [
+      "web-assets",
+      "labels",
+      "list",
+      "--source",
+      "user"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/api_gateway/labels?source=user",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "--source value 1",
+    "argv": [
+      "web-assets",
+      "labels",
+      "list",
+      "--source",
+      "managed"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/api_gateway/labels?source=managed",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "only --filter",
+    "argv": [
+      "web-assets",
+      "labels",
+      "list",
+      "--filter",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/api_gateway/labels?filter=regression%20value%20%26%2F%3F%2B%C3%BC",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "only --with-mapped-resource-counts",
+    "argv": [
+      "web-assets",
+      "labels",
+      "list",
+      "--with-mapped-resource-counts=true"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/api_gateway/labels?with_mapped_resource_counts=true",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "--with-mapped-resource-counts value 1",
+    "argv": [
+      "web-assets",
+      "labels",
+      "list",
+      "--with-mapped-resource-counts=false"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/api_gateway/labels?with_mapped_resource_counts=false",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "pairwise 1",
+    "argv": [
+      "web-assets",
+      "labels",
+      "list",
+      "--page",
+      "2",
+      "--per-page",
+      "2",
+      "--order",
+      "description",
+      "--direction",
+      "desc",
+      "--source",
+      "managed",
+      "--filter",
+      "second value &/?+ü",
+      "--with-mapped-resource-counts=false"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/api_gateway/labels?page=2&per_page=2&order=description&direction=desc&source=managed&filter=second%20value%20%26%2F%3F%2B%C3%BC&with_mapped_resource_counts=false",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "pairwise 2",
+    "argv": [
+      "web-assets",
+      "labels",
+      "list",
+      "--per-page",
+      "1",
+      "--direction",
+      "asc",
+      "--filter",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/api_gateway/labels?per_page=1&direction=asc&filter=regression%20value%20%26%2F%3F%2B%C3%BC",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "pairwise 3",
+    "argv": [
+      "web-assets",
+      "labels",
+      "list",
+      "--page",
+      "2",
+      "--order",
+      "description",
+      "--source",
+      "managed",
+      "--with-mapped-resource-counts=false"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/api_gateway/labels?page=2&order=description&source=managed&with_mapped_resource_counts=false",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "pairwise 4",
+    "argv": [
+      "web-assets",
+      "labels",
+      "list",
+      "--order",
+      "name",
+      "--direction",
+      "asc",
+      "--with-mapped-resource-counts=true"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/api_gateway/labels?order=name&direction=asc&with_mapped_resource_counts=true",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "pairwise 5",
+    "argv": [
+      "web-assets",
+      "labels",
+      "list",
+      "--page",
+      "2",
+      "--per-page",
+      "2",
+      "--source",
+      "managed",
+      "--filter",
+      "second value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/api_gateway/labels?page=2&per_page=2&source=managed&filter=second%20value%20%26%2F%3F%2B%C3%BC",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "pairwise 6",
+    "argv": [
+      "web-assets",
+      "labels",
+      "list",
+      "--source",
+      "user",
+      "--filter",
+      "regression value &/?+ü",
+      "--with-mapped-resource-counts=true"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/api_gateway/labels?source=user&filter=regression%20value%20%26%2F%3F%2B%C3%BC&with_mapped_resource_counts=true",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "pairwise 7",
+    "argv": [
+      "web-assets",
+      "labels",
+      "list",
+      "--page",
+      "2",
+      "--per-page",
+      "2",
+      "--order",
+      "description",
+      "--direction",
+      "desc"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/api_gateway/labels?page=2&per_page=2&order=description&direction=desc",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "global quiet",
+    "argv": [
+      "web-assets",
+      "labels",
+      "list",
+      "--quiet"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/api_gateway/labels",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "global zone",
+    "argv": [
+      "web-assets",
+      "labels",
+      "list",
+      "--zone",
+      "abcdef0123456789abcdef0123456789"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/api_gateway/labels",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "global profile and mode",
+    "argv": [
+      "web-assets",
+      "labels",
+      "list",
+      "--profile",
+      "default",
+      "--mode",
+      "regression"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/api_gateway/labels",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "local",
+    "argv": [
+      "web-assets",
+      "labels",
+      "list",
+      "--local"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "http://localhost/cdn-cgi/local/explorer/api/zones/abcdef0123456789abcdef0123456789/api_gateway/labels",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "gzip, deflate",
+          "accept-language": "*",
+          "connection": "keep-alive",
+          "host": "localhost",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "local with persistence",
+    "argv": [
+      "web-assets",
+      "labels",
+      "list",
+      "--local",
+      "--persist-to",
+      "regression-state"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "http://localhost/cdn-cgi/local/explorer/api/zones/abcdef0123456789abcdef0123456789/api_gateway/labels",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "gzip, deflate",
+          "accept-language": "*",
+          "connection": "keep-alive",
+          "host": "localhost",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "zone by domain",
+    "argv": [
+      "web-assets",
+      "labels",
+      "list",
+      "--zone",
+      "regression-8f06f2d9600d.example.com"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/zones?name=regression-8f06f2d9600d.example.com&account.id=0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      },
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/api_gateway/labels",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "dry-run",
+    "argv": [
+      "web-assets",
+      "labels",
+      "list",
+      "--dry-run"
+    ],
+    "exitCode": 0,
+    "requests": []
+  }
+]

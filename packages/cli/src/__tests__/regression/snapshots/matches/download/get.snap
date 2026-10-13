@@ -1,0 +1,652 @@
+[
+  {
+    "case": "no-args",
+    "argv": [
+      "matches",
+      "download",
+      "get"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/brand-protection/matches/download",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "only --id",
+    "argv": [
+      "matches",
+      "download",
+      "get",
+      "--id",
+      "0123456789abcdef0123456789abcdef"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/brand-protection/matches/download?id=0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "only --offset",
+    "argv": [
+      "matches",
+      "download",
+      "get",
+      "--offset",
+      "1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/brand-protection/matches/download?offset=1",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "only --limit",
+    "argv": [
+      "matches",
+      "download",
+      "get",
+      "--limit",
+      "1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/brand-protection/matches/download?limit=1",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "only --include-domain-id",
+    "argv": [
+      "matches",
+      "download",
+      "get",
+      "--include-domain-id=true"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/brand-protection/matches/download?include_domain_id=true",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "--include-domain-id value 1",
+    "argv": [
+      "matches",
+      "download",
+      "get",
+      "--include-domain-id=false"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/brand-protection/matches/download?include_domain_id=false",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "only --include-dismissed",
+    "argv": [
+      "matches",
+      "download",
+      "get",
+      "--include-dismissed=true"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/brand-protection/matches/download?include_dismissed=true",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "--include-dismissed value 1",
+    "argv": [
+      "matches",
+      "download",
+      "get",
+      "--include-dismissed=false"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/brand-protection/matches/download?include_dismissed=false",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "pairwise 1",
+    "argv": [
+      "matches",
+      "download",
+      "get",
+      "--id",
+      "0123456789abcdef0123456789abcdef",
+      "--offset",
+      "2",
+      "--limit",
+      "2",
+      "--include-domain-id=false",
+      "--include-dismissed=false"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/brand-protection/matches/download?id=0123456789abcdef0123456789abcdef&offset=2&limit=2&include_domain_id=false&include_dismissed=false",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "pairwise 2",
+    "argv": [
+      "matches",
+      "download",
+      "get",
+      "--offset",
+      "1",
+      "--include-domain-id=true"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/brand-protection/matches/download?offset=1&include_domain_id=true",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "pairwise 3",
+    "argv": [
+      "matches",
+      "download",
+      "get",
+      "--id",
+      "0123456789abcdef0123456789abcdef",
+      "--limit",
+      "2",
+      "--include-dismissed=false"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/brand-protection/matches/download?id=0123456789abcdef0123456789abcdef&limit=2&include_dismissed=false",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "pairwise 4",
+    "argv": [
+      "matches",
+      "download",
+      "get",
+      "--limit",
+      "1",
+      "--include-domain-id=true"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/brand-protection/matches/download?limit=1&include_domain_id=true",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "pairwise 5",
+    "argv": [
+      "matches",
+      "download",
+      "get",
+      "--id",
+      "0123456789abcdef0123456789abcdef",
+      "--offset",
+      "2",
+      "--include-dismissed=false"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/brand-protection/matches/download?id=0123456789abcdef0123456789abcdef&offset=2&include_dismissed=false",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "pairwise 7",
+    "argv": [
+      "matches",
+      "download",
+      "get",
+      "--id",
+      "0123456789abcdef0123456789abcdef",
+      "--offset",
+      "2",
+      "--limit",
+      "2",
+      "--include-domain-id=false"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/brand-protection/matches/download?id=0123456789abcdef0123456789abcdef&offset=2&limit=2&include_domain_id=false",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "global quiet",
+    "argv": [
+      "matches",
+      "download",
+      "get",
+      "--quiet"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/brand-protection/matches/download",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "global zone",
+    "argv": [
+      "matches",
+      "download",
+      "get",
+      "--zone",
+      "abcdef0123456789abcdef0123456789"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/brand-protection/matches/download",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "global profile and mode",
+    "argv": [
+      "matches",
+      "download",
+      "get",
+      "--profile",
+      "default",
+      "--mode",
+      "regression"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/brand-protection/matches/download",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "local",
+    "argv": [
+      "matches",
+      "download",
+      "get",
+      "--local"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "http://localhost/cdn-cgi/local/explorer/api/brand-protection/matches/download",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "gzip, deflate",
+          "accept-language": "*",
+          "connection": "keep-alive",
+          "host": "localhost",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "local with persistence",
+    "argv": [
+      "matches",
+      "download",
+      "get",
+      "--local",
+      "--persist-to",
+      "regression-state"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "http://localhost/cdn-cgi/local/explorer/api/brand-protection/matches/download",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "gzip, deflate",
+          "accept-language": "*",
+          "connection": "keep-alive",
+          "host": "localhost",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "dry-run",
+    "argv": [
+      "matches",
+      "download",
+      "get",
+      "--dry-run"
+    ],
+    "exitCode": 0,
+    "requests": []
+  }
+]

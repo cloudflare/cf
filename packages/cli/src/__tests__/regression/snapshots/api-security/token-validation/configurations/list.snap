@@ -1,0 +1,407 @@
+[
+  {
+    "case": "no-args",
+    "argv": [
+      "api-security",
+      "token-validation",
+      "configurations",
+      "list"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/token_validation/config",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "only --page",
+    "argv": [
+      "api-security",
+      "token-validation",
+      "configurations",
+      "list",
+      "--page",
+      "1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/token_validation/config?page=1",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "only --per-page",
+    "argv": [
+      "api-security",
+      "token-validation",
+      "configurations",
+      "list",
+      "--per-page",
+      "1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/token_validation/config?per_page=1",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "pairwise 1",
+    "argv": [
+      "api-security",
+      "token-validation",
+      "configurations",
+      "list",
+      "--page",
+      "2",
+      "--per-page",
+      "2"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/token_validation/config?page=2&per_page=2",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "pairwise 3",
+    "argv": [
+      "api-security",
+      "token-validation",
+      "configurations",
+      "list",
+      "--page",
+      "2"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/token_validation/config?page=2",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "global quiet",
+    "argv": [
+      "api-security",
+      "token-validation",
+      "configurations",
+      "list",
+      "--quiet"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/token_validation/config",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "global zone",
+    "argv": [
+      "api-security",
+      "token-validation",
+      "configurations",
+      "list",
+      "--zone",
+      "abcdef0123456789abcdef0123456789"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/token_validation/config",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "global profile and mode",
+    "argv": [
+      "api-security",
+      "token-validation",
+      "configurations",
+      "list",
+      "--profile",
+      "default",
+      "--mode",
+      "regression"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/token_validation/config",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "local",
+    "argv": [
+      "api-security",
+      "token-validation",
+      "configurations",
+      "list",
+      "--local"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "http://localhost/cdn-cgi/local/explorer/api/zones/abcdef0123456789abcdef0123456789/token_validation/config",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "gzip, deflate",
+          "accept-language": "*",
+          "connection": "keep-alive",
+          "host": "localhost",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "local with persistence",
+    "argv": [
+      "api-security",
+      "token-validation",
+      "configurations",
+      "list",
+      "--local",
+      "--persist-to",
+      "regression-state"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "http://localhost/cdn-cgi/local/explorer/api/zones/abcdef0123456789abcdef0123456789/token_validation/config",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "gzip, deflate",
+          "accept-language": "*",
+          "connection": "keep-alive",
+          "host": "localhost",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "zone by domain",
+    "argv": [
+      "api-security",
+      "token-validation",
+      "configurations",
+      "list",
+      "--zone",
+      "regression-90248bfb1fbc.example.com"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/zones?name=regression-90248bfb1fbc.example.com&account.id=0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      },
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/token_validation/config",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "dry-run",
+    "argv": [
+      "api-security",
+      "token-validation",
+      "configurations",
+      "list",
+      "--dry-run"
+    ],
+    "exitCode": 0,
+    "requests": []
+  }
+]

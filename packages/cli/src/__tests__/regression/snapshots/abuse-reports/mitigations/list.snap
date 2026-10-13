@@ -1,0 +1,1298 @@
+[
+  {
+    "case": "no-args",
+    "argv": [
+      "abuse-reports",
+      "mitigations",
+      "list"
+    ],
+    "exitCode": 1,
+    "error": "Missing required argument: report-id",
+    "requests": []
+  },
+  {
+    "case": "required",
+    "argv": [
+      "abuse-reports",
+      "mitigations",
+      "list",
+      "--report-id",
+      "0123456789abcdef0123456789abcdef"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/abuse-reports/0123456789abcdef0123456789abcdef/mitigations",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "only --page",
+    "argv": [
+      "abuse-reports",
+      "mitigations",
+      "list",
+      "--report-id",
+      "0123456789abcdef0123456789abcdef",
+      "--page",
+      "1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/abuse-reports/0123456789abcdef0123456789abcdef/mitigations?page=1",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "only --per-page",
+    "argv": [
+      "abuse-reports",
+      "mitigations",
+      "list",
+      "--report-id",
+      "0123456789abcdef0123456789abcdef",
+      "--per-page",
+      "1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/abuse-reports/0123456789abcdef0123456789abcdef/mitigations?per_page=1",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "only --sort",
+    "argv": [
+      "abuse-reports",
+      "mitigations",
+      "list",
+      "--report-id",
+      "0123456789abcdef0123456789abcdef",
+      "--sort",
+      "type,asc"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/abuse-reports/0123456789abcdef0123456789abcdef/mitigations?sort=type%2Casc",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "--sort value 1",
+    "argv": [
+      "abuse-reports",
+      "mitigations",
+      "list",
+      "--report-id",
+      "0123456789abcdef0123456789abcdef",
+      "--sort",
+      "type,desc"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/abuse-reports/0123456789abcdef0123456789abcdef/mitigations?sort=type%2Cdesc",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "--sort value 2",
+    "argv": [
+      "abuse-reports",
+      "mitigations",
+      "list",
+      "--report-id",
+      "0123456789abcdef0123456789abcdef",
+      "--sort",
+      "effective_date,asc"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/abuse-reports/0123456789abcdef0123456789abcdef/mitigations?sort=effective_date%2Casc",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "--sort value 3",
+    "argv": [
+      "abuse-reports",
+      "mitigations",
+      "list",
+      "--report-id",
+      "0123456789abcdef0123456789abcdef",
+      "--sort",
+      "effective_date,desc"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/abuse-reports/0123456789abcdef0123456789abcdef/mitigations?sort=effective_date%2Cdesc",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "--sort value 4",
+    "argv": [
+      "abuse-reports",
+      "mitigations",
+      "list",
+      "--report-id",
+      "0123456789abcdef0123456789abcdef",
+      "--sort",
+      "status,asc"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/abuse-reports/0123456789abcdef0123456789abcdef/mitigations?sort=status%2Casc",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "--sort value 5",
+    "argv": [
+      "abuse-reports",
+      "mitigations",
+      "list",
+      "--report-id",
+      "0123456789abcdef0123456789abcdef",
+      "--sort",
+      "status,desc"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/abuse-reports/0123456789abcdef0123456789abcdef/mitigations?sort=status%2Cdesc",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "--sort value 6",
+    "argv": [
+      "abuse-reports",
+      "mitigations",
+      "list",
+      "--report-id",
+      "0123456789abcdef0123456789abcdef",
+      "--sort",
+      "entity_type,asc"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/abuse-reports/0123456789abcdef0123456789abcdef/mitigations?sort=entity_type%2Casc",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "--sort value 7",
+    "argv": [
+      "abuse-reports",
+      "mitigations",
+      "list",
+      "--report-id",
+      "0123456789abcdef0123456789abcdef",
+      "--sort",
+      "entity_type,desc"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/abuse-reports/0123456789abcdef0123456789abcdef/mitigations?sort=entity_type%2Cdesc",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "only --type",
+    "argv": [
+      "abuse-reports",
+      "mitigations",
+      "list",
+      "--report-id",
+      "0123456789abcdef0123456789abcdef",
+      "--type",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/abuse-reports/0123456789abcdef0123456789abcdef/mitigations?type=regression%20value%20%26%2F%3F%2B%C3%BC",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "only --effective-before",
+    "argv": [
+      "abuse-reports",
+      "mitigations",
+      "list",
+      "--report-id",
+      "0123456789abcdef0123456789abcdef",
+      "--effective-before",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/abuse-reports/0123456789abcdef0123456789abcdef/mitigations?effective_before=regression%20value%20%26%2F%3F%2B%C3%BC",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "only --effective-after",
+    "argv": [
+      "abuse-reports",
+      "mitigations",
+      "list",
+      "--report-id",
+      "0123456789abcdef0123456789abcdef",
+      "--effective-after",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/abuse-reports/0123456789abcdef0123456789abcdef/mitigations?effective_after=regression%20value%20%26%2F%3F%2B%C3%BC",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "only --status",
+    "argv": [
+      "abuse-reports",
+      "mitigations",
+      "list",
+      "--report-id",
+      "0123456789abcdef0123456789abcdef",
+      "--status",
+      "pending"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/abuse-reports/0123456789abcdef0123456789abcdef/mitigations?status=pending",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "--status value 1",
+    "argv": [
+      "abuse-reports",
+      "mitigations",
+      "list",
+      "--report-id",
+      "0123456789abcdef0123456789abcdef",
+      "--status",
+      "active"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/abuse-reports/0123456789abcdef0123456789abcdef/mitigations?status=active",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "--status value 2",
+    "argv": [
+      "abuse-reports",
+      "mitigations",
+      "list",
+      "--report-id",
+      "0123456789abcdef0123456789abcdef",
+      "--status",
+      "in_review"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/abuse-reports/0123456789abcdef0123456789abcdef/mitigations?status=in_review",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "--status value 3",
+    "argv": [
+      "abuse-reports",
+      "mitigations",
+      "list",
+      "--report-id",
+      "0123456789abcdef0123456789abcdef",
+      "--status",
+      "cancelled"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/abuse-reports/0123456789abcdef0123456789abcdef/mitigations?status=cancelled",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "--status value 4",
+    "argv": [
+      "abuse-reports",
+      "mitigations",
+      "list",
+      "--report-id",
+      "0123456789abcdef0123456789abcdef",
+      "--status",
+      "removed"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/abuse-reports/0123456789abcdef0123456789abcdef/mitigations?status=removed",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "only --entity-type",
+    "argv": [
+      "abuse-reports",
+      "mitigations",
+      "list",
+      "--report-id",
+      "0123456789abcdef0123456789abcdef",
+      "--entity-type",
+      "url_pattern"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/abuse-reports/0123456789abcdef0123456789abcdef/mitigations?entity_type=url_pattern",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "--entity-type value 1",
+    "argv": [
+      "abuse-reports",
+      "mitigations",
+      "list",
+      "--report-id",
+      "0123456789abcdef0123456789abcdef",
+      "--entity-type",
+      "account"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/abuse-reports/0123456789abcdef0123456789abcdef/mitigations?entity_type=account",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "--entity-type value 2",
+    "argv": [
+      "abuse-reports",
+      "mitigations",
+      "list",
+      "--report-id",
+      "0123456789abcdef0123456789abcdef",
+      "--entity-type",
+      "zone"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/abuse-reports/0123456789abcdef0123456789abcdef/mitigations?entity_type=zone",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "--entity-type value 3",
+    "argv": [
+      "abuse-reports",
+      "mitigations",
+      "list",
+      "--report-id",
+      "0123456789abcdef0123456789abcdef",
+      "--entity-type",
+      "custom_expression"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/abuse-reports/0123456789abcdef0123456789abcdef/mitigations?entity_type=custom_expression",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "pairwise 1",
+    "argv": [
+      "abuse-reports",
+      "mitigations",
+      "list",
+      "--report-id",
+      "0123456789abcdef0123456789abcdef",
+      "--page",
+      "2",
+      "--per-page",
+      "2",
+      "--sort",
+      "type,desc",
+      "--type",
+      "second value &/?+ü",
+      "--effective-before",
+      "second value &/?+ü",
+      "--effective-after",
+      "second value &/?+ü",
+      "--status",
+      "active",
+      "--entity-type",
+      "account"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/abuse-reports/0123456789abcdef0123456789abcdef/mitigations?page=2&per_page=2&sort=type%2Cdesc&type=second%20value%20%26%2F%3F%2B%C3%BC&effective_before=second%20value%20%26%2F%3F%2B%C3%BC&effective_after=second%20value%20%26%2F%3F%2B%C3%BC&status=active&entity_type=account",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "pairwise 2",
+    "argv": [
+      "abuse-reports",
+      "mitigations",
+      "list",
+      "--report-id",
+      "0123456789abcdef0123456789abcdef",
+      "--per-page",
+      "1",
+      "--type",
+      "regression value &/?+ü",
+      "--effective-after",
+      "regression value &/?+ü",
+      "--entity-type",
+      "url_pattern"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/abuse-reports/0123456789abcdef0123456789abcdef/mitigations?per_page=1&type=regression%20value%20%26%2F%3F%2B%C3%BC&effective_after=regression%20value%20%26%2F%3F%2B%C3%BC&entity_type=url_pattern",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "pairwise 3",
+    "argv": [
+      "abuse-reports",
+      "mitigations",
+      "list",
+      "--report-id",
+      "0123456789abcdef0123456789abcdef",
+      "--page",
+      "2",
+      "--sort",
+      "type,desc",
+      "--effective-before",
+      "second value &/?+ü",
+      "--status",
+      "active"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/abuse-reports/0123456789abcdef0123456789abcdef/mitigations?page=2&sort=type%2Cdesc&effective_before=second%20value%20%26%2F%3F%2B%C3%BC&status=active",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "pairwise 4",
+    "argv": [
+      "abuse-reports",
+      "mitigations",
+      "list",
+      "--report-id",
+      "0123456789abcdef0123456789abcdef",
+      "--sort",
+      "type,asc",
+      "--type",
+      "regression value &/?+ü",
+      "--status",
+      "pending",
+      "--entity-type",
+      "url_pattern"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/abuse-reports/0123456789abcdef0123456789abcdef/mitigations?sort=type%2Casc&type=regression%20value%20%26%2F%3F%2B%C3%BC&status=pending&entity_type=url_pattern",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "pairwise 5",
+    "argv": [
+      "abuse-reports",
+      "mitigations",
+      "list",
+      "--report-id",
+      "0123456789abcdef0123456789abcdef",
+      "--page",
+      "2",
+      "--per-page",
+      "2",
+      "--effective-before",
+      "second value &/?+ü",
+      "--effective-after",
+      "second value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/abuse-reports/0123456789abcdef0123456789abcdef/mitigations?page=2&per_page=2&effective_before=second%20value%20%26%2F%3F%2B%C3%BC&effective_after=second%20value%20%26%2F%3F%2B%C3%BC",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "pairwise 6",
+    "argv": [
+      "abuse-reports",
+      "mitigations",
+      "list",
+      "--report-id",
+      "0123456789abcdef0123456789abcdef",
+      "--effective-before",
+      "regression value &/?+ü",
+      "--effective-after",
+      "regression value &/?+ü",
+      "--status",
+      "pending",
+      "--entity-type",
+      "url_pattern"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/abuse-reports/0123456789abcdef0123456789abcdef/mitigations?effective_before=regression%20value%20%26%2F%3F%2B%C3%BC&effective_after=regression%20value%20%26%2F%3F%2B%C3%BC&status=pending&entity_type=url_pattern",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "pairwise 7",
+    "argv": [
+      "abuse-reports",
+      "mitigations",
+      "list",
+      "--report-id",
+      "0123456789abcdef0123456789abcdef",
+      "--page",
+      "2",
+      "--per-page",
+      "2",
+      "--sort",
+      "type,desc",
+      "--type",
+      "second value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/abuse-reports/0123456789abcdef0123456789abcdef/mitigations?page=2&per_page=2&sort=type%2Cdesc&type=second%20value%20%26%2F%3F%2B%C3%BC",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "global quiet",
+    "argv": [
+      "abuse-reports",
+      "mitigations",
+      "list",
+      "--report-id",
+      "0123456789abcdef0123456789abcdef",
+      "--quiet"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/abuse-reports/0123456789abcdef0123456789abcdef/mitigations",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "global zone",
+    "argv": [
+      "abuse-reports",
+      "mitigations",
+      "list",
+      "--report-id",
+      "0123456789abcdef0123456789abcdef",
+      "--zone",
+      "abcdef0123456789abcdef0123456789"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/abuse-reports/0123456789abcdef0123456789abcdef/mitigations",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "global profile and mode",
+    "argv": [
+      "abuse-reports",
+      "mitigations",
+      "list",
+      "--report-id",
+      "0123456789abcdef0123456789abcdef",
+      "--profile",
+      "default",
+      "--mode",
+      "regression"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/abuse-reports/0123456789abcdef0123456789abcdef/mitigations",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "local",
+    "argv": [
+      "abuse-reports",
+      "mitigations",
+      "list",
+      "--report-id",
+      "0123456789abcdef0123456789abcdef",
+      "--local"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "http://localhost/cdn-cgi/local/explorer/api/abuse-reports/0123456789abcdef0123456789abcdef/mitigations",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "gzip, deflate",
+          "accept-language": "*",
+          "connection": "keep-alive",
+          "host": "localhost",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "local with persistence",
+    "argv": [
+      "abuse-reports",
+      "mitigations",
+      "list",
+      "--report-id",
+      "0123456789abcdef0123456789abcdef",
+      "--local",
+      "--persist-to",
+      "regression-state"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "http://localhost/cdn-cgi/local/explorer/api/abuse-reports/0123456789abcdef0123456789abcdef/mitigations",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "gzip, deflate",
+          "accept-language": "*",
+          "connection": "keep-alive",
+          "host": "localhost",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "dry-run",
+    "argv": [
+      "abuse-reports",
+      "mitigations",
+      "list",
+      "--report-id",
+      "0123456789abcdef0123456789abcdef",
+      "--dry-run"
+    ],
+    "exitCode": 0,
+    "requests": []
+  }
+]

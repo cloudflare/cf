@@ -1,0 +1,1283 @@
+[
+  {
+    "case": "no-args",
+    "argv": [
+      "registrar",
+      "registrations",
+      "create"
+    ],
+    "exitCode": 1,
+    "error": "--domain-name is required. Pass --domain-name <value> or run interactively.",
+    "requests": []
+  },
+  {
+    "case": "required",
+    "argv": [
+      "registrar",
+      "registrations",
+      "create",
+      "example.com",
+      "--force",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/registrar/domain-check",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "27",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "domains": [
+            "example.com"
+          ]
+        }
+      },
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/registrar/extensions/com",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      },
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/registrar/domain-check",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "27",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "domains": [
+            "example.com"
+          ]
+        }
+      },
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/registrar/domain-check",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "27",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "domains": [
+            "example.com"
+          ]
+        }
+      },
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/registrar/registrations",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "80",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ],
+          "domain_name": "example.com",
+          "years": 1
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --extension",
+    "argv": [
+      "registrar",
+      "registrations",
+      "create",
+      "example.com",
+      "--force",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--extension",
+      "com"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/registrar/domain-check",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "27",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "domains": [
+            "example.com"
+          ]
+        }
+      },
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/registrar/domain-check",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "27",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "domains": [
+            "example.com"
+          ]
+        }
+      },
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/registrar/domain-check",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "27",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "domains": [
+            "example.com"
+          ]
+        }
+      },
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/registrar/registrations",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "80",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ],
+          "domain_name": "example.com",
+          "years": 1
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --prefer",
+    "argv": [
+      "registrar",
+      "registrations",
+      "create",
+      "example.com",
+      "--force",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--prefer",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/registrar/domain-check",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "27",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "domains": [
+            "example.com"
+          ]
+        }
+      },
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/registrar/domain-check",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "27",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "domains": [
+            "example.com"
+          ]
+        }
+      },
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/registrar/domain-check",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "27",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "domains": [
+            "example.com"
+          ]
+        }
+      },
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/registrar/registrations",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "80",
+          "content-type": "application/json",
+          "host": "api.test",
+          "prefer": "regression value &/?+ü",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ],
+          "domain_name": "example.com",
+          "years": 1
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --contacts",
+    "argv": [
+      "registrar",
+      "registrations",
+      "create",
+      "example.com",
+      "--force",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--contacts",
+      "{\"registrant\":{\"email\":\"regression@example.com\"}}"
+    ],
+    "exitCode": 1,
+    "error": "--body cannot be combined with registration field flags. Pass one or the other.",
+    "requests": []
+  },
+  {
+    "case": "pairwise 1",
+    "argv": [
+      "registrar",
+      "registrations",
+      "create",
+      "example.com",
+      "--force",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--extension",
+      "com",
+      "--prefer",
+      "second value &/?+ü",
+      "--contacts",
+      "{\"registrant\":{\"email\":\"regression@example.com\"}}"
+    ],
+    "exitCode": 1,
+    "error": "--body cannot be combined with registration field flags. Pass one or the other.",
+    "requests": []
+  },
+  {
+    "case": "pairwise 3",
+    "argv": [
+      "registrar",
+      "registrations",
+      "create",
+      "example.com",
+      "--force",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--extension",
+      "com",
+      "--contacts",
+      "{\"registrant\":{\"email\":\"regression@example.com\"}}"
+    ],
+    "exitCode": 1,
+    "error": "--body cannot be combined with registration field flags. Pass one or the other.",
+    "requests": []
+  },
+  {
+    "case": "pairwise 5",
+    "argv": [
+      "registrar",
+      "registrations",
+      "create",
+      "example.com",
+      "--force",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--extension",
+      "com",
+      "--prefer",
+      "second value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/registrar/domain-check",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "27",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "domains": [
+            "example.com"
+          ]
+        }
+      },
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/registrar/domain-check",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "27",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "domains": [
+            "example.com"
+          ]
+        }
+      },
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/registrar/domain-check",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "27",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "domains": [
+            "example.com"
+          ]
+        }
+      },
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/registrar/registrations",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "80",
+          "content-type": "application/json",
+          "host": "api.test",
+          "prefer": "second value &/?+ü",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ],
+          "domain_name": "example.com",
+          "years": 1
+        }
+      }
+    ]
+  },
+  {
+    "case": "global quiet",
+    "argv": [
+      "registrar",
+      "registrations",
+      "create",
+      "example.com",
+      "--force",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--quiet"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/registrar/domain-check",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "27",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "domains": [
+            "example.com"
+          ]
+        }
+      },
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/registrar/domain-check",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "27",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "domains": [
+            "example.com"
+          ]
+        }
+      },
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/registrar/domain-check",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "27",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "domains": [
+            "example.com"
+          ]
+        }
+      },
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/registrar/registrations",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "80",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ],
+          "domain_name": "example.com",
+          "years": 1
+        }
+      }
+    ]
+  },
+  {
+    "case": "global zone",
+    "argv": [
+      "registrar",
+      "registrations",
+      "create",
+      "example.com",
+      "--force",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--zone",
+      "abcdef0123456789abcdef0123456789"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/registrar/domain-check",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "27",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "domains": [
+            "example.com"
+          ]
+        }
+      },
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/registrar/domain-check",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "27",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "domains": [
+            "example.com"
+          ]
+        }
+      },
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/registrar/domain-check",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "27",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "domains": [
+            "example.com"
+          ]
+        }
+      },
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/registrar/registrations",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "80",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ],
+          "domain_name": "example.com",
+          "years": 1
+        }
+      }
+    ]
+  },
+  {
+    "case": "global profile and mode",
+    "argv": [
+      "registrar",
+      "registrations",
+      "create",
+      "example.com",
+      "--force",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--profile",
+      "default",
+      "--mode",
+      "regression"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/registrar/domain-check",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "27",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "domains": [
+            "example.com"
+          ]
+        }
+      },
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/registrar/domain-check",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "27",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "domains": [
+            "example.com"
+          ]
+        }
+      },
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/registrar/domain-check",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "27",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "domains": [
+            "example.com"
+          ]
+        }
+      },
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/registrar/registrations",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "80",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ],
+          "domain_name": "example.com",
+          "years": 1
+        }
+      }
+    ]
+  },
+  {
+    "case": "local",
+    "argv": [
+      "registrar",
+      "registrations",
+      "create",
+      "example.com",
+      "--force",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--local"
+    ],
+    "exitCode": 1,
+    "error": "This command has no local equivalent. Re-run without --local to use the Cloudflare API.",
+    "requests": []
+  },
+  {
+    "case": "local with persistence",
+    "argv": [
+      "registrar",
+      "registrations",
+      "create",
+      "example.com",
+      "--force",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--local",
+      "--persist-to",
+      "regression-state"
+    ],
+    "exitCode": 1,
+    "error": "This command has no local equivalent. Re-run without --local to use the Cloudflare API.",
+    "requests": []
+  },
+  {
+    "case": "dry-run",
+    "argv": [
+      "registrar",
+      "registrations",
+      "create",
+      "example.com",
+      "--force",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--dry-run"
+    ],
+    "exitCode": 0,
+    "requests": []
+  },
+  {
+    "case": "body from file",
+    "argv": [
+      "registrar",
+      "registrations",
+      "create",
+      "example.com",
+      "--force",
+      "--body",
+      "@<body.json>"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/registrar/domain-check",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "27",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "domains": [
+            "example.com"
+          ]
+        }
+      },
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/registrar/domain-check",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "27",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "domains": [
+            "example.com"
+          ]
+        }
+      },
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/registrar/domain-check",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "27",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "domains": [
+            "example.com"
+          ]
+        }
+      },
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/registrar/registrations",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "80",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ],
+          "domain_name": "example.com",
+          "years": 1
+        }
+      }
+    ]
+  },
+  {
+    "case": "array body",
+    "argv": [
+      "registrar",
+      "registrations",
+      "create",
+      "example.com",
+      "--force",
+      "--body",
+      "[{\"regression\":\"first\"},{\"regression\":\"second\"}]"
+    ],
+    "exitCode": 1,
+    "error": "--body must contain a JSON object",
+    "requests": []
+  },
+  {
+    "case": "field flags",
+    "argv": [
+      "registrar",
+      "registrations",
+      "create",
+      "example.com",
+      "--force",
+      "--extension",
+      "com",
+      "--prefer",
+      "regression value &/?+ü",
+      "--contacts",
+      "{\"registrant\":{\"email\":\"regression@example.com\"}}"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/registrar/domain-check",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "27",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "domains": [
+            "example.com"
+          ]
+        }
+      },
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/registrar/domain-check",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "27",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "domains": [
+            "example.com"
+          ]
+        }
+      },
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/registrar/domain-check",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "27",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "domains": [
+            "example.com"
+          ]
+        }
+      },
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/registrar/registrations",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "100",
+          "content-type": "application/json",
+          "host": "api.test",
+          "prefer": "regression value &/?+ü",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "domain_name": "example.com",
+          "contacts": {
+            "registrant": {
+              "email": "regression@example.com"
+            }
+          },
+          "years": 1
+        }
+      }
+    ]
+  }
+]

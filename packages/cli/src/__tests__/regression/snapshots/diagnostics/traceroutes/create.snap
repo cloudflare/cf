@@ -1,0 +1,1297 @@
+[
+  {
+    "case": "no-args",
+    "argv": [
+      "diagnostics",
+      "traceroutes",
+      "create"
+    ],
+    "exitCode": 1,
+    "error": "--targets is required (or pass --body with this field set).",
+    "requests": []
+  },
+  {
+    "case": "required",
+    "argv": [
+      "diagnostics",
+      "traceroutes",
+      "create",
+      "--targets",
+      "regression value &/?+ü",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/diagnostics/traceroute",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --colos",
+    "argv": [
+      "diagnostics",
+      "traceroutes",
+      "create",
+      "--targets",
+      "regression value &/?+ü",
+      "--colos",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/diagnostics/traceroute",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "75",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "colos": [
+            "regression value &/?+ü"
+          ],
+          "targets": [
+            "regression value &/?+ü"
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --options-max-ttl",
+    "argv": [
+      "diagnostics",
+      "traceroutes",
+      "create",
+      "--targets",
+      "regression value &/?+ü",
+      "--options-max-ttl",
+      "1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/diagnostics/traceroute",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "63",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "options": {
+            "max_ttl": 1
+          },
+          "targets": [
+            "regression value &/?+ü"
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --options-packet-type",
+    "argv": [
+      "diagnostics",
+      "traceroutes",
+      "create",
+      "--targets",
+      "regression value &/?+ü",
+      "--options-packet-type",
+      "icmp"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/diagnostics/traceroute",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "72",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "options": {
+            "packet_type": "icmp"
+          },
+          "targets": [
+            "regression value &/?+ü"
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "--options-packet-type value 1",
+    "argv": [
+      "diagnostics",
+      "traceroutes",
+      "create",
+      "--targets",
+      "regression value &/?+ü",
+      "--options-packet-type",
+      "tcp"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/diagnostics/traceroute",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "71",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "options": {
+            "packet_type": "tcp"
+          },
+          "targets": [
+            "regression value &/?+ü"
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "--options-packet-type value 2",
+    "argv": [
+      "diagnostics",
+      "traceroutes",
+      "create",
+      "--targets",
+      "regression value &/?+ü",
+      "--options-packet-type",
+      "udp"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/diagnostics/traceroute",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "71",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "options": {
+            "packet_type": "udp"
+          },
+          "targets": [
+            "regression value &/?+ü"
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "--options-packet-type value 3",
+    "argv": [
+      "diagnostics",
+      "traceroutes",
+      "create",
+      "--targets",
+      "regression value &/?+ü",
+      "--options-packet-type",
+      "gre"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/diagnostics/traceroute",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "71",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "options": {
+            "packet_type": "gre"
+          },
+          "targets": [
+            "regression value &/?+ü"
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "--options-packet-type value 4",
+    "argv": [
+      "diagnostics",
+      "traceroutes",
+      "create",
+      "--targets",
+      "regression value &/?+ü",
+      "--options-packet-type",
+      "gre+icmp"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/diagnostics/traceroute",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "76",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "options": {
+            "packet_type": "gre+icmp"
+          },
+          "targets": [
+            "regression value &/?+ü"
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --options-packets-per-ttl",
+    "argv": [
+      "diagnostics",
+      "traceroutes",
+      "create",
+      "--targets",
+      "regression value &/?+ü",
+      "--options-packets-per-ttl",
+      "1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/diagnostics/traceroute",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "71",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "options": {
+            "packets_per_ttl": 1
+          },
+          "targets": [
+            "regression value &/?+ü"
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --options-port",
+    "argv": [
+      "diagnostics",
+      "traceroutes",
+      "create",
+      "--targets",
+      "regression value &/?+ü",
+      "--options-port",
+      "1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/diagnostics/traceroute",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "60",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "options": {
+            "port": 1
+          },
+          "targets": [
+            "regression value &/?+ü"
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --options-wait-time",
+    "argv": [
+      "diagnostics",
+      "traceroutes",
+      "create",
+      "--targets",
+      "regression value &/?+ü",
+      "--options-wait-time",
+      "1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/diagnostics/traceroute",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "65",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "options": {
+            "wait_time": 1
+          },
+          "targets": [
+            "regression value &/?+ü"
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 0",
+    "argv": [
+      "diagnostics",
+      "traceroutes",
+      "create",
+      "--targets",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/diagnostics/traceroute",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "39",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "targets": [
+            "regression value &/?+ü"
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 1",
+    "argv": [
+      "diagnostics",
+      "traceroutes",
+      "create",
+      "--targets",
+      "regression value &/?+ü",
+      "--colos",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--options-max-ttl",
+      "2",
+      "--options-packet-type",
+      "tcp",
+      "--options-packets-per-ttl",
+      "2",
+      "--options-port",
+      "2",
+      "--options-wait-time",
+      "2"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/diagnostics/traceroute",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "180",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "colos": [
+            "second value &/?+ü",
+            "second value &/?+ü"
+          ],
+          "options": {
+            "max_ttl": 2,
+            "packet_type": "tcp",
+            "packets_per_ttl": 2,
+            "port": 2,
+            "wait_time": 2
+          },
+          "targets": [
+            "regression value &/?+ü"
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 2",
+    "argv": [
+      "diagnostics",
+      "traceroutes",
+      "create",
+      "--targets",
+      "regression value &/?+ü",
+      "--options-max-ttl",
+      "1",
+      "--options-packets-per-ttl",
+      "1",
+      "--options-wait-time",
+      "1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/diagnostics/traceroute",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "97",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "options": {
+            "max_ttl": 1,
+            "packets_per_ttl": 1,
+            "wait_time": 1
+          },
+          "targets": [
+            "regression value &/?+ü"
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 3",
+    "argv": [
+      "diagnostics",
+      "traceroutes",
+      "create",
+      "--targets",
+      "regression value &/?+ü",
+      "--colos",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--options-packet-type",
+      "tcp",
+      "--options-port",
+      "2"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/diagnostics/traceroute",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "134",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "colos": [
+            "second value &/?+ü",
+            "second value &/?+ü"
+          ],
+          "options": {
+            "packet_type": "tcp",
+            "port": 2
+          },
+          "targets": [
+            "regression value &/?+ü"
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 4",
+    "argv": [
+      "diagnostics",
+      "traceroutes",
+      "create",
+      "--targets",
+      "regression value &/?+ü",
+      "--options-packet-type",
+      "icmp",
+      "--options-packets-per-ttl",
+      "1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/diagnostics/traceroute",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "92",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "options": {
+            "packet_type": "icmp",
+            "packets_per_ttl": 1
+          },
+          "targets": [
+            "regression value &/?+ü"
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 5",
+    "argv": [
+      "diagnostics",
+      "traceroutes",
+      "create",
+      "--targets",
+      "regression value &/?+ü",
+      "--colos",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--options-max-ttl",
+      "2",
+      "--options-port",
+      "2",
+      "--options-wait-time",
+      "2"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/diagnostics/traceroute",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "140",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "colos": [
+            "second value &/?+ü",
+            "second value &/?+ü"
+          ],
+          "options": {
+            "max_ttl": 2,
+            "port": 2,
+            "wait_time": 2
+          },
+          "targets": [
+            "regression value &/?+ü"
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 6",
+    "argv": [
+      "diagnostics",
+      "traceroutes",
+      "create",
+      "--targets",
+      "regression value &/?+ü",
+      "--options-port",
+      "1",
+      "--options-wait-time",
+      "1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/diagnostics/traceroute",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "74",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "options": {
+            "port": 1,
+            "wait_time": 1
+          },
+          "targets": [
+            "regression value &/?+ü"
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 7",
+    "argv": [
+      "diagnostics",
+      "traceroutes",
+      "create",
+      "--targets",
+      "regression value &/?+ü",
+      "--colos",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--options-max-ttl",
+      "2",
+      "--options-packet-type",
+      "tcp",
+      "--options-packets-per-ttl",
+      "2"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/diagnostics/traceroute",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "157",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "colos": [
+            "second value &/?+ü",
+            "second value &/?+ü"
+          ],
+          "options": {
+            "max_ttl": 2,
+            "packet_type": "tcp",
+            "packets_per_ttl": 2
+          },
+          "targets": [
+            "regression value &/?+ü"
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "global quiet",
+    "argv": [
+      "diagnostics",
+      "traceroutes",
+      "create",
+      "--targets",
+      "regression value &/?+ü",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--quiet"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/diagnostics/traceroute",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "global zone",
+    "argv": [
+      "diagnostics",
+      "traceroutes",
+      "create",
+      "--targets",
+      "regression value &/?+ü",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--zone",
+      "abcdef0123456789abcdef0123456789"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/diagnostics/traceroute",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "global profile and mode",
+    "argv": [
+      "diagnostics",
+      "traceroutes",
+      "create",
+      "--targets",
+      "regression value &/?+ü",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--profile",
+      "default",
+      "--mode",
+      "regression"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/diagnostics/traceroute",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "local",
+    "argv": [
+      "diagnostics",
+      "traceroutes",
+      "create",
+      "--targets",
+      "regression value &/?+ü",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--local"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "http://localhost/cdn-cgi/local/explorer/api/diagnostics/traceroute",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "gzip, deflate",
+          "accept-language": "*",
+          "connection": "keep-alive",
+          "content-type": "application/json",
+          "host": "localhost",
+          "sec-fetch-mode": "cors",
+          "transfer-encoding": "chunked",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "local with persistence",
+    "argv": [
+      "diagnostics",
+      "traceroutes",
+      "create",
+      "--targets",
+      "regression value &/?+ü",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--local",
+      "--persist-to",
+      "regression-state"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "http://localhost/cdn-cgi/local/explorer/api/diagnostics/traceroute",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "gzip, deflate",
+          "accept-language": "*",
+          "connection": "keep-alive",
+          "content-type": "application/json",
+          "host": "localhost",
+          "sec-fetch-mode": "cors",
+          "transfer-encoding": "chunked",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "dry-run",
+    "argv": [
+      "diagnostics",
+      "traceroutes",
+      "create",
+      "--targets",
+      "regression value &/?+ü",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--dry-run"
+    ],
+    "exitCode": 0,
+    "requests": []
+  },
+  {
+    "case": "body from file",
+    "argv": [
+      "diagnostics",
+      "traceroutes",
+      "create",
+      "--targets",
+      "regression value &/?+ü",
+      "--body",
+      "@<body.json>"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/diagnostics/traceroute",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "array body",
+    "argv": [
+      "diagnostics",
+      "traceroutes",
+      "create",
+      "--targets",
+      "regression value &/?+ü",
+      "--body",
+      "[{\"regression\":\"first\"},{\"regression\":\"second\"}]"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/diagnostics/traceroute",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "56",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "0": {
+            "regression": "first"
+          },
+          "1": {
+            "regression": "second"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "field flags",
+    "argv": [
+      "diagnostics",
+      "traceroutes",
+      "create",
+      "--targets",
+      "regression value &/?+ü",
+      "--colos",
+      "regression value &/?+ü",
+      "--options-max-ttl",
+      "1",
+      "--options-packet-type",
+      "icmp",
+      "--options-packets-per-ttl",
+      "1",
+      "--options-port",
+      "1",
+      "--options-wait-time",
+      "1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/diagnostics/traceroute",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "163",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "colos": [
+            "regression value &/?+ü"
+          ],
+          "options": {
+            "max_ttl": 1,
+            "packet_type": "icmp",
+            "packets_per_ttl": 1,
+            "port": 1,
+            "wait_time": 1
+          },
+          "targets": [
+            "regression value &/?+ü"
+          ]
+        }
+      }
+    ]
+  }
+]

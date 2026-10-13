@@ -1,0 +1,970 @@
+[
+  {
+    "case": "no-args",
+    "argv": [
+      "billing",
+      "addresses",
+      "validate"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/billing/address-validation",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "2",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {}
+      }
+    ]
+  },
+  {
+    "case": "required",
+    "argv": [
+      "billing",
+      "addresses",
+      "validate",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/billing/address-validation",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --address",
+    "argv": [
+      "billing",
+      "addresses",
+      "validate",
+      "--address",
+      "192.0.2.1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/billing/address-validation",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "23",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "address": "192.0.2.1"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --address2",
+    "argv": [
+      "billing",
+      "addresses",
+      "validate",
+      "--address2",
+      "192.0.2.1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/billing/address-validation",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "24",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "address2": "192.0.2.1"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --city",
+    "argv": [
+      "billing",
+      "addresses",
+      "validate",
+      "--city",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/billing/address-validation",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "34",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "city": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --country",
+    "argv": [
+      "billing",
+      "addresses",
+      "validate",
+      "--country",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/billing/address-validation",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "37",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "country": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --state",
+    "argv": [
+      "billing",
+      "addresses",
+      "validate",
+      "--state",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/billing/address-validation",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "35",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "state": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --zipcode",
+    "argv": [
+      "billing",
+      "addresses",
+      "validate",
+      "--zipcode",
+      "192.0.2.1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/billing/address-validation",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "23",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "zipcode": "192.0.2.1"
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 1",
+    "argv": [
+      "billing",
+      "addresses",
+      "validate",
+      "--address",
+      "192.0.2.1",
+      "--address2",
+      "192.0.2.1",
+      "--city",
+      "second value &/?+ü",
+      "--country",
+      "second value &/?+ü",
+      "--state",
+      "second value &/?+ü",
+      "--zipcode",
+      "192.0.2.1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/billing/address-validation",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "159",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "address": "192.0.2.1",
+          "address2": "192.0.2.1",
+          "city": "second value &/?+ü",
+          "country": "second value &/?+ü",
+          "state": "second value &/?+ü",
+          "zipcode": "192.0.2.1"
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 2",
+    "argv": [
+      "billing",
+      "addresses",
+      "validate",
+      "--address2",
+      "192.0.2.1",
+      "--country",
+      "regression value &/?+ü",
+      "--zipcode",
+      "192.0.2.1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/billing/address-validation",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "82",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "address2": "192.0.2.1",
+          "country": "regression value &/?+ü",
+          "zipcode": "192.0.2.1"
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 3",
+    "argv": [
+      "billing",
+      "addresses",
+      "validate",
+      "--address",
+      "192.0.2.1",
+      "--city",
+      "second value &/?+ü",
+      "--state",
+      "second value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/billing/address-validation",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "82",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "address": "192.0.2.1",
+          "city": "second value &/?+ü",
+          "state": "second value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 4",
+    "argv": [
+      "billing",
+      "addresses",
+      "validate",
+      "--city",
+      "regression value &/?+ü",
+      "--country",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/billing/address-validation",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "70",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "city": "regression value &/?+ü",
+          "country": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 5",
+    "argv": [
+      "billing",
+      "addresses",
+      "validate",
+      "--address",
+      "192.0.2.1",
+      "--address2",
+      "192.0.2.1",
+      "--state",
+      "second value &/?+ü",
+      "--zipcode",
+      "192.0.2.1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/billing/address-validation",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "98",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "address": "192.0.2.1",
+          "address2": "192.0.2.1",
+          "state": "second value &/?+ü",
+          "zipcode": "192.0.2.1"
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 6",
+    "argv": [
+      "billing",
+      "addresses",
+      "validate",
+      "--state",
+      "regression value &/?+ü",
+      "--zipcode",
+      "192.0.2.1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/billing/address-validation",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "57",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "state": "regression value &/?+ü",
+          "zipcode": "192.0.2.1"
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 7",
+    "argv": [
+      "billing",
+      "addresses",
+      "validate",
+      "--address",
+      "192.0.2.1",
+      "--address2",
+      "192.0.2.1",
+      "--city",
+      "second value &/?+ü",
+      "--country",
+      "second value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/billing/address-validation",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "107",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "address": "192.0.2.1",
+          "address2": "192.0.2.1",
+          "city": "second value &/?+ü",
+          "country": "second value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "global quiet",
+    "argv": [
+      "billing",
+      "addresses",
+      "validate",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--quiet"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/billing/address-validation",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "global zone",
+    "argv": [
+      "billing",
+      "addresses",
+      "validate",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--zone",
+      "abcdef0123456789abcdef0123456789"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/billing/address-validation",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "global profile and mode",
+    "argv": [
+      "billing",
+      "addresses",
+      "validate",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--profile",
+      "default",
+      "--mode",
+      "regression"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/billing/address-validation",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "local",
+    "argv": [
+      "billing",
+      "addresses",
+      "validate",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--local"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "http://localhost/cdn-cgi/local/explorer/api/billing/address-validation",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "gzip, deflate",
+          "accept-language": "*",
+          "connection": "keep-alive",
+          "content-type": "application/json",
+          "host": "localhost",
+          "sec-fetch-mode": "cors",
+          "transfer-encoding": "chunked",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "local with persistence",
+    "argv": [
+      "billing",
+      "addresses",
+      "validate",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--local",
+      "--persist-to",
+      "regression-state"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "http://localhost/cdn-cgi/local/explorer/api/billing/address-validation",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "gzip, deflate",
+          "accept-language": "*",
+          "connection": "keep-alive",
+          "content-type": "application/json",
+          "host": "localhost",
+          "sec-fetch-mode": "cors",
+          "transfer-encoding": "chunked",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "dry-run",
+    "argv": [
+      "billing",
+      "addresses",
+      "validate",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--dry-run"
+    ],
+    "exitCode": 0,
+    "requests": []
+  },
+  {
+    "case": "body from file",
+    "argv": [
+      "billing",
+      "addresses",
+      "validate",
+      "--body",
+      "@<body.json>"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/billing/address-validation",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "array body",
+    "argv": [
+      "billing",
+      "addresses",
+      "validate",
+      "--body",
+      "[{\"regression\":\"first\"},{\"regression\":\"second\"}]"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/billing/address-validation",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "56",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "0": {
+            "regression": "first"
+          },
+          "1": {
+            "regression": "second"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "field flags",
+    "argv": [
+      "billing",
+      "addresses",
+      "validate",
+      "--address",
+      "192.0.2.1",
+      "--address2",
+      "192.0.2.1",
+      "--city",
+      "regression value &/?+ü",
+      "--country",
+      "regression value &/?+ü",
+      "--state",
+      "regression value &/?+ü",
+      "--zipcode",
+      "192.0.2.1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/billing/address-validation",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "171",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "address": "192.0.2.1",
+          "address2": "192.0.2.1",
+          "city": "regression value &/?+ü",
+          "country": "regression value &/?+ü",
+          "state": "regression value &/?+ü",
+          "zipcode": "192.0.2.1"
+        }
+      }
+    ]
+  }
+]

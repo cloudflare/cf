@@ -1,0 +1,265 @@
+[
+  {
+    "case": "no-args",
+    "argv": [
+      "connectors",
+      "list"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/magic/connectors",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "only --device-type",
+    "argv": [
+      "connectors",
+      "list",
+      "--device-type",
+      "MANAGED"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/magic/connectors?device_type=MANAGED",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "--device-type value 1",
+    "argv": [
+      "connectors",
+      "list",
+      "--device-type",
+      "LICENSED"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/magic/connectors?device_type=LICENSED",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "global quiet",
+    "argv": [
+      "connectors",
+      "list",
+      "--quiet"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/magic/connectors",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "global zone",
+    "argv": [
+      "connectors",
+      "list",
+      "--zone",
+      "abcdef0123456789abcdef0123456789"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/magic/connectors",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "global profile and mode",
+    "argv": [
+      "connectors",
+      "list",
+      "--profile",
+      "default",
+      "--mode",
+      "regression"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/magic/connectors",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "local",
+    "argv": [
+      "connectors",
+      "list",
+      "--local"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "http://localhost/cdn-cgi/local/explorer/api/magic/connectors",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "gzip, deflate",
+          "accept-language": "*",
+          "connection": "keep-alive",
+          "host": "localhost",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "local with persistence",
+    "argv": [
+      "connectors",
+      "list",
+      "--local",
+      "--persist-to",
+      "regression-state"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "http://localhost/cdn-cgi/local/explorer/api/magic/connectors",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "gzip, deflate",
+          "accept-language": "*",
+          "connection": "keep-alive",
+          "host": "localhost",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "dry-run",
+    "argv": [
+      "connectors",
+      "list",
+      "--dry-run"
+    ],
+    "exitCode": 0,
+    "requests": []
+  }
+]

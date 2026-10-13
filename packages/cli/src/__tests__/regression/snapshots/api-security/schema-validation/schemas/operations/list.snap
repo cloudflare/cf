@@ -1,0 +1,903 @@
+[
+  {
+    "case": "no-args",
+    "argv": [
+      "api-security",
+      "schema-validation",
+      "schemas",
+      "operations",
+      "list"
+    ],
+    "exitCode": 1,
+    "error": "Missing required argument: schema-id",
+    "requests": []
+  },
+  {
+    "case": "required",
+    "argv": [
+      "api-security",
+      "schema-validation",
+      "schemas",
+      "operations",
+      "list",
+      "--schema-id",
+      "0123456789abcdef0123456789abcdef"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/schema_validation/schemas/0123456789abcdef0123456789abcdef/operations",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "only --feature",
+    "argv": [
+      "api-security",
+      "schema-validation",
+      "schemas",
+      "operations",
+      "list",
+      "--schema-id",
+      "0123456789abcdef0123456789abcdef",
+      "--feature",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/schema_validation/schemas/0123456789abcdef0123456789abcdef/operations?feature=regression%20value%20%26%2F%3F%2B%C3%BC",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "only --host",
+    "argv": [
+      "api-security",
+      "schema-validation",
+      "schemas",
+      "operations",
+      "list",
+      "--schema-id",
+      "0123456789abcdef0123456789abcdef",
+      "--host",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/schema_validation/schemas/0123456789abcdef0123456789abcdef/operations?host=regression%20value%20%26%2F%3F%2B%C3%BC",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "only --method",
+    "argv": [
+      "api-security",
+      "schema-validation",
+      "schemas",
+      "operations",
+      "list",
+      "--schema-id",
+      "0123456789abcdef0123456789abcdef",
+      "--method",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/schema_validation/schemas/0123456789abcdef0123456789abcdef/operations?method=regression%20value%20%26%2F%3F%2B%C3%BC",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "only --endpoint",
+    "argv": [
+      "api-security",
+      "schema-validation",
+      "schemas",
+      "operations",
+      "list",
+      "--schema-id",
+      "0123456789abcdef0123456789abcdef",
+      "--endpoint",
+      "https://example.com/a?x=1&y=two"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/schema_validation/schemas/0123456789abcdef0123456789abcdef/operations?endpoint=https%3A%2F%2Fexample.com%2Fa%3Fx%3D1%26y%3Dtwo",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "only --page",
+    "argv": [
+      "api-security",
+      "schema-validation",
+      "schemas",
+      "operations",
+      "list",
+      "--schema-id",
+      "0123456789abcdef0123456789abcdef",
+      "--page",
+      "1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/schema_validation/schemas/0123456789abcdef0123456789abcdef/operations?page=1",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "only --per-page",
+    "argv": [
+      "api-security",
+      "schema-validation",
+      "schemas",
+      "operations",
+      "list",
+      "--schema-id",
+      "0123456789abcdef0123456789abcdef",
+      "--per-page",
+      "1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/schema_validation/schemas/0123456789abcdef0123456789abcdef/operations?per_page=1",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "only --operation-status",
+    "argv": [
+      "api-security",
+      "schema-validation",
+      "schemas",
+      "operations",
+      "list",
+      "--schema-id",
+      "0123456789abcdef0123456789abcdef",
+      "--operation-status",
+      "new"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/schema_validation/schemas/0123456789abcdef0123456789abcdef/operations?operation_status=new",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "--operation-status value 1",
+    "argv": [
+      "api-security",
+      "schema-validation",
+      "schemas",
+      "operations",
+      "list",
+      "--schema-id",
+      "0123456789abcdef0123456789abcdef",
+      "--operation-status",
+      "existing"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/schema_validation/schemas/0123456789abcdef0123456789abcdef/operations?operation_status=existing",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "pairwise 1",
+    "argv": [
+      "api-security",
+      "schema-validation",
+      "schemas",
+      "operations",
+      "list",
+      "--schema-id",
+      "0123456789abcdef0123456789abcdef",
+      "--feature",
+      "second value &/?+ü",
+      "--host",
+      "second value &/?+ü",
+      "--method",
+      "second value &/?+ü",
+      "--endpoint",
+      "https://example.com/a?x=1&y=two",
+      "--page",
+      "2",
+      "--per-page",
+      "2",
+      "--operation-status",
+      "existing"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/schema_validation/schemas/0123456789abcdef0123456789abcdef/operations?feature=second%20value%20%26%2F%3F%2B%C3%BC&host=second%20value%20%26%2F%3F%2B%C3%BC&method=second%20value%20%26%2F%3F%2B%C3%BC&endpoint=https%3A%2F%2Fexample.com%2Fa%3Fx%3D1%26y%3Dtwo&page=2&per_page=2&operation_status=existing",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "pairwise 2",
+    "argv": [
+      "api-security",
+      "schema-validation",
+      "schemas",
+      "operations",
+      "list",
+      "--schema-id",
+      "0123456789abcdef0123456789abcdef",
+      "--host",
+      "regression value &/?+ü",
+      "--endpoint",
+      "https://example.com/a?x=1&y=two",
+      "--per-page",
+      "1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/schema_validation/schemas/0123456789abcdef0123456789abcdef/operations?host=regression%20value%20%26%2F%3F%2B%C3%BC&endpoint=https%3A%2F%2Fexample.com%2Fa%3Fx%3D1%26y%3Dtwo&per_page=1",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "pairwise 3",
+    "argv": [
+      "api-security",
+      "schema-validation",
+      "schemas",
+      "operations",
+      "list",
+      "--schema-id",
+      "0123456789abcdef0123456789abcdef",
+      "--feature",
+      "second value &/?+ü",
+      "--method",
+      "second value &/?+ü",
+      "--page",
+      "2",
+      "--operation-status",
+      "existing"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/schema_validation/schemas/0123456789abcdef0123456789abcdef/operations?feature=second%20value%20%26%2F%3F%2B%C3%BC&method=second%20value%20%26%2F%3F%2B%C3%BC&page=2&operation_status=existing",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "pairwise 4",
+    "argv": [
+      "api-security",
+      "schema-validation",
+      "schemas",
+      "operations",
+      "list",
+      "--schema-id",
+      "0123456789abcdef0123456789abcdef",
+      "--method",
+      "regression value &/?+ü",
+      "--endpoint",
+      "https://example.com/a?x=1&y=two",
+      "--operation-status",
+      "new"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/schema_validation/schemas/0123456789abcdef0123456789abcdef/operations?method=regression%20value%20%26%2F%3F%2B%C3%BC&endpoint=https%3A%2F%2Fexample.com%2Fa%3Fx%3D1%26y%3Dtwo&operation_status=new",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "pairwise 5",
+    "argv": [
+      "api-security",
+      "schema-validation",
+      "schemas",
+      "operations",
+      "list",
+      "--schema-id",
+      "0123456789abcdef0123456789abcdef",
+      "--feature",
+      "second value &/?+ü",
+      "--host",
+      "second value &/?+ü",
+      "--page",
+      "2",
+      "--per-page",
+      "2"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/schema_validation/schemas/0123456789abcdef0123456789abcdef/operations?feature=second%20value%20%26%2F%3F%2B%C3%BC&host=second%20value%20%26%2F%3F%2B%C3%BC&page=2&per_page=2",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "pairwise 6",
+    "argv": [
+      "api-security",
+      "schema-validation",
+      "schemas",
+      "operations",
+      "list",
+      "--schema-id",
+      "0123456789abcdef0123456789abcdef",
+      "--page",
+      "1",
+      "--per-page",
+      "1",
+      "--operation-status",
+      "new"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/schema_validation/schemas/0123456789abcdef0123456789abcdef/operations?page=1&per_page=1&operation_status=new",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "pairwise 7",
+    "argv": [
+      "api-security",
+      "schema-validation",
+      "schemas",
+      "operations",
+      "list",
+      "--schema-id",
+      "0123456789abcdef0123456789abcdef",
+      "--feature",
+      "second value &/?+ü",
+      "--host",
+      "second value &/?+ü",
+      "--method",
+      "second value &/?+ü",
+      "--endpoint",
+      "https://example.com/a?x=1&y=two"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/schema_validation/schemas/0123456789abcdef0123456789abcdef/operations?feature=second%20value%20%26%2F%3F%2B%C3%BC&host=second%20value%20%26%2F%3F%2B%C3%BC&method=second%20value%20%26%2F%3F%2B%C3%BC&endpoint=https%3A%2F%2Fexample.com%2Fa%3Fx%3D1%26y%3Dtwo",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "global quiet",
+    "argv": [
+      "api-security",
+      "schema-validation",
+      "schemas",
+      "operations",
+      "list",
+      "--schema-id",
+      "0123456789abcdef0123456789abcdef",
+      "--quiet"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/schema_validation/schemas/0123456789abcdef0123456789abcdef/operations",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "global zone",
+    "argv": [
+      "api-security",
+      "schema-validation",
+      "schemas",
+      "operations",
+      "list",
+      "--schema-id",
+      "0123456789abcdef0123456789abcdef",
+      "--zone",
+      "abcdef0123456789abcdef0123456789"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/schema_validation/schemas/0123456789abcdef0123456789abcdef/operations",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "global profile and mode",
+    "argv": [
+      "api-security",
+      "schema-validation",
+      "schemas",
+      "operations",
+      "list",
+      "--schema-id",
+      "0123456789abcdef0123456789abcdef",
+      "--profile",
+      "default",
+      "--mode",
+      "regression"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/schema_validation/schemas/0123456789abcdef0123456789abcdef/operations",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "local",
+    "argv": [
+      "api-security",
+      "schema-validation",
+      "schemas",
+      "operations",
+      "list",
+      "--schema-id",
+      "0123456789abcdef0123456789abcdef",
+      "--local"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "http://localhost/cdn-cgi/local/explorer/api/zones/abcdef0123456789abcdef0123456789/schema_validation/schemas/0123456789abcdef0123456789abcdef/operations",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "gzip, deflate",
+          "accept-language": "*",
+          "connection": "keep-alive",
+          "host": "localhost",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "local with persistence",
+    "argv": [
+      "api-security",
+      "schema-validation",
+      "schemas",
+      "operations",
+      "list",
+      "--schema-id",
+      "0123456789abcdef0123456789abcdef",
+      "--local",
+      "--persist-to",
+      "regression-state"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "http://localhost/cdn-cgi/local/explorer/api/zones/abcdef0123456789abcdef0123456789/schema_validation/schemas/0123456789abcdef0123456789abcdef/operations",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "gzip, deflate",
+          "accept-language": "*",
+          "connection": "keep-alive",
+          "host": "localhost",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "zone by domain",
+    "argv": [
+      "api-security",
+      "schema-validation",
+      "schemas",
+      "operations",
+      "list",
+      "--schema-id",
+      "0123456789abcdef0123456789abcdef",
+      "--zone",
+      "regression-29ecd3daa90e.example.com"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/zones?name=regression-29ecd3daa90e.example.com&account.id=0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      },
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/schema_validation/schemas/0123456789abcdef0123456789abcdef/operations",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "dry-run",
+    "argv": [
+      "api-security",
+      "schema-validation",
+      "schemas",
+      "operations",
+      "list",
+      "--schema-id",
+      "0123456789abcdef0123456789abcdef",
+      "--dry-run"
+    ],
+    "exitCode": 0,
+    "requests": []
+  }
+]

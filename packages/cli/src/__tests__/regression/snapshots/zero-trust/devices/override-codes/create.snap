@@ -1,0 +1,576 @@
+[
+  {
+    "case": "no-args",
+    "argv": [
+      "zero-trust",
+      "devices",
+      "override-codes",
+      "create"
+    ],
+    "exitCode": 1,
+    "error": "--duration-hours is required (or pass --body with this field set).",
+    "requests": []
+  },
+  {
+    "case": "required",
+    "argv": [
+      "zero-trust",
+      "devices",
+      "override-codes",
+      "create",
+      "--duration-hours",
+      "1",
+      "--scope",
+      "account",
+      "--type",
+      "uninstall_protection",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/devices/override_codes",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "72",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ],
+          "type": "uninstall_protection"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --device-id",
+    "argv": [
+      "zero-trust",
+      "devices",
+      "override-codes",
+      "create",
+      "--duration-hours",
+      "1",
+      "--scope",
+      "account",
+      "--type",
+      "uninstall_protection",
+      "--device-id",
+      "0123456789abcdef0123456789abcdef"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/devices/override_codes",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "115",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "device_id": "0123456789abcdef0123456789abcdef",
+          "duration_hours": 1,
+          "scope": "account",
+          "type": "uninstall_protection"
+        }
+      }
+    ]
+  },
+  {
+    "case": "required --scope value 1",
+    "argv": [
+      "zero-trust",
+      "devices",
+      "override-codes",
+      "create",
+      "--duration-hours",
+      "1",
+      "--type",
+      "uninstall_protection",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--scope",
+      "device"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/devices/override_codes",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "72",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ],
+          "type": "uninstall_protection"
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 0",
+    "argv": [
+      "zero-trust",
+      "devices",
+      "override-codes",
+      "create",
+      "--duration-hours",
+      "1",
+      "--scope",
+      "account",
+      "--type",
+      "uninstall_protection"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/devices/override_codes",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "68",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "duration_hours": 1,
+          "scope": "account",
+          "type": "uninstall_protection"
+        }
+      }
+    ]
+  },
+  {
+    "case": "global quiet",
+    "argv": [
+      "zero-trust",
+      "devices",
+      "override-codes",
+      "create",
+      "--duration-hours",
+      "1",
+      "--scope",
+      "account",
+      "--type",
+      "uninstall_protection",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--quiet"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/devices/override_codes",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "72",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ],
+          "type": "uninstall_protection"
+        }
+      }
+    ]
+  },
+  {
+    "case": "global zone",
+    "argv": [
+      "zero-trust",
+      "devices",
+      "override-codes",
+      "create",
+      "--duration-hours",
+      "1",
+      "--scope",
+      "account",
+      "--type",
+      "uninstall_protection",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--zone",
+      "abcdef0123456789abcdef0123456789"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/devices/override_codes",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "72",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ],
+          "type": "uninstall_protection"
+        }
+      }
+    ]
+  },
+  {
+    "case": "global profile and mode",
+    "argv": [
+      "zero-trust",
+      "devices",
+      "override-codes",
+      "create",
+      "--duration-hours",
+      "1",
+      "--scope",
+      "account",
+      "--type",
+      "uninstall_protection",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--profile",
+      "default",
+      "--mode",
+      "regression"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/devices/override_codes",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "72",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ],
+          "type": "uninstall_protection"
+        }
+      }
+    ]
+  },
+  {
+    "case": "local",
+    "argv": [
+      "zero-trust",
+      "devices",
+      "override-codes",
+      "create",
+      "--duration-hours",
+      "1",
+      "--scope",
+      "account",
+      "--type",
+      "uninstall_protection",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--local"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "http://localhost/cdn-cgi/local/explorer/api/devices/override_codes",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "gzip, deflate",
+          "accept-language": "*",
+          "connection": "keep-alive",
+          "content-type": "application/json",
+          "host": "localhost",
+          "sec-fetch-mode": "cors",
+          "transfer-encoding": "chunked",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ],
+          "type": "uninstall_protection"
+        }
+      }
+    ]
+  },
+  {
+    "case": "local with persistence",
+    "argv": [
+      "zero-trust",
+      "devices",
+      "override-codes",
+      "create",
+      "--duration-hours",
+      "1",
+      "--scope",
+      "account",
+      "--type",
+      "uninstall_protection",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--local",
+      "--persist-to",
+      "regression-state"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "http://localhost/cdn-cgi/local/explorer/api/devices/override_codes",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "gzip, deflate",
+          "accept-language": "*",
+          "connection": "keep-alive",
+          "content-type": "application/json",
+          "host": "localhost",
+          "sec-fetch-mode": "cors",
+          "transfer-encoding": "chunked",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ],
+          "type": "uninstall_protection"
+        }
+      }
+    ]
+  },
+  {
+    "case": "dry-run",
+    "argv": [
+      "zero-trust",
+      "devices",
+      "override-codes",
+      "create",
+      "--duration-hours",
+      "1",
+      "--scope",
+      "account",
+      "--type",
+      "uninstall_protection",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--dry-run"
+    ],
+    "exitCode": 0,
+    "requests": []
+  },
+  {
+    "case": "body from file",
+    "argv": [
+      "zero-trust",
+      "devices",
+      "override-codes",
+      "create",
+      "--duration-hours",
+      "1",
+      "--scope",
+      "account",
+      "--type",
+      "uninstall_protection",
+      "--body",
+      "@<body.json>"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/devices/override_codes",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "72",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ],
+          "type": "uninstall_protection"
+        }
+      }
+    ]
+  },
+  {
+    "case": "array body",
+    "argv": [
+      "zero-trust",
+      "devices",
+      "override-codes",
+      "create",
+      "--duration-hours",
+      "1",
+      "--scope",
+      "account",
+      "--type",
+      "uninstall_protection",
+      "--body",
+      "[{\"regression\":\"first\"},{\"regression\":\"second\"}]"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/devices/override_codes",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "86",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "0": {
+            "regression": "first"
+          },
+          "1": {
+            "regression": "second"
+          },
+          "type": "uninstall_protection"
+        }
+      }
+    ]
+  }
+]

@@ -1,0 +1,689 @@
+[
+  {
+    "case": "no-args",
+    "argv": [
+      "accounts",
+      "members",
+      "create"
+    ],
+    "exitCode": 1,
+    "error": "--email is required. Pass --email <value> or run interactively.",
+    "requests": []
+  },
+  {
+    "case": "required",
+    "argv": [
+      "accounts",
+      "members",
+      "create",
+      "--email",
+      "regression@example.com",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/members",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --roles",
+    "argv": [
+      "accounts",
+      "members",
+      "create",
+      "--email",
+      "regression@example.com",
+      "--roles",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/members",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "70",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "email": "regression@example.com",
+          "roles": [
+            "regression value &/?+ü"
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --status",
+    "argv": [
+      "accounts",
+      "members",
+      "create",
+      "--email",
+      "regression@example.com",
+      "--status",
+      "accepted"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/members",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "54",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "email": "regression@example.com",
+          "status": "accepted"
+        }
+      }
+    ]
+  },
+  {
+    "case": "--status value 1",
+    "argv": [
+      "accounts",
+      "members",
+      "create",
+      "--email",
+      "regression@example.com",
+      "--status",
+      "pending"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/members",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "53",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "email": "regression@example.com",
+          "status": "pending"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --policies",
+    "argv": [
+      "accounts",
+      "members",
+      "create",
+      "--email",
+      "regression@example.com",
+      "--policies",
+      "[{\"regression\":\"item\"}]"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/members",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "69",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "email": "regression@example.com",
+          "policies": [
+            {
+              "regression": "item"
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 0",
+    "argv": [
+      "accounts",
+      "members",
+      "create",
+      "--email",
+      "regression@example.com"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/members",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "34",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "email": "regression@example.com"
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 1",
+    "argv": [
+      "accounts",
+      "members",
+      "create",
+      "--email",
+      "regression@example.com",
+      "--roles",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--status",
+      "pending",
+      "--policies",
+      "[{\"regression\":\"item\"}]"
+    ],
+    "exitCode": 1,
+    "error": "Arguments roles and policies are mutually exclusive",
+    "requests": []
+  },
+  {
+    "case": "pairwise 3",
+    "argv": [
+      "accounts",
+      "members",
+      "create",
+      "--email",
+      "regression@example.com",
+      "--roles",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--policies",
+      "[{\"regression\":\"item\"}]"
+    ],
+    "exitCode": 1,
+    "error": "Arguments roles and policies are mutually exclusive",
+    "requests": []
+  },
+  {
+    "case": "pairwise 5",
+    "argv": [
+      "accounts",
+      "members",
+      "create",
+      "--email",
+      "regression@example.com",
+      "--roles",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--status",
+      "pending"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/members",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "107",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "email": "regression@example.com",
+          "roles": [
+            "second value &/?+ü",
+            "second value &/?+ü"
+          ],
+          "status": "pending"
+        }
+      }
+    ]
+  },
+  {
+    "case": "global quiet",
+    "argv": [
+      "accounts",
+      "members",
+      "create",
+      "--email",
+      "regression@example.com",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--quiet"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/members",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "global zone",
+    "argv": [
+      "accounts",
+      "members",
+      "create",
+      "--email",
+      "regression@example.com",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--zone",
+      "abcdef0123456789abcdef0123456789"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/members",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "global profile and mode",
+    "argv": [
+      "accounts",
+      "members",
+      "create",
+      "--email",
+      "regression@example.com",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--profile",
+      "default",
+      "--mode",
+      "regression"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/members",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "local",
+    "argv": [
+      "accounts",
+      "members",
+      "create",
+      "--email",
+      "regression@example.com",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--local"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "http://localhost/cdn-cgi/local/explorer/api/members",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "gzip, deflate",
+          "accept-language": "*",
+          "connection": "keep-alive",
+          "content-type": "application/json",
+          "host": "localhost",
+          "sec-fetch-mode": "cors",
+          "transfer-encoding": "chunked",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "local with persistence",
+    "argv": [
+      "accounts",
+      "members",
+      "create",
+      "--email",
+      "regression@example.com",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--local",
+      "--persist-to",
+      "regression-state"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "http://localhost/cdn-cgi/local/explorer/api/members",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "gzip, deflate",
+          "accept-language": "*",
+          "connection": "keep-alive",
+          "content-type": "application/json",
+          "host": "localhost",
+          "sec-fetch-mode": "cors",
+          "transfer-encoding": "chunked",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "dry-run",
+    "argv": [
+      "accounts",
+      "members",
+      "create",
+      "--email",
+      "regression@example.com",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--dry-run"
+    ],
+    "exitCode": 0,
+    "requests": []
+  },
+  {
+    "case": "body from file",
+    "argv": [
+      "accounts",
+      "members",
+      "create",
+      "--email",
+      "regression@example.com",
+      "--body",
+      "@<body.json>"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/members",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "array body",
+    "argv": [
+      "accounts",
+      "members",
+      "create",
+      "--email",
+      "regression@example.com",
+      "--body",
+      "[{\"regression\":\"first\"},{\"regression\":\"second\"}]"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/members",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "48",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": [
+          {
+            "regression": "first"
+          },
+          {
+            "regression": "second"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "case": "field flags",
+    "argv": [
+      "accounts",
+      "members",
+      "create",
+      "--email",
+      "regression@example.com",
+      "--roles",
+      "regression value &/?+ü",
+      "--status",
+      "accepted",
+      "--policies",
+      "[{\"regression\":\"item\"}]"
+    ],
+    "exitCode": 1,
+    "error": "Arguments roles and policies are mutually exclusive",
+    "requests": []
+  }
+]

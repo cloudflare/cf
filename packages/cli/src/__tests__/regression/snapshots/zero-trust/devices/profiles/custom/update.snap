@@ -1,0 +1,3056 @@
+[
+  {
+    "case": "no-args",
+    "argv": [
+      "zero-trust",
+      "devices",
+      "profiles",
+      "custom",
+      "update"
+    ],
+    "exitCode": 1,
+    "error": "Not enough non-option arguments: got 0, need at least 1",
+    "requests": []
+  },
+  {
+    "case": "required",
+    "argv": [
+      "zero-trust",
+      "devices",
+      "profiles",
+      "custom",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/devices/policy/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --allow-mode-switch",
+    "argv": [
+      "zero-trust",
+      "devices",
+      "profiles",
+      "custom",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--allow-mode-switch=true"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/devices/policy/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "26",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "allow_mode_switch": true
+        }
+      }
+    ]
+  },
+  {
+    "case": "--allow-mode-switch value 1",
+    "argv": [
+      "zero-trust",
+      "devices",
+      "profiles",
+      "custom",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--allow-mode-switch=false"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/devices/policy/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "27",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "allow_mode_switch": false
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --allow-updates",
+    "argv": [
+      "zero-trust",
+      "devices",
+      "profiles",
+      "custom",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--allow-updates=true"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/devices/policy/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "22",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "allow_updates": true
+        }
+      }
+    ]
+  },
+  {
+    "case": "--allow-updates value 1",
+    "argv": [
+      "zero-trust",
+      "devices",
+      "profiles",
+      "custom",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--allow-updates=false"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/devices/policy/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "23",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "allow_updates": false
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --allowed-to-leave",
+    "argv": [
+      "zero-trust",
+      "devices",
+      "profiles",
+      "custom",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--allowed-to-leave=true"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/devices/policy/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "25",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "allowed_to_leave": true
+        }
+      }
+    ]
+  },
+  {
+    "case": "--allowed-to-leave value 1",
+    "argv": [
+      "zero-trust",
+      "devices",
+      "profiles",
+      "custom",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--allowed-to-leave=false"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/devices/policy/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "26",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "allowed_to_leave": false
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --auto-connect",
+    "argv": [
+      "zero-trust",
+      "devices",
+      "profiles",
+      "custom",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--auto-connect",
+      "1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/devices/policy/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "18",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "auto_connect": 1
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --browser-extension-config-proxy-control",
+    "argv": [
+      "zero-trust",
+      "devices",
+      "profiles",
+      "custom",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--browser-extension-config-proxy-control",
+      "unlocked"
+    ],
+    "exitCode": 1,
+    "error": "--browser-extension-config-proxy-enabled is required when any --browser_extension_config-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "--browser-extension-config-proxy-control value 1",
+    "argv": [
+      "zero-trust",
+      "devices",
+      "profiles",
+      "custom",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--browser-extension-config-proxy-control",
+      "locked"
+    ],
+    "exitCode": 1,
+    "error": "--browser-extension-config-proxy-enabled is required when any --browser_extension_config-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "only --browser-extension-config-proxy-enabled",
+    "argv": [
+      "zero-trust",
+      "devices",
+      "profiles",
+      "custom",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--browser-extension-config-proxy-enabled=true"
+    ],
+    "exitCode": 1,
+    "error": "--browser-extension-config-proxy-control is required when any --browser_extension_config-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "--browser-extension-config-proxy-enabled value 1",
+    "argv": [
+      "zero-trust",
+      "devices",
+      "profiles",
+      "custom",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--browser-extension-config-proxy-enabled=false"
+    ],
+    "exitCode": 1,
+    "error": "--browser-extension-config-proxy-control is required when any --browser_extension_config-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "only --captive-portal",
+    "argv": [
+      "zero-trust",
+      "devices",
+      "profiles",
+      "custom",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--captive-portal",
+      "1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/devices/policy/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "20",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "captive_portal": 1
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --default",
+    "argv": [
+      "zero-trust",
+      "devices",
+      "profiles",
+      "custom",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--default=true"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/devices/policy/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "16",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "default": true
+        }
+      }
+    ]
+  },
+  {
+    "case": "--default value 1",
+    "argv": [
+      "zero-trust",
+      "devices",
+      "profiles",
+      "custom",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--default=false"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/devices/policy/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "17",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "default": false
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --description",
+    "argv": [
+      "zero-trust",
+      "devices",
+      "profiles",
+      "custom",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--description",
+      "192.0.2.1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/devices/policy/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "27",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "description": "192.0.2.1"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --disable-auto-fallback",
+    "argv": [
+      "zero-trust",
+      "devices",
+      "profiles",
+      "custom",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--disable-auto-fallback=true"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/devices/policy/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "30",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "disable_auto_fallback": true
+        }
+      }
+    ]
+  },
+  {
+    "case": "--disable-auto-fallback value 1",
+    "argv": [
+      "zero-trust",
+      "devices",
+      "profiles",
+      "custom",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--disable-auto-fallback=false"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/devices/policy/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "31",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "disable_auto_fallback": false
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --dns-search-suffixes",
+    "argv": [
+      "zero-trust",
+      "devices",
+      "profiles",
+      "custom",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--dns-search-suffixes",
+      "[{\"regression\":\"item\"}]"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/devices/policy/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "47",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "dns_search_suffixes": [
+            {
+              "regression": "item"
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --enabled",
+    "argv": [
+      "zero-trust",
+      "devices",
+      "profiles",
+      "custom",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--enabled=true"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/devices/policy/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "16",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "enabled": true
+        }
+      }
+    ]
+  },
+  {
+    "case": "--enabled value 1",
+    "argv": [
+      "zero-trust",
+      "devices",
+      "profiles",
+      "custom",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--enabled=false"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/devices/policy/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "17",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "enabled": false
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --exclude",
+    "argv": [
+      "zero-trust",
+      "devices",
+      "profiles",
+      "custom",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--exclude",
+      "[{\"regression\":\"item\"}]"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/devices/policy/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "35",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "exclude": [
+            {
+              "regression": "item"
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --exclude-office-ips",
+    "argv": [
+      "zero-trust",
+      "devices",
+      "profiles",
+      "custom",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--exclude-office-ips=true"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/devices/policy/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "27",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "exclude_office_ips": true
+        }
+      }
+    ]
+  },
+  {
+    "case": "--exclude-office-ips value 1",
+    "argv": [
+      "zero-trust",
+      "devices",
+      "profiles",
+      "custom",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--exclude-office-ips=false"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/devices/policy/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "28",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "exclude_office_ips": false
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --global-acceleration-api-endpoints",
+    "argv": [
+      "zero-trust",
+      "devices",
+      "profiles",
+      "custom",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--global-acceleration-api-endpoints",
+      "https://example.com/a?x=1&y=two"
+    ],
+    "exitCode": 1,
+    "error": "--global-acceleration-enabled, --global-acceleration-masque-endpoints, --global-acceleration-wireguard-endpoints are required when any --global_acceleration-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "only --global-acceleration-autoswitch",
+    "argv": [
+      "zero-trust",
+      "devices",
+      "profiles",
+      "custom",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--global-acceleration-autoswitch=true"
+    ],
+    "exitCode": 1,
+    "error": "--global-acceleration-api-endpoints, --global-acceleration-enabled, --global-acceleration-masque-endpoints, --global-acceleration-wireguard-endpoints are required when any --global_acceleration-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "--global-acceleration-autoswitch value 1",
+    "argv": [
+      "zero-trust",
+      "devices",
+      "profiles",
+      "custom",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--global-acceleration-autoswitch=false"
+    ],
+    "exitCode": 1,
+    "error": "--global-acceleration-api-endpoints, --global-acceleration-enabled, --global-acceleration-masque-endpoints, --global-acceleration-wireguard-endpoints are required when any --global_acceleration-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "only --global-acceleration-enabled",
+    "argv": [
+      "zero-trust",
+      "devices",
+      "profiles",
+      "custom",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--global-acceleration-enabled=true"
+    ],
+    "exitCode": 1,
+    "error": "--global-acceleration-api-endpoints, --global-acceleration-masque-endpoints, --global-acceleration-wireguard-endpoints are required when any --global_acceleration-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "--global-acceleration-enabled value 1",
+    "argv": [
+      "zero-trust",
+      "devices",
+      "profiles",
+      "custom",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--global-acceleration-enabled=false"
+    ],
+    "exitCode": 1,
+    "error": "--global-acceleration-api-endpoints, --global-acceleration-masque-endpoints, --global-acceleration-wireguard-endpoints are required when any --global_acceleration-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "only --global-acceleration-masque-endpoints",
+    "argv": [
+      "zero-trust",
+      "devices",
+      "profiles",
+      "custom",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--global-acceleration-masque-endpoints",
+      "https://example.com/a?x=1&y=two"
+    ],
+    "exitCode": 1,
+    "error": "--global-acceleration-api-endpoints, --global-acceleration-enabled, --global-acceleration-wireguard-endpoints are required when any --global_acceleration-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "only --global-acceleration-wireguard-endpoints",
+    "argv": [
+      "zero-trust",
+      "devices",
+      "profiles",
+      "custom",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--global-acceleration-wireguard-endpoints",
+      "https://example.com/a?x=1&y=two"
+    ],
+    "exitCode": 1,
+    "error": "--global-acceleration-api-endpoints, --global-acceleration-enabled, --global-acceleration-masque-endpoints are required when any --global_acceleration-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "only --include",
+    "argv": [
+      "zero-trust",
+      "devices",
+      "profiles",
+      "custom",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--include",
+      "[{\"regression\":\"item\"}]"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/devices/policy/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "35",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "include": [
+            {
+              "regression": "item"
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --lan-allow-minutes",
+    "argv": [
+      "zero-trust",
+      "devices",
+      "profiles",
+      "custom",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--lan-allow-minutes",
+      "1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/devices/policy/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "23",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "lan_allow_minutes": 1
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --lan-allow-subnet-size",
+    "argv": [
+      "zero-trust",
+      "devices",
+      "profiles",
+      "custom",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--lan-allow-subnet-size",
+      "1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/devices/policy/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "27",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "lan_allow_subnet_size": 1
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --match",
+    "argv": [
+      "zero-trust",
+      "devices",
+      "profiles",
+      "custom",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--match",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/devices/policy/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "35",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "match": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --name",
+    "argv": [
+      "zero-trust",
+      "devices",
+      "profiles",
+      "custom",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--name",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/devices/policy/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "34",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "name": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --precedence",
+    "argv": [
+      "zero-trust",
+      "devices",
+      "profiles",
+      "custom",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--precedence",
+      "1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/devices/policy/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "16",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "precedence": 1
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --register-interface-ip-with-dns",
+    "argv": [
+      "zero-trust",
+      "devices",
+      "profiles",
+      "custom",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--register-interface-ip-with-dns=true"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/devices/policy/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "39",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "register_interface_ip_with_dns": true
+        }
+      }
+    ]
+  },
+  {
+    "case": "--register-interface-ip-with-dns value 1",
+    "argv": [
+      "zero-trust",
+      "devices",
+      "profiles",
+      "custom",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--register-interface-ip-with-dns=false"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/devices/policy/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "40",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "register_interface_ip_with_dns": false
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --sccm-vpn-boundary-support",
+    "argv": [
+      "zero-trust",
+      "devices",
+      "profiles",
+      "custom",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--sccm-vpn-boundary-support=true"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/devices/policy/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "34",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "sccm_vpn_boundary_support": true
+        }
+      }
+    ]
+  },
+  {
+    "case": "--sccm-vpn-boundary-support value 1",
+    "argv": [
+      "zero-trust",
+      "devices",
+      "profiles",
+      "custom",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--sccm-vpn-boundary-support=false"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/devices/policy/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "35",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "sccm_vpn_boundary_support": false
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --service-mode-v2-mode",
+    "argv": [
+      "zero-trust",
+      "devices",
+      "profiles",
+      "custom",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--service-mode-v2-mode",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/devices/policy/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "54",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "service_mode_v2": {
+            "mode": "regression value &/?+ü"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --service-mode-v2-port",
+    "argv": [
+      "zero-trust",
+      "devices",
+      "profiles",
+      "custom",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--service-mode-v2-port",
+      "1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/devices/policy/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "30",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "service_mode_v2": {
+            "port": 1
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --support-url",
+    "argv": [
+      "zero-trust",
+      "devices",
+      "profiles",
+      "custom",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--support-url",
+      "https://example.com/a?x=1&y=two"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/devices/policy/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "49",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "support_url": "https://example.com/a?x=1&y=two"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --switch-locked",
+    "argv": [
+      "zero-trust",
+      "devices",
+      "profiles",
+      "custom",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--switch-locked=true"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/devices/policy/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "22",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "switch_locked": true
+        }
+      }
+    ]
+  },
+  {
+    "case": "--switch-locked value 1",
+    "argv": [
+      "zero-trust",
+      "devices",
+      "profiles",
+      "custom",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--switch-locked=false"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/devices/policy/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "23",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "switch_locked": false
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --tunnel-protocol",
+    "argv": [
+      "zero-trust",
+      "devices",
+      "profiles",
+      "custom",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--tunnel-protocol",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/devices/policy/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "45",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "tunnel_protocol": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --uninstall-protection",
+    "argv": [
+      "zero-trust",
+      "devices",
+      "profiles",
+      "custom",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--uninstall-protection=true"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/devices/policy/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "29",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "uninstall_protection": true
+        }
+      }
+    ]
+  },
+  {
+    "case": "--uninstall-protection value 1",
+    "argv": [
+      "zero-trust",
+      "devices",
+      "profiles",
+      "custom",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--uninstall-protection=false"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/devices/policy/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "30",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "uninstall_protection": false
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --virtual-networks-allowed",
+    "argv": [
+      "zero-trust",
+      "devices",
+      "profiles",
+      "custom",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--virtual-networks-allowed",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 1,
+    "error": "--virtual-networks-default is required when any --virtual_networks-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "only --virtual-networks-default",
+    "argv": [
+      "zero-trust",
+      "devices",
+      "profiles",
+      "custom",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--virtual-networks-default",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 1,
+    "error": "--virtual-networks-allowed is required when any --virtual_networks-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "pairwise 0",
+    "argv": [
+      "zero-trust",
+      "devices",
+      "profiles",
+      "custom",
+      "update",
+      "0123456789abcdef0123456789abcdef"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/devices/policy/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "2",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {}
+      }
+    ]
+  },
+  {
+    "case": "pairwise 1",
+    "argv": [
+      "zero-trust",
+      "devices",
+      "profiles",
+      "custom",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--allow-mode-switch=false",
+      "--allow-updates=false",
+      "--allowed-to-leave=false",
+      "--auto-connect",
+      "2",
+      "--browser-extension-config-proxy-control",
+      "locked",
+      "--browser-extension-config-proxy-enabled=false",
+      "--captive-portal",
+      "2",
+      "--default=false",
+      "--description",
+      "192.0.2.1",
+      "--disable-auto-fallback=false",
+      "--dns-search-suffixes",
+      "[{\"regression\":\"item\"}]",
+      "--enabled=false",
+      "--exclude",
+      "[{\"regression\":\"item\"}]",
+      "--exclude-office-ips=false",
+      "--global-acceleration-api-endpoints",
+      "https://example.com/a?x=1&y=two",
+      "https://example.com/a?x=1&y=two",
+      "--global-acceleration-autoswitch=false",
+      "--global-acceleration-enabled=false",
+      "--global-acceleration-masque-endpoints",
+      "https://example.com/a?x=1&y=two",
+      "https://example.com/a?x=1&y=two",
+      "--global-acceleration-wireguard-endpoints",
+      "https://example.com/a?x=1&y=two",
+      "https://example.com/a?x=1&y=two",
+      "--include",
+      "[{\"regression\":\"item\"}]",
+      "--lan-allow-minutes",
+      "2",
+      "--lan-allow-subnet-size",
+      "2",
+      "--match",
+      "second value &/?+ü",
+      "--name",
+      "second value &/?+ü",
+      "--precedence",
+      "2",
+      "--register-interface-ip-with-dns=false",
+      "--sccm-vpn-boundary-support=false",
+      "--service-mode-v2-mode",
+      "second value &/?+ü",
+      "--service-mode-v2-port",
+      "2",
+      "--support-url",
+      "https://example.com/a?x=1&y=two",
+      "--switch-locked=false",
+      "--tunnel-protocol",
+      "second value &/?+ü",
+      "--uninstall-protection=false",
+      "--virtual-networks-allowed",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--virtual-networks-default",
+      "second value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/devices/policy/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "1242",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "allow_mode_switch": false,
+          "allow_updates": false,
+          "allowed_to_leave": false,
+          "auto_connect": 2,
+          "browser_extension_config": {
+            "proxy_control": "locked",
+            "proxy_enabled": false
+          },
+          "captive_portal": 2,
+          "default": false,
+          "description": "192.0.2.1",
+          "disable_auto_fallback": false,
+          "dns_search_suffixes": [
+            {
+              "regression": "item"
+            }
+          ],
+          "enabled": false,
+          "exclude": [
+            {
+              "regression": "item"
+            }
+          ],
+          "exclude_office_ips": false,
+          "global_acceleration": {
+            "api_endpoints": [
+              "https://example.com/a?x=1&y=two",
+              "https://example.com/a?x=1&y=two"
+            ],
+            "autoswitch": false,
+            "enabled": false,
+            "masque_endpoints": [
+              "https://example.com/a?x=1&y=two",
+              "https://example.com/a?x=1&y=two"
+            ],
+            "wireguard_endpoints": [
+              "https://example.com/a?x=1&y=two",
+              "https://example.com/a?x=1&y=two"
+            ]
+          },
+          "include": [
+            {
+              "regression": "item"
+            }
+          ],
+          "lan_allow_minutes": 2,
+          "lan_allow_subnet_size": 2,
+          "match": "second value &/?+ü",
+          "name": "second value &/?+ü",
+          "precedence": 2,
+          "register_interface_ip_with_dns": false,
+          "sccm_vpn_boundary_support": false,
+          "service_mode_v2": {
+            "mode": "second value &/?+ü",
+            "port": 2
+          },
+          "support_url": "https://example.com/a?x=1&y=two",
+          "switch_locked": false,
+          "tunnel_protocol": "second value &/?+ü",
+          "uninstall_protection": false,
+          "virtual_networks": {
+            "allowed": [
+              "second value &/?+ü",
+              "second value &/?+ü"
+            ],
+            "default": "second value &/?+ü"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 2",
+    "argv": [
+      "zero-trust",
+      "devices",
+      "profiles",
+      "custom",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--allow-updates=true",
+      "--auto-connect",
+      "1",
+      "--browser-extension-config-proxy-enabled=true",
+      "--default=true",
+      "--disable-auto-fallback=true",
+      "--enabled=true",
+      "--exclude-office-ips=true",
+      "--global-acceleration-autoswitch=true",
+      "--global-acceleration-masque-endpoints",
+      "https://example.com/a?x=1&y=two",
+      "--include",
+      "[{\"regression\":\"item\"}]",
+      "--lan-allow-subnet-size",
+      "1",
+      "--name",
+      "regression value &/?+ü",
+      "--register-interface-ip-with-dns=true",
+      "--service-mode-v2-mode",
+      "regression value &/?+ü",
+      "--support-url",
+      "https://example.com/a?x=1&y=two",
+      "--tunnel-protocol",
+      "regression value &/?+ü",
+      "--virtual-networks-allowed",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 1,
+    "error": "--browser-extension-config-proxy-control is required when any --browser_extension_config-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "pairwise 3",
+    "argv": [
+      "zero-trust",
+      "devices",
+      "profiles",
+      "custom",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--allow-mode-switch=false",
+      "--allowed-to-leave=false",
+      "--browser-extension-config-proxy-control",
+      "locked",
+      "--captive-portal",
+      "2",
+      "--description",
+      "192.0.2.1",
+      "--dns-search-suffixes",
+      "[{\"regression\":\"item\"}]",
+      "--exclude",
+      "[{\"regression\":\"item\"}]",
+      "--global-acceleration-api-endpoints",
+      "https://example.com/a?x=1&y=two",
+      "https://example.com/a?x=1&y=two",
+      "--global-acceleration-enabled=false",
+      "--global-acceleration-wireguard-endpoints",
+      "https://example.com/a?x=1&y=two",
+      "https://example.com/a?x=1&y=two",
+      "--lan-allow-minutes",
+      "2",
+      "--match",
+      "second value &/?+ü",
+      "--precedence",
+      "2",
+      "--sccm-vpn-boundary-support=false",
+      "--service-mode-v2-port",
+      "2",
+      "--switch-locked=false",
+      "--uninstall-protection=false",
+      "--virtual-networks-default",
+      "second value &/?+ü"
+    ],
+    "exitCode": 1,
+    "error": "--browser-extension-config-proxy-enabled is required when any --browser_extension_config-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "pairwise 4",
+    "argv": [
+      "zero-trust",
+      "devices",
+      "profiles",
+      "custom",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--allowed-to-leave=true",
+      "--auto-connect",
+      "1",
+      "--captive-portal",
+      "1",
+      "--default=true",
+      "--dns-search-suffixes",
+      "[{\"regression\":\"item\"}]",
+      "--enabled=true",
+      "--global-acceleration-api-endpoints",
+      "https://example.com/a?x=1&y=two",
+      "--global-acceleration-autoswitch=true",
+      "--global-acceleration-wireguard-endpoints",
+      "https://example.com/a?x=1&y=two",
+      "--include",
+      "[{\"regression\":\"item\"}]",
+      "--match",
+      "regression value &/?+ü",
+      "--name",
+      "regression value &/?+ü",
+      "--sccm-vpn-boundary-support=true",
+      "--service-mode-v2-mode",
+      "regression value &/?+ü",
+      "--switch-locked=true",
+      "--tunnel-protocol",
+      "regression value &/?+ü",
+      "--virtual-networks-default",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 1,
+    "error": "--global-acceleration-enabled, --global-acceleration-masque-endpoints are required when any --global_acceleration-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "pairwise 5",
+    "argv": [
+      "zero-trust",
+      "devices",
+      "profiles",
+      "custom",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--allow-mode-switch=false",
+      "--allow-updates=false",
+      "--browser-extension-config-proxy-control",
+      "locked",
+      "--browser-extension-config-proxy-enabled=false",
+      "--description",
+      "192.0.2.1",
+      "--disable-auto-fallback=false",
+      "--exclude",
+      "[{\"regression\":\"item\"}]",
+      "--exclude-office-ips=false",
+      "--global-acceleration-enabled=false",
+      "--global-acceleration-masque-endpoints",
+      "https://example.com/a?x=1&y=two",
+      "https://example.com/a?x=1&y=two",
+      "--lan-allow-minutes",
+      "2",
+      "--lan-allow-subnet-size",
+      "2",
+      "--precedence",
+      "2",
+      "--register-interface-ip-with-dns=false",
+      "--service-mode-v2-port",
+      "2",
+      "--support-url",
+      "https://example.com/a?x=1&y=two",
+      "--uninstall-protection=false",
+      "--virtual-networks-allowed",
+      "second value &/?+ü",
+      "second value &/?+ü"
+    ],
+    "exitCode": 1,
+    "error": "--global-acceleration-api-endpoints, --global-acceleration-wireguard-endpoints are required when any --global_acceleration-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "pairwise 6",
+    "argv": [
+      "zero-trust",
+      "devices",
+      "profiles",
+      "custom",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--browser-extension-config-proxy-control",
+      "unlocked",
+      "--browser-extension-config-proxy-enabled=true",
+      "--captive-portal",
+      "1",
+      "--default=true",
+      "--exclude",
+      "[{\"regression\":\"item\"}]",
+      "--exclude-office-ips=true",
+      "--global-acceleration-api-endpoints",
+      "https://example.com/a?x=1&y=two",
+      "--global-acceleration-autoswitch=true",
+      "--lan-allow-minutes",
+      "1",
+      "--lan-allow-subnet-size",
+      "1",
+      "--match",
+      "regression value &/?+ü",
+      "--name",
+      "regression value &/?+ü",
+      "--service-mode-v2-port",
+      "1",
+      "--support-url",
+      "https://example.com/a?x=1&y=two",
+      "--switch-locked=true",
+      "--tunnel-protocol",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 1,
+    "error": "--global-acceleration-enabled, --global-acceleration-masque-endpoints, --global-acceleration-wireguard-endpoints are required when any --global_acceleration-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "pairwise 7",
+    "argv": [
+      "zero-trust",
+      "devices",
+      "profiles",
+      "custom",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--allow-mode-switch=false",
+      "--allow-updates=false",
+      "--allowed-to-leave=false",
+      "--auto-connect",
+      "2",
+      "--description",
+      "192.0.2.1",
+      "--disable-auto-fallback=false",
+      "--dns-search-suffixes",
+      "[{\"regression\":\"item\"}]",
+      "--enabled=false",
+      "--global-acceleration-enabled=false",
+      "--global-acceleration-masque-endpoints",
+      "https://example.com/a?x=1&y=two",
+      "https://example.com/a?x=1&y=two",
+      "--global-acceleration-wireguard-endpoints",
+      "https://example.com/a?x=1&y=two",
+      "https://example.com/a?x=1&y=two",
+      "--include",
+      "[{\"regression\":\"item\"}]",
+      "--precedence",
+      "2",
+      "--register-interface-ip-with-dns=false",
+      "--sccm-vpn-boundary-support=false",
+      "--service-mode-v2-mode",
+      "second value &/?+ü",
+      "--uninstall-protection=false",
+      "--virtual-networks-allowed",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--virtual-networks-default",
+      "second value &/?+ü"
+    ],
+    "exitCode": 1,
+    "error": "--global-acceleration-api-endpoints is required when any --global_acceleration-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "pairwise 8",
+    "argv": [
+      "zero-trust",
+      "devices",
+      "profiles",
+      "custom",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--description",
+      "192.0.2.1",
+      "--disable-auto-fallback=true",
+      "--dns-search-suffixes",
+      "[{\"regression\":\"item\"}]",
+      "--enabled=true",
+      "--exclude",
+      "[{\"regression\":\"item\"}]",
+      "--exclude-office-ips=true",
+      "--global-acceleration-api-endpoints",
+      "https://example.com/a?x=1&y=two",
+      "--global-acceleration-autoswitch=true",
+      "--precedence",
+      "1",
+      "--register-interface-ip-with-dns=true",
+      "--sccm-vpn-boundary-support=true",
+      "--service-mode-v2-mode",
+      "regression value &/?+ü",
+      "--service-mode-v2-port",
+      "1",
+      "--support-url",
+      "https://example.com/a?x=1&y=two",
+      "--switch-locked=true",
+      "--tunnel-protocol",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 1,
+    "error": "--global-acceleration-enabled, --global-acceleration-masque-endpoints, --global-acceleration-wireguard-endpoints are required when any --global_acceleration-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "pairwise 9",
+    "argv": [
+      "zero-trust",
+      "devices",
+      "profiles",
+      "custom",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--allow-mode-switch=false",
+      "--allow-updates=false",
+      "--allowed-to-leave=false",
+      "--auto-connect",
+      "2",
+      "--browser-extension-config-proxy-control",
+      "locked",
+      "--browser-extension-config-proxy-enabled=false",
+      "--captive-portal",
+      "2",
+      "--default=false",
+      "--global-acceleration-enabled=false",
+      "--global-acceleration-masque-endpoints",
+      "https://example.com/a?x=1&y=two",
+      "https://example.com/a?x=1&y=two",
+      "--global-acceleration-wireguard-endpoints",
+      "https://example.com/a?x=1&y=two",
+      "https://example.com/a?x=1&y=two",
+      "--include",
+      "[{\"regression\":\"item\"}]",
+      "--lan-allow-minutes",
+      "2",
+      "--lan-allow-subnet-size",
+      "2",
+      "--match",
+      "second value &/?+ü",
+      "--name",
+      "second value &/?+ü",
+      "--uninstall-protection=false",
+      "--virtual-networks-allowed",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--virtual-networks-default",
+      "second value &/?+ü"
+    ],
+    "exitCode": 1,
+    "error": "--global-acceleration-api-endpoints is required when any --global_acceleration-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "pairwise 10",
+    "argv": [
+      "zero-trust",
+      "devices",
+      "profiles",
+      "custom",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--global-acceleration-enabled=true",
+      "--global-acceleration-masque-endpoints",
+      "https://example.com/a?x=1&y=two",
+      "--global-acceleration-wireguard-endpoints",
+      "https://example.com/a?x=1&y=two",
+      "--include",
+      "[{\"regression\":\"item\"}]",
+      "--lan-allow-minutes",
+      "1",
+      "--lan-allow-subnet-size",
+      "1",
+      "--match",
+      "regression value &/?+ü",
+      "--name",
+      "regression value &/?+ü",
+      "--precedence",
+      "1",
+      "--register-interface-ip-with-dns=true",
+      "--sccm-vpn-boundary-support=true",
+      "--service-mode-v2-mode",
+      "regression value &/?+ü",
+      "--service-mode-v2-port",
+      "1",
+      "--support-url",
+      "https://example.com/a?x=1&y=two",
+      "--switch-locked=true",
+      "--tunnel-protocol",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 1,
+    "error": "--global-acceleration-api-endpoints is required when any --global_acceleration-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "pairwise 11",
+    "argv": [
+      "zero-trust",
+      "devices",
+      "profiles",
+      "custom",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--allow-mode-switch=false",
+      "--allow-updates=false",
+      "--allowed-to-leave=false",
+      "--auto-connect",
+      "2",
+      "--browser-extension-config-proxy-control",
+      "locked",
+      "--browser-extension-config-proxy-enabled=false",
+      "--captive-portal",
+      "2",
+      "--default=false",
+      "--description",
+      "192.0.2.1",
+      "--disable-auto-fallback=false",
+      "--dns-search-suffixes",
+      "[{\"regression\":\"item\"}]",
+      "--enabled=false",
+      "--exclude",
+      "[{\"regression\":\"item\"}]",
+      "--exclude-office-ips=false",
+      "--global-acceleration-api-endpoints",
+      "https://example.com/a?x=1&y=two",
+      "https://example.com/a?x=1&y=two",
+      "--global-acceleration-autoswitch=false",
+      "--uninstall-protection=false",
+      "--virtual-networks-allowed",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--virtual-networks-default",
+      "second value &/?+ü"
+    ],
+    "exitCode": 1,
+    "error": "--global-acceleration-enabled, --global-acceleration-masque-endpoints, --global-acceleration-wireguard-endpoints are required when any --global_acceleration-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "pairwise 12",
+    "argv": [
+      "zero-trust",
+      "devices",
+      "profiles",
+      "custom",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--uninstall-protection=true",
+      "--virtual-networks-allowed",
+      "regression value &/?+ü",
+      "--virtual-networks-default",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/devices/policy/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "124",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "uninstall_protection": true,
+          "virtual_networks": {
+            "allowed": [
+              "regression value &/?+ü"
+            ],
+            "default": "regression value &/?+ü"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 13",
+    "argv": [
+      "zero-trust",
+      "devices",
+      "profiles",
+      "custom",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--allow-mode-switch=false",
+      "--allow-updates=false",
+      "--allowed-to-leave=false",
+      "--auto-connect",
+      "2",
+      "--browser-extension-config-proxy-control",
+      "locked",
+      "--browser-extension-config-proxy-enabled=false",
+      "--captive-portal",
+      "2",
+      "--default=false",
+      "--description",
+      "192.0.2.1",
+      "--disable-auto-fallback=false",
+      "--dns-search-suffixes",
+      "[{\"regression\":\"item\"}]",
+      "--enabled=false",
+      "--exclude",
+      "[{\"regression\":\"item\"}]",
+      "--exclude-office-ips=false",
+      "--global-acceleration-api-endpoints",
+      "https://example.com/a?x=1&y=two",
+      "https://example.com/a?x=1&y=two",
+      "--global-acceleration-autoswitch=false",
+      "--global-acceleration-enabled=false",
+      "--global-acceleration-masque-endpoints",
+      "https://example.com/a?x=1&y=two",
+      "https://example.com/a?x=1&y=two",
+      "--global-acceleration-wireguard-endpoints",
+      "https://example.com/a?x=1&y=two",
+      "https://example.com/a?x=1&y=two",
+      "--include",
+      "[{\"regression\":\"item\"}]",
+      "--lan-allow-minutes",
+      "2",
+      "--lan-allow-subnet-size",
+      "2",
+      "--match",
+      "second value &/?+ü",
+      "--name",
+      "second value &/?+ü",
+      "--precedence",
+      "2",
+      "--register-interface-ip-with-dns=false",
+      "--sccm-vpn-boundary-support=false",
+      "--service-mode-v2-mode",
+      "second value &/?+ü",
+      "--service-mode-v2-port",
+      "2",
+      "--support-url",
+      "https://example.com/a?x=1&y=two",
+      "--switch-locked=false",
+      "--tunnel-protocol",
+      "second value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/devices/policy/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "1104",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "allow_mode_switch": false,
+          "allow_updates": false,
+          "allowed_to_leave": false,
+          "auto_connect": 2,
+          "browser_extension_config": {
+            "proxy_control": "locked",
+            "proxy_enabled": false
+          },
+          "captive_portal": 2,
+          "default": false,
+          "description": "192.0.2.1",
+          "disable_auto_fallback": false,
+          "dns_search_suffixes": [
+            {
+              "regression": "item"
+            }
+          ],
+          "enabled": false,
+          "exclude": [
+            {
+              "regression": "item"
+            }
+          ],
+          "exclude_office_ips": false,
+          "global_acceleration": {
+            "api_endpoints": [
+              "https://example.com/a?x=1&y=two",
+              "https://example.com/a?x=1&y=two"
+            ],
+            "autoswitch": false,
+            "enabled": false,
+            "masque_endpoints": [
+              "https://example.com/a?x=1&y=two",
+              "https://example.com/a?x=1&y=two"
+            ],
+            "wireguard_endpoints": [
+              "https://example.com/a?x=1&y=two",
+              "https://example.com/a?x=1&y=two"
+            ]
+          },
+          "include": [
+            {
+              "regression": "item"
+            }
+          ],
+          "lan_allow_minutes": 2,
+          "lan_allow_subnet_size": 2,
+          "match": "second value &/?+ü",
+          "name": "second value &/?+ü",
+          "precedence": 2,
+          "register_interface_ip_with_dns": false,
+          "sccm_vpn_boundary_support": false,
+          "service_mode_v2": {
+            "mode": "second value &/?+ü",
+            "port": 2
+          },
+          "support_url": "https://example.com/a?x=1&y=two",
+          "switch_locked": false,
+          "tunnel_protocol": "second value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "global quiet",
+    "argv": [
+      "zero-trust",
+      "devices",
+      "profiles",
+      "custom",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--quiet"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/devices/policy/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "global zone",
+    "argv": [
+      "zero-trust",
+      "devices",
+      "profiles",
+      "custom",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--zone",
+      "abcdef0123456789abcdef0123456789"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/devices/policy/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "global profile and mode",
+    "argv": [
+      "zero-trust",
+      "devices",
+      "profiles",
+      "custom",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--profile",
+      "default",
+      "--mode",
+      "regression"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/devices/policy/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "local",
+    "argv": [
+      "zero-trust",
+      "devices",
+      "profiles",
+      "custom",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--local"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "http://localhost/cdn-cgi/local/explorer/api/devices/policy/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "gzip, deflate",
+          "accept-language": "*",
+          "connection": "keep-alive",
+          "content-type": "application/json",
+          "host": "localhost",
+          "sec-fetch-mode": "cors",
+          "transfer-encoding": "chunked",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "local with persistence",
+    "argv": [
+      "zero-trust",
+      "devices",
+      "profiles",
+      "custom",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--local",
+      "--persist-to",
+      "regression-state"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "http://localhost/cdn-cgi/local/explorer/api/devices/policy/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "gzip, deflate",
+          "accept-language": "*",
+          "connection": "keep-alive",
+          "content-type": "application/json",
+          "host": "localhost",
+          "sec-fetch-mode": "cors",
+          "transfer-encoding": "chunked",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "dry-run",
+    "argv": [
+      "zero-trust",
+      "devices",
+      "profiles",
+      "custom",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--dry-run"
+    ],
+    "exitCode": 0,
+    "requests": []
+  },
+  {
+    "case": "body from file",
+    "argv": [
+      "zero-trust",
+      "devices",
+      "profiles",
+      "custom",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--body",
+      "@<body.json>"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/devices/policy/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "array body",
+    "argv": [
+      "zero-trust",
+      "devices",
+      "profiles",
+      "custom",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--body",
+      "[{\"regression\":\"first\"},{\"regression\":\"second\"}]"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/devices/policy/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "56",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "0": {
+            "regression": "first"
+          },
+          "1": {
+            "regression": "second"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "field flags",
+    "argv": [
+      "zero-trust",
+      "devices",
+      "profiles",
+      "custom",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--allow-mode-switch=true",
+      "--allow-updates=true",
+      "--allowed-to-leave=true",
+      "--auto-connect",
+      "1",
+      "--browser-extension-config-proxy-control",
+      "unlocked",
+      "--browser-extension-config-proxy-enabled=true",
+      "--captive-portal",
+      "1",
+      "--default=true",
+      "--description",
+      "192.0.2.1",
+      "--disable-auto-fallback=true",
+      "--dns-search-suffixes",
+      "[{\"regression\":\"item\"}]",
+      "--enabled=true",
+      "--exclude",
+      "[{\"regression\":\"item\"}]",
+      "--exclude-office-ips=true",
+      "--global-acceleration-api-endpoints",
+      "https://example.com/a?x=1&y=two",
+      "--global-acceleration-autoswitch=true",
+      "--global-acceleration-enabled=true",
+      "--global-acceleration-masque-endpoints",
+      "https://example.com/a?x=1&y=two",
+      "--global-acceleration-wireguard-endpoints",
+      "https://example.com/a?x=1&y=two",
+      "--include",
+      "[{\"regression\":\"item\"}]",
+      "--lan-allow-minutes",
+      "1",
+      "--lan-allow-subnet-size",
+      "1",
+      "--match",
+      "regression value &/?+ü",
+      "--name",
+      "regression value &/?+ü",
+      "--precedence",
+      "1",
+      "--register-interface-ip-with-dns=true",
+      "--sccm-vpn-boundary-support=true",
+      "--service-mode-v2-mode",
+      "regression value &/?+ü",
+      "--service-mode-v2-port",
+      "1",
+      "--support-url",
+      "https://example.com/a?x=1&y=two",
+      "--switch-locked=true",
+      "--tunnel-protocol",
+      "regression value &/?+ü",
+      "--uninstall-protection=true",
+      "--virtual-networks-allowed",
+      "regression value &/?+ü",
+      "--virtual-networks-default",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/devices/policy/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "1130",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "allow_mode_switch": true,
+          "allow_updates": true,
+          "allowed_to_leave": true,
+          "auto_connect": 1,
+          "browser_extension_config": {
+            "proxy_control": "unlocked",
+            "proxy_enabled": true
+          },
+          "captive_portal": 1,
+          "default": true,
+          "description": "192.0.2.1",
+          "disable_auto_fallback": true,
+          "dns_search_suffixes": [
+            {
+              "regression": "item"
+            }
+          ],
+          "enabled": true,
+          "exclude": [
+            {
+              "regression": "item"
+            }
+          ],
+          "exclude_office_ips": true,
+          "global_acceleration": {
+            "api_endpoints": [
+              "https://example.com/a?x=1&y=two"
+            ],
+            "autoswitch": true,
+            "enabled": true,
+            "masque_endpoints": [
+              "https://example.com/a?x=1&y=two"
+            ],
+            "wireguard_endpoints": [
+              "https://example.com/a?x=1&y=two"
+            ]
+          },
+          "include": [
+            {
+              "regression": "item"
+            }
+          ],
+          "lan_allow_minutes": 1,
+          "lan_allow_subnet_size": 1,
+          "match": "regression value &/?+ü",
+          "name": "regression value &/?+ü",
+          "precedence": 1,
+          "register_interface_ip_with_dns": true,
+          "sccm_vpn_boundary_support": true,
+          "service_mode_v2": {
+            "mode": "regression value &/?+ü",
+            "port": 1
+          },
+          "support_url": "https://example.com/a?x=1&y=two",
+          "switch_locked": true,
+          "tunnel_protocol": "regression value &/?+ü",
+          "uninstall_protection": true,
+          "virtual_networks": {
+            "allowed": [
+              "regression value &/?+ü"
+            ],
+            "default": "regression value &/?+ü"
+          }
+        }
+      }
+    ]
+  }
+]

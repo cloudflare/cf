@@ -1,0 +1,9 @@
+{
+  "argv": [
+    "zero-trust",
+    "users",
+    "mfa",
+    "authenticators"
+  ],
+  "requests": []
+}

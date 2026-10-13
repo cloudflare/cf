@@ -1,0 +1,1727 @@
+[
+  {
+    "case": "no-args",
+    "argv": [
+      "email-security",
+      "allow-policies",
+      "edit"
+    ],
+    "exitCode": 1,
+    "error": "Not enough non-option arguments: got 0, need at least 1",
+    "requests": []
+  },
+  {
+    "case": "required",
+    "argv": [
+      "email-security",
+      "allow-policies",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/email-security/settings/allow_policies/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --comments",
+    "argv": [
+      "email-security",
+      "allow-policies",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--comments",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/email-security/settings/allow_policies/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "38",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "comments": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --is-acceptable-sender",
+    "argv": [
+      "email-security",
+      "allow-policies",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--is-acceptable-sender=true"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/email-security/settings/allow_policies/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "29",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "is_acceptable_sender": true
+        }
+      }
+    ]
+  },
+  {
+    "case": "--is-acceptable-sender value 1",
+    "argv": [
+      "email-security",
+      "allow-policies",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--is-acceptable-sender=false"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/email-security/settings/allow_policies/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "30",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "is_acceptable_sender": false
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --is-exempt-recipient",
+    "argv": [
+      "email-security",
+      "allow-policies",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--is-exempt-recipient=true"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/email-security/settings/allow_policies/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "28",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "is_exempt_recipient": true
+        }
+      }
+    ]
+  },
+  {
+    "case": "--is-exempt-recipient value 1",
+    "argv": [
+      "email-security",
+      "allow-policies",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--is-exempt-recipient=false"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/email-security/settings/allow_policies/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "29",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "is_exempt_recipient": false
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --is-recipient",
+    "argv": [
+      "email-security",
+      "allow-policies",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--is-recipient=true"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/email-security/settings/allow_policies/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "21",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "is_recipient": true
+        }
+      }
+    ]
+  },
+  {
+    "case": "--is-recipient value 1",
+    "argv": [
+      "email-security",
+      "allow-policies",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--is-recipient=false"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/email-security/settings/allow_policies/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "22",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "is_recipient": false
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --is-regex",
+    "argv": [
+      "email-security",
+      "allow-policies",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--is-regex=true"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/email-security/settings/allow_policies/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "17",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "is_regex": true
+        }
+      }
+    ]
+  },
+  {
+    "case": "--is-regex value 1",
+    "argv": [
+      "email-security",
+      "allow-policies",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--is-regex=false"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/email-security/settings/allow_policies/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "18",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "is_regex": false
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --is-sender",
+    "argv": [
+      "email-security",
+      "allow-policies",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--is-sender=true"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/email-security/settings/allow_policies/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "18",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "is_sender": true
+        }
+      }
+    ]
+  },
+  {
+    "case": "--is-sender value 1",
+    "argv": [
+      "email-security",
+      "allow-policies",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--is-sender=false"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/email-security/settings/allow_policies/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "19",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "is_sender": false
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --is-spoof",
+    "argv": [
+      "email-security",
+      "allow-policies",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--is-spoof=true"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/email-security/settings/allow_policies/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "17",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "is_spoof": true
+        }
+      }
+    ]
+  },
+  {
+    "case": "--is-spoof value 1",
+    "argv": [
+      "email-security",
+      "allow-policies",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--is-spoof=false"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/email-security/settings/allow_policies/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "18",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "is_spoof": false
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --is-trusted-sender",
+    "argv": [
+      "email-security",
+      "allow-policies",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--is-trusted-sender=true"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/email-security/settings/allow_policies/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "26",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "is_trusted_sender": true
+        }
+      }
+    ]
+  },
+  {
+    "case": "--is-trusted-sender value 1",
+    "argv": [
+      "email-security",
+      "allow-policies",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--is-trusted-sender=false"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/email-security/settings/allow_policies/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "27",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "is_trusted_sender": false
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --pattern",
+    "argv": [
+      "email-security",
+      "allow-policies",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--pattern",
+      "*.sql"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/email-security/settings/allow_policies/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "19",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "pattern": "*.sql"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --pattern-type",
+    "argv": [
+      "email-security",
+      "allow-policies",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--pattern-type",
+      "EMAIL"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/email-security/settings/allow_policies/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "24",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "pattern_type": "EMAIL"
+        }
+      }
+    ]
+  },
+  {
+    "case": "--pattern-type value 1",
+    "argv": [
+      "email-security",
+      "allow-policies",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--pattern-type",
+      "DOMAIN"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/email-security/settings/allow_policies/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "25",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "pattern_type": "DOMAIN"
+        }
+      }
+    ]
+  },
+  {
+    "case": "--pattern-type value 2",
+    "argv": [
+      "email-security",
+      "allow-policies",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--pattern-type",
+      "IP"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/email-security/settings/allow_policies/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "21",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "pattern_type": "IP"
+        }
+      }
+    ]
+  },
+  {
+    "case": "--pattern-type value 3",
+    "argv": [
+      "email-security",
+      "allow-policies",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--pattern-type",
+      "UNKNOWN"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/email-security/settings/allow_policies/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "26",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "pattern_type": "UNKNOWN"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --verify-sender",
+    "argv": [
+      "email-security",
+      "allow-policies",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--verify-sender=true"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/email-security/settings/allow_policies/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "22",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "verify_sender": true
+        }
+      }
+    ]
+  },
+  {
+    "case": "--verify-sender value 1",
+    "argv": [
+      "email-security",
+      "allow-policies",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--verify-sender=false"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/email-security/settings/allow_policies/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "23",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "verify_sender": false
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 0",
+    "argv": [
+      "email-security",
+      "allow-policies",
+      "edit",
+      "0123456789abcdef0123456789abcdef"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/email-security/settings/allow_policies/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "2",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {}
+      }
+    ]
+  },
+  {
+    "case": "pairwise 1",
+    "argv": [
+      "email-security",
+      "allow-policies",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--comments",
+      "second value &/?+ü",
+      "--is-acceptable-sender=false",
+      "--is-exempt-recipient=false",
+      "--is-recipient=false",
+      "--is-regex=false",
+      "--is-sender=false",
+      "--is-spoof=false",
+      "--is-trusted-sender=false",
+      "--pattern",
+      "*.sql",
+      "--pattern-type",
+      "DOMAIN",
+      "--verify-sender=false"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/email-security/settings/allow_policies/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "254",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "comments": "second value &/?+ü",
+          "is_acceptable_sender": false,
+          "is_exempt_recipient": false,
+          "is_recipient": false,
+          "is_regex": false,
+          "is_sender": false,
+          "is_spoof": false,
+          "is_trusted_sender": false,
+          "pattern": "*.sql",
+          "pattern_type": "DOMAIN",
+          "verify_sender": false
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 2",
+    "argv": [
+      "email-security",
+      "allow-policies",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--is-acceptable-sender=true",
+      "--is-recipient=true",
+      "--is-sender=true",
+      "--is-trusted-sender=true",
+      "--pattern-type",
+      "EMAIL"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/email-security/settings/allow_policies/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "114",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "is_acceptable_sender": true,
+          "is_recipient": true,
+          "is_sender": true,
+          "is_trusted_sender": true,
+          "pattern_type": "EMAIL"
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 3",
+    "argv": [
+      "email-security",
+      "allow-policies",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--comments",
+      "second value &/?+ü",
+      "--is-exempt-recipient=false",
+      "--is-regex=false",
+      "--is-spoof=false",
+      "--pattern",
+      "*.sql",
+      "--verify-sender=false"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/email-security/settings/allow_policies/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "136",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "comments": "second value &/?+ü",
+          "is_exempt_recipient": false,
+          "is_regex": false,
+          "is_spoof": false,
+          "pattern": "*.sql",
+          "verify_sender": false
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 4",
+    "argv": [
+      "email-security",
+      "allow-policies",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--is-exempt-recipient=true",
+      "--is-recipient=true",
+      "--is-spoof=true",
+      "--is-trusted-sender=true",
+      "--verify-sender=true"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/email-security/settings/allow_policies/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "110",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "is_exempt_recipient": true,
+          "is_recipient": true,
+          "is_spoof": true,
+          "is_trusted_sender": true,
+          "verify_sender": true
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 5",
+    "argv": [
+      "email-security",
+      "allow-policies",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--comments",
+      "second value &/?+ü",
+      "--is-acceptable-sender=false",
+      "--is-regex=false",
+      "--is-sender=false",
+      "--pattern",
+      "*.sql",
+      "--pattern-type",
+      "DOMAIN"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/email-security/settings/allow_policies/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "140",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "comments": "second value &/?+ü",
+          "is_acceptable_sender": false,
+          "is_regex": false,
+          "is_sender": false,
+          "pattern": "*.sql",
+          "pattern_type": "DOMAIN"
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 6",
+    "argv": [
+      "email-security",
+      "allow-policies",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--is-regex=true",
+      "--is-sender=true",
+      "--is-spoof=true",
+      "--is-trusted-sender=true"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/email-security/settings/allow_policies/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "75",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "is_regex": true,
+          "is_sender": true,
+          "is_spoof": true,
+          "is_trusted_sender": true
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 7",
+    "argv": [
+      "email-security",
+      "allow-policies",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--comments",
+      "second value &/?+ü",
+      "--is-acceptable-sender=false",
+      "--is-exempt-recipient=false",
+      "--is-recipient=false",
+      "--pattern",
+      "*.sql",
+      "--pattern-type",
+      "DOMAIN",
+      "--verify-sender=false"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/email-security/settings/allow_policies/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "176",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "comments": "second value &/?+ü",
+          "is_acceptable_sender": false,
+          "is_exempt_recipient": false,
+          "is_recipient": false,
+          "pattern": "*.sql",
+          "pattern_type": "DOMAIN",
+          "verify_sender": false
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 8",
+    "argv": [
+      "email-security",
+      "allow-policies",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--pattern",
+      "*.sql",
+      "--pattern-type",
+      "EMAIL",
+      "--verify-sender=true"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/email-security/settings/allow_policies/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "63",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "pattern": "*.sql",
+          "pattern_type": "EMAIL",
+          "verify_sender": true
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 9",
+    "argv": [
+      "email-security",
+      "allow-policies",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--comments",
+      "second value &/?+ü",
+      "--is-acceptable-sender=false",
+      "--is-exempt-recipient=false",
+      "--is-recipient=false",
+      "--is-regex=false",
+      "--is-sender=false",
+      "--is-spoof=false",
+      "--is-trusted-sender=false"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/email-security/settings/allow_policies/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "190",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "comments": "second value &/?+ü",
+          "is_acceptable_sender": false,
+          "is_exempt_recipient": false,
+          "is_recipient": false,
+          "is_regex": false,
+          "is_sender": false,
+          "is_spoof": false,
+          "is_trusted_sender": false
+        }
+      }
+    ]
+  },
+  {
+    "case": "global quiet",
+    "argv": [
+      "email-security",
+      "allow-policies",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--quiet"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/email-security/settings/allow_policies/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "global zone",
+    "argv": [
+      "email-security",
+      "allow-policies",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--zone",
+      "abcdef0123456789abcdef0123456789"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/email-security/settings/allow_policies/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "global profile and mode",
+    "argv": [
+      "email-security",
+      "allow-policies",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--profile",
+      "default",
+      "--mode",
+      "regression"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/email-security/settings/allow_policies/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "local",
+    "argv": [
+      "email-security",
+      "allow-policies",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--local"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "http://localhost/cdn-cgi/local/explorer/api/email-security/settings/allow_policies/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "gzip, deflate",
+          "accept-language": "*",
+          "connection": "keep-alive",
+          "content-type": "application/json",
+          "host": "localhost",
+          "sec-fetch-mode": "cors",
+          "transfer-encoding": "chunked",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "local with persistence",
+    "argv": [
+      "email-security",
+      "allow-policies",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--local",
+      "--persist-to",
+      "regression-state"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "http://localhost/cdn-cgi/local/explorer/api/email-security/settings/allow_policies/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "gzip, deflate",
+          "accept-language": "*",
+          "connection": "keep-alive",
+          "content-type": "application/json",
+          "host": "localhost",
+          "sec-fetch-mode": "cors",
+          "transfer-encoding": "chunked",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "dry-run",
+    "argv": [
+      "email-security",
+      "allow-policies",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--dry-run"
+    ],
+    "exitCode": 0,
+    "requests": []
+  },
+  {
+    "case": "body from file",
+    "argv": [
+      "email-security",
+      "allow-policies",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--body",
+      "@<body.json>"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/email-security/settings/allow_policies/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "array body",
+    "argv": [
+      "email-security",
+      "allow-policies",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--body",
+      "[{\"regression\":\"first\"},{\"regression\":\"second\"}]"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/email-security/settings/allow_policies/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "48",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": [
+          {
+            "regression": "first"
+          },
+          {
+            "regression": "second"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "case": "field flags",
+    "argv": [
+      "email-security",
+      "allow-policies",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--comments",
+      "regression value &/?+ü",
+      "--is-acceptable-sender=true",
+      "--is-exempt-recipient=true",
+      "--is-recipient=true",
+      "--is-regex=true",
+      "--is-sender=true",
+      "--is-spoof=true",
+      "--is-trusted-sender=true",
+      "--pattern",
+      "*.sql",
+      "--pattern-type",
+      "EMAIL",
+      "--verify-sender=true"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/email-security/settings/allow_policies/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "249",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "comments": "regression value &/?+ü",
+          "is_acceptable_sender": true,
+          "is_exempt_recipient": true,
+          "is_recipient": true,
+          "is_regex": true,
+          "is_sender": true,
+          "is_spoof": true,
+          "is_trusted_sender": true,
+          "pattern": "*.sql",
+          "pattern_type": "EMAIL",
+          "verify_sender": true
+        }
+      }
+    ]
+  }
+]

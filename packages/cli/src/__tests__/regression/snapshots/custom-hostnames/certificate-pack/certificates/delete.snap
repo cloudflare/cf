@@ -1,0 +1,329 @@
+[
+  {
+    "case": "no-args",
+    "argv": [
+      "custom-hostnames",
+      "certificate-pack",
+      "certificates",
+      "delete"
+    ],
+    "exitCode": 1,
+    "error": "Not enough non-option arguments: got 0, need at least 1",
+    "requests": []
+  },
+  {
+    "case": "required",
+    "argv": [
+      "custom-hostnames",
+      "certificate-pack",
+      "certificates",
+      "delete",
+      "0123456789abcdef0123456789abcdef",
+      "--custom-hostname-id",
+      "example.com",
+      "--certificate-pack-id",
+      "0123456789abcdef0123456789abcdef",
+      "--force"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "DELETE",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/custom_hostnames/example.com/certificate_pack/0123456789abcdef0123456789abcdef/certificates/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "global quiet",
+    "argv": [
+      "custom-hostnames",
+      "certificate-pack",
+      "certificates",
+      "delete",
+      "0123456789abcdef0123456789abcdef",
+      "--custom-hostname-id",
+      "example.com",
+      "--certificate-pack-id",
+      "0123456789abcdef0123456789abcdef",
+      "--force",
+      "--quiet"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "DELETE",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/custom_hostnames/example.com/certificate_pack/0123456789abcdef0123456789abcdef/certificates/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "global zone",
+    "argv": [
+      "custom-hostnames",
+      "certificate-pack",
+      "certificates",
+      "delete",
+      "0123456789abcdef0123456789abcdef",
+      "--custom-hostname-id",
+      "example.com",
+      "--certificate-pack-id",
+      "0123456789abcdef0123456789abcdef",
+      "--force",
+      "--zone",
+      "abcdef0123456789abcdef0123456789"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "DELETE",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/custom_hostnames/example.com/certificate_pack/0123456789abcdef0123456789abcdef/certificates/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "global profile and mode",
+    "argv": [
+      "custom-hostnames",
+      "certificate-pack",
+      "certificates",
+      "delete",
+      "0123456789abcdef0123456789abcdef",
+      "--custom-hostname-id",
+      "example.com",
+      "--certificate-pack-id",
+      "0123456789abcdef0123456789abcdef",
+      "--force",
+      "--profile",
+      "default",
+      "--mode",
+      "regression"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "DELETE",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/custom_hostnames/example.com/certificate_pack/0123456789abcdef0123456789abcdef/certificates/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "local",
+    "argv": [
+      "custom-hostnames",
+      "certificate-pack",
+      "certificates",
+      "delete",
+      "0123456789abcdef0123456789abcdef",
+      "--custom-hostname-id",
+      "example.com",
+      "--certificate-pack-id",
+      "0123456789abcdef0123456789abcdef",
+      "--force",
+      "--local"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "DELETE",
+        "url": "http://localhost/cdn-cgi/local/explorer/api/zones/abcdef0123456789abcdef0123456789/custom_hostnames/example.com/certificate_pack/0123456789abcdef0123456789abcdef/certificates/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "gzip, deflate",
+          "accept-language": "*",
+          "connection": "keep-alive",
+          "host": "localhost",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "local with persistence",
+    "argv": [
+      "custom-hostnames",
+      "certificate-pack",
+      "certificates",
+      "delete",
+      "0123456789abcdef0123456789abcdef",
+      "--custom-hostname-id",
+      "example.com",
+      "--certificate-pack-id",
+      "0123456789abcdef0123456789abcdef",
+      "--force",
+      "--local",
+      "--persist-to",
+      "regression-state"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "DELETE",
+        "url": "http://localhost/cdn-cgi/local/explorer/api/zones/abcdef0123456789abcdef0123456789/custom_hostnames/example.com/certificate_pack/0123456789abcdef0123456789abcdef/certificates/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "gzip, deflate",
+          "accept-language": "*",
+          "connection": "keep-alive",
+          "host": "localhost",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "zone by domain",
+    "argv": [
+      "custom-hostnames",
+      "certificate-pack",
+      "certificates",
+      "delete",
+      "0123456789abcdef0123456789abcdef",
+      "--custom-hostname-id",
+      "example.com",
+      "--certificate-pack-id",
+      "0123456789abcdef0123456789abcdef",
+      "--force",
+      "--zone",
+      "regression-43235d3c0acb.example.com"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/zones?name=regression-43235d3c0acb.example.com&account.id=0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      },
+      {
+        "method": "DELETE",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/custom_hostnames/example.com/certificate_pack/0123456789abcdef0123456789abcdef/certificates/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "dry-run",
+    "argv": [
+      "custom-hostnames",
+      "certificate-pack",
+      "certificates",
+      "delete",
+      "0123456789abcdef0123456789abcdef",
+      "--custom-hostname-id",
+      "example.com",
+      "--certificate-pack-id",
+      "0123456789abcdef0123456789abcdef",
+      "--force",
+      "--dry-run"
+    ],
+    "exitCode": 0,
+    "requests": []
+  }
+]

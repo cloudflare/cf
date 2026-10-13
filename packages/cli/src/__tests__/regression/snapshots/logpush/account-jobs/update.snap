@@ -1,0 +1,2621 @@
+[
+  {
+    "case": "no-args",
+    "argv": [
+      "logpush",
+      "account-jobs",
+      "update"
+    ],
+    "exitCode": 1,
+    "error": "Not enough non-option arguments: got 0, need at least 1",
+    "requests": []
+  },
+  {
+    "case": "required",
+    "argv": [
+      "logpush",
+      "account-jobs",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/logpush/jobs/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --destination-conf",
+    "argv": [
+      "logpush",
+      "account-jobs",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--destination-conf",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/logpush/jobs/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "46",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "destination_conf": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --enabled",
+    "argv": [
+      "logpush",
+      "account-jobs",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--enabled=true"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/logpush/jobs/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "16",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "enabled": true
+        }
+      }
+    ]
+  },
+  {
+    "case": "--enabled value 1",
+    "argv": [
+      "logpush",
+      "account-jobs",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--enabled=false"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/logpush/jobs/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "17",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "enabled": false
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --filter",
+    "argv": [
+      "logpush",
+      "account-jobs",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--filter",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/logpush/jobs/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "36",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "filter": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --filter-attack-traffic",
+    "argv": [
+      "logpush",
+      "account-jobs",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--filter-attack-traffic=true"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/logpush/jobs/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "30",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "filter_attack_traffic": true
+        }
+      }
+    ]
+  },
+  {
+    "case": "--filter-attack-traffic value 1",
+    "argv": [
+      "logpush",
+      "account-jobs",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--filter-attack-traffic=false"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/logpush/jobs/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "31",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "filter_attack_traffic": false
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --frequency",
+    "argv": [
+      "logpush",
+      "account-jobs",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--frequency",
+      "high"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/logpush/jobs/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "20",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "frequency": "high"
+        }
+      }
+    ]
+  },
+  {
+    "case": "--frequency value 1",
+    "argv": [
+      "logpush",
+      "account-jobs",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--frequency",
+      "low"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/logpush/jobs/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "19",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "frequency": "low"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --kind",
+    "argv": [
+      "logpush",
+      "account-jobs",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--kind",
+      "edge"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/logpush/jobs/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "15",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "kind": "edge"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --logpull-options",
+    "argv": [
+      "logpush",
+      "account-jobs",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--logpull-options",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/logpush/jobs/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "45",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "logpull_options": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --name",
+    "argv": [
+      "logpush",
+      "account-jobs",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--name",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/logpush/jobs/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "34",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "name": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --output-options-cve-2021-44228",
+    "argv": [
+      "logpush",
+      "account-jobs",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--output-options-cve-2021-44228=true"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/logpush/jobs/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "output_options": {
+            "CVE-2021-44228": true
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "--output-options-cve-2021-44228 value 1",
+    "argv": [
+      "logpush",
+      "account-jobs",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--output-options-cve-2021-44228=false"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/logpush/jobs/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "43",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "output_options": {
+            "CVE-2021-44228": false
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --output-options-batch-prefix",
+    "argv": [
+      "logpush",
+      "account-jobs",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--output-options-batch-prefix",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/logpush/jobs/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "61",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "output_options": {
+            "batch_prefix": "regression value &/?+ü"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --output-options-batch-suffix",
+    "argv": [
+      "logpush",
+      "account-jobs",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--output-options-batch-suffix",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/logpush/jobs/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "61",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "output_options": {
+            "batch_suffix": "regression value &/?+ü"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --output-options-field-delimiter",
+    "argv": [
+      "logpush",
+      "account-jobs",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--output-options-field-delimiter",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/logpush/jobs/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "64",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "output_options": {
+            "field_delimiter": "regression value &/?+ü"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --output-options-field-names",
+    "argv": [
+      "logpush",
+      "account-jobs",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--output-options-field-names",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/logpush/jobs/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "62",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "output_options": {
+            "field_names": [
+              "regression value &/?+ü"
+            ]
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --output-options-merge-subrequests",
+    "argv": [
+      "logpush",
+      "account-jobs",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--output-options-merge-subrequests=true"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/logpush/jobs/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "45",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "output_options": {
+            "merge_subrequests": true
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "--output-options-merge-subrequests value 1",
+    "argv": [
+      "logpush",
+      "account-jobs",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--output-options-merge-subrequests=false"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/logpush/jobs/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "46",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "output_options": {
+            "merge_subrequests": false
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --output-options-output-type",
+    "argv": [
+      "logpush",
+      "account-jobs",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--output-options-output-type",
+      "ndjson"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/logpush/jobs/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "43",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "output_options": {
+            "output_type": "ndjson"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "--output-options-output-type value 1",
+    "argv": [
+      "logpush",
+      "account-jobs",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--output-options-output-type",
+      "csv"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/logpush/jobs/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "40",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "output_options": {
+            "output_type": "csv"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --output-options-record-delimiter",
+    "argv": [
+      "logpush",
+      "account-jobs",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--output-options-record-delimiter",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/logpush/jobs/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "65",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "output_options": {
+            "record_delimiter": "regression value &/?+ü"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --output-options-record-prefix",
+    "argv": [
+      "logpush",
+      "account-jobs",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--output-options-record-prefix",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/logpush/jobs/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "62",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "output_options": {
+            "record_prefix": "regression value &/?+ü"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --output-options-record-suffix",
+    "argv": [
+      "logpush",
+      "account-jobs",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--output-options-record-suffix",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/logpush/jobs/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "62",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "output_options": {
+            "record_suffix": "regression value &/?+ü"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --output-options-record-template",
+    "argv": [
+      "logpush",
+      "account-jobs",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--output-options-record-template",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/logpush/jobs/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "64",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "output_options": {
+            "record_template": "regression value &/?+ü"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --output-options-sample-rate",
+    "argv": [
+      "logpush",
+      "account-jobs",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--output-options-sample-rate",
+      "1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/logpush/jobs/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "36",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "output_options": {
+            "sample_rate": 1
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --output-options-timestamp-format",
+    "argv": [
+      "logpush",
+      "account-jobs",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--output-options-timestamp-format",
+      "unixnano"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/logpush/jobs/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "50",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "output_options": {
+            "timestamp_format": "unixnano"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "--output-options-timestamp-format value 1",
+    "argv": [
+      "logpush",
+      "account-jobs",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--output-options-timestamp-format",
+      "unix"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/logpush/jobs/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "46",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "output_options": {
+            "timestamp_format": "unix"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "--output-options-timestamp-format value 2",
+    "argv": [
+      "logpush",
+      "account-jobs",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--output-options-timestamp-format",
+      "rfc3339"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/logpush/jobs/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "49",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "output_options": {
+            "timestamp_format": "rfc3339"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "--output-options-timestamp-format value 3",
+    "argv": [
+      "logpush",
+      "account-jobs",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--output-options-timestamp-format",
+      "rfc3339ms"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/logpush/jobs/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "51",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "output_options": {
+            "timestamp_format": "rfc3339ms"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "--output-options-timestamp-format value 4",
+    "argv": [
+      "logpush",
+      "account-jobs",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--output-options-timestamp-format",
+      "rfc3339ns"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/logpush/jobs/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "51",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "output_options": {
+            "timestamp_format": "rfc3339ns"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --ownership-challenge",
+    "argv": [
+      "logpush",
+      "account-jobs",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--ownership-challenge",
+      "192.0.2.1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/logpush/jobs/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "35",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "ownership_challenge": "192.0.2.1"
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 0",
+    "argv": [
+      "logpush",
+      "account-jobs",
+      "update",
+      "0123456789abcdef0123456789abcdef"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/logpush/jobs/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "2",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {}
+      }
+    ]
+  },
+  {
+    "case": "pairwise 1",
+    "argv": [
+      "logpush",
+      "account-jobs",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--destination-conf",
+      "second value &/?+ü",
+      "--enabled=false",
+      "--filter",
+      "second value &/?+ü",
+      "--filter-attack-traffic=false",
+      "--frequency",
+      "low",
+      "--kind",
+      "edge",
+      "--logpull-options",
+      "second value &/?+ü",
+      "--name",
+      "second value &/?+ü",
+      "--output-options-cve-2021-44228=false",
+      "--output-options-batch-prefix",
+      "second value &/?+ü",
+      "--output-options-batch-suffix",
+      "second value &/?+ü",
+      "--output-options-field-delimiter",
+      "second value &/?+ü",
+      "--output-options-field-names",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--output-options-merge-subrequests=false",
+      "--output-options-output-type",
+      "csv",
+      "--output-options-record-delimiter",
+      "second value &/?+ü",
+      "--output-options-record-prefix",
+      "second value &/?+ü",
+      "--output-options-record-suffix",
+      "second value &/?+ü",
+      "--output-options-record-template",
+      "second value &/?+ü",
+      "--output-options-sample-rate",
+      "2",
+      "--output-options-timestamp-format",
+      "unix",
+      "--ownership-challenge",
+      "192.0.2.1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/logpush/jobs/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "715",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "destination_conf": "second value &/?+ü",
+          "enabled": false,
+          "filter": "second value &/?+ü",
+          "filter_attack_traffic": false,
+          "frequency": "low",
+          "kind": "edge",
+          "logpull_options": "second value &/?+ü",
+          "name": "second value &/?+ü",
+          "output_options": {
+            "CVE-2021-44228": false,
+            "batch_prefix": "second value &/?+ü",
+            "batch_suffix": "second value &/?+ü",
+            "field_delimiter": "second value &/?+ü",
+            "field_names": [
+              "second value &/?+ü",
+              "second value &/?+ü"
+            ],
+            "merge_subrequests": false,
+            "output_type": "csv",
+            "record_delimiter": "second value &/?+ü",
+            "record_prefix": "second value &/?+ü",
+            "record_suffix": "second value &/?+ü",
+            "record_template": "second value &/?+ü",
+            "sample_rate": 2,
+            "timestamp_format": "unix"
+          },
+          "ownership_challenge": "192.0.2.1"
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 2",
+    "argv": [
+      "logpush",
+      "account-jobs",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--enabled=true",
+      "--filter-attack-traffic=true",
+      "--kind",
+      "edge",
+      "--name",
+      "regression value &/?+ü",
+      "--output-options-batch-prefix",
+      "regression value &/?+ü",
+      "--output-options-field-delimiter",
+      "regression value &/?+ü",
+      "--output-options-merge-subrequests=true",
+      "--output-options-record-delimiter",
+      "regression value &/?+ü",
+      "--output-options-record-suffix",
+      "regression value &/?+ü",
+      "--output-options-sample-rate",
+      "1",
+      "--ownership-challenge",
+      "192.0.2.1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/logpush/jobs/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "358",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "enabled": true,
+          "filter_attack_traffic": true,
+          "kind": "edge",
+          "name": "regression value &/?+ü",
+          "output_options": {
+            "batch_prefix": "regression value &/?+ü",
+            "field_delimiter": "regression value &/?+ü",
+            "merge_subrequests": true,
+            "record_delimiter": "regression value &/?+ü",
+            "record_suffix": "regression value &/?+ü",
+            "sample_rate": 1
+          },
+          "ownership_challenge": "192.0.2.1"
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 3",
+    "argv": [
+      "logpush",
+      "account-jobs",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--destination-conf",
+      "second value &/?+ü",
+      "--filter",
+      "second value &/?+ü",
+      "--frequency",
+      "low",
+      "--logpull-options",
+      "second value &/?+ü",
+      "--output-options-cve-2021-44228=false",
+      "--output-options-batch-suffix",
+      "second value &/?+ü",
+      "--output-options-field-names",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--output-options-output-type",
+      "csv",
+      "--output-options-record-prefix",
+      "second value &/?+ü",
+      "--output-options-record-template",
+      "second value &/?+ü",
+      "--output-options-timestamp-format",
+      "unix"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/logpush/jobs/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "394",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "destination_conf": "second value &/?+ü",
+          "filter": "second value &/?+ü",
+          "frequency": "low",
+          "logpull_options": "second value &/?+ü",
+          "output_options": {
+            "CVE-2021-44228": false,
+            "batch_suffix": "second value &/?+ü",
+            "field_names": [
+              "second value &/?+ü",
+              "second value &/?+ü"
+            ],
+            "output_type": "csv",
+            "record_prefix": "second value &/?+ü",
+            "record_template": "second value &/?+ü",
+            "timestamp_format": "unix"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 4",
+    "argv": [
+      "logpush",
+      "account-jobs",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--filter",
+      "regression value &/?+ü",
+      "--filter-attack-traffic=true",
+      "--logpull-options",
+      "regression value &/?+ü",
+      "--name",
+      "regression value &/?+ü",
+      "--output-options-batch-suffix",
+      "regression value &/?+ü",
+      "--output-options-field-delimiter",
+      "regression value &/?+ü",
+      "--output-options-output-type",
+      "ndjson",
+      "--output-options-record-delimiter",
+      "regression value &/?+ü",
+      "--output-options-record-template",
+      "regression value &/?+ü",
+      "--output-options-sample-rate",
+      "1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/logpush/jobs/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "374",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "filter": "regression value &/?+ü",
+          "filter_attack_traffic": true,
+          "logpull_options": "regression value &/?+ü",
+          "name": "regression value &/?+ü",
+          "output_options": {
+            "batch_suffix": "regression value &/?+ü",
+            "field_delimiter": "regression value &/?+ü",
+            "output_type": "ndjson",
+            "record_delimiter": "regression value &/?+ü",
+            "record_template": "regression value &/?+ü",
+            "sample_rate": 1
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 5",
+    "argv": [
+      "logpush",
+      "account-jobs",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--destination-conf",
+      "second value &/?+ü",
+      "--enabled=false",
+      "--frequency",
+      "low",
+      "--kind",
+      "edge",
+      "--output-options-cve-2021-44228=false",
+      "--output-options-batch-prefix",
+      "second value &/?+ü",
+      "--output-options-field-names",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--output-options-merge-subrequests=false",
+      "--output-options-record-prefix",
+      "second value &/?+ü",
+      "--output-options-record-suffix",
+      "second value &/?+ü",
+      "--output-options-timestamp-format",
+      "unix",
+      "--ownership-challenge",
+      "192.0.2.1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/logpush/jobs/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "391",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "destination_conf": "second value &/?+ü",
+          "enabled": false,
+          "frequency": "low",
+          "kind": "edge",
+          "output_options": {
+            "CVE-2021-44228": false,
+            "batch_prefix": "second value &/?+ü",
+            "field_names": [
+              "second value &/?+ü",
+              "second value &/?+ü"
+            ],
+            "merge_subrequests": false,
+            "record_prefix": "second value &/?+ü",
+            "record_suffix": "second value &/?+ü",
+            "timestamp_format": "unix"
+          },
+          "ownership_challenge": "192.0.2.1"
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 6",
+    "argv": [
+      "logpush",
+      "account-jobs",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--frequency",
+      "high",
+      "--kind",
+      "edge",
+      "--logpull-options",
+      "regression value &/?+ü",
+      "--name",
+      "regression value &/?+ü",
+      "--output-options-field-names",
+      "regression value &/?+ü",
+      "--output-options-merge-subrequests=true",
+      "--output-options-output-type",
+      "ndjson",
+      "--output-options-record-delimiter",
+      "regression value &/?+ü",
+      "--output-options-timestamp-format",
+      "unixnano",
+      "--ownership-challenge",
+      "192.0.2.1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/logpush/jobs/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "329",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "frequency": "high",
+          "kind": "edge",
+          "logpull_options": "regression value &/?+ü",
+          "name": "regression value &/?+ü",
+          "output_options": {
+            "field_names": [
+              "regression value &/?+ü"
+            ],
+            "merge_subrequests": true,
+            "output_type": "ndjson",
+            "record_delimiter": "regression value &/?+ü",
+            "timestamp_format": "unixnano"
+          },
+          "ownership_challenge": "192.0.2.1"
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 7",
+    "argv": [
+      "logpush",
+      "account-jobs",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--destination-conf",
+      "second value &/?+ü",
+      "--enabled=false",
+      "--filter",
+      "second value &/?+ü",
+      "--filter-attack-traffic=false",
+      "--output-options-cve-2021-44228=false",
+      "--output-options-batch-prefix",
+      "second value &/?+ü",
+      "--output-options-batch-suffix",
+      "second value &/?+ü",
+      "--output-options-field-delimiter",
+      "second value &/?+ü",
+      "--output-options-record-prefix",
+      "second value &/?+ü",
+      "--output-options-record-suffix",
+      "second value &/?+ü",
+      "--output-options-record-template",
+      "second value &/?+ü",
+      "--output-options-sample-rate",
+      "2"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/logpush/jobs/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "407",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "destination_conf": "second value &/?+ü",
+          "enabled": false,
+          "filter": "second value &/?+ü",
+          "filter_attack_traffic": false,
+          "output_options": {
+            "CVE-2021-44228": false,
+            "batch_prefix": "second value &/?+ü",
+            "batch_suffix": "second value &/?+ü",
+            "field_delimiter": "second value &/?+ü",
+            "record_prefix": "second value &/?+ü",
+            "record_suffix": "second value &/?+ü",
+            "record_template": "second value &/?+ü",
+            "sample_rate": 2
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 8",
+    "argv": [
+      "logpush",
+      "account-jobs",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--output-options-cve-2021-44228=true",
+      "--output-options-batch-prefix",
+      "regression value &/?+ü",
+      "--output-options-batch-suffix",
+      "regression value &/?+ü",
+      "--output-options-field-delimiter",
+      "regression value &/?+ü",
+      "--output-options-field-names",
+      "regression value &/?+ü",
+      "--output-options-merge-subrequests=true",
+      "--output-options-output-type",
+      "ndjson",
+      "--output-options-record-delimiter",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/logpush/jobs/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "303",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "output_options": {
+            "CVE-2021-44228": true,
+            "batch_prefix": "regression value &/?+ü",
+            "batch_suffix": "regression value &/?+ü",
+            "field_delimiter": "regression value &/?+ü",
+            "field_names": [
+              "regression value &/?+ü"
+            ],
+            "merge_subrequests": true,
+            "output_type": "ndjson",
+            "record_delimiter": "regression value &/?+ü"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 9",
+    "argv": [
+      "logpush",
+      "account-jobs",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--destination-conf",
+      "second value &/?+ü",
+      "--enabled=false",
+      "--filter",
+      "second value &/?+ü",
+      "--filter-attack-traffic=false",
+      "--frequency",
+      "low",
+      "--kind",
+      "edge",
+      "--logpull-options",
+      "second value &/?+ü",
+      "--name",
+      "second value &/?+ü",
+      "--output-options-record-prefix",
+      "second value &/?+ü",
+      "--output-options-record-suffix",
+      "second value &/?+ü",
+      "--output-options-record-template",
+      "second value &/?+ü",
+      "--output-options-sample-rate",
+      "2",
+      "--output-options-timestamp-format",
+      "unix",
+      "--ownership-challenge",
+      "192.0.2.1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/logpush/jobs/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "431",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "destination_conf": "second value &/?+ü",
+          "enabled": false,
+          "filter": "second value &/?+ü",
+          "filter_attack_traffic": false,
+          "frequency": "low",
+          "kind": "edge",
+          "logpull_options": "second value &/?+ü",
+          "name": "second value &/?+ü",
+          "output_options": {
+            "record_prefix": "second value &/?+ü",
+            "record_suffix": "second value &/?+ü",
+            "record_template": "second value &/?+ü",
+            "sample_rate": 2,
+            "timestamp_format": "unix"
+          },
+          "ownership_challenge": "192.0.2.1"
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 10",
+    "argv": [
+      "logpush",
+      "account-jobs",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--output-options-record-prefix",
+      "regression value &/?+ü",
+      "--output-options-record-suffix",
+      "regression value &/?+ü",
+      "--output-options-record-template",
+      "regression value &/?+ü",
+      "--output-options-sample-rate",
+      "1",
+      "--output-options-timestamp-format",
+      "unixnano",
+      "--ownership-challenge",
+      "192.0.2.1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/logpush/jobs/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "228",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "output_options": {
+            "record_prefix": "regression value &/?+ü",
+            "record_suffix": "regression value &/?+ü",
+            "record_template": "regression value &/?+ü",
+            "sample_rate": 1,
+            "timestamp_format": "unixnano"
+          },
+          "ownership_challenge": "192.0.2.1"
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 11",
+    "argv": [
+      "logpush",
+      "account-jobs",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--destination-conf",
+      "second value &/?+ü",
+      "--enabled=false",
+      "--filter",
+      "second value &/?+ü",
+      "--filter-attack-traffic=false",
+      "--frequency",
+      "low",
+      "--kind",
+      "edge",
+      "--logpull-options",
+      "second value &/?+ü",
+      "--name",
+      "second value &/?+ü",
+      "--output-options-cve-2021-44228=false",
+      "--output-options-batch-prefix",
+      "second value &/?+ü",
+      "--output-options-batch-suffix",
+      "second value &/?+ü",
+      "--output-options-field-delimiter",
+      "second value &/?+ü",
+      "--output-options-field-names",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--output-options-merge-subrequests=false",
+      "--output-options-output-type",
+      "csv",
+      "--output-options-record-delimiter",
+      "second value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/logpush/jobs/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "523",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "destination_conf": "second value &/?+ü",
+          "enabled": false,
+          "filter": "second value &/?+ü",
+          "filter_attack_traffic": false,
+          "frequency": "low",
+          "kind": "edge",
+          "logpull_options": "second value &/?+ü",
+          "name": "second value &/?+ü",
+          "output_options": {
+            "CVE-2021-44228": false,
+            "batch_prefix": "second value &/?+ü",
+            "batch_suffix": "second value &/?+ü",
+            "field_delimiter": "second value &/?+ü",
+            "field_names": [
+              "second value &/?+ü",
+              "second value &/?+ü"
+            ],
+            "merge_subrequests": false,
+            "output_type": "csv",
+            "record_delimiter": "second value &/?+ü"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "global quiet",
+    "argv": [
+      "logpush",
+      "account-jobs",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--quiet"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/logpush/jobs/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "global zone",
+    "argv": [
+      "logpush",
+      "account-jobs",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--zone",
+      "abcdef0123456789abcdef0123456789"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/logpush/jobs/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "global profile and mode",
+    "argv": [
+      "logpush",
+      "account-jobs",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--profile",
+      "default",
+      "--mode",
+      "regression"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/logpush/jobs/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "local",
+    "argv": [
+      "logpush",
+      "account-jobs",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--local"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "http://localhost/cdn-cgi/local/explorer/api/logpush/jobs/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "gzip, deflate",
+          "accept-language": "*",
+          "connection": "keep-alive",
+          "content-type": "application/json",
+          "host": "localhost",
+          "sec-fetch-mode": "cors",
+          "transfer-encoding": "chunked",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "local with persistence",
+    "argv": [
+      "logpush",
+      "account-jobs",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--local",
+      "--persist-to",
+      "regression-state"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "http://localhost/cdn-cgi/local/explorer/api/logpush/jobs/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "gzip, deflate",
+          "accept-language": "*",
+          "connection": "keep-alive",
+          "content-type": "application/json",
+          "host": "localhost",
+          "sec-fetch-mode": "cors",
+          "transfer-encoding": "chunked",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "zone by domain",
+    "argv": [
+      "logpush",
+      "account-jobs",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--zone",
+      "regression-335af87046a8.example.com"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/zones?name=regression-335af87046a8.example.com&account.id=0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      },
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/logpush/jobs/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "dry-run",
+    "argv": [
+      "logpush",
+      "account-jobs",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--dry-run"
+    ],
+    "exitCode": 0,
+    "requests": []
+  },
+  {
+    "case": "body from file",
+    "argv": [
+      "logpush",
+      "account-jobs",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--body",
+      "@<body.json>"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/logpush/jobs/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "array body",
+    "argv": [
+      "logpush",
+      "account-jobs",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--body",
+      "[{\"regression\":\"first\"},{\"regression\":\"second\"}]"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/logpush/jobs/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "56",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "0": {
+            "regression": "first"
+          },
+          "1": {
+            "regression": "second"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "field flags",
+    "argv": [
+      "logpush",
+      "account-jobs",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--destination-conf",
+      "regression value &/?+ü",
+      "--enabled=true",
+      "--filter",
+      "regression value &/?+ü",
+      "--filter-attack-traffic=true",
+      "--frequency",
+      "high",
+      "--kind",
+      "edge",
+      "--logpull-options",
+      "regression value &/?+ü",
+      "--name",
+      "regression value &/?+ü",
+      "--output-options-cve-2021-44228=true",
+      "--output-options-batch-prefix",
+      "regression value &/?+ü",
+      "--output-options-batch-suffix",
+      "regression value &/?+ü",
+      "--output-options-field-delimiter",
+      "regression value &/?+ü",
+      "--output-options-field-names",
+      "regression value &/?+ü",
+      "--output-options-merge-subrequests=true",
+      "--output-options-output-type",
+      "ndjson",
+      "--output-options-record-delimiter",
+      "regression value &/?+ü",
+      "--output-options-record-prefix",
+      "regression value &/?+ü",
+      "--output-options-record-suffix",
+      "regression value &/?+ü",
+      "--output-options-record-template",
+      "regression value &/?+ü",
+      "--output-options-sample-rate",
+      "1",
+      "--output-options-timestamp-format",
+      "unixnano",
+      "--ownership-challenge",
+      "192.0.2.1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/logpush/jobs/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "745",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "destination_conf": "regression value &/?+ü",
+          "enabled": true,
+          "filter": "regression value &/?+ü",
+          "filter_attack_traffic": true,
+          "frequency": "high",
+          "kind": "edge",
+          "logpull_options": "regression value &/?+ü",
+          "name": "regression value &/?+ü",
+          "output_options": {
+            "CVE-2021-44228": true,
+            "batch_prefix": "regression value &/?+ü",
+            "batch_suffix": "regression value &/?+ü",
+            "field_delimiter": "regression value &/?+ü",
+            "field_names": [
+              "regression value &/?+ü"
+            ],
+            "merge_subrequests": true,
+            "output_type": "ndjson",
+            "record_delimiter": "regression value &/?+ü",
+            "record_prefix": "regression value &/?+ü",
+            "record_suffix": "regression value &/?+ü",
+            "record_template": "regression value &/?+ü",
+            "sample_rate": 1,
+            "timestamp_format": "unixnano"
+          },
+          "ownership_challenge": "192.0.2.1"
+        }
+      }
+    ]
+  }
+]

@@ -1,0 +1,9 @@
+{
+  "argv": [
+    "r2",
+    "buckets",
+    "domains",
+    "custom"
+  ],
+  "requests": []
+}

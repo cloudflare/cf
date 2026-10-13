@@ -1,0 +1,2356 @@
+[
+  {
+    "case": "no-args",
+    "argv": [
+      "custom-hostnames",
+      "edit"
+    ],
+    "exitCode": 1,
+    "error": "Not enough non-option arguments: got 0, need at least 1",
+    "requests": []
+  },
+  {
+    "case": "required",
+    "argv": [
+      "custom-hostnames",
+      "edit",
+      "example.com",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/custom_hostnames/example.com",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --custom-origin-server",
+    "argv": [
+      "custom-hostnames",
+      "edit",
+      "example.com",
+      "--custom-origin-server",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/custom_hostnames/example.com",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "50",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "custom_origin_server": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --custom-origin-sni",
+    "argv": [
+      "custom-hostnames",
+      "edit",
+      "example.com",
+      "--custom-origin-sni",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/custom_hostnames/example.com",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "47",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "custom_origin_sni": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --ssl-bundle-method",
+    "argv": [
+      "custom-hostnames",
+      "edit",
+      "example.com",
+      "--ssl-bundle-method",
+      "ubiquitous"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/custom_hostnames/example.com",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "38",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "ssl": {
+            "bundle_method": "ubiquitous"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "--ssl-bundle-method value 1",
+    "argv": [
+      "custom-hostnames",
+      "edit",
+      "example.com",
+      "--ssl-bundle-method",
+      "optimal"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/custom_hostnames/example.com",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "35",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "ssl": {
+            "bundle_method": "optimal"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "--ssl-bundle-method value 2",
+    "argv": [
+      "custom-hostnames",
+      "edit",
+      "example.com",
+      "--ssl-bundle-method",
+      "force"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/custom_hostnames/example.com",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "33",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "ssl": {
+            "bundle_method": "force"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --ssl-certificate-authority",
+    "argv": [
+      "custom-hostnames",
+      "edit",
+      "example.com",
+      "--ssl-certificate-authority",
+      "digicert"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/custom_hostnames/example.com",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "44",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "ssl": {
+            "certificate_authority": "digicert"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "--ssl-certificate-authority value 1",
+    "argv": [
+      "custom-hostnames",
+      "edit",
+      "example.com",
+      "--ssl-certificate-authority",
+      "google"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/custom_hostnames/example.com",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "ssl": {
+            "certificate_authority": "google"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "--ssl-certificate-authority value 2",
+    "argv": [
+      "custom-hostnames",
+      "edit",
+      "example.com",
+      "--ssl-certificate-authority",
+      "lets_encrypt"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/custom_hostnames/example.com",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "48",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "ssl": {
+            "certificate_authority": "lets_encrypt"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "--ssl-certificate-authority value 3",
+    "argv": [
+      "custom-hostnames",
+      "edit",
+      "example.com",
+      "--ssl-certificate-authority",
+      "ssl_com"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/custom_hostnames/example.com",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "43",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "ssl": {
+            "certificate_authority": "ssl_com"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --ssl-cloudflare-branding",
+    "argv": [
+      "custom-hostnames",
+      "edit",
+      "example.com",
+      "--ssl-cloudflare-branding=true"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/custom_hostnames/example.com",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "36",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "ssl": {
+            "cloudflare_branding": true
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "--ssl-cloudflare-branding value 1",
+    "argv": [
+      "custom-hostnames",
+      "edit",
+      "example.com",
+      "--ssl-cloudflare-branding=false"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/custom_hostnames/example.com",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "37",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "ssl": {
+            "cloudflare_branding": false
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --ssl-custom-certificate",
+    "argv": [
+      "custom-hostnames",
+      "edit",
+      "example.com",
+      "--ssl-custom-certificate",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/custom_hostnames/example.com",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "56",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "ssl": {
+            "custom_certificate": "regression value &/?+ü"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --ssl-custom-csr-id",
+    "argv": [
+      "custom-hostnames",
+      "edit",
+      "example.com",
+      "--ssl-custom-csr-id",
+      "0123456789abcdef0123456789abcdef"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/custom_hostnames/example.com",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "60",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "ssl": {
+            "custom_csr_id": "0123456789abcdef0123456789abcdef"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --ssl-custom-key",
+    "argv": [
+      "custom-hostnames",
+      "edit",
+      "example.com",
+      "--ssl-custom-key",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/custom_hostnames/example.com",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "48",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "ssl": {
+            "custom_key": "regression value &/?+ü"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --ssl-method",
+    "argv": [
+      "custom-hostnames",
+      "edit",
+      "example.com",
+      "--ssl-method",
+      "http"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/custom_hostnames/example.com",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "25",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "ssl": {
+            "method": "http"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "--ssl-method value 1",
+    "argv": [
+      "custom-hostnames",
+      "edit",
+      "example.com",
+      "--ssl-method",
+      "txt"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/custom_hostnames/example.com",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "24",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "ssl": {
+            "method": "txt"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "--ssl-method value 2",
+    "argv": [
+      "custom-hostnames",
+      "edit",
+      "example.com",
+      "--ssl-method",
+      "email"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/custom_hostnames/example.com",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "26",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "ssl": {
+            "method": "email"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --ssl-settings-ciphers",
+    "argv": [
+      "custom-hostnames",
+      "edit",
+      "example.com",
+      "--ssl-settings-ciphers",
+      "192.0.2.1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/custom_hostnames/example.com",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "46",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "ssl": {
+            "settings": {
+              "ciphers": [
+                "192.0.2.1"
+              ]
+            }
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --ssl-settings-early-hints",
+    "argv": [
+      "custom-hostnames",
+      "edit",
+      "example.com",
+      "--ssl-settings-early-hints",
+      "on"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/custom_hostnames/example.com",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "41",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "ssl": {
+            "settings": {
+              "early_hints": "on"
+            }
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "--ssl-settings-early-hints value 1",
+    "argv": [
+      "custom-hostnames",
+      "edit",
+      "example.com",
+      "--ssl-settings-early-hints",
+      "off"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/custom_hostnames/example.com",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "ssl": {
+            "settings": {
+              "early_hints": "off"
+            }
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --ssl-settings-http2",
+    "argv": [
+      "custom-hostnames",
+      "edit",
+      "example.com",
+      "--ssl-settings-http2",
+      "on"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/custom_hostnames/example.com",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "35",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "ssl": {
+            "settings": {
+              "http2": "on"
+            }
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "--ssl-settings-http2 value 1",
+    "argv": [
+      "custom-hostnames",
+      "edit",
+      "example.com",
+      "--ssl-settings-http2",
+      "off"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/custom_hostnames/example.com",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "36",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "ssl": {
+            "settings": {
+              "http2": "off"
+            }
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --ssl-settings-min-tls-version",
+    "argv": [
+      "custom-hostnames",
+      "edit",
+      "example.com",
+      "--ssl-settings-min-tls-version",
+      "1.0"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/custom_hostnames/example.com",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "46",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "ssl": {
+            "settings": {
+              "min_tls_version": "1.0"
+            }
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "--ssl-settings-min-tls-version value 1",
+    "argv": [
+      "custom-hostnames",
+      "edit",
+      "example.com",
+      "--ssl-settings-min-tls-version",
+      "1.1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/custom_hostnames/example.com",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "46",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "ssl": {
+            "settings": {
+              "min_tls_version": "1.1"
+            }
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "--ssl-settings-min-tls-version value 2",
+    "argv": [
+      "custom-hostnames",
+      "edit",
+      "example.com",
+      "--ssl-settings-min-tls-version",
+      "1.2"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/custom_hostnames/example.com",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "46",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "ssl": {
+            "settings": {
+              "min_tls_version": "1.2"
+            }
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "--ssl-settings-min-tls-version value 3",
+    "argv": [
+      "custom-hostnames",
+      "edit",
+      "example.com",
+      "--ssl-settings-min-tls-version",
+      "1.3"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/custom_hostnames/example.com",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "46",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "ssl": {
+            "settings": {
+              "min_tls_version": "1.3"
+            }
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --ssl-settings-tls-1-3",
+    "argv": [
+      "custom-hostnames",
+      "edit",
+      "example.com",
+      "--ssl-settings-tls-1-3",
+      "on"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/custom_hostnames/example.com",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "37",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "ssl": {
+            "settings": {
+              "tls_1_3": "on"
+            }
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "--ssl-settings-tls-1-3 value 1",
+    "argv": [
+      "custom-hostnames",
+      "edit",
+      "example.com",
+      "--ssl-settings-tls-1-3",
+      "off"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/custom_hostnames/example.com",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "38",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "ssl": {
+            "settings": {
+              "tls_1_3": "off"
+            }
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --ssl-type",
+    "argv": [
+      "custom-hostnames",
+      "edit",
+      "example.com",
+      "--ssl-type",
+      "dv"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/custom_hostnames/example.com",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "21",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "ssl": {
+            "type": "dv"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --ssl-wildcard",
+    "argv": [
+      "custom-hostnames",
+      "edit",
+      "example.com",
+      "--ssl-wildcard=true"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/custom_hostnames/example.com",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "25",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "ssl": {
+            "wildcard": true
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "--ssl-wildcard value 1",
+    "argv": [
+      "custom-hostnames",
+      "edit",
+      "example.com",
+      "--ssl-wildcard=false"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/custom_hostnames/example.com",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "26",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "ssl": {
+            "wildcard": false
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 0",
+    "argv": [
+      "custom-hostnames",
+      "edit",
+      "example.com"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/custom_hostnames/example.com",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "2",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {}
+      }
+    ]
+  },
+  {
+    "case": "pairwise 1",
+    "argv": [
+      "custom-hostnames",
+      "edit",
+      "example.com",
+      "--custom-origin-server",
+      "second value &/?+ü",
+      "--custom-origin-sni",
+      "second value &/?+ü",
+      "--ssl-bundle-method",
+      "optimal",
+      "--ssl-certificate-authority",
+      "google",
+      "--ssl-cloudflare-branding=false",
+      "--ssl-custom-certificate",
+      "second value &/?+ü",
+      "--ssl-custom-csr-id",
+      "0123456789abcdef0123456789abcdef",
+      "--ssl-custom-key",
+      "second value &/?+ü",
+      "--ssl-method",
+      "txt",
+      "--ssl-settings-ciphers",
+      "192.0.2.1",
+      "192.0.2.1",
+      "--ssl-settings-early-hints",
+      "off",
+      "--ssl-settings-http2",
+      "off",
+      "--ssl-settings-min-tls-version",
+      "1.1",
+      "--ssl-settings-tls-1-3",
+      "off",
+      "--ssl-type",
+      "dv",
+      "--ssl-wildcard=false"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/custom_hostnames/example.com",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "479",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "custom_origin_server": "second value &/?+ü",
+          "custom_origin_sni": "second value &/?+ü",
+          "ssl": {
+            "bundle_method": "optimal",
+            "certificate_authority": "google",
+            "cloudflare_branding": false,
+            "custom_certificate": "second value &/?+ü",
+            "custom_csr_id": "0123456789abcdef0123456789abcdef",
+            "custom_key": "second value &/?+ü",
+            "method": "txt",
+            "settings": {
+              "ciphers": [
+                "192.0.2.1",
+                "192.0.2.1"
+              ],
+              "early_hints": "off",
+              "http2": "off",
+              "min_tls_version": "1.1",
+              "tls_1_3": "off"
+            },
+            "type": "dv",
+            "wildcard": false
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 2",
+    "argv": [
+      "custom-hostnames",
+      "edit",
+      "example.com",
+      "--custom-origin-sni",
+      "regression value &/?+ü",
+      "--ssl-certificate-authority",
+      "digicert",
+      "--ssl-custom-certificate",
+      "regression value &/?+ü",
+      "--ssl-custom-key",
+      "regression value &/?+ü",
+      "--ssl-settings-ciphers",
+      "192.0.2.1",
+      "--ssl-settings-http2",
+      "on",
+      "--ssl-settings-tls-1-3",
+      "on",
+      "--ssl-wildcard=true"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/custom_hostnames/example.com",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "257",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "custom_origin_sni": "regression value &/?+ü",
+          "ssl": {
+            "certificate_authority": "digicert",
+            "custom_certificate": "regression value &/?+ü",
+            "custom_key": "regression value &/?+ü",
+            "settings": {
+              "ciphers": [
+                "192.0.2.1"
+              ],
+              "http2": "on",
+              "tls_1_3": "on"
+            },
+            "wildcard": true
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 3",
+    "argv": [
+      "custom-hostnames",
+      "edit",
+      "example.com",
+      "--custom-origin-server",
+      "second value &/?+ü",
+      "--ssl-bundle-method",
+      "optimal",
+      "--ssl-cloudflare-branding=false",
+      "--ssl-custom-csr-id",
+      "0123456789abcdef0123456789abcdef",
+      "--ssl-method",
+      "txt",
+      "--ssl-settings-early-hints",
+      "off",
+      "--ssl-settings-min-tls-version",
+      "1.1",
+      "--ssl-type",
+      "dv"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/custom_hostnames/example.com",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "243",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "custom_origin_server": "second value &/?+ü",
+          "ssl": {
+            "bundle_method": "optimal",
+            "cloudflare_branding": false,
+            "custom_csr_id": "0123456789abcdef0123456789abcdef",
+            "method": "txt",
+            "settings": {
+              "early_hints": "off",
+              "min_tls_version": "1.1"
+            },
+            "type": "dv"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 4",
+    "argv": [
+      "custom-hostnames",
+      "edit",
+      "example.com",
+      "--ssl-bundle-method",
+      "ubiquitous",
+      "--ssl-certificate-authority",
+      "digicert",
+      "--ssl-custom-csr-id",
+      "0123456789abcdef0123456789abcdef",
+      "--ssl-custom-key",
+      "regression value &/?+ü",
+      "--ssl-settings-early-hints",
+      "on",
+      "--ssl-settings-http2",
+      "on",
+      "--ssl-type",
+      "dv",
+      "--ssl-wildcard=true"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/custom_hostnames/example.com",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "236",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "ssl": {
+            "bundle_method": "ubiquitous",
+            "certificate_authority": "digicert",
+            "custom_csr_id": "0123456789abcdef0123456789abcdef",
+            "custom_key": "regression value &/?+ü",
+            "settings": {
+              "early_hints": "on",
+              "http2": "on"
+            },
+            "type": "dv",
+            "wildcard": true
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 5",
+    "argv": [
+      "custom-hostnames",
+      "edit",
+      "example.com",
+      "--custom-origin-server",
+      "second value &/?+ü",
+      "--custom-origin-sni",
+      "second value &/?+ü",
+      "--ssl-cloudflare-branding=false",
+      "--ssl-custom-certificate",
+      "second value &/?+ü",
+      "--ssl-method",
+      "txt",
+      "--ssl-settings-ciphers",
+      "192.0.2.1",
+      "192.0.2.1",
+      "--ssl-settings-min-tls-version",
+      "1.1",
+      "--ssl-settings-tls-1-3",
+      "off"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/custom_hostnames/example.com",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "271",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "custom_origin_server": "second value &/?+ü",
+          "custom_origin_sni": "second value &/?+ü",
+          "ssl": {
+            "cloudflare_branding": false,
+            "custom_certificate": "second value &/?+ü",
+            "method": "txt",
+            "settings": {
+              "ciphers": [
+                "192.0.2.1",
+                "192.0.2.1"
+              ],
+              "min_tls_version": "1.1",
+              "tls_1_3": "off"
+            }
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 6",
+    "argv": [
+      "custom-hostnames",
+      "edit",
+      "example.com",
+      "--ssl-cloudflare-branding=true",
+      "--ssl-custom-certificate",
+      "regression value &/?+ü",
+      "--ssl-custom-csr-id",
+      "0123456789abcdef0123456789abcdef",
+      "--ssl-custom-key",
+      "regression value &/?+ü",
+      "--ssl-settings-min-tls-version",
+      "1.0",
+      "--ssl-settings-tls-1-3",
+      "on",
+      "--ssl-type",
+      "dv",
+      "--ssl-wildcard=true"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/custom_hostnames/example.com",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "253",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "ssl": {
+            "cloudflare_branding": true,
+            "custom_certificate": "regression value &/?+ü",
+            "custom_csr_id": "0123456789abcdef0123456789abcdef",
+            "custom_key": "regression value &/?+ü",
+            "settings": {
+              "min_tls_version": "1.0",
+              "tls_1_3": "on"
+            },
+            "type": "dv",
+            "wildcard": true
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 7",
+    "argv": [
+      "custom-hostnames",
+      "edit",
+      "example.com",
+      "--custom-origin-server",
+      "second value &/?+ü",
+      "--custom-origin-sni",
+      "second value &/?+ü",
+      "--ssl-bundle-method",
+      "optimal",
+      "--ssl-certificate-authority",
+      "google",
+      "--ssl-method",
+      "txt",
+      "--ssl-settings-ciphers",
+      "192.0.2.1",
+      "192.0.2.1",
+      "--ssl-settings-early-hints",
+      "off",
+      "--ssl-settings-http2",
+      "off"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/custom_hostnames/example.com",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "253",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "custom_origin_server": "second value &/?+ü",
+          "custom_origin_sni": "second value &/?+ü",
+          "ssl": {
+            "bundle_method": "optimal",
+            "certificate_authority": "google",
+            "method": "txt",
+            "settings": {
+              "ciphers": [
+                "192.0.2.1",
+                "192.0.2.1"
+              ],
+              "early_hints": "off",
+              "http2": "off"
+            }
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 8",
+    "argv": [
+      "custom-hostnames",
+      "edit",
+      "example.com",
+      "--ssl-method",
+      "http",
+      "--ssl-settings-ciphers",
+      "192.0.2.1",
+      "--ssl-settings-early-hints",
+      "on",
+      "--ssl-settings-http2",
+      "on",
+      "--ssl-settings-min-tls-version",
+      "1.0",
+      "--ssl-settings-tls-1-3",
+      "on",
+      "--ssl-type",
+      "dv",
+      "--ssl-wildcard=true"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/custom_hostnames/example.com",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "161",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "ssl": {
+            "method": "http",
+            "settings": {
+              "ciphers": [
+                "192.0.2.1"
+              ],
+              "early_hints": "on",
+              "http2": "on",
+              "min_tls_version": "1.0",
+              "tls_1_3": "on"
+            },
+            "type": "dv",
+            "wildcard": true
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 9",
+    "argv": [
+      "custom-hostnames",
+      "edit",
+      "example.com",
+      "--custom-origin-server",
+      "second value &/?+ü",
+      "--custom-origin-sni",
+      "second value &/?+ü",
+      "--ssl-bundle-method",
+      "optimal",
+      "--ssl-certificate-authority",
+      "google",
+      "--ssl-cloudflare-branding=false",
+      "--ssl-custom-certificate",
+      "second value &/?+ü",
+      "--ssl-custom-csr-id",
+      "0123456789abcdef0123456789abcdef",
+      "--ssl-custom-key",
+      "second value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/custom_hostnames/example.com",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "312",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "custom_origin_server": "second value &/?+ü",
+          "custom_origin_sni": "second value &/?+ü",
+          "ssl": {
+            "bundle_method": "optimal",
+            "certificate_authority": "google",
+            "cloudflare_branding": false,
+            "custom_certificate": "second value &/?+ü",
+            "custom_csr_id": "0123456789abcdef0123456789abcdef",
+            "custom_key": "second value &/?+ü"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "global quiet",
+    "argv": [
+      "custom-hostnames",
+      "edit",
+      "example.com",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--quiet"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/custom_hostnames/example.com",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "global zone",
+    "argv": [
+      "custom-hostnames",
+      "edit",
+      "example.com",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--zone",
+      "abcdef0123456789abcdef0123456789"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/custom_hostnames/example.com",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "global profile and mode",
+    "argv": [
+      "custom-hostnames",
+      "edit",
+      "example.com",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--profile",
+      "default",
+      "--mode",
+      "regression"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/custom_hostnames/example.com",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "local",
+    "argv": [
+      "custom-hostnames",
+      "edit",
+      "example.com",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--local"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "http://localhost/cdn-cgi/local/explorer/api/zones/abcdef0123456789abcdef0123456789/custom_hostnames/example.com",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "gzip, deflate",
+          "accept-language": "*",
+          "connection": "keep-alive",
+          "content-type": "application/json",
+          "host": "localhost",
+          "sec-fetch-mode": "cors",
+          "transfer-encoding": "chunked",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "local with persistence",
+    "argv": [
+      "custom-hostnames",
+      "edit",
+      "example.com",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--local",
+      "--persist-to",
+      "regression-state"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "http://localhost/cdn-cgi/local/explorer/api/zones/abcdef0123456789abcdef0123456789/custom_hostnames/example.com",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "gzip, deflate",
+          "accept-language": "*",
+          "connection": "keep-alive",
+          "content-type": "application/json",
+          "host": "localhost",
+          "sec-fetch-mode": "cors",
+          "transfer-encoding": "chunked",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "zone by domain",
+    "argv": [
+      "custom-hostnames",
+      "edit",
+      "example.com",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--zone",
+      "regression-a79c6a72fdc2.example.com"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/zones?name=regression-a79c6a72fdc2.example.com&account.id=0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      },
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/custom_hostnames/example.com",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "dry-run",
+    "argv": [
+      "custom-hostnames",
+      "edit",
+      "example.com",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--dry-run"
+    ],
+    "exitCode": 0,
+    "requests": []
+  },
+  {
+    "case": "body from file",
+    "argv": [
+      "custom-hostnames",
+      "edit",
+      "example.com",
+      "--body",
+      "@<body.json>"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/custom_hostnames/example.com",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "array body",
+    "argv": [
+      "custom-hostnames",
+      "edit",
+      "example.com",
+      "--body",
+      "[{\"regression\":\"first\"},{\"regression\":\"second\"}]"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/custom_hostnames/example.com",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "56",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "0": {
+            "regression": "first"
+          },
+          "1": {
+            "regression": "second"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "field flags",
+    "argv": [
+      "custom-hostnames",
+      "edit",
+      "example.com",
+      "--custom-origin-server",
+      "regression value &/?+ü",
+      "--custom-origin-sni",
+      "regression value &/?+ü",
+      "--ssl-bundle-method",
+      "ubiquitous",
+      "--ssl-certificate-authority",
+      "digicert",
+      "--ssl-cloudflare-branding=true",
+      "--ssl-custom-certificate",
+      "regression value &/?+ü",
+      "--ssl-custom-csr-id",
+      "0123456789abcdef0123456789abcdef",
+      "--ssl-custom-key",
+      "regression value &/?+ü",
+      "--ssl-method",
+      "http",
+      "--ssl-settings-ciphers",
+      "192.0.2.1",
+      "--ssl-settings-early-hints",
+      "on",
+      "--ssl-settings-http2",
+      "on",
+      "--ssl-settings-min-tls-version",
+      "1.0",
+      "--ssl-settings-tls-1-3",
+      "on",
+      "--ssl-type",
+      "dv",
+      "--ssl-wildcard=true"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/custom_hostnames/example.com",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "484",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "custom_origin_server": "regression value &/?+ü",
+          "custom_origin_sni": "regression value &/?+ü",
+          "ssl": {
+            "bundle_method": "ubiquitous",
+            "certificate_authority": "digicert",
+            "cloudflare_branding": true,
+            "custom_certificate": "regression value &/?+ü",
+            "custom_csr_id": "0123456789abcdef0123456789abcdef",
+            "custom_key": "regression value &/?+ü",
+            "method": "http",
+            "settings": {
+              "ciphers": [
+                "192.0.2.1"
+              ],
+              "early_hints": "on",
+              "http2": "on",
+              "min_tls_version": "1.0",
+              "tls_1_3": "on"
+            },
+            "type": "dv",
+            "wildcard": true
+          }
+        }
+      }
+    ]
+  }
+]

@@ -1,0 +1,230 @@
+[
+  {
+    "case": "no-args",
+    "argv": [
+      "tunnels",
+      "quick-start"
+    ],
+    "exitCode": 1,
+    "error": "Not enough non-option arguments: got 0, need at least 1",
+    "requests": []
+  },
+  {
+    "case": "required",
+    "argv": [
+      "tunnels",
+      "quick-start",
+      "https://example.com/a?x=1&y=two"
+    ],
+    "exitCode": 0,
+    "requests": []
+  },
+  {
+    "case": "only --allowed-mail",
+    "argv": [
+      "tunnels",
+      "quick-start",
+      "https://example.com/a?x=1&y=two",
+      "--allowed-mail",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": []
+  },
+  {
+    "case": "only --log-level",
+    "argv": [
+      "tunnels",
+      "quick-start",
+      "https://example.com/a?x=1&y=two",
+      "--log-level",
+      "trace"
+    ],
+    "exitCode": 0,
+    "requests": []
+  },
+  {
+    "case": "--log-level value 1",
+    "argv": [
+      "tunnels",
+      "quick-start",
+      "https://example.com/a?x=1&y=two",
+      "--log-level",
+      "debug"
+    ],
+    "exitCode": 0,
+    "requests": []
+  },
+  {
+    "case": "--log-level value 2",
+    "argv": [
+      "tunnels",
+      "quick-start",
+      "https://example.com/a?x=1&y=two",
+      "--log-level",
+      "info"
+    ],
+    "exitCode": 0,
+    "requests": []
+  },
+  {
+    "case": "--log-level value 3",
+    "argv": [
+      "tunnels",
+      "quick-start",
+      "https://example.com/a?x=1&y=two",
+      "--log-level",
+      "warn"
+    ],
+    "exitCode": 0,
+    "requests": []
+  },
+  {
+    "case": "--log-level value 4",
+    "argv": [
+      "tunnels",
+      "quick-start",
+      "https://example.com/a?x=1&y=two",
+      "--log-level",
+      "error"
+    ],
+    "exitCode": 0,
+    "requests": []
+  },
+  {
+    "case": "--log-level value 5",
+    "argv": [
+      "tunnels",
+      "quick-start",
+      "https://example.com/a?x=1&y=two",
+      "--log-level",
+      "fatal"
+    ],
+    "exitCode": 0,
+    "requests": []
+  },
+  {
+    "case": "--log-level value 6",
+    "argv": [
+      "tunnels",
+      "quick-start",
+      "https://example.com/a?x=1&y=two",
+      "--log-level",
+      "panic"
+    ],
+    "exitCode": 0,
+    "requests": []
+  },
+  {
+    "case": "--log-level value 7",
+    "argv": [
+      "tunnels",
+      "quick-start",
+      "https://example.com/a?x=1&y=two",
+      "--log-level",
+      "disabled"
+    ],
+    "exitCode": 0,
+    "requests": []
+  },
+  {
+    "case": "pairwise 1",
+    "argv": [
+      "tunnels",
+      "quick-start",
+      "https://example.com/a?x=1&y=two",
+      "--allowed-mail",
+      "second value &/?+ü",
+      "--log-level",
+      "debug"
+    ],
+    "exitCode": 0,
+    "requests": []
+  },
+  {
+    "case": "pairwise 3",
+    "argv": [
+      "tunnels",
+      "quick-start",
+      "https://example.com/a?x=1&y=two",
+      "--allowed-mail",
+      "second value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": []
+  },
+  {
+    "case": "global quiet",
+    "argv": [
+      "tunnels",
+      "quick-start",
+      "https://example.com/a?x=1&y=two",
+      "--quiet"
+    ],
+    "exitCode": 0,
+    "requests": []
+  },
+  {
+    "case": "global zone",
+    "argv": [
+      "tunnels",
+      "quick-start",
+      "https://example.com/a?x=1&y=two",
+      "--zone",
+      "abcdef0123456789abcdef0123456789"
+    ],
+    "exitCode": 0,
+    "requests": []
+  },
+  {
+    "case": "global profile and mode",
+    "argv": [
+      "tunnels",
+      "quick-start",
+      "https://example.com/a?x=1&y=two",
+      "--profile",
+      "default",
+      "--mode",
+      "regression"
+    ],
+    "exitCode": 0,
+    "requests": []
+  },
+  {
+    "case": "local",
+    "argv": [
+      "tunnels",
+      "quick-start",
+      "https://example.com/a?x=1&y=two",
+      "--local"
+    ],
+    "exitCode": 1,
+    "error": "--local is not supported by cf tunnels quick-start.",
+    "requests": []
+  },
+  {
+    "case": "local with persistence",
+    "argv": [
+      "tunnels",
+      "quick-start",
+      "https://example.com/a?x=1&y=two",
+      "--local",
+      "--persist-to",
+      "regression-state"
+    ],
+    "exitCode": 1,
+    "error": "--local is not supported by cf tunnels quick-start.",
+    "requests": []
+  },
+  {
+    "case": "dry-run",
+    "argv": [
+      "tunnels",
+      "quick-start",
+      "https://example.com/a?x=1&y=two",
+      "--dry-run"
+    ],
+    "exitCode": 0,
+    "requests": []
+  }
+]

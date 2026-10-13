@@ -1,0 +1,1130 @@
+[
+  {
+    "case": "no-args",
+    "argv": [
+      "radar",
+      "origins",
+      "timeseries"
+    ],
+    "exitCode": 1,
+    "error": "Missing required arguments: origin, metric",
+    "requests": []
+  },
+  {
+    "case": "required",
+    "argv": [
+      "radar",
+      "origins",
+      "timeseries",
+      "--origin",
+      "regression value &/?+ü",
+      "--metric",
+      "CONNECTION_FAILURES"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/radar/origins/timeseries?origin=regression%20value%20%26%2F%3F%2B%C3%BC&metric=CONNECTION_FAILURES",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "only --aggInterval",
+    "argv": [
+      "radar",
+      "origins",
+      "timeseries",
+      "--origin",
+      "regression value &/?+ü",
+      "--metric",
+      "CONNECTION_FAILURES",
+      "--aggInterval",
+      "15m"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/radar/origins/timeseries?aggInterval=15m&origin=regression%20value%20%26%2F%3F%2B%C3%BC&metric=CONNECTION_FAILURES",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "--aggInterval value 1",
+    "argv": [
+      "radar",
+      "origins",
+      "timeseries",
+      "--origin",
+      "regression value &/?+ü",
+      "--metric",
+      "CONNECTION_FAILURES",
+      "--aggInterval",
+      "1h"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/radar/origins/timeseries?aggInterval=1h&origin=regression%20value%20%26%2F%3F%2B%C3%BC&metric=CONNECTION_FAILURES",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "--aggInterval value 2",
+    "argv": [
+      "radar",
+      "origins",
+      "timeseries",
+      "--origin",
+      "regression value &/?+ü",
+      "--metric",
+      "CONNECTION_FAILURES",
+      "--aggInterval",
+      "1d"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/radar/origins/timeseries?aggInterval=1d&origin=regression%20value%20%26%2F%3F%2B%C3%BC&metric=CONNECTION_FAILURES",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "--aggInterval value 3",
+    "argv": [
+      "radar",
+      "origins",
+      "timeseries",
+      "--origin",
+      "regression value &/?+ü",
+      "--metric",
+      "CONNECTION_FAILURES",
+      "--aggInterval",
+      "1w"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/radar/origins/timeseries?aggInterval=1w&origin=regression%20value%20%26%2F%3F%2B%C3%BC&metric=CONNECTION_FAILURES",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "only --name",
+    "argv": [
+      "radar",
+      "origins",
+      "timeseries",
+      "--origin",
+      "regression value &/?+ü",
+      "--metric",
+      "CONNECTION_FAILURES",
+      "--name",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/radar/origins/timeseries?name=regression%20value%20%26%2F%3F%2B%C3%BC&origin=regression%20value%20%26%2F%3F%2B%C3%BC&metric=CONNECTION_FAILURES",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "only --dateRange",
+    "argv": [
+      "radar",
+      "origins",
+      "timeseries",
+      "--origin",
+      "regression value &/?+ü",
+      "--metric",
+      "CONNECTION_FAILURES",
+      "--dateRange",
+      "2026-01-02T03:04:05Z"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/radar/origins/timeseries?dateRange=2026-01-02T03%3A04%3A05Z&origin=regression%20value%20%26%2F%3F%2B%C3%BC&metric=CONNECTION_FAILURES",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "only --dateStart",
+    "argv": [
+      "radar",
+      "origins",
+      "timeseries",
+      "--origin",
+      "regression value &/?+ü",
+      "--metric",
+      "CONNECTION_FAILURES",
+      "--dateStart",
+      "2026-01-02T03:04:05Z"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/radar/origins/timeseries?dateStart=2026-01-02T03%3A04%3A05Z&origin=regression%20value%20%26%2F%3F%2B%C3%BC&metric=CONNECTION_FAILURES",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "only --dateEnd",
+    "argv": [
+      "radar",
+      "origins",
+      "timeseries",
+      "--origin",
+      "regression value &/?+ü",
+      "--metric",
+      "CONNECTION_FAILURES",
+      "--dateEnd",
+      "2026-01-02T03:04:05Z"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/radar/origins/timeseries?dateEnd=2026-01-02T03%3A04%3A05Z&origin=regression%20value%20%26%2F%3F%2B%C3%BC&metric=CONNECTION_FAILURES",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "only --region",
+    "argv": [
+      "radar",
+      "origins",
+      "timeseries",
+      "--origin",
+      "regression value &/?+ü",
+      "--metric",
+      "CONNECTION_FAILURES",
+      "--region",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/radar/origins/timeseries?origin=regression%20value%20%26%2F%3F%2B%C3%BC&metric=CONNECTION_FAILURES&region=regression%20value%20%26%2F%3F%2B%C3%BC",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "only --format",
+    "argv": [
+      "radar",
+      "origins",
+      "timeseries",
+      "--origin",
+      "regression value &/?+ü",
+      "--metric",
+      "CONNECTION_FAILURES",
+      "--format",
+      "JSON"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/radar/origins/timeseries?origin=regression%20value%20%26%2F%3F%2B%C3%BC&metric=CONNECTION_FAILURES&format=JSON",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "--format value 1",
+    "argv": [
+      "radar",
+      "origins",
+      "timeseries",
+      "--origin",
+      "regression value &/?+ü",
+      "--metric",
+      "CONNECTION_FAILURES",
+      "--format",
+      "CSV"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/radar/origins/timeseries?origin=regression%20value%20%26%2F%3F%2B%C3%BC&metric=CONNECTION_FAILURES&format=CSV",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "required --metric value 1",
+    "argv": [
+      "radar",
+      "origins",
+      "timeseries",
+      "--origin",
+      "regression value &/?+ü",
+      "--metric",
+      "REQUESTS"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/radar/origins/timeseries?origin=regression%20value%20%26%2F%3F%2B%C3%BC&metric=REQUESTS",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "required --metric value 2",
+    "argv": [
+      "radar",
+      "origins",
+      "timeseries",
+      "--origin",
+      "regression value &/?+ü",
+      "--metric",
+      "RESPONSE_HEADER_RECEIVE_DURATION"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/radar/origins/timeseries?origin=regression%20value%20%26%2F%3F%2B%C3%BC&metric=RESPONSE_HEADER_RECEIVE_DURATION",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "required --metric value 3",
+    "argv": [
+      "radar",
+      "origins",
+      "timeseries",
+      "--origin",
+      "regression value &/?+ü",
+      "--metric",
+      "TCP_HANDSHAKE_DURATION"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/radar/origins/timeseries?origin=regression%20value%20%26%2F%3F%2B%C3%BC&metric=TCP_HANDSHAKE_DURATION",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "required --metric value 4",
+    "argv": [
+      "radar",
+      "origins",
+      "timeseries",
+      "--origin",
+      "regression value &/?+ü",
+      "--metric",
+      "TCP_RTT"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/radar/origins/timeseries?origin=regression%20value%20%26%2F%3F%2B%C3%BC&metric=TCP_RTT",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "required --metric value 5",
+    "argv": [
+      "radar",
+      "origins",
+      "timeseries",
+      "--origin",
+      "regression value &/?+ü",
+      "--metric",
+      "TLS_HANDSHAKE_DURATION"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/radar/origins/timeseries?origin=regression%20value%20%26%2F%3F%2B%C3%BC&metric=TLS_HANDSHAKE_DURATION",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "pairwise 1",
+    "argv": [
+      "radar",
+      "origins",
+      "timeseries",
+      "--origin",
+      "regression value &/?+ü",
+      "--metric",
+      "CONNECTION_FAILURES",
+      "--aggInterval",
+      "1h",
+      "--name",
+      "second value &/?+ü",
+      "--dateRange",
+      "2026-01-02T03:04:05Z",
+      "--dateStart",
+      "2026-01-02T03:04:05Z",
+      "--dateEnd",
+      "2026-01-02T03:04:05Z",
+      "--region",
+      "second value &/?+ü",
+      "--format",
+      "CSV"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/radar/origins/timeseries?aggInterval=1h&name=second%20value%20%26%2F%3F%2B%C3%BC&dateRange=2026-01-02T03%3A04%3A05Z&dateStart=2026-01-02T03%3A04%3A05Z&dateEnd=2026-01-02T03%3A04%3A05Z&origin=regression%20value%20%26%2F%3F%2B%C3%BC&metric=CONNECTION_FAILURES&region=second%20value%20%26%2F%3F%2B%C3%BC&format=CSV",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "pairwise 2",
+    "argv": [
+      "radar",
+      "origins",
+      "timeseries",
+      "--origin",
+      "regression value &/?+ü",
+      "--metric",
+      "CONNECTION_FAILURES",
+      "--name",
+      "regression value &/?+ü",
+      "--dateStart",
+      "2026-01-02T03:04:05Z",
+      "--region",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/radar/origins/timeseries?name=regression%20value%20%26%2F%3F%2B%C3%BC&dateStart=2026-01-02T03%3A04%3A05Z&origin=regression%20value%20%26%2F%3F%2B%C3%BC&metric=CONNECTION_FAILURES&region=regression%20value%20%26%2F%3F%2B%C3%BC",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "pairwise 3",
+    "argv": [
+      "radar",
+      "origins",
+      "timeseries",
+      "--origin",
+      "regression value &/?+ü",
+      "--metric",
+      "CONNECTION_FAILURES",
+      "--aggInterval",
+      "1h",
+      "--dateRange",
+      "2026-01-02T03:04:05Z",
+      "--dateEnd",
+      "2026-01-02T03:04:05Z",
+      "--format",
+      "CSV"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/radar/origins/timeseries?aggInterval=1h&dateRange=2026-01-02T03%3A04%3A05Z&dateEnd=2026-01-02T03%3A04%3A05Z&origin=regression%20value%20%26%2F%3F%2B%C3%BC&metric=CONNECTION_FAILURES&format=CSV",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "pairwise 4",
+    "argv": [
+      "radar",
+      "origins",
+      "timeseries",
+      "--origin",
+      "regression value &/?+ü",
+      "--metric",
+      "CONNECTION_FAILURES",
+      "--dateRange",
+      "2026-01-02T03:04:05Z",
+      "--dateStart",
+      "2026-01-02T03:04:05Z",
+      "--format",
+      "JSON"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/radar/origins/timeseries?dateRange=2026-01-02T03%3A04%3A05Z&dateStart=2026-01-02T03%3A04%3A05Z&origin=regression%20value%20%26%2F%3F%2B%C3%BC&metric=CONNECTION_FAILURES&format=JSON",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "pairwise 5",
+    "argv": [
+      "radar",
+      "origins",
+      "timeseries",
+      "--origin",
+      "regression value &/?+ü",
+      "--metric",
+      "CONNECTION_FAILURES",
+      "--aggInterval",
+      "1h",
+      "--name",
+      "second value &/?+ü",
+      "--dateEnd",
+      "2026-01-02T03:04:05Z",
+      "--region",
+      "second value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/radar/origins/timeseries?aggInterval=1h&name=second%20value%20%26%2F%3F%2B%C3%BC&dateEnd=2026-01-02T03%3A04%3A05Z&origin=regression%20value%20%26%2F%3F%2B%C3%BC&metric=CONNECTION_FAILURES&region=second%20value%20%26%2F%3F%2B%C3%BC",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "pairwise 6",
+    "argv": [
+      "radar",
+      "origins",
+      "timeseries",
+      "--origin",
+      "regression value &/?+ü",
+      "--metric",
+      "CONNECTION_FAILURES",
+      "--dateEnd",
+      "2026-01-02T03:04:05Z",
+      "--region",
+      "regression value &/?+ü",
+      "--format",
+      "JSON"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/radar/origins/timeseries?dateEnd=2026-01-02T03%3A04%3A05Z&origin=regression%20value%20%26%2F%3F%2B%C3%BC&metric=CONNECTION_FAILURES&region=regression%20value%20%26%2F%3F%2B%C3%BC&format=JSON",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "pairwise 7",
+    "argv": [
+      "radar",
+      "origins",
+      "timeseries",
+      "--origin",
+      "regression value &/?+ü",
+      "--metric",
+      "CONNECTION_FAILURES",
+      "--aggInterval",
+      "1h",
+      "--name",
+      "second value &/?+ü",
+      "--dateRange",
+      "2026-01-02T03:04:05Z",
+      "--dateStart",
+      "2026-01-02T03:04:05Z"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/radar/origins/timeseries?aggInterval=1h&name=second%20value%20%26%2F%3F%2B%C3%BC&dateRange=2026-01-02T03%3A04%3A05Z&dateStart=2026-01-02T03%3A04%3A05Z&origin=regression%20value%20%26%2F%3F%2B%C3%BC&metric=CONNECTION_FAILURES",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "global quiet",
+    "argv": [
+      "radar",
+      "origins",
+      "timeseries",
+      "--origin",
+      "regression value &/?+ü",
+      "--metric",
+      "CONNECTION_FAILURES",
+      "--quiet"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/radar/origins/timeseries?origin=regression%20value%20%26%2F%3F%2B%C3%BC&metric=CONNECTION_FAILURES",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "global zone",
+    "argv": [
+      "radar",
+      "origins",
+      "timeseries",
+      "--origin",
+      "regression value &/?+ü",
+      "--metric",
+      "CONNECTION_FAILURES",
+      "--zone",
+      "abcdef0123456789abcdef0123456789"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/radar/origins/timeseries?origin=regression%20value%20%26%2F%3F%2B%C3%BC&metric=CONNECTION_FAILURES",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "global profile and mode",
+    "argv": [
+      "radar",
+      "origins",
+      "timeseries",
+      "--origin",
+      "regression value &/?+ü",
+      "--metric",
+      "CONNECTION_FAILURES",
+      "--profile",
+      "default",
+      "--mode",
+      "regression"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/radar/origins/timeseries?origin=regression%20value%20%26%2F%3F%2B%C3%BC&metric=CONNECTION_FAILURES",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "local",
+    "argv": [
+      "radar",
+      "origins",
+      "timeseries",
+      "--origin",
+      "regression value &/?+ü",
+      "--metric",
+      "CONNECTION_FAILURES",
+      "--local"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "http://localhost/cdn-cgi/local/explorer/api/radar/origins/timeseries?origin=regression%20value%20%26%2F%3F%2B%C3%BC&metric=CONNECTION_FAILURES",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "gzip, deflate",
+          "accept-language": "*",
+          "connection": "keep-alive",
+          "host": "localhost",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "local with persistence",
+    "argv": [
+      "radar",
+      "origins",
+      "timeseries",
+      "--origin",
+      "regression value &/?+ü",
+      "--metric",
+      "CONNECTION_FAILURES",
+      "--local",
+      "--persist-to",
+      "regression-state"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "http://localhost/cdn-cgi/local/explorer/api/radar/origins/timeseries?origin=regression%20value%20%26%2F%3F%2B%C3%BC&metric=CONNECTION_FAILURES",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "gzip, deflate",
+          "accept-language": "*",
+          "connection": "keep-alive",
+          "host": "localhost",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "dry-run",
+    "argv": [
+      "radar",
+      "origins",
+      "timeseries",
+      "--origin",
+      "regression value &/?+ü",
+      "--metric",
+      "CONNECTION_FAILURES",
+      "--dry-run"
+    ],
+    "exitCode": 0,
+    "requests": []
+  }
+]

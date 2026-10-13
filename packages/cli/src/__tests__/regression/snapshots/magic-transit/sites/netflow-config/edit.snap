@@ -1,0 +1,937 @@
+[
+  {
+    "case": "no-args",
+    "argv": [
+      "magic-transit",
+      "sites",
+      "netflow-config",
+      "edit"
+    ],
+    "exitCode": 1,
+    "error": "Not enough non-option arguments: got 0, need at least 1",
+    "requests": []
+  },
+  {
+    "case": "required",
+    "argv": [
+      "magic-transit",
+      "sites",
+      "netflow-config",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/magic/sites/0123456789abcdef0123456789abcdef/netflow_config",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --active-timeout",
+    "argv": [
+      "magic-transit",
+      "sites",
+      "netflow-config",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--active-timeout",
+      "1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/magic/sites/0123456789abcdef0123456789abcdef/netflow_config",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "20",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "active_timeout": 1
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --collector-ip",
+    "argv": [
+      "magic-transit",
+      "sites",
+      "netflow-config",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--collector-ip",
+      "192.0.2.1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/magic/sites/0123456789abcdef0123456789abcdef/netflow_config",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "28",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "collector_ip": "192.0.2.1"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --collector-port",
+    "argv": [
+      "magic-transit",
+      "sites",
+      "netflow-config",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--collector-port",
+      "1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/magic/sites/0123456789abcdef0123456789abcdef/netflow_config",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "20",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "collector_port": 1
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --inactive-timeout",
+    "argv": [
+      "magic-transit",
+      "sites",
+      "netflow-config",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--inactive-timeout",
+      "1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/magic/sites/0123456789abcdef0123456789abcdef/netflow_config",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "22",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "inactive_timeout": 1
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --sampling-rate",
+    "argv": [
+      "magic-transit",
+      "sites",
+      "netflow-config",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--sampling-rate",
+      "1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/magic/sites/0123456789abcdef0123456789abcdef/netflow_config",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "19",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "sampling_rate": 1
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 0",
+    "argv": [
+      "magic-transit",
+      "sites",
+      "netflow-config",
+      "edit",
+      "0123456789abcdef0123456789abcdef"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/magic/sites/0123456789abcdef0123456789abcdef/netflow_config",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "2",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {}
+      }
+    ]
+  },
+  {
+    "case": "pairwise 1",
+    "argv": [
+      "magic-transit",
+      "sites",
+      "netflow-config",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--active-timeout",
+      "2",
+      "--collector-ip",
+      "192.0.2.1",
+      "--collector-port",
+      "2",
+      "--inactive-timeout",
+      "2",
+      "--sampling-rate",
+      "2"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/magic/sites/0123456789abcdef0123456789abcdef/netflow_config",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "105",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "active_timeout": 2,
+          "collector_ip": "192.0.2.1",
+          "collector_port": 2,
+          "inactive_timeout": 2,
+          "sampling_rate": 2
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 2",
+    "argv": [
+      "magic-transit",
+      "sites",
+      "netflow-config",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--collector-ip",
+      "192.0.2.1",
+      "--inactive-timeout",
+      "1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/magic/sites/0123456789abcdef0123456789abcdef/netflow_config",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "49",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "collector_ip": "192.0.2.1",
+          "inactive_timeout": 1
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 3",
+    "argv": [
+      "magic-transit",
+      "sites",
+      "netflow-config",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--active-timeout",
+      "2",
+      "--collector-port",
+      "2",
+      "--sampling-rate",
+      "2"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/magic/sites/0123456789abcdef0123456789abcdef/netflow_config",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "57",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "active_timeout": 2,
+          "collector_port": 2,
+          "sampling_rate": 2
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 4",
+    "argv": [
+      "magic-transit",
+      "sites",
+      "netflow-config",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--collector-port",
+      "1",
+      "--inactive-timeout",
+      "1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/magic/sites/0123456789abcdef0123456789abcdef/netflow_config",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "41",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "collector_port": 1,
+          "inactive_timeout": 1
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 5",
+    "argv": [
+      "magic-transit",
+      "sites",
+      "netflow-config",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--active-timeout",
+      "2",
+      "--collector-ip",
+      "192.0.2.1",
+      "--sampling-rate",
+      "2"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/magic/sites/0123456789abcdef0123456789abcdef/netflow_config",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "65",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "active_timeout": 2,
+          "collector_ip": "192.0.2.1",
+          "sampling_rate": 2
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 7",
+    "argv": [
+      "magic-transit",
+      "sites",
+      "netflow-config",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--active-timeout",
+      "2",
+      "--collector-ip",
+      "192.0.2.1",
+      "--collector-port",
+      "2",
+      "--inactive-timeout",
+      "2"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/magic/sites/0123456789abcdef0123456789abcdef/netflow_config",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "87",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "active_timeout": 2,
+          "collector_ip": "192.0.2.1",
+          "collector_port": 2,
+          "inactive_timeout": 2
+        }
+      }
+    ]
+  },
+  {
+    "case": "global quiet",
+    "argv": [
+      "magic-transit",
+      "sites",
+      "netflow-config",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--quiet"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/magic/sites/0123456789abcdef0123456789abcdef/netflow_config",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "global zone",
+    "argv": [
+      "magic-transit",
+      "sites",
+      "netflow-config",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--zone",
+      "abcdef0123456789abcdef0123456789"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/magic/sites/0123456789abcdef0123456789abcdef/netflow_config",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "global profile and mode",
+    "argv": [
+      "magic-transit",
+      "sites",
+      "netflow-config",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--profile",
+      "default",
+      "--mode",
+      "regression"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/magic/sites/0123456789abcdef0123456789abcdef/netflow_config",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "local",
+    "argv": [
+      "magic-transit",
+      "sites",
+      "netflow-config",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--local"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "http://localhost/cdn-cgi/local/explorer/api/magic/sites/0123456789abcdef0123456789abcdef/netflow_config",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "gzip, deflate",
+          "accept-language": "*",
+          "connection": "keep-alive",
+          "content-type": "application/json",
+          "host": "localhost",
+          "sec-fetch-mode": "cors",
+          "transfer-encoding": "chunked",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "local with persistence",
+    "argv": [
+      "magic-transit",
+      "sites",
+      "netflow-config",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--local",
+      "--persist-to",
+      "regression-state"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "http://localhost/cdn-cgi/local/explorer/api/magic/sites/0123456789abcdef0123456789abcdef/netflow_config",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "gzip, deflate",
+          "accept-language": "*",
+          "connection": "keep-alive",
+          "content-type": "application/json",
+          "host": "localhost",
+          "sec-fetch-mode": "cors",
+          "transfer-encoding": "chunked",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "dry-run",
+    "argv": [
+      "magic-transit",
+      "sites",
+      "netflow-config",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--dry-run"
+    ],
+    "exitCode": 0,
+    "requests": []
+  },
+  {
+    "case": "body from file",
+    "argv": [
+      "magic-transit",
+      "sites",
+      "netflow-config",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--body",
+      "@<body.json>"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/magic/sites/0123456789abcdef0123456789abcdef/netflow_config",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "array body",
+    "argv": [
+      "magic-transit",
+      "sites",
+      "netflow-config",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--body",
+      "[{\"regression\":\"first\"},{\"regression\":\"second\"}]"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/magic/sites/0123456789abcdef0123456789abcdef/netflow_config",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "48",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": [
+          {
+            "regression": "first"
+          },
+          {
+            "regression": "second"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "case": "field flags",
+    "argv": [
+      "magic-transit",
+      "sites",
+      "netflow-config",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--active-timeout",
+      "1",
+      "--collector-ip",
+      "192.0.2.1",
+      "--collector-port",
+      "1",
+      "--inactive-timeout",
+      "1",
+      "--sampling-rate",
+      "1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/magic/sites/0123456789abcdef0123456789abcdef/netflow_config",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "105",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "active_timeout": 1,
+          "collector_ip": "192.0.2.1",
+          "collector_port": 1,
+          "inactive_timeout": 1,
+          "sampling_rate": 1
+        }
+      }
+    ]
+  }
+]

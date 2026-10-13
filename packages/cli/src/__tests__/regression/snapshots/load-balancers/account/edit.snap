@@ -1,0 +1,3287 @@
+[
+  {
+    "case": "no-args",
+    "argv": [
+      "load-balancers",
+      "account",
+      "edit"
+    ],
+    "exitCode": 1,
+    "error": "Not enough non-option arguments: got 0, need at least 1",
+    "requests": []
+  },
+  {
+    "case": "required",
+    "argv": [
+      "load-balancers",
+      "account",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/load_balancers/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --adaptive-routing-failover-across-pools",
+    "argv": [
+      "load-balancers",
+      "account",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--adaptive-routing-failover-across-pools=true"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/load_balancers/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "51",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "adaptive_routing": {
+            "failover_across_pools": true
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "--adaptive-routing-failover-across-pools value 1",
+    "argv": [
+      "load-balancers",
+      "account",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--adaptive-routing-failover-across-pools=false"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/load_balancers/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "52",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "adaptive_routing": {
+            "failover_across_pools": false
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --default-pools",
+    "argv": [
+      "load-balancers",
+      "account",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--default-pools",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/load_balancers/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "45",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "default_pools": [
+            "regression value &/?+ü"
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --description",
+    "argv": [
+      "load-balancers",
+      "account",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--description",
+      "192.0.2.1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/load_balancers/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "27",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "description": "192.0.2.1"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --enabled",
+    "argv": [
+      "load-balancers",
+      "account",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--enabled=true"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/load_balancers/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "16",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "enabled": true
+        }
+      }
+    ]
+  },
+  {
+    "case": "--enabled value 1",
+    "argv": [
+      "load-balancers",
+      "account",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--enabled=false"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/load_balancers/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "17",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "enabled": false
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --fallback-pool",
+    "argv": [
+      "load-balancers",
+      "account",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--fallback-pool",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/load_balancers/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "43",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "fallback_pool": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --location-strategy-mode",
+    "argv": [
+      "load-balancers",
+      "account",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--location-strategy-mode",
+      "pop"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/load_balancers/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "36",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "location_strategy": {
+            "mode": "pop"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "--location-strategy-mode value 1",
+    "argv": [
+      "load-balancers",
+      "account",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--location-strategy-mode",
+      "resolver_ip"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/load_balancers/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "44",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "location_strategy": {
+            "mode": "resolver_ip"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --location-strategy-prefer-ecs",
+    "argv": [
+      "load-balancers",
+      "account",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--location-strategy-prefer-ecs",
+      "always"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/load_balancers/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "45",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "location_strategy": {
+            "prefer_ecs": "always"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "--location-strategy-prefer-ecs value 1",
+    "argv": [
+      "load-balancers",
+      "account",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--location-strategy-prefer-ecs",
+      "never"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/load_balancers/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "44",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "location_strategy": {
+            "prefer_ecs": "never"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "--location-strategy-prefer-ecs value 2",
+    "argv": [
+      "load-balancers",
+      "account",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--location-strategy-prefer-ecs",
+      "proximity"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/load_balancers/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "48",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "location_strategy": {
+            "prefer_ecs": "proximity"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "--location-strategy-prefer-ecs value 3",
+    "argv": [
+      "load-balancers",
+      "account",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--location-strategy-prefer-ecs",
+      "geo"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/load_balancers/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "location_strategy": {
+            "prefer_ecs": "geo"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --name",
+    "argv": [
+      "load-balancers",
+      "account",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--name",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/load_balancers/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "34",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "name": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --networks",
+    "argv": [
+      "load-balancers",
+      "account",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--networks",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/load_balancers/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "40",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "networks": [
+            "regression value &/?+ü"
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --proxied",
+    "argv": [
+      "load-balancers",
+      "account",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--proxied=true"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/load_balancers/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "16",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "proxied": true
+        }
+      }
+    ]
+  },
+  {
+    "case": "--proxied value 1",
+    "argv": [
+      "load-balancers",
+      "account",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--proxied=false"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/load_balancers/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "17",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "proxied": false
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --random-steering-default-weight",
+    "argv": [
+      "load-balancers",
+      "account",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--random-steering-default-weight",
+      "1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/load_balancers/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "40",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "random_steering": {
+            "default_weight": 1
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --rules",
+    "argv": [
+      "load-balancers",
+      "account",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--rules",
+      "[{\"regression\":\"item\"}]"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/load_balancers/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "33",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "rules": [
+            {
+              "regression": "item"
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --session-affinity",
+    "argv": [
+      "load-balancers",
+      "account",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--session-affinity",
+      "none"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/load_balancers/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "27",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "session_affinity": "none"
+        }
+      }
+    ]
+  },
+  {
+    "case": "--session-affinity value 1",
+    "argv": [
+      "load-balancers",
+      "account",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--session-affinity",
+      "cookie"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/load_balancers/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "29",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "session_affinity": "cookie"
+        }
+      }
+    ]
+  },
+  {
+    "case": "--session-affinity value 2",
+    "argv": [
+      "load-balancers",
+      "account",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--session-affinity",
+      "ip_cookie"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/load_balancers/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "32",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "session_affinity": "ip_cookie"
+        }
+      }
+    ]
+  },
+  {
+    "case": "--session-affinity value 3",
+    "argv": [
+      "load-balancers",
+      "account",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--session-affinity",
+      "header"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/load_balancers/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "29",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "session_affinity": "header"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --session-affinity-attributes-drain-duration",
+    "argv": [
+      "load-balancers",
+      "account",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--session-affinity-attributes-drain-duration",
+      "1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/load_balancers/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "52",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "session_affinity_attributes": {
+            "drain_duration": 1
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --session-affinity-attributes-headers",
+    "argv": [
+      "load-balancers",
+      "account",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--session-affinity-attributes-headers",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/load_balancers/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "71",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "session_affinity_attributes": {
+            "headers": [
+              "regression value &/?+ü"
+            ]
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --session-affinity-attributes-require-all-headers",
+    "argv": [
+      "load-balancers",
+      "account",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--session-affinity-attributes-require-all-headers=true"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/load_balancers/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "60",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "session_affinity_attributes": {
+            "require_all_headers": true
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "--session-affinity-attributes-require-all-headers value 1",
+    "argv": [
+      "load-balancers",
+      "account",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--session-affinity-attributes-require-all-headers=false"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/load_balancers/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "61",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "session_affinity_attributes": {
+            "require_all_headers": false
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --session-affinity-attributes-samesite",
+    "argv": [
+      "load-balancers",
+      "account",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--session-affinity-attributes-samesite",
+      "Auto"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/load_balancers/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "51",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "session_affinity_attributes": {
+            "samesite": "Auto"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "--session-affinity-attributes-samesite value 1",
+    "argv": [
+      "load-balancers",
+      "account",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--session-affinity-attributes-samesite",
+      "Lax"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/load_balancers/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "50",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "session_affinity_attributes": {
+            "samesite": "Lax"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "--session-affinity-attributes-samesite value 2",
+    "argv": [
+      "load-balancers",
+      "account",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--session-affinity-attributes-samesite",
+      "None"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/load_balancers/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "51",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "session_affinity_attributes": {
+            "samesite": "None"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "--session-affinity-attributes-samesite value 3",
+    "argv": [
+      "load-balancers",
+      "account",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--session-affinity-attributes-samesite",
+      "Strict"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/load_balancers/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "53",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "session_affinity_attributes": {
+            "samesite": "Strict"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --session-affinity-attributes-secure",
+    "argv": [
+      "load-balancers",
+      "account",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--session-affinity-attributes-secure",
+      "Auto"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/load_balancers/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "49",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "session_affinity_attributes": {
+            "secure": "Auto"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "--session-affinity-attributes-secure value 1",
+    "argv": [
+      "load-balancers",
+      "account",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--session-affinity-attributes-secure",
+      "Always"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/load_balancers/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "51",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "session_affinity_attributes": {
+            "secure": "Always"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "--session-affinity-attributes-secure value 2",
+    "argv": [
+      "load-balancers",
+      "account",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--session-affinity-attributes-secure",
+      "Never"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/load_balancers/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "50",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "session_affinity_attributes": {
+            "secure": "Never"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --session-affinity-attributes-zero-downtime-failover",
+    "argv": [
+      "load-balancers",
+      "account",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--session-affinity-attributes-zero-downtime-failover",
+      "none"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/load_balancers/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "65",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "session_affinity_attributes": {
+            "zero_downtime_failover": "none"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "--session-affinity-attributes-zero-downtime-failover value 1",
+    "argv": [
+      "load-balancers",
+      "account",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--session-affinity-attributes-zero-downtime-failover",
+      "temporary"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/load_balancers/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "70",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "session_affinity_attributes": {
+            "zero_downtime_failover": "temporary"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "--session-affinity-attributes-zero-downtime-failover value 2",
+    "argv": [
+      "load-balancers",
+      "account",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--session-affinity-attributes-zero-downtime-failover",
+      "sticky"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/load_balancers/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "67",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "session_affinity_attributes": {
+            "zero_downtime_failover": "sticky"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --session-affinity-ttl",
+    "argv": [
+      "load-balancers",
+      "account",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--session-affinity-ttl",
+      "1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/load_balancers/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "26",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "session_affinity_ttl": 1
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --steering-policy",
+    "argv": [
+      "load-balancers",
+      "account",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--steering-policy",
+      "off"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/load_balancers/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "25",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "steering_policy": "off"
+        }
+      }
+    ]
+  },
+  {
+    "case": "--steering-policy value 1",
+    "argv": [
+      "load-balancers",
+      "account",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--steering-policy",
+      "geo"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/load_balancers/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "25",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "steering_policy": "geo"
+        }
+      }
+    ]
+  },
+  {
+    "case": "--steering-policy value 2",
+    "argv": [
+      "load-balancers",
+      "account",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--steering-policy",
+      "random"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/load_balancers/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "28",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "steering_policy": "random"
+        }
+      }
+    ]
+  },
+  {
+    "case": "--steering-policy value 3",
+    "argv": [
+      "load-balancers",
+      "account",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--steering-policy",
+      "dynamic_latency"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/load_balancers/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "37",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "steering_policy": "dynamic_latency"
+        }
+      }
+    ]
+  },
+  {
+    "case": "--steering-policy value 4",
+    "argv": [
+      "load-balancers",
+      "account",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--steering-policy",
+      "proximity"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/load_balancers/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "31",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "steering_policy": "proximity"
+        }
+      }
+    ]
+  },
+  {
+    "case": "--steering-policy value 5",
+    "argv": [
+      "load-balancers",
+      "account",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--steering-policy",
+      "least_outstanding_requests"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/load_balancers/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "48",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "steering_policy": "least_outstanding_requests"
+        }
+      }
+    ]
+  },
+  {
+    "case": "--steering-policy value 6",
+    "argv": [
+      "load-balancers",
+      "account",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--steering-policy",
+      "least_connections"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/load_balancers/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "39",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "steering_policy": "least_connections"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --ttl",
+    "argv": [
+      "load-balancers",
+      "account",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--ttl",
+      "1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/load_balancers/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "9",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "ttl": 1
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 0",
+    "argv": [
+      "load-balancers",
+      "account",
+      "edit",
+      "0123456789abcdef0123456789abcdef"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/load_balancers/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "2",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {}
+      }
+    ]
+  },
+  {
+    "case": "pairwise 1",
+    "argv": [
+      "load-balancers",
+      "account",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--adaptive-routing-failover-across-pools=false",
+      "--default-pools",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--description",
+      "192.0.2.1",
+      "--enabled=false",
+      "--fallback-pool",
+      "second value &/?+ü",
+      "--location-strategy-mode",
+      "resolver_ip",
+      "--location-strategy-prefer-ecs",
+      "never",
+      "--name",
+      "second value &/?+ü",
+      "--networks",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--proxied=false",
+      "--random-steering-default-weight",
+      "2",
+      "--rules",
+      "[{\"regression\":\"item\"}]",
+      "--session-affinity",
+      "cookie",
+      "--session-affinity-attributes-drain-duration",
+      "2",
+      "--session-affinity-attributes-headers",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--session-affinity-attributes-require-all-headers=false",
+      "--session-affinity-attributes-samesite",
+      "Lax",
+      "--session-affinity-attributes-secure",
+      "Always",
+      "--session-affinity-attributes-zero-downtime-failover",
+      "temporary",
+      "--session-affinity-ttl",
+      "2",
+      "--steering-policy",
+      "geo",
+      "--ttl",
+      "2"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/load_balancers/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "723",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "adaptive_routing": {
+            "failover_across_pools": false
+          },
+          "default_pools": [
+            "second value &/?+ü",
+            "second value &/?+ü"
+          ],
+          "description": "192.0.2.1",
+          "enabled": false,
+          "fallback_pool": "second value &/?+ü",
+          "location_strategy": {
+            "mode": "resolver_ip",
+            "prefer_ecs": "never"
+          },
+          "name": "second value &/?+ü",
+          "networks": [
+            "second value &/?+ü",
+            "second value &/?+ü"
+          ],
+          "proxied": false,
+          "random_steering": {
+            "default_weight": 2
+          },
+          "rules": [
+            {
+              "regression": "item"
+            }
+          ],
+          "session_affinity": "cookie",
+          "session_affinity_attributes": {
+            "drain_duration": 2,
+            "headers": [
+              "second value &/?+ü",
+              "second value &/?+ü"
+            ],
+            "require_all_headers": false,
+            "samesite": "Lax",
+            "secure": "Always",
+            "zero_downtime_failover": "temporary"
+          },
+          "session_affinity_ttl": 2,
+          "steering_policy": "geo",
+          "ttl": 2
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 2",
+    "argv": [
+      "load-balancers",
+      "account",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--default-pools",
+      "regression value &/?+ü",
+      "--enabled=true",
+      "--location-strategy-mode",
+      "pop",
+      "--name",
+      "regression value &/?+ü",
+      "--proxied=true",
+      "--rules",
+      "[{\"regression\":\"item\"}]",
+      "--session-affinity-attributes-drain-duration",
+      "1",
+      "--session-affinity-attributes-require-all-headers=true",
+      "--session-affinity-attributes-secure",
+      "Auto",
+      "--session-affinity-ttl",
+      "1",
+      "--ttl",
+      "1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/load_balancers/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "302",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "default_pools": [
+            "regression value &/?+ü"
+          ],
+          "enabled": true,
+          "location_strategy": {
+            "mode": "pop"
+          },
+          "name": "regression value &/?+ü",
+          "proxied": true,
+          "rules": [
+            {
+              "regression": "item"
+            }
+          ],
+          "session_affinity_attributes": {
+            "drain_duration": 1,
+            "require_all_headers": true,
+            "secure": "Auto"
+          },
+          "session_affinity_ttl": 1,
+          "ttl": 1
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 3",
+    "argv": [
+      "load-balancers",
+      "account",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--adaptive-routing-failover-across-pools=false",
+      "--description",
+      "192.0.2.1",
+      "--fallback-pool",
+      "second value &/?+ü",
+      "--location-strategy-prefer-ecs",
+      "never",
+      "--networks",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--random-steering-default-weight",
+      "2",
+      "--session-affinity",
+      "cookie",
+      "--session-affinity-attributes-headers",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--session-affinity-attributes-samesite",
+      "Lax",
+      "--session-affinity-attributes-zero-downtime-failover",
+      "temporary",
+      "--steering-policy",
+      "geo"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/load_balancers/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "449",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "adaptive_routing": {
+            "failover_across_pools": false
+          },
+          "description": "192.0.2.1",
+          "fallback_pool": "second value &/?+ü",
+          "location_strategy": {
+            "prefer_ecs": "never"
+          },
+          "networks": [
+            "second value &/?+ü",
+            "second value &/?+ü"
+          ],
+          "random_steering": {
+            "default_weight": 2
+          },
+          "session_affinity": "cookie",
+          "session_affinity_attributes": {
+            "headers": [
+              "second value &/?+ü",
+              "second value &/?+ü"
+            ],
+            "samesite": "Lax",
+            "zero_downtime_failover": "temporary"
+          },
+          "steering_policy": "geo"
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 4",
+    "argv": [
+      "load-balancers",
+      "account",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--description",
+      "192.0.2.1",
+      "--enabled=true",
+      "--location-strategy-prefer-ecs",
+      "always",
+      "--name",
+      "regression value &/?+ü",
+      "--random-steering-default-weight",
+      "1",
+      "--rules",
+      "[{\"regression\":\"item\"}]",
+      "--session-affinity-attributes-headers",
+      "regression value &/?+ü",
+      "--session-affinity-attributes-require-all-headers=true",
+      "--session-affinity-attributes-zero-downtime-failover",
+      "none",
+      "--session-affinity-ttl",
+      "1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/load_balancers/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "344",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "description": "192.0.2.1",
+          "enabled": true,
+          "location_strategy": {
+            "prefer_ecs": "always"
+          },
+          "name": "regression value &/?+ü",
+          "random_steering": {
+            "default_weight": 1
+          },
+          "rules": [
+            {
+              "regression": "item"
+            }
+          ],
+          "session_affinity_attributes": {
+            "headers": [
+              "regression value &/?+ü"
+            ],
+            "require_all_headers": true,
+            "zero_downtime_failover": "none"
+          },
+          "session_affinity_ttl": 1
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 5",
+    "argv": [
+      "load-balancers",
+      "account",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--adaptive-routing-failover-across-pools=false",
+      "--default-pools",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--fallback-pool",
+      "second value &/?+ü",
+      "--location-strategy-mode",
+      "resolver_ip",
+      "--networks",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--proxied=false",
+      "--session-affinity",
+      "cookie",
+      "--session-affinity-attributes-drain-duration",
+      "2",
+      "--session-affinity-attributes-samesite",
+      "Lax",
+      "--session-affinity-attributes-secure",
+      "Always",
+      "--steering-policy",
+      "geo",
+      "--ttl",
+      "2"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/load_balancers/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "414",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "adaptive_routing": {
+            "failover_across_pools": false
+          },
+          "default_pools": [
+            "second value &/?+ü",
+            "second value &/?+ü"
+          ],
+          "fallback_pool": "second value &/?+ü",
+          "location_strategy": {
+            "mode": "resolver_ip"
+          },
+          "networks": [
+            "second value &/?+ü",
+            "second value &/?+ü"
+          ],
+          "proxied": false,
+          "session_affinity": "cookie",
+          "session_affinity_attributes": {
+            "drain_duration": 2,
+            "samesite": "Lax",
+            "secure": "Always"
+          },
+          "steering_policy": "geo",
+          "ttl": 2
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 6",
+    "argv": [
+      "load-balancers",
+      "account",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--fallback-pool",
+      "regression value &/?+ü",
+      "--location-strategy-mode",
+      "pop",
+      "--location-strategy-prefer-ecs",
+      "always",
+      "--name",
+      "regression value &/?+ü",
+      "--session-affinity",
+      "none",
+      "--session-affinity-attributes-drain-duration",
+      "1",
+      "--session-affinity-attributes-headers",
+      "regression value &/?+ü",
+      "--session-affinity-attributes-require-all-headers=true",
+      "--steering-policy",
+      "off",
+      "--ttl",
+      "1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/load_balancers/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "307",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "fallback_pool": "regression value &/?+ü",
+          "location_strategy": {
+            "mode": "pop",
+            "prefer_ecs": "always"
+          },
+          "name": "regression value &/?+ü",
+          "session_affinity": "none",
+          "session_affinity_attributes": {
+            "drain_duration": 1,
+            "headers": [
+              "regression value &/?+ü"
+            ],
+            "require_all_headers": true
+          },
+          "steering_policy": "off",
+          "ttl": 1
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 7",
+    "argv": [
+      "load-balancers",
+      "account",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--adaptive-routing-failover-across-pools=false",
+      "--default-pools",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--description",
+      "192.0.2.1",
+      "--enabled=false",
+      "--networks",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--proxied=false",
+      "--random-steering-default-weight",
+      "2",
+      "--rules",
+      "[{\"regression\":\"item\"}]",
+      "--session-affinity-attributes-samesite",
+      "Lax",
+      "--session-affinity-attributes-secure",
+      "Always",
+      "--session-affinity-attributes-zero-downtime-failover",
+      "temporary",
+      "--session-affinity-ttl",
+      "2"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/load_balancers/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "429",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "adaptive_routing": {
+            "failover_across_pools": false
+          },
+          "default_pools": [
+            "second value &/?+ü",
+            "second value &/?+ü"
+          ],
+          "description": "192.0.2.1",
+          "enabled": false,
+          "networks": [
+            "second value &/?+ü",
+            "second value &/?+ü"
+          ],
+          "proxied": false,
+          "random_steering": {
+            "default_weight": 2
+          },
+          "rules": [
+            {
+              "regression": "item"
+            }
+          ],
+          "session_affinity_attributes": {
+            "samesite": "Lax",
+            "secure": "Always",
+            "zero_downtime_failover": "temporary"
+          },
+          "session_affinity_ttl": 2
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 8",
+    "argv": [
+      "load-balancers",
+      "account",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--networks",
+      "regression value &/?+ü",
+      "--proxied=true",
+      "--random-steering-default-weight",
+      "1",
+      "--rules",
+      "[{\"regression\":\"item\"}]",
+      "--session-affinity",
+      "none",
+      "--session-affinity-attributes-drain-duration",
+      "1",
+      "--session-affinity-attributes-headers",
+      "regression value &/?+ü",
+      "--session-affinity-attributes-require-all-headers=true"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/load_balancers/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "268",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "networks": [
+            "regression value &/?+ü"
+          ],
+          "proxied": true,
+          "random_steering": {
+            "default_weight": 1
+          },
+          "rules": [
+            {
+              "regression": "item"
+            }
+          ],
+          "session_affinity": "none",
+          "session_affinity_attributes": {
+            "drain_duration": 1,
+            "headers": [
+              "regression value &/?+ü"
+            ],
+            "require_all_headers": true
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 9",
+    "argv": [
+      "load-balancers",
+      "account",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--adaptive-routing-failover-across-pools=false",
+      "--default-pools",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--description",
+      "192.0.2.1",
+      "--enabled=false",
+      "--fallback-pool",
+      "second value &/?+ü",
+      "--location-strategy-mode",
+      "resolver_ip",
+      "--location-strategy-prefer-ecs",
+      "never",
+      "--name",
+      "second value &/?+ü",
+      "--session-affinity-attributes-samesite",
+      "Lax",
+      "--session-affinity-attributes-secure",
+      "Always",
+      "--session-affinity-attributes-zero-downtime-failover",
+      "temporary",
+      "--session-affinity-ttl",
+      "2",
+      "--steering-policy",
+      "geo",
+      "--ttl",
+      "2"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/load_balancers/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "448",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "adaptive_routing": {
+            "failover_across_pools": false
+          },
+          "default_pools": [
+            "second value &/?+ü",
+            "second value &/?+ü"
+          ],
+          "description": "192.0.2.1",
+          "enabled": false,
+          "fallback_pool": "second value &/?+ü",
+          "location_strategy": {
+            "mode": "resolver_ip",
+            "prefer_ecs": "never"
+          },
+          "name": "second value &/?+ü",
+          "session_affinity_attributes": {
+            "samesite": "Lax",
+            "secure": "Always",
+            "zero_downtime_failover": "temporary"
+          },
+          "session_affinity_ttl": 2,
+          "steering_policy": "geo",
+          "ttl": 2
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 10",
+    "argv": [
+      "load-balancers",
+      "account",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--session-affinity-attributes-samesite",
+      "Auto",
+      "--session-affinity-attributes-secure",
+      "Auto",
+      "--session-affinity-attributes-zero-downtime-failover",
+      "none",
+      "--session-affinity-ttl",
+      "1",
+      "--steering-policy",
+      "off",
+      "--ttl",
+      "1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/load_balancers/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "156",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "session_affinity_attributes": {
+            "samesite": "Auto",
+            "secure": "Auto",
+            "zero_downtime_failover": "none"
+          },
+          "session_affinity_ttl": 1,
+          "steering_policy": "off",
+          "ttl": 1
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 11",
+    "argv": [
+      "load-balancers",
+      "account",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--adaptive-routing-failover-across-pools=false",
+      "--default-pools",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--description",
+      "192.0.2.1",
+      "--enabled=false",
+      "--fallback-pool",
+      "second value &/?+ü",
+      "--location-strategy-mode",
+      "resolver_ip",
+      "--location-strategy-prefer-ecs",
+      "never",
+      "--name",
+      "second value &/?+ü",
+      "--networks",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--proxied=false",
+      "--random-steering-default-weight",
+      "2",
+      "--rules",
+      "[{\"regression\":\"item\"}]",
+      "--session-affinity",
+      "cookie",
+      "--session-affinity-attributes-drain-duration",
+      "2",
+      "--session-affinity-attributes-headers",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--session-affinity-attributes-require-all-headers=false"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/load_balancers/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "594",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "adaptive_routing": {
+            "failover_across_pools": false
+          },
+          "default_pools": [
+            "second value &/?+ü",
+            "second value &/?+ü"
+          ],
+          "description": "192.0.2.1",
+          "enabled": false,
+          "fallback_pool": "second value &/?+ü",
+          "location_strategy": {
+            "mode": "resolver_ip",
+            "prefer_ecs": "never"
+          },
+          "name": "second value &/?+ü",
+          "networks": [
+            "second value &/?+ü",
+            "second value &/?+ü"
+          ],
+          "proxied": false,
+          "random_steering": {
+            "default_weight": 2
+          },
+          "rules": [
+            {
+              "regression": "item"
+            }
+          ],
+          "session_affinity": "cookie",
+          "session_affinity_attributes": {
+            "drain_duration": 2,
+            "headers": [
+              "second value &/?+ü",
+              "second value &/?+ü"
+            ],
+            "require_all_headers": false
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "global quiet",
+    "argv": [
+      "load-balancers",
+      "account",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--quiet"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/load_balancers/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "global zone",
+    "argv": [
+      "load-balancers",
+      "account",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--zone",
+      "abcdef0123456789abcdef0123456789"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/load_balancers/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "global profile and mode",
+    "argv": [
+      "load-balancers",
+      "account",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--profile",
+      "default",
+      "--mode",
+      "regression"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/load_balancers/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "local",
+    "argv": [
+      "load-balancers",
+      "account",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--local"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "http://localhost/cdn-cgi/local/explorer/api/load_balancers/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "gzip, deflate",
+          "accept-language": "*",
+          "connection": "keep-alive",
+          "content-type": "application/json",
+          "host": "localhost",
+          "sec-fetch-mode": "cors",
+          "transfer-encoding": "chunked",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "local with persistence",
+    "argv": [
+      "load-balancers",
+      "account",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--local",
+      "--persist-to",
+      "regression-state"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "http://localhost/cdn-cgi/local/explorer/api/load_balancers/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "gzip, deflate",
+          "accept-language": "*",
+          "connection": "keep-alive",
+          "content-type": "application/json",
+          "host": "localhost",
+          "sec-fetch-mode": "cors",
+          "transfer-encoding": "chunked",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "zone by domain",
+    "argv": [
+      "load-balancers",
+      "account",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--zone",
+      "regression-f68a536fb5df.example.com"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/zones?name=regression-f68a536fb5df.example.com&account.id=0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      },
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/load_balancers/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "dry-run",
+    "argv": [
+      "load-balancers",
+      "account",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--dry-run"
+    ],
+    "exitCode": 0,
+    "requests": []
+  },
+  {
+    "case": "body from file",
+    "argv": [
+      "load-balancers",
+      "account",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--body",
+      "@<body.json>"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/load_balancers/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "array body",
+    "argv": [
+      "load-balancers",
+      "account",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--body",
+      "[{\"regression\":\"first\"},{\"regression\":\"second\"}]"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/load_balancers/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "48",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": [
+          {
+            "regression": "first"
+          },
+          {
+            "regression": "second"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "case": "field flags",
+    "argv": [
+      "load-balancers",
+      "account",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--adaptive-routing-failover-across-pools=true",
+      "--default-pools",
+      "regression value &/?+ü",
+      "--description",
+      "192.0.2.1",
+      "--enabled=true",
+      "--fallback-pool",
+      "regression value &/?+ü",
+      "--location-strategy-mode",
+      "pop",
+      "--location-strategy-prefer-ecs",
+      "always",
+      "--name",
+      "regression value &/?+ü",
+      "--networks",
+      "regression value &/?+ü",
+      "--proxied=true",
+      "--random-steering-default-weight",
+      "1",
+      "--rules",
+      "[{\"regression\":\"item\"}]",
+      "--session-affinity",
+      "none",
+      "--session-affinity-attributes-drain-duration",
+      "1",
+      "--session-affinity-attributes-headers",
+      "regression value &/?+ü",
+      "--session-affinity-attributes-require-all-headers=true",
+      "--session-affinity-attributes-samesite",
+      "Auto",
+      "--session-affinity-attributes-secure",
+      "Auto",
+      "--session-affinity-attributes-zero-downtime-failover",
+      "none",
+      "--session-affinity-ttl",
+      "1",
+      "--steering-policy",
+      "off",
+      "--ttl",
+      "1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/load_balancers/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "658",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "adaptive_routing": {
+            "failover_across_pools": true
+          },
+          "default_pools": [
+            "regression value &/?+ü"
+          ],
+          "description": "192.0.2.1",
+          "enabled": true,
+          "fallback_pool": "regression value &/?+ü",
+          "location_strategy": {
+            "mode": "pop",
+            "prefer_ecs": "always"
+          },
+          "name": "regression value &/?+ü",
+          "networks": [
+            "regression value &/?+ü"
+          ],
+          "proxied": true,
+          "random_steering": {
+            "default_weight": 1
+          },
+          "rules": [
+            {
+              "regression": "item"
+            }
+          ],
+          "session_affinity": "none",
+          "session_affinity_attributes": {
+            "drain_duration": 1,
+            "headers": [
+              "regression value &/?+ü"
+            ],
+            "require_all_headers": true,
+            "samesite": "Auto",
+            "secure": "Auto",
+            "zero_downtime_failover": "none"
+          },
+          "session_affinity_ttl": 1,
+          "steering_policy": "off",
+          "ttl": 1
+        }
+      }
+    ]
+  }
+]

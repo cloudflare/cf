@@ -1,0 +1,319 @@
+[
+  {
+    "case": "no-args",
+    "argv": [
+      "tunnels",
+      "diag"
+    ],
+    "exitCode": 0,
+    "requests": []
+  },
+  {
+    "case": "only --metrics",
+    "argv": [
+      "tunnels",
+      "diag",
+      "--metrics",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": []
+  },
+  {
+    "case": "only --diag-container-id",
+    "argv": [
+      "tunnels",
+      "diag",
+      "--diag-container-id",
+      "0123456789abcdef0123456789abcdef"
+    ],
+    "exitCode": 0,
+    "requests": []
+  },
+  {
+    "case": "only --diag-pod-id",
+    "argv": [
+      "tunnels",
+      "diag",
+      "--diag-pod-id",
+      "0123456789abcdef0123456789abcdef"
+    ],
+    "exitCode": 0,
+    "requests": []
+  },
+  {
+    "case": "only --no-diag-logs",
+    "argv": [
+      "tunnels",
+      "diag",
+      "--no-diag-logs=true"
+    ],
+    "exitCode": 0,
+    "requests": []
+  },
+  {
+    "case": "--no-diag-logs value 1",
+    "argv": [
+      "tunnels",
+      "diag",
+      "--no-diag-logs=false"
+    ],
+    "exitCode": 0,
+    "requests": []
+  },
+  {
+    "case": "only --no-diag-metrics",
+    "argv": [
+      "tunnels",
+      "diag",
+      "--no-diag-metrics=true"
+    ],
+    "exitCode": 0,
+    "requests": []
+  },
+  {
+    "case": "--no-diag-metrics value 1",
+    "argv": [
+      "tunnels",
+      "diag",
+      "--no-diag-metrics=false"
+    ],
+    "exitCode": 0,
+    "requests": []
+  },
+  {
+    "case": "only --no-diag-network",
+    "argv": [
+      "tunnels",
+      "diag",
+      "--no-diag-network=true"
+    ],
+    "exitCode": 0,
+    "requests": []
+  },
+  {
+    "case": "--no-diag-network value 1",
+    "argv": [
+      "tunnels",
+      "diag",
+      "--no-diag-network=false"
+    ],
+    "exitCode": 0,
+    "requests": []
+  },
+  {
+    "case": "only --no-diag-runtime",
+    "argv": [
+      "tunnels",
+      "diag",
+      "--no-diag-runtime=true"
+    ],
+    "exitCode": 0,
+    "requests": []
+  },
+  {
+    "case": "--no-diag-runtime value 1",
+    "argv": [
+      "tunnels",
+      "diag",
+      "--no-diag-runtime=false"
+    ],
+    "exitCode": 0,
+    "requests": []
+  },
+  {
+    "case": "only --no-diag-system",
+    "argv": [
+      "tunnels",
+      "diag",
+      "--no-diag-system=true"
+    ],
+    "exitCode": 0,
+    "requests": []
+  },
+  {
+    "case": "--no-diag-system value 1",
+    "argv": [
+      "tunnels",
+      "diag",
+      "--no-diag-system=false"
+    ],
+    "exitCode": 0,
+    "requests": []
+  },
+  {
+    "case": "pairwise 1",
+    "argv": [
+      "tunnels",
+      "diag",
+      "--metrics",
+      "second value &/?+ü",
+      "--diag-container-id",
+      "0123456789abcdef0123456789abcdef",
+      "--diag-pod-id",
+      "0123456789abcdef0123456789abcdef",
+      "--no-diag-logs=false",
+      "--no-diag-metrics=false",
+      "--no-diag-network=false",
+      "--no-diag-runtime=false",
+      "--no-diag-system=false"
+    ],
+    "exitCode": 0,
+    "requests": []
+  },
+  {
+    "case": "pairwise 2",
+    "argv": [
+      "tunnels",
+      "diag",
+      "--diag-container-id",
+      "0123456789abcdef0123456789abcdef",
+      "--no-diag-logs=true",
+      "--no-diag-network=true",
+      "--no-diag-system=true"
+    ],
+    "exitCode": 0,
+    "requests": []
+  },
+  {
+    "case": "pairwise 3",
+    "argv": [
+      "tunnels",
+      "diag",
+      "--metrics",
+      "second value &/?+ü",
+      "--diag-pod-id",
+      "0123456789abcdef0123456789abcdef",
+      "--no-diag-metrics=false",
+      "--no-diag-runtime=false"
+    ],
+    "exitCode": 0,
+    "requests": []
+  },
+  {
+    "case": "pairwise 4",
+    "argv": [
+      "tunnels",
+      "diag",
+      "--diag-pod-id",
+      "0123456789abcdef0123456789abcdef",
+      "--no-diag-logs=true",
+      "--no-diag-runtime=true",
+      "--no-diag-system=true"
+    ],
+    "exitCode": 0,
+    "requests": []
+  },
+  {
+    "case": "pairwise 5",
+    "argv": [
+      "tunnels",
+      "diag",
+      "--metrics",
+      "second value &/?+ü",
+      "--diag-container-id",
+      "0123456789abcdef0123456789abcdef",
+      "--no-diag-metrics=false",
+      "--no-diag-network=false"
+    ],
+    "exitCode": 0,
+    "requests": []
+  },
+  {
+    "case": "pairwise 6",
+    "argv": [
+      "tunnels",
+      "diag",
+      "--no-diag-metrics=true",
+      "--no-diag-network=true",
+      "--no-diag-runtime=true",
+      "--no-diag-system=true"
+    ],
+    "exitCode": 0,
+    "requests": []
+  },
+  {
+    "case": "pairwise 7",
+    "argv": [
+      "tunnels",
+      "diag",
+      "--metrics",
+      "second value &/?+ü",
+      "--diag-container-id",
+      "0123456789abcdef0123456789abcdef",
+      "--diag-pod-id",
+      "0123456789abcdef0123456789abcdef",
+      "--no-diag-logs=false"
+    ],
+    "exitCode": 0,
+    "requests": []
+  },
+  {
+    "case": "global quiet",
+    "argv": [
+      "tunnels",
+      "diag",
+      "--quiet"
+    ],
+    "exitCode": 0,
+    "requests": []
+  },
+  {
+    "case": "global zone",
+    "argv": [
+      "tunnels",
+      "diag",
+      "--zone",
+      "abcdef0123456789abcdef0123456789"
+    ],
+    "exitCode": 0,
+    "requests": []
+  },
+  {
+    "case": "global profile and mode",
+    "argv": [
+      "tunnels",
+      "diag",
+      "--profile",
+      "default",
+      "--mode",
+      "regression"
+    ],
+    "exitCode": 0,
+    "requests": []
+  },
+  {
+    "case": "local",
+    "argv": [
+      "tunnels",
+      "diag",
+      "--local"
+    ],
+    "exitCode": 1,
+    "error": "--local is not supported by cf tunnels diag.",
+    "requests": []
+  },
+  {
+    "case": "local with persistence",
+    "argv": [
+      "tunnels",
+      "diag",
+      "--local",
+      "--persist-to",
+      "regression-state"
+    ],
+    "exitCode": 1,
+    "error": "--local is not supported by cf tunnels diag.",
+    "requests": []
+  },
+  {
+    "case": "dry-run",
+    "argv": [
+      "tunnels",
+      "diag",
+      "--dry-run"
+    ],
+    "exitCode": 0,
+    "requests": []
+  }
+]

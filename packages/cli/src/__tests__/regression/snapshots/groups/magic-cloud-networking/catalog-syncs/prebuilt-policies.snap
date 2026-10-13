@@ -1,0 +1,8 @@
+{
+  "argv": [
+    "magic-cloud-networking",
+    "catalog-syncs",
+    "prebuilt-policies"
+  ],
+  "requests": []
+}

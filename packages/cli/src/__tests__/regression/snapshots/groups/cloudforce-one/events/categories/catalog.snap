@@ -1,0 +1,9 @@
+{
+  "argv": [
+    "cloudforce-one",
+    "events",
+    "categories",
+    "catalog"
+  ],
+  "requests": []
+}

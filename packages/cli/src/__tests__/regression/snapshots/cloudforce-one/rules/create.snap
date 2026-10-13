@@ -1,0 +1,1396 @@
+[
+  {
+    "case": "no-args",
+    "argv": [
+      "cloudforce-one",
+      "rules",
+      "create"
+    ],
+    "exitCode": 1,
+    "error": "--content is required. Pass --content <value> or run interactively.",
+    "requests": []
+  },
+  {
+    "case": "required",
+    "argv": [
+      "cloudforce-one",
+      "rules",
+      "create",
+      "--content",
+      "regression value &/?+ü",
+      "--name",
+      "regression value &/?+ü",
+      "--path",
+      "project",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/cloudforce-one/rules",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --actions",
+    "argv": [
+      "cloudforce-one",
+      "rules",
+      "create",
+      "--content",
+      "regression value &/?+ü",
+      "--name",
+      "regression value &/?+ü",
+      "--path",
+      "project",
+      "--actions",
+      "[{\"regression\":\"item\"}]"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/cloudforce-one/rules",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "154",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "actions": [
+            {
+              "regression": "item"
+            }
+          ],
+          "content": "regression value &/?+ü",
+          "enabled": true,
+          "is_public": false,
+          "name": "regression value &/?+ü",
+          "path": "project"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --commit-message",
+    "argv": [
+      "cloudforce-one",
+      "rules",
+      "create",
+      "--content",
+      "regression value &/?+ü",
+      "--name",
+      "regression value &/?+ü",
+      "--path",
+      "project",
+      "--commit-message",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/cloudforce-one/rules",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "163",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "commit_message": "regression value &/?+ü",
+          "content": "regression value &/?+ü",
+          "enabled": true,
+          "is_public": false,
+          "name": "regression value &/?+ü",
+          "path": "project"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --description",
+    "argv": [
+      "cloudforce-one",
+      "rules",
+      "create",
+      "--content",
+      "regression value &/?+ü",
+      "--name",
+      "regression value &/?+ü",
+      "--path",
+      "project",
+      "--description",
+      "192.0.2.1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/cloudforce-one/rules",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "146",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "content": "regression value &/?+ü",
+          "description": "192.0.2.1",
+          "enabled": true,
+          "is_public": false,
+          "name": "regression value &/?+ü",
+          "path": "project"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --enabled",
+    "argv": [
+      "cloudforce-one",
+      "rules",
+      "create",
+      "--content",
+      "regression value &/?+ü",
+      "--name",
+      "regression value &/?+ü",
+      "--path",
+      "project",
+      "--enabled=true"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/cloudforce-one/rules",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "120",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "content": "regression value &/?+ü",
+          "enabled": true,
+          "is_public": false,
+          "name": "regression value &/?+ü",
+          "path": "project"
+        }
+      }
+    ]
+  },
+  {
+    "case": "--enabled value 1",
+    "argv": [
+      "cloudforce-one",
+      "rules",
+      "create",
+      "--content",
+      "regression value &/?+ü",
+      "--name",
+      "regression value &/?+ü",
+      "--path",
+      "project",
+      "--enabled=false"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/cloudforce-one/rules",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "121",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "content": "regression value &/?+ü",
+          "enabled": false,
+          "is_public": false,
+          "name": "regression value &/?+ü",
+          "path": "project"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --is-public",
+    "argv": [
+      "cloudforce-one",
+      "rules",
+      "create",
+      "--content",
+      "regression value &/?+ü",
+      "--name",
+      "regression value &/?+ü",
+      "--path",
+      "project",
+      "--is-public=true"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/cloudforce-one/rules",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "119",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "content": "regression value &/?+ü",
+          "enabled": true,
+          "is_public": true,
+          "name": "regression value &/?+ü",
+          "path": "project"
+        }
+      }
+    ]
+  },
+  {
+    "case": "--is-public value 1",
+    "argv": [
+      "cloudforce-one",
+      "rules",
+      "create",
+      "--content",
+      "regression value &/?+ü",
+      "--name",
+      "regression value &/?+ü",
+      "--path",
+      "project",
+      "--is-public=false"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/cloudforce-one/rules",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "120",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "content": "regression value &/?+ü",
+          "enabled": true,
+          "is_public": false,
+          "name": "regression value &/?+ü",
+          "path": "project"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --meta",
+    "argv": [
+      "cloudforce-one",
+      "rules",
+      "create",
+      "--content",
+      "regression value &/?+ü",
+      "--name",
+      "regression value &/?+ü",
+      "--path",
+      "project",
+      "--meta",
+      "[{\"regression\":\"item\"}]"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/cloudforce-one/rules",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "151",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "content": "regression value &/?+ü",
+          "enabled": true,
+          "is_public": false,
+          "meta": [
+            {
+              "regression": "item"
+            }
+          ],
+          "name": "regression value &/?+ü",
+          "path": "project"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --namespaces",
+    "argv": [
+      "cloudforce-one",
+      "rules",
+      "create",
+      "--content",
+      "regression value &/?+ü",
+      "--name",
+      "regression value &/?+ü",
+      "--path",
+      "project",
+      "--namespaces",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/cloudforce-one/rules",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "161",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "content": "regression value &/?+ü",
+          "enabled": true,
+          "is_public": false,
+          "name": "regression value &/?+ü",
+          "namespaces": [
+            "regression value &/?+ü"
+          ],
+          "path": "project"
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 0",
+    "argv": [
+      "cloudforce-one",
+      "rules",
+      "create",
+      "--content",
+      "regression value &/?+ü",
+      "--name",
+      "regression value &/?+ü",
+      "--path",
+      "project"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/cloudforce-one/rules",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "120",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "content": "regression value &/?+ü",
+          "enabled": true,
+          "is_public": false,
+          "name": "regression value &/?+ü",
+          "path": "project"
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 1",
+    "argv": [
+      "cloudforce-one",
+      "rules",
+      "create",
+      "--content",
+      "regression value &/?+ü",
+      "--name",
+      "regression value &/?+ü",
+      "--path",
+      "project",
+      "--actions",
+      "[{\"regression\":\"item\"}]",
+      "--commit-message",
+      "second value &/?+ü",
+      "--description",
+      "192.0.2.1",
+      "--enabled=false",
+      "--is-public=false",
+      "--meta",
+      "[{\"regression\":\"item\"}]",
+      "--namespaces",
+      "second value &/?+ü",
+      "second value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/cloudforce-one/rules",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "310",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "actions": [
+            {
+              "regression": "item"
+            }
+          ],
+          "commit_message": "second value &/?+ü",
+          "content": "regression value &/?+ü",
+          "description": "192.0.2.1",
+          "enabled": false,
+          "is_public": false,
+          "meta": [
+            {
+              "regression": "item"
+            }
+          ],
+          "name": "regression value &/?+ü",
+          "namespaces": [
+            "second value &/?+ü",
+            "second value &/?+ü"
+          ],
+          "path": "project"
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 2",
+    "argv": [
+      "cloudforce-one",
+      "rules",
+      "create",
+      "--content",
+      "regression value &/?+ü",
+      "--name",
+      "regression value &/?+ü",
+      "--path",
+      "project",
+      "--commit-message",
+      "regression value &/?+ü",
+      "--enabled=true",
+      "--meta",
+      "[{\"regression\":\"item\"}]"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/cloudforce-one/rules",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "194",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "commit_message": "regression value &/?+ü",
+          "content": "regression value &/?+ü",
+          "enabled": true,
+          "is_public": false,
+          "meta": [
+            {
+              "regression": "item"
+            }
+          ],
+          "name": "regression value &/?+ü",
+          "path": "project"
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 3",
+    "argv": [
+      "cloudforce-one",
+      "rules",
+      "create",
+      "--content",
+      "regression value &/?+ü",
+      "--name",
+      "regression value &/?+ü",
+      "--path",
+      "project",
+      "--actions",
+      "[{\"regression\":\"item\"}]",
+      "--description",
+      "192.0.2.1",
+      "--is-public=false",
+      "--namespaces",
+      "second value &/?+ü",
+      "second value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/cloudforce-one/rules",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "239",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "actions": [
+            {
+              "regression": "item"
+            }
+          ],
+          "content": "regression value &/?+ü",
+          "description": "192.0.2.1",
+          "enabled": true,
+          "is_public": false,
+          "name": "regression value &/?+ü",
+          "namespaces": [
+            "second value &/?+ü",
+            "second value &/?+ü"
+          ],
+          "path": "project"
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 4",
+    "argv": [
+      "cloudforce-one",
+      "rules",
+      "create",
+      "--content",
+      "regression value &/?+ü",
+      "--name",
+      "regression value &/?+ü",
+      "--path",
+      "project",
+      "--description",
+      "192.0.2.1",
+      "--enabled=true",
+      "--namespaces",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/cloudforce-one/rules",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "187",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "content": "regression value &/?+ü",
+          "description": "192.0.2.1",
+          "enabled": true,
+          "is_public": false,
+          "name": "regression value &/?+ü",
+          "namespaces": [
+            "regression value &/?+ü"
+          ],
+          "path": "project"
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 5",
+    "argv": [
+      "cloudforce-one",
+      "rules",
+      "create",
+      "--content",
+      "regression value &/?+ü",
+      "--name",
+      "regression value &/?+ü",
+      "--path",
+      "project",
+      "--actions",
+      "[{\"regression\":\"item\"}]",
+      "--commit-message",
+      "second value &/?+ü",
+      "--is-public=false",
+      "--meta",
+      "[{\"regression\":\"item\"}]"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/cloudforce-one/rules",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "224",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "actions": [
+            {
+              "regression": "item"
+            }
+          ],
+          "commit_message": "second value &/?+ü",
+          "content": "regression value &/?+ü",
+          "enabled": true,
+          "is_public": false,
+          "meta": [
+            {
+              "regression": "item"
+            }
+          ],
+          "name": "regression value &/?+ü",
+          "path": "project"
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 6",
+    "argv": [
+      "cloudforce-one",
+      "rules",
+      "create",
+      "--content",
+      "regression value &/?+ü",
+      "--name",
+      "regression value &/?+ü",
+      "--path",
+      "project",
+      "--is-public=true",
+      "--meta",
+      "[{\"regression\":\"item\"}]",
+      "--namespaces",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/cloudforce-one/rules",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "191",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "content": "regression value &/?+ü",
+          "enabled": true,
+          "is_public": true,
+          "meta": [
+            {
+              "regression": "item"
+            }
+          ],
+          "name": "regression value &/?+ü",
+          "namespaces": [
+            "regression value &/?+ü"
+          ],
+          "path": "project"
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 7",
+    "argv": [
+      "cloudforce-one",
+      "rules",
+      "create",
+      "--content",
+      "regression value &/?+ü",
+      "--name",
+      "regression value &/?+ü",
+      "--path",
+      "project",
+      "--actions",
+      "[{\"regression\":\"item\"}]",
+      "--commit-message",
+      "second value &/?+ü",
+      "--description",
+      "192.0.2.1",
+      "--enabled=false"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/cloudforce-one/rules",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "220",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "actions": [
+            {
+              "regression": "item"
+            }
+          ],
+          "commit_message": "second value &/?+ü",
+          "content": "regression value &/?+ü",
+          "description": "192.0.2.1",
+          "enabled": false,
+          "is_public": false,
+          "name": "regression value &/?+ü",
+          "path": "project"
+        }
+      }
+    ]
+  },
+  {
+    "case": "global quiet",
+    "argv": [
+      "cloudforce-one",
+      "rules",
+      "create",
+      "--content",
+      "regression value &/?+ü",
+      "--name",
+      "regression value &/?+ü",
+      "--path",
+      "project",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--quiet"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/cloudforce-one/rules",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "global zone",
+    "argv": [
+      "cloudforce-one",
+      "rules",
+      "create",
+      "--content",
+      "regression value &/?+ü",
+      "--name",
+      "regression value &/?+ü",
+      "--path",
+      "project",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--zone",
+      "abcdef0123456789abcdef0123456789"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/cloudforce-one/rules",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "global profile and mode",
+    "argv": [
+      "cloudforce-one",
+      "rules",
+      "create",
+      "--content",
+      "regression value &/?+ü",
+      "--name",
+      "regression value &/?+ü",
+      "--path",
+      "project",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--profile",
+      "default",
+      "--mode",
+      "regression"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/cloudforce-one/rules",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "local",
+    "argv": [
+      "cloudforce-one",
+      "rules",
+      "create",
+      "--content",
+      "regression value &/?+ü",
+      "--name",
+      "regression value &/?+ü",
+      "--path",
+      "project",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--local"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "http://localhost/cdn-cgi/local/explorer/api/cloudforce-one/rules",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "gzip, deflate",
+          "accept-language": "*",
+          "connection": "keep-alive",
+          "content-type": "application/json",
+          "host": "localhost",
+          "sec-fetch-mode": "cors",
+          "transfer-encoding": "chunked",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "local with persistence",
+    "argv": [
+      "cloudforce-one",
+      "rules",
+      "create",
+      "--content",
+      "regression value &/?+ü",
+      "--name",
+      "regression value &/?+ü",
+      "--path",
+      "project",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--local",
+      "--persist-to",
+      "regression-state"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "http://localhost/cdn-cgi/local/explorer/api/cloudforce-one/rules",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "gzip, deflate",
+          "accept-language": "*",
+          "connection": "keep-alive",
+          "content-type": "application/json",
+          "host": "localhost",
+          "sec-fetch-mode": "cors",
+          "transfer-encoding": "chunked",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "dry-run",
+    "argv": [
+      "cloudforce-one",
+      "rules",
+      "create",
+      "--content",
+      "regression value &/?+ü",
+      "--name",
+      "regression value &/?+ü",
+      "--path",
+      "project",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--dry-run"
+    ],
+    "exitCode": 0,
+    "requests": []
+  },
+  {
+    "case": "body from file",
+    "argv": [
+      "cloudforce-one",
+      "rules",
+      "create",
+      "--content",
+      "regression value &/?+ü",
+      "--name",
+      "regression value &/?+ü",
+      "--path",
+      "project",
+      "--body",
+      "@<body.json>"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/cloudforce-one/rules",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "array body",
+    "argv": [
+      "cloudforce-one",
+      "rules",
+      "create",
+      "--content",
+      "regression value &/?+ü",
+      "--name",
+      "regression value &/?+ü",
+      "--path",
+      "project",
+      "--body",
+      "[{\"regression\":\"first\"},{\"regression\":\"second\"}]"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/cloudforce-one/rules",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "56",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "0": {
+            "regression": "first"
+          },
+          "1": {
+            "regression": "second"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "field flags",
+    "argv": [
+      "cloudforce-one",
+      "rules",
+      "create",
+      "--content",
+      "regression value &/?+ü",
+      "--name",
+      "regression value &/?+ü",
+      "--path",
+      "project",
+      "--actions",
+      "[{\"regression\":\"item\"}]",
+      "--commit-message",
+      "regression value &/?+ü",
+      "--description",
+      "192.0.2.1",
+      "--enabled=true",
+      "--is-public=true",
+      "--meta",
+      "[{\"regression\":\"item\"}]",
+      "--namespaces",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/cloudforce-one/rules",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "294",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "actions": [
+            {
+              "regression": "item"
+            }
+          ],
+          "commit_message": "regression value &/?+ü",
+          "content": "regression value &/?+ü",
+          "description": "192.0.2.1",
+          "enabled": true,
+          "is_public": true,
+          "meta": [
+            {
+              "regression": "item"
+            }
+          ],
+          "name": "regression value &/?+ü",
+          "namespaces": [
+            "regression value &/?+ü"
+          ],
+          "path": "project"
+        }
+      }
+    ]
+  }
+]

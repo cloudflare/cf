@@ -1,0 +1,2655 @@
+[
+  {
+    "case": "no-args",
+    "argv": [
+      "o11y",
+      "shared-queries",
+      "create"
+    ],
+    "exitCode": 1,
+    "error": "--query-id is required. Pass --query-id <value> or run interactively.",
+    "requests": []
+  },
+  {
+    "case": "required",
+    "argv": [
+      "o11y",
+      "shared-queries",
+      "create",
+      "--query-id",
+      "0123456789abcdef0123456789abcdef",
+      "--timeframe-from",
+      "1",
+      "--timeframe-to",
+      "1",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/workers/observability/shared/query",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --chart",
+    "argv": [
+      "o11y",
+      "shared-queries",
+      "create",
+      "--query-id",
+      "0123456789abcdef0123456789abcdef",
+      "--timeframe-from",
+      "1",
+      "--timeframe-to",
+      "1",
+      "--chart=true"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/workers/observability/shared/query",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "143",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "chart": true,
+          "ignoreSeries": false,
+          "limit": 50,
+          "queryId": "0123456789abcdef0123456789abcdef",
+          "timeframe": {
+            "from": 1,
+            "to": 1
+          },
+          "view": "calculations"
+        }
+      }
+    ]
+  },
+  {
+    "case": "--chart value 1",
+    "argv": [
+      "o11y",
+      "shared-queries",
+      "create",
+      "--query-id",
+      "0123456789abcdef0123456789abcdef",
+      "--timeframe-from",
+      "1",
+      "--timeframe-to",
+      "1",
+      "--chart=false"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/workers/observability/shared/query",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "144",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "chart": false,
+          "ignoreSeries": false,
+          "limit": 50,
+          "queryId": "0123456789abcdef0123456789abcdef",
+          "timeframe": {
+            "from": 1,
+            "to": 1
+          },
+          "view": "calculations"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --chart-type",
+    "argv": [
+      "o11y",
+      "shared-queries",
+      "create",
+      "--query-id",
+      "0123456789abcdef0123456789abcdef",
+      "--timeframe-from",
+      "1",
+      "--timeframe-to",
+      "1",
+      "--chart-type",
+      "timeseries_and_aggregate"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/workers/observability/shared/query",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "169",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "chartType": "timeseries_and_aggregate",
+          "ignoreSeries": false,
+          "limit": 50,
+          "queryId": "0123456789abcdef0123456789abcdef",
+          "timeframe": {
+            "from": 1,
+            "to": 1
+          },
+          "view": "calculations"
+        }
+      }
+    ]
+  },
+  {
+    "case": "--chart-type value 1",
+    "argv": [
+      "o11y",
+      "shared-queries",
+      "create",
+      "--query-id",
+      "0123456789abcdef0123456789abcdef",
+      "--timeframe-from",
+      "1",
+      "--timeframe-to",
+      "1",
+      "--chart-type",
+      "timeseries"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/workers/observability/shared/query",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "155",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "chartType": "timeseries",
+          "ignoreSeries": false,
+          "limit": 50,
+          "queryId": "0123456789abcdef0123456789abcdef",
+          "timeframe": {
+            "from": 1,
+            "to": 1
+          },
+          "view": "calculations"
+        }
+      }
+    ]
+  },
+  {
+    "case": "--chart-type value 2",
+    "argv": [
+      "o11y",
+      "shared-queries",
+      "create",
+      "--query-id",
+      "0123456789abcdef0123456789abcdef",
+      "--timeframe-from",
+      "1",
+      "--timeframe-to",
+      "1",
+      "--chart-type",
+      "aggregate"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/workers/observability/shared/query",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "154",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "chartType": "aggregate",
+          "ignoreSeries": false,
+          "limit": 50,
+          "queryId": "0123456789abcdef0123456789abcdef",
+          "timeframe": {
+            "from": 1,
+            "to": 1
+          },
+          "view": "calculations"
+        }
+      }
+    ]
+  },
+  {
+    "case": "--chart-type value 3",
+    "argv": [
+      "o11y",
+      "shared-queries",
+      "create",
+      "--query-id",
+      "0123456789abcdef0123456789abcdef",
+      "--timeframe-from",
+      "1",
+      "--timeframe-to",
+      "1",
+      "--chart-type",
+      "distribution"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/workers/observability/shared/query",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "157",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "chartType": "distribution",
+          "ignoreSeries": false,
+          "limit": 50,
+          "queryId": "0123456789abcdef0123456789abcdef",
+          "timeframe": {
+            "from": 1,
+            "to": 1
+          },
+          "view": "calculations"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --compare",
+    "argv": [
+      "o11y",
+      "shared-queries",
+      "create",
+      "--query-id",
+      "0123456789abcdef0123456789abcdef",
+      "--timeframe-from",
+      "1",
+      "--timeframe-to",
+      "1",
+      "--compare=true"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/workers/observability/shared/query",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "145",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "compare": true,
+          "ignoreSeries": false,
+          "limit": 50,
+          "queryId": "0123456789abcdef0123456789abcdef",
+          "timeframe": {
+            "from": 1,
+            "to": 1
+          },
+          "view": "calculations"
+        }
+      }
+    ]
+  },
+  {
+    "case": "--compare value 1",
+    "argv": [
+      "o11y",
+      "shared-queries",
+      "create",
+      "--query-id",
+      "0123456789abcdef0123456789abcdef",
+      "--timeframe-from",
+      "1",
+      "--timeframe-to",
+      "1",
+      "--compare=false"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/workers/observability/shared/query",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "146",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "compare": false,
+          "ignoreSeries": false,
+          "limit": 50,
+          "queryId": "0123456789abcdef0123456789abcdef",
+          "timeframe": {
+            "from": 1,
+            "to": 1
+          },
+          "view": "calculations"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --distribution-scale",
+    "argv": [
+      "o11y",
+      "shared-queries",
+      "create",
+      "--query-id",
+      "0123456789abcdef0123456789abcdef",
+      "--timeframe-from",
+      "1",
+      "--timeframe-to",
+      "1",
+      "--distribution-scale",
+      "log"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/workers/observability/shared/query",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "156",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "distributionScale": "log",
+          "ignoreSeries": false,
+          "limit": 50,
+          "queryId": "0123456789abcdef0123456789abcdef",
+          "timeframe": {
+            "from": 1,
+            "to": 1
+          },
+          "view": "calculations"
+        }
+      }
+    ]
+  },
+  {
+    "case": "--distribution-scale value 1",
+    "argv": [
+      "o11y",
+      "shared-queries",
+      "create",
+      "--query-id",
+      "0123456789abcdef0123456789abcdef",
+      "--timeframe-from",
+      "1",
+      "--timeframe-to",
+      "1",
+      "--distribution-scale",
+      "linear"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/workers/observability/shared/query",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "159",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "distributionScale": "linear",
+          "ignoreSeries": false,
+          "limit": 50,
+          "queryId": "0123456789abcdef0123456789abcdef",
+          "timeframe": {
+            "from": 1,
+            "to": 1
+          },
+          "view": "calculations"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --granularity",
+    "argv": [
+      "o11y",
+      "shared-queries",
+      "create",
+      "--query-id",
+      "0123456789abcdef0123456789abcdef",
+      "--timeframe-from",
+      "1",
+      "--timeframe-to",
+      "1",
+      "--granularity",
+      "1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/workers/observability/shared/query",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "146",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "granularity": 1,
+          "ignoreSeries": false,
+          "limit": 50,
+          "queryId": "0123456789abcdef0123456789abcdef",
+          "timeframe": {
+            "from": 1,
+            "to": 1
+          },
+          "view": "calculations"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --ignore-series",
+    "argv": [
+      "o11y",
+      "shared-queries",
+      "create",
+      "--query-id",
+      "0123456789abcdef0123456789abcdef",
+      "--timeframe-from",
+      "1",
+      "--timeframe-to",
+      "1",
+      "--ignore-series=true"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/workers/observability/shared/query",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "129",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "ignoreSeries": true,
+          "limit": 50,
+          "queryId": "0123456789abcdef0123456789abcdef",
+          "timeframe": {
+            "from": 1,
+            "to": 1
+          },
+          "view": "calculations"
+        }
+      }
+    ]
+  },
+  {
+    "case": "--ignore-series value 1",
+    "argv": [
+      "o11y",
+      "shared-queries",
+      "create",
+      "--query-id",
+      "0123456789abcdef0123456789abcdef",
+      "--timeframe-from",
+      "1",
+      "--timeframe-to",
+      "1",
+      "--ignore-series=false"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/workers/observability/shared/query",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "130",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "ignoreSeries": false,
+          "limit": 50,
+          "queryId": "0123456789abcdef0123456789abcdef",
+          "timeframe": {
+            "from": 1,
+            "to": 1
+          },
+          "view": "calculations"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --limit",
+    "argv": [
+      "o11y",
+      "shared-queries",
+      "create",
+      "--query-id",
+      "0123456789abcdef0123456789abcdef",
+      "--timeframe-from",
+      "1",
+      "--timeframe-to",
+      "1",
+      "--limit",
+      "1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/workers/observability/shared/query",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "129",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "ignoreSeries": false,
+          "limit": 1,
+          "queryId": "0123456789abcdef0123456789abcdef",
+          "timeframe": {
+            "from": 1,
+            "to": 1
+          },
+          "view": "calculations"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --offset",
+    "argv": [
+      "o11y",
+      "shared-queries",
+      "create",
+      "--query-id",
+      "0123456789abcdef0123456789abcdef",
+      "--timeframe-from",
+      "1",
+      "--timeframe-to",
+      "1",
+      "--offset",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/workers/observability/shared/query",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "165",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "ignoreSeries": false,
+          "limit": 50,
+          "offset": "regression value &/?+ü",
+          "queryId": "0123456789abcdef0123456789abcdef",
+          "timeframe": {
+            "from": 1,
+            "to": 1
+          },
+          "view": "calculations"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --offset-by",
+    "argv": [
+      "o11y",
+      "shared-queries",
+      "create",
+      "--query-id",
+      "0123456789abcdef0123456789abcdef",
+      "--timeframe-from",
+      "1",
+      "--timeframe-to",
+      "1",
+      "--offset-by",
+      "1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/workers/observability/shared/query",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "143",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "ignoreSeries": false,
+          "limit": 50,
+          "offsetBy": 1,
+          "queryId": "0123456789abcdef0123456789abcdef",
+          "timeframe": {
+            "from": 1,
+            "to": 1
+          },
+          "view": "calculations"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --offset-direction",
+    "argv": [
+      "o11y",
+      "shared-queries",
+      "create",
+      "--query-id",
+      "0123456789abcdef0123456789abcdef",
+      "--timeframe-from",
+      "1",
+      "--timeframe-to",
+      "1",
+      "--offset-direction",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/workers/observability/shared/query",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "174",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "ignoreSeries": false,
+          "limit": 50,
+          "offsetDirection": "regression value &/?+ü",
+          "queryId": "0123456789abcdef0123456789abcdef",
+          "timeframe": {
+            "from": 1,
+            "to": 1
+          },
+          "view": "calculations"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --parameters-datasets",
+    "argv": [
+      "o11y",
+      "shared-queries",
+      "create",
+      "--query-id",
+      "0123456789abcdef0123456789abcdef",
+      "--timeframe-from",
+      "1",
+      "--timeframe-to",
+      "1",
+      "--parameters-datasets",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 1,
+    "error": "--parameters-order-by-value is required when any --parameters-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "only --parameters-filter-combination",
+    "argv": [
+      "o11y",
+      "shared-queries",
+      "create",
+      "--query-id",
+      "0123456789abcdef0123456789abcdef",
+      "--timeframe-from",
+      "1",
+      "--timeframe-to",
+      "1",
+      "--parameters-filter-combination",
+      "and"
+    ],
+    "exitCode": 1,
+    "error": "--parameters-order-by-value is required when any --parameters-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "--parameters-filter-combination value 1",
+    "argv": [
+      "o11y",
+      "shared-queries",
+      "create",
+      "--query-id",
+      "0123456789abcdef0123456789abcdef",
+      "--timeframe-from",
+      "1",
+      "--timeframe-to",
+      "1",
+      "--parameters-filter-combination",
+      "or"
+    ],
+    "exitCode": 1,
+    "error": "--parameters-order-by-value is required when any --parameters-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "--parameters-filter-combination value 2",
+    "argv": [
+      "o11y",
+      "shared-queries",
+      "create",
+      "--query-id",
+      "0123456789abcdef0123456789abcdef",
+      "--timeframe-from",
+      "1",
+      "--timeframe-to",
+      "1",
+      "--parameters-filter-combination",
+      "AND"
+    ],
+    "exitCode": 1,
+    "error": "--parameters-order-by-value is required when any --parameters-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "--parameters-filter-combination value 3",
+    "argv": [
+      "o11y",
+      "shared-queries",
+      "create",
+      "--query-id",
+      "0123456789abcdef0123456789abcdef",
+      "--timeframe-from",
+      "1",
+      "--timeframe-to",
+      "1",
+      "--parameters-filter-combination",
+      "OR"
+    ],
+    "exitCode": 1,
+    "error": "--parameters-order-by-value is required when any --parameters-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "only --parameters-limit",
+    "argv": [
+      "o11y",
+      "shared-queries",
+      "create",
+      "--query-id",
+      "0123456789abcdef0123456789abcdef",
+      "--timeframe-from",
+      "1",
+      "--timeframe-to",
+      "1",
+      "--parameters-limit",
+      "1"
+    ],
+    "exitCode": 1,
+    "error": "--parameters-order-by-value is required when any --parameters-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "only --parameters-needle-is-regex",
+    "argv": [
+      "o11y",
+      "shared-queries",
+      "create",
+      "--query-id",
+      "0123456789abcdef0123456789abcdef",
+      "--timeframe-from",
+      "1",
+      "--timeframe-to",
+      "1",
+      "--parameters-needle-is-regex=true"
+    ],
+    "exitCode": 1,
+    "error": "--parameters-order-by-value is required when any --parameters-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "--parameters-needle-is-regex value 1",
+    "argv": [
+      "o11y",
+      "shared-queries",
+      "create",
+      "--query-id",
+      "0123456789abcdef0123456789abcdef",
+      "--timeframe-from",
+      "1",
+      "--timeframe-to",
+      "1",
+      "--parameters-needle-is-regex=false"
+    ],
+    "exitCode": 1,
+    "error": "--parameters-order-by-value is required when any --parameters-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "only --parameters-needle-match-case",
+    "argv": [
+      "o11y",
+      "shared-queries",
+      "create",
+      "--query-id",
+      "0123456789abcdef0123456789abcdef",
+      "--timeframe-from",
+      "1",
+      "--timeframe-to",
+      "1",
+      "--parameters-needle-match-case=true"
+    ],
+    "exitCode": 1,
+    "error": "--parameters-order-by-value is required when any --parameters-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "--parameters-needle-match-case value 1",
+    "argv": [
+      "o11y",
+      "shared-queries",
+      "create",
+      "--query-id",
+      "0123456789abcdef0123456789abcdef",
+      "--timeframe-from",
+      "1",
+      "--timeframe-to",
+      "1",
+      "--parameters-needle-match-case=false"
+    ],
+    "exitCode": 1,
+    "error": "--parameters-order-by-value is required when any --parameters-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "only --parameters-order-by-order",
+    "argv": [
+      "o11y",
+      "shared-queries",
+      "create",
+      "--query-id",
+      "0123456789abcdef0123456789abcdef",
+      "--timeframe-from",
+      "1",
+      "--timeframe-to",
+      "1",
+      "--parameters-order-by-order",
+      "asc"
+    ],
+    "exitCode": 1,
+    "error": "--parameters-order-by-value is required when any --parameters-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "--parameters-order-by-order value 1",
+    "argv": [
+      "o11y",
+      "shared-queries",
+      "create",
+      "--query-id",
+      "0123456789abcdef0123456789abcdef",
+      "--timeframe-from",
+      "1",
+      "--timeframe-to",
+      "1",
+      "--parameters-order-by-order",
+      "desc"
+    ],
+    "exitCode": 1,
+    "error": "--parameters-order-by-value is required when any --parameters-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "only --parameters-order-by-value",
+    "argv": [
+      "o11y",
+      "shared-queries",
+      "create",
+      "--query-id",
+      "0123456789abcdef0123456789abcdef",
+      "--timeframe-from",
+      "1",
+      "--timeframe-to",
+      "1",
+      "--parameters-order-by-value",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/workers/observability/shared/query",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "191",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "ignoreSeries": false,
+          "limit": 50,
+          "parameters": {
+            "orderBy": {
+              "value": "regression value &/?+ü"
+            }
+          },
+          "queryId": "0123456789abcdef0123456789abcdef",
+          "timeframe": {
+            "from": 1,
+            "to": 1
+          },
+          "view": "calculations"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --view",
+    "argv": [
+      "o11y",
+      "shared-queries",
+      "create",
+      "--query-id",
+      "0123456789abcdef0123456789abcdef",
+      "--timeframe-from",
+      "1",
+      "--timeframe-to",
+      "1",
+      "--view",
+      "traces"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/workers/observability/shared/query",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "124",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "ignoreSeries": false,
+          "limit": 50,
+          "queryId": "0123456789abcdef0123456789abcdef",
+          "timeframe": {
+            "from": 1,
+            "to": 1
+          },
+          "view": "traces"
+        }
+      }
+    ]
+  },
+  {
+    "case": "--view value 1",
+    "argv": [
+      "o11y",
+      "shared-queries",
+      "create",
+      "--query-id",
+      "0123456789abcdef0123456789abcdef",
+      "--timeframe-from",
+      "1",
+      "--timeframe-to",
+      "1",
+      "--view",
+      "events"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/workers/observability/shared/query",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "124",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "ignoreSeries": false,
+          "limit": 50,
+          "queryId": "0123456789abcdef0123456789abcdef",
+          "timeframe": {
+            "from": 1,
+            "to": 1
+          },
+          "view": "events"
+        }
+      }
+    ]
+  },
+  {
+    "case": "--view value 2",
+    "argv": [
+      "o11y",
+      "shared-queries",
+      "create",
+      "--query-id",
+      "0123456789abcdef0123456789abcdef",
+      "--timeframe-from",
+      "1",
+      "--timeframe-to",
+      "1",
+      "--view",
+      "calculations"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/workers/observability/shared/query",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "130",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "ignoreSeries": false,
+          "limit": 50,
+          "queryId": "0123456789abcdef0123456789abcdef",
+          "timeframe": {
+            "from": 1,
+            "to": 1
+          },
+          "view": "calculations"
+        }
+      }
+    ]
+  },
+  {
+    "case": "--view value 3",
+    "argv": [
+      "o11y",
+      "shared-queries",
+      "create",
+      "--query-id",
+      "0123456789abcdef0123456789abcdef",
+      "--timeframe-from",
+      "1",
+      "--timeframe-to",
+      "1",
+      "--view",
+      "invocations"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/workers/observability/shared/query",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "129",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "ignoreSeries": false,
+          "limit": 50,
+          "queryId": "0123456789abcdef0123456789abcdef",
+          "timeframe": {
+            "from": 1,
+            "to": 1
+          },
+          "view": "invocations"
+        }
+      }
+    ]
+  },
+  {
+    "case": "--view value 4",
+    "argv": [
+      "o11y",
+      "shared-queries",
+      "create",
+      "--query-id",
+      "0123456789abcdef0123456789abcdef",
+      "--timeframe-from",
+      "1",
+      "--timeframe-to",
+      "1",
+      "--view",
+      "requests"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/workers/observability/shared/query",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "126",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "ignoreSeries": false,
+          "limit": 50,
+          "queryId": "0123456789abcdef0123456789abcdef",
+          "timeframe": {
+            "from": 1,
+            "to": 1
+          },
+          "view": "requests"
+        }
+      }
+    ]
+  },
+  {
+    "case": "--view value 5",
+    "argv": [
+      "o11y",
+      "shared-queries",
+      "create",
+      "--query-id",
+      "0123456789abcdef0123456789abcdef",
+      "--timeframe-from",
+      "1",
+      "--timeframe-to",
+      "1",
+      "--view",
+      "agents"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/workers/observability/shared/query",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "124",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "ignoreSeries": false,
+          "limit": 50,
+          "queryId": "0123456789abcdef0123456789abcdef",
+          "timeframe": {
+            "from": 1,
+            "to": 1
+          },
+          "view": "agents"
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 0",
+    "argv": [
+      "o11y",
+      "shared-queries",
+      "create",
+      "--query-id",
+      "0123456789abcdef0123456789abcdef",
+      "--timeframe-from",
+      "1",
+      "--timeframe-to",
+      "1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/workers/observability/shared/query",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "130",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "ignoreSeries": false,
+          "limit": 50,
+          "queryId": "0123456789abcdef0123456789abcdef",
+          "timeframe": {
+            "from": 1,
+            "to": 1
+          },
+          "view": "calculations"
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 1",
+    "argv": [
+      "o11y",
+      "shared-queries",
+      "create",
+      "--query-id",
+      "0123456789abcdef0123456789abcdef",
+      "--timeframe-from",
+      "1",
+      "--timeframe-to",
+      "1",
+      "--chart=false",
+      "--chart-type",
+      "timeseries",
+      "--compare=false",
+      "--distribution-scale",
+      "linear",
+      "--granularity",
+      "2",
+      "--ignore-series=false",
+      "--limit",
+      "2",
+      "--offset",
+      "second value &/?+ü",
+      "--offset-by",
+      "2",
+      "--offset-direction",
+      "second value &/?+ü",
+      "--parameters-datasets",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--parameters-filter-combination",
+      "or",
+      "--parameters-limit",
+      "2",
+      "--parameters-needle-is-regex=false",
+      "--parameters-needle-match-case=false",
+      "--parameters-order-by-order",
+      "desc",
+      "--parameters-order-by-value",
+      "second value &/?+ü",
+      "--view",
+      "events"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/workers/observability/shared/query",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "516",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "chart": false,
+          "chartType": "timeseries",
+          "compare": false,
+          "distributionScale": "linear",
+          "granularity": 2,
+          "ignoreSeries": false,
+          "limit": 2,
+          "offset": "second value &/?+ü",
+          "offsetBy": 2,
+          "offsetDirection": "second value &/?+ü",
+          "parameters": {
+            "datasets": [
+              "second value &/?+ü",
+              "second value &/?+ü"
+            ],
+            "filterCombination": "or",
+            "limit": 2,
+            "needle": {
+              "isRegex": false,
+              "matchCase": false
+            },
+            "orderBy": {
+              "order": "desc",
+              "value": "second value &/?+ü"
+            }
+          },
+          "queryId": "0123456789abcdef0123456789abcdef",
+          "timeframe": {
+            "from": 1,
+            "to": 1
+          },
+          "view": "events"
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 2",
+    "argv": [
+      "o11y",
+      "shared-queries",
+      "create",
+      "--query-id",
+      "0123456789abcdef0123456789abcdef",
+      "--timeframe-from",
+      "1",
+      "--timeframe-to",
+      "1",
+      "--chart-type",
+      "timeseries_and_aggregate",
+      "--distribution-scale",
+      "log",
+      "--ignore-series=true",
+      "--offset",
+      "regression value &/?+ü",
+      "--offset-direction",
+      "regression value &/?+ü",
+      "--parameters-filter-combination",
+      "and",
+      "--parameters-needle-is-regex=true",
+      "--parameters-order-by-order",
+      "asc",
+      "--view",
+      "traces"
+    ],
+    "exitCode": 1,
+    "error": "--parameters-order-by-value is required when any --parameters-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "pairwise 3",
+    "argv": [
+      "o11y",
+      "shared-queries",
+      "create",
+      "--query-id",
+      "0123456789abcdef0123456789abcdef",
+      "--timeframe-from",
+      "1",
+      "--timeframe-to",
+      "1",
+      "--chart=false",
+      "--compare=false",
+      "--granularity",
+      "2",
+      "--limit",
+      "2",
+      "--offset-by",
+      "2",
+      "--parameters-datasets",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--parameters-limit",
+      "2",
+      "--parameters-needle-match-case=false",
+      "--parameters-order-by-value",
+      "second value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/workers/observability/shared/query",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "341",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "chart": false,
+          "compare": false,
+          "granularity": 2,
+          "ignoreSeries": false,
+          "limit": 2,
+          "offsetBy": 2,
+          "parameters": {
+            "datasets": [
+              "second value &/?+ü",
+              "second value &/?+ü"
+            ],
+            "limit": 2,
+            "needle": {
+              "matchCase": false
+            },
+            "orderBy": {
+              "value": "second value &/?+ü"
+            }
+          },
+          "queryId": "0123456789abcdef0123456789abcdef",
+          "timeframe": {
+            "from": 1,
+            "to": 1
+          },
+          "view": "calculations"
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 4",
+    "argv": [
+      "o11y",
+      "shared-queries",
+      "create",
+      "--query-id",
+      "0123456789abcdef0123456789abcdef",
+      "--timeframe-from",
+      "1",
+      "--timeframe-to",
+      "1",
+      "--compare=true",
+      "--distribution-scale",
+      "log",
+      "--limit",
+      "1",
+      "--offset",
+      "regression value &/?+ü",
+      "--parameters-datasets",
+      "regression value &/?+ü",
+      "--parameters-filter-combination",
+      "and",
+      "--parameters-needle-match-case=true",
+      "--parameters-order-by-order",
+      "asc"
+    ],
+    "exitCode": 1,
+    "error": "--parameters-order-by-value is required when any --parameters-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "pairwise 5",
+    "argv": [
+      "o11y",
+      "shared-queries",
+      "create",
+      "--query-id",
+      "0123456789abcdef0123456789abcdef",
+      "--timeframe-from",
+      "1",
+      "--timeframe-to",
+      "1",
+      "--chart=false",
+      "--chart-type",
+      "timeseries",
+      "--granularity",
+      "2",
+      "--ignore-series=false",
+      "--offset-by",
+      "2",
+      "--offset-direction",
+      "second value &/?+ü",
+      "--parameters-limit",
+      "2",
+      "--parameters-needle-is-regex=false",
+      "--parameters-order-by-value",
+      "second value &/?+ü",
+      "--view",
+      "events"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/workers/observability/shared/query",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "326",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "chart": false,
+          "chartType": "timeseries",
+          "granularity": 2,
+          "ignoreSeries": false,
+          "limit": 50,
+          "offsetBy": 2,
+          "offsetDirection": "second value &/?+ü",
+          "parameters": {
+            "limit": 2,
+            "needle": {
+              "isRegex": false
+            },
+            "orderBy": {
+              "value": "second value &/?+ü"
+            }
+          },
+          "queryId": "0123456789abcdef0123456789abcdef",
+          "timeframe": {
+            "from": 1,
+            "to": 1
+          },
+          "view": "events"
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 6",
+    "argv": [
+      "o11y",
+      "shared-queries",
+      "create",
+      "--query-id",
+      "0123456789abcdef0123456789abcdef",
+      "--timeframe-from",
+      "1",
+      "--timeframe-to",
+      "1",
+      "--granularity",
+      "1",
+      "--ignore-series=true",
+      "--limit",
+      "1",
+      "--offset",
+      "regression value &/?+ü",
+      "--parameters-limit",
+      "1",
+      "--parameters-needle-is-regex=true",
+      "--parameters-needle-match-case=true",
+      "--parameters-order-by-order",
+      "asc"
+    ],
+    "exitCode": 1,
+    "error": "--parameters-order-by-value is required when any --parameters-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "pairwise 7",
+    "argv": [
+      "o11y",
+      "shared-queries",
+      "create",
+      "--query-id",
+      "0123456789abcdef0123456789abcdef",
+      "--timeframe-from",
+      "1",
+      "--timeframe-to",
+      "1",
+      "--chart=false",
+      "--chart-type",
+      "timeseries",
+      "--compare=false",
+      "--distribution-scale",
+      "linear",
+      "--offset-by",
+      "2",
+      "--offset-direction",
+      "second value &/?+ü",
+      "--parameters-datasets",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--parameters-filter-combination",
+      "or",
+      "--parameters-order-by-value",
+      "second value &/?+ü",
+      "--view",
+      "events"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/workers/observability/shared/query",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "400",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "chart": false,
+          "chartType": "timeseries",
+          "compare": false,
+          "distributionScale": "linear",
+          "ignoreSeries": false,
+          "limit": 50,
+          "offsetBy": 2,
+          "offsetDirection": "second value &/?+ü",
+          "parameters": {
+            "datasets": [
+              "second value &/?+ü",
+              "second value &/?+ü"
+            ],
+            "filterCombination": "or",
+            "orderBy": {
+              "value": "second value &/?+ü"
+            }
+          },
+          "queryId": "0123456789abcdef0123456789abcdef",
+          "timeframe": {
+            "from": 1,
+            "to": 1
+          },
+          "view": "events"
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 8",
+    "argv": [
+      "o11y",
+      "shared-queries",
+      "create",
+      "--query-id",
+      "0123456789abcdef0123456789abcdef",
+      "--timeframe-from",
+      "1",
+      "--timeframe-to",
+      "1",
+      "--offset-by",
+      "1",
+      "--offset-direction",
+      "regression value &/?+ü",
+      "--parameters-datasets",
+      "regression value &/?+ü",
+      "--parameters-filter-combination",
+      "and",
+      "--parameters-limit",
+      "1",
+      "--parameters-needle-is-regex=true",
+      "--parameters-needle-match-case=true",
+      "--parameters-order-by-order",
+      "asc"
+    ],
+    "exitCode": 1,
+    "error": "--parameters-order-by-value is required when any --parameters-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "pairwise 9",
+    "argv": [
+      "o11y",
+      "shared-queries",
+      "create",
+      "--query-id",
+      "0123456789abcdef0123456789abcdef",
+      "--timeframe-from",
+      "1",
+      "--timeframe-to",
+      "1",
+      "--chart=false",
+      "--chart-type",
+      "timeseries",
+      "--compare=false",
+      "--distribution-scale",
+      "linear",
+      "--granularity",
+      "2",
+      "--ignore-series=false",
+      "--limit",
+      "2",
+      "--offset",
+      "second value &/?+ü",
+      "--parameters-order-by-value",
+      "second value &/?+ü",
+      "--view",
+      "events"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/workers/observability/shared/query",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "311",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "chart": false,
+          "chartType": "timeseries",
+          "compare": false,
+          "distributionScale": "linear",
+          "granularity": 2,
+          "ignoreSeries": false,
+          "limit": 2,
+          "offset": "second value &/?+ü",
+          "parameters": {
+            "orderBy": {
+              "value": "second value &/?+ü"
+            }
+          },
+          "queryId": "0123456789abcdef0123456789abcdef",
+          "timeframe": {
+            "from": 1,
+            "to": 1
+          },
+          "view": "events"
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 10",
+    "argv": [
+      "o11y",
+      "shared-queries",
+      "create",
+      "--query-id",
+      "0123456789abcdef0123456789abcdef",
+      "--timeframe-from",
+      "1",
+      "--timeframe-to",
+      "1",
+      "--parameters-order-by-value",
+      "regression value &/?+ü",
+      "--view",
+      "traces"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/workers/observability/shared/query",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "185",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "ignoreSeries": false,
+          "limit": 50,
+          "parameters": {
+            "orderBy": {
+              "value": "regression value &/?+ü"
+            }
+          },
+          "queryId": "0123456789abcdef0123456789abcdef",
+          "timeframe": {
+            "from": 1,
+            "to": 1
+          },
+          "view": "traces"
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 11",
+    "argv": [
+      "o11y",
+      "shared-queries",
+      "create",
+      "--query-id",
+      "0123456789abcdef0123456789abcdef",
+      "--timeframe-from",
+      "1",
+      "--timeframe-to",
+      "1",
+      "--chart=false",
+      "--chart-type",
+      "timeseries",
+      "--compare=false",
+      "--distribution-scale",
+      "linear",
+      "--granularity",
+      "2",
+      "--ignore-series=false",
+      "--limit",
+      "2",
+      "--offset",
+      "second value &/?+ü",
+      "--offset-by",
+      "2",
+      "--offset-direction",
+      "second value &/?+ü",
+      "--parameters-datasets",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--parameters-filter-combination",
+      "or",
+      "--parameters-limit",
+      "2",
+      "--parameters-needle-is-regex=false",
+      "--parameters-needle-match-case=false",
+      "--parameters-order-by-order",
+      "desc"
+    ],
+    "exitCode": 1,
+    "error": "--parameters-order-by-value is required when any --parameters-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "global quiet",
+    "argv": [
+      "o11y",
+      "shared-queries",
+      "create",
+      "--query-id",
+      "0123456789abcdef0123456789abcdef",
+      "--timeframe-from",
+      "1",
+      "--timeframe-to",
+      "1",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--quiet"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/workers/observability/shared/query",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "global zone",
+    "argv": [
+      "o11y",
+      "shared-queries",
+      "create",
+      "--query-id",
+      "0123456789abcdef0123456789abcdef",
+      "--timeframe-from",
+      "1",
+      "--timeframe-to",
+      "1",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--zone",
+      "abcdef0123456789abcdef0123456789"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/workers/observability/shared/query",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "global profile and mode",
+    "argv": [
+      "o11y",
+      "shared-queries",
+      "create",
+      "--query-id",
+      "0123456789abcdef0123456789abcdef",
+      "--timeframe-from",
+      "1",
+      "--timeframe-to",
+      "1",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--profile",
+      "default",
+      "--mode",
+      "regression"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/workers/observability/shared/query",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "local",
+    "argv": [
+      "o11y",
+      "shared-queries",
+      "create",
+      "--query-id",
+      "0123456789abcdef0123456789abcdef",
+      "--timeframe-from",
+      "1",
+      "--timeframe-to",
+      "1",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--local"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "http://localhost/cdn-cgi/local/explorer/api/workers/observability/shared/query",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "gzip, deflate",
+          "accept-language": "*",
+          "connection": "keep-alive",
+          "content-type": "application/json",
+          "host": "localhost",
+          "sec-fetch-mode": "cors",
+          "transfer-encoding": "chunked",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "local with persistence",
+    "argv": [
+      "o11y",
+      "shared-queries",
+      "create",
+      "--query-id",
+      "0123456789abcdef0123456789abcdef",
+      "--timeframe-from",
+      "1",
+      "--timeframe-to",
+      "1",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--local",
+      "--persist-to",
+      "regression-state"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "http://localhost/cdn-cgi/local/explorer/api/workers/observability/shared/query",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "gzip, deflate",
+          "accept-language": "*",
+          "connection": "keep-alive",
+          "content-type": "application/json",
+          "host": "localhost",
+          "sec-fetch-mode": "cors",
+          "transfer-encoding": "chunked",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "dry-run",
+    "argv": [
+      "o11y",
+      "shared-queries",
+      "create",
+      "--query-id",
+      "0123456789abcdef0123456789abcdef",
+      "--timeframe-from",
+      "1",
+      "--timeframe-to",
+      "1",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--dry-run"
+    ],
+    "exitCode": 0,
+    "requests": []
+  },
+  {
+    "case": "body from file",
+    "argv": [
+      "o11y",
+      "shared-queries",
+      "create",
+      "--query-id",
+      "0123456789abcdef0123456789abcdef",
+      "--timeframe-from",
+      "1",
+      "--timeframe-to",
+      "1",
+      "--body",
+      "@<body.json>"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/workers/observability/shared/query",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "array body",
+    "argv": [
+      "o11y",
+      "shared-queries",
+      "create",
+      "--query-id",
+      "0123456789abcdef0123456789abcdef",
+      "--timeframe-from",
+      "1",
+      "--timeframe-to",
+      "1",
+      "--body",
+      "[{\"regression\":\"first\"},{\"regression\":\"second\"}]"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/workers/observability/shared/query",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "56",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "0": {
+            "regression": "first"
+          },
+          "1": {
+            "regression": "second"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "field flags",
+    "argv": [
+      "o11y",
+      "shared-queries",
+      "create",
+      "--query-id",
+      "0123456789abcdef0123456789abcdef",
+      "--timeframe-from",
+      "1",
+      "--timeframe-to",
+      "1",
+      "--chart=true",
+      "--chart-type",
+      "timeseries_and_aggregate",
+      "--compare=true",
+      "--distribution-scale",
+      "log",
+      "--granularity",
+      "1",
+      "--ignore-series=true",
+      "--limit",
+      "1",
+      "--offset",
+      "regression value &/?+ü",
+      "--offset-by",
+      "1",
+      "--offset-direction",
+      "regression value &/?+ü",
+      "--parameters-datasets",
+      "regression value &/?+ü",
+      "--parameters-filter-combination",
+      "and",
+      "--parameters-limit",
+      "1",
+      "--parameters-needle-is-regex=true",
+      "--parameters-needle-match-case=true",
+      "--parameters-order-by-order",
+      "asc",
+      "--parameters-order-by-value",
+      "regression value &/?+ü",
+      "--view",
+      "traces"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/workers/observability/shared/query",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "516",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "chart": true,
+          "chartType": "timeseries_and_aggregate",
+          "compare": true,
+          "distributionScale": "log",
+          "granularity": 1,
+          "ignoreSeries": true,
+          "limit": 1,
+          "offset": "regression value &/?+ü",
+          "offsetBy": 1,
+          "offsetDirection": "regression value &/?+ü",
+          "parameters": {
+            "datasets": [
+              "regression value &/?+ü"
+            ],
+            "filterCombination": "and",
+            "limit": 1,
+            "needle": {
+              "isRegex": true,
+              "matchCase": true
+            },
+            "orderBy": {
+              "order": "asc",
+              "value": "regression value &/?+ü"
+            }
+          },
+          "queryId": "0123456789abcdef0123456789abcdef",
+          "timeframe": {
+            "from": 1,
+            "to": 1
+          },
+          "view": "traces"
+        }
+      }
+    ]
+  }
+]

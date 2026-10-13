@@ -1,0 +1,105 @@
+[
+  {
+    "case": "no-args",
+    "argv": [
+      "workers",
+      "types"
+    ],
+    "exitCode": 1,
+    "error": "cloudflare.config.ts is required by cf workers types.",
+    "requests": []
+  },
+  {
+    "case": "only --include-runtime",
+    "argv": [
+      "workers",
+      "types",
+      "--include-runtime=true"
+    ],
+    "exitCode": 1,
+    "error": "cloudflare.config.ts is required by cf workers types.",
+    "requests": []
+  },
+  {
+    "case": "--include-runtime value 1",
+    "argv": [
+      "workers",
+      "types",
+      "--include-runtime=false"
+    ],
+    "exitCode": 1,
+    "error": "cloudflare.config.ts is required by cf workers types.",
+    "requests": []
+  },
+  {
+    "case": "global quiet",
+    "argv": [
+      "workers",
+      "types",
+      "--quiet"
+    ],
+    "exitCode": 1,
+    "error": "cloudflare.config.ts is required by cf workers types.",
+    "requests": []
+  },
+  {
+    "case": "global zone",
+    "argv": [
+      "workers",
+      "types",
+      "--zone",
+      "abcdef0123456789abcdef0123456789"
+    ],
+    "exitCode": 1,
+    "error": "cloudflare.config.ts is required by cf workers types.",
+    "requests": []
+  },
+  {
+    "case": "global profile and mode",
+    "argv": [
+      "workers",
+      "types",
+      "--profile",
+      "default",
+      "--mode",
+      "regression"
+    ],
+    "exitCode": 1,
+    "error": "cloudflare.config.ts is required by cf workers types.",
+    "requests": []
+  },
+  {
+    "case": "local",
+    "argv": [
+      "workers",
+      "types",
+      "--local"
+    ],
+    "exitCode": 1,
+    "error": "--local is not supported by cf workers types.",
+    "requests": []
+  },
+  {
+    "case": "local with persistence",
+    "argv": [
+      "workers",
+      "types",
+      "--local",
+      "--persist-to",
+      "regression-state"
+    ],
+    "exitCode": 1,
+    "error": "--local is not supported by cf workers types.",
+    "requests": []
+  },
+  {
+    "case": "dry-run",
+    "argv": [
+      "workers",
+      "types",
+      "--dry-run"
+    ],
+    "exitCode": 0,
+    "requests": []
+  }
+]

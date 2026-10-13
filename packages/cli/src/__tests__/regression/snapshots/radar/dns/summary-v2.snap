@@ -1,0 +1,1610 @@
+[
+  {
+    "case": "no-args",
+    "argv": [
+      "radar",
+      "dns",
+      "summary-v2"
+    ],
+    "exitCode": 1,
+    "error": "Not enough non-option arguments: got 0, need at least 1",
+    "requests": []
+  },
+  {
+    "case": "required",
+    "argv": [
+      "radar",
+      "dns",
+      "summary-v2",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/radar/dns/summary/regression%20value%20%26%2F%3F%2B%C3%BC",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "only --name",
+    "argv": [
+      "radar",
+      "dns",
+      "summary-v2",
+      "regression value &/?+ü",
+      "--name",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/radar/dns/summary/regression%20value%20%26%2F%3F%2B%C3%BC?name=regression%20value%20%26%2F%3F%2B%C3%BC",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "only --dateRange",
+    "argv": [
+      "radar",
+      "dns",
+      "summary-v2",
+      "regression value &/?+ü",
+      "--dateRange",
+      "2026-01-02T03:04:05Z"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/radar/dns/summary/regression%20value%20%26%2F%3F%2B%C3%BC?dateRange=2026-01-02T03%3A04%3A05Z",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "only --dateStart",
+    "argv": [
+      "radar",
+      "dns",
+      "summary-v2",
+      "regression value &/?+ü",
+      "--dateStart",
+      "2026-01-02T03:04:05Z"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/radar/dns/summary/regression%20value%20%26%2F%3F%2B%C3%BC?dateStart=2026-01-02T03%3A04%3A05Z",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "only --dateEnd",
+    "argv": [
+      "radar",
+      "dns",
+      "summary-v2",
+      "regression value &/?+ü",
+      "--dateEnd",
+      "2026-01-02T03:04:05Z"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/radar/dns/summary/regression%20value%20%26%2F%3F%2B%C3%BC?dateEnd=2026-01-02T03%3A04%3A05Z",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "only --asn",
+    "argv": [
+      "radar",
+      "dns",
+      "summary-v2",
+      "regression value &/?+ü",
+      "--asn",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/radar/dns/summary/regression%20value%20%26%2F%3F%2B%C3%BC?asn=regression%20value%20%26%2F%3F%2B%C3%BC",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "only --location",
+    "argv": [
+      "radar",
+      "dns",
+      "summary-v2",
+      "regression value &/?+ü",
+      "--location",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/radar/dns/summary/regression%20value%20%26%2F%3F%2B%C3%BC?location=regression%20value%20%26%2F%3F%2B%C3%BC",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "only --continent",
+    "argv": [
+      "radar",
+      "dns",
+      "summary-v2",
+      "regression value &/?+ü",
+      "--continent",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/radar/dns/summary/regression%20value%20%26%2F%3F%2B%C3%BC?continent=regression%20value%20%26%2F%3F%2B%C3%BC",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "only --cacheHit",
+    "argv": [
+      "radar",
+      "dns",
+      "summary-v2",
+      "regression value &/?+ü",
+      "--cacheHit",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/radar/dns/summary/regression%20value%20%26%2F%3F%2B%C3%BC?cacheHit=regression%20value%20%26%2F%3F%2B%C3%BC",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "only --nodata",
+    "argv": [
+      "radar",
+      "dns",
+      "summary-v2",
+      "regression value &/?+ü",
+      "--nodata",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/radar/dns/summary/regression%20value%20%26%2F%3F%2B%C3%BC?nodata=regression%20value%20%26%2F%3F%2B%C3%BC",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "only --protocol",
+    "argv": [
+      "radar",
+      "dns",
+      "summary-v2",
+      "regression value &/?+ü",
+      "--protocol",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/radar/dns/summary/regression%20value%20%26%2F%3F%2B%C3%BC?protocol=regression%20value%20%26%2F%3F%2B%C3%BC",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "only --queryType",
+    "argv": [
+      "radar",
+      "dns",
+      "summary-v2",
+      "regression value &/?+ü",
+      "--queryType",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/radar/dns/summary/regression%20value%20%26%2F%3F%2B%C3%BC?queryType=regression%20value%20%26%2F%3F%2B%C3%BC",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "only --responseCode",
+    "argv": [
+      "radar",
+      "dns",
+      "summary-v2",
+      "regression value &/?+ü",
+      "--responseCode",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/radar/dns/summary/regression%20value%20%26%2F%3F%2B%C3%BC?responseCode=regression%20value%20%26%2F%3F%2B%C3%BC",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "only --responseTtl",
+    "argv": [
+      "radar",
+      "dns",
+      "summary-v2",
+      "regression value &/?+ü",
+      "--responseTtl",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/radar/dns/summary/regression%20value%20%26%2F%3F%2B%C3%BC?responseTtl=regression%20value%20%26%2F%3F%2B%C3%BC",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "only --dnssec",
+    "argv": [
+      "radar",
+      "dns",
+      "summary-v2",
+      "regression value &/?+ü",
+      "--dnssec",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/radar/dns/summary/regression%20value%20%26%2F%3F%2B%C3%BC?dnssec=regression%20value%20%26%2F%3F%2B%C3%BC",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "only --dnssecAware",
+    "argv": [
+      "radar",
+      "dns",
+      "summary-v2",
+      "regression value &/?+ü",
+      "--dnssecAware",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/radar/dns/summary/regression%20value%20%26%2F%3F%2B%C3%BC?dnssecAware=regression%20value%20%26%2F%3F%2B%C3%BC",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "only --dnssecE2e",
+    "argv": [
+      "radar",
+      "dns",
+      "summary-v2",
+      "regression value &/?+ü",
+      "--dnssecE2e",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/radar/dns/summary/regression%20value%20%26%2F%3F%2B%C3%BC?dnssecE2e=regression%20value%20%26%2F%3F%2B%C3%BC",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "only --ipVersion",
+    "argv": [
+      "radar",
+      "dns",
+      "summary-v2",
+      "regression value &/?+ü",
+      "--ipVersion",
+      "192.0.2.1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/radar/dns/summary/regression%20value%20%26%2F%3F%2B%C3%BC?ipVersion=192.0.2.1",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "only --limitPerGroup",
+    "argv": [
+      "radar",
+      "dns",
+      "summary-v2",
+      "regression value &/?+ü",
+      "--limitPerGroup",
+      "1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/radar/dns/summary/regression%20value%20%26%2F%3F%2B%C3%BC?limitPerGroup=1",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "only --matchingAnswer",
+    "argv": [
+      "radar",
+      "dns",
+      "summary-v2",
+      "regression value &/?+ü",
+      "--matchingAnswer",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/radar/dns/summary/regression%20value%20%26%2F%3F%2B%C3%BC?matchingAnswer=regression%20value%20%26%2F%3F%2B%C3%BC",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "only --tld",
+    "argv": [
+      "radar",
+      "dns",
+      "summary-v2",
+      "regression value &/?+ü",
+      "--tld",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/radar/dns/summary/regression%20value%20%26%2F%3F%2B%C3%BC?tld=regression%20value%20%26%2F%3F%2B%C3%BC",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "only --format",
+    "argv": [
+      "radar",
+      "dns",
+      "summary-v2",
+      "regression value &/?+ü",
+      "--format",
+      "JSON"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/radar/dns/summary/regression%20value%20%26%2F%3F%2B%C3%BC?format=JSON",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "--format value 1",
+    "argv": [
+      "radar",
+      "dns",
+      "summary-v2",
+      "regression value &/?+ü",
+      "--format",
+      "CSV"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/radar/dns/summary/regression%20value%20%26%2F%3F%2B%C3%BC?format=CSV",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "pairwise 1",
+    "argv": [
+      "radar",
+      "dns",
+      "summary-v2",
+      "regression value &/?+ü",
+      "--name",
+      "second value &/?+ü",
+      "--dateRange",
+      "2026-01-02T03:04:05Z",
+      "--dateStart",
+      "2026-01-02T03:04:05Z",
+      "--dateEnd",
+      "2026-01-02T03:04:05Z",
+      "--asn",
+      "second value &/?+ü",
+      "--location",
+      "second value &/?+ü",
+      "--continent",
+      "second value &/?+ü",
+      "--cacheHit",
+      "second value &/?+ü",
+      "--nodata",
+      "second value &/?+ü",
+      "--protocol",
+      "second value &/?+ü",
+      "--queryType",
+      "second value &/?+ü",
+      "--responseCode",
+      "second value &/?+ü",
+      "--responseTtl",
+      "second value &/?+ü",
+      "--dnssec",
+      "second value &/?+ü",
+      "--dnssecAware",
+      "second value &/?+ü",
+      "--dnssecE2e",
+      "second value &/?+ü",
+      "--ipVersion",
+      "192.0.2.1",
+      "--limitPerGroup",
+      "2",
+      "--matchingAnswer",
+      "second value &/?+ü",
+      "--tld",
+      "second value &/?+ü",
+      "--format",
+      "CSV"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/radar/dns/summary/regression%20value%20%26%2F%3F%2B%C3%BC?name=second%20value%20%26%2F%3F%2B%C3%BC&dateRange=2026-01-02T03%3A04%3A05Z&dateStart=2026-01-02T03%3A04%3A05Z&dateEnd=2026-01-02T03%3A04%3A05Z&asn=second%20value%20%26%2F%3F%2B%C3%BC&location=second%20value%20%26%2F%3F%2B%C3%BC&continent=second%20value%20%26%2F%3F%2B%C3%BC&cacheHit=second%20value%20%26%2F%3F%2B%C3%BC&nodata=second%20value%20%26%2F%3F%2B%C3%BC&protocol=second%20value%20%26%2F%3F%2B%C3%BC&queryType=second%20value%20%26%2F%3F%2B%C3%BC&responseCode=second%20value%20%26%2F%3F%2B%C3%BC&responseTtl=second%20value%20%26%2F%3F%2B%C3%BC&dnssec=second%20value%20%26%2F%3F%2B%C3%BC&dnssecAware=second%20value%20%26%2F%3F%2B%C3%BC&dnssecE2e=second%20value%20%26%2F%3F%2B%C3%BC&ipVersion=192.0.2.1&limitPerGroup=2&matchingAnswer=second%20value%20%26%2F%3F%2B%C3%BC&tld=second%20value%20%26%2F%3F%2B%C3%BC&format=CSV",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "pairwise 2",
+    "argv": [
+      "radar",
+      "dns",
+      "summary-v2",
+      "regression value &/?+ü",
+      "--dateRange",
+      "2026-01-02T03:04:05Z",
+      "--dateEnd",
+      "2026-01-02T03:04:05Z",
+      "--location",
+      "regression value &/?+ü",
+      "--cacheHit",
+      "regression value &/?+ü",
+      "--protocol",
+      "regression value &/?+ü",
+      "--responseCode",
+      "regression value &/?+ü",
+      "--dnssec",
+      "regression value &/?+ü",
+      "--dnssecE2e",
+      "regression value &/?+ü",
+      "--limitPerGroup",
+      "1",
+      "--tld",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/radar/dns/summary/regression%20value%20%26%2F%3F%2B%C3%BC?dateRange=2026-01-02T03%3A04%3A05Z&dateEnd=2026-01-02T03%3A04%3A05Z&location=regression%20value%20%26%2F%3F%2B%C3%BC&cacheHit=regression%20value%20%26%2F%3F%2B%C3%BC&protocol=regression%20value%20%26%2F%3F%2B%C3%BC&responseCode=regression%20value%20%26%2F%3F%2B%C3%BC&dnssec=regression%20value%20%26%2F%3F%2B%C3%BC&dnssecE2e=regression%20value%20%26%2F%3F%2B%C3%BC&limitPerGroup=1&tld=regression%20value%20%26%2F%3F%2B%C3%BC",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "pairwise 3",
+    "argv": [
+      "radar",
+      "dns",
+      "summary-v2",
+      "regression value &/?+ü",
+      "--name",
+      "second value &/?+ü",
+      "--dateStart",
+      "2026-01-02T03:04:05Z",
+      "--asn",
+      "second value &/?+ü",
+      "--continent",
+      "second value &/?+ü",
+      "--nodata",
+      "second value &/?+ü",
+      "--queryType",
+      "second value &/?+ü",
+      "--responseTtl",
+      "second value &/?+ü",
+      "--dnssecAware",
+      "second value &/?+ü",
+      "--ipVersion",
+      "192.0.2.1",
+      "--matchingAnswer",
+      "second value &/?+ü",
+      "--format",
+      "CSV"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/radar/dns/summary/regression%20value%20%26%2F%3F%2B%C3%BC?name=second%20value%20%26%2F%3F%2B%C3%BC&dateStart=2026-01-02T03%3A04%3A05Z&asn=second%20value%20%26%2F%3F%2B%C3%BC&continent=second%20value%20%26%2F%3F%2B%C3%BC&nodata=second%20value%20%26%2F%3F%2B%C3%BC&queryType=second%20value%20%26%2F%3F%2B%C3%BC&responseTtl=second%20value%20%26%2F%3F%2B%C3%BC&dnssecAware=second%20value%20%26%2F%3F%2B%C3%BC&ipVersion=192.0.2.1&matchingAnswer=second%20value%20%26%2F%3F%2B%C3%BC&format=CSV",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "pairwise 4",
+    "argv": [
+      "radar",
+      "dns",
+      "summary-v2",
+      "regression value &/?+ü",
+      "--dateStart",
+      "2026-01-02T03:04:05Z",
+      "--dateEnd",
+      "2026-01-02T03:04:05Z",
+      "--continent",
+      "regression value &/?+ü",
+      "--cacheHit",
+      "regression value &/?+ü",
+      "--queryType",
+      "regression value &/?+ü",
+      "--responseCode",
+      "regression value &/?+ü",
+      "--dnssecAware",
+      "regression value &/?+ü",
+      "--dnssecE2e",
+      "regression value &/?+ü",
+      "--matchingAnswer",
+      "regression value &/?+ü",
+      "--tld",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/radar/dns/summary/regression%20value%20%26%2F%3F%2B%C3%BC?dateStart=2026-01-02T03%3A04%3A05Z&dateEnd=2026-01-02T03%3A04%3A05Z&continent=regression%20value%20%26%2F%3F%2B%C3%BC&cacheHit=regression%20value%20%26%2F%3F%2B%C3%BC&queryType=regression%20value%20%26%2F%3F%2B%C3%BC&responseCode=regression%20value%20%26%2F%3F%2B%C3%BC&dnssecAware=regression%20value%20%26%2F%3F%2B%C3%BC&dnssecE2e=regression%20value%20%26%2F%3F%2B%C3%BC&matchingAnswer=regression%20value%20%26%2F%3F%2B%C3%BC&tld=regression%20value%20%26%2F%3F%2B%C3%BC",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "pairwise 5",
+    "argv": [
+      "radar",
+      "dns",
+      "summary-v2",
+      "regression value &/?+ü",
+      "--name",
+      "second value &/?+ü",
+      "--dateRange",
+      "2026-01-02T03:04:05Z",
+      "--asn",
+      "second value &/?+ü",
+      "--location",
+      "second value &/?+ü",
+      "--nodata",
+      "second value &/?+ü",
+      "--protocol",
+      "second value &/?+ü",
+      "--responseTtl",
+      "second value &/?+ü",
+      "--dnssec",
+      "second value &/?+ü",
+      "--ipVersion",
+      "192.0.2.1",
+      "--limitPerGroup",
+      "2",
+      "--format",
+      "CSV"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/radar/dns/summary/regression%20value%20%26%2F%3F%2B%C3%BC?name=second%20value%20%26%2F%3F%2B%C3%BC&dateRange=2026-01-02T03%3A04%3A05Z&asn=second%20value%20%26%2F%3F%2B%C3%BC&location=second%20value%20%26%2F%3F%2B%C3%BC&nodata=second%20value%20%26%2F%3F%2B%C3%BC&protocol=second%20value%20%26%2F%3F%2B%C3%BC&responseTtl=second%20value%20%26%2F%3F%2B%C3%BC&dnssec=second%20value%20%26%2F%3F%2B%C3%BC&ipVersion=192.0.2.1&limitPerGroup=2&format=CSV",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "pairwise 6",
+    "argv": [
+      "radar",
+      "dns",
+      "summary-v2",
+      "regression value &/?+ü",
+      "--asn",
+      "regression value &/?+ü",
+      "--location",
+      "regression value &/?+ü",
+      "--continent",
+      "regression value &/?+ü",
+      "--cacheHit",
+      "regression value &/?+ü",
+      "--responseTtl",
+      "regression value &/?+ü",
+      "--dnssec",
+      "regression value &/?+ü",
+      "--dnssecAware",
+      "regression value &/?+ü",
+      "--dnssecE2e",
+      "regression value &/?+ü",
+      "--format",
+      "JSON"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/radar/dns/summary/regression%20value%20%26%2F%3F%2B%C3%BC?asn=regression%20value%20%26%2F%3F%2B%C3%BC&location=regression%20value%20%26%2F%3F%2B%C3%BC&continent=regression%20value%20%26%2F%3F%2B%C3%BC&cacheHit=regression%20value%20%26%2F%3F%2B%C3%BC&responseTtl=regression%20value%20%26%2F%3F%2B%C3%BC&dnssec=regression%20value%20%26%2F%3F%2B%C3%BC&dnssecAware=regression%20value%20%26%2F%3F%2B%C3%BC&dnssecE2e=regression%20value%20%26%2F%3F%2B%C3%BC&format=JSON",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "pairwise 7",
+    "argv": [
+      "radar",
+      "dns",
+      "summary-v2",
+      "regression value &/?+ü",
+      "--name",
+      "second value &/?+ü",
+      "--dateRange",
+      "2026-01-02T03:04:05Z",
+      "--dateStart",
+      "2026-01-02T03:04:05Z",
+      "--dateEnd",
+      "2026-01-02T03:04:05Z",
+      "--nodata",
+      "second value &/?+ü",
+      "--protocol",
+      "second value &/?+ü",
+      "--queryType",
+      "second value &/?+ü",
+      "--responseCode",
+      "second value &/?+ü",
+      "--ipVersion",
+      "192.0.2.1",
+      "--limitPerGroup",
+      "2",
+      "--matchingAnswer",
+      "second value &/?+ü",
+      "--tld",
+      "second value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/radar/dns/summary/regression%20value%20%26%2F%3F%2B%C3%BC?name=second%20value%20%26%2F%3F%2B%C3%BC&dateRange=2026-01-02T03%3A04%3A05Z&dateStart=2026-01-02T03%3A04%3A05Z&dateEnd=2026-01-02T03%3A04%3A05Z&nodata=second%20value%20%26%2F%3F%2B%C3%BC&protocol=second%20value%20%26%2F%3F%2B%C3%BC&queryType=second%20value%20%26%2F%3F%2B%C3%BC&responseCode=second%20value%20%26%2F%3F%2B%C3%BC&ipVersion=192.0.2.1&limitPerGroup=2&matchingAnswer=second%20value%20%26%2F%3F%2B%C3%BC&tld=second%20value%20%26%2F%3F%2B%C3%BC",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "pairwise 8",
+    "argv": [
+      "radar",
+      "dns",
+      "summary-v2",
+      "regression value &/?+ü",
+      "--nodata",
+      "regression value &/?+ü",
+      "--protocol",
+      "regression value &/?+ü",
+      "--queryType",
+      "regression value &/?+ü",
+      "--responseCode",
+      "regression value &/?+ü",
+      "--responseTtl",
+      "regression value &/?+ü",
+      "--dnssec",
+      "regression value &/?+ü",
+      "--dnssecAware",
+      "regression value &/?+ü",
+      "--dnssecE2e",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/radar/dns/summary/regression%20value%20%26%2F%3F%2B%C3%BC?nodata=regression%20value%20%26%2F%3F%2B%C3%BC&protocol=regression%20value%20%26%2F%3F%2B%C3%BC&queryType=regression%20value%20%26%2F%3F%2B%C3%BC&responseCode=regression%20value%20%26%2F%3F%2B%C3%BC&responseTtl=regression%20value%20%26%2F%3F%2B%C3%BC&dnssec=regression%20value%20%26%2F%3F%2B%C3%BC&dnssecAware=regression%20value%20%26%2F%3F%2B%C3%BC&dnssecE2e=regression%20value%20%26%2F%3F%2B%C3%BC",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "pairwise 9",
+    "argv": [
+      "radar",
+      "dns",
+      "summary-v2",
+      "regression value &/?+ü",
+      "--name",
+      "second value &/?+ü",
+      "--dateRange",
+      "2026-01-02T03:04:05Z",
+      "--dateStart",
+      "2026-01-02T03:04:05Z",
+      "--dateEnd",
+      "2026-01-02T03:04:05Z",
+      "--asn",
+      "second value &/?+ü",
+      "--location",
+      "second value &/?+ü",
+      "--continent",
+      "second value &/?+ü",
+      "--cacheHit",
+      "second value &/?+ü",
+      "--ipVersion",
+      "192.0.2.1",
+      "--limitPerGroup",
+      "2",
+      "--matchingAnswer",
+      "second value &/?+ü",
+      "--tld",
+      "second value &/?+ü",
+      "--format",
+      "CSV"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/radar/dns/summary/regression%20value%20%26%2F%3F%2B%C3%BC?name=second%20value%20%26%2F%3F%2B%C3%BC&dateRange=2026-01-02T03%3A04%3A05Z&dateStart=2026-01-02T03%3A04%3A05Z&dateEnd=2026-01-02T03%3A04%3A05Z&asn=second%20value%20%26%2F%3F%2B%C3%BC&location=second%20value%20%26%2F%3F%2B%C3%BC&continent=second%20value%20%26%2F%3F%2B%C3%BC&cacheHit=second%20value%20%26%2F%3F%2B%C3%BC&ipVersion=192.0.2.1&limitPerGroup=2&matchingAnswer=second%20value%20%26%2F%3F%2B%C3%BC&tld=second%20value%20%26%2F%3F%2B%C3%BC&format=CSV",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "pairwise 10",
+    "argv": [
+      "radar",
+      "dns",
+      "summary-v2",
+      "regression value &/?+ü",
+      "--ipVersion",
+      "192.0.2.1",
+      "--limitPerGroup",
+      "1",
+      "--matchingAnswer",
+      "regression value &/?+ü",
+      "--tld",
+      "regression value &/?+ü",
+      "--format",
+      "JSON"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/radar/dns/summary/regression%20value%20%26%2F%3F%2B%C3%BC?ipVersion=192.0.2.1&limitPerGroup=1&matchingAnswer=regression%20value%20%26%2F%3F%2B%C3%BC&tld=regression%20value%20%26%2F%3F%2B%C3%BC&format=JSON",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "pairwise 11",
+    "argv": [
+      "radar",
+      "dns",
+      "summary-v2",
+      "regression value &/?+ü",
+      "--name",
+      "second value &/?+ü",
+      "--dateRange",
+      "2026-01-02T03:04:05Z",
+      "--dateStart",
+      "2026-01-02T03:04:05Z",
+      "--dateEnd",
+      "2026-01-02T03:04:05Z",
+      "--asn",
+      "second value &/?+ü",
+      "--location",
+      "second value &/?+ü",
+      "--continent",
+      "second value &/?+ü",
+      "--cacheHit",
+      "second value &/?+ü",
+      "--nodata",
+      "second value &/?+ü",
+      "--protocol",
+      "second value &/?+ü",
+      "--queryType",
+      "second value &/?+ü",
+      "--responseCode",
+      "second value &/?+ü",
+      "--responseTtl",
+      "second value &/?+ü",
+      "--dnssec",
+      "second value &/?+ü",
+      "--dnssecAware",
+      "second value &/?+ü",
+      "--dnssecE2e",
+      "second value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/radar/dns/summary/regression%20value%20%26%2F%3F%2B%C3%BC?name=second%20value%20%26%2F%3F%2B%C3%BC&dateRange=2026-01-02T03%3A04%3A05Z&dateStart=2026-01-02T03%3A04%3A05Z&dateEnd=2026-01-02T03%3A04%3A05Z&asn=second%20value%20%26%2F%3F%2B%C3%BC&location=second%20value%20%26%2F%3F%2B%C3%BC&continent=second%20value%20%26%2F%3F%2B%C3%BC&cacheHit=second%20value%20%26%2F%3F%2B%C3%BC&nodata=second%20value%20%26%2F%3F%2B%C3%BC&protocol=second%20value%20%26%2F%3F%2B%C3%BC&queryType=second%20value%20%26%2F%3F%2B%C3%BC&responseCode=second%20value%20%26%2F%3F%2B%C3%BC&responseTtl=second%20value%20%26%2F%3F%2B%C3%BC&dnssec=second%20value%20%26%2F%3F%2B%C3%BC&dnssecAware=second%20value%20%26%2F%3F%2B%C3%BC&dnssecE2e=second%20value%20%26%2F%3F%2B%C3%BC",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "global quiet",
+    "argv": [
+      "radar",
+      "dns",
+      "summary-v2",
+      "regression value &/?+ü",
+      "--quiet"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/radar/dns/summary/regression%20value%20%26%2F%3F%2B%C3%BC",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "global zone",
+    "argv": [
+      "radar",
+      "dns",
+      "summary-v2",
+      "regression value &/?+ü",
+      "--zone",
+      "abcdef0123456789abcdef0123456789"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/radar/dns/summary/regression%20value%20%26%2F%3F%2B%C3%BC",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "global profile and mode",
+    "argv": [
+      "radar",
+      "dns",
+      "summary-v2",
+      "regression value &/?+ü",
+      "--profile",
+      "default",
+      "--mode",
+      "regression"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/radar/dns/summary/regression%20value%20%26%2F%3F%2B%C3%BC",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "local",
+    "argv": [
+      "radar",
+      "dns",
+      "summary-v2",
+      "regression value &/?+ü",
+      "--local"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "http://localhost/cdn-cgi/local/explorer/api/radar/dns/summary/regression%20value%20%26%2F%3F%2B%C3%BC",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "gzip, deflate",
+          "accept-language": "*",
+          "connection": "keep-alive",
+          "host": "localhost",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "local with persistence",
+    "argv": [
+      "radar",
+      "dns",
+      "summary-v2",
+      "regression value &/?+ü",
+      "--local",
+      "--persist-to",
+      "regression-state"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "http://localhost/cdn-cgi/local/explorer/api/radar/dns/summary/regression%20value%20%26%2F%3F%2B%C3%BC",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "gzip, deflate",
+          "accept-language": "*",
+          "connection": "keep-alive",
+          "host": "localhost",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "dry-run",
+    "argv": [
+      "radar",
+      "dns",
+      "summary-v2",
+      "regression value &/?+ü",
+      "--dry-run"
+    ],
+    "exitCode": 0,
+    "requests": []
+  },
+  {
+    "case": "alternate <dimension>",
+    "argv": [
+      "radar",
+      "dns",
+      "summary-v2",
+      "second value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/radar/dns/summary/second%20value%20%26%2F%3F%2B%C3%BC",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  }
+]

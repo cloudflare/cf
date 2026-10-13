@@ -1,0 +1,1482 @@
+[
+  {
+    "case": "no-args",
+    "argv": [
+      "cloudforce-one",
+      "rules",
+      "email",
+      "approvals",
+      "resubmit"
+    ],
+    "exitCode": 1,
+    "error": "Not enough non-option arguments: got 0, need at least 1",
+    "requests": []
+  },
+  {
+    "case": "required",
+    "argv": [
+      "cloudforce-one",
+      "rules",
+      "email",
+      "approvals",
+      "resubmit",
+      "0123456789abcdef0123456789abcdef",
+      "--condition-operator",
+      "and",
+      "--condition-type",
+      "group",
+      "--name",
+      "regression value &/?+ü",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/cloudforce-one/rules/structured/approvals/0123456789abcdef0123456789abcdef/resubmit",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --module",
+    "argv": [
+      "cloudforce-one",
+      "rules",
+      "email",
+      "approvals",
+      "resubmit",
+      "0123456789abcdef0123456789abcdef",
+      "--condition-operator",
+      "and",
+      "--condition-type",
+      "group",
+      "--name",
+      "regression value &/?+ü",
+      "--module",
+      "eml"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/cloudforce-one/rules/structured/approvals/0123456789abcdef0123456789abcdef/resubmit?module=eml",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "113",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "condition": {
+            "operator": "and",
+            "type": "group"
+          },
+          "enabled": true,
+          "name": "regression value &/?+ü",
+          "status": "silent"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --description",
+    "argv": [
+      "cloudforce-one",
+      "rules",
+      "email",
+      "approvals",
+      "resubmit",
+      "0123456789abcdef0123456789abcdef",
+      "--condition-operator",
+      "and",
+      "--condition-type",
+      "group",
+      "--name",
+      "regression value &/?+ü",
+      "--description",
+      "192.0.2.1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/cloudforce-one/rules/structured/approvals/0123456789abcdef0123456789abcdef/resubmit",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "139",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "condition": {
+            "operator": "and",
+            "type": "group"
+          },
+          "description": "192.0.2.1",
+          "enabled": true,
+          "name": "regression value &/?+ü",
+          "status": "silent"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --enabled",
+    "argv": [
+      "cloudforce-one",
+      "rules",
+      "email",
+      "approvals",
+      "resubmit",
+      "0123456789abcdef0123456789abcdef",
+      "--condition-operator",
+      "and",
+      "--condition-type",
+      "group",
+      "--name",
+      "regression value &/?+ü",
+      "--enabled=true"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/cloudforce-one/rules/structured/approvals/0123456789abcdef0123456789abcdef/resubmit",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "113",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "condition": {
+            "operator": "and",
+            "type": "group"
+          },
+          "enabled": true,
+          "name": "regression value &/?+ü",
+          "status": "silent"
+        }
+      }
+    ]
+  },
+  {
+    "case": "--enabled value 1",
+    "argv": [
+      "cloudforce-one",
+      "rules",
+      "email",
+      "approvals",
+      "resubmit",
+      "0123456789abcdef0123456789abcdef",
+      "--condition-operator",
+      "and",
+      "--condition-type",
+      "group",
+      "--name",
+      "regression value &/?+ü",
+      "--enabled=false"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/cloudforce-one/rules/structured/approvals/0123456789abcdef0123456789abcdef/resubmit",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "114",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "condition": {
+            "operator": "and",
+            "type": "group"
+          },
+          "enabled": false,
+          "name": "regression value &/?+ü",
+          "status": "silent"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --meta",
+    "argv": [
+      "cloudforce-one",
+      "rules",
+      "email",
+      "approvals",
+      "resubmit",
+      "0123456789abcdef0123456789abcdef",
+      "--condition-operator",
+      "and",
+      "--condition-type",
+      "group",
+      "--name",
+      "regression value &/?+ü",
+      "--meta",
+      "[{\"regression\":\"item\"}]"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/cloudforce-one/rules/structured/approvals/0123456789abcdef0123456789abcdef/resubmit",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "144",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "condition": {
+            "operator": "and",
+            "type": "group"
+          },
+          "enabled": true,
+          "meta": [
+            {
+              "regression": "item"
+            }
+          ],
+          "name": "regression value &/?+ü",
+          "status": "silent"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --status",
+    "argv": [
+      "cloudforce-one",
+      "rules",
+      "email",
+      "approvals",
+      "resubmit",
+      "0123456789abcdef0123456789abcdef",
+      "--condition-operator",
+      "and",
+      "--condition-type",
+      "group",
+      "--name",
+      "regression value &/?+ü",
+      "--status",
+      "silent"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/cloudforce-one/rules/structured/approvals/0123456789abcdef0123456789abcdef/resubmit",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "113",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "condition": {
+            "operator": "and",
+            "type": "group"
+          },
+          "enabled": true,
+          "name": "regression value &/?+ü",
+          "status": "silent"
+        }
+      }
+    ]
+  },
+  {
+    "case": "--status value 1",
+    "argv": [
+      "cloudforce-one",
+      "rules",
+      "email",
+      "approvals",
+      "resubmit",
+      "0123456789abcdef0123456789abcdef",
+      "--condition-operator",
+      "and",
+      "--condition-type",
+      "group",
+      "--name",
+      "regression value &/?+ü",
+      "--status",
+      "blocking"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/cloudforce-one/rules/structured/approvals/0123456789abcdef0123456789abcdef/resubmit",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "115",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "condition": {
+            "operator": "and",
+            "type": "group"
+          },
+          "enabled": true,
+          "name": "regression value &/?+ü",
+          "status": "blocking"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --strings",
+    "argv": [
+      "cloudforce-one",
+      "rules",
+      "email",
+      "approvals",
+      "resubmit",
+      "0123456789abcdef0123456789abcdef",
+      "--condition-operator",
+      "and",
+      "--condition-type",
+      "group",
+      "--name",
+      "regression value &/?+ü",
+      "--strings",
+      "[{\"regression\":\"item\"}]"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/cloudforce-one/rules/structured/approvals/0123456789abcdef0123456789abcdef/resubmit",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "147",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "condition": {
+            "operator": "and",
+            "type": "group"
+          },
+          "enabled": true,
+          "name": "regression value &/?+ü",
+          "status": "silent",
+          "strings": [
+            {
+              "regression": "item"
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "required --condition-operator value 1",
+    "argv": [
+      "cloudforce-one",
+      "rules",
+      "email",
+      "approvals",
+      "resubmit",
+      "0123456789abcdef0123456789abcdef",
+      "--condition-type",
+      "group",
+      "--name",
+      "regression value &/?+ü",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--condition-operator",
+      "or"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/cloudforce-one/rules/structured/approvals/0123456789abcdef0123456789abcdef/resubmit",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 0",
+    "argv": [
+      "cloudforce-one",
+      "rules",
+      "email",
+      "approvals",
+      "resubmit",
+      "0123456789abcdef0123456789abcdef",
+      "--condition-operator",
+      "and",
+      "--condition-type",
+      "group",
+      "--name",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/cloudforce-one/rules/structured/approvals/0123456789abcdef0123456789abcdef/resubmit",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "113",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "condition": {
+            "operator": "and",
+            "type": "group"
+          },
+          "enabled": true,
+          "name": "regression value &/?+ü",
+          "status": "silent"
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 1",
+    "argv": [
+      "cloudforce-one",
+      "rules",
+      "email",
+      "approvals",
+      "resubmit",
+      "0123456789abcdef0123456789abcdef",
+      "--condition-operator",
+      "and",
+      "--condition-type",
+      "group",
+      "--name",
+      "regression value &/?+ü",
+      "--module",
+      "eml",
+      "--description",
+      "192.0.2.1",
+      "--enabled=false",
+      "--meta",
+      "[{\"regression\":\"item\"}]",
+      "--status",
+      "blocking",
+      "--strings",
+      "[{\"regression\":\"item\"}]"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/cloudforce-one/rules/structured/approvals/0123456789abcdef0123456789abcdef/resubmit?module=eml",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "207",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "condition": {
+            "operator": "and",
+            "type": "group"
+          },
+          "description": "192.0.2.1",
+          "enabled": false,
+          "meta": [
+            {
+              "regression": "item"
+            }
+          ],
+          "name": "regression value &/?+ü",
+          "status": "blocking",
+          "strings": [
+            {
+              "regression": "item"
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 2",
+    "argv": [
+      "cloudforce-one",
+      "rules",
+      "email",
+      "approvals",
+      "resubmit",
+      "0123456789abcdef0123456789abcdef",
+      "--condition-operator",
+      "and",
+      "--condition-type",
+      "group",
+      "--name",
+      "regression value &/?+ü",
+      "--description",
+      "192.0.2.1",
+      "--meta",
+      "[{\"regression\":\"item\"}]",
+      "--strings",
+      "[{\"regression\":\"item\"}]"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/cloudforce-one/rules/structured/approvals/0123456789abcdef0123456789abcdef/resubmit",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "204",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "condition": {
+            "operator": "and",
+            "type": "group"
+          },
+          "description": "192.0.2.1",
+          "enabled": true,
+          "meta": [
+            {
+              "regression": "item"
+            }
+          ],
+          "name": "regression value &/?+ü",
+          "status": "silent",
+          "strings": [
+            {
+              "regression": "item"
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 3",
+    "argv": [
+      "cloudforce-one",
+      "rules",
+      "email",
+      "approvals",
+      "resubmit",
+      "0123456789abcdef0123456789abcdef",
+      "--condition-operator",
+      "and",
+      "--condition-type",
+      "group",
+      "--name",
+      "regression value &/?+ü",
+      "--module",
+      "eml",
+      "--enabled=false",
+      "--status",
+      "blocking"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/cloudforce-one/rules/structured/approvals/0123456789abcdef0123456789abcdef/resubmit?module=eml",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "116",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "condition": {
+            "operator": "and",
+            "type": "group"
+          },
+          "enabled": false,
+          "name": "regression value &/?+ü",
+          "status": "blocking"
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 4",
+    "argv": [
+      "cloudforce-one",
+      "rules",
+      "email",
+      "approvals",
+      "resubmit",
+      "0123456789abcdef0123456789abcdef",
+      "--condition-operator",
+      "and",
+      "--condition-type",
+      "group",
+      "--name",
+      "regression value &/?+ü",
+      "--enabled=true",
+      "--meta",
+      "[{\"regression\":\"item\"}]"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/cloudforce-one/rules/structured/approvals/0123456789abcdef0123456789abcdef/resubmit",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "144",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "condition": {
+            "operator": "and",
+            "type": "group"
+          },
+          "enabled": true,
+          "meta": [
+            {
+              "regression": "item"
+            }
+          ],
+          "name": "regression value &/?+ü",
+          "status": "silent"
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 5",
+    "argv": [
+      "cloudforce-one",
+      "rules",
+      "email",
+      "approvals",
+      "resubmit",
+      "0123456789abcdef0123456789abcdef",
+      "--condition-operator",
+      "and",
+      "--condition-type",
+      "group",
+      "--name",
+      "regression value &/?+ü",
+      "--module",
+      "eml",
+      "--description",
+      "192.0.2.1",
+      "--status",
+      "blocking",
+      "--strings",
+      "[{\"regression\":\"item\"}]"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/cloudforce-one/rules/structured/approvals/0123456789abcdef0123456789abcdef/resubmit?module=eml",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "175",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "condition": {
+            "operator": "and",
+            "type": "group"
+          },
+          "description": "192.0.2.1",
+          "enabled": true,
+          "name": "regression value &/?+ü",
+          "status": "blocking",
+          "strings": [
+            {
+              "regression": "item"
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 6",
+    "argv": [
+      "cloudforce-one",
+      "rules",
+      "email",
+      "approvals",
+      "resubmit",
+      "0123456789abcdef0123456789abcdef",
+      "--condition-operator",
+      "and",
+      "--condition-type",
+      "group",
+      "--name",
+      "regression value &/?+ü",
+      "--status",
+      "silent",
+      "--strings",
+      "[{\"regression\":\"item\"}]"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/cloudforce-one/rules/structured/approvals/0123456789abcdef0123456789abcdef/resubmit",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "147",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "condition": {
+            "operator": "and",
+            "type": "group"
+          },
+          "enabled": true,
+          "name": "regression value &/?+ü",
+          "status": "silent",
+          "strings": [
+            {
+              "regression": "item"
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 7",
+    "argv": [
+      "cloudforce-one",
+      "rules",
+      "email",
+      "approvals",
+      "resubmit",
+      "0123456789abcdef0123456789abcdef",
+      "--condition-operator",
+      "and",
+      "--condition-type",
+      "group",
+      "--name",
+      "regression value &/?+ü",
+      "--module",
+      "eml",
+      "--description",
+      "192.0.2.1",
+      "--enabled=false",
+      "--meta",
+      "[{\"regression\":\"item\"}]"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/cloudforce-one/rules/structured/approvals/0123456789abcdef0123456789abcdef/resubmit?module=eml",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "171",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "condition": {
+            "operator": "and",
+            "type": "group"
+          },
+          "description": "192.0.2.1",
+          "enabled": false,
+          "meta": [
+            {
+              "regression": "item"
+            }
+          ],
+          "name": "regression value &/?+ü",
+          "status": "silent"
+        }
+      }
+    ]
+  },
+  {
+    "case": "global quiet",
+    "argv": [
+      "cloudforce-one",
+      "rules",
+      "email",
+      "approvals",
+      "resubmit",
+      "0123456789abcdef0123456789abcdef",
+      "--condition-operator",
+      "and",
+      "--condition-type",
+      "group",
+      "--name",
+      "regression value &/?+ü",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--quiet"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/cloudforce-one/rules/structured/approvals/0123456789abcdef0123456789abcdef/resubmit",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "global zone",
+    "argv": [
+      "cloudforce-one",
+      "rules",
+      "email",
+      "approvals",
+      "resubmit",
+      "0123456789abcdef0123456789abcdef",
+      "--condition-operator",
+      "and",
+      "--condition-type",
+      "group",
+      "--name",
+      "regression value &/?+ü",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--zone",
+      "abcdef0123456789abcdef0123456789"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/cloudforce-one/rules/structured/approvals/0123456789abcdef0123456789abcdef/resubmit",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "global profile and mode",
+    "argv": [
+      "cloudforce-one",
+      "rules",
+      "email",
+      "approvals",
+      "resubmit",
+      "0123456789abcdef0123456789abcdef",
+      "--condition-operator",
+      "and",
+      "--condition-type",
+      "group",
+      "--name",
+      "regression value &/?+ü",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--profile",
+      "default",
+      "--mode",
+      "regression"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/cloudforce-one/rules/structured/approvals/0123456789abcdef0123456789abcdef/resubmit",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "local",
+    "argv": [
+      "cloudforce-one",
+      "rules",
+      "email",
+      "approvals",
+      "resubmit",
+      "0123456789abcdef0123456789abcdef",
+      "--condition-operator",
+      "and",
+      "--condition-type",
+      "group",
+      "--name",
+      "regression value &/?+ü",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--local"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "http://localhost/cdn-cgi/local/explorer/api/cloudforce-one/rules/structured/approvals/0123456789abcdef0123456789abcdef/resubmit",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "gzip, deflate",
+          "accept-language": "*",
+          "connection": "keep-alive",
+          "content-type": "application/json",
+          "host": "localhost",
+          "sec-fetch-mode": "cors",
+          "transfer-encoding": "chunked",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "local with persistence",
+    "argv": [
+      "cloudforce-one",
+      "rules",
+      "email",
+      "approvals",
+      "resubmit",
+      "0123456789abcdef0123456789abcdef",
+      "--condition-operator",
+      "and",
+      "--condition-type",
+      "group",
+      "--name",
+      "regression value &/?+ü",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--local",
+      "--persist-to",
+      "regression-state"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "http://localhost/cdn-cgi/local/explorer/api/cloudforce-one/rules/structured/approvals/0123456789abcdef0123456789abcdef/resubmit",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "gzip, deflate",
+          "accept-language": "*",
+          "connection": "keep-alive",
+          "content-type": "application/json",
+          "host": "localhost",
+          "sec-fetch-mode": "cors",
+          "transfer-encoding": "chunked",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "dry-run",
+    "argv": [
+      "cloudforce-one",
+      "rules",
+      "email",
+      "approvals",
+      "resubmit",
+      "0123456789abcdef0123456789abcdef",
+      "--condition-operator",
+      "and",
+      "--condition-type",
+      "group",
+      "--name",
+      "regression value &/?+ü",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--dry-run"
+    ],
+    "exitCode": 0,
+    "requests": []
+  },
+  {
+    "case": "body from file",
+    "argv": [
+      "cloudforce-one",
+      "rules",
+      "email",
+      "approvals",
+      "resubmit",
+      "0123456789abcdef0123456789abcdef",
+      "--condition-operator",
+      "and",
+      "--condition-type",
+      "group",
+      "--name",
+      "regression value &/?+ü",
+      "--body",
+      "@<body.json>"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/cloudforce-one/rules/structured/approvals/0123456789abcdef0123456789abcdef/resubmit",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "array body",
+    "argv": [
+      "cloudforce-one",
+      "rules",
+      "email",
+      "approvals",
+      "resubmit",
+      "0123456789abcdef0123456789abcdef",
+      "--condition-operator",
+      "and",
+      "--condition-type",
+      "group",
+      "--name",
+      "regression value &/?+ü",
+      "--body",
+      "[{\"regression\":\"first\"},{\"regression\":\"second\"}]"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/cloudforce-one/rules/structured/approvals/0123456789abcdef0123456789abcdef/resubmit",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "56",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "0": {
+            "regression": "first"
+          },
+          "1": {
+            "regression": "second"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "field flags",
+    "argv": [
+      "cloudforce-one",
+      "rules",
+      "email",
+      "approvals",
+      "resubmit",
+      "0123456789abcdef0123456789abcdef",
+      "--condition-operator",
+      "and",
+      "--condition-type",
+      "group",
+      "--name",
+      "regression value &/?+ü",
+      "--module",
+      "eml",
+      "--description",
+      "192.0.2.1",
+      "--enabled=true",
+      "--meta",
+      "[{\"regression\":\"item\"}]",
+      "--status",
+      "silent",
+      "--strings",
+      "[{\"regression\":\"item\"}]"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/cloudforce-one/rules/structured/approvals/0123456789abcdef0123456789abcdef/resubmit?module=eml",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "204",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "condition": {
+            "operator": "and",
+            "type": "group"
+          },
+          "description": "192.0.2.1",
+          "enabled": true,
+          "meta": [
+            {
+              "regression": "item"
+            }
+          ],
+          "name": "regression value &/?+ü",
+          "status": "silent",
+          "strings": [
+            {
+              "regression": "item"
+            }
+          ]
+        }
+      }
+    ]
+  }
+]

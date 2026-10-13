@@ -1,0 +1,403 @@
+[
+  {
+    "case": "no-args",
+    "argv": [
+      "containers",
+      "images",
+      "delete"
+    ],
+    "exitCode": 1,
+    "error": "Not enough non-option arguments: got 0, need at least 1",
+    "requests": []
+  },
+  {
+    "case": "required",
+    "argv": [
+      "containers",
+      "images",
+      "delete",
+      "regression-image:latest",
+      "--force"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/containers/registries/registry.cloudflare.com/credentials",
+        "headers": {
+          "accept": "application/json",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "54",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "expiration_minutes": 5,
+          "permissions": [
+            "pull",
+            "push"
+          ]
+        }
+      },
+      {
+        "method": "HEAD",
+        "url": "https://registry.cloudflare.com/v2/0123456789abcdef0123456789abcdef/regression-image/manifests/latest",
+        "headers": {
+          "accept": "application/vnd.oci.image.manifest.v1+json, application/vnd.docker.distribution.manifest.v2+json",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Basic djE6cmVncmVzc2lvbi1wYXNzd29yZA==",
+          "connection": "close",
+          "host": "registry.cloudflare.com",
+          "sec-fetch-mode": "cors",
+          "user-agent": "node"
+        },
+        "body": null
+      },
+      {
+        "method": "DELETE",
+        "url": "https://registry.cloudflare.com/v2/0123456789abcdef0123456789abcdef/regression-image/manifests/latest",
+        "headers": {
+          "accept": "application/vnd.oci.image.manifest.v1+json, application/vnd.docker.distribution.manifest.v2+json",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Basic djE6cmVncmVzc2lvbi1wYXNzd29yZA==",
+          "connection": "keep-alive",
+          "host": "registry.cloudflare.com",
+          "sec-fetch-mode": "cors",
+          "user-agent": "node"
+        },
+        "body": null
+      },
+      {
+        "method": "PUT",
+        "url": "https://registry.cloudflare.com/v2/gc/layers",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Basic djE6cmVncmVzc2lvbi1wYXNzd29yZA==",
+          "connection": "keep-alive",
+          "content-length": "0",
+          "content-type": "application/json",
+          "host": "registry.cloudflare.com",
+          "sec-fetch-mode": "cors",
+          "user-agent": "node"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "global quiet",
+    "argv": [
+      "containers",
+      "images",
+      "delete",
+      "regression-image:latest",
+      "--force",
+      "--quiet"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/containers/registries/registry.cloudflare.com/credentials",
+        "headers": {
+          "accept": "application/json",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "54",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "expiration_minutes": 5,
+          "permissions": [
+            "pull",
+            "push"
+          ]
+        }
+      },
+      {
+        "method": "HEAD",
+        "url": "https://registry.cloudflare.com/v2/0123456789abcdef0123456789abcdef/regression-image/manifests/latest",
+        "headers": {
+          "accept": "application/vnd.oci.image.manifest.v1+json, application/vnd.docker.distribution.manifest.v2+json",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Basic djE6cmVncmVzc2lvbi1wYXNzd29yZA==",
+          "connection": "close",
+          "host": "registry.cloudflare.com",
+          "sec-fetch-mode": "cors",
+          "user-agent": "node"
+        },
+        "body": null
+      },
+      {
+        "method": "DELETE",
+        "url": "https://registry.cloudflare.com/v2/0123456789abcdef0123456789abcdef/regression-image/manifests/latest",
+        "headers": {
+          "accept": "application/vnd.oci.image.manifest.v1+json, application/vnd.docker.distribution.manifest.v2+json",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Basic djE6cmVncmVzc2lvbi1wYXNzd29yZA==",
+          "connection": "keep-alive",
+          "host": "registry.cloudflare.com",
+          "sec-fetch-mode": "cors",
+          "user-agent": "node"
+        },
+        "body": null
+      },
+      {
+        "method": "PUT",
+        "url": "https://registry.cloudflare.com/v2/gc/layers",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Basic djE6cmVncmVzc2lvbi1wYXNzd29yZA==",
+          "connection": "keep-alive",
+          "content-length": "0",
+          "content-type": "application/json",
+          "host": "registry.cloudflare.com",
+          "sec-fetch-mode": "cors",
+          "user-agent": "node"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "global zone",
+    "argv": [
+      "containers",
+      "images",
+      "delete",
+      "regression-image:latest",
+      "--force",
+      "--zone",
+      "abcdef0123456789abcdef0123456789"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/containers/registries/registry.cloudflare.com/credentials",
+        "headers": {
+          "accept": "application/json",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "54",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "expiration_minutes": 5,
+          "permissions": [
+            "pull",
+            "push"
+          ]
+        }
+      },
+      {
+        "method": "HEAD",
+        "url": "https://registry.cloudflare.com/v2/0123456789abcdef0123456789abcdef/regression-image/manifests/latest",
+        "headers": {
+          "accept": "application/vnd.oci.image.manifest.v1+json, application/vnd.docker.distribution.manifest.v2+json",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Basic djE6cmVncmVzc2lvbi1wYXNzd29yZA==",
+          "connection": "close",
+          "host": "registry.cloudflare.com",
+          "sec-fetch-mode": "cors",
+          "user-agent": "node"
+        },
+        "body": null
+      },
+      {
+        "method": "DELETE",
+        "url": "https://registry.cloudflare.com/v2/0123456789abcdef0123456789abcdef/regression-image/manifests/latest",
+        "headers": {
+          "accept": "application/vnd.oci.image.manifest.v1+json, application/vnd.docker.distribution.manifest.v2+json",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Basic djE6cmVncmVzc2lvbi1wYXNzd29yZA==",
+          "connection": "keep-alive",
+          "host": "registry.cloudflare.com",
+          "sec-fetch-mode": "cors",
+          "user-agent": "node"
+        },
+        "body": null
+      },
+      {
+        "method": "PUT",
+        "url": "https://registry.cloudflare.com/v2/gc/layers",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Basic djE6cmVncmVzc2lvbi1wYXNzd29yZA==",
+          "connection": "keep-alive",
+          "content-length": "0",
+          "content-type": "application/json",
+          "host": "registry.cloudflare.com",
+          "sec-fetch-mode": "cors",
+          "user-agent": "node"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "global profile and mode",
+    "argv": [
+      "containers",
+      "images",
+      "delete",
+      "regression-image:latest",
+      "--force",
+      "--profile",
+      "default",
+      "--mode",
+      "regression"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/containers/registries/registry.cloudflare.com/credentials",
+        "headers": {
+          "accept": "application/json",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "54",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "expiration_minutes": 5,
+          "permissions": [
+            "pull",
+            "push"
+          ]
+        }
+      },
+      {
+        "method": "HEAD",
+        "url": "https://registry.cloudflare.com/v2/0123456789abcdef0123456789abcdef/regression-image/manifests/latest",
+        "headers": {
+          "accept": "application/vnd.oci.image.manifest.v1+json, application/vnd.docker.distribution.manifest.v2+json",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Basic djE6cmVncmVzc2lvbi1wYXNzd29yZA==",
+          "connection": "close",
+          "host": "registry.cloudflare.com",
+          "sec-fetch-mode": "cors",
+          "user-agent": "node"
+        },
+        "body": null
+      },
+      {
+        "method": "DELETE",
+        "url": "https://registry.cloudflare.com/v2/0123456789abcdef0123456789abcdef/regression-image/manifests/latest",
+        "headers": {
+          "accept": "application/vnd.oci.image.manifest.v1+json, application/vnd.docker.distribution.manifest.v2+json",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Basic djE6cmVncmVzc2lvbi1wYXNzd29yZA==",
+          "connection": "keep-alive",
+          "host": "registry.cloudflare.com",
+          "sec-fetch-mode": "cors",
+          "user-agent": "node"
+        },
+        "body": null
+      },
+      {
+        "method": "PUT",
+        "url": "https://registry.cloudflare.com/v2/gc/layers",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Basic djE6cmVncmVzc2lvbi1wYXNzd29yZA==",
+          "connection": "keep-alive",
+          "content-length": "0",
+          "content-type": "application/json",
+          "host": "registry.cloudflare.com",
+          "sec-fetch-mode": "cors",
+          "user-agent": "node"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "local",
+    "argv": [
+      "containers",
+      "images",
+      "delete",
+      "regression-image:latest",
+      "--force",
+      "--local"
+    ],
+    "exitCode": 1,
+    "error": "--local is not supported with `cf containers images delete`.",
+    "requests": []
+  },
+  {
+    "case": "local with persistence",
+    "argv": [
+      "containers",
+      "images",
+      "delete",
+      "regression-image:latest",
+      "--force",
+      "--local",
+      "--persist-to",
+      "regression-state"
+    ],
+    "exitCode": 1,
+    "error": "--local is not supported with `cf containers images delete`.",
+    "requests": []
+  },
+  {
+    "case": "dry-run",
+    "argv": [
+      "containers",
+      "images",
+      "delete",
+      "regression-image:latest",
+      "--force",
+      "--dry-run"
+    ],
+    "exitCode": 0,
+    "requests": []
+  }
+]

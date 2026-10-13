@@ -1,0 +1,1142 @@
+[
+  {
+    "case": "no-args",
+    "argv": [
+      "abuse-reports",
+      "mitigations",
+      "review"
+    ],
+    "exitCode": 1,
+    "error": "Not enough non-option arguments: got 0, need at least 1",
+    "requests": []
+  },
+  {
+    "case": "required",
+    "argv": [
+      "abuse-reports",
+      "mitigations",
+      "review",
+      "0123456789abcdef0123456789abcdef",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/abuse-reports/0123456789abcdef0123456789abcdef/mitigations/appeal",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --appeals",
+    "argv": [
+      "abuse-reports",
+      "mitigations",
+      "review",
+      "0123456789abcdef0123456789abcdef",
+      "--appeals",
+      "[{\"regression\":\"item\"}]"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/abuse-reports/0123456789abcdef0123456789abcdef/mitigations/appeal",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "35",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "appeals": [
+            {
+              "regression": "item"
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --data-city",
+    "argv": [
+      "abuse-reports",
+      "mitigations",
+      "review",
+      "0123456789abcdef0123456789abcdef",
+      "--data-city",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 1,
+    "error": "--data-country, --data-email, --data-full-name, --data-jurisdiction-consent, --data-perjury-attestation, --data-phone-number, --data-signature, --data-state, --data-street-address, --data-urls, --data-zip-code are required when any --data-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "only --data-company",
+    "argv": [
+      "abuse-reports",
+      "mitigations",
+      "review",
+      "0123456789abcdef0123456789abcdef",
+      "--data-company",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 1,
+    "error": "--data-city, --data-country, --data-email, --data-full-name, --data-jurisdiction-consent, --data-perjury-attestation, --data-phone-number, --data-signature, --data-state, --data-street-address, --data-urls, --data-zip-code are required when any --data-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "only --data-counter-notice-response",
+    "argv": [
+      "abuse-reports",
+      "mitigations",
+      "review",
+      "0123456789abcdef0123456789abcdef",
+      "--data-counter-notice-response",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 1,
+    "error": "--data-city, --data-country, --data-email, --data-full-name, --data-jurisdiction-consent, --data-perjury-attestation, --data-phone-number, --data-signature, --data-state, --data-street-address, --data-urls, --data-zip-code are required when any --data-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "only --data-country",
+    "argv": [
+      "abuse-reports",
+      "mitigations",
+      "review",
+      "0123456789abcdef0123456789abcdef",
+      "--data-country",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 1,
+    "error": "--data-city, --data-email, --data-full-name, --data-jurisdiction-consent, --data-perjury-attestation, --data-phone-number, --data-signature, --data-state, --data-street-address, --data-urls, --data-zip-code are required when any --data-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "only --data-email",
+    "argv": [
+      "abuse-reports",
+      "mitigations",
+      "review",
+      "0123456789abcdef0123456789abcdef",
+      "--data-email",
+      "regression@example.com"
+    ],
+    "exitCode": 1,
+    "error": "--data-city, --data-country, --data-full-name, --data-jurisdiction-consent, --data-perjury-attestation, --data-phone-number, --data-signature, --data-state, --data-street-address, --data-urls, --data-zip-code are required when any --data-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "only --data-full-name",
+    "argv": [
+      "abuse-reports",
+      "mitigations",
+      "review",
+      "0123456789abcdef0123456789abcdef",
+      "--data-full-name",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 1,
+    "error": "--data-city, --data-country, --data-email, --data-jurisdiction-consent, --data-perjury-attestation, --data-phone-number, --data-signature, --data-state, --data-street-address, --data-urls, --data-zip-code are required when any --data-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "only --data-jurisdiction-consent",
+    "argv": [
+      "abuse-reports",
+      "mitigations",
+      "review",
+      "0123456789abcdef0123456789abcdef",
+      "--data-jurisdiction-consent=true"
+    ],
+    "exitCode": 1,
+    "error": "--data-city, --data-country, --data-email, --data-full-name, --data-perjury-attestation, --data-phone-number, --data-signature, --data-state, --data-street-address, --data-urls, --data-zip-code are required when any --data-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "--data-jurisdiction-consent value 1",
+    "argv": [
+      "abuse-reports",
+      "mitigations",
+      "review",
+      "0123456789abcdef0123456789abcdef",
+      "--data-jurisdiction-consent=false"
+    ],
+    "exitCode": 1,
+    "error": "--data-city, --data-country, --data-email, --data-full-name, --data-perjury-attestation, --data-phone-number, --data-signature, --data-state, --data-street-address, --data-urls, --data-zip-code are required when any --data-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "only --data-perjury-attestation",
+    "argv": [
+      "abuse-reports",
+      "mitigations",
+      "review",
+      "0123456789abcdef0123456789abcdef",
+      "--data-perjury-attestation=true"
+    ],
+    "exitCode": 1,
+    "error": "--data-city, --data-country, --data-email, --data-full-name, --data-jurisdiction-consent, --data-phone-number, --data-signature, --data-state, --data-street-address, --data-urls, --data-zip-code are required when any --data-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "--data-perjury-attestation value 1",
+    "argv": [
+      "abuse-reports",
+      "mitigations",
+      "review",
+      "0123456789abcdef0123456789abcdef",
+      "--data-perjury-attestation=false"
+    ],
+    "exitCode": 1,
+    "error": "--data-city, --data-country, --data-email, --data-full-name, --data-jurisdiction-consent, --data-phone-number, --data-signature, --data-state, --data-street-address, --data-urls, --data-zip-code are required when any --data-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "only --data-phone-number",
+    "argv": [
+      "abuse-reports",
+      "mitigations",
+      "review",
+      "0123456789abcdef0123456789abcdef",
+      "--data-phone-number",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 1,
+    "error": "--data-city, --data-country, --data-email, --data-full-name, --data-jurisdiction-consent, --data-perjury-attestation, --data-signature, --data-state, --data-street-address, --data-urls, --data-zip-code are required when any --data-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "only --data-signature",
+    "argv": [
+      "abuse-reports",
+      "mitigations",
+      "review",
+      "0123456789abcdef0123456789abcdef",
+      "--data-signature",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 1,
+    "error": "--data-city, --data-country, --data-email, --data-full-name, --data-jurisdiction-consent, --data-perjury-attestation, --data-phone-number, --data-state, --data-street-address, --data-urls, --data-zip-code are required when any --data-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "only --data-state",
+    "argv": [
+      "abuse-reports",
+      "mitigations",
+      "review",
+      "0123456789abcdef0123456789abcdef",
+      "--data-state",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 1,
+    "error": "--data-city, --data-country, --data-email, --data-full-name, --data-jurisdiction-consent, --data-perjury-attestation, --data-phone-number, --data-signature, --data-street-address, --data-urls, --data-zip-code are required when any --data-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "only --data-street-address",
+    "argv": [
+      "abuse-reports",
+      "mitigations",
+      "review",
+      "0123456789abcdef0123456789abcdef",
+      "--data-street-address",
+      "192.0.2.1"
+    ],
+    "exitCode": 1,
+    "error": "--data-city, --data-country, --data-email, --data-full-name, --data-jurisdiction-consent, --data-perjury-attestation, --data-phone-number, --data-signature, --data-state, --data-urls, --data-zip-code are required when any --data-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "only --data-urls",
+    "argv": [
+      "abuse-reports",
+      "mitigations",
+      "review",
+      "0123456789abcdef0123456789abcdef",
+      "--data-urls",
+      "https://example.com/a?x=1&y=two"
+    ],
+    "exitCode": 1,
+    "error": "--data-city, --data-country, --data-email, --data-full-name, --data-jurisdiction-consent, --data-perjury-attestation, --data-phone-number, --data-signature, --data-state, --data-street-address, --data-zip-code are required when any --data-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "only --data-zip-code",
+    "argv": [
+      "abuse-reports",
+      "mitigations",
+      "review",
+      "0123456789abcdef0123456789abcdef",
+      "--data-zip-code",
+      "192.0.2.1"
+    ],
+    "exitCode": 1,
+    "error": "--data-city, --data-country, --data-email, --data-full-name, --data-jurisdiction-consent, --data-perjury-attestation, --data-phone-number, --data-signature, --data-state, --data-street-address, --data-urls are required when any --data-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "only --type",
+    "argv": [
+      "abuse-reports",
+      "mitigations",
+      "review",
+      "0123456789abcdef0123456789abcdef",
+      "--type",
+      "counter_notice"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/abuse-reports/0123456789abcdef0123456789abcdef/mitigations/appeal",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "25",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "type": "counter_notice"
+        }
+      }
+    ]
+  },
+  {
+    "case": "--type value 1",
+    "argv": [
+      "abuse-reports",
+      "mitigations",
+      "review",
+      "0123456789abcdef0123456789abcdef",
+      "--type",
+      "content_removed"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/abuse-reports/0123456789abcdef0123456789abcdef/mitigations/appeal",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "26",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "type": "content_removed"
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 0",
+    "argv": [
+      "abuse-reports",
+      "mitigations",
+      "review",
+      "0123456789abcdef0123456789abcdef"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/abuse-reports/0123456789abcdef0123456789abcdef/mitigations/appeal",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "2",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {}
+      }
+    ]
+  },
+  {
+    "case": "pairwise 1",
+    "argv": [
+      "abuse-reports",
+      "mitigations",
+      "review",
+      "0123456789abcdef0123456789abcdef",
+      "--appeals",
+      "[{\"regression\":\"item\"}]",
+      "--data-city",
+      "second value &/?+ü",
+      "--data-company",
+      "second value &/?+ü",
+      "--data-counter-notice-response",
+      "second value &/?+ü",
+      "--data-country",
+      "second value &/?+ü",
+      "--data-email",
+      "regression@example.com",
+      "--data-full-name",
+      "second value &/?+ü",
+      "--data-jurisdiction-consent=false",
+      "--data-perjury-attestation=false",
+      "--data-phone-number",
+      "second value &/?+ü",
+      "--data-signature",
+      "second value &/?+ü",
+      "--data-state",
+      "second value &/?+ü",
+      "--data-street-address",
+      "192.0.2.1",
+      "--data-urls",
+      "https://example.com/a?x=1&y=two",
+      "https://example.com/a?x=1&y=two",
+      "--data-zip-code",
+      "192.0.2.1",
+      "--type",
+      "content_removed"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/abuse-reports/0123456789abcdef0123456789abcdef/mitigations/appeal",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "564",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "appeals": [
+            {
+              "regression": "item"
+            }
+          ],
+          "data": {
+            "city": "second value &/?+ü",
+            "company": "second value &/?+ü",
+            "counter_notice_response": "second value &/?+ü",
+            "country": "second value &/?+ü",
+            "email": "regression@example.com",
+            "full_name": "second value &/?+ü",
+            "jurisdiction_consent": false,
+            "perjury_attestation": false,
+            "phone_number": "second value &/?+ü",
+            "signature": "second value &/?+ü",
+            "state": "second value &/?+ü",
+            "street_address": "192.0.2.1",
+            "urls": [
+              "https://example.com/a?x=1&y=two",
+              "https://example.com/a?x=1&y=two"
+            ],
+            "zip_code": "192.0.2.1"
+          },
+          "type": "content_removed"
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 2",
+    "argv": [
+      "abuse-reports",
+      "mitigations",
+      "review",
+      "0123456789abcdef0123456789abcdef",
+      "--data-city",
+      "regression value &/?+ü",
+      "--data-counter-notice-response",
+      "regression value &/?+ü",
+      "--data-email",
+      "regression@example.com",
+      "--data-jurisdiction-consent=true",
+      "--data-phone-number",
+      "regression value &/?+ü",
+      "--data-state",
+      "regression value &/?+ü",
+      "--data-urls",
+      "https://example.com/a?x=1&y=two",
+      "--type",
+      "counter_notice"
+    ],
+    "exitCode": 1,
+    "error": "--data-country, --data-full-name, --data-perjury-attestation, --data-signature, --data-street-address, --data-zip-code are required when any --data-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "pairwise 3",
+    "argv": [
+      "abuse-reports",
+      "mitigations",
+      "review",
+      "0123456789abcdef0123456789abcdef",
+      "--appeals",
+      "[{\"regression\":\"item\"}]",
+      "--data-company",
+      "second value &/?+ü",
+      "--data-country",
+      "second value &/?+ü",
+      "--data-full-name",
+      "second value &/?+ü",
+      "--data-perjury-attestation=false",
+      "--data-signature",
+      "second value &/?+ü",
+      "--data-street-address",
+      "192.0.2.1",
+      "--data-zip-code",
+      "192.0.2.1"
+    ],
+    "exitCode": 1,
+    "error": "--data-city, --data-email, --data-jurisdiction-consent, --data-phone-number, --data-state, --data-urls are required when any --data-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "pairwise 4",
+    "argv": [
+      "abuse-reports",
+      "mitigations",
+      "review",
+      "0123456789abcdef0123456789abcdef",
+      "--data-company",
+      "regression value &/?+ü",
+      "--data-counter-notice-response",
+      "regression value &/?+ü",
+      "--data-full-name",
+      "regression value &/?+ü",
+      "--data-jurisdiction-consent=true",
+      "--data-signature",
+      "regression value &/?+ü",
+      "--data-state",
+      "regression value &/?+ü",
+      "--data-zip-code",
+      "192.0.2.1",
+      "--type",
+      "counter_notice"
+    ],
+    "exitCode": 1,
+    "error": "--data-city, --data-country, --data-email, --data-perjury-attestation, --data-phone-number, --data-street-address, --data-urls are required when any --data-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "pairwise 5",
+    "argv": [
+      "abuse-reports",
+      "mitigations",
+      "review",
+      "0123456789abcdef0123456789abcdef",
+      "--appeals",
+      "[{\"regression\":\"item\"}]",
+      "--data-city",
+      "second value &/?+ü",
+      "--data-country",
+      "second value &/?+ü",
+      "--data-email",
+      "regression@example.com",
+      "--data-perjury-attestation=false",
+      "--data-phone-number",
+      "second value &/?+ü",
+      "--data-street-address",
+      "192.0.2.1",
+      "--data-urls",
+      "https://example.com/a?x=1&y=two",
+      "https://example.com/a?x=1&y=two"
+    ],
+    "exitCode": 1,
+    "error": "--data-full-name, --data-jurisdiction-consent, --data-signature, --data-state, --data-zip-code are required when any --data-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "pairwise 6",
+    "argv": [
+      "abuse-reports",
+      "mitigations",
+      "review",
+      "0123456789abcdef0123456789abcdef",
+      "--data-country",
+      "regression value &/?+ü",
+      "--data-email",
+      "regression@example.com",
+      "--data-full-name",
+      "regression value &/?+ü",
+      "--data-jurisdiction-consent=true",
+      "--data-street-address",
+      "192.0.2.1",
+      "--data-urls",
+      "https://example.com/a?x=1&y=two",
+      "--data-zip-code",
+      "192.0.2.1",
+      "--type",
+      "counter_notice"
+    ],
+    "exitCode": 1,
+    "error": "--data-city, --data-perjury-attestation, --data-phone-number, --data-signature, --data-state are required when any --data-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "pairwise 7",
+    "argv": [
+      "abuse-reports",
+      "mitigations",
+      "review",
+      "0123456789abcdef0123456789abcdef",
+      "--appeals",
+      "[{\"regression\":\"item\"}]",
+      "--data-city",
+      "second value &/?+ü",
+      "--data-company",
+      "second value &/?+ü",
+      "--data-counter-notice-response",
+      "second value &/?+ü",
+      "--data-perjury-attestation=false",
+      "--data-phone-number",
+      "second value &/?+ü",
+      "--data-signature",
+      "second value &/?+ü",
+      "--data-state",
+      "second value &/?+ü"
+    ],
+    "exitCode": 1,
+    "error": "--data-country, --data-email, --data-full-name, --data-jurisdiction-consent, --data-street-address, --data-urls, --data-zip-code are required when any --data-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "pairwise 8",
+    "argv": [
+      "abuse-reports",
+      "mitigations",
+      "review",
+      "0123456789abcdef0123456789abcdef",
+      "--data-perjury-attestation=true",
+      "--data-phone-number",
+      "regression value &/?+ü",
+      "--data-signature",
+      "regression value &/?+ü",
+      "--data-state",
+      "regression value &/?+ü",
+      "--data-street-address",
+      "192.0.2.1",
+      "--data-urls",
+      "https://example.com/a?x=1&y=two",
+      "--data-zip-code",
+      "192.0.2.1",
+      "--type",
+      "counter_notice"
+    ],
+    "exitCode": 1,
+    "error": "--data-city, --data-country, --data-email, --data-full-name, --data-jurisdiction-consent are required when any --data-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "pairwise 9",
+    "argv": [
+      "abuse-reports",
+      "mitigations",
+      "review",
+      "0123456789abcdef0123456789abcdef",
+      "--appeals",
+      "[{\"regression\":\"item\"}]",
+      "--data-city",
+      "second value &/?+ü",
+      "--data-company",
+      "second value &/?+ü",
+      "--data-counter-notice-response",
+      "second value &/?+ü",
+      "--data-country",
+      "second value &/?+ü",
+      "--data-email",
+      "regression@example.com",
+      "--data-full-name",
+      "second value &/?+ü",
+      "--data-jurisdiction-consent=false"
+    ],
+    "exitCode": 1,
+    "error": "--data-perjury-attestation, --data-phone-number, --data-signature, --data-state, --data-street-address, --data-urls, --data-zip-code are required when any --data-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "global quiet",
+    "argv": [
+      "abuse-reports",
+      "mitigations",
+      "review",
+      "0123456789abcdef0123456789abcdef",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--quiet"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/abuse-reports/0123456789abcdef0123456789abcdef/mitigations/appeal",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "global zone",
+    "argv": [
+      "abuse-reports",
+      "mitigations",
+      "review",
+      "0123456789abcdef0123456789abcdef",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--zone",
+      "abcdef0123456789abcdef0123456789"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/abuse-reports/0123456789abcdef0123456789abcdef/mitigations/appeal",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "global profile and mode",
+    "argv": [
+      "abuse-reports",
+      "mitigations",
+      "review",
+      "0123456789abcdef0123456789abcdef",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--profile",
+      "default",
+      "--mode",
+      "regression"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/abuse-reports/0123456789abcdef0123456789abcdef/mitigations/appeal",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "local",
+    "argv": [
+      "abuse-reports",
+      "mitigations",
+      "review",
+      "0123456789abcdef0123456789abcdef",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--local"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "http://localhost/cdn-cgi/local/explorer/api/abuse-reports/0123456789abcdef0123456789abcdef/mitigations/appeal",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "gzip, deflate",
+          "accept-language": "*",
+          "connection": "keep-alive",
+          "content-type": "application/json",
+          "host": "localhost",
+          "sec-fetch-mode": "cors",
+          "transfer-encoding": "chunked",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "local with persistence",
+    "argv": [
+      "abuse-reports",
+      "mitigations",
+      "review",
+      "0123456789abcdef0123456789abcdef",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--local",
+      "--persist-to",
+      "regression-state"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "http://localhost/cdn-cgi/local/explorer/api/abuse-reports/0123456789abcdef0123456789abcdef/mitigations/appeal",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "gzip, deflate",
+          "accept-language": "*",
+          "connection": "keep-alive",
+          "content-type": "application/json",
+          "host": "localhost",
+          "sec-fetch-mode": "cors",
+          "transfer-encoding": "chunked",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "dry-run",
+    "argv": [
+      "abuse-reports",
+      "mitigations",
+      "review",
+      "0123456789abcdef0123456789abcdef",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--dry-run"
+    ],
+    "exitCode": 0,
+    "requests": []
+  },
+  {
+    "case": "body from file",
+    "argv": [
+      "abuse-reports",
+      "mitigations",
+      "review",
+      "0123456789abcdef0123456789abcdef",
+      "--body",
+      "@<body.json>"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/abuse-reports/0123456789abcdef0123456789abcdef/mitigations/appeal",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "array body",
+    "argv": [
+      "abuse-reports",
+      "mitigations",
+      "review",
+      "0123456789abcdef0123456789abcdef",
+      "--body",
+      "[{\"regression\":\"first\"},{\"regression\":\"second\"}]"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/abuse-reports/0123456789abcdef0123456789abcdef/mitigations/appeal",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "48",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": [
+          {
+            "regression": "first"
+          },
+          {
+            "regression": "second"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "case": "field flags",
+    "argv": [
+      "abuse-reports",
+      "mitigations",
+      "review",
+      "0123456789abcdef0123456789abcdef",
+      "--appeals",
+      "[{\"regression\":\"item\"}]",
+      "--data-city",
+      "regression value &/?+ü",
+      "--data-company",
+      "regression value &/?+ü",
+      "--data-counter-notice-response",
+      "regression value &/?+ü",
+      "--data-country",
+      "regression value &/?+ü",
+      "--data-email",
+      "regression@example.com",
+      "--data-full-name",
+      "regression value &/?+ü",
+      "--data-jurisdiction-consent=true",
+      "--data-perjury-attestation=true",
+      "--data-phone-number",
+      "regression value &/?+ü",
+      "--data-signature",
+      "regression value &/?+ü",
+      "--data-state",
+      "regression value &/?+ü",
+      "--data-street-address",
+      "192.0.2.1",
+      "--data-urls",
+      "https://example.com/a?x=1&y=two",
+      "--data-zip-code",
+      "192.0.2.1",
+      "--type",
+      "counter_notice"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/abuse-reports/0123456789abcdef0123456789abcdef/mitigations/appeal",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "559",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "appeals": [
+            {
+              "regression": "item"
+            }
+          ],
+          "data": {
+            "city": "regression value &/?+ü",
+            "company": "regression value &/?+ü",
+            "counter_notice_response": "regression value &/?+ü",
+            "country": "regression value &/?+ü",
+            "email": "regression@example.com",
+            "full_name": "regression value &/?+ü",
+            "jurisdiction_consent": true,
+            "perjury_attestation": true,
+            "phone_number": "regression value &/?+ü",
+            "signature": "regression value &/?+ü",
+            "state": "regression value &/?+ü",
+            "street_address": "192.0.2.1",
+            "urls": [
+              "https://example.com/a?x=1&y=two"
+            ],
+            "zip_code": "192.0.2.1"
+          },
+          "type": "counter_notice"
+        }
+      }
+    ]
+  }
+]

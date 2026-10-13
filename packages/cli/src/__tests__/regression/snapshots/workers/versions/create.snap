@@ -1,0 +1,1320 @@
+[
+  {
+    "case": "no-args",
+    "argv": [
+      "workers",
+      "versions",
+      "create"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/workers/services/regression-worker",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>"
+        },
+        "body": null
+      },
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/workers/scripts/regression-worker/settings",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>"
+        },
+        "body": null
+      },
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/workers/scripts/regression-worker/versions?bindings_inherit=strict",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "<multipart-length>",
+          "content-type": "multipart/form-data; boundary=<boundary>",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>"
+        },
+        "body": [
+          [
+            "metadata",
+            "{\"main_module\":\"index.js\",\"bindings\":[],\"compatibility_date\":\"2026-01-01\",\"compatibility_flags\":[],\"keep_bindings\":[\"secret_text\",\"secret_key\"],\"annotations\":{},\"package_dependencies\":[{\"name\":\"wrangler\",\"packageJsonVersion\":\"4.136.0\",\"installedVersion\":\"4.136.0\"}]}"
+          ],
+          [
+            "index.js",
+            {
+              "filename": "index.js",
+              "contentType": "application/javascript+module",
+              "base64": "ZXhwb3J0IGRlZmF1bHQgeyBmZXRjaCgpIHsgcmV0dXJuIG5ldyBSZXNwb25zZSgncmVncmVzc2lvbicpOyB9IH07Cg=="
+            }
+          ]
+        ]
+      }
+    ]
+  },
+  {
+    "case": "only --prebuilt",
+    "argv": [
+      "workers",
+      "versions",
+      "create",
+      "--prebuilt=true"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/workers/services/regression-worker",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>"
+        },
+        "body": null
+      },
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/workers/scripts/regression-worker/settings",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>"
+        },
+        "body": null
+      },
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/workers/scripts/regression-worker/versions?bindings_inherit=strict",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "<multipart-length>",
+          "content-type": "multipart/form-data; boundary=<boundary>",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>"
+        },
+        "body": [
+          [
+            "metadata",
+            "{\"main_module\":\"index.js\",\"bindings\":[],\"compatibility_date\":\"2026-01-01\",\"compatibility_flags\":[],\"keep_bindings\":[\"secret_text\",\"secret_key\"],\"annotations\":{},\"package_dependencies\":[{\"name\":\"wrangler\",\"packageJsonVersion\":\"4.136.0\",\"installedVersion\":\"4.136.0\"}]}"
+          ],
+          [
+            "index.js",
+            {
+              "filename": "index.js",
+              "contentType": "application/javascript+module",
+              "base64": "ZXhwb3J0IGRlZmF1bHQgeyBmZXRjaCgpIHsgcmV0dXJuIG5ldyBSZXNwb25zZSgncmVncmVzc2lvbicpOyB9IH07Cg=="
+            }
+          ]
+        ]
+      }
+    ]
+  },
+  {
+    "case": "--prebuilt value 1",
+    "argv": [
+      "workers",
+      "versions",
+      "create",
+      "--prebuilt=false"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/workers/services/regression-worker",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>"
+        },
+        "body": null
+      },
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/workers/scripts/regression-worker/settings",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>"
+        },
+        "body": null
+      },
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/workers/scripts/regression-worker/versions?bindings_inherit=strict",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "<multipart-length>",
+          "content-type": "multipart/form-data; boundary=<boundary>",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>"
+        },
+        "body": [
+          [
+            "metadata",
+            "{\"main_module\":\"index.js\",\"bindings\":[],\"compatibility_date\":\"2026-01-01\",\"compatibility_flags\":[],\"keep_bindings\":[\"secret_text\",\"secret_key\"],\"annotations\":{},\"package_dependencies\":[{\"name\":\"wrangler\",\"packageJsonVersion\":\"4.136.0\",\"installedVersion\":\"4.136.0\"}]}"
+          ],
+          [
+            "index.js",
+            {
+              "filename": "index.js",
+              "contentType": "application/javascript+module",
+              "base64": "ZXhwb3J0IGRlZmF1bHQgeyBmZXRjaCgpIHsgcmV0dXJuIG5ldyBSZXNwb25zZSgncmVncmVzc2lvbicpOyB9IH07Cg=="
+            }
+          ]
+        ]
+      }
+    ]
+  },
+  {
+    "case": "only --tag",
+    "argv": [
+      "workers",
+      "versions",
+      "create",
+      "--tag",
+      "regression-image:latest"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/workers/services/regression-worker",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>"
+        },
+        "body": null
+      },
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/workers/scripts/regression-worker/settings",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>"
+        },
+        "body": null
+      },
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/workers/scripts/regression-worker/versions?bindings_inherit=strict",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "<multipart-length>",
+          "content-type": "multipart/form-data; boundary=<boundary>",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>"
+        },
+        "body": [
+          [
+            "metadata",
+            "{\"main_module\":\"index.js\",\"bindings\":[],\"compatibility_date\":\"2026-01-01\",\"compatibility_flags\":[],\"keep_bindings\":[\"secret_text\",\"secret_key\"],\"annotations\":{\"workers/tag\":\"regression-image:latest\"},\"package_dependencies\":[{\"name\":\"wrangler\",\"packageJsonVersion\":\"4.136.0\",\"installedVersion\":\"4.136.0\"}]}"
+          ],
+          [
+            "index.js",
+            {
+              "filename": "index.js",
+              "contentType": "application/javascript+module",
+              "base64": "ZXhwb3J0IGRlZmF1bHQgeyBmZXRjaCgpIHsgcmV0dXJuIG5ldyBSZXNwb25zZSgncmVncmVzc2lvbicpOyB9IH07Cg=="
+            }
+          ]
+        ]
+      }
+    ]
+  },
+  {
+    "case": "only --message",
+    "argv": [
+      "workers",
+      "versions",
+      "create",
+      "--message",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/workers/services/regression-worker",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>"
+        },
+        "body": null
+      },
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/workers/scripts/regression-worker/settings",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>"
+        },
+        "body": null
+      },
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/workers/scripts/regression-worker/versions?bindings_inherit=strict",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "<multipart-length>",
+          "content-type": "multipart/form-data; boundary=<boundary>",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>"
+        },
+        "body": [
+          [
+            "metadata",
+            "{\"main_module\":\"index.js\",\"bindings\":[],\"compatibility_date\":\"2026-01-01\",\"compatibility_flags\":[],\"keep_bindings\":[\"secret_text\",\"secret_key\"],\"annotations\":{\"workers/message\":\"regression value &/?+ü\"},\"package_dependencies\":[{\"name\":\"wrangler\",\"packageJsonVersion\":\"4.136.0\",\"installedVersion\":\"4.136.0\"}]}"
+          ],
+          [
+            "index.js",
+            {
+              "filename": "index.js",
+              "contentType": "application/javascript+module",
+              "base64": "ZXhwb3J0IGRlZmF1bHQgeyBmZXRjaCgpIHsgcmV0dXJuIG5ldyBSZXNwb25zZSgncmVncmVzc2lvbicpOyB9IH07Cg=="
+            }
+          ]
+        ]
+      }
+    ]
+  },
+  {
+    "case": "only --secrets-file",
+    "argv": [
+      "workers",
+      "versions",
+      "create",
+      "--secrets-file",
+      "secrets.json"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/workers/services/regression-worker",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>"
+        },
+        "body": null
+      },
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/workers/scripts/regression-worker/settings",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>"
+        },
+        "body": null
+      },
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/workers/scripts/regression-worker/versions?bindings_inherit=strict",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "<multipart-length>",
+          "content-type": "multipart/form-data; boundary=<boundary>",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>"
+        },
+        "body": [
+          [
+            "metadata",
+            "{\"main_module\":\"index.js\",\"bindings\":[{\"name\":\"REGRESSION_SECRET\",\"type\":\"secret_text\",\"text\":\"regression-secret\"}],\"compatibility_date\":\"2026-01-01\",\"compatibility_flags\":[],\"keep_bindings\":[\"secret_text\",\"secret_key\"],\"annotations\":{},\"package_dependencies\":[{\"name\":\"wrangler\",\"packageJsonVersion\":\"4.136.0\",\"installedVersion\":\"4.136.0\"}]}"
+          ],
+          [
+            "index.js",
+            {
+              "filename": "index.js",
+              "contentType": "application/javascript+module",
+              "base64": "ZXhwb3J0IGRlZmF1bHQgeyBmZXRjaCgpIHsgcmV0dXJuIG5ldyBSZXNwb25zZSgncmVncmVzc2lvbicpOyB9IH07Cg=="
+            }
+          ]
+        ]
+      }
+    ]
+  },
+  {
+    "case": "only --worker",
+    "argv": [
+      "workers",
+      "versions",
+      "create",
+      "--worker",
+      "regression-worker"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/workers/services/regression-worker",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>"
+        },
+        "body": null
+      },
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/workers/scripts/regression-worker/settings",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>"
+        },
+        "body": null
+      },
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/workers/scripts/regression-worker/versions?bindings_inherit=strict",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "<multipart-length>",
+          "content-type": "multipart/form-data; boundary=<boundary>",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>"
+        },
+        "body": [
+          [
+            "metadata",
+            "{\"main_module\":\"index.js\",\"bindings\":[],\"compatibility_date\":\"2026-01-01\",\"compatibility_flags\":[],\"keep_bindings\":[\"secret_text\",\"secret_key\"],\"annotations\":{},\"package_dependencies\":[{\"name\":\"wrangler\",\"packageJsonVersion\":\"4.136.0\",\"installedVersion\":\"4.136.0\"}]}"
+          ],
+          [
+            "index.js",
+            {
+              "filename": "index.js",
+              "contentType": "application/javascript+module",
+              "base64": "ZXhwb3J0IGRlZmF1bHQgeyBmZXRjaCgpIHsgcmV0dXJuIG5ldyBSZXNwb25zZSgncmVncmVzc2lvbicpOyB9IH07Cg=="
+            }
+          ]
+        ]
+      }
+    ]
+  },
+  {
+    "case": "only --preview-alias",
+    "argv": [
+      "workers",
+      "versions",
+      "create",
+      "--preview-alias",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/workers/services/regression-worker",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>"
+        },
+        "body": null
+      },
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/workers/scripts/regression-worker/settings",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>"
+        },
+        "body": null
+      },
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/workers/scripts/regression-worker/versions?bindings_inherit=strict",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "<multipart-length>",
+          "content-type": "multipart/form-data; boundary=<boundary>",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>"
+        },
+        "body": [
+          [
+            "metadata",
+            "{\"main_module\":\"index.js\",\"bindings\":[],\"compatibility_date\":\"2026-01-01\",\"compatibility_flags\":[],\"keep_bindings\":[\"secret_text\",\"secret_key\"],\"annotations\":{\"workers/alias\":\"regression value &/?+ü\"},\"package_dependencies\":[{\"name\":\"wrangler\",\"packageJsonVersion\":\"4.136.0\",\"installedVersion\":\"4.136.0\"}]}"
+          ],
+          [
+            "index.js",
+            {
+              "filename": "index.js",
+              "contentType": "application/javascript+module",
+              "base64": "ZXhwb3J0IGRlZmF1bHQgeyBmZXRjaCgpIHsgcmV0dXJuIG5ldyBSZXNwb25zZSgncmVncmVzc2lvbicpOyB9IH07Cg=="
+            }
+          ]
+        ]
+      }
+    ]
+  },
+  {
+    "case": "pairwise 1",
+    "argv": [
+      "workers",
+      "versions",
+      "create",
+      "--prebuilt=false",
+      "--tag",
+      "regression-image:latest",
+      "--message",
+      "second value &/?+ü",
+      "--secrets-file",
+      "secrets.json",
+      "--worker",
+      "regression-worker",
+      "--preview-alias",
+      "second value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/workers/services/regression-worker",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>"
+        },
+        "body": null
+      },
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/workers/scripts/regression-worker/settings",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>"
+        },
+        "body": null
+      },
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/workers/scripts/regression-worker/versions?bindings_inherit=strict",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "<multipart-length>",
+          "content-type": "multipart/form-data; boundary=<boundary>",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>"
+        },
+        "body": [
+          [
+            "metadata",
+            "{\"main_module\":\"index.js\",\"bindings\":[{\"name\":\"REGRESSION_SECRET\",\"type\":\"secret_text\",\"text\":\"regression-secret\"}],\"compatibility_date\":\"2026-01-01\",\"compatibility_flags\":[],\"keep_bindings\":[\"secret_text\",\"secret_key\"],\"annotations\":{\"workers/message\":\"second value &/?+ü\",\"workers/tag\":\"regression-image:latest\",\"workers/alias\":\"second value &/?+ü\"},\"package_dependencies\":[{\"name\":\"wrangler\",\"packageJsonVersion\":\"4.136.0\",\"installedVersion\":\"4.136.0\"}]}"
+          ],
+          [
+            "index.js",
+            {
+              "filename": "index.js",
+              "contentType": "application/javascript+module",
+              "base64": "ZXhwb3J0IGRlZmF1bHQgeyBmZXRjaCgpIHsgcmV0dXJuIG5ldyBSZXNwb25zZSgncmVncmVzc2lvbicpOyB9IH07Cg=="
+            }
+          ]
+        ]
+      }
+    ]
+  },
+  {
+    "case": "pairwise 2",
+    "argv": [
+      "workers",
+      "versions",
+      "create",
+      "--tag",
+      "regression-image:latest",
+      "--secrets-file",
+      "secrets.json",
+      "--preview-alias",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/workers/services/regression-worker",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>"
+        },
+        "body": null
+      },
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/workers/scripts/regression-worker/settings",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>"
+        },
+        "body": null
+      },
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/workers/scripts/regression-worker/versions?bindings_inherit=strict",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "<multipart-length>",
+          "content-type": "multipart/form-data; boundary=<boundary>",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>"
+        },
+        "body": [
+          [
+            "metadata",
+            "{\"main_module\":\"index.js\",\"bindings\":[{\"name\":\"REGRESSION_SECRET\",\"type\":\"secret_text\",\"text\":\"regression-secret\"}],\"compatibility_date\":\"2026-01-01\",\"compatibility_flags\":[],\"keep_bindings\":[\"secret_text\",\"secret_key\"],\"annotations\":{\"workers/tag\":\"regression-image:latest\",\"workers/alias\":\"regression value &/?+ü\"},\"package_dependencies\":[{\"name\":\"wrangler\",\"packageJsonVersion\":\"4.136.0\",\"installedVersion\":\"4.136.0\"}]}"
+          ],
+          [
+            "index.js",
+            {
+              "filename": "index.js",
+              "contentType": "application/javascript+module",
+              "base64": "ZXhwb3J0IGRlZmF1bHQgeyBmZXRjaCgpIHsgcmV0dXJuIG5ldyBSZXNwb25zZSgncmVncmVzc2lvbicpOyB9IH07Cg=="
+            }
+          ]
+        ]
+      }
+    ]
+  },
+  {
+    "case": "pairwise 3",
+    "argv": [
+      "workers",
+      "versions",
+      "create",
+      "--prebuilt=false",
+      "--message",
+      "second value &/?+ü",
+      "--worker",
+      "regression-worker"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/workers/services/regression-worker",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>"
+        },
+        "body": null
+      },
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/workers/scripts/regression-worker/settings",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>"
+        },
+        "body": null
+      },
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/workers/scripts/regression-worker/versions?bindings_inherit=strict",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "<multipart-length>",
+          "content-type": "multipart/form-data; boundary=<boundary>",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>"
+        },
+        "body": [
+          [
+            "metadata",
+            "{\"main_module\":\"index.js\",\"bindings\":[],\"compatibility_date\":\"2026-01-01\",\"compatibility_flags\":[],\"keep_bindings\":[\"secret_text\",\"secret_key\"],\"annotations\":{\"workers/message\":\"second value &/?+ü\"},\"package_dependencies\":[{\"name\":\"wrangler\",\"packageJsonVersion\":\"4.136.0\",\"installedVersion\":\"4.136.0\"}]}"
+          ],
+          [
+            "index.js",
+            {
+              "filename": "index.js",
+              "contentType": "application/javascript+module",
+              "base64": "ZXhwb3J0IGRlZmF1bHQgeyBmZXRjaCgpIHsgcmV0dXJuIG5ldyBSZXNwb25zZSgncmVncmVzc2lvbicpOyB9IH07Cg=="
+            }
+          ]
+        ]
+      }
+    ]
+  },
+  {
+    "case": "pairwise 4",
+    "argv": [
+      "workers",
+      "versions",
+      "create",
+      "--message",
+      "regression value &/?+ü",
+      "--secrets-file",
+      "secrets.json"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/workers/services/regression-worker",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>"
+        },
+        "body": null
+      },
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/workers/scripts/regression-worker/settings",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>"
+        },
+        "body": null
+      },
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/workers/scripts/regression-worker/versions?bindings_inherit=strict",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "<multipart-length>",
+          "content-type": "multipart/form-data; boundary=<boundary>",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>"
+        },
+        "body": [
+          [
+            "metadata",
+            "{\"main_module\":\"index.js\",\"bindings\":[{\"name\":\"REGRESSION_SECRET\",\"type\":\"secret_text\",\"text\":\"regression-secret\"}],\"compatibility_date\":\"2026-01-01\",\"compatibility_flags\":[],\"keep_bindings\":[\"secret_text\",\"secret_key\"],\"annotations\":{\"workers/message\":\"regression value &/?+ü\"},\"package_dependencies\":[{\"name\":\"wrangler\",\"packageJsonVersion\":\"4.136.0\",\"installedVersion\":\"4.136.0\"}]}"
+          ],
+          [
+            "index.js",
+            {
+              "filename": "index.js",
+              "contentType": "application/javascript+module",
+              "base64": "ZXhwb3J0IGRlZmF1bHQgeyBmZXRjaCgpIHsgcmV0dXJuIG5ldyBSZXNwb25zZSgncmVncmVzc2lvbicpOyB9IH07Cg=="
+            }
+          ]
+        ]
+      }
+    ]
+  },
+  {
+    "case": "pairwise 5",
+    "argv": [
+      "workers",
+      "versions",
+      "create",
+      "--prebuilt=false",
+      "--tag",
+      "regression-image:latest",
+      "--worker",
+      "regression-worker",
+      "--preview-alias",
+      "second value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/workers/services/regression-worker",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>"
+        },
+        "body": null
+      },
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/workers/scripts/regression-worker/settings",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>"
+        },
+        "body": null
+      },
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/workers/scripts/regression-worker/versions?bindings_inherit=strict",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "<multipart-length>",
+          "content-type": "multipart/form-data; boundary=<boundary>",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>"
+        },
+        "body": [
+          [
+            "metadata",
+            "{\"main_module\":\"index.js\",\"bindings\":[],\"compatibility_date\":\"2026-01-01\",\"compatibility_flags\":[],\"keep_bindings\":[\"secret_text\",\"secret_key\"],\"annotations\":{\"workers/tag\":\"regression-image:latest\",\"workers/alias\":\"second value &/?+ü\"},\"package_dependencies\":[{\"name\":\"wrangler\",\"packageJsonVersion\":\"4.136.0\",\"installedVersion\":\"4.136.0\"}]}"
+          ],
+          [
+            "index.js",
+            {
+              "filename": "index.js",
+              "contentType": "application/javascript+module",
+              "base64": "ZXhwb3J0IGRlZmF1bHQgeyBmZXRjaCgpIHsgcmV0dXJuIG5ldyBSZXNwb25zZSgncmVncmVzc2lvbicpOyB9IH07Cg=="
+            }
+          ]
+        ]
+      }
+    ]
+  },
+  {
+    "case": "pairwise 6",
+    "argv": [
+      "workers",
+      "versions",
+      "create",
+      "--worker",
+      "regression-worker",
+      "--preview-alias",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/workers/services/regression-worker",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>"
+        },
+        "body": null
+      },
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/workers/scripts/regression-worker/settings",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>"
+        },
+        "body": null
+      },
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/workers/scripts/regression-worker/versions?bindings_inherit=strict",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "<multipart-length>",
+          "content-type": "multipart/form-data; boundary=<boundary>",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>"
+        },
+        "body": [
+          [
+            "metadata",
+            "{\"main_module\":\"index.js\",\"bindings\":[],\"compatibility_date\":\"2026-01-01\",\"compatibility_flags\":[],\"keep_bindings\":[\"secret_text\",\"secret_key\"],\"annotations\":{\"workers/alias\":\"regression value &/?+ü\"},\"package_dependencies\":[{\"name\":\"wrangler\",\"packageJsonVersion\":\"4.136.0\",\"installedVersion\":\"4.136.0\"}]}"
+          ],
+          [
+            "index.js",
+            {
+              "filename": "index.js",
+              "contentType": "application/javascript+module",
+              "base64": "ZXhwb3J0IGRlZmF1bHQgeyBmZXRjaCgpIHsgcmV0dXJuIG5ldyBSZXNwb25zZSgncmVncmVzc2lvbicpOyB9IH07Cg=="
+            }
+          ]
+        ]
+      }
+    ]
+  },
+  {
+    "case": "pairwise 7",
+    "argv": [
+      "workers",
+      "versions",
+      "create",
+      "--prebuilt=false",
+      "--tag",
+      "regression-image:latest",
+      "--message",
+      "second value &/?+ü",
+      "--secrets-file",
+      "secrets.json"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/workers/services/regression-worker",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>"
+        },
+        "body": null
+      },
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/workers/scripts/regression-worker/settings",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>"
+        },
+        "body": null
+      },
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/workers/scripts/regression-worker/versions?bindings_inherit=strict",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "<multipart-length>",
+          "content-type": "multipart/form-data; boundary=<boundary>",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>"
+        },
+        "body": [
+          [
+            "metadata",
+            "{\"main_module\":\"index.js\",\"bindings\":[{\"name\":\"REGRESSION_SECRET\",\"type\":\"secret_text\",\"text\":\"regression-secret\"}],\"compatibility_date\":\"2026-01-01\",\"compatibility_flags\":[],\"keep_bindings\":[\"secret_text\",\"secret_key\"],\"annotations\":{\"workers/message\":\"second value &/?+ü\",\"workers/tag\":\"regression-image:latest\"},\"package_dependencies\":[{\"name\":\"wrangler\",\"packageJsonVersion\":\"4.136.0\",\"installedVersion\":\"4.136.0\"}]}"
+          ],
+          [
+            "index.js",
+            {
+              "filename": "index.js",
+              "contentType": "application/javascript+module",
+              "base64": "ZXhwb3J0IGRlZmF1bHQgeyBmZXRjaCgpIHsgcmV0dXJuIG5ldyBSZXNwb25zZSgncmVncmVzc2lvbicpOyB9IH07Cg=="
+            }
+          ]
+        ]
+      }
+    ]
+  },
+  {
+    "case": "global quiet",
+    "argv": [
+      "workers",
+      "versions",
+      "create",
+      "--quiet"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/workers/services/regression-worker",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>"
+        },
+        "body": null
+      },
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/workers/scripts/regression-worker/settings",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>"
+        },
+        "body": null
+      },
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/workers/scripts/regression-worker/versions?bindings_inherit=strict",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "<multipart-length>",
+          "content-type": "multipart/form-data; boundary=<boundary>",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>"
+        },
+        "body": [
+          [
+            "metadata",
+            "{\"main_module\":\"index.js\",\"bindings\":[],\"compatibility_date\":\"2026-01-01\",\"compatibility_flags\":[],\"keep_bindings\":[\"secret_text\",\"secret_key\"],\"annotations\":{},\"package_dependencies\":[{\"name\":\"wrangler\",\"packageJsonVersion\":\"4.136.0\",\"installedVersion\":\"4.136.0\"}]}"
+          ],
+          [
+            "index.js",
+            {
+              "filename": "index.js",
+              "contentType": "application/javascript+module",
+              "base64": "ZXhwb3J0IGRlZmF1bHQgeyBmZXRjaCgpIHsgcmV0dXJuIG5ldyBSZXNwb25zZSgncmVncmVzc2lvbicpOyB9IH07Cg=="
+            }
+          ]
+        ]
+      }
+    ]
+  },
+  {
+    "case": "global zone",
+    "argv": [
+      "workers",
+      "versions",
+      "create",
+      "--zone",
+      "abcdef0123456789abcdef0123456789"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/workers/services/regression-worker",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>"
+        },
+        "body": null
+      },
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/workers/scripts/regression-worker/settings",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>"
+        },
+        "body": null
+      },
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/workers/scripts/regression-worker/versions?bindings_inherit=strict",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "<multipart-length>",
+          "content-type": "multipart/form-data; boundary=<boundary>",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>"
+        },
+        "body": [
+          [
+            "metadata",
+            "{\"main_module\":\"index.js\",\"bindings\":[],\"compatibility_date\":\"2026-01-01\",\"compatibility_flags\":[],\"keep_bindings\":[\"secret_text\",\"secret_key\"],\"annotations\":{},\"package_dependencies\":[{\"name\":\"wrangler\",\"packageJsonVersion\":\"4.136.0\",\"installedVersion\":\"4.136.0\"}]}"
+          ],
+          [
+            "index.js",
+            {
+              "filename": "index.js",
+              "contentType": "application/javascript+module",
+              "base64": "ZXhwb3J0IGRlZmF1bHQgeyBmZXRjaCgpIHsgcmV0dXJuIG5ldyBSZXNwb25zZSgncmVncmVzc2lvbicpOyB9IH07Cg=="
+            }
+          ]
+        ]
+      }
+    ]
+  },
+  {
+    "case": "global profile and mode",
+    "argv": [
+      "workers",
+      "versions",
+      "create",
+      "--profile",
+      "default",
+      "--mode",
+      "regression"
+    ],
+    "exitCode": 1,
+    "error": "The Build Output does not record which mode it was created with, but this command requested mode \"regression\". Rebuild with \"--mode regression\" before deploying.",
+    "requests": []
+  },
+  {
+    "case": "local",
+    "argv": [
+      "workers",
+      "versions",
+      "create",
+      "--local"
+    ],
+    "exitCode": 1,
+    "error": "--local is not supported by cf workers versions create.",
+    "requests": []
+  },
+  {
+    "case": "local with persistence",
+    "argv": [
+      "workers",
+      "versions",
+      "create",
+      "--local",
+      "--persist-to",
+      "regression-state"
+    ],
+    "exitCode": 1,
+    "error": "--local is not supported by cf workers versions create.",
+    "requests": []
+  },
+  {
+    "case": "dry-run",
+    "argv": [
+      "workers",
+      "versions",
+      "create",
+      "--dry-run"
+    ],
+    "exitCode": 0,
+    "requests": []
+  }
+]

@@ -1,0 +1,1959 @@
+[
+  {
+    "case": "no-args",
+    "argv": [
+      "zero-trust",
+      "gateway",
+      "locations",
+      "update"
+    ],
+    "exitCode": 1,
+    "error": "Not enough non-option arguments: got 0, need at least 1",
+    "requests": []
+  },
+  {
+    "case": "required",
+    "argv": [
+      "zero-trust",
+      "gateway",
+      "locations",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--name",
+      "regression value &/?+ü",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/gateway/locations/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --client-default",
+    "argv": [
+      "zero-trust",
+      "gateway",
+      "locations",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--name",
+      "regression value &/?+ü",
+      "--client-default=true"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/gateway/locations/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "56",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "client_default": true,
+          "name": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "--client-default value 1",
+    "argv": [
+      "zero-trust",
+      "gateway",
+      "locations",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--name",
+      "regression value &/?+ü",
+      "--client-default=false"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/gateway/locations/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "57",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "client_default": false,
+          "name": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --dns64-enabled",
+    "argv": [
+      "zero-trust",
+      "gateway",
+      "locations",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--name",
+      "regression value &/?+ü",
+      "--dns64-enabled=true"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/gateway/locations/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "55",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "dns64_enabled": true,
+          "name": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "--dns64-enabled value 1",
+    "argv": [
+      "zero-trust",
+      "gateway",
+      "locations",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--name",
+      "regression value &/?+ü",
+      "--dns64-enabled=false"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/gateway/locations/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "56",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "dns64_enabled": false,
+          "name": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --dns-destination-ips-id",
+    "argv": [
+      "zero-trust",
+      "gateway",
+      "locations",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--name",
+      "regression value &/?+ü",
+      "--dns-destination-ips-id",
+      "192.0.2.1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/gateway/locations/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "71",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "dns_destination_ips_id": "192.0.2.1",
+          "name": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --ecs-support",
+    "argv": [
+      "zero-trust",
+      "gateway",
+      "locations",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--name",
+      "regression value &/?+ü",
+      "--ecs-support=true"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/gateway/locations/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "53",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "ecs_support": true,
+          "name": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "--ecs-support value 1",
+    "argv": [
+      "zero-trust",
+      "gateway",
+      "locations",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--name",
+      "regression value &/?+ü",
+      "--ecs-support=false"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/gateway/locations/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "54",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "ecs_support": false,
+          "name": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --endpoints-doh-enabled",
+    "argv": [
+      "zero-trust",
+      "gateway",
+      "locations",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--name",
+      "regression value &/?+ü",
+      "--endpoints-doh-enabled=true"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/gateway/locations/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "71",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "endpoints": {
+            "doh": {
+              "enabled": true
+            }
+          },
+          "name": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "--endpoints-doh-enabled value 1",
+    "argv": [
+      "zero-trust",
+      "gateway",
+      "locations",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--name",
+      "regression value &/?+ü",
+      "--endpoints-doh-enabled=false"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/gateway/locations/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "72",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "endpoints": {
+            "doh": {
+              "enabled": false
+            }
+          },
+          "name": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --endpoints-doh-require-token",
+    "argv": [
+      "zero-trust",
+      "gateway",
+      "locations",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--name",
+      "regression value &/?+ü",
+      "--endpoints-doh-require-token=true"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/gateway/locations/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "77",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "endpoints": {
+            "doh": {
+              "require_token": true
+            }
+          },
+          "name": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "--endpoints-doh-require-token value 1",
+    "argv": [
+      "zero-trust",
+      "gateway",
+      "locations",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--name",
+      "regression value &/?+ü",
+      "--endpoints-doh-require-token=false"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/gateway/locations/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "78",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "endpoints": {
+            "doh": {
+              "require_token": false
+            }
+          },
+          "name": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --endpoints-dot-enabled",
+    "argv": [
+      "zero-trust",
+      "gateway",
+      "locations",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--name",
+      "regression value &/?+ü",
+      "--endpoints-dot-enabled=true"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/gateway/locations/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "71",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "endpoints": {
+            "dot": {
+              "enabled": true
+            }
+          },
+          "name": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "--endpoints-dot-enabled value 1",
+    "argv": [
+      "zero-trust",
+      "gateway",
+      "locations",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--name",
+      "regression value &/?+ü",
+      "--endpoints-dot-enabled=false"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/gateway/locations/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "72",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "endpoints": {
+            "dot": {
+              "enabled": false
+            }
+          },
+          "name": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --endpoints-ipv4-enabled",
+    "argv": [
+      "zero-trust",
+      "gateway",
+      "locations",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--name",
+      "regression value &/?+ü",
+      "--endpoints-ipv4-enabled=true"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/gateway/locations/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "72",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "endpoints": {
+            "ipv4": {
+              "enabled": true
+            }
+          },
+          "name": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "--endpoints-ipv4-enabled value 1",
+    "argv": [
+      "zero-trust",
+      "gateway",
+      "locations",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--name",
+      "regression value &/?+ü",
+      "--endpoints-ipv4-enabled=false"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/gateway/locations/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "73",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "endpoints": {
+            "ipv4": {
+              "enabled": false
+            }
+          },
+          "name": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --endpoints-ipv6-enabled",
+    "argv": [
+      "zero-trust",
+      "gateway",
+      "locations",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--name",
+      "regression value &/?+ü",
+      "--endpoints-ipv6-enabled=true"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/gateway/locations/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "72",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "endpoints": {
+            "ipv6": {
+              "enabled": true
+            }
+          },
+          "name": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "--endpoints-ipv6-enabled value 1",
+    "argv": [
+      "zero-trust",
+      "gateway",
+      "locations",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--name",
+      "regression value &/?+ü",
+      "--endpoints-ipv6-enabled=false"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/gateway/locations/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "73",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "endpoints": {
+            "ipv6": {
+              "enabled": false
+            }
+          },
+          "name": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --max-ttl-mode",
+    "argv": [
+      "zero-trust",
+      "gateway",
+      "locations",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--name",
+      "regression value &/?+ü",
+      "--max-ttl-mode",
+      "inherit"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/gateway/locations/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "63",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "max_ttl": {
+            "mode": "inherit"
+          },
+          "name": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "--max-ttl-mode value 1",
+    "argv": [
+      "zero-trust",
+      "gateway",
+      "locations",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--name",
+      "regression value &/?+ü",
+      "--max-ttl-mode",
+      "override"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/gateway/locations/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "64",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "max_ttl": {
+            "mode": "override"
+          },
+          "name": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "--max-ttl-mode value 2",
+    "argv": [
+      "zero-trust",
+      "gateway",
+      "locations",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--name",
+      "regression value &/?+ü",
+      "--max-ttl-mode",
+      "disabled"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/gateway/locations/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "64",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "max_ttl": {
+            "mode": "disabled"
+          },
+          "name": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --max-ttl-ttl-secs",
+    "argv": [
+      "zero-trust",
+      "gateway",
+      "locations",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--name",
+      "regression value &/?+ü",
+      "--max-ttl-ttl-secs",
+      "1"
+    ],
+    "exitCode": 1,
+    "error": "--max-ttl-mode is required when any --max_ttl-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "only --networks",
+    "argv": [
+      "zero-trust",
+      "gateway",
+      "locations",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--name",
+      "regression value &/?+ü",
+      "--networks",
+      "[{\"regression\":\"item\"}]"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/gateway/locations/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "69",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "name": "regression value &/?+ü",
+          "networks": [
+            {
+              "regression": "item"
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 0",
+    "argv": [
+      "zero-trust",
+      "gateway",
+      "locations",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--name",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/gateway/locations/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "34",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "name": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 1",
+    "argv": [
+      "zero-trust",
+      "gateway",
+      "locations",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--name",
+      "regression value &/?+ü",
+      "--client-default=false",
+      "--dns64-enabled=false",
+      "--dns-destination-ips-id",
+      "192.0.2.1",
+      "--ecs-support=false",
+      "--endpoints-doh-enabled=false",
+      "--endpoints-doh-require-token=false",
+      "--endpoints-dot-enabled=false",
+      "--endpoints-ipv4-enabled=false",
+      "--endpoints-ipv6-enabled=false",
+      "--max-ttl-mode",
+      "override",
+      "--max-ttl-ttl-secs",
+      "2",
+      "--networks",
+      "[{\"regression\":\"item\"}]"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/gateway/locations/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "348",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "client_default": false,
+          "dns64_enabled": false,
+          "dns_destination_ips_id": "192.0.2.1",
+          "ecs_support": false,
+          "endpoints": {
+            "doh": {
+              "enabled": false,
+              "require_token": false
+            },
+            "dot": {
+              "enabled": false
+            },
+            "ipv4": {
+              "enabled": false
+            },
+            "ipv6": {
+              "enabled": false
+            }
+          },
+          "max_ttl": {
+            "mode": "override",
+            "ttl_secs": 2
+          },
+          "name": "regression value &/?+ü",
+          "networks": [
+            {
+              "regression": "item"
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 2",
+    "argv": [
+      "zero-trust",
+      "gateway",
+      "locations",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--name",
+      "regression value &/?+ü",
+      "--dns64-enabled=true",
+      "--ecs-support=true",
+      "--endpoints-doh-require-token=true",
+      "--endpoints-ipv4-enabled=true",
+      "--max-ttl-mode",
+      "inherit",
+      "--networks",
+      "[{\"regression\":\"item\"}]"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/gateway/locations/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "205",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "dns64_enabled": true,
+          "ecs_support": true,
+          "endpoints": {
+            "doh": {
+              "require_token": true
+            },
+            "ipv4": {
+              "enabled": true
+            }
+          },
+          "max_ttl": {
+            "mode": "inherit"
+          },
+          "name": "regression value &/?+ü",
+          "networks": [
+            {
+              "regression": "item"
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 3",
+    "argv": [
+      "zero-trust",
+      "gateway",
+      "locations",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--name",
+      "regression value &/?+ü",
+      "--client-default=false",
+      "--dns-destination-ips-id",
+      "192.0.2.1",
+      "--endpoints-doh-enabled=false",
+      "--endpoints-dot-enabled=false",
+      "--endpoints-ipv6-enabled=false",
+      "--max-ttl-ttl-secs",
+      "2"
+    ],
+    "exitCode": 1,
+    "error": "--max-ttl-mode is required when any --max_ttl-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "pairwise 4",
+    "argv": [
+      "zero-trust",
+      "gateway",
+      "locations",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--name",
+      "regression value &/?+ü",
+      "--dns-destination-ips-id",
+      "192.0.2.1",
+      "--ecs-support=true",
+      "--endpoints-dot-enabled=true",
+      "--endpoints-ipv4-enabled=true",
+      "--max-ttl-ttl-secs",
+      "1",
+      "--networks",
+      "[{\"regression\":\"item\"}]"
+    ],
+    "exitCode": 1,
+    "error": "--max-ttl-mode is required when any --max_ttl-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "pairwise 5",
+    "argv": [
+      "zero-trust",
+      "gateway",
+      "locations",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--name",
+      "regression value &/?+ü",
+      "--client-default=false",
+      "--dns64-enabled=false",
+      "--endpoints-doh-enabled=false",
+      "--endpoints-doh-require-token=false",
+      "--endpoints-ipv6-enabled=false",
+      "--max-ttl-mode",
+      "override"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/gateway/locations/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "194",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "client_default": false,
+          "dns64_enabled": false,
+          "endpoints": {
+            "doh": {
+              "enabled": false,
+              "require_token": false
+            },
+            "ipv6": {
+              "enabled": false
+            }
+          },
+          "max_ttl": {
+            "mode": "override"
+          },
+          "name": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 6",
+    "argv": [
+      "zero-trust",
+      "gateway",
+      "locations",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--name",
+      "regression value &/?+ü",
+      "--endpoints-doh-enabled=true",
+      "--endpoints-doh-require-token=true",
+      "--endpoints-dot-enabled=true",
+      "--endpoints-ipv4-enabled=true"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/gateway/locations/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "139",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "endpoints": {
+            "doh": {
+              "enabled": true,
+              "require_token": true
+            },
+            "dot": {
+              "enabled": true
+            },
+            "ipv4": {
+              "enabled": true
+            }
+          },
+          "name": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 7",
+    "argv": [
+      "zero-trust",
+      "gateway",
+      "locations",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--name",
+      "regression value &/?+ü",
+      "--client-default=false",
+      "--dns64-enabled=false",
+      "--dns-destination-ips-id",
+      "192.0.2.1",
+      "--ecs-support=false",
+      "--endpoints-ipv6-enabled=false",
+      "--max-ttl-mode",
+      "override",
+      "--max-ttl-ttl-secs",
+      "2",
+      "--networks",
+      "[{\"regression\":\"item\"}]"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/gateway/locations/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "253",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "client_default": false,
+          "dns64_enabled": false,
+          "dns_destination_ips_id": "192.0.2.1",
+          "ecs_support": false,
+          "endpoints": {
+            "ipv6": {
+              "enabled": false
+            }
+          },
+          "max_ttl": {
+            "mode": "override",
+            "ttl_secs": 2
+          },
+          "name": "regression value &/?+ü",
+          "networks": [
+            {
+              "regression": "item"
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 8",
+    "argv": [
+      "zero-trust",
+      "gateway",
+      "locations",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--name",
+      "regression value &/?+ü",
+      "--endpoints-ipv6-enabled=true",
+      "--max-ttl-mode",
+      "inherit",
+      "--max-ttl-ttl-secs",
+      "1",
+      "--networks",
+      "[{\"regression\":\"item\"}]"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/gateway/locations/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "149",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "endpoints": {
+            "ipv6": {
+              "enabled": true
+            }
+          },
+          "max_ttl": {
+            "mode": "inherit",
+            "ttl_secs": 1
+          },
+          "name": "regression value &/?+ü",
+          "networks": [
+            {
+              "regression": "item"
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 9",
+    "argv": [
+      "zero-trust",
+      "gateway",
+      "locations",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--name",
+      "regression value &/?+ü",
+      "--client-default=false",
+      "--dns64-enabled=false",
+      "--dns-destination-ips-id",
+      "192.0.2.1",
+      "--ecs-support=false",
+      "--endpoints-doh-enabled=false",
+      "--endpoints-doh-require-token=false",
+      "--endpoints-dot-enabled=false",
+      "--endpoints-ipv4-enabled=false"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/gateway/locations/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "245",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "client_default": false,
+          "dns64_enabled": false,
+          "dns_destination_ips_id": "192.0.2.1",
+          "ecs_support": false,
+          "endpoints": {
+            "doh": {
+              "enabled": false,
+              "require_token": false
+            },
+            "dot": {
+              "enabled": false
+            },
+            "ipv4": {
+              "enabled": false
+            }
+          },
+          "name": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "global quiet",
+    "argv": [
+      "zero-trust",
+      "gateway",
+      "locations",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--name",
+      "regression value &/?+ü",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--quiet"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/gateway/locations/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "global zone",
+    "argv": [
+      "zero-trust",
+      "gateway",
+      "locations",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--name",
+      "regression value &/?+ü",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--zone",
+      "abcdef0123456789abcdef0123456789"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/gateway/locations/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "global profile and mode",
+    "argv": [
+      "zero-trust",
+      "gateway",
+      "locations",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--name",
+      "regression value &/?+ü",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--profile",
+      "default",
+      "--mode",
+      "regression"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/gateway/locations/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "local",
+    "argv": [
+      "zero-trust",
+      "gateway",
+      "locations",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--name",
+      "regression value &/?+ü",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--local"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "http://localhost/cdn-cgi/local/explorer/api/gateway/locations/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "gzip, deflate",
+          "accept-language": "*",
+          "connection": "keep-alive",
+          "content-type": "application/json",
+          "host": "localhost",
+          "sec-fetch-mode": "cors",
+          "transfer-encoding": "chunked",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "local with persistence",
+    "argv": [
+      "zero-trust",
+      "gateway",
+      "locations",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--name",
+      "regression value &/?+ü",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--local",
+      "--persist-to",
+      "regression-state"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "http://localhost/cdn-cgi/local/explorer/api/gateway/locations/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "gzip, deflate",
+          "accept-language": "*",
+          "connection": "keep-alive",
+          "content-type": "application/json",
+          "host": "localhost",
+          "sec-fetch-mode": "cors",
+          "transfer-encoding": "chunked",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "dry-run",
+    "argv": [
+      "zero-trust",
+      "gateway",
+      "locations",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--name",
+      "regression value &/?+ü",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--dry-run"
+    ],
+    "exitCode": 0,
+    "requests": []
+  },
+  {
+    "case": "body from file",
+    "argv": [
+      "zero-trust",
+      "gateway",
+      "locations",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--name",
+      "regression value &/?+ü",
+      "--body",
+      "@<body.json>"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/gateway/locations/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "array body",
+    "argv": [
+      "zero-trust",
+      "gateway",
+      "locations",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--name",
+      "regression value &/?+ü",
+      "--body",
+      "[{\"regression\":\"first\"},{\"regression\":\"second\"}]"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/gateway/locations/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "56",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "0": {
+            "regression": "first"
+          },
+          "1": {
+            "regression": "second"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "field flags",
+    "argv": [
+      "zero-trust",
+      "gateway",
+      "locations",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--name",
+      "regression value &/?+ü",
+      "--client-default=true",
+      "--dns64-enabled=true",
+      "--dns-destination-ips-id",
+      "192.0.2.1",
+      "--ecs-support=true",
+      "--endpoints-doh-enabled=true",
+      "--endpoints-doh-require-token=true",
+      "--endpoints-dot-enabled=true",
+      "--endpoints-ipv4-enabled=true",
+      "--endpoints-ipv6-enabled=true",
+      "--max-ttl-mode",
+      "inherit",
+      "--max-ttl-ttl-secs",
+      "1",
+      "--networks",
+      "[{\"regression\":\"item\"}]"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/gateway/locations/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "339",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "client_default": true,
+          "dns64_enabled": true,
+          "dns_destination_ips_id": "192.0.2.1",
+          "ecs_support": true,
+          "endpoints": {
+            "doh": {
+              "enabled": true,
+              "require_token": true
+            },
+            "dot": {
+              "enabled": true
+            },
+            "ipv4": {
+              "enabled": true
+            },
+            "ipv6": {
+              "enabled": true
+            }
+          },
+          "max_ttl": {
+            "mode": "inherit",
+            "ttl_secs": 1
+          },
+          "name": "regression value &/?+ü",
+          "networks": [
+            {
+              "regression": "item"
+            }
+          ]
+        }
+      }
+    ]
+  }
+]

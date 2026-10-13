@@ -1,0 +1,103 @@
+[
+  {
+    "case": "no-args",
+    "argv": [
+      "tunnels",
+      "ready"
+    ],
+    "exitCode": 1,
+    "error": "Missing required argument: metrics",
+    "requests": []
+  },
+  {
+    "case": "required",
+    "argv": [
+      "tunnels",
+      "ready",
+      "--metrics",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": []
+  },
+  {
+    "case": "global quiet",
+    "argv": [
+      "tunnels",
+      "ready",
+      "--metrics",
+      "regression value &/?+ü",
+      "--quiet"
+    ],
+    "exitCode": 0,
+    "requests": []
+  },
+  {
+    "case": "global zone",
+    "argv": [
+      "tunnels",
+      "ready",
+      "--metrics",
+      "regression value &/?+ü",
+      "--zone",
+      "abcdef0123456789abcdef0123456789"
+    ],
+    "exitCode": 0,
+    "requests": []
+  },
+  {
+    "case": "global profile and mode",
+    "argv": [
+      "tunnels",
+      "ready",
+      "--metrics",
+      "regression value &/?+ü",
+      "--profile",
+      "default",
+      "--mode",
+      "regression"
+    ],
+    "exitCode": 0,
+    "requests": []
+  },
+  {
+    "case": "local",
+    "argv": [
+      "tunnels",
+      "ready",
+      "--metrics",
+      "regression value &/?+ü",
+      "--local"
+    ],
+    "exitCode": 1,
+    "error": "--local is not supported by cf tunnels ready.",
+    "requests": []
+  },
+  {
+    "case": "local with persistence",
+    "argv": [
+      "tunnels",
+      "ready",
+      "--metrics",
+      "regression value &/?+ü",
+      "--local",
+      "--persist-to",
+      "regression-state"
+    ],
+    "exitCode": 1,
+    "error": "--local is not supported by cf tunnels ready.",
+    "requests": []
+  },
+  {
+    "case": "dry-run",
+    "argv": [
+      "tunnels",
+      "ready",
+      "--metrics",
+      "regression value &/?+ü",
+      "--dry-run"
+    ],
+    "exitCode": 0,
+    "requests": []
+  }
+]

@@ -1,0 +1,8 @@
+{
+  "argv": [
+    "hyperdrive",
+    "integration",
+    "planetscale"
+  ],
+  "requests": []
+}

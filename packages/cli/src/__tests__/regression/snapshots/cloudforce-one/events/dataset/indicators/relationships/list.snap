@@ -1,0 +1,645 @@
+[
+  {
+    "case": "no-args",
+    "argv": [
+      "cloudforce-one",
+      "events",
+      "dataset",
+      "indicators",
+      "relationships",
+      "list"
+    ],
+    "exitCode": 1,
+    "error": "Missing required arguments: dataset-id, indicator-id",
+    "requests": []
+  },
+  {
+    "case": "required",
+    "argv": [
+      "cloudforce-one",
+      "events",
+      "dataset",
+      "indicators",
+      "relationships",
+      "list",
+      "--dataset-id",
+      "0123456789abcdef0123456789abcdef",
+      "--indicator-id",
+      "0123456789abcdef0123456789abcdef"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/cloudforce-one/events/dataset/0123456789abcdef0123456789abcdef/indicators/0123456789abcdef0123456789abcdef/relationships",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "only --search",
+    "argv": [
+      "cloudforce-one",
+      "events",
+      "dataset",
+      "indicators",
+      "relationships",
+      "list",
+      "--dataset-id",
+      "0123456789abcdef0123456789abcdef",
+      "--indicator-id",
+      "0123456789abcdef0123456789abcdef",
+      "--search",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/cloudforce-one/events/dataset/0123456789abcdef0123456789abcdef/indicators/0123456789abcdef0123456789abcdef/relationships?search=regression%20value%20%26%2F%3F%2B%C3%BC",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "only --expand",
+    "argv": [
+      "cloudforce-one",
+      "events",
+      "dataset",
+      "indicators",
+      "relationships",
+      "list",
+      "--dataset-id",
+      "0123456789abcdef0123456789abcdef",
+      "--indicator-id",
+      "0123456789abcdef0123456789abcdef",
+      "--expand",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/cloudforce-one/events/dataset/0123456789abcdef0123456789abcdef/indicators/0123456789abcdef0123456789abcdef/relationships?expand=regression%20value%20%26%2F%3F%2B%C3%BC",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "only --cursor",
+    "argv": [
+      "cloudforce-one",
+      "events",
+      "dataset",
+      "indicators",
+      "relationships",
+      "list",
+      "--dataset-id",
+      "0123456789abcdef0123456789abcdef",
+      "--indicator-id",
+      "0123456789abcdef0123456789abcdef",
+      "--cursor",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/cloudforce-one/events/dataset/0123456789abcdef0123456789abcdef/indicators/0123456789abcdef0123456789abcdef/relationships?cursor=regression%20value%20%26%2F%3F%2B%C3%BC",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "only --pageSize",
+    "argv": [
+      "cloudforce-one",
+      "events",
+      "dataset",
+      "indicators",
+      "relationships",
+      "list",
+      "--dataset-id",
+      "0123456789abcdef0123456789abcdef",
+      "--indicator-id",
+      "0123456789abcdef0123456789abcdef",
+      "--pageSize",
+      "1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/cloudforce-one/events/dataset/0123456789abcdef0123456789abcdef/indicators/0123456789abcdef0123456789abcdef/relationships?pageSize=1",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "pairwise 1",
+    "argv": [
+      "cloudforce-one",
+      "events",
+      "dataset",
+      "indicators",
+      "relationships",
+      "list",
+      "--dataset-id",
+      "0123456789abcdef0123456789abcdef",
+      "--indicator-id",
+      "0123456789abcdef0123456789abcdef",
+      "--search",
+      "second value &/?+ü",
+      "--expand",
+      "second value &/?+ü",
+      "--cursor",
+      "second value &/?+ü",
+      "--pageSize",
+      "2"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/cloudforce-one/events/dataset/0123456789abcdef0123456789abcdef/indicators/0123456789abcdef0123456789abcdef/relationships?search=second%20value%20%26%2F%3F%2B%C3%BC&expand=second%20value%20%26%2F%3F%2B%C3%BC&cursor=second%20value%20%26%2F%3F%2B%C3%BC&pageSize=2",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "pairwise 2",
+    "argv": [
+      "cloudforce-one",
+      "events",
+      "dataset",
+      "indicators",
+      "relationships",
+      "list",
+      "--dataset-id",
+      "0123456789abcdef0123456789abcdef",
+      "--indicator-id",
+      "0123456789abcdef0123456789abcdef",
+      "--expand",
+      "regression value &/?+ü",
+      "--pageSize",
+      "1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/cloudforce-one/events/dataset/0123456789abcdef0123456789abcdef/indicators/0123456789abcdef0123456789abcdef/relationships?expand=regression%20value%20%26%2F%3F%2B%C3%BC&pageSize=1",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "pairwise 3",
+    "argv": [
+      "cloudforce-one",
+      "events",
+      "dataset",
+      "indicators",
+      "relationships",
+      "list",
+      "--dataset-id",
+      "0123456789abcdef0123456789abcdef",
+      "--indicator-id",
+      "0123456789abcdef0123456789abcdef",
+      "--search",
+      "second value &/?+ü",
+      "--cursor",
+      "second value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/cloudforce-one/events/dataset/0123456789abcdef0123456789abcdef/indicators/0123456789abcdef0123456789abcdef/relationships?search=second%20value%20%26%2F%3F%2B%C3%BC&cursor=second%20value%20%26%2F%3F%2B%C3%BC",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "pairwise 4",
+    "argv": [
+      "cloudforce-one",
+      "events",
+      "dataset",
+      "indicators",
+      "relationships",
+      "list",
+      "--dataset-id",
+      "0123456789abcdef0123456789abcdef",
+      "--indicator-id",
+      "0123456789abcdef0123456789abcdef",
+      "--cursor",
+      "regression value &/?+ü",
+      "--pageSize",
+      "1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/cloudforce-one/events/dataset/0123456789abcdef0123456789abcdef/indicators/0123456789abcdef0123456789abcdef/relationships?cursor=regression%20value%20%26%2F%3F%2B%C3%BC&pageSize=1",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "pairwise 5",
+    "argv": [
+      "cloudforce-one",
+      "events",
+      "dataset",
+      "indicators",
+      "relationships",
+      "list",
+      "--dataset-id",
+      "0123456789abcdef0123456789abcdef",
+      "--indicator-id",
+      "0123456789abcdef0123456789abcdef",
+      "--search",
+      "second value &/?+ü",
+      "--expand",
+      "second value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/cloudforce-one/events/dataset/0123456789abcdef0123456789abcdef/indicators/0123456789abcdef0123456789abcdef/relationships?search=second%20value%20%26%2F%3F%2B%C3%BC&expand=second%20value%20%26%2F%3F%2B%C3%BC",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "global quiet",
+    "argv": [
+      "cloudforce-one",
+      "events",
+      "dataset",
+      "indicators",
+      "relationships",
+      "list",
+      "--dataset-id",
+      "0123456789abcdef0123456789abcdef",
+      "--indicator-id",
+      "0123456789abcdef0123456789abcdef",
+      "--quiet"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/cloudforce-one/events/dataset/0123456789abcdef0123456789abcdef/indicators/0123456789abcdef0123456789abcdef/relationships",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "global zone",
+    "argv": [
+      "cloudforce-one",
+      "events",
+      "dataset",
+      "indicators",
+      "relationships",
+      "list",
+      "--dataset-id",
+      "0123456789abcdef0123456789abcdef",
+      "--indicator-id",
+      "0123456789abcdef0123456789abcdef",
+      "--zone",
+      "abcdef0123456789abcdef0123456789"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/cloudforce-one/events/dataset/0123456789abcdef0123456789abcdef/indicators/0123456789abcdef0123456789abcdef/relationships",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "global profile and mode",
+    "argv": [
+      "cloudforce-one",
+      "events",
+      "dataset",
+      "indicators",
+      "relationships",
+      "list",
+      "--dataset-id",
+      "0123456789abcdef0123456789abcdef",
+      "--indicator-id",
+      "0123456789abcdef0123456789abcdef",
+      "--profile",
+      "default",
+      "--mode",
+      "regression"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/cloudforce-one/events/dataset/0123456789abcdef0123456789abcdef/indicators/0123456789abcdef0123456789abcdef/relationships",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "local",
+    "argv": [
+      "cloudforce-one",
+      "events",
+      "dataset",
+      "indicators",
+      "relationships",
+      "list",
+      "--dataset-id",
+      "0123456789abcdef0123456789abcdef",
+      "--indicator-id",
+      "0123456789abcdef0123456789abcdef",
+      "--local"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "http://localhost/cdn-cgi/local/explorer/api/cloudforce-one/events/dataset/0123456789abcdef0123456789abcdef/indicators/0123456789abcdef0123456789abcdef/relationships",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "gzip, deflate",
+          "accept-language": "*",
+          "connection": "keep-alive",
+          "host": "localhost",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "local with persistence",
+    "argv": [
+      "cloudforce-one",
+      "events",
+      "dataset",
+      "indicators",
+      "relationships",
+      "list",
+      "--dataset-id",
+      "0123456789abcdef0123456789abcdef",
+      "--indicator-id",
+      "0123456789abcdef0123456789abcdef",
+      "--local",
+      "--persist-to",
+      "regression-state"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "http://localhost/cdn-cgi/local/explorer/api/cloudforce-one/events/dataset/0123456789abcdef0123456789abcdef/indicators/0123456789abcdef0123456789abcdef/relationships",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "gzip, deflate",
+          "accept-language": "*",
+          "connection": "keep-alive",
+          "host": "localhost",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "dry-run",
+    "argv": [
+      "cloudforce-one",
+      "events",
+      "dataset",
+      "indicators",
+      "relationships",
+      "list",
+      "--dataset-id",
+      "0123456789abcdef0123456789abcdef",
+      "--indicator-id",
+      "0123456789abcdef0123456789abcdef",
+      "--dry-run"
+    ],
+    "exitCode": 0,
+    "requests": []
+  }
+]

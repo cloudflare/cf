@@ -1,0 +1,5016 @@
+[
+  {
+    "case": "no-args",
+    "argv": [
+      "zero-trust",
+      "gateway",
+      "rules",
+      "create"
+    ],
+    "exitCode": 1,
+    "error": "--action is required (one of: on, off, allow, block, scan, noscan, safesearch, ytrestricted, isolate, noisolate, override, l4_override, egress, resolve, quarantine, redirect). Pass --action <value> or run interactively.",
+    "requests": []
+  },
+  {
+    "case": "required",
+    "argv": [
+      "zero-trust",
+      "gateway",
+      "rules",
+      "create",
+      "--action",
+      "on",
+      "--name",
+      "regression value &/?+ü",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/gateway/rules",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --description",
+    "argv": [
+      "zero-trust",
+      "gateway",
+      "rules",
+      "create",
+      "--action",
+      "on",
+      "--name",
+      "regression value &/?+ü",
+      "--description",
+      "192.0.2.1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/gateway/rules",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "137",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "action": "on",
+          "description": "192.0.2.1",
+          "device_posture": "",
+          "enabled": false,
+          "identity": "",
+          "name": "regression value &/?+ü",
+          "traffic": ""
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --device-posture",
+    "argv": [
+      "zero-trust",
+      "gateway",
+      "rules",
+      "create",
+      "--action",
+      "on",
+      "--name",
+      "regression value &/?+ü",
+      "--device-posture",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/gateway/rules",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "134",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "action": "on",
+          "device_posture": "regression value &/?+ü",
+          "enabled": false,
+          "identity": "",
+          "name": "regression value &/?+ü",
+          "traffic": ""
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --enabled",
+    "argv": [
+      "zero-trust",
+      "gateway",
+      "rules",
+      "create",
+      "--action",
+      "on",
+      "--name",
+      "regression value &/?+ü",
+      "--enabled=true"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/gateway/rules",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "110",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "action": "on",
+          "device_posture": "",
+          "enabled": true,
+          "identity": "",
+          "name": "regression value &/?+ü",
+          "traffic": ""
+        }
+      }
+    ]
+  },
+  {
+    "case": "--enabled value 1",
+    "argv": [
+      "zero-trust",
+      "gateway",
+      "rules",
+      "create",
+      "--action",
+      "on",
+      "--name",
+      "regression value &/?+ü",
+      "--enabled=false"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/gateway/rules",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "111",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "action": "on",
+          "device_posture": "",
+          "enabled": false,
+          "identity": "",
+          "name": "regression value &/?+ü",
+          "traffic": ""
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --expiration-duration",
+    "argv": [
+      "zero-trust",
+      "gateway",
+      "rules",
+      "create",
+      "--action",
+      "on",
+      "--name",
+      "regression value &/?+ü",
+      "--expiration-duration",
+      "1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/gateway/rules",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "139",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "action": "on",
+          "device_posture": "",
+          "enabled": false,
+          "expiration": {
+            "duration": 1
+          },
+          "identity": "",
+          "name": "regression value &/?+ü",
+          "traffic": ""
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --filters",
+    "argv": [
+      "zero-trust",
+      "gateway",
+      "rules",
+      "create",
+      "--action",
+      "on",
+      "--name",
+      "regression value &/?+ü",
+      "--filters",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/gateway/rules",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "149",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "action": "on",
+          "device_posture": "",
+          "enabled": false,
+          "filters": [
+            "regression value &/?+ü"
+          ],
+          "identity": "",
+          "name": "regression value &/?+ü",
+          "traffic": ""
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --identity",
+    "argv": [
+      "zero-trust",
+      "gateway",
+      "rules",
+      "create",
+      "--action",
+      "on",
+      "--name",
+      "regression value &/?+ü",
+      "--identity",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/gateway/rules",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "134",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "action": "on",
+          "device_posture": "",
+          "enabled": false,
+          "identity": "regression value &/?+ü",
+          "name": "regression value &/?+ü",
+          "traffic": ""
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --precedence",
+    "argv": [
+      "zero-trust",
+      "gateway",
+      "rules",
+      "create",
+      "--action",
+      "on",
+      "--name",
+      "regression value &/?+ü",
+      "--precedence",
+      "1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/gateway/rules",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "126",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "action": "on",
+          "device_posture": "",
+          "enabled": false,
+          "identity": "",
+          "name": "regression value &/?+ü",
+          "precedence": 1,
+          "traffic": ""
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --rule-settings-allow-child-bypass",
+    "argv": [
+      "zero-trust",
+      "gateway",
+      "rules",
+      "create",
+      "--action",
+      "on",
+      "--name",
+      "regression value &/?+ü",
+      "--rule-settings-allow-child-bypass=true"
+    ],
+    "exitCode": 1,
+    "error": "--rule-settings-block-page-target-uri, --rule-settings-redirect-target-uri are required when any --rule_settings-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "--rule-settings-allow-child-bypass value 1",
+    "argv": [
+      "zero-trust",
+      "gateway",
+      "rules",
+      "create",
+      "--action",
+      "on",
+      "--name",
+      "regression value &/?+ü",
+      "--rule-settings-allow-child-bypass=false"
+    ],
+    "exitCode": 1,
+    "error": "--rule-settings-block-page-target-uri, --rule-settings-redirect-target-uri are required when any --rule_settings-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "only --rule-settings-audit-ssh-command-logging",
+    "argv": [
+      "zero-trust",
+      "gateway",
+      "rules",
+      "create",
+      "--action",
+      "on",
+      "--name",
+      "regression value &/?+ü",
+      "--rule-settings-audit-ssh-command-logging=true"
+    ],
+    "exitCode": 1,
+    "error": "--rule-settings-block-page-target-uri, --rule-settings-redirect-target-uri are required when any --rule_settings-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "--rule-settings-audit-ssh-command-logging value 1",
+    "argv": [
+      "zero-trust",
+      "gateway",
+      "rules",
+      "create",
+      "--action",
+      "on",
+      "--name",
+      "regression value &/?+ü",
+      "--rule-settings-audit-ssh-command-logging=false"
+    ],
+    "exitCode": 1,
+    "error": "--rule-settings-block-page-target-uri, --rule-settings-redirect-target-uri are required when any --rule_settings-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "only --rule-settings-biso-admin-controls-copy",
+    "argv": [
+      "zero-trust",
+      "gateway",
+      "rules",
+      "create",
+      "--action",
+      "on",
+      "--name",
+      "regression value &/?+ü",
+      "--rule-settings-biso-admin-controls-copy",
+      "enabled"
+    ],
+    "exitCode": 1,
+    "error": "--rule-settings-block-page-target-uri, --rule-settings-redirect-target-uri are required when any --rule_settings-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "--rule-settings-biso-admin-controls-copy value 1",
+    "argv": [
+      "zero-trust",
+      "gateway",
+      "rules",
+      "create",
+      "--action",
+      "on",
+      "--name",
+      "regression value &/?+ü",
+      "--rule-settings-biso-admin-controls-copy",
+      "disabled"
+    ],
+    "exitCode": 1,
+    "error": "--rule-settings-block-page-target-uri, --rule-settings-redirect-target-uri are required when any --rule_settings-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "--rule-settings-biso-admin-controls-copy value 2",
+    "argv": [
+      "zero-trust",
+      "gateway",
+      "rules",
+      "create",
+      "--action",
+      "on",
+      "--name",
+      "regression value &/?+ü",
+      "--rule-settings-biso-admin-controls-copy",
+      "remote_only"
+    ],
+    "exitCode": 1,
+    "error": "--rule-settings-block-page-target-uri, --rule-settings-redirect-target-uri are required when any --rule_settings-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "only --rule-settings-biso-admin-controls-dcp",
+    "argv": [
+      "zero-trust",
+      "gateway",
+      "rules",
+      "create",
+      "--action",
+      "on",
+      "--name",
+      "regression value &/?+ü",
+      "--rule-settings-biso-admin-controls-dcp=true"
+    ],
+    "exitCode": 1,
+    "error": "--rule-settings-block-page-target-uri, --rule-settings-redirect-target-uri are required when any --rule_settings-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "--rule-settings-biso-admin-controls-dcp value 1",
+    "argv": [
+      "zero-trust",
+      "gateway",
+      "rules",
+      "create",
+      "--action",
+      "on",
+      "--name",
+      "regression value &/?+ü",
+      "--rule-settings-biso-admin-controls-dcp=false"
+    ],
+    "exitCode": 1,
+    "error": "--rule-settings-block-page-target-uri, --rule-settings-redirect-target-uri are required when any --rule_settings-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "only --rule-settings-biso-admin-controls-dd",
+    "argv": [
+      "zero-trust",
+      "gateway",
+      "rules",
+      "create",
+      "--action",
+      "on",
+      "--name",
+      "regression value &/?+ü",
+      "--rule-settings-biso-admin-controls-dd=true"
+    ],
+    "exitCode": 1,
+    "error": "--rule-settings-block-page-target-uri, --rule-settings-redirect-target-uri are required when any --rule_settings-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "--rule-settings-biso-admin-controls-dd value 1",
+    "argv": [
+      "zero-trust",
+      "gateway",
+      "rules",
+      "create",
+      "--action",
+      "on",
+      "--name",
+      "regression value &/?+ü",
+      "--rule-settings-biso-admin-controls-dd=false"
+    ],
+    "exitCode": 1,
+    "error": "--rule-settings-block-page-target-uri, --rule-settings-redirect-target-uri are required when any --rule_settings-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "only --rule-settings-biso-admin-controls-dk",
+    "argv": [
+      "zero-trust",
+      "gateway",
+      "rules",
+      "create",
+      "--action",
+      "on",
+      "--name",
+      "regression value &/?+ü",
+      "--rule-settings-biso-admin-controls-dk=true"
+    ],
+    "exitCode": 1,
+    "error": "--rule-settings-block-page-target-uri, --rule-settings-redirect-target-uri are required when any --rule_settings-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "--rule-settings-biso-admin-controls-dk value 1",
+    "argv": [
+      "zero-trust",
+      "gateway",
+      "rules",
+      "create",
+      "--action",
+      "on",
+      "--name",
+      "regression value &/?+ü",
+      "--rule-settings-biso-admin-controls-dk=false"
+    ],
+    "exitCode": 1,
+    "error": "--rule-settings-block-page-target-uri, --rule-settings-redirect-target-uri are required when any --rule_settings-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "only --rule-settings-biso-admin-controls-download",
+    "argv": [
+      "zero-trust",
+      "gateway",
+      "rules",
+      "create",
+      "--action",
+      "on",
+      "--name",
+      "regression value &/?+ü",
+      "--rule-settings-biso-admin-controls-download",
+      "enabled"
+    ],
+    "exitCode": 1,
+    "error": "--rule-settings-block-page-target-uri, --rule-settings-redirect-target-uri are required when any --rule_settings-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "--rule-settings-biso-admin-controls-download value 1",
+    "argv": [
+      "zero-trust",
+      "gateway",
+      "rules",
+      "create",
+      "--action",
+      "on",
+      "--name",
+      "regression value &/?+ü",
+      "--rule-settings-biso-admin-controls-download",
+      "disabled"
+    ],
+    "exitCode": 1,
+    "error": "--rule-settings-block-page-target-uri, --rule-settings-redirect-target-uri are required when any --rule_settings-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "--rule-settings-biso-admin-controls-download value 2",
+    "argv": [
+      "zero-trust",
+      "gateway",
+      "rules",
+      "create",
+      "--action",
+      "on",
+      "--name",
+      "regression value &/?+ü",
+      "--rule-settings-biso-admin-controls-download",
+      "remote_only"
+    ],
+    "exitCode": 1,
+    "error": "--rule-settings-block-page-target-uri, --rule-settings-redirect-target-uri are required when any --rule_settings-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "only --rule-settings-biso-admin-controls-dp",
+    "argv": [
+      "zero-trust",
+      "gateway",
+      "rules",
+      "create",
+      "--action",
+      "on",
+      "--name",
+      "regression value &/?+ü",
+      "--rule-settings-biso-admin-controls-dp=true"
+    ],
+    "exitCode": 1,
+    "error": "--rule-settings-block-page-target-uri, --rule-settings-redirect-target-uri are required when any --rule_settings-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "--rule-settings-biso-admin-controls-dp value 1",
+    "argv": [
+      "zero-trust",
+      "gateway",
+      "rules",
+      "create",
+      "--action",
+      "on",
+      "--name",
+      "regression value &/?+ü",
+      "--rule-settings-biso-admin-controls-dp=false"
+    ],
+    "exitCode": 1,
+    "error": "--rule-settings-block-page-target-uri, --rule-settings-redirect-target-uri are required when any --rule_settings-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "only --rule-settings-biso-admin-controls-du",
+    "argv": [
+      "zero-trust",
+      "gateway",
+      "rules",
+      "create",
+      "--action",
+      "on",
+      "--name",
+      "regression value &/?+ü",
+      "--rule-settings-biso-admin-controls-du=true"
+    ],
+    "exitCode": 1,
+    "error": "--rule-settings-block-page-target-uri, --rule-settings-redirect-target-uri are required when any --rule_settings-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "--rule-settings-biso-admin-controls-du value 1",
+    "argv": [
+      "zero-trust",
+      "gateway",
+      "rules",
+      "create",
+      "--action",
+      "on",
+      "--name",
+      "regression value &/?+ü",
+      "--rule-settings-biso-admin-controls-du=false"
+    ],
+    "exitCode": 1,
+    "error": "--rule-settings-block-page-target-uri, --rule-settings-redirect-target-uri are required when any --rule_settings-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "only --rule-settings-biso-admin-controls-keyboard",
+    "argv": [
+      "zero-trust",
+      "gateway",
+      "rules",
+      "create",
+      "--action",
+      "on",
+      "--name",
+      "regression value &/?+ü",
+      "--rule-settings-biso-admin-controls-keyboard",
+      "enabled"
+    ],
+    "exitCode": 1,
+    "error": "--rule-settings-block-page-target-uri, --rule-settings-redirect-target-uri are required when any --rule_settings-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "--rule-settings-biso-admin-controls-keyboard value 1",
+    "argv": [
+      "zero-trust",
+      "gateway",
+      "rules",
+      "create",
+      "--action",
+      "on",
+      "--name",
+      "regression value &/?+ü",
+      "--rule-settings-biso-admin-controls-keyboard",
+      "disabled"
+    ],
+    "exitCode": 1,
+    "error": "--rule-settings-block-page-target-uri, --rule-settings-redirect-target-uri are required when any --rule_settings-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "only --rule-settings-biso-admin-controls-paste",
+    "argv": [
+      "zero-trust",
+      "gateway",
+      "rules",
+      "create",
+      "--action",
+      "on",
+      "--name",
+      "regression value &/?+ü",
+      "--rule-settings-biso-admin-controls-paste",
+      "enabled"
+    ],
+    "exitCode": 1,
+    "error": "--rule-settings-block-page-target-uri, --rule-settings-redirect-target-uri are required when any --rule_settings-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "--rule-settings-biso-admin-controls-paste value 1",
+    "argv": [
+      "zero-trust",
+      "gateway",
+      "rules",
+      "create",
+      "--action",
+      "on",
+      "--name",
+      "regression value &/?+ü",
+      "--rule-settings-biso-admin-controls-paste",
+      "disabled"
+    ],
+    "exitCode": 1,
+    "error": "--rule-settings-block-page-target-uri, --rule-settings-redirect-target-uri are required when any --rule_settings-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "--rule-settings-biso-admin-controls-paste value 2",
+    "argv": [
+      "zero-trust",
+      "gateway",
+      "rules",
+      "create",
+      "--action",
+      "on",
+      "--name",
+      "regression value &/?+ü",
+      "--rule-settings-biso-admin-controls-paste",
+      "remote_only"
+    ],
+    "exitCode": 1,
+    "error": "--rule-settings-block-page-target-uri, --rule-settings-redirect-target-uri are required when any --rule_settings-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "only --rule-settings-biso-admin-controls-printing",
+    "argv": [
+      "zero-trust",
+      "gateway",
+      "rules",
+      "create",
+      "--action",
+      "on",
+      "--name",
+      "regression value &/?+ü",
+      "--rule-settings-biso-admin-controls-printing",
+      "enabled"
+    ],
+    "exitCode": 1,
+    "error": "--rule-settings-block-page-target-uri, --rule-settings-redirect-target-uri are required when any --rule_settings-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "--rule-settings-biso-admin-controls-printing value 1",
+    "argv": [
+      "zero-trust",
+      "gateway",
+      "rules",
+      "create",
+      "--action",
+      "on",
+      "--name",
+      "regression value &/?+ü",
+      "--rule-settings-biso-admin-controls-printing",
+      "disabled"
+    ],
+    "exitCode": 1,
+    "error": "--rule-settings-block-page-target-uri, --rule-settings-redirect-target-uri are required when any --rule_settings-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "only --rule-settings-biso-admin-controls-upload",
+    "argv": [
+      "zero-trust",
+      "gateway",
+      "rules",
+      "create",
+      "--action",
+      "on",
+      "--name",
+      "regression value &/?+ü",
+      "--rule-settings-biso-admin-controls-upload",
+      "enabled"
+    ],
+    "exitCode": 1,
+    "error": "--rule-settings-block-page-target-uri, --rule-settings-redirect-target-uri are required when any --rule_settings-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "--rule-settings-biso-admin-controls-upload value 1",
+    "argv": [
+      "zero-trust",
+      "gateway",
+      "rules",
+      "create",
+      "--action",
+      "on",
+      "--name",
+      "regression value &/?+ü",
+      "--rule-settings-biso-admin-controls-upload",
+      "disabled"
+    ],
+    "exitCode": 1,
+    "error": "--rule-settings-block-page-target-uri, --rule-settings-redirect-target-uri are required when any --rule_settings-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "only --rule-settings-biso-admin-controls-version",
+    "argv": [
+      "zero-trust",
+      "gateway",
+      "rules",
+      "create",
+      "--action",
+      "on",
+      "--name",
+      "regression value &/?+ü",
+      "--rule-settings-biso-admin-controls-version",
+      "v1"
+    ],
+    "exitCode": 1,
+    "error": "--rule-settings-block-page-target-uri, --rule-settings-redirect-target-uri are required when any --rule_settings-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "--rule-settings-biso-admin-controls-version value 1",
+    "argv": [
+      "zero-trust",
+      "gateway",
+      "rules",
+      "create",
+      "--action",
+      "on",
+      "--name",
+      "regression value &/?+ü",
+      "--rule-settings-biso-admin-controls-version",
+      "v2"
+    ],
+    "exitCode": 1,
+    "error": "--rule-settings-block-page-target-uri, --rule-settings-redirect-target-uri are required when any --rule_settings-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "only --rule-settings-biso-admin-controls-wm-id",
+    "argv": [
+      "zero-trust",
+      "gateway",
+      "rules",
+      "create",
+      "--action",
+      "on",
+      "--name",
+      "regression value &/?+ü",
+      "--rule-settings-biso-admin-controls-wm-id",
+      "0123456789abcdef0123456789abcdef"
+    ],
+    "exitCode": 1,
+    "error": "--rule-settings-block-page-target-uri, --rule-settings-redirect-target-uri are required when any --rule_settings-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "only --rule-settings-block-page-include-context",
+    "argv": [
+      "zero-trust",
+      "gateway",
+      "rules",
+      "create",
+      "--action",
+      "on",
+      "--name",
+      "regression value &/?+ü",
+      "--rule-settings-block-page-include-context=true"
+    ],
+    "exitCode": 1,
+    "error": "--rule-settings-block-page-target-uri, --rule-settings-redirect-target-uri are required when any --rule_settings-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "--rule-settings-block-page-include-context value 1",
+    "argv": [
+      "zero-trust",
+      "gateway",
+      "rules",
+      "create",
+      "--action",
+      "on",
+      "--name",
+      "regression value &/?+ü",
+      "--rule-settings-block-page-include-context=false"
+    ],
+    "exitCode": 1,
+    "error": "--rule-settings-block-page-target-uri, --rule-settings-redirect-target-uri are required when any --rule_settings-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "only --rule-settings-block-page-target-uri",
+    "argv": [
+      "zero-trust",
+      "gateway",
+      "rules",
+      "create",
+      "--action",
+      "on",
+      "--name",
+      "regression value &/?+ü",
+      "--rule-settings-block-page-target-uri",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 1,
+    "error": "--rule-settings-redirect-target-uri is required when any --rule_settings-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "only --rule-settings-block-page-enabled",
+    "argv": [
+      "zero-trust",
+      "gateway",
+      "rules",
+      "create",
+      "--action",
+      "on",
+      "--name",
+      "regression value &/?+ü",
+      "--rule-settings-block-page-enabled=true"
+    ],
+    "exitCode": 1,
+    "error": "--rule-settings-block-page-target-uri, --rule-settings-redirect-target-uri are required when any --rule_settings-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "--rule-settings-block-page-enabled value 1",
+    "argv": [
+      "zero-trust",
+      "gateway",
+      "rules",
+      "create",
+      "--action",
+      "on",
+      "--name",
+      "regression value &/?+ü",
+      "--rule-settings-block-page-enabled=false"
+    ],
+    "exitCode": 1,
+    "error": "--rule-settings-block-page-target-uri, --rule-settings-redirect-target-uri are required when any --rule_settings-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "only --rule-settings-block-reason",
+    "argv": [
+      "zero-trust",
+      "gateway",
+      "rules",
+      "create",
+      "--action",
+      "on",
+      "--name",
+      "regression value &/?+ü",
+      "--rule-settings-block-reason",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 1,
+    "error": "--rule-settings-block-page-target-uri, --rule-settings-redirect-target-uri are required when any --rule_settings-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "only --rule-settings-bypass-parent-rule",
+    "argv": [
+      "zero-trust",
+      "gateway",
+      "rules",
+      "create",
+      "--action",
+      "on",
+      "--name",
+      "regression value &/?+ü",
+      "--rule-settings-bypass-parent-rule=true"
+    ],
+    "exitCode": 1,
+    "error": "--rule-settings-block-page-target-uri, --rule-settings-redirect-target-uri are required when any --rule_settings-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "--rule-settings-bypass-parent-rule value 1",
+    "argv": [
+      "zero-trust",
+      "gateway",
+      "rules",
+      "create",
+      "--action",
+      "on",
+      "--name",
+      "regression value &/?+ü",
+      "--rule-settings-bypass-parent-rule=false"
+    ],
+    "exitCode": 1,
+    "error": "--rule-settings-block-page-target-uri, --rule-settings-redirect-target-uri are required when any --rule_settings-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "only --rule-settings-check-session-duration",
+    "argv": [
+      "zero-trust",
+      "gateway",
+      "rules",
+      "create",
+      "--action",
+      "on",
+      "--name",
+      "regression value &/?+ü",
+      "--rule-settings-check-session-duration",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 1,
+    "error": "--rule-settings-block-page-target-uri, --rule-settings-redirect-target-uri are required when any --rule_settings-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "only --rule-settings-check-session-enforce",
+    "argv": [
+      "zero-trust",
+      "gateway",
+      "rules",
+      "create",
+      "--action",
+      "on",
+      "--name",
+      "regression value &/?+ü",
+      "--rule-settings-check-session-enforce=true"
+    ],
+    "exitCode": 1,
+    "error": "--rule-settings-block-page-target-uri, --rule-settings-redirect-target-uri are required when any --rule_settings-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "--rule-settings-check-session-enforce value 1",
+    "argv": [
+      "zero-trust",
+      "gateway",
+      "rules",
+      "create",
+      "--action",
+      "on",
+      "--name",
+      "regression value &/?+ü",
+      "--rule-settings-check-session-enforce=false"
+    ],
+    "exitCode": 1,
+    "error": "--rule-settings-block-page-target-uri, --rule-settings-redirect-target-uri are required when any --rule_settings-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "only --rule-settings-delete-headers",
+    "argv": [
+      "zero-trust",
+      "gateway",
+      "rules",
+      "create",
+      "--action",
+      "on",
+      "--name",
+      "regression value &/?+ü",
+      "--rule-settings-delete-headers",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 1,
+    "error": "--rule-settings-block-page-target-uri, --rule-settings-redirect-target-uri are required when any --rule_settings-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "only --rule-settings-egress-ipv4",
+    "argv": [
+      "zero-trust",
+      "gateway",
+      "rules",
+      "create",
+      "--action",
+      "on",
+      "--name",
+      "regression value &/?+ü",
+      "--rule-settings-egress-ipv4",
+      "192.0.2.1"
+    ],
+    "exitCode": 1,
+    "error": "--rule-settings-block-page-target-uri, --rule-settings-redirect-target-uri are required when any --rule_settings-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "only --rule-settings-egress-ipv4-fallback",
+    "argv": [
+      "zero-trust",
+      "gateway",
+      "rules",
+      "create",
+      "--action",
+      "on",
+      "--name",
+      "regression value &/?+ü",
+      "--rule-settings-egress-ipv4-fallback",
+      "192.0.2.1"
+    ],
+    "exitCode": 1,
+    "error": "--rule-settings-block-page-target-uri, --rule-settings-redirect-target-uri are required when any --rule_settings-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "only --rule-settings-egress-ipv6",
+    "argv": [
+      "zero-trust",
+      "gateway",
+      "rules",
+      "create",
+      "--action",
+      "on",
+      "--name",
+      "regression value &/?+ü",
+      "--rule-settings-egress-ipv6",
+      "192.0.2.1"
+    ],
+    "exitCode": 1,
+    "error": "--rule-settings-block-page-target-uri, --rule-settings-redirect-target-uri are required when any --rule_settings-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "only --rule-settings-forensic-copy-enabled",
+    "argv": [
+      "zero-trust",
+      "gateway",
+      "rules",
+      "create",
+      "--action",
+      "on",
+      "--name",
+      "regression value &/?+ü",
+      "--rule-settings-forensic-copy-enabled=true"
+    ],
+    "exitCode": 1,
+    "error": "--rule-settings-block-page-target-uri, --rule-settings-redirect-target-uri are required when any --rule_settings-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "--rule-settings-forensic-copy-enabled value 1",
+    "argv": [
+      "zero-trust",
+      "gateway",
+      "rules",
+      "create",
+      "--action",
+      "on",
+      "--name",
+      "regression value &/?+ü",
+      "--rule-settings-forensic-copy-enabled=false"
+    ],
+    "exitCode": 1,
+    "error": "--rule-settings-block-page-target-uri, --rule-settings-redirect-target-uri are required when any --rule_settings-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "only --rule-settings-ignore-cname-category-matches",
+    "argv": [
+      "zero-trust",
+      "gateway",
+      "rules",
+      "create",
+      "--action",
+      "on",
+      "--name",
+      "regression value &/?+ü",
+      "--rule-settings-ignore-cname-category-matches=true"
+    ],
+    "exitCode": 1,
+    "error": "--rule-settings-block-page-target-uri, --rule-settings-redirect-target-uri are required when any --rule_settings-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "--rule-settings-ignore-cname-category-matches value 1",
+    "argv": [
+      "zero-trust",
+      "gateway",
+      "rules",
+      "create",
+      "--action",
+      "on",
+      "--name",
+      "regression value &/?+ü",
+      "--rule-settings-ignore-cname-category-matches=false"
+    ],
+    "exitCode": 1,
+    "error": "--rule-settings-block-page-target-uri, --rule-settings-redirect-target-uri are required when any --rule_settings-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "only --rule-settings-insecure-disable-dnssec-validation",
+    "argv": [
+      "zero-trust",
+      "gateway",
+      "rules",
+      "create",
+      "--action",
+      "on",
+      "--name",
+      "regression value &/?+ü",
+      "--rule-settings-insecure-disable-dnssec-validation=true"
+    ],
+    "exitCode": 1,
+    "error": "--rule-settings-block-page-target-uri, --rule-settings-redirect-target-uri are required when any --rule_settings-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "--rule-settings-insecure-disable-dnssec-validation value 1",
+    "argv": [
+      "zero-trust",
+      "gateway",
+      "rules",
+      "create",
+      "--action",
+      "on",
+      "--name",
+      "regression value &/?+ü",
+      "--rule-settings-insecure-disable-dnssec-validation=false"
+    ],
+    "exitCode": 1,
+    "error": "--rule-settings-block-page-target-uri, --rule-settings-redirect-target-uri are required when any --rule_settings-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "only --rule-settings-ip-categories",
+    "argv": [
+      "zero-trust",
+      "gateway",
+      "rules",
+      "create",
+      "--action",
+      "on",
+      "--name",
+      "regression value &/?+ü",
+      "--rule-settings-ip-categories=true"
+    ],
+    "exitCode": 1,
+    "error": "--rule-settings-block-page-target-uri, --rule-settings-redirect-target-uri are required when any --rule_settings-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "--rule-settings-ip-categories value 1",
+    "argv": [
+      "zero-trust",
+      "gateway",
+      "rules",
+      "create",
+      "--action",
+      "on",
+      "--name",
+      "regression value &/?+ü",
+      "--rule-settings-ip-categories=false"
+    ],
+    "exitCode": 1,
+    "error": "--rule-settings-block-page-target-uri, --rule-settings-redirect-target-uri are required when any --rule_settings-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "only --rule-settings-ip-indicator-feeds",
+    "argv": [
+      "zero-trust",
+      "gateway",
+      "rules",
+      "create",
+      "--action",
+      "on",
+      "--name",
+      "regression value &/?+ü",
+      "--rule-settings-ip-indicator-feeds=true"
+    ],
+    "exitCode": 1,
+    "error": "--rule-settings-block-page-target-uri, --rule-settings-redirect-target-uri are required when any --rule_settings-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "--rule-settings-ip-indicator-feeds value 1",
+    "argv": [
+      "zero-trust",
+      "gateway",
+      "rules",
+      "create",
+      "--action",
+      "on",
+      "--name",
+      "regression value &/?+ü",
+      "--rule-settings-ip-indicator-feeds=false"
+    ],
+    "exitCode": 1,
+    "error": "--rule-settings-block-page-target-uri, --rule-settings-redirect-target-uri are required when any --rule_settings-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "only --rule-settings-l4override-ip",
+    "argv": [
+      "zero-trust",
+      "gateway",
+      "rules",
+      "create",
+      "--action",
+      "on",
+      "--name",
+      "regression value &/?+ü",
+      "--rule-settings-l4override-ip",
+      "192.0.2.1"
+    ],
+    "exitCode": 1,
+    "error": "--rule-settings-block-page-target-uri, --rule-settings-redirect-target-uri are required when any --rule_settings-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "only --rule-settings-l4override-port",
+    "argv": [
+      "zero-trust",
+      "gateway",
+      "rules",
+      "create",
+      "--action",
+      "on",
+      "--name",
+      "regression value &/?+ü",
+      "--rule-settings-l4override-port",
+      "1"
+    ],
+    "exitCode": 1,
+    "error": "--rule-settings-block-page-target-uri, --rule-settings-redirect-target-uri are required when any --rule_settings-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "only --rule-settings-notification-settings-enabled",
+    "argv": [
+      "zero-trust",
+      "gateway",
+      "rules",
+      "create",
+      "--action",
+      "on",
+      "--name",
+      "regression value &/?+ü",
+      "--rule-settings-notification-settings-enabled=true"
+    ],
+    "exitCode": 1,
+    "error": "--rule-settings-block-page-target-uri, --rule-settings-redirect-target-uri are required when any --rule_settings-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "--rule-settings-notification-settings-enabled value 1",
+    "argv": [
+      "zero-trust",
+      "gateway",
+      "rules",
+      "create",
+      "--action",
+      "on",
+      "--name",
+      "regression value &/?+ü",
+      "--rule-settings-notification-settings-enabled=false"
+    ],
+    "exitCode": 1,
+    "error": "--rule-settings-block-page-target-uri, --rule-settings-redirect-target-uri are required when any --rule_settings-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "only --rule-settings-notification-settings-include-context",
+    "argv": [
+      "zero-trust",
+      "gateway",
+      "rules",
+      "create",
+      "--action",
+      "on",
+      "--name",
+      "regression value &/?+ü",
+      "--rule-settings-notification-settings-include-context=true"
+    ],
+    "exitCode": 1,
+    "error": "--rule-settings-block-page-target-uri, --rule-settings-redirect-target-uri are required when any --rule_settings-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "--rule-settings-notification-settings-include-context value 1",
+    "argv": [
+      "zero-trust",
+      "gateway",
+      "rules",
+      "create",
+      "--action",
+      "on",
+      "--name",
+      "regression value &/?+ü",
+      "--rule-settings-notification-settings-include-context=false"
+    ],
+    "exitCode": 1,
+    "error": "--rule-settings-block-page-target-uri, --rule-settings-redirect-target-uri are required when any --rule_settings-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "only --rule-settings-notification-settings-msg",
+    "argv": [
+      "zero-trust",
+      "gateway",
+      "rules",
+      "create",
+      "--action",
+      "on",
+      "--name",
+      "regression value &/?+ü",
+      "--rule-settings-notification-settings-msg",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 1,
+    "error": "--rule-settings-block-page-target-uri, --rule-settings-redirect-target-uri are required when any --rule_settings-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "only --rule-settings-notification-settings-support-url",
+    "argv": [
+      "zero-trust",
+      "gateway",
+      "rules",
+      "create",
+      "--action",
+      "on",
+      "--name",
+      "regression value &/?+ü",
+      "--rule-settings-notification-settings-support-url",
+      "https://example.com/a?x=1&y=two"
+    ],
+    "exitCode": 1,
+    "error": "--rule-settings-block-page-target-uri, --rule-settings-redirect-target-uri are required when any --rule_settings-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "only --rule-settings-override-host",
+    "argv": [
+      "zero-trust",
+      "gateway",
+      "rules",
+      "create",
+      "--action",
+      "on",
+      "--name",
+      "regression value &/?+ü",
+      "--rule-settings-override-host",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 1,
+    "error": "--rule-settings-block-page-target-uri, --rule-settings-redirect-target-uri are required when any --rule_settings-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "only --rule-settings-override-ips",
+    "argv": [
+      "zero-trust",
+      "gateway",
+      "rules",
+      "create",
+      "--action",
+      "on",
+      "--name",
+      "regression value &/?+ü",
+      "--rule-settings-override-ips",
+      "192.0.2.1"
+    ],
+    "exitCode": 1,
+    "error": "--rule-settings-block-page-target-uri, --rule-settings-redirect-target-uri are required when any --rule_settings-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "only --rule-settings-payload-log-enabled",
+    "argv": [
+      "zero-trust",
+      "gateway",
+      "rules",
+      "create",
+      "--action",
+      "on",
+      "--name",
+      "regression value &/?+ü",
+      "--rule-settings-payload-log-enabled=true"
+    ],
+    "exitCode": 1,
+    "error": "--rule-settings-block-page-target-uri, --rule-settings-redirect-target-uri are required when any --rule_settings-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "--rule-settings-payload-log-enabled value 1",
+    "argv": [
+      "zero-trust",
+      "gateway",
+      "rules",
+      "create",
+      "--action",
+      "on",
+      "--name",
+      "regression value &/?+ü",
+      "--rule-settings-payload-log-enabled=false"
+    ],
+    "exitCode": 1,
+    "error": "--rule-settings-block-page-target-uri, --rule-settings-redirect-target-uri are required when any --rule_settings-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "only --rule-settings-quarantine-file-types",
+    "argv": [
+      "zero-trust",
+      "gateway",
+      "rules",
+      "create",
+      "--action",
+      "on",
+      "--name",
+      "regression value &/?+ü",
+      "--rule-settings-quarantine-file-types",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 1,
+    "error": "--rule-settings-block-page-target-uri, --rule-settings-redirect-target-uri are required when any --rule_settings-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "only --rule-settings-redirect-include-context",
+    "argv": [
+      "zero-trust",
+      "gateway",
+      "rules",
+      "create",
+      "--action",
+      "on",
+      "--name",
+      "regression value &/?+ü",
+      "--rule-settings-redirect-include-context=true"
+    ],
+    "exitCode": 1,
+    "error": "--rule-settings-block-page-target-uri, --rule-settings-redirect-target-uri are required when any --rule_settings-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "--rule-settings-redirect-include-context value 1",
+    "argv": [
+      "zero-trust",
+      "gateway",
+      "rules",
+      "create",
+      "--action",
+      "on",
+      "--name",
+      "regression value &/?+ü",
+      "--rule-settings-redirect-include-context=false"
+    ],
+    "exitCode": 1,
+    "error": "--rule-settings-block-page-target-uri, --rule-settings-redirect-target-uri are required when any --rule_settings-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "only --rule-settings-redirect-preserve-path-and-query",
+    "argv": [
+      "zero-trust",
+      "gateway",
+      "rules",
+      "create",
+      "--action",
+      "on",
+      "--name",
+      "regression value &/?+ü",
+      "--rule-settings-redirect-preserve-path-and-query=true"
+    ],
+    "exitCode": 1,
+    "error": "--rule-settings-block-page-target-uri, --rule-settings-redirect-target-uri are required when any --rule_settings-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "--rule-settings-redirect-preserve-path-and-query value 1",
+    "argv": [
+      "zero-trust",
+      "gateway",
+      "rules",
+      "create",
+      "--action",
+      "on",
+      "--name",
+      "regression value &/?+ü",
+      "--rule-settings-redirect-preserve-path-and-query=false"
+    ],
+    "exitCode": 1,
+    "error": "--rule-settings-block-page-target-uri, --rule-settings-redirect-target-uri are required when any --rule_settings-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "only --rule-settings-redirect-target-uri",
+    "argv": [
+      "zero-trust",
+      "gateway",
+      "rules",
+      "create",
+      "--action",
+      "on",
+      "--name",
+      "regression value &/?+ü",
+      "--rule-settings-redirect-target-uri",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 1,
+    "error": "--rule-settings-block-page-target-uri is required when any --rule_settings-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "only --rule-settings-resolve-dns-internally-fallback",
+    "argv": [
+      "zero-trust",
+      "gateway",
+      "rules",
+      "create",
+      "--action",
+      "on",
+      "--name",
+      "regression value &/?+ü",
+      "--rule-settings-resolve-dns-internally-fallback",
+      "none"
+    ],
+    "exitCode": 1,
+    "error": "--rule-settings-block-page-target-uri, --rule-settings-redirect-target-uri are required when any --rule_settings-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "--rule-settings-resolve-dns-internally-fallback value 1",
+    "argv": [
+      "zero-trust",
+      "gateway",
+      "rules",
+      "create",
+      "--action",
+      "on",
+      "--name",
+      "regression value &/?+ü",
+      "--rule-settings-resolve-dns-internally-fallback",
+      "public_dns"
+    ],
+    "exitCode": 1,
+    "error": "--rule-settings-block-page-target-uri, --rule-settings-redirect-target-uri are required when any --rule_settings-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "only --rule-settings-resolve-dns-internally-view-id",
+    "argv": [
+      "zero-trust",
+      "gateway",
+      "rules",
+      "create",
+      "--action",
+      "on",
+      "--name",
+      "regression value &/?+ü",
+      "--rule-settings-resolve-dns-internally-view-id",
+      "0123456789abcdef0123456789abcdef"
+    ],
+    "exitCode": 1,
+    "error": "--rule-settings-block-page-target-uri, --rule-settings-redirect-target-uri are required when any --rule_settings-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "only --rule-settings-resolve-dns-through-cloudflare",
+    "argv": [
+      "zero-trust",
+      "gateway",
+      "rules",
+      "create",
+      "--action",
+      "on",
+      "--name",
+      "regression value &/?+ü",
+      "--rule-settings-resolve-dns-through-cloudflare=true"
+    ],
+    "exitCode": 1,
+    "error": "--rule-settings-block-page-target-uri, --rule-settings-redirect-target-uri are required when any --rule_settings-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "--rule-settings-resolve-dns-through-cloudflare value 1",
+    "argv": [
+      "zero-trust",
+      "gateway",
+      "rules",
+      "create",
+      "--action",
+      "on",
+      "--name",
+      "regression value &/?+ü",
+      "--rule-settings-resolve-dns-through-cloudflare=false"
+    ],
+    "exitCode": 1,
+    "error": "--rule-settings-block-page-target-uri, --rule-settings-redirect-target-uri are required when any --rule_settings-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "only --rule-settings-untrusted-cert-action",
+    "argv": [
+      "zero-trust",
+      "gateway",
+      "rules",
+      "create",
+      "--action",
+      "on",
+      "--name",
+      "regression value &/?+ü",
+      "--rule-settings-untrusted-cert-action",
+      "pass_through"
+    ],
+    "exitCode": 1,
+    "error": "--rule-settings-block-page-target-uri, --rule-settings-redirect-target-uri are required when any --rule_settings-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "--rule-settings-untrusted-cert-action value 1",
+    "argv": [
+      "zero-trust",
+      "gateway",
+      "rules",
+      "create",
+      "--action",
+      "on",
+      "--name",
+      "regression value &/?+ü",
+      "--rule-settings-untrusted-cert-action",
+      "block"
+    ],
+    "exitCode": 1,
+    "error": "--rule-settings-block-page-target-uri, --rule-settings-redirect-target-uri are required when any --rule_settings-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "--rule-settings-untrusted-cert-action value 2",
+    "argv": [
+      "zero-trust",
+      "gateway",
+      "rules",
+      "create",
+      "--action",
+      "on",
+      "--name",
+      "regression value &/?+ü",
+      "--rule-settings-untrusted-cert-action",
+      "error"
+    ],
+    "exitCode": 1,
+    "error": "--rule-settings-block-page-target-uri, --rule-settings-redirect-target-uri are required when any --rule_settings-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "only --schedule-fri",
+    "argv": [
+      "zero-trust",
+      "gateway",
+      "rules",
+      "create",
+      "--action",
+      "on",
+      "--name",
+      "regression value &/?+ü",
+      "--schedule-fri",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/gateway/rules",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "156",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "action": "on",
+          "device_posture": "",
+          "enabled": false,
+          "identity": "",
+          "name": "regression value &/?+ü",
+          "schedule": {
+            "fri": "regression value &/?+ü"
+          },
+          "traffic": ""
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --schedule-mon",
+    "argv": [
+      "zero-trust",
+      "gateway",
+      "rules",
+      "create",
+      "--action",
+      "on",
+      "--name",
+      "regression value &/?+ü",
+      "--schedule-mon",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/gateway/rules",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "156",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "action": "on",
+          "device_posture": "",
+          "enabled": false,
+          "identity": "",
+          "name": "regression value &/?+ü",
+          "schedule": {
+            "mon": "regression value &/?+ü"
+          },
+          "traffic": ""
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --schedule-sat",
+    "argv": [
+      "zero-trust",
+      "gateway",
+      "rules",
+      "create",
+      "--action",
+      "on",
+      "--name",
+      "regression value &/?+ü",
+      "--schedule-sat",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/gateway/rules",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "156",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "action": "on",
+          "device_posture": "",
+          "enabled": false,
+          "identity": "",
+          "name": "regression value &/?+ü",
+          "schedule": {
+            "sat": "regression value &/?+ü"
+          },
+          "traffic": ""
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --schedule-sun",
+    "argv": [
+      "zero-trust",
+      "gateway",
+      "rules",
+      "create",
+      "--action",
+      "on",
+      "--name",
+      "regression value &/?+ü",
+      "--schedule-sun",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/gateway/rules",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "156",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "action": "on",
+          "device_posture": "",
+          "enabled": false,
+          "identity": "",
+          "name": "regression value &/?+ü",
+          "schedule": {
+            "sun": "regression value &/?+ü"
+          },
+          "traffic": ""
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --schedule-thu",
+    "argv": [
+      "zero-trust",
+      "gateway",
+      "rules",
+      "create",
+      "--action",
+      "on",
+      "--name",
+      "regression value &/?+ü",
+      "--schedule-thu",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/gateway/rules",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "156",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "action": "on",
+          "device_posture": "",
+          "enabled": false,
+          "identity": "",
+          "name": "regression value &/?+ü",
+          "schedule": {
+            "thu": "regression value &/?+ü"
+          },
+          "traffic": ""
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --schedule-time-zone",
+    "argv": [
+      "zero-trust",
+      "gateway",
+      "rules",
+      "create",
+      "--action",
+      "on",
+      "--name",
+      "regression value &/?+ü",
+      "--schedule-time-zone",
+      "2026-01-02T03:04:05Z"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/gateway/rules",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "159",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "action": "on",
+          "device_posture": "",
+          "enabled": false,
+          "identity": "",
+          "name": "regression value &/?+ü",
+          "schedule": {
+            "time_zone": "2026-01-02T03:04:05Z"
+          },
+          "traffic": ""
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --schedule-tue",
+    "argv": [
+      "zero-trust",
+      "gateway",
+      "rules",
+      "create",
+      "--action",
+      "on",
+      "--name",
+      "regression value &/?+ü",
+      "--schedule-tue",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/gateway/rules",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "156",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "action": "on",
+          "device_posture": "",
+          "enabled": false,
+          "identity": "",
+          "name": "regression value &/?+ü",
+          "schedule": {
+            "tue": "regression value &/?+ü"
+          },
+          "traffic": ""
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --schedule-wed",
+    "argv": [
+      "zero-trust",
+      "gateway",
+      "rules",
+      "create",
+      "--action",
+      "on",
+      "--name",
+      "regression value &/?+ü",
+      "--schedule-wed",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/gateway/rules",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "156",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "action": "on",
+          "device_posture": "",
+          "enabled": false,
+          "identity": "",
+          "name": "regression value &/?+ü",
+          "schedule": {
+            "wed": "regression value &/?+ü"
+          },
+          "traffic": ""
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --traffic",
+    "argv": [
+      "zero-trust",
+      "gateway",
+      "rules",
+      "create",
+      "--action",
+      "on",
+      "--name",
+      "regression value &/?+ü",
+      "--traffic",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/gateway/rules",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "134",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "action": "on",
+          "device_posture": "",
+          "enabled": false,
+          "identity": "",
+          "name": "regression value &/?+ü",
+          "traffic": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "required --action value 1",
+    "argv": [
+      "zero-trust",
+      "gateway",
+      "rules",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--action",
+      "off"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/gateway/rules",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "required --action value 2",
+    "argv": [
+      "zero-trust",
+      "gateway",
+      "rules",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--action",
+      "allow"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/gateway/rules",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "required --action value 3",
+    "argv": [
+      "zero-trust",
+      "gateway",
+      "rules",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--action",
+      "block"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/gateway/rules",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "required --action value 4",
+    "argv": [
+      "zero-trust",
+      "gateway",
+      "rules",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--action",
+      "scan"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/gateway/rules",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "required --action value 5",
+    "argv": [
+      "zero-trust",
+      "gateway",
+      "rules",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--action",
+      "noscan"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/gateway/rules",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "required --action value 6",
+    "argv": [
+      "zero-trust",
+      "gateway",
+      "rules",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--action",
+      "safesearch"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/gateway/rules",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "required --action value 7",
+    "argv": [
+      "zero-trust",
+      "gateway",
+      "rules",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--action",
+      "ytrestricted"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/gateway/rules",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "required --action value 8",
+    "argv": [
+      "zero-trust",
+      "gateway",
+      "rules",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--action",
+      "isolate"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/gateway/rules",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "required --action value 9",
+    "argv": [
+      "zero-trust",
+      "gateway",
+      "rules",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--action",
+      "noisolate"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/gateway/rules",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "required --action value 10",
+    "argv": [
+      "zero-trust",
+      "gateway",
+      "rules",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--action",
+      "override"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/gateway/rules",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "required --action value 11",
+    "argv": [
+      "zero-trust",
+      "gateway",
+      "rules",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--action",
+      "l4_override"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/gateway/rules",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "required --action value 12",
+    "argv": [
+      "zero-trust",
+      "gateway",
+      "rules",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--action",
+      "egress"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/gateway/rules",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "required --action value 13",
+    "argv": [
+      "zero-trust",
+      "gateway",
+      "rules",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--action",
+      "resolve"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/gateway/rules",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "required --action value 14",
+    "argv": [
+      "zero-trust",
+      "gateway",
+      "rules",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--action",
+      "quarantine"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/gateway/rules",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "required --action value 15",
+    "argv": [
+      "zero-trust",
+      "gateway",
+      "rules",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--action",
+      "redirect"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/gateway/rules",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 0",
+    "argv": [
+      "zero-trust",
+      "gateway",
+      "rules",
+      "create",
+      "--action",
+      "on",
+      "--name",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/gateway/rules",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "111",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "action": "on",
+          "device_posture": "",
+          "enabled": false,
+          "identity": "",
+          "name": "regression value &/?+ü",
+          "traffic": ""
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 1",
+    "argv": [
+      "zero-trust",
+      "gateway",
+      "rules",
+      "create",
+      "--action",
+      "on",
+      "--name",
+      "regression value &/?+ü",
+      "--description",
+      "192.0.2.1",
+      "--device-posture",
+      "second value &/?+ü",
+      "--enabled=false",
+      "--expiration-duration",
+      "2",
+      "--filters",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--identity",
+      "second value &/?+ü",
+      "--precedence",
+      "2",
+      "--rule-settings-allow-child-bypass=false",
+      "--rule-settings-audit-ssh-command-logging=false",
+      "--rule-settings-biso-admin-controls-copy",
+      "disabled",
+      "--rule-settings-biso-admin-controls-dcp=false",
+      "--rule-settings-biso-admin-controls-dd=false",
+      "--rule-settings-biso-admin-controls-dk=false",
+      "--rule-settings-biso-admin-controls-download",
+      "disabled",
+      "--rule-settings-biso-admin-controls-dp=false",
+      "--rule-settings-biso-admin-controls-du=false",
+      "--rule-settings-biso-admin-controls-keyboard",
+      "disabled",
+      "--rule-settings-biso-admin-controls-paste",
+      "disabled",
+      "--rule-settings-biso-admin-controls-printing",
+      "disabled",
+      "--rule-settings-biso-admin-controls-upload",
+      "disabled",
+      "--rule-settings-biso-admin-controls-version",
+      "v2",
+      "--rule-settings-biso-admin-controls-wm-id",
+      "0123456789abcdef0123456789abcdef",
+      "--rule-settings-block-page-include-context=false",
+      "--rule-settings-block-page-target-uri",
+      "second value &/?+ü",
+      "--rule-settings-block-page-enabled=false",
+      "--rule-settings-block-reason",
+      "second value &/?+ü",
+      "--rule-settings-bypass-parent-rule=false",
+      "--rule-settings-check-session-duration",
+      "second value &/?+ü",
+      "--rule-settings-check-session-enforce=false",
+      "--rule-settings-delete-headers",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--rule-settings-egress-ipv4",
+      "192.0.2.1",
+      "--rule-settings-egress-ipv4-fallback",
+      "192.0.2.1",
+      "--rule-settings-egress-ipv6",
+      "192.0.2.1",
+      "--rule-settings-forensic-copy-enabled=false",
+      "--rule-settings-ignore-cname-category-matches=false",
+      "--rule-settings-insecure-disable-dnssec-validation=false",
+      "--rule-settings-ip-categories=false",
+      "--rule-settings-ip-indicator-feeds=false",
+      "--rule-settings-l4override-ip",
+      "192.0.2.1",
+      "--rule-settings-l4override-port",
+      "2",
+      "--rule-settings-notification-settings-enabled=false",
+      "--rule-settings-notification-settings-include-context=false",
+      "--rule-settings-notification-settings-msg",
+      "second value &/?+ü",
+      "--rule-settings-notification-settings-support-url",
+      "https://example.com/a?x=1&y=two",
+      "--rule-settings-override-host",
+      "second value &/?+ü",
+      "--rule-settings-override-ips",
+      "192.0.2.1",
+      "192.0.2.1",
+      "--rule-settings-payload-log-enabled=false",
+      "--rule-settings-quarantine-file-types",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--rule-settings-redirect-include-context=false",
+      "--rule-settings-redirect-preserve-path-and-query=false",
+      "--rule-settings-redirect-target-uri",
+      "second value &/?+ü",
+      "--rule-settings-resolve-dns-internally-fallback",
+      "public_dns",
+      "--rule-settings-resolve-dns-internally-view-id",
+      "0123456789abcdef0123456789abcdef",
+      "--rule-settings-resolve-dns-through-cloudflare=false",
+      "--rule-settings-untrusted-cert-action",
+      "block",
+      "--schedule-fri",
+      "second value &/?+ü",
+      "--schedule-mon",
+      "second value &/?+ü",
+      "--schedule-sat",
+      "second value &/?+ü",
+      "--schedule-sun",
+      "second value &/?+ü",
+      "--schedule-thu",
+      "second value &/?+ü",
+      "--schedule-time-zone",
+      "2026-01-02T03:04:05Z",
+      "--schedule-tue",
+      "second value &/?+ü",
+      "--schedule-wed",
+      "second value &/?+ü",
+      "--traffic",
+      "second value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/gateway/rules",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "2060",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "action": "on",
+          "description": "192.0.2.1",
+          "device_posture": "second value &/?+ü",
+          "enabled": false,
+          "expiration": {
+            "duration": 2
+          },
+          "filters": [
+            "second value &/?+ü",
+            "second value &/?+ü"
+          ],
+          "identity": "second value &/?+ü",
+          "name": "regression value &/?+ü",
+          "precedence": 2,
+          "rule_settings": {
+            "allow_child_bypass": false,
+            "audit_ssh": {
+              "command_logging": false
+            },
+            "biso_admin_controls": {
+              "copy": "disabled",
+              "dcp": false,
+              "dd": false,
+              "dk": false,
+              "download": "disabled",
+              "dp": false,
+              "du": false,
+              "keyboard": "disabled",
+              "paste": "disabled",
+              "printing": "disabled",
+              "upload": "disabled",
+              "version": "v2",
+              "wm_id": "0123456789abcdef0123456789abcdef"
+            },
+            "block_page": {
+              "include_context": false,
+              "target_uri": "second value &/?+ü"
+            },
+            "block_page_enabled": false,
+            "block_reason": "second value &/?+ü",
+            "bypass_parent_rule": false,
+            "check_session": {
+              "duration": "second value &/?+ü",
+              "enforce": false
+            },
+            "delete_headers": [
+              "second value &/?+ü",
+              "second value &/?+ü"
+            ],
+            "egress": {
+              "ipv4": "192.0.2.1",
+              "ipv4_fallback": "192.0.2.1",
+              "ipv6": "192.0.2.1"
+            },
+            "forensic_copy": {
+              "enabled": false
+            },
+            "ignore_cname_category_matches": false,
+            "insecure_disable_dnssec_validation": false,
+            "ip_categories": false,
+            "ip_indicator_feeds": false,
+            "l4override": {
+              "ip": "192.0.2.1",
+              "port": 2
+            },
+            "notification_settings": {
+              "enabled": false,
+              "include_context": false,
+              "msg": "second value &/?+ü",
+              "support_url": "https://example.com/a?x=1&y=two"
+            },
+            "override_host": "second value &/?+ü",
+            "override_ips": [
+              "192.0.2.1",
+              "192.0.2.1"
+            ],
+            "payload_log": {
+              "enabled": false
+            },
+            "quarantine": {
+              "file_types": [
+                "second value &/?+ü",
+                "second value &/?+ü"
+              ]
+            },
+            "redirect": {
+              "include_context": false,
+              "preserve_path_and_query": false,
+              "target_uri": "second value &/?+ü"
+            },
+            "resolve_dns_internally": {
+              "fallback": "public_dns",
+              "view_id": "0123456789abcdef0123456789abcdef"
+            },
+            "resolve_dns_through_cloudflare": false,
+            "untrusted_cert": {
+              "action": "block"
+            }
+          },
+          "schedule": {
+            "fri": "second value &/?+ü",
+            "mon": "second value &/?+ü",
+            "sat": "second value &/?+ü",
+            "sun": "second value &/?+ü",
+            "thu": "second value &/?+ü",
+            "time_zone": "2026-01-02T03:04:05Z",
+            "tue": "second value &/?+ü",
+            "wed": "second value &/?+ü"
+          },
+          "traffic": "second value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 2",
+    "argv": [
+      "zero-trust",
+      "gateway",
+      "rules",
+      "create",
+      "--action",
+      "on",
+      "--name",
+      "regression value &/?+ü",
+      "--device-posture",
+      "regression value &/?+ü",
+      "--expiration-duration",
+      "1",
+      "--identity",
+      "regression value &/?+ü",
+      "--rule-settings-allow-child-bypass=true",
+      "--rule-settings-biso-admin-controls-copy",
+      "enabled",
+      "--rule-settings-biso-admin-controls-dd=true",
+      "--rule-settings-biso-admin-controls-download",
+      "enabled",
+      "--rule-settings-biso-admin-controls-du=true",
+      "--rule-settings-biso-admin-controls-paste",
+      "enabled",
+      "--rule-settings-biso-admin-controls-upload",
+      "enabled",
+      "--rule-settings-biso-admin-controls-wm-id",
+      "0123456789abcdef0123456789abcdef",
+      "--rule-settings-block-page-target-uri",
+      "regression value &/?+ü",
+      "--rule-settings-block-reason",
+      "regression value &/?+ü",
+      "--rule-settings-check-session-duration",
+      "regression value &/?+ü",
+      "--rule-settings-delete-headers",
+      "regression value &/?+ü",
+      "--rule-settings-egress-ipv4-fallback",
+      "192.0.2.1",
+      "--rule-settings-forensic-copy-enabled=true",
+      "--rule-settings-insecure-disable-dnssec-validation=true",
+      "--rule-settings-ip-indicator-feeds=true",
+      "--rule-settings-l4override-port",
+      "1",
+      "--rule-settings-notification-settings-include-context=true",
+      "--rule-settings-notification-settings-support-url",
+      "https://example.com/a?x=1&y=two",
+      "--rule-settings-override-ips",
+      "192.0.2.1",
+      "--rule-settings-quarantine-file-types",
+      "regression value &/?+ü",
+      "--rule-settings-redirect-preserve-path-and-query=true",
+      "--rule-settings-resolve-dns-internally-fallback",
+      "none",
+      "--rule-settings-resolve-dns-through-cloudflare=true",
+      "--schedule-fri",
+      "regression value &/?+ü",
+      "--schedule-sat",
+      "regression value &/?+ü",
+      "--schedule-thu",
+      "regression value &/?+ü",
+      "--schedule-tue",
+      "regression value &/?+ü",
+      "--traffic",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 1,
+    "error": "--rule-settings-redirect-target-uri is required when any --rule_settings-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "pairwise 3",
+    "argv": [
+      "zero-trust",
+      "gateway",
+      "rules",
+      "create",
+      "--action",
+      "on",
+      "--name",
+      "regression value &/?+ü",
+      "--description",
+      "192.0.2.1",
+      "--enabled=false",
+      "--filters",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--precedence",
+      "2",
+      "--rule-settings-audit-ssh-command-logging=false",
+      "--rule-settings-biso-admin-controls-dcp=false",
+      "--rule-settings-biso-admin-controls-dk=false",
+      "--rule-settings-biso-admin-controls-dp=false",
+      "--rule-settings-biso-admin-controls-keyboard",
+      "disabled",
+      "--rule-settings-biso-admin-controls-printing",
+      "disabled",
+      "--rule-settings-biso-admin-controls-version",
+      "v2",
+      "--rule-settings-block-page-include-context=false",
+      "--rule-settings-block-page-enabled=false",
+      "--rule-settings-bypass-parent-rule=false",
+      "--rule-settings-check-session-enforce=false",
+      "--rule-settings-egress-ipv4",
+      "192.0.2.1",
+      "--rule-settings-egress-ipv6",
+      "192.0.2.1",
+      "--rule-settings-ignore-cname-category-matches=false",
+      "--rule-settings-ip-categories=false",
+      "--rule-settings-l4override-ip",
+      "192.0.2.1",
+      "--rule-settings-notification-settings-enabled=false",
+      "--rule-settings-notification-settings-msg",
+      "second value &/?+ü",
+      "--rule-settings-override-host",
+      "second value &/?+ü",
+      "--rule-settings-payload-log-enabled=false",
+      "--rule-settings-redirect-include-context=false",
+      "--rule-settings-redirect-target-uri",
+      "second value &/?+ü",
+      "--rule-settings-resolve-dns-internally-view-id",
+      "0123456789abcdef0123456789abcdef",
+      "--rule-settings-untrusted-cert-action",
+      "block",
+      "--schedule-mon",
+      "second value &/?+ü",
+      "--schedule-sun",
+      "second value &/?+ü",
+      "--schedule-time-zone",
+      "2026-01-02T03:04:05Z",
+      "--schedule-wed",
+      "second value &/?+ü"
+    ],
+    "exitCode": 1,
+    "error": "--rule-settings-block-page-target-uri is required when any --rule_settings-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "pairwise 4",
+    "argv": [
+      "zero-trust",
+      "gateway",
+      "rules",
+      "create",
+      "--action",
+      "on",
+      "--name",
+      "regression value &/?+ü",
+      "--enabled=true",
+      "--expiration-duration",
+      "1",
+      "--precedence",
+      "1",
+      "--rule-settings-allow-child-bypass=true",
+      "--rule-settings-biso-admin-controls-dcp=true",
+      "--rule-settings-biso-admin-controls-dd=true",
+      "--rule-settings-biso-admin-controls-dp=true",
+      "--rule-settings-biso-admin-controls-du=true",
+      "--rule-settings-biso-admin-controls-printing",
+      "enabled",
+      "--rule-settings-biso-admin-controls-upload",
+      "enabled",
+      "--rule-settings-block-page-include-context=true",
+      "--rule-settings-block-page-target-uri",
+      "regression value &/?+ü",
+      "--rule-settings-bypass-parent-rule=true",
+      "--rule-settings-check-session-duration",
+      "regression value &/?+ü",
+      "--rule-settings-egress-ipv4",
+      "192.0.2.1",
+      "--rule-settings-egress-ipv4-fallback",
+      "192.0.2.1",
+      "--rule-settings-ignore-cname-category-matches=true",
+      "--rule-settings-insecure-disable-dnssec-validation=true",
+      "--rule-settings-l4override-ip",
+      "192.0.2.1",
+      "--rule-settings-l4override-port",
+      "1",
+      "--rule-settings-notification-settings-msg",
+      "regression value &/?+ü",
+      "--rule-settings-notification-settings-support-url",
+      "https://example.com/a?x=1&y=two",
+      "--rule-settings-payload-log-enabled=true",
+      "--rule-settings-quarantine-file-types",
+      "regression value &/?+ü",
+      "--rule-settings-redirect-target-uri",
+      "regression value &/?+ü",
+      "--rule-settings-resolve-dns-internally-fallback",
+      "none",
+      "--rule-settings-untrusted-cert-action",
+      "pass_through",
+      "--schedule-fri",
+      "regression value &/?+ü",
+      "--schedule-sun",
+      "regression value &/?+ü",
+      "--schedule-thu",
+      "regression value &/?+ü",
+      "--schedule-wed",
+      "regression value &/?+ü",
+      "--traffic",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/gateway/rules",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "1135",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "action": "on",
+          "device_posture": "",
+          "enabled": true,
+          "expiration": {
+            "duration": 1
+          },
+          "identity": "",
+          "name": "regression value &/?+ü",
+          "precedence": 1,
+          "rule_settings": {
+            "allow_child_bypass": true,
+            "biso_admin_controls": {
+              "dcp": true,
+              "dd": true,
+              "dp": true,
+              "du": true,
+              "printing": "enabled",
+              "upload": "enabled"
+            },
+            "block_page": {
+              "include_context": true,
+              "target_uri": "regression value &/?+ü"
+            },
+            "bypass_parent_rule": true,
+            "check_session": {
+              "duration": "regression value &/?+ü"
+            },
+            "egress": {
+              "ipv4": "192.0.2.1",
+              "ipv4_fallback": "192.0.2.1"
+            },
+            "ignore_cname_category_matches": true,
+            "insecure_disable_dnssec_validation": true,
+            "l4override": {
+              "ip": "192.0.2.1",
+              "port": 1
+            },
+            "notification_settings": {
+              "msg": "regression value &/?+ü",
+              "support_url": "https://example.com/a?x=1&y=two"
+            },
+            "payload_log": {
+              "enabled": true
+            },
+            "quarantine": {
+              "file_types": [
+                "regression value &/?+ü"
+              ]
+            },
+            "redirect": {
+              "target_uri": "regression value &/?+ü"
+            },
+            "resolve_dns_internally": {
+              "fallback": "none"
+            },
+            "untrusted_cert": {
+              "action": "pass_through"
+            }
+          },
+          "schedule": {
+            "fri": "regression value &/?+ü",
+            "sun": "regression value &/?+ü",
+            "thu": "regression value &/?+ü",
+            "wed": "regression value &/?+ü"
+          },
+          "traffic": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 5",
+    "argv": [
+      "zero-trust",
+      "gateway",
+      "rules",
+      "create",
+      "--action",
+      "on",
+      "--name",
+      "regression value &/?+ü",
+      "--description",
+      "192.0.2.1",
+      "--device-posture",
+      "second value &/?+ü",
+      "--filters",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--identity",
+      "second value &/?+ü",
+      "--rule-settings-audit-ssh-command-logging=false",
+      "--rule-settings-biso-admin-controls-copy",
+      "disabled",
+      "--rule-settings-biso-admin-controls-dk=false",
+      "--rule-settings-biso-admin-controls-download",
+      "disabled",
+      "--rule-settings-biso-admin-controls-keyboard",
+      "disabled",
+      "--rule-settings-biso-admin-controls-paste",
+      "disabled",
+      "--rule-settings-biso-admin-controls-version",
+      "v2",
+      "--rule-settings-biso-admin-controls-wm-id",
+      "0123456789abcdef0123456789abcdef",
+      "--rule-settings-block-page-enabled=false",
+      "--rule-settings-block-reason",
+      "second value &/?+ü",
+      "--rule-settings-check-session-enforce=false",
+      "--rule-settings-delete-headers",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--rule-settings-egress-ipv6",
+      "192.0.2.1",
+      "--rule-settings-forensic-copy-enabled=false",
+      "--rule-settings-ip-categories=false",
+      "--rule-settings-ip-indicator-feeds=false",
+      "--rule-settings-notification-settings-enabled=false",
+      "--rule-settings-notification-settings-include-context=false",
+      "--rule-settings-override-host",
+      "second value &/?+ü",
+      "--rule-settings-override-ips",
+      "192.0.2.1",
+      "192.0.2.1",
+      "--rule-settings-redirect-include-context=false",
+      "--rule-settings-redirect-preserve-path-and-query=false",
+      "--rule-settings-resolve-dns-internally-view-id",
+      "0123456789abcdef0123456789abcdef",
+      "--rule-settings-resolve-dns-through-cloudflare=false",
+      "--schedule-mon",
+      "second value &/?+ü",
+      "--schedule-sat",
+      "second value &/?+ü",
+      "--schedule-time-zone",
+      "2026-01-02T03:04:05Z",
+      "--schedule-tue",
+      "second value &/?+ü"
+    ],
+    "exitCode": 1,
+    "error": "--rule-settings-block-page-target-uri, --rule-settings-redirect-target-uri are required when any --rule_settings-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "pairwise 6",
+    "argv": [
+      "zero-trust",
+      "gateway",
+      "rules",
+      "create",
+      "--action",
+      "on",
+      "--name",
+      "regression value &/?+ü",
+      "--filters",
+      "regression value &/?+ü",
+      "--identity",
+      "regression value &/?+ü",
+      "--precedence",
+      "1",
+      "--rule-settings-allow-child-bypass=true",
+      "--rule-settings-biso-admin-controls-dk=true",
+      "--rule-settings-biso-admin-controls-download",
+      "enabled",
+      "--rule-settings-biso-admin-controls-dp=true",
+      "--rule-settings-biso-admin-controls-du=true",
+      "--rule-settings-biso-admin-controls-version",
+      "v1",
+      "--rule-settings-biso-admin-controls-wm-id",
+      "0123456789abcdef0123456789abcdef",
+      "--rule-settings-block-page-include-context=true",
+      "--rule-settings-block-page-target-uri",
+      "regression value &/?+ü",
+      "--rule-settings-check-session-enforce=true",
+      "--rule-settings-delete-headers",
+      "regression value &/?+ü",
+      "--rule-settings-egress-ipv4",
+      "192.0.2.1",
+      "--rule-settings-egress-ipv4-fallback",
+      "192.0.2.1",
+      "--rule-settings-ip-categories=true",
+      "--rule-settings-ip-indicator-feeds=true",
+      "--rule-settings-l4override-ip",
+      "192.0.2.1",
+      "--rule-settings-l4override-port",
+      "1",
+      "--rule-settings-override-host",
+      "regression value &/?+ü",
+      "--rule-settings-override-ips",
+      "192.0.2.1",
+      "--rule-settings-payload-log-enabled=true",
+      "--rule-settings-quarantine-file-types",
+      "regression value &/?+ü",
+      "--rule-settings-resolve-dns-internally-view-id",
+      "0123456789abcdef0123456789abcdef",
+      "--rule-settings-resolve-dns-through-cloudflare=true",
+      "--rule-settings-untrusted-cert-action",
+      "pass_through",
+      "--schedule-fri",
+      "regression value &/?+ü",
+      "--schedule-time-zone",
+      "2026-01-02T03:04:05Z",
+      "--schedule-tue",
+      "regression value &/?+ü",
+      "--schedule-wed",
+      "regression value &/?+ü",
+      "--traffic",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 1,
+    "error": "--rule-settings-redirect-target-uri is required when any --rule_settings-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "pairwise 7",
+    "argv": [
+      "zero-trust",
+      "gateway",
+      "rules",
+      "create",
+      "--action",
+      "on",
+      "--name",
+      "regression value &/?+ü",
+      "--description",
+      "192.0.2.1",
+      "--device-posture",
+      "second value &/?+ü",
+      "--enabled=false",
+      "--expiration-duration",
+      "2",
+      "--rule-settings-audit-ssh-command-logging=false",
+      "--rule-settings-biso-admin-controls-copy",
+      "disabled",
+      "--rule-settings-biso-admin-controls-dcp=false",
+      "--rule-settings-biso-admin-controls-dd=false",
+      "--rule-settings-biso-admin-controls-keyboard",
+      "disabled",
+      "--rule-settings-biso-admin-controls-paste",
+      "disabled",
+      "--rule-settings-biso-admin-controls-printing",
+      "disabled",
+      "--rule-settings-biso-admin-controls-upload",
+      "disabled",
+      "--rule-settings-block-page-enabled=false",
+      "--rule-settings-block-reason",
+      "second value &/?+ü",
+      "--rule-settings-bypass-parent-rule=false",
+      "--rule-settings-check-session-duration",
+      "second value &/?+ü",
+      "--rule-settings-egress-ipv6",
+      "192.0.2.1",
+      "--rule-settings-forensic-copy-enabled=false",
+      "--rule-settings-ignore-cname-category-matches=false",
+      "--rule-settings-insecure-disable-dnssec-validation=false",
+      "--rule-settings-notification-settings-enabled=false",
+      "--rule-settings-notification-settings-include-context=false",
+      "--rule-settings-notification-settings-msg",
+      "second value &/?+ü",
+      "--rule-settings-notification-settings-support-url",
+      "https://example.com/a?x=1&y=two",
+      "--rule-settings-redirect-include-context=false",
+      "--rule-settings-redirect-preserve-path-and-query=false",
+      "--rule-settings-redirect-target-uri",
+      "second value &/?+ü",
+      "--rule-settings-resolve-dns-internally-fallback",
+      "public_dns",
+      "--schedule-mon",
+      "second value &/?+ü",
+      "--schedule-sat",
+      "second value &/?+ü",
+      "--schedule-sun",
+      "second value &/?+ü",
+      "--schedule-thu",
+      "second value &/?+ü"
+    ],
+    "exitCode": 1,
+    "error": "--rule-settings-block-page-target-uri is required when any --rule_settings-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "pairwise 8",
+    "argv": [
+      "zero-trust",
+      "gateway",
+      "rules",
+      "create",
+      "--action",
+      "on",
+      "--name",
+      "regression value &/?+ü",
+      "--rule-settings-audit-ssh-command-logging=true",
+      "--rule-settings-biso-admin-controls-copy",
+      "enabled",
+      "--rule-settings-biso-admin-controls-dcp=true",
+      "--rule-settings-biso-admin-controls-dd=true",
+      "--rule-settings-biso-admin-controls-dk=true",
+      "--rule-settings-biso-admin-controls-download",
+      "enabled",
+      "--rule-settings-biso-admin-controls-dp=true",
+      "--rule-settings-biso-admin-controls-du=true",
+      "--rule-settings-block-page-enabled=true",
+      "--rule-settings-block-reason",
+      "regression value &/?+ü",
+      "--rule-settings-bypass-parent-rule=true",
+      "--rule-settings-check-session-duration",
+      "regression value &/?+ü",
+      "--rule-settings-check-session-enforce=true",
+      "--rule-settings-delete-headers",
+      "regression value &/?+ü",
+      "--rule-settings-egress-ipv4",
+      "192.0.2.1",
+      "--rule-settings-egress-ipv4-fallback",
+      "192.0.2.1",
+      "--rule-settings-notification-settings-enabled=true",
+      "--rule-settings-notification-settings-include-context=true",
+      "--rule-settings-notification-settings-msg",
+      "regression value &/?+ü",
+      "--rule-settings-notification-settings-support-url",
+      "https://example.com/a?x=1&y=two",
+      "--rule-settings-override-host",
+      "regression value &/?+ü",
+      "--rule-settings-override-ips",
+      "192.0.2.1",
+      "--rule-settings-payload-log-enabled=true",
+      "--rule-settings-quarantine-file-types",
+      "regression value &/?+ü",
+      "--schedule-mon",
+      "regression value &/?+ü",
+      "--schedule-sat",
+      "regression value &/?+ü",
+      "--schedule-sun",
+      "regression value &/?+ü",
+      "--schedule-thu",
+      "regression value &/?+ü",
+      "--schedule-time-zone",
+      "2026-01-02T03:04:05Z",
+      "--schedule-tue",
+      "regression value &/?+ü",
+      "--schedule-wed",
+      "regression value &/?+ü",
+      "--traffic",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 1,
+    "error": "--rule-settings-block-page-target-uri, --rule-settings-redirect-target-uri are required when any --rule_settings-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "pairwise 9",
+    "argv": [
+      "zero-trust",
+      "gateway",
+      "rules",
+      "create",
+      "--action",
+      "on",
+      "--name",
+      "regression value &/?+ü",
+      "--description",
+      "192.0.2.1",
+      "--device-posture",
+      "second value &/?+ü",
+      "--enabled=false",
+      "--expiration-duration",
+      "2",
+      "--filters",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--identity",
+      "second value &/?+ü",
+      "--precedence",
+      "2",
+      "--rule-settings-allow-child-bypass=false",
+      "--rule-settings-biso-admin-controls-keyboard",
+      "disabled",
+      "--rule-settings-biso-admin-controls-paste",
+      "disabled",
+      "--rule-settings-biso-admin-controls-printing",
+      "disabled",
+      "--rule-settings-biso-admin-controls-upload",
+      "disabled",
+      "--rule-settings-biso-admin-controls-version",
+      "v2",
+      "--rule-settings-biso-admin-controls-wm-id",
+      "0123456789abcdef0123456789abcdef",
+      "--rule-settings-block-page-include-context=false",
+      "--rule-settings-block-page-target-uri",
+      "second value &/?+ü",
+      "--rule-settings-egress-ipv6",
+      "192.0.2.1",
+      "--rule-settings-forensic-copy-enabled=false",
+      "--rule-settings-ignore-cname-category-matches=false",
+      "--rule-settings-insecure-disable-dnssec-validation=false",
+      "--rule-settings-ip-categories=false",
+      "--rule-settings-ip-indicator-feeds=false",
+      "--rule-settings-l4override-ip",
+      "192.0.2.1",
+      "--rule-settings-l4override-port",
+      "2",
+      "--rule-settings-redirect-include-context=false",
+      "--rule-settings-redirect-preserve-path-and-query=false",
+      "--rule-settings-redirect-target-uri",
+      "second value &/?+ü",
+      "--rule-settings-resolve-dns-internally-fallback",
+      "public_dns",
+      "--rule-settings-resolve-dns-internally-view-id",
+      "0123456789abcdef0123456789abcdef",
+      "--rule-settings-resolve-dns-through-cloudflare=false",
+      "--rule-settings-untrusted-cert-action",
+      "block",
+      "--schedule-fri",
+      "second value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/gateway/rules",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "1109",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "action": "on",
+          "description": "192.0.2.1",
+          "device_posture": "second value &/?+ü",
+          "enabled": false,
+          "expiration": {
+            "duration": 2
+          },
+          "filters": [
+            "second value &/?+ü",
+            "second value &/?+ü"
+          ],
+          "identity": "second value &/?+ü",
+          "name": "regression value &/?+ü",
+          "precedence": 2,
+          "rule_settings": {
+            "allow_child_bypass": false,
+            "biso_admin_controls": {
+              "keyboard": "disabled",
+              "paste": "disabled",
+              "printing": "disabled",
+              "upload": "disabled",
+              "version": "v2",
+              "wm_id": "0123456789abcdef0123456789abcdef"
+            },
+            "block_page": {
+              "include_context": false,
+              "target_uri": "second value &/?+ü"
+            },
+            "egress": {
+              "ipv6": "192.0.2.1"
+            },
+            "forensic_copy": {
+              "enabled": false
+            },
+            "ignore_cname_category_matches": false,
+            "insecure_disable_dnssec_validation": false,
+            "ip_categories": false,
+            "ip_indicator_feeds": false,
+            "l4override": {
+              "ip": "192.0.2.1",
+              "port": 2
+            },
+            "redirect": {
+              "include_context": false,
+              "preserve_path_and_query": false,
+              "target_uri": "second value &/?+ü"
+            },
+            "resolve_dns_internally": {
+              "fallback": "public_dns",
+              "view_id": "0123456789abcdef0123456789abcdef"
+            },
+            "resolve_dns_through_cloudflare": false,
+            "untrusted_cert": {
+              "action": "block"
+            }
+          },
+          "schedule": {
+            "fri": "second value &/?+ü"
+          },
+          "traffic": ""
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 10",
+    "argv": [
+      "zero-trust",
+      "gateway",
+      "rules",
+      "create",
+      "--action",
+      "on",
+      "--name",
+      "regression value &/?+ü",
+      "--rule-settings-biso-admin-controls-keyboard",
+      "enabled",
+      "--rule-settings-biso-admin-controls-paste",
+      "enabled",
+      "--rule-settings-biso-admin-controls-printing",
+      "enabled",
+      "--rule-settings-biso-admin-controls-upload",
+      "enabled",
+      "--rule-settings-biso-admin-controls-version",
+      "v1",
+      "--rule-settings-biso-admin-controls-wm-id",
+      "0123456789abcdef0123456789abcdef",
+      "--rule-settings-block-page-include-context=true",
+      "--rule-settings-block-page-target-uri",
+      "regression value &/?+ü",
+      "--rule-settings-block-page-enabled=true",
+      "--rule-settings-block-reason",
+      "regression value &/?+ü",
+      "--rule-settings-bypass-parent-rule=true",
+      "--rule-settings-check-session-duration",
+      "regression value &/?+ü",
+      "--rule-settings-check-session-enforce=true",
+      "--rule-settings-delete-headers",
+      "regression value &/?+ü",
+      "--rule-settings-egress-ipv4",
+      "192.0.2.1",
+      "--rule-settings-egress-ipv4-fallback",
+      "192.0.2.1",
+      "--rule-settings-redirect-include-context=true",
+      "--rule-settings-redirect-preserve-path-and-query=true",
+      "--rule-settings-redirect-target-uri",
+      "regression value &/?+ü",
+      "--rule-settings-resolve-dns-internally-fallback",
+      "none",
+      "--rule-settings-resolve-dns-internally-view-id",
+      "0123456789abcdef0123456789abcdef",
+      "--rule-settings-resolve-dns-through-cloudflare=true",
+      "--rule-settings-untrusted-cert-action",
+      "pass_through",
+      "--schedule-fri",
+      "regression value &/?+ü",
+      "--schedule-mon",
+      "regression value &/?+ü",
+      "--schedule-sat",
+      "regression value &/?+ü",
+      "--schedule-sun",
+      "regression value &/?+ü",
+      "--schedule-thu",
+      "regression value &/?+ü",
+      "--schedule-time-zone",
+      "2026-01-02T03:04:05Z",
+      "--schedule-tue",
+      "regression value &/?+ü",
+      "--schedule-wed",
+      "regression value &/?+ü",
+      "--traffic",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/gateway/rules",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "1205",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "action": "on",
+          "device_posture": "",
+          "enabled": false,
+          "identity": "",
+          "name": "regression value &/?+ü",
+          "rule_settings": {
+            "biso_admin_controls": {
+              "keyboard": "enabled",
+              "paste": "enabled",
+              "printing": "enabled",
+              "upload": "enabled",
+              "version": "v1",
+              "wm_id": "0123456789abcdef0123456789abcdef"
+            },
+            "block_page": {
+              "include_context": true,
+              "target_uri": "regression value &/?+ü"
+            },
+            "block_page_enabled": true,
+            "block_reason": "regression value &/?+ü",
+            "bypass_parent_rule": true,
+            "check_session": {
+              "duration": "regression value &/?+ü",
+              "enforce": true
+            },
+            "delete_headers": [
+              "regression value &/?+ü"
+            ],
+            "egress": {
+              "ipv4": "192.0.2.1",
+              "ipv4_fallback": "192.0.2.1"
+            },
+            "redirect": {
+              "include_context": true,
+              "preserve_path_and_query": true,
+              "target_uri": "regression value &/?+ü"
+            },
+            "resolve_dns_internally": {
+              "fallback": "none",
+              "view_id": "0123456789abcdef0123456789abcdef"
+            },
+            "resolve_dns_through_cloudflare": true,
+            "untrusted_cert": {
+              "action": "pass_through"
+            }
+          },
+          "schedule": {
+            "fri": "regression value &/?+ü",
+            "mon": "regression value &/?+ü",
+            "sat": "regression value &/?+ü",
+            "sun": "regression value &/?+ü",
+            "thu": "regression value &/?+ü",
+            "time_zone": "2026-01-02T03:04:05Z",
+            "tue": "regression value &/?+ü",
+            "wed": "regression value &/?+ü"
+          },
+          "traffic": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 11",
+    "argv": [
+      "zero-trust",
+      "gateway",
+      "rules",
+      "create",
+      "--action",
+      "on",
+      "--name",
+      "regression value &/?+ü",
+      "--description",
+      "192.0.2.1",
+      "--device-posture",
+      "second value &/?+ü",
+      "--enabled=false",
+      "--expiration-duration",
+      "2",
+      "--filters",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--identity",
+      "second value &/?+ü",
+      "--precedence",
+      "2",
+      "--rule-settings-allow-child-bypass=false",
+      "--rule-settings-audit-ssh-command-logging=false",
+      "--rule-settings-biso-admin-controls-copy",
+      "disabled",
+      "--rule-settings-biso-admin-controls-dcp=false",
+      "--rule-settings-biso-admin-controls-dd=false",
+      "--rule-settings-biso-admin-controls-dk=false",
+      "--rule-settings-biso-admin-controls-download",
+      "disabled",
+      "--rule-settings-biso-admin-controls-dp=false",
+      "--rule-settings-biso-admin-controls-du=false",
+      "--rule-settings-egress-ipv6",
+      "192.0.2.1",
+      "--rule-settings-forensic-copy-enabled=false",
+      "--rule-settings-ignore-cname-category-matches=false",
+      "--rule-settings-insecure-disable-dnssec-validation=false",
+      "--rule-settings-ip-categories=false",
+      "--rule-settings-ip-indicator-feeds=false",
+      "--rule-settings-l4override-ip",
+      "192.0.2.1",
+      "--rule-settings-l4override-port",
+      "2",
+      "--rule-settings-notification-settings-enabled=false",
+      "--rule-settings-notification-settings-include-context=false",
+      "--rule-settings-notification-settings-msg",
+      "second value &/?+ü",
+      "--rule-settings-notification-settings-support-url",
+      "https://example.com/a?x=1&y=two",
+      "--rule-settings-override-host",
+      "second value &/?+ü",
+      "--rule-settings-override-ips",
+      "192.0.2.1",
+      "192.0.2.1",
+      "--rule-settings-payload-log-enabled=false",
+      "--rule-settings-quarantine-file-types",
+      "second value &/?+ü",
+      "second value &/?+ü"
+    ],
+    "exitCode": 1,
+    "error": "--rule-settings-block-page-target-uri, --rule-settings-redirect-target-uri are required when any --rule_settings-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "pairwise 12",
+    "argv": [
+      "zero-trust",
+      "gateway",
+      "rules",
+      "create",
+      "--action",
+      "on",
+      "--name",
+      "regression value &/?+ü",
+      "--rule-settings-egress-ipv6",
+      "192.0.2.1",
+      "--rule-settings-forensic-copy-enabled=true",
+      "--rule-settings-ignore-cname-category-matches=true",
+      "--rule-settings-insecure-disable-dnssec-validation=true",
+      "--rule-settings-ip-categories=true",
+      "--rule-settings-ip-indicator-feeds=true",
+      "--rule-settings-l4override-ip",
+      "192.0.2.1",
+      "--rule-settings-l4override-port",
+      "1",
+      "--rule-settings-notification-settings-enabled=true",
+      "--rule-settings-notification-settings-include-context=true",
+      "--rule-settings-notification-settings-msg",
+      "regression value &/?+ü",
+      "--rule-settings-notification-settings-support-url",
+      "https://example.com/a?x=1&y=two",
+      "--rule-settings-override-host",
+      "regression value &/?+ü",
+      "--rule-settings-override-ips",
+      "192.0.2.1",
+      "--rule-settings-payload-log-enabled=true",
+      "--rule-settings-quarantine-file-types",
+      "regression value &/?+ü",
+      "--rule-settings-redirect-include-context=true",
+      "--rule-settings-redirect-preserve-path-and-query=true",
+      "--rule-settings-redirect-target-uri",
+      "regression value &/?+ü",
+      "--rule-settings-resolve-dns-internally-fallback",
+      "none",
+      "--rule-settings-resolve-dns-internally-view-id",
+      "0123456789abcdef0123456789abcdef",
+      "--rule-settings-resolve-dns-through-cloudflare=true",
+      "--rule-settings-untrusted-cert-action",
+      "pass_through",
+      "--schedule-fri",
+      "regression value &/?+ü",
+      "--schedule-mon",
+      "regression value &/?+ü",
+      "--schedule-sat",
+      "regression value &/?+ü",
+      "--schedule-sun",
+      "regression value &/?+ü",
+      "--schedule-thu",
+      "regression value &/?+ü",
+      "--schedule-time-zone",
+      "2026-01-02T03:04:05Z",
+      "--schedule-tue",
+      "regression value &/?+ü",
+      "--schedule-wed",
+      "regression value &/?+ü",
+      "--traffic",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 1,
+    "error": "--rule-settings-block-page-target-uri is required when any --rule_settings-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "pairwise 13",
+    "argv": [
+      "zero-trust",
+      "gateway",
+      "rules",
+      "create",
+      "--action",
+      "on",
+      "--name",
+      "regression value &/?+ü",
+      "--description",
+      "192.0.2.1",
+      "--device-posture",
+      "second value &/?+ü",
+      "--enabled=false",
+      "--expiration-duration",
+      "2",
+      "--filters",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--identity",
+      "second value &/?+ü",
+      "--precedence",
+      "2",
+      "--rule-settings-allow-child-bypass=false",
+      "--rule-settings-audit-ssh-command-logging=false",
+      "--rule-settings-biso-admin-controls-copy",
+      "disabled",
+      "--rule-settings-biso-admin-controls-dcp=false",
+      "--rule-settings-biso-admin-controls-dd=false",
+      "--rule-settings-biso-admin-controls-dk=false",
+      "--rule-settings-biso-admin-controls-download",
+      "disabled",
+      "--rule-settings-biso-admin-controls-dp=false",
+      "--rule-settings-biso-admin-controls-du=false",
+      "--rule-settings-biso-admin-controls-keyboard",
+      "disabled",
+      "--rule-settings-biso-admin-controls-paste",
+      "disabled",
+      "--rule-settings-biso-admin-controls-printing",
+      "disabled",
+      "--rule-settings-biso-admin-controls-upload",
+      "disabled",
+      "--rule-settings-biso-admin-controls-version",
+      "v2",
+      "--rule-settings-biso-admin-controls-wm-id",
+      "0123456789abcdef0123456789abcdef",
+      "--rule-settings-block-page-include-context=false",
+      "--rule-settings-block-page-target-uri",
+      "second value &/?+ü",
+      "--rule-settings-block-page-enabled=false",
+      "--rule-settings-block-reason",
+      "second value &/?+ü",
+      "--rule-settings-bypass-parent-rule=false",
+      "--rule-settings-check-session-duration",
+      "second value &/?+ü",
+      "--rule-settings-check-session-enforce=false",
+      "--rule-settings-delete-headers",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--rule-settings-egress-ipv4",
+      "192.0.2.1",
+      "--rule-settings-egress-ipv4-fallback",
+      "192.0.2.1"
+    ],
+    "exitCode": 1,
+    "error": "--rule-settings-redirect-target-uri is required when any --rule_settings-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "global quiet",
+    "argv": [
+      "zero-trust",
+      "gateway",
+      "rules",
+      "create",
+      "--action",
+      "on",
+      "--name",
+      "regression value &/?+ü",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--quiet"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/gateway/rules",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "global zone",
+    "argv": [
+      "zero-trust",
+      "gateway",
+      "rules",
+      "create",
+      "--action",
+      "on",
+      "--name",
+      "regression value &/?+ü",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--zone",
+      "abcdef0123456789abcdef0123456789"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/gateway/rules",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "global profile and mode",
+    "argv": [
+      "zero-trust",
+      "gateway",
+      "rules",
+      "create",
+      "--action",
+      "on",
+      "--name",
+      "regression value &/?+ü",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--profile",
+      "default",
+      "--mode",
+      "regression"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/gateway/rules",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "local",
+    "argv": [
+      "zero-trust",
+      "gateway",
+      "rules",
+      "create",
+      "--action",
+      "on",
+      "--name",
+      "regression value &/?+ü",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--local"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "http://localhost/cdn-cgi/local/explorer/api/gateway/rules",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "gzip, deflate",
+          "accept-language": "*",
+          "connection": "keep-alive",
+          "content-type": "application/json",
+          "host": "localhost",
+          "sec-fetch-mode": "cors",
+          "transfer-encoding": "chunked",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "local with persistence",
+    "argv": [
+      "zero-trust",
+      "gateway",
+      "rules",
+      "create",
+      "--action",
+      "on",
+      "--name",
+      "regression value &/?+ü",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--local",
+      "--persist-to",
+      "regression-state"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "http://localhost/cdn-cgi/local/explorer/api/gateway/rules",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "gzip, deflate",
+          "accept-language": "*",
+          "connection": "keep-alive",
+          "content-type": "application/json",
+          "host": "localhost",
+          "sec-fetch-mode": "cors",
+          "transfer-encoding": "chunked",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "dry-run",
+    "argv": [
+      "zero-trust",
+      "gateway",
+      "rules",
+      "create",
+      "--action",
+      "on",
+      "--name",
+      "regression value &/?+ü",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--dry-run"
+    ],
+    "exitCode": 0,
+    "requests": []
+  },
+  {
+    "case": "body from file",
+    "argv": [
+      "zero-trust",
+      "gateway",
+      "rules",
+      "create",
+      "--action",
+      "on",
+      "--name",
+      "regression value &/?+ü",
+      "--body",
+      "@<body.json>"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/gateway/rules",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "array body",
+    "argv": [
+      "zero-trust",
+      "gateway",
+      "rules",
+      "create",
+      "--action",
+      "on",
+      "--name",
+      "regression value &/?+ü",
+      "--body",
+      "[{\"regression\":\"first\"},{\"regression\":\"second\"}]"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/gateway/rules",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "56",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "0": {
+            "regression": "first"
+          },
+          "1": {
+            "regression": "second"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "field flags",
+    "argv": [
+      "zero-trust",
+      "gateway",
+      "rules",
+      "create",
+      "--action",
+      "on",
+      "--name",
+      "regression value &/?+ü",
+      "--description",
+      "192.0.2.1",
+      "--device-posture",
+      "regression value &/?+ü",
+      "--enabled=true",
+      "--expiration-duration",
+      "1",
+      "--filters",
+      "regression value &/?+ü",
+      "--identity",
+      "regression value &/?+ü",
+      "--precedence",
+      "1",
+      "--rule-settings-allow-child-bypass=true",
+      "--rule-settings-audit-ssh-command-logging=true",
+      "--rule-settings-biso-admin-controls-copy",
+      "enabled",
+      "--rule-settings-biso-admin-controls-dcp=true",
+      "--rule-settings-biso-admin-controls-dd=true",
+      "--rule-settings-biso-admin-controls-dk=true",
+      "--rule-settings-biso-admin-controls-download",
+      "enabled",
+      "--rule-settings-biso-admin-controls-dp=true",
+      "--rule-settings-biso-admin-controls-du=true",
+      "--rule-settings-biso-admin-controls-keyboard",
+      "enabled",
+      "--rule-settings-biso-admin-controls-paste",
+      "enabled",
+      "--rule-settings-biso-admin-controls-printing",
+      "enabled",
+      "--rule-settings-biso-admin-controls-upload",
+      "enabled",
+      "--rule-settings-biso-admin-controls-version",
+      "v1",
+      "--rule-settings-biso-admin-controls-wm-id",
+      "0123456789abcdef0123456789abcdef",
+      "--rule-settings-block-page-include-context=true",
+      "--rule-settings-block-page-target-uri",
+      "regression value &/?+ü",
+      "--rule-settings-block-page-enabled=true",
+      "--rule-settings-block-reason",
+      "regression value &/?+ü",
+      "--rule-settings-bypass-parent-rule=true",
+      "--rule-settings-check-session-duration",
+      "regression value &/?+ü",
+      "--rule-settings-check-session-enforce=true",
+      "--rule-settings-delete-headers",
+      "regression value &/?+ü",
+      "--rule-settings-egress-ipv4",
+      "192.0.2.1",
+      "--rule-settings-egress-ipv4-fallback",
+      "192.0.2.1",
+      "--rule-settings-egress-ipv6",
+      "192.0.2.1",
+      "--rule-settings-forensic-copy-enabled=true",
+      "--rule-settings-ignore-cname-category-matches=true",
+      "--rule-settings-insecure-disable-dnssec-validation=true",
+      "--rule-settings-ip-categories=true",
+      "--rule-settings-ip-indicator-feeds=true",
+      "--rule-settings-l4override-ip",
+      "192.0.2.1",
+      "--rule-settings-l4override-port",
+      "1",
+      "--rule-settings-notification-settings-enabled=true",
+      "--rule-settings-notification-settings-include-context=true",
+      "--rule-settings-notification-settings-msg",
+      "regression value &/?+ü",
+      "--rule-settings-notification-settings-support-url",
+      "https://example.com/a?x=1&y=two",
+      "--rule-settings-override-host",
+      "regression value &/?+ü",
+      "--rule-settings-override-ips",
+      "192.0.2.1",
+      "--rule-settings-payload-log-enabled=true",
+      "--rule-settings-quarantine-file-types",
+      "regression value &/?+ü",
+      "--rule-settings-redirect-include-context=true",
+      "--rule-settings-redirect-preserve-path-and-query=true",
+      "--rule-settings-redirect-target-uri",
+      "regression value &/?+ü",
+      "--rule-settings-resolve-dns-internally-fallback",
+      "none",
+      "--rule-settings-resolve-dns-internally-view-id",
+      "0123456789abcdef0123456789abcdef",
+      "--rule-settings-resolve-dns-through-cloudflare=true",
+      "--rule-settings-untrusted-cert-action",
+      "pass_through",
+      "--schedule-fri",
+      "regression value &/?+ü",
+      "--schedule-mon",
+      "regression value &/?+ü",
+      "--schedule-sat",
+      "regression value &/?+ü",
+      "--schedule-sun",
+      "regression value &/?+ü",
+      "--schedule-thu",
+      "regression value &/?+ü",
+      "--schedule-time-zone",
+      "2026-01-02T03:04:05Z",
+      "--schedule-tue",
+      "regression value &/?+ü",
+      "--schedule-wed",
+      "regression value &/?+ü",
+      "--traffic",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/gateway/rules",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "2030",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "action": "on",
+          "description": "192.0.2.1",
+          "device_posture": "regression value &/?+ü",
+          "enabled": true,
+          "expiration": {
+            "duration": 1
+          },
+          "filters": [
+            "regression value &/?+ü"
+          ],
+          "identity": "regression value &/?+ü",
+          "name": "regression value &/?+ü",
+          "precedence": 1,
+          "rule_settings": {
+            "allow_child_bypass": true,
+            "audit_ssh": {
+              "command_logging": true
+            },
+            "biso_admin_controls": {
+              "copy": "enabled",
+              "dcp": true,
+              "dd": true,
+              "dk": true,
+              "download": "enabled",
+              "dp": true,
+              "du": true,
+              "keyboard": "enabled",
+              "paste": "enabled",
+              "printing": "enabled",
+              "upload": "enabled",
+              "version": "v1",
+              "wm_id": "0123456789abcdef0123456789abcdef"
+            },
+            "block_page": {
+              "include_context": true,
+              "target_uri": "regression value &/?+ü"
+            },
+            "block_page_enabled": true,
+            "block_reason": "regression value &/?+ü",
+            "bypass_parent_rule": true,
+            "check_session": {
+              "duration": "regression value &/?+ü",
+              "enforce": true
+            },
+            "delete_headers": [
+              "regression value &/?+ü"
+            ],
+            "egress": {
+              "ipv4": "192.0.2.1",
+              "ipv4_fallback": "192.0.2.1",
+              "ipv6": "192.0.2.1"
+            },
+            "forensic_copy": {
+              "enabled": true
+            },
+            "ignore_cname_category_matches": true,
+            "insecure_disable_dnssec_validation": true,
+            "ip_categories": true,
+            "ip_indicator_feeds": true,
+            "l4override": {
+              "ip": "192.0.2.1",
+              "port": 1
+            },
+            "notification_settings": {
+              "enabled": true,
+              "include_context": true,
+              "msg": "regression value &/?+ü",
+              "support_url": "https://example.com/a?x=1&y=two"
+            },
+            "override_host": "regression value &/?+ü",
+            "override_ips": [
+              "192.0.2.1"
+            ],
+            "payload_log": {
+              "enabled": true
+            },
+            "quarantine": {
+              "file_types": [
+                "regression value &/?+ü"
+              ]
+            },
+            "redirect": {
+              "include_context": true,
+              "preserve_path_and_query": true,
+              "target_uri": "regression value &/?+ü"
+            },
+            "resolve_dns_internally": {
+              "fallback": "none",
+              "view_id": "0123456789abcdef0123456789abcdef"
+            },
+            "resolve_dns_through_cloudflare": true,
+            "untrusted_cert": {
+              "action": "pass_through"
+            }
+          },
+          "schedule": {
+            "fri": "regression value &/?+ü",
+            "mon": "regression value &/?+ü",
+            "sat": "regression value &/?+ü",
+            "sun": "regression value &/?+ü",
+            "thu": "regression value &/?+ü",
+            "time_zone": "2026-01-02T03:04:05Z",
+            "tue": "regression value &/?+ü",
+            "wed": "regression value &/?+ü"
+          },
+          "traffic": "regression value &/?+ü"
+        }
+      }
+    ]
+  }
+]

@@ -1,0 +1,1601 @@
+[
+  {
+    "case": "no-args",
+    "argv": [
+      "zero-trust",
+      "access",
+      "targets",
+      "list"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/infrastructure/targets",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "only --hostname",
+    "argv": [
+      "zero-trust",
+      "access",
+      "targets",
+      "list",
+      "--hostname",
+      "example.com"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/infrastructure/targets?hostname=example.com",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "only --hostname-contains",
+    "argv": [
+      "zero-trust",
+      "access",
+      "targets",
+      "list",
+      "--hostname-contains",
+      "example.com"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/infrastructure/targets?hostname_contains=example.com",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "only --virtual-network-id",
+    "argv": [
+      "zero-trust",
+      "access",
+      "targets",
+      "list",
+      "--virtual-network-id",
+      "0123456789abcdef0123456789abcdef"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/infrastructure/targets?virtual_network_id=0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "only --ip-v4",
+    "argv": [
+      "zero-trust",
+      "access",
+      "targets",
+      "list",
+      "--ip-v4",
+      "192.0.2.1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/infrastructure/targets?ip_v4=192.0.2.1",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "only --ip-v6",
+    "argv": [
+      "zero-trust",
+      "access",
+      "targets",
+      "list",
+      "--ip-v6",
+      "192.0.2.1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/infrastructure/targets?ip_v6=192.0.2.1",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "only --created-before",
+    "argv": [
+      "zero-trust",
+      "access",
+      "targets",
+      "list",
+      "--created-before",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/infrastructure/targets?created_before=regression%20value%20%26%2F%3F%2B%C3%BC",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "only --created-after",
+    "argv": [
+      "zero-trust",
+      "access",
+      "targets",
+      "list",
+      "--created-after",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/infrastructure/targets?created_after=regression%20value%20%26%2F%3F%2B%C3%BC",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "only --modified-before",
+    "argv": [
+      "zero-trust",
+      "access",
+      "targets",
+      "list",
+      "--modified-before",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/infrastructure/targets?modified_before=regression%20value%20%26%2F%3F%2B%C3%BC",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "only --modified-after",
+    "argv": [
+      "zero-trust",
+      "access",
+      "targets",
+      "list",
+      "--modified-after",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/infrastructure/targets?modified_after=regression%20value%20%26%2F%3F%2B%C3%BC",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "only --ips",
+    "argv": [
+      "zero-trust",
+      "access",
+      "targets",
+      "list",
+      "--ips",
+      "192.0.2.1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/infrastructure/targets?ips=192.0.2.1",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "only --target-ids",
+    "argv": [
+      "zero-trust",
+      "access",
+      "targets",
+      "list",
+      "--target-ids",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/infrastructure/targets?target_ids=regression%20value%20%26%2F%3F%2B%C3%BC",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "only --ip-like",
+    "argv": [
+      "zero-trust",
+      "access",
+      "targets",
+      "list",
+      "--ip-like",
+      "192.0.2.1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/infrastructure/targets?ip_like=192.0.2.1",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "only --ipv4-start",
+    "argv": [
+      "zero-trust",
+      "access",
+      "targets",
+      "list",
+      "--ipv4-start",
+      "192.0.2.1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/infrastructure/targets?ipv4_start=192.0.2.1",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "only --ipv4-end",
+    "argv": [
+      "zero-trust",
+      "access",
+      "targets",
+      "list",
+      "--ipv4-end",
+      "192.0.2.1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/infrastructure/targets?ipv4_end=192.0.2.1",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "only --ipv6-start",
+    "argv": [
+      "zero-trust",
+      "access",
+      "targets",
+      "list",
+      "--ipv6-start",
+      "192.0.2.1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/infrastructure/targets?ipv6_start=192.0.2.1",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "only --ipv6-end",
+    "argv": [
+      "zero-trust",
+      "access",
+      "targets",
+      "list",
+      "--ipv6-end",
+      "192.0.2.1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/infrastructure/targets?ipv6_end=192.0.2.1",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "only --tag",
+    "argv": [
+      "zero-trust",
+      "access",
+      "targets",
+      "list",
+      "--tag",
+      "regression-image:latest"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/infrastructure/targets?tag=regression-image%3Alatest",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "only --page",
+    "argv": [
+      "zero-trust",
+      "access",
+      "targets",
+      "list",
+      "--page",
+      "1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/infrastructure/targets?page=1",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "only --per-page",
+    "argv": [
+      "zero-trust",
+      "access",
+      "targets",
+      "list",
+      "--per-page",
+      "1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/infrastructure/targets?per_page=1",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "only --order",
+    "argv": [
+      "zero-trust",
+      "access",
+      "targets",
+      "list",
+      "--order",
+      "hostname"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/infrastructure/targets?order=hostname",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "--order value 1",
+    "argv": [
+      "zero-trust",
+      "access",
+      "targets",
+      "list",
+      "--order",
+      "created_at"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/infrastructure/targets?order=created_at",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "only --direction",
+    "argv": [
+      "zero-trust",
+      "access",
+      "targets",
+      "list",
+      "--direction",
+      "asc"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/infrastructure/targets?direction=asc",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "--direction value 1",
+    "argv": [
+      "zero-trust",
+      "access",
+      "targets",
+      "list",
+      "--direction",
+      "desc"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/infrastructure/targets?direction=desc",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "pairwise 1",
+    "argv": [
+      "zero-trust",
+      "access",
+      "targets",
+      "list",
+      "--hostname",
+      "example.com",
+      "--hostname-contains",
+      "example.com",
+      "--virtual-network-id",
+      "0123456789abcdef0123456789abcdef",
+      "--ip-v4",
+      "192.0.2.1",
+      "--ip-v6",
+      "192.0.2.1",
+      "--created-before",
+      "second value &/?+ü",
+      "--created-after",
+      "second value &/?+ü",
+      "--modified-before",
+      "second value &/?+ü",
+      "--modified-after",
+      "second value &/?+ü",
+      "--ips",
+      "192.0.2.1",
+      "--target-ids",
+      "second value &/?+ü",
+      "--ip-like",
+      "192.0.2.1",
+      "--ipv4-start",
+      "192.0.2.1",
+      "--ipv4-end",
+      "192.0.2.1",
+      "--ipv6-start",
+      "192.0.2.1",
+      "--ipv6-end",
+      "192.0.2.1",
+      "--tag",
+      "regression-image:latest",
+      "--page",
+      "2",
+      "--per-page",
+      "2",
+      "--order",
+      "created_at",
+      "--direction",
+      "desc"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/infrastructure/targets?hostname=example.com&hostname_contains=example.com&virtual_network_id=0123456789abcdef0123456789abcdef&ip_v4=192.0.2.1&ip_v6=192.0.2.1&created_before=second%20value%20%26%2F%3F%2B%C3%BC&created_after=second%20value%20%26%2F%3F%2B%C3%BC&modified_before=second%20value%20%26%2F%3F%2B%C3%BC&modified_after=second%20value%20%26%2F%3F%2B%C3%BC&ips=192.0.2.1&target_ids=second%20value%20%26%2F%3F%2B%C3%BC&ip_like=192.0.2.1&ipv4_start=192.0.2.1&ipv4_end=192.0.2.1&ipv6_start=192.0.2.1&ipv6_end=192.0.2.1&tag=regression-image%3Alatest&page=2&per_page=2&order=created_at&direction=desc",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "pairwise 2",
+    "argv": [
+      "zero-trust",
+      "access",
+      "targets",
+      "list",
+      "--hostname-contains",
+      "example.com",
+      "--ip-v4",
+      "192.0.2.1",
+      "--created-before",
+      "regression value &/?+ü",
+      "--modified-before",
+      "regression value &/?+ü",
+      "--ips",
+      "192.0.2.1",
+      "--ip-like",
+      "192.0.2.1",
+      "--ipv4-end",
+      "192.0.2.1",
+      "--ipv6-end",
+      "192.0.2.1",
+      "--page",
+      "1",
+      "--order",
+      "hostname"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/infrastructure/targets?hostname_contains=example.com&ip_v4=192.0.2.1&created_before=regression%20value%20%26%2F%3F%2B%C3%BC&modified_before=regression%20value%20%26%2F%3F%2B%C3%BC&ips=192.0.2.1&ip_like=192.0.2.1&ipv4_end=192.0.2.1&ipv6_end=192.0.2.1&page=1&order=hostname",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "pairwise 3",
+    "argv": [
+      "zero-trust",
+      "access",
+      "targets",
+      "list",
+      "--hostname",
+      "example.com",
+      "--virtual-network-id",
+      "0123456789abcdef0123456789abcdef",
+      "--ip-v6",
+      "192.0.2.1",
+      "--created-after",
+      "second value &/?+ü",
+      "--modified-after",
+      "second value &/?+ü",
+      "--target-ids",
+      "second value &/?+ü",
+      "--ipv4-start",
+      "192.0.2.1",
+      "--ipv6-start",
+      "192.0.2.1",
+      "--tag",
+      "regression-image:latest",
+      "--per-page",
+      "2",
+      "--direction",
+      "desc"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/infrastructure/targets?hostname=example.com&virtual_network_id=0123456789abcdef0123456789abcdef&ip_v6=192.0.2.1&created_after=second%20value%20%26%2F%3F%2B%C3%BC&modified_after=second%20value%20%26%2F%3F%2B%C3%BC&target_ids=second%20value%20%26%2F%3F%2B%C3%BC&ipv4_start=192.0.2.1&ipv6_start=192.0.2.1&tag=regression-image%3Alatest&per_page=2&direction=desc",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "pairwise 4",
+    "argv": [
+      "zero-trust",
+      "access",
+      "targets",
+      "list",
+      "--virtual-network-id",
+      "0123456789abcdef0123456789abcdef",
+      "--ip-v4",
+      "192.0.2.1",
+      "--created-after",
+      "regression value &/?+ü",
+      "--modified-before",
+      "regression value &/?+ü",
+      "--target-ids",
+      "regression value &/?+ü",
+      "--ip-like",
+      "192.0.2.1",
+      "--ipv6-start",
+      "192.0.2.1",
+      "--ipv6-end",
+      "192.0.2.1",
+      "--per-page",
+      "1",
+      "--order",
+      "hostname"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/infrastructure/targets?virtual_network_id=0123456789abcdef0123456789abcdef&ip_v4=192.0.2.1&created_after=regression%20value%20%26%2F%3F%2B%C3%BC&modified_before=regression%20value%20%26%2F%3F%2B%C3%BC&target_ids=regression%20value%20%26%2F%3F%2B%C3%BC&ip_like=192.0.2.1&ipv6_start=192.0.2.1&ipv6_end=192.0.2.1&per_page=1&order=hostname",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "pairwise 5",
+    "argv": [
+      "zero-trust",
+      "access",
+      "targets",
+      "list",
+      "--hostname",
+      "example.com",
+      "--hostname-contains",
+      "example.com",
+      "--ip-v6",
+      "192.0.2.1",
+      "--created-before",
+      "second value &/?+ü",
+      "--modified-after",
+      "second value &/?+ü",
+      "--ips",
+      "192.0.2.1",
+      "--ipv4-start",
+      "192.0.2.1",
+      "--ipv4-end",
+      "192.0.2.1",
+      "--tag",
+      "regression-image:latest",
+      "--page",
+      "2",
+      "--direction",
+      "desc"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/infrastructure/targets?hostname=example.com&hostname_contains=example.com&ip_v6=192.0.2.1&created_before=second%20value%20%26%2F%3F%2B%C3%BC&modified_after=second%20value%20%26%2F%3F%2B%C3%BC&ips=192.0.2.1&ipv4_start=192.0.2.1&ipv4_end=192.0.2.1&tag=regression-image%3Alatest&page=2&direction=desc",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "pairwise 6",
+    "argv": [
+      "zero-trust",
+      "access",
+      "targets",
+      "list",
+      "--ip-v6",
+      "192.0.2.1",
+      "--created-before",
+      "regression value &/?+ü",
+      "--created-after",
+      "regression value &/?+ü",
+      "--modified-before",
+      "regression value &/?+ü",
+      "--ipv4-start",
+      "192.0.2.1",
+      "--ipv4-end",
+      "192.0.2.1",
+      "--ipv6-start",
+      "192.0.2.1",
+      "--ipv6-end",
+      "192.0.2.1",
+      "--direction",
+      "asc"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/infrastructure/targets?ip_v6=192.0.2.1&created_before=regression%20value%20%26%2F%3F%2B%C3%BC&created_after=regression%20value%20%26%2F%3F%2B%C3%BC&modified_before=regression%20value%20%26%2F%3F%2B%C3%BC&ipv4_start=192.0.2.1&ipv4_end=192.0.2.1&ipv6_start=192.0.2.1&ipv6_end=192.0.2.1&direction=asc",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "pairwise 7",
+    "argv": [
+      "zero-trust",
+      "access",
+      "targets",
+      "list",
+      "--hostname",
+      "example.com",
+      "--hostname-contains",
+      "example.com",
+      "--virtual-network-id",
+      "0123456789abcdef0123456789abcdef",
+      "--ip-v4",
+      "192.0.2.1",
+      "--modified-after",
+      "second value &/?+ü",
+      "--ips",
+      "192.0.2.1",
+      "--target-ids",
+      "second value &/?+ü",
+      "--ip-like",
+      "192.0.2.1",
+      "--tag",
+      "regression-image:latest",
+      "--page",
+      "2",
+      "--per-page",
+      "2",
+      "--order",
+      "created_at"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/infrastructure/targets?hostname=example.com&hostname_contains=example.com&virtual_network_id=0123456789abcdef0123456789abcdef&ip_v4=192.0.2.1&modified_after=second%20value%20%26%2F%3F%2B%C3%BC&ips=192.0.2.1&target_ids=second%20value%20%26%2F%3F%2B%C3%BC&ip_like=192.0.2.1&tag=regression-image%3Alatest&page=2&per_page=2&order=created_at",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "pairwise 8",
+    "argv": [
+      "zero-trust",
+      "access",
+      "targets",
+      "list",
+      "--modified-after",
+      "regression value &/?+ü",
+      "--ips",
+      "192.0.2.1",
+      "--target-ids",
+      "regression value &/?+ü",
+      "--ip-like",
+      "192.0.2.1",
+      "--ipv4-start",
+      "192.0.2.1",
+      "--ipv4-end",
+      "192.0.2.1",
+      "--ipv6-start",
+      "192.0.2.1",
+      "--ipv6-end",
+      "192.0.2.1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/infrastructure/targets?modified_after=regression%20value%20%26%2F%3F%2B%C3%BC&ips=192.0.2.1&target_ids=regression%20value%20%26%2F%3F%2B%C3%BC&ip_like=192.0.2.1&ipv4_start=192.0.2.1&ipv4_end=192.0.2.1&ipv6_start=192.0.2.1&ipv6_end=192.0.2.1",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "pairwise 9",
+    "argv": [
+      "zero-trust",
+      "access",
+      "targets",
+      "list",
+      "--hostname",
+      "example.com",
+      "--hostname-contains",
+      "example.com",
+      "--virtual-network-id",
+      "0123456789abcdef0123456789abcdef",
+      "--ip-v4",
+      "192.0.2.1",
+      "--ip-v6",
+      "192.0.2.1",
+      "--created-before",
+      "second value &/?+ü",
+      "--created-after",
+      "second value &/?+ü",
+      "--modified-before",
+      "second value &/?+ü",
+      "--tag",
+      "regression-image:latest",
+      "--page",
+      "2",
+      "--per-page",
+      "2",
+      "--order",
+      "created_at",
+      "--direction",
+      "desc"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/infrastructure/targets?hostname=example.com&hostname_contains=example.com&virtual_network_id=0123456789abcdef0123456789abcdef&ip_v4=192.0.2.1&ip_v6=192.0.2.1&created_before=second%20value%20%26%2F%3F%2B%C3%BC&created_after=second%20value%20%26%2F%3F%2B%C3%BC&modified_before=second%20value%20%26%2F%3F%2B%C3%BC&tag=regression-image%3Alatest&page=2&per_page=2&order=created_at&direction=desc",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "pairwise 10",
+    "argv": [
+      "zero-trust",
+      "access",
+      "targets",
+      "list",
+      "--tag",
+      "regression-image:latest",
+      "--page",
+      "1",
+      "--per-page",
+      "1",
+      "--order",
+      "hostname",
+      "--direction",
+      "asc"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/infrastructure/targets?tag=regression-image%3Alatest&page=1&per_page=1&order=hostname&direction=asc",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "pairwise 11",
+    "argv": [
+      "zero-trust",
+      "access",
+      "targets",
+      "list",
+      "--hostname",
+      "example.com",
+      "--hostname-contains",
+      "example.com",
+      "--virtual-network-id",
+      "0123456789abcdef0123456789abcdef",
+      "--ip-v4",
+      "192.0.2.1",
+      "--ip-v6",
+      "192.0.2.1",
+      "--created-before",
+      "second value &/?+ü",
+      "--created-after",
+      "second value &/?+ü",
+      "--modified-before",
+      "second value &/?+ü",
+      "--modified-after",
+      "second value &/?+ü",
+      "--ips",
+      "192.0.2.1",
+      "--target-ids",
+      "second value &/?+ü",
+      "--ip-like",
+      "192.0.2.1",
+      "--ipv4-start",
+      "192.0.2.1",
+      "--ipv4-end",
+      "192.0.2.1",
+      "--ipv6-start",
+      "192.0.2.1",
+      "--ipv6-end",
+      "192.0.2.1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/infrastructure/targets?hostname=example.com&hostname_contains=example.com&virtual_network_id=0123456789abcdef0123456789abcdef&ip_v4=192.0.2.1&ip_v6=192.0.2.1&created_before=second%20value%20%26%2F%3F%2B%C3%BC&created_after=second%20value%20%26%2F%3F%2B%C3%BC&modified_before=second%20value%20%26%2F%3F%2B%C3%BC&modified_after=second%20value%20%26%2F%3F%2B%C3%BC&ips=192.0.2.1&target_ids=second%20value%20%26%2F%3F%2B%C3%BC&ip_like=192.0.2.1&ipv4_start=192.0.2.1&ipv4_end=192.0.2.1&ipv6_start=192.0.2.1&ipv6_end=192.0.2.1",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "global quiet",
+    "argv": [
+      "zero-trust",
+      "access",
+      "targets",
+      "list",
+      "--quiet"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/infrastructure/targets",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "global zone",
+    "argv": [
+      "zero-trust",
+      "access",
+      "targets",
+      "list",
+      "--zone",
+      "abcdef0123456789abcdef0123456789"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/infrastructure/targets",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "global profile and mode",
+    "argv": [
+      "zero-trust",
+      "access",
+      "targets",
+      "list",
+      "--profile",
+      "default",
+      "--mode",
+      "regression"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/infrastructure/targets",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "local",
+    "argv": [
+      "zero-trust",
+      "access",
+      "targets",
+      "list",
+      "--local"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "http://localhost/cdn-cgi/local/explorer/api/infrastructure/targets",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "gzip, deflate",
+          "accept-language": "*",
+          "connection": "keep-alive",
+          "host": "localhost",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "local with persistence",
+    "argv": [
+      "zero-trust",
+      "access",
+      "targets",
+      "list",
+      "--local",
+      "--persist-to",
+      "regression-state"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "http://localhost/cdn-cgi/local/explorer/api/infrastructure/targets",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "gzip, deflate",
+          "accept-language": "*",
+          "connection": "keep-alive",
+          "host": "localhost",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "dry-run",
+    "argv": [
+      "zero-trust",
+      "access",
+      "targets",
+      "list",
+      "--dry-run"
+    ],
+    "exitCode": 0,
+    "requests": []
+  }
+]

@@ -1,0 +1,1550 @@
+[
+  {
+    "case": "no-args",
+    "argv": [
+      "mcp",
+      "servers",
+      "create"
+    ],
+    "exitCode": 1,
+    "error": "--auth-type is required (one of: oauth, bearer, unauthenticated). Pass --auth-type <value> or run interactively.",
+    "requests": []
+  },
+  {
+    "case": "required",
+    "argv": [
+      "mcp",
+      "servers",
+      "create",
+      "--auth-type",
+      "oauth",
+      "--hostname",
+      "example.com",
+      "--id",
+      "0123456789abcdef0123456789abcdef",
+      "--name",
+      "regression value &/?+ü",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/access/ai-controls/mcp/servers",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --auth-credentials",
+    "argv": [
+      "mcp",
+      "servers",
+      "create",
+      "--auth-type",
+      "oauth",
+      "--hostname",
+      "example.com",
+      "--id",
+      "0123456789abcdef0123456789abcdef",
+      "--name",
+      "regression value &/?+ü",
+      "--auth-credentials",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/access/ai-controls/mcp/servers",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "232",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "auth_credentials": "regression value &/?+ü",
+          "auth_type": "oauth",
+          "hostname": "example.com",
+          "id": "0123456789abcdef0123456789abcdef",
+          "is_shared_oauth_callback_enabled": false,
+          "name": "regression value &/?+ü",
+          "secure_web_gateway": false
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --client-secret",
+    "argv": [
+      "mcp",
+      "servers",
+      "create",
+      "--auth-type",
+      "oauth",
+      "--hostname",
+      "example.com",
+      "--id",
+      "0123456789abcdef0123456789abcdef",
+      "--name",
+      "regression value &/?+ü",
+      "--client-secret",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/access/ai-controls/mcp/servers",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "229",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "auth_type": "oauth",
+          "client_secret": "regression value &/?+ü",
+          "hostname": "example.com",
+          "id": "0123456789abcdef0123456789abcdef",
+          "is_shared_oauth_callback_enabled": false,
+          "name": "regression value &/?+ü",
+          "secure_web_gateway": false
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --description",
+    "argv": [
+      "mcp",
+      "servers",
+      "create",
+      "--auth-type",
+      "oauth",
+      "--hostname",
+      "example.com",
+      "--id",
+      "0123456789abcdef0123456789abcdef",
+      "--name",
+      "regression value &/?+ü",
+      "--description",
+      "192.0.2.1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/access/ai-controls/mcp/servers",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "213",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "auth_type": "oauth",
+          "description": "192.0.2.1",
+          "hostname": "example.com",
+          "id": "0123456789abcdef0123456789abcdef",
+          "is_shared_oauth_callback_enabled": false,
+          "name": "regression value &/?+ü",
+          "secure_web_gateway": false
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --is-shared-oauth-callback-enabled",
+    "argv": [
+      "mcp",
+      "servers",
+      "create",
+      "--auth-type",
+      "oauth",
+      "--hostname",
+      "example.com",
+      "--id",
+      "0123456789abcdef0123456789abcdef",
+      "--name",
+      "regression value &/?+ü",
+      "--is-shared-oauth-callback-enabled=true"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/access/ai-controls/mcp/servers",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "186",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "auth_type": "oauth",
+          "hostname": "example.com",
+          "id": "0123456789abcdef0123456789abcdef",
+          "is_shared_oauth_callback_enabled": true,
+          "name": "regression value &/?+ü",
+          "secure_web_gateway": false
+        }
+      }
+    ]
+  },
+  {
+    "case": "--is-shared-oauth-callback-enabled value 1",
+    "argv": [
+      "mcp",
+      "servers",
+      "create",
+      "--auth-type",
+      "oauth",
+      "--hostname",
+      "example.com",
+      "--id",
+      "0123456789abcdef0123456789abcdef",
+      "--name",
+      "regression value &/?+ü",
+      "--is-shared-oauth-callback-enabled=false"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/access/ai-controls/mcp/servers",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "187",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "auth_type": "oauth",
+          "hostname": "example.com",
+          "id": "0123456789abcdef0123456789abcdef",
+          "is_shared_oauth_callback_enabled": false,
+          "name": "regression value &/?+ü",
+          "secure_web_gateway": false
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --secure-web-gateway",
+    "argv": [
+      "mcp",
+      "servers",
+      "create",
+      "--auth-type",
+      "oauth",
+      "--hostname",
+      "example.com",
+      "--id",
+      "0123456789abcdef0123456789abcdef",
+      "--name",
+      "regression value &/?+ü",
+      "--secure-web-gateway=true"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/access/ai-controls/mcp/servers",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "186",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "auth_type": "oauth",
+          "hostname": "example.com",
+          "id": "0123456789abcdef0123456789abcdef",
+          "is_shared_oauth_callback_enabled": false,
+          "name": "regression value &/?+ü",
+          "secure_web_gateway": true
+        }
+      }
+    ]
+  },
+  {
+    "case": "--secure-web-gateway value 1",
+    "argv": [
+      "mcp",
+      "servers",
+      "create",
+      "--auth-type",
+      "oauth",
+      "--hostname",
+      "example.com",
+      "--id",
+      "0123456789abcdef0123456789abcdef",
+      "--name",
+      "regression value &/?+ü",
+      "--secure-web-gateway=false"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/access/ai-controls/mcp/servers",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "187",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "auth_type": "oauth",
+          "hostname": "example.com",
+          "id": "0123456789abcdef0123456789abcdef",
+          "is_shared_oauth_callback_enabled": false,
+          "name": "regression value &/?+ü",
+          "secure_web_gateway": false
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --updated-prompts",
+    "argv": [
+      "mcp",
+      "servers",
+      "create",
+      "--auth-type",
+      "oauth",
+      "--hostname",
+      "example.com",
+      "--id",
+      "0123456789abcdef0123456789abcdef",
+      "--name",
+      "regression value &/?+ü",
+      "--updated-prompts",
+      "[{\"regression\":\"item\"}]"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/access/ai-controls/mcp/servers",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "229",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "auth_type": "oauth",
+          "hostname": "example.com",
+          "id": "0123456789abcdef0123456789abcdef",
+          "is_shared_oauth_callback_enabled": false,
+          "name": "regression value &/?+ü",
+          "secure_web_gateway": false,
+          "updated_prompts": [
+            {
+              "regression": "item"
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --updated-tools",
+    "argv": [
+      "mcp",
+      "servers",
+      "create",
+      "--auth-type",
+      "oauth",
+      "--hostname",
+      "example.com",
+      "--id",
+      "0123456789abcdef0123456789abcdef",
+      "--name",
+      "regression value &/?+ü",
+      "--updated-tools",
+      "[{\"regression\":\"item\"}]"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/access/ai-controls/mcp/servers",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "227",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "auth_type": "oauth",
+          "hostname": "example.com",
+          "id": "0123456789abcdef0123456789abcdef",
+          "is_shared_oauth_callback_enabled": false,
+          "name": "regression value &/?+ü",
+          "secure_web_gateway": false,
+          "updated_tools": [
+            {
+              "regression": "item"
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "required --auth-type value 1",
+    "argv": [
+      "mcp",
+      "servers",
+      "create",
+      "--hostname",
+      "example.com",
+      "--id",
+      "0123456789abcdef0123456789abcdef",
+      "--name",
+      "regression value &/?+ü",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--auth-type",
+      "bearer"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/access/ai-controls/mcp/servers",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "required --auth-type value 2",
+    "argv": [
+      "mcp",
+      "servers",
+      "create",
+      "--hostname",
+      "example.com",
+      "--id",
+      "0123456789abcdef0123456789abcdef",
+      "--name",
+      "regression value &/?+ü",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--auth-type",
+      "unauthenticated"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/access/ai-controls/mcp/servers",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 0",
+    "argv": [
+      "mcp",
+      "servers",
+      "create",
+      "--auth-type",
+      "oauth",
+      "--hostname",
+      "example.com",
+      "--id",
+      "0123456789abcdef0123456789abcdef",
+      "--name",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/access/ai-controls/mcp/servers",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "187",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "auth_type": "oauth",
+          "hostname": "example.com",
+          "id": "0123456789abcdef0123456789abcdef",
+          "is_shared_oauth_callback_enabled": false,
+          "name": "regression value &/?+ü",
+          "secure_web_gateway": false
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 1",
+    "argv": [
+      "mcp",
+      "servers",
+      "create",
+      "--auth-type",
+      "oauth",
+      "--hostname",
+      "example.com",
+      "--id",
+      "0123456789abcdef0123456789abcdef",
+      "--name",
+      "regression value &/?+ü",
+      "--auth-credentials",
+      "second value &/?+ü",
+      "--client-secret",
+      "second value &/?+ü",
+      "--description",
+      "192.0.2.1",
+      "--is-shared-oauth-callback-enabled=false",
+      "--secure-web-gateway=false",
+      "--updated-prompts",
+      "[{\"regression\":\"item\"}]",
+      "--updated-tools",
+      "[{\"regression\":\"item\"}]"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/access/ai-controls/mcp/servers",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "374",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "auth_credentials": "second value &/?+ü",
+          "auth_type": "oauth",
+          "client_secret": "second value &/?+ü",
+          "description": "192.0.2.1",
+          "hostname": "example.com",
+          "id": "0123456789abcdef0123456789abcdef",
+          "is_shared_oauth_callback_enabled": false,
+          "name": "regression value &/?+ü",
+          "secure_web_gateway": false,
+          "updated_prompts": [
+            {
+              "regression": "item"
+            }
+          ],
+          "updated_tools": [
+            {
+              "regression": "item"
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 2",
+    "argv": [
+      "mcp",
+      "servers",
+      "create",
+      "--auth-type",
+      "oauth",
+      "--hostname",
+      "example.com",
+      "--id",
+      "0123456789abcdef0123456789abcdef",
+      "--name",
+      "regression value &/?+ü",
+      "--client-secret",
+      "regression value &/?+ü",
+      "--is-shared-oauth-callback-enabled=true",
+      "--updated-prompts",
+      "[{\"regression\":\"item\"}]"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/access/ai-controls/mcp/servers",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "270",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "auth_type": "oauth",
+          "client_secret": "regression value &/?+ü",
+          "hostname": "example.com",
+          "id": "0123456789abcdef0123456789abcdef",
+          "is_shared_oauth_callback_enabled": true,
+          "name": "regression value &/?+ü",
+          "secure_web_gateway": false,
+          "updated_prompts": [
+            {
+              "regression": "item"
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 3",
+    "argv": [
+      "mcp",
+      "servers",
+      "create",
+      "--auth-type",
+      "oauth",
+      "--hostname",
+      "example.com",
+      "--id",
+      "0123456789abcdef0123456789abcdef",
+      "--name",
+      "regression value &/?+ü",
+      "--auth-credentials",
+      "second value &/?+ü",
+      "--description",
+      "192.0.2.1",
+      "--secure-web-gateway=false",
+      "--updated-tools",
+      "[{\"regression\":\"item\"}]"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/access/ai-controls/mcp/servers",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "294",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "auth_credentials": "second value &/?+ü",
+          "auth_type": "oauth",
+          "description": "192.0.2.1",
+          "hostname": "example.com",
+          "id": "0123456789abcdef0123456789abcdef",
+          "is_shared_oauth_callback_enabled": false,
+          "name": "regression value &/?+ü",
+          "secure_web_gateway": false,
+          "updated_tools": [
+            {
+              "regression": "item"
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 4",
+    "argv": [
+      "mcp",
+      "servers",
+      "create",
+      "--auth-type",
+      "oauth",
+      "--hostname",
+      "example.com",
+      "--id",
+      "0123456789abcdef0123456789abcdef",
+      "--name",
+      "regression value &/?+ü",
+      "--description",
+      "192.0.2.1",
+      "--is-shared-oauth-callback-enabled=true",
+      "--updated-tools",
+      "[{\"regression\":\"item\"}]"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/access/ai-controls/mcp/servers",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "252",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "auth_type": "oauth",
+          "description": "192.0.2.1",
+          "hostname": "example.com",
+          "id": "0123456789abcdef0123456789abcdef",
+          "is_shared_oauth_callback_enabled": true,
+          "name": "regression value &/?+ü",
+          "secure_web_gateway": false,
+          "updated_tools": [
+            {
+              "regression": "item"
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 5",
+    "argv": [
+      "mcp",
+      "servers",
+      "create",
+      "--auth-type",
+      "oauth",
+      "--hostname",
+      "example.com",
+      "--id",
+      "0123456789abcdef0123456789abcdef",
+      "--name",
+      "regression value &/?+ü",
+      "--auth-credentials",
+      "second value &/?+ü",
+      "--client-secret",
+      "second value &/?+ü",
+      "--secure-web-gateway=false",
+      "--updated-prompts",
+      "[{\"regression\":\"item\"}]"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/access/ai-controls/mcp/servers",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "308",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "auth_credentials": "second value &/?+ü",
+          "auth_type": "oauth",
+          "client_secret": "second value &/?+ü",
+          "hostname": "example.com",
+          "id": "0123456789abcdef0123456789abcdef",
+          "is_shared_oauth_callback_enabled": false,
+          "name": "regression value &/?+ü",
+          "secure_web_gateway": false,
+          "updated_prompts": [
+            {
+              "regression": "item"
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 6",
+    "argv": [
+      "mcp",
+      "servers",
+      "create",
+      "--auth-type",
+      "oauth",
+      "--hostname",
+      "example.com",
+      "--id",
+      "0123456789abcdef0123456789abcdef",
+      "--name",
+      "regression value &/?+ü",
+      "--secure-web-gateway=true",
+      "--updated-prompts",
+      "[{\"regression\":\"item\"}]",
+      "--updated-tools",
+      "[{\"regression\":\"item\"}]"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/access/ai-controls/mcp/servers",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "268",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "auth_type": "oauth",
+          "hostname": "example.com",
+          "id": "0123456789abcdef0123456789abcdef",
+          "is_shared_oauth_callback_enabled": false,
+          "name": "regression value &/?+ü",
+          "secure_web_gateway": true,
+          "updated_prompts": [
+            {
+              "regression": "item"
+            }
+          ],
+          "updated_tools": [
+            {
+              "regression": "item"
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 7",
+    "argv": [
+      "mcp",
+      "servers",
+      "create",
+      "--auth-type",
+      "oauth",
+      "--hostname",
+      "example.com",
+      "--id",
+      "0123456789abcdef0123456789abcdef",
+      "--name",
+      "regression value &/?+ü",
+      "--auth-credentials",
+      "second value &/?+ü",
+      "--client-secret",
+      "second value &/?+ü",
+      "--description",
+      "192.0.2.1",
+      "--is-shared-oauth-callback-enabled=false"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/access/ai-controls/mcp/servers",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "292",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "auth_credentials": "second value &/?+ü",
+          "auth_type": "oauth",
+          "client_secret": "second value &/?+ü",
+          "description": "192.0.2.1",
+          "hostname": "example.com",
+          "id": "0123456789abcdef0123456789abcdef",
+          "is_shared_oauth_callback_enabled": false,
+          "name": "regression value &/?+ü",
+          "secure_web_gateway": false
+        }
+      }
+    ]
+  },
+  {
+    "case": "global quiet",
+    "argv": [
+      "mcp",
+      "servers",
+      "create",
+      "--auth-type",
+      "oauth",
+      "--hostname",
+      "example.com",
+      "--id",
+      "0123456789abcdef0123456789abcdef",
+      "--name",
+      "regression value &/?+ü",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--quiet"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/access/ai-controls/mcp/servers",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "global zone",
+    "argv": [
+      "mcp",
+      "servers",
+      "create",
+      "--auth-type",
+      "oauth",
+      "--hostname",
+      "example.com",
+      "--id",
+      "0123456789abcdef0123456789abcdef",
+      "--name",
+      "regression value &/?+ü",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--zone",
+      "abcdef0123456789abcdef0123456789"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/access/ai-controls/mcp/servers",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "global profile and mode",
+    "argv": [
+      "mcp",
+      "servers",
+      "create",
+      "--auth-type",
+      "oauth",
+      "--hostname",
+      "example.com",
+      "--id",
+      "0123456789abcdef0123456789abcdef",
+      "--name",
+      "regression value &/?+ü",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--profile",
+      "default",
+      "--mode",
+      "regression"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/access/ai-controls/mcp/servers",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "local",
+    "argv": [
+      "mcp",
+      "servers",
+      "create",
+      "--auth-type",
+      "oauth",
+      "--hostname",
+      "example.com",
+      "--id",
+      "0123456789abcdef0123456789abcdef",
+      "--name",
+      "regression value &/?+ü",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--local"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "http://localhost/cdn-cgi/local/explorer/api/access/ai-controls/mcp/servers",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "gzip, deflate",
+          "accept-language": "*",
+          "connection": "keep-alive",
+          "content-type": "application/json",
+          "host": "localhost",
+          "sec-fetch-mode": "cors",
+          "transfer-encoding": "chunked",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "local with persistence",
+    "argv": [
+      "mcp",
+      "servers",
+      "create",
+      "--auth-type",
+      "oauth",
+      "--hostname",
+      "example.com",
+      "--id",
+      "0123456789abcdef0123456789abcdef",
+      "--name",
+      "regression value &/?+ü",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--local",
+      "--persist-to",
+      "regression-state"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "http://localhost/cdn-cgi/local/explorer/api/access/ai-controls/mcp/servers",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "gzip, deflate",
+          "accept-language": "*",
+          "connection": "keep-alive",
+          "content-type": "application/json",
+          "host": "localhost",
+          "sec-fetch-mode": "cors",
+          "transfer-encoding": "chunked",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "dry-run",
+    "argv": [
+      "mcp",
+      "servers",
+      "create",
+      "--auth-type",
+      "oauth",
+      "--hostname",
+      "example.com",
+      "--id",
+      "0123456789abcdef0123456789abcdef",
+      "--name",
+      "regression value &/?+ü",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--dry-run"
+    ],
+    "exitCode": 0,
+    "requests": []
+  },
+  {
+    "case": "body from file",
+    "argv": [
+      "mcp",
+      "servers",
+      "create",
+      "--auth-type",
+      "oauth",
+      "--hostname",
+      "example.com",
+      "--id",
+      "0123456789abcdef0123456789abcdef",
+      "--name",
+      "regression value &/?+ü",
+      "--body",
+      "@<body.json>"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/access/ai-controls/mcp/servers",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "array body",
+    "argv": [
+      "mcp",
+      "servers",
+      "create",
+      "--auth-type",
+      "oauth",
+      "--hostname",
+      "example.com",
+      "--id",
+      "0123456789abcdef0123456789abcdef",
+      "--name",
+      "regression value &/?+ü",
+      "--body",
+      "[{\"regression\":\"first\"},{\"regression\":\"second\"}]"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/access/ai-controls/mcp/servers",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "56",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "0": {
+            "regression": "first"
+          },
+          "1": {
+            "regression": "second"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "field flags",
+    "argv": [
+      "mcp",
+      "servers",
+      "create",
+      "--auth-type",
+      "oauth",
+      "--hostname",
+      "example.com",
+      "--id",
+      "0123456789abcdef0123456789abcdef",
+      "--name",
+      "regression value &/?+ü",
+      "--auth-credentials",
+      "regression value &/?+ü",
+      "--client-secret",
+      "regression value &/?+ü",
+      "--description",
+      "192.0.2.1",
+      "--is-shared-oauth-callback-enabled=true",
+      "--secure-web-gateway=true",
+      "--updated-prompts",
+      "[{\"regression\":\"item\"}]",
+      "--updated-tools",
+      "[{\"regression\":\"item\"}]"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/access/ai-controls/mcp/servers",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "380",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "auth_credentials": "regression value &/?+ü",
+          "auth_type": "oauth",
+          "client_secret": "regression value &/?+ü",
+          "description": "192.0.2.1",
+          "hostname": "example.com",
+          "id": "0123456789abcdef0123456789abcdef",
+          "is_shared_oauth_callback_enabled": true,
+          "name": "regression value &/?+ü",
+          "secure_web_gateway": true,
+          "updated_prompts": [
+            {
+              "regression": "item"
+            }
+          ],
+          "updated_tools": [
+            {
+              "regression": "item"
+            }
+          ]
+        }
+      }
+    ]
+  }
+]

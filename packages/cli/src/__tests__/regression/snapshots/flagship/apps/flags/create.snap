@@ -1,0 +1,931 @@
+[
+  {
+    "case": "no-args",
+    "argv": [
+      "flagship",
+      "apps",
+      "flags",
+      "create"
+    ],
+    "exitCode": 1,
+    "error": "Not enough non-option arguments: got 0, need at least 1",
+    "requests": []
+  },
+  {
+    "case": "required",
+    "argv": [
+      "flagship",
+      "apps",
+      "flags",
+      "create",
+      "0123456789abcdef0123456789abcdef",
+      "--default-variation",
+      "regression value &/?+ü",
+      "--enabled=true",
+      "--key",
+      "regression value &/?+ü",
+      "--rules",
+      "[{\"regression\":\"item\"}]",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/flagship/apps/0123456789abcdef0123456789abcdef/flags",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --description",
+    "argv": [
+      "flagship",
+      "apps",
+      "flags",
+      "create",
+      "0123456789abcdef0123456789abcdef",
+      "--default-variation",
+      "regression value &/?+ü",
+      "--enabled=true",
+      "--key",
+      "regression value &/?+ü",
+      "--rules",
+      "[{\"regression\":\"item\"}]",
+      "--description",
+      "192.0.2.1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/flagship/apps/0123456789abcdef0123456789abcdef/flags",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "152",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "default_variation": "regression value &/?+ü",
+          "description": "192.0.2.1",
+          "enabled": true,
+          "key": "regression value &/?+ü",
+          "rules": [
+            {
+              "regression": "item"
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --type",
+    "argv": [
+      "flagship",
+      "apps",
+      "flags",
+      "create",
+      "0123456789abcdef0123456789abcdef",
+      "--default-variation",
+      "regression value &/?+ü",
+      "--enabled=true",
+      "--key",
+      "regression value &/?+ü",
+      "--rules",
+      "[{\"regression\":\"item\"}]",
+      "--type",
+      "boolean"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/flagship/apps/0123456789abcdef0123456789abcdef/flags",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "143",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "default_variation": "regression value &/?+ü",
+          "enabled": true,
+          "key": "regression value &/?+ü",
+          "rules": [
+            {
+              "regression": "item"
+            }
+          ],
+          "type": "boolean"
+        }
+      }
+    ]
+  },
+  {
+    "case": "--type value 1",
+    "argv": [
+      "flagship",
+      "apps",
+      "flags",
+      "create",
+      "0123456789abcdef0123456789abcdef",
+      "--default-variation",
+      "regression value &/?+ü",
+      "--enabled=true",
+      "--key",
+      "regression value &/?+ü",
+      "--rules",
+      "[{\"regression\":\"item\"}]",
+      "--type",
+      "string"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/flagship/apps/0123456789abcdef0123456789abcdef/flags",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "142",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "default_variation": "regression value &/?+ü",
+          "enabled": true,
+          "key": "regression value &/?+ü",
+          "rules": [
+            {
+              "regression": "item"
+            }
+          ],
+          "type": "string"
+        }
+      }
+    ]
+  },
+  {
+    "case": "--type value 2",
+    "argv": [
+      "flagship",
+      "apps",
+      "flags",
+      "create",
+      "0123456789abcdef0123456789abcdef",
+      "--default-variation",
+      "regression value &/?+ü",
+      "--enabled=true",
+      "--key",
+      "regression value &/?+ü",
+      "--rules",
+      "[{\"regression\":\"item\"}]",
+      "--type",
+      "number"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/flagship/apps/0123456789abcdef0123456789abcdef/flags",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "142",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "default_variation": "regression value &/?+ü",
+          "enabled": true,
+          "key": "regression value &/?+ü",
+          "rules": [
+            {
+              "regression": "item"
+            }
+          ],
+          "type": "number"
+        }
+      }
+    ]
+  },
+  {
+    "case": "--type value 3",
+    "argv": [
+      "flagship",
+      "apps",
+      "flags",
+      "create",
+      "0123456789abcdef0123456789abcdef",
+      "--default-variation",
+      "regression value &/?+ü",
+      "--enabled=true",
+      "--key",
+      "regression value &/?+ü",
+      "--rules",
+      "[{\"regression\":\"item\"}]",
+      "--type",
+      "json"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/flagship/apps/0123456789abcdef0123456789abcdef/flags",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "140",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "default_variation": "regression value &/?+ü",
+          "enabled": true,
+          "key": "regression value &/?+ü",
+          "rules": [
+            {
+              "regression": "item"
+            }
+          ],
+          "type": "json"
+        }
+      }
+    ]
+  },
+  {
+    "case": "required --enabled value 1",
+    "argv": [
+      "flagship",
+      "apps",
+      "flags",
+      "create",
+      "0123456789abcdef0123456789abcdef",
+      "--default-variation",
+      "regression value &/?+ü",
+      "--key",
+      "regression value &/?+ü",
+      "--rules",
+      "[{\"regression\":\"item\"}]",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--enabled=false"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/flagship/apps/0123456789abcdef0123456789abcdef/flags",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 0",
+    "argv": [
+      "flagship",
+      "apps",
+      "flags",
+      "create",
+      "0123456789abcdef0123456789abcdef",
+      "--default-variation",
+      "regression value &/?+ü",
+      "--enabled=true",
+      "--key",
+      "regression value &/?+ü",
+      "--rules",
+      "[{\"regression\":\"item\"}]"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/flagship/apps/0123456789abcdef0123456789abcdef/flags",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "126",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "default_variation": "regression value &/?+ü",
+          "enabled": true,
+          "key": "regression value &/?+ü",
+          "rules": [
+            {
+              "regression": "item"
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 1",
+    "argv": [
+      "flagship",
+      "apps",
+      "flags",
+      "create",
+      "0123456789abcdef0123456789abcdef",
+      "--default-variation",
+      "regression value &/?+ü",
+      "--enabled=true",
+      "--key",
+      "regression value &/?+ü",
+      "--rules",
+      "[{\"regression\":\"item\"}]",
+      "--description",
+      "192.0.2.1",
+      "--type",
+      "string"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/flagship/apps/0123456789abcdef0123456789abcdef/flags",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "168",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "default_variation": "regression value &/?+ü",
+          "description": "192.0.2.1",
+          "enabled": true,
+          "key": "regression value &/?+ü",
+          "rules": [
+            {
+              "regression": "item"
+            }
+          ],
+          "type": "string"
+        }
+      }
+    ]
+  },
+  {
+    "case": "global quiet",
+    "argv": [
+      "flagship",
+      "apps",
+      "flags",
+      "create",
+      "0123456789abcdef0123456789abcdef",
+      "--default-variation",
+      "regression value &/?+ü",
+      "--enabled=true",
+      "--key",
+      "regression value &/?+ü",
+      "--rules",
+      "[{\"regression\":\"item\"}]",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--quiet"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/flagship/apps/0123456789abcdef0123456789abcdef/flags",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "global zone",
+    "argv": [
+      "flagship",
+      "apps",
+      "flags",
+      "create",
+      "0123456789abcdef0123456789abcdef",
+      "--default-variation",
+      "regression value &/?+ü",
+      "--enabled=true",
+      "--key",
+      "regression value &/?+ü",
+      "--rules",
+      "[{\"regression\":\"item\"}]",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--zone",
+      "abcdef0123456789abcdef0123456789"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/flagship/apps/0123456789abcdef0123456789abcdef/flags",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "global profile and mode",
+    "argv": [
+      "flagship",
+      "apps",
+      "flags",
+      "create",
+      "0123456789abcdef0123456789abcdef",
+      "--default-variation",
+      "regression value &/?+ü",
+      "--enabled=true",
+      "--key",
+      "regression value &/?+ü",
+      "--rules",
+      "[{\"regression\":\"item\"}]",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--profile",
+      "default",
+      "--mode",
+      "regression"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/flagship/apps/0123456789abcdef0123456789abcdef/flags",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "local",
+    "argv": [
+      "flagship",
+      "apps",
+      "flags",
+      "create",
+      "0123456789abcdef0123456789abcdef",
+      "--default-variation",
+      "regression value &/?+ü",
+      "--enabled=true",
+      "--key",
+      "regression value &/?+ü",
+      "--rules",
+      "[{\"regression\":\"item\"}]",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--local"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "http://localhost/cdn-cgi/local/explorer/api/flagship/apps/0123456789abcdef0123456789abcdef/flags",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "gzip, deflate",
+          "accept-language": "*",
+          "connection": "keep-alive",
+          "content-type": "application/json",
+          "host": "localhost",
+          "sec-fetch-mode": "cors",
+          "transfer-encoding": "chunked",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "local with persistence",
+    "argv": [
+      "flagship",
+      "apps",
+      "flags",
+      "create",
+      "0123456789abcdef0123456789abcdef",
+      "--default-variation",
+      "regression value &/?+ü",
+      "--enabled=true",
+      "--key",
+      "regression value &/?+ü",
+      "--rules",
+      "[{\"regression\":\"item\"}]",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--local",
+      "--persist-to",
+      "regression-state"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "http://localhost/cdn-cgi/local/explorer/api/flagship/apps/0123456789abcdef0123456789abcdef/flags",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "gzip, deflate",
+          "accept-language": "*",
+          "connection": "keep-alive",
+          "content-type": "application/json",
+          "host": "localhost",
+          "sec-fetch-mode": "cors",
+          "transfer-encoding": "chunked",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "dry-run",
+    "argv": [
+      "flagship",
+      "apps",
+      "flags",
+      "create",
+      "0123456789abcdef0123456789abcdef",
+      "--default-variation",
+      "regression value &/?+ü",
+      "--enabled=true",
+      "--key",
+      "regression value &/?+ü",
+      "--rules",
+      "[{\"regression\":\"item\"}]",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--dry-run"
+    ],
+    "exitCode": 0,
+    "requests": []
+  },
+  {
+    "case": "body from file",
+    "argv": [
+      "flagship",
+      "apps",
+      "flags",
+      "create",
+      "0123456789abcdef0123456789abcdef",
+      "--default-variation",
+      "regression value &/?+ü",
+      "--enabled=true",
+      "--key",
+      "regression value &/?+ü",
+      "--rules",
+      "[{\"regression\":\"item\"}]",
+      "--body",
+      "@<body.json>"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/flagship/apps/0123456789abcdef0123456789abcdef/flags",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "array body",
+    "argv": [
+      "flagship",
+      "apps",
+      "flags",
+      "create",
+      "0123456789abcdef0123456789abcdef",
+      "--default-variation",
+      "regression value &/?+ü",
+      "--enabled=true",
+      "--key",
+      "regression value &/?+ü",
+      "--rules",
+      "[{\"regression\":\"item\"}]",
+      "--body",
+      "[{\"regression\":\"first\"},{\"regression\":\"second\"}]"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/flagship/apps/0123456789abcdef0123456789abcdef/flags",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "56",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "0": {
+            "regression": "first"
+          },
+          "1": {
+            "regression": "second"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "field flags",
+    "argv": [
+      "flagship",
+      "apps",
+      "flags",
+      "create",
+      "0123456789abcdef0123456789abcdef",
+      "--default-variation",
+      "regression value &/?+ü",
+      "--enabled=true",
+      "--key",
+      "regression value &/?+ü",
+      "--rules",
+      "[{\"regression\":\"item\"}]",
+      "--description",
+      "192.0.2.1",
+      "--type",
+      "boolean"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/flagship/apps/0123456789abcdef0123456789abcdef/flags",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "169",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "default_variation": "regression value &/?+ü",
+          "description": "192.0.2.1",
+          "enabled": true,
+          "key": "regression value &/?+ü",
+          "rules": [
+            {
+              "regression": "item"
+            }
+          ],
+          "type": "boolean"
+        }
+      }
+    ]
+  }
+]

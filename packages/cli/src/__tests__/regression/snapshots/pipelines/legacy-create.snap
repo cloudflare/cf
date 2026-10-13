@@ -1,0 +1,1861 @@
+[
+  {
+    "case": "no-args",
+    "argv": [
+      "pipelines",
+      "legacy-create"
+    ],
+    "exitCode": 1,
+    "error": "--destination-credentials-access-key-id is required. Pass --destination-credentials-access-key-id <value> or run interactively.",
+    "requests": []
+  },
+  {
+    "case": "required",
+    "argv": [
+      "pipelines",
+      "legacy-create",
+      "--destination-credentials-access-key-id",
+      "0123456789abcdef0123456789abcdef",
+      "--destination-credentials-endpoint",
+      "https://example.com/a?x=1&y=two",
+      "--destination-credentials-secret-access-key",
+      "regression value &/?+ü",
+      "--destination-format",
+      "json",
+      "--destination-path-bucket",
+      "regression value &/?+ü",
+      "--destination-type",
+      "r2",
+      "--name",
+      "regression value &/?+ü",
+      "--source",
+      "[{\"regression\":\"item\"}]",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/pipelines",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --destination-batch-max-bytes",
+    "argv": [
+      "pipelines",
+      "legacy-create",
+      "--destination-credentials-access-key-id",
+      "0123456789abcdef0123456789abcdef",
+      "--destination-credentials-endpoint",
+      "https://example.com/a?x=1&y=two",
+      "--destination-credentials-secret-access-key",
+      "regression value &/?+ü",
+      "--destination-format",
+      "json",
+      "--destination-path-bucket",
+      "regression value &/?+ü",
+      "--destination-type",
+      "r2",
+      "--name",
+      "regression value &/?+ü",
+      "--source",
+      "[{\"regression\":\"item\"}]",
+      "--destination-batch-max-bytes",
+      "1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/pipelines",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "408",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "destination": {
+            "batch": {
+              "max_bytes": 1,
+              "max_duration_s": 300,
+              "max_rows": 10000000
+            },
+            "compression": {
+              "type": "gzip"
+            },
+            "credentials": {
+              "access_key_id": "0123456789abcdef0123456789abcdef",
+              "endpoint": "https://example.com/a?x=1&y=two",
+              "secret_access_key": "regression value &/?+ü"
+            },
+            "format": "json",
+            "path": {
+              "bucket": "regression value &/?+ü"
+            },
+            "type": "r2"
+          },
+          "name": "regression value &/?+ü",
+          "source": [
+            {
+              "regression": "item"
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --destination-batch-max-duration-s",
+    "argv": [
+      "pipelines",
+      "legacy-create",
+      "--destination-credentials-access-key-id",
+      "0123456789abcdef0123456789abcdef",
+      "--destination-credentials-endpoint",
+      "https://example.com/a?x=1&y=two",
+      "--destination-credentials-secret-access-key",
+      "regression value &/?+ü",
+      "--destination-format",
+      "json",
+      "--destination-path-bucket",
+      "regression value &/?+ü",
+      "--destination-type",
+      "r2",
+      "--name",
+      "regression value &/?+ü",
+      "--source",
+      "[{\"regression\":\"item\"}]",
+      "--destination-batch-max-duration-s",
+      "1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/pipelines",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "414",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "destination": {
+            "batch": {
+              "max_bytes": 100000000,
+              "max_duration_s": 1,
+              "max_rows": 10000000
+            },
+            "compression": {
+              "type": "gzip"
+            },
+            "credentials": {
+              "access_key_id": "0123456789abcdef0123456789abcdef",
+              "endpoint": "https://example.com/a?x=1&y=two",
+              "secret_access_key": "regression value &/?+ü"
+            },
+            "format": "json",
+            "path": {
+              "bucket": "regression value &/?+ü"
+            },
+            "type": "r2"
+          },
+          "name": "regression value &/?+ü",
+          "source": [
+            {
+              "regression": "item"
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --destination-batch-max-rows",
+    "argv": [
+      "pipelines",
+      "legacy-create",
+      "--destination-credentials-access-key-id",
+      "0123456789abcdef0123456789abcdef",
+      "--destination-credentials-endpoint",
+      "https://example.com/a?x=1&y=two",
+      "--destination-credentials-secret-access-key",
+      "regression value &/?+ü",
+      "--destination-format",
+      "json",
+      "--destination-path-bucket",
+      "regression value &/?+ü",
+      "--destination-type",
+      "r2",
+      "--name",
+      "regression value &/?+ü",
+      "--source",
+      "[{\"regression\":\"item\"}]",
+      "--destination-batch-max-rows",
+      "1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/pipelines",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "409",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "destination": {
+            "batch": {
+              "max_bytes": 100000000,
+              "max_duration_s": 300,
+              "max_rows": 1
+            },
+            "compression": {
+              "type": "gzip"
+            },
+            "credentials": {
+              "access_key_id": "0123456789abcdef0123456789abcdef",
+              "endpoint": "https://example.com/a?x=1&y=two",
+              "secret_access_key": "regression value &/?+ü"
+            },
+            "format": "json",
+            "path": {
+              "bucket": "regression value &/?+ü"
+            },
+            "type": "r2"
+          },
+          "name": "regression value &/?+ü",
+          "source": [
+            {
+              "regression": "item"
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --destination-compression-type",
+    "argv": [
+      "pipelines",
+      "legacy-create",
+      "--destination-credentials-access-key-id",
+      "0123456789abcdef0123456789abcdef",
+      "--destination-credentials-endpoint",
+      "https://example.com/a?x=1&y=two",
+      "--destination-credentials-secret-access-key",
+      "regression value &/?+ü",
+      "--destination-format",
+      "json",
+      "--destination-path-bucket",
+      "regression value &/?+ü",
+      "--destination-type",
+      "r2",
+      "--name",
+      "regression value &/?+ü",
+      "--source",
+      "[{\"regression\":\"item\"}]",
+      "--destination-compression-type",
+      "none"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/pipelines",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "416",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "destination": {
+            "batch": {
+              "max_bytes": 100000000,
+              "max_duration_s": 300,
+              "max_rows": 10000000
+            },
+            "compression": {
+              "type": "none"
+            },
+            "credentials": {
+              "access_key_id": "0123456789abcdef0123456789abcdef",
+              "endpoint": "https://example.com/a?x=1&y=two",
+              "secret_access_key": "regression value &/?+ü"
+            },
+            "format": "json",
+            "path": {
+              "bucket": "regression value &/?+ü"
+            },
+            "type": "r2"
+          },
+          "name": "regression value &/?+ü",
+          "source": [
+            {
+              "regression": "item"
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "--destination-compression-type value 1",
+    "argv": [
+      "pipelines",
+      "legacy-create",
+      "--destination-credentials-access-key-id",
+      "0123456789abcdef0123456789abcdef",
+      "--destination-credentials-endpoint",
+      "https://example.com/a?x=1&y=two",
+      "--destination-credentials-secret-access-key",
+      "regression value &/?+ü",
+      "--destination-format",
+      "json",
+      "--destination-path-bucket",
+      "regression value &/?+ü",
+      "--destination-type",
+      "r2",
+      "--name",
+      "regression value &/?+ü",
+      "--source",
+      "[{\"regression\":\"item\"}]",
+      "--destination-compression-type",
+      "gzip"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/pipelines",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "416",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "destination": {
+            "batch": {
+              "max_bytes": 100000000,
+              "max_duration_s": 300,
+              "max_rows": 10000000
+            },
+            "compression": {
+              "type": "gzip"
+            },
+            "credentials": {
+              "access_key_id": "0123456789abcdef0123456789abcdef",
+              "endpoint": "https://example.com/a?x=1&y=two",
+              "secret_access_key": "regression value &/?+ü"
+            },
+            "format": "json",
+            "path": {
+              "bucket": "regression value &/?+ü"
+            },
+            "type": "r2"
+          },
+          "name": "regression value &/?+ü",
+          "source": [
+            {
+              "regression": "item"
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "--destination-compression-type value 2",
+    "argv": [
+      "pipelines",
+      "legacy-create",
+      "--destination-credentials-access-key-id",
+      "0123456789abcdef0123456789abcdef",
+      "--destination-credentials-endpoint",
+      "https://example.com/a?x=1&y=two",
+      "--destination-credentials-secret-access-key",
+      "regression value &/?+ü",
+      "--destination-format",
+      "json",
+      "--destination-path-bucket",
+      "regression value &/?+ü",
+      "--destination-type",
+      "r2",
+      "--name",
+      "regression value &/?+ü",
+      "--source",
+      "[{\"regression\":\"item\"}]",
+      "--destination-compression-type",
+      "deflate"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/pipelines",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "419",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "destination": {
+            "batch": {
+              "max_bytes": 100000000,
+              "max_duration_s": 300,
+              "max_rows": 10000000
+            },
+            "compression": {
+              "type": "deflate"
+            },
+            "credentials": {
+              "access_key_id": "0123456789abcdef0123456789abcdef",
+              "endpoint": "https://example.com/a?x=1&y=two",
+              "secret_access_key": "regression value &/?+ü"
+            },
+            "format": "json",
+            "path": {
+              "bucket": "regression value &/?+ü"
+            },
+            "type": "r2"
+          },
+          "name": "regression value &/?+ü",
+          "source": [
+            {
+              "regression": "item"
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --destination-path-filepath",
+    "argv": [
+      "pipelines",
+      "legacy-create",
+      "--destination-credentials-access-key-id",
+      "0123456789abcdef0123456789abcdef",
+      "--destination-credentials-endpoint",
+      "https://example.com/a?x=1&y=two",
+      "--destination-credentials-secret-access-key",
+      "regression value &/?+ü",
+      "--destination-format",
+      "json",
+      "--destination-path-bucket",
+      "regression value &/?+ü",
+      "--destination-type",
+      "r2",
+      "--name",
+      "regression value &/?+ü",
+      "--source",
+      "[{\"regression\":\"item\"}]",
+      "--destination-path-filepath",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/pipelines",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "453",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "destination": {
+            "batch": {
+              "max_bytes": 100000000,
+              "max_duration_s": 300,
+              "max_rows": 10000000
+            },
+            "compression": {
+              "type": "gzip"
+            },
+            "credentials": {
+              "access_key_id": "0123456789abcdef0123456789abcdef",
+              "endpoint": "https://example.com/a?x=1&y=two",
+              "secret_access_key": "regression value &/?+ü"
+            },
+            "format": "json",
+            "path": {
+              "bucket": "regression value &/?+ü",
+              "filepath": "regression value &/?+ü"
+            },
+            "type": "r2"
+          },
+          "name": "regression value &/?+ü",
+          "source": [
+            {
+              "regression": "item"
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --destination-path-prefix",
+    "argv": [
+      "pipelines",
+      "legacy-create",
+      "--destination-credentials-access-key-id",
+      "0123456789abcdef0123456789abcdef",
+      "--destination-credentials-endpoint",
+      "https://example.com/a?x=1&y=two",
+      "--destination-credentials-secret-access-key",
+      "regression value &/?+ü",
+      "--destination-format",
+      "json",
+      "--destination-path-bucket",
+      "regression value &/?+ü",
+      "--destination-type",
+      "r2",
+      "--name",
+      "regression value &/?+ü",
+      "--source",
+      "[{\"regression\":\"item\"}]",
+      "--destination-path-prefix",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/pipelines",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "451",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "destination": {
+            "batch": {
+              "max_bytes": 100000000,
+              "max_duration_s": 300,
+              "max_rows": 10000000
+            },
+            "compression": {
+              "type": "gzip"
+            },
+            "credentials": {
+              "access_key_id": "0123456789abcdef0123456789abcdef",
+              "endpoint": "https://example.com/a?x=1&y=two",
+              "secret_access_key": "regression value &/?+ü"
+            },
+            "format": "json",
+            "path": {
+              "bucket": "regression value &/?+ü",
+              "prefix": "regression value &/?+ü"
+            },
+            "type": "r2"
+          },
+          "name": "regression value &/?+ü",
+          "source": [
+            {
+              "regression": "item"
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 0",
+    "argv": [
+      "pipelines",
+      "legacy-create",
+      "--destination-credentials-access-key-id",
+      "0123456789abcdef0123456789abcdef",
+      "--destination-credentials-endpoint",
+      "https://example.com/a?x=1&y=two",
+      "--destination-credentials-secret-access-key",
+      "regression value &/?+ü",
+      "--destination-format",
+      "json",
+      "--destination-path-bucket",
+      "regression value &/?+ü",
+      "--destination-type",
+      "r2",
+      "--name",
+      "regression value &/?+ü",
+      "--source",
+      "[{\"regression\":\"item\"}]"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/pipelines",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "416",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "destination": {
+            "batch": {
+              "max_bytes": 100000000,
+              "max_duration_s": 300,
+              "max_rows": 10000000
+            },
+            "compression": {
+              "type": "gzip"
+            },
+            "credentials": {
+              "access_key_id": "0123456789abcdef0123456789abcdef",
+              "endpoint": "https://example.com/a?x=1&y=two",
+              "secret_access_key": "regression value &/?+ü"
+            },
+            "format": "json",
+            "path": {
+              "bucket": "regression value &/?+ü"
+            },
+            "type": "r2"
+          },
+          "name": "regression value &/?+ü",
+          "source": [
+            {
+              "regression": "item"
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 1",
+    "argv": [
+      "pipelines",
+      "legacy-create",
+      "--destination-credentials-access-key-id",
+      "0123456789abcdef0123456789abcdef",
+      "--destination-credentials-endpoint",
+      "https://example.com/a?x=1&y=two",
+      "--destination-credentials-secret-access-key",
+      "regression value &/?+ü",
+      "--destination-format",
+      "json",
+      "--destination-path-bucket",
+      "regression value &/?+ü",
+      "--destination-type",
+      "r2",
+      "--name",
+      "regression value &/?+ü",
+      "--source",
+      "[{\"regression\":\"item\"}]",
+      "--destination-batch-max-bytes",
+      "2",
+      "--destination-batch-max-duration-s",
+      "2",
+      "--destination-batch-max-rows",
+      "2",
+      "--destination-compression-type",
+      "gzip",
+      "--destination-path-filepath",
+      "second value &/?+ü",
+      "--destination-path-prefix",
+      "second value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/pipelines",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "463",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "destination": {
+            "batch": {
+              "max_bytes": 2,
+              "max_duration_s": 2,
+              "max_rows": 2
+            },
+            "compression": {
+              "type": "gzip"
+            },
+            "credentials": {
+              "access_key_id": "0123456789abcdef0123456789abcdef",
+              "endpoint": "https://example.com/a?x=1&y=two",
+              "secret_access_key": "regression value &/?+ü"
+            },
+            "format": "json",
+            "path": {
+              "bucket": "regression value &/?+ü",
+              "filepath": "second value &/?+ü",
+              "prefix": "second value &/?+ü"
+            },
+            "type": "r2"
+          },
+          "name": "regression value &/?+ü",
+          "source": [
+            {
+              "regression": "item"
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 2",
+    "argv": [
+      "pipelines",
+      "legacy-create",
+      "--destination-credentials-access-key-id",
+      "0123456789abcdef0123456789abcdef",
+      "--destination-credentials-endpoint",
+      "https://example.com/a?x=1&y=two",
+      "--destination-credentials-secret-access-key",
+      "regression value &/?+ü",
+      "--destination-format",
+      "json",
+      "--destination-path-bucket",
+      "regression value &/?+ü",
+      "--destination-type",
+      "r2",
+      "--name",
+      "regression value &/?+ü",
+      "--source",
+      "[{\"regression\":\"item\"}]",
+      "--destination-batch-max-duration-s",
+      "1",
+      "--destination-compression-type",
+      "none",
+      "--destination-path-prefix",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/pipelines",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "449",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "destination": {
+            "batch": {
+              "max_bytes": 100000000,
+              "max_duration_s": 1,
+              "max_rows": 10000000
+            },
+            "compression": {
+              "type": "none"
+            },
+            "credentials": {
+              "access_key_id": "0123456789abcdef0123456789abcdef",
+              "endpoint": "https://example.com/a?x=1&y=two",
+              "secret_access_key": "regression value &/?+ü"
+            },
+            "format": "json",
+            "path": {
+              "bucket": "regression value &/?+ü",
+              "prefix": "regression value &/?+ü"
+            },
+            "type": "r2"
+          },
+          "name": "regression value &/?+ü",
+          "source": [
+            {
+              "regression": "item"
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 3",
+    "argv": [
+      "pipelines",
+      "legacy-create",
+      "--destination-credentials-access-key-id",
+      "0123456789abcdef0123456789abcdef",
+      "--destination-credentials-endpoint",
+      "https://example.com/a?x=1&y=two",
+      "--destination-credentials-secret-access-key",
+      "regression value &/?+ü",
+      "--destination-format",
+      "json",
+      "--destination-path-bucket",
+      "regression value &/?+ü",
+      "--destination-type",
+      "r2",
+      "--name",
+      "regression value &/?+ü",
+      "--source",
+      "[{\"regression\":\"item\"}]",
+      "--destination-batch-max-bytes",
+      "2",
+      "--destination-batch-max-rows",
+      "2",
+      "--destination-path-filepath",
+      "second value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/pipelines",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "434",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "destination": {
+            "batch": {
+              "max_bytes": 2,
+              "max_duration_s": 300,
+              "max_rows": 2
+            },
+            "compression": {
+              "type": "gzip"
+            },
+            "credentials": {
+              "access_key_id": "0123456789abcdef0123456789abcdef",
+              "endpoint": "https://example.com/a?x=1&y=two",
+              "secret_access_key": "regression value &/?+ü"
+            },
+            "format": "json",
+            "path": {
+              "bucket": "regression value &/?+ü",
+              "filepath": "second value &/?+ü"
+            },
+            "type": "r2"
+          },
+          "name": "regression value &/?+ü",
+          "source": [
+            {
+              "regression": "item"
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 4",
+    "argv": [
+      "pipelines",
+      "legacy-create",
+      "--destination-credentials-access-key-id",
+      "0123456789abcdef0123456789abcdef",
+      "--destination-credentials-endpoint",
+      "https://example.com/a?x=1&y=two",
+      "--destination-credentials-secret-access-key",
+      "regression value &/?+ü",
+      "--destination-format",
+      "json",
+      "--destination-path-bucket",
+      "regression value &/?+ü",
+      "--destination-type",
+      "r2",
+      "--name",
+      "regression value &/?+ü",
+      "--source",
+      "[{\"regression\":\"item\"}]",
+      "--destination-batch-max-rows",
+      "1",
+      "--destination-compression-type",
+      "none"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/pipelines",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "409",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "destination": {
+            "batch": {
+              "max_bytes": 100000000,
+              "max_duration_s": 300,
+              "max_rows": 1
+            },
+            "compression": {
+              "type": "none"
+            },
+            "credentials": {
+              "access_key_id": "0123456789abcdef0123456789abcdef",
+              "endpoint": "https://example.com/a?x=1&y=two",
+              "secret_access_key": "regression value &/?+ü"
+            },
+            "format": "json",
+            "path": {
+              "bucket": "regression value &/?+ü"
+            },
+            "type": "r2"
+          },
+          "name": "regression value &/?+ü",
+          "source": [
+            {
+              "regression": "item"
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 5",
+    "argv": [
+      "pipelines",
+      "legacy-create",
+      "--destination-credentials-access-key-id",
+      "0123456789abcdef0123456789abcdef",
+      "--destination-credentials-endpoint",
+      "https://example.com/a?x=1&y=two",
+      "--destination-credentials-secret-access-key",
+      "regression value &/?+ü",
+      "--destination-format",
+      "json",
+      "--destination-path-bucket",
+      "regression value &/?+ü",
+      "--destination-type",
+      "r2",
+      "--name",
+      "regression value &/?+ü",
+      "--source",
+      "[{\"regression\":\"item\"}]",
+      "--destination-batch-max-bytes",
+      "2",
+      "--destination-batch-max-duration-s",
+      "2",
+      "--destination-path-filepath",
+      "second value &/?+ü",
+      "--destination-path-prefix",
+      "second value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/pipelines",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "470",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "destination": {
+            "batch": {
+              "max_bytes": 2,
+              "max_duration_s": 2,
+              "max_rows": 10000000
+            },
+            "compression": {
+              "type": "gzip"
+            },
+            "credentials": {
+              "access_key_id": "0123456789abcdef0123456789abcdef",
+              "endpoint": "https://example.com/a?x=1&y=two",
+              "secret_access_key": "regression value &/?+ü"
+            },
+            "format": "json",
+            "path": {
+              "bucket": "regression value &/?+ü",
+              "filepath": "second value &/?+ü",
+              "prefix": "second value &/?+ü"
+            },
+            "type": "r2"
+          },
+          "name": "regression value &/?+ü",
+          "source": [
+            {
+              "regression": "item"
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 6",
+    "argv": [
+      "pipelines",
+      "legacy-create",
+      "--destination-credentials-access-key-id",
+      "0123456789abcdef0123456789abcdef",
+      "--destination-credentials-endpoint",
+      "https://example.com/a?x=1&y=two",
+      "--destination-credentials-secret-access-key",
+      "regression value &/?+ü",
+      "--destination-format",
+      "json",
+      "--destination-path-bucket",
+      "regression value &/?+ü",
+      "--destination-type",
+      "r2",
+      "--name",
+      "regression value &/?+ü",
+      "--source",
+      "[{\"regression\":\"item\"}]",
+      "--destination-path-filepath",
+      "regression value &/?+ü",
+      "--destination-path-prefix",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/pipelines",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "488",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "destination": {
+            "batch": {
+              "max_bytes": 100000000,
+              "max_duration_s": 300,
+              "max_rows": 10000000
+            },
+            "compression": {
+              "type": "gzip"
+            },
+            "credentials": {
+              "access_key_id": "0123456789abcdef0123456789abcdef",
+              "endpoint": "https://example.com/a?x=1&y=two",
+              "secret_access_key": "regression value &/?+ü"
+            },
+            "format": "json",
+            "path": {
+              "bucket": "regression value &/?+ü",
+              "filepath": "regression value &/?+ü",
+              "prefix": "regression value &/?+ü"
+            },
+            "type": "r2"
+          },
+          "name": "regression value &/?+ü",
+          "source": [
+            {
+              "regression": "item"
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 7",
+    "argv": [
+      "pipelines",
+      "legacy-create",
+      "--destination-credentials-access-key-id",
+      "0123456789abcdef0123456789abcdef",
+      "--destination-credentials-endpoint",
+      "https://example.com/a?x=1&y=two",
+      "--destination-credentials-secret-access-key",
+      "regression value &/?+ü",
+      "--destination-format",
+      "json",
+      "--destination-path-bucket",
+      "regression value &/?+ü",
+      "--destination-type",
+      "r2",
+      "--name",
+      "regression value &/?+ü",
+      "--source",
+      "[{\"regression\":\"item\"}]",
+      "--destination-batch-max-bytes",
+      "2",
+      "--destination-batch-max-duration-s",
+      "2",
+      "--destination-batch-max-rows",
+      "2",
+      "--destination-compression-type",
+      "gzip"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/pipelines",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "399",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "destination": {
+            "batch": {
+              "max_bytes": 2,
+              "max_duration_s": 2,
+              "max_rows": 2
+            },
+            "compression": {
+              "type": "gzip"
+            },
+            "credentials": {
+              "access_key_id": "0123456789abcdef0123456789abcdef",
+              "endpoint": "https://example.com/a?x=1&y=two",
+              "secret_access_key": "regression value &/?+ü"
+            },
+            "format": "json",
+            "path": {
+              "bucket": "regression value &/?+ü"
+            },
+            "type": "r2"
+          },
+          "name": "regression value &/?+ü",
+          "source": [
+            {
+              "regression": "item"
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "global quiet",
+    "argv": [
+      "pipelines",
+      "legacy-create",
+      "--destination-credentials-access-key-id",
+      "0123456789abcdef0123456789abcdef",
+      "--destination-credentials-endpoint",
+      "https://example.com/a?x=1&y=two",
+      "--destination-credentials-secret-access-key",
+      "regression value &/?+ü",
+      "--destination-format",
+      "json",
+      "--destination-path-bucket",
+      "regression value &/?+ü",
+      "--destination-type",
+      "r2",
+      "--name",
+      "regression value &/?+ü",
+      "--source",
+      "[{\"regression\":\"item\"}]",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--quiet"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/pipelines",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "global zone",
+    "argv": [
+      "pipelines",
+      "legacy-create",
+      "--destination-credentials-access-key-id",
+      "0123456789abcdef0123456789abcdef",
+      "--destination-credentials-endpoint",
+      "https://example.com/a?x=1&y=two",
+      "--destination-credentials-secret-access-key",
+      "regression value &/?+ü",
+      "--destination-format",
+      "json",
+      "--destination-path-bucket",
+      "regression value &/?+ü",
+      "--destination-type",
+      "r2",
+      "--name",
+      "regression value &/?+ü",
+      "--source",
+      "[{\"regression\":\"item\"}]",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--zone",
+      "abcdef0123456789abcdef0123456789"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/pipelines",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "global profile and mode",
+    "argv": [
+      "pipelines",
+      "legacy-create",
+      "--destination-credentials-access-key-id",
+      "0123456789abcdef0123456789abcdef",
+      "--destination-credentials-endpoint",
+      "https://example.com/a?x=1&y=two",
+      "--destination-credentials-secret-access-key",
+      "regression value &/?+ü",
+      "--destination-format",
+      "json",
+      "--destination-path-bucket",
+      "regression value &/?+ü",
+      "--destination-type",
+      "r2",
+      "--name",
+      "regression value &/?+ü",
+      "--source",
+      "[{\"regression\":\"item\"}]",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--profile",
+      "default",
+      "--mode",
+      "regression"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/pipelines",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "local",
+    "argv": [
+      "pipelines",
+      "legacy-create",
+      "--destination-credentials-access-key-id",
+      "0123456789abcdef0123456789abcdef",
+      "--destination-credentials-endpoint",
+      "https://example.com/a?x=1&y=two",
+      "--destination-credentials-secret-access-key",
+      "regression value &/?+ü",
+      "--destination-format",
+      "json",
+      "--destination-path-bucket",
+      "regression value &/?+ü",
+      "--destination-type",
+      "r2",
+      "--name",
+      "regression value &/?+ü",
+      "--source",
+      "[{\"regression\":\"item\"}]",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--local"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "http://localhost/cdn-cgi/local/explorer/api/pipelines",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "gzip, deflate",
+          "accept-language": "*",
+          "connection": "keep-alive",
+          "content-type": "application/json",
+          "host": "localhost",
+          "sec-fetch-mode": "cors",
+          "transfer-encoding": "chunked",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "local with persistence",
+    "argv": [
+      "pipelines",
+      "legacy-create",
+      "--destination-credentials-access-key-id",
+      "0123456789abcdef0123456789abcdef",
+      "--destination-credentials-endpoint",
+      "https://example.com/a?x=1&y=two",
+      "--destination-credentials-secret-access-key",
+      "regression value &/?+ü",
+      "--destination-format",
+      "json",
+      "--destination-path-bucket",
+      "regression value &/?+ü",
+      "--destination-type",
+      "r2",
+      "--name",
+      "regression value &/?+ü",
+      "--source",
+      "[{\"regression\":\"item\"}]",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--local",
+      "--persist-to",
+      "regression-state"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "http://localhost/cdn-cgi/local/explorer/api/pipelines",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "gzip, deflate",
+          "accept-language": "*",
+          "connection": "keep-alive",
+          "content-type": "application/json",
+          "host": "localhost",
+          "sec-fetch-mode": "cors",
+          "transfer-encoding": "chunked",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "dry-run",
+    "argv": [
+      "pipelines",
+      "legacy-create",
+      "--destination-credentials-access-key-id",
+      "0123456789abcdef0123456789abcdef",
+      "--destination-credentials-endpoint",
+      "https://example.com/a?x=1&y=two",
+      "--destination-credentials-secret-access-key",
+      "regression value &/?+ü",
+      "--destination-format",
+      "json",
+      "--destination-path-bucket",
+      "regression value &/?+ü",
+      "--destination-type",
+      "r2",
+      "--name",
+      "regression value &/?+ü",
+      "--source",
+      "[{\"regression\":\"item\"}]",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--dry-run"
+    ],
+    "exitCode": 0,
+    "requests": []
+  },
+  {
+    "case": "body from file",
+    "argv": [
+      "pipelines",
+      "legacy-create",
+      "--destination-credentials-access-key-id",
+      "0123456789abcdef0123456789abcdef",
+      "--destination-credentials-endpoint",
+      "https://example.com/a?x=1&y=two",
+      "--destination-credentials-secret-access-key",
+      "regression value &/?+ü",
+      "--destination-format",
+      "json",
+      "--destination-path-bucket",
+      "regression value &/?+ü",
+      "--destination-type",
+      "r2",
+      "--name",
+      "regression value &/?+ü",
+      "--source",
+      "[{\"regression\":\"item\"}]",
+      "--body",
+      "@<body.json>"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/pipelines",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "array body",
+    "argv": [
+      "pipelines",
+      "legacy-create",
+      "--destination-credentials-access-key-id",
+      "0123456789abcdef0123456789abcdef",
+      "--destination-credentials-endpoint",
+      "https://example.com/a?x=1&y=two",
+      "--destination-credentials-secret-access-key",
+      "regression value &/?+ü",
+      "--destination-format",
+      "json",
+      "--destination-path-bucket",
+      "regression value &/?+ü",
+      "--destination-type",
+      "r2",
+      "--name",
+      "regression value &/?+ü",
+      "--source",
+      "[{\"regression\":\"item\"}]",
+      "--body",
+      "[{\"regression\":\"first\"},{\"regression\":\"second\"}]"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/pipelines",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "56",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "0": {
+            "regression": "first"
+          },
+          "1": {
+            "regression": "second"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "field flags",
+    "argv": [
+      "pipelines",
+      "legacy-create",
+      "--destination-credentials-access-key-id",
+      "0123456789abcdef0123456789abcdef",
+      "--destination-credentials-endpoint",
+      "https://example.com/a?x=1&y=two",
+      "--destination-credentials-secret-access-key",
+      "regression value &/?+ü",
+      "--destination-format",
+      "json",
+      "--destination-path-bucket",
+      "regression value &/?+ü",
+      "--destination-type",
+      "r2",
+      "--name",
+      "regression value &/?+ü",
+      "--source",
+      "[{\"regression\":\"item\"}]",
+      "--destination-batch-max-bytes",
+      "1",
+      "--destination-batch-max-duration-s",
+      "1",
+      "--destination-batch-max-rows",
+      "1",
+      "--destination-compression-type",
+      "none",
+      "--destination-path-filepath",
+      "regression value &/?+ü",
+      "--destination-path-prefix",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/pipelines",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "471",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "destination": {
+            "batch": {
+              "max_bytes": 1,
+              "max_duration_s": 1,
+              "max_rows": 1
+            },
+            "compression": {
+              "type": "none"
+            },
+            "credentials": {
+              "access_key_id": "0123456789abcdef0123456789abcdef",
+              "endpoint": "https://example.com/a?x=1&y=two",
+              "secret_access_key": "regression value &/?+ü"
+            },
+            "format": "json",
+            "path": {
+              "bucket": "regression value &/?+ü",
+              "filepath": "regression value &/?+ü",
+              "prefix": "regression value &/?+ü"
+            },
+            "type": "r2"
+          },
+          "name": "regression value &/?+ü",
+          "source": [
+            {
+              "regression": "item"
+            }
+          ]
+        }
+      }
+    ]
+  }
+]

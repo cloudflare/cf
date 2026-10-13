@@ -1,0 +1,100 @@
+[
+  {
+    "case": "no-args",
+    "argv": [
+      "auth",
+      "deactivate"
+    ],
+    "exitCode": 1,
+    "error": "Cannot manage auth profiles while CLOUDFLARE_API_TOKEN is set. Unset CLOUDFLARE_API_TOKEN and try again.",
+    "requests": []
+  },
+  {
+    "case": "required",
+    "argv": [
+      "auth",
+      "deactivate",
+      "project"
+    ],
+    "exitCode": 1,
+    "error": "Cannot manage auth profiles while CLOUDFLARE_API_TOKEN is set. Unset CLOUDFLARE_API_TOKEN and try again.",
+    "requests": []
+  },
+  {
+    "case": "global quiet",
+    "argv": [
+      "auth",
+      "deactivate",
+      "project",
+      "--quiet"
+    ],
+    "exitCode": 1,
+    "error": "Cannot manage auth profiles while CLOUDFLARE_API_TOKEN is set. Unset CLOUDFLARE_API_TOKEN and try again.",
+    "requests": []
+  },
+  {
+    "case": "global zone",
+    "argv": [
+      "auth",
+      "deactivate",
+      "project",
+      "--zone",
+      "abcdef0123456789abcdef0123456789"
+    ],
+    "exitCode": 1,
+    "error": "Cannot manage auth profiles while CLOUDFLARE_API_TOKEN is set. Unset CLOUDFLARE_API_TOKEN and try again.",
+    "requests": []
+  },
+  {
+    "case": "global profile and mode",
+    "argv": [
+      "auth",
+      "deactivate",
+      "project",
+      "--profile",
+      "default",
+      "--mode",
+      "regression"
+    ],
+    "exitCode": 1,
+    "error": "The --profile flag cannot be used with `cf auth deactivate`.",
+    "requests": []
+  },
+  {
+    "case": "local",
+    "argv": [
+      "auth",
+      "deactivate",
+      "project",
+      "--local"
+    ],
+    "exitCode": 1,
+    "error": "--local is not supported by cf auth.",
+    "requests": []
+  },
+  {
+    "case": "local with persistence",
+    "argv": [
+      "auth",
+      "deactivate",
+      "project",
+      "--local",
+      "--persist-to",
+      "regression-state"
+    ],
+    "exitCode": 1,
+    "error": "--local is not supported by cf auth.",
+    "requests": []
+  },
+  {
+    "case": "dry-run",
+    "argv": [
+      "auth",
+      "deactivate",
+      "project",
+      "--dry-run"
+    ],
+    "exitCode": 0,
+    "requests": []
+  }
+]

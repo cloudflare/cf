@@ -1,0 +1,1933 @@
+[
+  {
+    "case": "no-args",
+    "argv": [
+      "hyperdrive",
+      "replace"
+    ],
+    "exitCode": 1,
+    "error": "Not enough non-option arguments: got 0, need at least 1",
+    "requests": []
+  },
+  {
+    "case": "required",
+    "argv": [
+      "hyperdrive",
+      "replace",
+      "0123456789abcdef0123456789abcdef",
+      "--name",
+      "regression value &/?+ü",
+      "--origin-database",
+      "regression value &/?+ü",
+      "--origin-password",
+      "regression value &/?+ü",
+      "--origin-scheme",
+      "postgres",
+      "--origin-user",
+      "regression value &/?+ü",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/hyperdrive/configs/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --caching-disabled",
+    "argv": [
+      "hyperdrive",
+      "replace",
+      "0123456789abcdef0123456789abcdef",
+      "--name",
+      "regression value &/?+ü",
+      "--origin-database",
+      "regression value &/?+ü",
+      "--origin-password",
+      "regression value &/?+ü",
+      "--origin-scheme",
+      "postgres",
+      "--origin-user",
+      "regression value &/?+ü",
+      "--caching-disabled=true"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/hyperdrive/configs/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "200",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "caching": {
+            "disabled": true
+          },
+          "name": "regression value &/?+ü",
+          "origin": {
+            "database": "regression value &/?+ü",
+            "password": "regression value &/?+ü",
+            "scheme": "postgres",
+            "user": "regression value &/?+ü"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "--caching-disabled value 1",
+    "argv": [
+      "hyperdrive",
+      "replace",
+      "0123456789abcdef0123456789abcdef",
+      "--name",
+      "regression value &/?+ü",
+      "--origin-database",
+      "regression value &/?+ü",
+      "--origin-password",
+      "regression value &/?+ü",
+      "--origin-scheme",
+      "postgres",
+      "--origin-user",
+      "regression value &/?+ü",
+      "--caching-disabled=false"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/hyperdrive/configs/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "201",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "caching": {
+            "disabled": false
+          },
+          "name": "regression value &/?+ü",
+          "origin": {
+            "database": "regression value &/?+ü",
+            "password": "regression value &/?+ü",
+            "scheme": "postgres",
+            "user": "regression value &/?+ü"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --caching-max-age",
+    "argv": [
+      "hyperdrive",
+      "replace",
+      "0123456789abcdef0123456789abcdef",
+      "--name",
+      "regression value &/?+ü",
+      "--origin-database",
+      "regression value &/?+ü",
+      "--origin-password",
+      "regression value &/?+ü",
+      "--origin-scheme",
+      "postgres",
+      "--origin-user",
+      "regression value &/?+ü",
+      "--caching-max-age",
+      "1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/hyperdrive/configs/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "196",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "caching": {
+            "max_age": 1
+          },
+          "name": "regression value &/?+ü",
+          "origin": {
+            "database": "regression value &/?+ü",
+            "password": "regression value &/?+ü",
+            "scheme": "postgres",
+            "user": "regression value &/?+ü"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --caching-stale-while-revalidate",
+    "argv": [
+      "hyperdrive",
+      "replace",
+      "0123456789abcdef0123456789abcdef",
+      "--name",
+      "regression value &/?+ü",
+      "--origin-database",
+      "regression value &/?+ü",
+      "--origin-password",
+      "regression value &/?+ü",
+      "--origin-scheme",
+      "postgres",
+      "--origin-user",
+      "regression value &/?+ü",
+      "--caching-stale-while-revalidate",
+      "1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/hyperdrive/configs/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "211",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "caching": {
+            "stale_while_revalidate": 1
+          },
+          "name": "regression value &/?+ü",
+          "origin": {
+            "database": "regression value &/?+ü",
+            "password": "regression value &/?+ü",
+            "scheme": "postgres",
+            "user": "regression value &/?+ü"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --mtls-ca-certificate-id",
+    "argv": [
+      "hyperdrive",
+      "replace",
+      "0123456789abcdef0123456789abcdef",
+      "--name",
+      "regression value &/?+ü",
+      "--origin-database",
+      "regression value &/?+ü",
+      "--origin-password",
+      "regression value &/?+ü",
+      "--origin-scheme",
+      "postgres",
+      "--origin-user",
+      "regression value &/?+ü",
+      "--mtls-ca-certificate-id",
+      "0123456789abcdef0123456789abcdef"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/hyperdrive/configs/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "236",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "mtls": {
+            "ca_certificate_id": "0123456789abcdef0123456789abcdef"
+          },
+          "name": "regression value &/?+ü",
+          "origin": {
+            "database": "regression value &/?+ü",
+            "password": "regression value &/?+ü",
+            "scheme": "postgres",
+            "user": "regression value &/?+ü"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --mtls-certificate-id",
+    "argv": [
+      "hyperdrive",
+      "replace",
+      "0123456789abcdef0123456789abcdef",
+      "--name",
+      "regression value &/?+ü",
+      "--origin-database",
+      "regression value &/?+ü",
+      "--origin-password",
+      "regression value &/?+ü",
+      "--origin-scheme",
+      "postgres",
+      "--origin-user",
+      "regression value &/?+ü",
+      "--mtls-certificate-id",
+      "0123456789abcdef0123456789abcdef"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/hyperdrive/configs/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "238",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "mtls": {
+            "mtls_certificate_id": "0123456789abcdef0123456789abcdef"
+          },
+          "name": "regression value &/?+ü",
+          "origin": {
+            "database": "regression value &/?+ü",
+            "password": "regression value &/?+ü",
+            "scheme": "postgres",
+            "user": "regression value &/?+ü"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --mtls-sslmode",
+    "argv": [
+      "hyperdrive",
+      "replace",
+      "0123456789abcdef0123456789abcdef",
+      "--name",
+      "regression value &/?+ü",
+      "--origin-database",
+      "regression value &/?+ü",
+      "--origin-password",
+      "regression value &/?+ü",
+      "--origin-scheme",
+      "postgres",
+      "--origin-user",
+      "regression value &/?+ü",
+      "--mtls-sslmode",
+      "require"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/hyperdrive/configs/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "201",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "mtls": {
+            "sslmode": "require"
+          },
+          "name": "regression value &/?+ü",
+          "origin": {
+            "database": "regression value &/?+ü",
+            "password": "regression value &/?+ü",
+            "scheme": "postgres",
+            "user": "regression value &/?+ü"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "--mtls-sslmode value 1",
+    "argv": [
+      "hyperdrive",
+      "replace",
+      "0123456789abcdef0123456789abcdef",
+      "--name",
+      "regression value &/?+ü",
+      "--origin-database",
+      "regression value &/?+ü",
+      "--origin-password",
+      "regression value &/?+ü",
+      "--origin-scheme",
+      "postgres",
+      "--origin-user",
+      "regression value &/?+ü",
+      "--mtls-sslmode",
+      "verify-ca"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/hyperdrive/configs/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "203",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "mtls": {
+            "sslmode": "verify-ca"
+          },
+          "name": "regression value &/?+ü",
+          "origin": {
+            "database": "regression value &/?+ü",
+            "password": "regression value &/?+ü",
+            "scheme": "postgres",
+            "user": "regression value &/?+ü"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "--mtls-sslmode value 2",
+    "argv": [
+      "hyperdrive",
+      "replace",
+      "0123456789abcdef0123456789abcdef",
+      "--name",
+      "regression value &/?+ü",
+      "--origin-database",
+      "regression value &/?+ü",
+      "--origin-password",
+      "regression value &/?+ü",
+      "--origin-scheme",
+      "postgres",
+      "--origin-user",
+      "regression value &/?+ü",
+      "--mtls-sslmode",
+      "verify-full"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/hyperdrive/configs/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "205",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "mtls": {
+            "sslmode": "verify-full"
+          },
+          "name": "regression value &/?+ü",
+          "origin": {
+            "database": "regression value &/?+ü",
+            "password": "regression value &/?+ü",
+            "scheme": "postgres",
+            "user": "regression value &/?+ü"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "--mtls-sslmode value 3",
+    "argv": [
+      "hyperdrive",
+      "replace",
+      "0123456789abcdef0123456789abcdef",
+      "--name",
+      "regression value &/?+ü",
+      "--origin-database",
+      "regression value &/?+ü",
+      "--origin-password",
+      "regression value &/?+ü",
+      "--origin-scheme",
+      "postgres",
+      "--origin-user",
+      "regression value &/?+ü",
+      "--mtls-sslmode",
+      "REQUIRED"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/hyperdrive/configs/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "202",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "mtls": {
+            "sslmode": "REQUIRED"
+          },
+          "name": "regression value &/?+ü",
+          "origin": {
+            "database": "regression value &/?+ü",
+            "password": "regression value &/?+ü",
+            "scheme": "postgres",
+            "user": "regression value &/?+ü"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "--mtls-sslmode value 4",
+    "argv": [
+      "hyperdrive",
+      "replace",
+      "0123456789abcdef0123456789abcdef",
+      "--name",
+      "regression value &/?+ü",
+      "--origin-database",
+      "regression value &/?+ü",
+      "--origin-password",
+      "regression value &/?+ü",
+      "--origin-scheme",
+      "postgres",
+      "--origin-user",
+      "regression value &/?+ü",
+      "--mtls-sslmode",
+      "VERIFY_CA"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/hyperdrive/configs/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "203",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "mtls": {
+            "sslmode": "VERIFY_CA"
+          },
+          "name": "regression value &/?+ü",
+          "origin": {
+            "database": "regression value &/?+ü",
+            "password": "regression value &/?+ü",
+            "scheme": "postgres",
+            "user": "regression value &/?+ü"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "--mtls-sslmode value 5",
+    "argv": [
+      "hyperdrive",
+      "replace",
+      "0123456789abcdef0123456789abcdef",
+      "--name",
+      "regression value &/?+ü",
+      "--origin-database",
+      "regression value &/?+ü",
+      "--origin-password",
+      "regression value &/?+ü",
+      "--origin-scheme",
+      "postgres",
+      "--origin-user",
+      "regression value &/?+ü",
+      "--mtls-sslmode",
+      "VERIFY_IDENTITY"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/hyperdrive/configs/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "209",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "mtls": {
+            "sslmode": "VERIFY_IDENTITY"
+          },
+          "name": "regression value &/?+ü",
+          "origin": {
+            "database": "regression value &/?+ü",
+            "password": "regression value &/?+ü",
+            "scheme": "postgres",
+            "user": "regression value &/?+ü"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --origin-host",
+    "argv": [
+      "hyperdrive",
+      "replace",
+      "0123456789abcdef0123456789abcdef",
+      "--name",
+      "regression value &/?+ü",
+      "--origin-database",
+      "regression value &/?+ü",
+      "--origin-password",
+      "regression value &/?+ü",
+      "--origin-scheme",
+      "postgres",
+      "--origin-user",
+      "regression value &/?+ü",
+      "--origin-host",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/hyperdrive/configs/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "205",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "name": "regression value &/?+ü",
+          "origin": {
+            "database": "regression value &/?+ü",
+            "password": "regression value &/?+ü",
+            "scheme": "postgres",
+            "user": "regression value &/?+ü",
+            "host": "regression value &/?+ü"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --origin-port",
+    "argv": [
+      "hyperdrive",
+      "replace",
+      "0123456789abcdef0123456789abcdef",
+      "--name",
+      "regression value &/?+ü",
+      "--origin-database",
+      "regression value &/?+ü",
+      "--origin-password",
+      "regression value &/?+ü",
+      "--origin-scheme",
+      "postgres",
+      "--origin-user",
+      "regression value &/?+ü",
+      "--origin-port",
+      "1"
+    ],
+    "exitCode": 1,
+    "error": "Missing dependent arguments:\n origin-port -> origin-host",
+    "requests": []
+  },
+  {
+    "case": "only --origin-access-client-id",
+    "argv": [
+      "hyperdrive",
+      "replace",
+      "0123456789abcdef0123456789abcdef",
+      "--name",
+      "regression value &/?+ü",
+      "--origin-database",
+      "regression value &/?+ü",
+      "--origin-password",
+      "regression value &/?+ü",
+      "--origin-scheme",
+      "postgres",
+      "--origin-user",
+      "regression value &/?+ü",
+      "--origin-access-client-id",
+      "0123456789abcdef0123456789abcdef"
+    ],
+    "exitCode": 1,
+    "error": "Missing dependent arguments:\n origin-access-client-id -> origin-host origin-access-client-id -> origin-access-client-secret",
+    "requests": []
+  },
+  {
+    "case": "only --origin-access-client-secret",
+    "argv": [
+      "hyperdrive",
+      "replace",
+      "0123456789abcdef0123456789abcdef",
+      "--name",
+      "regression value &/?+ü",
+      "--origin-database",
+      "regression value &/?+ü",
+      "--origin-password",
+      "regression value &/?+ü",
+      "--origin-scheme",
+      "postgres",
+      "--origin-user",
+      "regression value &/?+ü",
+      "--origin-access-client-secret",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 1,
+    "error": "Missing dependent arguments:\n origin-access-client-secret -> origin-host origin-access-client-secret -> origin-access-client-id",
+    "requests": []
+  },
+  {
+    "case": "only --origin-service-id",
+    "argv": [
+      "hyperdrive",
+      "replace",
+      "0123456789abcdef0123456789abcdef",
+      "--name",
+      "regression value &/?+ü",
+      "--origin-database",
+      "regression value &/?+ü",
+      "--origin-password",
+      "regression value &/?+ü",
+      "--origin-scheme",
+      "postgres",
+      "--origin-user",
+      "regression value &/?+ü",
+      "--origin-service-id",
+      "0123456789abcdef0123456789abcdef"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/hyperdrive/configs/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "220",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "name": "regression value &/?+ü",
+          "origin": {
+            "database": "regression value &/?+ü",
+            "password": "regression value &/?+ü",
+            "scheme": "postgres",
+            "user": "regression value &/?+ü",
+            "service_id": "0123456789abcdef0123456789abcdef"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --origin-connection-limit",
+    "argv": [
+      "hyperdrive",
+      "replace",
+      "0123456789abcdef0123456789abcdef",
+      "--name",
+      "regression value &/?+ü",
+      "--origin-database",
+      "regression value &/?+ü",
+      "--origin-password",
+      "regression value &/?+ü",
+      "--origin-scheme",
+      "postgres",
+      "--origin-user",
+      "regression value &/?+ü",
+      "--origin-connection-limit",
+      "1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/hyperdrive/configs/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "200",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "name": "regression value &/?+ü",
+          "origin": {
+            "database": "regression value &/?+ü",
+            "password": "regression value &/?+ü",
+            "scheme": "postgres",
+            "user": "regression value &/?+ü"
+          },
+          "origin_connection_limit": 1
+        }
+      }
+    ]
+  },
+  {
+    "case": "required --origin-scheme value 1",
+    "argv": [
+      "hyperdrive",
+      "replace",
+      "0123456789abcdef0123456789abcdef",
+      "--name",
+      "regression value &/?+ü",
+      "--origin-database",
+      "regression value &/?+ü",
+      "--origin-password",
+      "regression value &/?+ü",
+      "--origin-user",
+      "regression value &/?+ü",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--origin-scheme",
+      "postgresql"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/hyperdrive/configs/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "required --origin-scheme value 2",
+    "argv": [
+      "hyperdrive",
+      "replace",
+      "0123456789abcdef0123456789abcdef",
+      "--name",
+      "regression value &/?+ü",
+      "--origin-database",
+      "regression value &/?+ü",
+      "--origin-password",
+      "regression value &/?+ü",
+      "--origin-user",
+      "regression value &/?+ü",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--origin-scheme",
+      "mysql"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/hyperdrive/configs/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 0",
+    "argv": [
+      "hyperdrive",
+      "replace",
+      "0123456789abcdef0123456789abcdef",
+      "--name",
+      "regression value &/?+ü",
+      "--origin-database",
+      "regression value &/?+ü",
+      "--origin-password",
+      "regression value &/?+ü",
+      "--origin-scheme",
+      "postgres",
+      "--origin-user",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/hyperdrive/configs/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "172",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "name": "regression value &/?+ü",
+          "origin": {
+            "database": "regression value &/?+ü",
+            "password": "regression value &/?+ü",
+            "scheme": "postgres",
+            "user": "regression value &/?+ü"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 1",
+    "argv": [
+      "hyperdrive",
+      "replace",
+      "0123456789abcdef0123456789abcdef",
+      "--name",
+      "regression value &/?+ü",
+      "--origin-database",
+      "regression value &/?+ü",
+      "--origin-password",
+      "regression value &/?+ü",
+      "--origin-scheme",
+      "postgres",
+      "--origin-user",
+      "regression value &/?+ü",
+      "--caching-disabled=false",
+      "--caching-max-age",
+      "2",
+      "--caching-stale-while-revalidate",
+      "2",
+      "--mtls-ca-certificate-id",
+      "0123456789abcdef0123456789abcdef",
+      "--mtls-certificate-id",
+      "0123456789abcdef0123456789abcdef",
+      "--mtls-sslmode",
+      "verify-ca",
+      "--origin-host",
+      "second value &/?+ü",
+      "--origin-port",
+      "2",
+      "--origin-access-client-id",
+      "0123456789abcdef0123456789abcdef",
+      "--origin-access-client-secret",
+      "second value &/?+ü",
+      "--origin-service-id",
+      "0123456789abcdef0123456789abcdef",
+      "--origin-connection-limit",
+      "2"
+    ],
+    "exitCode": 1,
+    "error": "Arguments origin-host and origin-service-id are mutually exclusive",
+    "requests": []
+  },
+  {
+    "case": "pairwise 2",
+    "argv": [
+      "hyperdrive",
+      "replace",
+      "0123456789abcdef0123456789abcdef",
+      "--name",
+      "regression value &/?+ü",
+      "--origin-database",
+      "regression value &/?+ü",
+      "--origin-password",
+      "regression value &/?+ü",
+      "--origin-scheme",
+      "postgres",
+      "--origin-user",
+      "regression value &/?+ü",
+      "--caching-max-age",
+      "1",
+      "--mtls-ca-certificate-id",
+      "0123456789abcdef0123456789abcdef",
+      "--mtls-sslmode",
+      "require",
+      "--origin-port",
+      "1",
+      "--origin-access-client-secret",
+      "regression value &/?+ü",
+      "--origin-connection-limit",
+      "1"
+    ],
+    "exitCode": 1,
+    "error": "Missing dependent arguments:\n origin-port -> origin-host origin-access-client-secret -> origin-host origin-access-client-secret -> origin-access-client-id",
+    "requests": []
+  },
+  {
+    "case": "pairwise 3",
+    "argv": [
+      "hyperdrive",
+      "replace",
+      "0123456789abcdef0123456789abcdef",
+      "--name",
+      "regression value &/?+ü",
+      "--origin-database",
+      "regression value &/?+ü",
+      "--origin-password",
+      "regression value &/?+ü",
+      "--origin-scheme",
+      "postgres",
+      "--origin-user",
+      "regression value &/?+ü",
+      "--caching-disabled=false",
+      "--caching-stale-while-revalidate",
+      "2",
+      "--mtls-certificate-id",
+      "0123456789abcdef0123456789abcdef",
+      "--origin-host",
+      "second value &/?+ü",
+      "--origin-access-client-id",
+      "0123456789abcdef0123456789abcdef",
+      "--origin-service-id",
+      "0123456789abcdef0123456789abcdef"
+    ],
+    "exitCode": 1,
+    "error": "Missing dependent arguments:\n origin-access-client-id -> origin-access-client-secret",
+    "requests": []
+  },
+  {
+    "case": "pairwise 4",
+    "argv": [
+      "hyperdrive",
+      "replace",
+      "0123456789abcdef0123456789abcdef",
+      "--name",
+      "regression value &/?+ü",
+      "--origin-database",
+      "regression value &/?+ü",
+      "--origin-password",
+      "regression value &/?+ü",
+      "--origin-scheme",
+      "postgres",
+      "--origin-user",
+      "regression value &/?+ü",
+      "--caching-stale-while-revalidate",
+      "1",
+      "--mtls-ca-certificate-id",
+      "0123456789abcdef0123456789abcdef",
+      "--origin-host",
+      "regression value &/?+ü",
+      "--origin-port",
+      "1",
+      "--origin-service-id",
+      "0123456789abcdef0123456789abcdef",
+      "--origin-connection-limit",
+      "1"
+    ],
+    "exitCode": 1,
+    "error": "Arguments origin-host and origin-service-id are mutually exclusive",
+    "requests": []
+  },
+  {
+    "case": "pairwise 5",
+    "argv": [
+      "hyperdrive",
+      "replace",
+      "0123456789abcdef0123456789abcdef",
+      "--name",
+      "regression value &/?+ü",
+      "--origin-database",
+      "regression value &/?+ü",
+      "--origin-password",
+      "regression value &/?+ü",
+      "--origin-scheme",
+      "postgres",
+      "--origin-user",
+      "regression value &/?+ü",
+      "--caching-disabled=false",
+      "--caching-max-age",
+      "2",
+      "--mtls-certificate-id",
+      "0123456789abcdef0123456789abcdef",
+      "--mtls-sslmode",
+      "verify-ca",
+      "--origin-access-client-id",
+      "0123456789abcdef0123456789abcdef",
+      "--origin-access-client-secret",
+      "second value &/?+ü"
+    ],
+    "exitCode": 1,
+    "error": "Missing dependent arguments:\n origin-access-client-id -> origin-host origin-access-client-secret -> origin-host",
+    "requests": []
+  },
+  {
+    "case": "pairwise 6",
+    "argv": [
+      "hyperdrive",
+      "replace",
+      "0123456789abcdef0123456789abcdef",
+      "--name",
+      "regression value &/?+ü",
+      "--origin-database",
+      "regression value &/?+ü",
+      "--origin-password",
+      "regression value &/?+ü",
+      "--origin-scheme",
+      "postgres",
+      "--origin-user",
+      "regression value &/?+ü",
+      "--mtls-certificate-id",
+      "0123456789abcdef0123456789abcdef",
+      "--mtls-sslmode",
+      "require",
+      "--origin-host",
+      "regression value &/?+ü",
+      "--origin-port",
+      "1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/hyperdrive/configs/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "300",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "mtls": {
+            "mtls_certificate_id": "0123456789abcdef0123456789abcdef",
+            "sslmode": "require"
+          },
+          "name": "regression value &/?+ü",
+          "origin": {
+            "database": "regression value &/?+ü",
+            "password": "regression value &/?+ü",
+            "scheme": "postgres",
+            "user": "regression value &/?+ü",
+            "host": "regression value &/?+ü",
+            "port": 1
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 7",
+    "argv": [
+      "hyperdrive",
+      "replace",
+      "0123456789abcdef0123456789abcdef",
+      "--name",
+      "regression value &/?+ü",
+      "--origin-database",
+      "regression value &/?+ü",
+      "--origin-password",
+      "regression value &/?+ü",
+      "--origin-scheme",
+      "postgres",
+      "--origin-user",
+      "regression value &/?+ü",
+      "--caching-disabled=false",
+      "--caching-max-age",
+      "2",
+      "--caching-stale-while-revalidate",
+      "2",
+      "--mtls-ca-certificate-id",
+      "0123456789abcdef0123456789abcdef",
+      "--origin-access-client-id",
+      "0123456789abcdef0123456789abcdef",
+      "--origin-access-client-secret",
+      "second value &/?+ü",
+      "--origin-service-id",
+      "0123456789abcdef0123456789abcdef",
+      "--origin-connection-limit",
+      "2"
+    ],
+    "exitCode": 1,
+    "error": "Missing dependent arguments:\n origin-access-client-id -> origin-host origin-access-client-secret -> origin-host",
+    "requests": []
+  },
+  {
+    "case": "pairwise 8",
+    "argv": [
+      "hyperdrive",
+      "replace",
+      "0123456789abcdef0123456789abcdef",
+      "--name",
+      "regression value &/?+ü",
+      "--origin-database",
+      "regression value &/?+ü",
+      "--origin-password",
+      "regression value &/?+ü",
+      "--origin-scheme",
+      "postgres",
+      "--origin-user",
+      "regression value &/?+ü",
+      "--origin-access-client-id",
+      "0123456789abcdef0123456789abcdef",
+      "--origin-access-client-secret",
+      "regression value &/?+ü",
+      "--origin-service-id",
+      "0123456789abcdef0123456789abcdef",
+      "--origin-connection-limit",
+      "1"
+    ],
+    "exitCode": 1,
+    "error": "Missing dependent arguments:\n origin-access-client-id -> origin-host origin-access-client-secret -> origin-host",
+    "requests": []
+  },
+  {
+    "case": "pairwise 9",
+    "argv": [
+      "hyperdrive",
+      "replace",
+      "0123456789abcdef0123456789abcdef",
+      "--name",
+      "regression value &/?+ü",
+      "--origin-database",
+      "regression value &/?+ü",
+      "--origin-password",
+      "regression value &/?+ü",
+      "--origin-scheme",
+      "postgres",
+      "--origin-user",
+      "regression value &/?+ü",
+      "--caching-disabled=false",
+      "--caching-max-age",
+      "2",
+      "--caching-stale-while-revalidate",
+      "2",
+      "--mtls-ca-certificate-id",
+      "0123456789abcdef0123456789abcdef",
+      "--mtls-certificate-id",
+      "0123456789abcdef0123456789abcdef",
+      "--mtls-sslmode",
+      "verify-ca",
+      "--origin-host",
+      "second value &/?+ü",
+      "--origin-port",
+      "2"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/hyperdrive/configs/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "421",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "caching": {
+            "disabled": false,
+            "max_age": 2,
+            "stale_while_revalidate": 2
+          },
+          "mtls": {
+            "ca_certificate_id": "0123456789abcdef0123456789abcdef",
+            "mtls_certificate_id": "0123456789abcdef0123456789abcdef",
+            "sslmode": "verify-ca"
+          },
+          "name": "regression value &/?+ü",
+          "origin": {
+            "database": "regression value &/?+ü",
+            "password": "regression value &/?+ü",
+            "scheme": "postgres",
+            "user": "regression value &/?+ü",
+            "host": "second value &/?+ü",
+            "port": 2
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "global quiet",
+    "argv": [
+      "hyperdrive",
+      "replace",
+      "0123456789abcdef0123456789abcdef",
+      "--name",
+      "regression value &/?+ü",
+      "--origin-database",
+      "regression value &/?+ü",
+      "--origin-password",
+      "regression value &/?+ü",
+      "--origin-scheme",
+      "postgres",
+      "--origin-user",
+      "regression value &/?+ü",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--quiet"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/hyperdrive/configs/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "global zone",
+    "argv": [
+      "hyperdrive",
+      "replace",
+      "0123456789abcdef0123456789abcdef",
+      "--name",
+      "regression value &/?+ü",
+      "--origin-database",
+      "regression value &/?+ü",
+      "--origin-password",
+      "regression value &/?+ü",
+      "--origin-scheme",
+      "postgres",
+      "--origin-user",
+      "regression value &/?+ü",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--zone",
+      "abcdef0123456789abcdef0123456789"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/hyperdrive/configs/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "global profile and mode",
+    "argv": [
+      "hyperdrive",
+      "replace",
+      "0123456789abcdef0123456789abcdef",
+      "--name",
+      "regression value &/?+ü",
+      "--origin-database",
+      "regression value &/?+ü",
+      "--origin-password",
+      "regression value &/?+ü",
+      "--origin-scheme",
+      "postgres",
+      "--origin-user",
+      "regression value &/?+ü",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--profile",
+      "default",
+      "--mode",
+      "regression"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/hyperdrive/configs/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "local",
+    "argv": [
+      "hyperdrive",
+      "replace",
+      "0123456789abcdef0123456789abcdef",
+      "--name",
+      "regression value &/?+ü",
+      "--origin-database",
+      "regression value &/?+ü",
+      "--origin-password",
+      "regression value &/?+ü",
+      "--origin-scheme",
+      "postgres",
+      "--origin-user",
+      "regression value &/?+ü",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--local"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "http://localhost/cdn-cgi/local/explorer/api/hyperdrive/configs/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "gzip, deflate",
+          "accept-language": "*",
+          "connection": "keep-alive",
+          "content-type": "application/json",
+          "host": "localhost",
+          "sec-fetch-mode": "cors",
+          "transfer-encoding": "chunked",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "local with persistence",
+    "argv": [
+      "hyperdrive",
+      "replace",
+      "0123456789abcdef0123456789abcdef",
+      "--name",
+      "regression value &/?+ü",
+      "--origin-database",
+      "regression value &/?+ü",
+      "--origin-password",
+      "regression value &/?+ü",
+      "--origin-scheme",
+      "postgres",
+      "--origin-user",
+      "regression value &/?+ü",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--local",
+      "--persist-to",
+      "regression-state"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "http://localhost/cdn-cgi/local/explorer/api/hyperdrive/configs/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "gzip, deflate",
+          "accept-language": "*",
+          "connection": "keep-alive",
+          "content-type": "application/json",
+          "host": "localhost",
+          "sec-fetch-mode": "cors",
+          "transfer-encoding": "chunked",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "dry-run",
+    "argv": [
+      "hyperdrive",
+      "replace",
+      "0123456789abcdef0123456789abcdef",
+      "--name",
+      "regression value &/?+ü",
+      "--origin-database",
+      "regression value &/?+ü",
+      "--origin-password",
+      "regression value &/?+ü",
+      "--origin-scheme",
+      "postgres",
+      "--origin-user",
+      "regression value &/?+ü",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--dry-run"
+    ],
+    "exitCode": 0,
+    "requests": []
+  },
+  {
+    "case": "body from file",
+    "argv": [
+      "hyperdrive",
+      "replace",
+      "0123456789abcdef0123456789abcdef",
+      "--name",
+      "regression value &/?+ü",
+      "--origin-database",
+      "regression value &/?+ü",
+      "--origin-password",
+      "regression value &/?+ü",
+      "--origin-scheme",
+      "postgres",
+      "--origin-user",
+      "regression value &/?+ü",
+      "--body",
+      "@<body.json>"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/hyperdrive/configs/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "array body",
+    "argv": [
+      "hyperdrive",
+      "replace",
+      "0123456789abcdef0123456789abcdef",
+      "--name",
+      "regression value &/?+ü",
+      "--origin-database",
+      "regression value &/?+ü",
+      "--origin-password",
+      "regression value &/?+ü",
+      "--origin-scheme",
+      "postgres",
+      "--origin-user",
+      "regression value &/?+ü",
+      "--body",
+      "[{\"regression\":\"first\"},{\"regression\":\"second\"}]"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/hyperdrive/configs/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "56",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "0": {
+            "regression": "first"
+          },
+          "1": {
+            "regression": "second"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "field flags",
+    "argv": [
+      "hyperdrive",
+      "replace",
+      "0123456789abcdef0123456789abcdef",
+      "--name",
+      "regression value &/?+ü",
+      "--origin-database",
+      "regression value &/?+ü",
+      "--origin-password",
+      "regression value &/?+ü",
+      "--origin-scheme",
+      "postgres",
+      "--origin-user",
+      "regression value &/?+ü",
+      "--caching-disabled=true",
+      "--caching-max-age",
+      "1",
+      "--caching-stale-while-revalidate",
+      "1",
+      "--mtls-ca-certificate-id",
+      "0123456789abcdef0123456789abcdef",
+      "--mtls-certificate-id",
+      "0123456789abcdef0123456789abcdef",
+      "--mtls-sslmode",
+      "require",
+      "--origin-host",
+      "regression value &/?+ü",
+      "--origin-port",
+      "1",
+      "--origin-access-client-id",
+      "0123456789abcdef0123456789abcdef",
+      "--origin-access-client-secret",
+      "regression value &/?+ü",
+      "--origin-service-id",
+      "0123456789abcdef0123456789abcdef",
+      "--origin-connection-limit",
+      "1"
+    ],
+    "exitCode": 1,
+    "error": "Arguments origin-host and origin-service-id are mutually exclusive",
+    "requests": []
+  }
+]

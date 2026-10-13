@@ -1,0 +1,111 @@
+[
+  {
+    "case": "no-args",
+    "argv": [
+      "auth",
+      "delete"
+    ],
+    "exitCode": 1,
+    "error": "Not enough non-option arguments: got 0, need at least 1",
+    "requests": []
+  },
+  {
+    "case": "required",
+    "argv": [
+      "auth",
+      "delete",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 1,
+    "error": "Cannot manage auth profiles while CLOUDFLARE_API_TOKEN is set. Unset CLOUDFLARE_API_TOKEN and try again.",
+    "requests": []
+  },
+  {
+    "case": "global quiet",
+    "argv": [
+      "auth",
+      "delete",
+      "regression value &/?+ü",
+      "--quiet"
+    ],
+    "exitCode": 1,
+    "error": "Cannot manage auth profiles while CLOUDFLARE_API_TOKEN is set. Unset CLOUDFLARE_API_TOKEN and try again.",
+    "requests": []
+  },
+  {
+    "case": "global zone",
+    "argv": [
+      "auth",
+      "delete",
+      "regression value &/?+ü",
+      "--zone",
+      "abcdef0123456789abcdef0123456789"
+    ],
+    "exitCode": 1,
+    "error": "Cannot manage auth profiles while CLOUDFLARE_API_TOKEN is set. Unset CLOUDFLARE_API_TOKEN and try again.",
+    "requests": []
+  },
+  {
+    "case": "global profile and mode",
+    "argv": [
+      "auth",
+      "delete",
+      "regression value &/?+ü",
+      "--profile",
+      "default",
+      "--mode",
+      "regression"
+    ],
+    "exitCode": 1,
+    "error": "The --profile flag cannot be used with `cf auth delete`.",
+    "requests": []
+  },
+  {
+    "case": "local",
+    "argv": [
+      "auth",
+      "delete",
+      "regression value &/?+ü",
+      "--local"
+    ],
+    "exitCode": 1,
+    "error": "--local is not supported by cf auth.",
+    "requests": []
+  },
+  {
+    "case": "local with persistence",
+    "argv": [
+      "auth",
+      "delete",
+      "regression value &/?+ü",
+      "--local",
+      "--persist-to",
+      "regression-state"
+    ],
+    "exitCode": 1,
+    "error": "--local is not supported by cf auth.",
+    "requests": []
+  },
+  {
+    "case": "dry-run",
+    "argv": [
+      "auth",
+      "delete",
+      "regression value &/?+ü",
+      "--dry-run"
+    ],
+    "exitCode": 0,
+    "requests": []
+  },
+  {
+    "case": "alternate <name>",
+    "argv": [
+      "auth",
+      "delete",
+      "second value &/?+ü"
+    ],
+    "exitCode": 1,
+    "error": "Cannot manage auth profiles while CLOUDFLARE_API_TOKEN is set. Unset CLOUDFLARE_API_TOKEN and try again.",
+    "requests": []
+  }
+]

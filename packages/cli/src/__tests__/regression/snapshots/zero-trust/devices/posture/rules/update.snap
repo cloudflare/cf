@@ -1,0 +1,6844 @@
+[
+  {
+    "case": "no-args",
+    "argv": [
+      "zero-trust",
+      "devices",
+      "posture",
+      "rules",
+      "update"
+    ],
+    "exitCode": 1,
+    "error": "Not enough non-option arguments: got 0, need at least 1",
+    "requests": []
+  },
+  {
+    "case": "required",
+    "argv": [
+      "zero-trust",
+      "devices",
+      "posture",
+      "rules",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--name",
+      "regression value &/?+ü",
+      "--type",
+      "file",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/devices/posture/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --description",
+    "argv": [
+      "zero-trust",
+      "devices",
+      "posture",
+      "rules",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--name",
+      "regression value &/?+ü",
+      "--type",
+      "file",
+      "--description",
+      "192.0.2.1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/devices/posture/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "74",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "description": "192.0.2.1",
+          "name": "regression value &/?+ü",
+          "type": "file"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --expiration",
+    "argv": [
+      "zero-trust",
+      "devices",
+      "posture",
+      "rules",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--name",
+      "regression value &/?+ü",
+      "--type",
+      "file",
+      "--expiration",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/devices/posture/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "87",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "expiration": "regression value &/?+ü",
+          "name": "regression value &/?+ü",
+          "type": "file"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --input-exists",
+    "argv": [
+      "zero-trust",
+      "devices",
+      "posture",
+      "rules",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--name",
+      "regression value &/?+ü",
+      "--type",
+      "file",
+      "--input-exists=true"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/devices/posture/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "72",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "input": {
+            "exists": true
+          },
+          "name": "regression value &/?+ü",
+          "type": "file"
+        }
+      }
+    ]
+  },
+  {
+    "case": "--input-exists value 1",
+    "argv": [
+      "zero-trust",
+      "devices",
+      "posture",
+      "rules",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--name",
+      "regression value &/?+ü",
+      "--type",
+      "file",
+      "--input-exists=false"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/devices/posture/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "73",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "input": {
+            "exists": false
+          },
+          "name": "regression value &/?+ü",
+          "type": "file"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --input-operating-system",
+    "argv": [
+      "zero-trust",
+      "devices",
+      "posture",
+      "rules",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--name",
+      "regression value &/?+ü",
+      "--type",
+      "file",
+      "--input-operating-system",
+      "windows"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/devices/posture/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "87",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "input": {
+            "operating_system": "windows"
+          },
+          "name": "regression value &/?+ü",
+          "type": "file"
+        }
+      }
+    ]
+  },
+  {
+    "case": "--input-operating-system value 1",
+    "argv": [
+      "zero-trust",
+      "devices",
+      "posture",
+      "rules",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--name",
+      "regression value &/?+ü",
+      "--type",
+      "file",
+      "--input-operating-system",
+      "linux"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/devices/posture/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "85",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "input": {
+            "operating_system": "linux"
+          },
+          "name": "regression value &/?+ü",
+          "type": "file"
+        }
+      }
+    ]
+  },
+  {
+    "case": "--input-operating-system value 2",
+    "argv": [
+      "zero-trust",
+      "devices",
+      "posture",
+      "rules",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--name",
+      "regression value &/?+ü",
+      "--type",
+      "file",
+      "--input-operating-system",
+      "mac"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/devices/posture/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "83",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "input": {
+            "operating_system": "mac"
+          },
+          "name": "regression value &/?+ü",
+          "type": "file"
+        }
+      }
+    ]
+  },
+  {
+    "case": "--input-operating-system value 3",
+    "argv": [
+      "zero-trust",
+      "devices",
+      "posture",
+      "rules",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--name",
+      "regression value &/?+ü",
+      "--type",
+      "file",
+      "--input-operating-system",
+      "android"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/devices/posture/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "87",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "input": {
+            "operating_system": "android"
+          },
+          "name": "regression value &/?+ü",
+          "type": "file"
+        }
+      }
+    ]
+  },
+  {
+    "case": "--input-operating-system value 4",
+    "argv": [
+      "zero-trust",
+      "devices",
+      "posture",
+      "rules",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--name",
+      "regression value &/?+ü",
+      "--type",
+      "file",
+      "--input-operating-system",
+      "ios"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/devices/posture/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "83",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "input": {
+            "operating_system": "ios"
+          },
+          "name": "regression value &/?+ü",
+          "type": "file"
+        }
+      }
+    ]
+  },
+  {
+    "case": "--input-operating-system value 5",
+    "argv": [
+      "zero-trust",
+      "devices",
+      "posture",
+      "rules",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--name",
+      "regression value &/?+ü",
+      "--type",
+      "file",
+      "--input-operating-system",
+      "chromeos"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/devices/posture/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "88",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "input": {
+            "operating_system": "chromeos"
+          },
+          "name": "regression value &/?+ü",
+          "type": "file"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --input-path",
+    "argv": [
+      "zero-trust",
+      "devices",
+      "posture",
+      "rules",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--name",
+      "regression value &/?+ü",
+      "--type",
+      "file",
+      "--input-path",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/devices/posture/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "91",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "input": {
+            "path": "regression value &/?+ü"
+          },
+          "name": "regression value &/?+ü",
+          "type": "file"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --input-sha256",
+    "argv": [
+      "zero-trust",
+      "devices",
+      "posture",
+      "rules",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--name",
+      "regression value &/?+ü",
+      "--type",
+      "file",
+      "--input-sha256",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/devices/posture/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "93",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "input": {
+            "sha256": "regression value &/?+ü"
+          },
+          "name": "regression value &/?+ü",
+          "type": "file"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --input-thumbprint",
+    "argv": [
+      "zero-trust",
+      "devices",
+      "posture",
+      "rules",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--name",
+      "regression value &/?+ü",
+      "--type",
+      "file",
+      "--input-thumbprint",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/devices/posture/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "97",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "input": {
+            "thumbprint": "regression value &/?+ü"
+          },
+          "name": "regression value &/?+ü",
+          "type": "file"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --input-id",
+    "argv": [
+      "zero-trust",
+      "devices",
+      "posture",
+      "rules",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--name",
+      "regression value &/?+ü",
+      "--type",
+      "file",
+      "--input-id",
+      "0123456789abcdef0123456789abcdef"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/devices/posture/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "98",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "input": {
+            "id": "0123456789abcdef0123456789abcdef"
+          },
+          "name": "regression value &/?+ü",
+          "type": "file"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --input-domain",
+    "argv": [
+      "zero-trust",
+      "devices",
+      "posture",
+      "rules",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--name",
+      "regression value &/?+ü",
+      "--type",
+      "file",
+      "--input-domain",
+      "example.com"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/devices/posture/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "81",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "input": {
+            "domain": "example.com"
+          },
+          "name": "regression value &/?+ü",
+          "type": "file"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --input-operator",
+    "argv": [
+      "zero-trust",
+      "devices",
+      "posture",
+      "rules",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--name",
+      "regression value &/?+ü",
+      "--type",
+      "file",
+      "--input-operator",
+      "<"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/devices/posture/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "73",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "input": {
+            "operator": "<"
+          },
+          "name": "regression value &/?+ü",
+          "type": "file"
+        }
+      }
+    ]
+  },
+  {
+    "case": "--input-operator value 1",
+    "argv": [
+      "zero-trust",
+      "devices",
+      "posture",
+      "rules",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--name",
+      "regression value &/?+ü",
+      "--type",
+      "file",
+      "--input-operator",
+      "<="
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/devices/posture/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "74",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "input": {
+            "operator": "<="
+          },
+          "name": "regression value &/?+ü",
+          "type": "file"
+        }
+      }
+    ]
+  },
+  {
+    "case": "--input-operator value 2",
+    "argv": [
+      "zero-trust",
+      "devices",
+      "posture",
+      "rules",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--name",
+      "regression value &/?+ü",
+      "--type",
+      "file",
+      "--input-operator",
+      ">"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/devices/posture/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "73",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "input": {
+            "operator": ">"
+          },
+          "name": "regression value &/?+ü",
+          "type": "file"
+        }
+      }
+    ]
+  },
+  {
+    "case": "--input-operator value 3",
+    "argv": [
+      "zero-trust",
+      "devices",
+      "posture",
+      "rules",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--name",
+      "regression value &/?+ü",
+      "--type",
+      "file",
+      "--input-operator",
+      ">="
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/devices/posture/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "74",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "input": {
+            "operator": ">="
+          },
+          "name": "regression value &/?+ü",
+          "type": "file"
+        }
+      }
+    ]
+  },
+  {
+    "case": "--input-operator value 4",
+    "argv": [
+      "zero-trust",
+      "devices",
+      "posture",
+      "rules",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--name",
+      "regression value &/?+ü",
+      "--type",
+      "file",
+      "--input-operator",
+      "=="
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/devices/posture/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "74",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "input": {
+            "operator": "=="
+          },
+          "name": "regression value &/?+ü",
+          "type": "file"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --input-os-distro-name",
+    "argv": [
+      "zero-trust",
+      "devices",
+      "posture",
+      "rules",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--name",
+      "regression value &/?+ü",
+      "--type",
+      "file",
+      "--input-os-distro-name",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/devices/posture/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "101",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "input": {
+            "os_distro_name": "regression value &/?+ü"
+          },
+          "name": "regression value &/?+ü",
+          "type": "file"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --input-os-distro-revision",
+    "argv": [
+      "zero-trust",
+      "devices",
+      "posture",
+      "rules",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--name",
+      "regression value &/?+ü",
+      "--type",
+      "file",
+      "--input-os-distro-revision",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/devices/posture/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "105",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "input": {
+            "os_distro_revision": "regression value &/?+ü"
+          },
+          "name": "regression value &/?+ü",
+          "type": "file"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --input-os-version-extra",
+    "argv": [
+      "zero-trust",
+      "devices",
+      "posture",
+      "rules",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--name",
+      "regression value &/?+ü",
+      "--type",
+      "file",
+      "--input-os-version-extra",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/devices/posture/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "103",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "input": {
+            "os_version_extra": "regression value &/?+ü"
+          },
+          "name": "regression value &/?+ü",
+          "type": "file"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --input-version",
+    "argv": [
+      "zero-trust",
+      "devices",
+      "posture",
+      "rules",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--name",
+      "regression value &/?+ü",
+      "--type",
+      "file",
+      "--input-version",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 1,
+    "error": "Missing dependent arguments:\n input-version -> input-operating-system input-version -> input-operator",
+    "requests": []
+  },
+  {
+    "case": "only --input-enabled",
+    "argv": [
+      "zero-trust",
+      "devices",
+      "posture",
+      "rules",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--name",
+      "regression value &/?+ü",
+      "--type",
+      "file",
+      "--input-enabled=true"
+    ],
+    "exitCode": 1,
+    "error": "Missing dependent arguments:\n input-enabled -> input-operating-system",
+    "requests": []
+  },
+  {
+    "case": "--input-enabled value 1",
+    "argv": [
+      "zero-trust",
+      "devices",
+      "posture",
+      "rules",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--name",
+      "regression value &/?+ü",
+      "--type",
+      "file",
+      "--input-enabled=false"
+    ],
+    "exitCode": 1,
+    "error": "Missing dependent arguments:\n input-enabled -> input-operating-system",
+    "requests": []
+  },
+  {
+    "case": "only --input-check-disks",
+    "argv": [
+      "zero-trust",
+      "devices",
+      "posture",
+      "rules",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--name",
+      "regression value &/?+ü",
+      "--type",
+      "file",
+      "--input-check-disks",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/devices/posture/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "99",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "input": {
+            "checkDisks": [
+              "regression value &/?+ü"
+            ]
+          },
+          "name": "regression value &/?+ü",
+          "type": "file"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --input-require-all",
+    "argv": [
+      "zero-trust",
+      "devices",
+      "posture",
+      "rules",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--name",
+      "regression value &/?+ü",
+      "--type",
+      "file",
+      "--input-require-all=true"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/devices/posture/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "76",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "input": {
+            "requireAll": true
+          },
+          "name": "regression value &/?+ü",
+          "type": "file"
+        }
+      }
+    ]
+  },
+  {
+    "case": "--input-require-all value 1",
+    "argv": [
+      "zero-trust",
+      "devices",
+      "posture",
+      "rules",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--name",
+      "regression value &/?+ü",
+      "--type",
+      "file",
+      "--input-require-all=false"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/devices/posture/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "77",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "input": {
+            "requireAll": false
+          },
+          "name": "regression value &/?+ü",
+          "type": "file"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --input-certificate-id",
+    "argv": [
+      "zero-trust",
+      "devices",
+      "posture",
+      "rules",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--name",
+      "regression value &/?+ü",
+      "--type",
+      "file",
+      "--input-certificate-id",
+      "0123456789abcdef0123456789abcdef"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/devices/posture/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "110",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "input": {
+            "certificate_id": "0123456789abcdef0123456789abcdef"
+          },
+          "name": "regression value &/?+ü",
+          "type": "file"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --input-cn",
+    "argv": [
+      "zero-trust",
+      "devices",
+      "posture",
+      "rules",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--name",
+      "regression value &/?+ü",
+      "--type",
+      "file",
+      "--input-cn",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 1,
+    "error": "Missing dependent arguments:\n input-cn -> input-certificate-id",
+    "requests": []
+  },
+  {
+    "case": "only --input-check-private-key",
+    "argv": [
+      "zero-trust",
+      "devices",
+      "posture",
+      "rules",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--name",
+      "regression value &/?+ü",
+      "--type",
+      "file",
+      "--input-check-private-key=true"
+    ],
+    "exitCode": 1,
+    "error": "Missing dependent arguments:\n input-check-private-key -> input-certificate-id input-check-private-key -> input-operating-system",
+    "requests": []
+  },
+  {
+    "case": "--input-check-private-key value 1",
+    "argv": [
+      "zero-trust",
+      "devices",
+      "posture",
+      "rules",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--name",
+      "regression value &/?+ü",
+      "--type",
+      "file",
+      "--input-check-private-key=false"
+    ],
+    "exitCode": 1,
+    "error": "Missing dependent arguments:\n input-check-private-key -> input-certificate-id input-check-private-key -> input-operating-system",
+    "requests": []
+  },
+  {
+    "case": "only --input-extended-key-usage",
+    "argv": [
+      "zero-trust",
+      "devices",
+      "posture",
+      "rules",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--name",
+      "regression value &/?+ü",
+      "--type",
+      "file",
+      "--input-extended-key-usage",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/devices/posture/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "107",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "input": {
+            "extended_key_usage": [
+              "regression value &/?+ü"
+            ]
+          },
+          "name": "regression value &/?+ü",
+          "type": "file"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --input-locations-paths",
+    "argv": [
+      "zero-trust",
+      "devices",
+      "posture",
+      "rules",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--name",
+      "regression value &/?+ü",
+      "--type",
+      "file",
+      "--input-locations-paths",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/devices/posture/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "108",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "input": {
+            "locations": {
+              "paths": [
+                "regression value &/?+ü"
+              ]
+            }
+          },
+          "name": "regression value &/?+ü",
+          "type": "file"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --input-locations-trust-stores",
+    "argv": [
+      "zero-trust",
+      "devices",
+      "posture",
+      "rules",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--name",
+      "regression value &/?+ü",
+      "--type",
+      "file",
+      "--input-locations-trust-stores",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/devices/posture/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "115",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "input": {
+            "locations": {
+              "trust_stores": [
+                "regression value &/?+ü"
+              ]
+            }
+          },
+          "name": "regression value &/?+ü",
+          "type": "file"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --input-subject-alternative-names",
+    "argv": [
+      "zero-trust",
+      "devices",
+      "posture",
+      "rules",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--name",
+      "regression value &/?+ü",
+      "--type",
+      "file",
+      "--input-subject-alternative-names",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/devices/posture/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "114",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "input": {
+            "subject_alternative_names": [
+              "regression value &/?+ü"
+            ]
+          },
+          "name": "regression value &/?+ü",
+          "type": "file"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --input-update-window-days",
+    "argv": [
+      "zero-trust",
+      "devices",
+      "posture",
+      "rules",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--name",
+      "regression value &/?+ü",
+      "--type",
+      "file",
+      "--input-update-window-days",
+      "1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/devices/posture/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "81",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "input": {
+            "update_window_days": 1
+          },
+          "name": "regression value &/?+ü",
+          "type": "file"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --input-compliance-status",
+    "argv": [
+      "zero-trust",
+      "devices",
+      "posture",
+      "rules",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--name",
+      "regression value &/?+ü",
+      "--type",
+      "file",
+      "--input-compliance-status",
+      "compliant"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/devices/posture/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "90",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "input": {
+            "compliance_status": "compliant"
+          },
+          "name": "regression value &/?+ü",
+          "type": "file"
+        }
+      }
+    ]
+  },
+  {
+    "case": "--input-compliance-status value 1",
+    "argv": [
+      "zero-trust",
+      "devices",
+      "posture",
+      "rules",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--name",
+      "regression value &/?+ü",
+      "--type",
+      "file",
+      "--input-compliance-status",
+      "noncompliant"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/devices/posture/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "93",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "input": {
+            "compliance_status": "noncompliant"
+          },
+          "name": "regression value &/?+ü",
+          "type": "file"
+        }
+      }
+    ]
+  },
+  {
+    "case": "--input-compliance-status value 2",
+    "argv": [
+      "zero-trust",
+      "devices",
+      "posture",
+      "rules",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--name",
+      "regression value &/?+ü",
+      "--type",
+      "file",
+      "--input-compliance-status",
+      "unknown"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/devices/posture/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "88",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "input": {
+            "compliance_status": "unknown"
+          },
+          "name": "regression value &/?+ü",
+          "type": "file"
+        }
+      }
+    ]
+  },
+  {
+    "case": "--input-compliance-status value 3",
+    "argv": [
+      "zero-trust",
+      "devices",
+      "posture",
+      "rules",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--name",
+      "regression value &/?+ü",
+      "--type",
+      "file",
+      "--input-compliance-status",
+      "notapplicable"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/devices/posture/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "94",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "input": {
+            "compliance_status": "notapplicable"
+          },
+          "name": "regression value &/?+ü",
+          "type": "file"
+        }
+      }
+    ]
+  },
+  {
+    "case": "--input-compliance-status value 4",
+    "argv": [
+      "zero-trust",
+      "devices",
+      "posture",
+      "rules",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--name",
+      "regression value &/?+ü",
+      "--type",
+      "file",
+      "--input-compliance-status",
+      "ingraceperiod"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/devices/posture/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "94",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "input": {
+            "compliance_status": "ingraceperiod"
+          },
+          "name": "regression value &/?+ü",
+          "type": "file"
+        }
+      }
+    ]
+  },
+  {
+    "case": "--input-compliance-status value 5",
+    "argv": [
+      "zero-trust",
+      "devices",
+      "posture",
+      "rules",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--name",
+      "regression value &/?+ü",
+      "--type",
+      "file",
+      "--input-compliance-status",
+      "error"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/devices/posture/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "86",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "input": {
+            "compliance_status": "error"
+          },
+          "name": "regression value &/?+ü",
+          "type": "file"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --input-connection-id",
+    "argv": [
+      "zero-trust",
+      "devices",
+      "posture",
+      "rules",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--name",
+      "regression value &/?+ü",
+      "--type",
+      "file",
+      "--input-connection-id",
+      "0123456789abcdef0123456789abcdef"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/devices/posture/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "109",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "input": {
+            "connection_id": "0123456789abcdef0123456789abcdef"
+          },
+          "name": "regression value &/?+ü",
+          "type": "file"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --input-last-seen",
+    "argv": [
+      "zero-trust",
+      "devices",
+      "posture",
+      "rules",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--name",
+      "regression value &/?+ü",
+      "--type",
+      "file",
+      "--input-last-seen",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/devices/posture/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "96",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "input": {
+            "last_seen": "regression value &/?+ü"
+          },
+          "name": "regression value &/?+ü",
+          "type": "file"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --input-os",
+    "argv": [
+      "zero-trust",
+      "devices",
+      "posture",
+      "rules",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--name",
+      "regression value &/?+ü",
+      "--type",
+      "file",
+      "--input-os",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/devices/posture/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "89",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "input": {
+            "os": "regression value &/?+ü"
+          },
+          "name": "regression value &/?+ü",
+          "type": "file"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --input-overall",
+    "argv": [
+      "zero-trust",
+      "devices",
+      "posture",
+      "rules",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--name",
+      "regression value &/?+ü",
+      "--type",
+      "file",
+      "--input-overall",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/devices/posture/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "94",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "input": {
+            "overall": "regression value &/?+ü"
+          },
+          "name": "regression value &/?+ü",
+          "type": "file"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --input-sensor-config",
+    "argv": [
+      "zero-trust",
+      "devices",
+      "posture",
+      "rules",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--name",
+      "regression value &/?+ü",
+      "--type",
+      "file",
+      "--input-sensor-config",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/devices/posture/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "100",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "input": {
+            "sensor_config": "regression value &/?+ü"
+          },
+          "name": "regression value &/?+ü",
+          "type": "file"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --input-state",
+    "argv": [
+      "zero-trust",
+      "devices",
+      "posture",
+      "rules",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--name",
+      "regression value &/?+ü",
+      "--type",
+      "file",
+      "--input-state",
+      "online"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/devices/posture/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "75",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "input": {
+            "state": "online"
+          },
+          "name": "regression value &/?+ü",
+          "type": "file"
+        }
+      }
+    ]
+  },
+  {
+    "case": "--input-state value 1",
+    "argv": [
+      "zero-trust",
+      "devices",
+      "posture",
+      "rules",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--name",
+      "regression value &/?+ü",
+      "--type",
+      "file",
+      "--input-state",
+      "offline"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/devices/posture/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "76",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "input": {
+            "state": "offline"
+          },
+          "name": "regression value &/?+ü",
+          "type": "file"
+        }
+      }
+    ]
+  },
+  {
+    "case": "--input-state value 2",
+    "argv": [
+      "zero-trust",
+      "devices",
+      "posture",
+      "rules",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--name",
+      "regression value &/?+ü",
+      "--type",
+      "file",
+      "--input-state",
+      "unknown"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/devices/posture/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "76",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "input": {
+            "state": "unknown"
+          },
+          "name": "regression value &/?+ü",
+          "type": "file"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --input-version-operator",
+    "argv": [
+      "zero-trust",
+      "devices",
+      "posture",
+      "rules",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--name",
+      "regression value &/?+ü",
+      "--type",
+      "file",
+      "--input-version-operator",
+      "<"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/devices/posture/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "80",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "input": {
+            "versionOperator": "<"
+          },
+          "name": "regression value &/?+ü",
+          "type": "file"
+        }
+      }
+    ]
+  },
+  {
+    "case": "--input-version-operator value 1",
+    "argv": [
+      "zero-trust",
+      "devices",
+      "posture",
+      "rules",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--name",
+      "regression value &/?+ü",
+      "--type",
+      "file",
+      "--input-version-operator",
+      "<="
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/devices/posture/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "81",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "input": {
+            "versionOperator": "<="
+          },
+          "name": "regression value &/?+ü",
+          "type": "file"
+        }
+      }
+    ]
+  },
+  {
+    "case": "--input-version-operator value 2",
+    "argv": [
+      "zero-trust",
+      "devices",
+      "posture",
+      "rules",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--name",
+      "regression value &/?+ü",
+      "--type",
+      "file",
+      "--input-version-operator",
+      ">"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/devices/posture/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "80",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "input": {
+            "versionOperator": ">"
+          },
+          "name": "regression value &/?+ü",
+          "type": "file"
+        }
+      }
+    ]
+  },
+  {
+    "case": "--input-version-operator value 3",
+    "argv": [
+      "zero-trust",
+      "devices",
+      "posture",
+      "rules",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--name",
+      "regression value &/?+ü",
+      "--type",
+      "file",
+      "--input-version-operator",
+      ">="
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/devices/posture/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "81",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "input": {
+            "versionOperator": ">="
+          },
+          "name": "regression value &/?+ü",
+          "type": "file"
+        }
+      }
+    ]
+  },
+  {
+    "case": "--input-version-operator value 4",
+    "argv": [
+      "zero-trust",
+      "devices",
+      "posture",
+      "rules",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--name",
+      "regression value &/?+ü",
+      "--type",
+      "file",
+      "--input-version-operator",
+      "=="
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/devices/posture/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "81",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "input": {
+            "versionOperator": "=="
+          },
+          "name": "regression value &/?+ü",
+          "type": "file"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --input-auth-state",
+    "argv": [
+      "zero-trust",
+      "devices",
+      "posture",
+      "rules",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--name",
+      "regression value &/?+ü",
+      "--type",
+      "file",
+      "--input-auth-state",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/devices/posture/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "99",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "input": {
+            "auth_state": [
+              "regression value &/?+ü"
+            ]
+          },
+          "name": "regression value &/?+ü",
+          "type": "file"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --input-count-operator",
+    "argv": [
+      "zero-trust",
+      "devices",
+      "posture",
+      "rules",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--name",
+      "regression value &/?+ü",
+      "--type",
+      "file",
+      "--input-count-operator",
+      "<"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/devices/posture/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "78",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "input": {
+            "countOperator": "<"
+          },
+          "name": "regression value &/?+ü",
+          "type": "file"
+        }
+      }
+    ]
+  },
+  {
+    "case": "--input-count-operator value 1",
+    "argv": [
+      "zero-trust",
+      "devices",
+      "posture",
+      "rules",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--name",
+      "regression value &/?+ü",
+      "--type",
+      "file",
+      "--input-count-operator",
+      "<="
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/devices/posture/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "79",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "input": {
+            "countOperator": "<="
+          },
+          "name": "regression value &/?+ü",
+          "type": "file"
+        }
+      }
+    ]
+  },
+  {
+    "case": "--input-count-operator value 2",
+    "argv": [
+      "zero-trust",
+      "devices",
+      "posture",
+      "rules",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--name",
+      "regression value &/?+ü",
+      "--type",
+      "file",
+      "--input-count-operator",
+      ">"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/devices/posture/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "78",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "input": {
+            "countOperator": ">"
+          },
+          "name": "regression value &/?+ü",
+          "type": "file"
+        }
+      }
+    ]
+  },
+  {
+    "case": "--input-count-operator value 3",
+    "argv": [
+      "zero-trust",
+      "devices",
+      "posture",
+      "rules",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--name",
+      "regression value &/?+ü",
+      "--type",
+      "file",
+      "--input-count-operator",
+      ">="
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/devices/posture/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "79",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "input": {
+            "countOperator": ">="
+          },
+          "name": "regression value &/?+ü",
+          "type": "file"
+        }
+      }
+    ]
+  },
+  {
+    "case": "--input-count-operator value 4",
+    "argv": [
+      "zero-trust",
+      "devices",
+      "posture",
+      "rules",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--name",
+      "regression value &/?+ü",
+      "--type",
+      "file",
+      "--input-count-operator",
+      "=="
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/devices/posture/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "79",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "input": {
+            "countOperator": "=="
+          },
+          "name": "regression value &/?+ü",
+          "type": "file"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --input-issue-count",
+    "argv": [
+      "zero-trust",
+      "devices",
+      "posture",
+      "rules",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--name",
+      "regression value &/?+ü",
+      "--type",
+      "file",
+      "--input-issue-count",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/devices/posture/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "98",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "input": {
+            "issue_count": "regression value &/?+ü"
+          },
+          "name": "regression value &/?+ü",
+          "type": "file"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --input-eid-last-seen",
+    "argv": [
+      "zero-trust",
+      "devices",
+      "posture",
+      "rules",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--name",
+      "regression value &/?+ü",
+      "--type",
+      "file",
+      "--input-eid-last-seen",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/devices/posture/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "100",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "input": {
+            "eid_last_seen": "regression value &/?+ü"
+          },
+          "name": "regression value &/?+ü",
+          "type": "file"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --input-risk-level",
+    "argv": [
+      "zero-trust",
+      "devices",
+      "posture",
+      "rules",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--name",
+      "regression value &/?+ü",
+      "--type",
+      "file",
+      "--input-risk-level",
+      "low"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/devices/posture/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "77",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "input": {
+            "risk_level": "low"
+          },
+          "name": "regression value &/?+ü",
+          "type": "file"
+        }
+      }
+    ]
+  },
+  {
+    "case": "--input-risk-level value 1",
+    "argv": [
+      "zero-trust",
+      "devices",
+      "posture",
+      "rules",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--name",
+      "regression value &/?+ü",
+      "--type",
+      "file",
+      "--input-risk-level",
+      "medium"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/devices/posture/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "80",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "input": {
+            "risk_level": "medium"
+          },
+          "name": "regression value &/?+ü",
+          "type": "file"
+        }
+      }
+    ]
+  },
+  {
+    "case": "--input-risk-level value 2",
+    "argv": [
+      "zero-trust",
+      "devices",
+      "posture",
+      "rules",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--name",
+      "regression value &/?+ü",
+      "--type",
+      "file",
+      "--input-risk-level",
+      "high"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/devices/posture/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "78",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "input": {
+            "risk_level": "high"
+          },
+          "name": "regression value &/?+ü",
+          "type": "file"
+        }
+      }
+    ]
+  },
+  {
+    "case": "--input-risk-level value 3",
+    "argv": [
+      "zero-trust",
+      "devices",
+      "posture",
+      "rules",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--name",
+      "regression value &/?+ü",
+      "--type",
+      "file",
+      "--input-risk-level",
+      "critical"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/devices/posture/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "82",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "input": {
+            "risk_level": "critical"
+          },
+          "name": "regression value &/?+ü",
+          "type": "file"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --input-score-operator",
+    "argv": [
+      "zero-trust",
+      "devices",
+      "posture",
+      "rules",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--name",
+      "regression value &/?+ü",
+      "--type",
+      "file",
+      "--input-score-operator",
+      "<"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/devices/posture/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "78",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "input": {
+            "scoreOperator": "<"
+          },
+          "name": "regression value &/?+ü",
+          "type": "file"
+        }
+      }
+    ]
+  },
+  {
+    "case": "--input-score-operator value 1",
+    "argv": [
+      "zero-trust",
+      "devices",
+      "posture",
+      "rules",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--name",
+      "regression value &/?+ü",
+      "--type",
+      "file",
+      "--input-score-operator",
+      "<="
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/devices/posture/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "79",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "input": {
+            "scoreOperator": "<="
+          },
+          "name": "regression value &/?+ü",
+          "type": "file"
+        }
+      }
+    ]
+  },
+  {
+    "case": "--input-score-operator value 2",
+    "argv": [
+      "zero-trust",
+      "devices",
+      "posture",
+      "rules",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--name",
+      "regression value &/?+ü",
+      "--type",
+      "file",
+      "--input-score-operator",
+      ">"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/devices/posture/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "78",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "input": {
+            "scoreOperator": ">"
+          },
+          "name": "regression value &/?+ü",
+          "type": "file"
+        }
+      }
+    ]
+  },
+  {
+    "case": "--input-score-operator value 3",
+    "argv": [
+      "zero-trust",
+      "devices",
+      "posture",
+      "rules",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--name",
+      "regression value &/?+ü",
+      "--type",
+      "file",
+      "--input-score-operator",
+      ">="
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/devices/posture/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "79",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "input": {
+            "scoreOperator": ">="
+          },
+          "name": "regression value &/?+ü",
+          "type": "file"
+        }
+      }
+    ]
+  },
+  {
+    "case": "--input-score-operator value 4",
+    "argv": [
+      "zero-trust",
+      "devices",
+      "posture",
+      "rules",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--name",
+      "regression value &/?+ü",
+      "--type",
+      "file",
+      "--input-score-operator",
+      "=="
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/devices/posture/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "79",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "input": {
+            "scoreOperator": "=="
+          },
+          "name": "regression value &/?+ü",
+          "type": "file"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --input-total-score",
+    "argv": [
+      "zero-trust",
+      "devices",
+      "posture",
+      "rules",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--name",
+      "regression value &/?+ü",
+      "--type",
+      "file",
+      "--input-total-score",
+      "1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/devices/posture/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "74",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "input": {
+            "total_score": 1
+          },
+          "name": "regression value &/?+ü",
+          "type": "file"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --input-active-threats",
+    "argv": [
+      "zero-trust",
+      "devices",
+      "posture",
+      "rules",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--name",
+      "regression value &/?+ü",
+      "--type",
+      "file",
+      "--input-active-threats",
+      "1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/devices/posture/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "77",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "input": {
+            "active_threats": 1
+          },
+          "name": "regression value &/?+ü",
+          "type": "file"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --input-infected",
+    "argv": [
+      "zero-trust",
+      "devices",
+      "posture",
+      "rules",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--name",
+      "regression value &/?+ü",
+      "--type",
+      "file",
+      "--input-infected=true"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/devices/posture/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "74",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "input": {
+            "infected": true
+          },
+          "name": "regression value &/?+ü",
+          "type": "file"
+        }
+      }
+    ]
+  },
+  {
+    "case": "--input-infected value 1",
+    "argv": [
+      "zero-trust",
+      "devices",
+      "posture",
+      "rules",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--name",
+      "regression value &/?+ü",
+      "--type",
+      "file",
+      "--input-infected=false"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/devices/posture/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "75",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "input": {
+            "infected": false
+          },
+          "name": "regression value &/?+ü",
+          "type": "file"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --input-is-active",
+    "argv": [
+      "zero-trust",
+      "devices",
+      "posture",
+      "rules",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--name",
+      "regression value &/?+ü",
+      "--type",
+      "file",
+      "--input-is-active=true"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/devices/posture/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "75",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "input": {
+            "is_active": true
+          },
+          "name": "regression value &/?+ü",
+          "type": "file"
+        }
+      }
+    ]
+  },
+  {
+    "case": "--input-is-active value 1",
+    "argv": [
+      "zero-trust",
+      "devices",
+      "posture",
+      "rules",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--name",
+      "regression value &/?+ü",
+      "--type",
+      "file",
+      "--input-is-active=false"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/devices/posture/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "76",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "input": {
+            "is_active": false
+          },
+          "name": "regression value &/?+ü",
+          "type": "file"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --input-network-status",
+    "argv": [
+      "zero-trust",
+      "devices",
+      "posture",
+      "rules",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--name",
+      "regression value &/?+ü",
+      "--type",
+      "file",
+      "--input-network-status",
+      "connected"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/devices/posture/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "87",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "input": {
+            "network_status": "connected"
+          },
+          "name": "regression value &/?+ü",
+          "type": "file"
+        }
+      }
+    ]
+  },
+  {
+    "case": "--input-network-status value 1",
+    "argv": [
+      "zero-trust",
+      "devices",
+      "posture",
+      "rules",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--name",
+      "regression value &/?+ü",
+      "--type",
+      "file",
+      "--input-network-status",
+      "disconnected"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/devices/posture/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "90",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "input": {
+            "network_status": "disconnected"
+          },
+          "name": "regression value &/?+ü",
+          "type": "file"
+        }
+      }
+    ]
+  },
+  {
+    "case": "--input-network-status value 2",
+    "argv": [
+      "zero-trust",
+      "devices",
+      "posture",
+      "rules",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--name",
+      "regression value &/?+ü",
+      "--type",
+      "file",
+      "--input-network-status",
+      "disconnecting"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/devices/posture/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "91",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "input": {
+            "network_status": "disconnecting"
+          },
+          "name": "regression value &/?+ü",
+          "type": "file"
+        }
+      }
+    ]
+  },
+  {
+    "case": "--input-network-status value 3",
+    "argv": [
+      "zero-trust",
+      "devices",
+      "posture",
+      "rules",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--name",
+      "regression value &/?+ü",
+      "--type",
+      "file",
+      "--input-network-status",
+      "connecting"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/devices/posture/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "88",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "input": {
+            "network_status": "connecting"
+          },
+          "name": "regression value &/?+ü",
+          "type": "file"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --input-operational-state",
+    "argv": [
+      "zero-trust",
+      "devices",
+      "posture",
+      "rules",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--name",
+      "regression value &/?+ü",
+      "--type",
+      "file",
+      "--input-operational-state",
+      "na"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/devices/posture/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "83",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "input": {
+            "operational_state": "na"
+          },
+          "name": "regression value &/?+ü",
+          "type": "file"
+        }
+      }
+    ]
+  },
+  {
+    "case": "--input-operational-state value 1",
+    "argv": [
+      "zero-trust",
+      "devices",
+      "posture",
+      "rules",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--name",
+      "regression value &/?+ü",
+      "--type",
+      "file",
+      "--input-operational-state",
+      "partially_disabled"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/devices/posture/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "99",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "input": {
+            "operational_state": "partially_disabled"
+          },
+          "name": "regression value &/?+ü",
+          "type": "file"
+        }
+      }
+    ]
+  },
+  {
+    "case": "--input-operational-state value 2",
+    "argv": [
+      "zero-trust",
+      "devices",
+      "posture",
+      "rules",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--name",
+      "regression value &/?+ü",
+      "--type",
+      "file",
+      "--input-operational-state",
+      "auto_fully_disabled"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/devices/posture/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "100",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "input": {
+            "operational_state": "auto_fully_disabled"
+          },
+          "name": "regression value &/?+ü",
+          "type": "file"
+        }
+      }
+    ]
+  },
+  {
+    "case": "--input-operational-state value 3",
+    "argv": [
+      "zero-trust",
+      "devices",
+      "posture",
+      "rules",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--name",
+      "regression value &/?+ü",
+      "--type",
+      "file",
+      "--input-operational-state",
+      "fully_disabled"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/devices/posture/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "95",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "input": {
+            "operational_state": "fully_disabled"
+          },
+          "name": "regression value &/?+ü",
+          "type": "file"
+        }
+      }
+    ]
+  },
+  {
+    "case": "--input-operational-state value 4",
+    "argv": [
+      "zero-trust",
+      "devices",
+      "posture",
+      "rules",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--name",
+      "regression value &/?+ü",
+      "--type",
+      "file",
+      "--input-operational-state",
+      "auto_partially_disabled"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/devices/posture/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "104",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "input": {
+            "operational_state": "auto_partially_disabled"
+          },
+          "name": "regression value &/?+ü",
+          "type": "file"
+        }
+      }
+    ]
+  },
+  {
+    "case": "--input-operational-state value 5",
+    "argv": [
+      "zero-trust",
+      "devices",
+      "posture",
+      "rules",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--name",
+      "regression value &/?+ü",
+      "--type",
+      "file",
+      "--input-operational-state",
+      "disabled_error"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/devices/posture/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "95",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "input": {
+            "operational_state": "disabled_error"
+          },
+          "name": "regression value &/?+ü",
+          "type": "file"
+        }
+      }
+    ]
+  },
+  {
+    "case": "--input-operational-state value 6",
+    "argv": [
+      "zero-trust",
+      "devices",
+      "posture",
+      "rules",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--name",
+      "regression value &/?+ü",
+      "--type",
+      "file",
+      "--input-operational-state",
+      "db_corruption"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/devices/posture/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "94",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "input": {
+            "operational_state": "db_corruption"
+          },
+          "name": "regression value &/?+ü",
+          "type": "file"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --input-score",
+    "argv": [
+      "zero-trust",
+      "devices",
+      "posture",
+      "rules",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--name",
+      "regression value &/?+ü",
+      "--type",
+      "file",
+      "--input-score",
+      "1"
+    ],
+    "exitCode": 1,
+    "error": "Missing dependent arguments:\n input-score -> input-connection-id input-score -> input-operator",
+    "requests": []
+  },
+  {
+    "case": "only --match",
+    "argv": [
+      "zero-trust",
+      "devices",
+      "posture",
+      "rules",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--name",
+      "regression value &/?+ü",
+      "--type",
+      "file",
+      "--match",
+      "[{\"regression\":\"item\"}]"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/devices/posture/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "80",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "match": [
+            {
+              "regression": "item"
+            }
+          ],
+          "name": "regression value &/?+ü",
+          "type": "file"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --schedule",
+    "argv": [
+      "zero-trust",
+      "devices",
+      "posture",
+      "rules",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--name",
+      "regression value &/?+ü",
+      "--type",
+      "file",
+      "--schedule",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/devices/posture/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "85",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "name": "regression value &/?+ü",
+          "schedule": "regression value &/?+ü",
+          "type": "file"
+        }
+      }
+    ]
+  },
+  {
+    "case": "required --type value 1",
+    "argv": [
+      "zero-trust",
+      "devices",
+      "posture",
+      "rules",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--name",
+      "regression value &/?+ü",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--type",
+      "application"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/devices/posture/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "required --type value 2",
+    "argv": [
+      "zero-trust",
+      "devices",
+      "posture",
+      "rules",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--name",
+      "regression value &/?+ü",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--type",
+      "tanium"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/devices/posture/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "required --type value 3",
+    "argv": [
+      "zero-trust",
+      "devices",
+      "posture",
+      "rules",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--name",
+      "regression value &/?+ü",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--type",
+      "gateway"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/devices/posture/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "required --type value 4",
+    "argv": [
+      "zero-trust",
+      "devices",
+      "posture",
+      "rules",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--name",
+      "regression value &/?+ü",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--type",
+      "warp"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/devices/posture/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "required --type value 5",
+    "argv": [
+      "zero-trust",
+      "devices",
+      "posture",
+      "rules",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--name",
+      "regression value &/?+ü",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--type",
+      "disk_encryption"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/devices/posture/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "required --type value 6",
+    "argv": [
+      "zero-trust",
+      "devices",
+      "posture",
+      "rules",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--name",
+      "regression value &/?+ü",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--type",
+      "serial_number"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/devices/posture/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "required --type value 7",
+    "argv": [
+      "zero-trust",
+      "devices",
+      "posture",
+      "rules",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--name",
+      "regression value &/?+ü",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--type",
+      "sentinelone"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/devices/posture/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "required --type value 8",
+    "argv": [
+      "zero-trust",
+      "devices",
+      "posture",
+      "rules",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--name",
+      "regression value &/?+ü",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--type",
+      "carbonblack"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/devices/posture/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "required --type value 9",
+    "argv": [
+      "zero-trust",
+      "devices",
+      "posture",
+      "rules",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--name",
+      "regression value &/?+ü",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--type",
+      "firewall"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/devices/posture/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "required --type value 10",
+    "argv": [
+      "zero-trust",
+      "devices",
+      "posture",
+      "rules",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--name",
+      "regression value &/?+ü",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--type",
+      "os_version"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/devices/posture/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "required --type value 11",
+    "argv": [
+      "zero-trust",
+      "devices",
+      "posture",
+      "rules",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--name",
+      "regression value &/?+ü",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--type",
+      "domain_joined"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/devices/posture/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "required --type value 12",
+    "argv": [
+      "zero-trust",
+      "devices",
+      "posture",
+      "rules",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--name",
+      "regression value &/?+ü",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--type",
+      "client_certificate"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/devices/posture/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "required --type value 13",
+    "argv": [
+      "zero-trust",
+      "devices",
+      "posture",
+      "rules",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--name",
+      "regression value &/?+ü",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--type",
+      "client_certificate_v2"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/devices/posture/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "required --type value 14",
+    "argv": [
+      "zero-trust",
+      "devices",
+      "posture",
+      "rules",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--name",
+      "regression value &/?+ü",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--type",
+      "antivirus"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/devices/posture/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "required --type value 15",
+    "argv": [
+      "zero-trust",
+      "devices",
+      "posture",
+      "rules",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--name",
+      "regression value &/?+ü",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--type",
+      "unique_client_id"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/devices/posture/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "required --type value 16",
+    "argv": [
+      "zero-trust",
+      "devices",
+      "posture",
+      "rules",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--name",
+      "regression value &/?+ü",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--type",
+      "kolide"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/devices/posture/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "required --type value 17",
+    "argv": [
+      "zero-trust",
+      "devices",
+      "posture",
+      "rules",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--name",
+      "regression value &/?+ü",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--type",
+      "tanium_s2s"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/devices/posture/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "required --type value 18",
+    "argv": [
+      "zero-trust",
+      "devices",
+      "posture",
+      "rules",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--name",
+      "regression value &/?+ü",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--type",
+      "crowdstrike_s2s"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/devices/posture/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "required --type value 19",
+    "argv": [
+      "zero-trust",
+      "devices",
+      "posture",
+      "rules",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--name",
+      "regression value &/?+ü",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--type",
+      "intune"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/devices/posture/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "required --type value 20",
+    "argv": [
+      "zero-trust",
+      "devices",
+      "posture",
+      "rules",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--name",
+      "regression value &/?+ü",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--type",
+      "workspace_one"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/devices/posture/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "required --type value 21",
+    "argv": [
+      "zero-trust",
+      "devices",
+      "posture",
+      "rules",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--name",
+      "regression value &/?+ü",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--type",
+      "sentinelone_s2s"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/devices/posture/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "required --type value 22",
+    "argv": [
+      "zero-trust",
+      "devices",
+      "posture",
+      "rules",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--name",
+      "regression value &/?+ü",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--type",
+      "custom_s2s"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/devices/posture/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 0",
+    "argv": [
+      "zero-trust",
+      "devices",
+      "posture",
+      "rules",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--name",
+      "regression value &/?+ü",
+      "--type",
+      "file"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/devices/posture/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "48",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "name": "regression value &/?+ü",
+          "type": "file"
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 1",
+    "argv": [
+      "zero-trust",
+      "devices",
+      "posture",
+      "rules",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--name",
+      "regression value &/?+ü",
+      "--type",
+      "file",
+      "--description",
+      "192.0.2.1",
+      "--expiration",
+      "second value &/?+ü",
+      "--input-exists=false",
+      "--input-operating-system",
+      "linux",
+      "--input-path",
+      "second value &/?+ü",
+      "--input-sha256",
+      "second value &/?+ü",
+      "--input-thumbprint",
+      "second value &/?+ü",
+      "--input-id",
+      "0123456789abcdef0123456789abcdef",
+      "--input-domain",
+      "example.com",
+      "--input-operator",
+      "<=",
+      "--input-os-distro-name",
+      "second value &/?+ü",
+      "--input-os-distro-revision",
+      "second value &/?+ü",
+      "--input-os-version-extra",
+      "second value &/?+ü",
+      "--input-version",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--input-enabled=false",
+      "--input-check-disks",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--input-require-all=false",
+      "--input-certificate-id",
+      "0123456789abcdef0123456789abcdef",
+      "--input-cn",
+      "second value &/?+ü",
+      "--input-check-private-key=false",
+      "--input-extended-key-usage",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--input-locations-paths",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--input-locations-trust-stores",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--input-subject-alternative-names",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--input-update-window-days",
+      "2",
+      "--input-compliance-status",
+      "noncompliant",
+      "--input-connection-id",
+      "0123456789abcdef0123456789abcdef",
+      "--input-last-seen",
+      "second value &/?+ü",
+      "--input-os",
+      "second value &/?+ü",
+      "--input-overall",
+      "second value &/?+ü",
+      "--input-sensor-config",
+      "second value &/?+ü",
+      "--input-state",
+      "offline",
+      "--input-version-operator",
+      "<=",
+      "--input-auth-state",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--input-count-operator",
+      "<=",
+      "--input-issue-count",
+      "second value &/?+ü",
+      "--input-eid-last-seen",
+      "second value &/?+ü",
+      "--input-risk-level",
+      "medium",
+      "--input-score-operator",
+      "<=",
+      "--input-total-score",
+      "2",
+      "--input-active-threats",
+      "2",
+      "--input-infected=false",
+      "--input-is-active=false",
+      "--input-network-status",
+      "disconnected",
+      "--input-operational-state",
+      "partially_disabled",
+      "--input-score",
+      "2",
+      "--match",
+      "[{\"regression\":\"item\"}]",
+      "--schedule",
+      "second value &/?+ü"
+    ],
+    "exitCode": 1,
+    "error": "Unknown command: second value &/?+ü",
+    "requests": []
+  },
+  {
+    "case": "pairwise 2",
+    "argv": [
+      "zero-trust",
+      "devices",
+      "posture",
+      "rules",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--name",
+      "regression value &/?+ü",
+      "--type",
+      "file",
+      "--expiration",
+      "regression value &/?+ü",
+      "--input-operating-system",
+      "windows",
+      "--input-sha256",
+      "regression value &/?+ü",
+      "--input-id",
+      "0123456789abcdef0123456789abcdef",
+      "--input-operator",
+      "<",
+      "--input-os-distro-revision",
+      "regression value &/?+ü",
+      "--input-version",
+      "regression value &/?+ü",
+      "--input-check-disks",
+      "regression value &/?+ü",
+      "--input-certificate-id",
+      "0123456789abcdef0123456789abcdef",
+      "--input-check-private-key=true",
+      "--input-locations-paths",
+      "regression value &/?+ü",
+      "--input-subject-alternative-names",
+      "regression value &/?+ü",
+      "--input-compliance-status",
+      "compliant",
+      "--input-last-seen",
+      "regression value &/?+ü",
+      "--input-overall",
+      "regression value &/?+ü",
+      "--input-state",
+      "online",
+      "--input-auth-state",
+      "regression value &/?+ü",
+      "--input-issue-count",
+      "regression value &/?+ü",
+      "--input-risk-level",
+      "low",
+      "--input-total-score",
+      "1",
+      "--input-infected=true",
+      "--input-network-status",
+      "connected",
+      "--input-score",
+      "1",
+      "--schedule",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 1,
+    "error": "Missing dependent arguments:\n input-score -> input-connection-id",
+    "requests": []
+  },
+  {
+    "case": "pairwise 3",
+    "argv": [
+      "zero-trust",
+      "devices",
+      "posture",
+      "rules",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--name",
+      "regression value &/?+ü",
+      "--type",
+      "file",
+      "--description",
+      "192.0.2.1",
+      "--input-exists=false",
+      "--input-path",
+      "second value &/?+ü",
+      "--input-thumbprint",
+      "second value &/?+ü",
+      "--input-domain",
+      "example.com",
+      "--input-os-distro-name",
+      "second value &/?+ü",
+      "--input-os-version-extra",
+      "second value &/?+ü",
+      "--input-enabled=false",
+      "--input-require-all=false",
+      "--input-cn",
+      "second value &/?+ü",
+      "--input-extended-key-usage",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--input-locations-trust-stores",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--input-update-window-days",
+      "2",
+      "--input-connection-id",
+      "0123456789abcdef0123456789abcdef",
+      "--input-os",
+      "second value &/?+ü",
+      "--input-sensor-config",
+      "second value &/?+ü",
+      "--input-version-operator",
+      "<=",
+      "--input-count-operator",
+      "<=",
+      "--input-eid-last-seen",
+      "second value &/?+ü",
+      "--input-score-operator",
+      "<=",
+      "--input-active-threats",
+      "2",
+      "--input-is-active=false",
+      "--input-operational-state",
+      "partially_disabled",
+      "--match",
+      "[{\"regression\":\"item\"}]"
+    ],
+    "exitCode": 1,
+    "error": "Missing dependent arguments:\n input-enabled -> input-operating-system input-cn -> input-certificate-id",
+    "requests": []
+  },
+  {
+    "case": "pairwise 4",
+    "argv": [
+      "zero-trust",
+      "devices",
+      "posture",
+      "rules",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--name",
+      "regression value &/?+ü",
+      "--type",
+      "file",
+      "--input-exists=true",
+      "--input-operating-system",
+      "windows",
+      "--input-thumbprint",
+      "regression value &/?+ü",
+      "--input-id",
+      "0123456789abcdef0123456789abcdef",
+      "--input-os-distro-name",
+      "regression value &/?+ü",
+      "--input-os-distro-revision",
+      "regression value &/?+ü",
+      "--input-enabled=true",
+      "--input-check-disks",
+      "regression value &/?+ü",
+      "--input-cn",
+      "regression value &/?+ü",
+      "--input-check-private-key=true",
+      "--input-locations-trust-stores",
+      "regression value &/?+ü",
+      "--input-subject-alternative-names",
+      "regression value &/?+ü",
+      "--input-connection-id",
+      "0123456789abcdef0123456789abcdef",
+      "--input-last-seen",
+      "regression value &/?+ü",
+      "--input-sensor-config",
+      "regression value &/?+ü",
+      "--input-state",
+      "online",
+      "--input-count-operator",
+      "<",
+      "--input-issue-count",
+      "regression value &/?+ü",
+      "--input-score-operator",
+      "<",
+      "--input-total-score",
+      "1",
+      "--input-is-active=true",
+      "--input-network-status",
+      "connected",
+      "--match",
+      "[{\"regression\":\"item\"}]",
+      "--schedule",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 1,
+    "error": "Missing dependent arguments:\n input-cn -> input-certificate-id input-check-private-key -> input-certificate-id",
+    "requests": []
+  },
+  {
+    "case": "pairwise 5",
+    "argv": [
+      "zero-trust",
+      "devices",
+      "posture",
+      "rules",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--name",
+      "regression value &/?+ü",
+      "--type",
+      "file",
+      "--description",
+      "192.0.2.1",
+      "--expiration",
+      "second value &/?+ü",
+      "--input-path",
+      "second value &/?+ü",
+      "--input-sha256",
+      "second value &/?+ü",
+      "--input-domain",
+      "example.com",
+      "--input-operator",
+      "<=",
+      "--input-os-version-extra",
+      "second value &/?+ü",
+      "--input-version",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--input-require-all=false",
+      "--input-certificate-id",
+      "0123456789abcdef0123456789abcdef",
+      "--input-extended-key-usage",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--input-locations-paths",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--input-update-window-days",
+      "2",
+      "--input-compliance-status",
+      "noncompliant",
+      "--input-os",
+      "second value &/?+ü",
+      "--input-overall",
+      "second value &/?+ü",
+      "--input-version-operator",
+      "<=",
+      "--input-auth-state",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--input-eid-last-seen",
+      "second value &/?+ü",
+      "--input-risk-level",
+      "medium",
+      "--input-active-threats",
+      "2",
+      "--input-infected=false",
+      "--input-operational-state",
+      "partially_disabled",
+      "--input-score",
+      "2"
+    ],
+    "exitCode": 1,
+    "error": "Unknown command: second value &/?+ü",
+    "requests": []
+  },
+  {
+    "case": "pairwise 6",
+    "argv": [
+      "zero-trust",
+      "devices",
+      "posture",
+      "rules",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--name",
+      "regression value &/?+ü",
+      "--type",
+      "file",
+      "--input-path",
+      "regression value &/?+ü",
+      "--input-sha256",
+      "regression value &/?+ü",
+      "--input-thumbprint",
+      "regression value &/?+ü",
+      "--input-id",
+      "0123456789abcdef0123456789abcdef",
+      "--input-os-version-extra",
+      "regression value &/?+ü",
+      "--input-version",
+      "regression value &/?+ü",
+      "--input-enabled=true",
+      "--input-check-disks",
+      "regression value &/?+ü",
+      "--input-extended-key-usage",
+      "regression value &/?+ü",
+      "--input-locations-paths",
+      "regression value &/?+ü",
+      "--input-locations-trust-stores",
+      "regression value &/?+ü",
+      "--input-subject-alternative-names",
+      "regression value &/?+ü",
+      "--input-os",
+      "regression value &/?+ü",
+      "--input-overall",
+      "regression value &/?+ü",
+      "--input-sensor-config",
+      "regression value &/?+ü",
+      "--input-state",
+      "online",
+      "--input-eid-last-seen",
+      "regression value &/?+ü",
+      "--input-risk-level",
+      "low",
+      "--input-score-operator",
+      "<",
+      "--input-total-score",
+      "1",
+      "--input-operational-state",
+      "na",
+      "--input-score",
+      "1",
+      "--match",
+      "[{\"regression\":\"item\"}]",
+      "--schedule",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 1,
+    "error": "Missing dependent arguments:\n input-version -> input-operating-system input-version -> input-operator input-enabled -> input-operating-system input-score -> input-connection-id input-score -> input-operator",
+    "requests": []
+  },
+  {
+    "case": "pairwise 7",
+    "argv": [
+      "zero-trust",
+      "devices",
+      "posture",
+      "rules",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--name",
+      "regression value &/?+ü",
+      "--type",
+      "file",
+      "--description",
+      "192.0.2.1",
+      "--expiration",
+      "second value &/?+ü",
+      "--input-exists=false",
+      "--input-operating-system",
+      "linux",
+      "--input-domain",
+      "example.com",
+      "--input-operator",
+      "<=",
+      "--input-os-distro-name",
+      "second value &/?+ü",
+      "--input-os-distro-revision",
+      "second value &/?+ü",
+      "--input-require-all=false",
+      "--input-certificate-id",
+      "0123456789abcdef0123456789abcdef",
+      "--input-cn",
+      "second value &/?+ü",
+      "--input-check-private-key=false",
+      "--input-update-window-days",
+      "2",
+      "--input-compliance-status",
+      "noncompliant",
+      "--input-connection-id",
+      "0123456789abcdef0123456789abcdef",
+      "--input-last-seen",
+      "second value &/?+ü",
+      "--input-version-operator",
+      "<=",
+      "--input-auth-state",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--input-count-operator",
+      "<=",
+      "--input-issue-count",
+      "second value &/?+ü",
+      "--input-active-threats",
+      "2",
+      "--input-infected=false",
+      "--input-is-active=false",
+      "--input-network-status",
+      "disconnected"
+    ],
+    "exitCode": 1,
+    "error": "Arguments input-exists and input-domain are mutually exclusive",
+    "requests": []
+  },
+  {
+    "case": "pairwise 8",
+    "argv": [
+      "zero-trust",
+      "devices",
+      "posture",
+      "rules",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--name",
+      "regression value &/?+ü",
+      "--type",
+      "file",
+      "--input-domain",
+      "example.com",
+      "--input-operator",
+      "<",
+      "--input-os-distro-name",
+      "regression value &/?+ü",
+      "--input-os-distro-revision",
+      "regression value &/?+ü",
+      "--input-os-version-extra",
+      "regression value &/?+ü",
+      "--input-version",
+      "regression value &/?+ü",
+      "--input-enabled=true",
+      "--input-check-disks",
+      "regression value &/?+ü",
+      "--input-update-window-days",
+      "1",
+      "--input-compliance-status",
+      "compliant",
+      "--input-connection-id",
+      "0123456789abcdef0123456789abcdef",
+      "--input-last-seen",
+      "regression value &/?+ü",
+      "--input-os",
+      "regression value &/?+ü",
+      "--input-overall",
+      "regression value &/?+ü",
+      "--input-sensor-config",
+      "regression value &/?+ü",
+      "--input-state",
+      "online",
+      "--input-active-threats",
+      "1",
+      "--input-infected=true",
+      "--input-is-active=true",
+      "--input-network-status",
+      "connected",
+      "--input-operational-state",
+      "na",
+      "--input-score",
+      "1",
+      "--match",
+      "[{\"regression\":\"item\"}]",
+      "--schedule",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 1,
+    "error": "Missing dependent arguments:\n input-version -> input-operating-system input-enabled -> input-operating-system",
+    "requests": []
+  },
+  {
+    "case": "pairwise 9",
+    "argv": [
+      "zero-trust",
+      "devices",
+      "posture",
+      "rules",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--name",
+      "regression value &/?+ü",
+      "--type",
+      "file",
+      "--description",
+      "192.0.2.1",
+      "--expiration",
+      "second value &/?+ü",
+      "--input-exists=false",
+      "--input-operating-system",
+      "linux",
+      "--input-path",
+      "second value &/?+ü",
+      "--input-sha256",
+      "second value &/?+ü",
+      "--input-thumbprint",
+      "second value &/?+ü",
+      "--input-id",
+      "0123456789abcdef0123456789abcdef",
+      "--input-require-all=false",
+      "--input-certificate-id",
+      "0123456789abcdef0123456789abcdef",
+      "--input-cn",
+      "second value &/?+ü",
+      "--input-check-private-key=false",
+      "--input-extended-key-usage",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--input-locations-paths",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--input-locations-trust-stores",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--input-subject-alternative-names",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--input-version-operator",
+      "<=",
+      "--input-auth-state",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--input-count-operator",
+      "<=",
+      "--input-issue-count",
+      "second value &/?+ü",
+      "--input-eid-last-seen",
+      "second value &/?+ü",
+      "--input-risk-level",
+      "medium",
+      "--input-score-operator",
+      "<=",
+      "--input-total-score",
+      "2"
+    ],
+    "exitCode": 1,
+    "error": "Arguments input-exists and input-id are mutually exclusive",
+    "requests": []
+  },
+  {
+    "case": "pairwise 10",
+    "argv": [
+      "zero-trust",
+      "devices",
+      "posture",
+      "rules",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--name",
+      "regression value &/?+ü",
+      "--type",
+      "file",
+      "--input-require-all=true",
+      "--input-certificate-id",
+      "0123456789abcdef0123456789abcdef",
+      "--input-cn",
+      "regression value &/?+ü",
+      "--input-check-private-key=true",
+      "--input-extended-key-usage",
+      "regression value &/?+ü",
+      "--input-locations-paths",
+      "regression value &/?+ü",
+      "--input-locations-trust-stores",
+      "regression value &/?+ü",
+      "--input-subject-alternative-names",
+      "regression value &/?+ü",
+      "--input-update-window-days",
+      "1",
+      "--input-compliance-status",
+      "compliant",
+      "--input-connection-id",
+      "0123456789abcdef0123456789abcdef",
+      "--input-last-seen",
+      "regression value &/?+ü",
+      "--input-os",
+      "regression value &/?+ü",
+      "--input-overall",
+      "regression value &/?+ü",
+      "--input-sensor-config",
+      "regression value &/?+ü",
+      "--input-state",
+      "online"
+    ],
+    "exitCode": 1,
+    "error": "Missing dependent arguments:\n input-check-private-key -> input-operating-system",
+    "requests": []
+  },
+  {
+    "case": "pairwise 11",
+    "argv": [
+      "zero-trust",
+      "devices",
+      "posture",
+      "rules",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--name",
+      "regression value &/?+ü",
+      "--type",
+      "file",
+      "--description",
+      "192.0.2.1",
+      "--expiration",
+      "second value &/?+ü",
+      "--input-exists=false",
+      "--input-operating-system",
+      "linux",
+      "--input-path",
+      "second value &/?+ü",
+      "--input-sha256",
+      "second value &/?+ü",
+      "--input-thumbprint",
+      "second value &/?+ü",
+      "--input-id",
+      "0123456789abcdef0123456789abcdef",
+      "--input-domain",
+      "example.com",
+      "--input-operator",
+      "<=",
+      "--input-os-distro-name",
+      "second value &/?+ü",
+      "--input-os-distro-revision",
+      "second value &/?+ü",
+      "--input-os-version-extra",
+      "second value &/?+ü",
+      "--input-version",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--input-enabled=false",
+      "--input-check-disks",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--input-version-operator",
+      "<=",
+      "--input-auth-state",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--input-count-operator",
+      "<=",
+      "--input-issue-count",
+      "second value &/?+ü",
+      "--input-eid-last-seen",
+      "second value &/?+ü",
+      "--input-risk-level",
+      "medium",
+      "--input-score-operator",
+      "<=",
+      "--input-total-score",
+      "2",
+      "--input-active-threats",
+      "2",
+      "--input-infected=false",
+      "--input-is-active=false",
+      "--input-network-status",
+      "disconnected",
+      "--input-operational-state",
+      "partially_disabled",
+      "--input-score",
+      "2",
+      "--match",
+      "[{\"regression\":\"item\"}]",
+      "--schedule",
+      "second value &/?+ü"
+    ],
+    "exitCode": 1,
+    "error": "Unknown command: second value &/?+ü",
+    "requests": []
+  },
+  {
+    "case": "pairwise 12",
+    "argv": [
+      "zero-trust",
+      "devices",
+      "posture",
+      "rules",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--name",
+      "regression value &/?+ü",
+      "--type",
+      "file",
+      "--input-version-operator",
+      "<",
+      "--input-auth-state",
+      "regression value &/?+ü",
+      "--input-count-operator",
+      "<",
+      "--input-issue-count",
+      "regression value &/?+ü",
+      "--input-eid-last-seen",
+      "regression value &/?+ü",
+      "--input-risk-level",
+      "low",
+      "--input-score-operator",
+      "<",
+      "--input-total-score",
+      "1",
+      "--input-active-threats",
+      "1",
+      "--input-infected=true",
+      "--input-is-active=true",
+      "--input-network-status",
+      "connected",
+      "--input-operational-state",
+      "na",
+      "--input-score",
+      "1",
+      "--match",
+      "[{\"regression\":\"item\"}]",
+      "--schedule",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 1,
+    "error": "Missing dependent arguments:\n input-score -> input-connection-id input-score -> input-operator",
+    "requests": []
+  },
+  {
+    "case": "pairwise 13",
+    "argv": [
+      "zero-trust",
+      "devices",
+      "posture",
+      "rules",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--name",
+      "regression value &/?+ü",
+      "--type",
+      "file",
+      "--description",
+      "192.0.2.1",
+      "--expiration",
+      "second value &/?+ü",
+      "--input-exists=false",
+      "--input-operating-system",
+      "linux",
+      "--input-path",
+      "second value &/?+ü",
+      "--input-sha256",
+      "second value &/?+ü",
+      "--input-thumbprint",
+      "second value &/?+ü",
+      "--input-id",
+      "0123456789abcdef0123456789abcdef",
+      "--input-domain",
+      "example.com",
+      "--input-operator",
+      "<=",
+      "--input-os-distro-name",
+      "second value &/?+ü",
+      "--input-os-distro-revision",
+      "second value &/?+ü",
+      "--input-os-version-extra",
+      "second value &/?+ü",
+      "--input-version",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--input-enabled=false",
+      "--input-check-disks",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--input-require-all=false",
+      "--input-certificate-id",
+      "0123456789abcdef0123456789abcdef",
+      "--input-cn",
+      "second value &/?+ü",
+      "--input-check-private-key=false",
+      "--input-extended-key-usage",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--input-locations-paths",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--input-locations-trust-stores",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--input-subject-alternative-names",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--input-update-window-days",
+      "2",
+      "--input-compliance-status",
+      "noncompliant",
+      "--input-connection-id",
+      "0123456789abcdef0123456789abcdef",
+      "--input-last-seen",
+      "second value &/?+ü",
+      "--input-os",
+      "second value &/?+ü",
+      "--input-overall",
+      "second value &/?+ü",
+      "--input-sensor-config",
+      "second value &/?+ü",
+      "--input-state",
+      "offline"
+    ],
+    "exitCode": 1,
+    "error": "Unknown command: second value &/?+ü",
+    "requests": []
+  },
+  {
+    "case": "global quiet",
+    "argv": [
+      "zero-trust",
+      "devices",
+      "posture",
+      "rules",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--name",
+      "regression value &/?+ü",
+      "--type",
+      "file",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--quiet"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/devices/posture/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "global zone",
+    "argv": [
+      "zero-trust",
+      "devices",
+      "posture",
+      "rules",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--name",
+      "regression value &/?+ü",
+      "--type",
+      "file",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--zone",
+      "abcdef0123456789abcdef0123456789"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/devices/posture/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "global profile and mode",
+    "argv": [
+      "zero-trust",
+      "devices",
+      "posture",
+      "rules",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--name",
+      "regression value &/?+ü",
+      "--type",
+      "file",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--profile",
+      "default",
+      "--mode",
+      "regression"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/devices/posture/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "local",
+    "argv": [
+      "zero-trust",
+      "devices",
+      "posture",
+      "rules",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--name",
+      "regression value &/?+ü",
+      "--type",
+      "file",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--local"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "http://localhost/cdn-cgi/local/explorer/api/devices/posture/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "gzip, deflate",
+          "accept-language": "*",
+          "connection": "keep-alive",
+          "content-type": "application/json",
+          "host": "localhost",
+          "sec-fetch-mode": "cors",
+          "transfer-encoding": "chunked",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "local with persistence",
+    "argv": [
+      "zero-trust",
+      "devices",
+      "posture",
+      "rules",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--name",
+      "regression value &/?+ü",
+      "--type",
+      "file",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--local",
+      "--persist-to",
+      "regression-state"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "http://localhost/cdn-cgi/local/explorer/api/devices/posture/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "gzip, deflate",
+          "accept-language": "*",
+          "connection": "keep-alive",
+          "content-type": "application/json",
+          "host": "localhost",
+          "sec-fetch-mode": "cors",
+          "transfer-encoding": "chunked",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "dry-run",
+    "argv": [
+      "zero-trust",
+      "devices",
+      "posture",
+      "rules",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--name",
+      "regression value &/?+ü",
+      "--type",
+      "file",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--dry-run"
+    ],
+    "exitCode": 0,
+    "requests": []
+  },
+  {
+    "case": "body from file",
+    "argv": [
+      "zero-trust",
+      "devices",
+      "posture",
+      "rules",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--name",
+      "regression value &/?+ü",
+      "--type",
+      "file",
+      "--body",
+      "@<body.json>"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/devices/posture/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "array body",
+    "argv": [
+      "zero-trust",
+      "devices",
+      "posture",
+      "rules",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--name",
+      "regression value &/?+ü",
+      "--type",
+      "file",
+      "--body",
+      "[{\"regression\":\"first\"},{\"regression\":\"second\"}]"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/devices/posture/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "56",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "0": {
+            "regression": "first"
+          },
+          "1": {
+            "regression": "second"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "field flags",
+    "argv": [
+      "zero-trust",
+      "devices",
+      "posture",
+      "rules",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--name",
+      "regression value &/?+ü",
+      "--type",
+      "file",
+      "--description",
+      "192.0.2.1",
+      "--expiration",
+      "regression value &/?+ü",
+      "--input-exists=true",
+      "--input-operating-system",
+      "windows",
+      "--input-path",
+      "regression value &/?+ü",
+      "--input-sha256",
+      "regression value &/?+ü",
+      "--input-thumbprint",
+      "regression value &/?+ü",
+      "--input-id",
+      "0123456789abcdef0123456789abcdef",
+      "--input-domain",
+      "example.com",
+      "--input-operator",
+      "<",
+      "--input-os-distro-name",
+      "regression value &/?+ü",
+      "--input-os-distro-revision",
+      "regression value &/?+ü",
+      "--input-os-version-extra",
+      "regression value &/?+ü",
+      "--input-version",
+      "regression value &/?+ü",
+      "--input-enabled=true",
+      "--input-check-disks",
+      "regression value &/?+ü",
+      "--input-require-all=true",
+      "--input-certificate-id",
+      "0123456789abcdef0123456789abcdef",
+      "--input-cn",
+      "regression value &/?+ü",
+      "--input-check-private-key=true",
+      "--input-extended-key-usage",
+      "regression value &/?+ü",
+      "--input-locations-paths",
+      "regression value &/?+ü",
+      "--input-locations-trust-stores",
+      "regression value &/?+ü",
+      "--input-subject-alternative-names",
+      "regression value &/?+ü",
+      "--input-update-window-days",
+      "1",
+      "--input-compliance-status",
+      "compliant",
+      "--input-connection-id",
+      "0123456789abcdef0123456789abcdef",
+      "--input-last-seen",
+      "regression value &/?+ü",
+      "--input-os",
+      "regression value &/?+ü",
+      "--input-overall",
+      "regression value &/?+ü",
+      "--input-sensor-config",
+      "regression value &/?+ü",
+      "--input-state",
+      "online",
+      "--input-version-operator",
+      "<",
+      "--input-auth-state",
+      "regression value &/?+ü",
+      "--input-count-operator",
+      "<",
+      "--input-issue-count",
+      "regression value &/?+ü",
+      "--input-eid-last-seen",
+      "regression value &/?+ü",
+      "--input-risk-level",
+      "low",
+      "--input-score-operator",
+      "<",
+      "--input-total-score",
+      "1",
+      "--input-active-threats",
+      "1",
+      "--input-infected=true",
+      "--input-is-active=true",
+      "--input-network-status",
+      "connected",
+      "--input-operational-state",
+      "na",
+      "--input-score",
+      "1",
+      "--match",
+      "[{\"regression\":\"item\"}]",
+      "--schedule",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 1,
+    "error": "Arguments input-exists and input-id are mutually exclusive",
+    "requests": []
+  }
+]

@@ -1,0 +1,1592 @@
+[
+  {
+    "case": "no-args",
+    "argv": [
+      "r2",
+      "buckets",
+      "sippy",
+      "update"
+    ],
+    "exitCode": 1,
+    "error": "Not enough non-option arguments: got 0, need at least 1",
+    "requests": []
+  },
+  {
+    "case": "required",
+    "argv": [
+      "r2",
+      "buckets",
+      "sippy",
+      "update",
+      "regression value &/?+ü",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/r2/buckets/regression%20value%20%26%2F%3F%2B%C3%BC/sippy",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --cf-r2-jurisdiction",
+    "argv": [
+      "r2",
+      "buckets",
+      "sippy",
+      "update",
+      "regression value &/?+ü",
+      "--cf-r2-jurisdiction",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/r2/buckets/regression%20value%20%26%2F%3F%2B%C3%BC/sippy",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "cf-r2-jurisdiction": "regression value &/?+Ã¼",
+          "connection": "keep-alive",
+          "content-length": "0",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "only --destination-access-key-id",
+    "argv": [
+      "r2",
+      "buckets",
+      "sippy",
+      "update",
+      "regression value &/?+ü",
+      "--destination-access-key-id",
+      "0123456789abcdef0123456789abcdef"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/r2/buckets/regression%20value%20%26%2F%3F%2B%C3%BC/sippy",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "66",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "destination": {
+            "accessKeyId": "0123456789abcdef0123456789abcdef"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --destination-provider",
+    "argv": [
+      "r2",
+      "buckets",
+      "sippy",
+      "update",
+      "regression value &/?+ü",
+      "--destination-provider",
+      "r2"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/r2/buckets/regression%20value%20%26%2F%3F%2B%C3%BC/sippy",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "33",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "destination": {
+            "provider": "r2"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --destination-secret-access-key",
+    "argv": [
+      "r2",
+      "buckets",
+      "sippy",
+      "update",
+      "regression value &/?+ü",
+      "--destination-secret-access-key",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/r2/buckets/regression%20value%20%26%2F%3F%2B%C3%BC/sippy",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "61",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "destination": {
+            "secretAccessKey": "regression value &/?+ü"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --source-access-key-id",
+    "argv": [
+      "r2",
+      "buckets",
+      "sippy",
+      "update",
+      "regression value &/?+ü",
+      "--source-access-key-id",
+      "0123456789abcdef0123456789abcdef"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/r2/buckets/regression%20value%20%26%2F%3F%2B%C3%BC/sippy",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "61",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "source": {
+            "accessKeyId": "0123456789abcdef0123456789abcdef"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --source-bucket",
+    "argv": [
+      "r2",
+      "buckets",
+      "sippy",
+      "update",
+      "regression value &/?+ü",
+      "--source-bucket",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/r2/buckets/regression%20value%20%26%2F%3F%2B%C3%BC/sippy",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "47",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "source": {
+            "bucket": "regression value &/?+ü"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --source-provider",
+    "argv": [
+      "r2",
+      "buckets",
+      "sippy",
+      "update",
+      "regression value &/?+ü",
+      "--source-provider",
+      "aws"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/r2/buckets/regression%20value%20%26%2F%3F%2B%C3%BC/sippy",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "29",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "source": {
+            "provider": "aws"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "--source-provider value 1",
+    "argv": [
+      "r2",
+      "buckets",
+      "sippy",
+      "update",
+      "regression value &/?+ü",
+      "--source-provider",
+      "gcs"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/r2/buckets/regression%20value%20%26%2F%3F%2B%C3%BC/sippy",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "29",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "source": {
+            "provider": "gcs"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "--source-provider value 2",
+    "argv": [
+      "r2",
+      "buckets",
+      "sippy",
+      "update",
+      "regression value &/?+ü",
+      "--source-provider",
+      "s3"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/r2/buckets/regression%20value%20%26%2F%3F%2B%C3%BC/sippy",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "28",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "source": {
+            "provider": "s3"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "--source-provider value 3",
+    "argv": [
+      "r2",
+      "buckets",
+      "sippy",
+      "update",
+      "regression value &/?+ü",
+      "--source-provider",
+      "azure"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/r2/buckets/regression%20value%20%26%2F%3F%2B%C3%BC/sippy",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "31",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "source": {
+            "provider": "azure"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --source-region",
+    "argv": [
+      "r2",
+      "buckets",
+      "sippy",
+      "update",
+      "regression value &/?+ü",
+      "--source-region",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/r2/buckets/regression%20value%20%26%2F%3F%2B%C3%BC/sippy",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "47",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "source": {
+            "region": "regression value &/?+ü"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --source-secret-access-key",
+    "argv": [
+      "r2",
+      "buckets",
+      "sippy",
+      "update",
+      "regression value &/?+ü",
+      "--source-secret-access-key",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/r2/buckets/regression%20value%20%26%2F%3F%2B%C3%BC/sippy",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "56",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "source": {
+            "secretAccessKey": "regression value &/?+ü"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --source-client-email",
+    "argv": [
+      "r2",
+      "buckets",
+      "sippy",
+      "update",
+      "regression value &/?+ü",
+      "--source-client-email",
+      "regression@example.com"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/r2/buckets/regression%20value%20%26%2F%3F%2B%C3%BC/sippy",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "51",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "source": {
+            "clientEmail": "regression@example.com"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --source-private-key",
+    "argv": [
+      "r2",
+      "buckets",
+      "sippy",
+      "update",
+      "regression value &/?+ü",
+      "--source-private-key",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/r2/buckets/regression%20value%20%26%2F%3F%2B%C3%BC/sippy",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "51",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "source": {
+            "privateKey": "regression value &/?+ü"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --source-bucket-url",
+    "argv": [
+      "r2",
+      "buckets",
+      "sippy",
+      "update",
+      "regression value &/?+ü",
+      "--source-bucket-url",
+      "https://example.com/a?x=1&y=two"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/r2/buckets/regression%20value%20%26%2F%3F%2B%C3%BC/sippy",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "58",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "source": {
+            "bucketUrl": "https://example.com/a?x=1&y=two"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --source-account-key",
+    "argv": [
+      "r2",
+      "buckets",
+      "sippy",
+      "update",
+      "regression value &/?+ü",
+      "--source-account-key",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/r2/buckets/regression%20value%20%26%2F%3F%2B%C3%BC/sippy",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "51",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "source": {
+            "accountKey": "regression value &/?+ü"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --source-account-name",
+    "argv": [
+      "r2",
+      "buckets",
+      "sippy",
+      "update",
+      "regression value &/?+ü",
+      "--source-account-name",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/r2/buckets/regression%20value%20%26%2F%3F%2B%C3%BC/sippy",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "52",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "source": {
+            "accountName": "regression value &/?+ü"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --source-container",
+    "argv": [
+      "r2",
+      "buckets",
+      "sippy",
+      "update",
+      "regression value &/?+ü",
+      "--source-container",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/r2/buckets/regression%20value%20%26%2F%3F%2B%C3%BC/sippy",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "50",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "source": {
+            "container": "regression value &/?+ü"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --source-sas-token",
+    "argv": [
+      "r2",
+      "buckets",
+      "sippy",
+      "update",
+      "regression value &/?+ü",
+      "--source-sas-token",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/r2/buckets/regression%20value%20%26%2F%3F%2B%C3%BC/sippy",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "49",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "source": {
+            "sasToken": "regression value &/?+ü"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 0",
+    "argv": [
+      "r2",
+      "buckets",
+      "sippy",
+      "update",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/r2/buckets/regression%20value%20%26%2F%3F%2B%C3%BC/sippy",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "0",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "pairwise 1",
+    "argv": [
+      "r2",
+      "buckets",
+      "sippy",
+      "update",
+      "regression value &/?+ü",
+      "--cf-r2-jurisdiction",
+      "second value &/?+ü",
+      "--destination-access-key-id",
+      "0123456789abcdef0123456789abcdef",
+      "--destination-provider",
+      "r2",
+      "--destination-secret-access-key",
+      "second value &/?+ü",
+      "--source-access-key-id",
+      "0123456789abcdef0123456789abcdef",
+      "--source-bucket",
+      "second value &/?+ü",
+      "--source-provider",
+      "gcs",
+      "--source-region",
+      "second value &/?+ü",
+      "--source-secret-access-key",
+      "second value &/?+ü",
+      "--source-client-email",
+      "regression@example.com",
+      "--source-private-key",
+      "second value &/?+ü",
+      "--source-bucket-url",
+      "https://example.com/a?x=1&y=two",
+      "--source-account-key",
+      "second value &/?+ü",
+      "--source-account-name",
+      "second value &/?+ü",
+      "--source-container",
+      "second value &/?+ü",
+      "--source-sas-token",
+      "second value &/?+ü"
+    ],
+    "exitCode": 1,
+    "error": "Arguments source-bucket and source-bucket-url are mutually exclusive",
+    "requests": []
+  },
+  {
+    "case": "pairwise 2",
+    "argv": [
+      "r2",
+      "buckets",
+      "sippy",
+      "update",
+      "regression value &/?+ü",
+      "--destination-access-key-id",
+      "0123456789abcdef0123456789abcdef",
+      "--destination-secret-access-key",
+      "regression value &/?+ü",
+      "--source-bucket",
+      "regression value &/?+ü",
+      "--source-region",
+      "regression value &/?+ü",
+      "--source-client-email",
+      "regression@example.com",
+      "--source-bucket-url",
+      "https://example.com/a?x=1&y=two",
+      "--source-account-name",
+      "regression value &/?+ü",
+      "--source-sas-token",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 1,
+    "error": "Arguments source-bucket and source-bucket-url are mutually exclusive",
+    "requests": []
+  },
+  {
+    "case": "pairwise 3",
+    "argv": [
+      "r2",
+      "buckets",
+      "sippy",
+      "update",
+      "regression value &/?+ü",
+      "--cf-r2-jurisdiction",
+      "second value &/?+ü",
+      "--destination-provider",
+      "r2",
+      "--source-access-key-id",
+      "0123456789abcdef0123456789abcdef",
+      "--source-provider",
+      "gcs",
+      "--source-secret-access-key",
+      "second value &/?+ü",
+      "--source-private-key",
+      "second value &/?+ü",
+      "--source-account-key",
+      "second value &/?+ü",
+      "--source-container",
+      "second value &/?+ü"
+    ],
+    "exitCode": 1,
+    "error": "Arguments source-private-key and source-account-key are mutually exclusive",
+    "requests": []
+  },
+  {
+    "case": "pairwise 4",
+    "argv": [
+      "r2",
+      "buckets",
+      "sippy",
+      "update",
+      "regression value &/?+ü",
+      "--destination-provider",
+      "r2",
+      "--destination-secret-access-key",
+      "regression value &/?+ü",
+      "--source-provider",
+      "aws",
+      "--source-region",
+      "regression value &/?+ü",
+      "--source-private-key",
+      "regression value &/?+ü",
+      "--source-bucket-url",
+      "https://example.com/a?x=1&y=two",
+      "--source-container",
+      "regression value &/?+ü",
+      "--source-sas-token",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 1,
+    "error": "Arguments source-region and source-private-key are mutually exclusive",
+    "requests": []
+  },
+  {
+    "case": "pairwise 5",
+    "argv": [
+      "r2",
+      "buckets",
+      "sippy",
+      "update",
+      "regression value &/?+ü",
+      "--cf-r2-jurisdiction",
+      "second value &/?+ü",
+      "--destination-access-key-id",
+      "0123456789abcdef0123456789abcdef",
+      "--source-access-key-id",
+      "0123456789abcdef0123456789abcdef",
+      "--source-bucket",
+      "second value &/?+ü",
+      "--source-secret-access-key",
+      "second value &/?+ü",
+      "--source-client-email",
+      "regression@example.com",
+      "--source-account-key",
+      "second value &/?+ü",
+      "--source-account-name",
+      "second value &/?+ü"
+    ],
+    "exitCode": 1,
+    "error": "Arguments source-bucket and source-account-key are mutually exclusive",
+    "requests": []
+  },
+  {
+    "case": "pairwise 6",
+    "argv": [
+      "r2",
+      "buckets",
+      "sippy",
+      "update",
+      "regression value &/?+ü",
+      "--source-access-key-id",
+      "0123456789abcdef0123456789abcdef",
+      "--source-bucket",
+      "regression value &/?+ü",
+      "--source-provider",
+      "aws",
+      "--source-region",
+      "regression value &/?+ü",
+      "--source-account-key",
+      "regression value &/?+ü",
+      "--source-account-name",
+      "regression value &/?+ü",
+      "--source-container",
+      "regression value &/?+ü",
+      "--source-sas-token",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 1,
+    "error": "Arguments source-bucket and source-account-key are mutually exclusive",
+    "requests": []
+  },
+  {
+    "case": "pairwise 7",
+    "argv": [
+      "r2",
+      "buckets",
+      "sippy",
+      "update",
+      "regression value &/?+ü",
+      "--cf-r2-jurisdiction",
+      "second value &/?+ü",
+      "--destination-access-key-id",
+      "0123456789abcdef0123456789abcdef",
+      "--destination-provider",
+      "r2",
+      "--destination-secret-access-key",
+      "second value &/?+ü",
+      "--source-secret-access-key",
+      "second value &/?+ü",
+      "--source-client-email",
+      "regression@example.com",
+      "--source-private-key",
+      "second value &/?+ü",
+      "--source-bucket-url",
+      "https://example.com/a?x=1&y=two"
+    ],
+    "exitCode": 1,
+    "error": "Arguments source-client-email and source-bucket-url are mutually exclusive",
+    "requests": []
+  },
+  {
+    "case": "pairwise 8",
+    "argv": [
+      "r2",
+      "buckets",
+      "sippy",
+      "update",
+      "regression value &/?+ü",
+      "--source-secret-access-key",
+      "regression value &/?+ü",
+      "--source-client-email",
+      "regression@example.com",
+      "--source-private-key",
+      "regression value &/?+ü",
+      "--source-bucket-url",
+      "https://example.com/a?x=1&y=two",
+      "--source-account-key",
+      "regression value &/?+ü",
+      "--source-account-name",
+      "regression value &/?+ü",
+      "--source-container",
+      "regression value &/?+ü",
+      "--source-sas-token",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 1,
+    "error": "Arguments source-client-email and source-bucket-url are mutually exclusive",
+    "requests": []
+  },
+  {
+    "case": "pairwise 9",
+    "argv": [
+      "r2",
+      "buckets",
+      "sippy",
+      "update",
+      "regression value &/?+ü",
+      "--cf-r2-jurisdiction",
+      "second value &/?+ü",
+      "--destination-access-key-id",
+      "0123456789abcdef0123456789abcdef",
+      "--destination-provider",
+      "r2",
+      "--destination-secret-access-key",
+      "second value &/?+ü",
+      "--source-access-key-id",
+      "0123456789abcdef0123456789abcdef",
+      "--source-bucket",
+      "second value &/?+ü",
+      "--source-provider",
+      "gcs",
+      "--source-region",
+      "second value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/r2/buckets/regression%20value%20%26%2F%3F%2B%C3%BC/sippy",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "cf-r2-jurisdiction": "second value &/?+ü",
+          "connection": "keep-alive",
+          "content-length": "261",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "destination": {
+            "accessKeyId": "0123456789abcdef0123456789abcdef",
+            "provider": "r2",
+            "secretAccessKey": "second value &/?+ü"
+          },
+          "source": {
+            "accessKeyId": "0123456789abcdef0123456789abcdef",
+            "bucket": "second value &/?+ü",
+            "provider": "gcs",
+            "region": "second value &/?+ü"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "global quiet",
+    "argv": [
+      "r2",
+      "buckets",
+      "sippy",
+      "update",
+      "regression value &/?+ü",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--quiet"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/r2/buckets/regression%20value%20%26%2F%3F%2B%C3%BC/sippy",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "global zone",
+    "argv": [
+      "r2",
+      "buckets",
+      "sippy",
+      "update",
+      "regression value &/?+ü",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--zone",
+      "abcdef0123456789abcdef0123456789"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/r2/buckets/regression%20value%20%26%2F%3F%2B%C3%BC/sippy",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "global profile and mode",
+    "argv": [
+      "r2",
+      "buckets",
+      "sippy",
+      "update",
+      "regression value &/?+ü",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--profile",
+      "default",
+      "--mode",
+      "regression"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/r2/buckets/regression%20value%20%26%2F%3F%2B%C3%BC/sippy",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "local",
+    "argv": [
+      "r2",
+      "buckets",
+      "sippy",
+      "update",
+      "regression value &/?+ü",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--local"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "http://localhost/cdn-cgi/local/explorer/api/r2/buckets/regression%20value%20%26%2F%3F%2B%C3%BC/sippy",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "gzip, deflate",
+          "accept-language": "*",
+          "connection": "keep-alive",
+          "content-type": "application/json",
+          "host": "localhost",
+          "sec-fetch-mode": "cors",
+          "transfer-encoding": "chunked",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "local with persistence",
+    "argv": [
+      "r2",
+      "buckets",
+      "sippy",
+      "update",
+      "regression value &/?+ü",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--local",
+      "--persist-to",
+      "regression-state"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "http://localhost/cdn-cgi/local/explorer/api/r2/buckets/regression%20value%20%26%2F%3F%2B%C3%BC/sippy",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "gzip, deflate",
+          "accept-language": "*",
+          "connection": "keep-alive",
+          "content-type": "application/json",
+          "host": "localhost",
+          "sec-fetch-mode": "cors",
+          "transfer-encoding": "chunked",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "dry-run",
+    "argv": [
+      "r2",
+      "buckets",
+      "sippy",
+      "update",
+      "regression value &/?+ü",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--dry-run"
+    ],
+    "exitCode": 0,
+    "requests": []
+  },
+  {
+    "case": "body from file",
+    "argv": [
+      "r2",
+      "buckets",
+      "sippy",
+      "update",
+      "regression value &/?+ü",
+      "--body",
+      "@<body.json>"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/r2/buckets/regression%20value%20%26%2F%3F%2B%C3%BC/sippy",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "array body",
+    "argv": [
+      "r2",
+      "buckets",
+      "sippy",
+      "update",
+      "regression value &/?+ü",
+      "--body",
+      "[{\"regression\":\"first\"},{\"regression\":\"second\"}]"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/r2/buckets/regression%20value%20%26%2F%3F%2B%C3%BC/sippy",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "48",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": [
+          {
+            "regression": "first"
+          },
+          {
+            "regression": "second"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "case": "field flags",
+    "argv": [
+      "r2",
+      "buckets",
+      "sippy",
+      "update",
+      "regression value &/?+ü",
+      "--cf-r2-jurisdiction",
+      "regression value &/?+ü",
+      "--destination-access-key-id",
+      "0123456789abcdef0123456789abcdef",
+      "--destination-provider",
+      "r2",
+      "--destination-secret-access-key",
+      "regression value &/?+ü",
+      "--source-access-key-id",
+      "0123456789abcdef0123456789abcdef",
+      "--source-bucket",
+      "regression value &/?+ü",
+      "--source-provider",
+      "aws",
+      "--source-region",
+      "regression value &/?+ü",
+      "--source-secret-access-key",
+      "regression value &/?+ü",
+      "--source-client-email",
+      "regression@example.com",
+      "--source-private-key",
+      "regression value &/?+ü",
+      "--source-bucket-url",
+      "https://example.com/a?x=1&y=two",
+      "--source-account-key",
+      "regression value &/?+ü",
+      "--source-account-name",
+      "regression value &/?+ü",
+      "--source-container",
+      "regression value &/?+ü",
+      "--source-sas-token",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 1,
+    "error": "Arguments source-bucket and source-bucket-url are mutually exclusive",
+    "requests": []
+  },
+  {
+    "case": "alternate <bucket-name>",
+    "argv": [
+      "r2",
+      "buckets",
+      "sippy",
+      "update",
+      "second value &/?+ü",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/r2/buckets/second%20value%20%26%2F%3F%2B%C3%BC/sippy",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  }
+]

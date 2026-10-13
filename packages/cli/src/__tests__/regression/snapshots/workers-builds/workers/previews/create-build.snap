@@ -1,0 +1,876 @@
+[
+  {
+    "case": "no-args",
+    "argv": [
+      "workers-builds",
+      "workers",
+      "previews",
+      "create-build"
+    ],
+    "exitCode": 1,
+    "error": "Not enough non-option arguments: got 0, need at least 1",
+    "requests": []
+  },
+  {
+    "case": "required",
+    "argv": [
+      "workers-builds",
+      "workers",
+      "previews",
+      "create-build",
+      "0123456789abcdef0123456789abcdef",
+      "--script-tag",
+      "192.0.2.1",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/builds/workers/192.0.2.1/previews/0123456789abcdef0123456789abcdef/builds",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --branch",
+    "argv": [
+      "workers-builds",
+      "workers",
+      "previews",
+      "create-build",
+      "0123456789abcdef0123456789abcdef",
+      "--script-tag",
+      "192.0.2.1",
+      "--branch",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/builds/workers/192.0.2.1/previews/0123456789abcdef0123456789abcdef/builds",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "36",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "branch": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --commit-hash",
+    "argv": [
+      "workers-builds",
+      "workers",
+      "previews",
+      "create-build",
+      "0123456789abcdef0123456789abcdef",
+      "--script-tag",
+      "192.0.2.1",
+      "--commit-hash",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/builds/workers/192.0.2.1/previews/0123456789abcdef0123456789abcdef/builds",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "41",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "commit_hash": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --seed-repo-branch",
+    "argv": [
+      "workers-builds",
+      "workers",
+      "previews",
+      "create-build",
+      "0123456789abcdef0123456789abcdef",
+      "--script-tag",
+      "192.0.2.1",
+      "--seed-repo-branch",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 1,
+    "error": "--seed-repo-owner, --seed-repo-provider, --seed-repo-repository are required when any --seed_repo-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "only --seed-repo-owner",
+    "argv": [
+      "workers-builds",
+      "workers",
+      "previews",
+      "create-build",
+      "0123456789abcdef0123456789abcdef",
+      "--script-tag",
+      "192.0.2.1",
+      "--seed-repo-owner",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 1,
+    "error": "--seed-repo-provider, --seed-repo-repository are required when any --seed_repo-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "only --seed-repo-path",
+    "argv": [
+      "workers-builds",
+      "workers",
+      "previews",
+      "create-build",
+      "0123456789abcdef0123456789abcdef",
+      "--script-tag",
+      "192.0.2.1",
+      "--seed-repo-path",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 1,
+    "error": "--seed-repo-owner, --seed-repo-provider, --seed-repo-repository are required when any --seed_repo-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "only --seed-repo-provider",
+    "argv": [
+      "workers-builds",
+      "workers",
+      "previews",
+      "create-build",
+      "0123456789abcdef0123456789abcdef",
+      "--script-tag",
+      "192.0.2.1",
+      "--seed-repo-provider",
+      "github"
+    ],
+    "exitCode": 1,
+    "error": "--seed-repo-owner, --seed-repo-repository are required when any --seed_repo-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "--seed-repo-provider value 1",
+    "argv": [
+      "workers-builds",
+      "workers",
+      "previews",
+      "create-build",
+      "0123456789abcdef0123456789abcdef",
+      "--script-tag",
+      "192.0.2.1",
+      "--seed-repo-provider",
+      "gitlab"
+    ],
+    "exitCode": 1,
+    "error": "--seed-repo-owner, --seed-repo-repository are required when any --seed_repo-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "only --seed-repo-repository",
+    "argv": [
+      "workers-builds",
+      "workers",
+      "previews",
+      "create-build",
+      "0123456789abcdef0123456789abcdef",
+      "--script-tag",
+      "192.0.2.1",
+      "--seed-repo-repository",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 1,
+    "error": "--seed-repo-owner, --seed-repo-provider are required when any --seed_repo-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "pairwise 0",
+    "argv": [
+      "workers-builds",
+      "workers",
+      "previews",
+      "create-build",
+      "0123456789abcdef0123456789abcdef",
+      "--script-tag",
+      "192.0.2.1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/builds/workers/192.0.2.1/previews/0123456789abcdef0123456789abcdef/builds",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "2",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {}
+      }
+    ]
+  },
+  {
+    "case": "pairwise 1",
+    "argv": [
+      "workers-builds",
+      "workers",
+      "previews",
+      "create-build",
+      "0123456789abcdef0123456789abcdef",
+      "--script-tag",
+      "192.0.2.1",
+      "--branch",
+      "second value &/?+ü",
+      "--commit-hash",
+      "second value &/?+ü",
+      "--seed-repo-branch",
+      "second value &/?+ü",
+      "--seed-repo-owner",
+      "second value &/?+ü",
+      "--seed-repo-path",
+      "second value &/?+ü",
+      "--seed-repo-provider",
+      "gitlab",
+      "--seed-repo-repository",
+      "second value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/builds/workers/192.0.2.1/previews/0123456789abcdef0123456789abcdef/builds",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "227",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "branch": "second value &/?+ü",
+          "commit_hash": "second value &/?+ü",
+          "seed_repo": {
+            "branch": "second value &/?+ü",
+            "owner": "second value &/?+ü",
+            "path": "second value &/?+ü",
+            "provider": "gitlab",
+            "repository": "second value &/?+ü"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 2",
+    "argv": [
+      "workers-builds",
+      "workers",
+      "previews",
+      "create-build",
+      "0123456789abcdef0123456789abcdef",
+      "--script-tag",
+      "192.0.2.1",
+      "--commit-hash",
+      "regression value &/?+ü",
+      "--seed-repo-owner",
+      "regression value &/?+ü",
+      "--seed-repo-provider",
+      "github"
+    ],
+    "exitCode": 1,
+    "error": "--seed-repo-repository is required when any --seed_repo-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "pairwise 3",
+    "argv": [
+      "workers-builds",
+      "workers",
+      "previews",
+      "create-build",
+      "0123456789abcdef0123456789abcdef",
+      "--script-tag",
+      "192.0.2.1",
+      "--branch",
+      "second value &/?+ü",
+      "--seed-repo-branch",
+      "second value &/?+ü",
+      "--seed-repo-path",
+      "second value &/?+ü",
+      "--seed-repo-repository",
+      "second value &/?+ü"
+    ],
+    "exitCode": 1,
+    "error": "--seed-repo-owner, --seed-repo-provider are required when any --seed_repo-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "pairwise 4",
+    "argv": [
+      "workers-builds",
+      "workers",
+      "previews",
+      "create-build",
+      "0123456789abcdef0123456789abcdef",
+      "--script-tag",
+      "192.0.2.1",
+      "--seed-repo-branch",
+      "regression value &/?+ü",
+      "--seed-repo-owner",
+      "regression value &/?+ü",
+      "--seed-repo-repository",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 1,
+    "error": "--seed-repo-provider is required when any --seed_repo-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "pairwise 5",
+    "argv": [
+      "workers-builds",
+      "workers",
+      "previews",
+      "create-build",
+      "0123456789abcdef0123456789abcdef",
+      "--script-tag",
+      "192.0.2.1",
+      "--branch",
+      "second value &/?+ü",
+      "--commit-hash",
+      "second value &/?+ü",
+      "--seed-repo-path",
+      "second value &/?+ü",
+      "--seed-repo-provider",
+      "gitlab"
+    ],
+    "exitCode": 1,
+    "error": "--seed-repo-owner, --seed-repo-repository are required when any --seed_repo-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "pairwise 6",
+    "argv": [
+      "workers-builds",
+      "workers",
+      "previews",
+      "create-build",
+      "0123456789abcdef0123456789abcdef",
+      "--script-tag",
+      "192.0.2.1",
+      "--seed-repo-path",
+      "regression value &/?+ü",
+      "--seed-repo-provider",
+      "github",
+      "--seed-repo-repository",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 1,
+    "error": "--seed-repo-owner is required when any --seed_repo-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "pairwise 7",
+    "argv": [
+      "workers-builds",
+      "workers",
+      "previews",
+      "create-build",
+      "0123456789abcdef0123456789abcdef",
+      "--script-tag",
+      "192.0.2.1",
+      "--branch",
+      "second value &/?+ü",
+      "--commit-hash",
+      "second value &/?+ü",
+      "--seed-repo-branch",
+      "second value &/?+ü",
+      "--seed-repo-owner",
+      "second value &/?+ü"
+    ],
+    "exitCode": 1,
+    "error": "--seed-repo-provider, --seed-repo-repository are required when any --seed_repo-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "global quiet",
+    "argv": [
+      "workers-builds",
+      "workers",
+      "previews",
+      "create-build",
+      "0123456789abcdef0123456789abcdef",
+      "--script-tag",
+      "192.0.2.1",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--quiet"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/builds/workers/192.0.2.1/previews/0123456789abcdef0123456789abcdef/builds",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "global zone",
+    "argv": [
+      "workers-builds",
+      "workers",
+      "previews",
+      "create-build",
+      "0123456789abcdef0123456789abcdef",
+      "--script-tag",
+      "192.0.2.1",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--zone",
+      "abcdef0123456789abcdef0123456789"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/builds/workers/192.0.2.1/previews/0123456789abcdef0123456789abcdef/builds",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "global profile and mode",
+    "argv": [
+      "workers-builds",
+      "workers",
+      "previews",
+      "create-build",
+      "0123456789abcdef0123456789abcdef",
+      "--script-tag",
+      "192.0.2.1",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--profile",
+      "default",
+      "--mode",
+      "regression"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/builds/workers/192.0.2.1/previews/0123456789abcdef0123456789abcdef/builds",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "local",
+    "argv": [
+      "workers-builds",
+      "workers",
+      "previews",
+      "create-build",
+      "0123456789abcdef0123456789abcdef",
+      "--script-tag",
+      "192.0.2.1",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--local"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "http://localhost/cdn-cgi/local/explorer/api/builds/workers/192.0.2.1/previews/0123456789abcdef0123456789abcdef/builds",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "gzip, deflate",
+          "accept-language": "*",
+          "connection": "keep-alive",
+          "content-type": "application/json",
+          "host": "localhost",
+          "sec-fetch-mode": "cors",
+          "transfer-encoding": "chunked",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "local with persistence",
+    "argv": [
+      "workers-builds",
+      "workers",
+      "previews",
+      "create-build",
+      "0123456789abcdef0123456789abcdef",
+      "--script-tag",
+      "192.0.2.1",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--local",
+      "--persist-to",
+      "regression-state"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "http://localhost/cdn-cgi/local/explorer/api/builds/workers/192.0.2.1/previews/0123456789abcdef0123456789abcdef/builds",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "gzip, deflate",
+          "accept-language": "*",
+          "connection": "keep-alive",
+          "content-type": "application/json",
+          "host": "localhost",
+          "sec-fetch-mode": "cors",
+          "transfer-encoding": "chunked",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "dry-run",
+    "argv": [
+      "workers-builds",
+      "workers",
+      "previews",
+      "create-build",
+      "0123456789abcdef0123456789abcdef",
+      "--script-tag",
+      "192.0.2.1",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--dry-run"
+    ],
+    "exitCode": 0,
+    "requests": []
+  },
+  {
+    "case": "body from file",
+    "argv": [
+      "workers-builds",
+      "workers",
+      "previews",
+      "create-build",
+      "0123456789abcdef0123456789abcdef",
+      "--script-tag",
+      "192.0.2.1",
+      "--body",
+      "@<body.json>"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/builds/workers/192.0.2.1/previews/0123456789abcdef0123456789abcdef/builds",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "array body",
+    "argv": [
+      "workers-builds",
+      "workers",
+      "previews",
+      "create-build",
+      "0123456789abcdef0123456789abcdef",
+      "--script-tag",
+      "192.0.2.1",
+      "--body",
+      "[{\"regression\":\"first\"},{\"regression\":\"second\"}]"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/builds/workers/192.0.2.1/previews/0123456789abcdef0123456789abcdef/builds",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "48",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": [
+          {
+            "regression": "first"
+          },
+          {
+            "regression": "second"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "case": "field flags",
+    "argv": [
+      "workers-builds",
+      "workers",
+      "previews",
+      "create-build",
+      "0123456789abcdef0123456789abcdef",
+      "--script-tag",
+      "192.0.2.1",
+      "--branch",
+      "regression value &/?+ü",
+      "--commit-hash",
+      "regression value &/?+ü",
+      "--seed-repo-branch",
+      "regression value &/?+ü",
+      "--seed-repo-owner",
+      "regression value &/?+ü",
+      "--seed-repo-path",
+      "regression value &/?+ü",
+      "--seed-repo-provider",
+      "github",
+      "--seed-repo-repository",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/builds/workers/192.0.2.1/previews/0123456789abcdef0123456789abcdef/builds",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "251",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "branch": "regression value &/?+ü",
+          "commit_hash": "regression value &/?+ü",
+          "seed_repo": {
+            "branch": "regression value &/?+ü",
+            "owner": "regression value &/?+ü",
+            "path": "regression value &/?+ü",
+            "provider": "github",
+            "repository": "regression value &/?+ü"
+          }
+        }
+      }
+    ]
+  }
+]

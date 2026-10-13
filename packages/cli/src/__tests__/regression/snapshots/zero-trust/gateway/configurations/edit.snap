@@ -1,0 +1,2066 @@
+[
+  {
+    "case": "no-args",
+    "argv": [
+      "zero-trust",
+      "gateway",
+      "configurations",
+      "edit"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/gateway/configuration",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "2",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {}
+      }
+    ]
+  },
+  {
+    "case": "required",
+    "argv": [
+      "zero-trust",
+      "gateway",
+      "configurations",
+      "edit",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/gateway/configuration",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --settings-activity-log-enabled",
+    "argv": [
+      "zero-trust",
+      "gateway",
+      "configurations",
+      "edit",
+      "--settings-activity-log-enabled=true"
+    ],
+    "exitCode": 1,
+    "error": "--settings-certificate-id, --settings-custom-certificate-enabled are required when any --settings-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "--settings-activity-log-enabled value 1",
+    "argv": [
+      "zero-trust",
+      "gateway",
+      "configurations",
+      "edit",
+      "--settings-activity-log-enabled=false"
+    ],
+    "exitCode": 1,
+    "error": "--settings-certificate-id, --settings-custom-certificate-enabled are required when any --settings-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "only --settings-antivirus-enabled-download-phase",
+    "argv": [
+      "zero-trust",
+      "gateway",
+      "configurations",
+      "edit",
+      "--settings-antivirus-enabled-download-phase=true"
+    ],
+    "exitCode": 1,
+    "error": "--settings-certificate-id, --settings-custom-certificate-enabled are required when any --settings-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "--settings-antivirus-enabled-download-phase value 1",
+    "argv": [
+      "zero-trust",
+      "gateway",
+      "configurations",
+      "edit",
+      "--settings-antivirus-enabled-download-phase=false"
+    ],
+    "exitCode": 1,
+    "error": "--settings-certificate-id, --settings-custom-certificate-enabled are required when any --settings-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "only --settings-antivirus-enabled-upload-phase",
+    "argv": [
+      "zero-trust",
+      "gateway",
+      "configurations",
+      "edit",
+      "--settings-antivirus-enabled-upload-phase=true"
+    ],
+    "exitCode": 1,
+    "error": "--settings-certificate-id, --settings-custom-certificate-enabled are required when any --settings-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "--settings-antivirus-enabled-upload-phase value 1",
+    "argv": [
+      "zero-trust",
+      "gateway",
+      "configurations",
+      "edit",
+      "--settings-antivirus-enabled-upload-phase=false"
+    ],
+    "exitCode": 1,
+    "error": "--settings-certificate-id, --settings-custom-certificate-enabled are required when any --settings-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "only --settings-antivirus-fail-closed",
+    "argv": [
+      "zero-trust",
+      "gateway",
+      "configurations",
+      "edit",
+      "--settings-antivirus-fail-closed=true"
+    ],
+    "exitCode": 1,
+    "error": "--settings-certificate-id, --settings-custom-certificate-enabled are required when any --settings-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "--settings-antivirus-fail-closed value 1",
+    "argv": [
+      "zero-trust",
+      "gateway",
+      "configurations",
+      "edit",
+      "--settings-antivirus-fail-closed=false"
+    ],
+    "exitCode": 1,
+    "error": "--settings-certificate-id, --settings-custom-certificate-enabled are required when any --settings-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "only --settings-antivirus-notification-settings-enabled",
+    "argv": [
+      "zero-trust",
+      "gateway",
+      "configurations",
+      "edit",
+      "--settings-antivirus-notification-settings-enabled=true"
+    ],
+    "exitCode": 1,
+    "error": "--settings-certificate-id, --settings-custom-certificate-enabled are required when any --settings-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "--settings-antivirus-notification-settings-enabled value 1",
+    "argv": [
+      "zero-trust",
+      "gateway",
+      "configurations",
+      "edit",
+      "--settings-antivirus-notification-settings-enabled=false"
+    ],
+    "exitCode": 1,
+    "error": "--settings-certificate-id, --settings-custom-certificate-enabled are required when any --settings-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "only --settings-antivirus-notification-settings-include-context",
+    "argv": [
+      "zero-trust",
+      "gateway",
+      "configurations",
+      "edit",
+      "--settings-antivirus-notification-settings-include-context=true"
+    ],
+    "exitCode": 1,
+    "error": "--settings-certificate-id, --settings-custom-certificate-enabled are required when any --settings-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "--settings-antivirus-notification-settings-include-context value 1",
+    "argv": [
+      "zero-trust",
+      "gateway",
+      "configurations",
+      "edit",
+      "--settings-antivirus-notification-settings-include-context=false"
+    ],
+    "exitCode": 1,
+    "error": "--settings-certificate-id, --settings-custom-certificate-enabled are required when any --settings-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "only --settings-antivirus-notification-settings-msg",
+    "argv": [
+      "zero-trust",
+      "gateway",
+      "configurations",
+      "edit",
+      "--settings-antivirus-notification-settings-msg",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 1,
+    "error": "--settings-certificate-id, --settings-custom-certificate-enabled are required when any --settings-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "only --settings-antivirus-notification-settings-support-url",
+    "argv": [
+      "zero-trust",
+      "gateway",
+      "configurations",
+      "edit",
+      "--settings-antivirus-notification-settings-support-url",
+      "https://example.com/a?x=1&y=two"
+    ],
+    "exitCode": 1,
+    "error": "--settings-certificate-id, --settings-custom-certificate-enabled are required when any --settings-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "only --settings-block-page-background-color",
+    "argv": [
+      "zero-trust",
+      "gateway",
+      "configurations",
+      "edit",
+      "--settings-block-page-background-color",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 1,
+    "error": "--settings-certificate-id, --settings-custom-certificate-enabled are required when any --settings-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "only --settings-block-page-enabled",
+    "argv": [
+      "zero-trust",
+      "gateway",
+      "configurations",
+      "edit",
+      "--settings-block-page-enabled=true"
+    ],
+    "exitCode": 1,
+    "error": "--settings-certificate-id, --settings-custom-certificate-enabled are required when any --settings-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "--settings-block-page-enabled value 1",
+    "argv": [
+      "zero-trust",
+      "gateway",
+      "configurations",
+      "edit",
+      "--settings-block-page-enabled=false"
+    ],
+    "exitCode": 1,
+    "error": "--settings-certificate-id, --settings-custom-certificate-enabled are required when any --settings-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "only --settings-block-page-footer-text",
+    "argv": [
+      "zero-trust",
+      "gateway",
+      "configurations",
+      "edit",
+      "--settings-block-page-footer-text",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 1,
+    "error": "--settings-certificate-id, --settings-custom-certificate-enabled are required when any --settings-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "only --settings-block-page-header-text",
+    "argv": [
+      "zero-trust",
+      "gateway",
+      "configurations",
+      "edit",
+      "--settings-block-page-header-text",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 1,
+    "error": "--settings-certificate-id, --settings-custom-certificate-enabled are required when any --settings-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "only --settings-block-page-include-context",
+    "argv": [
+      "zero-trust",
+      "gateway",
+      "configurations",
+      "edit",
+      "--settings-block-page-include-context=true"
+    ],
+    "exitCode": 1,
+    "error": "--settings-certificate-id, --settings-custom-certificate-enabled are required when any --settings-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "--settings-block-page-include-context value 1",
+    "argv": [
+      "zero-trust",
+      "gateway",
+      "configurations",
+      "edit",
+      "--settings-block-page-include-context=false"
+    ],
+    "exitCode": 1,
+    "error": "--settings-certificate-id, --settings-custom-certificate-enabled are required when any --settings-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "only --settings-block-page-logo-path",
+    "argv": [
+      "zero-trust",
+      "gateway",
+      "configurations",
+      "edit",
+      "--settings-block-page-logo-path",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 1,
+    "error": "--settings-certificate-id, --settings-custom-certificate-enabled are required when any --settings-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "only --settings-block-page-mailto-address",
+    "argv": [
+      "zero-trust",
+      "gateway",
+      "configurations",
+      "edit",
+      "--settings-block-page-mailto-address",
+      "192.0.2.1"
+    ],
+    "exitCode": 1,
+    "error": "--settings-certificate-id, --settings-custom-certificate-enabled are required when any --settings-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "only --settings-block-page-mailto-subject",
+    "argv": [
+      "zero-trust",
+      "gateway",
+      "configurations",
+      "edit",
+      "--settings-block-page-mailto-subject",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 1,
+    "error": "--settings-certificate-id, --settings-custom-certificate-enabled are required when any --settings-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "only --settings-block-page-mode",
+    "argv": [
+      "zero-trust",
+      "gateway",
+      "configurations",
+      "edit",
+      "--settings-block-page-mode",
+      "customized_block_page"
+    ],
+    "exitCode": 1,
+    "error": "--settings-certificate-id, --settings-custom-certificate-enabled are required when any --settings-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "--settings-block-page-mode value 1",
+    "argv": [
+      "zero-trust",
+      "gateway",
+      "configurations",
+      "edit",
+      "--settings-block-page-mode",
+      "redirect_uri"
+    ],
+    "exitCode": 1,
+    "error": "--settings-certificate-id, --settings-custom-certificate-enabled are required when any --settings-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "only --settings-block-page-name",
+    "argv": [
+      "zero-trust",
+      "gateway",
+      "configurations",
+      "edit",
+      "--settings-block-page-name",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 1,
+    "error": "--settings-certificate-id, --settings-custom-certificate-enabled are required when any --settings-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "only --settings-block-page-suppress-footer",
+    "argv": [
+      "zero-trust",
+      "gateway",
+      "configurations",
+      "edit",
+      "--settings-block-page-suppress-footer=true"
+    ],
+    "exitCode": 1,
+    "error": "--settings-certificate-id, --settings-custom-certificate-enabled are required when any --settings-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "--settings-block-page-suppress-footer value 1",
+    "argv": [
+      "zero-trust",
+      "gateway",
+      "configurations",
+      "edit",
+      "--settings-block-page-suppress-footer=false"
+    ],
+    "exitCode": 1,
+    "error": "--settings-certificate-id, --settings-custom-certificate-enabled are required when any --settings-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "only --settings-block-page-target-uri",
+    "argv": [
+      "zero-trust",
+      "gateway",
+      "configurations",
+      "edit",
+      "--settings-block-page-target-uri",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 1,
+    "error": "--settings-certificate-id, --settings-custom-certificate-enabled are required when any --settings-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "only --settings-body-scanning-inspection-mode",
+    "argv": [
+      "zero-trust",
+      "gateway",
+      "configurations",
+      "edit",
+      "--settings-body-scanning-inspection-mode",
+      "deep"
+    ],
+    "exitCode": 1,
+    "error": "--settings-certificate-id, --settings-custom-certificate-enabled are required when any --settings-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "--settings-body-scanning-inspection-mode value 1",
+    "argv": [
+      "zero-trust",
+      "gateway",
+      "configurations",
+      "edit",
+      "--settings-body-scanning-inspection-mode",
+      "shallow"
+    ],
+    "exitCode": 1,
+    "error": "--settings-certificate-id, --settings-custom-certificate-enabled are required when any --settings-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "only --settings-browser-isolation-non-identity-enabled",
+    "argv": [
+      "zero-trust",
+      "gateway",
+      "configurations",
+      "edit",
+      "--settings-browser-isolation-non-identity-enabled=true"
+    ],
+    "exitCode": 1,
+    "error": "--settings-certificate-id, --settings-custom-certificate-enabled are required when any --settings-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "--settings-browser-isolation-non-identity-enabled value 1",
+    "argv": [
+      "zero-trust",
+      "gateway",
+      "configurations",
+      "edit",
+      "--settings-browser-isolation-non-identity-enabled=false"
+    ],
+    "exitCode": 1,
+    "error": "--settings-certificate-id, --settings-custom-certificate-enabled are required when any --settings-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "only --settings-browser-isolation-url-browser-isolation-enabled",
+    "argv": [
+      "zero-trust",
+      "gateway",
+      "configurations",
+      "edit",
+      "--settings-browser-isolation-url-browser-isolation-enabled=true"
+    ],
+    "exitCode": 1,
+    "error": "--settings-certificate-id, --settings-custom-certificate-enabled are required when any --settings-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "--settings-browser-isolation-url-browser-isolation-enabled value 1",
+    "argv": [
+      "zero-trust",
+      "gateway",
+      "configurations",
+      "edit",
+      "--settings-browser-isolation-url-browser-isolation-enabled=false"
+    ],
+    "exitCode": 1,
+    "error": "--settings-certificate-id, --settings-custom-certificate-enabled are required when any --settings-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "only --settings-certificate-id",
+    "argv": [
+      "zero-trust",
+      "gateway",
+      "configurations",
+      "edit",
+      "--settings-certificate-id",
+      "0123456789abcdef0123456789abcdef"
+    ],
+    "exitCode": 1,
+    "error": "--settings-custom-certificate-enabled is required when any --settings-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "only --settings-custom-certificate-enabled",
+    "argv": [
+      "zero-trust",
+      "gateway",
+      "configurations",
+      "edit",
+      "--settings-custom-certificate-enabled=true"
+    ],
+    "exitCode": 1,
+    "error": "--settings-certificate-id is required when any --settings-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "--settings-custom-certificate-enabled value 1",
+    "argv": [
+      "zero-trust",
+      "gateway",
+      "configurations",
+      "edit",
+      "--settings-custom-certificate-enabled=false"
+    ],
+    "exitCode": 1,
+    "error": "--settings-certificate-id is required when any --settings-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "only --settings-custom-certificate-id",
+    "argv": [
+      "zero-trust",
+      "gateway",
+      "configurations",
+      "edit",
+      "--settings-custom-certificate-id",
+      "0123456789abcdef0123456789abcdef"
+    ],
+    "exitCode": 1,
+    "error": "--settings-certificate-id, --settings-custom-certificate-enabled are required when any --settings-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "only --settings-extended-email-matching-enabled",
+    "argv": [
+      "zero-trust",
+      "gateway",
+      "configurations",
+      "edit",
+      "--settings-extended-email-matching-enabled=true"
+    ],
+    "exitCode": 1,
+    "error": "--settings-certificate-id, --settings-custom-certificate-enabled are required when any --settings-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "--settings-extended-email-matching-enabled value 1",
+    "argv": [
+      "zero-trust",
+      "gateway",
+      "configurations",
+      "edit",
+      "--settings-extended-email-matching-enabled=false"
+    ],
+    "exitCode": 1,
+    "error": "--settings-certificate-id, --settings-custom-certificate-enabled are required when any --settings-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "only --settings-fips-tls",
+    "argv": [
+      "zero-trust",
+      "gateway",
+      "configurations",
+      "edit",
+      "--settings-fips-tls=true"
+    ],
+    "exitCode": 1,
+    "error": "--settings-certificate-id, --settings-custom-certificate-enabled are required when any --settings-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "--settings-fips-tls value 1",
+    "argv": [
+      "zero-trust",
+      "gateway",
+      "configurations",
+      "edit",
+      "--settings-fips-tls=false"
+    ],
+    "exitCode": 1,
+    "error": "--settings-certificate-id, --settings-custom-certificate-enabled are required when any --settings-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "only --settings-host-selector-enabled",
+    "argv": [
+      "zero-trust",
+      "gateway",
+      "configurations",
+      "edit",
+      "--settings-host-selector-enabled=true"
+    ],
+    "exitCode": 1,
+    "error": "--settings-certificate-id, --settings-custom-certificate-enabled are required when any --settings-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "--settings-host-selector-enabled value 1",
+    "argv": [
+      "zero-trust",
+      "gateway",
+      "configurations",
+      "edit",
+      "--settings-host-selector-enabled=false"
+    ],
+    "exitCode": 1,
+    "error": "--settings-certificate-id, --settings-custom-certificate-enabled are required when any --settings-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "only --settings-inspection-mode",
+    "argv": [
+      "zero-trust",
+      "gateway",
+      "configurations",
+      "edit",
+      "--settings-inspection-mode",
+      "static"
+    ],
+    "exitCode": 1,
+    "error": "--settings-certificate-id, --settings-custom-certificate-enabled are required when any --settings-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "--settings-inspection-mode value 1",
+    "argv": [
+      "zero-trust",
+      "gateway",
+      "configurations",
+      "edit",
+      "--settings-inspection-mode",
+      "dynamic"
+    ],
+    "exitCode": 1,
+    "error": "--settings-certificate-id, --settings-custom-certificate-enabled are required when any --settings-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "only --settings-max-ttl-secs",
+    "argv": [
+      "zero-trust",
+      "gateway",
+      "configurations",
+      "edit",
+      "--settings-max-ttl-secs",
+      "1"
+    ],
+    "exitCode": 1,
+    "error": "--settings-certificate-id, --settings-custom-certificate-enabled are required when any --settings-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "only --settings-protocol-detection-enabled",
+    "argv": [
+      "zero-trust",
+      "gateway",
+      "configurations",
+      "edit",
+      "--settings-protocol-detection-enabled=true"
+    ],
+    "exitCode": 1,
+    "error": "--settings-certificate-id, --settings-custom-certificate-enabled are required when any --settings-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "--settings-protocol-detection-enabled value 1",
+    "argv": [
+      "zero-trust",
+      "gateway",
+      "configurations",
+      "edit",
+      "--settings-protocol-detection-enabled=false"
+    ],
+    "exitCode": 1,
+    "error": "--settings-certificate-id, --settings-custom-certificate-enabled are required when any --settings-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "only --settings-sandbox-enabled",
+    "argv": [
+      "zero-trust",
+      "gateway",
+      "configurations",
+      "edit",
+      "--settings-sandbox-enabled=true"
+    ],
+    "exitCode": 1,
+    "error": "--settings-certificate-id, --settings-custom-certificate-enabled are required when any --settings-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "--settings-sandbox-enabled value 1",
+    "argv": [
+      "zero-trust",
+      "gateway",
+      "configurations",
+      "edit",
+      "--settings-sandbox-enabled=false"
+    ],
+    "exitCode": 1,
+    "error": "--settings-certificate-id, --settings-custom-certificate-enabled are required when any --settings-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "only --settings-sandbox-fallback-action",
+    "argv": [
+      "zero-trust",
+      "gateway",
+      "configurations",
+      "edit",
+      "--settings-sandbox-fallback-action",
+      "allow"
+    ],
+    "exitCode": 1,
+    "error": "--settings-certificate-id, --settings-custom-certificate-enabled are required when any --settings-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "--settings-sandbox-fallback-action value 1",
+    "argv": [
+      "zero-trust",
+      "gateway",
+      "configurations",
+      "edit",
+      "--settings-sandbox-fallback-action",
+      "block"
+    ],
+    "exitCode": 1,
+    "error": "--settings-certificate-id, --settings-custom-certificate-enabled are required when any --settings-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "only --settings-tls-decrypt-enabled",
+    "argv": [
+      "zero-trust",
+      "gateway",
+      "configurations",
+      "edit",
+      "--settings-tls-decrypt-enabled=true"
+    ],
+    "exitCode": 1,
+    "error": "--settings-certificate-id, --settings-custom-certificate-enabled are required when any --settings-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "--settings-tls-decrypt-enabled value 1",
+    "argv": [
+      "zero-trust",
+      "gateway",
+      "configurations",
+      "edit",
+      "--settings-tls-decrypt-enabled=false"
+    ],
+    "exitCode": 1,
+    "error": "--settings-certificate-id, --settings-custom-certificate-enabled are required when any --settings-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "pairwise 1",
+    "argv": [
+      "zero-trust",
+      "gateway",
+      "configurations",
+      "edit",
+      "--settings-activity-log-enabled=false",
+      "--settings-antivirus-enabled-download-phase=false",
+      "--settings-antivirus-enabled-upload-phase=false",
+      "--settings-antivirus-fail-closed=false",
+      "--settings-antivirus-notification-settings-enabled=false",
+      "--settings-antivirus-notification-settings-include-context=false",
+      "--settings-antivirus-notification-settings-msg",
+      "second value &/?+ü",
+      "--settings-antivirus-notification-settings-support-url",
+      "https://example.com/a?x=1&y=two",
+      "--settings-block-page-background-color",
+      "second value &/?+ü",
+      "--settings-block-page-enabled=false",
+      "--settings-block-page-footer-text",
+      "second value &/?+ü",
+      "--settings-block-page-header-text",
+      "second value &/?+ü",
+      "--settings-block-page-include-context=false",
+      "--settings-block-page-logo-path",
+      "second value &/?+ü",
+      "--settings-block-page-mailto-address",
+      "192.0.2.1",
+      "--settings-block-page-mailto-subject",
+      "second value &/?+ü",
+      "--settings-block-page-mode",
+      "redirect_uri",
+      "--settings-block-page-name",
+      "second value &/?+ü",
+      "--settings-block-page-suppress-footer=false",
+      "--settings-block-page-target-uri",
+      "second value &/?+ü",
+      "--settings-body-scanning-inspection-mode",
+      "shallow",
+      "--settings-browser-isolation-non-identity-enabled=false",
+      "--settings-browser-isolation-url-browser-isolation-enabled=false",
+      "--settings-certificate-id",
+      "0123456789abcdef0123456789abcdef",
+      "--settings-custom-certificate-enabled=false",
+      "--settings-custom-certificate-id",
+      "0123456789abcdef0123456789abcdef",
+      "--settings-extended-email-matching-enabled=false",
+      "--settings-fips-tls=false",
+      "--settings-host-selector-enabled=false",
+      "--settings-inspection-mode",
+      "dynamic",
+      "--settings-max-ttl-secs",
+      "2",
+      "--settings-protocol-detection-enabled=false",
+      "--settings-sandbox-enabled=false",
+      "--settings-sandbox-fallback-action",
+      "block",
+      "--settings-tls-decrypt-enabled=false"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/gateway/configuration",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "1206",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "settings": {
+            "activity_log": {
+              "enabled": false
+            },
+            "antivirus": {
+              "enabled_download_phase": false,
+              "enabled_upload_phase": false,
+              "fail_closed": false,
+              "notification_settings": {
+                "enabled": false,
+                "include_context": false,
+                "msg": "second value &/?+ü",
+                "support_url": "https://example.com/a?x=1&y=two"
+              }
+            },
+            "block_page": {
+              "background_color": "second value &/?+ü",
+              "enabled": false,
+              "footer_text": "second value &/?+ü",
+              "header_text": "second value &/?+ü",
+              "include_context": false,
+              "logo_path": "second value &/?+ü",
+              "mailto_address": "192.0.2.1",
+              "mailto_subject": "second value &/?+ü",
+              "mode": "redirect_uri",
+              "name": "second value &/?+ü",
+              "suppress_footer": false,
+              "target_uri": "second value &/?+ü"
+            },
+            "body_scanning": {
+              "inspection_mode": "shallow"
+            },
+            "browser_isolation": {
+              "non_identity_enabled": false,
+              "url_browser_isolation_enabled": false
+            },
+            "certificate": {
+              "id": "0123456789abcdef0123456789abcdef"
+            },
+            "custom_certificate": {
+              "enabled": false,
+              "id": "0123456789abcdef0123456789abcdef"
+            },
+            "extended_email_matching": {
+              "enabled": false
+            },
+            "fips": {
+              "tls": false
+            },
+            "host_selector": {
+              "enabled": false
+            },
+            "inspection": {
+              "mode": "dynamic"
+            },
+            "max_ttl_secs": 2,
+            "protocol_detection": {
+              "enabled": false
+            },
+            "sandbox": {
+              "enabled": false,
+              "fallback_action": "block"
+            },
+            "tls_decrypt": {
+              "enabled": false
+            }
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 2",
+    "argv": [
+      "zero-trust",
+      "gateway",
+      "configurations",
+      "edit",
+      "--settings-antivirus-enabled-download-phase=true",
+      "--settings-antivirus-fail-closed=true",
+      "--settings-antivirus-notification-settings-include-context=true",
+      "--settings-antivirus-notification-settings-support-url",
+      "https://example.com/a?x=1&y=two",
+      "--settings-block-page-enabled=true",
+      "--settings-block-page-header-text",
+      "regression value &/?+ü",
+      "--settings-block-page-logo-path",
+      "regression value &/?+ü",
+      "--settings-block-page-mailto-subject",
+      "regression value &/?+ü",
+      "--settings-block-page-name",
+      "regression value &/?+ü",
+      "--settings-block-page-target-uri",
+      "regression value &/?+ü",
+      "--settings-browser-isolation-non-identity-enabled=true",
+      "--settings-certificate-id",
+      "0123456789abcdef0123456789abcdef",
+      "--settings-custom-certificate-id",
+      "0123456789abcdef0123456789abcdef",
+      "--settings-fips-tls=true",
+      "--settings-inspection-mode",
+      "static",
+      "--settings-protocol-detection-enabled=true",
+      "--settings-sandbox-fallback-action",
+      "allow"
+    ],
+    "exitCode": 1,
+    "error": "--settings-custom-certificate-enabled is required when any --settings-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "pairwise 3",
+    "argv": [
+      "zero-trust",
+      "gateway",
+      "configurations",
+      "edit",
+      "--settings-activity-log-enabled=false",
+      "--settings-antivirus-enabled-upload-phase=false",
+      "--settings-antivirus-notification-settings-enabled=false",
+      "--settings-antivirus-notification-settings-msg",
+      "second value &/?+ü",
+      "--settings-block-page-background-color",
+      "second value &/?+ü",
+      "--settings-block-page-footer-text",
+      "second value &/?+ü",
+      "--settings-block-page-include-context=false",
+      "--settings-block-page-mailto-address",
+      "192.0.2.1",
+      "--settings-block-page-mode",
+      "redirect_uri",
+      "--settings-block-page-suppress-footer=false",
+      "--settings-body-scanning-inspection-mode",
+      "shallow",
+      "--settings-browser-isolation-url-browser-isolation-enabled=false",
+      "--settings-custom-certificate-enabled=false",
+      "--settings-extended-email-matching-enabled=false",
+      "--settings-host-selector-enabled=false",
+      "--settings-max-ttl-secs",
+      "2",
+      "--settings-sandbox-enabled=false",
+      "--settings-tls-decrypt-enabled=false"
+    ],
+    "exitCode": 1,
+    "error": "--settings-certificate-id is required when any --settings-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "pairwise 4",
+    "argv": [
+      "zero-trust",
+      "gateway",
+      "configurations",
+      "edit",
+      "--settings-antivirus-enabled-upload-phase=true",
+      "--settings-antivirus-fail-closed=true",
+      "--settings-antivirus-notification-settings-msg",
+      "regression value &/?+ü",
+      "--settings-antivirus-notification-settings-support-url",
+      "https://example.com/a?x=1&y=two",
+      "--settings-block-page-footer-text",
+      "regression value &/?+ü",
+      "--settings-block-page-header-text",
+      "regression value &/?+ü",
+      "--settings-block-page-mailto-address",
+      "192.0.2.1",
+      "--settings-block-page-mailto-subject",
+      "regression value &/?+ü",
+      "--settings-block-page-suppress-footer=true",
+      "--settings-block-page-target-uri",
+      "regression value &/?+ü",
+      "--settings-browser-isolation-url-browser-isolation-enabled=true",
+      "--settings-certificate-id",
+      "0123456789abcdef0123456789abcdef",
+      "--settings-extended-email-matching-enabled=true",
+      "--settings-fips-tls=true",
+      "--settings-max-ttl-secs",
+      "1",
+      "--settings-protocol-detection-enabled=true",
+      "--settings-tls-decrypt-enabled=true"
+    ],
+    "exitCode": 1,
+    "error": "--settings-custom-certificate-enabled is required when any --settings-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "pairwise 5",
+    "argv": [
+      "zero-trust",
+      "gateway",
+      "configurations",
+      "edit",
+      "--settings-activity-log-enabled=false",
+      "--settings-antivirus-enabled-download-phase=false",
+      "--settings-antivirus-notification-settings-enabled=false",
+      "--settings-antivirus-notification-settings-include-context=false",
+      "--settings-block-page-background-color",
+      "second value &/?+ü",
+      "--settings-block-page-enabled=false",
+      "--settings-block-page-include-context=false",
+      "--settings-block-page-logo-path",
+      "second value &/?+ü",
+      "--settings-block-page-mode",
+      "redirect_uri",
+      "--settings-block-page-name",
+      "second value &/?+ü",
+      "--settings-body-scanning-inspection-mode",
+      "shallow",
+      "--settings-browser-isolation-non-identity-enabled=false",
+      "--settings-custom-certificate-enabled=false",
+      "--settings-custom-certificate-id",
+      "0123456789abcdef0123456789abcdef",
+      "--settings-host-selector-enabled=false",
+      "--settings-inspection-mode",
+      "dynamic",
+      "--settings-sandbox-enabled=false",
+      "--settings-sandbox-fallback-action",
+      "block"
+    ],
+    "exitCode": 1,
+    "error": "--settings-certificate-id is required when any --settings-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "pairwise 6",
+    "argv": [
+      "zero-trust",
+      "gateway",
+      "configurations",
+      "edit",
+      "--settings-antivirus-notification-settings-enabled=true",
+      "--settings-antivirus-notification-settings-include-context=true",
+      "--settings-antivirus-notification-settings-msg",
+      "regression value &/?+ü",
+      "--settings-antivirus-notification-settings-support-url",
+      "https://example.com/a?x=1&y=two",
+      "--settings-block-page-include-context=true",
+      "--settings-block-page-logo-path",
+      "regression value &/?+ü",
+      "--settings-block-page-mailto-address",
+      "192.0.2.1",
+      "--settings-block-page-mailto-subject",
+      "regression value &/?+ü",
+      "--settings-body-scanning-inspection-mode",
+      "deep",
+      "--settings-browser-isolation-non-identity-enabled=true",
+      "--settings-browser-isolation-url-browser-isolation-enabled=true",
+      "--settings-certificate-id",
+      "0123456789abcdef0123456789abcdef",
+      "--settings-host-selector-enabled=true",
+      "--settings-inspection-mode",
+      "static",
+      "--settings-max-ttl-secs",
+      "1",
+      "--settings-protocol-detection-enabled=true"
+    ],
+    "exitCode": 1,
+    "error": "--settings-custom-certificate-enabled is required when any --settings-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "pairwise 7",
+    "argv": [
+      "zero-trust",
+      "gateway",
+      "configurations",
+      "edit",
+      "--settings-activity-log-enabled=false",
+      "--settings-antivirus-enabled-download-phase=false",
+      "--settings-antivirus-enabled-upload-phase=false",
+      "--settings-antivirus-fail-closed=false",
+      "--settings-block-page-background-color",
+      "second value &/?+ü",
+      "--settings-block-page-enabled=false",
+      "--settings-block-page-footer-text",
+      "second value &/?+ü",
+      "--settings-block-page-header-text",
+      "second value &/?+ü",
+      "--settings-block-page-mode",
+      "redirect_uri",
+      "--settings-block-page-name",
+      "second value &/?+ü",
+      "--settings-block-page-suppress-footer=false",
+      "--settings-block-page-target-uri",
+      "second value &/?+ü",
+      "--settings-custom-certificate-enabled=false",
+      "--settings-custom-certificate-id",
+      "0123456789abcdef0123456789abcdef",
+      "--settings-extended-email-matching-enabled=false",
+      "--settings-fips-tls=false",
+      "--settings-sandbox-enabled=false",
+      "--settings-sandbox-fallback-action",
+      "block",
+      "--settings-tls-decrypt-enabled=false"
+    ],
+    "exitCode": 1,
+    "error": "--settings-certificate-id is required when any --settings-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "pairwise 8",
+    "argv": [
+      "zero-trust",
+      "gateway",
+      "configurations",
+      "edit",
+      "--settings-block-page-background-color",
+      "regression value &/?+ü",
+      "--settings-block-page-enabled=true",
+      "--settings-block-page-footer-text",
+      "regression value &/?+ü",
+      "--settings-block-page-header-text",
+      "regression value &/?+ü",
+      "--settings-block-page-include-context=true",
+      "--settings-block-page-logo-path",
+      "regression value &/?+ü",
+      "--settings-block-page-mailto-address",
+      "192.0.2.1",
+      "--settings-block-page-mailto-subject",
+      "regression value &/?+ü",
+      "--settings-custom-certificate-enabled=true",
+      "--settings-custom-certificate-id",
+      "0123456789abcdef0123456789abcdef",
+      "--settings-extended-email-matching-enabled=true",
+      "--settings-fips-tls=true",
+      "--settings-host-selector-enabled=true",
+      "--settings-inspection-mode",
+      "static",
+      "--settings-max-ttl-secs",
+      "1",
+      "--settings-protocol-detection-enabled=true"
+    ],
+    "exitCode": 1,
+    "error": "--settings-certificate-id is required when any --settings-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "pairwise 9",
+    "argv": [
+      "zero-trust",
+      "gateway",
+      "configurations",
+      "edit",
+      "--settings-activity-log-enabled=false",
+      "--settings-antivirus-enabled-download-phase=false",
+      "--settings-antivirus-enabled-upload-phase=false",
+      "--settings-antivirus-fail-closed=false",
+      "--settings-antivirus-notification-settings-enabled=false",
+      "--settings-antivirus-notification-settings-include-context=false",
+      "--settings-antivirus-notification-settings-msg",
+      "second value &/?+ü",
+      "--settings-antivirus-notification-settings-support-url",
+      "https://example.com/a?x=1&y=two",
+      "--settings-block-page-mode",
+      "redirect_uri",
+      "--settings-block-page-name",
+      "second value &/?+ü",
+      "--settings-block-page-suppress-footer=false",
+      "--settings-block-page-target-uri",
+      "second value &/?+ü",
+      "--settings-body-scanning-inspection-mode",
+      "shallow",
+      "--settings-browser-isolation-non-identity-enabled=false",
+      "--settings-browser-isolation-url-browser-isolation-enabled=false",
+      "--settings-certificate-id",
+      "0123456789abcdef0123456789abcdef",
+      "--settings-sandbox-enabled=false",
+      "--settings-sandbox-fallback-action",
+      "block",
+      "--settings-tls-decrypt-enabled=false"
+    ],
+    "exitCode": 1,
+    "error": "--settings-custom-certificate-enabled is required when any --settings-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "pairwise 10",
+    "argv": [
+      "zero-trust",
+      "gateway",
+      "configurations",
+      "edit",
+      "--settings-block-page-mode",
+      "customized_block_page",
+      "--settings-block-page-name",
+      "regression value &/?+ü",
+      "--settings-block-page-suppress-footer=true",
+      "--settings-block-page-target-uri",
+      "regression value &/?+ü",
+      "--settings-body-scanning-inspection-mode",
+      "deep",
+      "--settings-browser-isolation-non-identity-enabled=true",
+      "--settings-browser-isolation-url-browser-isolation-enabled=true",
+      "--settings-certificate-id",
+      "0123456789abcdef0123456789abcdef",
+      "--settings-custom-certificate-enabled=true",
+      "--settings-custom-certificate-id",
+      "0123456789abcdef0123456789abcdef",
+      "--settings-extended-email-matching-enabled=true",
+      "--settings-fips-tls=true",
+      "--settings-host-selector-enabled=true",
+      "--settings-inspection-mode",
+      "static",
+      "--settings-max-ttl-secs",
+      "1",
+      "--settings-protocol-detection-enabled=true"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/gateway/configuration",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "601",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "settings": {
+            "block_page": {
+              "mode": "customized_block_page",
+              "name": "regression value &/?+ü",
+              "suppress_footer": true,
+              "target_uri": "regression value &/?+ü"
+            },
+            "body_scanning": {
+              "inspection_mode": "deep"
+            },
+            "browser_isolation": {
+              "non_identity_enabled": true,
+              "url_browser_isolation_enabled": true
+            },
+            "certificate": {
+              "id": "0123456789abcdef0123456789abcdef"
+            },
+            "custom_certificate": {
+              "enabled": true,
+              "id": "0123456789abcdef0123456789abcdef"
+            },
+            "extended_email_matching": {
+              "enabled": true
+            },
+            "fips": {
+              "tls": true
+            },
+            "host_selector": {
+              "enabled": true
+            },
+            "inspection": {
+              "mode": "static"
+            },
+            "max_ttl_secs": 1,
+            "protocol_detection": {
+              "enabled": true
+            }
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 11",
+    "argv": [
+      "zero-trust",
+      "gateway",
+      "configurations",
+      "edit",
+      "--settings-activity-log-enabled=false",
+      "--settings-antivirus-enabled-download-phase=false",
+      "--settings-antivirus-enabled-upload-phase=false",
+      "--settings-antivirus-fail-closed=false",
+      "--settings-antivirus-notification-settings-enabled=false",
+      "--settings-antivirus-notification-settings-include-context=false",
+      "--settings-antivirus-notification-settings-msg",
+      "second value &/?+ü",
+      "--settings-antivirus-notification-settings-support-url",
+      "https://example.com/a?x=1&y=two",
+      "--settings-block-page-background-color",
+      "second value &/?+ü",
+      "--settings-block-page-enabled=false",
+      "--settings-block-page-footer-text",
+      "second value &/?+ü",
+      "--settings-block-page-header-text",
+      "second value &/?+ü",
+      "--settings-block-page-include-context=false",
+      "--settings-block-page-logo-path",
+      "second value &/?+ü",
+      "--settings-block-page-mailto-address",
+      "192.0.2.1",
+      "--settings-block-page-mailto-subject",
+      "second value &/?+ü",
+      "--settings-sandbox-enabled=false",
+      "--settings-sandbox-fallback-action",
+      "block",
+      "--settings-tls-decrypt-enabled=false"
+    ],
+    "exitCode": 1,
+    "error": "--settings-certificate-id, --settings-custom-certificate-enabled are required when any --settings-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "pairwise 12",
+    "argv": [
+      "zero-trust",
+      "gateway",
+      "configurations",
+      "edit",
+      "--settings-sandbox-enabled=true",
+      "--settings-sandbox-fallback-action",
+      "allow",
+      "--settings-tls-decrypt-enabled=true"
+    ],
+    "exitCode": 1,
+    "error": "--settings-certificate-id, --settings-custom-certificate-enabled are required when any --settings-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "pairwise 13",
+    "argv": [
+      "zero-trust",
+      "gateway",
+      "configurations",
+      "edit",
+      "--settings-activity-log-enabled=false",
+      "--settings-antivirus-enabled-download-phase=false",
+      "--settings-antivirus-enabled-upload-phase=false",
+      "--settings-antivirus-fail-closed=false",
+      "--settings-antivirus-notification-settings-enabled=false",
+      "--settings-antivirus-notification-settings-include-context=false",
+      "--settings-antivirus-notification-settings-msg",
+      "second value &/?+ü",
+      "--settings-antivirus-notification-settings-support-url",
+      "https://example.com/a?x=1&y=two",
+      "--settings-block-page-background-color",
+      "second value &/?+ü",
+      "--settings-block-page-enabled=false",
+      "--settings-block-page-footer-text",
+      "second value &/?+ü",
+      "--settings-block-page-header-text",
+      "second value &/?+ü",
+      "--settings-block-page-include-context=false",
+      "--settings-block-page-logo-path",
+      "second value &/?+ü",
+      "--settings-block-page-mailto-address",
+      "192.0.2.1",
+      "--settings-block-page-mailto-subject",
+      "second value &/?+ü",
+      "--settings-block-page-mode",
+      "redirect_uri",
+      "--settings-block-page-name",
+      "second value &/?+ü",
+      "--settings-block-page-suppress-footer=false",
+      "--settings-block-page-target-uri",
+      "second value &/?+ü",
+      "--settings-body-scanning-inspection-mode",
+      "shallow",
+      "--settings-browser-isolation-non-identity-enabled=false",
+      "--settings-browser-isolation-url-browser-isolation-enabled=false",
+      "--settings-certificate-id",
+      "0123456789abcdef0123456789abcdef",
+      "--settings-custom-certificate-enabled=false",
+      "--settings-custom-certificate-id",
+      "0123456789abcdef0123456789abcdef",
+      "--settings-extended-email-matching-enabled=false",
+      "--settings-fips-tls=false",
+      "--settings-host-selector-enabled=false",
+      "--settings-inspection-mode",
+      "dynamic",
+      "--settings-max-ttl-secs",
+      "2",
+      "--settings-protocol-detection-enabled=false"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/gateway/configuration",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "1120",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "settings": {
+            "activity_log": {
+              "enabled": false
+            },
+            "antivirus": {
+              "enabled_download_phase": false,
+              "enabled_upload_phase": false,
+              "fail_closed": false,
+              "notification_settings": {
+                "enabled": false,
+                "include_context": false,
+                "msg": "second value &/?+ü",
+                "support_url": "https://example.com/a?x=1&y=two"
+              }
+            },
+            "block_page": {
+              "background_color": "second value &/?+ü",
+              "enabled": false,
+              "footer_text": "second value &/?+ü",
+              "header_text": "second value &/?+ü",
+              "include_context": false,
+              "logo_path": "second value &/?+ü",
+              "mailto_address": "192.0.2.1",
+              "mailto_subject": "second value &/?+ü",
+              "mode": "redirect_uri",
+              "name": "second value &/?+ü",
+              "suppress_footer": false,
+              "target_uri": "second value &/?+ü"
+            },
+            "body_scanning": {
+              "inspection_mode": "shallow"
+            },
+            "browser_isolation": {
+              "non_identity_enabled": false,
+              "url_browser_isolation_enabled": false
+            },
+            "certificate": {
+              "id": "0123456789abcdef0123456789abcdef"
+            },
+            "custom_certificate": {
+              "enabled": false,
+              "id": "0123456789abcdef0123456789abcdef"
+            },
+            "extended_email_matching": {
+              "enabled": false
+            },
+            "fips": {
+              "tls": false
+            },
+            "host_selector": {
+              "enabled": false
+            },
+            "inspection": {
+              "mode": "dynamic"
+            },
+            "max_ttl_secs": 2,
+            "protocol_detection": {
+              "enabled": false
+            }
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "global quiet",
+    "argv": [
+      "zero-trust",
+      "gateway",
+      "configurations",
+      "edit",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--quiet"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/gateway/configuration",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "global zone",
+    "argv": [
+      "zero-trust",
+      "gateway",
+      "configurations",
+      "edit",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--zone",
+      "abcdef0123456789abcdef0123456789"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/gateway/configuration",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "global profile and mode",
+    "argv": [
+      "zero-trust",
+      "gateway",
+      "configurations",
+      "edit",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--profile",
+      "default",
+      "--mode",
+      "regression"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/gateway/configuration",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "local",
+    "argv": [
+      "zero-trust",
+      "gateway",
+      "configurations",
+      "edit",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--local"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "http://localhost/cdn-cgi/local/explorer/api/gateway/configuration",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "gzip, deflate",
+          "accept-language": "*",
+          "connection": "keep-alive",
+          "content-type": "application/json",
+          "host": "localhost",
+          "sec-fetch-mode": "cors",
+          "transfer-encoding": "chunked",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "local with persistence",
+    "argv": [
+      "zero-trust",
+      "gateway",
+      "configurations",
+      "edit",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--local",
+      "--persist-to",
+      "regression-state"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "http://localhost/cdn-cgi/local/explorer/api/gateway/configuration",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "gzip, deflate",
+          "accept-language": "*",
+          "connection": "keep-alive",
+          "content-type": "application/json",
+          "host": "localhost",
+          "sec-fetch-mode": "cors",
+          "transfer-encoding": "chunked",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "dry-run",
+    "argv": [
+      "zero-trust",
+      "gateway",
+      "configurations",
+      "edit",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--dry-run"
+    ],
+    "exitCode": 0,
+    "requests": []
+  },
+  {
+    "case": "body from file",
+    "argv": [
+      "zero-trust",
+      "gateway",
+      "configurations",
+      "edit",
+      "--body",
+      "@<body.json>"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/gateway/configuration",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "array body",
+    "argv": [
+      "zero-trust",
+      "gateway",
+      "configurations",
+      "edit",
+      "--body",
+      "[{\"regression\":\"first\"},{\"regression\":\"second\"}]"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/gateway/configuration",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "48",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": [
+          {
+            "regression": "first"
+          },
+          {
+            "regression": "second"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "case": "field flags",
+    "argv": [
+      "zero-trust",
+      "gateway",
+      "configurations",
+      "edit",
+      "--settings-activity-log-enabled=true",
+      "--settings-antivirus-enabled-download-phase=true",
+      "--settings-antivirus-enabled-upload-phase=true",
+      "--settings-antivirus-fail-closed=true",
+      "--settings-antivirus-notification-settings-enabled=true",
+      "--settings-antivirus-notification-settings-include-context=true",
+      "--settings-antivirus-notification-settings-msg",
+      "regression value &/?+ü",
+      "--settings-antivirus-notification-settings-support-url",
+      "https://example.com/a?x=1&y=two",
+      "--settings-block-page-background-color",
+      "regression value &/?+ü",
+      "--settings-block-page-enabled=true",
+      "--settings-block-page-footer-text",
+      "regression value &/?+ü",
+      "--settings-block-page-header-text",
+      "regression value &/?+ü",
+      "--settings-block-page-include-context=true",
+      "--settings-block-page-logo-path",
+      "regression value &/?+ü",
+      "--settings-block-page-mailto-address",
+      "192.0.2.1",
+      "--settings-block-page-mailto-subject",
+      "regression value &/?+ü",
+      "--settings-block-page-mode",
+      "customized_block_page",
+      "--settings-block-page-name",
+      "regression value &/?+ü",
+      "--settings-block-page-suppress-footer=true",
+      "--settings-block-page-target-uri",
+      "regression value &/?+ü",
+      "--settings-body-scanning-inspection-mode",
+      "deep",
+      "--settings-browser-isolation-non-identity-enabled=true",
+      "--settings-browser-isolation-url-browser-isolation-enabled=true",
+      "--settings-certificate-id",
+      "0123456789abcdef0123456789abcdef",
+      "--settings-custom-certificate-enabled=true",
+      "--settings-custom-certificate-id",
+      "0123456789abcdef0123456789abcdef",
+      "--settings-extended-email-matching-enabled=true",
+      "--settings-fips-tls=true",
+      "--settings-host-selector-enabled=true",
+      "--settings-inspection-mode",
+      "static",
+      "--settings-max-ttl-secs",
+      "1",
+      "--settings-protocol-detection-enabled=true",
+      "--settings-sandbox-enabled=true",
+      "--settings-sandbox-fallback-action",
+      "allow",
+      "--settings-tls-decrypt-enabled=true"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/gateway/configuration",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "1225",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "settings": {
+            "activity_log": {
+              "enabled": true
+            },
+            "antivirus": {
+              "enabled_download_phase": true,
+              "enabled_upload_phase": true,
+              "fail_closed": true,
+              "notification_settings": {
+                "enabled": true,
+                "include_context": true,
+                "msg": "regression value &/?+ü",
+                "support_url": "https://example.com/a?x=1&y=two"
+              }
+            },
+            "block_page": {
+              "background_color": "regression value &/?+ü",
+              "enabled": true,
+              "footer_text": "regression value &/?+ü",
+              "header_text": "regression value &/?+ü",
+              "include_context": true,
+              "logo_path": "regression value &/?+ü",
+              "mailto_address": "192.0.2.1",
+              "mailto_subject": "regression value &/?+ü",
+              "mode": "customized_block_page",
+              "name": "regression value &/?+ü",
+              "suppress_footer": true,
+              "target_uri": "regression value &/?+ü"
+            },
+            "body_scanning": {
+              "inspection_mode": "deep"
+            },
+            "browser_isolation": {
+              "non_identity_enabled": true,
+              "url_browser_isolation_enabled": true
+            },
+            "certificate": {
+              "id": "0123456789abcdef0123456789abcdef"
+            },
+            "custom_certificate": {
+              "enabled": true,
+              "id": "0123456789abcdef0123456789abcdef"
+            },
+            "extended_email_matching": {
+              "enabled": true
+            },
+            "fips": {
+              "tls": true
+            },
+            "host_selector": {
+              "enabled": true
+            },
+            "inspection": {
+              "mode": "static"
+            },
+            "max_ttl_secs": 1,
+            "protocol_detection": {
+              "enabled": true
+            },
+            "sandbox": {
+              "enabled": true,
+              "fallback_action": "allow"
+            },
+            "tls_decrypt": {
+              "enabled": true
+            }
+          }
+        }
+      }
+    ]
+  }
+]

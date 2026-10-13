@@ -1,0 +1,505 @@
+[
+  {
+    "case": "no-args",
+    "argv": [
+      "o11y",
+      "agents",
+      "sessions",
+      "runs"
+    ],
+    "exitCode": 1,
+    "error": "Not enough non-option arguments: got 0, need at least 1",
+    "requests": []
+  },
+  {
+    "case": "required",
+    "argv": [
+      "o11y",
+      "agents",
+      "sessions",
+      "runs",
+      "regression value &/?+ü",
+      "--service",
+      "regression value &/?+ü",
+      "--agent",
+      "regression value &/?+ü",
+      "--from",
+      "1",
+      "--to",
+      "1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/workers/observability/agents/sessions/regression%20value%20%26%2F%3F%2B%C3%BC/runs?service=regression%20value%20%26%2F%3F%2B%C3%BC&agent=regression%20value%20%26%2F%3F%2B%C3%BC&from=1&to=1",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "only --cursor",
+    "argv": [
+      "o11y",
+      "agents",
+      "sessions",
+      "runs",
+      "regression value &/?+ü",
+      "--service",
+      "regression value &/?+ü",
+      "--agent",
+      "regression value &/?+ü",
+      "--from",
+      "1",
+      "--to",
+      "1",
+      "--cursor",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/workers/observability/agents/sessions/regression%20value%20%26%2F%3F%2B%C3%BC/runs?service=regression%20value%20%26%2F%3F%2B%C3%BC&agent=regression%20value%20%26%2F%3F%2B%C3%BC&from=1&to=1&cursor=regression%20value%20%26%2F%3F%2B%C3%BC",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "only --per-page",
+    "argv": [
+      "o11y",
+      "agents",
+      "sessions",
+      "runs",
+      "regression value &/?+ü",
+      "--service",
+      "regression value &/?+ü",
+      "--agent",
+      "regression value &/?+ü",
+      "--from",
+      "1",
+      "--to",
+      "1",
+      "--per-page",
+      "1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/workers/observability/agents/sessions/regression%20value%20%26%2F%3F%2B%C3%BC/runs?service=regression%20value%20%26%2F%3F%2B%C3%BC&agent=regression%20value%20%26%2F%3F%2B%C3%BC&from=1&to=1&per_page=1",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "pairwise 1",
+    "argv": [
+      "o11y",
+      "agents",
+      "sessions",
+      "runs",
+      "regression value &/?+ü",
+      "--service",
+      "regression value &/?+ü",
+      "--agent",
+      "regression value &/?+ü",
+      "--from",
+      "1",
+      "--to",
+      "1",
+      "--cursor",
+      "second value &/?+ü",
+      "--per-page",
+      "2"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/workers/observability/agents/sessions/regression%20value%20%26%2F%3F%2B%C3%BC/runs?service=regression%20value%20%26%2F%3F%2B%C3%BC&agent=regression%20value%20%26%2F%3F%2B%C3%BC&from=1&to=1&cursor=second%20value%20%26%2F%3F%2B%C3%BC&per_page=2",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "pairwise 3",
+    "argv": [
+      "o11y",
+      "agents",
+      "sessions",
+      "runs",
+      "regression value &/?+ü",
+      "--service",
+      "regression value &/?+ü",
+      "--agent",
+      "regression value &/?+ü",
+      "--from",
+      "1",
+      "--to",
+      "1",
+      "--cursor",
+      "second value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/workers/observability/agents/sessions/regression%20value%20%26%2F%3F%2B%C3%BC/runs?service=regression%20value%20%26%2F%3F%2B%C3%BC&agent=regression%20value%20%26%2F%3F%2B%C3%BC&from=1&to=1&cursor=second%20value%20%26%2F%3F%2B%C3%BC",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "global quiet",
+    "argv": [
+      "o11y",
+      "agents",
+      "sessions",
+      "runs",
+      "regression value &/?+ü",
+      "--service",
+      "regression value &/?+ü",
+      "--agent",
+      "regression value &/?+ü",
+      "--from",
+      "1",
+      "--to",
+      "1",
+      "--quiet"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/workers/observability/agents/sessions/regression%20value%20%26%2F%3F%2B%C3%BC/runs?service=regression%20value%20%26%2F%3F%2B%C3%BC&agent=regression%20value%20%26%2F%3F%2B%C3%BC&from=1&to=1",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "global zone",
+    "argv": [
+      "o11y",
+      "agents",
+      "sessions",
+      "runs",
+      "regression value &/?+ü",
+      "--service",
+      "regression value &/?+ü",
+      "--agent",
+      "regression value &/?+ü",
+      "--from",
+      "1",
+      "--to",
+      "1",
+      "--zone",
+      "abcdef0123456789abcdef0123456789"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/workers/observability/agents/sessions/regression%20value%20%26%2F%3F%2B%C3%BC/runs?service=regression%20value%20%26%2F%3F%2B%C3%BC&agent=regression%20value%20%26%2F%3F%2B%C3%BC&from=1&to=1",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "global profile and mode",
+    "argv": [
+      "o11y",
+      "agents",
+      "sessions",
+      "runs",
+      "regression value &/?+ü",
+      "--service",
+      "regression value &/?+ü",
+      "--agent",
+      "regression value &/?+ü",
+      "--from",
+      "1",
+      "--to",
+      "1",
+      "--profile",
+      "default",
+      "--mode",
+      "regression"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/workers/observability/agents/sessions/regression%20value%20%26%2F%3F%2B%C3%BC/runs?service=regression%20value%20%26%2F%3F%2B%C3%BC&agent=regression%20value%20%26%2F%3F%2B%C3%BC&from=1&to=1",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "local",
+    "argv": [
+      "o11y",
+      "agents",
+      "sessions",
+      "runs",
+      "regression value &/?+ü",
+      "--service",
+      "regression value &/?+ü",
+      "--agent",
+      "regression value &/?+ü",
+      "--from",
+      "1",
+      "--to",
+      "1",
+      "--local"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "http://localhost/cdn-cgi/local/explorer/api/workers/observability/agents/sessions/regression%20value%20%26%2F%3F%2B%C3%BC/runs?service=regression%20value%20%26%2F%3F%2B%C3%BC&agent=regression%20value%20%26%2F%3F%2B%C3%BC&from=1&to=1",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "gzip, deflate",
+          "accept-language": "*",
+          "connection": "keep-alive",
+          "host": "localhost",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "local with persistence",
+    "argv": [
+      "o11y",
+      "agents",
+      "sessions",
+      "runs",
+      "regression value &/?+ü",
+      "--service",
+      "regression value &/?+ü",
+      "--agent",
+      "regression value &/?+ü",
+      "--from",
+      "1",
+      "--to",
+      "1",
+      "--local",
+      "--persist-to",
+      "regression-state"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "http://localhost/cdn-cgi/local/explorer/api/workers/observability/agents/sessions/regression%20value%20%26%2F%3F%2B%C3%BC/runs?service=regression%20value%20%26%2F%3F%2B%C3%BC&agent=regression%20value%20%26%2F%3F%2B%C3%BC&from=1&to=1",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "gzip, deflate",
+          "accept-language": "*",
+          "connection": "keep-alive",
+          "host": "localhost",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "dry-run",
+    "argv": [
+      "o11y",
+      "agents",
+      "sessions",
+      "runs",
+      "regression value &/?+ü",
+      "--service",
+      "regression value &/?+ü",
+      "--agent",
+      "regression value &/?+ü",
+      "--from",
+      "1",
+      "--to",
+      "1",
+      "--dry-run"
+    ],
+    "exitCode": 0,
+    "requests": []
+  },
+  {
+    "case": "alternate <conversationId>",
+    "argv": [
+      "o11y",
+      "agents",
+      "sessions",
+      "runs",
+      "second value &/?+ü",
+      "--service",
+      "regression value &/?+ü",
+      "--agent",
+      "regression value &/?+ü",
+      "--from",
+      "1",
+      "--to",
+      "1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/workers/observability/agents/sessions/second%20value%20%26%2F%3F%2B%C3%BC/runs?service=regression%20value%20%26%2F%3F%2B%C3%BC&agent=regression%20value%20%26%2F%3F%2B%C3%BC&from=1&to=1",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  }
+]

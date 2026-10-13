@@ -1,0 +1,526 @@
+[
+  {
+    "case": "no-args",
+    "argv": [
+      "tunnels",
+      "run"
+    ],
+    "exitCode": 1,
+    "error": "Either a tunnel name/UUID or --token must be provided.",
+    "requests": []
+  },
+  {
+    "case": "required",
+    "argv": [
+      "tunnels",
+      "run",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 1,
+    "error": "\"regression value &/?+ü\" is neither the ID nor the name of any tunnel. Run `cf tunnels list` to see available tunnels.",
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/cfd_tunnel?name=regression%20value%20%26%2F%3F%2B%C3%BC&is_deleted=false&per_page=1000&page=1",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "only --token",
+    "argv": [
+      "tunnels",
+      "run",
+      "regression value &/?+ü",
+      "--token",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": []
+  },
+  {
+    "case": "only --log-level",
+    "argv": [
+      "tunnels",
+      "run",
+      "regression value &/?+ü",
+      "--log-level",
+      "trace"
+    ],
+    "exitCode": 1,
+    "error": "\"regression value &/?+ü\" is neither the ID nor the name of any tunnel. Run `cf tunnels list` to see available tunnels.",
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/cfd_tunnel?name=regression%20value%20%26%2F%3F%2B%C3%BC&is_deleted=false&per_page=1000&page=1",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "--log-level value 1",
+    "argv": [
+      "tunnels",
+      "run",
+      "regression value &/?+ü",
+      "--log-level",
+      "debug"
+    ],
+    "exitCode": 1,
+    "error": "\"regression value &/?+ü\" is neither the ID nor the name of any tunnel. Run `cf tunnels list` to see available tunnels.",
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/cfd_tunnel?name=regression%20value%20%26%2F%3F%2B%C3%BC&is_deleted=false&per_page=1000&page=1",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "--log-level value 2",
+    "argv": [
+      "tunnels",
+      "run",
+      "regression value &/?+ü",
+      "--log-level",
+      "info"
+    ],
+    "exitCode": 1,
+    "error": "\"regression value &/?+ü\" is neither the ID nor the name of any tunnel. Run `cf tunnels list` to see available tunnels.",
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/cfd_tunnel?name=regression%20value%20%26%2F%3F%2B%C3%BC&is_deleted=false&per_page=1000&page=1",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "--log-level value 3",
+    "argv": [
+      "tunnels",
+      "run",
+      "regression value &/?+ü",
+      "--log-level",
+      "warn"
+    ],
+    "exitCode": 1,
+    "error": "\"regression value &/?+ü\" is neither the ID nor the name of any tunnel. Run `cf tunnels list` to see available tunnels.",
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/cfd_tunnel?name=regression%20value%20%26%2F%3F%2B%C3%BC&is_deleted=false&per_page=1000&page=1",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "--log-level value 4",
+    "argv": [
+      "tunnels",
+      "run",
+      "regression value &/?+ü",
+      "--log-level",
+      "error"
+    ],
+    "exitCode": 1,
+    "error": "\"regression value &/?+ü\" is neither the ID nor the name of any tunnel. Run `cf tunnels list` to see available tunnels.",
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/cfd_tunnel?name=regression%20value%20%26%2F%3F%2B%C3%BC&is_deleted=false&per_page=1000&page=1",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "--log-level value 5",
+    "argv": [
+      "tunnels",
+      "run",
+      "regression value &/?+ü",
+      "--log-level",
+      "fatal"
+    ],
+    "exitCode": 1,
+    "error": "\"regression value &/?+ü\" is neither the ID nor the name of any tunnel. Run `cf tunnels list` to see available tunnels.",
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/cfd_tunnel?name=regression%20value%20%26%2F%3F%2B%C3%BC&is_deleted=false&per_page=1000&page=1",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "--log-level value 6",
+    "argv": [
+      "tunnels",
+      "run",
+      "regression value &/?+ü",
+      "--log-level",
+      "panic"
+    ],
+    "exitCode": 1,
+    "error": "\"regression value &/?+ü\" is neither the ID nor the name of any tunnel. Run `cf tunnels list` to see available tunnels.",
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/cfd_tunnel?name=regression%20value%20%26%2F%3F%2B%C3%BC&is_deleted=false&per_page=1000&page=1",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "--log-level value 7",
+    "argv": [
+      "tunnels",
+      "run",
+      "regression value &/?+ü",
+      "--log-level",
+      "disabled"
+    ],
+    "exitCode": 1,
+    "error": "\"regression value &/?+ü\" is neither the ID nor the name of any tunnel. Run `cf tunnels list` to see available tunnels.",
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/cfd_tunnel?name=regression%20value%20%26%2F%3F%2B%C3%BC&is_deleted=false&per_page=1000&page=1",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "pairwise 1",
+    "argv": [
+      "tunnels",
+      "run",
+      "regression value &/?+ü",
+      "--token",
+      "second value &/?+ü",
+      "--log-level",
+      "debug"
+    ],
+    "exitCode": 0,
+    "requests": []
+  },
+  {
+    "case": "pairwise 3",
+    "argv": [
+      "tunnels",
+      "run",
+      "regression value &/?+ü",
+      "--token",
+      "second value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": []
+  },
+  {
+    "case": "global quiet",
+    "argv": [
+      "tunnels",
+      "run",
+      "regression value &/?+ü",
+      "--quiet"
+    ],
+    "exitCode": 1,
+    "error": "\"regression value &/?+ü\" is neither the ID nor the name of any tunnel. Run `cf tunnels list` to see available tunnels.",
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/cfd_tunnel?name=regression%20value%20%26%2F%3F%2B%C3%BC&is_deleted=false&per_page=1000&page=1",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "global zone",
+    "argv": [
+      "tunnels",
+      "run",
+      "regression value &/?+ü",
+      "--zone",
+      "abcdef0123456789abcdef0123456789"
+    ],
+    "exitCode": 1,
+    "error": "\"regression value &/?+ü\" is neither the ID nor the name of any tunnel. Run `cf tunnels list` to see available tunnels.",
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/cfd_tunnel?name=regression%20value%20%26%2F%3F%2B%C3%BC&is_deleted=false&per_page=1000&page=1",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "global profile and mode",
+    "argv": [
+      "tunnels",
+      "run",
+      "regression value &/?+ü",
+      "--profile",
+      "default",
+      "--mode",
+      "regression"
+    ],
+    "exitCode": 1,
+    "error": "\"regression value &/?+ü\" is neither the ID nor the name of any tunnel. Run `cf tunnels list` to see available tunnels.",
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/cfd_tunnel?name=regression%20value%20%26%2F%3F%2B%C3%BC&is_deleted=false&per_page=1000&page=1",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "local",
+    "argv": [
+      "tunnels",
+      "run",
+      "regression value &/?+ü",
+      "--local"
+    ],
+    "exitCode": 1,
+    "error": "--local is not supported by cf tunnels run.",
+    "requests": []
+  },
+  {
+    "case": "local with persistence",
+    "argv": [
+      "tunnels",
+      "run",
+      "regression value &/?+ü",
+      "--local",
+      "--persist-to",
+      "regression-state"
+    ],
+    "exitCode": 1,
+    "error": "--local is not supported by cf tunnels run.",
+    "requests": []
+  },
+  {
+    "case": "dry-run",
+    "argv": [
+      "tunnels",
+      "run",
+      "regression value &/?+ü",
+      "--dry-run"
+    ],
+    "exitCode": 0,
+    "requests": []
+  },
+  {
+    "case": "alternate <tunnel>",
+    "argv": [
+      "tunnels",
+      "run",
+      "second value &/?+ü"
+    ],
+    "exitCode": 1,
+    "error": "\"second value &/?+ü\" is neither the ID nor the name of any tunnel. Run `cf tunnels list` to see available tunnels.",
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/cfd_tunnel?name=second%20value%20%26%2F%3F%2B%C3%BC&is_deleted=false&per_page=1000&page=1",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  }
+]

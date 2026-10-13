@@ -1,0 +1,1520 @@
+[
+  {
+    "case": "no-args",
+    "argv": [
+      "stream",
+      "videos",
+      "clip"
+    ],
+    "exitCode": 1,
+    "error": "--clipped-from-video-uid is required. Pass --clipped-from-video-uid <value> or run interactively.",
+    "requests": []
+  },
+  {
+    "case": "required",
+    "argv": [
+      "stream",
+      "videos",
+      "clip",
+      "--clipped-from-video-uid",
+      "192.0.2.1",
+      "--end-time-seconds",
+      "1",
+      "--start-time-seconds",
+      "1",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/stream/clip",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --allowed-origins",
+    "argv": [
+      "stream",
+      "videos",
+      "clip",
+      "--clipped-from-video-uid",
+      "192.0.2.1",
+      "--end-time-seconds",
+      "1",
+      "--start-time-seconds",
+      "1",
+      "--allowed-origins",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/stream/clip",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "172",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "allowedOrigins": [
+            "regression value &/?+ü"
+          ],
+          "clippedFromVideoUID": "192.0.2.1",
+          "endTimeSeconds": 1,
+          "requireSignedURLs": false,
+          "startTimeSeconds": 1,
+          "thumbnailTimestampPct": 0
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --creator",
+    "argv": [
+      "stream",
+      "videos",
+      "clip",
+      "--clipped-from-video-uid",
+      "192.0.2.1",
+      "--end-time-seconds",
+      "1",
+      "--start-time-seconds",
+      "1",
+      "--creator",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/stream/clip",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "163",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "clippedFromVideoUID": "192.0.2.1",
+          "creator": "regression value &/?+ü",
+          "endTimeSeconds": 1,
+          "requireSignedURLs": false,
+          "startTimeSeconds": 1,
+          "thumbnailTimestampPct": 0
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --input",
+    "argv": [
+      "stream",
+      "videos",
+      "clip",
+      "--clipped-from-video-uid",
+      "192.0.2.1",
+      "--end-time-seconds",
+      "1",
+      "--start-time-seconds",
+      "1",
+      "--input",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/stream/clip",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "161",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "clippedFromVideoUID": "192.0.2.1",
+          "endTimeSeconds": 1,
+          "input": "regression value &/?+ü",
+          "requireSignedURLs": false,
+          "startTimeSeconds": 1,
+          "thumbnailTimestampPct": 0
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --name",
+    "argv": [
+      "stream",
+      "videos",
+      "clip",
+      "--clipped-from-video-uid",
+      "192.0.2.1",
+      "--end-time-seconds",
+      "1",
+      "--start-time-seconds",
+      "1",
+      "--name",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/stream/clip",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "160",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "clippedFromVideoUID": "192.0.2.1",
+          "endTimeSeconds": 1,
+          "name": "regression value &/?+ü",
+          "requireSignedURLs": false,
+          "startTimeSeconds": 1,
+          "thumbnailTimestampPct": 0
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --require-signed-urls",
+    "argv": [
+      "stream",
+      "videos",
+      "clip",
+      "--clipped-from-video-uid",
+      "192.0.2.1",
+      "--end-time-seconds",
+      "1",
+      "--start-time-seconds",
+      "1",
+      "--require-signed-urls=true"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/stream/clip",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "126",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "clippedFromVideoUID": "192.0.2.1",
+          "endTimeSeconds": 1,
+          "requireSignedURLs": true,
+          "startTimeSeconds": 1,
+          "thumbnailTimestampPct": 0
+        }
+      }
+    ]
+  },
+  {
+    "case": "--require-signed-urls value 1",
+    "argv": [
+      "stream",
+      "videos",
+      "clip",
+      "--clipped-from-video-uid",
+      "192.0.2.1",
+      "--end-time-seconds",
+      "1",
+      "--start-time-seconds",
+      "1",
+      "--require-signed-urls=false"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/stream/clip",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "127",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "clippedFromVideoUID": "192.0.2.1",
+          "endTimeSeconds": 1,
+          "requireSignedURLs": false,
+          "startTimeSeconds": 1,
+          "thumbnailTimestampPct": 0
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --scheduled-deletion",
+    "argv": [
+      "stream",
+      "videos",
+      "clip",
+      "--clipped-from-video-uid",
+      "192.0.2.1",
+      "--end-time-seconds",
+      "1",
+      "--start-time-seconds",
+      "1",
+      "--scheduled-deletion",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/stream/clip",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "173",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "clippedFromVideoUID": "192.0.2.1",
+          "endTimeSeconds": 1,
+          "requireSignedURLs": false,
+          "scheduledDeletion": "regression value &/?+ü",
+          "startTimeSeconds": 1,
+          "thumbnailTimestampPct": 0
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --thumbnail-timestamp-pct",
+    "argv": [
+      "stream",
+      "videos",
+      "clip",
+      "--clipped-from-video-uid",
+      "192.0.2.1",
+      "--end-time-seconds",
+      "1",
+      "--start-time-seconds",
+      "1",
+      "--thumbnail-timestamp-pct",
+      "1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/stream/clip",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "127",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "clippedFromVideoUID": "192.0.2.1",
+          "endTimeSeconds": 1,
+          "requireSignedURLs": false,
+          "startTimeSeconds": 1,
+          "thumbnailTimestampPct": 1
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --url",
+    "argv": [
+      "stream",
+      "videos",
+      "clip",
+      "--clipped-from-video-uid",
+      "192.0.2.1",
+      "--end-time-seconds",
+      "1",
+      "--start-time-seconds",
+      "1",
+      "--url",
+      "https://example.com/a?x=1&y=two"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/stream/clip",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "167",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "clippedFromVideoUID": "192.0.2.1",
+          "endTimeSeconds": 1,
+          "requireSignedURLs": false,
+          "startTimeSeconds": 1,
+          "thumbnailTimestampPct": 0,
+          "url": "https://example.com/a?x=1&y=two"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --watermark-uid",
+    "argv": [
+      "stream",
+      "videos",
+      "clip",
+      "--clipped-from-video-uid",
+      "192.0.2.1",
+      "--end-time-seconds",
+      "1",
+      "--start-time-seconds",
+      "1",
+      "--watermark-uid",
+      "0123456789abcdef0123456789abcdef"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/stream/clip",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "182",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "clippedFromVideoUID": "192.0.2.1",
+          "endTimeSeconds": 1,
+          "requireSignedURLs": false,
+          "startTimeSeconds": 1,
+          "thumbnailTimestampPct": 0,
+          "watermark": {
+            "uid": "0123456789abcdef0123456789abcdef"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 0",
+    "argv": [
+      "stream",
+      "videos",
+      "clip",
+      "--clipped-from-video-uid",
+      "192.0.2.1",
+      "--end-time-seconds",
+      "1",
+      "--start-time-seconds",
+      "1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/stream/clip",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "127",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "clippedFromVideoUID": "192.0.2.1",
+          "endTimeSeconds": 1,
+          "requireSignedURLs": false,
+          "startTimeSeconds": 1,
+          "thumbnailTimestampPct": 0
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 1",
+    "argv": [
+      "stream",
+      "videos",
+      "clip",
+      "--clipped-from-video-uid",
+      "192.0.2.1",
+      "--end-time-seconds",
+      "1",
+      "--start-time-seconds",
+      "1",
+      "--allowed-origins",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--creator",
+      "second value &/?+ü",
+      "--input",
+      "second value &/?+ü",
+      "--name",
+      "second value &/?+ü",
+      "--require-signed-urls=false",
+      "--scheduled-deletion",
+      "second value &/?+ü",
+      "--thumbnail-timestamp-pct",
+      "2",
+      "--url",
+      "https://example.com/a?x=1&y=two",
+      "--watermark-uid",
+      "0123456789abcdef0123456789abcdef"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/stream/clip",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "418",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "allowedOrigins": [
+            "second value &/?+ü",
+            "second value &/?+ü"
+          ],
+          "clippedFromVideoUID": "192.0.2.1",
+          "creator": "second value &/?+ü",
+          "endTimeSeconds": 1,
+          "input": "second value &/?+ü",
+          "name": "second value &/?+ü",
+          "requireSignedURLs": false,
+          "scheduledDeletion": "second value &/?+ü",
+          "startTimeSeconds": 1,
+          "thumbnailTimestampPct": 2,
+          "url": "https://example.com/a?x=1&y=two",
+          "watermark": {
+            "uid": "0123456789abcdef0123456789abcdef"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 2",
+    "argv": [
+      "stream",
+      "videos",
+      "clip",
+      "--clipped-from-video-uid",
+      "192.0.2.1",
+      "--end-time-seconds",
+      "1",
+      "--start-time-seconds",
+      "1",
+      "--creator",
+      "regression value &/?+ü",
+      "--name",
+      "regression value &/?+ü",
+      "--scheduled-deletion",
+      "regression value &/?+ü",
+      "--url",
+      "https://example.com/a?x=1&y=two"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/stream/clip",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "282",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "clippedFromVideoUID": "192.0.2.1",
+          "creator": "regression value &/?+ü",
+          "endTimeSeconds": 1,
+          "name": "regression value &/?+ü",
+          "requireSignedURLs": false,
+          "scheduledDeletion": "regression value &/?+ü",
+          "startTimeSeconds": 1,
+          "thumbnailTimestampPct": 0,
+          "url": "https://example.com/a?x=1&y=two"
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 3",
+    "argv": [
+      "stream",
+      "videos",
+      "clip",
+      "--clipped-from-video-uid",
+      "192.0.2.1",
+      "--end-time-seconds",
+      "1",
+      "--start-time-seconds",
+      "1",
+      "--allowed-origins",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--input",
+      "second value &/?+ü",
+      "--require-signed-urls=false",
+      "--thumbnail-timestamp-pct",
+      "2",
+      "--watermark-uid",
+      "0123456789abcdef0123456789abcdef"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/stream/clip",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "275",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "allowedOrigins": [
+            "second value &/?+ü",
+            "second value &/?+ü"
+          ],
+          "clippedFromVideoUID": "192.0.2.1",
+          "endTimeSeconds": 1,
+          "input": "second value &/?+ü",
+          "requireSignedURLs": false,
+          "startTimeSeconds": 1,
+          "thumbnailTimestampPct": 2,
+          "watermark": {
+            "uid": "0123456789abcdef0123456789abcdef"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 4",
+    "argv": [
+      "stream",
+      "videos",
+      "clip",
+      "--clipped-from-video-uid",
+      "192.0.2.1",
+      "--end-time-seconds",
+      "1",
+      "--start-time-seconds",
+      "1",
+      "--input",
+      "regression value &/?+ü",
+      "--name",
+      "regression value &/?+ü",
+      "--thumbnail-timestamp-pct",
+      "1",
+      "--url",
+      "https://example.com/a?x=1&y=two"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/stream/clip",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "234",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "clippedFromVideoUID": "192.0.2.1",
+          "endTimeSeconds": 1,
+          "input": "regression value &/?+ü",
+          "name": "regression value &/?+ü",
+          "requireSignedURLs": false,
+          "startTimeSeconds": 1,
+          "thumbnailTimestampPct": 1,
+          "url": "https://example.com/a?x=1&y=two"
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 5",
+    "argv": [
+      "stream",
+      "videos",
+      "clip",
+      "--clipped-from-video-uid",
+      "192.0.2.1",
+      "--end-time-seconds",
+      "1",
+      "--start-time-seconds",
+      "1",
+      "--allowed-origins",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--creator",
+      "second value &/?+ü",
+      "--require-signed-urls=false",
+      "--scheduled-deletion",
+      "second value &/?+ü",
+      "--watermark-uid",
+      "0123456789abcdef0123456789abcdef"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/stream/clip",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "319",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "allowedOrigins": [
+            "second value &/?+ü",
+            "second value &/?+ü"
+          ],
+          "clippedFromVideoUID": "192.0.2.1",
+          "creator": "second value &/?+ü",
+          "endTimeSeconds": 1,
+          "requireSignedURLs": false,
+          "scheduledDeletion": "second value &/?+ü",
+          "startTimeSeconds": 1,
+          "thumbnailTimestampPct": 0,
+          "watermark": {
+            "uid": "0123456789abcdef0123456789abcdef"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 6",
+    "argv": [
+      "stream",
+      "videos",
+      "clip",
+      "--clipped-from-video-uid",
+      "192.0.2.1",
+      "--end-time-seconds",
+      "1",
+      "--start-time-seconds",
+      "1",
+      "--require-signed-urls=true",
+      "--scheduled-deletion",
+      "regression value &/?+ü",
+      "--thumbnail-timestamp-pct",
+      "1",
+      "--url",
+      "https://example.com/a?x=1&y=two"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/stream/clip",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "212",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "clippedFromVideoUID": "192.0.2.1",
+          "endTimeSeconds": 1,
+          "requireSignedURLs": true,
+          "scheduledDeletion": "regression value &/?+ü",
+          "startTimeSeconds": 1,
+          "thumbnailTimestampPct": 1,
+          "url": "https://example.com/a?x=1&y=two"
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 7",
+    "argv": [
+      "stream",
+      "videos",
+      "clip",
+      "--clipped-from-video-uid",
+      "192.0.2.1",
+      "--end-time-seconds",
+      "1",
+      "--start-time-seconds",
+      "1",
+      "--allowed-origins",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--creator",
+      "second value &/?+ü",
+      "--input",
+      "second value &/?+ü",
+      "--name",
+      "second value &/?+ü",
+      "--watermark-uid",
+      "0123456789abcdef0123456789abcdef"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/stream/clip",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "336",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "allowedOrigins": [
+            "second value &/?+ü",
+            "second value &/?+ü"
+          ],
+          "clippedFromVideoUID": "192.0.2.1",
+          "creator": "second value &/?+ü",
+          "endTimeSeconds": 1,
+          "input": "second value &/?+ü",
+          "name": "second value &/?+ü",
+          "requireSignedURLs": false,
+          "startTimeSeconds": 1,
+          "thumbnailTimestampPct": 0,
+          "watermark": {
+            "uid": "0123456789abcdef0123456789abcdef"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 9",
+    "argv": [
+      "stream",
+      "videos",
+      "clip",
+      "--clipped-from-video-uid",
+      "192.0.2.1",
+      "--end-time-seconds",
+      "1",
+      "--start-time-seconds",
+      "1",
+      "--allowed-origins",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--creator",
+      "second value &/?+ü",
+      "--input",
+      "second value &/?+ü",
+      "--name",
+      "second value &/?+ü",
+      "--require-signed-urls=false",
+      "--scheduled-deletion",
+      "second value &/?+ü",
+      "--thumbnail-timestamp-pct",
+      "2",
+      "--url",
+      "https://example.com/a?x=1&y=two"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/stream/clip",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "363",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "allowedOrigins": [
+            "second value &/?+ü",
+            "second value &/?+ü"
+          ],
+          "clippedFromVideoUID": "192.0.2.1",
+          "creator": "second value &/?+ü",
+          "endTimeSeconds": 1,
+          "input": "second value &/?+ü",
+          "name": "second value &/?+ü",
+          "requireSignedURLs": false,
+          "scheduledDeletion": "second value &/?+ü",
+          "startTimeSeconds": 1,
+          "thumbnailTimestampPct": 2,
+          "url": "https://example.com/a?x=1&y=two"
+        }
+      }
+    ]
+  },
+  {
+    "case": "global quiet",
+    "argv": [
+      "stream",
+      "videos",
+      "clip",
+      "--clipped-from-video-uid",
+      "192.0.2.1",
+      "--end-time-seconds",
+      "1",
+      "--start-time-seconds",
+      "1",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--quiet"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/stream/clip",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "global zone",
+    "argv": [
+      "stream",
+      "videos",
+      "clip",
+      "--clipped-from-video-uid",
+      "192.0.2.1",
+      "--end-time-seconds",
+      "1",
+      "--start-time-seconds",
+      "1",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--zone",
+      "abcdef0123456789abcdef0123456789"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/stream/clip",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "global profile and mode",
+    "argv": [
+      "stream",
+      "videos",
+      "clip",
+      "--clipped-from-video-uid",
+      "192.0.2.1",
+      "--end-time-seconds",
+      "1",
+      "--start-time-seconds",
+      "1",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--profile",
+      "default",
+      "--mode",
+      "regression"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/stream/clip",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "local",
+    "argv": [
+      "stream",
+      "videos",
+      "clip",
+      "--clipped-from-video-uid",
+      "192.0.2.1",
+      "--end-time-seconds",
+      "1",
+      "--start-time-seconds",
+      "1",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--local"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "http://localhost/cdn-cgi/local/explorer/api/stream/clip",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "gzip, deflate",
+          "accept-language": "*",
+          "connection": "keep-alive",
+          "content-type": "application/json",
+          "host": "localhost",
+          "sec-fetch-mode": "cors",
+          "transfer-encoding": "chunked",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "local with persistence",
+    "argv": [
+      "stream",
+      "videos",
+      "clip",
+      "--clipped-from-video-uid",
+      "192.0.2.1",
+      "--end-time-seconds",
+      "1",
+      "--start-time-seconds",
+      "1",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--local",
+      "--persist-to",
+      "regression-state"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "http://localhost/cdn-cgi/local/explorer/api/stream/clip",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "gzip, deflate",
+          "accept-language": "*",
+          "connection": "keep-alive",
+          "content-type": "application/json",
+          "host": "localhost",
+          "sec-fetch-mode": "cors",
+          "transfer-encoding": "chunked",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "dry-run",
+    "argv": [
+      "stream",
+      "videos",
+      "clip",
+      "--clipped-from-video-uid",
+      "192.0.2.1",
+      "--end-time-seconds",
+      "1",
+      "--start-time-seconds",
+      "1",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--dry-run"
+    ],
+    "exitCode": 0,
+    "requests": []
+  },
+  {
+    "case": "body from file",
+    "argv": [
+      "stream",
+      "videos",
+      "clip",
+      "--clipped-from-video-uid",
+      "192.0.2.1",
+      "--end-time-seconds",
+      "1",
+      "--start-time-seconds",
+      "1",
+      "--body",
+      "@<body.json>"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/stream/clip",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "array body",
+    "argv": [
+      "stream",
+      "videos",
+      "clip",
+      "--clipped-from-video-uid",
+      "192.0.2.1",
+      "--end-time-seconds",
+      "1",
+      "--start-time-seconds",
+      "1",
+      "--body",
+      "[{\"regression\":\"first\"},{\"regression\":\"second\"}]"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/stream/clip",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "56",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "0": {
+            "regression": "first"
+          },
+          "1": {
+            "regression": "second"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "field flags",
+    "argv": [
+      "stream",
+      "videos",
+      "clip",
+      "--clipped-from-video-uid",
+      "192.0.2.1",
+      "--end-time-seconds",
+      "1",
+      "--start-time-seconds",
+      "1",
+      "--allowed-origins",
+      "regression value &/?+ü",
+      "--creator",
+      "regression value &/?+ü",
+      "--input",
+      "regression value &/?+ü",
+      "--name",
+      "regression value &/?+ü",
+      "--require-signed-urls=true",
+      "--scheduled-deletion",
+      "regression value &/?+ü",
+      "--thumbnail-timestamp-pct",
+      "1",
+      "--url",
+      "https://example.com/a?x=1&y=two",
+      "--watermark-uid",
+      "0123456789abcdef0123456789abcdef"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/stream/clip",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "415",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "allowedOrigins": [
+            "regression value &/?+ü"
+          ],
+          "clippedFromVideoUID": "192.0.2.1",
+          "creator": "regression value &/?+ü",
+          "endTimeSeconds": 1,
+          "input": "regression value &/?+ü",
+          "name": "regression value &/?+ü",
+          "requireSignedURLs": true,
+          "scheduledDeletion": "regression value &/?+ü",
+          "startTimeSeconds": 1,
+          "thumbnailTimestampPct": 1,
+          "url": "https://example.com/a?x=1&y=two",
+          "watermark": {
+            "uid": "0123456789abcdef0123456789abcdef"
+          }
+        }
+      }
+    ]
+  }
+]

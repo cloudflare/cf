@@ -1,0 +1,1440 @@
+[
+  {
+    "case": "no-args",
+    "argv": [
+      "stream",
+      "watermarks",
+      "create"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/stream/watermarks",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "<multipart-length>",
+          "content-type": "multipart/form-data; boundary=<boundary>",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": [
+          [
+            "name",
+            ""
+          ],
+          [
+            "opacity",
+            "1"
+          ],
+          [
+            "padding",
+            "0.05"
+          ],
+          [
+            "position",
+            "upperRight"
+          ],
+          [
+            "scale",
+            "0.15"
+          ]
+        ]
+      }
+    ]
+  },
+  {
+    "case": "required",
+    "argv": [
+      "stream",
+      "watermarks",
+      "create",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/stream/watermarks",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "<multipart-length>",
+          "content-type": "multipart/form-data; boundary=<boundary>",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": [
+          [
+            "file",
+            "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}"
+          ],
+          [
+            "name",
+            ""
+          ],
+          [
+            "opacity",
+            "1"
+          ],
+          [
+            "padding",
+            "0.05"
+          ],
+          [
+            "position",
+            "upperRight"
+          ],
+          [
+            "scale",
+            "0.15"
+          ]
+        ]
+      }
+    ]
+  },
+  {
+    "case": "only --name",
+    "argv": [
+      "stream",
+      "watermarks",
+      "create",
+      "--name",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/stream/watermarks",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "<multipart-length>",
+          "content-type": "multipart/form-data; boundary=<boundary>",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": [
+          [
+            "name",
+            "regression value &/?+ü"
+          ],
+          [
+            "opacity",
+            "1"
+          ],
+          [
+            "padding",
+            "0.05"
+          ],
+          [
+            "position",
+            "upperRight"
+          ],
+          [
+            "scale",
+            "0.15"
+          ]
+        ]
+      }
+    ]
+  },
+  {
+    "case": "only --opacity",
+    "argv": [
+      "stream",
+      "watermarks",
+      "create",
+      "--opacity",
+      "1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/stream/watermarks",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "<multipart-length>",
+          "content-type": "multipart/form-data; boundary=<boundary>",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": [
+          [
+            "name",
+            ""
+          ],
+          [
+            "opacity",
+            "1"
+          ],
+          [
+            "padding",
+            "0.05"
+          ],
+          [
+            "position",
+            "upperRight"
+          ],
+          [
+            "scale",
+            "0.15"
+          ]
+        ]
+      }
+    ]
+  },
+  {
+    "case": "only --padding",
+    "argv": [
+      "stream",
+      "watermarks",
+      "create",
+      "--padding",
+      "1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/stream/watermarks",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "<multipart-length>",
+          "content-type": "multipart/form-data; boundary=<boundary>",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": [
+          [
+            "name",
+            ""
+          ],
+          [
+            "opacity",
+            "1"
+          ],
+          [
+            "padding",
+            "1"
+          ],
+          [
+            "position",
+            "upperRight"
+          ],
+          [
+            "scale",
+            "0.15"
+          ]
+        ]
+      }
+    ]
+  },
+  {
+    "case": "only --position",
+    "argv": [
+      "stream",
+      "watermarks",
+      "create",
+      "--position",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/stream/watermarks",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "<multipart-length>",
+          "content-type": "multipart/form-data; boundary=<boundary>",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": [
+          [
+            "name",
+            ""
+          ],
+          [
+            "opacity",
+            "1"
+          ],
+          [
+            "padding",
+            "0.05"
+          ],
+          [
+            "position",
+            "regression value &/?+ü"
+          ],
+          [
+            "scale",
+            "0.15"
+          ]
+        ]
+      }
+    ]
+  },
+  {
+    "case": "only --scale",
+    "argv": [
+      "stream",
+      "watermarks",
+      "create",
+      "--scale",
+      "1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/stream/watermarks",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "<multipart-length>",
+          "content-type": "multipart/form-data; boundary=<boundary>",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": [
+          [
+            "name",
+            ""
+          ],
+          [
+            "opacity",
+            "1"
+          ],
+          [
+            "padding",
+            "0.05"
+          ],
+          [
+            "position",
+            "upperRight"
+          ],
+          [
+            "scale",
+            "1"
+          ]
+        ]
+      }
+    ]
+  },
+  {
+    "case": "only --url",
+    "argv": [
+      "stream",
+      "watermarks",
+      "create",
+      "--url",
+      "https://example.com/a?x=1&y=two"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/stream/watermarks",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "<multipart-length>",
+          "content-type": "multipart/form-data; boundary=<boundary>",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": [
+          [
+            "name",
+            ""
+          ],
+          [
+            "opacity",
+            "1"
+          ],
+          [
+            "padding",
+            "0.05"
+          ],
+          [
+            "position",
+            "upperRight"
+          ],
+          [
+            "scale",
+            "0.15"
+          ]
+        ]
+      }
+    ]
+  },
+  {
+    "case": "pairwise 1",
+    "argv": [
+      "stream",
+      "watermarks",
+      "create",
+      "--name",
+      "second value &/?+ü",
+      "--opacity",
+      "2",
+      "--padding",
+      "2",
+      "--position",
+      "second value &/?+ü",
+      "--scale",
+      "2",
+      "--url",
+      "https://example.com/a?x=1&y=two"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/stream/watermarks",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "<multipart-length>",
+          "content-type": "multipart/form-data; boundary=<boundary>",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": [
+          [
+            "name",
+            "second value &/?+ü"
+          ],
+          [
+            "opacity",
+            "2"
+          ],
+          [
+            "padding",
+            "2"
+          ],
+          [
+            "position",
+            "second value &/?+ü"
+          ],
+          [
+            "scale",
+            "2"
+          ]
+        ]
+      }
+    ]
+  },
+  {
+    "case": "pairwise 2",
+    "argv": [
+      "stream",
+      "watermarks",
+      "create",
+      "--opacity",
+      "1",
+      "--position",
+      "regression value &/?+ü",
+      "--url",
+      "https://example.com/a?x=1&y=two"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/stream/watermarks",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "<multipart-length>",
+          "content-type": "multipart/form-data; boundary=<boundary>",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": [
+          [
+            "name",
+            ""
+          ],
+          [
+            "opacity",
+            "1"
+          ],
+          [
+            "padding",
+            "0.05"
+          ],
+          [
+            "position",
+            "regression value &/?+ü"
+          ],
+          [
+            "scale",
+            "0.15"
+          ]
+        ]
+      }
+    ]
+  },
+  {
+    "case": "pairwise 3",
+    "argv": [
+      "stream",
+      "watermarks",
+      "create",
+      "--name",
+      "second value &/?+ü",
+      "--padding",
+      "2",
+      "--scale",
+      "2"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/stream/watermarks",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "<multipart-length>",
+          "content-type": "multipart/form-data; boundary=<boundary>",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": [
+          [
+            "name",
+            "second value &/?+ü"
+          ],
+          [
+            "opacity",
+            "1"
+          ],
+          [
+            "padding",
+            "2"
+          ],
+          [
+            "position",
+            "upperRight"
+          ],
+          [
+            "scale",
+            "2"
+          ]
+        ]
+      }
+    ]
+  },
+  {
+    "case": "pairwise 4",
+    "argv": [
+      "stream",
+      "watermarks",
+      "create",
+      "--padding",
+      "1",
+      "--position",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/stream/watermarks",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "<multipart-length>",
+          "content-type": "multipart/form-data; boundary=<boundary>",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": [
+          [
+            "name",
+            ""
+          ],
+          [
+            "opacity",
+            "1"
+          ],
+          [
+            "padding",
+            "1"
+          ],
+          [
+            "position",
+            "regression value &/?+ü"
+          ],
+          [
+            "scale",
+            "0.15"
+          ]
+        ]
+      }
+    ]
+  },
+  {
+    "case": "pairwise 5",
+    "argv": [
+      "stream",
+      "watermarks",
+      "create",
+      "--name",
+      "second value &/?+ü",
+      "--opacity",
+      "2",
+      "--scale",
+      "2",
+      "--url",
+      "https://example.com/a?x=1&y=two"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/stream/watermarks",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "<multipart-length>",
+          "content-type": "multipart/form-data; boundary=<boundary>",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": [
+          [
+            "name",
+            "second value &/?+ü"
+          ],
+          [
+            "opacity",
+            "2"
+          ],
+          [
+            "padding",
+            "0.05"
+          ],
+          [
+            "position",
+            "upperRight"
+          ],
+          [
+            "scale",
+            "2"
+          ]
+        ]
+      }
+    ]
+  },
+  {
+    "case": "pairwise 6",
+    "argv": [
+      "stream",
+      "watermarks",
+      "create",
+      "--scale",
+      "1",
+      "--url",
+      "https://example.com/a?x=1&y=two"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/stream/watermarks",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "<multipart-length>",
+          "content-type": "multipart/form-data; boundary=<boundary>",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": [
+          [
+            "name",
+            ""
+          ],
+          [
+            "opacity",
+            "1"
+          ],
+          [
+            "padding",
+            "0.05"
+          ],
+          [
+            "position",
+            "upperRight"
+          ],
+          [
+            "scale",
+            "1"
+          ]
+        ]
+      }
+    ]
+  },
+  {
+    "case": "pairwise 7",
+    "argv": [
+      "stream",
+      "watermarks",
+      "create",
+      "--name",
+      "second value &/?+ü",
+      "--opacity",
+      "2",
+      "--padding",
+      "2",
+      "--position",
+      "second value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/stream/watermarks",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "<multipart-length>",
+          "content-type": "multipart/form-data; boundary=<boundary>",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": [
+          [
+            "name",
+            "second value &/?+ü"
+          ],
+          [
+            "opacity",
+            "2"
+          ],
+          [
+            "padding",
+            "2"
+          ],
+          [
+            "position",
+            "second value &/?+ü"
+          ],
+          [
+            "scale",
+            "0.15"
+          ]
+        ]
+      }
+    ]
+  },
+  {
+    "case": "global quiet",
+    "argv": [
+      "stream",
+      "watermarks",
+      "create",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--quiet"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/stream/watermarks",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "<multipart-length>",
+          "content-type": "multipart/form-data; boundary=<boundary>",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": [
+          [
+            "file",
+            "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}"
+          ],
+          [
+            "name",
+            ""
+          ],
+          [
+            "opacity",
+            "1"
+          ],
+          [
+            "padding",
+            "0.05"
+          ],
+          [
+            "position",
+            "upperRight"
+          ],
+          [
+            "scale",
+            "0.15"
+          ]
+        ]
+      }
+    ]
+  },
+  {
+    "case": "global zone",
+    "argv": [
+      "stream",
+      "watermarks",
+      "create",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--zone",
+      "abcdef0123456789abcdef0123456789"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/stream/watermarks",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "<multipart-length>",
+          "content-type": "multipart/form-data; boundary=<boundary>",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": [
+          [
+            "file",
+            "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}"
+          ],
+          [
+            "name",
+            ""
+          ],
+          [
+            "opacity",
+            "1"
+          ],
+          [
+            "padding",
+            "0.05"
+          ],
+          [
+            "position",
+            "upperRight"
+          ],
+          [
+            "scale",
+            "0.15"
+          ]
+        ]
+      }
+    ]
+  },
+  {
+    "case": "global profile and mode",
+    "argv": [
+      "stream",
+      "watermarks",
+      "create",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--profile",
+      "default",
+      "--mode",
+      "regression"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/stream/watermarks",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "<multipart-length>",
+          "content-type": "multipart/form-data; boundary=<boundary>",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": [
+          [
+            "file",
+            "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}"
+          ],
+          [
+            "name",
+            ""
+          ],
+          [
+            "opacity",
+            "1"
+          ],
+          [
+            "padding",
+            "0.05"
+          ],
+          [
+            "position",
+            "upperRight"
+          ],
+          [
+            "scale",
+            "0.15"
+          ]
+        ]
+      }
+    ]
+  },
+  {
+    "case": "local",
+    "argv": [
+      "stream",
+      "watermarks",
+      "create",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--local"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "http://localhost/cdn-cgi/local/explorer/api/stream/watermarks",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "gzip, deflate",
+          "accept-language": "*",
+          "connection": "keep-alive",
+          "content-type": "multipart/form-data; boundary=<boundary>",
+          "host": "localhost",
+          "sec-fetch-mode": "cors",
+          "transfer-encoding": "chunked",
+          "user-agent": "node"
+        },
+        "body": [
+          [
+            "file",
+            "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}"
+          ],
+          [
+            "name",
+            ""
+          ],
+          [
+            "opacity",
+            "1"
+          ],
+          [
+            "padding",
+            "0.05"
+          ],
+          [
+            "position",
+            "upperRight"
+          ],
+          [
+            "scale",
+            "0.15"
+          ]
+        ]
+      }
+    ]
+  },
+  {
+    "case": "local with persistence",
+    "argv": [
+      "stream",
+      "watermarks",
+      "create",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--local",
+      "--persist-to",
+      "regression-state"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "http://localhost/cdn-cgi/local/explorer/api/stream/watermarks",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "gzip, deflate",
+          "accept-language": "*",
+          "connection": "keep-alive",
+          "content-type": "multipart/form-data; boundary=<boundary>",
+          "host": "localhost",
+          "sec-fetch-mode": "cors",
+          "transfer-encoding": "chunked",
+          "user-agent": "node"
+        },
+        "body": [
+          [
+            "file",
+            "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}"
+          ],
+          [
+            "name",
+            ""
+          ],
+          [
+            "opacity",
+            "1"
+          ],
+          [
+            "padding",
+            "0.05"
+          ],
+          [
+            "position",
+            "upperRight"
+          ],
+          [
+            "scale",
+            "0.15"
+          ]
+        ]
+      }
+    ]
+  },
+  {
+    "case": "dry-run",
+    "argv": [
+      "stream",
+      "watermarks",
+      "create",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--dry-run"
+    ],
+    "exitCode": 0,
+    "requests": []
+  },
+  {
+    "case": "body from file",
+    "argv": [
+      "stream",
+      "watermarks",
+      "create",
+      "--body",
+      "@<body.json>"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/stream/watermarks",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "<multipart-length>",
+          "content-type": "multipart/form-data; boundary=<boundary>",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": [
+          [
+            "file",
+            "@<body.json>"
+          ],
+          [
+            "name",
+            ""
+          ],
+          [
+            "opacity",
+            "1"
+          ],
+          [
+            "padding",
+            "0.05"
+          ],
+          [
+            "position",
+            "upperRight"
+          ],
+          [
+            "scale",
+            "0.15"
+          ]
+        ]
+      }
+    ]
+  },
+  {
+    "case": "array body",
+    "argv": [
+      "stream",
+      "watermarks",
+      "create",
+      "--body",
+      "[{\"regression\":\"first\"},{\"regression\":\"second\"}]"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/stream/watermarks",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "<multipart-length>",
+          "content-type": "multipart/form-data; boundary=<boundary>",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": [
+          [
+            "file",
+            "[{\"regression\":\"first\"},{\"regression\":\"second\"}]"
+          ],
+          [
+            "name",
+            ""
+          ],
+          [
+            "opacity",
+            "1"
+          ],
+          [
+            "padding",
+            "0.05"
+          ],
+          [
+            "position",
+            "upperRight"
+          ],
+          [
+            "scale",
+            "0.15"
+          ]
+        ]
+      }
+    ]
+  },
+  {
+    "case": "field flags",
+    "argv": [
+      "stream",
+      "watermarks",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--opacity",
+      "1",
+      "--padding",
+      "1",
+      "--position",
+      "regression value &/?+ü",
+      "--scale",
+      "1",
+      "--url",
+      "https://example.com/a?x=1&y=two"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/stream/watermarks",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "<multipart-length>",
+          "content-type": "multipart/form-data; boundary=<boundary>",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": [
+          [
+            "name",
+            "regression value &/?+ü"
+          ],
+          [
+            "opacity",
+            "1"
+          ],
+          [
+            "padding",
+            "1"
+          ],
+          [
+            "position",
+            "regression value &/?+ü"
+          ],
+          [
+            "scale",
+            "1"
+          ]
+        ]
+      }
+    ]
+  },
+  {
+    "case": "binary file",
+    "argv": [
+      "stream",
+      "watermarks",
+      "create",
+      "--file",
+      "<payload.txt>"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/stream/watermarks",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "<multipart-length>",
+          "content-type": "multipart/form-data; boundary=<boundary>",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": [
+          [
+            "file",
+            {
+              "filename": "payload.txt",
+              "contentType": "application/octet-stream",
+              "base64": "UmVncmVzc2lvbiBwYXlsb2FkOiBieXRlcyAmLz8rw7wK"
+            }
+          ],
+          [
+            "name",
+            ""
+          ],
+          [
+            "opacity",
+            "1"
+          ],
+          [
+            "padding",
+            "0.05"
+          ],
+          [
+            "position",
+            "upperRight"
+          ],
+          [
+            "scale",
+            "0.15"
+          ]
+        ]
+      }
+    ]
+  }
+]

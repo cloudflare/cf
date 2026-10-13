@@ -1,0 +1,911 @@
+[
+  {
+    "case": "no-args",
+    "argv": [
+      "magic-cloud-networking",
+      "resources",
+      "export"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/magic/cloud/resources/export",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "only --provider-id",
+    "argv": [
+      "magic-cloud-networking",
+      "resources",
+      "export",
+      "--provider-id",
+      "0123456789abcdef0123456789abcdef"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/magic/cloud/resources/export?provider_id=0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "only --resource-type",
+    "argv": [
+      "magic-cloud-networking",
+      "resources",
+      "export",
+      "--resource-type",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/magic/cloud/resources/export?resource_type=regression+value+%26%2F%3F%2B%C3%BC",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "only --resource-id",
+    "argv": [
+      "magic-cloud-networking",
+      "resources",
+      "export",
+      "--resource-id",
+      "0123456789abcdef0123456789abcdef"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/magic/cloud/resources/export?resource_id=0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "only --region",
+    "argv": [
+      "magic-cloud-networking",
+      "resources",
+      "export",
+      "--region",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/magic/cloud/resources/export?region=regression+value+%26%2F%3F%2B%C3%BC",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "only --resource-group",
+    "argv": [
+      "magic-cloud-networking",
+      "resources",
+      "export",
+      "--resource-group",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/magic/cloud/resources/export?resource_group=regression+value+%26%2F%3F%2B%C3%BC",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "only --search",
+    "argv": [
+      "magic-cloud-networking",
+      "resources",
+      "export",
+      "--search",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/magic/cloud/resources/export?search=regression+value+%26%2F%3F%2B%C3%BC",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "only --order-by",
+    "argv": [
+      "magic-cloud-networking",
+      "resources",
+      "export",
+      "--order-by",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/magic/cloud/resources/export?order_by=regression+value+%26%2F%3F%2B%C3%BC",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "only --desc",
+    "argv": [
+      "magic-cloud-networking",
+      "resources",
+      "export",
+      "--desc=true"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/magic/cloud/resources/export?desc=true",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "--desc value 1",
+    "argv": [
+      "magic-cloud-networking",
+      "resources",
+      "export",
+      "--desc=false"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/magic/cloud/resources/export?desc=false",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "only --v2",
+    "argv": [
+      "magic-cloud-networking",
+      "resources",
+      "export",
+      "--v2=true"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/magic/cloud/resources/export?v2=true",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "--v2 value 1",
+    "argv": [
+      "magic-cloud-networking",
+      "resources",
+      "export",
+      "--v2=false"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/magic/cloud/resources/export?v2=false",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "only --text",
+    "argv": [
+      "magic-cloud-networking",
+      "resources",
+      "export",
+      "--text=true"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/magic/cloud/resources/export",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "--text value 1",
+    "argv": [
+      "magic-cloud-networking",
+      "resources",
+      "export",
+      "--text=false"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/magic/cloud/resources/export",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "pairwise 1",
+    "argv": [
+      "magic-cloud-networking",
+      "resources",
+      "export",
+      "--provider-id",
+      "0123456789abcdef0123456789abcdef",
+      "--resource-type",
+      "second value &/?+ü",
+      "--resource-id",
+      "0123456789abcdef0123456789abcdef",
+      "--region",
+      "second value &/?+ü",
+      "--resource-group",
+      "second value &/?+ü",
+      "--search",
+      "second value &/?+ü",
+      "--order-by",
+      "second value &/?+ü",
+      "--desc=false",
+      "--v2=false",
+      "--text=false"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/magic/cloud/resources/export?provider_id=0123456789abcdef0123456789abcdef&resource_type=second+value+%26%2F%3F%2B%C3%BC&resource_id=0123456789abcdef0123456789abcdef&region=second+value+%26%2F%3F%2B%C3%BC&resource_group=second+value+%26%2F%3F%2B%C3%BC&search=second+value+%26%2F%3F%2B%C3%BC&order_by=second+value+%26%2F%3F%2B%C3%BC&desc=false&v2=false",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "pairwise 2",
+    "argv": [
+      "magic-cloud-networking",
+      "resources",
+      "export",
+      "--resource-type",
+      "regression value &/?+ü",
+      "--region",
+      "regression value &/?+ü",
+      "--search",
+      "regression value &/?+ü",
+      "--desc=true",
+      "--text=true"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/magic/cloud/resources/export?resource_type=regression+value+%26%2F%3F%2B%C3%BC&region=regression+value+%26%2F%3F%2B%C3%BC&search=regression+value+%26%2F%3F%2B%C3%BC&desc=true",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "pairwise 3",
+    "argv": [
+      "magic-cloud-networking",
+      "resources",
+      "export",
+      "--provider-id",
+      "0123456789abcdef0123456789abcdef",
+      "--resource-id",
+      "0123456789abcdef0123456789abcdef",
+      "--resource-group",
+      "second value &/?+ü",
+      "--order-by",
+      "second value &/?+ü",
+      "--v2=false"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/magic/cloud/resources/export?provider_id=0123456789abcdef0123456789abcdef&resource_id=0123456789abcdef0123456789abcdef&resource_group=second+value+%26%2F%3F%2B%C3%BC&order_by=second+value+%26%2F%3F%2B%C3%BC&v2=false",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "pairwise 4",
+    "argv": [
+      "magic-cloud-networking",
+      "resources",
+      "export",
+      "--resource-id",
+      "0123456789abcdef0123456789abcdef",
+      "--region",
+      "regression value &/?+ü",
+      "--order-by",
+      "regression value &/?+ü",
+      "--desc=true"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/magic/cloud/resources/export?resource_id=0123456789abcdef0123456789abcdef&region=regression+value+%26%2F%3F%2B%C3%BC&order_by=regression+value+%26%2F%3F%2B%C3%BC&desc=true",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "pairwise 5",
+    "argv": [
+      "magic-cloud-networking",
+      "resources",
+      "export",
+      "--provider-id",
+      "0123456789abcdef0123456789abcdef",
+      "--resource-type",
+      "second value &/?+ü",
+      "--resource-group",
+      "second value &/?+ü",
+      "--search",
+      "second value &/?+ü",
+      "--v2=false",
+      "--text=false"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/magic/cloud/resources/export?provider_id=0123456789abcdef0123456789abcdef&resource_type=second+value+%26%2F%3F%2B%C3%BC&resource_group=second+value+%26%2F%3F%2B%C3%BC&search=second+value+%26%2F%3F%2B%C3%BC&v2=false",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "pairwise 6",
+    "argv": [
+      "magic-cloud-networking",
+      "resources",
+      "export",
+      "--resource-group",
+      "regression value &/?+ü",
+      "--search",
+      "regression value &/?+ü",
+      "--order-by",
+      "regression value &/?+ü",
+      "--desc=true"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/magic/cloud/resources/export?resource_group=regression+value+%26%2F%3F%2B%C3%BC&search=regression+value+%26%2F%3F%2B%C3%BC&order_by=regression+value+%26%2F%3F%2B%C3%BC&desc=true",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "pairwise 7",
+    "argv": [
+      "magic-cloud-networking",
+      "resources",
+      "export",
+      "--provider-id",
+      "0123456789abcdef0123456789abcdef",
+      "--resource-type",
+      "second value &/?+ü",
+      "--resource-id",
+      "0123456789abcdef0123456789abcdef",
+      "--region",
+      "second value &/?+ü",
+      "--v2=false",
+      "--text=false"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/magic/cloud/resources/export?provider_id=0123456789abcdef0123456789abcdef&resource_type=second+value+%26%2F%3F%2B%C3%BC&resource_id=0123456789abcdef0123456789abcdef&region=second+value+%26%2F%3F%2B%C3%BC&v2=false",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "pairwise 8",
+    "argv": [
+      "magic-cloud-networking",
+      "resources",
+      "export",
+      "--v2=true",
+      "--text=true"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/magic/cloud/resources/export?v2=true",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "pairwise 9",
+    "argv": [
+      "magic-cloud-networking",
+      "resources",
+      "export",
+      "--provider-id",
+      "0123456789abcdef0123456789abcdef",
+      "--resource-type",
+      "second value &/?+ü",
+      "--resource-id",
+      "0123456789abcdef0123456789abcdef",
+      "--region",
+      "second value &/?+ü",
+      "--resource-group",
+      "second value &/?+ü",
+      "--search",
+      "second value &/?+ü",
+      "--order-by",
+      "second value &/?+ü",
+      "--desc=false"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/magic/cloud/resources/export?provider_id=0123456789abcdef0123456789abcdef&resource_type=second+value+%26%2F%3F%2B%C3%BC&resource_id=0123456789abcdef0123456789abcdef&region=second+value+%26%2F%3F%2B%C3%BC&resource_group=second+value+%26%2F%3F%2B%C3%BC&search=second+value+%26%2F%3F%2B%C3%BC&order_by=second+value+%26%2F%3F%2B%C3%BC&desc=false",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "global quiet",
+    "argv": [
+      "magic-cloud-networking",
+      "resources",
+      "export",
+      "--quiet"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/magic/cloud/resources/export",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "global zone",
+    "argv": [
+      "magic-cloud-networking",
+      "resources",
+      "export",
+      "--zone",
+      "abcdef0123456789abcdef0123456789"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/magic/cloud/resources/export",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "global profile and mode",
+    "argv": [
+      "magic-cloud-networking",
+      "resources",
+      "export",
+      "--profile",
+      "default",
+      "--mode",
+      "regression"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/magic/cloud/resources/export",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "local",
+    "argv": [
+      "magic-cloud-networking",
+      "resources",
+      "export",
+      "--local"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "http://localhost/cdn-cgi/local/explorer/api/magic/cloud/resources/export",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "gzip, deflate",
+          "accept-language": "*",
+          "connection": "keep-alive",
+          "host": "localhost",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "local with persistence",
+    "argv": [
+      "magic-cloud-networking",
+      "resources",
+      "export",
+      "--local",
+      "--persist-to",
+      "regression-state"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "http://localhost/cdn-cgi/local/explorer/api/magic/cloud/resources/export",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "gzip, deflate",
+          "accept-language": "*",
+          "connection": "keep-alive",
+          "host": "localhost",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "dry-run",
+    "argv": [
+      "magic-cloud-networking",
+      "resources",
+      "export",
+      "--dry-run"
+    ],
+    "exitCode": 0,
+    "requests": []
+  }
+]

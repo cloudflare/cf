@@ -1,0 +1,1688 @@
+[
+  {
+    "case": "no-args",
+    "argv": [
+      "oauth-clients",
+      "create"
+    ],
+    "exitCode": 1,
+    "error": "--client-name is required. Pass --client-name <value> or run interactively.",
+    "requests": []
+  },
+  {
+    "case": "required",
+    "argv": [
+      "oauth-clients",
+      "create",
+      "--client-name",
+      "regression value &/?+ü",
+      "--grant-types",
+      "regression value &/?+ü",
+      "--redirect-uris",
+      "regression value &/?+ü",
+      "--response-types",
+      "regression value &/?+ü",
+      "--scopes",
+      "regression value &/?+ü",
+      "--token-endpoint-auth-method",
+      "none",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/oauth_clients",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --allowed-cors-origins",
+    "argv": [
+      "oauth-clients",
+      "create",
+      "--client-name",
+      "regression value &/?+ü",
+      "--grant-types",
+      "regression value &/?+ü",
+      "--redirect-uris",
+      "regression value &/?+ü",
+      "--response-types",
+      "regression value &/?+ü",
+      "--scopes",
+      "regression value &/?+ü",
+      "--token-endpoint-auth-method",
+      "none",
+      "--allowed-cors-origins",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/oauth_clients",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "296",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "allowed_cors_origins": [
+            "regression value &/?+ü"
+          ],
+          "client_name": "regression value &/?+ü",
+          "grant_types": [
+            "regression value &/?+ü"
+          ],
+          "redirect_uris": [
+            "regression value &/?+ü"
+          ],
+          "response_types": [
+            "regression value &/?+ü"
+          ],
+          "scopes": [
+            "regression value &/?+ü"
+          ],
+          "token_endpoint_auth_method": "none"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --client-uri",
+    "argv": [
+      "oauth-clients",
+      "create",
+      "--client-name",
+      "regression value &/?+ü",
+      "--grant-types",
+      "regression value &/?+ü",
+      "--redirect-uris",
+      "regression value &/?+ü",
+      "--response-types",
+      "regression value &/?+ü",
+      "--scopes",
+      "regression value &/?+ü",
+      "--token-endpoint-auth-method",
+      "none",
+      "--client-uri",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/oauth_clients",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "284",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "client_name": "regression value &/?+ü",
+          "client_uri": "regression value &/?+ü",
+          "grant_types": [
+            "regression value &/?+ü"
+          ],
+          "redirect_uris": [
+            "regression value &/?+ü"
+          ],
+          "response_types": [
+            "regression value &/?+ü"
+          ],
+          "scopes": [
+            "regression value &/?+ü"
+          ],
+          "token_endpoint_auth_method": "none"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --logo-uri",
+    "argv": [
+      "oauth-clients",
+      "create",
+      "--client-name",
+      "regression value &/?+ü",
+      "--grant-types",
+      "regression value &/?+ü",
+      "--redirect-uris",
+      "regression value &/?+ü",
+      "--response-types",
+      "regression value &/?+ü",
+      "--scopes",
+      "regression value &/?+ü",
+      "--token-endpoint-auth-method",
+      "none",
+      "--logo-uri",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/oauth_clients",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "282",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "client_name": "regression value &/?+ü",
+          "grant_types": [
+            "regression value &/?+ü"
+          ],
+          "logo_uri": "regression value &/?+ü",
+          "redirect_uris": [
+            "regression value &/?+ü"
+          ],
+          "response_types": [
+            "regression value &/?+ü"
+          ],
+          "scopes": [
+            "regression value &/?+ü"
+          ],
+          "token_endpoint_auth_method": "none"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --optional-scopes",
+    "argv": [
+      "oauth-clients",
+      "create",
+      "--client-name",
+      "regression value &/?+ü",
+      "--grant-types",
+      "regression value &/?+ü",
+      "--redirect-uris",
+      "regression value &/?+ü",
+      "--response-types",
+      "regression value &/?+ü",
+      "--scopes",
+      "regression value &/?+ü",
+      "--token-endpoint-auth-method",
+      "none",
+      "--optional-scopes",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/oauth_clients",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "291",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "client_name": "regression value &/?+ü",
+          "grant_types": [
+            "regression value &/?+ü"
+          ],
+          "optional_scopes": [
+            "regression value &/?+ü"
+          ],
+          "redirect_uris": [
+            "regression value &/?+ü"
+          ],
+          "response_types": [
+            "regression value &/?+ü"
+          ],
+          "scopes": [
+            "regression value &/?+ü"
+          ],
+          "token_endpoint_auth_method": "none"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --policy-uri",
+    "argv": [
+      "oauth-clients",
+      "create",
+      "--client-name",
+      "regression value &/?+ü",
+      "--grant-types",
+      "regression value &/?+ü",
+      "--redirect-uris",
+      "regression value &/?+ü",
+      "--response-types",
+      "regression value &/?+ü",
+      "--scopes",
+      "regression value &/?+ü",
+      "--token-endpoint-auth-method",
+      "none",
+      "--policy-uri",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/oauth_clients",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "284",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "client_name": "regression value &/?+ü",
+          "grant_types": [
+            "regression value &/?+ü"
+          ],
+          "policy_uri": "regression value &/?+ü",
+          "redirect_uris": [
+            "regression value &/?+ü"
+          ],
+          "response_types": [
+            "regression value &/?+ü"
+          ],
+          "scopes": [
+            "regression value &/?+ü"
+          ],
+          "token_endpoint_auth_method": "none"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --post-logout-redirect-uris",
+    "argv": [
+      "oauth-clients",
+      "create",
+      "--client-name",
+      "regression value &/?+ü",
+      "--grant-types",
+      "regression value &/?+ü",
+      "--redirect-uris",
+      "regression value &/?+ü",
+      "--response-types",
+      "regression value &/?+ü",
+      "--scopes",
+      "regression value &/?+ü",
+      "--token-endpoint-auth-method",
+      "none",
+      "--post-logout-redirect-uris",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/oauth_clients",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "301",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "client_name": "regression value &/?+ü",
+          "grant_types": [
+            "regression value &/?+ü"
+          ],
+          "post_logout_redirect_uris": [
+            "regression value &/?+ü"
+          ],
+          "redirect_uris": [
+            "regression value &/?+ü"
+          ],
+          "response_types": [
+            "regression value &/?+ü"
+          ],
+          "scopes": [
+            "regression value &/?+ü"
+          ],
+          "token_endpoint_auth_method": "none"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --tos-uri",
+    "argv": [
+      "oauth-clients",
+      "create",
+      "--client-name",
+      "regression value &/?+ü",
+      "--grant-types",
+      "regression value &/?+ü",
+      "--redirect-uris",
+      "regression value &/?+ü",
+      "--response-types",
+      "regression value &/?+ü",
+      "--scopes",
+      "regression value &/?+ü",
+      "--token-endpoint-auth-method",
+      "none",
+      "--tos-uri",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/oauth_clients",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "281",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "client_name": "regression value &/?+ü",
+          "grant_types": [
+            "regression value &/?+ü"
+          ],
+          "redirect_uris": [
+            "regression value &/?+ü"
+          ],
+          "response_types": [
+            "regression value &/?+ü"
+          ],
+          "scopes": [
+            "regression value &/?+ü"
+          ],
+          "token_endpoint_auth_method": "none",
+          "tos_uri": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "required --token-endpoint-auth-method value 1",
+    "argv": [
+      "oauth-clients",
+      "create",
+      "--client-name",
+      "regression value &/?+ü",
+      "--grant-types",
+      "regression value &/?+ü",
+      "--redirect-uris",
+      "regression value &/?+ü",
+      "--response-types",
+      "regression value &/?+ü",
+      "--scopes",
+      "regression value &/?+ü",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--token-endpoint-auth-method",
+      "client_secret_basic"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/oauth_clients",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "required --token-endpoint-auth-method value 2",
+    "argv": [
+      "oauth-clients",
+      "create",
+      "--client-name",
+      "regression value &/?+ü",
+      "--grant-types",
+      "regression value &/?+ü",
+      "--redirect-uris",
+      "regression value &/?+ü",
+      "--response-types",
+      "regression value &/?+ü",
+      "--scopes",
+      "regression value &/?+ü",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--token-endpoint-auth-method",
+      "client_secret_post"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/oauth_clients",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 0",
+    "argv": [
+      "oauth-clients",
+      "create",
+      "--client-name",
+      "regression value &/?+ü",
+      "--grant-types",
+      "regression value &/?+ü",
+      "--redirect-uris",
+      "regression value &/?+ü",
+      "--response-types",
+      "regression value &/?+ü",
+      "--scopes",
+      "regression value &/?+ü",
+      "--token-endpoint-auth-method",
+      "none"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/oauth_clients",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "245",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "client_name": "regression value &/?+ü",
+          "grant_types": [
+            "regression value &/?+ü"
+          ],
+          "redirect_uris": [
+            "regression value &/?+ü"
+          ],
+          "response_types": [
+            "regression value &/?+ü"
+          ],
+          "scopes": [
+            "regression value &/?+ü"
+          ],
+          "token_endpoint_auth_method": "none"
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 1",
+    "argv": [
+      "oauth-clients",
+      "create",
+      "--client-name",
+      "regression value &/?+ü",
+      "--grant-types",
+      "regression value &/?+ü",
+      "--redirect-uris",
+      "regression value &/?+ü",
+      "--response-types",
+      "regression value &/?+ü",
+      "--scopes",
+      "regression value &/?+ü",
+      "--token-endpoint-auth-method",
+      "none",
+      "--allowed-cors-origins",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--client-uri",
+      "second value &/?+ü",
+      "--logo-uri",
+      "second value &/?+ü",
+      "--optional-scopes",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--policy-uri",
+      "second value &/?+ü",
+      "--post-logout-redirect-uris",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--tos-uri",
+      "second value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/oauth_clients",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "587",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "allowed_cors_origins": [
+            "second value &/?+ü",
+            "second value &/?+ü"
+          ],
+          "client_name": "regression value &/?+ü",
+          "client_uri": "second value &/?+ü",
+          "grant_types": [
+            "regression value &/?+ü"
+          ],
+          "logo_uri": "second value &/?+ü",
+          "optional_scopes": [
+            "second value &/?+ü",
+            "second value &/?+ü"
+          ],
+          "policy_uri": "second value &/?+ü",
+          "post_logout_redirect_uris": [
+            "second value &/?+ü",
+            "second value &/?+ü"
+          ],
+          "redirect_uris": [
+            "regression value &/?+ü"
+          ],
+          "response_types": [
+            "regression value &/?+ü"
+          ],
+          "scopes": [
+            "regression value &/?+ü"
+          ],
+          "token_endpoint_auth_method": "none",
+          "tos_uri": "second value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 2",
+    "argv": [
+      "oauth-clients",
+      "create",
+      "--client-name",
+      "regression value &/?+ü",
+      "--grant-types",
+      "regression value &/?+ü",
+      "--redirect-uris",
+      "regression value &/?+ü",
+      "--response-types",
+      "regression value &/?+ü",
+      "--scopes",
+      "regression value &/?+ü",
+      "--token-endpoint-auth-method",
+      "none",
+      "--client-uri",
+      "regression value &/?+ü",
+      "--optional-scopes",
+      "regression value &/?+ü",
+      "--post-logout-redirect-uris",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/oauth_clients",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "386",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "client_name": "regression value &/?+ü",
+          "client_uri": "regression value &/?+ü",
+          "grant_types": [
+            "regression value &/?+ü"
+          ],
+          "optional_scopes": [
+            "regression value &/?+ü"
+          ],
+          "post_logout_redirect_uris": [
+            "regression value &/?+ü"
+          ],
+          "redirect_uris": [
+            "regression value &/?+ü"
+          ],
+          "response_types": [
+            "regression value &/?+ü"
+          ],
+          "scopes": [
+            "regression value &/?+ü"
+          ],
+          "token_endpoint_auth_method": "none"
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 3",
+    "argv": [
+      "oauth-clients",
+      "create",
+      "--client-name",
+      "regression value &/?+ü",
+      "--grant-types",
+      "regression value &/?+ü",
+      "--redirect-uris",
+      "regression value &/?+ü",
+      "--response-types",
+      "regression value &/?+ü",
+      "--scopes",
+      "regression value &/?+ü",
+      "--token-endpoint-auth-method",
+      "none",
+      "--allowed-cors-origins",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--logo-uri",
+      "second value &/?+ü",
+      "--policy-uri",
+      "second value &/?+ü",
+      "--tos-uri",
+      "second value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/oauth_clients",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "414",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "allowed_cors_origins": [
+            "second value &/?+ü",
+            "second value &/?+ü"
+          ],
+          "client_name": "regression value &/?+ü",
+          "grant_types": [
+            "regression value &/?+ü"
+          ],
+          "logo_uri": "second value &/?+ü",
+          "policy_uri": "second value &/?+ü",
+          "redirect_uris": [
+            "regression value &/?+ü"
+          ],
+          "response_types": [
+            "regression value &/?+ü"
+          ],
+          "scopes": [
+            "regression value &/?+ü"
+          ],
+          "token_endpoint_auth_method": "none",
+          "tos_uri": "second value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 4",
+    "argv": [
+      "oauth-clients",
+      "create",
+      "--client-name",
+      "regression value &/?+ü",
+      "--grant-types",
+      "regression value &/?+ü",
+      "--redirect-uris",
+      "regression value &/?+ü",
+      "--response-types",
+      "regression value &/?+ü",
+      "--scopes",
+      "regression value &/?+ü",
+      "--token-endpoint-auth-method",
+      "none",
+      "--logo-uri",
+      "regression value &/?+ü",
+      "--optional-scopes",
+      "regression value &/?+ü",
+      "--tos-uri",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/oauth_clients",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "364",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "client_name": "regression value &/?+ü",
+          "grant_types": [
+            "regression value &/?+ü"
+          ],
+          "logo_uri": "regression value &/?+ü",
+          "optional_scopes": [
+            "regression value &/?+ü"
+          ],
+          "redirect_uris": [
+            "regression value &/?+ü"
+          ],
+          "response_types": [
+            "regression value &/?+ü"
+          ],
+          "scopes": [
+            "regression value &/?+ü"
+          ],
+          "token_endpoint_auth_method": "none",
+          "tos_uri": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 5",
+    "argv": [
+      "oauth-clients",
+      "create",
+      "--client-name",
+      "regression value &/?+ü",
+      "--grant-types",
+      "regression value &/?+ü",
+      "--redirect-uris",
+      "regression value &/?+ü",
+      "--response-types",
+      "regression value &/?+ü",
+      "--scopes",
+      "regression value &/?+ü",
+      "--token-endpoint-auth-method",
+      "none",
+      "--allowed-cors-origins",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--client-uri",
+      "second value &/?+ü",
+      "--policy-uri",
+      "second value &/?+ü",
+      "--post-logout-redirect-uris",
+      "second value &/?+ü",
+      "second value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/oauth_clients",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "458",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "allowed_cors_origins": [
+            "second value &/?+ü",
+            "second value &/?+ü"
+          ],
+          "client_name": "regression value &/?+ü",
+          "client_uri": "second value &/?+ü",
+          "grant_types": [
+            "regression value &/?+ü"
+          ],
+          "policy_uri": "second value &/?+ü",
+          "post_logout_redirect_uris": [
+            "second value &/?+ü",
+            "second value &/?+ü"
+          ],
+          "redirect_uris": [
+            "regression value &/?+ü"
+          ],
+          "response_types": [
+            "regression value &/?+ü"
+          ],
+          "scopes": [
+            "regression value &/?+ü"
+          ],
+          "token_endpoint_auth_method": "none"
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 6",
+    "argv": [
+      "oauth-clients",
+      "create",
+      "--client-name",
+      "regression value &/?+ü",
+      "--grant-types",
+      "regression value &/?+ü",
+      "--redirect-uris",
+      "regression value &/?+ü",
+      "--response-types",
+      "regression value &/?+ü",
+      "--scopes",
+      "regression value &/?+ü",
+      "--token-endpoint-auth-method",
+      "none",
+      "--policy-uri",
+      "regression value &/?+ü",
+      "--post-logout-redirect-uris",
+      "regression value &/?+ü",
+      "--tos-uri",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/oauth_clients",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "376",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "client_name": "regression value &/?+ü",
+          "grant_types": [
+            "regression value &/?+ü"
+          ],
+          "policy_uri": "regression value &/?+ü",
+          "post_logout_redirect_uris": [
+            "regression value &/?+ü"
+          ],
+          "redirect_uris": [
+            "regression value &/?+ü"
+          ],
+          "response_types": [
+            "regression value &/?+ü"
+          ],
+          "scopes": [
+            "regression value &/?+ü"
+          ],
+          "token_endpoint_auth_method": "none",
+          "tos_uri": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 7",
+    "argv": [
+      "oauth-clients",
+      "create",
+      "--client-name",
+      "regression value &/?+ü",
+      "--grant-types",
+      "regression value &/?+ü",
+      "--redirect-uris",
+      "regression value &/?+ü",
+      "--response-types",
+      "regression value &/?+ü",
+      "--scopes",
+      "regression value &/?+ü",
+      "--token-endpoint-auth-method",
+      "none",
+      "--allowed-cors-origins",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--client-uri",
+      "second value &/?+ü",
+      "--logo-uri",
+      "second value &/?+ü",
+      "--optional-scopes",
+      "second value &/?+ü",
+      "second value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/oauth_clients",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "446",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "allowed_cors_origins": [
+            "second value &/?+ü",
+            "second value &/?+ü"
+          ],
+          "client_name": "regression value &/?+ü",
+          "client_uri": "second value &/?+ü",
+          "grant_types": [
+            "regression value &/?+ü"
+          ],
+          "logo_uri": "second value &/?+ü",
+          "optional_scopes": [
+            "second value &/?+ü",
+            "second value &/?+ü"
+          ],
+          "redirect_uris": [
+            "regression value &/?+ü"
+          ],
+          "response_types": [
+            "regression value &/?+ü"
+          ],
+          "scopes": [
+            "regression value &/?+ü"
+          ],
+          "token_endpoint_auth_method": "none"
+        }
+      }
+    ]
+  },
+  {
+    "case": "global quiet",
+    "argv": [
+      "oauth-clients",
+      "create",
+      "--client-name",
+      "regression value &/?+ü",
+      "--grant-types",
+      "regression value &/?+ü",
+      "--redirect-uris",
+      "regression value &/?+ü",
+      "--response-types",
+      "regression value &/?+ü",
+      "--scopes",
+      "regression value &/?+ü",
+      "--token-endpoint-auth-method",
+      "none",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--quiet"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/oauth_clients",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "global zone",
+    "argv": [
+      "oauth-clients",
+      "create",
+      "--client-name",
+      "regression value &/?+ü",
+      "--grant-types",
+      "regression value &/?+ü",
+      "--redirect-uris",
+      "regression value &/?+ü",
+      "--response-types",
+      "regression value &/?+ü",
+      "--scopes",
+      "regression value &/?+ü",
+      "--token-endpoint-auth-method",
+      "none",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--zone",
+      "abcdef0123456789abcdef0123456789"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/oauth_clients",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "global profile and mode",
+    "argv": [
+      "oauth-clients",
+      "create",
+      "--client-name",
+      "regression value &/?+ü",
+      "--grant-types",
+      "regression value &/?+ü",
+      "--redirect-uris",
+      "regression value &/?+ü",
+      "--response-types",
+      "regression value &/?+ü",
+      "--scopes",
+      "regression value &/?+ü",
+      "--token-endpoint-auth-method",
+      "none",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--profile",
+      "default",
+      "--mode",
+      "regression"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/oauth_clients",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "local",
+    "argv": [
+      "oauth-clients",
+      "create",
+      "--client-name",
+      "regression value &/?+ü",
+      "--grant-types",
+      "regression value &/?+ü",
+      "--redirect-uris",
+      "regression value &/?+ü",
+      "--response-types",
+      "regression value &/?+ü",
+      "--scopes",
+      "regression value &/?+ü",
+      "--token-endpoint-auth-method",
+      "none",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--local"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "http://localhost/cdn-cgi/local/explorer/api/oauth_clients",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "gzip, deflate",
+          "accept-language": "*",
+          "connection": "keep-alive",
+          "content-type": "application/json",
+          "host": "localhost",
+          "sec-fetch-mode": "cors",
+          "transfer-encoding": "chunked",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "local with persistence",
+    "argv": [
+      "oauth-clients",
+      "create",
+      "--client-name",
+      "regression value &/?+ü",
+      "--grant-types",
+      "regression value &/?+ü",
+      "--redirect-uris",
+      "regression value &/?+ü",
+      "--response-types",
+      "regression value &/?+ü",
+      "--scopes",
+      "regression value &/?+ü",
+      "--token-endpoint-auth-method",
+      "none",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--local",
+      "--persist-to",
+      "regression-state"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "http://localhost/cdn-cgi/local/explorer/api/oauth_clients",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "gzip, deflate",
+          "accept-language": "*",
+          "connection": "keep-alive",
+          "content-type": "application/json",
+          "host": "localhost",
+          "sec-fetch-mode": "cors",
+          "transfer-encoding": "chunked",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "dry-run",
+    "argv": [
+      "oauth-clients",
+      "create",
+      "--client-name",
+      "regression value &/?+ü",
+      "--grant-types",
+      "regression value &/?+ü",
+      "--redirect-uris",
+      "regression value &/?+ü",
+      "--response-types",
+      "regression value &/?+ü",
+      "--scopes",
+      "regression value &/?+ü",
+      "--token-endpoint-auth-method",
+      "none",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--dry-run"
+    ],
+    "exitCode": 0,
+    "requests": []
+  },
+  {
+    "case": "body from file",
+    "argv": [
+      "oauth-clients",
+      "create",
+      "--client-name",
+      "regression value &/?+ü",
+      "--grant-types",
+      "regression value &/?+ü",
+      "--redirect-uris",
+      "regression value &/?+ü",
+      "--response-types",
+      "regression value &/?+ü",
+      "--scopes",
+      "regression value &/?+ü",
+      "--token-endpoint-auth-method",
+      "none",
+      "--body",
+      "@<body.json>"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/oauth_clients",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "array body",
+    "argv": [
+      "oauth-clients",
+      "create",
+      "--client-name",
+      "regression value &/?+ü",
+      "--grant-types",
+      "regression value &/?+ü",
+      "--redirect-uris",
+      "regression value &/?+ü",
+      "--response-types",
+      "regression value &/?+ü",
+      "--scopes",
+      "regression value &/?+ü",
+      "--token-endpoint-auth-method",
+      "none",
+      "--body",
+      "[{\"regression\":\"first\"},{\"regression\":\"second\"}]"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/oauth_clients",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "56",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "0": {
+            "regression": "first"
+          },
+          "1": {
+            "regression": "second"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "field flags",
+    "argv": [
+      "oauth-clients",
+      "create",
+      "--client-name",
+      "regression value &/?+ü",
+      "--grant-types",
+      "regression value &/?+ü",
+      "--redirect-uris",
+      "regression value &/?+ü",
+      "--response-types",
+      "regression value &/?+ü",
+      "--scopes",
+      "regression value &/?+ü",
+      "--token-endpoint-auth-method",
+      "none",
+      "--allowed-cors-origins",
+      "regression value &/?+ü",
+      "--client-uri",
+      "regression value &/?+ü",
+      "--logo-uri",
+      "regression value &/?+ü",
+      "--optional-scopes",
+      "regression value &/?+ü",
+      "--policy-uri",
+      "regression value &/?+ü",
+      "--post-logout-redirect-uris",
+      "regression value &/?+ü",
+      "--tos-uri",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/oauth_clients",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "549",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "allowed_cors_origins": [
+            "regression value &/?+ü"
+          ],
+          "client_name": "regression value &/?+ü",
+          "client_uri": "regression value &/?+ü",
+          "grant_types": [
+            "regression value &/?+ü"
+          ],
+          "logo_uri": "regression value &/?+ü",
+          "optional_scopes": [
+            "regression value &/?+ü"
+          ],
+          "policy_uri": "regression value &/?+ü",
+          "post_logout_redirect_uris": [
+            "regression value &/?+ü"
+          ],
+          "redirect_uris": [
+            "regression value &/?+ü"
+          ],
+          "response_types": [
+            "regression value &/?+ü"
+          ],
+          "scopes": [
+            "regression value &/?+ü"
+          ],
+          "token_endpoint_auth_method": "none",
+          "tos_uri": "regression value &/?+ü"
+        }
+      }
+    ]
+  }
+]

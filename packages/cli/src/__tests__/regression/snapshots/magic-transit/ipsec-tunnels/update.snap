@@ -1,0 +1,2405 @@
+[
+  {
+    "case": "no-args",
+    "argv": [
+      "magic-transit",
+      "ipsec-tunnels",
+      "update"
+    ],
+    "exitCode": 1,
+    "error": "Not enough non-option arguments: got 0, need at least 1",
+    "requests": []
+  },
+  {
+    "case": "required",
+    "argv": [
+      "magic-transit",
+      "ipsec-tunnels",
+      "update",
+      "192.0.2.1",
+      "--cloudflare-endpoint",
+      "https://example.com/a?x=1&y=two",
+      "--interface-address",
+      "192.0.2.1",
+      "--name",
+      "regression value &/?+ü",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/magic/ipsec_tunnels/192.0.2.1",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --x-magic-new-hc-target",
+    "argv": [
+      "magic-transit",
+      "ipsec-tunnels",
+      "update",
+      "192.0.2.1",
+      "--cloudflare-endpoint",
+      "https://example.com/a?x=1&y=two",
+      "--interface-address",
+      "192.0.2.1",
+      "--name",
+      "regression value &/?+ü",
+      "--x-magic-new-hc-target",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/magic/ipsec_tunnels/192.0.2.1",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "122",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>",
+          "x-magic-new-hc-target": "regression value &/?+ü"
+        },
+        "body": {
+          "cloudflare_endpoint": "https://example.com/a?x=1&y=two",
+          "interface_address": "192.0.2.1",
+          "name": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --automatic-return-routing",
+    "argv": [
+      "magic-transit",
+      "ipsec-tunnels",
+      "update",
+      "192.0.2.1",
+      "--cloudflare-endpoint",
+      "https://example.com/a?x=1&y=two",
+      "--interface-address",
+      "192.0.2.1",
+      "--name",
+      "regression value &/?+ü",
+      "--automatic-return-routing=true"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/magic/ipsec_tunnels/192.0.2.1",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "154",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "automatic_return_routing": true,
+          "cloudflare_endpoint": "https://example.com/a?x=1&y=two",
+          "interface_address": "192.0.2.1",
+          "name": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "--automatic-return-routing value 1",
+    "argv": [
+      "magic-transit",
+      "ipsec-tunnels",
+      "update",
+      "192.0.2.1",
+      "--cloudflare-endpoint",
+      "https://example.com/a?x=1&y=two",
+      "--interface-address",
+      "192.0.2.1",
+      "--name",
+      "regression value &/?+ü",
+      "--automatic-return-routing=false"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/magic/ipsec_tunnels/192.0.2.1",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "155",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "automatic_return_routing": false,
+          "cloudflare_endpoint": "https://example.com/a?x=1&y=two",
+          "interface_address": "192.0.2.1",
+          "name": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --bgp-customer-asn",
+    "argv": [
+      "magic-transit",
+      "ipsec-tunnels",
+      "update",
+      "192.0.2.1",
+      "--cloudflare-endpoint",
+      "https://example.com/a?x=1&y=two",
+      "--interface-address",
+      "192.0.2.1",
+      "--name",
+      "regression value &/?+ü",
+      "--bgp-customer-asn",
+      "1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/magic/ipsec_tunnels/192.0.2.1",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "147",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "bgp": {
+            "customer_asn": 1
+          },
+          "cloudflare_endpoint": "https://example.com/a?x=1&y=two",
+          "interface_address": "192.0.2.1",
+          "name": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --bgp-export-filter-id",
+    "argv": [
+      "magic-transit",
+      "ipsec-tunnels",
+      "update",
+      "192.0.2.1",
+      "--cloudflare-endpoint",
+      "https://example.com/a?x=1&y=two",
+      "--interface-address",
+      "192.0.2.1",
+      "--name",
+      "regression value &/?+ü",
+      "--bgp-export-filter-id",
+      "0123456789abcdef0123456789abcdef"
+    ],
+    "exitCode": 1,
+    "error": "--bgp-customer-asn is required when any --bgp-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "only --bgp-extra-prefixes",
+    "argv": [
+      "magic-transit",
+      "ipsec-tunnels",
+      "update",
+      "192.0.2.1",
+      "--cloudflare-endpoint",
+      "https://example.com/a?x=1&y=two",
+      "--interface-address",
+      "192.0.2.1",
+      "--name",
+      "regression value &/?+ü",
+      "--bgp-extra-prefixes",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 1,
+    "error": "--bgp-customer-asn is required when any --bgp-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "only --bgp-import-filter-id",
+    "argv": [
+      "magic-transit",
+      "ipsec-tunnels",
+      "update",
+      "192.0.2.1",
+      "--cloudflare-endpoint",
+      "https://example.com/a?x=1&y=two",
+      "--interface-address",
+      "192.0.2.1",
+      "--name",
+      "regression value &/?+ü",
+      "--bgp-import-filter-id",
+      "0123456789abcdef0123456789abcdef"
+    ],
+    "exitCode": 1,
+    "error": "--bgp-customer-asn is required when any --bgp-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "only --bgp-md5-key",
+    "argv": [
+      "magic-transit",
+      "ipsec-tunnels",
+      "update",
+      "192.0.2.1",
+      "--cloudflare-endpoint",
+      "https://example.com/a?x=1&y=two",
+      "--interface-address",
+      "192.0.2.1",
+      "--name",
+      "regression value &/?+ü",
+      "--bgp-md5-key",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 1,
+    "error": "--bgp-customer-asn is required when any --bgp-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "only --custom-remote-identities-fqdn-id",
+    "argv": [
+      "magic-transit",
+      "ipsec-tunnels",
+      "update",
+      "192.0.2.1",
+      "--cloudflare-endpoint",
+      "https://example.com/a?x=1&y=two",
+      "--interface-address",
+      "192.0.2.1",
+      "--name",
+      "regression value &/?+ü",
+      "--custom-remote-identities-fqdn-id",
+      "0123456789abcdef0123456789abcdef"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/magic/ipsec_tunnels/192.0.2.1",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "196",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "cloudflare_endpoint": "https://example.com/a?x=1&y=two",
+          "custom_remote_identities": {
+            "fqdn_id": "0123456789abcdef0123456789abcdef"
+          },
+          "interface_address": "192.0.2.1",
+          "name": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --customer-endpoint",
+    "argv": [
+      "magic-transit",
+      "ipsec-tunnels",
+      "update",
+      "192.0.2.1",
+      "--cloudflare-endpoint",
+      "https://example.com/a?x=1&y=two",
+      "--interface-address",
+      "192.0.2.1",
+      "--name",
+      "regression value &/?+ü",
+      "--customer-endpoint",
+      "https://example.com/a?x=1&y=two"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/magic/ipsec_tunnels/192.0.2.1",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "176",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "cloudflare_endpoint": "https://example.com/a?x=1&y=two",
+          "customer_endpoint": "https://example.com/a?x=1&y=two",
+          "interface_address": "192.0.2.1",
+          "name": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --description",
+    "argv": [
+      "magic-transit",
+      "ipsec-tunnels",
+      "update",
+      "192.0.2.1",
+      "--cloudflare-endpoint",
+      "https://example.com/a?x=1&y=two",
+      "--interface-address",
+      "192.0.2.1",
+      "--name",
+      "regression value &/?+ü",
+      "--description",
+      "192.0.2.1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/magic/ipsec_tunnels/192.0.2.1",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "148",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "cloudflare_endpoint": "https://example.com/a?x=1&y=two",
+          "description": "192.0.2.1",
+          "interface_address": "192.0.2.1",
+          "name": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --health-check-enabled",
+    "argv": [
+      "magic-transit",
+      "ipsec-tunnels",
+      "update",
+      "192.0.2.1",
+      "--cloudflare-endpoint",
+      "https://example.com/a?x=1&y=two",
+      "--interface-address",
+      "192.0.2.1",
+      "--name",
+      "regression value &/?+ü",
+      "--health-check-enabled=true"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/magic/ipsec_tunnels/192.0.2.1",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "154",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "cloudflare_endpoint": "https://example.com/a?x=1&y=two",
+          "health_check": {
+            "enabled": true
+          },
+          "interface_address": "192.0.2.1",
+          "name": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "--health-check-enabled value 1",
+    "argv": [
+      "magic-transit",
+      "ipsec-tunnels",
+      "update",
+      "192.0.2.1",
+      "--cloudflare-endpoint",
+      "https://example.com/a?x=1&y=two",
+      "--interface-address",
+      "192.0.2.1",
+      "--name",
+      "regression value &/?+ü",
+      "--health-check-enabled=false"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/magic/ipsec_tunnels/192.0.2.1",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "155",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "cloudflare_endpoint": "https://example.com/a?x=1&y=two",
+          "health_check": {
+            "enabled": false
+          },
+          "interface_address": "192.0.2.1",
+          "name": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --health-check-rate",
+    "argv": [
+      "magic-transit",
+      "ipsec-tunnels",
+      "update",
+      "192.0.2.1",
+      "--cloudflare-endpoint",
+      "https://example.com/a?x=1&y=two",
+      "--interface-address",
+      "192.0.2.1",
+      "--name",
+      "regression value &/?+ü",
+      "--health-check-rate",
+      "low"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/magic/ipsec_tunnels/192.0.2.1",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "152",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "cloudflare_endpoint": "https://example.com/a?x=1&y=two",
+          "health_check": {
+            "rate": "low"
+          },
+          "interface_address": "192.0.2.1",
+          "name": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "--health-check-rate value 1",
+    "argv": [
+      "magic-transit",
+      "ipsec-tunnels",
+      "update",
+      "192.0.2.1",
+      "--cloudflare-endpoint",
+      "https://example.com/a?x=1&y=two",
+      "--interface-address",
+      "192.0.2.1",
+      "--name",
+      "regression value &/?+ü",
+      "--health-check-rate",
+      "mid"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/magic/ipsec_tunnels/192.0.2.1",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "152",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "cloudflare_endpoint": "https://example.com/a?x=1&y=two",
+          "health_check": {
+            "rate": "mid"
+          },
+          "interface_address": "192.0.2.1",
+          "name": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "--health-check-rate value 2",
+    "argv": [
+      "magic-transit",
+      "ipsec-tunnels",
+      "update",
+      "192.0.2.1",
+      "--cloudflare-endpoint",
+      "https://example.com/a?x=1&y=two",
+      "--interface-address",
+      "192.0.2.1",
+      "--name",
+      "regression value &/?+ü",
+      "--health-check-rate",
+      "high"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/magic/ipsec_tunnels/192.0.2.1",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "153",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "cloudflare_endpoint": "https://example.com/a?x=1&y=two",
+          "health_check": {
+            "rate": "high"
+          },
+          "interface_address": "192.0.2.1",
+          "name": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --health-check-target-saved",
+    "argv": [
+      "magic-transit",
+      "ipsec-tunnels",
+      "update",
+      "192.0.2.1",
+      "--cloudflare-endpoint",
+      "https://example.com/a?x=1&y=two",
+      "--interface-address",
+      "192.0.2.1",
+      "--name",
+      "regression value &/?+ü",
+      "--health-check-target-saved",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/magic/ipsec_tunnels/192.0.2.1",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "184",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "cloudflare_endpoint": "https://example.com/a?x=1&y=two",
+          "health_check": {
+            "target": {
+              "saved": "regression value &/?+ü"
+            }
+          },
+          "interface_address": "192.0.2.1",
+          "name": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --health-check-type",
+    "argv": [
+      "magic-transit",
+      "ipsec-tunnels",
+      "update",
+      "192.0.2.1",
+      "--cloudflare-endpoint",
+      "https://example.com/a?x=1&y=two",
+      "--interface-address",
+      "192.0.2.1",
+      "--name",
+      "regression value &/?+ü",
+      "--health-check-type",
+      "reply"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/magic/ipsec_tunnels/192.0.2.1",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "154",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "cloudflare_endpoint": "https://example.com/a?x=1&y=two",
+          "health_check": {
+            "type": "reply"
+          },
+          "interface_address": "192.0.2.1",
+          "name": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "--health-check-type value 1",
+    "argv": [
+      "magic-transit",
+      "ipsec-tunnels",
+      "update",
+      "192.0.2.1",
+      "--cloudflare-endpoint",
+      "https://example.com/a?x=1&y=two",
+      "--interface-address",
+      "192.0.2.1",
+      "--name",
+      "regression value &/?+ü",
+      "--health-check-type",
+      "request"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/magic/ipsec_tunnels/192.0.2.1",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "156",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "cloudflare_endpoint": "https://example.com/a?x=1&y=two",
+          "health_check": {
+            "type": "request"
+          },
+          "interface_address": "192.0.2.1",
+          "name": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --health-check-direction",
+    "argv": [
+      "magic-transit",
+      "ipsec-tunnels",
+      "update",
+      "192.0.2.1",
+      "--cloudflare-endpoint",
+      "https://example.com/a?x=1&y=two",
+      "--interface-address",
+      "192.0.2.1",
+      "--name",
+      "regression value &/?+ü",
+      "--health-check-direction",
+      "unidirectional"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/magic/ipsec_tunnels/192.0.2.1",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "168",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "cloudflare_endpoint": "https://example.com/a?x=1&y=two",
+          "health_check": {
+            "direction": "unidirectional"
+          },
+          "interface_address": "192.0.2.1",
+          "name": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "--health-check-direction value 1",
+    "argv": [
+      "magic-transit",
+      "ipsec-tunnels",
+      "update",
+      "192.0.2.1",
+      "--cloudflare-endpoint",
+      "https://example.com/a?x=1&y=two",
+      "--interface-address",
+      "192.0.2.1",
+      "--name",
+      "regression value &/?+ü",
+      "--health-check-direction",
+      "bidirectional"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/magic/ipsec_tunnels/192.0.2.1",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "167",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "cloudflare_endpoint": "https://example.com/a?x=1&y=two",
+          "health_check": {
+            "direction": "bidirectional"
+          },
+          "interface_address": "192.0.2.1",
+          "name": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --interface-address6",
+    "argv": [
+      "magic-transit",
+      "ipsec-tunnels",
+      "update",
+      "192.0.2.1",
+      "--cloudflare-endpoint",
+      "https://example.com/a?x=1&y=two",
+      "--interface-address",
+      "192.0.2.1",
+      "--name",
+      "regression value &/?+ü",
+      "--interface-address6",
+      "192.0.2.1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/magic/ipsec_tunnels/192.0.2.1",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "155",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "cloudflare_endpoint": "https://example.com/a?x=1&y=two",
+          "interface_address": "192.0.2.1",
+          "interface_address6": "192.0.2.1",
+          "name": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --psk",
+    "argv": [
+      "magic-transit",
+      "ipsec-tunnels",
+      "update",
+      "192.0.2.1",
+      "--cloudflare-endpoint",
+      "https://example.com/a?x=1&y=two",
+      "--interface-address",
+      "192.0.2.1",
+      "--name",
+      "regression value &/?+ü",
+      "--psk",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/magic/ipsec_tunnels/192.0.2.1",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "154",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "cloudflare_endpoint": "https://example.com/a?x=1&y=two",
+          "interface_address": "192.0.2.1",
+          "name": "regression value &/?+ü",
+          "psk": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --replay-protection",
+    "argv": [
+      "magic-transit",
+      "ipsec-tunnels",
+      "update",
+      "192.0.2.1",
+      "--cloudflare-endpoint",
+      "https://example.com/a?x=1&y=two",
+      "--interface-address",
+      "192.0.2.1",
+      "--name",
+      "regression value &/?+ü",
+      "--replay-protection=true"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/magic/ipsec_tunnels/192.0.2.1",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "147",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "cloudflare_endpoint": "https://example.com/a?x=1&y=two",
+          "interface_address": "192.0.2.1",
+          "name": "regression value &/?+ü",
+          "replay_protection": true
+        }
+      }
+    ]
+  },
+  {
+    "case": "--replay-protection value 1",
+    "argv": [
+      "magic-transit",
+      "ipsec-tunnels",
+      "update",
+      "192.0.2.1",
+      "--cloudflare-endpoint",
+      "https://example.com/a?x=1&y=two",
+      "--interface-address",
+      "192.0.2.1",
+      "--name",
+      "regression value &/?+ü",
+      "--replay-protection=false"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/magic/ipsec_tunnels/192.0.2.1",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "148",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "cloudflare_endpoint": "https://example.com/a?x=1&y=two",
+          "interface_address": "192.0.2.1",
+          "name": "regression value &/?+ü",
+          "replay_protection": false
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 0",
+    "argv": [
+      "magic-transit",
+      "ipsec-tunnels",
+      "update",
+      "192.0.2.1",
+      "--cloudflare-endpoint",
+      "https://example.com/a?x=1&y=two",
+      "--interface-address",
+      "192.0.2.1",
+      "--name",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/magic/ipsec_tunnels/192.0.2.1",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "122",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "cloudflare_endpoint": "https://example.com/a?x=1&y=two",
+          "interface_address": "192.0.2.1",
+          "name": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 1",
+    "argv": [
+      "magic-transit",
+      "ipsec-tunnels",
+      "update",
+      "192.0.2.1",
+      "--cloudflare-endpoint",
+      "https://example.com/a?x=1&y=two",
+      "--interface-address",
+      "192.0.2.1",
+      "--name",
+      "regression value &/?+ü",
+      "--x-magic-new-hc-target",
+      "second value &/?+ü",
+      "--automatic-return-routing=false",
+      "--bgp-customer-asn",
+      "2",
+      "--bgp-export-filter-id",
+      "0123456789abcdef0123456789abcdef",
+      "--bgp-extra-prefixes",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--bgp-import-filter-id",
+      "0123456789abcdef0123456789abcdef",
+      "--bgp-md5-key",
+      "second value &/?+ü",
+      "--custom-remote-identities-fqdn-id",
+      "0123456789abcdef0123456789abcdef",
+      "--customer-endpoint",
+      "https://example.com/a?x=1&y=two",
+      "--description",
+      "192.0.2.1",
+      "--health-check-enabled=false",
+      "--health-check-rate",
+      "mid",
+      "--health-check-target-saved",
+      "second value &/?+ü",
+      "--health-check-type",
+      "request",
+      "--health-check-direction",
+      "bidirectional",
+      "--interface-address6",
+      "192.0.2.1",
+      "--psk",
+      "second value &/?+ü",
+      "--replay-protection=false"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/magic/ipsec_tunnels/192.0.2.1",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "756",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>",
+          "x-magic-new-hc-target": "second value &/?+ü"
+        },
+        "body": {
+          "automatic_return_routing": false,
+          "bgp": {
+            "customer_asn": 2,
+            "export_filter_id": "0123456789abcdef0123456789abcdef",
+            "extra_prefixes": [
+              "second value &/?+ü",
+              "second value &/?+ü"
+            ],
+            "import_filter_id": "0123456789abcdef0123456789abcdef",
+            "md5_key": "second value &/?+ü"
+          },
+          "cloudflare_endpoint": "https://example.com/a?x=1&y=two",
+          "custom_remote_identities": {
+            "fqdn_id": "0123456789abcdef0123456789abcdef"
+          },
+          "customer_endpoint": "https://example.com/a?x=1&y=two",
+          "description": "192.0.2.1",
+          "health_check": {
+            "enabled": false,
+            "rate": "mid",
+            "target": {
+              "saved": "second value &/?+ü"
+            },
+            "type": "request",
+            "direction": "bidirectional"
+          },
+          "interface_address": "192.0.2.1",
+          "interface_address6": "192.0.2.1",
+          "name": "regression value &/?+ü",
+          "psk": "second value &/?+ü",
+          "replay_protection": false
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 2",
+    "argv": [
+      "magic-transit",
+      "ipsec-tunnels",
+      "update",
+      "192.0.2.1",
+      "--cloudflare-endpoint",
+      "https://example.com/a?x=1&y=two",
+      "--interface-address",
+      "192.0.2.1",
+      "--name",
+      "regression value &/?+ü",
+      "--automatic-return-routing=true",
+      "--bgp-export-filter-id",
+      "0123456789abcdef0123456789abcdef",
+      "--bgp-import-filter-id",
+      "0123456789abcdef0123456789abcdef",
+      "--custom-remote-identities-fqdn-id",
+      "0123456789abcdef0123456789abcdef",
+      "--description",
+      "192.0.2.1",
+      "--health-check-rate",
+      "low",
+      "--health-check-type",
+      "reply",
+      "--interface-address6",
+      "192.0.2.1",
+      "--replay-protection=true"
+    ],
+    "exitCode": 1,
+    "error": "--bgp-customer-asn is required when any --bgp-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "pairwise 3",
+    "argv": [
+      "magic-transit",
+      "ipsec-tunnels",
+      "update",
+      "192.0.2.1",
+      "--cloudflare-endpoint",
+      "https://example.com/a?x=1&y=two",
+      "--interface-address",
+      "192.0.2.1",
+      "--name",
+      "regression value &/?+ü",
+      "--x-magic-new-hc-target",
+      "second value &/?+ü",
+      "--bgp-customer-asn",
+      "2",
+      "--bgp-extra-prefixes",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--bgp-md5-key",
+      "second value &/?+ü",
+      "--customer-endpoint",
+      "https://example.com/a?x=1&y=two",
+      "--health-check-enabled=false",
+      "--health-check-target-saved",
+      "second value &/?+ü",
+      "--health-check-direction",
+      "bidirectional",
+      "--psk",
+      "second value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/magic/ipsec_tunnels/192.0.2.1",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "426",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>",
+          "x-magic-new-hc-target": "second value &/?+ü"
+        },
+        "body": {
+          "bgp": {
+            "customer_asn": 2,
+            "extra_prefixes": [
+              "second value &/?+ü",
+              "second value &/?+ü"
+            ],
+            "md5_key": "second value &/?+ü"
+          },
+          "cloudflare_endpoint": "https://example.com/a?x=1&y=two",
+          "customer_endpoint": "https://example.com/a?x=1&y=two",
+          "health_check": {
+            "enabled": false,
+            "target": {
+              "saved": "second value &/?+ü"
+            },
+            "direction": "bidirectional"
+          },
+          "interface_address": "192.0.2.1",
+          "name": "regression value &/?+ü",
+          "psk": "second value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 4",
+    "argv": [
+      "magic-transit",
+      "ipsec-tunnels",
+      "update",
+      "192.0.2.1",
+      "--cloudflare-endpoint",
+      "https://example.com/a?x=1&y=two",
+      "--interface-address",
+      "192.0.2.1",
+      "--name",
+      "regression value &/?+ü",
+      "--bgp-customer-asn",
+      "1",
+      "--bgp-export-filter-id",
+      "0123456789abcdef0123456789abcdef",
+      "--bgp-md5-key",
+      "regression value &/?+ü",
+      "--custom-remote-identities-fqdn-id",
+      "0123456789abcdef0123456789abcdef",
+      "--health-check-enabled=true",
+      "--health-check-rate",
+      "low",
+      "--health-check-direction",
+      "unidirectional",
+      "--interface-address6",
+      "192.0.2.1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/magic/ipsec_tunnels/192.0.2.1",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "418",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "bgp": {
+            "customer_asn": 1,
+            "export_filter_id": "0123456789abcdef0123456789abcdef",
+            "md5_key": "regression value &/?+ü"
+          },
+          "cloudflare_endpoint": "https://example.com/a?x=1&y=two",
+          "custom_remote_identities": {
+            "fqdn_id": "0123456789abcdef0123456789abcdef"
+          },
+          "health_check": {
+            "enabled": true,
+            "rate": "low",
+            "direction": "unidirectional"
+          },
+          "interface_address": "192.0.2.1",
+          "interface_address6": "192.0.2.1",
+          "name": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 5",
+    "argv": [
+      "magic-transit",
+      "ipsec-tunnels",
+      "update",
+      "192.0.2.1",
+      "--cloudflare-endpoint",
+      "https://example.com/a?x=1&y=two",
+      "--interface-address",
+      "192.0.2.1",
+      "--name",
+      "regression value &/?+ü",
+      "--x-magic-new-hc-target",
+      "second value &/?+ü",
+      "--automatic-return-routing=false",
+      "--bgp-extra-prefixes",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--bgp-import-filter-id",
+      "0123456789abcdef0123456789abcdef",
+      "--customer-endpoint",
+      "https://example.com/a?x=1&y=two",
+      "--description",
+      "192.0.2.1",
+      "--health-check-target-saved",
+      "second value &/?+ü",
+      "--health-check-type",
+      "request",
+      "--psk",
+      "second value &/?+ü",
+      "--replay-protection=false"
+    ],
+    "exitCode": 1,
+    "error": "--bgp-customer-asn is required when any --bgp-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "pairwise 6",
+    "argv": [
+      "magic-transit",
+      "ipsec-tunnels",
+      "update",
+      "192.0.2.1",
+      "--cloudflare-endpoint",
+      "https://example.com/a?x=1&y=two",
+      "--interface-address",
+      "192.0.2.1",
+      "--name",
+      "regression value &/?+ü",
+      "--bgp-extra-prefixes",
+      "regression value &/?+ü",
+      "--bgp-import-filter-id",
+      "0123456789abcdef0123456789abcdef",
+      "--bgp-md5-key",
+      "regression value &/?+ü",
+      "--custom-remote-identities-fqdn-id",
+      "0123456789abcdef0123456789abcdef",
+      "--health-check-target-saved",
+      "regression value &/?+ü",
+      "--health-check-type",
+      "reply",
+      "--health-check-direction",
+      "unidirectional",
+      "--interface-address6",
+      "192.0.2.1"
+    ],
+    "exitCode": 1,
+    "error": "--bgp-customer-asn is required when any --bgp-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "pairwise 7",
+    "argv": [
+      "magic-transit",
+      "ipsec-tunnels",
+      "update",
+      "192.0.2.1",
+      "--cloudflare-endpoint",
+      "https://example.com/a?x=1&y=two",
+      "--interface-address",
+      "192.0.2.1",
+      "--name",
+      "regression value &/?+ü",
+      "--x-magic-new-hc-target",
+      "second value &/?+ü",
+      "--automatic-return-routing=false",
+      "--bgp-customer-asn",
+      "2",
+      "--bgp-export-filter-id",
+      "0123456789abcdef0123456789abcdef",
+      "--customer-endpoint",
+      "https://example.com/a?x=1&y=two",
+      "--description",
+      "192.0.2.1",
+      "--health-check-enabled=false",
+      "--health-check-rate",
+      "mid",
+      "--psk",
+      "second value &/?+ü",
+      "--replay-protection=false"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/magic/ipsec_tunnels/192.0.2.1",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "414",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>",
+          "x-magic-new-hc-target": "second value &/?+ü"
+        },
+        "body": {
+          "automatic_return_routing": false,
+          "bgp": {
+            "customer_asn": 2,
+            "export_filter_id": "0123456789abcdef0123456789abcdef"
+          },
+          "cloudflare_endpoint": "https://example.com/a?x=1&y=two",
+          "customer_endpoint": "https://example.com/a?x=1&y=two",
+          "description": "192.0.2.1",
+          "health_check": {
+            "enabled": false,
+            "rate": "mid"
+          },
+          "interface_address": "192.0.2.1",
+          "name": "regression value &/?+ü",
+          "psk": "second value &/?+ü",
+          "replay_protection": false
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 8",
+    "argv": [
+      "magic-transit",
+      "ipsec-tunnels",
+      "update",
+      "192.0.2.1",
+      "--cloudflare-endpoint",
+      "https://example.com/a?x=1&y=two",
+      "--interface-address",
+      "192.0.2.1",
+      "--name",
+      "regression value &/?+ü",
+      "--customer-endpoint",
+      "https://example.com/a?x=1&y=two",
+      "--description",
+      "192.0.2.1",
+      "--health-check-enabled=true",
+      "--health-check-rate",
+      "low",
+      "--health-check-target-saved",
+      "regression value &/?+ü",
+      "--health-check-type",
+      "reply",
+      "--health-check-direction",
+      "unidirectional",
+      "--interface-address6",
+      "192.0.2.1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/magic/ipsec_tunnels/192.0.2.1",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "369",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "cloudflare_endpoint": "https://example.com/a?x=1&y=two",
+          "customer_endpoint": "https://example.com/a?x=1&y=two",
+          "description": "192.0.2.1",
+          "health_check": {
+            "enabled": true,
+            "rate": "low",
+            "target": {
+              "saved": "regression value &/?+ü"
+            },
+            "type": "reply",
+            "direction": "unidirectional"
+          },
+          "interface_address": "192.0.2.1",
+          "interface_address6": "192.0.2.1",
+          "name": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 9",
+    "argv": [
+      "magic-transit",
+      "ipsec-tunnels",
+      "update",
+      "192.0.2.1",
+      "--cloudflare-endpoint",
+      "https://example.com/a?x=1&y=two",
+      "--interface-address",
+      "192.0.2.1",
+      "--name",
+      "regression value &/?+ü",
+      "--x-magic-new-hc-target",
+      "second value &/?+ü",
+      "--automatic-return-routing=false",
+      "--bgp-customer-asn",
+      "2",
+      "--bgp-export-filter-id",
+      "0123456789abcdef0123456789abcdef",
+      "--bgp-extra-prefixes",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--bgp-import-filter-id",
+      "0123456789abcdef0123456789abcdef",
+      "--bgp-md5-key",
+      "second value &/?+ü",
+      "--custom-remote-identities-fqdn-id",
+      "0123456789abcdef0123456789abcdef",
+      "--psk",
+      "second value &/?+ü",
+      "--replay-protection=false"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/magic/ipsec_tunnels/192.0.2.1",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "511",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>",
+          "x-magic-new-hc-target": "second value &/?+ü"
+        },
+        "body": {
+          "automatic_return_routing": false,
+          "bgp": {
+            "customer_asn": 2,
+            "export_filter_id": "0123456789abcdef0123456789abcdef",
+            "extra_prefixes": [
+              "second value &/?+ü",
+              "second value &/?+ü"
+            ],
+            "import_filter_id": "0123456789abcdef0123456789abcdef",
+            "md5_key": "second value &/?+ü"
+          },
+          "cloudflare_endpoint": "https://example.com/a?x=1&y=two",
+          "custom_remote_identities": {
+            "fqdn_id": "0123456789abcdef0123456789abcdef"
+          },
+          "interface_address": "192.0.2.1",
+          "name": "regression value &/?+ü",
+          "psk": "second value &/?+ü",
+          "replay_protection": false
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 10",
+    "argv": [
+      "magic-transit",
+      "ipsec-tunnels",
+      "update",
+      "192.0.2.1",
+      "--cloudflare-endpoint",
+      "https://example.com/a?x=1&y=two",
+      "--interface-address",
+      "192.0.2.1",
+      "--name",
+      "regression value &/?+ü",
+      "--psk",
+      "regression value &/?+ü",
+      "--replay-protection=true"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/magic/ipsec_tunnels/192.0.2.1",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "179",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "cloudflare_endpoint": "https://example.com/a?x=1&y=two",
+          "interface_address": "192.0.2.1",
+          "name": "regression value &/?+ü",
+          "psk": "regression value &/?+ü",
+          "replay_protection": true
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 11",
+    "argv": [
+      "magic-transit",
+      "ipsec-tunnels",
+      "update",
+      "192.0.2.1",
+      "--cloudflare-endpoint",
+      "https://example.com/a?x=1&y=two",
+      "--interface-address",
+      "192.0.2.1",
+      "--name",
+      "regression value &/?+ü",
+      "--x-magic-new-hc-target",
+      "second value &/?+ü",
+      "--automatic-return-routing=false",
+      "--bgp-customer-asn",
+      "2",
+      "--bgp-export-filter-id",
+      "0123456789abcdef0123456789abcdef",
+      "--bgp-extra-prefixes",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--bgp-import-filter-id",
+      "0123456789abcdef0123456789abcdef",
+      "--bgp-md5-key",
+      "second value &/?+ü",
+      "--custom-remote-identities-fqdn-id",
+      "0123456789abcdef0123456789abcdef",
+      "--customer-endpoint",
+      "https://example.com/a?x=1&y=two",
+      "--description",
+      "192.0.2.1",
+      "--health-check-enabled=false",
+      "--health-check-rate",
+      "mid",
+      "--health-check-target-saved",
+      "second value &/?+ü",
+      "--health-check-type",
+      "request",
+      "--health-check-direction",
+      "bidirectional",
+      "--interface-address6",
+      "192.0.2.1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/magic/ipsec_tunnels/192.0.2.1",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "702",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>",
+          "x-magic-new-hc-target": "second value &/?+ü"
+        },
+        "body": {
+          "automatic_return_routing": false,
+          "bgp": {
+            "customer_asn": 2,
+            "export_filter_id": "0123456789abcdef0123456789abcdef",
+            "extra_prefixes": [
+              "second value &/?+ü",
+              "second value &/?+ü"
+            ],
+            "import_filter_id": "0123456789abcdef0123456789abcdef",
+            "md5_key": "second value &/?+ü"
+          },
+          "cloudflare_endpoint": "https://example.com/a?x=1&y=two",
+          "custom_remote_identities": {
+            "fqdn_id": "0123456789abcdef0123456789abcdef"
+          },
+          "customer_endpoint": "https://example.com/a?x=1&y=two",
+          "description": "192.0.2.1",
+          "health_check": {
+            "enabled": false,
+            "rate": "mid",
+            "target": {
+              "saved": "second value &/?+ü"
+            },
+            "type": "request",
+            "direction": "bidirectional"
+          },
+          "interface_address": "192.0.2.1",
+          "interface_address6": "192.0.2.1",
+          "name": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "global quiet",
+    "argv": [
+      "magic-transit",
+      "ipsec-tunnels",
+      "update",
+      "192.0.2.1",
+      "--cloudflare-endpoint",
+      "https://example.com/a?x=1&y=two",
+      "--interface-address",
+      "192.0.2.1",
+      "--name",
+      "regression value &/?+ü",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--quiet"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/magic/ipsec_tunnels/192.0.2.1",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "global zone",
+    "argv": [
+      "magic-transit",
+      "ipsec-tunnels",
+      "update",
+      "192.0.2.1",
+      "--cloudflare-endpoint",
+      "https://example.com/a?x=1&y=two",
+      "--interface-address",
+      "192.0.2.1",
+      "--name",
+      "regression value &/?+ü",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--zone",
+      "abcdef0123456789abcdef0123456789"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/magic/ipsec_tunnels/192.0.2.1",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "global profile and mode",
+    "argv": [
+      "magic-transit",
+      "ipsec-tunnels",
+      "update",
+      "192.0.2.1",
+      "--cloudflare-endpoint",
+      "https://example.com/a?x=1&y=two",
+      "--interface-address",
+      "192.0.2.1",
+      "--name",
+      "regression value &/?+ü",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--profile",
+      "default",
+      "--mode",
+      "regression"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/magic/ipsec_tunnels/192.0.2.1",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "local",
+    "argv": [
+      "magic-transit",
+      "ipsec-tunnels",
+      "update",
+      "192.0.2.1",
+      "--cloudflare-endpoint",
+      "https://example.com/a?x=1&y=two",
+      "--interface-address",
+      "192.0.2.1",
+      "--name",
+      "regression value &/?+ü",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--local"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "http://localhost/cdn-cgi/local/explorer/api/magic/ipsec_tunnels/192.0.2.1",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "gzip, deflate",
+          "accept-language": "*",
+          "connection": "keep-alive",
+          "content-type": "application/json",
+          "host": "localhost",
+          "sec-fetch-mode": "cors",
+          "transfer-encoding": "chunked",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "local with persistence",
+    "argv": [
+      "magic-transit",
+      "ipsec-tunnels",
+      "update",
+      "192.0.2.1",
+      "--cloudflare-endpoint",
+      "https://example.com/a?x=1&y=two",
+      "--interface-address",
+      "192.0.2.1",
+      "--name",
+      "regression value &/?+ü",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--local",
+      "--persist-to",
+      "regression-state"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "http://localhost/cdn-cgi/local/explorer/api/magic/ipsec_tunnels/192.0.2.1",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "gzip, deflate",
+          "accept-language": "*",
+          "connection": "keep-alive",
+          "content-type": "application/json",
+          "host": "localhost",
+          "sec-fetch-mode": "cors",
+          "transfer-encoding": "chunked",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "dry-run",
+    "argv": [
+      "magic-transit",
+      "ipsec-tunnels",
+      "update",
+      "192.0.2.1",
+      "--cloudflare-endpoint",
+      "https://example.com/a?x=1&y=two",
+      "--interface-address",
+      "192.0.2.1",
+      "--name",
+      "regression value &/?+ü",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--dry-run"
+    ],
+    "exitCode": 0,
+    "requests": []
+  },
+  {
+    "case": "body from file",
+    "argv": [
+      "magic-transit",
+      "ipsec-tunnels",
+      "update",
+      "192.0.2.1",
+      "--cloudflare-endpoint",
+      "https://example.com/a?x=1&y=two",
+      "--interface-address",
+      "192.0.2.1",
+      "--name",
+      "regression value &/?+ü",
+      "--body",
+      "@<body.json>"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/magic/ipsec_tunnels/192.0.2.1",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "array body",
+    "argv": [
+      "magic-transit",
+      "ipsec-tunnels",
+      "update",
+      "192.0.2.1",
+      "--cloudflare-endpoint",
+      "https://example.com/a?x=1&y=two",
+      "--interface-address",
+      "192.0.2.1",
+      "--name",
+      "regression value &/?+ü",
+      "--body",
+      "[{\"regression\":\"first\"},{\"regression\":\"second\"}]"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/magic/ipsec_tunnels/192.0.2.1",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "48",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": [
+          {
+            "regression": "first"
+          },
+          {
+            "regression": "second"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "case": "field flags",
+    "argv": [
+      "magic-transit",
+      "ipsec-tunnels",
+      "update",
+      "192.0.2.1",
+      "--cloudflare-endpoint",
+      "https://example.com/a?x=1&y=two",
+      "--interface-address",
+      "192.0.2.1",
+      "--name",
+      "regression value &/?+ü",
+      "--x-magic-new-hc-target",
+      "regression value &/?+ü",
+      "--automatic-return-routing=true",
+      "--bgp-customer-asn",
+      "1",
+      "--bgp-export-filter-id",
+      "0123456789abcdef0123456789abcdef",
+      "--bgp-extra-prefixes",
+      "regression value &/?+ü",
+      "--bgp-import-filter-id",
+      "0123456789abcdef0123456789abcdef",
+      "--bgp-md5-key",
+      "regression value &/?+ü",
+      "--custom-remote-identities-fqdn-id",
+      "0123456789abcdef0123456789abcdef",
+      "--customer-endpoint",
+      "https://example.com/a?x=1&y=two",
+      "--description",
+      "192.0.2.1",
+      "--health-check-enabled=true",
+      "--health-check-rate",
+      "low",
+      "--health-check-target-saved",
+      "regression value &/?+ü",
+      "--health-check-type",
+      "reply",
+      "--health-check-direction",
+      "unidirectional",
+      "--interface-address6",
+      "192.0.2.1",
+      "--psk",
+      "regression value &/?+ü",
+      "--replay-protection=true"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/magic/ipsec_tunnels/192.0.2.1",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "746",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>",
+          "x-magic-new-hc-target": "regression value &/?+ü"
+        },
+        "body": {
+          "automatic_return_routing": true,
+          "bgp": {
+            "customer_asn": 1,
+            "export_filter_id": "0123456789abcdef0123456789abcdef",
+            "extra_prefixes": [
+              "regression value &/?+ü"
+            ],
+            "import_filter_id": "0123456789abcdef0123456789abcdef",
+            "md5_key": "regression value &/?+ü"
+          },
+          "cloudflare_endpoint": "https://example.com/a?x=1&y=two",
+          "custom_remote_identities": {
+            "fqdn_id": "0123456789abcdef0123456789abcdef"
+          },
+          "customer_endpoint": "https://example.com/a?x=1&y=two",
+          "description": "192.0.2.1",
+          "health_check": {
+            "enabled": true,
+            "rate": "low",
+            "target": {
+              "saved": "regression value &/?+ü"
+            },
+            "type": "reply",
+            "direction": "unidirectional"
+          },
+          "interface_address": "192.0.2.1",
+          "interface_address6": "192.0.2.1",
+          "name": "regression value &/?+ü",
+          "psk": "regression value &/?+ü",
+          "replay_protection": true
+        }
+      }
+    ]
+  }
+]

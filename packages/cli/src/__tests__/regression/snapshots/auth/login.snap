@@ -1,0 +1,194 @@
+[
+  {
+    "case": "no-args",
+    "argv": [
+      "auth",
+      "login"
+    ],
+    "exitCode": 0,
+    "requests": []
+  },
+  {
+    "case": "required",
+    "argv": [
+      "auth",
+      "login",
+      "--force"
+    ],
+    "exitCode": 0,
+    "requests": []
+  },
+  {
+    "case": "only --browser",
+    "argv": [
+      "auth",
+      "login",
+      "--force",
+      "--browser=true"
+    ],
+    "exitCode": 0,
+    "requests": []
+  },
+  {
+    "case": "--browser value 1",
+    "argv": [
+      "auth",
+      "login",
+      "--force",
+      "--browser=false"
+    ],
+    "exitCode": 0,
+    "requests": []
+  },
+  {
+    "case": "only --device",
+    "argv": [
+      "auth",
+      "login",
+      "--force",
+      "--device=true"
+    ],
+    "exitCode": 0,
+    "requests": []
+  },
+  {
+    "case": "--device value 1",
+    "argv": [
+      "auth",
+      "login",
+      "--force",
+      "--device=false"
+    ],
+    "exitCode": 0,
+    "requests": []
+  },
+  {
+    "case": "only --scopes",
+    "argv": [
+      "auth",
+      "login",
+      "--force",
+      "--scopes",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 1,
+    "error": "One or more of the requested scopes are not valid cf OAuth scopes.",
+    "requests": []
+  },
+  {
+    "case": "pairwise 1",
+    "argv": [
+      "auth",
+      "login",
+      "--force",
+      "--browser=false",
+      "--device=false",
+      "--scopes",
+      "second value &/?+ü"
+    ],
+    "exitCode": 1,
+    "error": "One or more of the requested scopes are not valid cf OAuth scopes.",
+    "requests": []
+  },
+  {
+    "case": "pairwise 3",
+    "argv": [
+      "auth",
+      "login",
+      "--force",
+      "--browser=false",
+      "--scopes",
+      "second value &/?+ü"
+    ],
+    "exitCode": 1,
+    "error": "One or more of the requested scopes are not valid cf OAuth scopes.",
+    "requests": []
+  },
+  {
+    "case": "pairwise 5",
+    "argv": [
+      "auth",
+      "login",
+      "--force",
+      "--browser=false",
+      "--device=false"
+    ],
+    "exitCode": 0,
+    "requests": []
+  },
+  {
+    "case": "global quiet",
+    "argv": [
+      "auth",
+      "login",
+      "--force",
+      "--quiet"
+    ],
+    "exitCode": 0,
+    "requests": []
+  },
+  {
+    "case": "global zone",
+    "argv": [
+      "auth",
+      "login",
+      "--force",
+      "--zone",
+      "abcdef0123456789abcdef0123456789"
+    ],
+    "exitCode": 0,
+    "requests": []
+  },
+  {
+    "case": "global profile and mode",
+    "argv": [
+      "auth",
+      "login",
+      "--force",
+      "--profile",
+      "default",
+      "--mode",
+      "regression"
+    ],
+    "exitCode": 1,
+    "error": "The --profile flag cannot be used with `cf auth login`. Run `cf auth create <name>` to authenticate a named profile.",
+    "requests": []
+  },
+  {
+    "case": "local",
+    "argv": [
+      "auth",
+      "login",
+      "--force",
+      "--local"
+    ],
+    "exitCode": 1,
+    "error": "--local is not supported by cf auth.",
+    "requests": []
+  },
+  {
+    "case": "local with persistence",
+    "argv": [
+      "auth",
+      "login",
+      "--force",
+      "--local",
+      "--persist-to",
+      "regression-state"
+    ],
+    "exitCode": 1,
+    "error": "--local is not supported by cf auth.",
+    "requests": []
+  },
+  {
+    "case": "dry-run",
+    "argv": [
+      "auth",
+      "login",
+      "--force",
+      "--dry-run"
+    ],
+    "exitCode": 0,
+    "requests": []
+  }
+]

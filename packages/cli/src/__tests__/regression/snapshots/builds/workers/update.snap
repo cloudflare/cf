@@ -1,0 +1,2086 @@
+[
+  {
+    "case": "no-args",
+    "argv": [
+      "builds",
+      "workers",
+      "update"
+    ],
+    "exitCode": 1,
+    "error": "Not enough non-option arguments: got 0, need at least 1",
+    "requests": []
+  },
+  {
+    "case": "required",
+    "argv": [
+      "builds",
+      "workers",
+      "update",
+      "192.0.2.1",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/builds/workers/192.0.2.1",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --patch-existing-previews",
+    "argv": [
+      "builds",
+      "workers",
+      "update",
+      "192.0.2.1",
+      "--patch-existing-previews",
+      "true"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/builds/workers/192.0.2.1?patch_existing_previews=true",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "2",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {}
+      }
+    ]
+  },
+  {
+    "case": "--patch-existing-previews value 1",
+    "argv": [
+      "builds",
+      "workers",
+      "update",
+      "192.0.2.1",
+      "--patch-existing-previews",
+      "false"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/builds/workers/192.0.2.1?patch_existing_previews=false",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "2",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {}
+      }
+    ]
+  },
+  {
+    "case": "only --git-repository-branch",
+    "argv": [
+      "builds",
+      "workers",
+      "update",
+      "192.0.2.1",
+      "--git-repository-branch",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/builds/workers/192.0.2.1",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "55",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "git_repository": {
+            "branch": "regression value &/?+ü"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --previews-base-config-build-caching-enabled",
+    "argv": [
+      "builds",
+      "workers",
+      "update",
+      "192.0.2.1",
+      "--previews-base-config-build-caching-enabled=true"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/builds/workers/192.0.2.1",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "55",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "previews_base_config": {
+            "build_caching_enabled": true
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "--previews-base-config-build-caching-enabled value 1",
+    "argv": [
+      "builds",
+      "workers",
+      "update",
+      "192.0.2.1",
+      "--previews-base-config-build-caching-enabled=false"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/builds/workers/192.0.2.1",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "56",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "previews_base_config": {
+            "build_caching_enabled": false
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --previews-base-config-build-command",
+    "argv": [
+      "builds",
+      "workers",
+      "update",
+      "192.0.2.1",
+      "--previews-base-config-build-command",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/builds/workers/192.0.2.1",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "68",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "previews_base_config": {
+            "build_command": "regression value &/?+ü"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --previews-base-config-build-token-uuid",
+    "argv": [
+      "builds",
+      "workers",
+      "update",
+      "192.0.2.1",
+      "--previews-base-config-build-token-uuid",
+      "0123456789abcdef0123456789abcdef"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/builds/workers/192.0.2.1",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "80",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "previews_base_config": {
+            "build_token_uuid": "0123456789abcdef0123456789abcdef"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --previews-base-config-deploy-command",
+    "argv": [
+      "builds",
+      "workers",
+      "update",
+      "192.0.2.1",
+      "--previews-base-config-deploy-command",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/builds/workers/192.0.2.1",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "69",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "previews_base_config": {
+            "deploy_command": "regression value &/?+ü"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --previews-base-config-path-excludes",
+    "argv": [
+      "builds",
+      "workers",
+      "update",
+      "192.0.2.1",
+      "--previews-base-config-path-excludes",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/builds/workers/192.0.2.1",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "70",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "previews_base_config": {
+            "path_excludes": [
+              "regression value &/?+ü"
+            ]
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --previews-base-config-path-includes",
+    "argv": [
+      "builds",
+      "workers",
+      "update",
+      "192.0.2.1",
+      "--previews-base-config-path-includes",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/builds/workers/192.0.2.1",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "70",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "previews_base_config": {
+            "path_includes": [
+              "regression value &/?+ü"
+            ]
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --previews-base-config-root-directory",
+    "argv": [
+      "builds",
+      "workers",
+      "update",
+      "192.0.2.1",
+      "--previews-base-config-root-directory",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/builds/workers/192.0.2.1",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "69",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "previews_base_config": {
+            "root_directory": "regression value &/?+ü"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --previews-enabled",
+    "argv": [
+      "builds",
+      "workers",
+      "update",
+      "192.0.2.1",
+      "--previews-enabled=true"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/builds/workers/192.0.2.1",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "25",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "previews_enabled": true
+        }
+      }
+    ]
+  },
+  {
+    "case": "--previews-enabled value 1",
+    "argv": [
+      "builds",
+      "workers",
+      "update",
+      "192.0.2.1",
+      "--previews-enabled=false"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/builds/workers/192.0.2.1",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "26",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "previews_enabled": false
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --production-settings-build-caching-enabled",
+    "argv": [
+      "builds",
+      "workers",
+      "update",
+      "192.0.2.1",
+      "--production-settings-build-caching-enabled=true"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/builds/workers/192.0.2.1",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "54",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "production_settings": {
+            "build_caching_enabled": true
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "--production-settings-build-caching-enabled value 1",
+    "argv": [
+      "builds",
+      "workers",
+      "update",
+      "192.0.2.1",
+      "--production-settings-build-caching-enabled=false"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/builds/workers/192.0.2.1",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "55",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "production_settings": {
+            "build_caching_enabled": false
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --production-settings-build-command",
+    "argv": [
+      "builds",
+      "workers",
+      "update",
+      "192.0.2.1",
+      "--production-settings-build-command",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/builds/workers/192.0.2.1",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "67",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "production_settings": {
+            "build_command": "regression value &/?+ü"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --production-settings-build-token-uuid",
+    "argv": [
+      "builds",
+      "workers",
+      "update",
+      "192.0.2.1",
+      "--production-settings-build-token-uuid",
+      "0123456789abcdef0123456789abcdef"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/builds/workers/192.0.2.1",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "79",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "production_settings": {
+            "build_token_uuid": "0123456789abcdef0123456789abcdef"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --production-settings-deploy-command",
+    "argv": [
+      "builds",
+      "workers",
+      "update",
+      "192.0.2.1",
+      "--production-settings-deploy-command",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/builds/workers/192.0.2.1",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "68",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "production_settings": {
+            "deploy_command": "regression value &/?+ü"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --production-settings-path-excludes",
+    "argv": [
+      "builds",
+      "workers",
+      "update",
+      "192.0.2.1",
+      "--production-settings-path-excludes",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/builds/workers/192.0.2.1",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "69",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "production_settings": {
+            "path_excludes": [
+              "regression value &/?+ü"
+            ]
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --production-settings-path-includes",
+    "argv": [
+      "builds",
+      "workers",
+      "update",
+      "192.0.2.1",
+      "--production-settings-path-includes",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/builds/workers/192.0.2.1",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "69",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "production_settings": {
+            "path_includes": [
+              "regression value &/?+ü"
+            ]
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --production-settings-root-directory",
+    "argv": [
+      "builds",
+      "workers",
+      "update",
+      "192.0.2.1",
+      "--production-settings-root-directory",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/builds/workers/192.0.2.1",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "68",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "production_settings": {
+            "root_directory": "regression value &/?+ü"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 0",
+    "argv": [
+      "builds",
+      "workers",
+      "update",
+      "192.0.2.1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/builds/workers/192.0.2.1",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "2",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {}
+      }
+    ]
+  },
+  {
+    "case": "pairwise 1",
+    "argv": [
+      "builds",
+      "workers",
+      "update",
+      "192.0.2.1",
+      "--patch-existing-previews",
+      "false",
+      "--git-repository-branch",
+      "second value &/?+ü",
+      "--previews-base-config-build-caching-enabled=false",
+      "--previews-base-config-build-command",
+      "second value &/?+ü",
+      "--previews-base-config-build-token-uuid",
+      "0123456789abcdef0123456789abcdef",
+      "--previews-base-config-deploy-command",
+      "second value &/?+ü",
+      "--previews-base-config-path-excludes",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--previews-base-config-path-includes",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--previews-base-config-root-directory",
+      "second value &/?+ü",
+      "--previews-enabled=false",
+      "--production-settings-build-caching-enabled=false",
+      "--production-settings-build-command",
+      "second value &/?+ü",
+      "--production-settings-build-token-uuid",
+      "0123456789abcdef0123456789abcdef",
+      "--production-settings-deploy-command",
+      "second value &/?+ü",
+      "--production-settings-path-excludes",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--production-settings-path-includes",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--production-settings-root-directory",
+      "second value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/builds/workers/192.0.2.1?patch_existing_previews=false",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "773",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "git_repository": {
+            "branch": "second value &/?+ü"
+          },
+          "previews_base_config": {
+            "build_caching_enabled": false,
+            "build_command": "second value &/?+ü",
+            "build_token_uuid": "0123456789abcdef0123456789abcdef",
+            "deploy_command": "second value &/?+ü",
+            "path_excludes": [
+              "second value &/?+ü",
+              "second value &/?+ü"
+            ],
+            "path_includes": [
+              "second value &/?+ü",
+              "second value &/?+ü"
+            ],
+            "root_directory": "second value &/?+ü"
+          },
+          "previews_enabled": false,
+          "production_settings": {
+            "build_caching_enabled": false,
+            "build_command": "second value &/?+ü",
+            "build_token_uuid": "0123456789abcdef0123456789abcdef",
+            "deploy_command": "second value &/?+ü",
+            "path_excludes": [
+              "second value &/?+ü",
+              "second value &/?+ü"
+            ],
+            "path_includes": [
+              "second value &/?+ü",
+              "second value &/?+ü"
+            ],
+            "root_directory": "second value &/?+ü"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 2",
+    "argv": [
+      "builds",
+      "workers",
+      "update",
+      "192.0.2.1",
+      "--git-repository-branch",
+      "regression value &/?+ü",
+      "--previews-base-config-build-command",
+      "regression value &/?+ü",
+      "--previews-base-config-deploy-command",
+      "regression value &/?+ü",
+      "--previews-base-config-path-includes",
+      "regression value &/?+ü",
+      "--previews-enabled=true",
+      "--production-settings-build-command",
+      "regression value &/?+ü",
+      "--production-settings-deploy-command",
+      "regression value &/?+ü",
+      "--production-settings-path-includes",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/builds/workers/192.0.2.1",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "386",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "git_repository": {
+            "branch": "regression value &/?+ü"
+          },
+          "previews_base_config": {
+            "build_command": "regression value &/?+ü",
+            "deploy_command": "regression value &/?+ü",
+            "path_includes": [
+              "regression value &/?+ü"
+            ]
+          },
+          "previews_enabled": true,
+          "production_settings": {
+            "build_command": "regression value &/?+ü",
+            "deploy_command": "regression value &/?+ü",
+            "path_includes": [
+              "regression value &/?+ü"
+            ]
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 3",
+    "argv": [
+      "builds",
+      "workers",
+      "update",
+      "192.0.2.1",
+      "--patch-existing-previews",
+      "false",
+      "--previews-base-config-build-caching-enabled=false",
+      "--previews-base-config-build-token-uuid",
+      "0123456789abcdef0123456789abcdef",
+      "--previews-base-config-path-excludes",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--previews-base-config-root-directory",
+      "second value &/?+ü",
+      "--production-settings-build-caching-enabled=false",
+      "--production-settings-build-token-uuid",
+      "0123456789abcdef0123456789abcdef",
+      "--production-settings-path-excludes",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--production-settings-root-directory",
+      "second value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/builds/workers/192.0.2.1?patch_existing_previews=false",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "420",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "previews_base_config": {
+            "build_caching_enabled": false,
+            "build_token_uuid": "0123456789abcdef0123456789abcdef",
+            "path_excludes": [
+              "second value &/?+ü",
+              "second value &/?+ü"
+            ],
+            "root_directory": "second value &/?+ü"
+          },
+          "production_settings": {
+            "build_caching_enabled": false,
+            "build_token_uuid": "0123456789abcdef0123456789abcdef",
+            "path_excludes": [
+              "second value &/?+ü",
+              "second value &/?+ü"
+            ],
+            "root_directory": "second value &/?+ü"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 4",
+    "argv": [
+      "builds",
+      "workers",
+      "update",
+      "192.0.2.1",
+      "--previews-base-config-build-caching-enabled=true",
+      "--previews-base-config-build-command",
+      "regression value &/?+ü",
+      "--previews-base-config-path-excludes",
+      "regression value &/?+ü",
+      "--previews-base-config-path-includes",
+      "regression value &/?+ü",
+      "--production-settings-build-caching-enabled=true",
+      "--production-settings-build-command",
+      "regression value &/?+ü",
+      "--production-settings-path-excludes",
+      "regression value &/?+ü",
+      "--production-settings-path-includes",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/builds/workers/192.0.2.1",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "368",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "previews_base_config": {
+            "build_caching_enabled": true,
+            "build_command": "regression value &/?+ü",
+            "path_excludes": [
+              "regression value &/?+ü"
+            ],
+            "path_includes": [
+              "regression value &/?+ü"
+            ]
+          },
+          "production_settings": {
+            "build_caching_enabled": true,
+            "build_command": "regression value &/?+ü",
+            "path_excludes": [
+              "regression value &/?+ü"
+            ],
+            "path_includes": [
+              "regression value &/?+ü"
+            ]
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 5",
+    "argv": [
+      "builds",
+      "workers",
+      "update",
+      "192.0.2.1",
+      "--patch-existing-previews",
+      "false",
+      "--git-repository-branch",
+      "second value &/?+ü",
+      "--previews-base-config-build-token-uuid",
+      "0123456789abcdef0123456789abcdef",
+      "--previews-base-config-deploy-command",
+      "second value &/?+ü",
+      "--previews-base-config-root-directory",
+      "second value &/?+ü",
+      "--previews-enabled=false",
+      "--production-settings-build-token-uuid",
+      "0123456789abcdef0123456789abcdef",
+      "--production-settings-deploy-command",
+      "second value &/?+ü",
+      "--production-settings-root-directory",
+      "second value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/builds/workers/192.0.2.1?patch_existing_previews=false",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "389",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "git_repository": {
+            "branch": "second value &/?+ü"
+          },
+          "previews_base_config": {
+            "build_token_uuid": "0123456789abcdef0123456789abcdef",
+            "deploy_command": "second value &/?+ü",
+            "root_directory": "second value &/?+ü"
+          },
+          "previews_enabled": false,
+          "production_settings": {
+            "build_token_uuid": "0123456789abcdef0123456789abcdef",
+            "deploy_command": "second value &/?+ü",
+            "root_directory": "second value &/?+ü"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 6",
+    "argv": [
+      "builds",
+      "workers",
+      "update",
+      "192.0.2.1",
+      "--previews-base-config-build-token-uuid",
+      "0123456789abcdef0123456789abcdef",
+      "--previews-base-config-deploy-command",
+      "regression value &/?+ü",
+      "--previews-base-config-path-excludes",
+      "regression value &/?+ü",
+      "--previews-base-config-path-includes",
+      "regression value &/?+ü",
+      "--production-settings-build-token-uuid",
+      "0123456789abcdef0123456789abcdef",
+      "--production-settings-deploy-command",
+      "regression value &/?+ü",
+      "--production-settings-path-excludes",
+      "regression value &/?+ü",
+      "--production-settings-path-includes",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/builds/workers/192.0.2.1",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "420",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "previews_base_config": {
+            "build_token_uuid": "0123456789abcdef0123456789abcdef",
+            "deploy_command": "regression value &/?+ü",
+            "path_excludes": [
+              "regression value &/?+ü"
+            ],
+            "path_includes": [
+              "regression value &/?+ü"
+            ]
+          },
+          "production_settings": {
+            "build_token_uuid": "0123456789abcdef0123456789abcdef",
+            "deploy_command": "regression value &/?+ü",
+            "path_excludes": [
+              "regression value &/?+ü"
+            ],
+            "path_includes": [
+              "regression value &/?+ü"
+            ]
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 7",
+    "argv": [
+      "builds",
+      "workers",
+      "update",
+      "192.0.2.1",
+      "--patch-existing-previews",
+      "false",
+      "--git-repository-branch",
+      "second value &/?+ü",
+      "--previews-base-config-build-caching-enabled=false",
+      "--previews-base-config-build-command",
+      "second value &/?+ü",
+      "--previews-base-config-root-directory",
+      "second value &/?+ü",
+      "--previews-enabled=false",
+      "--production-settings-build-caching-enabled=false",
+      "--production-settings-build-command",
+      "second value &/?+ü",
+      "--production-settings-root-directory",
+      "second value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/builds/workers/192.0.2.1?patch_existing_previews=false",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "339",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "git_repository": {
+            "branch": "second value &/?+ü"
+          },
+          "previews_base_config": {
+            "build_caching_enabled": false,
+            "build_command": "second value &/?+ü",
+            "root_directory": "second value &/?+ü"
+          },
+          "previews_enabled": false,
+          "production_settings": {
+            "build_caching_enabled": false,
+            "build_command": "second value &/?+ü",
+            "root_directory": "second value &/?+ü"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 8",
+    "argv": [
+      "builds",
+      "workers",
+      "update",
+      "192.0.2.1",
+      "--previews-base-config-root-directory",
+      "regression value &/?+ü",
+      "--previews-enabled=true",
+      "--production-settings-build-caching-enabled=true",
+      "--production-settings-build-command",
+      "regression value &/?+ü",
+      "--production-settings-build-token-uuid",
+      "0123456789abcdef0123456789abcdef",
+      "--production-settings-deploy-command",
+      "regression value &/?+ü",
+      "--production-settings-path-excludes",
+      "regression value &/?+ü",
+      "--production-settings-path-includes",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/builds/workers/192.0.2.1",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "373",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "previews_base_config": {
+            "root_directory": "regression value &/?+ü"
+          },
+          "previews_enabled": true,
+          "production_settings": {
+            "build_caching_enabled": true,
+            "build_command": "regression value &/?+ü",
+            "build_token_uuid": "0123456789abcdef0123456789abcdef",
+            "deploy_command": "regression value &/?+ü",
+            "path_excludes": [
+              "regression value &/?+ü"
+            ],
+            "path_includes": [
+              "regression value &/?+ü"
+            ]
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 9",
+    "argv": [
+      "builds",
+      "workers",
+      "update",
+      "192.0.2.1",
+      "--patch-existing-previews",
+      "false",
+      "--git-repository-branch",
+      "second value &/?+ü",
+      "--previews-base-config-build-caching-enabled=false",
+      "--previews-base-config-build-command",
+      "second value &/?+ü",
+      "--previews-base-config-build-token-uuid",
+      "0123456789abcdef0123456789abcdef",
+      "--previews-base-config-deploy-command",
+      "second value &/?+ü",
+      "--previews-base-config-path-excludes",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--previews-base-config-path-includes",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--production-settings-root-directory",
+      "second value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/builds/workers/192.0.2.1?patch_existing_previews=false",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "424",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "git_repository": {
+            "branch": "second value &/?+ü"
+          },
+          "previews_base_config": {
+            "build_caching_enabled": false,
+            "build_command": "second value &/?+ü",
+            "build_token_uuid": "0123456789abcdef0123456789abcdef",
+            "deploy_command": "second value &/?+ü",
+            "path_excludes": [
+              "second value &/?+ü",
+              "second value &/?+ü"
+            ],
+            "path_includes": [
+              "second value &/?+ü",
+              "second value &/?+ü"
+            ]
+          },
+          "production_settings": {
+            "root_directory": "second value &/?+ü"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 11",
+    "argv": [
+      "builds",
+      "workers",
+      "update",
+      "192.0.2.1",
+      "--patch-existing-previews",
+      "false",
+      "--git-repository-branch",
+      "second value &/?+ü",
+      "--previews-base-config-build-caching-enabled=false",
+      "--previews-base-config-build-command",
+      "second value &/?+ü",
+      "--previews-base-config-build-token-uuid",
+      "0123456789abcdef0123456789abcdef",
+      "--previews-base-config-deploy-command",
+      "second value &/?+ü",
+      "--previews-base-config-path-excludes",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--previews-base-config-path-includes",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--previews-base-config-root-directory",
+      "second value &/?+ü",
+      "--previews-enabled=false",
+      "--production-settings-build-caching-enabled=false",
+      "--production-settings-build-command",
+      "second value &/?+ü",
+      "--production-settings-build-token-uuid",
+      "0123456789abcdef0123456789abcdef",
+      "--production-settings-deploy-command",
+      "second value &/?+ü",
+      "--production-settings-path-excludes",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--production-settings-path-includes",
+      "second value &/?+ü",
+      "second value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/builds/workers/192.0.2.1?patch_existing_previews=false",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "734",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "git_repository": {
+            "branch": "second value &/?+ü"
+          },
+          "previews_base_config": {
+            "build_caching_enabled": false,
+            "build_command": "second value &/?+ü",
+            "build_token_uuid": "0123456789abcdef0123456789abcdef",
+            "deploy_command": "second value &/?+ü",
+            "path_excludes": [
+              "second value &/?+ü",
+              "second value &/?+ü"
+            ],
+            "path_includes": [
+              "second value &/?+ü",
+              "second value &/?+ü"
+            ],
+            "root_directory": "second value &/?+ü"
+          },
+          "previews_enabled": false,
+          "production_settings": {
+            "build_caching_enabled": false,
+            "build_command": "second value &/?+ü",
+            "build_token_uuid": "0123456789abcdef0123456789abcdef",
+            "deploy_command": "second value &/?+ü",
+            "path_excludes": [
+              "second value &/?+ü",
+              "second value &/?+ü"
+            ],
+            "path_includes": [
+              "second value &/?+ü",
+              "second value &/?+ü"
+            ]
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "global quiet",
+    "argv": [
+      "builds",
+      "workers",
+      "update",
+      "192.0.2.1",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--quiet"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/builds/workers/192.0.2.1",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "global zone",
+    "argv": [
+      "builds",
+      "workers",
+      "update",
+      "192.0.2.1",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--zone",
+      "abcdef0123456789abcdef0123456789"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/builds/workers/192.0.2.1",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "global profile and mode",
+    "argv": [
+      "builds",
+      "workers",
+      "update",
+      "192.0.2.1",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--profile",
+      "default",
+      "--mode",
+      "regression"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/builds/workers/192.0.2.1",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "local",
+    "argv": [
+      "builds",
+      "workers",
+      "update",
+      "192.0.2.1",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--local"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "http://localhost/cdn-cgi/local/explorer/api/builds/workers/192.0.2.1",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "gzip, deflate",
+          "accept-language": "*",
+          "connection": "keep-alive",
+          "content-type": "application/json",
+          "host": "localhost",
+          "sec-fetch-mode": "cors",
+          "transfer-encoding": "chunked",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "local with persistence",
+    "argv": [
+      "builds",
+      "workers",
+      "update",
+      "192.0.2.1",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--local",
+      "--persist-to",
+      "regression-state"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "http://localhost/cdn-cgi/local/explorer/api/builds/workers/192.0.2.1",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "gzip, deflate",
+          "accept-language": "*",
+          "connection": "keep-alive",
+          "content-type": "application/json",
+          "host": "localhost",
+          "sec-fetch-mode": "cors",
+          "transfer-encoding": "chunked",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "dry-run",
+    "argv": [
+      "builds",
+      "workers",
+      "update",
+      "192.0.2.1",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--dry-run"
+    ],
+    "exitCode": 0,
+    "requests": []
+  },
+  {
+    "case": "body from file",
+    "argv": [
+      "builds",
+      "workers",
+      "update",
+      "192.0.2.1",
+      "--body",
+      "@<body.json>"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/builds/workers/192.0.2.1",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "array body",
+    "argv": [
+      "builds",
+      "workers",
+      "update",
+      "192.0.2.1",
+      "--body",
+      "[{\"regression\":\"first\"},{\"regression\":\"second\"}]"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/builds/workers/192.0.2.1",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "56",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "0": {
+            "regression": "first"
+          },
+          "1": {
+            "regression": "second"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "field flags",
+    "argv": [
+      "builds",
+      "workers",
+      "update",
+      "192.0.2.1",
+      "--patch-existing-previews",
+      "true",
+      "--git-repository-branch",
+      "regression value &/?+ü",
+      "--previews-base-config-build-caching-enabled=true",
+      "--previews-base-config-build-command",
+      "regression value &/?+ü",
+      "--previews-base-config-build-token-uuid",
+      "0123456789abcdef0123456789abcdef",
+      "--previews-base-config-deploy-command",
+      "regression value &/?+ü",
+      "--previews-base-config-path-excludes",
+      "regression value &/?+ü",
+      "--previews-base-config-path-includes",
+      "regression value &/?+ü",
+      "--previews-base-config-root-directory",
+      "regression value &/?+ü",
+      "--previews-enabled=true",
+      "--production-settings-build-caching-enabled=true",
+      "--production-settings-build-command",
+      "regression value &/?+ü",
+      "--production-settings-build-token-uuid",
+      "0123456789abcdef0123456789abcdef",
+      "--production-settings-deploy-command",
+      "regression value &/?+ü",
+      "--production-settings-path-excludes",
+      "regression value &/?+ü",
+      "--production-settings-path-includes",
+      "regression value &/?+ü",
+      "--production-settings-root-directory",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/builds/workers/192.0.2.1?patch_existing_previews=true",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "726",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "git_repository": {
+            "branch": "regression value &/?+ü"
+          },
+          "previews_base_config": {
+            "build_caching_enabled": true,
+            "build_command": "regression value &/?+ü",
+            "build_token_uuid": "0123456789abcdef0123456789abcdef",
+            "deploy_command": "regression value &/?+ü",
+            "path_excludes": [
+              "regression value &/?+ü"
+            ],
+            "path_includes": [
+              "regression value &/?+ü"
+            ],
+            "root_directory": "regression value &/?+ü"
+          },
+          "previews_enabled": true,
+          "production_settings": {
+            "build_caching_enabled": true,
+            "build_command": "regression value &/?+ü",
+            "build_token_uuid": "0123456789abcdef0123456789abcdef",
+            "deploy_command": "regression value &/?+ü",
+            "path_excludes": [
+              "regression value &/?+ü"
+            ],
+            "path_includes": [
+              "regression value &/?+ü"
+            ],
+            "root_directory": "regression value &/?+ü"
+          }
+        }
+      }
+    ]
+  }
+]

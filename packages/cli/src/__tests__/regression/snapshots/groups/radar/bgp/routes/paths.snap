@@ -1,0 +1,9 @@
+{
+  "argv": [
+    "radar",
+    "bgp",
+    "routes",
+    "paths"
+  ],
+  "requests": []
+}

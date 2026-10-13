@@ -1,0 +1,483 @@
+[
+  {
+    "case": "no-args",
+    "argv": [
+      "workflows",
+      "instances",
+      "step",
+      "get"
+    ],
+    "exitCode": 1,
+    "error": "Not enough non-option arguments: got 0, need at least 1",
+    "requests": []
+  },
+  {
+    "case": "required",
+    "argv": [
+      "workflows",
+      "instances",
+      "step",
+      "get",
+      "0123456789abcdef0123456789abcdef",
+      "--workflow-name",
+      "regression value &/?+ü",
+      "--name",
+      "regression value &/?+ü",
+      "--type",
+      "step"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/workflows/regression%20value%20%26%2F%3F%2B%C3%BC/instances/0123456789abcdef0123456789abcdef/step?name=regression+value+%26%2F%3F%2B%C3%BC&type=step",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "only --attempt",
+    "argv": [
+      "workflows",
+      "instances",
+      "step",
+      "get",
+      "0123456789abcdef0123456789abcdef",
+      "--workflow-name",
+      "regression value &/?+ü",
+      "--name",
+      "regression value &/?+ü",
+      "--type",
+      "step",
+      "--attempt",
+      "1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/workflows/regression%20value%20%26%2F%3F%2B%C3%BC/instances/0123456789abcdef0123456789abcdef/step?name=regression+value+%26%2F%3F%2B%C3%BC&type=step&attempt=1",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "only --text",
+    "argv": [
+      "workflows",
+      "instances",
+      "step",
+      "get",
+      "0123456789abcdef0123456789abcdef",
+      "--workflow-name",
+      "regression value &/?+ü",
+      "--name",
+      "regression value &/?+ü",
+      "--type",
+      "step",
+      "--text=true"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/workflows/regression%20value%20%26%2F%3F%2B%C3%BC/instances/0123456789abcdef0123456789abcdef/step?name=regression+value+%26%2F%3F%2B%C3%BC&type=step",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "--text value 1",
+    "argv": [
+      "workflows",
+      "instances",
+      "step",
+      "get",
+      "0123456789abcdef0123456789abcdef",
+      "--workflow-name",
+      "regression value &/?+ü",
+      "--name",
+      "regression value &/?+ü",
+      "--type",
+      "step",
+      "--text=false"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/workflows/regression%20value%20%26%2F%3F%2B%C3%BC/instances/0123456789abcdef0123456789abcdef/step?name=regression+value+%26%2F%3F%2B%C3%BC&type=step",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "required --type value 1",
+    "argv": [
+      "workflows",
+      "instances",
+      "step",
+      "get",
+      "0123456789abcdef0123456789abcdef",
+      "--workflow-name",
+      "regression value &/?+ü",
+      "--name",
+      "regression value &/?+ü",
+      "--type",
+      "waitForEvent"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/workflows/regression%20value%20%26%2F%3F%2B%C3%BC/instances/0123456789abcdef0123456789abcdef/step?name=regression+value+%26%2F%3F%2B%C3%BC&type=waitForEvent",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "pairwise 1",
+    "argv": [
+      "workflows",
+      "instances",
+      "step",
+      "get",
+      "0123456789abcdef0123456789abcdef",
+      "--workflow-name",
+      "regression value &/?+ü",
+      "--name",
+      "regression value &/?+ü",
+      "--type",
+      "step",
+      "--attempt",
+      "2",
+      "--text=false"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/workflows/regression%20value%20%26%2F%3F%2B%C3%BC/instances/0123456789abcdef0123456789abcdef/step?name=regression+value+%26%2F%3F%2B%C3%BC&type=step&attempt=2",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "pairwise 3",
+    "argv": [
+      "workflows",
+      "instances",
+      "step",
+      "get",
+      "0123456789abcdef0123456789abcdef",
+      "--workflow-name",
+      "regression value &/?+ü",
+      "--name",
+      "regression value &/?+ü",
+      "--type",
+      "step",
+      "--attempt",
+      "2"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/workflows/regression%20value%20%26%2F%3F%2B%C3%BC/instances/0123456789abcdef0123456789abcdef/step?name=regression+value+%26%2F%3F%2B%C3%BC&type=step&attempt=2",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "global quiet",
+    "argv": [
+      "workflows",
+      "instances",
+      "step",
+      "get",
+      "0123456789abcdef0123456789abcdef",
+      "--workflow-name",
+      "regression value &/?+ü",
+      "--name",
+      "regression value &/?+ü",
+      "--type",
+      "step",
+      "--quiet"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/workflows/regression%20value%20%26%2F%3F%2B%C3%BC/instances/0123456789abcdef0123456789abcdef/step?name=regression+value+%26%2F%3F%2B%C3%BC&type=step",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "global zone",
+    "argv": [
+      "workflows",
+      "instances",
+      "step",
+      "get",
+      "0123456789abcdef0123456789abcdef",
+      "--workflow-name",
+      "regression value &/?+ü",
+      "--name",
+      "regression value &/?+ü",
+      "--type",
+      "step",
+      "--zone",
+      "abcdef0123456789abcdef0123456789"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/workflows/regression%20value%20%26%2F%3F%2B%C3%BC/instances/0123456789abcdef0123456789abcdef/step?name=regression+value+%26%2F%3F%2B%C3%BC&type=step",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "global profile and mode",
+    "argv": [
+      "workflows",
+      "instances",
+      "step",
+      "get",
+      "0123456789abcdef0123456789abcdef",
+      "--workflow-name",
+      "regression value &/?+ü",
+      "--name",
+      "regression value &/?+ü",
+      "--type",
+      "step",
+      "--profile",
+      "default",
+      "--mode",
+      "regression"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/workflows/regression%20value%20%26%2F%3F%2B%C3%BC/instances/0123456789abcdef0123456789abcdef/step?name=regression+value+%26%2F%3F%2B%C3%BC&type=step",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "local",
+    "argv": [
+      "workflows",
+      "instances",
+      "step",
+      "get",
+      "0123456789abcdef0123456789abcdef",
+      "--workflow-name",
+      "regression value &/?+ü",
+      "--name",
+      "regression value &/?+ü",
+      "--type",
+      "step",
+      "--local"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "http://localhost/cdn-cgi/local/explorer/api/workflows/regression%20value%20%26%2F%3F%2B%C3%BC/instances/0123456789abcdef0123456789abcdef/step?name=regression+value+%26%2F%3F%2B%C3%BC&type=step",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "gzip, deflate",
+          "accept-language": "*",
+          "connection": "keep-alive",
+          "host": "localhost",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "local with persistence",
+    "argv": [
+      "workflows",
+      "instances",
+      "step",
+      "get",
+      "0123456789abcdef0123456789abcdef",
+      "--workflow-name",
+      "regression value &/?+ü",
+      "--name",
+      "regression value &/?+ü",
+      "--type",
+      "step",
+      "--local",
+      "--persist-to",
+      "regression-state"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "http://localhost/cdn-cgi/local/explorer/api/workflows/regression%20value%20%26%2F%3F%2B%C3%BC/instances/0123456789abcdef0123456789abcdef/step?name=regression+value+%26%2F%3F%2B%C3%BC&type=step",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "gzip, deflate",
+          "accept-language": "*",
+          "connection": "keep-alive",
+          "host": "localhost",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "dry-run",
+    "argv": [
+      "workflows",
+      "instances",
+      "step",
+      "get",
+      "0123456789abcdef0123456789abcdef",
+      "--workflow-name",
+      "regression value &/?+ü",
+      "--name",
+      "regression value &/?+ü",
+      "--type",
+      "step",
+      "--dry-run"
+    ],
+    "exitCode": 0,
+    "requests": []
+  }
+]

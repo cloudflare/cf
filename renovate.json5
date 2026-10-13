@@ -36,15 +36,15 @@
 				"wrangler",
 			],
 			enabled: true,
-			groupName: "workers-sdk",
+			groupName: "workers-sdk derived dependencies",
 			groupSlug: "workers-sdk",
 			minimumReleaseAge: "0 minutes",
 			schedule: ["at any time"],
 		},
 		{
-			description: "Follow Miniflare's latest release",
+			description: "Follow Miniflare's beta release",
 			matchPackageNames: ["miniflare"],
-			followTag: "latest",
+			followTag: "beta",
 		},
 		{
 			description: "Update the Vite plugin beta",

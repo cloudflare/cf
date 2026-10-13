@@ -674,12 +674,8 @@ export function buildCli(rawArgs: string[], options: BuildCliOptions = {}) {
 					temporaryAccount,
 					eventCode === undefined ? undefined : { eventCode }
 				);
-				// Temporary accounts still check the resolved profile for existing
-				// credentials, but they don't use that profile.
 				const profile = resolveProfile(argv.profile);
-				if (!temporaryAccount) {
-					printActiveProfileLine(profile);
-				}
+				printActiveProfileLine(profile);
 			}
 		})
 		.demandCommand(1, "You need to specify a command")

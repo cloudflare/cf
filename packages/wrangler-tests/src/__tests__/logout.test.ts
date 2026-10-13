@@ -32,14 +32,13 @@ describe("logout", () => {
 	runInTempDir();
 	const std = mockConsoleMethods();
 
-	// cf's `loadTokens()` / `loadApiToken()` now resolve their paths via
-	// `homedir()` at call time, so `runInTempDir()`'s HOME stub correctly
-	// isolates token reads to the empty temp directory.
+	// cf shares Wrangler's workers-auth logout messages, but its auth logger
+	// writes them to stderr.
 	it("should exit with a message stating the user is not logged in", async ({
 		expect,
 	}) => {
 		await runWrangler("auth logout", { CLOUDFLARE_API_TOKEN: undefined });
-		expect(std.out).toContain("You are not currently logged in.");
+		expect(std.err).toContain("Not logged in, exiting...");
 	});
 
 	it("should clear a cached temporary preview account when not logged in via OAuth", async ({
@@ -49,21 +48,18 @@ describe("logout", () => {
 
 		await runWrangler("auth logout", { CLOUDFLARE_API_TOKEN: undefined });
 
-		expect(std.out).toContain("Cleared temporary preview account.");
-		expect(std.out).not.toContain("You are not currently logged in.");
+		expect(std.err).toContain("Cleared temporary preview account.");
+		expect(std.err).not.toContain("Not logged in, exiting...");
 		expect(existsSync(temporaryAccountCachePath())).toBe(false);
 	});
 
-	// Env `CLOUDFLARE_API_TOKEN` set with no on-disk credentials in the
-	// stubbed HOME: cf prints the env-var hint and exits cleanly.
 	it("should exit with a message stating the user logged in via API token", async ({
 		expect,
 	}) => {
 		await runWrangler("auth logout", { CLOUDFLARE_API_TOKEN: "DUMMY_TOKEN" });
-		expect(std.out).toContain(
-			"No cf OAuth credentials found, but CLOUDFLARE_API_TOKEN environment variable is set."
+		expect(std.err).toContain(
+			"You are logged in with an API Token. Unset the CLOUDFLARE_API_TOKEN in the environment to log out."
 		);
-		expect(std.out).toContain("Unset it with: unset CLOUDFLARE_API_TOKEN");
 	});
 
 	// Ported now that token paths resolve via `homedir()` at call time
@@ -107,8 +103,7 @@ describe("logout", () => {
 
 		await runWrangler("auth logout", { CLOUDFLARE_API_TOKEN: undefined });
 
-		// cf reports the credential kind and path that it removed.
-		expect(std.out).toContain("Removed: OAuth tokens from");
+		expect(std.err).toContain("Successfully logged out.");
 		// The refresh token was sent to the revocation endpoint.
 		expect(revoked).toBe(true);
 		// And the on-disk token file was removed.

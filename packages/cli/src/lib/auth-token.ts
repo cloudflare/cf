@@ -1,11 +1,10 @@
 import { getAuthFromEnv } from "@cloudflare/workers-auth";
 import { MissingCredentialsError } from "./errors.js";
 import {
-	activateTemporaryAccount,
 	getValidToken as getOAuthToken,
-	getTemporaryAccountApiToken,
 	isOAuthLoggedIn,
 	isTemporaryAccountAllowed,
+	requireTemporaryAccount,
 } from "./oauth/index.js";
 
 /**
@@ -22,12 +21,7 @@ import {
  */
 export async function getAuthToken(): Promise<string> {
 	if (isTemporaryAccountAllowed()) {
-		await activateTemporaryAccount();
-		const temporaryToken = getTemporaryAccountApiToken();
-		if (!temporaryToken) {
-			throw new Error("The temporary account has no API token.");
-		}
-		return temporaryToken;
+		return (await requireTemporaryAccount()).apiToken;
 	}
 
 	// Environment credential (scoped API token only).

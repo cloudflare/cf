@@ -1,12 +1,5 @@
-import {
-	clearTemporaryAccount,
-	getActiveProfile,
-	getConfigPath,
-	isOAuthLoggedIn,
-	logout,
-	setProfile,
-} from "../../lib/oauth/index.js";
-import { hint, info, theme, warning } from "../../lib/ui/index.js";
+import { getActiveProfile, logout } from "../../lib/oauth/index.js";
+import { warning } from "../../lib/ui/index.js";
 import { assertNoProfileFlag } from "./profiles.js";
 import type { CommonYargsOptions } from "../../lib/cli-types.js";
 import type { CommandModule } from "yargs";
@@ -33,51 +26,7 @@ const logoutCommand: CommandModule<object, CommonYargsOptions> = {
 			);
 		}
 
-		setProfile("default");
-
-		const hasOAuthTokens = isOAuthLoggedIn();
-		const hasEnvToken = !!process.env.CLOUDFLARE_API_TOKEN;
-
-		if (!hasOAuthTokens) {
-			const clearedTemporaryAccount = clearTemporaryAccount();
-			if (clearedTemporaryAccount) {
-				console.log(info("Cleared temporary preview account."));
-			}
-			if (hasEnvToken) {
-				console.log(
-					info(
-						"No cf OAuth credentials found, but CLOUDFLARE_API_TOKEN environment variable is set."
-					)
-				);
-				console.log(info("Unset it with: unset CLOUDFLARE_API_TOKEN"));
-			} else if (!clearedTemporaryAccount) {
-				console.log(info("You are not currently logged in."));
-				console.log(
-					hint(`Run ${theme.code("cf auth login")} to authenticate.`)
-				);
-			}
-			return;
-		}
-
-		console.log(info("Logging out..."));
-
 		await logout("default");
-
-		console.log(
-			`${theme.info("Removed:")} OAuth tokens from ${theme.muted(getConfigPath())}`
-		);
-
-		if (hasEnvToken) {
-			console.log("");
-			console.log(
-				warning("CLOUDFLARE_API_TOKEN environment variable is still set.")
-			);
-			console.log(
-				info(
-					"You will remain authenticated via the env var. Unset it with: unset CLOUDFLARE_API_TOKEN"
-				)
-			);
-		}
 	},
 };
 

@@ -78,10 +78,6 @@ vi.mock("tinyexec", () => ({
 		throw new Error("Regression fixture has no external executable");
 	},
 }));
-vi.mock("node:child_process", async (importOriginal) => ({
-	...(await importOriginal<Record<string, unknown>>()),
-	...(await import("./platform.js")),
-}));
 
 export function regressionShard(shard: number): void {
 	describe(`HTTP regression shard ${shard + 1}`, () => {

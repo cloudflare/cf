@@ -11,9 +11,7 @@ pnpm --filter cf test:regression --shard=2/2
 ```
 
 Install against the frozen lockfile and run `pnpm generate` first when preparing
-a fresh checkout. The dedicated runner includes Vitest startup in a hard
-180-second wall-time deadline and terminates the process tree when it expires.
-The suite uses six worker forks across twelve balanced command files. Each fork
+a fresh checkout. The suite uses six worker forks across twelve balanced command files. Each fork
 owns its temporary working directory, MSW interceptor, credentials and state;
 each command owns its snapshot, so files can run in parallel or on separate CI
 shards. Arguments after `test:regression` go directly to Vitest.
@@ -22,7 +20,9 @@ shards. Arguments after `test:regression` go directly to Vitest.
 intermediate command groups from the generated source. It omits `cf auth`,
 `cf build`, `cf deploy` and `cf dev`, including the hidden `cf login` alias, because their
 credential and local-project setup adds complexity without useful request-shape
-coverage. Every remaining leaf and group runs without arguments. Leaves also run
+coverage. It also omits `cf containers build`, `cf containers push` and
+`cf containers ssh`, which start Docker or SSH. Every remaining leaf and group
+runs without arguments. Leaves also run
 with required arguments, individual optional flags, all enum choices, both
 boolean values, pairwise flag presence/absence, alternate positional values,
 aliases, global flags, local mode, raw/file/array bodies and derived body fields.
@@ -36,8 +36,8 @@ Invocations use deterministic dummy API-token credentials in the environment.
 `workflows.ts` supplies original local project fixtures and response shapes for
 multi-request workflows. Generated commands must reach their declared method
 and endpoint, and API-backed
-hand-written workflows must reach their main endpoint. Docker, SSH, cloudflared,
-project subprocesses, installs, native profiling and the Miniflare process are
+hand-written workflows must reach their main endpoint. Cloudflared, project
+subprocesses, installs, native profiling and the Miniflare process are
 replaced at their OS boundary. Local request rewriting remains real. These
 snapshots cover the CLI's HTTP behavior, not those external programs.
 

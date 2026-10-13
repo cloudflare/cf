@@ -14,7 +14,7 @@ export default [
 				position: 0,
 				type: "string",
 				required: false,
-				description: "Arguments forwarded to the dev-server implementation",
+				description: "Arguments forwarded to the selected development server",
 			},
 		],
 		options: [

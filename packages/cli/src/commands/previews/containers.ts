@@ -6,20 +6,23 @@ import {
 	pushBuiltContainerImage,
 	pushImageIfChanged,
 } from "@cloudflare/containers-shared";
-import { getDockerPath } from "@cloudflare/workers-utils";
+import { configFileName, getDockerPath } from "@cloudflare/workers-utils";
 import type {
 	ContainerNormalizedConfig,
 	ImageRef,
 } from "@cloudflare/containers-shared";
 import type {
 	ContainerDeployConfig,
-	PreviewCallbacks,
+	PreviewOptions,
 } from "@cloudflare/deploy-helpers";
 import type { Config } from "@cloudflare/workers-utils";
 
 export function createPreviewContainerCallbacks(
 	containerDeployConfig: ContainerDeployConfig
-): PreviewCallbacks {
+): Pick<
+	PreviewOptions,
+	"getNormalizedContainerOptions" | "deployPreviewContainers"
+> {
 	return {
 		getNormalizedContainerOptions: async (config) =>
 			containerDeployConfig.standard.normalized.map((container) => ({
@@ -77,7 +80,16 @@ export function createPreviewContainerCallbacks(
 						options.localImageReferences?.get(container.class_name)
 					);
 					await apply(
-						{ imageRef, durable_object_namespace_id: namespaceId },
+						{
+							imageRef,
+							durable_object_namespace_id: namespaceId,
+							configFileName: configFileName(
+								config.configPath,
+								config.userConfigPath
+							),
+							observabilityTargetPercentageField: "targetInstancePercentage",
+							observabilityTargetCountField: "targetInstanceCount",
+						},
 						container,
 						config,
 						accountId

@@ -142,7 +142,14 @@ export function createTriggerProps(
 	config: Config,
 	accountId: string | undefined,
 	argv: { "dry-run": boolean }
-): TriggerProps {
+): Omit<
+	TriggerProps,
+	| "queueCreateCommand"
+	| "workersDevConfigFieldName"
+	| "workersDevConfigAssignment"
+	| "previewUrlsConfigFieldName"
+	| "previewUrlsConfigAssignment"
+> {
 	return {
 		config,
 		accountId,

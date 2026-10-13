@@ -105,9 +105,15 @@ async function deployTriggers(argv: TriggersDeployArgs): Promise<void> {
 		symbol: theme.muted("\u251C"),
 		spacing: 0,
 	});
-	await triggersDeploy(
-		createTriggerProps(worker, wranglerConfig, accountId, argv)
-	);
+	await triggersDeploy({
+		...createTriggerProps(worker, wranglerConfig, accountId, argv),
+		queueCreateCommand: (queueName) =>
+			`cf queues create --queue-name ${queueName}`,
+		workersDevConfigFieldName: "workersDev",
+		workersDevConfigAssignment: (value) => `workersDev: ${value}`,
+		previewUrlsConfigFieldName: "previewUrls",
+		previewUrlsConfigAssignment: (value) => `previewUrls: ${value}`,
+	});
 	if (!argv["dry-run"]) {
 		clack.log.success("Trigger deploy complete");
 	}

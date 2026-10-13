@@ -66,14 +66,17 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			authToken,
 			getCloudflareApiBaseUrl(complianceConfig)
 		);
-		await sshCommand({
-			...argv,
-			id: argv.id,
-			command: [
-				...(argv["ssh-command"] ?? []),
-				...(Array.isArray(argv["--"]) ? argv["--"].map(String) : []),
-			],
-		});
+		await sshCommand(
+			{
+				...argv,
+				id: argv.id,
+				command: [
+					...(argv["ssh-command"] ?? []),
+					...(Array.isArray(argv["--"]) ? argv["--"].map(String) : []),
+				],
+			},
+			"cf"
+		);
 	},
 };
 

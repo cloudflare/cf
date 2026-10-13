@@ -1,0 +1,95 @@
+[
+  {
+    "case": "no-args",
+    "argv": [
+      "pages",
+      "deploy"
+    ],
+    "exitCode": 1,
+    "requests": []
+  },
+  {
+    "case": "required",
+    "argv": [
+      "pages",
+      "deploy",
+      "project"
+    ],
+    "exitCode": 1,
+    "requests": []
+  },
+  {
+    "case": "global quiet",
+    "argv": [
+      "pages",
+      "deploy",
+      "project",
+      "--quiet"
+    ],
+    "exitCode": 1,
+    "requests": []
+  },
+  {
+    "case": "global zone",
+    "argv": [
+      "pages",
+      "deploy",
+      "project",
+      "--zone",
+      "abcdef0123456789abcdef0123456789"
+    ],
+    "exitCode": 1,
+    "requests": []
+  },
+  {
+    "case": "global profile and mode",
+    "argv": [
+      "pages",
+      "deploy",
+      "project",
+      "--profile",
+      "default",
+      "--mode",
+      "regression"
+    ],
+    "exitCode": 1,
+    "requests": []
+  },
+  {
+    "case": "local",
+    "argv": [
+      "pages",
+      "deploy",
+      "project",
+      "--local"
+    ],
+    "exitCode": 1,
+    "error": "--local is not supported by cf pages deploy.",
+    "requests": []
+  },
+  {
+    "case": "local with persistence",
+    "argv": [
+      "pages",
+      "deploy",
+      "project",
+      "--local",
+      "--persist-to",
+      "regression-state"
+    ],
+    "exitCode": 1,
+    "error": "--local is not supported by cf pages deploy.",
+    "requests": []
+  },
+  {
+    "case": "dry-run",
+    "argv": [
+      "pages",
+      "deploy",
+      "project",
+      "--dry-run"
+    ],
+    "exitCode": 0,
+    "requests": []
+  }
+]

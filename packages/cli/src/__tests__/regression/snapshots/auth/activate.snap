@@ -1,0 +1,119 @@
+[
+  {
+    "case": "no-args",
+    "argv": [
+      "auth",
+      "activate"
+    ],
+    "exitCode": 1,
+    "error": "Not enough non-option arguments: got 0, need at least 1",
+    "requests": []
+  },
+  {
+    "case": "required",
+    "argv": [
+      "auth",
+      "activate",
+      "regression value &/?+ü",
+      "project"
+    ],
+    "exitCode": 1,
+    "error": "Cannot manage auth profiles while CLOUDFLARE_API_TOKEN is set. Unset CLOUDFLARE_API_TOKEN and try again.",
+    "requests": []
+  },
+  {
+    "case": "global quiet",
+    "argv": [
+      "auth",
+      "activate",
+      "regression value &/?+ü",
+      "project",
+      "--quiet"
+    ],
+    "exitCode": 1,
+    "error": "Cannot manage auth profiles while CLOUDFLARE_API_TOKEN is set. Unset CLOUDFLARE_API_TOKEN and try again.",
+    "requests": []
+  },
+  {
+    "case": "global zone",
+    "argv": [
+      "auth",
+      "activate",
+      "regression value &/?+ü",
+      "project",
+      "--zone",
+      "abcdef0123456789abcdef0123456789"
+    ],
+    "exitCode": 1,
+    "error": "Cannot manage auth profiles while CLOUDFLARE_API_TOKEN is set. Unset CLOUDFLARE_API_TOKEN and try again.",
+    "requests": []
+  },
+  {
+    "case": "global profile and mode",
+    "argv": [
+      "auth",
+      "activate",
+      "regression value &/?+ü",
+      "project",
+      "--profile",
+      "default",
+      "--mode",
+      "regression"
+    ],
+    "exitCode": 1,
+    "error": "The --profile flag cannot be used with `cf auth activate`. Pass the profile name as the command argument: `cf auth activate <name>`.",
+    "requests": []
+  },
+  {
+    "case": "local",
+    "argv": [
+      "auth",
+      "activate",
+      "regression value &/?+ü",
+      "project",
+      "--local"
+    ],
+    "exitCode": 1,
+    "error": "--local is not supported by cf auth.",
+    "requests": []
+  },
+  {
+    "case": "local with persistence",
+    "argv": [
+      "auth",
+      "activate",
+      "regression value &/?+ü",
+      "project",
+      "--local",
+      "--persist-to",
+      "regression-state"
+    ],
+    "exitCode": 1,
+    "error": "--local is not supported by cf auth.",
+    "requests": []
+  },
+  {
+    "case": "dry-run",
+    "argv": [
+      "auth",
+      "activate",
+      "regression value &/?+ü",
+      "project",
+      "--dry-run"
+    ],
+    "exitCode": 0,
+    "requests": []
+  },
+  {
+    "case": "alternate <name>",
+    "argv": [
+      "auth",
+      "activate",
+      "second value &/?+ü",
+      "project"
+    ],
+    "exitCode": 1,
+    "error": "Cannot manage auth profiles while CLOUDFLARE_API_TOKEN is set. Unset CLOUDFLARE_API_TOKEN and try again.",
+    "requests": []
+  }
+]

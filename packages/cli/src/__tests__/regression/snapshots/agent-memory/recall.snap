@@ -1,0 +1,963 @@
+[
+  {
+    "case": "no-args",
+    "argv": [
+      "agent-memory",
+      "recall"
+    ],
+    "exitCode": 1,
+    "error": "Not enough non-option arguments: got 0, need at least 1",
+    "requests": []
+  },
+  {
+    "case": "required",
+    "argv": [
+      "agent-memory",
+      "recall",
+      "regression value &/?+ü",
+      "--namespace-name",
+      "regression value &/?+ü",
+      "--query",
+      "regression value &/?+ü",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/agent-memory/namespaces/regression%20value%20%26%2F%3F%2B%C3%BC/profiles/regression%20value%20%26%2F%3F%2B%C3%BC/recall",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --reference-date",
+    "argv": [
+      "agent-memory",
+      "recall",
+      "regression value &/?+ü",
+      "--namespace-name",
+      "regression value &/?+ü",
+      "--query",
+      "regression value &/?+ü",
+      "--reference-date",
+      "2026-01-02T03:04:05Z"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/agent-memory/namespaces/regression%20value%20%26%2F%3F%2B%C3%BC/profiles/regression%20value%20%26%2F%3F%2B%C3%BC/recall",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "74",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "query": "regression value &/?+ü",
+          "referenceDate": "2026-01-02T03:04:05Z"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --response-length",
+    "argv": [
+      "agent-memory",
+      "recall",
+      "regression value &/?+ü",
+      "--namespace-name",
+      "regression value &/?+ü",
+      "--query",
+      "regression value &/?+ü",
+      "--response-length",
+      "short"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/agent-memory/namespaces/regression%20value%20%26%2F%3F%2B%C3%BC/profiles/regression%20value%20%26%2F%3F%2B%C3%BC/recall",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "60",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "query": "regression value &/?+ü",
+          "responseLength": "short"
+        }
+      }
+    ]
+  },
+  {
+    "case": "--response-length value 1",
+    "argv": [
+      "agent-memory",
+      "recall",
+      "regression value &/?+ü",
+      "--namespace-name",
+      "regression value &/?+ü",
+      "--query",
+      "regression value &/?+ü",
+      "--response-length",
+      "medium"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/agent-memory/namespaces/regression%20value%20%26%2F%3F%2B%C3%BC/profiles/regression%20value%20%26%2F%3F%2B%C3%BC/recall",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "61",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "query": "regression value &/?+ü",
+          "responseLength": "medium"
+        }
+      }
+    ]
+  },
+  {
+    "case": "--response-length value 2",
+    "argv": [
+      "agent-memory",
+      "recall",
+      "regression value &/?+ü",
+      "--namespace-name",
+      "regression value &/?+ü",
+      "--query",
+      "regression value &/?+ü",
+      "--response-length",
+      "long"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/agent-memory/namespaces/regression%20value%20%26%2F%3F%2B%C3%BC/profiles/regression%20value%20%26%2F%3F%2B%C3%BC/recall",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "59",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "query": "regression value &/?+ü",
+          "responseLength": "long"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --thinking-level",
+    "argv": [
+      "agent-memory",
+      "recall",
+      "regression value &/?+ü",
+      "--namespace-name",
+      "regression value &/?+ü",
+      "--query",
+      "regression value &/?+ü",
+      "--thinking-level",
+      "low"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/agent-memory/namespaces/regression%20value%20%26%2F%3F%2B%C3%BC/profiles/regression%20value%20%26%2F%3F%2B%C3%BC/recall",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "57",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "query": "regression value &/?+ü",
+          "thinkingLevel": "low"
+        }
+      }
+    ]
+  },
+  {
+    "case": "--thinking-level value 1",
+    "argv": [
+      "agent-memory",
+      "recall",
+      "regression value &/?+ü",
+      "--namespace-name",
+      "regression value &/?+ü",
+      "--query",
+      "regression value &/?+ü",
+      "--thinking-level",
+      "medium"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/agent-memory/namespaces/regression%20value%20%26%2F%3F%2B%C3%BC/profiles/regression%20value%20%26%2F%3F%2B%C3%BC/recall",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "60",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "query": "regression value &/?+ü",
+          "thinkingLevel": "medium"
+        }
+      }
+    ]
+  },
+  {
+    "case": "--thinking-level value 2",
+    "argv": [
+      "agent-memory",
+      "recall",
+      "regression value &/?+ü",
+      "--namespace-name",
+      "regression value &/?+ü",
+      "--query",
+      "regression value &/?+ü",
+      "--thinking-level",
+      "high"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/agent-memory/namespaces/regression%20value%20%26%2F%3F%2B%C3%BC/profiles/regression%20value%20%26%2F%3F%2B%C3%BC/recall",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "58",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "query": "regression value &/?+ü",
+          "thinkingLevel": "high"
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 0",
+    "argv": [
+      "agent-memory",
+      "recall",
+      "regression value &/?+ü",
+      "--namespace-name",
+      "regression value &/?+ü",
+      "--query",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/agent-memory/namespaces/regression%20value%20%26%2F%3F%2B%C3%BC/profiles/regression%20value%20%26%2F%3F%2B%C3%BC/recall",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "35",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "query": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 1",
+    "argv": [
+      "agent-memory",
+      "recall",
+      "regression value &/?+ü",
+      "--namespace-name",
+      "regression value &/?+ü",
+      "--query",
+      "regression value &/?+ü",
+      "--reference-date",
+      "2026-01-02T03:04:05Z",
+      "--response-length",
+      "medium",
+      "--thinking-level",
+      "medium"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/agent-memory/namespaces/regression%20value%20%26%2F%3F%2B%C3%BC/profiles/regression%20value%20%26%2F%3F%2B%C3%BC/recall",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "125",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "query": "regression value &/?+ü",
+          "referenceDate": "2026-01-02T03:04:05Z",
+          "responseLength": "medium",
+          "thinkingLevel": "medium"
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 3",
+    "argv": [
+      "agent-memory",
+      "recall",
+      "regression value &/?+ü",
+      "--namespace-name",
+      "regression value &/?+ü",
+      "--query",
+      "regression value &/?+ü",
+      "--reference-date",
+      "2026-01-02T03:04:05Z",
+      "--thinking-level",
+      "medium"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/agent-memory/namespaces/regression%20value%20%26%2F%3F%2B%C3%BC/profiles/regression%20value%20%26%2F%3F%2B%C3%BC/recall",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "99",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "query": "regression value &/?+ü",
+          "referenceDate": "2026-01-02T03:04:05Z",
+          "thinkingLevel": "medium"
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 5",
+    "argv": [
+      "agent-memory",
+      "recall",
+      "regression value &/?+ü",
+      "--namespace-name",
+      "regression value &/?+ü",
+      "--query",
+      "regression value &/?+ü",
+      "--reference-date",
+      "2026-01-02T03:04:05Z",
+      "--response-length",
+      "medium"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/agent-memory/namespaces/regression%20value%20%26%2F%3F%2B%C3%BC/profiles/regression%20value%20%26%2F%3F%2B%C3%BC/recall",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "100",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "query": "regression value &/?+ü",
+          "referenceDate": "2026-01-02T03:04:05Z",
+          "responseLength": "medium"
+        }
+      }
+    ]
+  },
+  {
+    "case": "global quiet",
+    "argv": [
+      "agent-memory",
+      "recall",
+      "regression value &/?+ü",
+      "--namespace-name",
+      "regression value &/?+ü",
+      "--query",
+      "regression value &/?+ü",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--quiet"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/agent-memory/namespaces/regression%20value%20%26%2F%3F%2B%C3%BC/profiles/regression%20value%20%26%2F%3F%2B%C3%BC/recall",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "global zone",
+    "argv": [
+      "agent-memory",
+      "recall",
+      "regression value &/?+ü",
+      "--namespace-name",
+      "regression value &/?+ü",
+      "--query",
+      "regression value &/?+ü",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--zone",
+      "abcdef0123456789abcdef0123456789"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/agent-memory/namespaces/regression%20value%20%26%2F%3F%2B%C3%BC/profiles/regression%20value%20%26%2F%3F%2B%C3%BC/recall",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "global profile and mode",
+    "argv": [
+      "agent-memory",
+      "recall",
+      "regression value &/?+ü",
+      "--namespace-name",
+      "regression value &/?+ü",
+      "--query",
+      "regression value &/?+ü",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--profile",
+      "default",
+      "--mode",
+      "regression"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/agent-memory/namespaces/regression%20value%20%26%2F%3F%2B%C3%BC/profiles/regression%20value%20%26%2F%3F%2B%C3%BC/recall",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "local",
+    "argv": [
+      "agent-memory",
+      "recall",
+      "regression value &/?+ü",
+      "--namespace-name",
+      "regression value &/?+ü",
+      "--query",
+      "regression value &/?+ü",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--local"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "http://localhost/cdn-cgi/local/explorer/api/agent-memory/namespaces/regression%20value%20%26%2F%3F%2B%C3%BC/profiles/regression%20value%20%26%2F%3F%2B%C3%BC/recall",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "gzip, deflate",
+          "accept-language": "*",
+          "connection": "keep-alive",
+          "content-type": "application/json",
+          "host": "localhost",
+          "sec-fetch-mode": "cors",
+          "transfer-encoding": "chunked",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "local with persistence",
+    "argv": [
+      "agent-memory",
+      "recall",
+      "regression value &/?+ü",
+      "--namespace-name",
+      "regression value &/?+ü",
+      "--query",
+      "regression value &/?+ü",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--local",
+      "--persist-to",
+      "regression-state"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "http://localhost/cdn-cgi/local/explorer/api/agent-memory/namespaces/regression%20value%20%26%2F%3F%2B%C3%BC/profiles/regression%20value%20%26%2F%3F%2B%C3%BC/recall",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "gzip, deflate",
+          "accept-language": "*",
+          "connection": "keep-alive",
+          "content-type": "application/json",
+          "host": "localhost",
+          "sec-fetch-mode": "cors",
+          "transfer-encoding": "chunked",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "dry-run",
+    "argv": [
+      "agent-memory",
+      "recall",
+      "regression value &/?+ü",
+      "--namespace-name",
+      "regression value &/?+ü",
+      "--query",
+      "regression value &/?+ü",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--dry-run"
+    ],
+    "exitCode": 0,
+    "requests": []
+  },
+  {
+    "case": "body from file",
+    "argv": [
+      "agent-memory",
+      "recall",
+      "regression value &/?+ü",
+      "--namespace-name",
+      "regression value &/?+ü",
+      "--query",
+      "regression value &/?+ü",
+      "--body",
+      "@<body.json>"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/agent-memory/namespaces/regression%20value%20%26%2F%3F%2B%C3%BC/profiles/regression%20value%20%26%2F%3F%2B%C3%BC/recall",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "array body",
+    "argv": [
+      "agent-memory",
+      "recall",
+      "regression value &/?+ü",
+      "--namespace-name",
+      "regression value &/?+ü",
+      "--query",
+      "regression value &/?+ü",
+      "--body",
+      "[{\"regression\":\"first\"},{\"regression\":\"second\"}]"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/agent-memory/namespaces/regression%20value%20%26%2F%3F%2B%C3%BC/profiles/regression%20value%20%26%2F%3F%2B%C3%BC/recall",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "56",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "0": {
+            "regression": "first"
+          },
+          "1": {
+            "regression": "second"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "field flags",
+    "argv": [
+      "agent-memory",
+      "recall",
+      "regression value &/?+ü",
+      "--namespace-name",
+      "regression value &/?+ü",
+      "--query",
+      "regression value &/?+ü",
+      "--reference-date",
+      "2026-01-02T03:04:05Z",
+      "--response-length",
+      "short",
+      "--thinking-level",
+      "low"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/agent-memory/namespaces/regression%20value%20%26%2F%3F%2B%C3%BC/profiles/regression%20value%20%26%2F%3F%2B%C3%BC/recall",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "121",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "query": "regression value &/?+ü",
+          "referenceDate": "2026-01-02T03:04:05Z",
+          "responseLength": "short",
+          "thinkingLevel": "low"
+        }
+      }
+    ]
+  },
+  {
+    "case": "alternate <profile-name>",
+    "argv": [
+      "agent-memory",
+      "recall",
+      "second value &/?+ü",
+      "--namespace-name",
+      "regression value &/?+ü",
+      "--query",
+      "regression value &/?+ü",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/agent-memory/namespaces/regression%20value%20%26%2F%3F%2B%C3%BC/profiles/second%20value%20%26%2F%3F%2B%C3%BC/recall",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  }
+]

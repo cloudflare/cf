@@ -1,0 +1,3833 @@
+[
+  {
+    "case": "no-args",
+    "argv": [
+      "email-security",
+      "bulk-actions",
+      "create"
+    ],
+    "exitCode": 1,
+    "error": "--action is required (one of: MOVE, RELEASE). Pass --action <value> or run interactively.",
+    "requests": []
+  },
+  {
+    "case": "required",
+    "argv": [
+      "email-security",
+      "bulk-actions",
+      "create",
+      "--action",
+      "MOVE",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/email-security/investigate/bulk",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --comment",
+    "argv": [
+      "email-security",
+      "bulk-actions",
+      "create",
+      "--action",
+      "MOVE",
+      "--comment",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/email-security/investigate/bulk",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "133",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "action": "MOVE",
+          "comment": "regression value &/?+ü",
+          "search_params": {
+            "action_log": false,
+            "detections_only": true,
+            "submissions": false
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --destination",
+    "argv": [
+      "email-security",
+      "bulk-actions",
+      "create",
+      "--action",
+      "MOVE",
+      "--destination",
+      "Inbox"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/email-security/investigate/bulk",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "119",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "action": "MOVE",
+          "destination": "Inbox",
+          "search_params": {
+            "action_log": false,
+            "detections_only": true,
+            "submissions": false
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "--destination value 1",
+    "argv": [
+      "email-security",
+      "bulk-actions",
+      "create",
+      "--action",
+      "MOVE",
+      "--destination",
+      "JunkEmail"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/email-security/investigate/bulk",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "123",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "action": "MOVE",
+          "destination": "JunkEmail",
+          "search_params": {
+            "action_log": false,
+            "detections_only": true,
+            "submissions": false
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "--destination value 2",
+    "argv": [
+      "email-security",
+      "bulk-actions",
+      "create",
+      "--action",
+      "MOVE",
+      "--destination",
+      "DeletedItems"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/email-security/investigate/bulk",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "126",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "action": "MOVE",
+          "destination": "DeletedItems",
+          "search_params": {
+            "action_log": false,
+            "detections_only": true,
+            "submissions": false
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "--destination value 3",
+    "argv": [
+      "email-security",
+      "bulk-actions",
+      "create",
+      "--action",
+      "MOVE",
+      "--destination",
+      "RecoverableItemsDeletions"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/email-security/investigate/bulk",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "139",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "action": "MOVE",
+          "destination": "RecoverableItemsDeletions",
+          "search_params": {
+            "action_log": false,
+            "detections_only": true,
+            "submissions": false
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "--destination value 4",
+    "argv": [
+      "email-security",
+      "bulk-actions",
+      "create",
+      "--action",
+      "MOVE",
+      "--destination",
+      "RecoverableItemsPurges"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/email-security/investigate/bulk",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "136",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "action": "MOVE",
+          "destination": "RecoverableItemsPurges",
+          "search_params": {
+            "action_log": false,
+            "detections_only": true,
+            "submissions": false
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --expected-disposition",
+    "argv": [
+      "email-security",
+      "bulk-actions",
+      "create",
+      "--action",
+      "MOVE",
+      "--expected-disposition",
+      "MALICIOUS"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/email-security/investigate/bulk",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "132",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "action": "MOVE",
+          "expected_disposition": "MALICIOUS",
+          "search_params": {
+            "action_log": false,
+            "detections_only": true,
+            "submissions": false
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "--expected-disposition value 1",
+    "argv": [
+      "email-security",
+      "bulk-actions",
+      "create",
+      "--action",
+      "MOVE",
+      "--expected-disposition",
+      "MALICIOUS-BEC"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/email-security/investigate/bulk",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "136",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "action": "MOVE",
+          "expected_disposition": "MALICIOUS-BEC",
+          "search_params": {
+            "action_log": false,
+            "detections_only": true,
+            "submissions": false
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "--expected-disposition value 2",
+    "argv": [
+      "email-security",
+      "bulk-actions",
+      "create",
+      "--action",
+      "MOVE",
+      "--expected-disposition",
+      "SUSPICIOUS"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/email-security/investigate/bulk",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "133",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "action": "MOVE",
+          "expected_disposition": "SUSPICIOUS",
+          "search_params": {
+            "action_log": false,
+            "detections_only": true,
+            "submissions": false
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "--expected-disposition value 3",
+    "argv": [
+      "email-security",
+      "bulk-actions",
+      "create",
+      "--action",
+      "MOVE",
+      "--expected-disposition",
+      "SPOOF"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/email-security/investigate/bulk",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "128",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "action": "MOVE",
+          "expected_disposition": "SPOOF",
+          "search_params": {
+            "action_log": false,
+            "detections_only": true,
+            "submissions": false
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "--expected-disposition value 4",
+    "argv": [
+      "email-security",
+      "bulk-actions",
+      "create",
+      "--action",
+      "MOVE",
+      "--expected-disposition",
+      "SPAM"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/email-security/investigate/bulk",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "127",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "action": "MOVE",
+          "expected_disposition": "SPAM",
+          "search_params": {
+            "action_log": false,
+            "detections_only": true,
+            "submissions": false
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "--expected-disposition value 5",
+    "argv": [
+      "email-security",
+      "bulk-actions",
+      "create",
+      "--action",
+      "MOVE",
+      "--expected-disposition",
+      "BULK"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/email-security/investigate/bulk",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "127",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "action": "MOVE",
+          "expected_disposition": "BULK",
+          "search_params": {
+            "action_log": false,
+            "detections_only": true,
+            "submissions": false
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "--expected-disposition value 6",
+    "argv": [
+      "email-security",
+      "bulk-actions",
+      "create",
+      "--action",
+      "MOVE",
+      "--expected-disposition",
+      "ENCRYPTED"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/email-security/investigate/bulk",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "132",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "action": "MOVE",
+          "expected_disposition": "ENCRYPTED",
+          "search_params": {
+            "action_log": false,
+            "detections_only": true,
+            "submissions": false
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "--expected-disposition value 7",
+    "argv": [
+      "email-security",
+      "bulk-actions",
+      "create",
+      "--action",
+      "MOVE",
+      "--expected-disposition",
+      "EXTERNAL"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/email-security/investigate/bulk",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "131",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "action": "MOVE",
+          "expected_disposition": "EXTERNAL",
+          "search_params": {
+            "action_log": false,
+            "detections_only": true,
+            "submissions": false
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "--expected-disposition value 8",
+    "argv": [
+      "email-security",
+      "bulk-actions",
+      "create",
+      "--action",
+      "MOVE",
+      "--expected-disposition",
+      "UNKNOWN"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/email-security/investigate/bulk",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "130",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "action": "MOVE",
+          "expected_disposition": "UNKNOWN",
+          "search_params": {
+            "action_log": false,
+            "detections_only": true,
+            "submissions": false
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "--expected-disposition value 9",
+    "argv": [
+      "email-security",
+      "bulk-actions",
+      "create",
+      "--action",
+      "MOVE",
+      "--expected-disposition",
+      "NONE"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/email-security/investigate/bulk",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "127",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "action": "MOVE",
+          "expected_disposition": "NONE",
+          "search_params": {
+            "action_log": false,
+            "detections_only": true,
+            "submissions": false
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --search-params-action-log",
+    "argv": [
+      "email-security",
+      "bulk-actions",
+      "create",
+      "--action",
+      "MOVE",
+      "--search-params-action-log=true"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/email-security/investigate/bulk",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "96",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "action": "MOVE",
+          "search_params": {
+            "action_log": true,
+            "detections_only": true,
+            "submissions": false
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "--search-params-action-log value 1",
+    "argv": [
+      "email-security",
+      "bulk-actions",
+      "create",
+      "--action",
+      "MOVE",
+      "--search-params-action-log=false"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/email-security/investigate/bulk",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "97",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "action": "MOVE",
+          "search_params": {
+            "action_log": false,
+            "detections_only": true,
+            "submissions": false
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --search-params-alert-id",
+    "argv": [
+      "email-security",
+      "bulk-actions",
+      "create",
+      "--action",
+      "MOVE",
+      "--search-params-alert-id",
+      "0123456789abcdef0123456789abcdef"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/email-security/investigate/bulk",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "143",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "action": "MOVE",
+          "search_params": {
+            "action_log": false,
+            "alert_id": "0123456789abcdef0123456789abcdef",
+            "detections_only": true,
+            "submissions": false
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --search-params-delivery-status",
+    "argv": [
+      "email-security",
+      "bulk-actions",
+      "create",
+      "--action",
+      "MOVE",
+      "--search-params-delivery-status",
+      "delivered"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/email-security/investigate/bulk",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "127",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "action": "MOVE",
+          "search_params": {
+            "action_log": false,
+            "delivery_status": "delivered",
+            "detections_only": true,
+            "submissions": false
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "--search-params-delivery-status value 1",
+    "argv": [
+      "email-security",
+      "bulk-actions",
+      "create",
+      "--action",
+      "MOVE",
+      "--search-params-delivery-status",
+      "moved"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/email-security/investigate/bulk",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "123",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "action": "MOVE",
+          "search_params": {
+            "action_log": false,
+            "delivery_status": "moved",
+            "detections_only": true,
+            "submissions": false
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "--search-params-delivery-status value 2",
+    "argv": [
+      "email-security",
+      "bulk-actions",
+      "create",
+      "--action",
+      "MOVE",
+      "--search-params-delivery-status",
+      "quarantined"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/email-security/investigate/bulk",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "129",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "action": "MOVE",
+          "search_params": {
+            "action_log": false,
+            "delivery_status": "quarantined",
+            "detections_only": true,
+            "submissions": false
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "--search-params-delivery-status value 3",
+    "argv": [
+      "email-security",
+      "bulk-actions",
+      "create",
+      "--action",
+      "MOVE",
+      "--search-params-delivery-status",
+      "rejected"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/email-security/investigate/bulk",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "126",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "action": "MOVE",
+          "search_params": {
+            "action_log": false,
+            "delivery_status": "rejected",
+            "detections_only": true,
+            "submissions": false
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "--search-params-delivery-status value 4",
+    "argv": [
+      "email-security",
+      "bulk-actions",
+      "create",
+      "--action",
+      "MOVE",
+      "--search-params-delivery-status",
+      "deferred"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/email-security/investigate/bulk",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "126",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "action": "MOVE",
+          "search_params": {
+            "action_log": false,
+            "delivery_status": "deferred",
+            "detections_only": true,
+            "submissions": false
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "--search-params-delivery-status value 5",
+    "argv": [
+      "email-security",
+      "bulk-actions",
+      "create",
+      "--action",
+      "MOVE",
+      "--search-params-delivery-status",
+      "bounced"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/email-security/investigate/bulk",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "125",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "action": "MOVE",
+          "search_params": {
+            "action_log": false,
+            "delivery_status": "bounced",
+            "detections_only": true,
+            "submissions": false
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "--search-params-delivery-status value 6",
+    "argv": [
+      "email-security",
+      "bulk-actions",
+      "create",
+      "--action",
+      "MOVE",
+      "--search-params-delivery-status",
+      "queued"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/email-security/investigate/bulk",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "124",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "action": "MOVE",
+          "search_params": {
+            "action_log": false,
+            "delivery_status": "queued",
+            "detections_only": true,
+            "submissions": false
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "--search-params-delivery-status value 7",
+    "argv": [
+      "email-security",
+      "bulk-actions",
+      "create",
+      "--action",
+      "MOVE",
+      "--search-params-delivery-status",
+      "move_failed"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/email-security/investigate/bulk",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "129",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "action": "MOVE",
+          "search_params": {
+            "action_log": false,
+            "delivery_status": "move_failed",
+            "detections_only": true,
+            "submissions": false
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --search-params-detections-only",
+    "argv": [
+      "email-security",
+      "bulk-actions",
+      "create",
+      "--action",
+      "MOVE",
+      "--search-params-detections-only=true"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/email-security/investigate/bulk",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "97",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "action": "MOVE",
+          "search_params": {
+            "action_log": false,
+            "detections_only": true,
+            "submissions": false
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "--search-params-detections-only value 1",
+    "argv": [
+      "email-security",
+      "bulk-actions",
+      "create",
+      "--action",
+      "MOVE",
+      "--search-params-detections-only=false"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/email-security/investigate/bulk",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "98",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "action": "MOVE",
+          "search_params": {
+            "action_log": false,
+            "detections_only": false,
+            "submissions": false
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --search-params-domain",
+    "argv": [
+      "email-security",
+      "bulk-actions",
+      "create",
+      "--action",
+      "MOVE",
+      "--search-params-domain",
+      "example.com"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/email-security/investigate/bulk",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "120",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "action": "MOVE",
+          "search_params": {
+            "action_log": false,
+            "detections_only": true,
+            "domain": "example.com",
+            "submissions": false
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --search-params-end",
+    "argv": [
+      "email-security",
+      "bulk-actions",
+      "create",
+      "--action",
+      "MOVE",
+      "--search-params-end",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/email-security/investigate/bulk",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "129",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "action": "MOVE",
+          "search_params": {
+            "action_log": false,
+            "detections_only": true,
+            "end": "regression value &/?+ü",
+            "submissions": false
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --search-params-exact-subject",
+    "argv": [
+      "email-security",
+      "bulk-actions",
+      "create",
+      "--action",
+      "MOVE",
+      "--search-params-exact-subject",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/email-security/investigate/bulk",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "139",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "action": "MOVE",
+          "search_params": {
+            "action_log": false,
+            "detections_only": true,
+            "exact_subject": "regression value &/?+ü",
+            "submissions": false
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --search-params-final-disposition",
+    "argv": [
+      "email-security",
+      "bulk-actions",
+      "create",
+      "--action",
+      "MOVE",
+      "--search-params-final-disposition",
+      "MALICIOUS"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/email-security/investigate/bulk",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "129",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "action": "MOVE",
+          "search_params": {
+            "action_log": false,
+            "detections_only": true,
+            "final_disposition": "MALICIOUS",
+            "submissions": false
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "--search-params-final-disposition value 1",
+    "argv": [
+      "email-security",
+      "bulk-actions",
+      "create",
+      "--action",
+      "MOVE",
+      "--search-params-final-disposition",
+      "MALICIOUS-BEC"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/email-security/investigate/bulk",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "133",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "action": "MOVE",
+          "search_params": {
+            "action_log": false,
+            "detections_only": true,
+            "final_disposition": "MALICIOUS-BEC",
+            "submissions": false
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "--search-params-final-disposition value 2",
+    "argv": [
+      "email-security",
+      "bulk-actions",
+      "create",
+      "--action",
+      "MOVE",
+      "--search-params-final-disposition",
+      "SUSPICIOUS"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/email-security/investigate/bulk",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "130",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "action": "MOVE",
+          "search_params": {
+            "action_log": false,
+            "detections_only": true,
+            "final_disposition": "SUSPICIOUS",
+            "submissions": false
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "--search-params-final-disposition value 3",
+    "argv": [
+      "email-security",
+      "bulk-actions",
+      "create",
+      "--action",
+      "MOVE",
+      "--search-params-final-disposition",
+      "SPOOF"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/email-security/investigate/bulk",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "125",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "action": "MOVE",
+          "search_params": {
+            "action_log": false,
+            "detections_only": true,
+            "final_disposition": "SPOOF",
+            "submissions": false
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "--search-params-final-disposition value 4",
+    "argv": [
+      "email-security",
+      "bulk-actions",
+      "create",
+      "--action",
+      "MOVE",
+      "--search-params-final-disposition",
+      "SPAM"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/email-security/investigate/bulk",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "124",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "action": "MOVE",
+          "search_params": {
+            "action_log": false,
+            "detections_only": true,
+            "final_disposition": "SPAM",
+            "submissions": false
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "--search-params-final-disposition value 5",
+    "argv": [
+      "email-security",
+      "bulk-actions",
+      "create",
+      "--action",
+      "MOVE",
+      "--search-params-final-disposition",
+      "BULK"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/email-security/investigate/bulk",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "124",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "action": "MOVE",
+          "search_params": {
+            "action_log": false,
+            "detections_only": true,
+            "final_disposition": "BULK",
+            "submissions": false
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "--search-params-final-disposition value 6",
+    "argv": [
+      "email-security",
+      "bulk-actions",
+      "create",
+      "--action",
+      "MOVE",
+      "--search-params-final-disposition",
+      "ENCRYPTED"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/email-security/investigate/bulk",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "129",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "action": "MOVE",
+          "search_params": {
+            "action_log": false,
+            "detections_only": true,
+            "final_disposition": "ENCRYPTED",
+            "submissions": false
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "--search-params-final-disposition value 7",
+    "argv": [
+      "email-security",
+      "bulk-actions",
+      "create",
+      "--action",
+      "MOVE",
+      "--search-params-final-disposition",
+      "EXTERNAL"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/email-security/investigate/bulk",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "128",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "action": "MOVE",
+          "search_params": {
+            "action_log": false,
+            "detections_only": true,
+            "final_disposition": "EXTERNAL",
+            "submissions": false
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "--search-params-final-disposition value 8",
+    "argv": [
+      "email-security",
+      "bulk-actions",
+      "create",
+      "--action",
+      "MOVE",
+      "--search-params-final-disposition",
+      "UNKNOWN"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/email-security/investigate/bulk",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "127",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "action": "MOVE",
+          "search_params": {
+            "action_log": false,
+            "detections_only": true,
+            "final_disposition": "UNKNOWN",
+            "submissions": false
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "--search-params-final-disposition value 9",
+    "argv": [
+      "email-security",
+      "bulk-actions",
+      "create",
+      "--action",
+      "MOVE",
+      "--search-params-final-disposition",
+      "NONE"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/email-security/investigate/bulk",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "124",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "action": "MOVE",
+          "search_params": {
+            "action_log": false,
+            "detections_only": true,
+            "final_disposition": "NONE",
+            "submissions": false
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --search-params-message-action",
+    "argv": [
+      "email-security",
+      "bulk-actions",
+      "create",
+      "--action",
+      "MOVE",
+      "--search-params-message-action",
+      "PREVIEW"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/email-security/investigate/bulk",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "124",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "action": "MOVE",
+          "search_params": {
+            "action_log": false,
+            "detections_only": true,
+            "message_action": "PREVIEW",
+            "submissions": false
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "--search-params-message-action value 1",
+    "argv": [
+      "email-security",
+      "bulk-actions",
+      "create",
+      "--action",
+      "MOVE",
+      "--search-params-message-action",
+      "QUARANTINE_RELEASED"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/email-security/investigate/bulk",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "136",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "action": "MOVE",
+          "search_params": {
+            "action_log": false,
+            "detections_only": true,
+            "message_action": "QUARANTINE_RELEASED",
+            "submissions": false
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "--search-params-message-action value 2",
+    "argv": [
+      "email-security",
+      "bulk-actions",
+      "create",
+      "--action",
+      "MOVE",
+      "--search-params-message-action",
+      "MOVED"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/email-security/investigate/bulk",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "122",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "action": "MOVE",
+          "search_params": {
+            "action_log": false,
+            "detections_only": true,
+            "message_action": "MOVED",
+            "submissions": false
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --search-params-message-id",
+    "argv": [
+      "email-security",
+      "bulk-actions",
+      "create",
+      "--action",
+      "MOVE",
+      "--search-params-message-id",
+      "0123456789abcdef0123456789abcdef"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/email-security/investigate/bulk",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "145",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "action": "MOVE",
+          "search_params": {
+            "action_log": false,
+            "detections_only": true,
+            "message_id": "0123456789abcdef0123456789abcdef",
+            "submissions": false
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --search-params-metric",
+    "argv": [
+      "email-security",
+      "bulk-actions",
+      "create",
+      "--action",
+      "MOVE",
+      "--search-params-metric",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/email-security/investigate/bulk",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "132",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "action": "MOVE",
+          "search_params": {
+            "action_log": false,
+            "detections_only": true,
+            "metric": "regression value &/?+ü",
+            "submissions": false
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --search-params-query",
+    "argv": [
+      "email-security",
+      "bulk-actions",
+      "create",
+      "--action",
+      "MOVE",
+      "--search-params-query",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/email-security/investigate/bulk",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "131",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "action": "MOVE",
+          "search_params": {
+            "action_log": false,
+            "detections_only": true,
+            "query": "regression value &/?+ü",
+            "submissions": false
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --search-params-recipient",
+    "argv": [
+      "email-security",
+      "bulk-actions",
+      "create",
+      "--action",
+      "MOVE",
+      "--search-params-recipient",
+      "192.0.2.1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/email-security/investigate/bulk",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "121",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "action": "MOVE",
+          "search_params": {
+            "action_log": false,
+            "detections_only": true,
+            "recipient": "192.0.2.1",
+            "submissions": false
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --search-params-sender",
+    "argv": [
+      "email-security",
+      "bulk-actions",
+      "create",
+      "--action",
+      "MOVE",
+      "--search-params-sender",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/email-security/investigate/bulk",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "132",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "action": "MOVE",
+          "search_params": {
+            "action_log": false,
+            "detections_only": true,
+            "sender": "regression value &/?+ü",
+            "submissions": false
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --search-params-smtp-helo-ip",
+    "argv": [
+      "email-security",
+      "bulk-actions",
+      "create",
+      "--action",
+      "MOVE",
+      "--search-params-smtp-helo-ip",
+      "192.0.2.1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/email-security/investigate/bulk",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "124",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "action": "MOVE",
+          "search_params": {
+            "action_log": false,
+            "detections_only": true,
+            "smtp_helo_ip": "192.0.2.1",
+            "submissions": false
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --search-params-start",
+    "argv": [
+      "email-security",
+      "bulk-actions",
+      "create",
+      "--action",
+      "MOVE",
+      "--search-params-start",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/email-security/investigate/bulk",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "131",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "action": "MOVE",
+          "search_params": {
+            "action_log": false,
+            "detections_only": true,
+            "start": "regression value &/?+ü",
+            "submissions": false
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --search-params-subject",
+    "argv": [
+      "email-security",
+      "bulk-actions",
+      "create",
+      "--action",
+      "MOVE",
+      "--search-params-subject",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/email-security/investigate/bulk",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "133",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "action": "MOVE",
+          "search_params": {
+            "action_log": false,
+            "detections_only": true,
+            "subject": "regression value &/?+ü",
+            "submissions": false
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --search-params-submissions",
+    "argv": [
+      "email-security",
+      "bulk-actions",
+      "create",
+      "--action",
+      "MOVE",
+      "--search-params-submissions=true"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/email-security/investigate/bulk",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "96",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "action": "MOVE",
+          "search_params": {
+            "action_log": false,
+            "detections_only": true,
+            "submissions": true
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "--search-params-submissions value 1",
+    "argv": [
+      "email-security",
+      "bulk-actions",
+      "create",
+      "--action",
+      "MOVE",
+      "--search-params-submissions=false"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/email-security/investigate/bulk",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "97",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "action": "MOVE",
+          "search_params": {
+            "action_log": false,
+            "detections_only": true,
+            "submissions": false
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "required --action value 1",
+    "argv": [
+      "email-security",
+      "bulk-actions",
+      "create",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--action",
+      "RELEASE"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/email-security/investigate/bulk",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 0",
+    "argv": [
+      "email-security",
+      "bulk-actions",
+      "create",
+      "--action",
+      "MOVE"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/email-security/investigate/bulk",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "97",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "action": "MOVE",
+          "search_params": {
+            "action_log": false,
+            "detections_only": true,
+            "submissions": false
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 1",
+    "argv": [
+      "email-security",
+      "bulk-actions",
+      "create",
+      "--action",
+      "MOVE",
+      "--comment",
+      "second value &/?+ü",
+      "--destination",
+      "JunkEmail",
+      "--expected-disposition",
+      "MALICIOUS-BEC",
+      "--search-params-action-log=false",
+      "--search-params-alert-id",
+      "0123456789abcdef0123456789abcdef",
+      "--search-params-delivery-status",
+      "moved",
+      "--search-params-detections-only=false",
+      "--search-params-domain",
+      "example.com",
+      "--search-params-end",
+      "second value &/?+ü",
+      "--search-params-exact-subject",
+      "second value &/?+ü",
+      "--search-params-final-disposition",
+      "MALICIOUS-BEC",
+      "--search-params-message-action",
+      "QUARANTINE_RELEASED",
+      "--search-params-message-id",
+      "0123456789abcdef0123456789abcdef",
+      "--search-params-metric",
+      "second value &/?+ü",
+      "--search-params-query",
+      "second value &/?+ü",
+      "--search-params-recipient",
+      "192.0.2.1",
+      "--search-params-sender",
+      "second value &/?+ü",
+      "--search-params-smtp-helo-ip",
+      "192.0.2.1",
+      "--search-params-start",
+      "second value &/?+ü",
+      "--search-params-subject",
+      "second value &/?+ü",
+      "--search-params-submissions=false"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/email-security/investigate/bulk",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "684",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "action": "MOVE",
+          "comment": "second value &/?+ü",
+          "destination": "JunkEmail",
+          "expected_disposition": "MALICIOUS-BEC",
+          "search_params": {
+            "action_log": false,
+            "alert_id": "0123456789abcdef0123456789abcdef",
+            "delivery_status": "moved",
+            "detections_only": false,
+            "domain": "example.com",
+            "end": "second value &/?+ü",
+            "exact_subject": "second value &/?+ü",
+            "final_disposition": "MALICIOUS-BEC",
+            "message_action": "QUARANTINE_RELEASED",
+            "message_id": "0123456789abcdef0123456789abcdef",
+            "metric": "second value &/?+ü",
+            "query": "second value &/?+ü",
+            "recipient": "192.0.2.1",
+            "sender": "second value &/?+ü",
+            "smtp_helo_ip": "192.0.2.1",
+            "start": "second value &/?+ü",
+            "subject": "second value &/?+ü",
+            "submissions": false
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 2",
+    "argv": [
+      "email-security",
+      "bulk-actions",
+      "create",
+      "--action",
+      "MOVE",
+      "--destination",
+      "Inbox",
+      "--search-params-action-log=true",
+      "--search-params-delivery-status",
+      "delivered",
+      "--search-params-domain",
+      "example.com",
+      "--search-params-exact-subject",
+      "regression value &/?+ü",
+      "--search-params-message-action",
+      "PREVIEW",
+      "--search-params-metric",
+      "regression value &/?+ü",
+      "--search-params-recipient",
+      "192.0.2.1",
+      "--search-params-smtp-helo-ip",
+      "192.0.2.1",
+      "--search-params-subject",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/email-security/investigate/bulk",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "362",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "action": "MOVE",
+          "destination": "Inbox",
+          "search_params": {
+            "action_log": true,
+            "delivery_status": "delivered",
+            "detections_only": true,
+            "domain": "example.com",
+            "exact_subject": "regression value &/?+ü",
+            "message_action": "PREVIEW",
+            "metric": "regression value &/?+ü",
+            "recipient": "192.0.2.1",
+            "smtp_helo_ip": "192.0.2.1",
+            "subject": "regression value &/?+ü",
+            "submissions": false
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 3",
+    "argv": [
+      "email-security",
+      "bulk-actions",
+      "create",
+      "--action",
+      "MOVE",
+      "--comment",
+      "second value &/?+ü",
+      "--expected-disposition",
+      "MALICIOUS-BEC",
+      "--search-params-alert-id",
+      "0123456789abcdef0123456789abcdef",
+      "--search-params-detections-only=false",
+      "--search-params-end",
+      "second value &/?+ü",
+      "--search-params-final-disposition",
+      "MALICIOUS-BEC",
+      "--search-params-message-id",
+      "0123456789abcdef0123456789abcdef",
+      "--search-params-query",
+      "second value &/?+ü",
+      "--search-params-sender",
+      "second value &/?+ü",
+      "--search-params-start",
+      "second value &/?+ü",
+      "--search-params-submissions=false"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/email-security/investigate/bulk",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "418",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "action": "MOVE",
+          "comment": "second value &/?+ü",
+          "expected_disposition": "MALICIOUS-BEC",
+          "search_params": {
+            "action_log": false,
+            "alert_id": "0123456789abcdef0123456789abcdef",
+            "detections_only": false,
+            "end": "second value &/?+ü",
+            "final_disposition": "MALICIOUS-BEC",
+            "message_id": "0123456789abcdef0123456789abcdef",
+            "query": "second value &/?+ü",
+            "sender": "second value &/?+ü",
+            "start": "second value &/?+ü",
+            "submissions": false
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 4",
+    "argv": [
+      "email-security",
+      "bulk-actions",
+      "create",
+      "--action",
+      "MOVE",
+      "--expected-disposition",
+      "MALICIOUS",
+      "--search-params-action-log=true",
+      "--search-params-detections-only=true",
+      "--search-params-domain",
+      "example.com",
+      "--search-params-final-disposition",
+      "MALICIOUS",
+      "--search-params-message-action",
+      "PREVIEW",
+      "--search-params-query",
+      "regression value &/?+ü",
+      "--search-params-recipient",
+      "192.0.2.1",
+      "--search-params-start",
+      "regression value &/?+ü",
+      "--search-params-subject",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/email-security/investigate/bulk",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "341",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "action": "MOVE",
+          "expected_disposition": "MALICIOUS",
+          "search_params": {
+            "action_log": true,
+            "detections_only": true,
+            "domain": "example.com",
+            "final_disposition": "MALICIOUS",
+            "message_action": "PREVIEW",
+            "query": "regression value &/?+ü",
+            "recipient": "192.0.2.1",
+            "start": "regression value &/?+ü",
+            "subject": "regression value &/?+ü",
+            "submissions": false
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 5",
+    "argv": [
+      "email-security",
+      "bulk-actions",
+      "create",
+      "--action",
+      "MOVE",
+      "--comment",
+      "second value &/?+ü",
+      "--destination",
+      "JunkEmail",
+      "--search-params-alert-id",
+      "0123456789abcdef0123456789abcdef",
+      "--search-params-delivery-status",
+      "moved",
+      "--search-params-end",
+      "second value &/?+ü",
+      "--search-params-exact-subject",
+      "second value &/?+ü",
+      "--search-params-message-id",
+      "0123456789abcdef0123456789abcdef",
+      "--search-params-metric",
+      "second value &/?+ü",
+      "--search-params-sender",
+      "second value &/?+ü",
+      "--search-params-smtp-helo-ip",
+      "192.0.2.1",
+      "--search-params-submissions=false"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/email-security/investigate/bulk",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "430",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "action": "MOVE",
+          "comment": "second value &/?+ü",
+          "destination": "JunkEmail",
+          "search_params": {
+            "action_log": false,
+            "alert_id": "0123456789abcdef0123456789abcdef",
+            "delivery_status": "moved",
+            "detections_only": true,
+            "end": "second value &/?+ü",
+            "exact_subject": "second value &/?+ü",
+            "message_id": "0123456789abcdef0123456789abcdef",
+            "metric": "second value &/?+ü",
+            "sender": "second value &/?+ü",
+            "smtp_helo_ip": "192.0.2.1",
+            "submissions": false
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 6",
+    "argv": [
+      "email-security",
+      "bulk-actions",
+      "create",
+      "--action",
+      "MOVE",
+      "--search-params-alert-id",
+      "0123456789abcdef0123456789abcdef",
+      "--search-params-delivery-status",
+      "delivered",
+      "--search-params-detections-only=true",
+      "--search-params-domain",
+      "example.com",
+      "--search-params-message-id",
+      "0123456789abcdef0123456789abcdef",
+      "--search-params-metric",
+      "regression value &/?+ü",
+      "--search-params-query",
+      "regression value &/?+ü",
+      "--search-params-recipient",
+      "192.0.2.1",
+      "--search-params-submissions=true"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/email-security/investigate/bulk",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "336",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "action": "MOVE",
+          "search_params": {
+            "action_log": false,
+            "alert_id": "0123456789abcdef0123456789abcdef",
+            "delivery_status": "delivered",
+            "detections_only": true,
+            "domain": "example.com",
+            "message_id": "0123456789abcdef0123456789abcdef",
+            "metric": "regression value &/?+ü",
+            "query": "regression value &/?+ü",
+            "recipient": "192.0.2.1",
+            "submissions": true
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 7",
+    "argv": [
+      "email-security",
+      "bulk-actions",
+      "create",
+      "--action",
+      "MOVE",
+      "--comment",
+      "second value &/?+ü",
+      "--destination",
+      "JunkEmail",
+      "--expected-disposition",
+      "MALICIOUS-BEC",
+      "--search-params-action-log=false",
+      "--search-params-end",
+      "second value &/?+ü",
+      "--search-params-exact-subject",
+      "second value &/?+ü",
+      "--search-params-final-disposition",
+      "MALICIOUS-BEC",
+      "--search-params-message-action",
+      "QUARANTINE_RELEASED",
+      "--search-params-sender",
+      "second value &/?+ü",
+      "--search-params-smtp-helo-ip",
+      "192.0.2.1",
+      "--search-params-start",
+      "second value &/?+ü",
+      "--search-params-subject",
+      "second value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/email-security/investigate/bulk",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "455",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "action": "MOVE",
+          "comment": "second value &/?+ü",
+          "destination": "JunkEmail",
+          "expected_disposition": "MALICIOUS-BEC",
+          "search_params": {
+            "action_log": false,
+            "detections_only": true,
+            "end": "second value &/?+ü",
+            "exact_subject": "second value &/?+ü",
+            "final_disposition": "MALICIOUS-BEC",
+            "message_action": "QUARANTINE_RELEASED",
+            "sender": "second value &/?+ü",
+            "smtp_helo_ip": "192.0.2.1",
+            "start": "second value &/?+ü",
+            "subject": "second value &/?+ü",
+            "submissions": false
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 8",
+    "argv": [
+      "email-security",
+      "bulk-actions",
+      "create",
+      "--action",
+      "MOVE",
+      "--search-params-end",
+      "regression value &/?+ü",
+      "--search-params-exact-subject",
+      "regression value &/?+ü",
+      "--search-params-final-disposition",
+      "MALICIOUS",
+      "--search-params-message-action",
+      "PREVIEW",
+      "--search-params-message-id",
+      "0123456789abcdef0123456789abcdef",
+      "--search-params-metric",
+      "regression value &/?+ü",
+      "--search-params-query",
+      "regression value &/?+ü",
+      "--search-params-recipient",
+      "192.0.2.1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/email-security/investigate/bulk",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "371",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "action": "MOVE",
+          "search_params": {
+            "action_log": false,
+            "detections_only": true,
+            "end": "regression value &/?+ü",
+            "exact_subject": "regression value &/?+ü",
+            "final_disposition": "MALICIOUS",
+            "message_action": "PREVIEW",
+            "message_id": "0123456789abcdef0123456789abcdef",
+            "metric": "regression value &/?+ü",
+            "query": "regression value &/?+ü",
+            "recipient": "192.0.2.1",
+            "submissions": false
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 9",
+    "argv": [
+      "email-security",
+      "bulk-actions",
+      "create",
+      "--action",
+      "MOVE",
+      "--comment",
+      "second value &/?+ü",
+      "--destination",
+      "JunkEmail",
+      "--expected-disposition",
+      "MALICIOUS-BEC",
+      "--search-params-action-log=false",
+      "--search-params-alert-id",
+      "0123456789abcdef0123456789abcdef",
+      "--search-params-delivery-status",
+      "moved",
+      "--search-params-detections-only=false",
+      "--search-params-domain",
+      "example.com",
+      "--search-params-sender",
+      "second value &/?+ü",
+      "--search-params-smtp-helo-ip",
+      "192.0.2.1",
+      "--search-params-start",
+      "second value &/?+ü",
+      "--search-params-subject",
+      "second value &/?+ü",
+      "--search-params-submissions=false"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/email-security/investigate/bulk",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "410",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "action": "MOVE",
+          "comment": "second value &/?+ü",
+          "destination": "JunkEmail",
+          "expected_disposition": "MALICIOUS-BEC",
+          "search_params": {
+            "action_log": false,
+            "alert_id": "0123456789abcdef0123456789abcdef",
+            "delivery_status": "moved",
+            "detections_only": false,
+            "domain": "example.com",
+            "sender": "second value &/?+ü",
+            "smtp_helo_ip": "192.0.2.1",
+            "start": "second value &/?+ü",
+            "subject": "second value &/?+ü",
+            "submissions": false
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 10",
+    "argv": [
+      "email-security",
+      "bulk-actions",
+      "create",
+      "--action",
+      "MOVE",
+      "--search-params-sender",
+      "regression value &/?+ü",
+      "--search-params-smtp-helo-ip",
+      "192.0.2.1",
+      "--search-params-start",
+      "regression value &/?+ü",
+      "--search-params-subject",
+      "regression value &/?+ü",
+      "--search-params-submissions=true"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/email-security/investigate/bulk",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "228",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "action": "MOVE",
+          "search_params": {
+            "action_log": false,
+            "detections_only": true,
+            "sender": "regression value &/?+ü",
+            "smtp_helo_ip": "192.0.2.1",
+            "start": "regression value &/?+ü",
+            "subject": "regression value &/?+ü",
+            "submissions": true
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 11",
+    "argv": [
+      "email-security",
+      "bulk-actions",
+      "create",
+      "--action",
+      "MOVE",
+      "--comment",
+      "second value &/?+ü",
+      "--destination",
+      "JunkEmail",
+      "--expected-disposition",
+      "MALICIOUS-BEC",
+      "--search-params-action-log=false",
+      "--search-params-alert-id",
+      "0123456789abcdef0123456789abcdef",
+      "--search-params-delivery-status",
+      "moved",
+      "--search-params-detections-only=false",
+      "--search-params-domain",
+      "example.com",
+      "--search-params-end",
+      "second value &/?+ü",
+      "--search-params-exact-subject",
+      "second value &/?+ü",
+      "--search-params-final-disposition",
+      "MALICIOUS-BEC",
+      "--search-params-message-action",
+      "QUARANTINE_RELEASED",
+      "--search-params-message-id",
+      "0123456789abcdef0123456789abcdef",
+      "--search-params-metric",
+      "second value &/?+ü",
+      "--search-params-query",
+      "second value &/?+ü",
+      "--search-params-recipient",
+      "192.0.2.1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/email-security/investigate/bulk",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "564",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "action": "MOVE",
+          "comment": "second value &/?+ü",
+          "destination": "JunkEmail",
+          "expected_disposition": "MALICIOUS-BEC",
+          "search_params": {
+            "action_log": false,
+            "alert_id": "0123456789abcdef0123456789abcdef",
+            "delivery_status": "moved",
+            "detections_only": false,
+            "domain": "example.com",
+            "end": "second value &/?+ü",
+            "exact_subject": "second value &/?+ü",
+            "final_disposition": "MALICIOUS-BEC",
+            "message_action": "QUARANTINE_RELEASED",
+            "message_id": "0123456789abcdef0123456789abcdef",
+            "metric": "second value &/?+ü",
+            "query": "second value &/?+ü",
+            "recipient": "192.0.2.1",
+            "submissions": false
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "global quiet",
+    "argv": [
+      "email-security",
+      "bulk-actions",
+      "create",
+      "--action",
+      "MOVE",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--quiet"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/email-security/investigate/bulk",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "global zone",
+    "argv": [
+      "email-security",
+      "bulk-actions",
+      "create",
+      "--action",
+      "MOVE",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--zone",
+      "abcdef0123456789abcdef0123456789"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/email-security/investigate/bulk",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "global profile and mode",
+    "argv": [
+      "email-security",
+      "bulk-actions",
+      "create",
+      "--action",
+      "MOVE",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--profile",
+      "default",
+      "--mode",
+      "regression"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/email-security/investigate/bulk",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "local",
+    "argv": [
+      "email-security",
+      "bulk-actions",
+      "create",
+      "--action",
+      "MOVE",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--local"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "http://localhost/cdn-cgi/local/explorer/api/email-security/investigate/bulk",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "gzip, deflate",
+          "accept-language": "*",
+          "connection": "keep-alive",
+          "content-type": "application/json",
+          "host": "localhost",
+          "sec-fetch-mode": "cors",
+          "transfer-encoding": "chunked",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "local with persistence",
+    "argv": [
+      "email-security",
+      "bulk-actions",
+      "create",
+      "--action",
+      "MOVE",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--local",
+      "--persist-to",
+      "regression-state"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "http://localhost/cdn-cgi/local/explorer/api/email-security/investigate/bulk",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "gzip, deflate",
+          "accept-language": "*",
+          "connection": "keep-alive",
+          "content-type": "application/json",
+          "host": "localhost",
+          "sec-fetch-mode": "cors",
+          "transfer-encoding": "chunked",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "dry-run",
+    "argv": [
+      "email-security",
+      "bulk-actions",
+      "create",
+      "--action",
+      "MOVE",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--dry-run"
+    ],
+    "exitCode": 0,
+    "requests": []
+  },
+  {
+    "case": "body from file",
+    "argv": [
+      "email-security",
+      "bulk-actions",
+      "create",
+      "--action",
+      "MOVE",
+      "--body",
+      "@<body.json>"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/email-security/investigate/bulk",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "array body",
+    "argv": [
+      "email-security",
+      "bulk-actions",
+      "create",
+      "--action",
+      "MOVE",
+      "--body",
+      "[{\"regression\":\"first\"},{\"regression\":\"second\"}]"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/email-security/investigate/bulk",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "56",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "0": {
+            "regression": "first"
+          },
+          "1": {
+            "regression": "second"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "field flags",
+    "argv": [
+      "email-security",
+      "bulk-actions",
+      "create",
+      "--action",
+      "MOVE",
+      "--comment",
+      "regression value &/?+ü",
+      "--destination",
+      "Inbox",
+      "--expected-disposition",
+      "MALICIOUS",
+      "--search-params-action-log=true",
+      "--search-params-alert-id",
+      "0123456789abcdef0123456789abcdef",
+      "--search-params-delivery-status",
+      "delivered",
+      "--search-params-detections-only=true",
+      "--search-params-domain",
+      "example.com",
+      "--search-params-end",
+      "regression value &/?+ü",
+      "--search-params-exact-subject",
+      "regression value &/?+ü",
+      "--search-params-final-disposition",
+      "MALICIOUS",
+      "--search-params-message-action",
+      "PREVIEW",
+      "--search-params-message-id",
+      "0123456789abcdef0123456789abcdef",
+      "--search-params-metric",
+      "regression value &/?+ü",
+      "--search-params-query",
+      "regression value &/?+ü",
+      "--search-params-recipient",
+      "192.0.2.1",
+      "--search-params-sender",
+      "regression value &/?+ü",
+      "--search-params-smtp-helo-ip",
+      "192.0.2.1",
+      "--search-params-start",
+      "regression value &/?+ü",
+      "--search-params-subject",
+      "regression value &/?+ü",
+      "--search-params-submissions=true"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/email-security/investigate/bulk",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "693",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "action": "MOVE",
+          "comment": "regression value &/?+ü",
+          "destination": "Inbox",
+          "expected_disposition": "MALICIOUS",
+          "search_params": {
+            "action_log": true,
+            "alert_id": "0123456789abcdef0123456789abcdef",
+            "delivery_status": "delivered",
+            "detections_only": true,
+            "domain": "example.com",
+            "end": "regression value &/?+ü",
+            "exact_subject": "regression value &/?+ü",
+            "final_disposition": "MALICIOUS",
+            "message_action": "PREVIEW",
+            "message_id": "0123456789abcdef0123456789abcdef",
+            "metric": "regression value &/?+ü",
+            "query": "regression value &/?+ü",
+            "recipient": "192.0.2.1",
+            "sender": "regression value &/?+ü",
+            "smtp_helo_ip": "192.0.2.1",
+            "start": "regression value &/?+ü",
+            "subject": "regression value &/?+ü",
+            "submissions": true
+          }
+        }
+      }
+    ]
+  }
+]

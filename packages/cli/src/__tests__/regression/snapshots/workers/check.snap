@@ -1,0 +1,161 @@
+[
+  {
+    "case": "no-args",
+    "argv": [
+      "workers",
+      "check"
+    ],
+    "exitCode": 0,
+    "requests": []
+  },
+  {
+    "case": "only --outfile",
+    "argv": [
+      "workers",
+      "check",
+      "--outfile",
+      "regression.cpuprofile"
+    ],
+    "exitCode": 0,
+    "requests": []
+  },
+  {
+    "case": "only --prebuilt",
+    "argv": [
+      "workers",
+      "check",
+      "--prebuilt=true"
+    ],
+    "exitCode": 0,
+    "requests": []
+  },
+  {
+    "case": "--prebuilt value 1",
+    "argv": [
+      "workers",
+      "check",
+      "--prebuilt=false"
+    ],
+    "exitCode": 0,
+    "requests": []
+  },
+  {
+    "case": "only --worker",
+    "argv": [
+      "workers",
+      "check",
+      "--worker",
+      "regression-worker"
+    ],
+    "exitCode": 0,
+    "requests": []
+  },
+  {
+    "case": "pairwise 1",
+    "argv": [
+      "workers",
+      "check",
+      "--outfile",
+      "regression.cpuprofile",
+      "--prebuilt=false",
+      "--worker",
+      "regression-worker"
+    ],
+    "exitCode": 0,
+    "requests": []
+  },
+  {
+    "case": "pairwise 3",
+    "argv": [
+      "workers",
+      "check",
+      "--outfile",
+      "regression.cpuprofile",
+      "--worker",
+      "regression-worker"
+    ],
+    "exitCode": 0,
+    "requests": []
+  },
+  {
+    "case": "pairwise 5",
+    "argv": [
+      "workers",
+      "check",
+      "--outfile",
+      "regression.cpuprofile",
+      "--prebuilt=false"
+    ],
+    "exitCode": 0,
+    "requests": []
+  },
+  {
+    "case": "global quiet",
+    "argv": [
+      "workers",
+      "check",
+      "--quiet"
+    ],
+    "exitCode": 0,
+    "requests": []
+  },
+  {
+    "case": "global zone",
+    "argv": [
+      "workers",
+      "check",
+      "--zone",
+      "abcdef0123456789abcdef0123456789"
+    ],
+    "exitCode": 0,
+    "requests": []
+  },
+  {
+    "case": "global profile and mode",
+    "argv": [
+      "workers",
+      "check",
+      "--profile",
+      "default",
+      "--mode",
+      "regression"
+    ],
+    "exitCode": 1,
+    "error": "The Build Output does not record which mode it was created with, but this command requested mode \"regression\". Rebuild with \"--mode regression\" before deploying.",
+    "requests": []
+  },
+  {
+    "case": "local",
+    "argv": [
+      "workers",
+      "check",
+      "--local"
+    ],
+    "exitCode": 1,
+    "error": "--local is not supported by cf workers check.",
+    "requests": []
+  },
+  {
+    "case": "local with persistence",
+    "argv": [
+      "workers",
+      "check",
+      "--local",
+      "--persist-to",
+      "regression-state"
+    ],
+    "exitCode": 1,
+    "error": "--local is not supported by cf workers check.",
+    "requests": []
+  },
+  {
+    "case": "dry-run",
+    "argv": [
+      "workers",
+      "check",
+      "--dry-run"
+    ],
+    "exitCode": 0,
+    "requests": []
+  }
+]

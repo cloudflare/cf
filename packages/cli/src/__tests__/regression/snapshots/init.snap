@@ -1,0 +1,175 @@
+[
+  {
+    "case": "no-args",
+    "argv": [
+      "init"
+    ],
+    "exitCode": 1,
+    "error": "Pass the directory to initialize, for example cf init my-worker, or cf init . for the current directory.",
+    "requests": []
+  },
+  {
+    "case": "required",
+    "argv": [
+      "init",
+      "project"
+    ],
+    "exitCode": 1,
+    "error": "cf could not detect a project to set up in project, and the directory is not empty.\nRun cf init in an empty directory, or pass a new directory name (for example, cf init my-worker).",
+    "requests": []
+  },
+  {
+    "case": "only --install",
+    "argv": [
+      "init",
+      "project",
+      "--install=true"
+    ],
+    "exitCode": 1,
+    "error": "cf could not detect a project to set up in project, and the directory is not empty.\nRun cf init in an empty directory, or pass a new directory name (for example, cf init my-worker).",
+    "requests": []
+  },
+  {
+    "case": "--install value 1",
+    "argv": [
+      "init",
+      "project",
+      "--install=false"
+    ],
+    "exitCode": 1,
+    "error": "cf could not detect a project to set up in project, and the directory is not empty.\nRun cf init in an empty directory, or pass a new directory name (for example, cf init my-worker).",
+    "requests": []
+  },
+  {
+    "case": "only --package-manager",
+    "argv": [
+      "init",
+      "project",
+      "--package-manager",
+      "npm"
+    ],
+    "exitCode": 1,
+    "error": "cf could not detect a project to set up in project, and the directory is not empty.\nRun cf init in an empty directory, or pass a new directory name (for example, cf init my-worker).",
+    "requests": []
+  },
+  {
+    "case": "--package-manager value 1",
+    "argv": [
+      "init",
+      "project",
+      "--package-manager",
+      "pnpm"
+    ],
+    "exitCode": 1,
+    "error": "cf could not detect a project to set up in project, and the directory is not empty.\nRun cf init in an empty directory, or pass a new directory name (for example, cf init my-worker).",
+    "requests": []
+  },
+  {
+    "case": "--package-manager value 2",
+    "argv": [
+      "init",
+      "project",
+      "--package-manager",
+      "yarn"
+    ],
+    "exitCode": 1,
+    "error": "cf could not detect a project to set up in project, and the directory is not empty.\nRun cf init in an empty directory, or pass a new directory name (for example, cf init my-worker).",
+    "requests": []
+  },
+  {
+    "case": "--package-manager value 3",
+    "argv": [
+      "init",
+      "project",
+      "--package-manager",
+      "bun"
+    ],
+    "exitCode": 1,
+    "error": "cf could not detect a project to set up in project, and the directory is not empty.\nRun cf init in an empty directory, or pass a new directory name (for example, cf init my-worker).",
+    "requests": []
+  },
+  {
+    "case": "pairwise 1",
+    "argv": [
+      "init",
+      "project",
+      "--install=false",
+      "--package-manager",
+      "pnpm"
+    ],
+    "exitCode": 1,
+    "error": "cf could not detect a project to set up in project, and the directory is not empty.\nRun cf init in an empty directory, or pass a new directory name (for example, cf init my-worker).",
+    "requests": []
+  },
+  {
+    "case": "global quiet",
+    "argv": [
+      "init",
+      "project",
+      "--quiet"
+    ],
+    "exitCode": 1,
+    "error": "cf could not detect a project to set up in project, and the directory is not empty.\nRun cf init in an empty directory, or pass a new directory name (for example, cf init my-worker).",
+    "requests": []
+  },
+  {
+    "case": "global zone",
+    "argv": [
+      "init",
+      "project",
+      "--zone",
+      "abcdef0123456789abcdef0123456789"
+    ],
+    "exitCode": 1,
+    "error": "cf could not detect a project to set up in project, and the directory is not empty.\nRun cf init in an empty directory, or pass a new directory name (for example, cf init my-worker).",
+    "requests": []
+  },
+  {
+    "case": "global profile and mode",
+    "argv": [
+      "init",
+      "project",
+      "--profile",
+      "default",
+      "--mode",
+      "regression"
+    ],
+    "exitCode": 1,
+    "error": "cf could not detect a project to set up in project, and the directory is not empty.\nRun cf init in an empty directory, or pass a new directory name (for example, cf init my-worker).",
+    "requests": []
+  },
+  {
+    "case": "local",
+    "argv": [
+      "init",
+      "project",
+      "--local"
+    ],
+    "exitCode": 1,
+    "error": "--local is not supported by cf init.",
+    "requests": []
+  },
+  {
+    "case": "local with persistence",
+    "argv": [
+      "init",
+      "project",
+      "--local",
+      "--persist-to",
+      "regression-state"
+    ],
+    "exitCode": 1,
+    "error": "--local is not supported by cf init.",
+    "requests": []
+  },
+  {
+    "case": "dry-run",
+    "argv": [
+      "init",
+      "project",
+      "--dry-run"
+    ],
+    "exitCode": 0,
+    "requests": []
+  }
+]

@@ -1,0 +1,897 @@
+[
+  {
+    "case": "no-args",
+    "argv": [
+      "zero-trust",
+      "dex",
+      "warp-change-events",
+      "list"
+    ],
+    "exitCode": 1,
+    "error": "Missing required arguments: page, per-page, from, to",
+    "requests": []
+  },
+  {
+    "case": "required",
+    "argv": [
+      "zero-trust",
+      "dex",
+      "warp-change-events",
+      "list",
+      "--page",
+      "1",
+      "--per-page",
+      "1",
+      "--from",
+      "regression value &/?+ü",
+      "--to",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/dex/warp-change-events?page=1&per_page=1&from=regression%20value%20%26%2F%3F%2B%C3%BC&to=regression%20value%20%26%2F%3F%2B%C3%BC",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "only --type",
+    "argv": [
+      "zero-trust",
+      "dex",
+      "warp-change-events",
+      "list",
+      "--page",
+      "1",
+      "--per-page",
+      "1",
+      "--from",
+      "regression value &/?+ü",
+      "--to",
+      "regression value &/?+ü",
+      "--type",
+      "config"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/dex/warp-change-events?page=1&per_page=1&from=regression%20value%20%26%2F%3F%2B%C3%BC&to=regression%20value%20%26%2F%3F%2B%C3%BC&type=config",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "--type value 1",
+    "argv": [
+      "zero-trust",
+      "dex",
+      "warp-change-events",
+      "list",
+      "--page",
+      "1",
+      "--per-page",
+      "1",
+      "--from",
+      "regression value &/?+ü",
+      "--to",
+      "regression value &/?+ü",
+      "--type",
+      "toggle"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/dex/warp-change-events?page=1&per_page=1&from=regression%20value%20%26%2F%3F%2B%C3%BC&to=regression%20value%20%26%2F%3F%2B%C3%BC&type=toggle",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "only --toggle",
+    "argv": [
+      "zero-trust",
+      "dex",
+      "warp-change-events",
+      "list",
+      "--page",
+      "1",
+      "--per-page",
+      "1",
+      "--from",
+      "regression value &/?+ü",
+      "--to",
+      "regression value &/?+ü",
+      "--toggle",
+      "on"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/dex/warp-change-events?page=1&per_page=1&from=regression%20value%20%26%2F%3F%2B%C3%BC&to=regression%20value%20%26%2F%3F%2B%C3%BC&toggle=on",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "--toggle value 1",
+    "argv": [
+      "zero-trust",
+      "dex",
+      "warp-change-events",
+      "list",
+      "--page",
+      "1",
+      "--per-page",
+      "1",
+      "--from",
+      "regression value &/?+ü",
+      "--to",
+      "regression value &/?+ü",
+      "--toggle",
+      "off"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/dex/warp-change-events?page=1&per_page=1&from=regression%20value%20%26%2F%3F%2B%C3%BC&to=regression%20value%20%26%2F%3F%2B%C3%BC&toggle=off",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "only --config-name",
+    "argv": [
+      "zero-trust",
+      "dex",
+      "warp-change-events",
+      "list",
+      "--page",
+      "1",
+      "--per-page",
+      "1",
+      "--from",
+      "regression value &/?+ü",
+      "--to",
+      "regression value &/?+ü",
+      "--config-name",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/dex/warp-change-events?page=1&per_page=1&from=regression%20value%20%26%2F%3F%2B%C3%BC&to=regression%20value%20%26%2F%3F%2B%C3%BC&config_name=regression%20value%20%26%2F%3F%2B%C3%BC",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "only --account-name",
+    "argv": [
+      "zero-trust",
+      "dex",
+      "warp-change-events",
+      "list",
+      "--page",
+      "1",
+      "--per-page",
+      "1",
+      "--from",
+      "regression value &/?+ü",
+      "--to",
+      "regression value &/?+ü",
+      "--account-name",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/dex/warp-change-events?page=1&per_page=1&from=regression%20value%20%26%2F%3F%2B%C3%BC&to=regression%20value%20%26%2F%3F%2B%C3%BC&account_name=regression%20value%20%26%2F%3F%2B%C3%BC",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "only --sort-order",
+    "argv": [
+      "zero-trust",
+      "dex",
+      "warp-change-events",
+      "list",
+      "--page",
+      "1",
+      "--per-page",
+      "1",
+      "--from",
+      "regression value &/?+ü",
+      "--to",
+      "regression value &/?+ü",
+      "--sort-order",
+      "ASC"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/dex/warp-change-events?page=1&per_page=1&from=regression%20value%20%26%2F%3F%2B%C3%BC&to=regression%20value%20%26%2F%3F%2B%C3%BC&sort_order=ASC",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "--sort-order value 1",
+    "argv": [
+      "zero-trust",
+      "dex",
+      "warp-change-events",
+      "list",
+      "--page",
+      "1",
+      "--per-page",
+      "1",
+      "--from",
+      "regression value &/?+ü",
+      "--to",
+      "regression value &/?+ü",
+      "--sort-order",
+      "DESC"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/dex/warp-change-events?page=1&per_page=1&from=regression%20value%20%26%2F%3F%2B%C3%BC&to=regression%20value%20%26%2F%3F%2B%C3%BC&sort_order=DESC",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "pairwise 1",
+    "argv": [
+      "zero-trust",
+      "dex",
+      "warp-change-events",
+      "list",
+      "--page",
+      "1",
+      "--per-page",
+      "1",
+      "--from",
+      "regression value &/?+ü",
+      "--to",
+      "regression value &/?+ü",
+      "--type",
+      "toggle",
+      "--toggle",
+      "off",
+      "--config-name",
+      "second value &/?+ü",
+      "--account-name",
+      "second value &/?+ü",
+      "--sort-order",
+      "DESC"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/dex/warp-change-events?page=1&per_page=1&from=regression%20value%20%26%2F%3F%2B%C3%BC&to=regression%20value%20%26%2F%3F%2B%C3%BC&type=toggle&toggle=off&config_name=second%20value%20%26%2F%3F%2B%C3%BC&account_name=second%20value%20%26%2F%3F%2B%C3%BC&sort_order=DESC",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "pairwise 2",
+    "argv": [
+      "zero-trust",
+      "dex",
+      "warp-change-events",
+      "list",
+      "--page",
+      "1",
+      "--per-page",
+      "1",
+      "--from",
+      "regression value &/?+ü",
+      "--to",
+      "regression value &/?+ü",
+      "--toggle",
+      "on",
+      "--account-name",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/dex/warp-change-events?page=1&per_page=1&from=regression%20value%20%26%2F%3F%2B%C3%BC&to=regression%20value%20%26%2F%3F%2B%C3%BC&toggle=on&account_name=regression%20value%20%26%2F%3F%2B%C3%BC",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "pairwise 3",
+    "argv": [
+      "zero-trust",
+      "dex",
+      "warp-change-events",
+      "list",
+      "--page",
+      "1",
+      "--per-page",
+      "1",
+      "--from",
+      "regression value &/?+ü",
+      "--to",
+      "regression value &/?+ü",
+      "--type",
+      "toggle",
+      "--config-name",
+      "second value &/?+ü",
+      "--sort-order",
+      "DESC"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/dex/warp-change-events?page=1&per_page=1&from=regression%20value%20%26%2F%3F%2B%C3%BC&to=regression%20value%20%26%2F%3F%2B%C3%BC&type=toggle&config_name=second%20value%20%26%2F%3F%2B%C3%BC&sort_order=DESC",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "pairwise 4",
+    "argv": [
+      "zero-trust",
+      "dex",
+      "warp-change-events",
+      "list",
+      "--page",
+      "1",
+      "--per-page",
+      "1",
+      "--from",
+      "regression value &/?+ü",
+      "--to",
+      "regression value &/?+ü",
+      "--config-name",
+      "regression value &/?+ü",
+      "--account-name",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/dex/warp-change-events?page=1&per_page=1&from=regression%20value%20%26%2F%3F%2B%C3%BC&to=regression%20value%20%26%2F%3F%2B%C3%BC&config_name=regression%20value%20%26%2F%3F%2B%C3%BC&account_name=regression%20value%20%26%2F%3F%2B%C3%BC",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "pairwise 5",
+    "argv": [
+      "zero-trust",
+      "dex",
+      "warp-change-events",
+      "list",
+      "--page",
+      "1",
+      "--per-page",
+      "1",
+      "--from",
+      "regression value &/?+ü",
+      "--to",
+      "regression value &/?+ü",
+      "--type",
+      "toggle",
+      "--toggle",
+      "off",
+      "--sort-order",
+      "DESC"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/dex/warp-change-events?page=1&per_page=1&from=regression%20value%20%26%2F%3F%2B%C3%BC&to=regression%20value%20%26%2F%3F%2B%C3%BC&type=toggle&toggle=off&sort_order=DESC",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "pairwise 7",
+    "argv": [
+      "zero-trust",
+      "dex",
+      "warp-change-events",
+      "list",
+      "--page",
+      "1",
+      "--per-page",
+      "1",
+      "--from",
+      "regression value &/?+ü",
+      "--to",
+      "regression value &/?+ü",
+      "--type",
+      "toggle",
+      "--toggle",
+      "off",
+      "--config-name",
+      "second value &/?+ü",
+      "--account-name",
+      "second value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/dex/warp-change-events?page=1&per_page=1&from=regression%20value%20%26%2F%3F%2B%C3%BC&to=regression%20value%20%26%2F%3F%2B%C3%BC&type=toggle&toggle=off&config_name=second%20value%20%26%2F%3F%2B%C3%BC&account_name=second%20value%20%26%2F%3F%2B%C3%BC",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "global quiet",
+    "argv": [
+      "zero-trust",
+      "dex",
+      "warp-change-events",
+      "list",
+      "--page",
+      "1",
+      "--per-page",
+      "1",
+      "--from",
+      "regression value &/?+ü",
+      "--to",
+      "regression value &/?+ü",
+      "--quiet"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/dex/warp-change-events?page=1&per_page=1&from=regression%20value%20%26%2F%3F%2B%C3%BC&to=regression%20value%20%26%2F%3F%2B%C3%BC",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "global zone",
+    "argv": [
+      "zero-trust",
+      "dex",
+      "warp-change-events",
+      "list",
+      "--page",
+      "1",
+      "--per-page",
+      "1",
+      "--from",
+      "regression value &/?+ü",
+      "--to",
+      "regression value &/?+ü",
+      "--zone",
+      "abcdef0123456789abcdef0123456789"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/dex/warp-change-events?page=1&per_page=1&from=regression%20value%20%26%2F%3F%2B%C3%BC&to=regression%20value%20%26%2F%3F%2B%C3%BC",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "global profile and mode",
+    "argv": [
+      "zero-trust",
+      "dex",
+      "warp-change-events",
+      "list",
+      "--page",
+      "1",
+      "--per-page",
+      "1",
+      "--from",
+      "regression value &/?+ü",
+      "--to",
+      "regression value &/?+ü",
+      "--profile",
+      "default",
+      "--mode",
+      "regression"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/dex/warp-change-events?page=1&per_page=1&from=regression%20value%20%26%2F%3F%2B%C3%BC&to=regression%20value%20%26%2F%3F%2B%C3%BC",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "local",
+    "argv": [
+      "zero-trust",
+      "dex",
+      "warp-change-events",
+      "list",
+      "--page",
+      "1",
+      "--per-page",
+      "1",
+      "--from",
+      "regression value &/?+ü",
+      "--to",
+      "regression value &/?+ü",
+      "--local"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "http://localhost/cdn-cgi/local/explorer/api/dex/warp-change-events?page=1&per_page=1&from=regression%20value%20%26%2F%3F%2B%C3%BC&to=regression%20value%20%26%2F%3F%2B%C3%BC",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "gzip, deflate",
+          "accept-language": "*",
+          "connection": "keep-alive",
+          "host": "localhost",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "local with persistence",
+    "argv": [
+      "zero-trust",
+      "dex",
+      "warp-change-events",
+      "list",
+      "--page",
+      "1",
+      "--per-page",
+      "1",
+      "--from",
+      "regression value &/?+ü",
+      "--to",
+      "regression value &/?+ü",
+      "--local",
+      "--persist-to",
+      "regression-state"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "http://localhost/cdn-cgi/local/explorer/api/dex/warp-change-events?page=1&per_page=1&from=regression%20value%20%26%2F%3F%2B%C3%BC&to=regression%20value%20%26%2F%3F%2B%C3%BC",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "gzip, deflate",
+          "accept-language": "*",
+          "connection": "keep-alive",
+          "host": "localhost",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "dry-run",
+    "argv": [
+      "zero-trust",
+      "dex",
+      "warp-change-events",
+      "list",
+      "--page",
+      "1",
+      "--per-page",
+      "1",
+      "--from",
+      "regression value &/?+ü",
+      "--to",
+      "regression value &/?+ü",
+      "--dry-run"
+    ],
+    "exitCode": 0,
+    "requests": []
+  }
+]

@@ -1,0 +1,1314 @@
+[
+  {
+    "case": "no-args",
+    "argv": [
+      "zones",
+      "settings",
+      "edit"
+    ],
+    "exitCode": 1,
+    "error": "Not enough non-option arguments: got 0, need at least 1",
+    "requests": []
+  },
+  {
+    "case": "required",
+    "argv": [
+      "zones",
+      "settings",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/settings/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --enabled",
+    "argv": [
+      "zones",
+      "settings",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--enabled=true"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/settings/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "16",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "enabled": true
+        }
+      }
+    ]
+  },
+  {
+    "case": "--enabled value 1",
+    "argv": [
+      "zones",
+      "settings",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--enabled=false"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/settings/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "17",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "enabled": false
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --value-enabled",
+    "argv": [
+      "zones",
+      "settings",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--value-enabled=true"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/settings/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "26",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "value": {
+            "enabled": true
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "--value-enabled value 1",
+    "argv": [
+      "zones",
+      "settings",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--value-enabled=false"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/settings/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "27",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "value": {
+            "enabled": false
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --value-pool-id",
+    "argv": [
+      "zones",
+      "settings",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--value-pool-id",
+      "0123456789abcdef0123456789abcdef"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/settings/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "56",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "value": {
+            "pool_id": "0123456789abcdef0123456789abcdef"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --value-cache-by-device-type",
+    "argv": [
+      "zones",
+      "settings",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--value-cache-by-device-type=true"
+    ],
+    "exitCode": 1,
+    "error": "Missing dependent arguments:\n value-cache-by-device-type -> value-strict-transport-security-enabled value-cache-by-device-type -> value-cf value-cache-by-device-type -> value-wordpress value-cache-by-device-type -> value-wp-plugin value-cache-by-device-type -> value-hostnames",
+    "requests": []
+  },
+  {
+    "case": "--value-cache-by-device-type value 1",
+    "argv": [
+      "zones",
+      "settings",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--value-cache-by-device-type=false"
+    ],
+    "exitCode": 1,
+    "error": "Missing dependent arguments:\n value-cache-by-device-type -> value-strict-transport-security-enabled value-cache-by-device-type -> value-cf value-cache-by-device-type -> value-wordpress value-cache-by-device-type -> value-wp-plugin value-cache-by-device-type -> value-hostnames",
+    "requests": []
+  },
+  {
+    "case": "only --value-cf",
+    "argv": [
+      "zones",
+      "settings",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--value-cf=true"
+    ],
+    "exitCode": 1,
+    "error": "Missing dependent arguments:\n value-cf -> value-strict-transport-security-enabled value-cf -> value-wordpress value-cf -> value-wp-plugin value-cf -> value-hostnames value-cf -> value-cache-by-device-type",
+    "requests": []
+  },
+  {
+    "case": "--value-cf value 1",
+    "argv": [
+      "zones",
+      "settings",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--value-cf=false"
+    ],
+    "exitCode": 1,
+    "error": "Missing dependent arguments:\n value-cf -> value-strict-transport-security-enabled value-cf -> value-wordpress value-cf -> value-wp-plugin value-cf -> value-hostnames value-cf -> value-cache-by-device-type",
+    "requests": []
+  },
+  {
+    "case": "only --value-hostnames",
+    "argv": [
+      "zones",
+      "settings",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--value-hostnames",
+      "example.com"
+    ],
+    "exitCode": 1,
+    "error": "Missing dependent arguments:\n value-hostnames -> value-strict-transport-security-enabled value-hostnames -> value-cf value-hostnames -> value-wordpress value-hostnames -> value-wp-plugin value-hostnames -> value-cache-by-device-type",
+    "requests": []
+  },
+  {
+    "case": "only --value-wordpress",
+    "argv": [
+      "zones",
+      "settings",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--value-wordpress=true"
+    ],
+    "exitCode": 1,
+    "error": "Missing dependent arguments:\n value-wordpress -> value-strict-transport-security-enabled value-wordpress -> value-cf value-wordpress -> value-wp-plugin value-wordpress -> value-hostnames value-wordpress -> value-cache-by-device-type",
+    "requests": []
+  },
+  {
+    "case": "--value-wordpress value 1",
+    "argv": [
+      "zones",
+      "settings",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--value-wordpress=false"
+    ],
+    "exitCode": 1,
+    "error": "Missing dependent arguments:\n value-wordpress -> value-strict-transport-security-enabled value-wordpress -> value-cf value-wordpress -> value-wp-plugin value-wordpress -> value-hostnames value-wordpress -> value-cache-by-device-type",
+    "requests": []
+  },
+  {
+    "case": "only --value-wp-plugin",
+    "argv": [
+      "zones",
+      "settings",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--value-wp-plugin=true"
+    ],
+    "exitCode": 1,
+    "error": "Missing dependent arguments:\n value-wp-plugin -> value-strict-transport-security-enabled value-wp-plugin -> value-cf value-wp-plugin -> value-wordpress value-wp-plugin -> value-hostnames value-wp-plugin -> value-cache-by-device-type",
+    "requests": []
+  },
+  {
+    "case": "--value-wp-plugin value 1",
+    "argv": [
+      "zones",
+      "settings",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--value-wp-plugin=false"
+    ],
+    "exitCode": 1,
+    "error": "Missing dependent arguments:\n value-wp-plugin -> value-strict-transport-security-enabled value-wp-plugin -> value-cf value-wp-plugin -> value-wordpress value-wp-plugin -> value-hostnames value-wp-plugin -> value-cache-by-device-type",
+    "requests": []
+  },
+  {
+    "case": "only --value-strict-transport-security-enabled",
+    "argv": [
+      "zones",
+      "settings",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--value-strict-transport-security-enabled=true"
+    ],
+    "exitCode": 1,
+    "error": "Missing dependent arguments:\n value-strict-transport-security-enabled -> value-cf value-strict-transport-security-enabled -> value-wordpress value-strict-transport-security-enabled -> value-wp-plugin value-strict-transport-security-enabled -> value-hostnames value-strict-transport-security-enabled -> value-cache-by-device-type",
+    "requests": []
+  },
+  {
+    "case": "--value-strict-transport-security-enabled value 1",
+    "argv": [
+      "zones",
+      "settings",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--value-strict-transport-security-enabled=false"
+    ],
+    "exitCode": 1,
+    "error": "Missing dependent arguments:\n value-strict-transport-security-enabled -> value-cf value-strict-transport-security-enabled -> value-wordpress value-strict-transport-security-enabled -> value-wp-plugin value-strict-transport-security-enabled -> value-hostnames value-strict-transport-security-enabled -> value-cache-by-device-type",
+    "requests": []
+  },
+  {
+    "case": "only --value-strict-transport-security-include-subdomains",
+    "argv": [
+      "zones",
+      "settings",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--value-strict-transport-security-include-subdomains=true"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/settings/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "67",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "value": {
+            "strict_transport_security": {
+              "include_subdomains": true
+            }
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "--value-strict-transport-security-include-subdomains value 1",
+    "argv": [
+      "zones",
+      "settings",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--value-strict-transport-security-include-subdomains=false"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/settings/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "68",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "value": {
+            "strict_transport_security": {
+              "include_subdomains": false
+            }
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --value-strict-transport-security-max-age",
+    "argv": [
+      "zones",
+      "settings",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--value-strict-transport-security-max-age",
+      "1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/settings/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "53",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "value": {
+            "strict_transport_security": {
+              "max_age": 1
+            }
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --value-strict-transport-security-nosniff",
+    "argv": [
+      "zones",
+      "settings",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--value-strict-transport-security-nosniff=true"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/settings/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "56",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "value": {
+            "strict_transport_security": {
+              "nosniff": true
+            }
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "--value-strict-transport-security-nosniff value 1",
+    "argv": [
+      "zones",
+      "settings",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--value-strict-transport-security-nosniff=false"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/settings/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "57",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "value": {
+            "strict_transport_security": {
+              "nosniff": false
+            }
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --value-strict-transport-security-preload",
+    "argv": [
+      "zones",
+      "settings",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--value-strict-transport-security-preload=true"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/settings/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "56",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "value": {
+            "strict_transport_security": {
+              "preload": true
+            }
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "--value-strict-transport-security-preload value 1",
+    "argv": [
+      "zones",
+      "settings",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--value-strict-transport-security-preload=false"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/settings/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "57",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "value": {
+            "strict_transport_security": {
+              "preload": false
+            }
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 0",
+    "argv": [
+      "zones",
+      "settings",
+      "edit",
+      "0123456789abcdef0123456789abcdef"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/settings/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "2",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {}
+      }
+    ]
+  },
+  {
+    "case": "pairwise 1",
+    "argv": [
+      "zones",
+      "settings",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--enabled=false",
+      "--value-enabled=false",
+      "--value-pool-id",
+      "0123456789abcdef0123456789abcdef",
+      "--value-cache-by-device-type=false",
+      "--value-cf=false",
+      "--value-hostnames",
+      "example.com",
+      "example.com",
+      "--value-wordpress=false",
+      "--value-wp-plugin=false",
+      "--value-strict-transport-security-enabled=false",
+      "--value-strict-transport-security-include-subdomains=false",
+      "--value-strict-transport-security-max-age",
+      "2",
+      "--value-strict-transport-security-nosniff=false",
+      "--value-strict-transport-security-preload=false"
+    ],
+    "exitCode": 1,
+    "error": "Arguments value-pool-id and value-cache-by-device-type are mutually exclusive",
+    "requests": []
+  },
+  {
+    "case": "pairwise 2",
+    "argv": [
+      "zones",
+      "settings",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--value-enabled=true",
+      "--value-cache-by-device-type=true",
+      "--value-hostnames",
+      "example.com",
+      "--value-wp-plugin=true",
+      "--value-strict-transport-security-include-subdomains=true",
+      "--value-strict-transport-security-nosniff=true"
+    ],
+    "exitCode": 1,
+    "error": "Missing dependent arguments:\n value-cache-by-device-type -> value-strict-transport-security-enabled value-cache-by-device-type -> value-cf value-cache-by-device-type -> value-wordpress value-hostnames -> value-strict-transport-security-enabled value-hostnames -> value-cf value-hostnames -> value-wordpress value-wp-plugin -> value-strict-transport-security-enabled value-wp-plugin -> value-cf value-wp-plugin -> value-wordpress",
+    "requests": []
+  },
+  {
+    "case": "pairwise 3",
+    "argv": [
+      "zones",
+      "settings",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--enabled=false",
+      "--value-pool-id",
+      "0123456789abcdef0123456789abcdef",
+      "--value-cf=false",
+      "--value-wordpress=false",
+      "--value-strict-transport-security-enabled=false",
+      "--value-strict-transport-security-max-age",
+      "2",
+      "--value-strict-transport-security-preload=false"
+    ],
+    "exitCode": 1,
+    "error": "Missing dependent arguments:\n value-cf -> value-wp-plugin value-cf -> value-hostnames value-cf -> value-cache-by-device-type value-wordpress -> value-wp-plugin value-wordpress -> value-hostnames value-wordpress -> value-cache-by-device-type value-strict-transport-security-enabled -> value-wp-plugin value-strict-transport-security-enabled -> value-hostnames value-strict-transport-security-enabled -> value-cache-by-device-type",
+    "requests": []
+  },
+  {
+    "case": "pairwise 4",
+    "argv": [
+      "zones",
+      "settings",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--value-pool-id",
+      "0123456789abcdef0123456789abcdef",
+      "--value-cache-by-device-type=true",
+      "--value-wordpress=true",
+      "--value-wp-plugin=true",
+      "--value-strict-transport-security-max-age",
+      "1",
+      "--value-strict-transport-security-nosniff=true"
+    ],
+    "exitCode": 1,
+    "error": "Missing dependent arguments:\n value-cache-by-device-type -> value-strict-transport-security-enabled value-cache-by-device-type -> value-cf value-cache-by-device-type -> value-hostnames value-wordpress -> value-strict-transport-security-enabled value-wordpress -> value-cf value-wordpress -> value-hostnames value-wp-plugin -> value-strict-transport-security-enabled value-wp-plugin -> value-cf value-wp-plugin -> value-hostnames",
+    "requests": []
+  },
+  {
+    "case": "pairwise 5",
+    "argv": [
+      "zones",
+      "settings",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--enabled=false",
+      "--value-enabled=false",
+      "--value-cf=false",
+      "--value-hostnames",
+      "example.com",
+      "example.com",
+      "--value-strict-transport-security-enabled=false",
+      "--value-strict-transport-security-include-subdomains=false",
+      "--value-strict-transport-security-preload=false"
+    ],
+    "exitCode": 1,
+    "error": "Missing dependent arguments:\n value-cf -> value-wordpress value-cf -> value-wp-plugin value-cf -> value-cache-by-device-type value-hostnames -> value-wordpress value-hostnames -> value-wp-plugin value-hostnames -> value-cache-by-device-type value-strict-transport-security-enabled -> value-wordpress value-strict-transport-security-enabled -> value-wp-plugin value-strict-transport-security-enabled -> value-cache-by-device-type",
+    "requests": []
+  },
+  {
+    "case": "pairwise 6",
+    "argv": [
+      "zones",
+      "settings",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--value-cf=true",
+      "--value-hostnames",
+      "example.com",
+      "--value-wordpress=true",
+      "--value-wp-plugin=true",
+      "--value-strict-transport-security-preload=true"
+    ],
+    "exitCode": 1,
+    "error": "Missing dependent arguments:\n value-cf -> value-strict-transport-security-enabled value-cf -> value-cache-by-device-type value-hostnames -> value-strict-transport-security-enabled value-hostnames -> value-cache-by-device-type value-wordpress -> value-strict-transport-security-enabled value-wordpress -> value-cache-by-device-type value-wp-plugin -> value-strict-transport-security-enabled value-wp-plugin -> value-cache-by-device-type",
+    "requests": []
+  },
+  {
+    "case": "pairwise 7",
+    "argv": [
+      "zones",
+      "settings",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--enabled=false",
+      "--value-enabled=false",
+      "--value-pool-id",
+      "0123456789abcdef0123456789abcdef",
+      "--value-cache-by-device-type=false",
+      "--value-strict-transport-security-enabled=false",
+      "--value-strict-transport-security-include-subdomains=false",
+      "--value-strict-transport-security-max-age",
+      "2",
+      "--value-strict-transport-security-nosniff=false"
+    ],
+    "exitCode": 1,
+    "error": "Missing dependent arguments:\n value-cache-by-device-type -> value-cf value-cache-by-device-type -> value-wordpress value-cache-by-device-type -> value-wp-plugin value-cache-by-device-type -> value-hostnames value-strict-transport-security-enabled -> value-cf value-strict-transport-security-enabled -> value-wordpress value-strict-transport-security-enabled -> value-wp-plugin value-strict-transport-security-enabled -> value-hostnames",
+    "requests": []
+  },
+  {
+    "case": "pairwise 8",
+    "argv": [
+      "zones",
+      "settings",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--value-strict-transport-security-enabled=true",
+      "--value-strict-transport-security-include-subdomains=true",
+      "--value-strict-transport-security-max-age",
+      "1",
+      "--value-strict-transport-security-nosniff=true",
+      "--value-strict-transport-security-preload=true"
+    ],
+    "exitCode": 1,
+    "error": "Missing dependent arguments:\n value-strict-transport-security-enabled -> value-cf value-strict-transport-security-enabled -> value-wordpress value-strict-transport-security-enabled -> value-wp-plugin value-strict-transport-security-enabled -> value-hostnames value-strict-transport-security-enabled -> value-cache-by-device-type",
+    "requests": []
+  },
+  {
+    "case": "pairwise 9",
+    "argv": [
+      "zones",
+      "settings",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--enabled=false",
+      "--value-enabled=false",
+      "--value-pool-id",
+      "0123456789abcdef0123456789abcdef",
+      "--value-cache-by-device-type=false",
+      "--value-cf=false",
+      "--value-hostnames",
+      "example.com",
+      "example.com",
+      "--value-wordpress=false",
+      "--value-wp-plugin=false"
+    ],
+    "exitCode": 1,
+    "error": "Missing dependent arguments:\n value-cache-by-device-type -> value-strict-transport-security-enabled value-cf -> value-strict-transport-security-enabled value-hostnames -> value-strict-transport-security-enabled value-wordpress -> value-strict-transport-security-enabled value-wp-plugin -> value-strict-transport-security-enabled",
+    "requests": []
+  },
+  {
+    "case": "global quiet",
+    "argv": [
+      "zones",
+      "settings",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--quiet"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/settings/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "global zone",
+    "argv": [
+      "zones",
+      "settings",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--zone",
+      "abcdef0123456789abcdef0123456789"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/settings/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "global profile and mode",
+    "argv": [
+      "zones",
+      "settings",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--profile",
+      "default",
+      "--mode",
+      "regression"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/settings/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "local",
+    "argv": [
+      "zones",
+      "settings",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--local"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "http://localhost/cdn-cgi/local/explorer/api/zones/abcdef0123456789abcdef0123456789/settings/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "gzip, deflate",
+          "accept-language": "*",
+          "connection": "keep-alive",
+          "content-type": "application/json",
+          "host": "localhost",
+          "sec-fetch-mode": "cors",
+          "transfer-encoding": "chunked",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "local with persistence",
+    "argv": [
+      "zones",
+      "settings",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--local",
+      "--persist-to",
+      "regression-state"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "http://localhost/cdn-cgi/local/explorer/api/zones/abcdef0123456789abcdef0123456789/settings/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "gzip, deflate",
+          "accept-language": "*",
+          "connection": "keep-alive",
+          "content-type": "application/json",
+          "host": "localhost",
+          "sec-fetch-mode": "cors",
+          "transfer-encoding": "chunked",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "zone by domain",
+    "argv": [
+      "zones",
+      "settings",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--zone",
+      "regression-d978b8d44733.example.com"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/zones?name=regression-d978b8d44733.example.com&account.id=0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      },
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/settings/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "dry-run",
+    "argv": [
+      "zones",
+      "settings",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--dry-run"
+    ],
+    "exitCode": 0,
+    "requests": []
+  },
+  {
+    "case": "body from file",
+    "argv": [
+      "zones",
+      "settings",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--body",
+      "@<body.json>"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/settings/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "array body",
+    "argv": [
+      "zones",
+      "settings",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--body",
+      "[{\"regression\":\"first\"},{\"regression\":\"second\"}]"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/settings/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "48",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": [
+          {
+            "regression": "first"
+          },
+          {
+            "regression": "second"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "case": "field flags",
+    "argv": [
+      "zones",
+      "settings",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--enabled=true",
+      "--value-enabled=true",
+      "--value-pool-id",
+      "0123456789abcdef0123456789abcdef",
+      "--value-cache-by-device-type=true",
+      "--value-cf=true",
+      "--value-hostnames",
+      "example.com",
+      "--value-wordpress=true",
+      "--value-wp-plugin=true",
+      "--value-strict-transport-security-enabled=true",
+      "--value-strict-transport-security-include-subdomains=true",
+      "--value-strict-transport-security-max-age",
+      "1",
+      "--value-strict-transport-security-nosniff=true",
+      "--value-strict-transport-security-preload=true"
+    ],
+    "exitCode": 1,
+    "error": "Arguments value-pool-id and value-cache-by-device-type are mutually exclusive",
+    "requests": []
+  }
+]

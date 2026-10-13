@@ -1,0 +1,1165 @@
+[
+  {
+    "case": "no-args",
+    "argv": [
+      "pipelines",
+      "streams",
+      "create"
+    ],
+    "exitCode": 1,
+    "error": "--name is required. Pass --name <value> or run interactively.",
+    "requests": []
+  },
+  {
+    "case": "required",
+    "argv": [
+      "pipelines",
+      "streams",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/pipelines/v1/streams",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --format-decimal-encoding",
+    "argv": [
+      "pipelines",
+      "streams",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--format-decimal-encoding",
+      "number"
+    ],
+    "exitCode": 1,
+    "error": "--format-type is required when any --format-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "--format-decimal-encoding value 1",
+    "argv": [
+      "pipelines",
+      "streams",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--format-decimal-encoding",
+      "string"
+    ],
+    "exitCode": 1,
+    "error": "--format-type is required when any --format-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "--format-decimal-encoding value 2",
+    "argv": [
+      "pipelines",
+      "streams",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--format-decimal-encoding",
+      "bytes"
+    ],
+    "exitCode": 1,
+    "error": "--format-type is required when any --format-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "only --format-timestamp-format",
+    "argv": [
+      "pipelines",
+      "streams",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--format-timestamp-format",
+      "rfc3339"
+    ],
+    "exitCode": 1,
+    "error": "--format-type is required when any --format-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "--format-timestamp-format value 1",
+    "argv": [
+      "pipelines",
+      "streams",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--format-timestamp-format",
+      "unix_millis"
+    ],
+    "exitCode": 1,
+    "error": "--format-type is required when any --format-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "only --format-unstructured",
+    "argv": [
+      "pipelines",
+      "streams",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--format-unstructured=true"
+    ],
+    "exitCode": 1,
+    "error": "--format-type is required when any --format-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "--format-unstructured value 1",
+    "argv": [
+      "pipelines",
+      "streams",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--format-unstructured=false"
+    ],
+    "exitCode": 1,
+    "error": "--format-type is required when any --format-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "only --format-type",
+    "argv": [
+      "pipelines",
+      "streams",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--format-type",
+      "json"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/pipelines/v1/streams",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "59",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "format": {
+            "type": "json"
+          },
+          "name": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "--format-type value 1",
+    "argv": [
+      "pipelines",
+      "streams",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--format-type",
+      "parquet"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/pipelines/v1/streams",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "62",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "format": {
+            "type": "parquet"
+          },
+          "name": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --format-compression",
+    "argv": [
+      "pipelines",
+      "streams",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--format-compression",
+      "uncompressed"
+    ],
+    "exitCode": 1,
+    "error": "--format-type is required when any --format-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "--format-compression value 1",
+    "argv": [
+      "pipelines",
+      "streams",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--format-compression",
+      "snappy"
+    ],
+    "exitCode": 1,
+    "error": "--format-type is required when any --format-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "--format-compression value 2",
+    "argv": [
+      "pipelines",
+      "streams",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--format-compression",
+      "gzip"
+    ],
+    "exitCode": 1,
+    "error": "--format-type is required when any --format-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "--format-compression value 3",
+    "argv": [
+      "pipelines",
+      "streams",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--format-compression",
+      "zstd"
+    ],
+    "exitCode": 1,
+    "error": "--format-type is required when any --format-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "--format-compression value 4",
+    "argv": [
+      "pipelines",
+      "streams",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--format-compression",
+      "lz4"
+    ],
+    "exitCode": 1,
+    "error": "--format-type is required when any --format-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "only --format-row-group-bytes",
+    "argv": [
+      "pipelines",
+      "streams",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--format-row-group-bytes",
+      "1"
+    ],
+    "exitCode": 1,
+    "error": "--format-type is required when any --format-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "only --http-authentication",
+    "argv": [
+      "pipelines",
+      "streams",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--http-authentication=true"
+    ],
+    "exitCode": 1,
+    "error": "--http-enabled is required when any --http-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "--http-authentication value 1",
+    "argv": [
+      "pipelines",
+      "streams",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--http-authentication=false"
+    ],
+    "exitCode": 1,
+    "error": "--http-enabled is required when any --http-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "only --http-cors-origins",
+    "argv": [
+      "pipelines",
+      "streams",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--http-cors-origins",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 1,
+    "error": "--http-authentication, --http-enabled are required when any --http-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "only --http-enabled",
+    "argv": [
+      "pipelines",
+      "streams",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--http-enabled=true"
+    ],
+    "exitCode": 1,
+    "error": "--http-authentication is required when any --http-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "--http-enabled value 1",
+    "argv": [
+      "pipelines",
+      "streams",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--http-enabled=false"
+    ],
+    "exitCode": 1,
+    "error": "--http-authentication is required when any --http-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "only --schema-inferred",
+    "argv": [
+      "pipelines",
+      "streams",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--schema-inferred=true"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/pipelines/v1/streams",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "61",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "name": "regression value &/?+ü",
+          "schema": {
+            "inferred": true
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "--schema-inferred value 1",
+    "argv": [
+      "pipelines",
+      "streams",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--schema-inferred=false"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/pipelines/v1/streams",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "62",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "name": "regression value &/?+ü",
+          "schema": {
+            "inferred": false
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --worker-binding-enabled",
+    "argv": [
+      "pipelines",
+      "streams",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--worker-binding-enabled=true"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/pipelines/v1/streams",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "68",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "name": "regression value &/?+ü",
+          "worker_binding": {
+            "enabled": true
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "--worker-binding-enabled value 1",
+    "argv": [
+      "pipelines",
+      "streams",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--worker-binding-enabled=false"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/pipelines/v1/streams",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "69",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "name": "regression value &/?+ü",
+          "worker_binding": {
+            "enabled": false
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 0",
+    "argv": [
+      "pipelines",
+      "streams",
+      "create",
+      "--name",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/pipelines/v1/streams",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "34",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "name": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 1",
+    "argv": [
+      "pipelines",
+      "streams",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--format-decimal-encoding",
+      "string",
+      "--format-timestamp-format",
+      "unix_millis",
+      "--format-unstructured=false",
+      "--format-type",
+      "parquet",
+      "--format-compression",
+      "snappy",
+      "--format-row-group-bytes",
+      "2",
+      "--http-authentication=false",
+      "--http-cors-origins",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--http-enabled=false",
+      "--schema-inferred=false",
+      "--worker-binding-enabled=false"
+    ],
+    "exitCode": 1,
+    "error": "Arguments format-decimal-encoding and format-compression are mutually exclusive",
+    "requests": []
+  },
+  {
+    "case": "pairwise 2",
+    "argv": [
+      "pipelines",
+      "streams",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--format-timestamp-format",
+      "rfc3339",
+      "--format-type",
+      "json",
+      "--format-row-group-bytes",
+      "1",
+      "--http-cors-origins",
+      "regression value &/?+ü",
+      "--schema-inferred=true"
+    ],
+    "exitCode": 1,
+    "error": "Arguments format-timestamp-format and format-row-group-bytes are mutually exclusive",
+    "requests": []
+  },
+  {
+    "case": "pairwise 3",
+    "argv": [
+      "pipelines",
+      "streams",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--format-decimal-encoding",
+      "string",
+      "--format-unstructured=false",
+      "--format-compression",
+      "snappy",
+      "--http-authentication=false",
+      "--http-enabled=false",
+      "--worker-binding-enabled=false"
+    ],
+    "exitCode": 1,
+    "error": "Arguments format-decimal-encoding and format-compression are mutually exclusive",
+    "requests": []
+  },
+  {
+    "case": "pairwise 4",
+    "argv": [
+      "pipelines",
+      "streams",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--format-unstructured=true",
+      "--format-type",
+      "json",
+      "--http-authentication=true",
+      "--http-cors-origins",
+      "regression value &/?+ü",
+      "--worker-binding-enabled=true"
+    ],
+    "exitCode": 1,
+    "error": "--http-enabled is required when any --http-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "pairwise 5",
+    "argv": [
+      "pipelines",
+      "streams",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--format-decimal-encoding",
+      "string",
+      "--format-timestamp-format",
+      "unix_millis",
+      "--format-compression",
+      "snappy",
+      "--format-row-group-bytes",
+      "2",
+      "--http-enabled=false",
+      "--schema-inferred=false"
+    ],
+    "exitCode": 1,
+    "error": "Arguments format-decimal-encoding and format-compression are mutually exclusive",
+    "requests": []
+  },
+  {
+    "case": "pairwise 6",
+    "argv": [
+      "pipelines",
+      "streams",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--format-compression",
+      "uncompressed",
+      "--format-row-group-bytes",
+      "1",
+      "--http-authentication=true",
+      "--http-cors-origins",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 1,
+    "error": "--format-type is required when any --format-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "pairwise 7",
+    "argv": [
+      "pipelines",
+      "streams",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--format-decimal-encoding",
+      "string",
+      "--format-timestamp-format",
+      "unix_millis",
+      "--format-unstructured=false",
+      "--format-type",
+      "parquet",
+      "--http-enabled=false",
+      "--schema-inferred=false",
+      "--worker-binding-enabled=false"
+    ],
+    "exitCode": 1,
+    "error": "--http-authentication is required when any --http-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "pairwise 8",
+    "argv": [
+      "pipelines",
+      "streams",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--http-enabled=true",
+      "--schema-inferred=true",
+      "--worker-binding-enabled=true"
+    ],
+    "exitCode": 1,
+    "error": "--http-authentication is required when any --http-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "pairwise 9",
+    "argv": [
+      "pipelines",
+      "streams",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--format-decimal-encoding",
+      "string",
+      "--format-timestamp-format",
+      "unix_millis",
+      "--format-unstructured=false",
+      "--format-type",
+      "parquet",
+      "--format-compression",
+      "snappy",
+      "--format-row-group-bytes",
+      "2",
+      "--http-authentication=false",
+      "--http-cors-origins",
+      "second value &/?+ü",
+      "second value &/?+ü"
+    ],
+    "exitCode": 1,
+    "error": "Arguments format-decimal-encoding and format-compression are mutually exclusive",
+    "requests": []
+  },
+  {
+    "case": "global quiet",
+    "argv": [
+      "pipelines",
+      "streams",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--quiet"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/pipelines/v1/streams",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "global zone",
+    "argv": [
+      "pipelines",
+      "streams",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--zone",
+      "abcdef0123456789abcdef0123456789"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/pipelines/v1/streams",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "global profile and mode",
+    "argv": [
+      "pipelines",
+      "streams",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--profile",
+      "default",
+      "--mode",
+      "regression"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/pipelines/v1/streams",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "local",
+    "argv": [
+      "pipelines",
+      "streams",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--local"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "http://localhost/cdn-cgi/local/explorer/api/pipelines/v1/streams",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "gzip, deflate",
+          "accept-language": "*",
+          "connection": "keep-alive",
+          "content-type": "application/json",
+          "host": "localhost",
+          "sec-fetch-mode": "cors",
+          "transfer-encoding": "chunked",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "local with persistence",
+    "argv": [
+      "pipelines",
+      "streams",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--local",
+      "--persist-to",
+      "regression-state"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "http://localhost/cdn-cgi/local/explorer/api/pipelines/v1/streams",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "gzip, deflate",
+          "accept-language": "*",
+          "connection": "keep-alive",
+          "content-type": "application/json",
+          "host": "localhost",
+          "sec-fetch-mode": "cors",
+          "transfer-encoding": "chunked",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "dry-run",
+    "argv": [
+      "pipelines",
+      "streams",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--dry-run"
+    ],
+    "exitCode": 0,
+    "requests": []
+  },
+  {
+    "case": "body from file",
+    "argv": [
+      "pipelines",
+      "streams",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--body",
+      "@<body.json>"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/pipelines/v1/streams",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "array body",
+    "argv": [
+      "pipelines",
+      "streams",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--body",
+      "[{\"regression\":\"first\"},{\"regression\":\"second\"}]"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/pipelines/v1/streams",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "56",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "0": {
+            "regression": "first"
+          },
+          "1": {
+            "regression": "second"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "field flags",
+    "argv": [
+      "pipelines",
+      "streams",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--format-decimal-encoding",
+      "number",
+      "--format-timestamp-format",
+      "rfc3339",
+      "--format-unstructured=true",
+      "--format-type",
+      "json",
+      "--format-compression",
+      "uncompressed",
+      "--format-row-group-bytes",
+      "1",
+      "--http-authentication=true",
+      "--http-cors-origins",
+      "regression value &/?+ü",
+      "--http-enabled=true",
+      "--schema-inferred=true",
+      "--worker-binding-enabled=true"
+    ],
+    "exitCode": 1,
+    "error": "Arguments format-decimal-encoding and format-compression are mutually exclusive",
+    "requests": []
+  }
+]

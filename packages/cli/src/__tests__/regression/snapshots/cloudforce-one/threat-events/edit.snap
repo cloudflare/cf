@@ -1,0 +1,1655 @@
+[
+  {
+    "case": "no-args",
+    "argv": [
+      "cloudforce-one",
+      "threat-events",
+      "edit"
+    ],
+    "exitCode": 1,
+    "error": "Not enough non-option arguments: got 0, need at least 1",
+    "requests": []
+  },
+  {
+    "case": "required",
+    "argv": [
+      "cloudforce-one",
+      "threat-events",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--dataset-id",
+      "0123456789abcdef0123456789abcdef",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/cloudforce-one/events/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --attacker",
+    "argv": [
+      "cloudforce-one",
+      "threat-events",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--dataset-id",
+      "0123456789abcdef0123456789abcdef",
+      "--attacker",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/cloudforce-one/events/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "85",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "attacker": "regression value &/?+ü",
+          "datasetId": "0123456789abcdef0123456789abcdef"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --attacker-country",
+    "argv": [
+      "cloudforce-one",
+      "threat-events",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--dataset-id",
+      "0123456789abcdef0123456789abcdef",
+      "--attacker-country",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/cloudforce-one/events/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "92",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "attackerCountry": "regression value &/?+ü",
+          "datasetId": "0123456789abcdef0123456789abcdef"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --category",
+    "argv": [
+      "cloudforce-one",
+      "threat-events",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--dataset-id",
+      "0123456789abcdef0123456789abcdef",
+      "--category",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/cloudforce-one/events/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "85",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "category": "regression value &/?+ü",
+          "datasetId": "0123456789abcdef0123456789abcdef"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --created-at",
+    "argv": [
+      "cloudforce-one",
+      "threat-events",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--dataset-id",
+      "0123456789abcdef0123456789abcdef",
+      "--created-at",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/cloudforce-one/events/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "86",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "createdAt": "regression value &/?+ü",
+          "datasetId": "0123456789abcdef0123456789abcdef"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --date",
+    "argv": [
+      "cloudforce-one",
+      "threat-events",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--dataset-id",
+      "0123456789abcdef0123456789abcdef",
+      "--date",
+      "2026-01-02T03:04:05Z"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/cloudforce-one/events/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "78",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "datasetId": "0123456789abcdef0123456789abcdef",
+          "date": "2026-01-02T03:04:05Z"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --event",
+    "argv": [
+      "cloudforce-one",
+      "threat-events",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--dataset-id",
+      "0123456789abcdef0123456789abcdef",
+      "--event",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/cloudforce-one/events/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "82",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "datasetId": "0123456789abcdef0123456789abcdef",
+          "event": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --indicator",
+    "argv": [
+      "cloudforce-one",
+      "threat-events",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--dataset-id",
+      "0123456789abcdef0123456789abcdef",
+      "--indicator",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/cloudforce-one/events/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "86",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "datasetId": "0123456789abcdef0123456789abcdef",
+          "indicator": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --indicator-type",
+    "argv": [
+      "cloudforce-one",
+      "threat-events",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--dataset-id",
+      "0123456789abcdef0123456789abcdef",
+      "--indicator-type",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/cloudforce-one/events/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "90",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "datasetId": "0123456789abcdef0123456789abcdef",
+          "indicatorType": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --insight",
+    "argv": [
+      "cloudforce-one",
+      "threat-events",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--dataset-id",
+      "0123456789abcdef0123456789abcdef",
+      "--insight",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/cloudforce-one/events/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "84",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "datasetId": "0123456789abcdef0123456789abcdef",
+          "insight": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --raw-source",
+    "argv": [
+      "cloudforce-one",
+      "threat-events",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--dataset-id",
+      "0123456789abcdef0123456789abcdef",
+      "--raw-source",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/cloudforce-one/events/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "91",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "datasetId": "0123456789abcdef0123456789abcdef",
+          "raw": {
+            "source": "regression value &/?+ü"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --raw-tlp",
+    "argv": [
+      "cloudforce-one",
+      "threat-events",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--dataset-id",
+      "0123456789abcdef0123456789abcdef",
+      "--raw-tlp",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/cloudforce-one/events/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "88",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "datasetId": "0123456789abcdef0123456789abcdef",
+          "raw": {
+            "tlp": "regression value &/?+ü"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --target-country",
+    "argv": [
+      "cloudforce-one",
+      "threat-events",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--dataset-id",
+      "0123456789abcdef0123456789abcdef",
+      "--target-country",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/cloudforce-one/events/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "90",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "datasetId": "0123456789abcdef0123456789abcdef",
+          "targetCountry": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --target-industry",
+    "argv": [
+      "cloudforce-one",
+      "threat-events",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--dataset-id",
+      "0123456789abcdef0123456789abcdef",
+      "--target-industry",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/cloudforce-one/events/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "91",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "datasetId": "0123456789abcdef0123456789abcdef",
+          "targetIndustry": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --tlp",
+    "argv": [
+      "cloudforce-one",
+      "threat-events",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--dataset-id",
+      "0123456789abcdef0123456789abcdef",
+      "--tlp",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/cloudforce-one/events/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "80",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "datasetId": "0123456789abcdef0123456789abcdef",
+          "tlp": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 0",
+    "argv": [
+      "cloudforce-one",
+      "threat-events",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--dataset-id",
+      "0123456789abcdef0123456789abcdef"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/cloudforce-one/events/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "48",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "datasetId": "0123456789abcdef0123456789abcdef"
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 1",
+    "argv": [
+      "cloudforce-one",
+      "threat-events",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--dataset-id",
+      "0123456789abcdef0123456789abcdef",
+      "--attacker",
+      "second value &/?+ü",
+      "--attacker-country",
+      "second value &/?+ü",
+      "--category",
+      "second value &/?+ü",
+      "--created-at",
+      "second value &/?+ü",
+      "--date",
+      "2026-01-02T03:04:05Z",
+      "--event",
+      "second value &/?+ü",
+      "--indicator",
+      "second value &/?+ü",
+      "--indicator-type",
+      "second value &/?+ü",
+      "--insight",
+      "second value &/?+ü",
+      "--raw-source",
+      "second value &/?+ü",
+      "--raw-tlp",
+      "second value &/?+ü",
+      "--target-country",
+      "second value &/?+ü",
+      "--target-industry",
+      "second value &/?+ü",
+      "--tlp",
+      "second value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/cloudforce-one/events/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "524",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "attacker": "second value &/?+ü",
+          "attackerCountry": "second value &/?+ü",
+          "category": "second value &/?+ü",
+          "createdAt": "second value &/?+ü",
+          "datasetId": "0123456789abcdef0123456789abcdef",
+          "date": "2026-01-02T03:04:05Z",
+          "event": "second value &/?+ü",
+          "indicator": "second value &/?+ü",
+          "indicatorType": "second value &/?+ü",
+          "insight": "second value &/?+ü",
+          "raw": {
+            "source": "second value &/?+ü",
+            "tlp": "second value &/?+ü"
+          },
+          "targetCountry": "second value &/?+ü",
+          "targetIndustry": "second value &/?+ü",
+          "tlp": "second value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 2",
+    "argv": [
+      "cloudforce-one",
+      "threat-events",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--dataset-id",
+      "0123456789abcdef0123456789abcdef",
+      "--attacker-country",
+      "regression value &/?+ü",
+      "--created-at",
+      "regression value &/?+ü",
+      "--event",
+      "regression value &/?+ü",
+      "--indicator-type",
+      "regression value &/?+ü",
+      "--raw-source",
+      "regression value &/?+ü",
+      "--target-country",
+      "regression value &/?+ü",
+      "--tlp",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/cloudforce-one/events/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "323",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "attackerCountry": "regression value &/?+ü",
+          "createdAt": "regression value &/?+ü",
+          "datasetId": "0123456789abcdef0123456789abcdef",
+          "event": "regression value &/?+ü",
+          "indicatorType": "regression value &/?+ü",
+          "raw": {
+            "source": "regression value &/?+ü"
+          },
+          "targetCountry": "regression value &/?+ü",
+          "tlp": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 3",
+    "argv": [
+      "cloudforce-one",
+      "threat-events",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--dataset-id",
+      "0123456789abcdef0123456789abcdef",
+      "--attacker",
+      "second value &/?+ü",
+      "--category",
+      "second value &/?+ü",
+      "--date",
+      "2026-01-02T03:04:05Z",
+      "--indicator",
+      "second value &/?+ü",
+      "--insight",
+      "second value &/?+ü",
+      "--raw-tlp",
+      "second value &/?+ü",
+      "--target-industry",
+      "second value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/cloudforce-one/events/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "285",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "attacker": "second value &/?+ü",
+          "category": "second value &/?+ü",
+          "datasetId": "0123456789abcdef0123456789abcdef",
+          "date": "2026-01-02T03:04:05Z",
+          "indicator": "second value &/?+ü",
+          "insight": "second value &/?+ü",
+          "raw": {
+            "tlp": "second value &/?+ü"
+          },
+          "targetIndustry": "second value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 4",
+    "argv": [
+      "cloudforce-one",
+      "threat-events",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--dataset-id",
+      "0123456789abcdef0123456789abcdef",
+      "--category",
+      "regression value &/?+ü",
+      "--created-at",
+      "regression value &/?+ü",
+      "--indicator",
+      "regression value &/?+ü",
+      "--indicator-type",
+      "regression value &/?+ü",
+      "--raw-tlp",
+      "regression value &/?+ü",
+      "--target-country",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/cloudforce-one/events/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "285",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "category": "regression value &/?+ü",
+          "createdAt": "regression value &/?+ü",
+          "datasetId": "0123456789abcdef0123456789abcdef",
+          "indicator": "regression value &/?+ü",
+          "indicatorType": "regression value &/?+ü",
+          "raw": {
+            "tlp": "regression value &/?+ü"
+          },
+          "targetCountry": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 5",
+    "argv": [
+      "cloudforce-one",
+      "threat-events",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--dataset-id",
+      "0123456789abcdef0123456789abcdef",
+      "--attacker",
+      "second value &/?+ü",
+      "--attacker-country",
+      "second value &/?+ü",
+      "--date",
+      "2026-01-02T03:04:05Z",
+      "--event",
+      "second value &/?+ü",
+      "--insight",
+      "second value &/?+ü",
+      "--raw-source",
+      "second value &/?+ü",
+      "--target-industry",
+      "second value &/?+ü",
+      "--tlp",
+      "second value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/cloudforce-one/events/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "319",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "attacker": "second value &/?+ü",
+          "attackerCountry": "second value &/?+ü",
+          "datasetId": "0123456789abcdef0123456789abcdef",
+          "date": "2026-01-02T03:04:05Z",
+          "event": "second value &/?+ü",
+          "insight": "second value &/?+ü",
+          "raw": {
+            "source": "second value &/?+ü"
+          },
+          "targetIndustry": "second value &/?+ü",
+          "tlp": "second value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 6",
+    "argv": [
+      "cloudforce-one",
+      "threat-events",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--dataset-id",
+      "0123456789abcdef0123456789abcdef",
+      "--date",
+      "2026-01-02T03:04:05Z",
+      "--event",
+      "regression value &/?+ü",
+      "--indicator",
+      "regression value &/?+ü",
+      "--indicator-type",
+      "regression value &/?+ü",
+      "--target-industry",
+      "regression value &/?+ü",
+      "--tlp",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/cloudforce-one/events/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "267",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "datasetId": "0123456789abcdef0123456789abcdef",
+          "date": "2026-01-02T03:04:05Z",
+          "event": "regression value &/?+ü",
+          "indicator": "regression value &/?+ü",
+          "indicatorType": "regression value &/?+ü",
+          "targetIndustry": "regression value &/?+ü",
+          "tlp": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 7",
+    "argv": [
+      "cloudforce-one",
+      "threat-events",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--dataset-id",
+      "0123456789abcdef0123456789abcdef",
+      "--attacker",
+      "second value &/?+ü",
+      "--attacker-country",
+      "second value &/?+ü",
+      "--category",
+      "second value &/?+ü",
+      "--created-at",
+      "second value &/?+ü",
+      "--insight",
+      "second value &/?+ü",
+      "--raw-source",
+      "second value &/?+ü",
+      "--raw-tlp",
+      "second value &/?+ü",
+      "--target-country",
+      "second value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/cloudforce-one/events/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "325",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "attacker": "second value &/?+ü",
+          "attackerCountry": "second value &/?+ü",
+          "category": "second value &/?+ü",
+          "createdAt": "second value &/?+ü",
+          "datasetId": "0123456789abcdef0123456789abcdef",
+          "insight": "second value &/?+ü",
+          "raw": {
+            "source": "second value &/?+ü",
+            "tlp": "second value &/?+ü"
+          },
+          "targetCountry": "second value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 8",
+    "argv": [
+      "cloudforce-one",
+      "threat-events",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--dataset-id",
+      "0123456789abcdef0123456789abcdef",
+      "--insight",
+      "regression value &/?+ü",
+      "--raw-source",
+      "regression value &/?+ü",
+      "--raw-tlp",
+      "regression value &/?+ü",
+      "--target-country",
+      "regression value &/?+ü",
+      "--target-industry",
+      "regression value &/?+ü",
+      "--tlp",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/cloudforce-one/events/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "276",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "datasetId": "0123456789abcdef0123456789abcdef",
+          "insight": "regression value &/?+ü",
+          "raw": {
+            "source": "regression value &/?+ü",
+            "tlp": "regression value &/?+ü"
+          },
+          "targetCountry": "regression value &/?+ü",
+          "targetIndustry": "regression value &/?+ü",
+          "tlp": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 9",
+    "argv": [
+      "cloudforce-one",
+      "threat-events",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--dataset-id",
+      "0123456789abcdef0123456789abcdef",
+      "--attacker",
+      "second value &/?+ü",
+      "--attacker-country",
+      "second value &/?+ü",
+      "--category",
+      "second value &/?+ü",
+      "--created-at",
+      "second value &/?+ü",
+      "--date",
+      "2026-01-02T03:04:05Z",
+      "--event",
+      "second value &/?+ü",
+      "--indicator",
+      "second value &/?+ü",
+      "--indicator-type",
+      "second value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/cloudforce-one/events/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "320",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "attacker": "second value &/?+ü",
+          "attackerCountry": "second value &/?+ü",
+          "category": "second value &/?+ü",
+          "createdAt": "second value &/?+ü",
+          "datasetId": "0123456789abcdef0123456789abcdef",
+          "date": "2026-01-02T03:04:05Z",
+          "event": "second value &/?+ü",
+          "indicator": "second value &/?+ü",
+          "indicatorType": "second value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "global quiet",
+    "argv": [
+      "cloudforce-one",
+      "threat-events",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--dataset-id",
+      "0123456789abcdef0123456789abcdef",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--quiet"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/cloudforce-one/events/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "global zone",
+    "argv": [
+      "cloudforce-one",
+      "threat-events",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--dataset-id",
+      "0123456789abcdef0123456789abcdef",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--zone",
+      "abcdef0123456789abcdef0123456789"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/cloudforce-one/events/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "global profile and mode",
+    "argv": [
+      "cloudforce-one",
+      "threat-events",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--dataset-id",
+      "0123456789abcdef0123456789abcdef",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--profile",
+      "default",
+      "--mode",
+      "regression"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/cloudforce-one/events/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "local",
+    "argv": [
+      "cloudforce-one",
+      "threat-events",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--dataset-id",
+      "0123456789abcdef0123456789abcdef",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--local"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "http://localhost/cdn-cgi/local/explorer/api/cloudforce-one/events/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "gzip, deflate",
+          "accept-language": "*",
+          "connection": "keep-alive",
+          "content-type": "application/json",
+          "host": "localhost",
+          "sec-fetch-mode": "cors",
+          "transfer-encoding": "chunked",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "local with persistence",
+    "argv": [
+      "cloudforce-one",
+      "threat-events",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--dataset-id",
+      "0123456789abcdef0123456789abcdef",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--local",
+      "--persist-to",
+      "regression-state"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "http://localhost/cdn-cgi/local/explorer/api/cloudforce-one/events/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "gzip, deflate",
+          "accept-language": "*",
+          "connection": "keep-alive",
+          "content-type": "application/json",
+          "host": "localhost",
+          "sec-fetch-mode": "cors",
+          "transfer-encoding": "chunked",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "dry-run",
+    "argv": [
+      "cloudforce-one",
+      "threat-events",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--dataset-id",
+      "0123456789abcdef0123456789abcdef",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--dry-run"
+    ],
+    "exitCode": 0,
+    "requests": []
+  },
+  {
+    "case": "body from file",
+    "argv": [
+      "cloudforce-one",
+      "threat-events",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--dataset-id",
+      "0123456789abcdef0123456789abcdef",
+      "--body",
+      "@<body.json>"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/cloudforce-one/events/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "array body",
+    "argv": [
+      "cloudforce-one",
+      "threat-events",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--dataset-id",
+      "0123456789abcdef0123456789abcdef",
+      "--body",
+      "[{\"regression\":\"first\"},{\"regression\":\"second\"}]"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/cloudforce-one/events/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "56",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "0": {
+            "regression": "first"
+          },
+          "1": {
+            "regression": "second"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "field flags",
+    "argv": [
+      "cloudforce-one",
+      "threat-events",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--dataset-id",
+      "0123456789abcdef0123456789abcdef",
+      "--attacker",
+      "regression value &/?+ü",
+      "--attacker-country",
+      "regression value &/?+ü",
+      "--category",
+      "regression value &/?+ü",
+      "--created-at",
+      "regression value &/?+ü",
+      "--date",
+      "2026-01-02T03:04:05Z",
+      "--event",
+      "regression value &/?+ü",
+      "--indicator",
+      "regression value &/?+ü",
+      "--indicator-type",
+      "regression value &/?+ü",
+      "--insight",
+      "regression value &/?+ü",
+      "--raw-source",
+      "regression value &/?+ü",
+      "--raw-tlp",
+      "regression value &/?+ü",
+      "--target-country",
+      "regression value &/?+ü",
+      "--target-industry",
+      "regression value &/?+ü",
+      "--tlp",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/cloudforce-one/events/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "576",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "attacker": "regression value &/?+ü",
+          "attackerCountry": "regression value &/?+ü",
+          "category": "regression value &/?+ü",
+          "createdAt": "regression value &/?+ü",
+          "datasetId": "0123456789abcdef0123456789abcdef",
+          "date": "2026-01-02T03:04:05Z",
+          "event": "regression value &/?+ü",
+          "indicator": "regression value &/?+ü",
+          "indicatorType": "regression value &/?+ü",
+          "insight": "regression value &/?+ü",
+          "raw": {
+            "source": "regression value &/?+ü",
+            "tlp": "regression value &/?+ü"
+          },
+          "targetCountry": "regression value &/?+ü",
+          "targetIndustry": "regression value &/?+ü",
+          "tlp": "regression value &/?+ü"
+        }
+      }
+    ]
+  }
+]

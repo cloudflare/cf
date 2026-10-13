@@ -1,0 +1,1243 @@
+[
+  {
+    "case": "no-args",
+    "argv": [
+      "zero-trust",
+      "access",
+      "logs",
+      "scim",
+      "updates",
+      "list"
+    ],
+    "exitCode": 1,
+    "error": "Missing required argument: idp-id",
+    "requests": []
+  },
+  {
+    "case": "required",
+    "argv": [
+      "zero-trust",
+      "access",
+      "logs",
+      "scim",
+      "updates",
+      "list",
+      "--idp-id",
+      "0123456789abcdef0123456789abcdef"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/access/logs/scim/updates?idp_id=0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "only --limit",
+    "argv": [
+      "zero-trust",
+      "access",
+      "logs",
+      "scim",
+      "updates",
+      "list",
+      "--idp-id",
+      "0123456789abcdef0123456789abcdef",
+      "--limit",
+      "1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/access/logs/scim/updates?limit=1&idp_id=0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "only --direction",
+    "argv": [
+      "zero-trust",
+      "access",
+      "logs",
+      "scim",
+      "updates",
+      "list",
+      "--idp-id",
+      "0123456789abcdef0123456789abcdef",
+      "--direction",
+      "desc"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/access/logs/scim/updates?direction=desc&idp_id=0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "--direction value 1",
+    "argv": [
+      "zero-trust",
+      "access",
+      "logs",
+      "scim",
+      "updates",
+      "list",
+      "--idp-id",
+      "0123456789abcdef0123456789abcdef",
+      "--direction",
+      "asc"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/access/logs/scim/updates?direction=asc&idp_id=0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "only --since",
+    "argv": [
+      "zero-trust",
+      "access",
+      "logs",
+      "scim",
+      "updates",
+      "list",
+      "--idp-id",
+      "0123456789abcdef0123456789abcdef",
+      "--since",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/access/logs/scim/updates?since=regression%20value%20%26%2F%3F%2B%C3%BC&idp_id=0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "only --until",
+    "argv": [
+      "zero-trust",
+      "access",
+      "logs",
+      "scim",
+      "updates",
+      "list",
+      "--idp-id",
+      "0123456789abcdef0123456789abcdef",
+      "--until",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/access/logs/scim/updates?until=regression%20value%20%26%2F%3F%2B%C3%BC&idp_id=0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "only --status",
+    "argv": [
+      "zero-trust",
+      "access",
+      "logs",
+      "scim",
+      "updates",
+      "list",
+      "--idp-id",
+      "0123456789abcdef0123456789abcdef",
+      "--status",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/access/logs/scim/updates?idp_id=0123456789abcdef0123456789abcdef&status=regression%20value%20%26%2F%3F%2B%C3%BC",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "only --resource-type",
+    "argv": [
+      "zero-trust",
+      "access",
+      "logs",
+      "scim",
+      "updates",
+      "list",
+      "--idp-id",
+      "0123456789abcdef0123456789abcdef",
+      "--resource-type",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/access/logs/scim/updates?idp_id=0123456789abcdef0123456789abcdef&resource_type=regression%20value%20%26%2F%3F%2B%C3%BC",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "only --request-method",
+    "argv": [
+      "zero-trust",
+      "access",
+      "logs",
+      "scim",
+      "updates",
+      "list",
+      "--idp-id",
+      "0123456789abcdef0123456789abcdef",
+      "--request-method",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/access/logs/scim/updates?idp_id=0123456789abcdef0123456789abcdef&request_method=regression%20value%20%26%2F%3F%2B%C3%BC",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "only --resource-user-email",
+    "argv": [
+      "zero-trust",
+      "access",
+      "logs",
+      "scim",
+      "updates",
+      "list",
+      "--idp-id",
+      "0123456789abcdef0123456789abcdef",
+      "--resource-user-email",
+      "regression@example.com"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/access/logs/scim/updates?idp_id=0123456789abcdef0123456789abcdef&resource_user_email=regression%40example.com",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "only --resource-group-name",
+    "argv": [
+      "zero-trust",
+      "access",
+      "logs",
+      "scim",
+      "updates",
+      "list",
+      "--idp-id",
+      "0123456789abcdef0123456789abcdef",
+      "--resource-group-name",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/access/logs/scim/updates?idp_id=0123456789abcdef0123456789abcdef&resource_group_name=regression%20value%20%26%2F%3F%2B%C3%BC",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "only --cf-resource-id",
+    "argv": [
+      "zero-trust",
+      "access",
+      "logs",
+      "scim",
+      "updates",
+      "list",
+      "--idp-id",
+      "0123456789abcdef0123456789abcdef",
+      "--cf-resource-id",
+      "0123456789abcdef0123456789abcdef"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/access/logs/scim/updates?idp_id=0123456789abcdef0123456789abcdef&cf_resource_id=0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "only --idp-resource-id",
+    "argv": [
+      "zero-trust",
+      "access",
+      "logs",
+      "scim",
+      "updates",
+      "list",
+      "--idp-id",
+      "0123456789abcdef0123456789abcdef",
+      "--idp-resource-id",
+      "0123456789abcdef0123456789abcdef"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/access/logs/scim/updates?idp_id=0123456789abcdef0123456789abcdef&idp_resource_id=0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "only --page",
+    "argv": [
+      "zero-trust",
+      "access",
+      "logs",
+      "scim",
+      "updates",
+      "list",
+      "--idp-id",
+      "0123456789abcdef0123456789abcdef",
+      "--page",
+      "1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/access/logs/scim/updates?idp_id=0123456789abcdef0123456789abcdef&page=1",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "only --per-page",
+    "argv": [
+      "zero-trust",
+      "access",
+      "logs",
+      "scim",
+      "updates",
+      "list",
+      "--idp-id",
+      "0123456789abcdef0123456789abcdef",
+      "--per-page",
+      "1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/access/logs/scim/updates?idp_id=0123456789abcdef0123456789abcdef&per_page=1",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "pairwise 1",
+    "argv": [
+      "zero-trust",
+      "access",
+      "logs",
+      "scim",
+      "updates",
+      "list",
+      "--idp-id",
+      "0123456789abcdef0123456789abcdef",
+      "--limit",
+      "2",
+      "--direction",
+      "asc",
+      "--since",
+      "second value &/?+ü",
+      "--until",
+      "second value &/?+ü",
+      "--status",
+      "second value &/?+ü",
+      "--resource-type",
+      "second value &/?+ü",
+      "--request-method",
+      "second value &/?+ü",
+      "--resource-user-email",
+      "regression@example.com",
+      "--resource-group-name",
+      "second value &/?+ü",
+      "--cf-resource-id",
+      "0123456789abcdef0123456789abcdef",
+      "--idp-resource-id",
+      "0123456789abcdef0123456789abcdef",
+      "--page",
+      "2",
+      "--per-page",
+      "2"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/access/logs/scim/updates?limit=2&direction=asc&since=second%20value%20%26%2F%3F%2B%C3%BC&until=second%20value%20%26%2F%3F%2B%C3%BC&idp_id=0123456789abcdef0123456789abcdef&status=second%20value%20%26%2F%3F%2B%C3%BC&resource_type=second%20value%20%26%2F%3F%2B%C3%BC&request_method=second%20value%20%26%2F%3F%2B%C3%BC&resource_user_email=regression%40example.com&resource_group_name=second%20value%20%26%2F%3F%2B%C3%BC&cf_resource_id=0123456789abcdef0123456789abcdef&idp_resource_id=0123456789abcdef0123456789abcdef&page=2&per_page=2",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "pairwise 2",
+    "argv": [
+      "zero-trust",
+      "access",
+      "logs",
+      "scim",
+      "updates",
+      "list",
+      "--idp-id",
+      "0123456789abcdef0123456789abcdef",
+      "--direction",
+      "desc",
+      "--until",
+      "regression value &/?+ü",
+      "--resource-type",
+      "regression value &/?+ü",
+      "--resource-user-email",
+      "regression@example.com",
+      "--cf-resource-id",
+      "0123456789abcdef0123456789abcdef",
+      "--page",
+      "1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/access/logs/scim/updates?direction=desc&until=regression%20value%20%26%2F%3F%2B%C3%BC&idp_id=0123456789abcdef0123456789abcdef&resource_type=regression%20value%20%26%2F%3F%2B%C3%BC&resource_user_email=regression%40example.com&cf_resource_id=0123456789abcdef0123456789abcdef&page=1",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "pairwise 3",
+    "argv": [
+      "zero-trust",
+      "access",
+      "logs",
+      "scim",
+      "updates",
+      "list",
+      "--idp-id",
+      "0123456789abcdef0123456789abcdef",
+      "--limit",
+      "2",
+      "--since",
+      "second value &/?+ü",
+      "--status",
+      "second value &/?+ü",
+      "--request-method",
+      "second value &/?+ü",
+      "--resource-group-name",
+      "second value &/?+ü",
+      "--idp-resource-id",
+      "0123456789abcdef0123456789abcdef",
+      "--per-page",
+      "2"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/access/logs/scim/updates?limit=2&since=second%20value%20%26%2F%3F%2B%C3%BC&idp_id=0123456789abcdef0123456789abcdef&status=second%20value%20%26%2F%3F%2B%C3%BC&request_method=second%20value%20%26%2F%3F%2B%C3%BC&resource_group_name=second%20value%20%26%2F%3F%2B%C3%BC&idp_resource_id=0123456789abcdef0123456789abcdef&per_page=2",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "pairwise 4",
+    "argv": [
+      "zero-trust",
+      "access",
+      "logs",
+      "scim",
+      "updates",
+      "list",
+      "--idp-id",
+      "0123456789abcdef0123456789abcdef",
+      "--since",
+      "regression value &/?+ü",
+      "--until",
+      "regression value &/?+ü",
+      "--request-method",
+      "regression value &/?+ü",
+      "--resource-user-email",
+      "regression@example.com",
+      "--idp-resource-id",
+      "0123456789abcdef0123456789abcdef",
+      "--page",
+      "1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/access/logs/scim/updates?since=regression%20value%20%26%2F%3F%2B%C3%BC&until=regression%20value%20%26%2F%3F%2B%C3%BC&idp_id=0123456789abcdef0123456789abcdef&request_method=regression%20value%20%26%2F%3F%2B%C3%BC&resource_user_email=regression%40example.com&idp_resource_id=0123456789abcdef0123456789abcdef&page=1",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "pairwise 5",
+    "argv": [
+      "zero-trust",
+      "access",
+      "logs",
+      "scim",
+      "updates",
+      "list",
+      "--idp-id",
+      "0123456789abcdef0123456789abcdef",
+      "--limit",
+      "2",
+      "--direction",
+      "asc",
+      "--status",
+      "second value &/?+ü",
+      "--resource-type",
+      "second value &/?+ü",
+      "--resource-group-name",
+      "second value &/?+ü",
+      "--cf-resource-id",
+      "0123456789abcdef0123456789abcdef",
+      "--per-page",
+      "2"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/access/logs/scim/updates?limit=2&direction=asc&idp_id=0123456789abcdef0123456789abcdef&status=second%20value%20%26%2F%3F%2B%C3%BC&resource_type=second%20value%20%26%2F%3F%2B%C3%BC&resource_group_name=second%20value%20%26%2F%3F%2B%C3%BC&cf_resource_id=0123456789abcdef0123456789abcdef&per_page=2",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "pairwise 6",
+    "argv": [
+      "zero-trust",
+      "access",
+      "logs",
+      "scim",
+      "updates",
+      "list",
+      "--idp-id",
+      "0123456789abcdef0123456789abcdef",
+      "--status",
+      "regression value &/?+ü",
+      "--resource-type",
+      "regression value &/?+ü",
+      "--request-method",
+      "regression value &/?+ü",
+      "--resource-user-email",
+      "regression@example.com",
+      "--per-page",
+      "1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/access/logs/scim/updates?idp_id=0123456789abcdef0123456789abcdef&status=regression%20value%20%26%2F%3F%2B%C3%BC&resource_type=regression%20value%20%26%2F%3F%2B%C3%BC&request_method=regression%20value%20%26%2F%3F%2B%C3%BC&resource_user_email=regression%40example.com&per_page=1",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "pairwise 7",
+    "argv": [
+      "zero-trust",
+      "access",
+      "logs",
+      "scim",
+      "updates",
+      "list",
+      "--idp-id",
+      "0123456789abcdef0123456789abcdef",
+      "--limit",
+      "2",
+      "--direction",
+      "asc",
+      "--since",
+      "second value &/?+ü",
+      "--until",
+      "second value &/?+ü",
+      "--resource-group-name",
+      "second value &/?+ü",
+      "--cf-resource-id",
+      "0123456789abcdef0123456789abcdef",
+      "--idp-resource-id",
+      "0123456789abcdef0123456789abcdef",
+      "--page",
+      "2"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/access/logs/scim/updates?limit=2&direction=asc&since=second%20value%20%26%2F%3F%2B%C3%BC&until=second%20value%20%26%2F%3F%2B%C3%BC&idp_id=0123456789abcdef0123456789abcdef&resource_group_name=second%20value%20%26%2F%3F%2B%C3%BC&cf_resource_id=0123456789abcdef0123456789abcdef&idp_resource_id=0123456789abcdef0123456789abcdef&page=2",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "pairwise 8",
+    "argv": [
+      "zero-trust",
+      "access",
+      "logs",
+      "scim",
+      "updates",
+      "list",
+      "--idp-id",
+      "0123456789abcdef0123456789abcdef",
+      "--resource-group-name",
+      "regression value &/?+ü",
+      "--cf-resource-id",
+      "0123456789abcdef0123456789abcdef",
+      "--idp-resource-id",
+      "0123456789abcdef0123456789abcdef",
+      "--page",
+      "1",
+      "--per-page",
+      "1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/access/logs/scim/updates?idp_id=0123456789abcdef0123456789abcdef&resource_group_name=regression%20value%20%26%2F%3F%2B%C3%BC&cf_resource_id=0123456789abcdef0123456789abcdef&idp_resource_id=0123456789abcdef0123456789abcdef&page=1&per_page=1",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "pairwise 9",
+    "argv": [
+      "zero-trust",
+      "access",
+      "logs",
+      "scim",
+      "updates",
+      "list",
+      "--idp-id",
+      "0123456789abcdef0123456789abcdef",
+      "--limit",
+      "2",
+      "--direction",
+      "asc",
+      "--since",
+      "second value &/?+ü",
+      "--until",
+      "second value &/?+ü",
+      "--status",
+      "second value &/?+ü",
+      "--resource-type",
+      "second value &/?+ü",
+      "--request-method",
+      "second value &/?+ü",
+      "--resource-user-email",
+      "regression@example.com"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/access/logs/scim/updates?limit=2&direction=asc&since=second%20value%20%26%2F%3F%2B%C3%BC&until=second%20value%20%26%2F%3F%2B%C3%BC&idp_id=0123456789abcdef0123456789abcdef&status=second%20value%20%26%2F%3F%2B%C3%BC&resource_type=second%20value%20%26%2F%3F%2B%C3%BC&request_method=second%20value%20%26%2F%3F%2B%C3%BC&resource_user_email=regression%40example.com",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "global quiet",
+    "argv": [
+      "zero-trust",
+      "access",
+      "logs",
+      "scim",
+      "updates",
+      "list",
+      "--idp-id",
+      "0123456789abcdef0123456789abcdef",
+      "--quiet"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/access/logs/scim/updates?idp_id=0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "global zone",
+    "argv": [
+      "zero-trust",
+      "access",
+      "logs",
+      "scim",
+      "updates",
+      "list",
+      "--idp-id",
+      "0123456789abcdef0123456789abcdef",
+      "--zone",
+      "abcdef0123456789abcdef0123456789"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/access/logs/scim/updates?idp_id=0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "global profile and mode",
+    "argv": [
+      "zero-trust",
+      "access",
+      "logs",
+      "scim",
+      "updates",
+      "list",
+      "--idp-id",
+      "0123456789abcdef0123456789abcdef",
+      "--profile",
+      "default",
+      "--mode",
+      "regression"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/access/logs/scim/updates?idp_id=0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "local",
+    "argv": [
+      "zero-trust",
+      "access",
+      "logs",
+      "scim",
+      "updates",
+      "list",
+      "--idp-id",
+      "0123456789abcdef0123456789abcdef",
+      "--local"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "http://localhost/cdn-cgi/local/explorer/api/access/logs/scim/updates?idp_id=0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "gzip, deflate",
+          "accept-language": "*",
+          "connection": "keep-alive",
+          "host": "localhost",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "local with persistence",
+    "argv": [
+      "zero-trust",
+      "access",
+      "logs",
+      "scim",
+      "updates",
+      "list",
+      "--idp-id",
+      "0123456789abcdef0123456789abcdef",
+      "--local",
+      "--persist-to",
+      "regression-state"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "http://localhost/cdn-cgi/local/explorer/api/access/logs/scim/updates?idp_id=0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "gzip, deflate",
+          "accept-language": "*",
+          "connection": "keep-alive",
+          "host": "localhost",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "dry-run",
+    "argv": [
+      "zero-trust",
+      "access",
+      "logs",
+      "scim",
+      "updates",
+      "list",
+      "--idp-id",
+      "0123456789abcdef0123456789abcdef",
+      "--dry-run"
+    ],
+    "exitCode": 0,
+    "requests": []
+  }
+]

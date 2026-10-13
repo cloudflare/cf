@@ -1,0 +1,1698 @@
+[
+  {
+    "case": "no-args",
+    "argv": [
+      "cache",
+      "settings",
+      "variants",
+      "edit"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/cache/variants",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "2",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {}
+      }
+    ]
+  },
+  {
+    "case": "required",
+    "argv": [
+      "cache",
+      "settings",
+      "variants",
+      "edit",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/cache/variants",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --value-avif",
+    "argv": [
+      "cache",
+      "settings",
+      "variants",
+      "edit",
+      "--value-avif",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/cache/variants",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "46",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "value": {
+            "avif": [
+              "regression value &/?+ü"
+            ]
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --value-bmp",
+    "argv": [
+      "cache",
+      "settings",
+      "variants",
+      "edit",
+      "--value-bmp",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/cache/variants",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "45",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "value": {
+            "bmp": [
+              "regression value &/?+ü"
+            ]
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --value-gif",
+    "argv": [
+      "cache",
+      "settings",
+      "variants",
+      "edit",
+      "--value-gif",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/cache/variants",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "45",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "value": {
+            "gif": [
+              "regression value &/?+ü"
+            ]
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --value-jp2",
+    "argv": [
+      "cache",
+      "settings",
+      "variants",
+      "edit",
+      "--value-jp2",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/cache/variants",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "45",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "value": {
+            "jp2": [
+              "regression value &/?+ü"
+            ]
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --value-jpeg",
+    "argv": [
+      "cache",
+      "settings",
+      "variants",
+      "edit",
+      "--value-jpeg",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/cache/variants",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "46",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "value": {
+            "jpeg": [
+              "regression value &/?+ü"
+            ]
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --value-jpg",
+    "argv": [
+      "cache",
+      "settings",
+      "variants",
+      "edit",
+      "--value-jpg",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/cache/variants",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "45",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "value": {
+            "jpg": [
+              "regression value &/?+ü"
+            ]
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --value-jpg2",
+    "argv": [
+      "cache",
+      "settings",
+      "variants",
+      "edit",
+      "--value-jpg2",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/cache/variants",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "46",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "value": {
+            "jpg2": [
+              "regression value &/?+ü"
+            ]
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --value-png",
+    "argv": [
+      "cache",
+      "settings",
+      "variants",
+      "edit",
+      "--value-png",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/cache/variants",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "45",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "value": {
+            "png": [
+              "regression value &/?+ü"
+            ]
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --value-tif",
+    "argv": [
+      "cache",
+      "settings",
+      "variants",
+      "edit",
+      "--value-tif",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/cache/variants",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "45",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "value": {
+            "tif": [
+              "regression value &/?+ü"
+            ]
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --value-tiff",
+    "argv": [
+      "cache",
+      "settings",
+      "variants",
+      "edit",
+      "--value-tiff",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/cache/variants",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "46",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "value": {
+            "tiff": [
+              "regression value &/?+ü"
+            ]
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --value-webp",
+    "argv": [
+      "cache",
+      "settings",
+      "variants",
+      "edit",
+      "--value-webp",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/cache/variants",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "46",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "value": {
+            "webp": [
+              "regression value &/?+ü"
+            ]
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 1",
+    "argv": [
+      "cache",
+      "settings",
+      "variants",
+      "edit",
+      "--value-avif",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--value-bmp",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--value-gif",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--value-jp2",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--value-jpeg",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--value-jpg",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--value-jpg2",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--value-png",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--value-tif",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--value-tiff",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--value-webp",
+      "second value &/?+ü",
+      "second value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/cache/variants",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "588",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "value": {
+            "avif": [
+              "second value &/?+ü",
+              "second value &/?+ü"
+            ],
+            "bmp": [
+              "second value &/?+ü",
+              "second value &/?+ü"
+            ],
+            "gif": [
+              "second value &/?+ü",
+              "second value &/?+ü"
+            ],
+            "jp2": [
+              "second value &/?+ü",
+              "second value &/?+ü"
+            ],
+            "jpeg": [
+              "second value &/?+ü",
+              "second value &/?+ü"
+            ],
+            "jpg": [
+              "second value &/?+ü",
+              "second value &/?+ü"
+            ],
+            "jpg2": [
+              "second value &/?+ü",
+              "second value &/?+ü"
+            ],
+            "png": [
+              "second value &/?+ü",
+              "second value &/?+ü"
+            ],
+            "tif": [
+              "second value &/?+ü",
+              "second value &/?+ü"
+            ],
+            "tiff": [
+              "second value &/?+ü",
+              "second value &/?+ü"
+            ],
+            "webp": [
+              "second value &/?+ü",
+              "second value &/?+ü"
+            ]
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 2",
+    "argv": [
+      "cache",
+      "settings",
+      "variants",
+      "edit",
+      "--value-bmp",
+      "regression value &/?+ü",
+      "--value-jp2",
+      "regression value &/?+ü",
+      "--value-jpg",
+      "regression value &/?+ü",
+      "--value-png",
+      "regression value &/?+ü",
+      "--value-tiff",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/cache/variants",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "182",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "value": {
+            "bmp": [
+              "regression value &/?+ü"
+            ],
+            "jp2": [
+              "regression value &/?+ü"
+            ],
+            "jpg": [
+              "regression value &/?+ü"
+            ],
+            "png": [
+              "regression value &/?+ü"
+            ],
+            "tiff": [
+              "regression value &/?+ü"
+            ]
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 3",
+    "argv": [
+      "cache",
+      "settings",
+      "variants",
+      "edit",
+      "--value-avif",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--value-gif",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--value-jpeg",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--value-jpg2",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--value-tif",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--value-webp",
+      "second value &/?+ü",
+      "second value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/cache/variants",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "327",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "value": {
+            "avif": [
+              "second value &/?+ü",
+              "second value &/?+ü"
+            ],
+            "gif": [
+              "second value &/?+ü",
+              "second value &/?+ü"
+            ],
+            "jpeg": [
+              "second value &/?+ü",
+              "second value &/?+ü"
+            ],
+            "jpg2": [
+              "second value &/?+ü",
+              "second value &/?+ü"
+            ],
+            "tif": [
+              "second value &/?+ü",
+              "second value &/?+ü"
+            ],
+            "webp": [
+              "second value &/?+ü",
+              "second value &/?+ü"
+            ]
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 4",
+    "argv": [
+      "cache",
+      "settings",
+      "variants",
+      "edit",
+      "--value-gif",
+      "regression value &/?+ü",
+      "--value-jp2",
+      "regression value &/?+ü",
+      "--value-jpg2",
+      "regression value &/?+ü",
+      "--value-png",
+      "regression value &/?+ü",
+      "--value-webp",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/cache/variants",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "183",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "value": {
+            "gif": [
+              "regression value &/?+ü"
+            ],
+            "jp2": [
+              "regression value &/?+ü"
+            ],
+            "jpg2": [
+              "regression value &/?+ü"
+            ],
+            "png": [
+              "regression value &/?+ü"
+            ],
+            "webp": [
+              "regression value &/?+ü"
+            ]
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 5",
+    "argv": [
+      "cache",
+      "settings",
+      "variants",
+      "edit",
+      "--value-avif",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--value-bmp",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--value-jpeg",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--value-jpg",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--value-tif",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--value-tiff",
+      "second value &/?+ü",
+      "second value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/cache/variants",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "326",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "value": {
+            "avif": [
+              "second value &/?+ü",
+              "second value &/?+ü"
+            ],
+            "bmp": [
+              "second value &/?+ü",
+              "second value &/?+ü"
+            ],
+            "jpeg": [
+              "second value &/?+ü",
+              "second value &/?+ü"
+            ],
+            "jpg": [
+              "second value &/?+ü",
+              "second value &/?+ü"
+            ],
+            "tif": [
+              "second value &/?+ü",
+              "second value &/?+ü"
+            ],
+            "tiff": [
+              "second value &/?+ü",
+              "second value &/?+ü"
+            ]
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 6",
+    "argv": [
+      "cache",
+      "settings",
+      "variants",
+      "edit",
+      "--value-jpeg",
+      "regression value &/?+ü",
+      "--value-jpg",
+      "regression value &/?+ü",
+      "--value-jpg2",
+      "regression value &/?+ü",
+      "--value-png",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/cache/variants",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "149",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "value": {
+            "jpeg": [
+              "regression value &/?+ü"
+            ],
+            "jpg": [
+              "regression value &/?+ü"
+            ],
+            "jpg2": [
+              "regression value &/?+ü"
+            ],
+            "png": [
+              "regression value &/?+ü"
+            ]
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 7",
+    "argv": [
+      "cache",
+      "settings",
+      "variants",
+      "edit",
+      "--value-avif",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--value-bmp",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--value-gif",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--value-jp2",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--value-tif",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--value-tiff",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--value-webp",
+      "second value &/?+ü",
+      "second value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/cache/variants",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "378",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "value": {
+            "avif": [
+              "second value &/?+ü",
+              "second value &/?+ü"
+            ],
+            "bmp": [
+              "second value &/?+ü",
+              "second value &/?+ü"
+            ],
+            "gif": [
+              "second value &/?+ü",
+              "second value &/?+ü"
+            ],
+            "jp2": [
+              "second value &/?+ü",
+              "second value &/?+ü"
+            ],
+            "tif": [
+              "second value &/?+ü",
+              "second value &/?+ü"
+            ],
+            "tiff": [
+              "second value &/?+ü",
+              "second value &/?+ü"
+            ],
+            "webp": [
+              "second value &/?+ü",
+              "second value &/?+ü"
+            ]
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 8",
+    "argv": [
+      "cache",
+      "settings",
+      "variants",
+      "edit",
+      "--value-tif",
+      "regression value &/?+ü",
+      "--value-tiff",
+      "regression value &/?+ü",
+      "--value-webp",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/cache/variants",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "115",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "value": {
+            "tif": [
+              "regression value &/?+ü"
+            ],
+            "tiff": [
+              "regression value &/?+ü"
+            ],
+            "webp": [
+              "regression value &/?+ü"
+            ]
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 9",
+    "argv": [
+      "cache",
+      "settings",
+      "variants",
+      "edit",
+      "--value-avif",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--value-bmp",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--value-gif",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--value-jp2",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--value-jpeg",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--value-jpg",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--value-jpg2",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--value-png",
+      "second value &/?+ü",
+      "second value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/cache/variants",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "430",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "value": {
+            "avif": [
+              "second value &/?+ü",
+              "second value &/?+ü"
+            ],
+            "bmp": [
+              "second value &/?+ü",
+              "second value &/?+ü"
+            ],
+            "gif": [
+              "second value &/?+ü",
+              "second value &/?+ü"
+            ],
+            "jp2": [
+              "second value &/?+ü",
+              "second value &/?+ü"
+            ],
+            "jpeg": [
+              "second value &/?+ü",
+              "second value &/?+ü"
+            ],
+            "jpg": [
+              "second value &/?+ü",
+              "second value &/?+ü"
+            ],
+            "jpg2": [
+              "second value &/?+ü",
+              "second value &/?+ü"
+            ],
+            "png": [
+              "second value &/?+ü",
+              "second value &/?+ü"
+            ]
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "global quiet",
+    "argv": [
+      "cache",
+      "settings",
+      "variants",
+      "edit",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--quiet"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/cache/variants",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "global zone",
+    "argv": [
+      "cache",
+      "settings",
+      "variants",
+      "edit",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--zone",
+      "abcdef0123456789abcdef0123456789"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/cache/variants",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "global profile and mode",
+    "argv": [
+      "cache",
+      "settings",
+      "variants",
+      "edit",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--profile",
+      "default",
+      "--mode",
+      "regression"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/cache/variants",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "local",
+    "argv": [
+      "cache",
+      "settings",
+      "variants",
+      "edit",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--local"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "http://localhost/cdn-cgi/local/explorer/api/zones/abcdef0123456789abcdef0123456789/cache/variants",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "gzip, deflate",
+          "accept-language": "*",
+          "connection": "keep-alive",
+          "content-type": "application/json",
+          "host": "localhost",
+          "sec-fetch-mode": "cors",
+          "transfer-encoding": "chunked",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "local with persistence",
+    "argv": [
+      "cache",
+      "settings",
+      "variants",
+      "edit",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--local",
+      "--persist-to",
+      "regression-state"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "http://localhost/cdn-cgi/local/explorer/api/zones/abcdef0123456789abcdef0123456789/cache/variants",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "gzip, deflate",
+          "accept-language": "*",
+          "connection": "keep-alive",
+          "content-type": "application/json",
+          "host": "localhost",
+          "sec-fetch-mode": "cors",
+          "transfer-encoding": "chunked",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "zone by domain",
+    "argv": [
+      "cache",
+      "settings",
+      "variants",
+      "edit",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--zone",
+      "regression-f02001f3a440.example.com"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/zones?name=regression-f02001f3a440.example.com&account.id=0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      },
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/cache/variants",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "dry-run",
+    "argv": [
+      "cache",
+      "settings",
+      "variants",
+      "edit",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--dry-run"
+    ],
+    "exitCode": 0,
+    "requests": []
+  },
+  {
+    "case": "body from file",
+    "argv": [
+      "cache",
+      "settings",
+      "variants",
+      "edit",
+      "--body",
+      "@<body.json>"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/cache/variants",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "array body",
+    "argv": [
+      "cache",
+      "settings",
+      "variants",
+      "edit",
+      "--body",
+      "[{\"regression\":\"first\"},{\"regression\":\"second\"}]"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/cache/variants",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "56",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "0": {
+            "regression": "first"
+          },
+          "1": {
+            "regression": "second"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "field flags",
+    "argv": [
+      "cache",
+      "settings",
+      "variants",
+      "edit",
+      "--value-avif",
+      "regression value &/?+ü",
+      "--value-bmp",
+      "regression value &/?+ü",
+      "--value-gif",
+      "regression value &/?+ü",
+      "--value-jp2",
+      "regression value &/?+ü",
+      "--value-jpeg",
+      "regression value &/?+ü",
+      "--value-jpg",
+      "regression value &/?+ü",
+      "--value-jpg2",
+      "regression value &/?+ü",
+      "--value-png",
+      "regression value &/?+ü",
+      "--value-tif",
+      "regression value &/?+ü",
+      "--value-tiff",
+      "regression value &/?+ü",
+      "--value-webp",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/cache/variants",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "390",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "value": {
+            "avif": [
+              "regression value &/?+ü"
+            ],
+            "bmp": [
+              "regression value &/?+ü"
+            ],
+            "gif": [
+              "regression value &/?+ü"
+            ],
+            "jp2": [
+              "regression value &/?+ü"
+            ],
+            "jpeg": [
+              "regression value &/?+ü"
+            ],
+            "jpg": [
+              "regression value &/?+ü"
+            ],
+            "jpg2": [
+              "regression value &/?+ü"
+            ],
+            "png": [
+              "regression value &/?+ü"
+            ],
+            "tif": [
+              "regression value &/?+ü"
+            ],
+            "tiff": [
+              "regression value &/?+ü"
+            ],
+            "webp": [
+              "regression value &/?+ü"
+            ]
+          }
+        }
+      }
+    ]
+  }
+]

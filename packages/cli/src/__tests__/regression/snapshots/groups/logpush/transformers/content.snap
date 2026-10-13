@@ -1,0 +1,8 @@
+{
+  "argv": [
+    "logpush",
+    "transformers",
+    "content"
+  ],
+  "requests": []
+}

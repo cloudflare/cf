@@ -1,0 +1,1984 @@
+[
+  {
+    "case": "no-args",
+    "argv": [
+      "magic-network-monitoring",
+      "rules",
+      "update"
+    ],
+    "exitCode": 1,
+    "error": "--automatic-advertisement is required (or pass --body with this field set).",
+    "requests": []
+  },
+  {
+    "case": "required",
+    "argv": [
+      "magic-network-monitoring",
+      "rules",
+      "update",
+      "--automatic-advertisement=true",
+      "--name",
+      "regression value &/?+ü",
+      "--prefixes",
+      "regression value &/?+ü",
+      "--type",
+      "threshold",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/mnm/rules",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --bandwidth-threshold",
+    "argv": [
+      "magic-network-monitoring",
+      "rules",
+      "update",
+      "--automatic-advertisement=true",
+      "--name",
+      "regression value &/?+ü",
+      "--prefixes",
+      "regression value &/?+ü",
+      "--type",
+      "threshold",
+      "--bandwidth-threshold",
+      "1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/mnm/rules",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "147",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "automatic_advertisement": true,
+          "bandwidth_threshold": 1,
+          "name": "regression value &/?+ü",
+          "prefixes": [
+            "regression value &/?+ü"
+          ],
+          "type": "threshold"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --duration",
+    "argv": [
+      "magic-network-monitoring",
+      "rules",
+      "update",
+      "--automatic-advertisement=true",
+      "--name",
+      "regression value &/?+ü",
+      "--prefixes",
+      "regression value &/?+ü",
+      "--type",
+      "threshold",
+      "--duration",
+      "1m"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/mnm/rules",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "139",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "automatic_advertisement": true,
+          "duration": "1m",
+          "name": "regression value &/?+ü",
+          "prefixes": [
+            "regression value &/?+ü"
+          ],
+          "type": "threshold"
+        }
+      }
+    ]
+  },
+  {
+    "case": "--duration value 1",
+    "argv": [
+      "magic-network-monitoring",
+      "rules",
+      "update",
+      "--automatic-advertisement=true",
+      "--name",
+      "regression value &/?+ü",
+      "--prefixes",
+      "regression value &/?+ü",
+      "--type",
+      "threshold",
+      "--duration",
+      "5m"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/mnm/rules",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "139",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "automatic_advertisement": true,
+          "duration": "5m",
+          "name": "regression value &/?+ü",
+          "prefixes": [
+            "regression value &/?+ü"
+          ],
+          "type": "threshold"
+        }
+      }
+    ]
+  },
+  {
+    "case": "--duration value 2",
+    "argv": [
+      "magic-network-monitoring",
+      "rules",
+      "update",
+      "--automatic-advertisement=true",
+      "--name",
+      "regression value &/?+ü",
+      "--prefixes",
+      "regression value &/?+ü",
+      "--type",
+      "threshold",
+      "--duration",
+      "10m"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/mnm/rules",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "140",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "automatic_advertisement": true,
+          "duration": "10m",
+          "name": "regression value &/?+ü",
+          "prefixes": [
+            "regression value &/?+ü"
+          ],
+          "type": "threshold"
+        }
+      }
+    ]
+  },
+  {
+    "case": "--duration value 3",
+    "argv": [
+      "magic-network-monitoring",
+      "rules",
+      "update",
+      "--automatic-advertisement=true",
+      "--name",
+      "regression value &/?+ü",
+      "--prefixes",
+      "regression value &/?+ü",
+      "--type",
+      "threshold",
+      "--duration",
+      "15m"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/mnm/rules",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "140",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "automatic_advertisement": true,
+          "duration": "15m",
+          "name": "regression value &/?+ü",
+          "prefixes": [
+            "regression value &/?+ü"
+          ],
+          "type": "threshold"
+        }
+      }
+    ]
+  },
+  {
+    "case": "--duration value 4",
+    "argv": [
+      "magic-network-monitoring",
+      "rules",
+      "update",
+      "--automatic-advertisement=true",
+      "--name",
+      "regression value &/?+ü",
+      "--prefixes",
+      "regression value &/?+ü",
+      "--type",
+      "threshold",
+      "--duration",
+      "20m"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/mnm/rules",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "140",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "automatic_advertisement": true,
+          "duration": "20m",
+          "name": "regression value &/?+ü",
+          "prefixes": [
+            "regression value &/?+ü"
+          ],
+          "type": "threshold"
+        }
+      }
+    ]
+  },
+  {
+    "case": "--duration value 5",
+    "argv": [
+      "magic-network-monitoring",
+      "rules",
+      "update",
+      "--automatic-advertisement=true",
+      "--name",
+      "regression value &/?+ü",
+      "--prefixes",
+      "regression value &/?+ü",
+      "--type",
+      "threshold",
+      "--duration",
+      "30m"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/mnm/rules",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "140",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "automatic_advertisement": true,
+          "duration": "30m",
+          "name": "regression value &/?+ü",
+          "prefixes": [
+            "regression value &/?+ü"
+          ],
+          "type": "threshold"
+        }
+      }
+    ]
+  },
+  {
+    "case": "--duration value 6",
+    "argv": [
+      "magic-network-monitoring",
+      "rules",
+      "update",
+      "--automatic-advertisement=true",
+      "--name",
+      "regression value &/?+ü",
+      "--prefixes",
+      "regression value &/?+ü",
+      "--type",
+      "threshold",
+      "--duration",
+      "45m"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/mnm/rules",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "140",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "automatic_advertisement": true,
+          "duration": "45m",
+          "name": "regression value &/?+ü",
+          "prefixes": [
+            "regression value &/?+ü"
+          ],
+          "type": "threshold"
+        }
+      }
+    ]
+  },
+  {
+    "case": "--duration value 7",
+    "argv": [
+      "magic-network-monitoring",
+      "rules",
+      "update",
+      "--automatic-advertisement=true",
+      "--name",
+      "regression value &/?+ü",
+      "--prefixes",
+      "regression value &/?+ü",
+      "--type",
+      "threshold",
+      "--duration",
+      "60m"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/mnm/rules",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "140",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "automatic_advertisement": true,
+          "duration": "60m",
+          "name": "regression value &/?+ü",
+          "prefixes": [
+            "regression value &/?+ü"
+          ],
+          "type": "threshold"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --packet-threshold",
+    "argv": [
+      "magic-network-monitoring",
+      "rules",
+      "update",
+      "--automatic-advertisement=true",
+      "--name",
+      "regression value &/?+ü",
+      "--prefixes",
+      "regression value &/?+ü",
+      "--type",
+      "threshold",
+      "--packet-threshold",
+      "1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/mnm/rules",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "144",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "automatic_advertisement": true,
+          "name": "regression value &/?+ü",
+          "packet_threshold": 1,
+          "prefixes": [
+            "regression value &/?+ü"
+          ],
+          "type": "threshold"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --prefix-match",
+    "argv": [
+      "magic-network-monitoring",
+      "rules",
+      "update",
+      "--automatic-advertisement=true",
+      "--name",
+      "regression value &/?+ü",
+      "--prefixes",
+      "regression value &/?+ü",
+      "--type",
+      "threshold",
+      "--prefix-match",
+      "exact"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/mnm/rules",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "146",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "automatic_advertisement": true,
+          "name": "regression value &/?+ü",
+          "prefix_match": "exact",
+          "prefixes": [
+            "regression value &/?+ü"
+          ],
+          "type": "threshold"
+        }
+      }
+    ]
+  },
+  {
+    "case": "--prefix-match value 1",
+    "argv": [
+      "magic-network-monitoring",
+      "rules",
+      "update",
+      "--automatic-advertisement=true",
+      "--name",
+      "regression value &/?+ü",
+      "--prefixes",
+      "regression value &/?+ü",
+      "--type",
+      "threshold",
+      "--prefix-match",
+      "subnet"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/mnm/rules",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "147",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "automatic_advertisement": true,
+          "name": "regression value &/?+ü",
+          "prefix_match": "subnet",
+          "prefixes": [
+            "regression value &/?+ü"
+          ],
+          "type": "threshold"
+        }
+      }
+    ]
+  },
+  {
+    "case": "--prefix-match value 2",
+    "argv": [
+      "magic-network-monitoring",
+      "rules",
+      "update",
+      "--automatic-advertisement=true",
+      "--name",
+      "regression value &/?+ü",
+      "--prefixes",
+      "regression value &/?+ü",
+      "--type",
+      "threshold",
+      "--prefix-match",
+      "supernet"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/mnm/rules",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "149",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "automatic_advertisement": true,
+          "name": "regression value &/?+ü",
+          "prefix_match": "supernet",
+          "prefixes": [
+            "regression value &/?+ü"
+          ],
+          "type": "threshold"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --zscore-sensitivity",
+    "argv": [
+      "magic-network-monitoring",
+      "rules",
+      "update",
+      "--automatic-advertisement=true",
+      "--name",
+      "regression value &/?+ü",
+      "--prefixes",
+      "regression value &/?+ü",
+      "--type",
+      "threshold",
+      "--zscore-sensitivity",
+      "low"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/mnm/rules",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "150",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "automatic_advertisement": true,
+          "name": "regression value &/?+ü",
+          "prefixes": [
+            "regression value &/?+ü"
+          ],
+          "type": "threshold",
+          "zscore_sensitivity": "low"
+        }
+      }
+    ]
+  },
+  {
+    "case": "--zscore-sensitivity value 1",
+    "argv": [
+      "magic-network-monitoring",
+      "rules",
+      "update",
+      "--automatic-advertisement=true",
+      "--name",
+      "regression value &/?+ü",
+      "--prefixes",
+      "regression value &/?+ü",
+      "--type",
+      "threshold",
+      "--zscore-sensitivity",
+      "medium"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/mnm/rules",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "153",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "automatic_advertisement": true,
+          "name": "regression value &/?+ü",
+          "prefixes": [
+            "regression value &/?+ü"
+          ],
+          "type": "threshold",
+          "zscore_sensitivity": "medium"
+        }
+      }
+    ]
+  },
+  {
+    "case": "--zscore-sensitivity value 2",
+    "argv": [
+      "magic-network-monitoring",
+      "rules",
+      "update",
+      "--automatic-advertisement=true",
+      "--name",
+      "regression value &/?+ü",
+      "--prefixes",
+      "regression value &/?+ü",
+      "--type",
+      "threshold",
+      "--zscore-sensitivity",
+      "high"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/mnm/rules",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "151",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "automatic_advertisement": true,
+          "name": "regression value &/?+ü",
+          "prefixes": [
+            "regression value &/?+ü"
+          ],
+          "type": "threshold",
+          "zscore_sensitivity": "high"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --zscore-target",
+    "argv": [
+      "magic-network-monitoring",
+      "rules",
+      "update",
+      "--automatic-advertisement=true",
+      "--name",
+      "regression value &/?+ü",
+      "--prefixes",
+      "regression value &/?+ü",
+      "--type",
+      "threshold",
+      "--zscore-target",
+      "bits"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/mnm/rules",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "146",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "automatic_advertisement": true,
+          "name": "regression value &/?+ü",
+          "prefixes": [
+            "regression value &/?+ü"
+          ],
+          "type": "threshold",
+          "zscore_target": "bits"
+        }
+      }
+    ]
+  },
+  {
+    "case": "--zscore-target value 1",
+    "argv": [
+      "magic-network-monitoring",
+      "rules",
+      "update",
+      "--automatic-advertisement=true",
+      "--name",
+      "regression value &/?+ü",
+      "--prefixes",
+      "regression value &/?+ü",
+      "--type",
+      "threshold",
+      "--zscore-target",
+      "packets"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/mnm/rules",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "149",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "automatic_advertisement": true,
+          "name": "regression value &/?+ü",
+          "prefixes": [
+            "regression value &/?+ü"
+          ],
+          "type": "threshold",
+          "zscore_target": "packets"
+        }
+      }
+    ]
+  },
+  {
+    "case": "required --automatic-advertisement value 1",
+    "argv": [
+      "magic-network-monitoring",
+      "rules",
+      "update",
+      "--name",
+      "regression value &/?+ü",
+      "--prefixes",
+      "regression value &/?+ü",
+      "--type",
+      "threshold",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--automatic-advertisement=false"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/mnm/rules",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "required --type value 1",
+    "argv": [
+      "magic-network-monitoring",
+      "rules",
+      "update",
+      "--automatic-advertisement=true",
+      "--name",
+      "regression value &/?+ü",
+      "--prefixes",
+      "regression value &/?+ü",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--type",
+      "zscore"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/mnm/rules",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "required --type value 2",
+    "argv": [
+      "magic-network-monitoring",
+      "rules",
+      "update",
+      "--automatic-advertisement=true",
+      "--name",
+      "regression value &/?+ü",
+      "--prefixes",
+      "regression value &/?+ü",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--type",
+      "advanced_ddos"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/mnm/rules",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 0",
+    "argv": [
+      "magic-network-monitoring",
+      "rules",
+      "update",
+      "--automatic-advertisement=true",
+      "--name",
+      "regression value &/?+ü",
+      "--prefixes",
+      "regression value &/?+ü",
+      "--type",
+      "threshold"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/mnm/rules",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "123",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "automatic_advertisement": true,
+          "name": "regression value &/?+ü",
+          "prefixes": [
+            "regression value &/?+ü"
+          ],
+          "type": "threshold"
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 1",
+    "argv": [
+      "magic-network-monitoring",
+      "rules",
+      "update",
+      "--automatic-advertisement=true",
+      "--name",
+      "regression value &/?+ü",
+      "--prefixes",
+      "regression value &/?+ü",
+      "--type",
+      "threshold",
+      "--bandwidth-threshold",
+      "2",
+      "--duration",
+      "5m",
+      "--packet-threshold",
+      "2",
+      "--prefix-match",
+      "subnet",
+      "--zscore-sensitivity",
+      "medium",
+      "--zscore-target",
+      "packets"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/mnm/rules",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "264",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "automatic_advertisement": true,
+          "bandwidth_threshold": 2,
+          "duration": "5m",
+          "name": "regression value &/?+ü",
+          "packet_threshold": 2,
+          "prefix_match": "subnet",
+          "prefixes": [
+            "regression value &/?+ü"
+          ],
+          "type": "threshold",
+          "zscore_sensitivity": "medium",
+          "zscore_target": "packets"
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 2",
+    "argv": [
+      "magic-network-monitoring",
+      "rules",
+      "update",
+      "--automatic-advertisement=true",
+      "--name",
+      "regression value &/?+ü",
+      "--prefixes",
+      "regression value &/?+ü",
+      "--type",
+      "threshold",
+      "--duration",
+      "1m",
+      "--prefix-match",
+      "exact",
+      "--zscore-target",
+      "bits"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/mnm/rules",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "185",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "automatic_advertisement": true,
+          "duration": "1m",
+          "name": "regression value &/?+ü",
+          "prefix_match": "exact",
+          "prefixes": [
+            "regression value &/?+ü"
+          ],
+          "type": "threshold",
+          "zscore_target": "bits"
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 3",
+    "argv": [
+      "magic-network-monitoring",
+      "rules",
+      "update",
+      "--automatic-advertisement=true",
+      "--name",
+      "regression value &/?+ü",
+      "--prefixes",
+      "regression value &/?+ü",
+      "--type",
+      "threshold",
+      "--bandwidth-threshold",
+      "2",
+      "--packet-threshold",
+      "2",
+      "--zscore-sensitivity",
+      "medium"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/mnm/rules",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "198",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "automatic_advertisement": true,
+          "bandwidth_threshold": 2,
+          "name": "regression value &/?+ü",
+          "packet_threshold": 2,
+          "prefixes": [
+            "regression value &/?+ü"
+          ],
+          "type": "threshold",
+          "zscore_sensitivity": "medium"
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 4",
+    "argv": [
+      "magic-network-monitoring",
+      "rules",
+      "update",
+      "--automatic-advertisement=true",
+      "--name",
+      "regression value &/?+ü",
+      "--prefixes",
+      "regression value &/?+ü",
+      "--type",
+      "threshold",
+      "--packet-threshold",
+      "1",
+      "--prefix-match",
+      "exact"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/mnm/rules",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "167",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "automatic_advertisement": true,
+          "name": "regression value &/?+ü",
+          "packet_threshold": 1,
+          "prefix_match": "exact",
+          "prefixes": [
+            "regression value &/?+ü"
+          ],
+          "type": "threshold"
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 5",
+    "argv": [
+      "magic-network-monitoring",
+      "rules",
+      "update",
+      "--automatic-advertisement=true",
+      "--name",
+      "regression value &/?+ü",
+      "--prefixes",
+      "regression value &/?+ü",
+      "--type",
+      "threshold",
+      "--bandwidth-threshold",
+      "2",
+      "--duration",
+      "5m",
+      "--zscore-sensitivity",
+      "medium",
+      "--zscore-target",
+      "packets"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/mnm/rules",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "219",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "automatic_advertisement": true,
+          "bandwidth_threshold": 2,
+          "duration": "5m",
+          "name": "regression value &/?+ü",
+          "prefixes": [
+            "regression value &/?+ü"
+          ],
+          "type": "threshold",
+          "zscore_sensitivity": "medium",
+          "zscore_target": "packets"
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 6",
+    "argv": [
+      "magic-network-monitoring",
+      "rules",
+      "update",
+      "--automatic-advertisement=true",
+      "--name",
+      "regression value &/?+ü",
+      "--prefixes",
+      "regression value &/?+ü",
+      "--type",
+      "threshold",
+      "--zscore-sensitivity",
+      "low",
+      "--zscore-target",
+      "bits"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/mnm/rules",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "173",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "automatic_advertisement": true,
+          "name": "regression value &/?+ü",
+          "prefixes": [
+            "regression value &/?+ü"
+          ],
+          "type": "threshold",
+          "zscore_sensitivity": "low",
+          "zscore_target": "bits"
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 7",
+    "argv": [
+      "magic-network-monitoring",
+      "rules",
+      "update",
+      "--automatic-advertisement=true",
+      "--name",
+      "regression value &/?+ü",
+      "--prefixes",
+      "regression value &/?+ü",
+      "--type",
+      "threshold",
+      "--bandwidth-threshold",
+      "2",
+      "--duration",
+      "5m",
+      "--packet-threshold",
+      "2",
+      "--prefix-match",
+      "subnet"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/mnm/rules",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "208",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "automatic_advertisement": true,
+          "bandwidth_threshold": 2,
+          "duration": "5m",
+          "name": "regression value &/?+ü",
+          "packet_threshold": 2,
+          "prefix_match": "subnet",
+          "prefixes": [
+            "regression value &/?+ü"
+          ],
+          "type": "threshold"
+        }
+      }
+    ]
+  },
+  {
+    "case": "global quiet",
+    "argv": [
+      "magic-network-monitoring",
+      "rules",
+      "update",
+      "--automatic-advertisement=true",
+      "--name",
+      "regression value &/?+ü",
+      "--prefixes",
+      "regression value &/?+ü",
+      "--type",
+      "threshold",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--quiet"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/mnm/rules",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "global zone",
+    "argv": [
+      "magic-network-monitoring",
+      "rules",
+      "update",
+      "--automatic-advertisement=true",
+      "--name",
+      "regression value &/?+ü",
+      "--prefixes",
+      "regression value &/?+ü",
+      "--type",
+      "threshold",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--zone",
+      "abcdef0123456789abcdef0123456789"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/mnm/rules",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "global profile and mode",
+    "argv": [
+      "magic-network-monitoring",
+      "rules",
+      "update",
+      "--automatic-advertisement=true",
+      "--name",
+      "regression value &/?+ü",
+      "--prefixes",
+      "regression value &/?+ü",
+      "--type",
+      "threshold",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--profile",
+      "default",
+      "--mode",
+      "regression"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/mnm/rules",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "local",
+    "argv": [
+      "magic-network-monitoring",
+      "rules",
+      "update",
+      "--automatic-advertisement=true",
+      "--name",
+      "regression value &/?+ü",
+      "--prefixes",
+      "regression value &/?+ü",
+      "--type",
+      "threshold",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--local"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "http://localhost/cdn-cgi/local/explorer/api/mnm/rules",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "gzip, deflate",
+          "accept-language": "*",
+          "connection": "keep-alive",
+          "content-type": "application/json",
+          "host": "localhost",
+          "sec-fetch-mode": "cors",
+          "transfer-encoding": "chunked",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "local with persistence",
+    "argv": [
+      "magic-network-monitoring",
+      "rules",
+      "update",
+      "--automatic-advertisement=true",
+      "--name",
+      "regression value &/?+ü",
+      "--prefixes",
+      "regression value &/?+ü",
+      "--type",
+      "threshold",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--local",
+      "--persist-to",
+      "regression-state"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "http://localhost/cdn-cgi/local/explorer/api/mnm/rules",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "gzip, deflate",
+          "accept-language": "*",
+          "connection": "keep-alive",
+          "content-type": "application/json",
+          "host": "localhost",
+          "sec-fetch-mode": "cors",
+          "transfer-encoding": "chunked",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "dry-run",
+    "argv": [
+      "magic-network-monitoring",
+      "rules",
+      "update",
+      "--automatic-advertisement=true",
+      "--name",
+      "regression value &/?+ü",
+      "--prefixes",
+      "regression value &/?+ü",
+      "--type",
+      "threshold",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--dry-run"
+    ],
+    "exitCode": 0,
+    "requests": []
+  },
+  {
+    "case": "body from file",
+    "argv": [
+      "magic-network-monitoring",
+      "rules",
+      "update",
+      "--automatic-advertisement=true",
+      "--name",
+      "regression value &/?+ü",
+      "--prefixes",
+      "regression value &/?+ü",
+      "--type",
+      "threshold",
+      "--body",
+      "@<body.json>"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/mnm/rules",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "array body",
+    "argv": [
+      "magic-network-monitoring",
+      "rules",
+      "update",
+      "--automatic-advertisement=true",
+      "--name",
+      "regression value &/?+ü",
+      "--prefixes",
+      "regression value &/?+ü",
+      "--type",
+      "threshold",
+      "--body",
+      "[{\"regression\":\"first\"},{\"regression\":\"second\"}]"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/mnm/rules",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "48",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": [
+          {
+            "regression": "first"
+          },
+          {
+            "regression": "second"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "case": "field flags",
+    "argv": [
+      "magic-network-monitoring",
+      "rules",
+      "update",
+      "--automatic-advertisement=true",
+      "--name",
+      "regression value &/?+ü",
+      "--prefixes",
+      "regression value &/?+ü",
+      "--type",
+      "threshold",
+      "--bandwidth-threshold",
+      "1",
+      "--duration",
+      "1m",
+      "--packet-threshold",
+      "1",
+      "--prefix-match",
+      "exact",
+      "--zscore-sensitivity",
+      "low",
+      "--zscore-target",
+      "bits"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/mnm/rules",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "257",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "automatic_advertisement": true,
+          "bandwidth_threshold": 1,
+          "duration": "1m",
+          "name": "regression value &/?+ü",
+          "packet_threshold": 1,
+          "prefix_match": "exact",
+          "prefixes": [
+            "regression value &/?+ü"
+          ],
+          "type": "threshold",
+          "zscore_sensitivity": "low",
+          "zscore_target": "bits"
+        }
+      }
+    ]
+  }
+]

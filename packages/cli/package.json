@@ -67,6 +67,7 @@
 		"build:test": "vp run task:build:test",
 		"check:type": "vp run task:check:type",
 		"test": "vp run task:test",
+		"test:regression": "node run-regression.mjs",
 		"test:watch": "vp run task:test:watch",
 		"test:imports": "vp run task:test:imports"
 	},

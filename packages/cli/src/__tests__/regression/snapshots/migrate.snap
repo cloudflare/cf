@@ -1,0 +1,164 @@
+[
+  {
+    "case": "no-args",
+    "argv": [
+      "migrate"
+    ],
+    "exitCode": 1,
+    "error": "No Wrangler config found in <workspace>. Pass its path to cf migrate.",
+    "requests": []
+  },
+  {
+    "case": "required",
+    "argv": [
+      "migrate",
+      "project",
+      "--force"
+    ],
+    "exitCode": 1,
+    "error": "Unsupported Wrangler config format for <workspace>/project. Expected .json, .jsonc, or .toml.",
+    "requests": []
+  },
+  {
+    "case": "only --bundler",
+    "argv": [
+      "migrate",
+      "project",
+      "--force",
+      "--bundler",
+      "vite"
+    ],
+    "exitCode": 1,
+    "error": "Unsupported Wrangler config format for <workspace>/project. Expected .json, .jsonc, or .toml.",
+    "requests": []
+  },
+  {
+    "case": "--bundler value 1",
+    "argv": [
+      "migrate",
+      "project",
+      "--force",
+      "--bundler",
+      "wrangler"
+    ],
+    "exitCode": 1,
+    "error": "Unsupported Wrangler config format for <workspace>/project. Expected .json, .jsonc, or .toml.",
+    "requests": []
+  },
+  {
+    "case": "only --install",
+    "argv": [
+      "migrate",
+      "project",
+      "--force",
+      "--install=true"
+    ],
+    "exitCode": 1,
+    "error": "Unsupported Wrangler config format for <workspace>/project. Expected .json, .jsonc, or .toml.",
+    "requests": []
+  },
+  {
+    "case": "--install value 1",
+    "argv": [
+      "migrate",
+      "project",
+      "--force",
+      "--install=false"
+    ],
+    "exitCode": 1,
+    "error": "Unsupported Wrangler config format for <workspace>/project. Expected .json, .jsonc, or .toml.",
+    "requests": []
+  },
+  {
+    "case": "pairwise 1",
+    "argv": [
+      "migrate",
+      "project",
+      "--force",
+      "--bundler",
+      "wrangler",
+      "--install=false"
+    ],
+    "exitCode": 1,
+    "error": "Unsupported Wrangler config format for <workspace>/project. Expected .json, .jsonc, or .toml.",
+    "requests": []
+  },
+  {
+    "case": "global quiet",
+    "argv": [
+      "migrate",
+      "project",
+      "--force",
+      "--quiet"
+    ],
+    "exitCode": 1,
+    "error": "Unsupported Wrangler config format for <workspace>/project. Expected .json, .jsonc, or .toml.",
+    "requests": []
+  },
+  {
+    "case": "global zone",
+    "argv": [
+      "migrate",
+      "project",
+      "--force",
+      "--zone",
+      "abcdef0123456789abcdef0123456789"
+    ],
+    "exitCode": 1,
+    "error": "Unsupported Wrangler config format for <workspace>/project. Expected .json, .jsonc, or .toml.",
+    "requests": []
+  },
+  {
+    "case": "global profile and mode",
+    "argv": [
+      "migrate",
+      "project",
+      "--force",
+      "--profile",
+      "default",
+      "--mode",
+      "regression"
+    ],
+    "exitCode": 1,
+    "error": "Unsupported Wrangler config format for <workspace>/project. Expected .json, .jsonc, or .toml.",
+    "requests": []
+  },
+  {
+    "case": "local",
+    "argv": [
+      "migrate",
+      "project",
+      "--force",
+      "--local"
+    ],
+    "exitCode": 1,
+    "error": "--local is not supported by cf migrate.",
+    "requests": []
+  },
+  {
+    "case": "local with persistence",
+    "argv": [
+      "migrate",
+      "project",
+      "--force",
+      "--local",
+      "--persist-to",
+      "regression-state"
+    ],
+    "exitCode": 1,
+    "error": "--local is not supported by cf migrate.",
+    "requests": []
+  },
+  {
+    "case": "dry-run",
+    "argv": [
+      "migrate",
+      "project",
+      "--force",
+      "--dry-run"
+    ],
+    "exitCode": 1,
+    "error": "Unsupported Wrangler config format for <workspace>/project. Expected .json, .jsonc, or .toml.",
+    "requests": []
+  }
+]

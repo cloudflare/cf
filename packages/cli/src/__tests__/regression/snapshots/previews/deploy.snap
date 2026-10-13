@@ -1,0 +1,642 @@
+[
+  {
+    "case": "no-args",
+    "argv": [
+      "previews",
+      "deploy"
+    ],
+    "exitCode": 1,
+    "error": "We couldn't determine a Preview name from CI or Git. The name is optional when a branch is available. Otherwise, run:\n\n  cf previews deploy PREVIEW_NAME",
+    "requests": []
+  },
+  {
+    "case": "required",
+    "argv": [
+      "previews",
+      "deploy",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/workers/workers/regression-worker/previews/regression%20value%20%26%2F%3F%2B%C3%BC",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>"
+        },
+        "body": null
+      },
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/workers/workers/regression-worker/previews/regression-preview/deployments/latest",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>"
+        },
+        "body": null
+      },
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/workers/workers/regression-worker/previews/regression-preview/deployments",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "<multipart-length>",
+          "content-type": "multipart/form-data; boundary=<boundary>",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>"
+        },
+        "body": [
+          [
+            "metadata",
+            "{\"main_module\":\"index.js\",\"compatibility_date\":\"2026-01-01\"}"
+          ],
+          [
+            "files",
+            {
+              "filename": "index.js",
+              "contentType": "application/javascript+module",
+              "base64": "ZXhwb3J0IGRlZmF1bHQgeyBmZXRjaCgpIHsgcmV0dXJuIG5ldyBSZXNwb25zZSgncmVncmVzc2lvbicpOyB9IH07Cg=="
+            }
+          ]
+        ]
+      }
+    ]
+  },
+  {
+    "case": "only --prebuilt",
+    "argv": [
+      "previews",
+      "deploy",
+      "regression value &/?+ü",
+      "--prebuilt=true"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/workers/workers/regression-worker/previews/regression%20value%20%26%2F%3F%2B%C3%BC",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>"
+        },
+        "body": null
+      },
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/workers/workers/regression-worker/previews/regression-preview/deployments/latest",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>"
+        },
+        "body": null
+      },
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/workers/workers/regression-worker/previews/regression-preview/deployments",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "<multipart-length>",
+          "content-type": "multipart/form-data; boundary=<boundary>",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>"
+        },
+        "body": [
+          [
+            "metadata",
+            "{\"main_module\":\"index.js\",\"compatibility_date\":\"2026-01-01\"}"
+          ],
+          [
+            "files",
+            {
+              "filename": "index.js",
+              "contentType": "application/javascript+module",
+              "base64": "ZXhwb3J0IGRlZmF1bHQgeyBmZXRjaCgpIHsgcmV0dXJuIG5ldyBSZXNwb25zZSgncmVncmVzc2lvbicpOyB9IH07Cg=="
+            }
+          ]
+        ]
+      }
+    ]
+  },
+  {
+    "case": "--prebuilt value 1",
+    "argv": [
+      "previews",
+      "deploy",
+      "regression value &/?+ü",
+      "--prebuilt=false"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/workers/workers/regression-worker/previews/regression%20value%20%26%2F%3F%2B%C3%BC",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>"
+        },
+        "body": null
+      },
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/workers/workers/regression-worker/previews/regression-preview/deployments/latest",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>"
+        },
+        "body": null
+      },
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/workers/workers/regression-worker/previews/regression-preview/deployments",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "<multipart-length>",
+          "content-type": "multipart/form-data; boundary=<boundary>",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>"
+        },
+        "body": [
+          [
+            "metadata",
+            "{\"main_module\":\"index.js\",\"compatibility_date\":\"2026-01-01\"}"
+          ],
+          [
+            "files",
+            {
+              "filename": "index.js",
+              "contentType": "application/javascript+module",
+              "base64": "ZXhwb3J0IGRlZmF1bHQgeyBmZXRjaCgpIHsgcmV0dXJuIG5ldyBSZXNwb25zZSgncmVncmVzc2lvbicpOyB9IH07Cg=="
+            }
+          ]
+        ]
+      }
+    ]
+  },
+  {
+    "case": "only --worker",
+    "argv": [
+      "previews",
+      "deploy",
+      "regression value &/?+ü",
+      "--worker",
+      "regression-worker"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/workers/workers/regression-worker/previews/regression%20value%20%26%2F%3F%2B%C3%BC",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>"
+        },
+        "body": null
+      },
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/workers/workers/regression-worker/previews/regression-preview/deployments/latest",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>"
+        },
+        "body": null
+      },
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/workers/workers/regression-worker/previews/regression-preview/deployments",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "<multipart-length>",
+          "content-type": "multipart/form-data; boundary=<boundary>",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>"
+        },
+        "body": [
+          [
+            "metadata",
+            "{\"main_module\":\"index.js\",\"compatibility_date\":\"2026-01-01\"}"
+          ],
+          [
+            "files",
+            {
+              "filename": "index.js",
+              "contentType": "application/javascript+module",
+              "base64": "ZXhwb3J0IGRlZmF1bHQgeyBmZXRjaCgpIHsgcmV0dXJuIG5ldyBSZXNwb25zZSgncmVncmVzc2lvbicpOyB9IH07Cg=="
+            }
+          ]
+        ]
+      }
+    ]
+  },
+  {
+    "case": "pairwise 1",
+    "argv": [
+      "previews",
+      "deploy",
+      "regression value &/?+ü",
+      "--prebuilt=false",
+      "--worker",
+      "regression-worker"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/workers/workers/regression-worker/previews/regression%20value%20%26%2F%3F%2B%C3%BC",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>"
+        },
+        "body": null
+      },
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/workers/workers/regression-worker/previews/regression-preview/deployments/latest",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>"
+        },
+        "body": null
+      },
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/workers/workers/regression-worker/previews/regression-preview/deployments",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "<multipart-length>",
+          "content-type": "multipart/form-data; boundary=<boundary>",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>"
+        },
+        "body": [
+          [
+            "metadata",
+            "{\"main_module\":\"index.js\",\"compatibility_date\":\"2026-01-01\"}"
+          ],
+          [
+            "files",
+            {
+              "filename": "index.js",
+              "contentType": "application/javascript+module",
+              "base64": "ZXhwb3J0IGRlZmF1bHQgeyBmZXRjaCgpIHsgcmV0dXJuIG5ldyBSZXNwb25zZSgncmVncmVzc2lvbicpOyB9IH07Cg=="
+            }
+          ]
+        ]
+      }
+    ]
+  },
+  {
+    "case": "global quiet",
+    "argv": [
+      "previews",
+      "deploy",
+      "regression value &/?+ü",
+      "--quiet"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/workers/workers/regression-worker/previews/regression%20value%20%26%2F%3F%2B%C3%BC",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>"
+        },
+        "body": null
+      },
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/workers/workers/regression-worker/previews/regression-preview/deployments/latest",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>"
+        },
+        "body": null
+      },
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/workers/workers/regression-worker/previews/regression-preview/deployments",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "<multipart-length>",
+          "content-type": "multipart/form-data; boundary=<boundary>",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>"
+        },
+        "body": [
+          [
+            "metadata",
+            "{\"main_module\":\"index.js\",\"compatibility_date\":\"2026-01-01\"}"
+          ],
+          [
+            "files",
+            {
+              "filename": "index.js",
+              "contentType": "application/javascript+module",
+              "base64": "ZXhwb3J0IGRlZmF1bHQgeyBmZXRjaCgpIHsgcmV0dXJuIG5ldyBSZXNwb25zZSgncmVncmVzc2lvbicpOyB9IH07Cg=="
+            }
+          ]
+        ]
+      }
+    ]
+  },
+  {
+    "case": "global zone",
+    "argv": [
+      "previews",
+      "deploy",
+      "regression value &/?+ü",
+      "--zone",
+      "abcdef0123456789abcdef0123456789"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/workers/workers/regression-worker/previews/regression%20value%20%26%2F%3F%2B%C3%BC",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>"
+        },
+        "body": null
+      },
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/workers/workers/regression-worker/previews/regression-preview/deployments/latest",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>"
+        },
+        "body": null
+      },
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/workers/workers/regression-worker/previews/regression-preview/deployments",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "<multipart-length>",
+          "content-type": "multipart/form-data; boundary=<boundary>",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>"
+        },
+        "body": [
+          [
+            "metadata",
+            "{\"main_module\":\"index.js\",\"compatibility_date\":\"2026-01-01\"}"
+          ],
+          [
+            "files",
+            {
+              "filename": "index.js",
+              "contentType": "application/javascript+module",
+              "base64": "ZXhwb3J0IGRlZmF1bHQgeyBmZXRjaCgpIHsgcmV0dXJuIG5ldyBSZXNwb25zZSgncmVncmVzc2lvbicpOyB9IH07Cg=="
+            }
+          ]
+        ]
+      }
+    ]
+  },
+  {
+    "case": "global profile and mode",
+    "argv": [
+      "previews",
+      "deploy",
+      "regression value &/?+ü",
+      "--profile",
+      "default",
+      "--mode",
+      "regression"
+    ],
+    "exitCode": 1,
+    "error": "The Build Output does not record which mode it was created with, but this command requested mode \"regression\". Rebuild with \"--mode regression\" before deploying.",
+    "requests": []
+  },
+  {
+    "case": "local",
+    "argv": [
+      "previews",
+      "deploy",
+      "regression value &/?+ü",
+      "--local"
+    ],
+    "exitCode": 1,
+    "error": "--local is not supported by cf previews deploy.",
+    "requests": []
+  },
+  {
+    "case": "local with persistence",
+    "argv": [
+      "previews",
+      "deploy",
+      "regression value &/?+ü",
+      "--local",
+      "--persist-to",
+      "regression-state"
+    ],
+    "exitCode": 1,
+    "error": "--local is not supported by cf previews deploy.",
+    "requests": []
+  },
+  {
+    "case": "dry-run",
+    "argv": [
+      "previews",
+      "deploy",
+      "regression value &/?+ü",
+      "--dry-run"
+    ],
+    "exitCode": 0,
+    "requests": []
+  },
+  {
+    "case": "alternate <preview-name>",
+    "argv": [
+      "previews",
+      "deploy",
+      "second value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/workers/workers/regression-worker/previews/second%20value%20%26%2F%3F%2B%C3%BC",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>"
+        },
+        "body": null
+      },
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/workers/workers/regression-worker/previews/regression-preview/deployments/latest",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>"
+        },
+        "body": null
+      },
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/workers/workers/regression-worker/previews/regression-preview/deployments",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "<multipart-length>",
+          "content-type": "multipart/form-data; boundary=<boundary>",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>"
+        },
+        "body": [
+          [
+            "metadata",
+            "{\"main_module\":\"index.js\",\"compatibility_date\":\"2026-01-01\"}"
+          ],
+          [
+            "files",
+            {
+              "filename": "index.js",
+              "contentType": "application/javascript+module",
+              "base64": "ZXhwb3J0IGRlZmF1bHQgeyBmZXRjaCgpIHsgcmV0dXJuIG5ldyBSZXNwb25zZSgncmVncmVzc2lvbicpOyB9IH07Cg=="
+            }
+          ]
+        ]
+      }
+    ]
+  }
+]

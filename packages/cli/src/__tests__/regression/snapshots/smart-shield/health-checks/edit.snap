@@ -1,0 +1,2443 @@
+[
+  {
+    "case": "no-args",
+    "argv": [
+      "smart-shield",
+      "health-checks",
+      "edit"
+    ],
+    "exitCode": 1,
+    "error": "Not enough non-option arguments: got 0, need at least 1",
+    "requests": []
+  },
+  {
+    "case": "required",
+    "argv": [
+      "smart-shield",
+      "health-checks",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--address",
+      "192.0.2.1",
+      "--name",
+      "regression value &/?+ü",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/smart_shield/healthchecks/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --check-regions",
+    "argv": [
+      "smart-shield",
+      "health-checks",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--address",
+      "192.0.2.1",
+      "--name",
+      "regression value &/?+ü",
+      "--check-regions",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/smart_shield/healthchecks/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "100",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "address": "192.0.2.1",
+          "check_regions": [
+            "regression value &/?+ü"
+          ],
+          "name": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --consecutive-fails",
+    "argv": [
+      "smart-shield",
+      "health-checks",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--address",
+      "192.0.2.1",
+      "--name",
+      "regression value &/?+ü",
+      "--consecutive-fails",
+      "1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/smart_shield/healthchecks/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "78",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "address": "192.0.2.1",
+          "consecutive_fails": 1,
+          "name": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --consecutive-successes",
+    "argv": [
+      "smart-shield",
+      "health-checks",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--address",
+      "192.0.2.1",
+      "--name",
+      "regression value &/?+ü",
+      "--consecutive-successes",
+      "1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/smart_shield/healthchecks/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "82",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "address": "192.0.2.1",
+          "consecutive_successes": 1,
+          "name": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --description",
+    "argv": [
+      "smart-shield",
+      "health-checks",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--address",
+      "192.0.2.1",
+      "--name",
+      "regression value &/?+ü",
+      "--description",
+      "192.0.2.1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/smart_shield/healthchecks/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "82",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "address": "192.0.2.1",
+          "description": "192.0.2.1",
+          "name": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --http-config-allow-insecure",
+    "argv": [
+      "smart-shield",
+      "health-checks",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--address",
+      "192.0.2.1",
+      "--name",
+      "regression value &/?+ü",
+      "--http-config-allow-insecure=true"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/smart_shield/healthchecks/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "94",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "address": "192.0.2.1",
+          "http_config": {
+            "allow_insecure": true
+          },
+          "name": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "--http-config-allow-insecure value 1",
+    "argv": [
+      "smart-shield",
+      "health-checks",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--address",
+      "192.0.2.1",
+      "--name",
+      "regression value &/?+ü",
+      "--http-config-allow-insecure=false"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/smart_shield/healthchecks/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "95",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "address": "192.0.2.1",
+          "http_config": {
+            "allow_insecure": false
+          },
+          "name": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --http-config-expected-body",
+    "argv": [
+      "smart-shield",
+      "health-checks",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--address",
+      "192.0.2.1",
+      "--name",
+      "regression value &/?+ü",
+      "--http-config-expected-body",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/smart_shield/healthchecks/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "114",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "address": "192.0.2.1",
+          "http_config": {
+            "expected_body": "regression value &/?+ü"
+          },
+          "name": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --http-config-expected-codes",
+    "argv": [
+      "smart-shield",
+      "health-checks",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--address",
+      "192.0.2.1",
+      "--name",
+      "regression value &/?+ü",
+      "--http-config-expected-codes",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/smart_shield/healthchecks/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "117",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "address": "192.0.2.1",
+          "http_config": {
+            "expected_codes": [
+              "regression value &/?+ü"
+            ]
+          },
+          "name": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --http-config-follow-redirects",
+    "argv": [
+      "smart-shield",
+      "health-checks",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--address",
+      "192.0.2.1",
+      "--name",
+      "regression value &/?+ü",
+      "--http-config-follow-redirects=true"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/smart_shield/healthchecks/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "96",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "address": "192.0.2.1",
+          "http_config": {
+            "follow_redirects": true
+          },
+          "name": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "--http-config-follow-redirects value 1",
+    "argv": [
+      "smart-shield",
+      "health-checks",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--address",
+      "192.0.2.1",
+      "--name",
+      "regression value &/?+ü",
+      "--http-config-follow-redirects=false"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/smart_shield/healthchecks/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "97",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "address": "192.0.2.1",
+          "http_config": {
+            "follow_redirects": false
+          },
+          "name": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --http-config-method",
+    "argv": [
+      "smart-shield",
+      "health-checks",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--address",
+      "192.0.2.1",
+      "--name",
+      "regression value &/?+ü",
+      "--http-config-method",
+      "GET"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/smart_shield/healthchecks/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "87",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "address": "192.0.2.1",
+          "http_config": {
+            "method": "GET"
+          },
+          "name": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "--http-config-method value 1",
+    "argv": [
+      "smart-shield",
+      "health-checks",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--address",
+      "192.0.2.1",
+      "--name",
+      "regression value &/?+ü",
+      "--http-config-method",
+      "HEAD"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/smart_shield/healthchecks/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "88",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "address": "192.0.2.1",
+          "http_config": {
+            "method": "HEAD"
+          },
+          "name": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --http-config-path",
+    "argv": [
+      "smart-shield",
+      "health-checks",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--address",
+      "192.0.2.1",
+      "--name",
+      "regression value &/?+ü",
+      "--http-config-path",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/smart_shield/healthchecks/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "105",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "address": "192.0.2.1",
+          "http_config": {
+            "path": "regression value &/?+ü"
+          },
+          "name": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --http-config-port",
+    "argv": [
+      "smart-shield",
+      "health-checks",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--address",
+      "192.0.2.1",
+      "--name",
+      "regression value &/?+ü",
+      "--http-config-port",
+      "1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/smart_shield/healthchecks/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "81",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "address": "192.0.2.1",
+          "http_config": {
+            "port": 1
+          },
+          "name": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --interval",
+    "argv": [
+      "smart-shield",
+      "health-checks",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--address",
+      "192.0.2.1",
+      "--name",
+      "regression value &/?+ü",
+      "--interval",
+      "1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/smart_shield/healthchecks/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "69",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "address": "192.0.2.1",
+          "interval": 1,
+          "name": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --retries",
+    "argv": [
+      "smart-shield",
+      "health-checks",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--address",
+      "192.0.2.1",
+      "--name",
+      "regression value &/?+ü",
+      "--retries",
+      "1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/smart_shield/healthchecks/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "68",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "address": "192.0.2.1",
+          "name": "regression value &/?+ü",
+          "retries": 1
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --suspended",
+    "argv": [
+      "smart-shield",
+      "health-checks",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--address",
+      "192.0.2.1",
+      "--name",
+      "regression value &/?+ü",
+      "--suspended=true"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/smart_shield/healthchecks/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "73",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "address": "192.0.2.1",
+          "name": "regression value &/?+ü",
+          "suspended": true
+        }
+      }
+    ]
+  },
+  {
+    "case": "--suspended value 1",
+    "argv": [
+      "smart-shield",
+      "health-checks",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--address",
+      "192.0.2.1",
+      "--name",
+      "regression value &/?+ü",
+      "--suspended=false"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/smart_shield/healthchecks/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "74",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "address": "192.0.2.1",
+          "name": "regression value &/?+ü",
+          "suspended": false
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --tcp-config-method",
+    "argv": [
+      "smart-shield",
+      "health-checks",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--address",
+      "192.0.2.1",
+      "--name",
+      "regression value &/?+ü",
+      "--tcp-config-method",
+      "connection_established"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/smart_shield/healthchecks/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "105",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "address": "192.0.2.1",
+          "name": "regression value &/?+ü",
+          "tcp_config": {
+            "method": "connection_established"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --tcp-config-port",
+    "argv": [
+      "smart-shield",
+      "health-checks",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--address",
+      "192.0.2.1",
+      "--name",
+      "regression value &/?+ü",
+      "--tcp-config-port",
+      "1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/smart_shield/healthchecks/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "80",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "address": "192.0.2.1",
+          "name": "regression value &/?+ü",
+          "tcp_config": {
+            "port": 1
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --timeout",
+    "argv": [
+      "smart-shield",
+      "health-checks",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--address",
+      "192.0.2.1",
+      "--name",
+      "regression value &/?+ü",
+      "--timeout",
+      "1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/smart_shield/healthchecks/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "68",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "address": "192.0.2.1",
+          "name": "regression value &/?+ü",
+          "timeout": 1
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --type",
+    "argv": [
+      "smart-shield",
+      "health-checks",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--address",
+      "192.0.2.1",
+      "--name",
+      "regression value &/?+ü",
+      "--type",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/smart_shield/healthchecks/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "89",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "address": "192.0.2.1",
+          "name": "regression value &/?+ü",
+          "type": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 0",
+    "argv": [
+      "smart-shield",
+      "health-checks",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--address",
+      "192.0.2.1",
+      "--name",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/smart_shield/healthchecks/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "56",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "address": "192.0.2.1",
+          "name": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 1",
+    "argv": [
+      "smart-shield",
+      "health-checks",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--address",
+      "192.0.2.1",
+      "--name",
+      "regression value &/?+ü",
+      "--check-regions",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--consecutive-fails",
+      "2",
+      "--consecutive-successes",
+      "2",
+      "--description",
+      "192.0.2.1",
+      "--http-config-allow-insecure=false",
+      "--http-config-expected-body",
+      "second value &/?+ü",
+      "--http-config-expected-codes",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--http-config-follow-redirects=false",
+      "--http-config-method",
+      "HEAD",
+      "--http-config-path",
+      "second value &/?+ü",
+      "--http-config-port",
+      "2",
+      "--interval",
+      "2",
+      "--retries",
+      "2",
+      "--suspended=false",
+      "--tcp-config-method",
+      "connection_established",
+      "--tcp-config-port",
+      "2",
+      "--timeout",
+      "2",
+      "--type",
+      "second value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/smart_shield/healthchecks/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "553",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "address": "192.0.2.1",
+          "check_regions": [
+            "second value &/?+ü",
+            "second value &/?+ü"
+          ],
+          "consecutive_fails": 2,
+          "consecutive_successes": 2,
+          "description": "192.0.2.1",
+          "http_config": {
+            "allow_insecure": false,
+            "expected_body": "second value &/?+ü",
+            "expected_codes": [
+              "second value &/?+ü",
+              "second value &/?+ü"
+            ],
+            "follow_redirects": false,
+            "method": "HEAD",
+            "path": "second value &/?+ü",
+            "port": 2
+          },
+          "interval": 2,
+          "name": "regression value &/?+ü",
+          "retries": 2,
+          "suspended": false,
+          "tcp_config": {
+            "method": "connection_established",
+            "port": 2
+          },
+          "timeout": 2,
+          "type": "second value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 2",
+    "argv": [
+      "smart-shield",
+      "health-checks",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--address",
+      "192.0.2.1",
+      "--name",
+      "regression value &/?+ü",
+      "--consecutive-fails",
+      "1",
+      "--description",
+      "192.0.2.1",
+      "--http-config-expected-body",
+      "regression value &/?+ü",
+      "--http-config-follow-redirects=true",
+      "--http-config-path",
+      "regression value &/?+ü",
+      "--interval",
+      "1",
+      "--suspended=true",
+      "--tcp-config-port",
+      "1",
+      "--type",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/smart_shield/healthchecks/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "306",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "address": "192.0.2.1",
+          "consecutive_fails": 1,
+          "description": "192.0.2.1",
+          "http_config": {
+            "expected_body": "regression value &/?+ü",
+            "follow_redirects": true,
+            "path": "regression value &/?+ü"
+          },
+          "interval": 1,
+          "name": "regression value &/?+ü",
+          "suspended": true,
+          "tcp_config": {
+            "port": 1
+          },
+          "type": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 3",
+    "argv": [
+      "smart-shield",
+      "health-checks",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--address",
+      "192.0.2.1",
+      "--name",
+      "regression value &/?+ü",
+      "--check-regions",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--consecutive-successes",
+      "2",
+      "--http-config-allow-insecure=false",
+      "--http-config-expected-codes",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--http-config-method",
+      "HEAD",
+      "--http-config-port",
+      "2",
+      "--retries",
+      "2",
+      "--tcp-config-method",
+      "connection_established",
+      "--timeout",
+      "2"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/smart_shield/healthchecks/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "344",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "address": "192.0.2.1",
+          "check_regions": [
+            "second value &/?+ü",
+            "second value &/?+ü"
+          ],
+          "consecutive_successes": 2,
+          "http_config": {
+            "allow_insecure": false,
+            "expected_codes": [
+              "second value &/?+ü",
+              "second value &/?+ü"
+            ],
+            "method": "HEAD",
+            "port": 2
+          },
+          "name": "regression value &/?+ü",
+          "retries": 2,
+          "tcp_config": {
+            "method": "connection_established"
+          },
+          "timeout": 2
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 4",
+    "argv": [
+      "smart-shield",
+      "health-checks",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--address",
+      "192.0.2.1",
+      "--name",
+      "regression value &/?+ü",
+      "--consecutive-successes",
+      "1",
+      "--description",
+      "192.0.2.1",
+      "--http-config-expected-codes",
+      "regression value &/?+ü",
+      "--http-config-follow-redirects=true",
+      "--http-config-port",
+      "1",
+      "--interval",
+      "1",
+      "--tcp-config-method",
+      "connection_established",
+      "--tcp-config-port",
+      "1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/smart_shield/healthchecks/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "273",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "address": "192.0.2.1",
+          "consecutive_successes": 1,
+          "description": "192.0.2.1",
+          "http_config": {
+            "expected_codes": [
+              "regression value &/?+ü"
+            ],
+            "follow_redirects": true,
+            "port": 1
+          },
+          "interval": 1,
+          "name": "regression value &/?+ü",
+          "tcp_config": {
+            "method": "connection_established",
+            "port": 1
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 5",
+    "argv": [
+      "smart-shield",
+      "health-checks",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--address",
+      "192.0.2.1",
+      "--name",
+      "regression value &/?+ü",
+      "--check-regions",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--consecutive-fails",
+      "2",
+      "--http-config-allow-insecure=false",
+      "--http-config-expected-body",
+      "second value &/?+ü",
+      "--http-config-method",
+      "HEAD",
+      "--http-config-path",
+      "second value &/?+ü",
+      "--retries",
+      "2",
+      "--suspended=false",
+      "--timeout",
+      "2",
+      "--type",
+      "second value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/smart_shield/healthchecks/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "333",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "address": "192.0.2.1",
+          "check_regions": [
+            "second value &/?+ü",
+            "second value &/?+ü"
+          ],
+          "consecutive_fails": 2,
+          "http_config": {
+            "allow_insecure": false,
+            "expected_body": "second value &/?+ü",
+            "method": "HEAD",
+            "path": "second value &/?+ü"
+          },
+          "name": "regression value &/?+ü",
+          "retries": 2,
+          "suspended": false,
+          "timeout": 2,
+          "type": "second value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 6",
+    "argv": [
+      "smart-shield",
+      "health-checks",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--address",
+      "192.0.2.1",
+      "--name",
+      "regression value &/?+ü",
+      "--http-config-allow-insecure=true",
+      "--http-config-expected-body",
+      "regression value &/?+ü",
+      "--http-config-expected-codes",
+      "regression value &/?+ü",
+      "--http-config-follow-redirects=true",
+      "--retries",
+      "1",
+      "--suspended=true",
+      "--tcp-config-method",
+      "connection_established",
+      "--tcp-config-port",
+      "1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/smart_shield/healthchecks/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "292",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "address": "192.0.2.1",
+          "http_config": {
+            "allow_insecure": true,
+            "expected_body": "regression value &/?+ü",
+            "expected_codes": [
+              "regression value &/?+ü"
+            ],
+            "follow_redirects": true
+          },
+          "name": "regression value &/?+ü",
+          "retries": 1,
+          "suspended": true,
+          "tcp_config": {
+            "method": "connection_established",
+            "port": 1
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 7",
+    "argv": [
+      "smart-shield",
+      "health-checks",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--address",
+      "192.0.2.1",
+      "--name",
+      "regression value &/?+ü",
+      "--check-regions",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--consecutive-fails",
+      "2",
+      "--consecutive-successes",
+      "2",
+      "--description",
+      "192.0.2.1",
+      "--http-config-method",
+      "HEAD",
+      "--http-config-path",
+      "second value &/?+ü",
+      "--http-config-port",
+      "2",
+      "--interval",
+      "2",
+      "--timeout",
+      "2",
+      "--type",
+      "second value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/smart_shield/healthchecks/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "316",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "address": "192.0.2.1",
+          "check_regions": [
+            "second value &/?+ü",
+            "second value &/?+ü"
+          ],
+          "consecutive_fails": 2,
+          "consecutive_successes": 2,
+          "description": "192.0.2.1",
+          "http_config": {
+            "method": "HEAD",
+            "path": "second value &/?+ü",
+            "port": 2
+          },
+          "interval": 2,
+          "name": "regression value &/?+ü",
+          "timeout": 2,
+          "type": "second value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 8",
+    "argv": [
+      "smart-shield",
+      "health-checks",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--address",
+      "192.0.2.1",
+      "--name",
+      "regression value &/?+ü",
+      "--http-config-method",
+      "GET",
+      "--http-config-path",
+      "regression value &/?+ü",
+      "--http-config-port",
+      "1",
+      "--interval",
+      "1",
+      "--retries",
+      "1",
+      "--suspended=true",
+      "--tcp-config-method",
+      "connection_established",
+      "--tcp-config-port",
+      "1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/smart_shield/healthchecks/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "229",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "address": "192.0.2.1",
+          "http_config": {
+            "method": "GET",
+            "path": "regression value &/?+ü",
+            "port": 1
+          },
+          "interval": 1,
+          "name": "regression value &/?+ü",
+          "retries": 1,
+          "suspended": true,
+          "tcp_config": {
+            "method": "connection_established",
+            "port": 1
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 9",
+    "argv": [
+      "smart-shield",
+      "health-checks",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--address",
+      "192.0.2.1",
+      "--name",
+      "regression value &/?+ü",
+      "--check-regions",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--consecutive-fails",
+      "2",
+      "--consecutive-successes",
+      "2",
+      "--description",
+      "192.0.2.1",
+      "--http-config-allow-insecure=false",
+      "--http-config-expected-body",
+      "second value &/?+ü",
+      "--http-config-expected-codes",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--http-config-follow-redirects=false",
+      "--timeout",
+      "2",
+      "--type",
+      "second value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/smart_shield/healthchecks/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "398",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "address": "192.0.2.1",
+          "check_regions": [
+            "second value &/?+ü",
+            "second value &/?+ü"
+          ],
+          "consecutive_fails": 2,
+          "consecutive_successes": 2,
+          "description": "192.0.2.1",
+          "http_config": {
+            "allow_insecure": false,
+            "expected_body": "second value &/?+ü",
+            "expected_codes": [
+              "second value &/?+ü",
+              "second value &/?+ü"
+            ],
+            "follow_redirects": false
+          },
+          "name": "regression value &/?+ü",
+          "timeout": 2,
+          "type": "second value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 10",
+    "argv": [
+      "smart-shield",
+      "health-checks",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--address",
+      "192.0.2.1",
+      "--name",
+      "regression value &/?+ü",
+      "--timeout",
+      "1",
+      "--type",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/smart_shield/healthchecks/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "101",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "address": "192.0.2.1",
+          "name": "regression value &/?+ü",
+          "timeout": 1,
+          "type": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 11",
+    "argv": [
+      "smart-shield",
+      "health-checks",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--address",
+      "192.0.2.1",
+      "--name",
+      "regression value &/?+ü",
+      "--check-regions",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--consecutive-fails",
+      "2",
+      "--consecutive-successes",
+      "2",
+      "--description",
+      "192.0.2.1",
+      "--http-config-allow-insecure=false",
+      "--http-config-expected-body",
+      "second value &/?+ü",
+      "--http-config-expected-codes",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--http-config-follow-redirects=false",
+      "--http-config-method",
+      "HEAD",
+      "--http-config-path",
+      "second value &/?+ü",
+      "--http-config-port",
+      "2",
+      "--interval",
+      "2",
+      "--retries",
+      "2",
+      "--suspended=false",
+      "--tcp-config-method",
+      "connection_established",
+      "--tcp-config-port",
+      "2"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/smart_shield/healthchecks/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "512",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "address": "192.0.2.1",
+          "check_regions": [
+            "second value &/?+ü",
+            "second value &/?+ü"
+          ],
+          "consecutive_fails": 2,
+          "consecutive_successes": 2,
+          "description": "192.0.2.1",
+          "http_config": {
+            "allow_insecure": false,
+            "expected_body": "second value &/?+ü",
+            "expected_codes": [
+              "second value &/?+ü",
+              "second value &/?+ü"
+            ],
+            "follow_redirects": false,
+            "method": "HEAD",
+            "path": "second value &/?+ü",
+            "port": 2
+          },
+          "interval": 2,
+          "name": "regression value &/?+ü",
+          "retries": 2,
+          "suspended": false,
+          "tcp_config": {
+            "method": "connection_established",
+            "port": 2
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "global quiet",
+    "argv": [
+      "smart-shield",
+      "health-checks",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--address",
+      "192.0.2.1",
+      "--name",
+      "regression value &/?+ü",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--quiet"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/smart_shield/healthchecks/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "global zone",
+    "argv": [
+      "smart-shield",
+      "health-checks",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--address",
+      "192.0.2.1",
+      "--name",
+      "regression value &/?+ü",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--zone",
+      "abcdef0123456789abcdef0123456789"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/smart_shield/healthchecks/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "global profile and mode",
+    "argv": [
+      "smart-shield",
+      "health-checks",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--address",
+      "192.0.2.1",
+      "--name",
+      "regression value &/?+ü",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--profile",
+      "default",
+      "--mode",
+      "regression"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/smart_shield/healthchecks/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "local",
+    "argv": [
+      "smart-shield",
+      "health-checks",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--address",
+      "192.0.2.1",
+      "--name",
+      "regression value &/?+ü",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--local"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "http://localhost/cdn-cgi/local/explorer/api/zones/abcdef0123456789abcdef0123456789/smart_shield/healthchecks/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "gzip, deflate",
+          "accept-language": "*",
+          "connection": "keep-alive",
+          "content-type": "application/json",
+          "host": "localhost",
+          "sec-fetch-mode": "cors",
+          "transfer-encoding": "chunked",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "local with persistence",
+    "argv": [
+      "smart-shield",
+      "health-checks",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--address",
+      "192.0.2.1",
+      "--name",
+      "regression value &/?+ü",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--local",
+      "--persist-to",
+      "regression-state"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "http://localhost/cdn-cgi/local/explorer/api/zones/abcdef0123456789abcdef0123456789/smart_shield/healthchecks/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "gzip, deflate",
+          "accept-language": "*",
+          "connection": "keep-alive",
+          "content-type": "application/json",
+          "host": "localhost",
+          "sec-fetch-mode": "cors",
+          "transfer-encoding": "chunked",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "zone by domain",
+    "argv": [
+      "smart-shield",
+      "health-checks",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--address",
+      "192.0.2.1",
+      "--name",
+      "regression value &/?+ü",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--zone",
+      "regression-68b2d500ed04.example.com"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/zones?name=regression-68b2d500ed04.example.com&account.id=0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      },
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/smart_shield/healthchecks/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "dry-run",
+    "argv": [
+      "smart-shield",
+      "health-checks",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--address",
+      "192.0.2.1",
+      "--name",
+      "regression value &/?+ü",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--dry-run"
+    ],
+    "exitCode": 0,
+    "requests": []
+  },
+  {
+    "case": "body from file",
+    "argv": [
+      "smart-shield",
+      "health-checks",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--address",
+      "192.0.2.1",
+      "--name",
+      "regression value &/?+ü",
+      "--body",
+      "@<body.json>"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/smart_shield/healthchecks/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "array body",
+    "argv": [
+      "smart-shield",
+      "health-checks",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--address",
+      "192.0.2.1",
+      "--name",
+      "regression value &/?+ü",
+      "--body",
+      "[{\"regression\":\"first\"},{\"regression\":\"second\"}]"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/smart_shield/healthchecks/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "48",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": [
+          {
+            "regression": "first"
+          },
+          {
+            "regression": "second"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "case": "field flags",
+    "argv": [
+      "smart-shield",
+      "health-checks",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--address",
+      "192.0.2.1",
+      "--name",
+      "regression value &/?+ü",
+      "--check-regions",
+      "regression value &/?+ü",
+      "--consecutive-fails",
+      "1",
+      "--consecutive-successes",
+      "1",
+      "--description",
+      "192.0.2.1",
+      "--http-config-allow-insecure=true",
+      "--http-config-expected-body",
+      "regression value &/?+ü",
+      "--http-config-expected-codes",
+      "regression value &/?+ü",
+      "--http-config-follow-redirects=true",
+      "--http-config-method",
+      "GET",
+      "--http-config-path",
+      "regression value &/?+ü",
+      "--http-config-port",
+      "1",
+      "--interval",
+      "1",
+      "--retries",
+      "1",
+      "--suspended=true",
+      "--tcp-config-method",
+      "connection_established",
+      "--tcp-config-port",
+      "1",
+      "--timeout",
+      "1",
+      "--type",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/smart_shield/healthchecks/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "525",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "address": "192.0.2.1",
+          "check_regions": [
+            "regression value &/?+ü"
+          ],
+          "consecutive_fails": 1,
+          "consecutive_successes": 1,
+          "description": "192.0.2.1",
+          "http_config": {
+            "allow_insecure": true,
+            "expected_body": "regression value &/?+ü",
+            "expected_codes": [
+              "regression value &/?+ü"
+            ],
+            "follow_redirects": true,
+            "method": "GET",
+            "path": "regression value &/?+ü",
+            "port": 1
+          },
+          "interval": 1,
+          "name": "regression value &/?+ü",
+          "retries": 1,
+          "suspended": true,
+          "tcp_config": {
+            "method": "connection_established",
+            "port": 1
+          },
+          "timeout": 1,
+          "type": "regression value &/?+ü"
+        }
+      }
+    ]
+  }
+]

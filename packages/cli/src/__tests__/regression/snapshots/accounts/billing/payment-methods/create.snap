@@ -1,0 +1,2333 @@
+[
+  {
+    "case": "no-args",
+    "argv": [
+      "accounts",
+      "billing",
+      "payment-methods",
+      "create"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/payment-methods",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "2",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {}
+      }
+    ]
+  },
+  {
+    "case": "required",
+    "argv": [
+      "accounts",
+      "billing",
+      "payment-methods",
+      "create",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/payment-methods",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --address",
+    "argv": [
+      "accounts",
+      "billing",
+      "payment-methods",
+      "create",
+      "--address",
+      "192.0.2.1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/payment-methods",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "23",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "address": "192.0.2.1"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --address2",
+    "argv": [
+      "accounts",
+      "billing",
+      "payment-methods",
+      "create",
+      "--address2",
+      "192.0.2.1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/payment-methods",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "24",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "address2": "192.0.2.1"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --bank-account-type",
+    "argv": [
+      "accounts",
+      "billing",
+      "payment-methods",
+      "create",
+      "--bank-account-type",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/payment-methods",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "47",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "bank_account_type": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --bank-code",
+    "argv": [
+      "accounts",
+      "billing",
+      "payment-methods",
+      "create",
+      "--bank-code",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/payment-methods",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "39",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "bank_code": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --bank-country",
+    "argv": [
+      "accounts",
+      "billing",
+      "payment-methods",
+      "create",
+      "--bank-country",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/payment-methods",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "bank_country": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --bank-name",
+    "argv": [
+      "accounts",
+      "billing",
+      "payment-methods",
+      "create",
+      "--bank-name",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/payment-methods",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "39",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "bank_name": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --bank-routing-number",
+    "argv": [
+      "accounts",
+      "billing",
+      "payment-methods",
+      "create",
+      "--bank-routing-number",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/payment-methods",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "49",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "bank_routing_number": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --cashapp-cash-tag",
+    "argv": [
+      "accounts",
+      "billing",
+      "payment-methods",
+      "create",
+      "--cashapp-cash-tag",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/payment-methods",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "46",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "cashapp_cash_tag": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --city",
+    "argv": [
+      "accounts",
+      "billing",
+      "payment-methods",
+      "create",
+      "--city",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/payment-methods",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "34",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "city": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --country",
+    "argv": [
+      "accounts",
+      "billing",
+      "payment-methods",
+      "create",
+      "--country",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/payment-methods",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "37",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "country": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --default",
+    "argv": [
+      "accounts",
+      "billing",
+      "payment-methods",
+      "create",
+      "--default=true"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/payment-methods",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "16",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "default": true
+        }
+      }
+    ]
+  },
+  {
+    "case": "--default value 1",
+    "argv": [
+      "accounts",
+      "billing",
+      "payment-methods",
+      "create",
+      "--default=false"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/payment-methods",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "17",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "default": false
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --device-data",
+    "argv": [
+      "accounts",
+      "billing",
+      "payment-methods",
+      "create",
+      "--device-data",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/payment-methods",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "41",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "device_data": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --first-name",
+    "argv": [
+      "accounts",
+      "billing",
+      "payment-methods",
+      "create",
+      "--first-name",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/payment-methods",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "40",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "first_name": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --last-name",
+    "argv": [
+      "accounts",
+      "billing",
+      "payment-methods",
+      "create",
+      "--last-name",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/payment-methods",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "39",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "last_name": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --nick-name",
+    "argv": [
+      "accounts",
+      "billing",
+      "payment-methods",
+      "create",
+      "--nick-name",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/payment-methods",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "39",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "nick_name": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --payment-account-email",
+    "argv": [
+      "accounts",
+      "billing",
+      "payment-methods",
+      "create",
+      "--payment-account-email",
+      "regression@example.com"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/payment-methods",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "50",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "payment_account_email": "regression@example.com"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --payment-email",
+    "argv": [
+      "accounts",
+      "billing",
+      "payment-methods",
+      "create",
+      "--payment-email",
+      "regression@example.com"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/payment-methods",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "payment_email": "regression@example.com"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --payment-gateway",
+    "argv": [
+      "accounts",
+      "billing",
+      "payment-methods",
+      "create",
+      "--payment-gateway",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/payment-methods",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "45",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "payment_gateway": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --payment-nonce",
+    "argv": [
+      "accounts",
+      "billing",
+      "payment-methods",
+      "create",
+      "--payment-nonce",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/payment-methods",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "43",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "payment_nonce": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --state",
+    "argv": [
+      "accounts",
+      "billing",
+      "payment-methods",
+      "create",
+      "--state",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/payment-methods",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "35",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "state": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --type",
+    "argv": [
+      "accounts",
+      "billing",
+      "payment-methods",
+      "create",
+      "--type",
+      "CREDIT_CARD"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/payment-methods",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "22",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "type": "CREDIT_CARD"
+        }
+      }
+    ]
+  },
+  {
+    "case": "--type value 1",
+    "argv": [
+      "accounts",
+      "billing",
+      "payment-methods",
+      "create",
+      "--type",
+      "PAYPAL"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/payment-methods",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "17",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "type": "PAYPAL"
+        }
+      }
+    ]
+  },
+  {
+    "case": "--type value 2",
+    "argv": [
+      "accounts",
+      "billing",
+      "payment-methods",
+      "create",
+      "--type",
+      "CASHAPP"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/payment-methods",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "18",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "type": "CASHAPP"
+        }
+      }
+    ]
+  },
+  {
+    "case": "--type value 3",
+    "argv": [
+      "accounts",
+      "billing",
+      "payment-methods",
+      "create",
+      "--type",
+      "SEPA_DEBIT"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/payment-methods",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "21",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "type": "SEPA_DEBIT"
+        }
+      }
+    ]
+  },
+  {
+    "case": "--type value 4",
+    "argv": [
+      "accounts",
+      "billing",
+      "payment-methods",
+      "create",
+      "--type",
+      "LINK"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/payment-methods",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "15",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "type": "LINK"
+        }
+      }
+    ]
+  },
+  {
+    "case": "--type value 5",
+    "argv": [
+      "accounts",
+      "billing",
+      "payment-methods",
+      "create",
+      "--type",
+      "ACH_DIRECT_DEBIT"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/payment-methods",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "27",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "type": "ACH_DIRECT_DEBIT"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --zipcode",
+    "argv": [
+      "accounts",
+      "billing",
+      "payment-methods",
+      "create",
+      "--zipcode",
+      "192.0.2.1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/payment-methods",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "23",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "zipcode": "192.0.2.1"
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 1",
+    "argv": [
+      "accounts",
+      "billing",
+      "payment-methods",
+      "create",
+      "--address",
+      "192.0.2.1",
+      "--address2",
+      "192.0.2.1",
+      "--bank-account-type",
+      "second value &/?+ü",
+      "--bank-code",
+      "second value &/?+ü",
+      "--bank-country",
+      "second value &/?+ü",
+      "--bank-name",
+      "second value &/?+ü",
+      "--bank-routing-number",
+      "second value &/?+ü",
+      "--cashapp-cash-tag",
+      "second value &/?+ü",
+      "--city",
+      "second value &/?+ü",
+      "--country",
+      "second value &/?+ü",
+      "--default=false",
+      "--device-data",
+      "second value &/?+ü",
+      "--first-name",
+      "second value &/?+ü",
+      "--last-name",
+      "second value &/?+ü",
+      "--nick-name",
+      "second value &/?+ü",
+      "--payment-account-email",
+      "regression@example.com",
+      "--payment-email",
+      "regression@example.com",
+      "--payment-gateway",
+      "second value &/?+ü",
+      "--payment-nonce",
+      "second value &/?+ü",
+      "--state",
+      "second value &/?+ü",
+      "--type",
+      "PAYPAL",
+      "--zipcode",
+      "192.0.2.1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/payment-methods",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "730",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "address": "192.0.2.1",
+          "address2": "192.0.2.1",
+          "bank_account_type": "second value &/?+ü",
+          "bank_code": "second value &/?+ü",
+          "bank_country": "second value &/?+ü",
+          "bank_name": "second value &/?+ü",
+          "bank_routing_number": "second value &/?+ü",
+          "cashapp_cash_tag": "second value &/?+ü",
+          "city": "second value &/?+ü",
+          "country": "second value &/?+ü",
+          "default": false,
+          "device_data": "second value &/?+ü",
+          "first_name": "second value &/?+ü",
+          "last_name": "second value &/?+ü",
+          "nick_name": "second value &/?+ü",
+          "payment_account_email": "regression@example.com",
+          "payment_email": "regression@example.com",
+          "payment_gateway": "second value &/?+ü",
+          "payment_nonce": "second value &/?+ü",
+          "state": "second value &/?+ü",
+          "type": "PAYPAL",
+          "zipcode": "192.0.2.1"
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 2",
+    "argv": [
+      "accounts",
+      "billing",
+      "payment-methods",
+      "create",
+      "--address2",
+      "192.0.2.1",
+      "--bank-code",
+      "regression value &/?+ü",
+      "--bank-name",
+      "regression value &/?+ü",
+      "--cashapp-cash-tag",
+      "regression value &/?+ü",
+      "--country",
+      "regression value &/?+ü",
+      "--device-data",
+      "regression value &/?+ü",
+      "--last-name",
+      "regression value &/?+ü",
+      "--payment-account-email",
+      "regression@example.com",
+      "--payment-gateway",
+      "regression value &/?+ü",
+      "--state",
+      "regression value &/?+ü",
+      "--zipcode",
+      "192.0.2.1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/payment-methods",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "408",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "address2": "192.0.2.1",
+          "bank_code": "regression value &/?+ü",
+          "bank_name": "regression value &/?+ü",
+          "cashapp_cash_tag": "regression value &/?+ü",
+          "country": "regression value &/?+ü",
+          "device_data": "regression value &/?+ü",
+          "last_name": "regression value &/?+ü",
+          "payment_account_email": "regression@example.com",
+          "payment_gateway": "regression value &/?+ü",
+          "state": "regression value &/?+ü",
+          "zipcode": "192.0.2.1"
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 3",
+    "argv": [
+      "accounts",
+      "billing",
+      "payment-methods",
+      "create",
+      "--address",
+      "192.0.2.1",
+      "--bank-account-type",
+      "second value &/?+ü",
+      "--bank-country",
+      "second value &/?+ü",
+      "--bank-routing-number",
+      "second value &/?+ü",
+      "--city",
+      "second value &/?+ü",
+      "--default=false",
+      "--first-name",
+      "second value &/?+ü",
+      "--nick-name",
+      "second value &/?+ü",
+      "--payment-email",
+      "regression@example.com",
+      "--payment-nonce",
+      "second value &/?+ü",
+      "--type",
+      "PAYPAL"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/payment-methods",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "355",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "address": "192.0.2.1",
+          "bank_account_type": "second value &/?+ü",
+          "bank_country": "second value &/?+ü",
+          "bank_routing_number": "second value &/?+ü",
+          "city": "second value &/?+ü",
+          "default": false,
+          "first_name": "second value &/?+ü",
+          "nick_name": "second value &/?+ü",
+          "payment_email": "regression@example.com",
+          "payment_nonce": "second value &/?+ü",
+          "type": "PAYPAL"
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 4",
+    "argv": [
+      "accounts",
+      "billing",
+      "payment-methods",
+      "create",
+      "--bank-account-type",
+      "regression value &/?+ü",
+      "--bank-code",
+      "regression value &/?+ü",
+      "--bank-routing-number",
+      "regression value &/?+ü",
+      "--cashapp-cash-tag",
+      "regression value &/?+ü",
+      "--default=true",
+      "--device-data",
+      "regression value &/?+ü",
+      "--nick-name",
+      "regression value &/?+ü",
+      "--payment-account-email",
+      "regression@example.com",
+      "--payment-nonce",
+      "regression value &/?+ü",
+      "--state",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/payment-methods",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "396",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "bank_account_type": "regression value &/?+ü",
+          "bank_code": "regression value &/?+ü",
+          "bank_routing_number": "regression value &/?+ü",
+          "cashapp_cash_tag": "regression value &/?+ü",
+          "default": true,
+          "device_data": "regression value &/?+ü",
+          "nick_name": "regression value &/?+ü",
+          "payment_account_email": "regression@example.com",
+          "payment_nonce": "regression value &/?+ü",
+          "state": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 5",
+    "argv": [
+      "accounts",
+      "billing",
+      "payment-methods",
+      "create",
+      "--address",
+      "192.0.2.1",
+      "--address2",
+      "192.0.2.1",
+      "--bank-country",
+      "second value &/?+ü",
+      "--bank-name",
+      "second value &/?+ü",
+      "--city",
+      "second value &/?+ü",
+      "--country",
+      "second value &/?+ü",
+      "--first-name",
+      "second value &/?+ü",
+      "--last-name",
+      "second value &/?+ü",
+      "--payment-email",
+      "regression@example.com",
+      "--payment-gateway",
+      "second value &/?+ü",
+      "--type",
+      "PAYPAL",
+      "--zipcode",
+      "192.0.2.1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/payment-methods",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "366",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "address": "192.0.2.1",
+          "address2": "192.0.2.1",
+          "bank_country": "second value &/?+ü",
+          "bank_name": "second value &/?+ü",
+          "city": "second value &/?+ü",
+          "country": "second value &/?+ü",
+          "first_name": "second value &/?+ü",
+          "last_name": "second value &/?+ü",
+          "payment_email": "regression@example.com",
+          "payment_gateway": "second value &/?+ü",
+          "type": "PAYPAL",
+          "zipcode": "192.0.2.1"
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 6",
+    "argv": [
+      "accounts",
+      "billing",
+      "payment-methods",
+      "create",
+      "--bank-country",
+      "regression value &/?+ü",
+      "--bank-name",
+      "regression value &/?+ü",
+      "--bank-routing-number",
+      "regression value &/?+ü",
+      "--cashapp-cash-tag",
+      "regression value &/?+ü",
+      "--first-name",
+      "regression value &/?+ü",
+      "--last-name",
+      "regression value &/?+ü",
+      "--nick-name",
+      "regression value &/?+ü",
+      "--payment-account-email",
+      "regression@example.com",
+      "--type",
+      "CREDIT_CARD",
+      "--zipcode",
+      "192.0.2.1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/payment-methods",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "380",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "bank_country": "regression value &/?+ü",
+          "bank_name": "regression value &/?+ü",
+          "bank_routing_number": "regression value &/?+ü",
+          "cashapp_cash_tag": "regression value &/?+ü",
+          "first_name": "regression value &/?+ü",
+          "last_name": "regression value &/?+ü",
+          "nick_name": "regression value &/?+ü",
+          "payment_account_email": "regression@example.com",
+          "type": "CREDIT_CARD",
+          "zipcode": "192.0.2.1"
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 7",
+    "argv": [
+      "accounts",
+      "billing",
+      "payment-methods",
+      "create",
+      "--address",
+      "192.0.2.1",
+      "--address2",
+      "192.0.2.1",
+      "--bank-account-type",
+      "second value &/?+ü",
+      "--bank-code",
+      "second value &/?+ü",
+      "--city",
+      "second value &/?+ü",
+      "--country",
+      "second value &/?+ü",
+      "--default=false",
+      "--device-data",
+      "second value &/?+ü",
+      "--payment-email",
+      "regression@example.com",
+      "--payment-gateway",
+      "second value &/?+ü",
+      "--payment-nonce",
+      "second value &/?+ü",
+      "--state",
+      "second value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/payment-methods",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "384",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "address": "192.0.2.1",
+          "address2": "192.0.2.1",
+          "bank_account_type": "second value &/?+ü",
+          "bank_code": "second value &/?+ü",
+          "city": "second value &/?+ü",
+          "country": "second value &/?+ü",
+          "default": false,
+          "device_data": "second value &/?+ü",
+          "payment_email": "regression@example.com",
+          "payment_gateway": "second value &/?+ü",
+          "payment_nonce": "second value &/?+ü",
+          "state": "second value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 8",
+    "argv": [
+      "accounts",
+      "billing",
+      "payment-methods",
+      "create",
+      "--city",
+      "regression value &/?+ü",
+      "--country",
+      "regression value &/?+ü",
+      "--default=true",
+      "--device-data",
+      "regression value &/?+ü",
+      "--first-name",
+      "regression value &/?+ü",
+      "--last-name",
+      "regression value &/?+ü",
+      "--nick-name",
+      "regression value &/?+ü",
+      "--payment-account-email",
+      "regression@example.com"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/payment-methods",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "289",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "city": "regression value &/?+ü",
+          "country": "regression value &/?+ü",
+          "default": true,
+          "device_data": "regression value &/?+ü",
+          "first_name": "regression value &/?+ü",
+          "last_name": "regression value &/?+ü",
+          "nick_name": "regression value &/?+ü",
+          "payment_account_email": "regression@example.com"
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 9",
+    "argv": [
+      "accounts",
+      "billing",
+      "payment-methods",
+      "create",
+      "--address",
+      "192.0.2.1",
+      "--address2",
+      "192.0.2.1",
+      "--bank-account-type",
+      "second value &/?+ü",
+      "--bank-code",
+      "second value &/?+ü",
+      "--bank-country",
+      "second value &/?+ü",
+      "--bank-name",
+      "second value &/?+ü",
+      "--bank-routing-number",
+      "second value &/?+ü",
+      "--cashapp-cash-tag",
+      "second value &/?+ü",
+      "--payment-email",
+      "regression@example.com",
+      "--payment-gateway",
+      "second value &/?+ü",
+      "--payment-nonce",
+      "second value &/?+ü",
+      "--state",
+      "second value &/?+ü",
+      "--type",
+      "PAYPAL",
+      "--zipcode",
+      "192.0.2.1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/payment-methods",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "465",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "address": "192.0.2.1",
+          "address2": "192.0.2.1",
+          "bank_account_type": "second value &/?+ü",
+          "bank_code": "second value &/?+ü",
+          "bank_country": "second value &/?+ü",
+          "bank_name": "second value &/?+ü",
+          "bank_routing_number": "second value &/?+ü",
+          "cashapp_cash_tag": "second value &/?+ü",
+          "payment_email": "regression@example.com",
+          "payment_gateway": "second value &/?+ü",
+          "payment_nonce": "second value &/?+ü",
+          "state": "second value &/?+ü",
+          "type": "PAYPAL",
+          "zipcode": "192.0.2.1"
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 10",
+    "argv": [
+      "accounts",
+      "billing",
+      "payment-methods",
+      "create",
+      "--payment-email",
+      "regression@example.com",
+      "--payment-gateway",
+      "regression value &/?+ü",
+      "--payment-nonce",
+      "regression value &/?+ü",
+      "--state",
+      "regression value &/?+ü",
+      "--type",
+      "CREDIT_CARD",
+      "--zipcode",
+      "192.0.2.1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/payment-methods",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "205",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "payment_email": "regression@example.com",
+          "payment_gateway": "regression value &/?+ü",
+          "payment_nonce": "regression value &/?+ü",
+          "state": "regression value &/?+ü",
+          "type": "CREDIT_CARD",
+          "zipcode": "192.0.2.1"
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 11",
+    "argv": [
+      "accounts",
+      "billing",
+      "payment-methods",
+      "create",
+      "--address",
+      "192.0.2.1",
+      "--address2",
+      "192.0.2.1",
+      "--bank-account-type",
+      "second value &/?+ü",
+      "--bank-code",
+      "second value &/?+ü",
+      "--bank-country",
+      "second value &/?+ü",
+      "--bank-name",
+      "second value &/?+ü",
+      "--bank-routing-number",
+      "second value &/?+ü",
+      "--cashapp-cash-tag",
+      "second value &/?+ü",
+      "--city",
+      "second value &/?+ü",
+      "--country",
+      "second value &/?+ü",
+      "--default=false",
+      "--device-data",
+      "second value &/?+ü",
+      "--first-name",
+      "second value &/?+ü",
+      "--last-name",
+      "second value &/?+ü",
+      "--nick-name",
+      "second value &/?+ü",
+      "--payment-account-email",
+      "regression@example.com"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/payment-methods",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "543",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "address": "192.0.2.1",
+          "address2": "192.0.2.1",
+          "bank_account_type": "second value &/?+ü",
+          "bank_code": "second value &/?+ü",
+          "bank_country": "second value &/?+ü",
+          "bank_name": "second value &/?+ü",
+          "bank_routing_number": "second value &/?+ü",
+          "cashapp_cash_tag": "second value &/?+ü",
+          "city": "second value &/?+ü",
+          "country": "second value &/?+ü",
+          "default": false,
+          "device_data": "second value &/?+ü",
+          "first_name": "second value &/?+ü",
+          "last_name": "second value &/?+ü",
+          "nick_name": "second value &/?+ü",
+          "payment_account_email": "regression@example.com"
+        }
+      }
+    ]
+  },
+  {
+    "case": "global quiet",
+    "argv": [
+      "accounts",
+      "billing",
+      "payment-methods",
+      "create",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--quiet"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/payment-methods",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "global zone",
+    "argv": [
+      "accounts",
+      "billing",
+      "payment-methods",
+      "create",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--zone",
+      "abcdef0123456789abcdef0123456789"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/payment-methods",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "global profile and mode",
+    "argv": [
+      "accounts",
+      "billing",
+      "payment-methods",
+      "create",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--profile",
+      "default",
+      "--mode",
+      "regression"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/payment-methods",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "local",
+    "argv": [
+      "accounts",
+      "billing",
+      "payment-methods",
+      "create",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--local"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "http://localhost/cdn-cgi/local/explorer/api/payment-methods",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "gzip, deflate",
+          "accept-language": "*",
+          "connection": "keep-alive",
+          "content-type": "application/json",
+          "host": "localhost",
+          "sec-fetch-mode": "cors",
+          "transfer-encoding": "chunked",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "local with persistence",
+    "argv": [
+      "accounts",
+      "billing",
+      "payment-methods",
+      "create",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--local",
+      "--persist-to",
+      "regression-state"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "http://localhost/cdn-cgi/local/explorer/api/payment-methods",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "gzip, deflate",
+          "accept-language": "*",
+          "connection": "keep-alive",
+          "content-type": "application/json",
+          "host": "localhost",
+          "sec-fetch-mode": "cors",
+          "transfer-encoding": "chunked",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "dry-run",
+    "argv": [
+      "accounts",
+      "billing",
+      "payment-methods",
+      "create",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--dry-run"
+    ],
+    "exitCode": 0,
+    "requests": []
+  },
+  {
+    "case": "body from file",
+    "argv": [
+      "accounts",
+      "billing",
+      "payment-methods",
+      "create",
+      "--body",
+      "@<body.json>"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/payment-methods",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "array body",
+    "argv": [
+      "accounts",
+      "billing",
+      "payment-methods",
+      "create",
+      "--body",
+      "[{\"regression\":\"first\"},{\"regression\":\"second\"}]"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/payment-methods",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "48",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": [
+          {
+            "regression": "first"
+          },
+          {
+            "regression": "second"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "case": "field flags",
+    "argv": [
+      "accounts",
+      "billing",
+      "payment-methods",
+      "create",
+      "--address",
+      "192.0.2.1",
+      "--address2",
+      "192.0.2.1",
+      "--bank-account-type",
+      "regression value &/?+ü",
+      "--bank-code",
+      "regression value &/?+ü",
+      "--bank-country",
+      "regression value &/?+ü",
+      "--bank-name",
+      "regression value &/?+ü",
+      "--bank-routing-number",
+      "regression value &/?+ü",
+      "--cashapp-cash-tag",
+      "regression value &/?+ü",
+      "--city",
+      "regression value &/?+ü",
+      "--country",
+      "regression value &/?+ü",
+      "--default=true",
+      "--device-data",
+      "regression value &/?+ü",
+      "--first-name",
+      "regression value &/?+ü",
+      "--last-name",
+      "regression value &/?+ü",
+      "--nick-name",
+      "regression value &/?+ü",
+      "--payment-account-email",
+      "regression@example.com",
+      "--payment-email",
+      "regression@example.com",
+      "--payment-gateway",
+      "regression value &/?+ü",
+      "--payment-nonce",
+      "regression value &/?+ü",
+      "--state",
+      "regression value &/?+ü",
+      "--type",
+      "CREDIT_CARD",
+      "--zipcode",
+      "192.0.2.1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/payment-methods",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "794",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "address": "192.0.2.1",
+          "address2": "192.0.2.1",
+          "bank_account_type": "regression value &/?+ü",
+          "bank_code": "regression value &/?+ü",
+          "bank_country": "regression value &/?+ü",
+          "bank_name": "regression value &/?+ü",
+          "bank_routing_number": "regression value &/?+ü",
+          "cashapp_cash_tag": "regression value &/?+ü",
+          "city": "regression value &/?+ü",
+          "country": "regression value &/?+ü",
+          "default": true,
+          "device_data": "regression value &/?+ü",
+          "first_name": "regression value &/?+ü",
+          "last_name": "regression value &/?+ü",
+          "nick_name": "regression value &/?+ü",
+          "payment_account_email": "regression@example.com",
+          "payment_email": "regression@example.com",
+          "payment_gateway": "regression value &/?+ü",
+          "payment_nonce": "regression value &/?+ü",
+          "state": "regression value &/?+ü",
+          "type": "CREDIT_CARD",
+          "zipcode": "192.0.2.1"
+        }
+      }
+    ]
+  }
+]

@@ -1,0 +1,272 @@
+[
+  {
+    "case": "no-args",
+    "argv": [
+      "containers",
+      "images",
+      "list"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/containers/registries/registry.cloudflare.com/credentials",
+        "headers": {
+          "accept": "application/json",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "47",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "expiration_minutes": 5,
+          "permissions": [
+            "pull"
+          ]
+        }
+      },
+      {
+        "method": "GET",
+        "url": "https://registry.cloudflare.com/v2/_catalog?tags=true",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Basic djE6cmVncmVzc2lvbi1wYXNzd29yZA==",
+          "connection": "keep-alive",
+          "host": "registry.cloudflare.com",
+          "sec-fetch-mode": "cors",
+          "user-agent": "node"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "only --filter",
+    "argv": [
+      "containers",
+      "images",
+      "list",
+      "--filter",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 1,
+    "error": "Invalid regular expression: /regression value &/?+ü/: Nothing to repeat",
+    "requests": []
+  },
+  {
+    "case": "pairwise 1",
+    "argv": [
+      "containers",
+      "images",
+      "list",
+      "--filter",
+      "second value &/?+ü"
+    ],
+    "exitCode": 1,
+    "error": "Invalid regular expression: /second value &/?+ü/: Nothing to repeat",
+    "requests": []
+  },
+  {
+    "case": "global quiet",
+    "argv": [
+      "containers",
+      "images",
+      "list",
+      "--quiet"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/containers/registries/registry.cloudflare.com/credentials",
+        "headers": {
+          "accept": "application/json",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "47",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "expiration_minutes": 5,
+          "permissions": [
+            "pull"
+          ]
+        }
+      },
+      {
+        "method": "GET",
+        "url": "https://registry.cloudflare.com/v2/_catalog?tags=true",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Basic djE6cmVncmVzc2lvbi1wYXNzd29yZA==",
+          "connection": "keep-alive",
+          "host": "registry.cloudflare.com",
+          "sec-fetch-mode": "cors",
+          "user-agent": "node"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "global zone",
+    "argv": [
+      "containers",
+      "images",
+      "list",
+      "--zone",
+      "abcdef0123456789abcdef0123456789"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/containers/registries/registry.cloudflare.com/credentials",
+        "headers": {
+          "accept": "application/json",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "47",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "expiration_minutes": 5,
+          "permissions": [
+            "pull"
+          ]
+        }
+      },
+      {
+        "method": "GET",
+        "url": "https://registry.cloudflare.com/v2/_catalog?tags=true",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Basic djE6cmVncmVzc2lvbi1wYXNzd29yZA==",
+          "connection": "keep-alive",
+          "host": "registry.cloudflare.com",
+          "sec-fetch-mode": "cors",
+          "user-agent": "node"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "global profile and mode",
+    "argv": [
+      "containers",
+      "images",
+      "list",
+      "--profile",
+      "default",
+      "--mode",
+      "regression"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/containers/registries/registry.cloudflare.com/credentials",
+        "headers": {
+          "accept": "application/json",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "47",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "expiration_minutes": 5,
+          "permissions": [
+            "pull"
+          ]
+        }
+      },
+      {
+        "method": "GET",
+        "url": "https://registry.cloudflare.com/v2/_catalog?tags=true",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Basic djE6cmVncmVzc2lvbi1wYXNzd29yZA==",
+          "connection": "keep-alive",
+          "host": "registry.cloudflare.com",
+          "sec-fetch-mode": "cors",
+          "user-agent": "node"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "local",
+    "argv": [
+      "containers",
+      "images",
+      "list",
+      "--local"
+    ],
+    "exitCode": 1,
+    "error": "--local is not supported with `cf containers images list`.",
+    "requests": []
+  },
+  {
+    "case": "local with persistence",
+    "argv": [
+      "containers",
+      "images",
+      "list",
+      "--local",
+      "--persist-to",
+      "regression-state"
+    ],
+    "exitCode": 1,
+    "error": "--local is not supported with `cf containers images list`.",
+    "requests": []
+  },
+  {
+    "case": "dry-run",
+    "argv": [
+      "containers",
+      "images",
+      "list",
+      "--dry-run"
+    ],
+    "exitCode": 0,
+    "requests": []
+  }
+]

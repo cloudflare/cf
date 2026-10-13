@@ -1,0 +1,271 @@
+[
+  {
+    "case": "no-args",
+    "argv": [
+      "containers",
+      "ssh"
+    ],
+    "exitCode": 1,
+    "error": "Not enough non-option arguments: got 0, need at least 1",
+    "requests": []
+  },
+  {
+    "case": "required",
+    "argv": [
+      "containers",
+      "ssh",
+      "0123456789abcdef0123456789abcdef",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 1,
+    "error": "Invalid URL: undefined",
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/containers/instances/0123456789abcdef0123456789abcdef/ssh",
+        "headers": {
+          "accept": "application/json",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "only --stdio",
+    "argv": [
+      "containers",
+      "ssh",
+      "0123456789abcdef0123456789abcdef",
+      "regression value &/?+ü",
+      "--stdio=true"
+    ],
+    "exitCode": 1,
+    "error": "Invalid URL: undefined",
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/containers/instances/0123456789abcdef0123456789abcdef/ssh",
+        "headers": {
+          "accept": "application/json",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "--stdio value 1",
+    "argv": [
+      "containers",
+      "ssh",
+      "0123456789abcdef0123456789abcdef",
+      "regression value &/?+ü",
+      "--stdio=false"
+    ],
+    "exitCode": 1,
+    "error": "Invalid URL: undefined",
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/containers/instances/0123456789abcdef0123456789abcdef/ssh",
+        "headers": {
+          "accept": "application/json",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "global quiet",
+    "argv": [
+      "containers",
+      "ssh",
+      "0123456789abcdef0123456789abcdef",
+      "regression value &/?+ü",
+      "--quiet"
+    ],
+    "exitCode": 1,
+    "error": "Invalid URL: undefined",
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/containers/instances/0123456789abcdef0123456789abcdef/ssh",
+        "headers": {
+          "accept": "application/json",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "global zone",
+    "argv": [
+      "containers",
+      "ssh",
+      "0123456789abcdef0123456789abcdef",
+      "regression value &/?+ü",
+      "--zone",
+      "abcdef0123456789abcdef0123456789"
+    ],
+    "exitCode": 1,
+    "error": "Invalid URL: undefined",
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/containers/instances/0123456789abcdef0123456789abcdef/ssh",
+        "headers": {
+          "accept": "application/json",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "global profile and mode",
+    "argv": [
+      "containers",
+      "ssh",
+      "0123456789abcdef0123456789abcdef",
+      "regression value &/?+ü",
+      "--profile",
+      "default",
+      "--mode",
+      "regression"
+    ],
+    "exitCode": 1,
+    "error": "Invalid URL: undefined",
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/containers/instances/0123456789abcdef0123456789abcdef/ssh",
+        "headers": {
+          "accept": "application/json",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "local",
+    "argv": [
+      "containers",
+      "ssh",
+      "0123456789abcdef0123456789abcdef",
+      "regression value &/?+ü",
+      "--local"
+    ],
+    "exitCode": 1,
+    "error": "--local is not supported with `cf containers ssh`.",
+    "requests": []
+  },
+  {
+    "case": "local with persistence",
+    "argv": [
+      "containers",
+      "ssh",
+      "0123456789abcdef0123456789abcdef",
+      "regression value &/?+ü",
+      "--local",
+      "--persist-to",
+      "regression-state"
+    ],
+    "exitCode": 1,
+    "error": "--local is not supported with `cf containers ssh`.",
+    "requests": []
+  },
+  {
+    "case": "dry-run",
+    "argv": [
+      "containers",
+      "ssh",
+      "0123456789abcdef0123456789abcdef",
+      "regression value &/?+ü",
+      "--dry-run"
+    ],
+    "exitCode": 0,
+    "requests": []
+  },
+  {
+    "case": "alternate <ssh-command>",
+    "argv": [
+      "containers",
+      "ssh",
+      "0123456789abcdef0123456789abcdef",
+      "second value &/?+ü"
+    ],
+    "exitCode": 1,
+    "error": "Invalid URL: undefined",
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/containers/instances/0123456789abcdef0123456789abcdef/ssh",
+        "headers": {
+          "accept": "application/json",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  }
+]

@@ -1,0 +1,10 @@
+{
+  "argv": [
+    "user",
+    "load-balancers",
+    "pools",
+    "edit",
+    "pools"
+  ],
+  "requests": []
+}

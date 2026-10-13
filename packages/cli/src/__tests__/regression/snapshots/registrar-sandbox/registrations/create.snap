@@ -1,0 +1,1584 @@
+[
+  {
+    "case": "no-args",
+    "argv": [
+      "registrar-sandbox",
+      "registrations",
+      "create"
+    ],
+    "exitCode": 1,
+    "error": "--domain-name is required. Pass --domain-name <value> or run interactively.",
+    "requests": []
+  },
+  {
+    "case": "required",
+    "argv": [
+      "registrar-sandbox",
+      "registrations",
+      "create",
+      "--domain-name",
+      "example.com",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/registrar-sandbox/registrations",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --prefer",
+    "argv": [
+      "registrar-sandbox",
+      "registrations",
+      "create",
+      "--domain-name",
+      "example.com",
+      "--prefer",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/registrar-sandbox/registrations",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "75",
+          "content-type": "application/json",
+          "host": "api.test",
+          "prefer": "regression value &/?+ü",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "auto_renew": false,
+          "domain_name": "example.com",
+          "privacy_mode": "redaction"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --auto-renew",
+    "argv": [
+      "registrar-sandbox",
+      "registrations",
+      "create",
+      "--domain-name",
+      "example.com",
+      "--auto-renew=true"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/registrar-sandbox/registrations",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "74",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "auto_renew": true,
+          "domain_name": "example.com",
+          "privacy_mode": "redaction"
+        }
+      }
+    ]
+  },
+  {
+    "case": "--auto-renew value 1",
+    "argv": [
+      "registrar-sandbox",
+      "registrations",
+      "create",
+      "--domain-name",
+      "example.com",
+      "--auto-renew=false"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/registrar-sandbox/registrations",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "75",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "auto_renew": false,
+          "domain_name": "example.com",
+          "privacy_mode": "redaction"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --contacts-administrator-email",
+    "argv": [
+      "registrar-sandbox",
+      "registrations",
+      "create",
+      "--domain-name",
+      "example.com",
+      "--contacts-administrator-email",
+      "regression@example.com"
+    ],
+    "exitCode": 1,
+    "error": "--contacts-administrator-phone, --contacts-administrator-postal-info-name, --contacts-billing-email, --contacts-billing-phone, --contacts-billing-postal-info-name, --contacts-registrant-email, --contacts-registrant-phone, --contacts-registrant-postal-info-name, --contacts-technical-email, --contacts-technical-phone, --contacts-technical-postal-info-name are required when any --contacts-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "only --contacts-administrator-fax",
+    "argv": [
+      "registrar-sandbox",
+      "registrations",
+      "create",
+      "--domain-name",
+      "example.com",
+      "--contacts-administrator-fax",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 1,
+    "error": "--contacts-administrator-email, --contacts-administrator-phone, --contacts-administrator-postal-info-name, --contacts-billing-email, --contacts-billing-phone, --contacts-billing-postal-info-name, --contacts-registrant-email, --contacts-registrant-phone, --contacts-registrant-postal-info-name, --contacts-technical-email, --contacts-technical-phone, --contacts-technical-postal-info-name are required when any --contacts-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "only --contacts-administrator-phone",
+    "argv": [
+      "registrar-sandbox",
+      "registrations",
+      "create",
+      "--domain-name",
+      "example.com",
+      "--contacts-administrator-phone",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 1,
+    "error": "--contacts-administrator-email, --contacts-administrator-postal-info-name, --contacts-billing-email, --contacts-billing-phone, --contacts-billing-postal-info-name, --contacts-registrant-email, --contacts-registrant-phone, --contacts-registrant-postal-info-name, --contacts-technical-email, --contacts-technical-phone, --contacts-technical-postal-info-name are required when any --contacts-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "only --contacts-administrator-postal-info-name",
+    "argv": [
+      "registrar-sandbox",
+      "registrations",
+      "create",
+      "--domain-name",
+      "example.com",
+      "--contacts-administrator-postal-info-name",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 1,
+    "error": "--contacts-administrator-email, --contacts-administrator-phone, --contacts-billing-email, --contacts-billing-phone, --contacts-billing-postal-info-name, --contacts-registrant-email, --contacts-registrant-phone, --contacts-registrant-postal-info-name, --contacts-technical-email, --contacts-technical-phone, --contacts-technical-postal-info-name are required when any --contacts-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "only --contacts-administrator-postal-info-organization",
+    "argv": [
+      "registrar-sandbox",
+      "registrations",
+      "create",
+      "--domain-name",
+      "example.com",
+      "--contacts-administrator-postal-info-organization",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 1,
+    "error": "--contacts-administrator-email, --contacts-administrator-phone, --contacts-administrator-postal-info-name, --contacts-billing-email, --contacts-billing-phone, --contacts-billing-postal-info-name, --contacts-registrant-email, --contacts-registrant-phone, --contacts-registrant-postal-info-name, --contacts-technical-email, --contacts-technical-phone, --contacts-technical-postal-info-name are required when any --contacts-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "only --contacts-billing-email",
+    "argv": [
+      "registrar-sandbox",
+      "registrations",
+      "create",
+      "--domain-name",
+      "example.com",
+      "--contacts-billing-email",
+      "regression@example.com"
+    ],
+    "exitCode": 1,
+    "error": "--contacts-administrator-email, --contacts-administrator-phone, --contacts-administrator-postal-info-name, --contacts-billing-phone, --contacts-billing-postal-info-name, --contacts-registrant-email, --contacts-registrant-phone, --contacts-registrant-postal-info-name, --contacts-technical-email, --contacts-technical-phone, --contacts-technical-postal-info-name are required when any --contacts-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "only --contacts-billing-fax",
+    "argv": [
+      "registrar-sandbox",
+      "registrations",
+      "create",
+      "--domain-name",
+      "example.com",
+      "--contacts-billing-fax",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 1,
+    "error": "--contacts-administrator-email, --contacts-administrator-phone, --contacts-administrator-postal-info-name, --contacts-billing-email, --contacts-billing-phone, --contacts-billing-postal-info-name, --contacts-registrant-email, --contacts-registrant-phone, --contacts-registrant-postal-info-name, --contacts-technical-email, --contacts-technical-phone, --contacts-technical-postal-info-name are required when any --contacts-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "only --contacts-billing-phone",
+    "argv": [
+      "registrar-sandbox",
+      "registrations",
+      "create",
+      "--domain-name",
+      "example.com",
+      "--contacts-billing-phone",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 1,
+    "error": "--contacts-administrator-email, --contacts-administrator-phone, --contacts-administrator-postal-info-name, --contacts-billing-email, --contacts-billing-postal-info-name, --contacts-registrant-email, --contacts-registrant-phone, --contacts-registrant-postal-info-name, --contacts-technical-email, --contacts-technical-phone, --contacts-technical-postal-info-name are required when any --contacts-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "only --contacts-billing-postal-info-name",
+    "argv": [
+      "registrar-sandbox",
+      "registrations",
+      "create",
+      "--domain-name",
+      "example.com",
+      "--contacts-billing-postal-info-name",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 1,
+    "error": "--contacts-administrator-email, --contacts-administrator-phone, --contacts-administrator-postal-info-name, --contacts-billing-email, --contacts-billing-phone, --contacts-registrant-email, --contacts-registrant-phone, --contacts-registrant-postal-info-name, --contacts-technical-email, --contacts-technical-phone, --contacts-technical-postal-info-name are required when any --contacts-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "only --contacts-billing-postal-info-organization",
+    "argv": [
+      "registrar-sandbox",
+      "registrations",
+      "create",
+      "--domain-name",
+      "example.com",
+      "--contacts-billing-postal-info-organization",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 1,
+    "error": "--contacts-administrator-email, --contacts-administrator-phone, --contacts-administrator-postal-info-name, --contacts-billing-email, --contacts-billing-phone, --contacts-billing-postal-info-name, --contacts-registrant-email, --contacts-registrant-phone, --contacts-registrant-postal-info-name, --contacts-technical-email, --contacts-technical-phone, --contacts-technical-postal-info-name are required when any --contacts-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "only --contacts-registrant-email",
+    "argv": [
+      "registrar-sandbox",
+      "registrations",
+      "create",
+      "--domain-name",
+      "example.com",
+      "--contacts-registrant-email",
+      "regression@example.com"
+    ],
+    "exitCode": 1,
+    "error": "--contacts-administrator-email, --contacts-administrator-phone, --contacts-administrator-postal-info-name, --contacts-billing-email, --contacts-billing-phone, --contacts-billing-postal-info-name, --contacts-registrant-phone, --contacts-registrant-postal-info-name, --contacts-technical-email, --contacts-technical-phone, --contacts-technical-postal-info-name are required when any --contacts-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "only --contacts-registrant-fax",
+    "argv": [
+      "registrar-sandbox",
+      "registrations",
+      "create",
+      "--domain-name",
+      "example.com",
+      "--contacts-registrant-fax",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 1,
+    "error": "--contacts-administrator-email, --contacts-administrator-phone, --contacts-administrator-postal-info-name, --contacts-billing-email, --contacts-billing-phone, --contacts-billing-postal-info-name, --contacts-registrant-email, --contacts-registrant-phone, --contacts-registrant-postal-info-name, --contacts-technical-email, --contacts-technical-phone, --contacts-technical-postal-info-name are required when any --contacts-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "only --contacts-registrant-phone",
+    "argv": [
+      "registrar-sandbox",
+      "registrations",
+      "create",
+      "--domain-name",
+      "example.com",
+      "--contacts-registrant-phone",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 1,
+    "error": "--contacts-administrator-email, --contacts-administrator-phone, --contacts-administrator-postal-info-name, --contacts-billing-email, --contacts-billing-phone, --contacts-billing-postal-info-name, --contacts-registrant-email, --contacts-registrant-postal-info-name, --contacts-technical-email, --contacts-technical-phone, --contacts-technical-postal-info-name are required when any --contacts-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "only --contacts-registrant-postal-info-name",
+    "argv": [
+      "registrar-sandbox",
+      "registrations",
+      "create",
+      "--domain-name",
+      "example.com",
+      "--contacts-registrant-postal-info-name",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 1,
+    "error": "--contacts-administrator-email, --contacts-administrator-phone, --contacts-administrator-postal-info-name, --contacts-billing-email, --contacts-billing-phone, --contacts-billing-postal-info-name, --contacts-registrant-email, --contacts-registrant-phone, --contacts-technical-email, --contacts-technical-phone, --contacts-technical-postal-info-name are required when any --contacts-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "only --contacts-registrant-postal-info-organization",
+    "argv": [
+      "registrar-sandbox",
+      "registrations",
+      "create",
+      "--domain-name",
+      "example.com",
+      "--contacts-registrant-postal-info-organization",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 1,
+    "error": "--contacts-administrator-email, --contacts-administrator-phone, --contacts-administrator-postal-info-name, --contacts-billing-email, --contacts-billing-phone, --contacts-billing-postal-info-name, --contacts-registrant-email, --contacts-registrant-phone, --contacts-registrant-postal-info-name, --contacts-technical-email, --contacts-technical-phone, --contacts-technical-postal-info-name are required when any --contacts-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "only --contacts-technical-email",
+    "argv": [
+      "registrar-sandbox",
+      "registrations",
+      "create",
+      "--domain-name",
+      "example.com",
+      "--contacts-technical-email",
+      "regression@example.com"
+    ],
+    "exitCode": 1,
+    "error": "--contacts-administrator-email, --contacts-administrator-phone, --contacts-administrator-postal-info-name, --contacts-billing-email, --contacts-billing-phone, --contacts-billing-postal-info-name, --contacts-registrant-email, --contacts-registrant-phone, --contacts-registrant-postal-info-name, --contacts-technical-phone, --contacts-technical-postal-info-name are required when any --contacts-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "only --contacts-technical-fax",
+    "argv": [
+      "registrar-sandbox",
+      "registrations",
+      "create",
+      "--domain-name",
+      "example.com",
+      "--contacts-technical-fax",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 1,
+    "error": "--contacts-administrator-email, --contacts-administrator-phone, --contacts-administrator-postal-info-name, --contacts-billing-email, --contacts-billing-phone, --contacts-billing-postal-info-name, --contacts-registrant-email, --contacts-registrant-phone, --contacts-registrant-postal-info-name, --contacts-technical-email, --contacts-technical-phone, --contacts-technical-postal-info-name are required when any --contacts-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "only --contacts-technical-phone",
+    "argv": [
+      "registrar-sandbox",
+      "registrations",
+      "create",
+      "--domain-name",
+      "example.com",
+      "--contacts-technical-phone",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 1,
+    "error": "--contacts-administrator-email, --contacts-administrator-phone, --contacts-administrator-postal-info-name, --contacts-billing-email, --contacts-billing-phone, --contacts-billing-postal-info-name, --contacts-registrant-email, --contacts-registrant-phone, --contacts-registrant-postal-info-name, --contacts-technical-email, --contacts-technical-postal-info-name are required when any --contacts-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "only --contacts-technical-postal-info-name",
+    "argv": [
+      "registrar-sandbox",
+      "registrations",
+      "create",
+      "--domain-name",
+      "example.com",
+      "--contacts-technical-postal-info-name",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 1,
+    "error": "--contacts-administrator-email, --contacts-administrator-phone, --contacts-administrator-postal-info-name, --contacts-billing-email, --contacts-billing-phone, --contacts-billing-postal-info-name, --contacts-registrant-email, --contacts-registrant-phone, --contacts-registrant-postal-info-name, --contacts-technical-email, --contacts-technical-phone are required when any --contacts-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "only --contacts-technical-postal-info-organization",
+    "argv": [
+      "registrar-sandbox",
+      "registrations",
+      "create",
+      "--domain-name",
+      "example.com",
+      "--contacts-technical-postal-info-organization",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 1,
+    "error": "--contacts-administrator-email, --contacts-administrator-phone, --contacts-administrator-postal-info-name, --contacts-billing-email, --contacts-billing-phone, --contacts-billing-postal-info-name, --contacts-registrant-email, --contacts-registrant-phone, --contacts-registrant-postal-info-name, --contacts-technical-email, --contacts-technical-phone, --contacts-technical-postal-info-name are required when any --contacts-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "only --privacy-mode",
+    "argv": [
+      "registrar-sandbox",
+      "registrations",
+      "create",
+      "--domain-name",
+      "example.com",
+      "--privacy-mode",
+      "off"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/registrar-sandbox/registrations",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "69",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "auto_renew": false,
+          "domain_name": "example.com",
+          "privacy_mode": "off"
+        }
+      }
+    ]
+  },
+  {
+    "case": "--privacy-mode value 1",
+    "argv": [
+      "registrar-sandbox",
+      "registrations",
+      "create",
+      "--domain-name",
+      "example.com",
+      "--privacy-mode",
+      "redaction"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/registrar-sandbox/registrations",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "75",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "auto_renew": false,
+          "domain_name": "example.com",
+          "privacy_mode": "redaction"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --years",
+    "argv": [
+      "registrar-sandbox",
+      "registrations",
+      "create",
+      "--domain-name",
+      "example.com",
+      "--years",
+      "1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/registrar-sandbox/registrations",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "85",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "auto_renew": false,
+          "domain_name": "example.com",
+          "privacy_mode": "redaction",
+          "years": 1
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 0",
+    "argv": [
+      "registrar-sandbox",
+      "registrations",
+      "create",
+      "--domain-name",
+      "example.com"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/registrar-sandbox/registrations",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "75",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "auto_renew": false,
+          "domain_name": "example.com",
+          "privacy_mode": "redaction"
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 1",
+    "argv": [
+      "registrar-sandbox",
+      "registrations",
+      "create",
+      "--domain-name",
+      "example.com",
+      "--prefer",
+      "second value &/?+ü",
+      "--auto-renew=false",
+      "--contacts-administrator-email",
+      "regression@example.com",
+      "--contacts-administrator-fax",
+      "second value &/?+ü",
+      "--contacts-administrator-phone",
+      "second value &/?+ü",
+      "--contacts-administrator-postal-info-name",
+      "second value &/?+ü",
+      "--contacts-administrator-postal-info-organization",
+      "second value &/?+ü",
+      "--contacts-billing-email",
+      "regression@example.com",
+      "--contacts-billing-fax",
+      "second value &/?+ü",
+      "--contacts-billing-phone",
+      "second value &/?+ü",
+      "--contacts-billing-postal-info-name",
+      "second value &/?+ü",
+      "--contacts-billing-postal-info-organization",
+      "second value &/?+ü",
+      "--contacts-registrant-email",
+      "regression@example.com",
+      "--contacts-registrant-fax",
+      "second value &/?+ü",
+      "--contacts-registrant-phone",
+      "second value &/?+ü",
+      "--contacts-registrant-postal-info-name",
+      "second value &/?+ü",
+      "--contacts-registrant-postal-info-organization",
+      "second value &/?+ü",
+      "--contacts-technical-email",
+      "regression@example.com",
+      "--contacts-technical-fax",
+      "second value &/?+ü",
+      "--contacts-technical-phone",
+      "second value &/?+ü",
+      "--contacts-technical-postal-info-name",
+      "second value &/?+ü",
+      "--contacts-technical-postal-info-organization",
+      "second value &/?+ü",
+      "--privacy-mode",
+      "redaction",
+      "--years",
+      "2"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/registrar-sandbox/registrations",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "849",
+          "content-type": "application/json",
+          "host": "api.test",
+          "prefer": "second value &/?+ü",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "auto_renew": false,
+          "contacts": {
+            "administrator": {
+              "email": "regression@example.com",
+              "fax": "second value &/?+ü",
+              "phone": "second value &/?+ü",
+              "postal_info": {
+                "name": "second value &/?+ü",
+                "organization": "second value &/?+ü"
+              }
+            },
+            "billing": {
+              "email": "regression@example.com",
+              "fax": "second value &/?+ü",
+              "phone": "second value &/?+ü",
+              "postal_info": {
+                "name": "second value &/?+ü",
+                "organization": "second value &/?+ü"
+              }
+            },
+            "registrant": {
+              "email": "regression@example.com",
+              "fax": "second value &/?+ü",
+              "phone": "second value &/?+ü",
+              "postal_info": {
+                "name": "second value &/?+ü",
+                "organization": "second value &/?+ü"
+              }
+            },
+            "technical": {
+              "email": "regression@example.com",
+              "fax": "second value &/?+ü",
+              "phone": "second value &/?+ü",
+              "postal_info": {
+                "name": "second value &/?+ü",
+                "organization": "second value &/?+ü"
+              }
+            }
+          },
+          "domain_name": "example.com",
+          "privacy_mode": "redaction",
+          "years": 2
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 2",
+    "argv": [
+      "registrar-sandbox",
+      "registrations",
+      "create",
+      "--domain-name",
+      "example.com",
+      "--auto-renew=true",
+      "--contacts-administrator-fax",
+      "regression value &/?+ü",
+      "--contacts-administrator-postal-info-name",
+      "regression value &/?+ü",
+      "--contacts-billing-email",
+      "regression@example.com",
+      "--contacts-billing-phone",
+      "regression value &/?+ü",
+      "--contacts-billing-postal-info-organization",
+      "regression value &/?+ü",
+      "--contacts-registrant-fax",
+      "regression value &/?+ü",
+      "--contacts-registrant-postal-info-name",
+      "regression value &/?+ü",
+      "--contacts-technical-email",
+      "regression@example.com",
+      "--contacts-technical-phone",
+      "regression value &/?+ü",
+      "--contacts-technical-postal-info-organization",
+      "regression value &/?+ü",
+      "--years",
+      "1"
+    ],
+    "exitCode": 1,
+    "error": "--contacts-administrator-email, --contacts-administrator-phone, --contacts-billing-postal-info-name, --contacts-registrant-email, --contacts-registrant-phone, --contacts-technical-postal-info-name are required when any --contacts-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "pairwise 3",
+    "argv": [
+      "registrar-sandbox",
+      "registrations",
+      "create",
+      "--domain-name",
+      "example.com",
+      "--prefer",
+      "second value &/?+ü",
+      "--contacts-administrator-email",
+      "regression@example.com",
+      "--contacts-administrator-phone",
+      "second value &/?+ü",
+      "--contacts-administrator-postal-info-organization",
+      "second value &/?+ü",
+      "--contacts-billing-fax",
+      "second value &/?+ü",
+      "--contacts-billing-postal-info-name",
+      "second value &/?+ü",
+      "--contacts-registrant-email",
+      "regression@example.com",
+      "--contacts-registrant-phone",
+      "second value &/?+ü",
+      "--contacts-registrant-postal-info-organization",
+      "second value &/?+ü",
+      "--contacts-technical-fax",
+      "second value &/?+ü",
+      "--contacts-technical-postal-info-name",
+      "second value &/?+ü",
+      "--privacy-mode",
+      "redaction"
+    ],
+    "exitCode": 1,
+    "error": "--contacts-administrator-postal-info-name, --contacts-billing-email, --contacts-billing-phone, --contacts-registrant-postal-info-name, --contacts-technical-email, --contacts-technical-phone are required when any --contacts-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "pairwise 4",
+    "argv": [
+      "registrar-sandbox",
+      "registrations",
+      "create",
+      "--domain-name",
+      "example.com",
+      "--contacts-administrator-email",
+      "regression@example.com",
+      "--contacts-administrator-fax",
+      "regression value &/?+ü",
+      "--contacts-administrator-postal-info-organization",
+      "regression value &/?+ü",
+      "--contacts-billing-email",
+      "regression@example.com",
+      "--contacts-billing-postal-info-name",
+      "regression value &/?+ü",
+      "--contacts-billing-postal-info-organization",
+      "regression value &/?+ü",
+      "--contacts-registrant-phone",
+      "regression value &/?+ü",
+      "--contacts-registrant-postal-info-name",
+      "regression value &/?+ü",
+      "--contacts-technical-fax",
+      "regression value &/?+ü",
+      "--contacts-technical-phone",
+      "regression value &/?+ü",
+      "--privacy-mode",
+      "off",
+      "--years",
+      "1"
+    ],
+    "exitCode": 1,
+    "error": "--contacts-administrator-phone, --contacts-administrator-postal-info-name, --contacts-billing-phone, --contacts-registrant-email, --contacts-technical-email, --contacts-technical-postal-info-name are required when any --contacts-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "pairwise 5",
+    "argv": [
+      "registrar-sandbox",
+      "registrations",
+      "create",
+      "--domain-name",
+      "example.com",
+      "--prefer",
+      "second value &/?+ü",
+      "--auto-renew=false",
+      "--contacts-administrator-phone",
+      "second value &/?+ü",
+      "--contacts-administrator-postal-info-name",
+      "second value &/?+ü",
+      "--contacts-billing-fax",
+      "second value &/?+ü",
+      "--contacts-billing-phone",
+      "second value &/?+ü",
+      "--contacts-registrant-email",
+      "regression@example.com",
+      "--contacts-registrant-fax",
+      "second value &/?+ü",
+      "--contacts-registrant-postal-info-organization",
+      "second value &/?+ü",
+      "--contacts-technical-email",
+      "regression@example.com",
+      "--contacts-technical-postal-info-name",
+      "second value &/?+ü",
+      "--contacts-technical-postal-info-organization",
+      "second value &/?+ü"
+    ],
+    "exitCode": 1,
+    "error": "--contacts-administrator-email, --contacts-billing-email, --contacts-billing-postal-info-name, --contacts-registrant-phone, --contacts-registrant-postal-info-name, --contacts-technical-phone are required when any --contacts-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "pairwise 6",
+    "argv": [
+      "registrar-sandbox",
+      "registrations",
+      "create",
+      "--domain-name",
+      "example.com",
+      "--contacts-administrator-phone",
+      "regression value &/?+ü",
+      "--contacts-administrator-postal-info-name",
+      "regression value &/?+ü",
+      "--contacts-administrator-postal-info-organization",
+      "regression value &/?+ü",
+      "--contacts-billing-email",
+      "regression@example.com",
+      "--contacts-registrant-email",
+      "regression@example.com",
+      "--contacts-registrant-fax",
+      "regression value &/?+ü",
+      "--contacts-registrant-phone",
+      "regression value &/?+ü",
+      "--contacts-registrant-postal-info-name",
+      "regression value &/?+ü",
+      "--contacts-technical-postal-info-name",
+      "regression value &/?+ü",
+      "--contacts-technical-postal-info-organization",
+      "regression value &/?+ü",
+      "--privacy-mode",
+      "off",
+      "--years",
+      "1"
+    ],
+    "exitCode": 1,
+    "error": "--contacts-administrator-email, --contacts-billing-phone, --contacts-billing-postal-info-name, --contacts-technical-email, --contacts-technical-phone are required when any --contacts-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "pairwise 7",
+    "argv": [
+      "registrar-sandbox",
+      "registrations",
+      "create",
+      "--domain-name",
+      "example.com",
+      "--prefer",
+      "second value &/?+ü",
+      "--auto-renew=false",
+      "--contacts-administrator-email",
+      "regression@example.com",
+      "--contacts-administrator-fax",
+      "second value &/?+ü",
+      "--contacts-billing-fax",
+      "second value &/?+ü",
+      "--contacts-billing-phone",
+      "second value &/?+ü",
+      "--contacts-billing-postal-info-name",
+      "second value &/?+ü",
+      "--contacts-billing-postal-info-organization",
+      "second value &/?+ü",
+      "--contacts-registrant-postal-info-organization",
+      "second value &/?+ü",
+      "--contacts-technical-email",
+      "regression@example.com",
+      "--contacts-technical-fax",
+      "second value &/?+ü",
+      "--contacts-technical-phone",
+      "second value &/?+ü"
+    ],
+    "exitCode": 1,
+    "error": "--contacts-administrator-phone, --contacts-administrator-postal-info-name, --contacts-billing-email, --contacts-registrant-email, --contacts-registrant-phone, --contacts-registrant-postal-info-name, --contacts-technical-postal-info-name are required when any --contacts-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "pairwise 8",
+    "argv": [
+      "registrar-sandbox",
+      "registrations",
+      "create",
+      "--domain-name",
+      "example.com",
+      "--contacts-billing-fax",
+      "regression value &/?+ü",
+      "--contacts-billing-phone",
+      "regression value &/?+ü",
+      "--contacts-billing-postal-info-name",
+      "regression value &/?+ü",
+      "--contacts-billing-postal-info-organization",
+      "regression value &/?+ü",
+      "--contacts-registrant-email",
+      "regression@example.com",
+      "--contacts-registrant-fax",
+      "regression value &/?+ü",
+      "--contacts-registrant-phone",
+      "regression value &/?+ü",
+      "--contacts-registrant-postal-info-name",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 1,
+    "error": "--contacts-administrator-email, --contacts-administrator-phone, --contacts-administrator-postal-info-name, --contacts-billing-email, --contacts-technical-email, --contacts-technical-phone, --contacts-technical-postal-info-name are required when any --contacts-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "pairwise 9",
+    "argv": [
+      "registrar-sandbox",
+      "registrations",
+      "create",
+      "--domain-name",
+      "example.com",
+      "--prefer",
+      "second value &/?+ü",
+      "--auto-renew=false",
+      "--contacts-administrator-email",
+      "regression@example.com",
+      "--contacts-administrator-fax",
+      "second value &/?+ü",
+      "--contacts-administrator-phone",
+      "second value &/?+ü",
+      "--contacts-administrator-postal-info-name",
+      "second value &/?+ü",
+      "--contacts-administrator-postal-info-organization",
+      "second value &/?+ü",
+      "--contacts-billing-email",
+      "regression@example.com",
+      "--contacts-registrant-postal-info-organization",
+      "second value &/?+ü",
+      "--contacts-technical-email",
+      "regression@example.com",
+      "--contacts-technical-fax",
+      "second value &/?+ü",
+      "--contacts-technical-phone",
+      "second value &/?+ü",
+      "--contacts-technical-postal-info-name",
+      "second value &/?+ü",
+      "--contacts-technical-postal-info-organization",
+      "second value &/?+ü",
+      "--privacy-mode",
+      "redaction",
+      "--years",
+      "2"
+    ],
+    "exitCode": 1,
+    "error": "--contacts-billing-phone, --contacts-billing-postal-info-name, --contacts-registrant-email, --contacts-registrant-phone, --contacts-registrant-postal-info-name are required when any --contacts-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "pairwise 10",
+    "argv": [
+      "registrar-sandbox",
+      "registrations",
+      "create",
+      "--domain-name",
+      "example.com",
+      "--contacts-registrant-postal-info-organization",
+      "regression value &/?+ü",
+      "--contacts-technical-email",
+      "regression@example.com",
+      "--contacts-technical-fax",
+      "regression value &/?+ü",
+      "--contacts-technical-phone",
+      "regression value &/?+ü",
+      "--contacts-technical-postal-info-name",
+      "regression value &/?+ü",
+      "--contacts-technical-postal-info-organization",
+      "regression value &/?+ü",
+      "--privacy-mode",
+      "off",
+      "--years",
+      "1"
+    ],
+    "exitCode": 1,
+    "error": "--contacts-administrator-email, --contacts-administrator-phone, --contacts-administrator-postal-info-name, --contacts-billing-email, --contacts-billing-phone, --contacts-billing-postal-info-name, --contacts-registrant-email, --contacts-registrant-phone, --contacts-registrant-postal-info-name are required when any --contacts-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "pairwise 11",
+    "argv": [
+      "registrar-sandbox",
+      "registrations",
+      "create",
+      "--domain-name",
+      "example.com",
+      "--prefer",
+      "second value &/?+ü",
+      "--auto-renew=false",
+      "--contacts-administrator-email",
+      "regression@example.com",
+      "--contacts-administrator-fax",
+      "second value &/?+ü",
+      "--contacts-administrator-phone",
+      "second value &/?+ü",
+      "--contacts-administrator-postal-info-name",
+      "second value &/?+ü",
+      "--contacts-administrator-postal-info-organization",
+      "second value &/?+ü",
+      "--contacts-billing-email",
+      "regression@example.com",
+      "--contacts-billing-fax",
+      "second value &/?+ü",
+      "--contacts-billing-phone",
+      "second value &/?+ü",
+      "--contacts-billing-postal-info-name",
+      "second value &/?+ü",
+      "--contacts-billing-postal-info-organization",
+      "second value &/?+ü",
+      "--contacts-registrant-email",
+      "regression@example.com",
+      "--contacts-registrant-fax",
+      "second value &/?+ü",
+      "--contacts-registrant-phone",
+      "second value &/?+ü",
+      "--contacts-registrant-postal-info-name",
+      "second value &/?+ü"
+    ],
+    "exitCode": 1,
+    "error": "--contacts-technical-email, --contacts-technical-phone, --contacts-technical-postal-info-name are required when any --contacts-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "global quiet",
+    "argv": [
+      "registrar-sandbox",
+      "registrations",
+      "create",
+      "--domain-name",
+      "example.com",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--quiet"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/registrar-sandbox/registrations",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "global zone",
+    "argv": [
+      "registrar-sandbox",
+      "registrations",
+      "create",
+      "--domain-name",
+      "example.com",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--zone",
+      "abcdef0123456789abcdef0123456789"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/registrar-sandbox/registrations",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "global profile and mode",
+    "argv": [
+      "registrar-sandbox",
+      "registrations",
+      "create",
+      "--domain-name",
+      "example.com",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--profile",
+      "default",
+      "--mode",
+      "regression"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/registrar-sandbox/registrations",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "local",
+    "argv": [
+      "registrar-sandbox",
+      "registrations",
+      "create",
+      "--domain-name",
+      "example.com",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--local"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "http://localhost/cdn-cgi/local/explorer/api/registrar-sandbox/registrations",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "gzip, deflate",
+          "accept-language": "*",
+          "connection": "keep-alive",
+          "content-type": "application/json",
+          "host": "localhost",
+          "sec-fetch-mode": "cors",
+          "transfer-encoding": "chunked",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "local with persistence",
+    "argv": [
+      "registrar-sandbox",
+      "registrations",
+      "create",
+      "--domain-name",
+      "example.com",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--local",
+      "--persist-to",
+      "regression-state"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "http://localhost/cdn-cgi/local/explorer/api/registrar-sandbox/registrations",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "gzip, deflate",
+          "accept-language": "*",
+          "connection": "keep-alive",
+          "content-type": "application/json",
+          "host": "localhost",
+          "sec-fetch-mode": "cors",
+          "transfer-encoding": "chunked",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "dry-run",
+    "argv": [
+      "registrar-sandbox",
+      "registrations",
+      "create",
+      "--domain-name",
+      "example.com",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--dry-run"
+    ],
+    "exitCode": 0,
+    "requests": []
+  },
+  {
+    "case": "body from file",
+    "argv": [
+      "registrar-sandbox",
+      "registrations",
+      "create",
+      "--domain-name",
+      "example.com",
+      "--body",
+      "@<body.json>"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/registrar-sandbox/registrations",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "array body",
+    "argv": [
+      "registrar-sandbox",
+      "registrations",
+      "create",
+      "--domain-name",
+      "example.com",
+      "--body",
+      "[{\"regression\":\"first\"},{\"regression\":\"second\"}]"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/registrar-sandbox/registrations",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "48",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": [
+          {
+            "regression": "first"
+          },
+          {
+            "regression": "second"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "case": "field flags",
+    "argv": [
+      "registrar-sandbox",
+      "registrations",
+      "create",
+      "--domain-name",
+      "example.com",
+      "--prefer",
+      "regression value &/?+ü",
+      "--auto-renew=true",
+      "--contacts-administrator-email",
+      "regression@example.com",
+      "--contacts-administrator-fax",
+      "regression value &/?+ü",
+      "--contacts-administrator-phone",
+      "regression value &/?+ü",
+      "--contacts-administrator-postal-info-name",
+      "regression value &/?+ü",
+      "--contacts-administrator-postal-info-organization",
+      "regression value &/?+ü",
+      "--contacts-billing-email",
+      "regression@example.com",
+      "--contacts-billing-fax",
+      "regression value &/?+ü",
+      "--contacts-billing-phone",
+      "regression value &/?+ü",
+      "--contacts-billing-postal-info-name",
+      "regression value &/?+ü",
+      "--contacts-billing-postal-info-organization",
+      "regression value &/?+ü",
+      "--contacts-registrant-email",
+      "regression@example.com",
+      "--contacts-registrant-fax",
+      "regression value &/?+ü",
+      "--contacts-registrant-phone",
+      "regression value &/?+ü",
+      "--contacts-registrant-postal-info-name",
+      "regression value &/?+ü",
+      "--contacts-registrant-postal-info-organization",
+      "regression value &/?+ü",
+      "--contacts-technical-email",
+      "regression@example.com",
+      "--contacts-technical-fax",
+      "regression value &/?+ü",
+      "--contacts-technical-phone",
+      "regression value &/?+ü",
+      "--contacts-technical-postal-info-name",
+      "regression value &/?+ü",
+      "--contacts-technical-postal-info-organization",
+      "regression value &/?+ü",
+      "--privacy-mode",
+      "off",
+      "--years",
+      "1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/registrar-sandbox/registrations",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "906",
+          "content-type": "application/json",
+          "host": "api.test",
+          "prefer": "regression value &/?+ü",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "auto_renew": true,
+          "contacts": {
+            "administrator": {
+              "email": "regression@example.com",
+              "fax": "regression value &/?+ü",
+              "phone": "regression value &/?+ü",
+              "postal_info": {
+                "name": "regression value &/?+ü",
+                "organization": "regression value &/?+ü"
+              }
+            },
+            "billing": {
+              "email": "regression@example.com",
+              "fax": "regression value &/?+ü",
+              "phone": "regression value &/?+ü",
+              "postal_info": {
+                "name": "regression value &/?+ü",
+                "organization": "regression value &/?+ü"
+              }
+            },
+            "registrant": {
+              "email": "regression@example.com",
+              "fax": "regression value &/?+ü",
+              "phone": "regression value &/?+ü",
+              "postal_info": {
+                "name": "regression value &/?+ü",
+                "organization": "regression value &/?+ü"
+              }
+            },
+            "technical": {
+              "email": "regression@example.com",
+              "fax": "regression value &/?+ü",
+              "phone": "regression value &/?+ü",
+              "postal_info": {
+                "name": "regression value &/?+ü",
+                "organization": "regression value &/?+ü"
+              }
+            }
+          },
+          "domain_name": "example.com",
+          "privacy_mode": "off",
+          "years": 1
+        }
+      }
+    ]
+  }
+]

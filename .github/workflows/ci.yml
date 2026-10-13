@@ -72,6 +72,9 @@ jobs:
       - name: Run cli tests
         run: pnpm --filter cf test
 
+      - name: Snapshot every cf command (three-minute budget)
+        run: pnpm --filter cf test:regression
+
   wrangler-tests:
     if: ${{ github.repository_owner == 'cloudflare' }}
     runs-on: ubuntu-latest

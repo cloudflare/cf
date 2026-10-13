@@ -1,0 +1,3464 @@
+[
+  {
+    "case": "no-args",
+    "argv": [
+      "bot-management",
+      "update"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/bot_management",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "2",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {}
+      }
+    ]
+  },
+  {
+    "case": "required",
+    "argv": [
+      "bot-management",
+      "update",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/bot_management",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --ai-bots-migration-opt-out",
+    "argv": [
+      "bot-management",
+      "update",
+      "--ai-bots-migration-opt-out=true"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/bot_management",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "34",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "ai_bots_migration_opt_out": true
+        }
+      }
+    ]
+  },
+  {
+    "case": "--ai-bots-migration-opt-out value 1",
+    "argv": [
+      "bot-management",
+      "update",
+      "--ai-bots-migration-opt-out=false"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/bot_management",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "35",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "ai_bots_migration_opt_out": false
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --ai-bots-protection",
+    "argv": [
+      "bot-management",
+      "update",
+      "--ai-bots-protection",
+      "block"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/bot_management",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "30",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "ai_bots_protection": "block"
+        }
+      }
+    ]
+  },
+  {
+    "case": "--ai-bots-protection value 1",
+    "argv": [
+      "bot-management",
+      "update",
+      "--ai-bots-protection",
+      "disabled"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/bot_management",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "33",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "ai_bots_protection": "disabled"
+        }
+      }
+    ]
+  },
+  {
+    "case": "--ai-bots-protection value 2",
+    "argv": [
+      "bot-management",
+      "update",
+      "--ai-bots-protection",
+      "only_on_ad_pages"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/bot_management",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "41",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "ai_bots_protection": "only_on_ad_pages"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --ai-search",
+    "argv": [
+      "bot-management",
+      "update",
+      "--ai-search",
+      "disabled"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/bot_management",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "24",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "ai_search": "disabled"
+        }
+      }
+    ]
+  },
+  {
+    "case": "--ai-search value 1",
+    "argv": [
+      "bot-management",
+      "update",
+      "--ai-search",
+      "block"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/bot_management",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "21",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "ai_search": "block"
+        }
+      }
+    ]
+  },
+  {
+    "case": "--ai-search value 2",
+    "argv": [
+      "bot-management",
+      "update",
+      "--ai-search",
+      "only_on_ad_pages"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/bot_management",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "32",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "ai_search": "only_on_ad_pages"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --ai-training",
+    "argv": [
+      "bot-management",
+      "update",
+      "--ai-training",
+      "disabled"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/bot_management",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "26",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "ai_training": "disabled"
+        }
+      }
+    ]
+  },
+  {
+    "case": "--ai-training value 1",
+    "argv": [
+      "bot-management",
+      "update",
+      "--ai-training",
+      "disallow"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/bot_management",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "26",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "ai_training": "disallow"
+        }
+      }
+    ]
+  },
+  {
+    "case": "--ai-training value 2",
+    "argv": [
+      "bot-management",
+      "update",
+      "--ai-training",
+      "block"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/bot_management",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "23",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "ai_training": "block"
+        }
+      }
+    ]
+  },
+  {
+    "case": "--ai-training value 3",
+    "argv": [
+      "bot-management",
+      "update",
+      "--ai-training",
+      "only_on_ad_pages"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/bot_management",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "34",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "ai_training": "only_on_ad_pages"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --ai-user",
+    "argv": [
+      "bot-management",
+      "update",
+      "--ai-user",
+      "disabled"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/bot_management",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "22",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "ai_user": "disabled"
+        }
+      }
+    ]
+  },
+  {
+    "case": "--ai-user value 1",
+    "argv": [
+      "bot-management",
+      "update",
+      "--ai-user",
+      "block"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/bot_management",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "19",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "ai_user": "block"
+        }
+      }
+    ]
+  },
+  {
+    "case": "--ai-user value 2",
+    "argv": [
+      "bot-management",
+      "update",
+      "--ai-user",
+      "only_on_ad_pages"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/bot_management",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "30",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "ai_user": "only_on_ad_pages"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --bot-preference-sync-enabled",
+    "argv": [
+      "bot-management",
+      "update",
+      "--bot-preference-sync-enabled=true"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/bot_management",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "36",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "bot_preference_sync_enabled": true
+        }
+      }
+    ]
+  },
+  {
+    "case": "--bot-preference-sync-enabled value 1",
+    "argv": [
+      "bot-management",
+      "update",
+      "--bot-preference-sync-enabled=false"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/bot_management",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "37",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "bot_preference_sync_enabled": false
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --cf-robots-variant",
+    "argv": [
+      "bot-management",
+      "update",
+      "--cf-robots-variant",
+      "off"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/bot_management",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "27",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "cf_robots_variant": "off"
+        }
+      }
+    ]
+  },
+  {
+    "case": "--cf-robots-variant value 1",
+    "argv": [
+      "bot-management",
+      "update",
+      "--cf-robots-variant",
+      "policy_only"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/bot_management",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "35",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "cf_robots_variant": "policy_only"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --content-bots-protection",
+    "argv": [
+      "bot-management",
+      "update",
+      "--content-bots-protection",
+      "block"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/bot_management",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "35",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "content_bots_protection": "block"
+        }
+      }
+    ]
+  },
+  {
+    "case": "--content-bots-protection value 1",
+    "argv": [
+      "bot-management",
+      "update",
+      "--content-bots-protection",
+      "disabled"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/bot_management",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "38",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "content_bots_protection": "disabled"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --crawler-protection",
+    "argv": [
+      "bot-management",
+      "update",
+      "--crawler-protection",
+      "enabled"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/bot_management",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "32",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "crawler_protection": "enabled"
+        }
+      }
+    ]
+  },
+  {
+    "case": "--crawler-protection value 1",
+    "argv": [
+      "bot-management",
+      "update",
+      "--crawler-protection",
+      "disabled"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/bot_management",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "33",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "crawler_protection": "disabled"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --enable-js",
+    "argv": [
+      "bot-management",
+      "update",
+      "--enable-js=true"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/bot_management",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "18",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "enable_js": true
+        }
+      }
+    ]
+  },
+  {
+    "case": "--enable-js value 1",
+    "argv": [
+      "bot-management",
+      "update",
+      "--enable-js=false"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/bot_management",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "19",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "enable_js": false
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --is-robots-txt-managed",
+    "argv": [
+      "bot-management",
+      "update",
+      "--is-robots-txt-managed=true"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/bot_management",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "30",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "is_robots_txt_managed": true
+        }
+      }
+    ]
+  },
+  {
+    "case": "--is-robots-txt-managed value 1",
+    "argv": [
+      "bot-management",
+      "update",
+      "--is-robots-txt-managed=false"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/bot_management",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "31",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "is_robots_txt_managed": false
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --jsd-api-results-enabled",
+    "argv": [
+      "bot-management",
+      "update",
+      "--jsd-api-results-enabled=true"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/bot_management",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "32",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "jsd_api_results_enabled": true
+        }
+      }
+    ]
+  },
+  {
+    "case": "--jsd-api-results-enabled value 1",
+    "argv": [
+      "bot-management",
+      "update",
+      "--jsd-api-results-enabled=false"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/bot_management",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "33",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "jsd_api_results_enabled": false
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --fight-mode",
+    "argv": [
+      "bot-management",
+      "update",
+      "--fight-mode=true"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/bot_management",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "19",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "fight_mode": true
+        }
+      }
+    ]
+  },
+  {
+    "case": "--fight-mode value 1",
+    "argv": [
+      "bot-management",
+      "update",
+      "--fight-mode=false"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/bot_management",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "20",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "fight_mode": false
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --stale-zone-configuration-optimize-wordpress",
+    "argv": [
+      "bot-management",
+      "update",
+      "--stale-zone-configuration-optimize-wordpress=true"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/bot_management",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "56",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "stale_zone_configuration": {
+            "optimize_wordpress": true
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "--stale-zone-configuration-optimize-wordpress value 1",
+    "argv": [
+      "bot-management",
+      "update",
+      "--stale-zone-configuration-optimize-wordpress=false"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/bot_management",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "57",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "stale_zone_configuration": {
+            "optimize_wordpress": false
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --stale-zone-configuration-sbfm-definitely-automated",
+    "argv": [
+      "bot-management",
+      "update",
+      "--stale-zone-configuration-sbfm-definitely-automated",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/bot_management",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "84",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "stale_zone_configuration": {
+            "sbfm_definitely_automated": "regression value &/?+ü"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --stale-zone-configuration-sbfm-likely-automated",
+    "argv": [
+      "bot-management",
+      "update",
+      "--stale-zone-configuration-sbfm-likely-automated",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/bot_management",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "80",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "stale_zone_configuration": {
+            "sbfm_likely_automated": "regression value &/?+ü"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --stale-zone-configuration-sbfm-static-resource-protection",
+    "argv": [
+      "bot-management",
+      "update",
+      "--stale-zone-configuration-sbfm-static-resource-protection",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/bot_management",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "90",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "stale_zone_configuration": {
+            "sbfm_static_resource_protection": "regression value &/?+ü"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --stale-zone-configuration-sbfm-verified-bots",
+    "argv": [
+      "bot-management",
+      "update",
+      "--stale-zone-configuration-sbfm-verified-bots",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/bot_management",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "77",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "stale_zone_configuration": {
+            "sbfm_verified_bots": "regression value &/?+ü"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --stale-zone-configuration-suppress-session-score",
+    "argv": [
+      "bot-management",
+      "update",
+      "--stale-zone-configuration-suppress-session-score=true"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/bot_management",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "60",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "stale_zone_configuration": {
+            "suppress_session_score": true
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "--stale-zone-configuration-suppress-session-score value 1",
+    "argv": [
+      "bot-management",
+      "update",
+      "--stale-zone-configuration-suppress-session-score=false"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/bot_management",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "61",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "stale_zone_configuration": {
+            "suppress_session_score": false
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --stale-zone-configuration-fight-mode",
+    "argv": [
+      "bot-management",
+      "update",
+      "--stale-zone-configuration-fight-mode=true"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/bot_management",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "48",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "stale_zone_configuration": {
+            "fight_mode": true
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "--stale-zone-configuration-fight-mode value 1",
+    "argv": [
+      "bot-management",
+      "update",
+      "--stale-zone-configuration-fight-mode=false"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/bot_management",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "49",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "stale_zone_configuration": {
+            "fight_mode": false
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --optimize-wordpress",
+    "argv": [
+      "bot-management",
+      "update",
+      "--optimize-wordpress=true"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/bot_management",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "27",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "optimize_wordpress": true
+        }
+      }
+    ]
+  },
+  {
+    "case": "--optimize-wordpress value 1",
+    "argv": [
+      "bot-management",
+      "update",
+      "--optimize-wordpress=false"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/bot_management",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "28",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "optimize_wordpress": false
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --sbfm-definitely-automated",
+    "argv": [
+      "bot-management",
+      "update",
+      "--sbfm-definitely-automated",
+      "allow"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/bot_management",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "37",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "sbfm_definitely_automated": "allow"
+        }
+      }
+    ]
+  },
+  {
+    "case": "--sbfm-definitely-automated value 1",
+    "argv": [
+      "bot-management",
+      "update",
+      "--sbfm-definitely-automated",
+      "block"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/bot_management",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "37",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "sbfm_definitely_automated": "block"
+        }
+      }
+    ]
+  },
+  {
+    "case": "--sbfm-definitely-automated value 2",
+    "argv": [
+      "bot-management",
+      "update",
+      "--sbfm-definitely-automated",
+      "managed_challenge"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/bot_management",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "49",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "sbfm_definitely_automated": "managed_challenge"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --sbfm-static-resource-protection",
+    "argv": [
+      "bot-management",
+      "update",
+      "--sbfm-static-resource-protection=true"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/bot_management",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "40",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "sbfm_static_resource_protection": true
+        }
+      }
+    ]
+  },
+  {
+    "case": "--sbfm-static-resource-protection value 1",
+    "argv": [
+      "bot-management",
+      "update",
+      "--sbfm-static-resource-protection=false"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/bot_management",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "41",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "sbfm_static_resource_protection": false
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --sbfm-verified-bots",
+    "argv": [
+      "bot-management",
+      "update",
+      "--sbfm-verified-bots",
+      "allow"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/bot_management",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "30",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "sbfm_verified_bots": "allow"
+        }
+      }
+    ]
+  },
+  {
+    "case": "--sbfm-verified-bots value 1",
+    "argv": [
+      "bot-management",
+      "update",
+      "--sbfm-verified-bots",
+      "block"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/bot_management",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "30",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "sbfm_verified_bots": "block"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --sbfm-likely-automated",
+    "argv": [
+      "bot-management",
+      "update",
+      "--sbfm-likely-automated",
+      "allow"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/bot_management",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "33",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "sbfm_likely_automated": "allow"
+        }
+      }
+    ]
+  },
+  {
+    "case": "--sbfm-likely-automated value 1",
+    "argv": [
+      "bot-management",
+      "update",
+      "--sbfm-likely-automated",
+      "block"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/bot_management",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "33",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "sbfm_likely_automated": "block"
+        }
+      }
+    ]
+  },
+  {
+    "case": "--sbfm-likely-automated value 2",
+    "argv": [
+      "bot-management",
+      "update",
+      "--sbfm-likely-automated",
+      "managed_challenge"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/bot_management",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "45",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "sbfm_likely_automated": "managed_challenge"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --auto-update-model",
+    "argv": [
+      "bot-management",
+      "update",
+      "--auto-update-model=true"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/bot_management",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "26",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "auto_update_model": true
+        }
+      }
+    ]
+  },
+  {
+    "case": "--auto-update-model value 1",
+    "argv": [
+      "bot-management",
+      "update",
+      "--auto-update-model=false"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/bot_management",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "27",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "auto_update_model": false
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --bm-cookie-enabled",
+    "argv": [
+      "bot-management",
+      "update",
+      "--bm-cookie-enabled=true"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/bot_management",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "26",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "bm_cookie_enabled": true
+        }
+      }
+    ]
+  },
+  {
+    "case": "--bm-cookie-enabled value 1",
+    "argv": [
+      "bot-management",
+      "update",
+      "--bm-cookie-enabled=false"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/bot_management",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "27",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "bm_cookie_enabled": false
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --suppress-session-score",
+    "argv": [
+      "bot-management",
+      "update",
+      "--suppress-session-score=true"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/bot_management",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "31",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "suppress_session_score": true
+        }
+      }
+    ]
+  },
+  {
+    "case": "--suppress-session-score value 1",
+    "argv": [
+      "bot-management",
+      "update",
+      "--suppress-session-score=false"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/bot_management",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "32",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "suppress_session_score": false
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 1",
+    "argv": [
+      "bot-management",
+      "update",
+      "--ai-bots-migration-opt-out=false",
+      "--ai-bots-protection",
+      "disabled",
+      "--ai-search",
+      "block",
+      "--ai-training",
+      "disallow",
+      "--ai-user",
+      "block",
+      "--bot-preference-sync-enabled=false",
+      "--cf-robots-variant",
+      "policy_only",
+      "--content-bots-protection",
+      "disabled",
+      "--crawler-protection",
+      "disabled",
+      "--enable-js=false",
+      "--is-robots-txt-managed=false",
+      "--jsd-api-results-enabled=false",
+      "--fight-mode=false",
+      "--stale-zone-configuration-optimize-wordpress=false",
+      "--stale-zone-configuration-sbfm-definitely-automated",
+      "second value &/?+ü",
+      "--stale-zone-configuration-sbfm-likely-automated",
+      "second value &/?+ü",
+      "--stale-zone-configuration-sbfm-static-resource-protection",
+      "second value &/?+ü",
+      "--stale-zone-configuration-sbfm-verified-bots",
+      "second value &/?+ü",
+      "--stale-zone-configuration-suppress-session-score=false",
+      "--stale-zone-configuration-fight-mode=false",
+      "--optimize-wordpress=false",
+      "--sbfm-definitely-automated",
+      "block",
+      "--sbfm-static-resource-protection=false",
+      "--sbfm-verified-bots",
+      "block",
+      "--sbfm-likely-automated",
+      "block",
+      "--auto-update-model=false",
+      "--bm-cookie-enabled=false",
+      "--suppress-session-score=false"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/bot_management",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "916",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "ai_bots_migration_opt_out": false,
+          "ai_bots_protection": "disabled",
+          "ai_search": "block",
+          "ai_training": "disallow",
+          "ai_user": "block",
+          "bot_preference_sync_enabled": false,
+          "cf_robots_variant": "policy_only",
+          "content_bots_protection": "disabled",
+          "crawler_protection": "disabled",
+          "enable_js": false,
+          "is_robots_txt_managed": false,
+          "jsd_api_results_enabled": false,
+          "fight_mode": false,
+          "stale_zone_configuration": {
+            "optimize_wordpress": false,
+            "sbfm_definitely_automated": "second value &/?+ü",
+            "sbfm_likely_automated": "second value &/?+ü",
+            "sbfm_static_resource_protection": "second value &/?+ü",
+            "sbfm_verified_bots": "second value &/?+ü",
+            "suppress_session_score": false,
+            "fight_mode": false
+          },
+          "optimize_wordpress": false,
+          "sbfm_definitely_automated": "block",
+          "sbfm_static_resource_protection": false,
+          "sbfm_verified_bots": "block",
+          "sbfm_likely_automated": "block",
+          "auto_update_model": false,
+          "bm_cookie_enabled": false,
+          "suppress_session_score": false
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 2",
+    "argv": [
+      "bot-management",
+      "update",
+      "--ai-bots-protection",
+      "block",
+      "--ai-training",
+      "disabled",
+      "--bot-preference-sync-enabled=true",
+      "--content-bots-protection",
+      "block",
+      "--enable-js=true",
+      "--jsd-api-results-enabled=true",
+      "--stale-zone-configuration-optimize-wordpress=true",
+      "--stale-zone-configuration-sbfm-likely-automated",
+      "regression value &/?+ü",
+      "--stale-zone-configuration-sbfm-verified-bots",
+      "regression value &/?+ü",
+      "--stale-zone-configuration-fight-mode=true",
+      "--sbfm-definitely-automated",
+      "allow",
+      "--sbfm-verified-bots",
+      "allow",
+      "--auto-update-model=true",
+      "--suppress-session-score=true"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/bot_management",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "462",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "ai_bots_protection": "block",
+          "ai_training": "disabled",
+          "bot_preference_sync_enabled": true,
+          "content_bots_protection": "block",
+          "enable_js": true,
+          "jsd_api_results_enabled": true,
+          "stale_zone_configuration": {
+            "optimize_wordpress": true,
+            "sbfm_likely_automated": "regression value &/?+ü",
+            "sbfm_verified_bots": "regression value &/?+ü",
+            "fight_mode": true
+          },
+          "sbfm_definitely_automated": "allow",
+          "sbfm_verified_bots": "allow",
+          "auto_update_model": true,
+          "suppress_session_score": true
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 3",
+    "argv": [
+      "bot-management",
+      "update",
+      "--ai-bots-migration-opt-out=false",
+      "--ai-search",
+      "block",
+      "--ai-user",
+      "block",
+      "--cf-robots-variant",
+      "policy_only",
+      "--crawler-protection",
+      "disabled",
+      "--is-robots-txt-managed=false",
+      "--fight-mode=false",
+      "--stale-zone-configuration-sbfm-definitely-automated",
+      "second value &/?+ü",
+      "--stale-zone-configuration-sbfm-static-resource-protection",
+      "second value &/?+ü",
+      "--stale-zone-configuration-suppress-session-score=false",
+      "--optimize-wordpress=false",
+      "--sbfm-static-resource-protection=false",
+      "--sbfm-likely-automated",
+      "block",
+      "--bm-cookie-enabled=false"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/bot_management",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "479",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "ai_bots_migration_opt_out": false,
+          "ai_search": "block",
+          "ai_user": "block",
+          "cf_robots_variant": "policy_only",
+          "crawler_protection": "disabled",
+          "is_robots_txt_managed": false,
+          "fight_mode": false,
+          "stale_zone_configuration": {
+            "sbfm_definitely_automated": "second value &/?+ü",
+            "sbfm_static_resource_protection": "second value &/?+ü",
+            "suppress_session_score": false
+          },
+          "optimize_wordpress": false,
+          "sbfm_static_resource_protection": false,
+          "sbfm_likely_automated": "block",
+          "bm_cookie_enabled": false
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 4",
+    "argv": [
+      "bot-management",
+      "update",
+      "--ai-search",
+      "disabled",
+      "--ai-training",
+      "disabled",
+      "--cf-robots-variant",
+      "off",
+      "--content-bots-protection",
+      "block",
+      "--is-robots-txt-managed=true",
+      "--jsd-api-results-enabled=true",
+      "--stale-zone-configuration-sbfm-definitely-automated",
+      "regression value &/?+ü",
+      "--stale-zone-configuration-sbfm-likely-automated",
+      "regression value &/?+ü",
+      "--stale-zone-configuration-suppress-session-score=true",
+      "--stale-zone-configuration-fight-mode=true",
+      "--sbfm-static-resource-protection=true",
+      "--sbfm-verified-bots",
+      "allow",
+      "--bm-cookie-enabled=true",
+      "--suppress-session-score=true"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/bot_management",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "473",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "ai_search": "disabled",
+          "ai_training": "disabled",
+          "cf_robots_variant": "off",
+          "content_bots_protection": "block",
+          "is_robots_txt_managed": true,
+          "jsd_api_results_enabled": true,
+          "stale_zone_configuration": {
+            "sbfm_definitely_automated": "regression value &/?+ü",
+            "sbfm_likely_automated": "regression value &/?+ü",
+            "suppress_session_score": true,
+            "fight_mode": true
+          },
+          "sbfm_static_resource_protection": true,
+          "sbfm_verified_bots": "allow",
+          "bm_cookie_enabled": true,
+          "suppress_session_score": true
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 5",
+    "argv": [
+      "bot-management",
+      "update",
+      "--ai-bots-migration-opt-out=false",
+      "--ai-bots-protection",
+      "disabled",
+      "--ai-user",
+      "block",
+      "--bot-preference-sync-enabled=false",
+      "--crawler-protection",
+      "disabled",
+      "--enable-js=false",
+      "--fight-mode=false",
+      "--stale-zone-configuration-optimize-wordpress=false",
+      "--stale-zone-configuration-sbfm-static-resource-protection",
+      "second value &/?+ü",
+      "--stale-zone-configuration-sbfm-verified-bots",
+      "second value &/?+ü",
+      "--optimize-wordpress=false",
+      "--sbfm-definitely-automated",
+      "block",
+      "--sbfm-likely-automated",
+      "block",
+      "--auto-update-model=false"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/bot_management",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "466",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "ai_bots_migration_opt_out": false,
+          "ai_bots_protection": "disabled",
+          "ai_user": "block",
+          "bot_preference_sync_enabled": false,
+          "crawler_protection": "disabled",
+          "enable_js": false,
+          "fight_mode": false,
+          "stale_zone_configuration": {
+            "optimize_wordpress": false,
+            "sbfm_static_resource_protection": "second value &/?+ü",
+            "sbfm_verified_bots": "second value &/?+ü"
+          },
+          "optimize_wordpress": false,
+          "sbfm_definitely_automated": "block",
+          "sbfm_likely_automated": "block",
+          "auto_update_model": false
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 6",
+    "argv": [
+      "bot-management",
+      "update",
+      "--ai-user",
+      "disabled",
+      "--bot-preference-sync-enabled=true",
+      "--cf-robots-variant",
+      "off",
+      "--content-bots-protection",
+      "block",
+      "--fight-mode=true",
+      "--stale-zone-configuration-optimize-wordpress=true",
+      "--stale-zone-configuration-sbfm-definitely-automated",
+      "regression value &/?+ü",
+      "--stale-zone-configuration-sbfm-likely-automated",
+      "regression value &/?+ü",
+      "--optimize-wordpress=true",
+      "--sbfm-definitely-automated",
+      "allow",
+      "--sbfm-static-resource-protection=true",
+      "--sbfm-verified-bots",
+      "allow"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/bot_management",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "424",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "ai_user": "disabled",
+          "bot_preference_sync_enabled": true,
+          "cf_robots_variant": "off",
+          "content_bots_protection": "block",
+          "fight_mode": true,
+          "stale_zone_configuration": {
+            "optimize_wordpress": true,
+            "sbfm_definitely_automated": "regression value &/?+ü",
+            "sbfm_likely_automated": "regression value &/?+ü"
+          },
+          "optimize_wordpress": true,
+          "sbfm_definitely_automated": "allow",
+          "sbfm_static_resource_protection": true,
+          "sbfm_verified_bots": "allow"
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 7",
+    "argv": [
+      "bot-management",
+      "update",
+      "--ai-bots-migration-opt-out=false",
+      "--ai-bots-protection",
+      "disabled",
+      "--ai-search",
+      "block",
+      "--ai-training",
+      "disallow",
+      "--crawler-protection",
+      "disabled",
+      "--enable-js=false",
+      "--is-robots-txt-managed=false",
+      "--jsd-api-results-enabled=false",
+      "--stale-zone-configuration-sbfm-static-resource-protection",
+      "second value &/?+ü",
+      "--stale-zone-configuration-sbfm-verified-bots",
+      "second value &/?+ü",
+      "--stale-zone-configuration-suppress-session-score=false",
+      "--stale-zone-configuration-fight-mode=false",
+      "--sbfm-likely-automated",
+      "block",
+      "--auto-update-model=false",
+      "--bm-cookie-enabled=false",
+      "--suppress-session-score=false"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/bot_management",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "517",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "ai_bots_migration_opt_out": false,
+          "ai_bots_protection": "disabled",
+          "ai_search": "block",
+          "ai_training": "disallow",
+          "crawler_protection": "disabled",
+          "enable_js": false,
+          "is_robots_txt_managed": false,
+          "jsd_api_results_enabled": false,
+          "stale_zone_configuration": {
+            "sbfm_static_resource_protection": "second value &/?+ü",
+            "sbfm_verified_bots": "second value &/?+ü",
+            "suppress_session_score": false,
+            "fight_mode": false
+          },
+          "sbfm_likely_automated": "block",
+          "auto_update_model": false,
+          "bm_cookie_enabled": false,
+          "suppress_session_score": false
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 8",
+    "argv": [
+      "bot-management",
+      "update",
+      "--crawler-protection",
+      "enabled",
+      "--enable-js=true",
+      "--is-robots-txt-managed=true",
+      "--jsd-api-results-enabled=true",
+      "--fight-mode=true",
+      "--stale-zone-configuration-optimize-wordpress=true",
+      "--stale-zone-configuration-sbfm-definitely-automated",
+      "regression value &/?+ü",
+      "--stale-zone-configuration-sbfm-likely-automated",
+      "regression value &/?+ü",
+      "--sbfm-likely-automated",
+      "allow",
+      "--auto-update-model=true",
+      "--bm-cookie-enabled=true",
+      "--suppress-session-score=true"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/bot_management",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "398",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "crawler_protection": "enabled",
+          "enable_js": true,
+          "is_robots_txt_managed": true,
+          "jsd_api_results_enabled": true,
+          "fight_mode": true,
+          "stale_zone_configuration": {
+            "optimize_wordpress": true,
+            "sbfm_definitely_automated": "regression value &/?+ü",
+            "sbfm_likely_automated": "regression value &/?+ü"
+          },
+          "sbfm_likely_automated": "allow",
+          "auto_update_model": true,
+          "bm_cookie_enabled": true,
+          "suppress_session_score": true
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 9",
+    "argv": [
+      "bot-management",
+      "update",
+      "--ai-bots-migration-opt-out=false",
+      "--ai-bots-protection",
+      "disabled",
+      "--ai-search",
+      "block",
+      "--ai-training",
+      "disallow",
+      "--ai-user",
+      "block",
+      "--bot-preference-sync-enabled=false",
+      "--cf-robots-variant",
+      "policy_only",
+      "--content-bots-protection",
+      "disabled",
+      "--stale-zone-configuration-sbfm-static-resource-protection",
+      "second value &/?+ü",
+      "--stale-zone-configuration-sbfm-verified-bots",
+      "second value &/?+ü",
+      "--stale-zone-configuration-suppress-session-score=false",
+      "--stale-zone-configuration-fight-mode=false",
+      "--optimize-wordpress=false",
+      "--sbfm-definitely-automated",
+      "block",
+      "--sbfm-static-resource-protection=false",
+      "--sbfm-verified-bots",
+      "block"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/bot_management",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "547",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "ai_bots_migration_opt_out": false,
+          "ai_bots_protection": "disabled",
+          "ai_search": "block",
+          "ai_training": "disallow",
+          "ai_user": "block",
+          "bot_preference_sync_enabled": false,
+          "cf_robots_variant": "policy_only",
+          "content_bots_protection": "disabled",
+          "stale_zone_configuration": {
+            "sbfm_static_resource_protection": "second value &/?+ü",
+            "sbfm_verified_bots": "second value &/?+ü",
+            "suppress_session_score": false,
+            "fight_mode": false
+          },
+          "optimize_wordpress": false,
+          "sbfm_definitely_automated": "block",
+          "sbfm_static_resource_protection": false,
+          "sbfm_verified_bots": "block"
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 10",
+    "argv": [
+      "bot-management",
+      "update",
+      "--stale-zone-configuration-sbfm-static-resource-protection",
+      "regression value &/?+ü",
+      "--stale-zone-configuration-sbfm-verified-bots",
+      "regression value &/?+ü",
+      "--stale-zone-configuration-suppress-session-score=true",
+      "--stale-zone-configuration-fight-mode=true",
+      "--optimize-wordpress=true",
+      "--sbfm-definitely-automated",
+      "allow",
+      "--sbfm-static-resource-protection=true",
+      "--sbfm-verified-bots",
+      "allow",
+      "--sbfm-likely-automated",
+      "allow",
+      "--auto-update-model=true",
+      "--bm-cookie-enabled=true",
+      "--suppress-session-score=true"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/bot_management",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "427",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "stale_zone_configuration": {
+            "sbfm_static_resource_protection": "regression value &/?+ü",
+            "sbfm_verified_bots": "regression value &/?+ü",
+            "suppress_session_score": true,
+            "fight_mode": true
+          },
+          "optimize_wordpress": true,
+          "sbfm_definitely_automated": "allow",
+          "sbfm_static_resource_protection": true,
+          "sbfm_verified_bots": "allow",
+          "sbfm_likely_automated": "allow",
+          "auto_update_model": true,
+          "bm_cookie_enabled": true,
+          "suppress_session_score": true
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 11",
+    "argv": [
+      "bot-management",
+      "update",
+      "--ai-bots-migration-opt-out=false",
+      "--ai-bots-protection",
+      "disabled",
+      "--ai-search",
+      "block",
+      "--ai-training",
+      "disallow",
+      "--ai-user",
+      "block",
+      "--bot-preference-sync-enabled=false",
+      "--cf-robots-variant",
+      "policy_only",
+      "--content-bots-protection",
+      "disabled",
+      "--crawler-protection",
+      "disabled",
+      "--enable-js=false",
+      "--is-robots-txt-managed=false",
+      "--jsd-api-results-enabled=false",
+      "--fight-mode=false",
+      "--stale-zone-configuration-optimize-wordpress=false",
+      "--stale-zone-configuration-sbfm-definitely-automated",
+      "second value &/?+ü",
+      "--stale-zone-configuration-sbfm-likely-automated",
+      "second value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/bot_management",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "520",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "ai_bots_migration_opt_out": false,
+          "ai_bots_protection": "disabled",
+          "ai_search": "block",
+          "ai_training": "disallow",
+          "ai_user": "block",
+          "bot_preference_sync_enabled": false,
+          "cf_robots_variant": "policy_only",
+          "content_bots_protection": "disabled",
+          "crawler_protection": "disabled",
+          "enable_js": false,
+          "is_robots_txt_managed": false,
+          "jsd_api_results_enabled": false,
+          "fight_mode": false,
+          "stale_zone_configuration": {
+            "optimize_wordpress": false,
+            "sbfm_definitely_automated": "second value &/?+ü",
+            "sbfm_likely_automated": "second value &/?+ü"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "global quiet",
+    "argv": [
+      "bot-management",
+      "update",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--quiet"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/bot_management",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "global zone",
+    "argv": [
+      "bot-management",
+      "update",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--zone",
+      "abcdef0123456789abcdef0123456789"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/bot_management",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "global profile and mode",
+    "argv": [
+      "bot-management",
+      "update",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--profile",
+      "default",
+      "--mode",
+      "regression"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/bot_management",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "local",
+    "argv": [
+      "bot-management",
+      "update",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--local"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "http://localhost/cdn-cgi/local/explorer/api/zones/abcdef0123456789abcdef0123456789/bot_management",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "gzip, deflate",
+          "accept-language": "*",
+          "connection": "keep-alive",
+          "content-type": "application/json",
+          "host": "localhost",
+          "sec-fetch-mode": "cors",
+          "transfer-encoding": "chunked",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "local with persistence",
+    "argv": [
+      "bot-management",
+      "update",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--local",
+      "--persist-to",
+      "regression-state"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "http://localhost/cdn-cgi/local/explorer/api/zones/abcdef0123456789abcdef0123456789/bot_management",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "gzip, deflate",
+          "accept-language": "*",
+          "connection": "keep-alive",
+          "content-type": "application/json",
+          "host": "localhost",
+          "sec-fetch-mode": "cors",
+          "transfer-encoding": "chunked",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "zone by domain",
+    "argv": [
+      "bot-management",
+      "update",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--zone",
+      "regression-6d4cc48177fc.example.com"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/zones?name=regression-6d4cc48177fc.example.com&account.id=0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      },
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/bot_management",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "dry-run",
+    "argv": [
+      "bot-management",
+      "update",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--dry-run"
+    ],
+    "exitCode": 0,
+    "requests": []
+  },
+  {
+    "case": "body from file",
+    "argv": [
+      "bot-management",
+      "update",
+      "--body",
+      "@<body.json>"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/bot_management",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "array body",
+    "argv": [
+      "bot-management",
+      "update",
+      "--body",
+      "[{\"regression\":\"first\"},{\"regression\":\"second\"}]"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/bot_management",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "48",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": [
+          {
+            "regression": "first"
+          },
+          {
+            "regression": "second"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "case": "field flags",
+    "argv": [
+      "bot-management",
+      "update",
+      "--ai-bots-migration-opt-out=true",
+      "--ai-bots-protection",
+      "block",
+      "--ai-search",
+      "disabled",
+      "--ai-training",
+      "disabled",
+      "--ai-user",
+      "disabled",
+      "--bot-preference-sync-enabled=true",
+      "--cf-robots-variant",
+      "off",
+      "--content-bots-protection",
+      "block",
+      "--crawler-protection",
+      "enabled",
+      "--enable-js=true",
+      "--is-robots-txt-managed=true",
+      "--jsd-api-results-enabled=true",
+      "--fight-mode=true",
+      "--stale-zone-configuration-optimize-wordpress=true",
+      "--stale-zone-configuration-sbfm-definitely-automated",
+      "regression value &/?+ü",
+      "--stale-zone-configuration-sbfm-likely-automated",
+      "regression value &/?+ü",
+      "--stale-zone-configuration-sbfm-static-resource-protection",
+      "regression value &/?+ü",
+      "--stale-zone-configuration-sbfm-verified-bots",
+      "regression value &/?+ü",
+      "--stale-zone-configuration-suppress-session-score=true",
+      "--stale-zone-configuration-fight-mode=true",
+      "--optimize-wordpress=true",
+      "--sbfm-definitely-automated",
+      "allow",
+      "--sbfm-static-resource-protection=true",
+      "--sbfm-verified-bots",
+      "allow",
+      "--sbfm-likely-automated",
+      "allow",
+      "--auto-update-model=true",
+      "--bm-cookie-enabled=true",
+      "--suppress-session-score=true"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/bot_management",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "909",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "ai_bots_migration_opt_out": true,
+          "ai_bots_protection": "block",
+          "ai_search": "disabled",
+          "ai_training": "disabled",
+          "ai_user": "disabled",
+          "bot_preference_sync_enabled": true,
+          "cf_robots_variant": "off",
+          "content_bots_protection": "block",
+          "crawler_protection": "enabled",
+          "enable_js": true,
+          "is_robots_txt_managed": true,
+          "jsd_api_results_enabled": true,
+          "fight_mode": true,
+          "stale_zone_configuration": {
+            "optimize_wordpress": true,
+            "sbfm_definitely_automated": "regression value &/?+ü",
+            "sbfm_likely_automated": "regression value &/?+ü",
+            "sbfm_static_resource_protection": "regression value &/?+ü",
+            "sbfm_verified_bots": "regression value &/?+ü",
+            "suppress_session_score": true,
+            "fight_mode": true
+          },
+          "optimize_wordpress": true,
+          "sbfm_definitely_automated": "allow",
+          "sbfm_static_resource_protection": true,
+          "sbfm_verified_bots": "allow",
+          "sbfm_likely_automated": "allow",
+          "auto_update_model": true,
+          "bm_cookie_enabled": true,
+          "suppress_session_score": true
+        }
+      }
+    ]
+  }
+]

@@ -1,0 +1,118 @@
+[
+  {
+    "case": "no-args",
+    "argv": [
+      "access",
+      "curl"
+    ],
+    "exitCode": 1,
+    "error": "Not enough non-option arguments: got 0, need at least 1",
+    "requests": []
+  },
+  {
+    "case": "required",
+    "argv": [
+      "access",
+      "curl",
+      "https://example.com/a?x=1&y=two"
+    ],
+    "exitCode": 0,
+    "requests": []
+  },
+  {
+    "case": "only --allow-request",
+    "argv": [
+      "access",
+      "curl",
+      "https://example.com/a?x=1&y=two",
+      "--allow-request=true"
+    ],
+    "exitCode": 0,
+    "requests": []
+  },
+  {
+    "case": "--allow-request value 1",
+    "argv": [
+      "access",
+      "curl",
+      "https://example.com/a?x=1&y=two",
+      "--allow-request=false"
+    ],
+    "exitCode": 0,
+    "requests": []
+  },
+  {
+    "case": "global quiet",
+    "argv": [
+      "access",
+      "curl",
+      "https://example.com/a?x=1&y=two",
+      "--quiet"
+    ],
+    "exitCode": 0,
+    "requests": []
+  },
+  {
+    "case": "global zone",
+    "argv": [
+      "access",
+      "curl",
+      "https://example.com/a?x=1&y=two",
+      "--zone",
+      "abcdef0123456789abcdef0123456789"
+    ],
+    "exitCode": 0,
+    "requests": []
+  },
+  {
+    "case": "global profile and mode",
+    "argv": [
+      "access",
+      "curl",
+      "https://example.com/a?x=1&y=two",
+      "--profile",
+      "default",
+      "--mode",
+      "regression"
+    ],
+    "exitCode": 0,
+    "requests": []
+  },
+  {
+    "case": "local",
+    "argv": [
+      "access",
+      "curl",
+      "https://example.com/a?x=1&y=two",
+      "--local"
+    ],
+    "exitCode": 1,
+    "error": "--local is not supported by cf access curl.",
+    "requests": []
+  },
+  {
+    "case": "local with persistence",
+    "argv": [
+      "access",
+      "curl",
+      "https://example.com/a?x=1&y=two",
+      "--local",
+      "--persist-to",
+      "regression-state"
+    ],
+    "exitCode": 1,
+    "error": "--local is not supported by cf access curl.",
+    "requests": []
+  },
+  {
+    "case": "dry-run",
+    "argv": [
+      "access",
+      "curl",
+      "https://example.com/a?x=1&y=two",
+      "--dry-run"
+    ],
+    "exitCode": 0,
+    "requests": []
+  }
+]

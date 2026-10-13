@@ -1,0 +1,1317 @@
+[
+  {
+    "case": "no-args",
+    "argv": [
+      "tunnels",
+      "config",
+      "update"
+    ],
+    "exitCode": 1,
+    "error": "Not enough non-option arguments: got 0, need at least 1",
+    "requests": []
+  },
+  {
+    "case": "required",
+    "argv": [
+      "tunnels",
+      "config",
+      "update",
+      "01234567-89ab-4cde-8123-456789abcdef",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/cfd_tunnel/01234567-89ab-4cde-8123-456789abcdef/configurations",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --config-origin-request-access-aud-tag",
+    "argv": [
+      "tunnels",
+      "config",
+      "update",
+      "01234567-89ab-4cde-8123-456789abcdef",
+      "--config-origin-request-access-aud-tag",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 1,
+    "error": "--config-origin-request-access-team-name is required when any --config-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "only --config-origin-request-access-required",
+    "argv": [
+      "tunnels",
+      "config",
+      "update",
+      "01234567-89ab-4cde-8123-456789abcdef",
+      "--config-origin-request-access-required=true"
+    ],
+    "exitCode": 1,
+    "error": "--config-origin-request-access-aud-tag, --config-origin-request-access-team-name are required when any --config-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "--config-origin-request-access-required value 1",
+    "argv": [
+      "tunnels",
+      "config",
+      "update",
+      "01234567-89ab-4cde-8123-456789abcdef",
+      "--config-origin-request-access-required=false"
+    ],
+    "exitCode": 1,
+    "error": "--config-origin-request-access-aud-tag, --config-origin-request-access-team-name are required when any --config-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "only --config-origin-request-access-team-name",
+    "argv": [
+      "tunnels",
+      "config",
+      "update",
+      "01234567-89ab-4cde-8123-456789abcdef",
+      "--config-origin-request-access-team-name",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 1,
+    "error": "--config-origin-request-access-aud-tag is required when any --config-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "only --config-origin-request-ca-pool",
+    "argv": [
+      "tunnels",
+      "config",
+      "update",
+      "01234567-89ab-4cde-8123-456789abcdef",
+      "--config-origin-request-ca-pool",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 1,
+    "error": "--config-origin-request-access-aud-tag, --config-origin-request-access-team-name are required when any --config-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "only --config-origin-request-connect-timeout",
+    "argv": [
+      "tunnels",
+      "config",
+      "update",
+      "01234567-89ab-4cde-8123-456789abcdef",
+      "--config-origin-request-connect-timeout",
+      "1"
+    ],
+    "exitCode": 1,
+    "error": "--config-origin-request-access-aud-tag, --config-origin-request-access-team-name are required when any --config-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "only --config-origin-request-disable-chunked-encoding",
+    "argv": [
+      "tunnels",
+      "config",
+      "update",
+      "01234567-89ab-4cde-8123-456789abcdef",
+      "--config-origin-request-disable-chunked-encoding=true"
+    ],
+    "exitCode": 1,
+    "error": "--config-origin-request-access-aud-tag, --config-origin-request-access-team-name are required when any --config-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "--config-origin-request-disable-chunked-encoding value 1",
+    "argv": [
+      "tunnels",
+      "config",
+      "update",
+      "01234567-89ab-4cde-8123-456789abcdef",
+      "--config-origin-request-disable-chunked-encoding=false"
+    ],
+    "exitCode": 1,
+    "error": "--config-origin-request-access-aud-tag, --config-origin-request-access-team-name are required when any --config-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "only --config-origin-request-http2origin",
+    "argv": [
+      "tunnels",
+      "config",
+      "update",
+      "01234567-89ab-4cde-8123-456789abcdef",
+      "--config-origin-request-http2origin=true"
+    ],
+    "exitCode": 1,
+    "error": "--config-origin-request-access-aud-tag, --config-origin-request-access-team-name are required when any --config-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "--config-origin-request-http2origin value 1",
+    "argv": [
+      "tunnels",
+      "config",
+      "update",
+      "01234567-89ab-4cde-8123-456789abcdef",
+      "--config-origin-request-http2origin=false"
+    ],
+    "exitCode": 1,
+    "error": "--config-origin-request-access-aud-tag, --config-origin-request-access-team-name are required when any --config-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "only --config-origin-request-http-host-header",
+    "argv": [
+      "tunnels",
+      "config",
+      "update",
+      "01234567-89ab-4cde-8123-456789abcdef",
+      "--config-origin-request-http-host-header",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 1,
+    "error": "--config-origin-request-access-aud-tag, --config-origin-request-access-team-name are required when any --config-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "only --config-origin-request-keep-alive-connections",
+    "argv": [
+      "tunnels",
+      "config",
+      "update",
+      "01234567-89ab-4cde-8123-456789abcdef",
+      "--config-origin-request-keep-alive-connections",
+      "1"
+    ],
+    "exitCode": 1,
+    "error": "--config-origin-request-access-aud-tag, --config-origin-request-access-team-name are required when any --config-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "only --config-origin-request-keep-alive-timeout",
+    "argv": [
+      "tunnels",
+      "config",
+      "update",
+      "01234567-89ab-4cde-8123-456789abcdef",
+      "--config-origin-request-keep-alive-timeout",
+      "1"
+    ],
+    "exitCode": 1,
+    "error": "--config-origin-request-access-aud-tag, --config-origin-request-access-team-name are required when any --config-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "only --config-origin-request-match-snito-host",
+    "argv": [
+      "tunnels",
+      "config",
+      "update",
+      "01234567-89ab-4cde-8123-456789abcdef",
+      "--config-origin-request-match-snito-host=true"
+    ],
+    "exitCode": 1,
+    "error": "--config-origin-request-access-aud-tag, --config-origin-request-access-team-name are required when any --config-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "--config-origin-request-match-snito-host value 1",
+    "argv": [
+      "tunnels",
+      "config",
+      "update",
+      "01234567-89ab-4cde-8123-456789abcdef",
+      "--config-origin-request-match-snito-host=false"
+    ],
+    "exitCode": 1,
+    "error": "--config-origin-request-access-aud-tag, --config-origin-request-access-team-name are required when any --config-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "only --config-origin-request-no-happy-eyeballs",
+    "argv": [
+      "tunnels",
+      "config",
+      "update",
+      "01234567-89ab-4cde-8123-456789abcdef",
+      "--config-origin-request-no-happy-eyeballs=true"
+    ],
+    "exitCode": 1,
+    "error": "--config-origin-request-access-aud-tag, --config-origin-request-access-team-name are required when any --config-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "--config-origin-request-no-happy-eyeballs value 1",
+    "argv": [
+      "tunnels",
+      "config",
+      "update",
+      "01234567-89ab-4cde-8123-456789abcdef",
+      "--config-origin-request-no-happy-eyeballs=false"
+    ],
+    "exitCode": 1,
+    "error": "--config-origin-request-access-aud-tag, --config-origin-request-access-team-name are required when any --config-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "only --config-origin-request-no-tlsverify",
+    "argv": [
+      "tunnels",
+      "config",
+      "update",
+      "01234567-89ab-4cde-8123-456789abcdef",
+      "--config-origin-request-no-tlsverify=true"
+    ],
+    "exitCode": 1,
+    "error": "--config-origin-request-access-aud-tag, --config-origin-request-access-team-name are required when any --config-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "--config-origin-request-no-tlsverify value 1",
+    "argv": [
+      "tunnels",
+      "config",
+      "update",
+      "01234567-89ab-4cde-8123-456789abcdef",
+      "--config-origin-request-no-tlsverify=false"
+    ],
+    "exitCode": 1,
+    "error": "--config-origin-request-access-aud-tag, --config-origin-request-access-team-name are required when any --config-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "only --config-origin-request-origin-server-name",
+    "argv": [
+      "tunnels",
+      "config",
+      "update",
+      "01234567-89ab-4cde-8123-456789abcdef",
+      "--config-origin-request-origin-server-name",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 1,
+    "error": "--config-origin-request-access-aud-tag, --config-origin-request-access-team-name are required when any --config-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "only --config-origin-request-proxy-type",
+    "argv": [
+      "tunnels",
+      "config",
+      "update",
+      "01234567-89ab-4cde-8123-456789abcdef",
+      "--config-origin-request-proxy-type",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 1,
+    "error": "--config-origin-request-access-aud-tag, --config-origin-request-access-team-name are required when any --config-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "only --config-origin-request-tcp-keep-alive",
+    "argv": [
+      "tunnels",
+      "config",
+      "update",
+      "01234567-89ab-4cde-8123-456789abcdef",
+      "--config-origin-request-tcp-keep-alive",
+      "1"
+    ],
+    "exitCode": 1,
+    "error": "--config-origin-request-access-aud-tag, --config-origin-request-access-team-name are required when any --config-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "only --config-origin-request-tls-timeout",
+    "argv": [
+      "tunnels",
+      "config",
+      "update",
+      "01234567-89ab-4cde-8123-456789abcdef",
+      "--config-origin-request-tls-timeout",
+      "1"
+    ],
+    "exitCode": 1,
+    "error": "--config-origin-request-access-aud-tag, --config-origin-request-access-team-name are required when any --config-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "pairwise 0",
+    "argv": [
+      "tunnels",
+      "config",
+      "update",
+      "01234567-89ab-4cde-8123-456789abcdef"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/cfd_tunnel/01234567-89ab-4cde-8123-456789abcdef/configurations",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "2",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {}
+      }
+    ]
+  },
+  {
+    "case": "pairwise 1",
+    "argv": [
+      "tunnels",
+      "config",
+      "update",
+      "01234567-89ab-4cde-8123-456789abcdef",
+      "--config-origin-request-access-aud-tag",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--config-origin-request-access-required=false",
+      "--config-origin-request-access-team-name",
+      "second value &/?+ü",
+      "--config-origin-request-ca-pool",
+      "second value &/?+ü",
+      "--config-origin-request-connect-timeout",
+      "2",
+      "--config-origin-request-disable-chunked-encoding=false",
+      "--config-origin-request-http2origin=false",
+      "--config-origin-request-http-host-header",
+      "second value &/?+ü",
+      "--config-origin-request-keep-alive-connections",
+      "2",
+      "--config-origin-request-keep-alive-timeout",
+      "2",
+      "--config-origin-request-match-snito-host=false",
+      "--config-origin-request-no-happy-eyeballs=false",
+      "--config-origin-request-no-tlsverify=false",
+      "--config-origin-request-origin-server-name",
+      "second value &/?+ü",
+      "--config-origin-request-proxy-type",
+      "second value &/?+ü",
+      "--config-origin-request-tcp-keep-alive",
+      "2",
+      "--config-origin-request-tls-timeout",
+      "2"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/cfd_tunnel/01234567-89ab-4cde-8123-456789abcdef/configurations",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "506",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "config": {
+            "originRequest": {
+              "access": {
+                "audTag": [
+                  "second value &/?+ü",
+                  "second value &/?+ü"
+                ],
+                "required": false,
+                "teamName": "second value &/?+ü"
+              },
+              "caPool": "second value &/?+ü",
+              "connectTimeout": 2,
+              "disableChunkedEncoding": false,
+              "http2Origin": false,
+              "httpHostHeader": "second value &/?+ü",
+              "keepAliveConnections": 2,
+              "keepAliveTimeout": 2,
+              "matchSNItoHost": false,
+              "noHappyEyeballs": false,
+              "noTLSVerify": false,
+              "originServerName": "second value &/?+ü",
+              "proxyType": "second value &/?+ü",
+              "tcpKeepAlive": 2,
+              "tlsTimeout": 2
+            }
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 2",
+    "argv": [
+      "tunnels",
+      "config",
+      "update",
+      "01234567-89ab-4cde-8123-456789abcdef",
+      "--config-origin-request-access-required=true",
+      "--config-origin-request-ca-pool",
+      "regression value &/?+ü",
+      "--config-origin-request-disable-chunked-encoding=true",
+      "--config-origin-request-http-host-header",
+      "regression value &/?+ü",
+      "--config-origin-request-keep-alive-timeout",
+      "1",
+      "--config-origin-request-no-happy-eyeballs=true",
+      "--config-origin-request-origin-server-name",
+      "regression value &/?+ü",
+      "--config-origin-request-tcp-keep-alive",
+      "1"
+    ],
+    "exitCode": 1,
+    "error": "--config-origin-request-access-aud-tag, --config-origin-request-access-team-name are required when any --config-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "pairwise 3",
+    "argv": [
+      "tunnels",
+      "config",
+      "update",
+      "01234567-89ab-4cde-8123-456789abcdef",
+      "--config-origin-request-access-aud-tag",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--config-origin-request-access-team-name",
+      "second value &/?+ü",
+      "--config-origin-request-connect-timeout",
+      "2",
+      "--config-origin-request-http2origin=false",
+      "--config-origin-request-keep-alive-connections",
+      "2",
+      "--config-origin-request-match-snito-host=false",
+      "--config-origin-request-no-tlsverify=false",
+      "--config-origin-request-proxy-type",
+      "second value &/?+ü",
+      "--config-origin-request-tls-timeout",
+      "2"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/cfd_tunnel/01234567-89ab-4cde-8123-456789abcdef/configurations",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "285",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "config": {
+            "originRequest": {
+              "access": {
+                "audTag": [
+                  "second value &/?+ü",
+                  "second value &/?+ü"
+                ],
+                "teamName": "second value &/?+ü"
+              },
+              "connectTimeout": 2,
+              "http2Origin": false,
+              "keepAliveConnections": 2,
+              "matchSNItoHost": false,
+              "noTLSVerify": false,
+              "proxyType": "second value &/?+ü",
+              "tlsTimeout": 2
+            }
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 4",
+    "argv": [
+      "tunnels",
+      "config",
+      "update",
+      "01234567-89ab-4cde-8123-456789abcdef",
+      "--config-origin-request-access-team-name",
+      "regression value &/?+ü",
+      "--config-origin-request-ca-pool",
+      "regression value &/?+ü",
+      "--config-origin-request-http2origin=true",
+      "--config-origin-request-http-host-header",
+      "regression value &/?+ü",
+      "--config-origin-request-match-snito-host=true",
+      "--config-origin-request-no-happy-eyeballs=true",
+      "--config-origin-request-proxy-type",
+      "regression value &/?+ü",
+      "--config-origin-request-tcp-keep-alive",
+      "1"
+    ],
+    "exitCode": 1,
+    "error": "--config-origin-request-access-aud-tag is required when any --config-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "pairwise 5",
+    "argv": [
+      "tunnels",
+      "config",
+      "update",
+      "01234567-89ab-4cde-8123-456789abcdef",
+      "--config-origin-request-access-aud-tag",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--config-origin-request-access-required=false",
+      "--config-origin-request-connect-timeout",
+      "2",
+      "--config-origin-request-disable-chunked-encoding=false",
+      "--config-origin-request-keep-alive-connections",
+      "2",
+      "--config-origin-request-keep-alive-timeout",
+      "2",
+      "--config-origin-request-no-tlsverify=false",
+      "--config-origin-request-origin-server-name",
+      "second value &/?+ü",
+      "--config-origin-request-tls-timeout",
+      "2"
+    ],
+    "exitCode": 1,
+    "error": "--config-origin-request-access-team-name is required when any --config-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "pairwise 6",
+    "argv": [
+      "tunnels",
+      "config",
+      "update",
+      "01234567-89ab-4cde-8123-456789abcdef",
+      "--config-origin-request-connect-timeout",
+      "1",
+      "--config-origin-request-disable-chunked-encoding=true",
+      "--config-origin-request-http2origin=true",
+      "--config-origin-request-http-host-header",
+      "regression value &/?+ü",
+      "--config-origin-request-no-tlsverify=true",
+      "--config-origin-request-origin-server-name",
+      "regression value &/?+ü",
+      "--config-origin-request-proxy-type",
+      "regression value &/?+ü",
+      "--config-origin-request-tcp-keep-alive",
+      "1"
+    ],
+    "exitCode": 1,
+    "error": "--config-origin-request-access-aud-tag, --config-origin-request-access-team-name are required when any --config-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "pairwise 7",
+    "argv": [
+      "tunnels",
+      "config",
+      "update",
+      "01234567-89ab-4cde-8123-456789abcdef",
+      "--config-origin-request-access-aud-tag",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--config-origin-request-access-required=false",
+      "--config-origin-request-access-team-name",
+      "second value &/?+ü",
+      "--config-origin-request-ca-pool",
+      "second value &/?+ü",
+      "--config-origin-request-keep-alive-connections",
+      "2",
+      "--config-origin-request-keep-alive-timeout",
+      "2",
+      "--config-origin-request-match-snito-host=false",
+      "--config-origin-request-no-happy-eyeballs=false",
+      "--config-origin-request-tls-timeout",
+      "2"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/cfd_tunnel/01234567-89ab-4cde-8123-456789abcdef/configurations",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "285",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "config": {
+            "originRequest": {
+              "access": {
+                "audTag": [
+                  "second value &/?+ü",
+                  "second value &/?+ü"
+                ],
+                "required": false,
+                "teamName": "second value &/?+ü"
+              },
+              "caPool": "second value &/?+ü",
+              "keepAliveConnections": 2,
+              "keepAliveTimeout": 2,
+              "matchSNItoHost": false,
+              "noHappyEyeballs": false,
+              "tlsTimeout": 2
+            }
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 8",
+    "argv": [
+      "tunnels",
+      "config",
+      "update",
+      "01234567-89ab-4cde-8123-456789abcdef",
+      "--config-origin-request-keep-alive-connections",
+      "1",
+      "--config-origin-request-keep-alive-timeout",
+      "1",
+      "--config-origin-request-match-snito-host=true",
+      "--config-origin-request-no-happy-eyeballs=true",
+      "--config-origin-request-no-tlsverify=true",
+      "--config-origin-request-origin-server-name",
+      "regression value &/?+ü",
+      "--config-origin-request-proxy-type",
+      "regression value &/?+ü",
+      "--config-origin-request-tcp-keep-alive",
+      "1"
+    ],
+    "exitCode": 1,
+    "error": "--config-origin-request-access-aud-tag, --config-origin-request-access-team-name are required when any --config-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "pairwise 9",
+    "argv": [
+      "tunnels",
+      "config",
+      "update",
+      "01234567-89ab-4cde-8123-456789abcdef",
+      "--config-origin-request-access-aud-tag",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--config-origin-request-access-required=false",
+      "--config-origin-request-access-team-name",
+      "second value &/?+ü",
+      "--config-origin-request-ca-pool",
+      "second value &/?+ü",
+      "--config-origin-request-connect-timeout",
+      "2",
+      "--config-origin-request-disable-chunked-encoding=false",
+      "--config-origin-request-http2origin=false",
+      "--config-origin-request-http-host-header",
+      "second value &/?+ü",
+      "--config-origin-request-tls-timeout",
+      "2"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/cfd_tunnel/01234567-89ab-4cde-8123-456789abcdef/configurations",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "301",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "config": {
+            "originRequest": {
+              "access": {
+                "audTag": [
+                  "second value &/?+ü",
+                  "second value &/?+ü"
+                ],
+                "required": false,
+                "teamName": "second value &/?+ü"
+              },
+              "caPool": "second value &/?+ü",
+              "connectTimeout": 2,
+              "disableChunkedEncoding": false,
+              "http2Origin": false,
+              "httpHostHeader": "second value &/?+ü",
+              "tlsTimeout": 2
+            }
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 11",
+    "argv": [
+      "tunnels",
+      "config",
+      "update",
+      "01234567-89ab-4cde-8123-456789abcdef",
+      "--config-origin-request-access-aud-tag",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--config-origin-request-access-required=false",
+      "--config-origin-request-access-team-name",
+      "second value &/?+ü",
+      "--config-origin-request-ca-pool",
+      "second value &/?+ü",
+      "--config-origin-request-connect-timeout",
+      "2",
+      "--config-origin-request-disable-chunked-encoding=false",
+      "--config-origin-request-http2origin=false",
+      "--config-origin-request-http-host-header",
+      "second value &/?+ü",
+      "--config-origin-request-keep-alive-connections",
+      "2",
+      "--config-origin-request-keep-alive-timeout",
+      "2",
+      "--config-origin-request-match-snito-host=false",
+      "--config-origin-request-no-happy-eyeballs=false",
+      "--config-origin-request-no-tlsverify=false",
+      "--config-origin-request-origin-server-name",
+      "second value &/?+ü",
+      "--config-origin-request-proxy-type",
+      "second value &/?+ü",
+      "--config-origin-request-tcp-keep-alive",
+      "2"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/cfd_tunnel/01234567-89ab-4cde-8123-456789abcdef/configurations",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "491",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "config": {
+            "originRequest": {
+              "access": {
+                "audTag": [
+                  "second value &/?+ü",
+                  "second value &/?+ü"
+                ],
+                "required": false,
+                "teamName": "second value &/?+ü"
+              },
+              "caPool": "second value &/?+ü",
+              "connectTimeout": 2,
+              "disableChunkedEncoding": false,
+              "http2Origin": false,
+              "httpHostHeader": "second value &/?+ü",
+              "keepAliveConnections": 2,
+              "keepAliveTimeout": 2,
+              "matchSNItoHost": false,
+              "noHappyEyeballs": false,
+              "noTLSVerify": false,
+              "originServerName": "second value &/?+ü",
+              "proxyType": "second value &/?+ü",
+              "tcpKeepAlive": 2
+            }
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "global quiet",
+    "argv": [
+      "tunnels",
+      "config",
+      "update",
+      "01234567-89ab-4cde-8123-456789abcdef",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--quiet"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/cfd_tunnel/01234567-89ab-4cde-8123-456789abcdef/configurations",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "global zone",
+    "argv": [
+      "tunnels",
+      "config",
+      "update",
+      "01234567-89ab-4cde-8123-456789abcdef",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--zone",
+      "abcdef0123456789abcdef0123456789"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/cfd_tunnel/01234567-89ab-4cde-8123-456789abcdef/configurations",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "global profile and mode",
+    "argv": [
+      "tunnels",
+      "config",
+      "update",
+      "01234567-89ab-4cde-8123-456789abcdef",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--profile",
+      "default",
+      "--mode",
+      "regression"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/cfd_tunnel/01234567-89ab-4cde-8123-456789abcdef/configurations",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "local",
+    "argv": [
+      "tunnels",
+      "config",
+      "update",
+      "01234567-89ab-4cde-8123-456789abcdef",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--local"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "http://localhost/cdn-cgi/local/explorer/api/cfd_tunnel/01234567-89ab-4cde-8123-456789abcdef/configurations",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "gzip, deflate",
+          "accept-language": "*",
+          "connection": "keep-alive",
+          "content-type": "application/json",
+          "host": "localhost",
+          "sec-fetch-mode": "cors",
+          "transfer-encoding": "chunked",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "local with persistence",
+    "argv": [
+      "tunnels",
+      "config",
+      "update",
+      "01234567-89ab-4cde-8123-456789abcdef",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--local",
+      "--persist-to",
+      "regression-state"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "http://localhost/cdn-cgi/local/explorer/api/cfd_tunnel/01234567-89ab-4cde-8123-456789abcdef/configurations",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "gzip, deflate",
+          "accept-language": "*",
+          "connection": "keep-alive",
+          "content-type": "application/json",
+          "host": "localhost",
+          "sec-fetch-mode": "cors",
+          "transfer-encoding": "chunked",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "dry-run",
+    "argv": [
+      "tunnels",
+      "config",
+      "update",
+      "01234567-89ab-4cde-8123-456789abcdef",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--dry-run"
+    ],
+    "exitCode": 0,
+    "requests": []
+  },
+  {
+    "case": "body from file",
+    "argv": [
+      "tunnels",
+      "config",
+      "update",
+      "01234567-89ab-4cde-8123-456789abcdef",
+      "--body",
+      "@<body.json>"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/cfd_tunnel/01234567-89ab-4cde-8123-456789abcdef/configurations",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "array body",
+    "argv": [
+      "tunnels",
+      "config",
+      "update",
+      "01234567-89ab-4cde-8123-456789abcdef",
+      "--body",
+      "[{\"regression\":\"first\"},{\"regression\":\"second\"}]"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/cfd_tunnel/01234567-89ab-4cde-8123-456789abcdef/configurations",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "56",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "0": {
+            "regression": "first"
+          },
+          "1": {
+            "regression": "second"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "field flags",
+    "argv": [
+      "tunnels",
+      "config",
+      "update",
+      "01234567-89ab-4cde-8123-456789abcdef",
+      "--config-origin-request-access-aud-tag",
+      "regression value &/?+ü",
+      "--config-origin-request-access-required=true",
+      "--config-origin-request-access-team-name",
+      "regression value &/?+ü",
+      "--config-origin-request-ca-pool",
+      "regression value &/?+ü",
+      "--config-origin-request-connect-timeout",
+      "1",
+      "--config-origin-request-disable-chunked-encoding=true",
+      "--config-origin-request-http2origin=true",
+      "--config-origin-request-http-host-header",
+      "regression value &/?+ü",
+      "--config-origin-request-keep-alive-connections",
+      "1",
+      "--config-origin-request-keep-alive-timeout",
+      "1",
+      "--config-origin-request-match-snito-host=true",
+      "--config-origin-request-no-happy-eyeballs=true",
+      "--config-origin-request-no-tlsverify=true",
+      "--config-origin-request-origin-server-name",
+      "regression value &/?+ü",
+      "--config-origin-request-proxy-type",
+      "regression value &/?+ü",
+      "--config-origin-request-tcp-keep-alive",
+      "1",
+      "--config-origin-request-tls-timeout",
+      "1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/cfd_tunnel/01234567-89ab-4cde-8123-456789abcdef/configurations",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "502",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "config": {
+            "originRequest": {
+              "access": {
+                "audTag": [
+                  "regression value &/?+ü"
+                ],
+                "required": true,
+                "teamName": "regression value &/?+ü"
+              },
+              "caPool": "regression value &/?+ü",
+              "connectTimeout": 1,
+              "disableChunkedEncoding": true,
+              "http2Origin": true,
+              "httpHostHeader": "regression value &/?+ü",
+              "keepAliveConnections": 1,
+              "keepAliveTimeout": 1,
+              "matchSNItoHost": true,
+              "noHappyEyeballs": true,
+              "noTLSVerify": true,
+              "originServerName": "regression value &/?+ü",
+              "proxyType": "regression value &/?+ü",
+              "tcpKeepAlive": 1,
+              "tlsTimeout": 1
+            }
+          }
+        }
+      }
+    ]
+  }
+]

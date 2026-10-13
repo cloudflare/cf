@@ -1,0 +1,5164 @@
+[
+  {
+    "case": "no-args",
+    "argv": [
+      "ai-search",
+      "update"
+    ],
+    "exitCode": 1,
+    "error": "Not enough non-option arguments: got 0, need at least 1",
+    "requests": []
+  },
+  {
+    "case": "required",
+    "argv": [
+      "ai-search",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--namespace",
+      "regression value &/?+ü",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/regression%20value%20%26%2F%3F%2B%C3%BC/instances/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --ai-gateway-id",
+    "argv": [
+      "ai-search",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--namespace",
+      "regression value &/?+ü",
+      "--ai-gateway-id",
+      "0123456789abcdef0123456789abcdef"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/regression%20value%20%26%2F%3F%2B%C3%BC/instances/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "52",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "ai_gateway_id": "0123456789abcdef0123456789abcdef"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --ai-search-model",
+    "argv": [
+      "ai-search",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--namespace",
+      "regression value &/?+ü",
+      "--ai-search-model",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/regression%20value%20%26%2F%3F%2B%C3%BC/instances/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "45",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "ai_search_model": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --cache",
+    "argv": [
+      "ai-search",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--namespace",
+      "regression value &/?+ü",
+      "--cache=true"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/regression%20value%20%26%2F%3F%2B%C3%BC/instances/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "14",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "cache": true
+        }
+      }
+    ]
+  },
+  {
+    "case": "--cache value 1",
+    "argv": [
+      "ai-search",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--namespace",
+      "regression value &/?+ü",
+      "--cache=false"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/regression%20value%20%26%2F%3F%2B%C3%BC/instances/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "15",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "cache": false
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --cache-threshold",
+    "argv": [
+      "ai-search",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--namespace",
+      "regression value &/?+ü",
+      "--cache-threshold",
+      "super_strict_match"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/regression%20value%20%26%2F%3F%2B%C3%BC/instances/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "40",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "cache_threshold": "super_strict_match"
+        }
+      }
+    ]
+  },
+  {
+    "case": "--cache-threshold value 1",
+    "argv": [
+      "ai-search",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--namespace",
+      "regression value &/?+ü",
+      "--cache-threshold",
+      "close_enough"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/regression%20value%20%26%2F%3F%2B%C3%BC/instances/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "34",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "cache_threshold": "close_enough"
+        }
+      }
+    ]
+  },
+  {
+    "case": "--cache-threshold value 2",
+    "argv": [
+      "ai-search",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--namespace",
+      "regression value &/?+ü",
+      "--cache-threshold",
+      "flexible_friend"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/regression%20value%20%26%2F%3F%2B%C3%BC/instances/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "37",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "cache_threshold": "flexible_friend"
+        }
+      }
+    ]
+  },
+  {
+    "case": "--cache-threshold value 3",
+    "argv": [
+      "ai-search",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--namespace",
+      "regression value &/?+ü",
+      "--cache-threshold",
+      "anything_goes"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/regression%20value%20%26%2F%3F%2B%C3%BC/instances/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "35",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "cache_threshold": "anything_goes"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --chunk",
+    "argv": [
+      "ai-search",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--namespace",
+      "regression value &/?+ü",
+      "--chunk=true"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/regression%20value%20%26%2F%3F%2B%C3%BC/instances/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "14",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "chunk": true
+        }
+      }
+    ]
+  },
+  {
+    "case": "--chunk value 1",
+    "argv": [
+      "ai-search",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--namespace",
+      "regression value &/?+ü",
+      "--chunk=false"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/regression%20value%20%26%2F%3F%2B%C3%BC/instances/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "15",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "chunk": false
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --chunk-overlap",
+    "argv": [
+      "ai-search",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--namespace",
+      "regression value &/?+ü",
+      "--chunk-overlap",
+      "1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/regression%20value%20%26%2F%3F%2B%C3%BC/instances/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "19",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "chunk_overlap": 1
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --chunk-size",
+    "argv": [
+      "ai-search",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--namespace",
+      "regression value &/?+ü",
+      "--chunk-size",
+      "1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/regression%20value%20%26%2F%3F%2B%C3%BC/instances/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "16",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "chunk_size": 1
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --custom-metadata",
+    "argv": [
+      "ai-search",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--namespace",
+      "regression value &/?+ü",
+      "--custom-metadata",
+      "[{\"regression\":\"item\"}]"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/regression%20value%20%26%2F%3F%2B%C3%BC/instances/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "43",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "custom_metadata": [
+            {
+              "regression": "item"
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --embedding-model",
+    "argv": [
+      "ai-search",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--namespace",
+      "regression value &/?+ü",
+      "--embedding-model",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/regression%20value%20%26%2F%3F%2B%C3%BC/instances/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "45",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "embedding_model": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --fusion-method",
+    "argv": [
+      "ai-search",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--namespace",
+      "regression value &/?+ü",
+      "--fusion-method",
+      "max"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/regression%20value%20%26%2F%3F%2B%C3%BC/instances/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "23",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "fusion_method": "max"
+        }
+      }
+    ]
+  },
+  {
+    "case": "--fusion-method value 1",
+    "argv": [
+      "ai-search",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--namespace",
+      "regression value &/?+ü",
+      "--fusion-method",
+      "rrf"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/regression%20value%20%26%2F%3F%2B%C3%BC/instances/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "23",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "fusion_method": "rrf"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --index-method-keyword",
+    "argv": [
+      "ai-search",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--namespace",
+      "regression value &/?+ü",
+      "--index-method-keyword=true"
+    ],
+    "exitCode": 1,
+    "error": "--index-method-vector is required when any --index_method-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "--index-method-keyword value 1",
+    "argv": [
+      "ai-search",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--namespace",
+      "regression value &/?+ü",
+      "--index-method-keyword=false"
+    ],
+    "exitCode": 1,
+    "error": "--index-method-vector is required when any --index_method-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "only --index-method-vector",
+    "argv": [
+      "ai-search",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--namespace",
+      "regression value &/?+ü",
+      "--index-method-vector=true"
+    ],
+    "exitCode": 1,
+    "error": "--index-method-keyword is required when any --index_method-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "--index-method-vector value 1",
+    "argv": [
+      "ai-search",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--namespace",
+      "regression value &/?+ü",
+      "--index-method-vector=false"
+    ],
+    "exitCode": 1,
+    "error": "--index-method-keyword is required when any --index_method-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "only --indexing-options-keyword-tokenizer",
+    "argv": [
+      "ai-search",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--namespace",
+      "regression value &/?+ü",
+      "--indexing-options-keyword-tokenizer",
+      "porter"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/regression%20value%20%26%2F%3F%2B%C3%BC/instances/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "51",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "indexing_options": {
+            "keyword_tokenizer": "porter"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "--indexing-options-keyword-tokenizer value 1",
+    "argv": [
+      "ai-search",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--namespace",
+      "regression value &/?+ü",
+      "--indexing-options-keyword-tokenizer",
+      "trigram"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/regression%20value%20%26%2F%3F%2B%C3%BC/instances/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "52",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "indexing_options": {
+            "keyword_tokenizer": "trigram"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --indexing-options-use-ocr",
+    "argv": [
+      "ai-search",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--namespace",
+      "regression value &/?+ü",
+      "--indexing-options-use-ocr=true"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/regression%20value%20%26%2F%3F%2B%C3%BC/instances/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "37",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "indexing_options": {
+            "use_ocr": true
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "--indexing-options-use-ocr value 1",
+    "argv": [
+      "ai-search",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--namespace",
+      "regression value &/?+ü",
+      "--indexing-options-use-ocr=false"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/regression%20value%20%26%2F%3F%2B%C3%BC/instances/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "38",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "indexing_options": {
+            "use_ocr": false
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --max-num-results",
+    "argv": [
+      "ai-search",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--namespace",
+      "regression value &/?+ü",
+      "--max-num-results",
+      "1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/regression%20value%20%26%2F%3F%2B%C3%BC/instances/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "21",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "max_num_results": 1
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --metadata-created-from-aisearch-wizard",
+    "argv": [
+      "ai-search",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--namespace",
+      "regression value &/?+ü",
+      "--metadata-created-from-aisearch-wizard=true"
+    ],
+    "exitCode": 1,
+    "error": "--metadata-created-from-emdash-plugin-type, --metadata-created-from-emdash-plugin-version are required when any --metadata-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "--metadata-created-from-aisearch-wizard value 1",
+    "argv": [
+      "ai-search",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--namespace",
+      "regression value &/?+ü",
+      "--metadata-created-from-aisearch-wizard=false"
+    ],
+    "exitCode": 1,
+    "error": "--metadata-created-from-emdash-plugin-type, --metadata-created-from-emdash-plugin-version are required when any --metadata-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "only --metadata-created-from-emdash-plugin-type",
+    "argv": [
+      "ai-search",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--namespace",
+      "regression value &/?+ü",
+      "--metadata-created-from-emdash-plugin-type",
+      "native"
+    ],
+    "exitCode": 1,
+    "error": "--metadata-created-from-emdash-plugin-version is required when any --metadata-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "--metadata-created-from-emdash-plugin-type value 1",
+    "argv": [
+      "ai-search",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--namespace",
+      "regression value &/?+ü",
+      "--metadata-created-from-emdash-plugin-type",
+      "rest"
+    ],
+    "exitCode": 1,
+    "error": "--metadata-created-from-emdash-plugin-version is required when any --metadata-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "only --metadata-created-from-emdash-plugin-version",
+    "argv": [
+      "ai-search",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--namespace",
+      "regression value &/?+ü",
+      "--metadata-created-from-emdash-plugin-version",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 1,
+    "error": "--metadata-created-from-emdash-plugin-type is required when any --metadata-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "only --metadata-worker-domain",
+    "argv": [
+      "ai-search",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--namespace",
+      "regression value &/?+ü",
+      "--metadata-worker-domain",
+      "example.com"
+    ],
+    "exitCode": 1,
+    "error": "--metadata-created-from-emdash-plugin-type, --metadata-created-from-emdash-plugin-version are required when any --metadata-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "only --paused",
+    "argv": [
+      "ai-search",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--namespace",
+      "regression value &/?+ü",
+      "--paused=true"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/regression%20value%20%26%2F%3F%2B%C3%BC/instances/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "15",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "paused": true
+        }
+      }
+    ]
+  },
+  {
+    "case": "--paused value 1",
+    "argv": [
+      "ai-search",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--namespace",
+      "regression value &/?+ü",
+      "--paused=false"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/regression%20value%20%26%2F%3F%2B%C3%BC/instances/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "16",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "paused": false
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --public-endpoint-params-authorized-hosts",
+    "argv": [
+      "ai-search",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--namespace",
+      "regression value &/?+ü",
+      "--public-endpoint-params-authorized-hosts",
+      "https://example.com/a?x=1&y=two"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/regression%20value%20%26%2F%3F%2B%C3%BC/instances/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "83",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "public_endpoint_params": {
+            "authorized_hosts": [
+              "https://example.com/a?x=1&y=two"
+            ]
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --public-endpoint-params-chat-completions-endpoint-disabled",
+    "argv": [
+      "ai-search",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--namespace",
+      "regression value &/?+ü",
+      "--public-endpoint-params-chat-completions-endpoint-disabled=true"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/regression%20value%20%26%2F%3F%2B%C3%BC/instances/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "74",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "public_endpoint_params": {
+            "chat_completions_endpoint": {
+              "disabled": true
+            }
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "--public-endpoint-params-chat-completions-endpoint-disabled value 1",
+    "argv": [
+      "ai-search",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--namespace",
+      "regression value &/?+ü",
+      "--public-endpoint-params-chat-completions-endpoint-disabled=false"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/regression%20value%20%26%2F%3F%2B%C3%BC/instances/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "75",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "public_endpoint_params": {
+            "chat_completions_endpoint": {
+              "disabled": false
+            }
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --public-endpoint-params-custom-domains",
+    "argv": [
+      "ai-search",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--namespace",
+      "regression value &/?+ü",
+      "--public-endpoint-params-custom-domains",
+      "https://example.com/a?x=1&y=two"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/regression%20value%20%26%2F%3F%2B%C3%BC/instances/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "81",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "public_endpoint_params": {
+            "custom_domains": [
+              "https://example.com/a?x=1&y=two"
+            ]
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --public-endpoint-params-default-domain-enabled",
+    "argv": [
+      "ai-search",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--namespace",
+      "regression value &/?+ü",
+      "--public-endpoint-params-default-domain-enabled=true"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/regression%20value%20%26%2F%3F%2B%C3%BC/instances/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "58",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "public_endpoint_params": {
+            "default_domain_enabled": true
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "--public-endpoint-params-default-domain-enabled value 1",
+    "argv": [
+      "ai-search",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--namespace",
+      "regression value &/?+ü",
+      "--public-endpoint-params-default-domain-enabled=false"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/regression%20value%20%26%2F%3F%2B%C3%BC/instances/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "59",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "public_endpoint_params": {
+            "default_domain_enabled": false
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --public-endpoint-params-enabled",
+    "argv": [
+      "ai-search",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--namespace",
+      "regression value &/?+ü",
+      "--public-endpoint-params-enabled=true"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/regression%20value%20%26%2F%3F%2B%C3%BC/instances/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "43",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "public_endpoint_params": {
+            "enabled": true
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "--public-endpoint-params-enabled value 1",
+    "argv": [
+      "ai-search",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--namespace",
+      "regression value &/?+ü",
+      "--public-endpoint-params-enabled=false"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/regression%20value%20%26%2F%3F%2B%C3%BC/instances/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "44",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "public_endpoint_params": {
+            "enabled": false
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --public-endpoint-params-mcp-description",
+    "argv": [
+      "ai-search",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--namespace",
+      "regression value &/?+ü",
+      "--public-endpoint-params-mcp-description",
+      "https://example.com/a?x=1&y=two"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/regression%20value%20%26%2F%3F%2B%C3%BC/instances/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "84",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "public_endpoint_params": {
+            "mcp": {
+              "description": "https://example.com/a?x=1&y=two"
+            }
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --public-endpoint-params-mcp-disabled",
+    "argv": [
+      "ai-search",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--namespace",
+      "regression value &/?+ü",
+      "--public-endpoint-params-mcp-disabled=true"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/regression%20value%20%26%2F%3F%2B%C3%BC/instances/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "52",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "public_endpoint_params": {
+            "mcp": {
+              "disabled": true
+            }
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "--public-endpoint-params-mcp-disabled value 1",
+    "argv": [
+      "ai-search",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--namespace",
+      "regression value &/?+ü",
+      "--public-endpoint-params-mcp-disabled=false"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/regression%20value%20%26%2F%3F%2B%C3%BC/instances/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "53",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "public_endpoint_params": {
+            "mcp": {
+              "disabled": false
+            }
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --public-endpoint-params-rate-limit-period-ms",
+    "argv": [
+      "ai-search",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--namespace",
+      "regression value &/?+ü",
+      "--public-endpoint-params-rate-limit-period-ms",
+      "1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/regression%20value%20%26%2F%3F%2B%C3%BC/instances/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "57",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "public_endpoint_params": {
+            "rate_limit": {
+              "period_ms": 1
+            }
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --public-endpoint-params-rate-limit-requests",
+    "argv": [
+      "ai-search",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--namespace",
+      "regression value &/?+ü",
+      "--public-endpoint-params-rate-limit-requests",
+      "1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/regression%20value%20%26%2F%3F%2B%C3%BC/instances/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "56",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "public_endpoint_params": {
+            "rate_limit": {
+              "requests": 1
+            }
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --public-endpoint-params-rate-limit-technique",
+    "argv": [
+      "ai-search",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--namespace",
+      "regression value &/?+ü",
+      "--public-endpoint-params-rate-limit-technique",
+      "fixed"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/regression%20value%20%26%2F%3F%2B%C3%BC/instances/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "63",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "public_endpoint_params": {
+            "rate_limit": {
+              "technique": "fixed"
+            }
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "--public-endpoint-params-rate-limit-technique value 1",
+    "argv": [
+      "ai-search",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--namespace",
+      "regression value &/?+ü",
+      "--public-endpoint-params-rate-limit-technique",
+      "sliding"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/regression%20value%20%26%2F%3F%2B%C3%BC/instances/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "65",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "public_endpoint_params": {
+            "rate_limit": {
+              "technique": "sliding"
+            }
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --public-endpoint-params-search-endpoint-disabled",
+    "argv": [
+      "ai-search",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--namespace",
+      "regression value &/?+ü",
+      "--public-endpoint-params-search-endpoint-disabled=true"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/regression%20value%20%26%2F%3F%2B%C3%BC/instances/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "64",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "public_endpoint_params": {
+            "search_endpoint": {
+              "disabled": true
+            }
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "--public-endpoint-params-search-endpoint-disabled value 1",
+    "argv": [
+      "ai-search",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--namespace",
+      "regression value &/?+ü",
+      "--public-endpoint-params-search-endpoint-disabled=false"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/regression%20value%20%26%2F%3F%2B%C3%BC/instances/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "65",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "public_endpoint_params": {
+            "search_endpoint": {
+              "disabled": false
+            }
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --reranking",
+    "argv": [
+      "ai-search",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--namespace",
+      "regression value &/?+ü",
+      "--reranking=true"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/regression%20value%20%26%2F%3F%2B%C3%BC/instances/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "18",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "reranking": true
+        }
+      }
+    ]
+  },
+  {
+    "case": "--reranking value 1",
+    "argv": [
+      "ai-search",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--namespace",
+      "regression value &/?+ü",
+      "--reranking=false"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/regression%20value%20%26%2F%3F%2B%C3%BC/instances/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "19",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "reranking": false
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --reranking-model",
+    "argv": [
+      "ai-search",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--namespace",
+      "regression value &/?+ü",
+      "--reranking-model",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/regression%20value%20%26%2F%3F%2B%C3%BC/instances/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "45",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "reranking_model": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --retrieval-options-keyword-match-mode",
+    "argv": [
+      "ai-search",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--namespace",
+      "regression value &/?+ü",
+      "--retrieval-options-keyword-match-mode",
+      "and"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/regression%20value%20%26%2F%3F%2B%C3%BC/instances/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "50",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "retrieval_options": {
+            "keyword_match_mode": "and"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "--retrieval-options-keyword-match-mode value 1",
+    "argv": [
+      "ai-search",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--namespace",
+      "regression value &/?+ü",
+      "--retrieval-options-keyword-match-mode",
+      "or"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/regression%20value%20%26%2F%3F%2B%C3%BC/instances/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "49",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "retrieval_options": {
+            "keyword_match_mode": "or"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --rewrite-model",
+    "argv": [
+      "ai-search",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--namespace",
+      "regression value &/?+ü",
+      "--rewrite-model",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/regression%20value%20%26%2F%3F%2B%C3%BC/instances/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "43",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "rewrite_model": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --rewrite-query",
+    "argv": [
+      "ai-search",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--namespace",
+      "regression value &/?+ü",
+      "--rewrite-query=true"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/regression%20value%20%26%2F%3F%2B%C3%BC/instances/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "22",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "rewrite_query": true
+        }
+      }
+    ]
+  },
+  {
+    "case": "--rewrite-query value 1",
+    "argv": [
+      "ai-search",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--namespace",
+      "regression value &/?+ü",
+      "--rewrite-query=false"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/regression%20value%20%26%2F%3F%2B%C3%BC/instances/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "23",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "rewrite_query": false
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --score-threshold",
+    "argv": [
+      "ai-search",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--namespace",
+      "regression value &/?+ü",
+      "--score-threshold",
+      "1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/regression%20value%20%26%2F%3F%2B%C3%BC/instances/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "21",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "score_threshold": 1
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --source",
+    "argv": [
+      "ai-search",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--namespace",
+      "regression value &/?+ü",
+      "--source",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/regression%20value%20%26%2F%3F%2B%C3%BC/instances/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "36",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "source": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --source-params-exclude-items",
+    "argv": [
+      "ai-search",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--namespace",
+      "regression value &/?+ü",
+      "--source-params-exclude-items",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/regression%20value%20%26%2F%3F%2B%C3%BC/instances/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "63",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "source_params": {
+            "exclude_items": [
+              "regression value &/?+ü"
+            ]
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --source-params-include-items",
+    "argv": [
+      "ai-search",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--namespace",
+      "regression value &/?+ü",
+      "--source-params-include-items",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/regression%20value%20%26%2F%3F%2B%C3%BC/instances/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "63",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "source_params": {
+            "include_items": [
+              "regression value &/?+ü"
+            ]
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --source-params-prefix",
+    "argv": [
+      "ai-search",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--namespace",
+      "regression value &/?+ü",
+      "--source-params-prefix",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/regression%20value%20%26%2F%3F%2B%C3%BC/instances/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "54",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "source_params": {
+            "prefix": "regression value &/?+ü"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --source-params-r2-jurisdiction",
+    "argv": [
+      "ai-search",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--namespace",
+      "regression value &/?+ü",
+      "--source-params-r2-jurisdiction",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/regression%20value%20%26%2F%3F%2B%C3%BC/instances/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "63",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "source_params": {
+            "r2_jurisdiction": "regression value &/?+ü"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --source-params-web-crawler-discover-options-depth",
+    "argv": [
+      "ai-search",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--namespace",
+      "regression value &/?+ü",
+      "--source-params-web-crawler-discover-options-depth",
+      "1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/regression%20value%20%26%2F%3F%2B%C3%BC/instances/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "66",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "source_params": {
+            "web_crawler": {
+              "discover_options": {
+                "depth": 1
+              }
+            }
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --source-params-web-crawler-discover-options-include-external-links",
+    "argv": [
+      "ai-search",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--namespace",
+      "regression value &/?+ü",
+      "--source-params-web-crawler-discover-options-include-external-links=true"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/regression%20value%20%26%2F%3F%2B%C3%BC/instances/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "86",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "source_params": {
+            "web_crawler": {
+              "discover_options": {
+                "include_external_links": true
+              }
+            }
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "--source-params-web-crawler-discover-options-include-external-links value 1",
+    "argv": [
+      "ai-search",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--namespace",
+      "regression value &/?+ü",
+      "--source-params-web-crawler-discover-options-include-external-links=false"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/regression%20value%20%26%2F%3F%2B%C3%BC/instances/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "87",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "source_params": {
+            "web_crawler": {
+              "discover_options": {
+                "include_external_links": false
+              }
+            }
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --source-params-web-crawler-discover-options-include-subdomains",
+    "argv": [
+      "ai-search",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--namespace",
+      "regression value &/?+ü",
+      "--source-params-web-crawler-discover-options-include-subdomains=true"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/regression%20value%20%26%2F%3F%2B%C3%BC/instances/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "82",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "source_params": {
+            "web_crawler": {
+              "discover_options": {
+                "include_subdomains": true
+              }
+            }
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "--source-params-web-crawler-discover-options-include-subdomains value 1",
+    "argv": [
+      "ai-search",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--namespace",
+      "regression value &/?+ü",
+      "--source-params-web-crawler-discover-options-include-subdomains=false"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/regression%20value%20%26%2F%3F%2B%C3%BC/instances/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "83",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "source_params": {
+            "web_crawler": {
+              "discover_options": {
+                "include_subdomains": false
+              }
+            }
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --source-params-web-crawler-discover-options-limit",
+    "argv": [
+      "ai-search",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--namespace",
+      "regression value &/?+ü",
+      "--source-params-web-crawler-discover-options-limit",
+      "1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/regression%20value%20%26%2F%3F%2B%C3%BC/instances/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "66",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "source_params": {
+            "web_crawler": {
+              "discover_options": {
+                "limit": 1
+              }
+            }
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --source-params-web-crawler-discover-options-max-age",
+    "argv": [
+      "ai-search",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--namespace",
+      "regression value &/?+ü",
+      "--source-params-web-crawler-discover-options-max-age",
+      "1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/regression%20value%20%26%2F%3F%2B%C3%BC/instances/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "68",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "source_params": {
+            "web_crawler": {
+              "discover_options": {
+                "max_age": 1
+              }
+            }
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --source-params-web-crawler-discover-options-source",
+    "argv": [
+      "ai-search",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--namespace",
+      "regression value &/?+ü",
+      "--source-params-web-crawler-discover-options-source",
+      "all"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/regression%20value%20%26%2F%3F%2B%C3%BC/instances/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "71",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "source_params": {
+            "web_crawler": {
+              "discover_options": {
+                "source": "all"
+              }
+            }
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "--source-params-web-crawler-discover-options-source value 1",
+    "argv": [
+      "ai-search",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--namespace",
+      "regression value &/?+ü",
+      "--source-params-web-crawler-discover-options-source",
+      "sitemaps"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/regression%20value%20%26%2F%3F%2B%C3%BC/instances/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "76",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "source_params": {
+            "web_crawler": {
+              "discover_options": {
+                "source": "sitemaps"
+              }
+            }
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "--source-params-web-crawler-discover-options-source value 2",
+    "argv": [
+      "ai-search",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--namespace",
+      "regression value &/?+ü",
+      "--source-params-web-crawler-discover-options-source",
+      "links"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/regression%20value%20%26%2F%3F%2B%C3%BC/instances/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "73",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "source_params": {
+            "web_crawler": {
+              "discover_options": {
+                "source": "links"
+              }
+            }
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --source-params-web-crawler-parse-options-include-images",
+    "argv": [
+      "ai-search",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--namespace",
+      "regression value &/?+ü",
+      "--source-params-web-crawler-parse-options-include-images=true"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/regression%20value%20%26%2F%3F%2B%C3%BC/instances/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "75",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "source_params": {
+            "web_crawler": {
+              "parse_options": {
+                "include_images": true
+              }
+            }
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "--source-params-web-crawler-parse-options-include-images value 1",
+    "argv": [
+      "ai-search",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--namespace",
+      "regression value &/?+ü",
+      "--source-params-web-crawler-parse-options-include-images=false"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/regression%20value%20%26%2F%3F%2B%C3%BC/instances/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "76",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "source_params": {
+            "web_crawler": {
+              "parse_options": {
+                "include_images": false
+              }
+            }
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --source-params-web-crawler-parse-options-specific-sitemaps",
+    "argv": [
+      "ai-search",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--namespace",
+      "regression value &/?+ü",
+      "--source-params-web-crawler-parse-options-specific-sitemaps",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/regression%20value%20%26%2F%3F%2B%C3%BC/instances/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "101",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "source_params": {
+            "web_crawler": {
+              "parse_options": {
+                "specific_sitemaps": [
+                  "regression value &/?+ü"
+                ]
+              }
+            }
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --source-params-web-crawler-parse-options-use-browser-rendering",
+    "argv": [
+      "ai-search",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--namespace",
+      "regression value &/?+ü",
+      "--source-params-web-crawler-parse-options-use-browser-rendering=true"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/regression%20value%20%26%2F%3F%2B%C3%BC/instances/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "82",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "source_params": {
+            "web_crawler": {
+              "parse_options": {
+                "use_browser_rendering": true
+              }
+            }
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "--source-params-web-crawler-parse-options-use-browser-rendering value 1",
+    "argv": [
+      "ai-search",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--namespace",
+      "regression value &/?+ü",
+      "--source-params-web-crawler-parse-options-use-browser-rendering=false"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/regression%20value%20%26%2F%3F%2B%C3%BC/instances/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "83",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "source_params": {
+            "web_crawler": {
+              "parse_options": {
+                "use_browser_rendering": false
+              }
+            }
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --source-params-web-crawler-parse-type",
+    "argv": [
+      "ai-search",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--namespace",
+      "regression value &/?+ü",
+      "--source-params-web-crawler-parse-type",
+      "sitemap"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/regression%20value%20%26%2F%3F%2B%C3%BC/instances/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "58",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "source_params": {
+            "web_crawler": {
+              "parse_type": "sitemap"
+            }
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "--source-params-web-crawler-parse-type value 1",
+    "argv": [
+      "ai-search",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--namespace",
+      "regression value &/?+ü",
+      "--source-params-web-crawler-parse-type",
+      "discover"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/regression%20value%20%26%2F%3F%2B%C3%BC/instances/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "59",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "source_params": {
+            "web_crawler": {
+              "parse_type": "discover"
+            }
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --summarization",
+    "argv": [
+      "ai-search",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--namespace",
+      "regression value &/?+ü",
+      "--summarization=true"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/regression%20value%20%26%2F%3F%2B%C3%BC/instances/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "22",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "summarization": true
+        }
+      }
+    ]
+  },
+  {
+    "case": "--summarization value 1",
+    "argv": [
+      "ai-search",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--namespace",
+      "regression value &/?+ü",
+      "--summarization=false"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/regression%20value%20%26%2F%3F%2B%C3%BC/instances/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "23",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "summarization": false
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --summarization-model",
+    "argv": [
+      "ai-search",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--namespace",
+      "regression value &/?+ü",
+      "--summarization-model",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/regression%20value%20%26%2F%3F%2B%C3%BC/instances/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "49",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "summarization_model": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --system-prompt-ai-search",
+    "argv": [
+      "ai-search",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--namespace",
+      "regression value &/?+ü",
+      "--system-prompt-ai-search",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/regression%20value%20%26%2F%3F%2B%C3%BC/instances/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "53",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "system_prompt_ai_search": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --system-prompt-index-summarization",
+    "argv": [
+      "ai-search",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--namespace",
+      "regression value &/?+ü",
+      "--system-prompt-index-summarization",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/regression%20value%20%26%2F%3F%2B%C3%BC/instances/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "63",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "system_prompt_index_summarization": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --system-prompt-rewrite-query",
+    "argv": [
+      "ai-search",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--namespace",
+      "regression value &/?+ü",
+      "--system-prompt-rewrite-query",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/regression%20value%20%26%2F%3F%2B%C3%BC/instances/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "57",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "system_prompt_rewrite_query": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --token-id",
+    "argv": [
+      "ai-search",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--namespace",
+      "regression value &/?+ü",
+      "--token-id",
+      "0123456789abcdef0123456789abcdef"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/regression%20value%20%26%2F%3F%2B%C3%BC/instances/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "47",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "token_id": "0123456789abcdef0123456789abcdef"
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 0",
+    "argv": [
+      "ai-search",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--namespace",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/regression%20value%20%26%2F%3F%2B%C3%BC/instances/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "2",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {}
+      }
+    ]
+  },
+  {
+    "case": "pairwise 1",
+    "argv": [
+      "ai-search",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--namespace",
+      "regression value &/?+ü",
+      "--ai-gateway-id",
+      "0123456789abcdef0123456789abcdef",
+      "--ai-search-model",
+      "second value &/?+ü",
+      "--cache=false",
+      "--cache-threshold",
+      "close_enough",
+      "--chunk=false",
+      "--chunk-overlap",
+      "2",
+      "--chunk-size",
+      "2",
+      "--custom-metadata",
+      "[{\"regression\":\"item\"}]",
+      "--embedding-model",
+      "second value &/?+ü",
+      "--fusion-method",
+      "rrf",
+      "--index-method-keyword=false",
+      "--index-method-vector=false",
+      "--indexing-options-keyword-tokenizer",
+      "trigram",
+      "--indexing-options-use-ocr=false",
+      "--max-num-results",
+      "2",
+      "--metadata-created-from-aisearch-wizard=false",
+      "--metadata-created-from-emdash-plugin-type",
+      "rest",
+      "--metadata-created-from-emdash-plugin-version",
+      "second value &/?+ü",
+      "--metadata-worker-domain",
+      "example.com",
+      "--paused=false",
+      "--public-endpoint-params-authorized-hosts",
+      "https://example.com/a?x=1&y=two",
+      "https://example.com/a?x=1&y=two",
+      "--public-endpoint-params-chat-completions-endpoint-disabled=false",
+      "--public-endpoint-params-custom-domains",
+      "https://example.com/a?x=1&y=two",
+      "https://example.com/a?x=1&y=two",
+      "--public-endpoint-params-default-domain-enabled=false",
+      "--public-endpoint-params-enabled=false",
+      "--public-endpoint-params-mcp-description",
+      "https://example.com/a?x=1&y=two",
+      "--public-endpoint-params-mcp-disabled=false",
+      "--public-endpoint-params-rate-limit-period-ms",
+      "2",
+      "--public-endpoint-params-rate-limit-requests",
+      "2",
+      "--public-endpoint-params-rate-limit-technique",
+      "sliding",
+      "--public-endpoint-params-search-endpoint-disabled=false",
+      "--reranking=false",
+      "--reranking-model",
+      "second value &/?+ü",
+      "--retrieval-options-keyword-match-mode",
+      "or",
+      "--rewrite-model",
+      "second value &/?+ü",
+      "--rewrite-query=false",
+      "--score-threshold",
+      "2",
+      "--source",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--source-params-exclude-items",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--source-params-include-items",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--source-params-prefix",
+      "second value &/?+ü",
+      "--source-params-r2-jurisdiction",
+      "second value &/?+ü",
+      "--source-params-web-crawler-discover-options-depth",
+      "2",
+      "--source-params-web-crawler-discover-options-include-external-links=false",
+      "--source-params-web-crawler-discover-options-include-subdomains=false",
+      "--source-params-web-crawler-discover-options-limit",
+      "2",
+      "--source-params-web-crawler-discover-options-max-age",
+      "2",
+      "--source-params-web-crawler-discover-options-source",
+      "sitemaps",
+      "--source-params-web-crawler-parse-options-include-images=false",
+      "--source-params-web-crawler-parse-options-specific-sitemaps",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--source-params-web-crawler-parse-options-use-browser-rendering=false",
+      "--source-params-web-crawler-parse-type",
+      "discover",
+      "--summarization=false",
+      "--summarization-model",
+      "second value &/?+ü",
+      "--system-prompt-ai-search",
+      "second value &/?+ü",
+      "--system-prompt-index-summarization",
+      "second value &/?+ü",
+      "--system-prompt-rewrite-query",
+      "second value &/?+ü",
+      "--token-id",
+      "0123456789abcdef0123456789abcdef"
+    ],
+    "exitCode": 1,
+    "error": "Unknown command: second value &/?+ü",
+    "requests": []
+  },
+  {
+    "case": "pairwise 2",
+    "argv": [
+      "ai-search",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--namespace",
+      "regression value &/?+ü",
+      "--ai-search-model",
+      "regression value &/?+ü",
+      "--cache-threshold",
+      "super_strict_match",
+      "--chunk-overlap",
+      "1",
+      "--custom-metadata",
+      "[{\"regression\":\"item\"}]",
+      "--fusion-method",
+      "max",
+      "--index-method-vector=true",
+      "--indexing-options-use-ocr=true",
+      "--metadata-created-from-aisearch-wizard=true",
+      "--metadata-created-from-emdash-plugin-version",
+      "regression value &/?+ü",
+      "--paused=true",
+      "--public-endpoint-params-chat-completions-endpoint-disabled=true",
+      "--public-endpoint-params-default-domain-enabled=true",
+      "--public-endpoint-params-mcp-description",
+      "https://example.com/a?x=1&y=two",
+      "--public-endpoint-params-rate-limit-period-ms",
+      "1",
+      "--public-endpoint-params-rate-limit-technique",
+      "fixed",
+      "--reranking=true",
+      "--retrieval-options-keyword-match-mode",
+      "and",
+      "--rewrite-query=true",
+      "--source",
+      "regression value &/?+ü",
+      "--source-params-include-items",
+      "regression value &/?+ü",
+      "--source-params-r2-jurisdiction",
+      "regression value &/?+ü",
+      "--source-params-web-crawler-discover-options-include-external-links=true",
+      "--source-params-web-crawler-discover-options-limit",
+      "1",
+      "--source-params-web-crawler-discover-options-source",
+      "all",
+      "--source-params-web-crawler-parse-options-specific-sitemaps",
+      "regression value &/?+ü",
+      "--source-params-web-crawler-parse-type",
+      "sitemap",
+      "--summarization-model",
+      "regression value &/?+ü",
+      "--system-prompt-index-summarization",
+      "regression value &/?+ü",
+      "--token-id",
+      "0123456789abcdef0123456789abcdef"
+    ],
+    "exitCode": 1,
+    "error": "--index-method-keyword is required when any --index_method-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "pairwise 3",
+    "argv": [
+      "ai-search",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--namespace",
+      "regression value &/?+ü",
+      "--ai-gateway-id",
+      "0123456789abcdef0123456789abcdef",
+      "--cache=false",
+      "--chunk=false",
+      "--chunk-size",
+      "2",
+      "--embedding-model",
+      "second value &/?+ü",
+      "--index-method-keyword=false",
+      "--indexing-options-keyword-tokenizer",
+      "trigram",
+      "--max-num-results",
+      "2",
+      "--metadata-created-from-emdash-plugin-type",
+      "rest",
+      "--metadata-worker-domain",
+      "example.com",
+      "--public-endpoint-params-authorized-hosts",
+      "https://example.com/a?x=1&y=two",
+      "https://example.com/a?x=1&y=two",
+      "--public-endpoint-params-custom-domains",
+      "https://example.com/a?x=1&y=two",
+      "https://example.com/a?x=1&y=two",
+      "--public-endpoint-params-enabled=false",
+      "--public-endpoint-params-mcp-disabled=false",
+      "--public-endpoint-params-rate-limit-requests",
+      "2",
+      "--public-endpoint-params-search-endpoint-disabled=false",
+      "--reranking-model",
+      "second value &/?+ü",
+      "--rewrite-model",
+      "second value &/?+ü",
+      "--score-threshold",
+      "2",
+      "--source-params-exclude-items",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--source-params-prefix",
+      "second value &/?+ü",
+      "--source-params-web-crawler-discover-options-depth",
+      "2",
+      "--source-params-web-crawler-discover-options-include-subdomains=false",
+      "--source-params-web-crawler-discover-options-max-age",
+      "2",
+      "--source-params-web-crawler-parse-options-include-images=false",
+      "--source-params-web-crawler-parse-options-use-browser-rendering=false",
+      "--summarization=false",
+      "--system-prompt-ai-search",
+      "second value &/?+ü",
+      "--system-prompt-rewrite-query",
+      "second value &/?+ü"
+    ],
+    "exitCode": 1,
+    "error": "--index-method-vector is required when any --index_method-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "pairwise 4",
+    "argv": [
+      "ai-search",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--namespace",
+      "regression value &/?+ü",
+      "--cache=true",
+      "--cache-threshold",
+      "super_strict_match",
+      "--chunk-size",
+      "1",
+      "--custom-metadata",
+      "[{\"regression\":\"item\"}]",
+      "--index-method-keyword=true",
+      "--index-method-vector=true",
+      "--max-num-results",
+      "1",
+      "--metadata-created-from-aisearch-wizard=true",
+      "--metadata-worker-domain",
+      "example.com",
+      "--paused=true",
+      "--public-endpoint-params-custom-domains",
+      "https://example.com/a?x=1&y=two",
+      "--public-endpoint-params-default-domain-enabled=true",
+      "--public-endpoint-params-mcp-disabled=true",
+      "--public-endpoint-params-rate-limit-period-ms",
+      "1",
+      "--public-endpoint-params-search-endpoint-disabled=true",
+      "--reranking=true",
+      "--rewrite-model",
+      "regression value &/?+ü",
+      "--rewrite-query=true",
+      "--source-params-exclude-items",
+      "regression value &/?+ü",
+      "--source-params-include-items",
+      "regression value &/?+ü",
+      "--source-params-web-crawler-discover-options-depth",
+      "1",
+      "--source-params-web-crawler-discover-options-include-external-links=true",
+      "--source-params-web-crawler-discover-options-max-age",
+      "1",
+      "--source-params-web-crawler-discover-options-source",
+      "all",
+      "--source-params-web-crawler-parse-options-use-browser-rendering=true",
+      "--source-params-web-crawler-parse-type",
+      "sitemap",
+      "--system-prompt-ai-search",
+      "regression value &/?+ü",
+      "--system-prompt-index-summarization",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 1,
+    "error": "--metadata-created-from-emdash-plugin-type, --metadata-created-from-emdash-plugin-version are required when any --metadata-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "pairwise 5",
+    "argv": [
+      "ai-search",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--namespace",
+      "regression value &/?+ü",
+      "--ai-gateway-id",
+      "0123456789abcdef0123456789abcdef",
+      "--ai-search-model",
+      "second value &/?+ü",
+      "--chunk=false",
+      "--chunk-overlap",
+      "2",
+      "--embedding-model",
+      "second value &/?+ü",
+      "--fusion-method",
+      "rrf",
+      "--indexing-options-keyword-tokenizer",
+      "trigram",
+      "--indexing-options-use-ocr=false",
+      "--metadata-created-from-emdash-plugin-type",
+      "rest",
+      "--metadata-created-from-emdash-plugin-version",
+      "second value &/?+ü",
+      "--public-endpoint-params-authorized-hosts",
+      "https://example.com/a?x=1&y=two",
+      "https://example.com/a?x=1&y=two",
+      "--public-endpoint-params-chat-completions-endpoint-disabled=false",
+      "--public-endpoint-params-enabled=false",
+      "--public-endpoint-params-mcp-description",
+      "https://example.com/a?x=1&y=two",
+      "--public-endpoint-params-rate-limit-requests",
+      "2",
+      "--public-endpoint-params-rate-limit-technique",
+      "sliding",
+      "--reranking-model",
+      "second value &/?+ü",
+      "--retrieval-options-keyword-match-mode",
+      "or",
+      "--score-threshold",
+      "2",
+      "--source",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--source-params-prefix",
+      "second value &/?+ü",
+      "--source-params-r2-jurisdiction",
+      "second value &/?+ü",
+      "--source-params-web-crawler-discover-options-include-subdomains=false",
+      "--source-params-web-crawler-discover-options-limit",
+      "2",
+      "--source-params-web-crawler-parse-options-include-images=false",
+      "--source-params-web-crawler-parse-options-specific-sitemaps",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--summarization=false",
+      "--summarization-model",
+      "second value &/?+ü",
+      "--system-prompt-rewrite-query",
+      "second value &/?+ü",
+      "--token-id",
+      "0123456789abcdef0123456789abcdef"
+    ],
+    "exitCode": 1,
+    "error": "Unknown command: second value &/?+ü",
+    "requests": []
+  },
+  {
+    "case": "pairwise 6",
+    "argv": [
+      "ai-search",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--namespace",
+      "regression value &/?+ü",
+      "--chunk=true",
+      "--chunk-overlap",
+      "1",
+      "--chunk-size",
+      "1",
+      "--custom-metadata",
+      "[{\"regression\":\"item\"}]",
+      "--indexing-options-keyword-tokenizer",
+      "porter",
+      "--indexing-options-use-ocr=true",
+      "--max-num-results",
+      "1",
+      "--metadata-created-from-aisearch-wizard=true",
+      "--public-endpoint-params-authorized-hosts",
+      "https://example.com/a?x=1&y=two",
+      "--public-endpoint-params-chat-completions-endpoint-disabled=true",
+      "--public-endpoint-params-custom-domains",
+      "https://example.com/a?x=1&y=two",
+      "--public-endpoint-params-default-domain-enabled=true",
+      "--public-endpoint-params-rate-limit-requests",
+      "1",
+      "--public-endpoint-params-rate-limit-technique",
+      "fixed",
+      "--public-endpoint-params-search-endpoint-disabled=true",
+      "--reranking=true",
+      "--score-threshold",
+      "1",
+      "--source",
+      "regression value &/?+ü",
+      "--source-params-exclude-items",
+      "regression value &/?+ü",
+      "--source-params-include-items",
+      "regression value &/?+ü",
+      "--source-params-web-crawler-discover-options-include-subdomains=true",
+      "--source-params-web-crawler-discover-options-limit",
+      "1",
+      "--source-params-web-crawler-discover-options-max-age",
+      "1",
+      "--source-params-web-crawler-discover-options-source",
+      "all",
+      "--summarization=true",
+      "--summarization-model",
+      "regression value &/?+ü",
+      "--system-prompt-ai-search",
+      "regression value &/?+ü",
+      "--system-prompt-index-summarization",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 1,
+    "error": "--metadata-created-from-emdash-plugin-type, --metadata-created-from-emdash-plugin-version are required when any --metadata-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "pairwise 7",
+    "argv": [
+      "ai-search",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--namespace",
+      "regression value &/?+ü",
+      "--ai-gateway-id",
+      "0123456789abcdef0123456789abcdef",
+      "--ai-search-model",
+      "second value &/?+ü",
+      "--cache=false",
+      "--cache-threshold",
+      "close_enough",
+      "--embedding-model",
+      "second value &/?+ü",
+      "--fusion-method",
+      "rrf",
+      "--index-method-keyword=false",
+      "--index-method-vector=false",
+      "--metadata-created-from-emdash-plugin-type",
+      "rest",
+      "--metadata-created-from-emdash-plugin-version",
+      "second value &/?+ü",
+      "--metadata-worker-domain",
+      "example.com",
+      "--paused=false",
+      "--public-endpoint-params-enabled=false",
+      "--public-endpoint-params-mcp-description",
+      "https://example.com/a?x=1&y=two",
+      "--public-endpoint-params-mcp-disabled=false",
+      "--public-endpoint-params-rate-limit-period-ms",
+      "2",
+      "--reranking-model",
+      "second value &/?+ü",
+      "--retrieval-options-keyword-match-mode",
+      "or",
+      "--rewrite-model",
+      "second value &/?+ü",
+      "--rewrite-query=false",
+      "--source-params-prefix",
+      "second value &/?+ü",
+      "--source-params-r2-jurisdiction",
+      "second value &/?+ü",
+      "--source-params-web-crawler-discover-options-depth",
+      "2",
+      "--source-params-web-crawler-discover-options-include-external-links=false",
+      "--source-params-web-crawler-parse-options-include-images=false",
+      "--source-params-web-crawler-parse-options-specific-sitemaps",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--source-params-web-crawler-parse-options-use-browser-rendering=false",
+      "--source-params-web-crawler-parse-type",
+      "discover",
+      "--system-prompt-rewrite-query",
+      "second value &/?+ü",
+      "--token-id",
+      "0123456789abcdef0123456789abcdef"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/regression%20value%20%26%2F%3F%2B%C3%BC/instances/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "1103",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "ai_gateway_id": "0123456789abcdef0123456789abcdef",
+          "ai_search_model": "second value &/?+ü",
+          "cache": false,
+          "cache_threshold": "close_enough",
+          "embedding_model": "second value &/?+ü",
+          "fusion_method": "rrf",
+          "index_method": {
+            "keyword": false,
+            "vector": false
+          },
+          "metadata": {
+            "created_from_emdash_plugin": {
+              "type": "rest",
+              "version": "second value &/?+ü"
+            },
+            "worker_domain": "example.com"
+          },
+          "paused": false,
+          "public_endpoint_params": {
+            "enabled": false,
+            "mcp": {
+              "description": "https://example.com/a?x=1&y=two",
+              "disabled": false
+            },
+            "rate_limit": {
+              "period_ms": 2
+            }
+          },
+          "reranking_model": "second value &/?+ü",
+          "retrieval_options": {
+            "keyword_match_mode": "or"
+          },
+          "rewrite_model": "second value &/?+ü",
+          "rewrite_query": false,
+          "source_params": {
+            "prefix": "second value &/?+ü",
+            "r2_jurisdiction": "second value &/?+ü",
+            "web_crawler": {
+              "discover_options": {
+                "depth": 2,
+                "include_external_links": false
+              },
+              "parse_options": {
+                "include_images": false,
+                "specific_sitemaps": [
+                  "second value &/?+ü",
+                  "second value &/?+ü"
+                ],
+                "use_browser_rendering": false
+              },
+              "parse_type": "discover"
+            }
+          },
+          "system_prompt_rewrite_query": "second value &/?+ü",
+          "token_id": "0123456789abcdef0123456789abcdef"
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 8",
+    "argv": [
+      "ai-search",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--namespace",
+      "regression value &/?+ü",
+      "--embedding-model",
+      "regression value &/?+ü",
+      "--fusion-method",
+      "max",
+      "--index-method-keyword=true",
+      "--index-method-vector=true",
+      "--indexing-options-keyword-tokenizer",
+      "porter",
+      "--indexing-options-use-ocr=true",
+      "--max-num-results",
+      "1",
+      "--metadata-created-from-aisearch-wizard=true",
+      "--public-endpoint-params-enabled=true",
+      "--public-endpoint-params-mcp-description",
+      "https://example.com/a?x=1&y=two",
+      "--public-endpoint-params-mcp-disabled=true",
+      "--public-endpoint-params-rate-limit-period-ms",
+      "1",
+      "--public-endpoint-params-rate-limit-requests",
+      "1",
+      "--public-endpoint-params-rate-limit-technique",
+      "fixed",
+      "--public-endpoint-params-search-endpoint-disabled=true",
+      "--reranking=true",
+      "--source-params-prefix",
+      "regression value &/?+ü",
+      "--source-params-r2-jurisdiction",
+      "regression value &/?+ü",
+      "--source-params-web-crawler-discover-options-depth",
+      "1",
+      "--source-params-web-crawler-discover-options-include-external-links=true",
+      "--source-params-web-crawler-discover-options-include-subdomains=true",
+      "--source-params-web-crawler-discover-options-limit",
+      "1",
+      "--source-params-web-crawler-discover-options-max-age",
+      "1",
+      "--source-params-web-crawler-discover-options-source",
+      "all",
+      "--system-prompt-rewrite-query",
+      "regression value &/?+ü",
+      "--token-id",
+      "0123456789abcdef0123456789abcdef"
+    ],
+    "exitCode": 1,
+    "error": "--metadata-created-from-emdash-plugin-type, --metadata-created-from-emdash-plugin-version are required when any --metadata-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "pairwise 9",
+    "argv": [
+      "ai-search",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--namespace",
+      "regression value &/?+ü",
+      "--ai-gateway-id",
+      "0123456789abcdef0123456789abcdef",
+      "--ai-search-model",
+      "second value &/?+ü",
+      "--cache=false",
+      "--cache-threshold",
+      "close_enough",
+      "--chunk=false",
+      "--chunk-overlap",
+      "2",
+      "--chunk-size",
+      "2",
+      "--custom-metadata",
+      "[{\"regression\":\"item\"}]",
+      "--metadata-created-from-emdash-plugin-type",
+      "rest",
+      "--metadata-created-from-emdash-plugin-version",
+      "second value &/?+ü",
+      "--metadata-worker-domain",
+      "example.com",
+      "--paused=false",
+      "--public-endpoint-params-authorized-hosts",
+      "https://example.com/a?x=1&y=two",
+      "https://example.com/a?x=1&y=two",
+      "--public-endpoint-params-chat-completions-endpoint-disabled=false",
+      "--public-endpoint-params-custom-domains",
+      "https://example.com/a?x=1&y=two",
+      "https://example.com/a?x=1&y=two",
+      "--public-endpoint-params-default-domain-enabled=false",
+      "--reranking-model",
+      "second value &/?+ü",
+      "--retrieval-options-keyword-match-mode",
+      "or",
+      "--rewrite-model",
+      "second value &/?+ü",
+      "--rewrite-query=false",
+      "--score-threshold",
+      "2",
+      "--source",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--source-params-exclude-items",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--source-params-include-items",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--source-params-web-crawler-parse-options-include-images=false",
+      "--source-params-web-crawler-parse-options-specific-sitemaps",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--source-params-web-crawler-parse-options-use-browser-rendering=false",
+      "--source-params-web-crawler-parse-type",
+      "discover",
+      "--summarization=false",
+      "--summarization-model",
+      "second value &/?+ü",
+      "--system-prompt-ai-search",
+      "second value &/?+ü",
+      "--system-prompt-index-summarization",
+      "second value &/?+ü"
+    ],
+    "exitCode": 1,
+    "error": "Unknown command: second value &/?+ü",
+    "requests": []
+  },
+  {
+    "case": "pairwise 10",
+    "argv": [
+      "ai-search",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--namespace",
+      "regression value &/?+ü",
+      "--metadata-created-from-emdash-plugin-type",
+      "native",
+      "--metadata-created-from-emdash-plugin-version",
+      "regression value &/?+ü",
+      "--metadata-worker-domain",
+      "example.com",
+      "--paused=true",
+      "--public-endpoint-params-authorized-hosts",
+      "https://example.com/a?x=1&y=two",
+      "--public-endpoint-params-chat-completions-endpoint-disabled=true",
+      "--public-endpoint-params-custom-domains",
+      "https://example.com/a?x=1&y=two",
+      "--public-endpoint-params-default-domain-enabled=true",
+      "--public-endpoint-params-enabled=true",
+      "--public-endpoint-params-mcp-description",
+      "https://example.com/a?x=1&y=two",
+      "--public-endpoint-params-mcp-disabled=true",
+      "--public-endpoint-params-rate-limit-period-ms",
+      "1",
+      "--public-endpoint-params-rate-limit-requests",
+      "1",
+      "--public-endpoint-params-rate-limit-technique",
+      "fixed",
+      "--public-endpoint-params-search-endpoint-disabled=true",
+      "--reranking=true",
+      "--source-params-web-crawler-parse-options-include-images=true",
+      "--source-params-web-crawler-parse-options-specific-sitemaps",
+      "regression value &/?+ü",
+      "--source-params-web-crawler-parse-options-use-browser-rendering=true",
+      "--source-params-web-crawler-parse-type",
+      "sitemap",
+      "--summarization=true",
+      "--summarization-model",
+      "regression value &/?+ü",
+      "--system-prompt-ai-search",
+      "regression value &/?+ü",
+      "--system-prompt-index-summarization",
+      "regression value &/?+ü",
+      "--system-prompt-rewrite-query",
+      "regression value &/?+ü",
+      "--token-id",
+      "0123456789abcdef0123456789abcdef"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/regression%20value%20%26%2F%3F%2B%C3%BC/instances/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "1013",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "metadata": {
+            "created_from_emdash_plugin": {
+              "type": "native",
+              "version": "regression value &/?+ü"
+            },
+            "worker_domain": "example.com"
+          },
+          "paused": true,
+          "public_endpoint_params": {
+            "authorized_hosts": [
+              "https://example.com/a?x=1&y=two"
+            ],
+            "chat_completions_endpoint": {
+              "disabled": true
+            },
+            "custom_domains": [
+              "https://example.com/a?x=1&y=two"
+            ],
+            "default_domain_enabled": true,
+            "enabled": true,
+            "mcp": {
+              "description": "https://example.com/a?x=1&y=two",
+              "disabled": true
+            },
+            "rate_limit": {
+              "period_ms": 1,
+              "requests": 1,
+              "technique": "fixed"
+            },
+            "search_endpoint": {
+              "disabled": true
+            }
+          },
+          "reranking": true,
+          "source_params": {
+            "web_crawler": {
+              "parse_options": {
+                "include_images": true,
+                "specific_sitemaps": [
+                  "regression value &/?+ü"
+                ],
+                "use_browser_rendering": true
+              },
+              "parse_type": "sitemap"
+            }
+          },
+          "summarization": true,
+          "summarization_model": "regression value &/?+ü",
+          "system_prompt_ai_search": "regression value &/?+ü",
+          "system_prompt_index_summarization": "regression value &/?+ü",
+          "system_prompt_rewrite_query": "regression value &/?+ü",
+          "token_id": "0123456789abcdef0123456789abcdef"
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 11",
+    "argv": [
+      "ai-search",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--namespace",
+      "regression value &/?+ü",
+      "--ai-gateway-id",
+      "0123456789abcdef0123456789abcdef",
+      "--ai-search-model",
+      "second value &/?+ü",
+      "--cache=false",
+      "--cache-threshold",
+      "close_enough",
+      "--chunk=false",
+      "--chunk-overlap",
+      "2",
+      "--chunk-size",
+      "2",
+      "--custom-metadata",
+      "[{\"regression\":\"item\"}]",
+      "--embedding-model",
+      "second value &/?+ü",
+      "--fusion-method",
+      "rrf",
+      "--index-method-keyword=false",
+      "--index-method-vector=false",
+      "--indexing-options-keyword-tokenizer",
+      "trigram",
+      "--indexing-options-use-ocr=false",
+      "--max-num-results",
+      "2",
+      "--metadata-created-from-aisearch-wizard=false",
+      "--reranking-model",
+      "second value &/?+ü",
+      "--retrieval-options-keyword-match-mode",
+      "or",
+      "--rewrite-model",
+      "second value &/?+ü",
+      "--rewrite-query=false",
+      "--score-threshold",
+      "2",
+      "--source",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--source-params-exclude-items",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--source-params-include-items",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--source-params-prefix",
+      "second value &/?+ü",
+      "--source-params-r2-jurisdiction",
+      "second value &/?+ü",
+      "--source-params-web-crawler-discover-options-depth",
+      "2",
+      "--source-params-web-crawler-discover-options-include-external-links=false",
+      "--source-params-web-crawler-discover-options-include-subdomains=false",
+      "--source-params-web-crawler-discover-options-limit",
+      "2",
+      "--source-params-web-crawler-discover-options-max-age",
+      "2",
+      "--source-params-web-crawler-discover-options-source",
+      "sitemaps"
+    ],
+    "exitCode": 1,
+    "error": "Unknown command: second value &/?+ü",
+    "requests": []
+  },
+  {
+    "case": "pairwise 12",
+    "argv": [
+      "ai-search",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--namespace",
+      "regression value &/?+ü",
+      "--reranking-model",
+      "regression value &/?+ü",
+      "--retrieval-options-keyword-match-mode",
+      "and",
+      "--rewrite-model",
+      "regression value &/?+ü",
+      "--rewrite-query=true",
+      "--score-threshold",
+      "1",
+      "--source",
+      "regression value &/?+ü",
+      "--source-params-exclude-items",
+      "regression value &/?+ü",
+      "--source-params-include-items",
+      "regression value &/?+ü",
+      "--source-params-prefix",
+      "regression value &/?+ü",
+      "--source-params-r2-jurisdiction",
+      "regression value &/?+ü",
+      "--source-params-web-crawler-discover-options-depth",
+      "1",
+      "--source-params-web-crawler-discover-options-include-external-links=true",
+      "--source-params-web-crawler-discover-options-include-subdomains=true",
+      "--source-params-web-crawler-discover-options-limit",
+      "1",
+      "--source-params-web-crawler-discover-options-max-age",
+      "1",
+      "--source-params-web-crawler-discover-options-source",
+      "all",
+      "--source-params-web-crawler-parse-options-include-images=true",
+      "--source-params-web-crawler-parse-options-specific-sitemaps",
+      "regression value &/?+ü",
+      "--source-params-web-crawler-parse-options-use-browser-rendering=true",
+      "--source-params-web-crawler-parse-type",
+      "sitemap",
+      "--summarization=true",
+      "--summarization-model",
+      "regression value &/?+ü",
+      "--system-prompt-ai-search",
+      "regression value &/?+ü",
+      "--system-prompt-index-summarization",
+      "regression value &/?+ü",
+      "--system-prompt-rewrite-query",
+      "regression value &/?+ü",
+      "--token-id",
+      "0123456789abcdef0123456789abcdef"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/regression%20value%20%26%2F%3F%2B%C3%BC/instances/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "962",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "reranking_model": "regression value &/?+ü",
+          "retrieval_options": {
+            "keyword_match_mode": "and"
+          },
+          "rewrite_model": "regression value &/?+ü",
+          "rewrite_query": true,
+          "score_threshold": 1,
+          "source": "regression value &/?+ü",
+          "source_params": {
+            "exclude_items": [
+              "regression value &/?+ü"
+            ],
+            "include_items": [
+              "regression value &/?+ü"
+            ],
+            "prefix": "regression value &/?+ü",
+            "r2_jurisdiction": "regression value &/?+ü",
+            "web_crawler": {
+              "discover_options": {
+                "depth": 1,
+                "include_external_links": true,
+                "include_subdomains": true,
+                "limit": 1,
+                "max_age": 1,
+                "source": "all"
+              },
+              "parse_options": {
+                "include_images": true,
+                "specific_sitemaps": [
+                  "regression value &/?+ü"
+                ],
+                "use_browser_rendering": true
+              },
+              "parse_type": "sitemap"
+            }
+          },
+          "summarization": true,
+          "summarization_model": "regression value &/?+ü",
+          "system_prompt_ai_search": "regression value &/?+ü",
+          "system_prompt_index_summarization": "regression value &/?+ü",
+          "system_prompt_rewrite_query": "regression value &/?+ü",
+          "token_id": "0123456789abcdef0123456789abcdef"
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 13",
+    "argv": [
+      "ai-search",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--namespace",
+      "regression value &/?+ü",
+      "--ai-gateway-id",
+      "0123456789abcdef0123456789abcdef",
+      "--ai-search-model",
+      "second value &/?+ü",
+      "--cache=false",
+      "--cache-threshold",
+      "close_enough",
+      "--chunk=false",
+      "--chunk-overlap",
+      "2",
+      "--chunk-size",
+      "2",
+      "--custom-metadata",
+      "[{\"regression\":\"item\"}]",
+      "--embedding-model",
+      "second value &/?+ü",
+      "--fusion-method",
+      "rrf",
+      "--index-method-keyword=false",
+      "--index-method-vector=false",
+      "--indexing-options-keyword-tokenizer",
+      "trigram",
+      "--indexing-options-use-ocr=false",
+      "--max-num-results",
+      "2",
+      "--metadata-created-from-aisearch-wizard=false",
+      "--metadata-created-from-emdash-plugin-type",
+      "rest",
+      "--metadata-created-from-emdash-plugin-version",
+      "second value &/?+ü",
+      "--metadata-worker-domain",
+      "example.com",
+      "--paused=false",
+      "--public-endpoint-params-authorized-hosts",
+      "https://example.com/a?x=1&y=two",
+      "https://example.com/a?x=1&y=two",
+      "--public-endpoint-params-chat-completions-endpoint-disabled=false",
+      "--public-endpoint-params-custom-domains",
+      "https://example.com/a?x=1&y=two",
+      "https://example.com/a?x=1&y=two",
+      "--public-endpoint-params-default-domain-enabled=false",
+      "--public-endpoint-params-enabled=false",
+      "--public-endpoint-params-mcp-description",
+      "https://example.com/a?x=1&y=two",
+      "--public-endpoint-params-mcp-disabled=false",
+      "--public-endpoint-params-rate-limit-period-ms",
+      "2",
+      "--public-endpoint-params-rate-limit-requests",
+      "2",
+      "--public-endpoint-params-rate-limit-technique",
+      "sliding",
+      "--public-endpoint-params-search-endpoint-disabled=false",
+      "--reranking=false"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/regression%20value%20%26%2F%3F%2B%C3%BC/instances/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "1086",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "ai_gateway_id": "0123456789abcdef0123456789abcdef",
+          "ai_search_model": "second value &/?+ü",
+          "cache": false,
+          "cache_threshold": "close_enough",
+          "chunk": false,
+          "chunk_overlap": 2,
+          "chunk_size": 2,
+          "custom_metadata": [
+            {
+              "regression": "item"
+            }
+          ],
+          "embedding_model": "second value &/?+ü",
+          "fusion_method": "rrf",
+          "index_method": {
+            "keyword": false,
+            "vector": false
+          },
+          "indexing_options": {
+            "keyword_tokenizer": "trigram",
+            "use_ocr": false
+          },
+          "max_num_results": 2,
+          "metadata": {
+            "created_from_aisearch_wizard": false,
+            "created_from_emdash_plugin": {
+              "type": "rest",
+              "version": "second value &/?+ü"
+            },
+            "worker_domain": "example.com"
+          },
+          "paused": false,
+          "public_endpoint_params": {
+            "authorized_hosts": [
+              "https://example.com/a?x=1&y=two",
+              "https://example.com/a?x=1&y=two"
+            ],
+            "chat_completions_endpoint": {
+              "disabled": false
+            },
+            "custom_domains": [
+              "https://example.com/a?x=1&y=two",
+              "https://example.com/a?x=1&y=two"
+            ],
+            "default_domain_enabled": false,
+            "enabled": false,
+            "mcp": {
+              "description": "https://example.com/a?x=1&y=two",
+              "disabled": false
+            },
+            "rate_limit": {
+              "period_ms": 2,
+              "requests": 2,
+              "technique": "sliding"
+            },
+            "search_endpoint": {
+              "disabled": false
+            }
+          },
+          "reranking": false
+        }
+      }
+    ]
+  },
+  {
+    "case": "global quiet",
+    "argv": [
+      "ai-search",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--namespace",
+      "regression value &/?+ü",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--quiet"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/regression%20value%20%26%2F%3F%2B%C3%BC/instances/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "global zone",
+    "argv": [
+      "ai-search",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--namespace",
+      "regression value &/?+ü",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--zone",
+      "abcdef0123456789abcdef0123456789"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/regression%20value%20%26%2F%3F%2B%C3%BC/instances/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "global profile and mode",
+    "argv": [
+      "ai-search",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--namespace",
+      "regression value &/?+ü",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--profile",
+      "default",
+      "--mode",
+      "regression"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/regression%20value%20%26%2F%3F%2B%C3%BC/instances/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "local",
+    "argv": [
+      "ai-search",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--namespace",
+      "regression value &/?+ü",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--local"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "http://localhost/cdn-cgi/local/explorer/api/ai-search/namespaces/regression%20value%20%26%2F%3F%2B%C3%BC/instances/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "gzip, deflate",
+          "accept-language": "*",
+          "connection": "keep-alive",
+          "content-type": "application/json",
+          "host": "localhost",
+          "sec-fetch-mode": "cors",
+          "transfer-encoding": "chunked",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "local with persistence",
+    "argv": [
+      "ai-search",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--namespace",
+      "regression value &/?+ü",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--local",
+      "--persist-to",
+      "regression-state"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "http://localhost/cdn-cgi/local/explorer/api/ai-search/namespaces/regression%20value%20%26%2F%3F%2B%C3%BC/instances/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "gzip, deflate",
+          "accept-language": "*",
+          "connection": "keep-alive",
+          "content-type": "application/json",
+          "host": "localhost",
+          "sec-fetch-mode": "cors",
+          "transfer-encoding": "chunked",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "dry-run",
+    "argv": [
+      "ai-search",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--namespace",
+      "regression value &/?+ü",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--dry-run"
+    ],
+    "exitCode": 0,
+    "requests": []
+  },
+  {
+    "case": "body from file",
+    "argv": [
+      "ai-search",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--namespace",
+      "regression value &/?+ü",
+      "--body",
+      "@<body.json>"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/regression%20value%20%26%2F%3F%2B%C3%BC/instances/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "array body",
+    "argv": [
+      "ai-search",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--namespace",
+      "regression value &/?+ü",
+      "--body",
+      "[{\"regression\":\"first\"},{\"regression\":\"second\"}]"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/regression%20value%20%26%2F%3F%2B%C3%BC/instances/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "56",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "0": {
+            "regression": "first"
+          },
+          "1": {
+            "regression": "second"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "field flags",
+    "argv": [
+      "ai-search",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--namespace",
+      "regression value &/?+ü",
+      "--ai-gateway-id",
+      "0123456789abcdef0123456789abcdef",
+      "--ai-search-model",
+      "regression value &/?+ü",
+      "--cache=true",
+      "--cache-threshold",
+      "super_strict_match",
+      "--chunk=true",
+      "--chunk-overlap",
+      "1",
+      "--chunk-size",
+      "1",
+      "--custom-metadata",
+      "[{\"regression\":\"item\"}]",
+      "--embedding-model",
+      "regression value &/?+ü",
+      "--fusion-method",
+      "max",
+      "--index-method-keyword=true",
+      "--index-method-vector=true",
+      "--indexing-options-keyword-tokenizer",
+      "porter",
+      "--indexing-options-use-ocr=true",
+      "--max-num-results",
+      "1",
+      "--metadata-created-from-aisearch-wizard=true",
+      "--metadata-created-from-emdash-plugin-type",
+      "native",
+      "--metadata-created-from-emdash-plugin-version",
+      "regression value &/?+ü",
+      "--metadata-worker-domain",
+      "example.com",
+      "--paused=true",
+      "--public-endpoint-params-authorized-hosts",
+      "https://example.com/a?x=1&y=two",
+      "--public-endpoint-params-chat-completions-endpoint-disabled=true",
+      "--public-endpoint-params-custom-domains",
+      "https://example.com/a?x=1&y=two",
+      "--public-endpoint-params-default-domain-enabled=true",
+      "--public-endpoint-params-enabled=true",
+      "--public-endpoint-params-mcp-description",
+      "https://example.com/a?x=1&y=two",
+      "--public-endpoint-params-mcp-disabled=true",
+      "--public-endpoint-params-rate-limit-period-ms",
+      "1",
+      "--public-endpoint-params-rate-limit-requests",
+      "1",
+      "--public-endpoint-params-rate-limit-technique",
+      "fixed",
+      "--public-endpoint-params-search-endpoint-disabled=true",
+      "--reranking=true",
+      "--reranking-model",
+      "regression value &/?+ü",
+      "--retrieval-options-keyword-match-mode",
+      "and",
+      "--rewrite-model",
+      "regression value &/?+ü",
+      "--rewrite-query=true",
+      "--score-threshold",
+      "1",
+      "--source",
+      "regression value &/?+ü",
+      "--source-params-exclude-items",
+      "regression value &/?+ü",
+      "--source-params-include-items",
+      "regression value &/?+ü",
+      "--source-params-prefix",
+      "regression value &/?+ü",
+      "--source-params-r2-jurisdiction",
+      "regression value &/?+ü",
+      "--source-params-web-crawler-discover-options-depth",
+      "1",
+      "--source-params-web-crawler-discover-options-include-external-links=true",
+      "--source-params-web-crawler-discover-options-include-subdomains=true",
+      "--source-params-web-crawler-discover-options-limit",
+      "1",
+      "--source-params-web-crawler-discover-options-max-age",
+      "1",
+      "--source-params-web-crawler-discover-options-source",
+      "all",
+      "--source-params-web-crawler-parse-options-include-images=true",
+      "--source-params-web-crawler-parse-options-specific-sitemaps",
+      "regression value &/?+ü",
+      "--source-params-web-crawler-parse-options-use-browser-rendering=true",
+      "--source-params-web-crawler-parse-type",
+      "sitemap",
+      "--summarization=true",
+      "--summarization-model",
+      "regression value &/?+ü",
+      "--system-prompt-ai-search",
+      "regression value &/?+ü",
+      "--system-prompt-index-summarization",
+      "regression value &/?+ü",
+      "--system-prompt-rewrite-query",
+      "regression value &/?+ü",
+      "--token-id",
+      "0123456789abcdef0123456789abcdef"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/regression%20value%20%26%2F%3F%2B%C3%BC/instances/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "1983",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "ai_gateway_id": "0123456789abcdef0123456789abcdef",
+          "ai_search_model": "regression value &/?+ü",
+          "cache": true,
+          "cache_threshold": "super_strict_match",
+          "chunk": true,
+          "chunk_overlap": 1,
+          "chunk_size": 1,
+          "custom_metadata": [
+            {
+              "regression": "item"
+            }
+          ],
+          "embedding_model": "regression value &/?+ü",
+          "fusion_method": "max",
+          "index_method": {
+            "keyword": true,
+            "vector": true
+          },
+          "indexing_options": {
+            "keyword_tokenizer": "porter",
+            "use_ocr": true
+          },
+          "max_num_results": 1,
+          "metadata": {
+            "created_from_aisearch_wizard": true,
+            "created_from_emdash_plugin": {
+              "type": "native",
+              "version": "regression value &/?+ü"
+            },
+            "worker_domain": "example.com"
+          },
+          "paused": true,
+          "public_endpoint_params": {
+            "authorized_hosts": [
+              "https://example.com/a?x=1&y=two"
+            ],
+            "chat_completions_endpoint": {
+              "disabled": true
+            },
+            "custom_domains": [
+              "https://example.com/a?x=1&y=two"
+            ],
+            "default_domain_enabled": true,
+            "enabled": true,
+            "mcp": {
+              "description": "https://example.com/a?x=1&y=two",
+              "disabled": true
+            },
+            "rate_limit": {
+              "period_ms": 1,
+              "requests": 1,
+              "technique": "fixed"
+            },
+            "search_endpoint": {
+              "disabled": true
+            }
+          },
+          "reranking": true,
+          "reranking_model": "regression value &/?+ü",
+          "retrieval_options": {
+            "keyword_match_mode": "and"
+          },
+          "rewrite_model": "regression value &/?+ü",
+          "rewrite_query": true,
+          "score_threshold": 1,
+          "source": "regression value &/?+ü",
+          "source_params": {
+            "exclude_items": [
+              "regression value &/?+ü"
+            ],
+            "include_items": [
+              "regression value &/?+ü"
+            ],
+            "prefix": "regression value &/?+ü",
+            "r2_jurisdiction": "regression value &/?+ü",
+            "web_crawler": {
+              "discover_options": {
+                "depth": 1,
+                "include_external_links": true,
+                "include_subdomains": true,
+                "limit": 1,
+                "max_age": 1,
+                "source": "all"
+              },
+              "parse_options": {
+                "include_images": true,
+                "specific_sitemaps": [
+                  "regression value &/?+ü"
+                ],
+                "use_browser_rendering": true
+              },
+              "parse_type": "sitemap"
+            }
+          },
+          "summarization": true,
+          "summarization_model": "regression value &/?+ü",
+          "system_prompt_ai_search": "regression value &/?+ü",
+          "system_prompt_index_summarization": "regression value &/?+ü",
+          "system_prompt_rewrite_query": "regression value &/?+ü",
+          "token_id": "0123456789abcdef0123456789abcdef"
+        }
+      }
+    ]
+  }
+]

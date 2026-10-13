@@ -1,0 +1,164 @@
+[
+  {
+    "case": "no-args",
+    "argv": [
+      "d1",
+      "migrations",
+      "create"
+    ],
+    "exitCode": 1,
+    "error": "Not enough non-option arguments: got 0, need at least 1",
+    "requests": []
+  },
+  {
+    "case": "required",
+    "argv": [
+      "d1",
+      "migrations",
+      "create",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 1,
+    "error": "The migration name \"regression value &/?+ü\" contains a path separator (\"/\" or \"\\\"). Remove it and try again.",
+    "requests": []
+  },
+  {
+    "case": "only --dir",
+    "argv": [
+      "d1",
+      "migrations",
+      "create",
+      "regression value &/?+ü",
+      "--dir",
+      "project"
+    ],
+    "exitCode": 1,
+    "error": "The migration name \"regression value &/?+ü\" contains a path separator (\"/\" or \"\\\"). Remove it and try again.",
+    "requests": []
+  },
+  {
+    "case": "only --pattern",
+    "argv": [
+      "d1",
+      "migrations",
+      "create",
+      "regression value &/?+ü",
+      "--pattern",
+      "*.sql"
+    ],
+    "exitCode": 1,
+    "error": "You have set --pattern \"*.sql\" but have not set --dir.\n\nWhen --pattern is set, --dir must also be set, and --pattern must start with \"<dir>/\".",
+    "requests": []
+  },
+  {
+    "case": "pairwise 1",
+    "argv": [
+      "d1",
+      "migrations",
+      "create",
+      "regression value &/?+ü",
+      "--dir",
+      "project",
+      "--pattern",
+      "*.sql"
+    ],
+    "exitCode": 1,
+    "error": "--pattern \"*.sql\" must start with \"project/\" to match --dir \"project\".\nEither change --pattern so it starts with \"project/\" (for example, \"project/*.sql\"), or change --dir to match the start of your pattern.",
+    "requests": []
+  },
+  {
+    "case": "global quiet",
+    "argv": [
+      "d1",
+      "migrations",
+      "create",
+      "regression value &/?+ü",
+      "--quiet"
+    ],
+    "exitCode": 1,
+    "error": "The migration name \"regression value &/?+ü\" contains a path separator (\"/\" or \"\\\"). Remove it and try again.",
+    "requests": []
+  },
+  {
+    "case": "global zone",
+    "argv": [
+      "d1",
+      "migrations",
+      "create",
+      "regression value &/?+ü",
+      "--zone",
+      "abcdef0123456789abcdef0123456789"
+    ],
+    "exitCode": 1,
+    "error": "The migration name \"regression value &/?+ü\" contains a path separator (\"/\" or \"\\\"). Remove it and try again.",
+    "requests": []
+  },
+  {
+    "case": "global profile and mode",
+    "argv": [
+      "d1",
+      "migrations",
+      "create",
+      "regression value &/?+ü",
+      "--profile",
+      "default",
+      "--mode",
+      "regression"
+    ],
+    "exitCode": 1,
+    "error": "The migration name \"regression value &/?+ü\" contains a path separator (\"/\" or \"\\\"). Remove it and try again.",
+    "requests": []
+  },
+  {
+    "case": "local",
+    "argv": [
+      "d1",
+      "migrations",
+      "create",
+      "regression value &/?+ü",
+      "--local"
+    ],
+    "exitCode": 1,
+    "error": "--local is not supported with `cf d1 migrations create`. This command only creates a migration file on your local filesystem, so you do not need --local.",
+    "requests": []
+  },
+  {
+    "case": "local with persistence",
+    "argv": [
+      "d1",
+      "migrations",
+      "create",
+      "regression value &/?+ü",
+      "--local",
+      "--persist-to",
+      "regression-state"
+    ],
+    "exitCode": 1,
+    "error": "--local is not supported with `cf d1 migrations create`. This command only creates a migration file on your local filesystem, so you do not need --local.",
+    "requests": []
+  },
+  {
+    "case": "dry-run",
+    "argv": [
+      "d1",
+      "migrations",
+      "create",
+      "regression value &/?+ü",
+      "--dry-run"
+    ],
+    "exitCode": 0,
+    "requests": []
+  },
+  {
+    "case": "alternate <message>",
+    "argv": [
+      "d1",
+      "migrations",
+      "create",
+      "second value &/?+ü"
+    ],
+    "exitCode": 1,
+    "error": "The migration name \"second value &/?+ü\" contains a path separator (\"/\" or \"\\\"). Remove it and try again.",
+    "requests": []
+  }
+]

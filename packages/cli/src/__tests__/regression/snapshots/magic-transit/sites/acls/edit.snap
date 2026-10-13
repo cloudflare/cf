@@ -1,0 +1,1350 @@
+[
+  {
+    "case": "no-args",
+    "argv": [
+      "magic-transit",
+      "sites",
+      "acls",
+      "edit"
+    ],
+    "exitCode": 1,
+    "error": "Not enough non-option arguments: got 0, need at least 1",
+    "requests": []
+  },
+  {
+    "case": "required",
+    "argv": [
+      "magic-transit",
+      "sites",
+      "acls",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--site-id",
+      "0123456789abcdef0123456789abcdef",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/magic/sites/0123456789abcdef0123456789abcdef/acls/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --description",
+    "argv": [
+      "magic-transit",
+      "sites",
+      "acls",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--site-id",
+      "0123456789abcdef0123456789abcdef",
+      "--description",
+      "192.0.2.1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/magic/sites/0123456789abcdef0123456789abcdef/acls/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "27",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "description": "192.0.2.1"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --forward-locally",
+    "argv": [
+      "magic-transit",
+      "sites",
+      "acls",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--site-id",
+      "0123456789abcdef0123456789abcdef",
+      "--forward-locally=true"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/magic/sites/0123456789abcdef0123456789abcdef/acls/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "24",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "forward_locally": true
+        }
+      }
+    ]
+  },
+  {
+    "case": "--forward-locally value 1",
+    "argv": [
+      "magic-transit",
+      "sites",
+      "acls",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--site-id",
+      "0123456789abcdef0123456789abcdef",
+      "--forward-locally=false"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/magic/sites/0123456789abcdef0123456789abcdef/acls/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "25",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "forward_locally": false
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --lan-1-lan-id",
+    "argv": [
+      "magic-transit",
+      "sites",
+      "acls",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--site-id",
+      "0123456789abcdef0123456789abcdef",
+      "--lan-1-lan-id",
+      "0123456789abcdef0123456789abcdef"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/magic/sites/0123456789abcdef0123456789abcdef/acls/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "55",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "lan_1": {
+            "lan_id": "0123456789abcdef0123456789abcdef"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --lan-1-lan-name",
+    "argv": [
+      "magic-transit",
+      "sites",
+      "acls",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--site-id",
+      "0123456789abcdef0123456789abcdef",
+      "--lan-1-lan-name",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 1,
+    "error": "--lan-1-lan-id is required when any --lan_1-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "only --lan-1-port-ranges",
+    "argv": [
+      "magic-transit",
+      "sites",
+      "acls",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--site-id",
+      "0123456789abcdef0123456789abcdef",
+      "--lan-1-port-ranges",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 1,
+    "error": "--lan-1-lan-id is required when any --lan_1-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "only --lan-1-ports",
+    "argv": [
+      "magic-transit",
+      "sites",
+      "acls",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--site-id",
+      "0123456789abcdef0123456789abcdef",
+      "--lan-1-ports",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 1,
+    "error": "--lan-1-lan-id is required when any --lan_1-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "only --lan-2-lan-id",
+    "argv": [
+      "magic-transit",
+      "sites",
+      "acls",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--site-id",
+      "0123456789abcdef0123456789abcdef",
+      "--lan-2-lan-id",
+      "0123456789abcdef0123456789abcdef"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/magic/sites/0123456789abcdef0123456789abcdef/acls/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "55",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "lan_2": {
+            "lan_id": "0123456789abcdef0123456789abcdef"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --lan-2-lan-name",
+    "argv": [
+      "magic-transit",
+      "sites",
+      "acls",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--site-id",
+      "0123456789abcdef0123456789abcdef",
+      "--lan-2-lan-name",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 1,
+    "error": "--lan-2-lan-id is required when any --lan_2-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "only --lan-2-port-ranges",
+    "argv": [
+      "magic-transit",
+      "sites",
+      "acls",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--site-id",
+      "0123456789abcdef0123456789abcdef",
+      "--lan-2-port-ranges",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 1,
+    "error": "--lan-2-lan-id is required when any --lan_2-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "only --lan-2-ports",
+    "argv": [
+      "magic-transit",
+      "sites",
+      "acls",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--site-id",
+      "0123456789abcdef0123456789abcdef",
+      "--lan-2-ports",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 1,
+    "error": "--lan-2-lan-id is required when any --lan_2-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "only --name",
+    "argv": [
+      "magic-transit",
+      "sites",
+      "acls",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--site-id",
+      "0123456789abcdef0123456789abcdef",
+      "--name",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/magic/sites/0123456789abcdef0123456789abcdef/acls/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "34",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "name": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --protocols",
+    "argv": [
+      "magic-transit",
+      "sites",
+      "acls",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--site-id",
+      "0123456789abcdef0123456789abcdef",
+      "--protocols",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/magic/sites/0123456789abcdef0123456789abcdef/acls/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "41",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "protocols": [
+            "regression value &/?+ü"
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --unidirectional",
+    "argv": [
+      "magic-transit",
+      "sites",
+      "acls",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--site-id",
+      "0123456789abcdef0123456789abcdef",
+      "--unidirectional=true"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/magic/sites/0123456789abcdef0123456789abcdef/acls/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "23",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "unidirectional": true
+        }
+      }
+    ]
+  },
+  {
+    "case": "--unidirectional value 1",
+    "argv": [
+      "magic-transit",
+      "sites",
+      "acls",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--site-id",
+      "0123456789abcdef0123456789abcdef",
+      "--unidirectional=false"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/magic/sites/0123456789abcdef0123456789abcdef/acls/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "24",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "unidirectional": false
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 0",
+    "argv": [
+      "magic-transit",
+      "sites",
+      "acls",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--site-id",
+      "0123456789abcdef0123456789abcdef"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/magic/sites/0123456789abcdef0123456789abcdef/acls/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "2",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {}
+      }
+    ]
+  },
+  {
+    "case": "pairwise 1",
+    "argv": [
+      "magic-transit",
+      "sites",
+      "acls",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--site-id",
+      "0123456789abcdef0123456789abcdef",
+      "--description",
+      "192.0.2.1",
+      "--forward-locally=false",
+      "--lan-1-lan-id",
+      "0123456789abcdef0123456789abcdef",
+      "--lan-1-lan-name",
+      "second value &/?+ü",
+      "--lan-1-port-ranges",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--lan-1-ports",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--lan-2-lan-id",
+      "0123456789abcdef0123456789abcdef",
+      "--lan-2-lan-name",
+      "second value &/?+ü",
+      "--lan-2-port-ranges",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--lan-2-ports",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--name",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--protocols",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--unidirectional=false"
+    ],
+    "exitCode": 1,
+    "error": "Unknown command: second value &/?+ü",
+    "requests": []
+  },
+  {
+    "case": "pairwise 2",
+    "argv": [
+      "magic-transit",
+      "sites",
+      "acls",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--site-id",
+      "0123456789abcdef0123456789abcdef",
+      "--forward-locally=true",
+      "--lan-1-lan-name",
+      "regression value &/?+ü",
+      "--lan-1-ports",
+      "regression value &/?+ü",
+      "--lan-2-lan-name",
+      "regression value &/?+ü",
+      "--lan-2-ports",
+      "regression value &/?+ü",
+      "--protocols",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 1,
+    "error": "--lan-1-lan-id is required when any --lan_1-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "pairwise 3",
+    "argv": [
+      "magic-transit",
+      "sites",
+      "acls",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--site-id",
+      "0123456789abcdef0123456789abcdef",
+      "--description",
+      "192.0.2.1",
+      "--lan-1-lan-id",
+      "0123456789abcdef0123456789abcdef",
+      "--lan-1-port-ranges",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--lan-2-lan-id",
+      "0123456789abcdef0123456789abcdef",
+      "--lan-2-port-ranges",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--name",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--unidirectional=false"
+    ],
+    "exitCode": 1,
+    "error": "Unknown command: second value &/?+ü",
+    "requests": []
+  },
+  {
+    "case": "pairwise 4",
+    "argv": [
+      "magic-transit",
+      "sites",
+      "acls",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--site-id",
+      "0123456789abcdef0123456789abcdef",
+      "--lan-1-lan-id",
+      "0123456789abcdef0123456789abcdef",
+      "--lan-1-lan-name",
+      "regression value &/?+ü",
+      "--lan-2-lan-id",
+      "0123456789abcdef0123456789abcdef",
+      "--lan-2-lan-name",
+      "regression value &/?+ü",
+      "--name",
+      "regression value &/?+ü",
+      "--protocols",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/magic/sites/0123456789abcdef0123456789abcdef/acls/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "256",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "lan_1": {
+            "lan_id": "0123456789abcdef0123456789abcdef",
+            "lan_name": "regression value &/?+ü"
+          },
+          "lan_2": {
+            "lan_id": "0123456789abcdef0123456789abcdef",
+            "lan_name": "regression value &/?+ü"
+          },
+          "name": "regression value &/?+ü",
+          "protocols": [
+            "regression value &/?+ü"
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 5",
+    "argv": [
+      "magic-transit",
+      "sites",
+      "acls",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--site-id",
+      "0123456789abcdef0123456789abcdef",
+      "--description",
+      "192.0.2.1",
+      "--forward-locally=false",
+      "--lan-1-port-ranges",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--lan-1-ports",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--lan-2-port-ranges",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--lan-2-ports",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--unidirectional=false"
+    ],
+    "exitCode": 1,
+    "error": "--lan-1-lan-id is required when any --lan_1-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "pairwise 6",
+    "argv": [
+      "magic-transit",
+      "sites",
+      "acls",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--site-id",
+      "0123456789abcdef0123456789abcdef",
+      "--lan-1-port-ranges",
+      "regression value &/?+ü",
+      "--lan-1-ports",
+      "regression value &/?+ü",
+      "--lan-2-lan-id",
+      "0123456789abcdef0123456789abcdef",
+      "--lan-2-lan-name",
+      "regression value &/?+ü",
+      "--unidirectional=true"
+    ],
+    "exitCode": 1,
+    "error": "--lan-1-lan-id is required when any --lan_1-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "pairwise 7",
+    "argv": [
+      "magic-transit",
+      "sites",
+      "acls",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--site-id",
+      "0123456789abcdef0123456789abcdef",
+      "--description",
+      "192.0.2.1",
+      "--forward-locally=false",
+      "--lan-1-lan-id",
+      "0123456789abcdef0123456789abcdef",
+      "--lan-1-lan-name",
+      "second value &/?+ü",
+      "--lan-2-port-ranges",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--lan-2-ports",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--name",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--protocols",
+      "second value &/?+ü",
+      "second value &/?+ü"
+    ],
+    "exitCode": 1,
+    "error": "Unknown command: second value &/?+ü",
+    "requests": []
+  },
+  {
+    "case": "pairwise 8",
+    "argv": [
+      "magic-transit",
+      "sites",
+      "acls",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--site-id",
+      "0123456789abcdef0123456789abcdef",
+      "--lan-2-port-ranges",
+      "regression value &/?+ü",
+      "--lan-2-ports",
+      "regression value &/?+ü",
+      "--name",
+      "regression value &/?+ü",
+      "--protocols",
+      "regression value &/?+ü",
+      "--unidirectional=true"
+    ],
+    "exitCode": 1,
+    "error": "--lan-2-lan-id is required when any --lan_2-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "pairwise 9",
+    "argv": [
+      "magic-transit",
+      "sites",
+      "acls",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--site-id",
+      "0123456789abcdef0123456789abcdef",
+      "--description",
+      "192.0.2.1",
+      "--forward-locally=false",
+      "--lan-1-lan-id",
+      "0123456789abcdef0123456789abcdef",
+      "--lan-1-lan-name",
+      "second value &/?+ü",
+      "--lan-1-port-ranges",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--lan-1-ports",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--lan-2-lan-id",
+      "0123456789abcdef0123456789abcdef",
+      "--lan-2-lan-name",
+      "second value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/magic/sites/0123456789abcdef0123456789abcdef/acls/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "339",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "description": "192.0.2.1",
+          "forward_locally": false,
+          "lan_1": {
+            "lan_id": "0123456789abcdef0123456789abcdef",
+            "lan_name": "second value &/?+ü",
+            "port_ranges": [
+              "second value &/?+ü",
+              "second value &/?+ü"
+            ],
+            "ports": [
+              "second value &/?+ü",
+              "second value &/?+ü"
+            ]
+          },
+          "lan_2": {
+            "lan_id": "0123456789abcdef0123456789abcdef",
+            "lan_name": "second value &/?+ü"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "global quiet",
+    "argv": [
+      "magic-transit",
+      "sites",
+      "acls",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--site-id",
+      "0123456789abcdef0123456789abcdef",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--quiet"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/magic/sites/0123456789abcdef0123456789abcdef/acls/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "global zone",
+    "argv": [
+      "magic-transit",
+      "sites",
+      "acls",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--site-id",
+      "0123456789abcdef0123456789abcdef",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--zone",
+      "abcdef0123456789abcdef0123456789"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/magic/sites/0123456789abcdef0123456789abcdef/acls/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "global profile and mode",
+    "argv": [
+      "magic-transit",
+      "sites",
+      "acls",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--site-id",
+      "0123456789abcdef0123456789abcdef",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--profile",
+      "default",
+      "--mode",
+      "regression"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/magic/sites/0123456789abcdef0123456789abcdef/acls/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "local",
+    "argv": [
+      "magic-transit",
+      "sites",
+      "acls",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--site-id",
+      "0123456789abcdef0123456789abcdef",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--local"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "http://localhost/cdn-cgi/local/explorer/api/magic/sites/0123456789abcdef0123456789abcdef/acls/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "gzip, deflate",
+          "accept-language": "*",
+          "connection": "keep-alive",
+          "content-type": "application/json",
+          "host": "localhost",
+          "sec-fetch-mode": "cors",
+          "transfer-encoding": "chunked",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "local with persistence",
+    "argv": [
+      "magic-transit",
+      "sites",
+      "acls",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--site-id",
+      "0123456789abcdef0123456789abcdef",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--local",
+      "--persist-to",
+      "regression-state"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "http://localhost/cdn-cgi/local/explorer/api/magic/sites/0123456789abcdef0123456789abcdef/acls/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "gzip, deflate",
+          "accept-language": "*",
+          "connection": "keep-alive",
+          "content-type": "application/json",
+          "host": "localhost",
+          "sec-fetch-mode": "cors",
+          "transfer-encoding": "chunked",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "dry-run",
+    "argv": [
+      "magic-transit",
+      "sites",
+      "acls",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--site-id",
+      "0123456789abcdef0123456789abcdef",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--dry-run"
+    ],
+    "exitCode": 0,
+    "requests": []
+  },
+  {
+    "case": "body from file",
+    "argv": [
+      "magic-transit",
+      "sites",
+      "acls",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--site-id",
+      "0123456789abcdef0123456789abcdef",
+      "--body",
+      "@<body.json>"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/magic/sites/0123456789abcdef0123456789abcdef/acls/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "array body",
+    "argv": [
+      "magic-transit",
+      "sites",
+      "acls",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--site-id",
+      "0123456789abcdef0123456789abcdef",
+      "--body",
+      "[{\"regression\":\"first\"},{\"regression\":\"second\"}]"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/magic/sites/0123456789abcdef0123456789abcdef/acls/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "48",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": [
+          {
+            "regression": "first"
+          },
+          {
+            "regression": "second"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "case": "field flags",
+    "argv": [
+      "magic-transit",
+      "sites",
+      "acls",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--site-id",
+      "0123456789abcdef0123456789abcdef",
+      "--description",
+      "192.0.2.1",
+      "--forward-locally=true",
+      "--lan-1-lan-id",
+      "0123456789abcdef0123456789abcdef",
+      "--lan-1-lan-name",
+      "regression value &/?+ü",
+      "--lan-1-port-ranges",
+      "regression value &/?+ü",
+      "--lan-1-ports",
+      "regression value &/?+ü",
+      "--lan-2-lan-id",
+      "0123456789abcdef0123456789abcdef",
+      "--lan-2-lan-name",
+      "regression value &/?+ü",
+      "--lan-2-port-ranges",
+      "regression value &/?+ü",
+      "--lan-2-ports",
+      "regression value &/?+ü",
+      "--name",
+      "regression value &/?+ü",
+      "--protocols",
+      "regression value &/?+ü",
+      "--unidirectional=true"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/magic/sites/0123456789abcdef0123456789abcdef/acls/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "483",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "description": "192.0.2.1",
+          "forward_locally": true,
+          "lan_1": {
+            "lan_id": "0123456789abcdef0123456789abcdef",
+            "lan_name": "regression value &/?+ü",
+            "port_ranges": [
+              "regression value &/?+ü"
+            ],
+            "ports": [
+              "regression value &/?+ü"
+            ]
+          },
+          "lan_2": {
+            "lan_id": "0123456789abcdef0123456789abcdef",
+            "lan_name": "regression value &/?+ü",
+            "port_ranges": [
+              "regression value &/?+ü"
+            ],
+            "ports": [
+              "regression value &/?+ü"
+            ]
+          },
+          "name": "regression value &/?+ü",
+          "protocols": [
+            "regression value &/?+ü"
+          ],
+          "unidirectional": true
+        }
+      }
+    ]
+  }
+]

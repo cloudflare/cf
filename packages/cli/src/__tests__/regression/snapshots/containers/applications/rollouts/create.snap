@@ -1,0 +1,1770 @@
+[
+  {
+    "case": "no-args",
+    "argv": [
+      "containers",
+      "applications",
+      "rollouts",
+      "create"
+    ],
+    "exitCode": 1,
+    "error": "Not enough non-option arguments: got 0, need at least 1",
+    "requests": []
+  },
+  {
+    "case": "required",
+    "argv": [
+      "containers",
+      "applications",
+      "rollouts",
+      "create",
+      "0123456789abcdef0123456789abcdef",
+      "--description",
+      "192.0.2.1",
+      "--strategy",
+      "rolling",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/containers/applications/0123456789abcdef0123456789abcdef/rollouts",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --kind",
+    "argv": [
+      "containers",
+      "applications",
+      "rollouts",
+      "create",
+      "0123456789abcdef0123456789abcdef",
+      "--description",
+      "192.0.2.1",
+      "--strategy",
+      "rolling",
+      "--kind",
+      "full_auto"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/containers/applications/0123456789abcdef0123456789abcdef/rollouts",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "158",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "description": "192.0.2.1",
+          "kind": "full_auto",
+          "strategy": "rolling",
+          "target_configuration": {
+            "instance_type": "lite",
+            "observability": {
+              "logs": {
+                "enabled": false
+              }
+            }
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "--kind value 1",
+    "argv": [
+      "containers",
+      "applications",
+      "rollouts",
+      "create",
+      "0123456789abcdef0123456789abcdef",
+      "--description",
+      "192.0.2.1",
+      "--strategy",
+      "rolling",
+      "--kind",
+      "full_manual"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/containers/applications/0123456789abcdef0123456789abcdef/rollouts",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "160",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "description": "192.0.2.1",
+          "kind": "full_manual",
+          "strategy": "rolling",
+          "target_configuration": {
+            "instance_type": "lite",
+            "observability": {
+              "logs": {
+                "enabled": false
+              }
+            }
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --percentage",
+    "argv": [
+      "containers",
+      "applications",
+      "rollouts",
+      "create",
+      "0123456789abcdef0123456789abcdef",
+      "--description",
+      "192.0.2.1",
+      "--strategy",
+      "rolling",
+      "--percentage",
+      "1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/containers/applications/0123456789abcdef0123456789abcdef/rollouts",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "173",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "description": "192.0.2.1",
+          "kind": "full_auto",
+          "percentage": 1,
+          "strategy": "rolling",
+          "target_configuration": {
+            "instance_type": "lite",
+            "observability": {
+              "logs": {
+                "enabled": false
+              }
+            }
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --step-percentage",
+    "argv": [
+      "containers",
+      "applications",
+      "rollouts",
+      "create",
+      "0123456789abcdef0123456789abcdef",
+      "--description",
+      "192.0.2.1",
+      "--strategy",
+      "rolling",
+      "--step-percentage",
+      "1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/containers/applications/0123456789abcdef0123456789abcdef/rollouts",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "178",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "description": "192.0.2.1",
+          "kind": "full_auto",
+          "step_percentage": 1,
+          "strategy": "rolling",
+          "target_configuration": {
+            "instance_type": "lite",
+            "observability": {
+              "logs": {
+                "enabled": false
+              }
+            }
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --steps",
+    "argv": [
+      "containers",
+      "applications",
+      "rollouts",
+      "create",
+      "0123456789abcdef0123456789abcdef",
+      "--description",
+      "192.0.2.1",
+      "--strategy",
+      "rolling",
+      "--steps",
+      "[{\"regression\":\"item\"}]"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/containers/applications/0123456789abcdef0123456789abcdef/rollouts",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "190",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "description": "192.0.2.1",
+          "kind": "full_auto",
+          "steps": [
+            {
+              "regression": "item"
+            }
+          ],
+          "strategy": "rolling",
+          "target_configuration": {
+            "instance_type": "lite",
+            "observability": {
+              "logs": {
+                "enabled": false
+              }
+            }
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --target-configuration-command",
+    "argv": [
+      "containers",
+      "applications",
+      "rollouts",
+      "create",
+      "0123456789abcdef0123456789abcdef",
+      "--description",
+      "192.0.2.1",
+      "--strategy",
+      "rolling",
+      "--target-configuration-command",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/containers/applications/0123456789abcdef0123456789abcdef/rollouts",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "196",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "description": "192.0.2.1",
+          "kind": "full_auto",
+          "strategy": "rolling",
+          "target_configuration": {
+            "command": [
+              "regression value &/?+ü"
+            ],
+            "instance_type": "lite",
+            "observability": {
+              "logs": {
+                "enabled": false
+              }
+            }
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --target-configuration-entrypoint",
+    "argv": [
+      "containers",
+      "applications",
+      "rollouts",
+      "create",
+      "0123456789abcdef0123456789abcdef",
+      "--description",
+      "192.0.2.1",
+      "--strategy",
+      "rolling",
+      "--target-configuration-entrypoint",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/containers/applications/0123456789abcdef0123456789abcdef/rollouts",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "199",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "description": "192.0.2.1",
+          "kind": "full_auto",
+          "strategy": "rolling",
+          "target_configuration": {
+            "entrypoint": [
+              "regression value &/?+ü"
+            ],
+            "instance_type": "lite",
+            "observability": {
+              "logs": {
+                "enabled": false
+              }
+            }
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --target-configuration-image",
+    "argv": [
+      "containers",
+      "applications",
+      "rollouts",
+      "create",
+      "0123456789abcdef0123456789abcdef",
+      "--description",
+      "192.0.2.1",
+      "--strategy",
+      "rolling",
+      "--target-configuration-image",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/containers/applications/0123456789abcdef0123456789abcdef/rollouts",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "192",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "description": "192.0.2.1",
+          "kind": "full_auto",
+          "strategy": "rolling",
+          "target_configuration": {
+            "image": "regression value &/?+ü",
+            "instance_type": "lite",
+            "observability": {
+              "logs": {
+                "enabled": false
+              }
+            }
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --target-configuration-instance-type",
+    "argv": [
+      "containers",
+      "applications",
+      "rollouts",
+      "create",
+      "0123456789abcdef0123456789abcdef",
+      "--description",
+      "192.0.2.1",
+      "--strategy",
+      "rolling",
+      "--target-configuration-instance-type",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/containers/applications/0123456789abcdef0123456789abcdef/rollouts",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "177",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "description": "192.0.2.1",
+          "kind": "full_auto",
+          "strategy": "rolling",
+          "target_configuration": {
+            "instance_type": "regression value &/?+ü",
+            "observability": {
+              "logs": {
+                "enabled": false
+              }
+            }
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --target-configuration-observability-logs-enabled",
+    "argv": [
+      "containers",
+      "applications",
+      "rollouts",
+      "create",
+      "0123456789abcdef0123456789abcdef",
+      "--description",
+      "192.0.2.1",
+      "--strategy",
+      "rolling",
+      "--target-configuration-observability-logs-enabled=true"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/containers/applications/0123456789abcdef0123456789abcdef/rollouts",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "157",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "description": "192.0.2.1",
+          "kind": "full_auto",
+          "strategy": "rolling",
+          "target_configuration": {
+            "instance_type": "lite",
+            "observability": {
+              "logs": {
+                "enabled": true
+              }
+            }
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "--target-configuration-observability-logs-enabled value 1",
+    "argv": [
+      "containers",
+      "applications",
+      "rollouts",
+      "create",
+      "0123456789abcdef0123456789abcdef",
+      "--description",
+      "192.0.2.1",
+      "--strategy",
+      "rolling",
+      "--target-configuration-observability-logs-enabled=false"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/containers/applications/0123456789abcdef0123456789abcdef/rollouts",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "158",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "description": "192.0.2.1",
+          "kind": "full_auto",
+          "strategy": "rolling",
+          "target_configuration": {
+            "instance_type": "lite",
+            "observability": {
+              "logs": {
+                "enabled": false
+              }
+            }
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "required --strategy value 1",
+    "argv": [
+      "containers",
+      "applications",
+      "rollouts",
+      "create",
+      "0123456789abcdef0123456789abcdef",
+      "--description",
+      "192.0.2.1",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--strategy",
+      "new_instances"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/containers/applications/0123456789abcdef0123456789abcdef/rollouts",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 0",
+    "argv": [
+      "containers",
+      "applications",
+      "rollouts",
+      "create",
+      "0123456789abcdef0123456789abcdef",
+      "--description",
+      "192.0.2.1",
+      "--strategy",
+      "rolling"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/containers/applications/0123456789abcdef0123456789abcdef/rollouts",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "158",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "description": "192.0.2.1",
+          "kind": "full_auto",
+          "strategy": "rolling",
+          "target_configuration": {
+            "instance_type": "lite",
+            "observability": {
+              "logs": {
+                "enabled": false
+              }
+            }
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 1",
+    "argv": [
+      "containers",
+      "applications",
+      "rollouts",
+      "create",
+      "0123456789abcdef0123456789abcdef",
+      "--description",
+      "192.0.2.1",
+      "--strategy",
+      "rolling",
+      "--kind",
+      "full_manual",
+      "--percentage",
+      "2",
+      "--step-percentage",
+      "2",
+      "--steps",
+      "[{\"regression\":\"item\"}]",
+      "--target-configuration-command",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--target-configuration-entrypoint",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--target-configuration-image",
+      "second value &/?+ü",
+      "--target-configuration-instance-type",
+      "second value &/?+ü",
+      "--target-configuration-observability-logs-enabled=false"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/containers/applications/0123456789abcdef0123456789abcdef/rollouts",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "387",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "description": "192.0.2.1",
+          "kind": "full_manual",
+          "percentage": 2,
+          "step_percentage": 2,
+          "steps": [
+            {
+              "regression": "item"
+            }
+          ],
+          "strategy": "rolling",
+          "target_configuration": {
+            "command": [
+              "second value &/?+ü",
+              "second value &/?+ü"
+            ],
+            "entrypoint": [
+              "second value &/?+ü",
+              "second value &/?+ü"
+            ],
+            "image": "second value &/?+ü",
+            "instance_type": "second value &/?+ü",
+            "observability": {
+              "logs": {
+                "enabled": false
+              }
+            }
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 2",
+    "argv": [
+      "containers",
+      "applications",
+      "rollouts",
+      "create",
+      "0123456789abcdef0123456789abcdef",
+      "--description",
+      "192.0.2.1",
+      "--strategy",
+      "rolling",
+      "--percentage",
+      "1",
+      "--steps",
+      "[{\"regression\":\"item\"}]",
+      "--target-configuration-entrypoint",
+      "regression value &/?+ü",
+      "--target-configuration-instance-type",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/containers/applications/0123456789abcdef0123456789abcdef/rollouts",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "265",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "description": "192.0.2.1",
+          "kind": "full_auto",
+          "percentage": 1,
+          "steps": [
+            {
+              "regression": "item"
+            }
+          ],
+          "strategy": "rolling",
+          "target_configuration": {
+            "entrypoint": [
+              "regression value &/?+ü"
+            ],
+            "instance_type": "regression value &/?+ü",
+            "observability": {
+              "logs": {
+                "enabled": false
+              }
+            }
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 3",
+    "argv": [
+      "containers",
+      "applications",
+      "rollouts",
+      "create",
+      "0123456789abcdef0123456789abcdef",
+      "--description",
+      "192.0.2.1",
+      "--strategy",
+      "rolling",
+      "--kind",
+      "full_manual",
+      "--step-percentage",
+      "2",
+      "--target-configuration-command",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--target-configuration-image",
+      "second value &/?+ü",
+      "--target-configuration-observability-logs-enabled=false"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/containers/applications/0123456789abcdef0123456789abcdef/rollouts",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "266",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "description": "192.0.2.1",
+          "kind": "full_manual",
+          "step_percentage": 2,
+          "strategy": "rolling",
+          "target_configuration": {
+            "command": [
+              "second value &/?+ü",
+              "second value &/?+ü"
+            ],
+            "image": "second value &/?+ü",
+            "instance_type": "lite",
+            "observability": {
+              "logs": {
+                "enabled": false
+              }
+            }
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 4",
+    "argv": [
+      "containers",
+      "applications",
+      "rollouts",
+      "create",
+      "0123456789abcdef0123456789abcdef",
+      "--description",
+      "192.0.2.1",
+      "--strategy",
+      "rolling",
+      "--step-percentage",
+      "1",
+      "--steps",
+      "[{\"regression\":\"item\"}]",
+      "--target-configuration-image",
+      "regression value &/?+ü",
+      "--target-configuration-instance-type",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/containers/applications/0123456789abcdef0123456789abcdef/rollouts",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "263",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "description": "192.0.2.1",
+          "kind": "full_auto",
+          "step_percentage": 1,
+          "steps": [
+            {
+              "regression": "item"
+            }
+          ],
+          "strategy": "rolling",
+          "target_configuration": {
+            "image": "regression value &/?+ü",
+            "instance_type": "regression value &/?+ü",
+            "observability": {
+              "logs": {
+                "enabled": false
+              }
+            }
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 5",
+    "argv": [
+      "containers",
+      "applications",
+      "rollouts",
+      "create",
+      "0123456789abcdef0123456789abcdef",
+      "--description",
+      "192.0.2.1",
+      "--strategy",
+      "rolling",
+      "--kind",
+      "full_manual",
+      "--percentage",
+      "2",
+      "--target-configuration-command",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--target-configuration-entrypoint",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--target-configuration-observability-logs-enabled=false"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/containers/applications/0123456789abcdef0123456789abcdef/rollouts",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "290",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "description": "192.0.2.1",
+          "kind": "full_manual",
+          "percentage": 2,
+          "strategy": "rolling",
+          "target_configuration": {
+            "command": [
+              "second value &/?+ü",
+              "second value &/?+ü"
+            ],
+            "entrypoint": [
+              "second value &/?+ü",
+              "second value &/?+ü"
+            ],
+            "instance_type": "lite",
+            "observability": {
+              "logs": {
+                "enabled": false
+              }
+            }
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 6",
+    "argv": [
+      "containers",
+      "applications",
+      "rollouts",
+      "create",
+      "0123456789abcdef0123456789abcdef",
+      "--description",
+      "192.0.2.1",
+      "--strategy",
+      "rolling",
+      "--target-configuration-command",
+      "regression value &/?+ü",
+      "--target-configuration-entrypoint",
+      "regression value &/?+ü",
+      "--target-configuration-image",
+      "regression value &/?+ü",
+      "--target-configuration-instance-type",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/containers/applications/0123456789abcdef0123456789abcdef/rollouts",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "290",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "description": "192.0.2.1",
+          "kind": "full_auto",
+          "strategy": "rolling",
+          "target_configuration": {
+            "command": [
+              "regression value &/?+ü"
+            ],
+            "entrypoint": [
+              "regression value &/?+ü"
+            ],
+            "image": "regression value &/?+ü",
+            "instance_type": "regression value &/?+ü",
+            "observability": {
+              "logs": {
+                "enabled": false
+              }
+            }
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 7",
+    "argv": [
+      "containers",
+      "applications",
+      "rollouts",
+      "create",
+      "0123456789abcdef0123456789abcdef",
+      "--description",
+      "192.0.2.1",
+      "--strategy",
+      "rolling",
+      "--kind",
+      "full_manual",
+      "--percentage",
+      "2",
+      "--step-percentage",
+      "2",
+      "--steps",
+      "[{\"regression\":\"item\"}]",
+      "--target-configuration-observability-logs-enabled=false"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/containers/applications/0123456789abcdef0123456789abcdef/rollouts",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "227",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "description": "192.0.2.1",
+          "kind": "full_manual",
+          "percentage": 2,
+          "step_percentage": 2,
+          "steps": [
+            {
+              "regression": "item"
+            }
+          ],
+          "strategy": "rolling",
+          "target_configuration": {
+            "instance_type": "lite",
+            "observability": {
+              "logs": {
+                "enabled": false
+              }
+            }
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 9",
+    "argv": [
+      "containers",
+      "applications",
+      "rollouts",
+      "create",
+      "0123456789abcdef0123456789abcdef",
+      "--description",
+      "192.0.2.1",
+      "--strategy",
+      "rolling",
+      "--kind",
+      "full_manual",
+      "--percentage",
+      "2",
+      "--step-percentage",
+      "2",
+      "--steps",
+      "[{\"regression\":\"item\"}]",
+      "--target-configuration-command",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--target-configuration-entrypoint",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--target-configuration-image",
+      "second value &/?+ü",
+      "--target-configuration-instance-type",
+      "second value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/containers/applications/0123456789abcdef0123456789abcdef/rollouts",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "387",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "description": "192.0.2.1",
+          "kind": "full_manual",
+          "percentage": 2,
+          "step_percentage": 2,
+          "steps": [
+            {
+              "regression": "item"
+            }
+          ],
+          "strategy": "rolling",
+          "target_configuration": {
+            "command": [
+              "second value &/?+ü",
+              "second value &/?+ü"
+            ],
+            "entrypoint": [
+              "second value &/?+ü",
+              "second value &/?+ü"
+            ],
+            "image": "second value &/?+ü",
+            "instance_type": "second value &/?+ü",
+            "observability": {
+              "logs": {
+                "enabled": false
+              }
+            }
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "global quiet",
+    "argv": [
+      "containers",
+      "applications",
+      "rollouts",
+      "create",
+      "0123456789abcdef0123456789abcdef",
+      "--description",
+      "192.0.2.1",
+      "--strategy",
+      "rolling",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--quiet"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/containers/applications/0123456789abcdef0123456789abcdef/rollouts",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "global zone",
+    "argv": [
+      "containers",
+      "applications",
+      "rollouts",
+      "create",
+      "0123456789abcdef0123456789abcdef",
+      "--description",
+      "192.0.2.1",
+      "--strategy",
+      "rolling",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--zone",
+      "abcdef0123456789abcdef0123456789"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/containers/applications/0123456789abcdef0123456789abcdef/rollouts",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "global profile and mode",
+    "argv": [
+      "containers",
+      "applications",
+      "rollouts",
+      "create",
+      "0123456789abcdef0123456789abcdef",
+      "--description",
+      "192.0.2.1",
+      "--strategy",
+      "rolling",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--profile",
+      "default",
+      "--mode",
+      "regression"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/containers/applications/0123456789abcdef0123456789abcdef/rollouts",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "local",
+    "argv": [
+      "containers",
+      "applications",
+      "rollouts",
+      "create",
+      "0123456789abcdef0123456789abcdef",
+      "--description",
+      "192.0.2.1",
+      "--strategy",
+      "rolling",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--local"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "http://localhost/cdn-cgi/local/explorer/api/containers/applications/0123456789abcdef0123456789abcdef/rollouts",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "gzip, deflate",
+          "accept-language": "*",
+          "connection": "keep-alive",
+          "content-type": "application/json",
+          "host": "localhost",
+          "sec-fetch-mode": "cors",
+          "transfer-encoding": "chunked",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "local with persistence",
+    "argv": [
+      "containers",
+      "applications",
+      "rollouts",
+      "create",
+      "0123456789abcdef0123456789abcdef",
+      "--description",
+      "192.0.2.1",
+      "--strategy",
+      "rolling",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--local",
+      "--persist-to",
+      "regression-state"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "http://localhost/cdn-cgi/local/explorer/api/containers/applications/0123456789abcdef0123456789abcdef/rollouts",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "gzip, deflate",
+          "accept-language": "*",
+          "connection": "keep-alive",
+          "content-type": "application/json",
+          "host": "localhost",
+          "sec-fetch-mode": "cors",
+          "transfer-encoding": "chunked",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "dry-run",
+    "argv": [
+      "containers",
+      "applications",
+      "rollouts",
+      "create",
+      "0123456789abcdef0123456789abcdef",
+      "--description",
+      "192.0.2.1",
+      "--strategy",
+      "rolling",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--dry-run"
+    ],
+    "exitCode": 0,
+    "requests": []
+  },
+  {
+    "case": "body from file",
+    "argv": [
+      "containers",
+      "applications",
+      "rollouts",
+      "create",
+      "0123456789abcdef0123456789abcdef",
+      "--description",
+      "192.0.2.1",
+      "--strategy",
+      "rolling",
+      "--body",
+      "@<body.json>"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/containers/applications/0123456789abcdef0123456789abcdef/rollouts",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "array body",
+    "argv": [
+      "containers",
+      "applications",
+      "rollouts",
+      "create",
+      "0123456789abcdef0123456789abcdef",
+      "--description",
+      "192.0.2.1",
+      "--strategy",
+      "rolling",
+      "--body",
+      "[{\"regression\":\"first\"},{\"regression\":\"second\"}]"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/containers/applications/0123456789abcdef0123456789abcdef/rollouts",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "56",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "0": {
+            "regression": "first"
+          },
+          "1": {
+            "regression": "second"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "field flags",
+    "argv": [
+      "containers",
+      "applications",
+      "rollouts",
+      "create",
+      "0123456789abcdef0123456789abcdef",
+      "--description",
+      "192.0.2.1",
+      "--strategy",
+      "rolling",
+      "--kind",
+      "full_auto",
+      "--percentage",
+      "1",
+      "--step-percentage",
+      "1",
+      "--steps",
+      "[{\"regression\":\"item\"}]",
+      "--target-configuration-command",
+      "regression value &/?+ü",
+      "--target-configuration-entrypoint",
+      "regression value &/?+ü",
+      "--target-configuration-image",
+      "regression value &/?+ü",
+      "--target-configuration-instance-type",
+      "regression value &/?+ü",
+      "--target-configuration-observability-logs-enabled=true"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/containers/applications/0123456789abcdef0123456789abcdef/rollouts",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "356",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "description": "192.0.2.1",
+          "kind": "full_auto",
+          "percentage": 1,
+          "step_percentage": 1,
+          "steps": [
+            {
+              "regression": "item"
+            }
+          ],
+          "strategy": "rolling",
+          "target_configuration": {
+            "command": [
+              "regression value &/?+ü"
+            ],
+            "entrypoint": [
+              "regression value &/?+ü"
+            ],
+            "image": "regression value &/?+ü",
+            "instance_type": "regression value &/?+ü",
+            "observability": {
+              "logs": {
+                "enabled": true
+              }
+            }
+          }
+        }
+      }
+    ]
+  }
+]

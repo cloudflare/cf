@@ -1,0 +1,3365 @@
+[
+  {
+    "case": "no-args",
+    "argv": [
+      "realtime",
+      "kit",
+      "meetings",
+      "replace"
+    ],
+    "exitCode": 1,
+    "error": "Not enough non-option arguments: got 0, need at least 1",
+    "requests": []
+  },
+  {
+    "case": "required",
+    "argv": [
+      "realtime",
+      "kit",
+      "meetings",
+      "replace",
+      "0123456789abcdef0123456789abcdef",
+      "--app-id",
+      "0123456789abcdef0123456789abcdef",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/realtime/kit/0123456789abcdef0123456789abcdef/meetings/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --ai-config-summarization-summary-type",
+    "argv": [
+      "realtime",
+      "kit",
+      "meetings",
+      "replace",
+      "0123456789abcdef0123456789abcdef",
+      "--app-id",
+      "0123456789abcdef0123456789abcdef",
+      "--ai-config-summarization-summary-type",
+      "general"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/realtime/kit/0123456789abcdef0123456789abcdef/meetings/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "58",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "ai_config": {
+            "summarization": {
+              "summary_type": "general"
+            }
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "--ai-config-summarization-summary-type value 1",
+    "argv": [
+      "realtime",
+      "kit",
+      "meetings",
+      "replace",
+      "0123456789abcdef0123456789abcdef",
+      "--app-id",
+      "0123456789abcdef0123456789abcdef",
+      "--ai-config-summarization-summary-type",
+      "team_meeting"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/realtime/kit/0123456789abcdef0123456789abcdef/meetings/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "63",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "ai_config": {
+            "summarization": {
+              "summary_type": "team_meeting"
+            }
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "--ai-config-summarization-summary-type value 2",
+    "argv": [
+      "realtime",
+      "kit",
+      "meetings",
+      "replace",
+      "0123456789abcdef0123456789abcdef",
+      "--app-id",
+      "0123456789abcdef0123456789abcdef",
+      "--ai-config-summarization-summary-type",
+      "sales_call"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/realtime/kit/0123456789abcdef0123456789abcdef/meetings/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "61",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "ai_config": {
+            "summarization": {
+              "summary_type": "sales_call"
+            }
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "--ai-config-summarization-summary-type value 3",
+    "argv": [
+      "realtime",
+      "kit",
+      "meetings",
+      "replace",
+      "0123456789abcdef0123456789abcdef",
+      "--app-id",
+      "0123456789abcdef0123456789abcdef",
+      "--ai-config-summarization-summary-type",
+      "client_check_in"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/realtime/kit/0123456789abcdef0123456789abcdef/meetings/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "66",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "ai_config": {
+            "summarization": {
+              "summary_type": "client_check_in"
+            }
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "--ai-config-summarization-summary-type value 4",
+    "argv": [
+      "realtime",
+      "kit",
+      "meetings",
+      "replace",
+      "0123456789abcdef0123456789abcdef",
+      "--app-id",
+      "0123456789abcdef0123456789abcdef",
+      "--ai-config-summarization-summary-type",
+      "interview"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/realtime/kit/0123456789abcdef0123456789abcdef/meetings/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "60",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "ai_config": {
+            "summarization": {
+              "summary_type": "interview"
+            }
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "--ai-config-summarization-summary-type value 5",
+    "argv": [
+      "realtime",
+      "kit",
+      "meetings",
+      "replace",
+      "0123456789abcdef0123456789abcdef",
+      "--app-id",
+      "0123456789abcdef0123456789abcdef",
+      "--ai-config-summarization-summary-type",
+      "daily_standup"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/realtime/kit/0123456789abcdef0123456789abcdef/meetings/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "64",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "ai_config": {
+            "summarization": {
+              "summary_type": "daily_standup"
+            }
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "--ai-config-summarization-summary-type value 6",
+    "argv": [
+      "realtime",
+      "kit",
+      "meetings",
+      "replace",
+      "0123456789abcdef0123456789abcdef",
+      "--app-id",
+      "0123456789abcdef0123456789abcdef",
+      "--ai-config-summarization-summary-type",
+      "one_on_one_meeting"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/realtime/kit/0123456789abcdef0123456789abcdef/meetings/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "69",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "ai_config": {
+            "summarization": {
+              "summary_type": "one_on_one_meeting"
+            }
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "--ai-config-summarization-summary-type value 7",
+    "argv": [
+      "realtime",
+      "kit",
+      "meetings",
+      "replace",
+      "0123456789abcdef0123456789abcdef",
+      "--app-id",
+      "0123456789abcdef0123456789abcdef",
+      "--ai-config-summarization-summary-type",
+      "lecture"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/realtime/kit/0123456789abcdef0123456789abcdef/meetings/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "58",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "ai_config": {
+            "summarization": {
+              "summary_type": "lecture"
+            }
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "--ai-config-summarization-summary-type value 8",
+    "argv": [
+      "realtime",
+      "kit",
+      "meetings",
+      "replace",
+      "0123456789abcdef0123456789abcdef",
+      "--app-id",
+      "0123456789abcdef0123456789abcdef",
+      "--ai-config-summarization-summary-type",
+      "code_review"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/realtime/kit/0123456789abcdef0123456789abcdef/meetings/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "62",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "ai_config": {
+            "summarization": {
+              "summary_type": "code_review"
+            }
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --ai-config-summarization-text-format",
+    "argv": [
+      "realtime",
+      "kit",
+      "meetings",
+      "replace",
+      "0123456789abcdef0123456789abcdef",
+      "--app-id",
+      "0123456789abcdef0123456789abcdef",
+      "--ai-config-summarization-text-format",
+      "plain_text"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/realtime/kit/0123456789abcdef0123456789abcdef/meetings/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "60",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "ai_config": {
+            "summarization": {
+              "text_format": "plain_text"
+            }
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "--ai-config-summarization-text-format value 1",
+    "argv": [
+      "realtime",
+      "kit",
+      "meetings",
+      "replace",
+      "0123456789abcdef0123456789abcdef",
+      "--app-id",
+      "0123456789abcdef0123456789abcdef",
+      "--ai-config-summarization-text-format",
+      "markdown"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/realtime/kit/0123456789abcdef0123456789abcdef/meetings/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "58",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "ai_config": {
+            "summarization": {
+              "text_format": "markdown"
+            }
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --ai-config-summarization-word-limit",
+    "argv": [
+      "realtime",
+      "kit",
+      "meetings",
+      "replace",
+      "0123456789abcdef0123456789abcdef",
+      "--app-id",
+      "0123456789abcdef0123456789abcdef",
+      "--ai-config-summarization-word-limit",
+      "1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/realtime/kit/0123456789abcdef0123456789abcdef/meetings/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "48",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "ai_config": {
+            "summarization": {
+              "word_limit": 1
+            }
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --ai-config-transcription-keywords",
+    "argv": [
+      "realtime",
+      "kit",
+      "meetings",
+      "replace",
+      "0123456789abcdef0123456789abcdef",
+      "--app-id",
+      "0123456789abcdef0123456789abcdef",
+      "--ai-config-transcription-keywords",
+      "192.0.2.1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/realtime/kit/0123456789abcdef0123456789abcdef/meetings/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "58",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "ai_config": {
+            "transcription": {
+              "keywords": [
+                "192.0.2.1"
+              ]
+            }
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --ai-config-transcription-language",
+    "argv": [
+      "realtime",
+      "kit",
+      "meetings",
+      "replace",
+      "0123456789abcdef0123456789abcdef",
+      "--app-id",
+      "0123456789abcdef0123456789abcdef",
+      "--ai-config-transcription-language",
+      "en-US"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/realtime/kit/0123456789abcdef0123456789abcdef/meetings/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "52",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "ai_config": {
+            "transcription": {
+              "language": "en-US"
+            }
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "--ai-config-transcription-language value 1",
+    "argv": [
+      "realtime",
+      "kit",
+      "meetings",
+      "replace",
+      "0123456789abcdef0123456789abcdef",
+      "--app-id",
+      "0123456789abcdef0123456789abcdef",
+      "--ai-config-transcription-language",
+      "en-IN"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/realtime/kit/0123456789abcdef0123456789abcdef/meetings/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "52",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "ai_config": {
+            "transcription": {
+              "language": "en-IN"
+            }
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "--ai-config-transcription-language value 2",
+    "argv": [
+      "realtime",
+      "kit",
+      "meetings",
+      "replace",
+      "0123456789abcdef0123456789abcdef",
+      "--app-id",
+      "0123456789abcdef0123456789abcdef",
+      "--ai-config-transcription-language",
+      "de"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/realtime/kit/0123456789abcdef0123456789abcdef/meetings/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "49",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "ai_config": {
+            "transcription": {
+              "language": "de"
+            }
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "--ai-config-transcription-language value 3",
+    "argv": [
+      "realtime",
+      "kit",
+      "meetings",
+      "replace",
+      "0123456789abcdef0123456789abcdef",
+      "--app-id",
+      "0123456789abcdef0123456789abcdef",
+      "--ai-config-transcription-language",
+      "hi"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/realtime/kit/0123456789abcdef0123456789abcdef/meetings/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "49",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "ai_config": {
+            "transcription": {
+              "language": "hi"
+            }
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "--ai-config-transcription-language value 4",
+    "argv": [
+      "realtime",
+      "kit",
+      "meetings",
+      "replace",
+      "0123456789abcdef0123456789abcdef",
+      "--app-id",
+      "0123456789abcdef0123456789abcdef",
+      "--ai-config-transcription-language",
+      "sv"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/realtime/kit/0123456789abcdef0123456789abcdef/meetings/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "49",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "ai_config": {
+            "transcription": {
+              "language": "sv"
+            }
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "--ai-config-transcription-language value 5",
+    "argv": [
+      "realtime",
+      "kit",
+      "meetings",
+      "replace",
+      "0123456789abcdef0123456789abcdef",
+      "--app-id",
+      "0123456789abcdef0123456789abcdef",
+      "--ai-config-transcription-language",
+      "ru"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/realtime/kit/0123456789abcdef0123456789abcdef/meetings/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "49",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "ai_config": {
+            "transcription": {
+              "language": "ru"
+            }
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "--ai-config-transcription-language value 6",
+    "argv": [
+      "realtime",
+      "kit",
+      "meetings",
+      "replace",
+      "0123456789abcdef0123456789abcdef",
+      "--app-id",
+      "0123456789abcdef0123456789abcdef",
+      "--ai-config-transcription-language",
+      "pl"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/realtime/kit/0123456789abcdef0123456789abcdef/meetings/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "49",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "ai_config": {
+            "transcription": {
+              "language": "pl"
+            }
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "--ai-config-transcription-language value 7",
+    "argv": [
+      "realtime",
+      "kit",
+      "meetings",
+      "replace",
+      "0123456789abcdef0123456789abcdef",
+      "--app-id",
+      "0123456789abcdef0123456789abcdef",
+      "--ai-config-transcription-language",
+      "el"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/realtime/kit/0123456789abcdef0123456789abcdef/meetings/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "49",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "ai_config": {
+            "transcription": {
+              "language": "el"
+            }
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "--ai-config-transcription-language value 8",
+    "argv": [
+      "realtime",
+      "kit",
+      "meetings",
+      "replace",
+      "0123456789abcdef0123456789abcdef",
+      "--app-id",
+      "0123456789abcdef0123456789abcdef",
+      "--ai-config-transcription-language",
+      "fr"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/realtime/kit/0123456789abcdef0123456789abcdef/meetings/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "49",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "ai_config": {
+            "transcription": {
+              "language": "fr"
+            }
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "--ai-config-transcription-language value 9",
+    "argv": [
+      "realtime",
+      "kit",
+      "meetings",
+      "replace",
+      "0123456789abcdef0123456789abcdef",
+      "--app-id",
+      "0123456789abcdef0123456789abcdef",
+      "--ai-config-transcription-language",
+      "nl"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/realtime/kit/0123456789abcdef0123456789abcdef/meetings/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "49",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "ai_config": {
+            "transcription": {
+              "language": "nl"
+            }
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --ai-config-transcription-profanity-filter",
+    "argv": [
+      "realtime",
+      "kit",
+      "meetings",
+      "replace",
+      "0123456789abcdef0123456789abcdef",
+      "--app-id",
+      "0123456789abcdef0123456789abcdef",
+      "--ai-config-transcription-profanity-filter=true"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/realtime/kit/0123456789abcdef0123456789abcdef/meetings/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "57",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "ai_config": {
+            "transcription": {
+              "profanity_filter": true
+            }
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "--ai-config-transcription-profanity-filter value 1",
+    "argv": [
+      "realtime",
+      "kit",
+      "meetings",
+      "replace",
+      "0123456789abcdef0123456789abcdef",
+      "--app-id",
+      "0123456789abcdef0123456789abcdef",
+      "--ai-config-transcription-profanity-filter=false"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/realtime/kit/0123456789abcdef0123456789abcdef/meetings/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "58",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "ai_config": {
+            "transcription": {
+              "profanity_filter": false
+            }
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --live-stream-on-start",
+    "argv": [
+      "realtime",
+      "kit",
+      "meetings",
+      "replace",
+      "0123456789abcdef0123456789abcdef",
+      "--app-id",
+      "0123456789abcdef0123456789abcdef",
+      "--live-stream-on-start=true"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/realtime/kit/0123456789abcdef0123456789abcdef/meetings/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "29",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "live_stream_on_start": true
+        }
+      }
+    ]
+  },
+  {
+    "case": "--live-stream-on-start value 1",
+    "argv": [
+      "realtime",
+      "kit",
+      "meetings",
+      "replace",
+      "0123456789abcdef0123456789abcdef",
+      "--app-id",
+      "0123456789abcdef0123456789abcdef",
+      "--live-stream-on-start=false"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/realtime/kit/0123456789abcdef0123456789abcdef/meetings/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "30",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "live_stream_on_start": false
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --persist-chat",
+    "argv": [
+      "realtime",
+      "kit",
+      "meetings",
+      "replace",
+      "0123456789abcdef0123456789abcdef",
+      "--app-id",
+      "0123456789abcdef0123456789abcdef",
+      "--persist-chat=true"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/realtime/kit/0123456789abcdef0123456789abcdef/meetings/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "21",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "persist_chat": true
+        }
+      }
+    ]
+  },
+  {
+    "case": "--persist-chat value 1",
+    "argv": [
+      "realtime",
+      "kit",
+      "meetings",
+      "replace",
+      "0123456789abcdef0123456789abcdef",
+      "--app-id",
+      "0123456789abcdef0123456789abcdef",
+      "--persist-chat=false"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/realtime/kit/0123456789abcdef0123456789abcdef/meetings/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "22",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "persist_chat": false
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --record-on-start",
+    "argv": [
+      "realtime",
+      "kit",
+      "meetings",
+      "replace",
+      "0123456789abcdef0123456789abcdef",
+      "--app-id",
+      "0123456789abcdef0123456789abcdef",
+      "--record-on-start=true"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/realtime/kit/0123456789abcdef0123456789abcdef/meetings/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "24",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "record_on_start": true
+        }
+      }
+    ]
+  },
+  {
+    "case": "--record-on-start value 1",
+    "argv": [
+      "realtime",
+      "kit",
+      "meetings",
+      "replace",
+      "0123456789abcdef0123456789abcdef",
+      "--app-id",
+      "0123456789abcdef0123456789abcdef",
+      "--record-on-start=false"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/realtime/kit/0123456789abcdef0123456789abcdef/meetings/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "25",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "record_on_start": false
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --recording-config-audio-config-channel",
+    "argv": [
+      "realtime",
+      "kit",
+      "meetings",
+      "replace",
+      "0123456789abcdef0123456789abcdef",
+      "--app-id",
+      "0123456789abcdef0123456789abcdef",
+      "--recording-config-audio-config-channel",
+      "mono"
+    ],
+    "exitCode": 1,
+    "error": "--recording-config-realtimekit-bucket-config-enabled is required when any --recording_config-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "--recording-config-audio-config-channel value 1",
+    "argv": [
+      "realtime",
+      "kit",
+      "meetings",
+      "replace",
+      "0123456789abcdef0123456789abcdef",
+      "--app-id",
+      "0123456789abcdef0123456789abcdef",
+      "--recording-config-audio-config-channel",
+      "stereo"
+    ],
+    "exitCode": 1,
+    "error": "--recording-config-realtimekit-bucket-config-enabled is required when any --recording_config-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "only --recording-config-audio-config-codec",
+    "argv": [
+      "realtime",
+      "kit",
+      "meetings",
+      "replace",
+      "0123456789abcdef0123456789abcdef",
+      "--app-id",
+      "0123456789abcdef0123456789abcdef",
+      "--recording-config-audio-config-codec",
+      "MP3"
+    ],
+    "exitCode": 1,
+    "error": "--recording-config-realtimekit-bucket-config-enabled is required when any --recording_config-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "--recording-config-audio-config-codec value 1",
+    "argv": [
+      "realtime",
+      "kit",
+      "meetings",
+      "replace",
+      "0123456789abcdef0123456789abcdef",
+      "--app-id",
+      "0123456789abcdef0123456789abcdef",
+      "--recording-config-audio-config-codec",
+      "AAC"
+    ],
+    "exitCode": 1,
+    "error": "--recording-config-realtimekit-bucket-config-enabled is required when any --recording_config-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "only --recording-config-audio-config-export-file",
+    "argv": [
+      "realtime",
+      "kit",
+      "meetings",
+      "replace",
+      "0123456789abcdef0123456789abcdef",
+      "--app-id",
+      "0123456789abcdef0123456789abcdef",
+      "--recording-config-audio-config-export-file=true"
+    ],
+    "exitCode": 1,
+    "error": "--recording-config-realtimekit-bucket-config-enabled is required when any --recording_config-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "--recording-config-audio-config-export-file value 1",
+    "argv": [
+      "realtime",
+      "kit",
+      "meetings",
+      "replace",
+      "0123456789abcdef0123456789abcdef",
+      "--app-id",
+      "0123456789abcdef0123456789abcdef",
+      "--recording-config-audio-config-export-file=false"
+    ],
+    "exitCode": 1,
+    "error": "--recording-config-realtimekit-bucket-config-enabled is required when any --recording_config-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "only --recording-config-file-name-prefix",
+    "argv": [
+      "realtime",
+      "kit",
+      "meetings",
+      "replace",
+      "0123456789abcdef0123456789abcdef",
+      "--app-id",
+      "0123456789abcdef0123456789abcdef",
+      "--recording-config-file-name-prefix",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 1,
+    "error": "--recording-config-realtimekit-bucket-config-enabled is required when any --recording_config-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "only --recording-config-live-streaming-config-rtmp-url",
+    "argv": [
+      "realtime",
+      "kit",
+      "meetings",
+      "replace",
+      "0123456789abcdef0123456789abcdef",
+      "--app-id",
+      "0123456789abcdef0123456789abcdef",
+      "--recording-config-live-streaming-config-rtmp-url",
+      "https://example.com/a?x=1&y=two"
+    ],
+    "exitCode": 1,
+    "error": "--recording-config-realtimekit-bucket-config-enabled is required when any --recording_config-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "only --recording-config-max-seconds",
+    "argv": [
+      "realtime",
+      "kit",
+      "meetings",
+      "replace",
+      "0123456789abcdef0123456789abcdef",
+      "--app-id",
+      "0123456789abcdef0123456789abcdef",
+      "--recording-config-max-seconds",
+      "1"
+    ],
+    "exitCode": 1,
+    "error": "--recording-config-realtimekit-bucket-config-enabled is required when any --recording_config-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "only --recording-config-realtimekit-bucket-config-enabled",
+    "argv": [
+      "realtime",
+      "kit",
+      "meetings",
+      "replace",
+      "0123456789abcdef0123456789abcdef",
+      "--app-id",
+      "0123456789abcdef0123456789abcdef",
+      "--recording-config-realtimekit-bucket-config-enabled=true"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/realtime/kit/0123456789abcdef0123456789abcdef/meetings/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "67",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "recording_config": {
+            "realtimekit_bucket_config": {
+              "enabled": true
+            }
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "--recording-config-realtimekit-bucket-config-enabled value 1",
+    "argv": [
+      "realtime",
+      "kit",
+      "meetings",
+      "replace",
+      "0123456789abcdef0123456789abcdef",
+      "--app-id",
+      "0123456789abcdef0123456789abcdef",
+      "--recording-config-realtimekit-bucket-config-enabled=false"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/realtime/kit/0123456789abcdef0123456789abcdef/meetings/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "68",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "recording_config": {
+            "realtimekit_bucket_config": {
+              "enabled": false
+            }
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --recording-config-video-config-codec",
+    "argv": [
+      "realtime",
+      "kit",
+      "meetings",
+      "replace",
+      "0123456789abcdef0123456789abcdef",
+      "--app-id",
+      "0123456789abcdef0123456789abcdef",
+      "--recording-config-video-config-codec",
+      "H264"
+    ],
+    "exitCode": 1,
+    "error": "--recording-config-realtimekit-bucket-config-enabled is required when any --recording_config-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "--recording-config-video-config-codec value 1",
+    "argv": [
+      "realtime",
+      "kit",
+      "meetings",
+      "replace",
+      "0123456789abcdef0123456789abcdef",
+      "--app-id",
+      "0123456789abcdef0123456789abcdef",
+      "--recording-config-video-config-codec",
+      "VP8"
+    ],
+    "exitCode": 1,
+    "error": "--recording-config-realtimekit-bucket-config-enabled is required when any --recording_config-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "--recording-config-video-config-codec value 2",
+    "argv": [
+      "realtime",
+      "kit",
+      "meetings",
+      "replace",
+      "0123456789abcdef0123456789abcdef",
+      "--app-id",
+      "0123456789abcdef0123456789abcdef",
+      "--recording-config-video-config-codec",
+      "VP9"
+    ],
+    "exitCode": 1,
+    "error": "--recording-config-realtimekit-bucket-config-enabled is required when any --recording_config-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "only --recording-config-video-config-export-file",
+    "argv": [
+      "realtime",
+      "kit",
+      "meetings",
+      "replace",
+      "0123456789abcdef0123456789abcdef",
+      "--app-id",
+      "0123456789abcdef0123456789abcdef",
+      "--recording-config-video-config-export-file=true"
+    ],
+    "exitCode": 1,
+    "error": "--recording-config-realtimekit-bucket-config-enabled is required when any --recording_config-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "--recording-config-video-config-export-file value 1",
+    "argv": [
+      "realtime",
+      "kit",
+      "meetings",
+      "replace",
+      "0123456789abcdef0123456789abcdef",
+      "--app-id",
+      "0123456789abcdef0123456789abcdef",
+      "--recording-config-video-config-export-file=false"
+    ],
+    "exitCode": 1,
+    "error": "--recording-config-realtimekit-bucket-config-enabled is required when any --recording_config-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "only --recording-config-video-config-height",
+    "argv": [
+      "realtime",
+      "kit",
+      "meetings",
+      "replace",
+      "0123456789abcdef0123456789abcdef",
+      "--app-id",
+      "0123456789abcdef0123456789abcdef",
+      "--recording-config-video-config-height",
+      "1"
+    ],
+    "exitCode": 1,
+    "error": "--recording-config-realtimekit-bucket-config-enabled is required when any --recording_config-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "only --recording-config-video-config-watermark-position",
+    "argv": [
+      "realtime",
+      "kit",
+      "meetings",
+      "replace",
+      "0123456789abcdef0123456789abcdef",
+      "--app-id",
+      "0123456789abcdef0123456789abcdef",
+      "--recording-config-video-config-watermark-position",
+      "left top"
+    ],
+    "exitCode": 1,
+    "error": "--recording-config-realtimekit-bucket-config-enabled is required when any --recording_config-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "--recording-config-video-config-watermark-position value 1",
+    "argv": [
+      "realtime",
+      "kit",
+      "meetings",
+      "replace",
+      "0123456789abcdef0123456789abcdef",
+      "--app-id",
+      "0123456789abcdef0123456789abcdef",
+      "--recording-config-video-config-watermark-position",
+      "right top"
+    ],
+    "exitCode": 1,
+    "error": "--recording-config-realtimekit-bucket-config-enabled is required when any --recording_config-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "--recording-config-video-config-watermark-position value 2",
+    "argv": [
+      "realtime",
+      "kit",
+      "meetings",
+      "replace",
+      "0123456789abcdef0123456789abcdef",
+      "--app-id",
+      "0123456789abcdef0123456789abcdef",
+      "--recording-config-video-config-watermark-position",
+      "left bottom"
+    ],
+    "exitCode": 1,
+    "error": "--recording-config-realtimekit-bucket-config-enabled is required when any --recording_config-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "--recording-config-video-config-watermark-position value 3",
+    "argv": [
+      "realtime",
+      "kit",
+      "meetings",
+      "replace",
+      "0123456789abcdef0123456789abcdef",
+      "--app-id",
+      "0123456789abcdef0123456789abcdef",
+      "--recording-config-video-config-watermark-position",
+      "right bottom"
+    ],
+    "exitCode": 1,
+    "error": "--recording-config-realtimekit-bucket-config-enabled is required when any --recording_config-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "only --recording-config-video-config-watermark-url",
+    "argv": [
+      "realtime",
+      "kit",
+      "meetings",
+      "replace",
+      "0123456789abcdef0123456789abcdef",
+      "--app-id",
+      "0123456789abcdef0123456789abcdef",
+      "--recording-config-video-config-watermark-url",
+      "https://example.com/a?x=1&y=two"
+    ],
+    "exitCode": 1,
+    "error": "--recording-config-realtimekit-bucket-config-enabled is required when any --recording_config-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "only --recording-config-video-config-width",
+    "argv": [
+      "realtime",
+      "kit",
+      "meetings",
+      "replace",
+      "0123456789abcdef0123456789abcdef",
+      "--app-id",
+      "0123456789abcdef0123456789abcdef",
+      "--recording-config-video-config-width",
+      "1"
+    ],
+    "exitCode": 1,
+    "error": "--recording-config-realtimekit-bucket-config-enabled is required when any --recording_config-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "only --session-keep-alive-time-in-secs",
+    "argv": [
+      "realtime",
+      "kit",
+      "meetings",
+      "replace",
+      "0123456789abcdef0123456789abcdef",
+      "--app-id",
+      "0123456789abcdef0123456789abcdef",
+      "--session-keep-alive-time-in-secs",
+      "1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/realtime/kit/0123456789abcdef0123456789abcdef/meetings/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "37",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "session_keep_alive_time_in_secs": 1
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --summarize-on-end",
+    "argv": [
+      "realtime",
+      "kit",
+      "meetings",
+      "replace",
+      "0123456789abcdef0123456789abcdef",
+      "--app-id",
+      "0123456789abcdef0123456789abcdef",
+      "--summarize-on-end=true"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/realtime/kit/0123456789abcdef0123456789abcdef/meetings/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "25",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "summarize_on_end": true
+        }
+      }
+    ]
+  },
+  {
+    "case": "--summarize-on-end value 1",
+    "argv": [
+      "realtime",
+      "kit",
+      "meetings",
+      "replace",
+      "0123456789abcdef0123456789abcdef",
+      "--app-id",
+      "0123456789abcdef0123456789abcdef",
+      "--summarize-on-end=false"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/realtime/kit/0123456789abcdef0123456789abcdef/meetings/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "26",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "summarize_on_end": false
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --title",
+    "argv": [
+      "realtime",
+      "kit",
+      "meetings",
+      "replace",
+      "0123456789abcdef0123456789abcdef",
+      "--app-id",
+      "0123456789abcdef0123456789abcdef",
+      "--title",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/realtime/kit/0123456789abcdef0123456789abcdef/meetings/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "35",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "title": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --transcribe-on-end",
+    "argv": [
+      "realtime",
+      "kit",
+      "meetings",
+      "replace",
+      "0123456789abcdef0123456789abcdef",
+      "--app-id",
+      "0123456789abcdef0123456789abcdef",
+      "--transcribe-on-end=true"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/realtime/kit/0123456789abcdef0123456789abcdef/meetings/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "26",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "transcribe_on_end": true
+        }
+      }
+    ]
+  },
+  {
+    "case": "--transcribe-on-end value 1",
+    "argv": [
+      "realtime",
+      "kit",
+      "meetings",
+      "replace",
+      "0123456789abcdef0123456789abcdef",
+      "--app-id",
+      "0123456789abcdef0123456789abcdef",
+      "--transcribe-on-end=false"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/realtime/kit/0123456789abcdef0123456789abcdef/meetings/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "27",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "transcribe_on_end": false
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 0",
+    "argv": [
+      "realtime",
+      "kit",
+      "meetings",
+      "replace",
+      "0123456789abcdef0123456789abcdef",
+      "--app-id",
+      "0123456789abcdef0123456789abcdef"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/realtime/kit/0123456789abcdef0123456789abcdef/meetings/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "2",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {}
+      }
+    ]
+  },
+  {
+    "case": "pairwise 1",
+    "argv": [
+      "realtime",
+      "kit",
+      "meetings",
+      "replace",
+      "0123456789abcdef0123456789abcdef",
+      "--app-id",
+      "0123456789abcdef0123456789abcdef",
+      "--ai-config-summarization-summary-type",
+      "team_meeting",
+      "--ai-config-summarization-text-format",
+      "markdown",
+      "--ai-config-summarization-word-limit",
+      "2",
+      "--ai-config-transcription-keywords",
+      "192.0.2.1",
+      "192.0.2.1",
+      "--ai-config-transcription-language",
+      "en-IN",
+      "--ai-config-transcription-profanity-filter=false",
+      "--live-stream-on-start=false",
+      "--persist-chat=false",
+      "--record-on-start=false",
+      "--recording-config-audio-config-channel",
+      "stereo",
+      "--recording-config-audio-config-codec",
+      "AAC",
+      "--recording-config-audio-config-export-file=false",
+      "--recording-config-file-name-prefix",
+      "second value &/?+ü",
+      "--recording-config-live-streaming-config-rtmp-url",
+      "https://example.com/a?x=1&y=two",
+      "--recording-config-max-seconds",
+      "2",
+      "--recording-config-realtimekit-bucket-config-enabled=false",
+      "--recording-config-video-config-codec",
+      "VP8",
+      "--recording-config-video-config-export-file=false",
+      "--recording-config-video-config-height",
+      "2",
+      "--recording-config-video-config-watermark-position",
+      "right top",
+      "--recording-config-video-config-watermark-url",
+      "https://example.com/a?x=1&y=two",
+      "--recording-config-video-config-width",
+      "2",
+      "--session-keep-alive-time-in-secs",
+      "2",
+      "--summarize-on-end=false",
+      "--title",
+      "second value &/?+ü",
+      "--transcribe-on-end=false"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/realtime/kit/0123456789abcdef0123456789abcdef/meetings/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "807",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "ai_config": {
+            "summarization": {
+              "summary_type": "team_meeting",
+              "text_format": "markdown",
+              "word_limit": 2
+            },
+            "transcription": {
+              "keywords": [
+                "192.0.2.1",
+                "192.0.2.1"
+              ],
+              "language": "en-IN",
+              "profanity_filter": false
+            }
+          },
+          "live_stream_on_start": false,
+          "persist_chat": false,
+          "record_on_start": false,
+          "recording_config": {
+            "audio_config": {
+              "channel": "stereo",
+              "codec": "AAC",
+              "export_file": false
+            },
+            "file_name_prefix": "second value &/?+ü",
+            "live_streaming_config": {
+              "rtmp_url": "https://example.com/a?x=1&y=two"
+            },
+            "max_seconds": 2,
+            "realtimekit_bucket_config": {
+              "enabled": false
+            },
+            "video_config": {
+              "codec": "VP8",
+              "export_file": false,
+              "height": 2,
+              "watermark": {
+                "position": "right top",
+                "url": "https://example.com/a?x=1&y=two"
+              },
+              "width": 2
+            }
+          },
+          "session_keep_alive_time_in_secs": 2,
+          "summarize_on_end": false,
+          "title": "second value &/?+ü",
+          "transcribe_on_end": false
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 2",
+    "argv": [
+      "realtime",
+      "kit",
+      "meetings",
+      "replace",
+      "0123456789abcdef0123456789abcdef",
+      "--app-id",
+      "0123456789abcdef0123456789abcdef",
+      "--ai-config-summarization-text-format",
+      "plain_text",
+      "--ai-config-transcription-keywords",
+      "192.0.2.1",
+      "--ai-config-transcription-profanity-filter=true",
+      "--persist-chat=true",
+      "--recording-config-audio-config-channel",
+      "mono",
+      "--recording-config-audio-config-export-file=true",
+      "--recording-config-live-streaming-config-rtmp-url",
+      "https://example.com/a?x=1&y=two",
+      "--recording-config-realtimekit-bucket-config-enabled=true",
+      "--recording-config-video-config-export-file=true",
+      "--recording-config-video-config-watermark-position",
+      "left top",
+      "--recording-config-video-config-width",
+      "1",
+      "--summarize-on-end=true",
+      "--transcribe-on-end=true"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/realtime/kit/0123456789abcdef0123456789abcdef/meetings/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "468",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "ai_config": {
+            "summarization": {
+              "text_format": "plain_text"
+            },
+            "transcription": {
+              "keywords": [
+                "192.0.2.1"
+              ],
+              "profanity_filter": true
+            }
+          },
+          "persist_chat": true,
+          "recording_config": {
+            "audio_config": {
+              "channel": "mono",
+              "export_file": true
+            },
+            "live_streaming_config": {
+              "rtmp_url": "https://example.com/a?x=1&y=two"
+            },
+            "realtimekit_bucket_config": {
+              "enabled": true
+            },
+            "video_config": {
+              "export_file": true,
+              "watermark": {
+                "position": "left top"
+              },
+              "width": 1
+            }
+          },
+          "summarize_on_end": true,
+          "transcribe_on_end": true
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 3",
+    "argv": [
+      "realtime",
+      "kit",
+      "meetings",
+      "replace",
+      "0123456789abcdef0123456789abcdef",
+      "--app-id",
+      "0123456789abcdef0123456789abcdef",
+      "--ai-config-summarization-summary-type",
+      "team_meeting",
+      "--ai-config-summarization-word-limit",
+      "2",
+      "--ai-config-transcription-language",
+      "en-IN",
+      "--live-stream-on-start=false",
+      "--record-on-start=false",
+      "--recording-config-audio-config-codec",
+      "AAC",
+      "--recording-config-file-name-prefix",
+      "second value &/?+ü",
+      "--recording-config-max-seconds",
+      "2",
+      "--recording-config-video-config-codec",
+      "VP8",
+      "--recording-config-video-config-height",
+      "2",
+      "--recording-config-video-config-watermark-url",
+      "https://example.com/a?x=1&y=two",
+      "--session-keep-alive-time-in-secs",
+      "2",
+      "--title",
+      "second value &/?+ü"
+    ],
+    "exitCode": 1,
+    "error": "--recording-config-realtimekit-bucket-config-enabled is required when any --recording_config-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "pairwise 4",
+    "argv": [
+      "realtime",
+      "kit",
+      "meetings",
+      "replace",
+      "0123456789abcdef0123456789abcdef",
+      "--app-id",
+      "0123456789abcdef0123456789abcdef",
+      "--ai-config-summarization-word-limit",
+      "1",
+      "--ai-config-transcription-keywords",
+      "192.0.2.1",
+      "--live-stream-on-start=true",
+      "--persist-chat=true",
+      "--recording-config-audio-config-codec",
+      "MP3",
+      "--recording-config-audio-config-export-file=true",
+      "--recording-config-max-seconds",
+      "1",
+      "--recording-config-realtimekit-bucket-config-enabled=true",
+      "--recording-config-video-config-height",
+      "1",
+      "--recording-config-video-config-watermark-position",
+      "left top",
+      "--session-keep-alive-time-in-secs",
+      "1",
+      "--summarize-on-end=true"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/realtime/kit/0123456789abcdef0123456789abcdef/meetings/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "395",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "ai_config": {
+            "summarization": {
+              "word_limit": 1
+            },
+            "transcription": {
+              "keywords": [
+                "192.0.2.1"
+              ]
+            }
+          },
+          "live_stream_on_start": true,
+          "persist_chat": true,
+          "recording_config": {
+            "audio_config": {
+              "codec": "MP3",
+              "export_file": true
+            },
+            "max_seconds": 1,
+            "realtimekit_bucket_config": {
+              "enabled": true
+            },
+            "video_config": {
+              "height": 1,
+              "watermark": {
+                "position": "left top"
+              }
+            }
+          },
+          "session_keep_alive_time_in_secs": 1,
+          "summarize_on_end": true
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 5",
+    "argv": [
+      "realtime",
+      "kit",
+      "meetings",
+      "replace",
+      "0123456789abcdef0123456789abcdef",
+      "--app-id",
+      "0123456789abcdef0123456789abcdef",
+      "--ai-config-summarization-summary-type",
+      "team_meeting",
+      "--ai-config-summarization-text-format",
+      "markdown",
+      "--ai-config-transcription-language",
+      "en-IN",
+      "--ai-config-transcription-profanity-filter=false",
+      "--record-on-start=false",
+      "--recording-config-audio-config-channel",
+      "stereo",
+      "--recording-config-file-name-prefix",
+      "second value &/?+ü",
+      "--recording-config-live-streaming-config-rtmp-url",
+      "https://example.com/a?x=1&y=two",
+      "--recording-config-video-config-codec",
+      "VP8",
+      "--recording-config-video-config-export-file=false",
+      "--recording-config-video-config-watermark-url",
+      "https://example.com/a?x=1&y=two",
+      "--recording-config-video-config-width",
+      "2",
+      "--title",
+      "second value &/?+ü",
+      "--transcribe-on-end=false"
+    ],
+    "exitCode": 1,
+    "error": "--recording-config-realtimekit-bucket-config-enabled is required when any --recording_config-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "pairwise 6",
+    "argv": [
+      "realtime",
+      "kit",
+      "meetings",
+      "replace",
+      "0123456789abcdef0123456789abcdef",
+      "--app-id",
+      "0123456789abcdef0123456789abcdef",
+      "--ai-config-transcription-language",
+      "en-US",
+      "--ai-config-transcription-profanity-filter=true",
+      "--live-stream-on-start=true",
+      "--persist-chat=true",
+      "--recording-config-file-name-prefix",
+      "regression value &/?+ü",
+      "--recording-config-live-streaming-config-rtmp-url",
+      "https://example.com/a?x=1&y=two",
+      "--recording-config-max-seconds",
+      "1",
+      "--recording-config-realtimekit-bucket-config-enabled=true",
+      "--recording-config-video-config-watermark-url",
+      "https://example.com/a?x=1&y=two",
+      "--recording-config-video-config-width",
+      "1",
+      "--session-keep-alive-time-in-secs",
+      "1",
+      "--summarize-on-end=true"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/realtime/kit/0123456789abcdef0123456789abcdef/meetings/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "463",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "ai_config": {
+            "transcription": {
+              "language": "en-US",
+              "profanity_filter": true
+            }
+          },
+          "live_stream_on_start": true,
+          "persist_chat": true,
+          "recording_config": {
+            "file_name_prefix": "regression value &/?+ü",
+            "live_streaming_config": {
+              "rtmp_url": "https://example.com/a?x=1&y=two"
+            },
+            "max_seconds": 1,
+            "realtimekit_bucket_config": {
+              "enabled": true
+            },
+            "video_config": {
+              "watermark": {
+                "url": "https://example.com/a?x=1&y=two"
+              },
+              "width": 1
+            }
+          },
+          "session_keep_alive_time_in_secs": 1,
+          "summarize_on_end": true
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 7",
+    "argv": [
+      "realtime",
+      "kit",
+      "meetings",
+      "replace",
+      "0123456789abcdef0123456789abcdef",
+      "--app-id",
+      "0123456789abcdef0123456789abcdef",
+      "--ai-config-summarization-summary-type",
+      "team_meeting",
+      "--ai-config-summarization-text-format",
+      "markdown",
+      "--ai-config-summarization-word-limit",
+      "2",
+      "--ai-config-transcription-keywords",
+      "192.0.2.1",
+      "192.0.2.1",
+      "--record-on-start=false",
+      "--recording-config-audio-config-channel",
+      "stereo",
+      "--recording-config-audio-config-codec",
+      "AAC",
+      "--recording-config-audio-config-export-file=false",
+      "--recording-config-video-config-codec",
+      "VP8",
+      "--recording-config-video-config-export-file=false",
+      "--recording-config-video-config-height",
+      "2",
+      "--recording-config-video-config-watermark-position",
+      "right top",
+      "--title",
+      "second value &/?+ü",
+      "--transcribe-on-end=false"
+    ],
+    "exitCode": 1,
+    "error": "--recording-config-realtimekit-bucket-config-enabled is required when any --recording_config-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "pairwise 8",
+    "argv": [
+      "realtime",
+      "kit",
+      "meetings",
+      "replace",
+      "0123456789abcdef0123456789abcdef",
+      "--app-id",
+      "0123456789abcdef0123456789abcdef",
+      "--record-on-start=true",
+      "--recording-config-audio-config-channel",
+      "mono",
+      "--recording-config-audio-config-codec",
+      "MP3",
+      "--recording-config-audio-config-export-file=true",
+      "--recording-config-file-name-prefix",
+      "regression value &/?+ü",
+      "--recording-config-live-streaming-config-rtmp-url",
+      "https://example.com/a?x=1&y=two",
+      "--recording-config-max-seconds",
+      "1",
+      "--recording-config-realtimekit-bucket-config-enabled=true",
+      "--title",
+      "regression value &/?+ü",
+      "--transcribe-on-end=true"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/realtime/kit/0123456789abcdef0123456789abcdef/meetings/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "348",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "record_on_start": true,
+          "recording_config": {
+            "audio_config": {
+              "channel": "mono",
+              "codec": "MP3",
+              "export_file": true
+            },
+            "file_name_prefix": "regression value &/?+ü",
+            "live_streaming_config": {
+              "rtmp_url": "https://example.com/a?x=1&y=two"
+            },
+            "max_seconds": 1,
+            "realtimekit_bucket_config": {
+              "enabled": true
+            }
+          },
+          "title": "regression value &/?+ü",
+          "transcribe_on_end": true
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 9",
+    "argv": [
+      "realtime",
+      "kit",
+      "meetings",
+      "replace",
+      "0123456789abcdef0123456789abcdef",
+      "--app-id",
+      "0123456789abcdef0123456789abcdef",
+      "--ai-config-summarization-summary-type",
+      "team_meeting",
+      "--ai-config-summarization-text-format",
+      "markdown",
+      "--ai-config-summarization-word-limit",
+      "2",
+      "--ai-config-transcription-keywords",
+      "192.0.2.1",
+      "192.0.2.1",
+      "--ai-config-transcription-language",
+      "en-IN",
+      "--ai-config-transcription-profanity-filter=false",
+      "--live-stream-on-start=false",
+      "--persist-chat=false",
+      "--recording-config-video-config-codec",
+      "VP8",
+      "--recording-config-video-config-export-file=false",
+      "--recording-config-video-config-height",
+      "2",
+      "--recording-config-video-config-watermark-position",
+      "right top",
+      "--recording-config-video-config-watermark-url",
+      "https://example.com/a?x=1&y=two",
+      "--recording-config-video-config-width",
+      "2",
+      "--session-keep-alive-time-in-secs",
+      "2",
+      "--summarize-on-end=false"
+    ],
+    "exitCode": 1,
+    "error": "--recording-config-realtimekit-bucket-config-enabled is required when any --recording_config-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "pairwise 10",
+    "argv": [
+      "realtime",
+      "kit",
+      "meetings",
+      "replace",
+      "0123456789abcdef0123456789abcdef",
+      "--app-id",
+      "0123456789abcdef0123456789abcdef",
+      "--recording-config-video-config-codec",
+      "H264",
+      "--recording-config-video-config-export-file=true",
+      "--recording-config-video-config-height",
+      "1",
+      "--recording-config-video-config-watermark-position",
+      "left top",
+      "--recording-config-video-config-watermark-url",
+      "https://example.com/a?x=1&y=two",
+      "--recording-config-video-config-width",
+      "1",
+      "--session-keep-alive-time-in-secs",
+      "1",
+      "--summarize-on-end=true",
+      "--title",
+      "regression value &/?+ü",
+      "--transcribe-on-end=true"
+    ],
+    "exitCode": 1,
+    "error": "--recording-config-realtimekit-bucket-config-enabled is required when any --recording_config-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "pairwise 11",
+    "argv": [
+      "realtime",
+      "kit",
+      "meetings",
+      "replace",
+      "0123456789abcdef0123456789abcdef",
+      "--app-id",
+      "0123456789abcdef0123456789abcdef",
+      "--ai-config-summarization-summary-type",
+      "team_meeting",
+      "--ai-config-summarization-text-format",
+      "markdown",
+      "--ai-config-summarization-word-limit",
+      "2",
+      "--ai-config-transcription-keywords",
+      "192.0.2.1",
+      "192.0.2.1",
+      "--ai-config-transcription-language",
+      "en-IN",
+      "--ai-config-transcription-profanity-filter=false",
+      "--live-stream-on-start=false",
+      "--persist-chat=false",
+      "--record-on-start=false",
+      "--recording-config-audio-config-channel",
+      "stereo",
+      "--recording-config-audio-config-codec",
+      "AAC",
+      "--recording-config-audio-config-export-file=false",
+      "--recording-config-file-name-prefix",
+      "second value &/?+ü",
+      "--recording-config-live-streaming-config-rtmp-url",
+      "https://example.com/a?x=1&y=two",
+      "--recording-config-max-seconds",
+      "2",
+      "--recording-config-realtimekit-bucket-config-enabled=false"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/realtime/kit/0123456789abcdef0123456789abcdef/meetings/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "541",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "ai_config": {
+            "summarization": {
+              "summary_type": "team_meeting",
+              "text_format": "markdown",
+              "word_limit": 2
+            },
+            "transcription": {
+              "keywords": [
+                "192.0.2.1",
+                "192.0.2.1"
+              ],
+              "language": "en-IN",
+              "profanity_filter": false
+            }
+          },
+          "live_stream_on_start": false,
+          "persist_chat": false,
+          "record_on_start": false,
+          "recording_config": {
+            "audio_config": {
+              "channel": "stereo",
+              "codec": "AAC",
+              "export_file": false
+            },
+            "file_name_prefix": "second value &/?+ü",
+            "live_streaming_config": {
+              "rtmp_url": "https://example.com/a?x=1&y=two"
+            },
+            "max_seconds": 2,
+            "realtimekit_bucket_config": {
+              "enabled": false
+            }
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "global quiet",
+    "argv": [
+      "realtime",
+      "kit",
+      "meetings",
+      "replace",
+      "0123456789abcdef0123456789abcdef",
+      "--app-id",
+      "0123456789abcdef0123456789abcdef",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--quiet"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/realtime/kit/0123456789abcdef0123456789abcdef/meetings/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "global zone",
+    "argv": [
+      "realtime",
+      "kit",
+      "meetings",
+      "replace",
+      "0123456789abcdef0123456789abcdef",
+      "--app-id",
+      "0123456789abcdef0123456789abcdef",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--zone",
+      "abcdef0123456789abcdef0123456789"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/realtime/kit/0123456789abcdef0123456789abcdef/meetings/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "global profile and mode",
+    "argv": [
+      "realtime",
+      "kit",
+      "meetings",
+      "replace",
+      "0123456789abcdef0123456789abcdef",
+      "--app-id",
+      "0123456789abcdef0123456789abcdef",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--profile",
+      "default",
+      "--mode",
+      "regression"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/realtime/kit/0123456789abcdef0123456789abcdef/meetings/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "local",
+    "argv": [
+      "realtime",
+      "kit",
+      "meetings",
+      "replace",
+      "0123456789abcdef0123456789abcdef",
+      "--app-id",
+      "0123456789abcdef0123456789abcdef",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--local"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "http://localhost/cdn-cgi/local/explorer/api/realtime/kit/0123456789abcdef0123456789abcdef/meetings/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "gzip, deflate",
+          "accept-language": "*",
+          "connection": "keep-alive",
+          "content-type": "application/json",
+          "host": "localhost",
+          "sec-fetch-mode": "cors",
+          "transfer-encoding": "chunked",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "local with persistence",
+    "argv": [
+      "realtime",
+      "kit",
+      "meetings",
+      "replace",
+      "0123456789abcdef0123456789abcdef",
+      "--app-id",
+      "0123456789abcdef0123456789abcdef",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--local",
+      "--persist-to",
+      "regression-state"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "http://localhost/cdn-cgi/local/explorer/api/realtime/kit/0123456789abcdef0123456789abcdef/meetings/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "gzip, deflate",
+          "accept-language": "*",
+          "connection": "keep-alive",
+          "content-type": "application/json",
+          "host": "localhost",
+          "sec-fetch-mode": "cors",
+          "transfer-encoding": "chunked",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "dry-run",
+    "argv": [
+      "realtime",
+      "kit",
+      "meetings",
+      "replace",
+      "0123456789abcdef0123456789abcdef",
+      "--app-id",
+      "0123456789abcdef0123456789abcdef",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--dry-run"
+    ],
+    "exitCode": 0,
+    "requests": []
+  },
+  {
+    "case": "body from file",
+    "argv": [
+      "realtime",
+      "kit",
+      "meetings",
+      "replace",
+      "0123456789abcdef0123456789abcdef",
+      "--app-id",
+      "0123456789abcdef0123456789abcdef",
+      "--body",
+      "@<body.json>"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/realtime/kit/0123456789abcdef0123456789abcdef/meetings/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "array body",
+    "argv": [
+      "realtime",
+      "kit",
+      "meetings",
+      "replace",
+      "0123456789abcdef0123456789abcdef",
+      "--app-id",
+      "0123456789abcdef0123456789abcdef",
+      "--body",
+      "[{\"regression\":\"first\"},{\"regression\":\"second\"}]"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/realtime/kit/0123456789abcdef0123456789abcdef/meetings/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "56",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "0": {
+            "regression": "first"
+          },
+          "1": {
+            "regression": "second"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "field flags",
+    "argv": [
+      "realtime",
+      "kit",
+      "meetings",
+      "replace",
+      "0123456789abcdef0123456789abcdef",
+      "--app-id",
+      "0123456789abcdef0123456789abcdef",
+      "--ai-config-summarization-summary-type",
+      "general",
+      "--ai-config-summarization-text-format",
+      "plain_text",
+      "--ai-config-summarization-word-limit",
+      "1",
+      "--ai-config-transcription-keywords",
+      "192.0.2.1",
+      "--ai-config-transcription-language",
+      "en-US",
+      "--ai-config-transcription-profanity-filter=true",
+      "--live-stream-on-start=true",
+      "--persist-chat=true",
+      "--record-on-start=true",
+      "--recording-config-audio-config-channel",
+      "mono",
+      "--recording-config-audio-config-codec",
+      "MP3",
+      "--recording-config-audio-config-export-file=true",
+      "--recording-config-file-name-prefix",
+      "regression value &/?+ü",
+      "--recording-config-live-streaming-config-rtmp-url",
+      "https://example.com/a?x=1&y=two",
+      "--recording-config-max-seconds",
+      "1",
+      "--recording-config-realtimekit-bucket-config-enabled=true",
+      "--recording-config-video-config-codec",
+      "H264",
+      "--recording-config-video-config-export-file=true",
+      "--recording-config-video-config-height",
+      "1",
+      "--recording-config-video-config-watermark-position",
+      "left top",
+      "--recording-config-video-config-watermark-url",
+      "https://example.com/a?x=1&y=two",
+      "--recording-config-video-config-width",
+      "1",
+      "--session-keep-alive-time-in-secs",
+      "1",
+      "--summarize-on-end=true",
+      "--title",
+      "regression value &/?+ü",
+      "--transcribe-on-end=true"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/realtime/kit/0123456789abcdef0123456789abcdef/meetings/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "789",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "ai_config": {
+            "summarization": {
+              "summary_type": "general",
+              "text_format": "plain_text",
+              "word_limit": 1
+            },
+            "transcription": {
+              "keywords": [
+                "192.0.2.1"
+              ],
+              "language": "en-US",
+              "profanity_filter": true
+            }
+          },
+          "live_stream_on_start": true,
+          "persist_chat": true,
+          "record_on_start": true,
+          "recording_config": {
+            "audio_config": {
+              "channel": "mono",
+              "codec": "MP3",
+              "export_file": true
+            },
+            "file_name_prefix": "regression value &/?+ü",
+            "live_streaming_config": {
+              "rtmp_url": "https://example.com/a?x=1&y=two"
+            },
+            "max_seconds": 1,
+            "realtimekit_bucket_config": {
+              "enabled": true
+            },
+            "video_config": {
+              "codec": "H264",
+              "export_file": true,
+              "height": 1,
+              "watermark": {
+                "position": "left top",
+                "url": "https://example.com/a?x=1&y=two"
+              },
+              "width": 1
+            }
+          },
+          "session_keep_alive_time_in_secs": 1,
+          "summarize_on_end": true,
+          "title": "regression value &/?+ü",
+          "transcribe_on_end": true
+        }
+      }
+    ]
+  }
+]

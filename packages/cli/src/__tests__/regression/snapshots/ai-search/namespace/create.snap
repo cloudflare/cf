@@ -1,0 +1,1946 @@
+[
+  {
+    "case": "no-args",
+    "argv": [
+      "ai-search",
+      "namespace",
+      "create"
+    ],
+    "exitCode": 1,
+    "error": "Not enough non-option arguments: got 0, need at least 1",
+    "requests": []
+  },
+  {
+    "case": "required",
+    "argv": [
+      "ai-search",
+      "namespace",
+      "create",
+      "regression value &/?+ü",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --description",
+    "argv": [
+      "ai-search",
+      "namespace",
+      "create",
+      "regression value &/?+ü",
+      "--description",
+      "192.0.2.1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "60",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "description": "192.0.2.1",
+          "name": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --public-endpoint-params-authorized-hosts",
+    "argv": [
+      "ai-search",
+      "namespace",
+      "create",
+      "regression value &/?+ü",
+      "--public-endpoint-params-authorized-hosts",
+      "https://example.com/a?x=1&y=two"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "116",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "public_endpoint_params": {
+            "authorized_hosts": [
+              "https://example.com/a?x=1&y=two"
+            ]
+          },
+          "name": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --public-endpoint-params-chat-completions-endpoint-disabled",
+    "argv": [
+      "ai-search",
+      "namespace",
+      "create",
+      "regression value &/?+ü",
+      "--public-endpoint-params-chat-completions-endpoint-disabled=true"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "107",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "public_endpoint_params": {
+            "chat_completions_endpoint": {
+              "disabled": true
+            }
+          },
+          "name": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "--public-endpoint-params-chat-completions-endpoint-disabled value 1",
+    "argv": [
+      "ai-search",
+      "namespace",
+      "create",
+      "regression value &/?+ü",
+      "--public-endpoint-params-chat-completions-endpoint-disabled=false"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "108",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "public_endpoint_params": {
+            "chat_completions_endpoint": {
+              "disabled": false
+            }
+          },
+          "name": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --public-endpoint-params-custom-domains",
+    "argv": [
+      "ai-search",
+      "namespace",
+      "create",
+      "regression value &/?+ü",
+      "--public-endpoint-params-custom-domains",
+      "https://example.com/a?x=1&y=two"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "114",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "public_endpoint_params": {
+            "custom_domains": [
+              "https://example.com/a?x=1&y=two"
+            ]
+          },
+          "name": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --public-endpoint-params-default-domain-enabled",
+    "argv": [
+      "ai-search",
+      "namespace",
+      "create",
+      "regression value &/?+ü",
+      "--public-endpoint-params-default-domain-enabled=true"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "91",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "public_endpoint_params": {
+            "default_domain_enabled": true
+          },
+          "name": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "--public-endpoint-params-default-domain-enabled value 1",
+    "argv": [
+      "ai-search",
+      "namespace",
+      "create",
+      "regression value &/?+ü",
+      "--public-endpoint-params-default-domain-enabled=false"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "92",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "public_endpoint_params": {
+            "default_domain_enabled": false
+          },
+          "name": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --public-endpoint-params-enabled",
+    "argv": [
+      "ai-search",
+      "namespace",
+      "create",
+      "regression value &/?+ü",
+      "--public-endpoint-params-enabled=true"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "76",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "public_endpoint_params": {
+            "enabled": true
+          },
+          "name": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "--public-endpoint-params-enabled value 1",
+    "argv": [
+      "ai-search",
+      "namespace",
+      "create",
+      "regression value &/?+ü",
+      "--public-endpoint-params-enabled=false"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "77",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "public_endpoint_params": {
+            "enabled": false
+          },
+          "name": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --public-endpoint-params-instances-allowed",
+    "argv": [
+      "ai-search",
+      "namespace",
+      "create",
+      "regression value &/?+ü",
+      "--public-endpoint-params-instances-allowed",
+      "https://example.com/a?x=1&y=two"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "117",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "public_endpoint_params": {
+            "instances_allowed": [
+              "https://example.com/a?x=1&y=two"
+            ]
+          },
+          "name": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --public-endpoint-params-mcp-description",
+    "argv": [
+      "ai-search",
+      "namespace",
+      "create",
+      "regression value &/?+ü",
+      "--public-endpoint-params-mcp-description",
+      "https://example.com/a?x=1&y=two"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "117",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "public_endpoint_params": {
+            "mcp": {
+              "description": "https://example.com/a?x=1&y=two"
+            }
+          },
+          "name": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --public-endpoint-params-mcp-disabled",
+    "argv": [
+      "ai-search",
+      "namespace",
+      "create",
+      "regression value &/?+ü",
+      "--public-endpoint-params-mcp-disabled=true"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "85",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "public_endpoint_params": {
+            "mcp": {
+              "disabled": true
+            }
+          },
+          "name": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "--public-endpoint-params-mcp-disabled value 1",
+    "argv": [
+      "ai-search",
+      "namespace",
+      "create",
+      "regression value &/?+ü",
+      "--public-endpoint-params-mcp-disabled=false"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "86",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "public_endpoint_params": {
+            "mcp": {
+              "disabled": false
+            }
+          },
+          "name": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --public-endpoint-params-rate-limit-period-ms",
+    "argv": [
+      "ai-search",
+      "namespace",
+      "create",
+      "regression value &/?+ü",
+      "--public-endpoint-params-rate-limit-period-ms",
+      "1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "90",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "public_endpoint_params": {
+            "rate_limit": {
+              "period_ms": 1
+            }
+          },
+          "name": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --public-endpoint-params-rate-limit-requests",
+    "argv": [
+      "ai-search",
+      "namespace",
+      "create",
+      "regression value &/?+ü",
+      "--public-endpoint-params-rate-limit-requests",
+      "1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "89",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "public_endpoint_params": {
+            "rate_limit": {
+              "requests": 1
+            }
+          },
+          "name": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --public-endpoint-params-rate-limit-technique",
+    "argv": [
+      "ai-search",
+      "namespace",
+      "create",
+      "regression value &/?+ü",
+      "--public-endpoint-params-rate-limit-technique",
+      "fixed"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "96",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "public_endpoint_params": {
+            "rate_limit": {
+              "technique": "fixed"
+            }
+          },
+          "name": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "--public-endpoint-params-rate-limit-technique value 1",
+    "argv": [
+      "ai-search",
+      "namespace",
+      "create",
+      "regression value &/?+ü",
+      "--public-endpoint-params-rate-limit-technique",
+      "sliding"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "98",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "public_endpoint_params": {
+            "rate_limit": {
+              "technique": "sliding"
+            }
+          },
+          "name": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --public-endpoint-params-search-endpoint-disabled",
+    "argv": [
+      "ai-search",
+      "namespace",
+      "create",
+      "regression value &/?+ü",
+      "--public-endpoint-params-search-endpoint-disabled=true"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "97",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "public_endpoint_params": {
+            "search_endpoint": {
+              "disabled": true
+            }
+          },
+          "name": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "--public-endpoint-params-search-endpoint-disabled value 1",
+    "argv": [
+      "ai-search",
+      "namespace",
+      "create",
+      "regression value &/?+ü",
+      "--public-endpoint-params-search-endpoint-disabled=false"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "98",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "public_endpoint_params": {
+            "search_endpoint": {
+              "disabled": false
+            }
+          },
+          "name": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 0",
+    "argv": [
+      "ai-search",
+      "namespace",
+      "create",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "34",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "name": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 1",
+    "argv": [
+      "ai-search",
+      "namespace",
+      "create",
+      "regression value &/?+ü",
+      "--description",
+      "192.0.2.1",
+      "--public-endpoint-params-authorized-hosts",
+      "https://example.com/a?x=1&y=two",
+      "https://example.com/a?x=1&y=two",
+      "--public-endpoint-params-chat-completions-endpoint-disabled=false",
+      "--public-endpoint-params-custom-domains",
+      "https://example.com/a?x=1&y=two",
+      "https://example.com/a?x=1&y=two",
+      "--public-endpoint-params-default-domain-enabled=false",
+      "--public-endpoint-params-enabled=false",
+      "--public-endpoint-params-instances-allowed",
+      "https://example.com/a?x=1&y=two",
+      "https://example.com/a?x=1&y=two",
+      "--public-endpoint-params-mcp-description",
+      "https://example.com/a?x=1&y=two",
+      "--public-endpoint-params-mcp-disabled=false",
+      "--public-endpoint-params-rate-limit-period-ms",
+      "2",
+      "--public-endpoint-params-rate-limit-requests",
+      "2",
+      "--public-endpoint-params-rate-limit-technique",
+      "sliding",
+      "--public-endpoint-params-search-endpoint-disabled=false"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "621",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "description": "192.0.2.1",
+          "public_endpoint_params": {
+            "authorized_hosts": [
+              "https://example.com/a?x=1&y=two",
+              "https://example.com/a?x=1&y=two"
+            ],
+            "chat_completions_endpoint": {
+              "disabled": false
+            },
+            "custom_domains": [
+              "https://example.com/a?x=1&y=two",
+              "https://example.com/a?x=1&y=two"
+            ],
+            "default_domain_enabled": false,
+            "enabled": false,
+            "instances_allowed": [
+              "https://example.com/a?x=1&y=two",
+              "https://example.com/a?x=1&y=two"
+            ],
+            "mcp": {
+              "description": "https://example.com/a?x=1&y=two",
+              "disabled": false
+            },
+            "rate_limit": {
+              "period_ms": 2,
+              "requests": 2,
+              "technique": "sliding"
+            },
+            "search_endpoint": {
+              "disabled": false
+            }
+          },
+          "name": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 2",
+    "argv": [
+      "ai-search",
+      "namespace",
+      "create",
+      "regression value &/?+ü",
+      "--public-endpoint-params-authorized-hosts",
+      "https://example.com/a?x=1&y=two",
+      "--public-endpoint-params-custom-domains",
+      "https://example.com/a?x=1&y=two",
+      "--public-endpoint-params-enabled=true",
+      "--public-endpoint-params-mcp-description",
+      "https://example.com/a?x=1&y=two",
+      "--public-endpoint-params-rate-limit-period-ms",
+      "1",
+      "--public-endpoint-params-rate-limit-technique",
+      "fixed"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "289",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "public_endpoint_params": {
+            "authorized_hosts": [
+              "https://example.com/a?x=1&y=two"
+            ],
+            "custom_domains": [
+              "https://example.com/a?x=1&y=two"
+            ],
+            "enabled": true,
+            "mcp": {
+              "description": "https://example.com/a?x=1&y=two"
+            },
+            "rate_limit": {
+              "period_ms": 1,
+              "technique": "fixed"
+            }
+          },
+          "name": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 3",
+    "argv": [
+      "ai-search",
+      "namespace",
+      "create",
+      "regression value &/?+ü",
+      "--description",
+      "192.0.2.1",
+      "--public-endpoint-params-chat-completions-endpoint-disabled=false",
+      "--public-endpoint-params-default-domain-enabled=false",
+      "--public-endpoint-params-instances-allowed",
+      "https://example.com/a?x=1&y=two",
+      "https://example.com/a?x=1&y=two",
+      "--public-endpoint-params-mcp-disabled=false",
+      "--public-endpoint-params-rate-limit-requests",
+      "2",
+      "--public-endpoint-params-search-endpoint-disabled=false"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "345",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "description": "192.0.2.1",
+          "public_endpoint_params": {
+            "chat_completions_endpoint": {
+              "disabled": false
+            },
+            "default_domain_enabled": false,
+            "instances_allowed": [
+              "https://example.com/a?x=1&y=two",
+              "https://example.com/a?x=1&y=two"
+            ],
+            "mcp": {
+              "disabled": false
+            },
+            "rate_limit": {
+              "requests": 2
+            },
+            "search_endpoint": {
+              "disabled": false
+            }
+          },
+          "name": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 4",
+    "argv": [
+      "ai-search",
+      "namespace",
+      "create",
+      "regression value &/?+ü",
+      "--public-endpoint-params-chat-completions-endpoint-disabled=true",
+      "--public-endpoint-params-custom-domains",
+      "https://example.com/a?x=1&y=two",
+      "--public-endpoint-params-instances-allowed",
+      "https://example.com/a?x=1&y=two",
+      "--public-endpoint-params-mcp-description",
+      "https://example.com/a?x=1&y=two",
+      "--public-endpoint-params-rate-limit-requests",
+      "1",
+      "--public-endpoint-params-rate-limit-technique",
+      "fixed"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "320",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "public_endpoint_params": {
+            "chat_completions_endpoint": {
+              "disabled": true
+            },
+            "custom_domains": [
+              "https://example.com/a?x=1&y=two"
+            ],
+            "instances_allowed": [
+              "https://example.com/a?x=1&y=two"
+            ],
+            "mcp": {
+              "description": "https://example.com/a?x=1&y=two"
+            },
+            "rate_limit": {
+              "requests": 1,
+              "technique": "fixed"
+            }
+          },
+          "name": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 5",
+    "argv": [
+      "ai-search",
+      "namespace",
+      "create",
+      "regression value &/?+ü",
+      "--description",
+      "192.0.2.1",
+      "--public-endpoint-params-authorized-hosts",
+      "https://example.com/a?x=1&y=two",
+      "https://example.com/a?x=1&y=two",
+      "--public-endpoint-params-default-domain-enabled=false",
+      "--public-endpoint-params-enabled=false",
+      "--public-endpoint-params-mcp-disabled=false",
+      "--public-endpoint-params-rate-limit-period-ms",
+      "2",
+      "--public-endpoint-params-search-endpoint-disabled=false"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "314",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "description": "192.0.2.1",
+          "public_endpoint_params": {
+            "authorized_hosts": [
+              "https://example.com/a?x=1&y=two",
+              "https://example.com/a?x=1&y=two"
+            ],
+            "default_domain_enabled": false,
+            "enabled": false,
+            "mcp": {
+              "disabled": false
+            },
+            "rate_limit": {
+              "period_ms": 2
+            },
+            "search_endpoint": {
+              "disabled": false
+            }
+          },
+          "name": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 6",
+    "argv": [
+      "ai-search",
+      "namespace",
+      "create",
+      "regression value &/?+ü",
+      "--public-endpoint-params-default-domain-enabled=true",
+      "--public-endpoint-params-enabled=true",
+      "--public-endpoint-params-instances-allowed",
+      "https://example.com/a?x=1&y=two",
+      "--public-endpoint-params-mcp-description",
+      "https://example.com/a?x=1&y=two",
+      "--public-endpoint-params-search-endpoint-disabled=true"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "254",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "public_endpoint_params": {
+            "default_domain_enabled": true,
+            "enabled": true,
+            "instances_allowed": [
+              "https://example.com/a?x=1&y=two"
+            ],
+            "mcp": {
+              "description": "https://example.com/a?x=1&y=two"
+            },
+            "search_endpoint": {
+              "disabled": true
+            }
+          },
+          "name": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 7",
+    "argv": [
+      "ai-search",
+      "namespace",
+      "create",
+      "regression value &/?+ü",
+      "--description",
+      "192.0.2.1",
+      "--public-endpoint-params-authorized-hosts",
+      "https://example.com/a?x=1&y=two",
+      "https://example.com/a?x=1&y=two",
+      "--public-endpoint-params-chat-completions-endpoint-disabled=false",
+      "--public-endpoint-params-custom-domains",
+      "https://example.com/a?x=1&y=two",
+      "https://example.com/a?x=1&y=two",
+      "--public-endpoint-params-mcp-disabled=false",
+      "--public-endpoint-params-rate-limit-period-ms",
+      "2",
+      "--public-endpoint-params-rate-limit-requests",
+      "2",
+      "--public-endpoint-params-rate-limit-technique",
+      "sliding"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "399",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "description": "192.0.2.1",
+          "public_endpoint_params": {
+            "authorized_hosts": [
+              "https://example.com/a?x=1&y=two",
+              "https://example.com/a?x=1&y=two"
+            ],
+            "chat_completions_endpoint": {
+              "disabled": false
+            },
+            "custom_domains": [
+              "https://example.com/a?x=1&y=two",
+              "https://example.com/a?x=1&y=two"
+            ],
+            "mcp": {
+              "disabled": false
+            },
+            "rate_limit": {
+              "period_ms": 2,
+              "requests": 2,
+              "technique": "sliding"
+            }
+          },
+          "name": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 8",
+    "argv": [
+      "ai-search",
+      "namespace",
+      "create",
+      "regression value &/?+ü",
+      "--public-endpoint-params-mcp-disabled=true",
+      "--public-endpoint-params-rate-limit-period-ms",
+      "1",
+      "--public-endpoint-params-rate-limit-requests",
+      "1",
+      "--public-endpoint-params-rate-limit-technique",
+      "fixed",
+      "--public-endpoint-params-search-endpoint-disabled=true"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "183",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "public_endpoint_params": {
+            "mcp": {
+              "disabled": true
+            },
+            "rate_limit": {
+              "period_ms": 1,
+              "requests": 1,
+              "technique": "fixed"
+            },
+            "search_endpoint": {
+              "disabled": true
+            }
+          },
+          "name": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 9",
+    "argv": [
+      "ai-search",
+      "namespace",
+      "create",
+      "regression value &/?+ü",
+      "--description",
+      "192.0.2.1",
+      "--public-endpoint-params-authorized-hosts",
+      "https://example.com/a?x=1&y=two",
+      "https://example.com/a?x=1&y=two",
+      "--public-endpoint-params-chat-completions-endpoint-disabled=false",
+      "--public-endpoint-params-custom-domains",
+      "https://example.com/a?x=1&y=two",
+      "https://example.com/a?x=1&y=two",
+      "--public-endpoint-params-default-domain-enabled=false",
+      "--public-endpoint-params-enabled=false",
+      "--public-endpoint-params-instances-allowed",
+      "https://example.com/a?x=1&y=two",
+      "https://example.com/a?x=1&y=two",
+      "--public-endpoint-params-mcp-description",
+      "https://example.com/a?x=1&y=two"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "503",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "description": "192.0.2.1",
+          "public_endpoint_params": {
+            "authorized_hosts": [
+              "https://example.com/a?x=1&y=two",
+              "https://example.com/a?x=1&y=two"
+            ],
+            "chat_completions_endpoint": {
+              "disabled": false
+            },
+            "custom_domains": [
+              "https://example.com/a?x=1&y=two",
+              "https://example.com/a?x=1&y=two"
+            ],
+            "default_domain_enabled": false,
+            "enabled": false,
+            "instances_allowed": [
+              "https://example.com/a?x=1&y=two",
+              "https://example.com/a?x=1&y=two"
+            ],
+            "mcp": {
+              "description": "https://example.com/a?x=1&y=two"
+            }
+          },
+          "name": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "global quiet",
+    "argv": [
+      "ai-search",
+      "namespace",
+      "create",
+      "regression value &/?+ü",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--quiet"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "global zone",
+    "argv": [
+      "ai-search",
+      "namespace",
+      "create",
+      "regression value &/?+ü",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--zone",
+      "abcdef0123456789abcdef0123456789"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "global profile and mode",
+    "argv": [
+      "ai-search",
+      "namespace",
+      "create",
+      "regression value &/?+ü",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--profile",
+      "default",
+      "--mode",
+      "regression"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "local",
+    "argv": [
+      "ai-search",
+      "namespace",
+      "create",
+      "regression value &/?+ü",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--local"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "http://localhost/cdn-cgi/local/explorer/api/ai-search/namespaces",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "gzip, deflate",
+          "accept-language": "*",
+          "connection": "keep-alive",
+          "content-type": "application/json",
+          "host": "localhost",
+          "sec-fetch-mode": "cors",
+          "transfer-encoding": "chunked",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "local with persistence",
+    "argv": [
+      "ai-search",
+      "namespace",
+      "create",
+      "regression value &/?+ü",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--local",
+      "--persist-to",
+      "regression-state"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "http://localhost/cdn-cgi/local/explorer/api/ai-search/namespaces",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "gzip, deflate",
+          "accept-language": "*",
+          "connection": "keep-alive",
+          "content-type": "application/json",
+          "host": "localhost",
+          "sec-fetch-mode": "cors",
+          "transfer-encoding": "chunked",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "dry-run",
+    "argv": [
+      "ai-search",
+      "namespace",
+      "create",
+      "regression value &/?+ü",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--dry-run"
+    ],
+    "exitCode": 0,
+    "requests": []
+  },
+  {
+    "case": "body from file",
+    "argv": [
+      "ai-search",
+      "namespace",
+      "create",
+      "regression value &/?+ü",
+      "--body",
+      "@<body.json>"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "array body",
+    "argv": [
+      "ai-search",
+      "namespace",
+      "create",
+      "regression value &/?+ü",
+      "--body",
+      "[{\"regression\":\"first\"},{\"regression\":\"second\"}]"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "56",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "0": {
+            "regression": "first"
+          },
+          "1": {
+            "regression": "second"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "field flags",
+    "argv": [
+      "ai-search",
+      "namespace",
+      "create",
+      "regression value &/?+ü",
+      "--description",
+      "192.0.2.1",
+      "--public-endpoint-params-authorized-hosts",
+      "https://example.com/a?x=1&y=two",
+      "--public-endpoint-params-chat-completions-endpoint-disabled=true",
+      "--public-endpoint-params-custom-domains",
+      "https://example.com/a?x=1&y=two",
+      "--public-endpoint-params-default-domain-enabled=true",
+      "--public-endpoint-params-enabled=true",
+      "--public-endpoint-params-instances-allowed",
+      "https://example.com/a?x=1&y=two",
+      "--public-endpoint-params-mcp-description",
+      "https://example.com/a?x=1&y=two",
+      "--public-endpoint-params-mcp-disabled=true",
+      "--public-endpoint-params-rate-limit-period-ms",
+      "1",
+      "--public-endpoint-params-rate-limit-requests",
+      "1",
+      "--public-endpoint-params-rate-limit-technique",
+      "fixed",
+      "--public-endpoint-params-search-endpoint-disabled=true"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "512",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "description": "192.0.2.1",
+          "public_endpoint_params": {
+            "authorized_hosts": [
+              "https://example.com/a?x=1&y=two"
+            ],
+            "chat_completions_endpoint": {
+              "disabled": true
+            },
+            "custom_domains": [
+              "https://example.com/a?x=1&y=two"
+            ],
+            "default_domain_enabled": true,
+            "enabled": true,
+            "instances_allowed": [
+              "https://example.com/a?x=1&y=two"
+            ],
+            "mcp": {
+              "description": "https://example.com/a?x=1&y=two",
+              "disabled": true
+            },
+            "rate_limit": {
+              "period_ms": 1,
+              "requests": 1,
+              "technique": "fixed"
+            },
+            "search_endpoint": {
+              "disabled": true
+            }
+          },
+          "name": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "alternate <namespace>",
+    "argv": [
+      "ai-search",
+      "namespace",
+      "create",
+      "second value &/?+ü",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  }
+]

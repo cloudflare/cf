@@ -1,0 +1,1342 @@
+[
+  {
+    "case": "no-args",
+    "argv": [
+      "zero-trust",
+      "devices",
+      "posture",
+      "integrations",
+      "create"
+    ],
+    "exitCode": 1,
+    "error": "--interval is required. Pass --interval <value> or run interactively.",
+    "requests": []
+  },
+  {
+    "case": "required",
+    "argv": [
+      "zero-trust",
+      "devices",
+      "posture",
+      "integrations",
+      "create",
+      "--interval",
+      "regression value &/?+ü",
+      "--name",
+      "regression value &/?+ü",
+      "--type",
+      "workspace_one",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/devices/posture/integration",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --config-api-url",
+    "argv": [
+      "zero-trust",
+      "devices",
+      "posture",
+      "integrations",
+      "create",
+      "--interval",
+      "regression value &/?+ü",
+      "--name",
+      "regression value &/?+ü",
+      "--type",
+      "workspace_one",
+      "--config-api-url",
+      "https://example.com/a?x=1&y=two"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/devices/posture/integration",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "149",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "config": {
+            "api_url": "https://example.com/a?x=1&y=two"
+          },
+          "interval": "regression value &/?+ü",
+          "name": "regression value &/?+ü",
+          "type": "workspace_one"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --config-auth-url",
+    "argv": [
+      "zero-trust",
+      "devices",
+      "posture",
+      "integrations",
+      "create",
+      "--interval",
+      "regression value &/?+ü",
+      "--name",
+      "regression value &/?+ü",
+      "--type",
+      "workspace_one",
+      "--config-auth-url",
+      "https://example.com/a?x=1&y=two"
+    ],
+    "exitCode": 1,
+    "error": "Missing dependent arguments:\n config-auth-url -> config-api-url config-auth-url -> config-client-id config-auth-url -> config-client-secret",
+    "requests": []
+  },
+  {
+    "case": "only --config-client-id",
+    "argv": [
+      "zero-trust",
+      "devices",
+      "posture",
+      "integrations",
+      "create",
+      "--interval",
+      "regression value &/?+ü",
+      "--name",
+      "regression value &/?+ü",
+      "--type",
+      "workspace_one",
+      "--config-client-id",
+      "0123456789abcdef0123456789abcdef"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/devices/posture/integration",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "152",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "config": {
+            "client_id": "0123456789abcdef0123456789abcdef"
+          },
+          "interval": "regression value &/?+ü",
+          "name": "regression value &/?+ü",
+          "type": "workspace_one"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --config-client-secret",
+    "argv": [
+      "zero-trust",
+      "devices",
+      "posture",
+      "integrations",
+      "create",
+      "--interval",
+      "regression value &/?+ü",
+      "--name",
+      "regression value &/?+ü",
+      "--type",
+      "workspace_one",
+      "--config-client-secret",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/devices/posture/integration",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "147",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "config": {
+            "client_secret": "regression value &/?+ü"
+          },
+          "interval": "regression value &/?+ü",
+          "name": "regression value &/?+ü",
+          "type": "workspace_one"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --config-customer-id",
+    "argv": [
+      "zero-trust",
+      "devices",
+      "posture",
+      "integrations",
+      "create",
+      "--interval",
+      "regression value &/?+ü",
+      "--name",
+      "regression value &/?+ü",
+      "--type",
+      "workspace_one",
+      "--config-customer-id",
+      "0123456789abcdef0123456789abcdef"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/devices/posture/integration",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "154",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "config": {
+            "customer_id": "0123456789abcdef0123456789abcdef"
+          },
+          "interval": "regression value &/?+ü",
+          "name": "regression value &/?+ü",
+          "type": "workspace_one"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --config-client-key",
+    "argv": [
+      "zero-trust",
+      "devices",
+      "posture",
+      "integrations",
+      "create",
+      "--interval",
+      "regression value &/?+ü",
+      "--name",
+      "regression value &/?+ü",
+      "--type",
+      "workspace_one",
+      "--config-client-key",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 1,
+    "error": "Missing dependent arguments:\n config-client-key -> config-api-url config-client-key -> config-customer-id config-client-key -> config-client-secret",
+    "requests": []
+  },
+  {
+    "case": "only --config-access-client-id",
+    "argv": [
+      "zero-trust",
+      "devices",
+      "posture",
+      "integrations",
+      "create",
+      "--interval",
+      "regression value &/?+ü",
+      "--name",
+      "regression value &/?+ü",
+      "--type",
+      "workspace_one",
+      "--config-access-client-id",
+      "0123456789abcdef0123456789abcdef"
+    ],
+    "exitCode": 1,
+    "error": "Missing dependent arguments:\n config-access-client-id -> config-api-url config-access-client-id -> config-access-client-secret",
+    "requests": []
+  },
+  {
+    "case": "only --config-access-client-secret",
+    "argv": [
+      "zero-trust",
+      "devices",
+      "posture",
+      "integrations",
+      "create",
+      "--interval",
+      "regression value &/?+ü",
+      "--name",
+      "regression value &/?+ü",
+      "--type",
+      "workspace_one",
+      "--config-access-client-secret",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 1,
+    "error": "Missing dependent arguments:\n config-access-client-secret -> config-api-url config-access-client-secret -> config-access-client-id",
+    "requests": []
+  },
+  {
+    "case": "required --type value 1",
+    "argv": [
+      "zero-trust",
+      "devices",
+      "posture",
+      "integrations",
+      "create",
+      "--interval",
+      "regression value &/?+ü",
+      "--name",
+      "regression value &/?+ü",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--type",
+      "crowdstrike_s2s"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/devices/posture/integration",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "required --type value 2",
+    "argv": [
+      "zero-trust",
+      "devices",
+      "posture",
+      "integrations",
+      "create",
+      "--interval",
+      "regression value &/?+ü",
+      "--name",
+      "regression value &/?+ü",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--type",
+      "uptycs"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/devices/posture/integration",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "required --type value 3",
+    "argv": [
+      "zero-trust",
+      "devices",
+      "posture",
+      "integrations",
+      "create",
+      "--interval",
+      "regression value &/?+ü",
+      "--name",
+      "regression value &/?+ü",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--type",
+      "intune"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/devices/posture/integration",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "required --type value 4",
+    "argv": [
+      "zero-trust",
+      "devices",
+      "posture",
+      "integrations",
+      "create",
+      "--interval",
+      "regression value &/?+ü",
+      "--name",
+      "regression value &/?+ü",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--type",
+      "kolide"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/devices/posture/integration",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "required --type value 5",
+    "argv": [
+      "zero-trust",
+      "devices",
+      "posture",
+      "integrations",
+      "create",
+      "--interval",
+      "regression value &/?+ü",
+      "--name",
+      "regression value &/?+ü",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--type",
+      "tanium_s2s"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/devices/posture/integration",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "required --type value 6",
+    "argv": [
+      "zero-trust",
+      "devices",
+      "posture",
+      "integrations",
+      "create",
+      "--interval",
+      "regression value &/?+ü",
+      "--name",
+      "regression value &/?+ü",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--type",
+      "sentinelone_s2s"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/devices/posture/integration",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "required --type value 7",
+    "argv": [
+      "zero-trust",
+      "devices",
+      "posture",
+      "integrations",
+      "create",
+      "--interval",
+      "regression value &/?+ü",
+      "--name",
+      "regression value &/?+ü",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--type",
+      "custom_s2s"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/devices/posture/integration",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 0",
+    "argv": [
+      "zero-trust",
+      "devices",
+      "posture",
+      "integrations",
+      "create",
+      "--interval",
+      "regression value &/?+ü",
+      "--name",
+      "regression value &/?+ü",
+      "--type",
+      "workspace_one"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/devices/posture/integration",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "94",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "interval": "regression value &/?+ü",
+          "name": "regression value &/?+ü",
+          "type": "workspace_one"
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 1",
+    "argv": [
+      "zero-trust",
+      "devices",
+      "posture",
+      "integrations",
+      "create",
+      "--interval",
+      "regression value &/?+ü",
+      "--name",
+      "regression value &/?+ü",
+      "--type",
+      "workspace_one",
+      "--config-api-url",
+      "https://example.com/a?x=1&y=two",
+      "--config-auth-url",
+      "https://example.com/a?x=1&y=two",
+      "--config-client-id",
+      "0123456789abcdef0123456789abcdef",
+      "--config-client-secret",
+      "second value &/?+ü",
+      "--config-customer-id",
+      "0123456789abcdef0123456789abcdef",
+      "--config-client-key",
+      "second value &/?+ü",
+      "--config-access-client-id",
+      "0123456789abcdef0123456789abcdef",
+      "--config-access-client-secret",
+      "second value &/?+ü"
+    ],
+    "exitCode": 1,
+    "error": "Arguments config-api-url and config-customer-id are mutually exclusive",
+    "requests": []
+  },
+  {
+    "case": "pairwise 2",
+    "argv": [
+      "zero-trust",
+      "devices",
+      "posture",
+      "integrations",
+      "create",
+      "--interval",
+      "regression value &/?+ü",
+      "--name",
+      "regression value &/?+ü",
+      "--type",
+      "workspace_one",
+      "--config-auth-url",
+      "https://example.com/a?x=1&y=two",
+      "--config-client-secret",
+      "regression value &/?+ü",
+      "--config-client-key",
+      "regression value &/?+ü",
+      "--config-access-client-secret",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 1,
+    "error": "Missing dependent arguments:\n config-auth-url -> config-api-url config-auth-url -> config-client-id config-client-key -> config-api-url config-client-key -> config-customer-id config-access-client-secret -> config-api-url config-access-client-secret -> config-access-client-id",
+    "requests": []
+  },
+  {
+    "case": "pairwise 3",
+    "argv": [
+      "zero-trust",
+      "devices",
+      "posture",
+      "integrations",
+      "create",
+      "--interval",
+      "regression value &/?+ü",
+      "--name",
+      "regression value &/?+ü",
+      "--type",
+      "workspace_one",
+      "--config-api-url",
+      "https://example.com/a?x=1&y=two",
+      "--config-client-id",
+      "0123456789abcdef0123456789abcdef",
+      "--config-customer-id",
+      "0123456789abcdef0123456789abcdef",
+      "--config-access-client-id",
+      "0123456789abcdef0123456789abcdef"
+    ],
+    "exitCode": 1,
+    "error": "Missing dependent arguments:\n config-access-client-id -> config-access-client-secret",
+    "requests": []
+  },
+  {
+    "case": "pairwise 4",
+    "argv": [
+      "zero-trust",
+      "devices",
+      "posture",
+      "integrations",
+      "create",
+      "--interval",
+      "regression value &/?+ü",
+      "--name",
+      "regression value &/?+ü",
+      "--type",
+      "workspace_one",
+      "--config-client-id",
+      "0123456789abcdef0123456789abcdef",
+      "--config-client-secret",
+      "regression value &/?+ü",
+      "--config-access-client-id",
+      "0123456789abcdef0123456789abcdef",
+      "--config-access-client-secret",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 1,
+    "error": "Missing dependent arguments:\n config-access-client-id -> config-api-url config-access-client-secret -> config-api-url",
+    "requests": []
+  },
+  {
+    "case": "pairwise 5",
+    "argv": [
+      "zero-trust",
+      "devices",
+      "posture",
+      "integrations",
+      "create",
+      "--interval",
+      "regression value &/?+ü",
+      "--name",
+      "regression value &/?+ü",
+      "--type",
+      "workspace_one",
+      "--config-api-url",
+      "https://example.com/a?x=1&y=two",
+      "--config-auth-url",
+      "https://example.com/a?x=1&y=two",
+      "--config-customer-id",
+      "0123456789abcdef0123456789abcdef",
+      "--config-client-key",
+      "second value &/?+ü"
+    ],
+    "exitCode": 1,
+    "error": "Missing dependent arguments:\n config-auth-url -> config-client-id config-auth-url -> config-client-secret config-client-key -> config-client-secret",
+    "requests": []
+  },
+  {
+    "case": "pairwise 6",
+    "argv": [
+      "zero-trust",
+      "devices",
+      "posture",
+      "integrations",
+      "create",
+      "--interval",
+      "regression value &/?+ü",
+      "--name",
+      "regression value &/?+ü",
+      "--type",
+      "workspace_one",
+      "--config-customer-id",
+      "0123456789abcdef0123456789abcdef",
+      "--config-client-key",
+      "regression value &/?+ü",
+      "--config-access-client-id",
+      "0123456789abcdef0123456789abcdef",
+      "--config-access-client-secret",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 1,
+    "error": "Missing dependent arguments:\n config-client-key -> config-api-url config-client-key -> config-client-secret config-access-client-id -> config-api-url config-access-client-secret -> config-api-url",
+    "requests": []
+  },
+  {
+    "case": "pairwise 7",
+    "argv": [
+      "zero-trust",
+      "devices",
+      "posture",
+      "integrations",
+      "create",
+      "--interval",
+      "regression value &/?+ü",
+      "--name",
+      "regression value &/?+ü",
+      "--type",
+      "workspace_one",
+      "--config-api-url",
+      "https://example.com/a?x=1&y=two",
+      "--config-auth-url",
+      "https://example.com/a?x=1&y=two",
+      "--config-client-id",
+      "0123456789abcdef0123456789abcdef",
+      "--config-client-secret",
+      "second value &/?+ü"
+    ],
+    "exitCode": 1,
+    "error": "Arguments config-api-url and config-client-id are mutually exclusive",
+    "requests": []
+  },
+  {
+    "case": "global quiet",
+    "argv": [
+      "zero-trust",
+      "devices",
+      "posture",
+      "integrations",
+      "create",
+      "--interval",
+      "regression value &/?+ü",
+      "--name",
+      "regression value &/?+ü",
+      "--type",
+      "workspace_one",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--quiet"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/devices/posture/integration",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "global zone",
+    "argv": [
+      "zero-trust",
+      "devices",
+      "posture",
+      "integrations",
+      "create",
+      "--interval",
+      "regression value &/?+ü",
+      "--name",
+      "regression value &/?+ü",
+      "--type",
+      "workspace_one",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--zone",
+      "abcdef0123456789abcdef0123456789"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/devices/posture/integration",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "global profile and mode",
+    "argv": [
+      "zero-trust",
+      "devices",
+      "posture",
+      "integrations",
+      "create",
+      "--interval",
+      "regression value &/?+ü",
+      "--name",
+      "regression value &/?+ü",
+      "--type",
+      "workspace_one",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--profile",
+      "default",
+      "--mode",
+      "regression"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/devices/posture/integration",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "local",
+    "argv": [
+      "zero-trust",
+      "devices",
+      "posture",
+      "integrations",
+      "create",
+      "--interval",
+      "regression value &/?+ü",
+      "--name",
+      "regression value &/?+ü",
+      "--type",
+      "workspace_one",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--local"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "http://localhost/cdn-cgi/local/explorer/api/devices/posture/integration",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "gzip, deflate",
+          "accept-language": "*",
+          "connection": "keep-alive",
+          "content-type": "application/json",
+          "host": "localhost",
+          "sec-fetch-mode": "cors",
+          "transfer-encoding": "chunked",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "local with persistence",
+    "argv": [
+      "zero-trust",
+      "devices",
+      "posture",
+      "integrations",
+      "create",
+      "--interval",
+      "regression value &/?+ü",
+      "--name",
+      "regression value &/?+ü",
+      "--type",
+      "workspace_one",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--local",
+      "--persist-to",
+      "regression-state"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "http://localhost/cdn-cgi/local/explorer/api/devices/posture/integration",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "gzip, deflate",
+          "accept-language": "*",
+          "connection": "keep-alive",
+          "content-type": "application/json",
+          "host": "localhost",
+          "sec-fetch-mode": "cors",
+          "transfer-encoding": "chunked",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "dry-run",
+    "argv": [
+      "zero-trust",
+      "devices",
+      "posture",
+      "integrations",
+      "create",
+      "--interval",
+      "regression value &/?+ü",
+      "--name",
+      "regression value &/?+ü",
+      "--type",
+      "workspace_one",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--dry-run"
+    ],
+    "exitCode": 0,
+    "requests": []
+  },
+  {
+    "case": "body from file",
+    "argv": [
+      "zero-trust",
+      "devices",
+      "posture",
+      "integrations",
+      "create",
+      "--interval",
+      "regression value &/?+ü",
+      "--name",
+      "regression value &/?+ü",
+      "--type",
+      "workspace_one",
+      "--body",
+      "@<body.json>"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/devices/posture/integration",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "array body",
+    "argv": [
+      "zero-trust",
+      "devices",
+      "posture",
+      "integrations",
+      "create",
+      "--interval",
+      "regression value &/?+ü",
+      "--name",
+      "regression value &/?+ü",
+      "--type",
+      "workspace_one",
+      "--body",
+      "[{\"regression\":\"first\"},{\"regression\":\"second\"}]"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/devices/posture/integration",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "56",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "0": {
+            "regression": "first"
+          },
+          "1": {
+            "regression": "second"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "field flags",
+    "argv": [
+      "zero-trust",
+      "devices",
+      "posture",
+      "integrations",
+      "create",
+      "--interval",
+      "regression value &/?+ü",
+      "--name",
+      "regression value &/?+ü",
+      "--type",
+      "workspace_one",
+      "--config-api-url",
+      "https://example.com/a?x=1&y=two",
+      "--config-auth-url",
+      "https://example.com/a?x=1&y=two",
+      "--config-client-id",
+      "0123456789abcdef0123456789abcdef",
+      "--config-client-secret",
+      "regression value &/?+ü",
+      "--config-customer-id",
+      "0123456789abcdef0123456789abcdef",
+      "--config-client-key",
+      "regression value &/?+ü",
+      "--config-access-client-id",
+      "0123456789abcdef0123456789abcdef",
+      "--config-access-client-secret",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 1,
+    "error": "Arguments config-api-url and config-customer-id are mutually exclusive",
+    "requests": []
+  }
+]

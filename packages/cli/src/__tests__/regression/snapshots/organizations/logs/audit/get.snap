@@ -1,0 +1,2849 @@
+[
+  {
+    "case": "no-args",
+    "argv": [
+      "organizations",
+      "logs",
+      "audit",
+      "get"
+    ],
+    "exitCode": 1,
+    "error": "Not enough non-option arguments: got 0, need at least 1",
+    "requests": []
+  },
+  {
+    "case": "required",
+    "argv": [
+      "organizations",
+      "logs",
+      "audit",
+      "get",
+      "0123456789abcdef0123456789abcdef",
+      "--since",
+      "regression value &/?+ü",
+      "--before",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/organizations/0123456789abcdef0123456789abcdef/logs/audit?since=regression%20value%20%26%2F%3F%2B%C3%BC&before=regression%20value%20%26%2F%3F%2B%C3%BC",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "only --action-result",
+    "argv": [
+      "organizations",
+      "logs",
+      "audit",
+      "get",
+      "0123456789abcdef0123456789abcdef",
+      "--since",
+      "regression value &/?+ü",
+      "--before",
+      "regression value &/?+ü",
+      "--action-result",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/organizations/0123456789abcdef0123456789abcdef/logs/audit?action_result=regression%20value%20%26%2F%3F%2B%C3%BC&since=regression%20value%20%26%2F%3F%2B%C3%BC&before=regression%20value%20%26%2F%3F%2B%C3%BC",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "only --action-type",
+    "argv": [
+      "organizations",
+      "logs",
+      "audit",
+      "get",
+      "0123456789abcdef0123456789abcdef",
+      "--since",
+      "regression value &/?+ü",
+      "--before",
+      "regression value &/?+ü",
+      "--action-type",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/organizations/0123456789abcdef0123456789abcdef/logs/audit?action_type=regression%20value%20%26%2F%3F%2B%C3%BC&since=regression%20value%20%26%2F%3F%2B%C3%BC&before=regression%20value%20%26%2F%3F%2B%C3%BC",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "only --actor-context",
+    "argv": [
+      "organizations",
+      "logs",
+      "audit",
+      "get",
+      "0123456789abcdef0123456789abcdef",
+      "--since",
+      "regression value &/?+ü",
+      "--before",
+      "regression value &/?+ü",
+      "--actor-context",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/organizations/0123456789abcdef0123456789abcdef/logs/audit?actor_context=regression%20value%20%26%2F%3F%2B%C3%BC&since=regression%20value%20%26%2F%3F%2B%C3%BC&before=regression%20value%20%26%2F%3F%2B%C3%BC",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "only --actor-email",
+    "argv": [
+      "organizations",
+      "logs",
+      "audit",
+      "get",
+      "0123456789abcdef0123456789abcdef",
+      "--since",
+      "regression value &/?+ü",
+      "--before",
+      "regression value &/?+ü",
+      "--actor-email",
+      "regression@example.com"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/organizations/0123456789abcdef0123456789abcdef/logs/audit?actor_email=regression%40example.com&since=regression%20value%20%26%2F%3F%2B%C3%BC&before=regression%20value%20%26%2F%3F%2B%C3%BC",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "only --actor-id",
+    "argv": [
+      "organizations",
+      "logs",
+      "audit",
+      "get",
+      "0123456789abcdef0123456789abcdef",
+      "--since",
+      "regression value &/?+ü",
+      "--before",
+      "regression value &/?+ü",
+      "--actor-id",
+      "0123456789abcdef0123456789abcdef"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/organizations/0123456789abcdef0123456789abcdef/logs/audit?actor_id=0123456789abcdef0123456789abcdef&since=regression%20value%20%26%2F%3F%2B%C3%BC&before=regression%20value%20%26%2F%3F%2B%C3%BC",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "only --actor-ip-address",
+    "argv": [
+      "organizations",
+      "logs",
+      "audit",
+      "get",
+      "0123456789abcdef0123456789abcdef",
+      "--since",
+      "regression value &/?+ü",
+      "--before",
+      "regression value &/?+ü",
+      "--actor-ip-address",
+      "192.0.2.1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/organizations/0123456789abcdef0123456789abcdef/logs/audit?actor_ip_address=192.0.2.1&since=regression%20value%20%26%2F%3F%2B%C3%BC&before=regression%20value%20%26%2F%3F%2B%C3%BC",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "only --actor-token-id",
+    "argv": [
+      "organizations",
+      "logs",
+      "audit",
+      "get",
+      "0123456789abcdef0123456789abcdef",
+      "--since",
+      "regression value &/?+ü",
+      "--before",
+      "regression value &/?+ü",
+      "--actor-token-id",
+      "0123456789abcdef0123456789abcdef"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/organizations/0123456789abcdef0123456789abcdef/logs/audit?actor_token_id=0123456789abcdef0123456789abcdef&since=regression%20value%20%26%2F%3F%2B%C3%BC&before=regression%20value%20%26%2F%3F%2B%C3%BC",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "only --actor-token-name",
+    "argv": [
+      "organizations",
+      "logs",
+      "audit",
+      "get",
+      "0123456789abcdef0123456789abcdef",
+      "--since",
+      "regression value &/?+ü",
+      "--before",
+      "regression value &/?+ü",
+      "--actor-token-name",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/organizations/0123456789abcdef0123456789abcdef/logs/audit?actor_token_name=regression%20value%20%26%2F%3F%2B%C3%BC&since=regression%20value%20%26%2F%3F%2B%C3%BC&before=regression%20value%20%26%2F%3F%2B%C3%BC",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "only --actor-type",
+    "argv": [
+      "organizations",
+      "logs",
+      "audit",
+      "get",
+      "0123456789abcdef0123456789abcdef",
+      "--since",
+      "regression value &/?+ü",
+      "--before",
+      "regression value &/?+ü",
+      "--actor-type",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/organizations/0123456789abcdef0123456789abcdef/logs/audit?actor_type=regression%20value%20%26%2F%3F%2B%C3%BC&since=regression%20value%20%26%2F%3F%2B%C3%BC&before=regression%20value%20%26%2F%3F%2B%C3%BC",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "only --id",
+    "argv": [
+      "organizations",
+      "logs",
+      "audit",
+      "get",
+      "0123456789abcdef0123456789abcdef",
+      "--since",
+      "regression value &/?+ü",
+      "--before",
+      "regression value &/?+ü",
+      "--id",
+      "0123456789abcdef0123456789abcdef"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/organizations/0123456789abcdef0123456789abcdef/logs/audit?id=0123456789abcdef0123456789abcdef&since=regression%20value%20%26%2F%3F%2B%C3%BC&before=regression%20value%20%26%2F%3F%2B%C3%BC",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "only --raw-cf-ray-id",
+    "argv": [
+      "organizations",
+      "logs",
+      "audit",
+      "get",
+      "0123456789abcdef0123456789abcdef",
+      "--since",
+      "regression value &/?+ü",
+      "--before",
+      "regression value &/?+ü",
+      "--raw-cf-ray-id",
+      "0123456789abcdef0123456789abcdef"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/organizations/0123456789abcdef0123456789abcdef/logs/audit?raw_cf_ray_id=0123456789abcdef0123456789abcdef&since=regression%20value%20%26%2F%3F%2B%C3%BC&before=regression%20value%20%26%2F%3F%2B%C3%BC",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "only --raw-method",
+    "argv": [
+      "organizations",
+      "logs",
+      "audit",
+      "get",
+      "0123456789abcdef0123456789abcdef",
+      "--since",
+      "regression value &/?+ü",
+      "--before",
+      "regression value &/?+ü",
+      "--raw-method",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/organizations/0123456789abcdef0123456789abcdef/logs/audit?raw_method=regression%20value%20%26%2F%3F%2B%C3%BC&since=regression%20value%20%26%2F%3F%2B%C3%BC&before=regression%20value%20%26%2F%3F%2B%C3%BC",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "only --raw-status-code",
+    "argv": [
+      "organizations",
+      "logs",
+      "audit",
+      "get",
+      "0123456789abcdef0123456789abcdef",
+      "--since",
+      "regression value &/?+ü",
+      "--before",
+      "regression value &/?+ü",
+      "--raw-status-code",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/organizations/0123456789abcdef0123456789abcdef/logs/audit?raw_status_code=regression%20value%20%26%2F%3F%2B%C3%BC&since=regression%20value%20%26%2F%3F%2B%C3%BC&before=regression%20value%20%26%2F%3F%2B%C3%BC",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "only --raw-uri",
+    "argv": [
+      "organizations",
+      "logs",
+      "audit",
+      "get",
+      "0123456789abcdef0123456789abcdef",
+      "--since",
+      "regression value &/?+ü",
+      "--before",
+      "regression value &/?+ü",
+      "--raw-uri",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/organizations/0123456789abcdef0123456789abcdef/logs/audit?raw_uri=regression%20value%20%26%2F%3F%2B%C3%BC&since=regression%20value%20%26%2F%3F%2B%C3%BC&before=regression%20value%20%26%2F%3F%2B%C3%BC",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "only --resource-id",
+    "argv": [
+      "organizations",
+      "logs",
+      "audit",
+      "get",
+      "0123456789abcdef0123456789abcdef",
+      "--since",
+      "regression value &/?+ü",
+      "--before",
+      "regression value &/?+ü",
+      "--resource-id",
+      "0123456789abcdef0123456789abcdef"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/organizations/0123456789abcdef0123456789abcdef/logs/audit?resource_id=0123456789abcdef0123456789abcdef&since=regression%20value%20%26%2F%3F%2B%C3%BC&before=regression%20value%20%26%2F%3F%2B%C3%BC",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "only --resource-product",
+    "argv": [
+      "organizations",
+      "logs",
+      "audit",
+      "get",
+      "0123456789abcdef0123456789abcdef",
+      "--since",
+      "regression value &/?+ü",
+      "--before",
+      "regression value &/?+ü",
+      "--resource-product",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/organizations/0123456789abcdef0123456789abcdef/logs/audit?resource_product=regression%20value%20%26%2F%3F%2B%C3%BC&since=regression%20value%20%26%2F%3F%2B%C3%BC&before=regression%20value%20%26%2F%3F%2B%C3%BC",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "only --resource-type",
+    "argv": [
+      "organizations",
+      "logs",
+      "audit",
+      "get",
+      "0123456789abcdef0123456789abcdef",
+      "--since",
+      "regression value &/?+ü",
+      "--before",
+      "regression value &/?+ü",
+      "--resource-type",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/organizations/0123456789abcdef0123456789abcdef/logs/audit?resource_type=regression%20value%20%26%2F%3F%2B%C3%BC&since=regression%20value%20%26%2F%3F%2B%C3%BC&before=regression%20value%20%26%2F%3F%2B%C3%BC",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "only --resource-scope",
+    "argv": [
+      "organizations",
+      "logs",
+      "audit",
+      "get",
+      "0123456789abcdef0123456789abcdef",
+      "--since",
+      "regression value &/?+ü",
+      "--before",
+      "regression value &/?+ü",
+      "--resource-scope",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/organizations/0123456789abcdef0123456789abcdef/logs/audit?resource_scope=regression%20value%20%26%2F%3F%2B%C3%BC&since=regression%20value%20%26%2F%3F%2B%C3%BC&before=regression%20value%20%26%2F%3F%2B%C3%BC",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "only --action-result-not",
+    "argv": [
+      "organizations",
+      "logs",
+      "audit",
+      "get",
+      "0123456789abcdef0123456789abcdef",
+      "--since",
+      "regression value &/?+ü",
+      "--before",
+      "regression value &/?+ü",
+      "--action-result-not",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/organizations/0123456789abcdef0123456789abcdef/logs/audit?action_result.not=regression%20value%20%26%2F%3F%2B%C3%BC&since=regression%20value%20%26%2F%3F%2B%C3%BC&before=regression%20value%20%26%2F%3F%2B%C3%BC",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "only --action-type-not",
+    "argv": [
+      "organizations",
+      "logs",
+      "audit",
+      "get",
+      "0123456789abcdef0123456789abcdef",
+      "--since",
+      "regression value &/?+ü",
+      "--before",
+      "regression value &/?+ü",
+      "--action-type-not",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/organizations/0123456789abcdef0123456789abcdef/logs/audit?action_type.not=regression%20value%20%26%2F%3F%2B%C3%BC&since=regression%20value%20%26%2F%3F%2B%C3%BC&before=regression%20value%20%26%2F%3F%2B%C3%BC",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "only --actor-context-not",
+    "argv": [
+      "organizations",
+      "logs",
+      "audit",
+      "get",
+      "0123456789abcdef0123456789abcdef",
+      "--since",
+      "regression value &/?+ü",
+      "--before",
+      "regression value &/?+ü",
+      "--actor-context-not",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/organizations/0123456789abcdef0123456789abcdef/logs/audit?actor_context.not=regression%20value%20%26%2F%3F%2B%C3%BC&since=regression%20value%20%26%2F%3F%2B%C3%BC&before=regression%20value%20%26%2F%3F%2B%C3%BC",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "only --actor-email-not",
+    "argv": [
+      "organizations",
+      "logs",
+      "audit",
+      "get",
+      "0123456789abcdef0123456789abcdef",
+      "--since",
+      "regression value &/?+ü",
+      "--before",
+      "regression value &/?+ü",
+      "--actor-email-not",
+      "regression@example.com"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/organizations/0123456789abcdef0123456789abcdef/logs/audit?actor_email.not=regression%40example.com&since=regression%20value%20%26%2F%3F%2B%C3%BC&before=regression%20value%20%26%2F%3F%2B%C3%BC",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "only --actor-id-not",
+    "argv": [
+      "organizations",
+      "logs",
+      "audit",
+      "get",
+      "0123456789abcdef0123456789abcdef",
+      "--since",
+      "regression value &/?+ü",
+      "--before",
+      "regression value &/?+ü",
+      "--actor-id-not",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/organizations/0123456789abcdef0123456789abcdef/logs/audit?actor_id.not=regression%20value%20%26%2F%3F%2B%C3%BC&since=regression%20value%20%26%2F%3F%2B%C3%BC&before=regression%20value%20%26%2F%3F%2B%C3%BC",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "only --actor-ip-address-not",
+    "argv": [
+      "organizations",
+      "logs",
+      "audit",
+      "get",
+      "0123456789abcdef0123456789abcdef",
+      "--since",
+      "regression value &/?+ü",
+      "--before",
+      "regression value &/?+ü",
+      "--actor-ip-address-not",
+      "192.0.2.1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/organizations/0123456789abcdef0123456789abcdef/logs/audit?actor_ip_address.not=192.0.2.1&since=regression%20value%20%26%2F%3F%2B%C3%BC&before=regression%20value%20%26%2F%3F%2B%C3%BC",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "only --actor-token-id-not",
+    "argv": [
+      "organizations",
+      "logs",
+      "audit",
+      "get",
+      "0123456789abcdef0123456789abcdef",
+      "--since",
+      "regression value &/?+ü",
+      "--before",
+      "regression value &/?+ü",
+      "--actor-token-id-not",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/organizations/0123456789abcdef0123456789abcdef/logs/audit?actor_token_id.not=regression%20value%20%26%2F%3F%2B%C3%BC&since=regression%20value%20%26%2F%3F%2B%C3%BC&before=regression%20value%20%26%2F%3F%2B%C3%BC",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "only --actor-token-name-not",
+    "argv": [
+      "organizations",
+      "logs",
+      "audit",
+      "get",
+      "0123456789abcdef0123456789abcdef",
+      "--since",
+      "regression value &/?+ü",
+      "--before",
+      "regression value &/?+ü",
+      "--actor-token-name-not",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/organizations/0123456789abcdef0123456789abcdef/logs/audit?actor_token_name.not=regression%20value%20%26%2F%3F%2B%C3%BC&since=regression%20value%20%26%2F%3F%2B%C3%BC&before=regression%20value%20%26%2F%3F%2B%C3%BC",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "only --actor-type-not",
+    "argv": [
+      "organizations",
+      "logs",
+      "audit",
+      "get",
+      "0123456789abcdef0123456789abcdef",
+      "--since",
+      "regression value &/?+ü",
+      "--before",
+      "regression value &/?+ü",
+      "--actor-type-not",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/organizations/0123456789abcdef0123456789abcdef/logs/audit?actor_type.not=regression%20value%20%26%2F%3F%2B%C3%BC&since=regression%20value%20%26%2F%3F%2B%C3%BC&before=regression%20value%20%26%2F%3F%2B%C3%BC",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "only --id-not",
+    "argv": [
+      "organizations",
+      "logs",
+      "audit",
+      "get",
+      "0123456789abcdef0123456789abcdef",
+      "--since",
+      "regression value &/?+ü",
+      "--before",
+      "regression value &/?+ü",
+      "--id-not",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/organizations/0123456789abcdef0123456789abcdef/logs/audit?id.not=regression%20value%20%26%2F%3F%2B%C3%BC&since=regression%20value%20%26%2F%3F%2B%C3%BC&before=regression%20value%20%26%2F%3F%2B%C3%BC",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "only --raw-cf-ray-id-not",
+    "argv": [
+      "organizations",
+      "logs",
+      "audit",
+      "get",
+      "0123456789abcdef0123456789abcdef",
+      "--since",
+      "regression value &/?+ü",
+      "--before",
+      "regression value &/?+ü",
+      "--raw-cf-ray-id-not",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/organizations/0123456789abcdef0123456789abcdef/logs/audit?raw_cf_ray_id.not=regression%20value%20%26%2F%3F%2B%C3%BC&since=regression%20value%20%26%2F%3F%2B%C3%BC&before=regression%20value%20%26%2F%3F%2B%C3%BC",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "only --raw-method-not",
+    "argv": [
+      "organizations",
+      "logs",
+      "audit",
+      "get",
+      "0123456789abcdef0123456789abcdef",
+      "--since",
+      "regression value &/?+ü",
+      "--before",
+      "regression value &/?+ü",
+      "--raw-method-not",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/organizations/0123456789abcdef0123456789abcdef/logs/audit?raw_method.not=regression%20value%20%26%2F%3F%2B%C3%BC&since=regression%20value%20%26%2F%3F%2B%C3%BC&before=regression%20value%20%26%2F%3F%2B%C3%BC",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "only --raw-status-code-not",
+    "argv": [
+      "organizations",
+      "logs",
+      "audit",
+      "get",
+      "0123456789abcdef0123456789abcdef",
+      "--since",
+      "regression value &/?+ü",
+      "--before",
+      "regression value &/?+ü",
+      "--raw-status-code-not",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/organizations/0123456789abcdef0123456789abcdef/logs/audit?raw_status_code.not=regression%20value%20%26%2F%3F%2B%C3%BC&since=regression%20value%20%26%2F%3F%2B%C3%BC&before=regression%20value%20%26%2F%3F%2B%C3%BC",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "only --raw-uri-not",
+    "argv": [
+      "organizations",
+      "logs",
+      "audit",
+      "get",
+      "0123456789abcdef0123456789abcdef",
+      "--since",
+      "regression value &/?+ü",
+      "--before",
+      "regression value &/?+ü",
+      "--raw-uri-not",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/organizations/0123456789abcdef0123456789abcdef/logs/audit?raw_uri.not=regression%20value%20%26%2F%3F%2B%C3%BC&since=regression%20value%20%26%2F%3F%2B%C3%BC&before=regression%20value%20%26%2F%3F%2B%C3%BC",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "only --resource-id-not",
+    "argv": [
+      "organizations",
+      "logs",
+      "audit",
+      "get",
+      "0123456789abcdef0123456789abcdef",
+      "--since",
+      "regression value &/?+ü",
+      "--before",
+      "regression value &/?+ü",
+      "--resource-id-not",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/organizations/0123456789abcdef0123456789abcdef/logs/audit?resource_id.not=regression%20value%20%26%2F%3F%2B%C3%BC&since=regression%20value%20%26%2F%3F%2B%C3%BC&before=regression%20value%20%26%2F%3F%2B%C3%BC",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "only --resource-product-not",
+    "argv": [
+      "organizations",
+      "logs",
+      "audit",
+      "get",
+      "0123456789abcdef0123456789abcdef",
+      "--since",
+      "regression value &/?+ü",
+      "--before",
+      "regression value &/?+ü",
+      "--resource-product-not",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/organizations/0123456789abcdef0123456789abcdef/logs/audit?resource_product.not=regression%20value%20%26%2F%3F%2B%C3%BC&since=regression%20value%20%26%2F%3F%2B%C3%BC&before=regression%20value%20%26%2F%3F%2B%C3%BC",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "only --resource-type-not",
+    "argv": [
+      "organizations",
+      "logs",
+      "audit",
+      "get",
+      "0123456789abcdef0123456789abcdef",
+      "--since",
+      "regression value &/?+ü",
+      "--before",
+      "regression value &/?+ü",
+      "--resource-type-not",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/organizations/0123456789abcdef0123456789abcdef/logs/audit?resource_type.not=regression%20value%20%26%2F%3F%2B%C3%BC&since=regression%20value%20%26%2F%3F%2B%C3%BC&before=regression%20value%20%26%2F%3F%2B%C3%BC",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "only --resource-scope-not",
+    "argv": [
+      "organizations",
+      "logs",
+      "audit",
+      "get",
+      "0123456789abcdef0123456789abcdef",
+      "--since",
+      "regression value &/?+ü",
+      "--before",
+      "regression value &/?+ü",
+      "--resource-scope-not",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/organizations/0123456789abcdef0123456789abcdef/logs/audit?resource_scope.not=regression%20value%20%26%2F%3F%2B%C3%BC&since=regression%20value%20%26%2F%3F%2B%C3%BC&before=regression%20value%20%26%2F%3F%2B%C3%BC",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "only --direction",
+    "argv": [
+      "organizations",
+      "logs",
+      "audit",
+      "get",
+      "0123456789abcdef0123456789abcdef",
+      "--since",
+      "regression value &/?+ü",
+      "--before",
+      "regression value &/?+ü",
+      "--direction",
+      "desc"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/organizations/0123456789abcdef0123456789abcdef/logs/audit?since=regression%20value%20%26%2F%3F%2B%C3%BC&before=regression%20value%20%26%2F%3F%2B%C3%BC&direction=desc",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "--direction value 1",
+    "argv": [
+      "organizations",
+      "logs",
+      "audit",
+      "get",
+      "0123456789abcdef0123456789abcdef",
+      "--since",
+      "regression value &/?+ü",
+      "--before",
+      "regression value &/?+ü",
+      "--direction",
+      "asc"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/organizations/0123456789abcdef0123456789abcdef/logs/audit?since=regression%20value%20%26%2F%3F%2B%C3%BC&before=regression%20value%20%26%2F%3F%2B%C3%BC&direction=asc",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "only --limit",
+    "argv": [
+      "organizations",
+      "logs",
+      "audit",
+      "get",
+      "0123456789abcdef0123456789abcdef",
+      "--since",
+      "regression value &/?+ü",
+      "--before",
+      "regression value &/?+ü",
+      "--limit",
+      "1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/organizations/0123456789abcdef0123456789abcdef/logs/audit?since=regression%20value%20%26%2F%3F%2B%C3%BC&before=regression%20value%20%26%2F%3F%2B%C3%BC&limit=1",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "only --cursor",
+    "argv": [
+      "organizations",
+      "logs",
+      "audit",
+      "get",
+      "0123456789abcdef0123456789abcdef",
+      "--since",
+      "regression value &/?+ü",
+      "--before",
+      "regression value &/?+ü",
+      "--cursor",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/organizations/0123456789abcdef0123456789abcdef/logs/audit?since=regression%20value%20%26%2F%3F%2B%C3%BC&before=regression%20value%20%26%2F%3F%2B%C3%BC&cursor=regression%20value%20%26%2F%3F%2B%C3%BC",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "pairwise 1",
+    "argv": [
+      "organizations",
+      "logs",
+      "audit",
+      "get",
+      "0123456789abcdef0123456789abcdef",
+      "--since",
+      "regression value &/?+ü",
+      "--before",
+      "regression value &/?+ü",
+      "--action-result",
+      "second value &/?+ü",
+      "--action-type",
+      "second value &/?+ü",
+      "--actor-context",
+      "second value &/?+ü",
+      "--actor-email",
+      "regression@example.com",
+      "--actor-id",
+      "0123456789abcdef0123456789abcdef",
+      "--actor-ip-address",
+      "192.0.2.1",
+      "--actor-token-id",
+      "0123456789abcdef0123456789abcdef",
+      "--actor-token-name",
+      "second value &/?+ü",
+      "--actor-type",
+      "second value &/?+ü",
+      "--id",
+      "0123456789abcdef0123456789abcdef",
+      "--raw-cf-ray-id",
+      "0123456789abcdef0123456789abcdef",
+      "--raw-method",
+      "second value &/?+ü",
+      "--raw-status-code",
+      "second value &/?+ü",
+      "--raw-uri",
+      "second value &/?+ü",
+      "--resource-id",
+      "0123456789abcdef0123456789abcdef",
+      "--resource-product",
+      "second value &/?+ü",
+      "--resource-type",
+      "second value &/?+ü",
+      "--resource-scope",
+      "second value &/?+ü",
+      "--action-result-not",
+      "second value &/?+ü",
+      "--action-type-not",
+      "second value &/?+ü",
+      "--actor-context-not",
+      "second value &/?+ü",
+      "--actor-email-not",
+      "regression@example.com",
+      "--actor-id-not",
+      "second value &/?+ü",
+      "--actor-ip-address-not",
+      "192.0.2.1",
+      "--actor-token-id-not",
+      "second value &/?+ü",
+      "--actor-token-name-not",
+      "second value &/?+ü",
+      "--actor-type-not",
+      "second value &/?+ü",
+      "--id-not",
+      "second value &/?+ü",
+      "--raw-cf-ray-id-not",
+      "second value &/?+ü",
+      "--raw-method-not",
+      "second value &/?+ü",
+      "--raw-status-code-not",
+      "second value &/?+ü",
+      "--raw-uri-not",
+      "second value &/?+ü",
+      "--resource-id-not",
+      "second value &/?+ü",
+      "--resource-product-not",
+      "second value &/?+ü",
+      "--resource-type-not",
+      "second value &/?+ü",
+      "--resource-scope-not",
+      "second value &/?+ü",
+      "--direction",
+      "asc",
+      "--limit",
+      "2",
+      "--cursor",
+      "second value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/organizations/0123456789abcdef0123456789abcdef/logs/audit?action_result=second%20value%20%26%2F%3F%2B%C3%BC&action_type=second%20value%20%26%2F%3F%2B%C3%BC&actor_context=second%20value%20%26%2F%3F%2B%C3%BC&actor_email=regression%40example.com&actor_id=0123456789abcdef0123456789abcdef&actor_ip_address=192.0.2.1&actor_token_id=0123456789abcdef0123456789abcdef&actor_token_name=second%20value%20%26%2F%3F%2B%C3%BC&actor_type=second%20value%20%26%2F%3F%2B%C3%BC&id=0123456789abcdef0123456789abcdef&raw_cf_ray_id=0123456789abcdef0123456789abcdef&raw_method=second%20value%20%26%2F%3F%2B%C3%BC&raw_status_code=second%20value%20%26%2F%3F%2B%C3%BC&raw_uri=second%20value%20%26%2F%3F%2B%C3%BC&resource_id=0123456789abcdef0123456789abcdef&resource_product=second%20value%20%26%2F%3F%2B%C3%BC&resource_type=second%20value%20%26%2F%3F%2B%C3%BC&resource_scope=second%20value%20%26%2F%3F%2B%C3%BC&action_result.not=second%20value%20%26%2F%3F%2B%C3%BC&action_type.not=second%20value%20%26%2F%3F%2B%C3%BC&actor_context.not=second%20value%20%26%2F%3F%2B%C3%BC&actor_email.not=regression%40example.com&actor_id.not=second%20value%20%26%2F%3F%2B%C3%BC&actor_ip_address.not=192.0.2.1&actor_token_id.not=second%20value%20%26%2F%3F%2B%C3%BC&actor_token_name.not=second%20value%20%26%2F%3F%2B%C3%BC&actor_type.not=second%20value%20%26%2F%3F%2B%C3%BC&id.not=second%20value%20%26%2F%3F%2B%C3%BC&raw_cf_ray_id.not=second%20value%20%26%2F%3F%2B%C3%BC&raw_method.not=second%20value%20%26%2F%3F%2B%C3%BC&raw_status_code.not=second%20value%20%26%2F%3F%2B%C3%BC&raw_uri.not=second%20value%20%26%2F%3F%2B%C3%BC&resource_id.not=second%20value%20%26%2F%3F%2B%C3%BC&resource_product.not=second%20value%20%26%2F%3F%2B%C3%BC&resource_type.not=second%20value%20%26%2F%3F%2B%C3%BC&resource_scope.not=second%20value%20%26%2F%3F%2B%C3%BC&since=regression%20value%20%26%2F%3F%2B%C3%BC&before=regression%20value%20%26%2F%3F%2B%C3%BC&direction=asc&limit=2&cursor=second%20value%20%26%2F%3F%2B%C3%BC",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "pairwise 2",
+    "argv": [
+      "organizations",
+      "logs",
+      "audit",
+      "get",
+      "0123456789abcdef0123456789abcdef",
+      "--since",
+      "regression value &/?+ü",
+      "--before",
+      "regression value &/?+ü",
+      "--action-type",
+      "regression value &/?+ü",
+      "--actor-email",
+      "regression@example.com",
+      "--actor-ip-address",
+      "192.0.2.1",
+      "--actor-token-name",
+      "regression value &/?+ü",
+      "--id",
+      "0123456789abcdef0123456789abcdef",
+      "--raw-method",
+      "regression value &/?+ü",
+      "--raw-uri",
+      "regression value &/?+ü",
+      "--resource-product",
+      "regression value &/?+ü",
+      "--resource-scope",
+      "regression value &/?+ü",
+      "--action-type-not",
+      "regression value &/?+ü",
+      "--actor-email-not",
+      "regression@example.com",
+      "--actor-ip-address-not",
+      "192.0.2.1",
+      "--actor-token-name-not",
+      "regression value &/?+ü",
+      "--id-not",
+      "regression value &/?+ü",
+      "--raw-method-not",
+      "regression value &/?+ü",
+      "--raw-uri-not",
+      "regression value &/?+ü",
+      "--resource-product-not",
+      "regression value &/?+ü",
+      "--resource-scope-not",
+      "regression value &/?+ü",
+      "--limit",
+      "1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/organizations/0123456789abcdef0123456789abcdef/logs/audit?action_type=regression%20value%20%26%2F%3F%2B%C3%BC&actor_email=regression%40example.com&actor_ip_address=192.0.2.1&actor_token_name=regression%20value%20%26%2F%3F%2B%C3%BC&id=0123456789abcdef0123456789abcdef&raw_method=regression%20value%20%26%2F%3F%2B%C3%BC&raw_uri=regression%20value%20%26%2F%3F%2B%C3%BC&resource_product=regression%20value%20%26%2F%3F%2B%C3%BC&resource_scope=regression%20value%20%26%2F%3F%2B%C3%BC&action_type.not=regression%20value%20%26%2F%3F%2B%C3%BC&actor_email.not=regression%40example.com&actor_ip_address.not=192.0.2.1&actor_token_name.not=regression%20value%20%26%2F%3F%2B%C3%BC&id.not=regression%20value%20%26%2F%3F%2B%C3%BC&raw_method.not=regression%20value%20%26%2F%3F%2B%C3%BC&raw_uri.not=regression%20value%20%26%2F%3F%2B%C3%BC&resource_product.not=regression%20value%20%26%2F%3F%2B%C3%BC&resource_scope.not=regression%20value%20%26%2F%3F%2B%C3%BC&since=regression%20value%20%26%2F%3F%2B%C3%BC&before=regression%20value%20%26%2F%3F%2B%C3%BC&limit=1",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "pairwise 3",
+    "argv": [
+      "organizations",
+      "logs",
+      "audit",
+      "get",
+      "0123456789abcdef0123456789abcdef",
+      "--since",
+      "regression value &/?+ü",
+      "--before",
+      "regression value &/?+ü",
+      "--action-result",
+      "second value &/?+ü",
+      "--actor-context",
+      "second value &/?+ü",
+      "--actor-id",
+      "0123456789abcdef0123456789abcdef",
+      "--actor-token-id",
+      "0123456789abcdef0123456789abcdef",
+      "--actor-type",
+      "second value &/?+ü",
+      "--raw-cf-ray-id",
+      "0123456789abcdef0123456789abcdef",
+      "--raw-status-code",
+      "second value &/?+ü",
+      "--resource-id",
+      "0123456789abcdef0123456789abcdef",
+      "--resource-type",
+      "second value &/?+ü",
+      "--action-result-not",
+      "second value &/?+ü",
+      "--actor-context-not",
+      "second value &/?+ü",
+      "--actor-id-not",
+      "second value &/?+ü",
+      "--actor-token-id-not",
+      "second value &/?+ü",
+      "--actor-type-not",
+      "second value &/?+ü",
+      "--raw-cf-ray-id-not",
+      "second value &/?+ü",
+      "--raw-status-code-not",
+      "second value &/?+ü",
+      "--resource-id-not",
+      "second value &/?+ü",
+      "--resource-type-not",
+      "second value &/?+ü",
+      "--direction",
+      "asc",
+      "--cursor",
+      "second value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/organizations/0123456789abcdef0123456789abcdef/logs/audit?action_result=second%20value%20%26%2F%3F%2B%C3%BC&actor_context=second%20value%20%26%2F%3F%2B%C3%BC&actor_id=0123456789abcdef0123456789abcdef&actor_token_id=0123456789abcdef0123456789abcdef&actor_type=second%20value%20%26%2F%3F%2B%C3%BC&raw_cf_ray_id=0123456789abcdef0123456789abcdef&raw_status_code=second%20value%20%26%2F%3F%2B%C3%BC&resource_id=0123456789abcdef0123456789abcdef&resource_type=second%20value%20%26%2F%3F%2B%C3%BC&action_result.not=second%20value%20%26%2F%3F%2B%C3%BC&actor_context.not=second%20value%20%26%2F%3F%2B%C3%BC&actor_id.not=second%20value%20%26%2F%3F%2B%C3%BC&actor_token_id.not=second%20value%20%26%2F%3F%2B%C3%BC&actor_type.not=second%20value%20%26%2F%3F%2B%C3%BC&raw_cf_ray_id.not=second%20value%20%26%2F%3F%2B%C3%BC&raw_status_code.not=second%20value%20%26%2F%3F%2B%C3%BC&resource_id.not=second%20value%20%26%2F%3F%2B%C3%BC&resource_type.not=second%20value%20%26%2F%3F%2B%C3%BC&since=regression%20value%20%26%2F%3F%2B%C3%BC&before=regression%20value%20%26%2F%3F%2B%C3%BC&direction=asc&cursor=second%20value%20%26%2F%3F%2B%C3%BC",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "pairwise 4",
+    "argv": [
+      "organizations",
+      "logs",
+      "audit",
+      "get",
+      "0123456789abcdef0123456789abcdef",
+      "--since",
+      "regression value &/?+ü",
+      "--before",
+      "regression value &/?+ü",
+      "--actor-context",
+      "regression value &/?+ü",
+      "--actor-email",
+      "regression@example.com",
+      "--actor-token-id",
+      "0123456789abcdef0123456789abcdef",
+      "--actor-token-name",
+      "regression value &/?+ü",
+      "--raw-cf-ray-id",
+      "0123456789abcdef0123456789abcdef",
+      "--raw-method",
+      "regression value &/?+ü",
+      "--resource-id",
+      "0123456789abcdef0123456789abcdef",
+      "--resource-product",
+      "regression value &/?+ü",
+      "--action-result-not",
+      "regression value &/?+ü",
+      "--action-type-not",
+      "regression value &/?+ü",
+      "--actor-id-not",
+      "regression value &/?+ü",
+      "--actor-ip-address-not",
+      "192.0.2.1",
+      "--actor-type-not",
+      "regression value &/?+ü",
+      "--id-not",
+      "regression value &/?+ü",
+      "--raw-status-code-not",
+      "regression value &/?+ü",
+      "--raw-uri-not",
+      "regression value &/?+ü",
+      "--resource-type-not",
+      "regression value &/?+ü",
+      "--resource-scope-not",
+      "regression value &/?+ü",
+      "--cursor",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/organizations/0123456789abcdef0123456789abcdef/logs/audit?actor_context=regression%20value%20%26%2F%3F%2B%C3%BC&actor_email=regression%40example.com&actor_token_id=0123456789abcdef0123456789abcdef&actor_token_name=regression%20value%20%26%2F%3F%2B%C3%BC&raw_cf_ray_id=0123456789abcdef0123456789abcdef&raw_method=regression%20value%20%26%2F%3F%2B%C3%BC&resource_id=0123456789abcdef0123456789abcdef&resource_product=regression%20value%20%26%2F%3F%2B%C3%BC&action_result.not=regression%20value%20%26%2F%3F%2B%C3%BC&action_type.not=regression%20value%20%26%2F%3F%2B%C3%BC&actor_id.not=regression%20value%20%26%2F%3F%2B%C3%BC&actor_ip_address.not=192.0.2.1&actor_type.not=regression%20value%20%26%2F%3F%2B%C3%BC&id.not=regression%20value%20%26%2F%3F%2B%C3%BC&raw_status_code.not=regression%20value%20%26%2F%3F%2B%C3%BC&raw_uri.not=regression%20value%20%26%2F%3F%2B%C3%BC&resource_type.not=regression%20value%20%26%2F%3F%2B%C3%BC&resource_scope.not=regression%20value%20%26%2F%3F%2B%C3%BC&since=regression%20value%20%26%2F%3F%2B%C3%BC&before=regression%20value%20%26%2F%3F%2B%C3%BC&cursor=regression%20value%20%26%2F%3F%2B%C3%BC",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "pairwise 5",
+    "argv": [
+      "organizations",
+      "logs",
+      "audit",
+      "get",
+      "0123456789abcdef0123456789abcdef",
+      "--since",
+      "regression value &/?+ü",
+      "--before",
+      "regression value &/?+ü",
+      "--action-result",
+      "second value &/?+ü",
+      "--action-type",
+      "second value &/?+ü",
+      "--actor-id",
+      "0123456789abcdef0123456789abcdef",
+      "--actor-ip-address",
+      "192.0.2.1",
+      "--actor-type",
+      "second value &/?+ü",
+      "--id",
+      "0123456789abcdef0123456789abcdef",
+      "--raw-status-code",
+      "second value &/?+ü",
+      "--raw-uri",
+      "second value &/?+ü",
+      "--resource-type",
+      "second value &/?+ü",
+      "--resource-scope",
+      "second value &/?+ü",
+      "--actor-context-not",
+      "second value &/?+ü",
+      "--actor-email-not",
+      "regression@example.com",
+      "--actor-token-id-not",
+      "second value &/?+ü",
+      "--actor-token-name-not",
+      "second value &/?+ü",
+      "--raw-cf-ray-id-not",
+      "second value &/?+ü",
+      "--raw-method-not",
+      "second value &/?+ü",
+      "--resource-id-not",
+      "second value &/?+ü",
+      "--resource-product-not",
+      "second value &/?+ü",
+      "--direction",
+      "asc",
+      "--limit",
+      "2"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/organizations/0123456789abcdef0123456789abcdef/logs/audit?action_result=second%20value%20%26%2F%3F%2B%C3%BC&action_type=second%20value%20%26%2F%3F%2B%C3%BC&actor_id=0123456789abcdef0123456789abcdef&actor_ip_address=192.0.2.1&actor_type=second%20value%20%26%2F%3F%2B%C3%BC&id=0123456789abcdef0123456789abcdef&raw_status_code=second%20value%20%26%2F%3F%2B%C3%BC&raw_uri=second%20value%20%26%2F%3F%2B%C3%BC&resource_type=second%20value%20%26%2F%3F%2B%C3%BC&resource_scope=second%20value%20%26%2F%3F%2B%C3%BC&actor_context.not=second%20value%20%26%2F%3F%2B%C3%BC&actor_email.not=regression%40example.com&actor_token_id.not=second%20value%20%26%2F%3F%2B%C3%BC&actor_token_name.not=second%20value%20%26%2F%3F%2B%C3%BC&raw_cf_ray_id.not=second%20value%20%26%2F%3F%2B%C3%BC&raw_method.not=second%20value%20%26%2F%3F%2B%C3%BC&resource_id.not=second%20value%20%26%2F%3F%2B%C3%BC&resource_product.not=second%20value%20%26%2F%3F%2B%C3%BC&since=regression%20value%20%26%2F%3F%2B%C3%BC&before=regression%20value%20%26%2F%3F%2B%C3%BC&direction=asc&limit=2",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "pairwise 6",
+    "argv": [
+      "organizations",
+      "logs",
+      "audit",
+      "get",
+      "0123456789abcdef0123456789abcdef",
+      "--since",
+      "regression value &/?+ü",
+      "--before",
+      "regression value &/?+ü",
+      "--actor-id",
+      "0123456789abcdef0123456789abcdef",
+      "--actor-ip-address",
+      "192.0.2.1",
+      "--actor-token-id",
+      "0123456789abcdef0123456789abcdef",
+      "--actor-token-name",
+      "regression value &/?+ü",
+      "--raw-status-code",
+      "regression value &/?+ü",
+      "--raw-uri",
+      "regression value &/?+ü",
+      "--resource-id",
+      "0123456789abcdef0123456789abcdef",
+      "--resource-product",
+      "regression value &/?+ü",
+      "--actor-context-not",
+      "regression value &/?+ü",
+      "--actor-email-not",
+      "regression@example.com",
+      "--actor-id-not",
+      "regression value &/?+ü",
+      "--actor-ip-address-not",
+      "192.0.2.1",
+      "--raw-cf-ray-id-not",
+      "regression value &/?+ü",
+      "--raw-method-not",
+      "regression value &/?+ü",
+      "--raw-status-code-not",
+      "regression value &/?+ü",
+      "--raw-uri-not",
+      "regression value &/?+ü",
+      "--direction",
+      "desc",
+      "--limit",
+      "1",
+      "--cursor",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/organizations/0123456789abcdef0123456789abcdef/logs/audit?actor_id=0123456789abcdef0123456789abcdef&actor_ip_address=192.0.2.1&actor_token_id=0123456789abcdef0123456789abcdef&actor_token_name=regression%20value%20%26%2F%3F%2B%C3%BC&raw_status_code=regression%20value%20%26%2F%3F%2B%C3%BC&raw_uri=regression%20value%20%26%2F%3F%2B%C3%BC&resource_id=0123456789abcdef0123456789abcdef&resource_product=regression%20value%20%26%2F%3F%2B%C3%BC&actor_context.not=regression%20value%20%26%2F%3F%2B%C3%BC&actor_email.not=regression%40example.com&actor_id.not=regression%20value%20%26%2F%3F%2B%C3%BC&actor_ip_address.not=192.0.2.1&raw_cf_ray_id.not=regression%20value%20%26%2F%3F%2B%C3%BC&raw_method.not=regression%20value%20%26%2F%3F%2B%C3%BC&raw_status_code.not=regression%20value%20%26%2F%3F%2B%C3%BC&raw_uri.not=regression%20value%20%26%2F%3F%2B%C3%BC&since=regression%20value%20%26%2F%3F%2B%C3%BC&before=regression%20value%20%26%2F%3F%2B%C3%BC&direction=desc&limit=1&cursor=regression%20value%20%26%2F%3F%2B%C3%BC",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "pairwise 7",
+    "argv": [
+      "organizations",
+      "logs",
+      "audit",
+      "get",
+      "0123456789abcdef0123456789abcdef",
+      "--since",
+      "regression value &/?+ü",
+      "--before",
+      "regression value &/?+ü",
+      "--action-result",
+      "second value &/?+ü",
+      "--action-type",
+      "second value &/?+ü",
+      "--actor-context",
+      "second value &/?+ü",
+      "--actor-email",
+      "regression@example.com",
+      "--actor-type",
+      "second value &/?+ü",
+      "--id",
+      "0123456789abcdef0123456789abcdef",
+      "--raw-cf-ray-id",
+      "0123456789abcdef0123456789abcdef",
+      "--raw-method",
+      "second value &/?+ü",
+      "--resource-type",
+      "second value &/?+ü",
+      "--resource-scope",
+      "second value &/?+ü",
+      "--action-result-not",
+      "second value &/?+ü",
+      "--action-type-not",
+      "second value &/?+ü",
+      "--actor-token-id-not",
+      "second value &/?+ü",
+      "--actor-token-name-not",
+      "second value &/?+ü",
+      "--actor-type-not",
+      "second value &/?+ü",
+      "--id-not",
+      "second value &/?+ü",
+      "--resource-id-not",
+      "second value &/?+ü",
+      "--resource-product-not",
+      "second value &/?+ü",
+      "--resource-type-not",
+      "second value &/?+ü",
+      "--resource-scope-not",
+      "second value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/organizations/0123456789abcdef0123456789abcdef/logs/audit?action_result=second%20value%20%26%2F%3F%2B%C3%BC&action_type=second%20value%20%26%2F%3F%2B%C3%BC&actor_context=second%20value%20%26%2F%3F%2B%C3%BC&actor_email=regression%40example.com&actor_type=second%20value%20%26%2F%3F%2B%C3%BC&id=0123456789abcdef0123456789abcdef&raw_cf_ray_id=0123456789abcdef0123456789abcdef&raw_method=second%20value%20%26%2F%3F%2B%C3%BC&resource_type=second%20value%20%26%2F%3F%2B%C3%BC&resource_scope=second%20value%20%26%2F%3F%2B%C3%BC&action_result.not=second%20value%20%26%2F%3F%2B%C3%BC&action_type.not=second%20value%20%26%2F%3F%2B%C3%BC&actor_token_id.not=second%20value%20%26%2F%3F%2B%C3%BC&actor_token_name.not=second%20value%20%26%2F%3F%2B%C3%BC&actor_type.not=second%20value%20%26%2F%3F%2B%C3%BC&id.not=second%20value%20%26%2F%3F%2B%C3%BC&resource_id.not=second%20value%20%26%2F%3F%2B%C3%BC&resource_product.not=second%20value%20%26%2F%3F%2B%C3%BC&resource_type.not=second%20value%20%26%2F%3F%2B%C3%BC&resource_scope.not=second%20value%20%26%2F%3F%2B%C3%BC&since=regression%20value%20%26%2F%3F%2B%C3%BC&before=regression%20value%20%26%2F%3F%2B%C3%BC",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "pairwise 8",
+    "argv": [
+      "organizations",
+      "logs",
+      "audit",
+      "get",
+      "0123456789abcdef0123456789abcdef",
+      "--since",
+      "regression value &/?+ü",
+      "--before",
+      "regression value &/?+ü",
+      "--actor-type",
+      "regression value &/?+ü",
+      "--id",
+      "0123456789abcdef0123456789abcdef",
+      "--raw-cf-ray-id",
+      "0123456789abcdef0123456789abcdef",
+      "--raw-method",
+      "regression value &/?+ü",
+      "--raw-status-code",
+      "regression value &/?+ü",
+      "--raw-uri",
+      "regression value &/?+ü",
+      "--resource-id",
+      "0123456789abcdef0123456789abcdef",
+      "--resource-product",
+      "regression value &/?+ü",
+      "--actor-token-id-not",
+      "regression value &/?+ü",
+      "--actor-token-name-not",
+      "regression value &/?+ü",
+      "--actor-type-not",
+      "regression value &/?+ü",
+      "--id-not",
+      "regression value &/?+ü",
+      "--raw-cf-ray-id-not",
+      "regression value &/?+ü",
+      "--raw-method-not",
+      "regression value &/?+ü",
+      "--raw-status-code-not",
+      "regression value &/?+ü",
+      "--raw-uri-not",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/organizations/0123456789abcdef0123456789abcdef/logs/audit?actor_type=regression%20value%20%26%2F%3F%2B%C3%BC&id=0123456789abcdef0123456789abcdef&raw_cf_ray_id=0123456789abcdef0123456789abcdef&raw_method=regression%20value%20%26%2F%3F%2B%C3%BC&raw_status_code=regression%20value%20%26%2F%3F%2B%C3%BC&raw_uri=regression%20value%20%26%2F%3F%2B%C3%BC&resource_id=0123456789abcdef0123456789abcdef&resource_product=regression%20value%20%26%2F%3F%2B%C3%BC&actor_token_id.not=regression%20value%20%26%2F%3F%2B%C3%BC&actor_token_name.not=regression%20value%20%26%2F%3F%2B%C3%BC&actor_type.not=regression%20value%20%26%2F%3F%2B%C3%BC&id.not=regression%20value%20%26%2F%3F%2B%C3%BC&raw_cf_ray_id.not=regression%20value%20%26%2F%3F%2B%C3%BC&raw_method.not=regression%20value%20%26%2F%3F%2B%C3%BC&raw_status_code.not=regression%20value%20%26%2F%3F%2B%C3%BC&raw_uri.not=regression%20value%20%26%2F%3F%2B%C3%BC&since=regression%20value%20%26%2F%3F%2B%C3%BC&before=regression%20value%20%26%2F%3F%2B%C3%BC",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "pairwise 9",
+    "argv": [
+      "organizations",
+      "logs",
+      "audit",
+      "get",
+      "0123456789abcdef0123456789abcdef",
+      "--since",
+      "regression value &/?+ü",
+      "--before",
+      "regression value &/?+ü",
+      "--action-result",
+      "second value &/?+ü",
+      "--action-type",
+      "second value &/?+ü",
+      "--actor-context",
+      "second value &/?+ü",
+      "--actor-email",
+      "regression@example.com",
+      "--actor-id",
+      "0123456789abcdef0123456789abcdef",
+      "--actor-ip-address",
+      "192.0.2.1",
+      "--actor-token-id",
+      "0123456789abcdef0123456789abcdef",
+      "--actor-token-name",
+      "second value &/?+ü",
+      "--resource-type",
+      "second value &/?+ü",
+      "--resource-scope",
+      "second value &/?+ü",
+      "--action-result-not",
+      "second value &/?+ü",
+      "--action-type-not",
+      "second value &/?+ü",
+      "--actor-context-not",
+      "second value &/?+ü",
+      "--actor-email-not",
+      "regression@example.com",
+      "--actor-id-not",
+      "second value &/?+ü",
+      "--actor-ip-address-not",
+      "192.0.2.1",
+      "--resource-id-not",
+      "second value &/?+ü",
+      "--resource-product-not",
+      "second value &/?+ü",
+      "--resource-type-not",
+      "second value &/?+ü",
+      "--resource-scope-not",
+      "second value &/?+ü",
+      "--direction",
+      "asc",
+      "--limit",
+      "2",
+      "--cursor",
+      "second value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/organizations/0123456789abcdef0123456789abcdef/logs/audit?action_result=second%20value%20%26%2F%3F%2B%C3%BC&action_type=second%20value%20%26%2F%3F%2B%C3%BC&actor_context=second%20value%20%26%2F%3F%2B%C3%BC&actor_email=regression%40example.com&actor_id=0123456789abcdef0123456789abcdef&actor_ip_address=192.0.2.1&actor_token_id=0123456789abcdef0123456789abcdef&actor_token_name=second%20value%20%26%2F%3F%2B%C3%BC&resource_type=second%20value%20%26%2F%3F%2B%C3%BC&resource_scope=second%20value%20%26%2F%3F%2B%C3%BC&action_result.not=second%20value%20%26%2F%3F%2B%C3%BC&action_type.not=second%20value%20%26%2F%3F%2B%C3%BC&actor_context.not=second%20value%20%26%2F%3F%2B%C3%BC&actor_email.not=regression%40example.com&actor_id.not=second%20value%20%26%2F%3F%2B%C3%BC&actor_ip_address.not=192.0.2.1&resource_id.not=second%20value%20%26%2F%3F%2B%C3%BC&resource_product.not=second%20value%20%26%2F%3F%2B%C3%BC&resource_type.not=second%20value%20%26%2F%3F%2B%C3%BC&resource_scope.not=second%20value%20%26%2F%3F%2B%C3%BC&since=regression%20value%20%26%2F%3F%2B%C3%BC&before=regression%20value%20%26%2F%3F%2B%C3%BC&direction=asc&limit=2&cursor=second%20value%20%26%2F%3F%2B%C3%BC",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "pairwise 10",
+    "argv": [
+      "organizations",
+      "logs",
+      "audit",
+      "get",
+      "0123456789abcdef0123456789abcdef",
+      "--since",
+      "regression value &/?+ü",
+      "--before",
+      "regression value &/?+ü",
+      "--resource-type",
+      "regression value &/?+ü",
+      "--resource-scope",
+      "regression value &/?+ü",
+      "--action-result-not",
+      "regression value &/?+ü",
+      "--action-type-not",
+      "regression value &/?+ü",
+      "--actor-context-not",
+      "regression value &/?+ü",
+      "--actor-email-not",
+      "regression@example.com",
+      "--actor-id-not",
+      "regression value &/?+ü",
+      "--actor-ip-address-not",
+      "192.0.2.1",
+      "--actor-token-id-not",
+      "regression value &/?+ü",
+      "--actor-token-name-not",
+      "regression value &/?+ü",
+      "--actor-type-not",
+      "regression value &/?+ü",
+      "--id-not",
+      "regression value &/?+ü",
+      "--raw-cf-ray-id-not",
+      "regression value &/?+ü",
+      "--raw-method-not",
+      "regression value &/?+ü",
+      "--raw-status-code-not",
+      "regression value &/?+ü",
+      "--raw-uri-not",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/organizations/0123456789abcdef0123456789abcdef/logs/audit?resource_type=regression%20value%20%26%2F%3F%2B%C3%BC&resource_scope=regression%20value%20%26%2F%3F%2B%C3%BC&action_result.not=regression%20value%20%26%2F%3F%2B%C3%BC&action_type.not=regression%20value%20%26%2F%3F%2B%C3%BC&actor_context.not=regression%20value%20%26%2F%3F%2B%C3%BC&actor_email.not=regression%40example.com&actor_id.not=regression%20value%20%26%2F%3F%2B%C3%BC&actor_ip_address.not=192.0.2.1&actor_token_id.not=regression%20value%20%26%2F%3F%2B%C3%BC&actor_token_name.not=regression%20value%20%26%2F%3F%2B%C3%BC&actor_type.not=regression%20value%20%26%2F%3F%2B%C3%BC&id.not=regression%20value%20%26%2F%3F%2B%C3%BC&raw_cf_ray_id.not=regression%20value%20%26%2F%3F%2B%C3%BC&raw_method.not=regression%20value%20%26%2F%3F%2B%C3%BC&raw_status_code.not=regression%20value%20%26%2F%3F%2B%C3%BC&raw_uri.not=regression%20value%20%26%2F%3F%2B%C3%BC&since=regression%20value%20%26%2F%3F%2B%C3%BC&before=regression%20value%20%26%2F%3F%2B%C3%BC",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "pairwise 11",
+    "argv": [
+      "organizations",
+      "logs",
+      "audit",
+      "get",
+      "0123456789abcdef0123456789abcdef",
+      "--since",
+      "regression value &/?+ü",
+      "--before",
+      "regression value &/?+ü",
+      "--action-result",
+      "second value &/?+ü",
+      "--action-type",
+      "second value &/?+ü",
+      "--actor-context",
+      "second value &/?+ü",
+      "--actor-email",
+      "regression@example.com",
+      "--actor-id",
+      "0123456789abcdef0123456789abcdef",
+      "--actor-ip-address",
+      "192.0.2.1",
+      "--actor-token-id",
+      "0123456789abcdef0123456789abcdef",
+      "--actor-token-name",
+      "second value &/?+ü",
+      "--actor-type",
+      "second value &/?+ü",
+      "--id",
+      "0123456789abcdef0123456789abcdef",
+      "--raw-cf-ray-id",
+      "0123456789abcdef0123456789abcdef",
+      "--raw-method",
+      "second value &/?+ü",
+      "--raw-status-code",
+      "second value &/?+ü",
+      "--raw-uri",
+      "second value &/?+ü",
+      "--resource-id",
+      "0123456789abcdef0123456789abcdef",
+      "--resource-product",
+      "second value &/?+ü",
+      "--resource-id-not",
+      "second value &/?+ü",
+      "--resource-product-not",
+      "second value &/?+ü",
+      "--resource-type-not",
+      "second value &/?+ü",
+      "--resource-scope-not",
+      "second value &/?+ü",
+      "--direction",
+      "asc",
+      "--limit",
+      "2",
+      "--cursor",
+      "second value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/organizations/0123456789abcdef0123456789abcdef/logs/audit?action_result=second%20value%20%26%2F%3F%2B%C3%BC&action_type=second%20value%20%26%2F%3F%2B%C3%BC&actor_context=second%20value%20%26%2F%3F%2B%C3%BC&actor_email=regression%40example.com&actor_id=0123456789abcdef0123456789abcdef&actor_ip_address=192.0.2.1&actor_token_id=0123456789abcdef0123456789abcdef&actor_token_name=second%20value%20%26%2F%3F%2B%C3%BC&actor_type=second%20value%20%26%2F%3F%2B%C3%BC&id=0123456789abcdef0123456789abcdef&raw_cf_ray_id=0123456789abcdef0123456789abcdef&raw_method=second%20value%20%26%2F%3F%2B%C3%BC&raw_status_code=second%20value%20%26%2F%3F%2B%C3%BC&raw_uri=second%20value%20%26%2F%3F%2B%C3%BC&resource_id=0123456789abcdef0123456789abcdef&resource_product=second%20value%20%26%2F%3F%2B%C3%BC&resource_id.not=second%20value%20%26%2F%3F%2B%C3%BC&resource_product.not=second%20value%20%26%2F%3F%2B%C3%BC&resource_type.not=second%20value%20%26%2F%3F%2B%C3%BC&resource_scope.not=second%20value%20%26%2F%3F%2B%C3%BC&since=regression%20value%20%26%2F%3F%2B%C3%BC&before=regression%20value%20%26%2F%3F%2B%C3%BC&direction=asc&limit=2&cursor=second%20value%20%26%2F%3F%2B%C3%BC",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "pairwise 12",
+    "argv": [
+      "organizations",
+      "logs",
+      "audit",
+      "get",
+      "0123456789abcdef0123456789abcdef",
+      "--since",
+      "regression value &/?+ü",
+      "--before",
+      "regression value &/?+ü",
+      "--resource-id-not",
+      "regression value &/?+ü",
+      "--resource-product-not",
+      "regression value &/?+ü",
+      "--resource-type-not",
+      "regression value &/?+ü",
+      "--resource-scope-not",
+      "regression value &/?+ü",
+      "--direction",
+      "desc",
+      "--limit",
+      "1",
+      "--cursor",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/organizations/0123456789abcdef0123456789abcdef/logs/audit?resource_id.not=regression%20value%20%26%2F%3F%2B%C3%BC&resource_product.not=regression%20value%20%26%2F%3F%2B%C3%BC&resource_type.not=regression%20value%20%26%2F%3F%2B%C3%BC&resource_scope.not=regression%20value%20%26%2F%3F%2B%C3%BC&since=regression%20value%20%26%2F%3F%2B%C3%BC&before=regression%20value%20%26%2F%3F%2B%C3%BC&direction=desc&limit=1&cursor=regression%20value%20%26%2F%3F%2B%C3%BC",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "pairwise 13",
+    "argv": [
+      "organizations",
+      "logs",
+      "audit",
+      "get",
+      "0123456789abcdef0123456789abcdef",
+      "--since",
+      "regression value &/?+ü",
+      "--before",
+      "regression value &/?+ü",
+      "--action-result",
+      "second value &/?+ü",
+      "--action-type",
+      "second value &/?+ü",
+      "--actor-context",
+      "second value &/?+ü",
+      "--actor-email",
+      "regression@example.com",
+      "--actor-id",
+      "0123456789abcdef0123456789abcdef",
+      "--actor-ip-address",
+      "192.0.2.1",
+      "--actor-token-id",
+      "0123456789abcdef0123456789abcdef",
+      "--actor-token-name",
+      "second value &/?+ü",
+      "--actor-type",
+      "second value &/?+ü",
+      "--id",
+      "0123456789abcdef0123456789abcdef",
+      "--raw-cf-ray-id",
+      "0123456789abcdef0123456789abcdef",
+      "--raw-method",
+      "second value &/?+ü",
+      "--raw-status-code",
+      "second value &/?+ü",
+      "--raw-uri",
+      "second value &/?+ü",
+      "--resource-id",
+      "0123456789abcdef0123456789abcdef",
+      "--resource-product",
+      "second value &/?+ü",
+      "--resource-type",
+      "second value &/?+ü",
+      "--resource-scope",
+      "second value &/?+ü",
+      "--action-result-not",
+      "second value &/?+ü",
+      "--action-type-not",
+      "second value &/?+ü",
+      "--actor-context-not",
+      "second value &/?+ü",
+      "--actor-email-not",
+      "regression@example.com",
+      "--actor-id-not",
+      "second value &/?+ü",
+      "--actor-ip-address-not",
+      "192.0.2.1",
+      "--actor-token-id-not",
+      "second value &/?+ü",
+      "--actor-token-name-not",
+      "second value &/?+ü",
+      "--actor-type-not",
+      "second value &/?+ü",
+      "--id-not",
+      "second value &/?+ü",
+      "--raw-cf-ray-id-not",
+      "second value &/?+ü",
+      "--raw-method-not",
+      "second value &/?+ü",
+      "--raw-status-code-not",
+      "second value &/?+ü",
+      "--raw-uri-not",
+      "second value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/organizations/0123456789abcdef0123456789abcdef/logs/audit?action_result=second%20value%20%26%2F%3F%2B%C3%BC&action_type=second%20value%20%26%2F%3F%2B%C3%BC&actor_context=second%20value%20%26%2F%3F%2B%C3%BC&actor_email=regression%40example.com&actor_id=0123456789abcdef0123456789abcdef&actor_ip_address=192.0.2.1&actor_token_id=0123456789abcdef0123456789abcdef&actor_token_name=second%20value%20%26%2F%3F%2B%C3%BC&actor_type=second%20value%20%26%2F%3F%2B%C3%BC&id=0123456789abcdef0123456789abcdef&raw_cf_ray_id=0123456789abcdef0123456789abcdef&raw_method=second%20value%20%26%2F%3F%2B%C3%BC&raw_status_code=second%20value%20%26%2F%3F%2B%C3%BC&raw_uri=second%20value%20%26%2F%3F%2B%C3%BC&resource_id=0123456789abcdef0123456789abcdef&resource_product=second%20value%20%26%2F%3F%2B%C3%BC&resource_type=second%20value%20%26%2F%3F%2B%C3%BC&resource_scope=second%20value%20%26%2F%3F%2B%C3%BC&action_result.not=second%20value%20%26%2F%3F%2B%C3%BC&action_type.not=second%20value%20%26%2F%3F%2B%C3%BC&actor_context.not=second%20value%20%26%2F%3F%2B%C3%BC&actor_email.not=regression%40example.com&actor_id.not=second%20value%20%26%2F%3F%2B%C3%BC&actor_ip_address.not=192.0.2.1&actor_token_id.not=second%20value%20%26%2F%3F%2B%C3%BC&actor_token_name.not=second%20value%20%26%2F%3F%2B%C3%BC&actor_type.not=second%20value%20%26%2F%3F%2B%C3%BC&id.not=second%20value%20%26%2F%3F%2B%C3%BC&raw_cf_ray_id.not=second%20value%20%26%2F%3F%2B%C3%BC&raw_method.not=second%20value%20%26%2F%3F%2B%C3%BC&raw_status_code.not=second%20value%20%26%2F%3F%2B%C3%BC&raw_uri.not=second%20value%20%26%2F%3F%2B%C3%BC&since=regression%20value%20%26%2F%3F%2B%C3%BC&before=regression%20value%20%26%2F%3F%2B%C3%BC",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "global quiet",
+    "argv": [
+      "organizations",
+      "logs",
+      "audit",
+      "get",
+      "0123456789abcdef0123456789abcdef",
+      "--since",
+      "regression value &/?+ü",
+      "--before",
+      "regression value &/?+ü",
+      "--quiet"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/organizations/0123456789abcdef0123456789abcdef/logs/audit?since=regression%20value%20%26%2F%3F%2B%C3%BC&before=regression%20value%20%26%2F%3F%2B%C3%BC",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "global zone",
+    "argv": [
+      "organizations",
+      "logs",
+      "audit",
+      "get",
+      "0123456789abcdef0123456789abcdef",
+      "--since",
+      "regression value &/?+ü",
+      "--before",
+      "regression value &/?+ü",
+      "--zone",
+      "abcdef0123456789abcdef0123456789"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/organizations/0123456789abcdef0123456789abcdef/logs/audit?since=regression%20value%20%26%2F%3F%2B%C3%BC&before=regression%20value%20%26%2F%3F%2B%C3%BC",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "global profile and mode",
+    "argv": [
+      "organizations",
+      "logs",
+      "audit",
+      "get",
+      "0123456789abcdef0123456789abcdef",
+      "--since",
+      "regression value &/?+ü",
+      "--before",
+      "regression value &/?+ü",
+      "--profile",
+      "default",
+      "--mode",
+      "regression"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/organizations/0123456789abcdef0123456789abcdef/logs/audit?since=regression%20value%20%26%2F%3F%2B%C3%BC&before=regression%20value%20%26%2F%3F%2B%C3%BC",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "local",
+    "argv": [
+      "organizations",
+      "logs",
+      "audit",
+      "get",
+      "0123456789abcdef0123456789abcdef",
+      "--since",
+      "regression value &/?+ü",
+      "--before",
+      "regression value &/?+ü",
+      "--local"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "http://localhost/cdn-cgi/local/explorer/api/organizations/0123456789abcdef0123456789abcdef/logs/audit?since=regression%20value%20%26%2F%3F%2B%C3%BC&before=regression%20value%20%26%2F%3F%2B%C3%BC",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "gzip, deflate",
+          "accept-language": "*",
+          "connection": "keep-alive",
+          "host": "localhost",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "local with persistence",
+    "argv": [
+      "organizations",
+      "logs",
+      "audit",
+      "get",
+      "0123456789abcdef0123456789abcdef",
+      "--since",
+      "regression value &/?+ü",
+      "--before",
+      "regression value &/?+ü",
+      "--local",
+      "--persist-to",
+      "regression-state"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "http://localhost/cdn-cgi/local/explorer/api/organizations/0123456789abcdef0123456789abcdef/logs/audit?since=regression%20value%20%26%2F%3F%2B%C3%BC&before=regression%20value%20%26%2F%3F%2B%C3%BC",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "gzip, deflate",
+          "accept-language": "*",
+          "connection": "keep-alive",
+          "host": "localhost",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "dry-run",
+    "argv": [
+      "organizations",
+      "logs",
+      "audit",
+      "get",
+      "0123456789abcdef0123456789abcdef",
+      "--since",
+      "regression value &/?+ü",
+      "--before",
+      "regression value &/?+ü",
+      "--dry-run"
+    ],
+    "exitCode": 0,
+    "requests": []
+  }
+]

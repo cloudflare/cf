@@ -1,0 +1,268 @@
+[
+  {
+    "case": "no-args",
+    "argv": [
+      "tunnels",
+      "connections",
+      "cleanup"
+    ],
+    "exitCode": 1,
+    "error": "Not enough non-option arguments: got 0, need at least 1",
+    "requests": []
+  },
+  {
+    "case": "required",
+    "argv": [
+      "tunnels",
+      "connections",
+      "cleanup",
+      "01234567-89ab-4cde-8123-456789abcdef",
+      "--force"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "DELETE",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/cfd_tunnel/01234567-89ab-4cde-8123-456789abcdef/connections",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "only --client-id",
+    "argv": [
+      "tunnels",
+      "connections",
+      "cleanup",
+      "01234567-89ab-4cde-8123-456789abcdef",
+      "--force",
+      "--client-id",
+      "0123456789abcdef0123456789abcdef"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "DELETE",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/cfd_tunnel/01234567-89ab-4cde-8123-456789abcdef/connections?client_id=0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "global quiet",
+    "argv": [
+      "tunnels",
+      "connections",
+      "cleanup",
+      "01234567-89ab-4cde-8123-456789abcdef",
+      "--force",
+      "--quiet"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "DELETE",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/cfd_tunnel/01234567-89ab-4cde-8123-456789abcdef/connections",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "global zone",
+    "argv": [
+      "tunnels",
+      "connections",
+      "cleanup",
+      "01234567-89ab-4cde-8123-456789abcdef",
+      "--force",
+      "--zone",
+      "abcdef0123456789abcdef0123456789"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "DELETE",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/cfd_tunnel/01234567-89ab-4cde-8123-456789abcdef/connections",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "global profile and mode",
+    "argv": [
+      "tunnels",
+      "connections",
+      "cleanup",
+      "01234567-89ab-4cde-8123-456789abcdef",
+      "--force",
+      "--profile",
+      "default",
+      "--mode",
+      "regression"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "DELETE",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/cfd_tunnel/01234567-89ab-4cde-8123-456789abcdef/connections",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "local",
+    "argv": [
+      "tunnels",
+      "connections",
+      "cleanup",
+      "01234567-89ab-4cde-8123-456789abcdef",
+      "--force",
+      "--local"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "DELETE",
+        "url": "http://localhost/cdn-cgi/local/explorer/api/cfd_tunnel/01234567-89ab-4cde-8123-456789abcdef/connections",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "gzip, deflate",
+          "accept-language": "*",
+          "connection": "keep-alive",
+          "host": "localhost",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "local with persistence",
+    "argv": [
+      "tunnels",
+      "connections",
+      "cleanup",
+      "01234567-89ab-4cde-8123-456789abcdef",
+      "--force",
+      "--local",
+      "--persist-to",
+      "regression-state"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "DELETE",
+        "url": "http://localhost/cdn-cgi/local/explorer/api/cfd_tunnel/01234567-89ab-4cde-8123-456789abcdef/connections",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "gzip, deflate",
+          "accept-language": "*",
+          "connection": "keep-alive",
+          "host": "localhost",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "dry-run",
+    "argv": [
+      "tunnels",
+      "connections",
+      "cleanup",
+      "01234567-89ab-4cde-8123-456789abcdef",
+      "--force",
+      "--dry-run"
+    ],
+    "exitCode": 0,
+    "requests": []
+  }
+]

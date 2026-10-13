@@ -1,0 +1,927 @@
+[
+  {
+    "case": "no-args",
+    "argv": [
+      "workers",
+      "versions",
+      "profile"
+    ],
+    "exitCode": 1,
+    "error": "Not enough non-option arguments: got 0, need at least 1",
+    "requests": []
+  },
+  {
+    "case": "required",
+    "argv": [
+      "workers",
+      "versions",
+      "profile",
+      "0123456789abcdef0123456789abcdef",
+      "--worker-id",
+      "0123456789abcdef0123456789abcdef",
+      "--duration-ms",
+      "1",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/workers/workers/0123456789abcdef0123456789abcdef/versions/0123456789abcdef0123456789abcdef/profile",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --actor-id",
+    "argv": [
+      "workers",
+      "versions",
+      "profile",
+      "0123456789abcdef0123456789abcdef",
+      "--worker-id",
+      "0123456789abcdef0123456789abcdef",
+      "--duration-ms",
+      "1",
+      "--actor-id",
+      "0123456789abcdef0123456789abcdef"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/workers/workers/0123456789abcdef0123456789abcdef/versions/0123456789abcdef0123456789abcdef/profile",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "84",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "actor_id": "0123456789abcdef0123456789abcdef",
+          "duration_ms": 1,
+          "profile_type": "cpu"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --namespace-id",
+    "argv": [
+      "workers",
+      "versions",
+      "profile",
+      "0123456789abcdef0123456789abcdef",
+      "--worker-id",
+      "0123456789abcdef0123456789abcdef",
+      "--duration-ms",
+      "1",
+      "--namespace-id",
+      "0123456789abcdef0123456789abcdef"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/workers/workers/0123456789abcdef0123456789abcdef/versions/0123456789abcdef0123456789abcdef/profile",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "88",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "duration_ms": 1,
+          "namespace_id": "0123456789abcdef0123456789abcdef",
+          "profile_type": "cpu"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --profile-type",
+    "argv": [
+      "workers",
+      "versions",
+      "profile",
+      "0123456789abcdef0123456789abcdef",
+      "--worker-id",
+      "0123456789abcdef0123456789abcdef",
+      "--duration-ms",
+      "1",
+      "--profile-type",
+      "cpu"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/workers/workers/0123456789abcdef0123456789abcdef/versions/0123456789abcdef0123456789abcdef/profile",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "38",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "duration_ms": 1,
+          "profile_type": "cpu"
+        }
+      }
+    ]
+  },
+  {
+    "case": "--profile-type value 1",
+    "argv": [
+      "workers",
+      "versions",
+      "profile",
+      "0123456789abcdef0123456789abcdef",
+      "--worker-id",
+      "0123456789abcdef0123456789abcdef",
+      "--duration-ms",
+      "1",
+      "--profile-type",
+      "heap"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/workers/workers/0123456789abcdef0123456789abcdef/versions/0123456789abcdef0123456789abcdef/profile",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "39",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "duration_ms": 1,
+          "profile_type": "heap"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --text",
+    "argv": [
+      "workers",
+      "versions",
+      "profile",
+      "0123456789abcdef0123456789abcdef",
+      "--worker-id",
+      "0123456789abcdef0123456789abcdef",
+      "--duration-ms",
+      "1",
+      "--text=true"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/workers/workers/0123456789abcdef0123456789abcdef/versions/0123456789abcdef0123456789abcdef/profile",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "38",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "duration_ms": 1,
+          "profile_type": "cpu"
+        }
+      }
+    ]
+  },
+  {
+    "case": "--text value 1",
+    "argv": [
+      "workers",
+      "versions",
+      "profile",
+      "0123456789abcdef0123456789abcdef",
+      "--worker-id",
+      "0123456789abcdef0123456789abcdef",
+      "--duration-ms",
+      "1",
+      "--text=false"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/workers/workers/0123456789abcdef0123456789abcdef/versions/0123456789abcdef0123456789abcdef/profile",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "38",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "duration_ms": 1,
+          "profile_type": "cpu"
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 0",
+    "argv": [
+      "workers",
+      "versions",
+      "profile",
+      "0123456789abcdef0123456789abcdef",
+      "--worker-id",
+      "0123456789abcdef0123456789abcdef",
+      "--duration-ms",
+      "1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/workers/workers/0123456789abcdef0123456789abcdef/versions/0123456789abcdef0123456789abcdef/profile",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "38",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "duration_ms": 1,
+          "profile_type": "cpu"
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 1",
+    "argv": [
+      "workers",
+      "versions",
+      "profile",
+      "0123456789abcdef0123456789abcdef",
+      "--worker-id",
+      "0123456789abcdef0123456789abcdef",
+      "--duration-ms",
+      "1",
+      "--actor-id",
+      "0123456789abcdef0123456789abcdef",
+      "--namespace-id",
+      "0123456789abcdef0123456789abcdef",
+      "--profile-type",
+      "heap",
+      "--text=false"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/workers/workers/0123456789abcdef0123456789abcdef/versions/0123456789abcdef0123456789abcdef/profile",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "135",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "actor_id": "0123456789abcdef0123456789abcdef",
+          "duration_ms": 1,
+          "namespace_id": "0123456789abcdef0123456789abcdef",
+          "profile_type": "heap"
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 2",
+    "argv": [
+      "workers",
+      "versions",
+      "profile",
+      "0123456789abcdef0123456789abcdef",
+      "--worker-id",
+      "0123456789abcdef0123456789abcdef",
+      "--duration-ms",
+      "1",
+      "--namespace-id",
+      "0123456789abcdef0123456789abcdef",
+      "--text=true"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/workers/workers/0123456789abcdef0123456789abcdef/versions/0123456789abcdef0123456789abcdef/profile",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "88",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "duration_ms": 1,
+          "namespace_id": "0123456789abcdef0123456789abcdef",
+          "profile_type": "cpu"
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 3",
+    "argv": [
+      "workers",
+      "versions",
+      "profile",
+      "0123456789abcdef0123456789abcdef",
+      "--worker-id",
+      "0123456789abcdef0123456789abcdef",
+      "--duration-ms",
+      "1",
+      "--actor-id",
+      "0123456789abcdef0123456789abcdef",
+      "--profile-type",
+      "heap"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/workers/workers/0123456789abcdef0123456789abcdef/versions/0123456789abcdef0123456789abcdef/profile",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "85",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "actor_id": "0123456789abcdef0123456789abcdef",
+          "duration_ms": 1,
+          "profile_type": "heap"
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 4",
+    "argv": [
+      "workers",
+      "versions",
+      "profile",
+      "0123456789abcdef0123456789abcdef",
+      "--worker-id",
+      "0123456789abcdef0123456789abcdef",
+      "--duration-ms",
+      "1",
+      "--profile-type",
+      "cpu",
+      "--text=true"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/workers/workers/0123456789abcdef0123456789abcdef/versions/0123456789abcdef0123456789abcdef/profile",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "38",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "duration_ms": 1,
+          "profile_type": "cpu"
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 5",
+    "argv": [
+      "workers",
+      "versions",
+      "profile",
+      "0123456789abcdef0123456789abcdef",
+      "--worker-id",
+      "0123456789abcdef0123456789abcdef",
+      "--duration-ms",
+      "1",
+      "--actor-id",
+      "0123456789abcdef0123456789abcdef",
+      "--namespace-id",
+      "0123456789abcdef0123456789abcdef"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/workers/workers/0123456789abcdef0123456789abcdef/versions/0123456789abcdef0123456789abcdef/profile",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "134",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "actor_id": "0123456789abcdef0123456789abcdef",
+          "duration_ms": 1,
+          "namespace_id": "0123456789abcdef0123456789abcdef",
+          "profile_type": "cpu"
+        }
+      }
+    ]
+  },
+  {
+    "case": "global quiet",
+    "argv": [
+      "workers",
+      "versions",
+      "profile",
+      "0123456789abcdef0123456789abcdef",
+      "--worker-id",
+      "0123456789abcdef0123456789abcdef",
+      "--duration-ms",
+      "1",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--quiet"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/workers/workers/0123456789abcdef0123456789abcdef/versions/0123456789abcdef0123456789abcdef/profile",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "global zone",
+    "argv": [
+      "workers",
+      "versions",
+      "profile",
+      "0123456789abcdef0123456789abcdef",
+      "--worker-id",
+      "0123456789abcdef0123456789abcdef",
+      "--duration-ms",
+      "1",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--zone",
+      "abcdef0123456789abcdef0123456789"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/workers/workers/0123456789abcdef0123456789abcdef/versions/0123456789abcdef0123456789abcdef/profile",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "global profile and mode",
+    "argv": [
+      "workers",
+      "versions",
+      "profile",
+      "0123456789abcdef0123456789abcdef",
+      "--worker-id",
+      "0123456789abcdef0123456789abcdef",
+      "--duration-ms",
+      "1",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--profile",
+      "default",
+      "--mode",
+      "regression"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/workers/workers/0123456789abcdef0123456789abcdef/versions/0123456789abcdef0123456789abcdef/profile",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "local",
+    "argv": [
+      "workers",
+      "versions",
+      "profile",
+      "0123456789abcdef0123456789abcdef",
+      "--worker-id",
+      "0123456789abcdef0123456789abcdef",
+      "--duration-ms",
+      "1",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--local"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "http://localhost/cdn-cgi/local/explorer/api/workers/workers/0123456789abcdef0123456789abcdef/versions/0123456789abcdef0123456789abcdef/profile",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "gzip, deflate",
+          "accept-language": "*",
+          "connection": "keep-alive",
+          "content-type": "application/json",
+          "host": "localhost",
+          "sec-fetch-mode": "cors",
+          "transfer-encoding": "chunked",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "local with persistence",
+    "argv": [
+      "workers",
+      "versions",
+      "profile",
+      "0123456789abcdef0123456789abcdef",
+      "--worker-id",
+      "0123456789abcdef0123456789abcdef",
+      "--duration-ms",
+      "1",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--local",
+      "--persist-to",
+      "regression-state"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "http://localhost/cdn-cgi/local/explorer/api/workers/workers/0123456789abcdef0123456789abcdef/versions/0123456789abcdef0123456789abcdef/profile",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "gzip, deflate",
+          "accept-language": "*",
+          "connection": "keep-alive",
+          "content-type": "application/json",
+          "host": "localhost",
+          "sec-fetch-mode": "cors",
+          "transfer-encoding": "chunked",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "dry-run",
+    "argv": [
+      "workers",
+      "versions",
+      "profile",
+      "0123456789abcdef0123456789abcdef",
+      "--worker-id",
+      "0123456789abcdef0123456789abcdef",
+      "--duration-ms",
+      "1",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--dry-run"
+    ],
+    "exitCode": 0,
+    "requests": []
+  },
+  {
+    "case": "body from file",
+    "argv": [
+      "workers",
+      "versions",
+      "profile",
+      "0123456789abcdef0123456789abcdef",
+      "--worker-id",
+      "0123456789abcdef0123456789abcdef",
+      "--duration-ms",
+      "1",
+      "--body",
+      "@<body.json>"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/workers/workers/0123456789abcdef0123456789abcdef/versions/0123456789abcdef0123456789abcdef/profile",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "array body",
+    "argv": [
+      "workers",
+      "versions",
+      "profile",
+      "0123456789abcdef0123456789abcdef",
+      "--worker-id",
+      "0123456789abcdef0123456789abcdef",
+      "--duration-ms",
+      "1",
+      "--body",
+      "[{\"regression\":\"first\"},{\"regression\":\"second\"}]"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/workers/workers/0123456789abcdef0123456789abcdef/versions/0123456789abcdef0123456789abcdef/profile",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "48",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": [
+          {
+            "regression": "first"
+          },
+          {
+            "regression": "second"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "case": "field flags",
+    "argv": [
+      "workers",
+      "versions",
+      "profile",
+      "0123456789abcdef0123456789abcdef",
+      "--worker-id",
+      "0123456789abcdef0123456789abcdef",
+      "--duration-ms",
+      "1",
+      "--actor-id",
+      "0123456789abcdef0123456789abcdef",
+      "--namespace-id",
+      "0123456789abcdef0123456789abcdef",
+      "--profile-type",
+      "cpu",
+      "--text=true"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/workers/workers/0123456789abcdef0123456789abcdef/versions/0123456789abcdef0123456789abcdef/profile",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "134",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "actor_id": "0123456789abcdef0123456789abcdef",
+          "duration_ms": 1,
+          "namespace_id": "0123456789abcdef0123456789abcdef",
+          "profile_type": "cpu"
+        }
+      }
+    ]
+  }
+]

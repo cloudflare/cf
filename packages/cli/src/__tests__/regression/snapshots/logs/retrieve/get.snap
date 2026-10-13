@@ -1,0 +1,391 @@
+[
+  {
+    "case": "no-args",
+    "argv": [
+      "logs",
+      "retrieve",
+      "get"
+    ],
+    "exitCode": 1,
+    "error": "Missing required arguments: start, end, bucket, r2-access-key-id, r2-secret-access-key",
+    "requests": []
+  },
+  {
+    "case": "required",
+    "argv": [
+      "logs",
+      "retrieve",
+      "get",
+      "--start",
+      "regression value &/?+ü",
+      "--end",
+      "regression value &/?+ü",
+      "--bucket",
+      "regression value &/?+ü",
+      "--r2-access-key-id",
+      "0123456789abcdef0123456789abcdef",
+      "--r2-secret-access-key",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/logs/retrieve?start=regression+value+%26%2F%3F%2B%C3%BC&end=regression+value+%26%2F%3F%2B%C3%BC&bucket=regression+value+%26%2F%3F%2B%C3%BC",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "r2-access-key-id": "0123456789abcdef0123456789abcdef",
+          "r2-secret-access-key": "regression value &/?+Ã¼",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "only --prefix",
+    "argv": [
+      "logs",
+      "retrieve",
+      "get",
+      "--start",
+      "regression value &/?+ü",
+      "--end",
+      "regression value &/?+ü",
+      "--bucket",
+      "regression value &/?+ü",
+      "--r2-access-key-id",
+      "0123456789abcdef0123456789abcdef",
+      "--r2-secret-access-key",
+      "regression value &/?+ü",
+      "--prefix",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/logs/retrieve?start=regression+value+%26%2F%3F%2B%C3%BC&end=regression+value+%26%2F%3F%2B%C3%BC&bucket=regression+value+%26%2F%3F%2B%C3%BC&prefix=regression+value+%26%2F%3F%2B%C3%BC",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "r2-access-key-id": "0123456789abcdef0123456789abcdef",
+          "r2-secret-access-key": "regression value &/?+Ã¼",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "pairwise 1",
+    "argv": [
+      "logs",
+      "retrieve",
+      "get",
+      "--start",
+      "regression value &/?+ü",
+      "--end",
+      "regression value &/?+ü",
+      "--bucket",
+      "regression value &/?+ü",
+      "--r2-access-key-id",
+      "0123456789abcdef0123456789abcdef",
+      "--r2-secret-access-key",
+      "regression value &/?+ü",
+      "--prefix",
+      "second value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/logs/retrieve?start=regression+value+%26%2F%3F%2B%C3%BC&end=regression+value+%26%2F%3F%2B%C3%BC&bucket=regression+value+%26%2F%3F%2B%C3%BC&prefix=second+value+%26%2F%3F%2B%C3%BC",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "r2-access-key-id": "0123456789abcdef0123456789abcdef",
+          "r2-secret-access-key": "regression value &/?+Ã¼",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "global quiet",
+    "argv": [
+      "logs",
+      "retrieve",
+      "get",
+      "--start",
+      "regression value &/?+ü",
+      "--end",
+      "regression value &/?+ü",
+      "--bucket",
+      "regression value &/?+ü",
+      "--r2-access-key-id",
+      "0123456789abcdef0123456789abcdef",
+      "--r2-secret-access-key",
+      "regression value &/?+ü",
+      "--quiet"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/logs/retrieve?start=regression+value+%26%2F%3F%2B%C3%BC&end=regression+value+%26%2F%3F%2B%C3%BC&bucket=regression+value+%26%2F%3F%2B%C3%BC",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "r2-access-key-id": "0123456789abcdef0123456789abcdef",
+          "r2-secret-access-key": "regression value &/?+Ã¼",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "global zone",
+    "argv": [
+      "logs",
+      "retrieve",
+      "get",
+      "--start",
+      "regression value &/?+ü",
+      "--end",
+      "regression value &/?+ü",
+      "--bucket",
+      "regression value &/?+ü",
+      "--r2-access-key-id",
+      "0123456789abcdef0123456789abcdef",
+      "--r2-secret-access-key",
+      "regression value &/?+ü",
+      "--zone",
+      "abcdef0123456789abcdef0123456789"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/logs/retrieve?start=regression+value+%26%2F%3F%2B%C3%BC&end=regression+value+%26%2F%3F%2B%C3%BC&bucket=regression+value+%26%2F%3F%2B%C3%BC",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "r2-access-key-id": "0123456789abcdef0123456789abcdef",
+          "r2-secret-access-key": "regression value &/?+Ã¼",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "global profile and mode",
+    "argv": [
+      "logs",
+      "retrieve",
+      "get",
+      "--start",
+      "regression value &/?+ü",
+      "--end",
+      "regression value &/?+ü",
+      "--bucket",
+      "regression value &/?+ü",
+      "--r2-access-key-id",
+      "0123456789abcdef0123456789abcdef",
+      "--r2-secret-access-key",
+      "regression value &/?+ü",
+      "--profile",
+      "default",
+      "--mode",
+      "regression"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/logs/retrieve?start=regression+value+%26%2F%3F%2B%C3%BC&end=regression+value+%26%2F%3F%2B%C3%BC&bucket=regression+value+%26%2F%3F%2B%C3%BC",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "r2-access-key-id": "0123456789abcdef0123456789abcdef",
+          "r2-secret-access-key": "regression value &/?+Ã¼",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "local",
+    "argv": [
+      "logs",
+      "retrieve",
+      "get",
+      "--start",
+      "regression value &/?+ü",
+      "--end",
+      "regression value &/?+ü",
+      "--bucket",
+      "regression value &/?+ü",
+      "--r2-access-key-id",
+      "0123456789abcdef0123456789abcdef",
+      "--r2-secret-access-key",
+      "regression value &/?+ü",
+      "--local"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "http://localhost/cdn-cgi/local/explorer/api/logs/retrieve?start=regression+value+%26%2F%3F%2B%C3%BC&end=regression+value+%26%2F%3F%2B%C3%BC&bucket=regression+value+%26%2F%3F%2B%C3%BC",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "gzip, deflate",
+          "accept-language": "*",
+          "connection": "keep-alive",
+          "host": "localhost",
+          "r2-access-key-id": "0123456789abcdef0123456789abcdef",
+          "r2-secret-access-key": "regression value &/?+Ã¼",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "local with persistence",
+    "argv": [
+      "logs",
+      "retrieve",
+      "get",
+      "--start",
+      "regression value &/?+ü",
+      "--end",
+      "regression value &/?+ü",
+      "--bucket",
+      "regression value &/?+ü",
+      "--r2-access-key-id",
+      "0123456789abcdef0123456789abcdef",
+      "--r2-secret-access-key",
+      "regression value &/?+ü",
+      "--local",
+      "--persist-to",
+      "regression-state"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "http://localhost/cdn-cgi/local/explorer/api/logs/retrieve?start=regression+value+%26%2F%3F%2B%C3%BC&end=regression+value+%26%2F%3F%2B%C3%BC&bucket=regression+value+%26%2F%3F%2B%C3%BC",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "gzip, deflate",
+          "accept-language": "*",
+          "connection": "keep-alive",
+          "host": "localhost",
+          "r2-access-key-id": "0123456789abcdef0123456789abcdef",
+          "r2-secret-access-key": "regression value &/?+Ã¼",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "dry-run",
+    "argv": [
+      "logs",
+      "retrieve",
+      "get",
+      "--start",
+      "regression value &/?+ü",
+      "--end",
+      "regression value &/?+ü",
+      "--bucket",
+      "regression value &/?+ü",
+      "--r2-access-key-id",
+      "0123456789abcdef0123456789abcdef",
+      "--r2-secret-access-key",
+      "regression value &/?+ü",
+      "--dry-run"
+    ],
+    "exitCode": 0,
+    "requests": []
+  }
+]

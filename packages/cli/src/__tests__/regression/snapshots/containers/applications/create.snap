@@ -1,0 +1,1554 @@
+[
+  {
+    "case": "no-args",
+    "argv": [
+      "containers",
+      "applications",
+      "create"
+    ],
+    "exitCode": 1,
+    "error": "--name is required. Pass --name <value> or run interactively.",
+    "requests": []
+  },
+  {
+    "case": "required",
+    "argv": [
+      "containers",
+      "applications",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--scheduling-policy",
+      "default",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/containers/applications",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --configuration-command",
+    "argv": [
+      "containers",
+      "applications",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--scheduling-policy",
+      "default",
+      "--configuration-command",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/containers/applications",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "120",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "configuration": {
+            "command": [
+              "regression value &/?+ü"
+            ]
+          },
+          "name": "regression value &/?+ü",
+          "scheduling_policy": "default"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --configuration-entrypoint",
+    "argv": [
+      "containers",
+      "applications",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--scheduling-policy",
+      "default",
+      "--configuration-entrypoint",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/containers/applications",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "123",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "configuration": {
+            "entrypoint": [
+              "regression value &/?+ü"
+            ]
+          },
+          "name": "regression value &/?+ü",
+          "scheduling_policy": "default"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --configuration-image",
+    "argv": [
+      "containers",
+      "applications",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--scheduling-policy",
+      "default",
+      "--configuration-image",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/containers/applications",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "116",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "configuration": {
+            "image": "regression value &/?+ü"
+          },
+          "name": "regression value &/?+ü",
+          "scheduling_policy": "default"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --configuration-instance-type",
+    "argv": [
+      "containers",
+      "applications",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--scheduling-policy",
+      "default",
+      "--configuration-instance-type",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/containers/applications",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "124",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "configuration": {
+            "instance_type": "regression value &/?+ü"
+          },
+          "name": "regression value &/?+ü",
+          "scheduling_policy": "default"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --configuration-observability-logs-enabled",
+    "argv": [
+      "containers",
+      "applications",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--scheduling-policy",
+      "default",
+      "--configuration-observability-logs-enabled=true"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/containers/applications",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "124",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "configuration": {
+            "observability": {
+              "logs": {
+                "enabled": true
+              }
+            }
+          },
+          "name": "regression value &/?+ü",
+          "scheduling_policy": "default"
+        }
+      }
+    ]
+  },
+  {
+    "case": "--configuration-observability-logs-enabled value 1",
+    "argv": [
+      "containers",
+      "applications",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--scheduling-policy",
+      "default",
+      "--configuration-observability-logs-enabled=false"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/containers/applications",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "125",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "configuration": {
+            "observability": {
+              "logs": {
+                "enabled": false
+              }
+            }
+          },
+          "name": "regression value &/?+ü",
+          "scheduling_policy": "default"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --configuration-wrangler-ssh-enabled",
+    "argv": [
+      "containers",
+      "applications",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--scheduling-policy",
+      "default",
+      "--configuration-wrangler-ssh-enabled=true"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/containers/applications",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "114",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "configuration": {
+            "wrangler_ssh": {
+              "enabled": true
+            }
+          },
+          "name": "regression value &/?+ü",
+          "scheduling_policy": "default"
+        }
+      }
+    ]
+  },
+  {
+    "case": "--configuration-wrangler-ssh-enabled value 1",
+    "argv": [
+      "containers",
+      "applications",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--scheduling-policy",
+      "default",
+      "--configuration-wrangler-ssh-enabled=false"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/containers/applications",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "115",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "configuration": {
+            "wrangler_ssh": {
+              "enabled": false
+            }
+          },
+          "name": "regression value &/?+ü",
+          "scheduling_policy": "default"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --configuration-wrangler-ssh-port",
+    "argv": [
+      "containers",
+      "applications",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--scheduling-policy",
+      "default",
+      "--configuration-wrangler-ssh-port",
+      "1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/containers/applications",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "108",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "configuration": {
+            "wrangler_ssh": {
+              "port": 1
+            }
+          },
+          "name": "regression value &/?+ü",
+          "scheduling_policy": "default"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --constraints-jurisdiction",
+    "argv": [
+      "containers",
+      "applications",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--scheduling-policy",
+      "default",
+      "--constraints-jurisdiction",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/containers/applications",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "121",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "constraints": {
+            "jurisdiction": "regression value &/?+ü"
+          },
+          "name": "regression value &/?+ü",
+          "scheduling_policy": "default"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --constraints-regions",
+    "argv": [
+      "containers",
+      "applications",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--scheduling-policy",
+      "default",
+      "--constraints-regions",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/containers/applications",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "118",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "constraints": {
+            "regions": [
+              "regression value &/?+ü"
+            ]
+          },
+          "name": "regression value &/?+ü",
+          "scheduling_policy": "default"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --instances",
+    "argv": [
+      "containers",
+      "applications",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--scheduling-policy",
+      "default",
+      "--instances",
+      "1"
+    ],
+    "exitCode": 1,
+    "error": "Missing dependent arguments:\n instances -> max-instances",
+    "requests": []
+  },
+  {
+    "case": "only --max-instances",
+    "argv": [
+      "containers",
+      "applications",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--scheduling-policy",
+      "default",
+      "--max-instances",
+      "1"
+    ],
+    "exitCode": 1,
+    "error": "Missing dependent arguments:\n max-instances -> instances",
+    "requests": []
+  },
+  {
+    "case": "only --observability-logs-enabled",
+    "argv": [
+      "containers",
+      "applications",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--scheduling-policy",
+      "default",
+      "--observability-logs-enabled=true"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/containers/applications",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "106",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "name": "regression value &/?+ü",
+          "observability": {
+            "logs": {
+              "enabled": true
+            }
+          },
+          "scheduling_policy": "default"
+        }
+      }
+    ]
+  },
+  {
+    "case": "--observability-logs-enabled value 1",
+    "argv": [
+      "containers",
+      "applications",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--scheduling-policy",
+      "default",
+      "--observability-logs-enabled=false"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/containers/applications",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "107",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "name": "regression value &/?+ü",
+          "observability": {
+            "logs": {
+              "enabled": false
+            }
+          },
+          "scheduling_policy": "default"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --rollout-active-grace-period",
+    "argv": [
+      "containers",
+      "applications",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--scheduling-policy",
+      "default",
+      "--rollout-active-grace-period",
+      "1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/containers/applications",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "96",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "name": "regression value &/?+ü",
+          "rollout_active_grace_period": 1,
+          "scheduling_policy": "default"
+        }
+      }
+    ]
+  },
+  {
+    "case": "required --scheduling-policy value 1",
+    "argv": [
+      "containers",
+      "applications",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--scheduling-policy",
+      "durable_object"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/containers/applications",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 0",
+    "argv": [
+      "containers",
+      "applications",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--scheduling-policy",
+      "default"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/containers/applications",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "64",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "name": "regression value &/?+ü",
+          "scheduling_policy": "default"
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 1",
+    "argv": [
+      "containers",
+      "applications",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--scheduling-policy",
+      "default",
+      "--configuration-command",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--configuration-entrypoint",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--configuration-image",
+      "second value &/?+ü",
+      "--configuration-instance-type",
+      "second value &/?+ü",
+      "--configuration-observability-logs-enabled=false",
+      "--configuration-wrangler-ssh-enabled=false",
+      "--configuration-wrangler-ssh-port",
+      "2",
+      "--constraints-jurisdiction",
+      "second value &/?+ü",
+      "--constraints-regions",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--instances",
+      "2",
+      "--max-instances",
+      "2",
+      "--observability-logs-enabled=false",
+      "--rollout-active-grace-period",
+      "2"
+    ],
+    "exitCode": 1,
+    "error": "Arguments configuration-command and configuration-wrangler-ssh-port are mutually exclusive",
+    "requests": []
+  },
+  {
+    "case": "pairwise 2",
+    "argv": [
+      "containers",
+      "applications",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--scheduling-policy",
+      "default",
+      "--configuration-entrypoint",
+      "regression value &/?+ü",
+      "--configuration-instance-type",
+      "regression value &/?+ü",
+      "--configuration-wrangler-ssh-enabled=true",
+      "--constraints-jurisdiction",
+      "regression value &/?+ü",
+      "--instances",
+      "1",
+      "--observability-logs-enabled=true"
+    ],
+    "exitCode": 1,
+    "error": "Missing dependent arguments:\n instances -> max-instances",
+    "requests": []
+  },
+  {
+    "case": "pairwise 3",
+    "argv": [
+      "containers",
+      "applications",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--scheduling-policy",
+      "default",
+      "--configuration-command",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--configuration-image",
+      "second value &/?+ü",
+      "--configuration-observability-logs-enabled=false",
+      "--configuration-wrangler-ssh-port",
+      "2",
+      "--constraints-regions",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--max-instances",
+      "2",
+      "--rollout-active-grace-period",
+      "2"
+    ],
+    "exitCode": 1,
+    "error": "Missing dependent arguments:\n max-instances -> instances",
+    "requests": []
+  },
+  {
+    "case": "pairwise 4",
+    "argv": [
+      "containers",
+      "applications",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--scheduling-policy",
+      "default",
+      "--configuration-image",
+      "regression value &/?+ü",
+      "--configuration-instance-type",
+      "regression value &/?+ü",
+      "--configuration-wrangler-ssh-port",
+      "1",
+      "--constraints-jurisdiction",
+      "regression value &/?+ü",
+      "--max-instances",
+      "1",
+      "--observability-logs-enabled=true"
+    ],
+    "exitCode": 1,
+    "error": "Missing dependent arguments:\n max-instances -> instances",
+    "requests": []
+  },
+  {
+    "case": "pairwise 5",
+    "argv": [
+      "containers",
+      "applications",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--scheduling-policy",
+      "default",
+      "--configuration-command",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--configuration-entrypoint",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--configuration-observability-logs-enabled=false",
+      "--configuration-wrangler-ssh-enabled=false",
+      "--constraints-regions",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--instances",
+      "2",
+      "--rollout-active-grace-period",
+      "2"
+    ],
+    "exitCode": 1,
+    "error": "Missing dependent arguments:\n instances -> max-instances",
+    "requests": []
+  },
+  {
+    "case": "pairwise 6",
+    "argv": [
+      "containers",
+      "applications",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--scheduling-policy",
+      "default",
+      "--configuration-observability-logs-enabled=true",
+      "--configuration-wrangler-ssh-enabled=true",
+      "--configuration-wrangler-ssh-port",
+      "1",
+      "--constraints-jurisdiction",
+      "regression value &/?+ü",
+      "--rollout-active-grace-period",
+      "1"
+    ],
+    "exitCode": 1,
+    "error": "Arguments configuration-wrangler-ssh-port and constraints-jurisdiction are mutually exclusive",
+    "requests": []
+  },
+  {
+    "case": "pairwise 7",
+    "argv": [
+      "containers",
+      "applications",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--scheduling-policy",
+      "default",
+      "--configuration-command",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--configuration-entrypoint",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--configuration-image",
+      "second value &/?+ü",
+      "--configuration-instance-type",
+      "second value &/?+ü",
+      "--constraints-regions",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--instances",
+      "2",
+      "--max-instances",
+      "2",
+      "--observability-logs-enabled=false"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/containers/applications",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "412",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "configuration": {
+            "command": [
+              "second value &/?+ü",
+              "second value &/?+ü"
+            ],
+            "entrypoint": [
+              "second value &/?+ü",
+              "second value &/?+ü"
+            ],
+            "image": "second value &/?+ü",
+            "instance_type": "second value &/?+ü"
+          },
+          "constraints": {
+            "regions": [
+              "second value &/?+ü",
+              "second value &/?+ü"
+            ]
+          },
+          "instances": 2,
+          "max_instances": 2,
+          "name": "regression value &/?+ü",
+          "observability": {
+            "logs": {
+              "enabled": false
+            }
+          },
+          "scheduling_policy": "default"
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 8",
+    "argv": [
+      "containers",
+      "applications",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--scheduling-policy",
+      "default",
+      "--constraints-regions",
+      "regression value &/?+ü",
+      "--instances",
+      "1",
+      "--max-instances",
+      "1",
+      "--observability-logs-enabled=true",
+      "--rollout-active-grace-period",
+      "1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/containers/applications",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "224",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "constraints": {
+            "regions": [
+              "regression value &/?+ü"
+            ]
+          },
+          "instances": 1,
+          "max_instances": 1,
+          "name": "regression value &/?+ü",
+          "observability": {
+            "logs": {
+              "enabled": true
+            }
+          },
+          "rollout_active_grace_period": 1,
+          "scheduling_policy": "default"
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 9",
+    "argv": [
+      "containers",
+      "applications",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--scheduling-policy",
+      "default",
+      "--configuration-command",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--configuration-entrypoint",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--configuration-image",
+      "second value &/?+ü",
+      "--configuration-instance-type",
+      "second value &/?+ü",
+      "--configuration-observability-logs-enabled=false",
+      "--configuration-wrangler-ssh-enabled=false",
+      "--configuration-wrangler-ssh-port",
+      "2",
+      "--constraints-jurisdiction",
+      "second value &/?+ü"
+    ],
+    "exitCode": 1,
+    "error": "Arguments configuration-command and configuration-wrangler-ssh-port are mutually exclusive",
+    "requests": []
+  },
+  {
+    "case": "global quiet",
+    "argv": [
+      "containers",
+      "applications",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--scheduling-policy",
+      "default",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--quiet"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/containers/applications",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "global zone",
+    "argv": [
+      "containers",
+      "applications",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--scheduling-policy",
+      "default",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--zone",
+      "abcdef0123456789abcdef0123456789"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/containers/applications",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "global profile and mode",
+    "argv": [
+      "containers",
+      "applications",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--scheduling-policy",
+      "default",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--profile",
+      "default",
+      "--mode",
+      "regression"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/containers/applications",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "local",
+    "argv": [
+      "containers",
+      "applications",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--scheduling-policy",
+      "default",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--local"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "http://localhost/cdn-cgi/local/explorer/api/containers/applications",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "gzip, deflate",
+          "accept-language": "*",
+          "connection": "keep-alive",
+          "content-type": "application/json",
+          "host": "localhost",
+          "sec-fetch-mode": "cors",
+          "transfer-encoding": "chunked",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "local with persistence",
+    "argv": [
+      "containers",
+      "applications",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--scheduling-policy",
+      "default",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--local",
+      "--persist-to",
+      "regression-state"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "http://localhost/cdn-cgi/local/explorer/api/containers/applications",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "gzip, deflate",
+          "accept-language": "*",
+          "connection": "keep-alive",
+          "content-type": "application/json",
+          "host": "localhost",
+          "sec-fetch-mode": "cors",
+          "transfer-encoding": "chunked",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "dry-run",
+    "argv": [
+      "containers",
+      "applications",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--scheduling-policy",
+      "default",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--dry-run"
+    ],
+    "exitCode": 0,
+    "requests": []
+  },
+  {
+    "case": "body from file",
+    "argv": [
+      "containers",
+      "applications",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--scheduling-policy",
+      "default",
+      "--body",
+      "@<body.json>"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/containers/applications",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "array body",
+    "argv": [
+      "containers",
+      "applications",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--scheduling-policy",
+      "default",
+      "--body",
+      "[{\"regression\":\"first\"},{\"regression\":\"second\"}]"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/containers/applications",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "48",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-fern-language": "JavaScript",
+          "x-fern-runtime": "node",
+          "x-fern-runtime-version": "<node-version>"
+        },
+        "body": [
+          {
+            "regression": "first"
+          },
+          {
+            "regression": "second"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "case": "field flags",
+    "argv": [
+      "containers",
+      "applications",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--scheduling-policy",
+      "default",
+      "--configuration-command",
+      "regression value &/?+ü",
+      "--configuration-entrypoint",
+      "regression value &/?+ü",
+      "--configuration-image",
+      "regression value &/?+ü",
+      "--configuration-instance-type",
+      "regression value &/?+ü",
+      "--configuration-observability-logs-enabled=true",
+      "--configuration-wrangler-ssh-enabled=true",
+      "--configuration-wrangler-ssh-port",
+      "1",
+      "--constraints-jurisdiction",
+      "regression value &/?+ü",
+      "--constraints-regions",
+      "regression value &/?+ü",
+      "--instances",
+      "1",
+      "--max-instances",
+      "1",
+      "--observability-logs-enabled=true",
+      "--rollout-active-grace-period",
+      "1"
+    ],
+    "exitCode": 1,
+    "error": "Arguments configuration-command and configuration-wrangler-ssh-port are mutually exclusive",
+    "requests": []
+  }
+]

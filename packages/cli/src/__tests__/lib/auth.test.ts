@@ -11,7 +11,7 @@ import {
 	createCommandClient,
 	requestApi,
 } from "../../lib/auth.js";
-import { CloudflareApiError } from "#sdk/errors";
+import { ApiError } from "#api";
 
 describe("createCommandClient", () => {
 	let originalApiToken: string | undefined;
@@ -73,12 +73,12 @@ describe("createCommandClient", () => {
 			});
 
 			const request = requestApi(client, "GET", "/zones");
-			await expect(request).rejects.toBeInstanceOf(CloudflareApiError);
+			await expect(request).rejects.toBeInstanceOf(ApiError);
 			await expect(request).rejects.toThrow("API error: unknown error");
 			await expect(request).rejects.toMatchObject({ statusCode: 200 });
 		});
 
-		it("throws CloudflareApiError for non-OK responses", async () => {
+		it("throws ApiError for non-OK responses", async () => {
 			const client = createCloudflareClientWithToken({
 				apiToken: "test-token",
 				baseURL: "https://api.test/client/v4",
@@ -93,7 +93,7 @@ describe("createCommandClient", () => {
 			});
 
 			const request = requestApi(client, "GET", "/zones");
-			await expect(request).rejects.toBeInstanceOf(CloudflareApiError);
+			await expect(request).rejects.toBeInstanceOf(ApiError);
 			await expect(request).rejects.toMatchObject({ statusCode: 400 });
 		});
 

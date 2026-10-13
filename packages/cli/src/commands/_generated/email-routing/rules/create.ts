@@ -1,6 +1,6 @@
+import operation from "../../_operations/email-routing/rules/create.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * create command
  * @generated from apis/overlays/email-routing.ts
@@ -66,9 +66,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"email-routing-routing-rules-create-routing-rule">;
-type Body = Request;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "create",
 	describe: "Create routing rule",
@@ -122,12 +119,9 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.zoneId = zoneId;
 
 				if (argv.body) {
-					const bodyData = parseBody<Request>(argv.body);
+					const bodyData = parseBody(argv.body);
 					const result = await withProgress(`Creating`, async () =>
-						client.emailRouting.rules.create({
-							...bodyData,
-							zone_id: zoneId,
-						} satisfies Request)
+						client.send(operation, { body: bodyData, zone_id: zoneId })
 					);
 					formatOutput(result, { successLabel: `Created` });
 					return;
@@ -144,7 +138,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				}
 
 				// Assemble request body from individual flags
-				const bodyData = compactBody<Body>({
+				const bodyData = compactBody({
 					actions: parseObjectArray(argv["actions"], "actions"),
 					enabled: argv["enabled"],
 					matchers: parseObjectArray(argv["matchers"], "matchers"),
@@ -162,10 +156,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					source: argv["source"],
 				});
 				const result = await withProgress(`Creating`, async () =>
-					client.emailRouting.rules.create({
-						...bodyData,
-						zone_id: zoneId,
-					} satisfies Request)
+					client.send(operation, { body: bodyData, zone_id: zoneId })
 				);
 				formatOutput(result, { successLabel: `Created` });
 			}

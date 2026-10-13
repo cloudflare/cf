@@ -1,6 +1,6 @@
 import { writeFileSync } from "node:fs";
 import { Readable } from "node:stream";
-import { http, HttpResponse } from "msw";
+import { http, HttpResponse } from "msw/http";
 import { afterEach, beforeEach, describe, it } from "vite-plus/test";
 import { mockAccountId, mockApiToken } from "./helpers/mock-account-id";
 import { mockConsoleMethods } from "./helpers/mock-console";

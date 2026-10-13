@@ -1,6 +1,6 @@
+import operation from "../../../_operations/ai-gateway/gateways/providers/delete.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * delete command
  * @generated from apis/overlays/ai-gateway.ts
@@ -48,8 +48,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"aig-config-delete-providers">;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "delete <id>",
 	describe: "Delete a provider key",
@@ -94,11 +92,11 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				}
 
 				const result = await withProgress(`Deleting`, async () =>
-					client.aiGateway.gateways.providers.delete({
+					client.send(operation, {
 						account_id: accountId,
 						gateway_id: argv["gateway-id"],
 						id: argv["id"],
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Deleted` });
 			}

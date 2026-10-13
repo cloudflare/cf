@@ -1,6 +1,6 @@
+import operation from "../../_operations/alerting/policies/delete.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * delete command
  * @generated from apis/overlays/alerting.ts
@@ -43,8 +43,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"notification-policies-delete-a-notification-policy">;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "delete <policy-id>",
 	describe: "Delete a Notification policy",
@@ -86,10 +84,10 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				}
 
 				const result = await withProgress(`Deleting`, async () =>
-					client.alerting.policies.delete({
+					client.send(operation, {
 						account_id: accountId,
 						policy_id: argv["policy-id"],
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Deleted` });
 			}

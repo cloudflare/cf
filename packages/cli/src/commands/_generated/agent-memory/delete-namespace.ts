@@ -1,6 +1,6 @@
+import operation from "../_operations/agent-memory/delete-namespace.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * delete-namespace command
  * @generated from apis/overlays/agent-memory.ts
@@ -42,8 +42,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 }
 
 type Args = InferArgs<typeof builder>;
-
-type Request = SdkRequest<"agent-memory-namespace-delete">;
 
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "delete-namespace <namespace-name>",
@@ -88,10 +86,10 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				}
 
 				const result = await withProgress(`Deleting`, async () =>
-					client.agentMemory.deleteNamespace({
+					client.send(operation, {
 						account_id: accountId,
 						namespace_name: argv["namespace-name"],
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Deleted` });
 			}

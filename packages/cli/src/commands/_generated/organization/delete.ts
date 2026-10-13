@@ -1,6 +1,6 @@
+import operation from "../_operations/organization/delete.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * delete command
  * @generated from apis/overlays/organization.ts
@@ -37,8 +37,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 }
 
 type Args = InferArgs<typeof builder>;
-
-type Request = SdkRequest<"Organizations_delete">;
 
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "delete <organization-id>",
@@ -80,9 +78,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				}
 
 				const result = await withProgress(`Deleting`, async () =>
-					client.organization.delete({
-						organization_id: argv["organization-id"],
-					} satisfies Request)
+					client.send(operation, { organization_id: argv["organization-id"] })
 				);
 				formatOutput(result, { successLabel: `Deleted` });
 			}

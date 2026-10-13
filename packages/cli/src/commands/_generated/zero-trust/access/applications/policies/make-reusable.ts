@@ -1,6 +1,6 @@
+import operation from "../../../../_operations/zero-trust/access/applications/policies/make-reusable.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * make-reusable command
  * @generated from apis/overlays/zero-trust.ts
@@ -41,8 +41,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"access-policies-convert-reusable">;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "make-reusable <policy-id>",
 	describe: "Convert an Access application policy to a reusable policy",
@@ -76,11 +74,11 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.accountId = accountId;
 
 				const result = await withProgress(`Updating`, async () =>
-					client.zeroTrust.access.applications.policies.makeReusable({
+					client.send(operation, {
 						account_id: accountId,
 						app_id: argv["app-id"],
 						policy_id: argv["policy-id"],
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Updated` });
 			}

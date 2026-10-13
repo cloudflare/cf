@@ -1,6 +1,6 @@
+import operation from "../../_operations/email-routing/rules/plan.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * plan command
  * @generated from apis/overlays/email-routing.ts
@@ -53,10 +53,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request =
-	SdkRequest<"email-routing-routing-rules-plan-account-routing-rules">;
-type Body = Request;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "plan",
 	describe: "Plan account routing rule changes",
@@ -102,12 +98,9 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.accountId = accountId;
 
 				if (argv.body) {
-					const bodyData = parseBody<Request>(argv.body);
+					const bodyData = parseBody(argv.body);
 					const result = await withProgress(`Creating`, async () =>
-						client.emailRouting.rules.plan({
-							...bodyData,
-							account_id: accountId,
-						} satisfies Request)
+						client.send(operation, { body: bodyData, account_id: accountId })
 					);
 					formatOutput(result, { successLabel: `Created` });
 					return;
@@ -120,7 +113,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				}
 
 				// Assemble request body from individual flags
-				const bodyData = compactBody<Body>({
+				const bodyData = compactBody({
 					catch_all_rules: parseObjectArray(
 						argv["catch-all-rules"],
 						"catch-all-rules"
@@ -133,10 +126,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					rules: parseObjectArray(argv["rules"], "rules"),
 				});
 				const result = await withProgress(`Creating`, async () =>
-					client.emailRouting.rules.plan({
-						...bodyData,
-						account_id: accountId,
-					} satisfies Request)
+					client.send(operation, { body: bodyData, account_id: accountId })
 				);
 				formatOutput(result, { successLabel: `Created` });
 			}

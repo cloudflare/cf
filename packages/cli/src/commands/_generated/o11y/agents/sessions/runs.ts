@@ -1,6 +1,6 @@
+import operation from "../../../_operations/o11y/agents/sessions/runs.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkQuery, SdkRequest } from "#sdk";
 /**
  * runs command
  * @generated from apis/overlays/o11y.ts
@@ -65,9 +65,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"agents.sessions.runs.list">;
-type Query = SdkQuery<"agents.sessions.runs.list">;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "runs <conversationId>",
 	describe: "List Agent session runs",
@@ -82,7 +79,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
-				const queryParams: Query = {
+				const queryParams: Record<string, unknown> = {
 					service: argv["service"],
 					agent: argv["agent"],
 					from: argv["from"],
@@ -109,11 +106,11 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.accountId = accountId;
 
 				const result = await withProgress(`Loading`, async () =>
-					client.observability.agents.sessions.runs({
+					client.send(operation, {
 						account_id: accountId,
 						conversationId: argv["conversation-id"],
 						...queryParams,
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Loaded` });
 			}

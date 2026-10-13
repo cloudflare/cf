@@ -5,7 +5,7 @@
  * body values. It is a client-side CLI driving the user's own
  * credentials — there is no trust boundary, so rejecting `..`, control
  * chars, or `?#%` guards nothing the user couldn't achieve by calling
- * the API directly. Correct wire encoding is the SDK's responsibility:
+ * the API directly. Correct wire encoding is the client's responsibility:
  * path params are percent-encoded (`encodeURIComponent(...)`) and bodies
  * are JSON-serialised (control bytes escape into valid JSON), so the
  * API — not cf — is the authority on what a value may contain.

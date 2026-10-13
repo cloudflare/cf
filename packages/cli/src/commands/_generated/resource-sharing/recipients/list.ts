@@ -1,6 +1,6 @@
+import operation from "../../_operations/resource-sharing/recipients/list.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkQuery, SdkRequest } from "#sdk";
 /**
  * list command
  * @generated from apis/overlays/resource-sharing.ts
@@ -50,9 +50,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"share-recipients-list">;
-type Query = SdkQuery<"share-recipients-list">;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "list",
 	describe: "List share recipients by share ID",
@@ -67,7 +64,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
-				const queryParams: Query = {
+				const queryParams: Record<string, unknown> = {
 					include_resources: argv["include-resources"],
 					page: argv["page"],
 					per_page: argv["per-page"],
@@ -89,11 +86,11 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				const client = await createCommandClient(argv);
 
 				const result = await withProgress(`Loading`, async () =>
-					client.resourceSharing.recipients.list({
+					client.send(operation, {
 						account_id_path: argv["account-id-path"],
 						share_id: argv["share-id"],
 						...queryParams,
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Loaded` });
 			}

@@ -1,6 +1,5 @@
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * failover command
  * @generated from apis/overlays/mesh.ts
@@ -9,9 +8,10 @@ import type { Argv, CommandModule } from "yargs";
 import {
 	createCommandClient,
 	getAccountId,
+	requestApi,
 	resolveAccountIdSilent,
 } from "#lib/auth.js";
-import { compactBody, parseBody } from "#lib/body-parser.js";
+import { compactBody, parseBody, setNestedValue } from "#lib/body-parser.js";
 import { formatDryRun } from "#lib/dry-run.js";
 import { resolveFileToken } from "#lib/input-validation.js";
 import { LOCAL_ACCOUNT_ID } from "#lib/local.js";
@@ -52,10 +52,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 }
 
 type Args = InferArgs<typeof builder>;
-
-type Request =
-	SdkRequest<"cloudflare-tunnel-manual-failover-warp-connector-tunnel">;
-type Body = Request;
 
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "failover <node-id>",
@@ -108,13 +104,14 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				}
 
 				if (argv.body) {
-					const bodyData = parseBody<Request>(argv.body);
+					const bodyData = parseBody(argv.body);
 					const result = await withProgress(`Deleting`, async () =>
-						client.mesh.nodes.failover({
-							...bodyData,
-							account_id: accountId,
-							"node-id": argv["node-id"],
-						} satisfies Request)
+						requestApi<unknown>(
+							client,
+							"PUT",
+							`/accounts/${accountId}/warp_connector/${encodeURIComponent(String(argv["node-id"]))}/failover`,
+							{ body: bodyData }
+						)
 					);
 					formatOutput(result, { successLabel: `Deleted` });
 					return;
@@ -127,19 +124,24 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				}
 
 				// Assemble request body from individual flags
-				const bodyData = compactBody<Body>({
-					client_id: resolveFileToken(
-						argv["connector-id"] as string | undefined,
-						"connector-id",
-						"text"
-					),
-				});
+				const bodyData: Record<string, unknown> = {};
+				if (argv["connector-id"] !== undefined)
+					setNestedValue(
+						bodyData,
+						["client_id"],
+						resolveFileToken(
+							argv["connector-id"] as string | undefined,
+							"connector-id",
+							"text"
+						)
+					);
 				const result = await withProgress(`Deleting`, async () =>
-					client.mesh.nodes.failover({
-						...bodyData,
-						account_id: accountId,
-						"node-id": argv["node-id"],
-					} satisfies Request)
+					requestApi<unknown>(
+						client,
+						"PUT",
+						`/accounts/${accountId}/warp_connector/${encodeURIComponent(String(argv["node-id"]))}/failover`,
+						{ body: bodyData }
+					)
 				);
 				formatOutput(result, { successLabel: `Deleted` });
 			}

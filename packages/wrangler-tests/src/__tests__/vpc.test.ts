@@ -1,5 +1,5 @@
-import { http, HttpResponse } from "msw";
-import { afterEach, beforeEach, describe, it, vi } from "vite-plus/test";
+import { http, HttpResponse } from "msw/http";
+import { afterEach, beforeEach, describe, it } from "vite-plus/test";
 import { mockAccountId, mockApiToken } from "./helpers/mock-account-id";
 import { mockConsoleMethods } from "./helpers/mock-console";
 import { clearDialogs } from "./helpers/mock-dialogs";
@@ -92,10 +92,6 @@ describe("vpc service commands", () => {
 	const std = mockConsoleMethods();
 
 	beforeEach(() => {
-		// @ts-expect-error we're using a very simple setTimeout mock here
-		vi.spyOn(global, "setTimeout").mockImplementation((fn, _period) => {
-			setImmediate(fn);
-		});
 		setIsTTY(true);
 	});
 

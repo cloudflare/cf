@@ -1,6 +1,6 @@
+import operation from "../_operations/vectorize/delete.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * delete command
  * @generated from apis/overlays/vectorize.ts
@@ -43,8 +43,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"vectorize-delete-vectorize-index">;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "delete <index-name>",
 	describe: "Delete Vectorize Index",
@@ -81,10 +79,10 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				}
 
 				const result = await withProgress(`Deleting`, async () =>
-					client.vectorize.delete({
+					client.send(operation, {
 						account_id: accountId,
 						index_name: argv["index-name"],
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Deleted` });
 			}

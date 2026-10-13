@@ -3,7 +3,7 @@ import {
 	filterForCliAudience,
 	includesCliAudience,
 } from "../../../generator/cli-audience.js";
-import type { ForgeOpenApiDocument } from "@cloudflare/forge";
+import type { ForgeOpenApiDocument } from "../../../generator/openapi.js";
 
 function operation(audiences?: unknown): Record<string, unknown> {
 	return {

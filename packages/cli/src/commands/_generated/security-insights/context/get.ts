@@ -1,6 +1,6 @@
+import operation from "../../_operations/security-insights/context/get.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * get command
  * @generated from apis/overlays/security-insights.ts
@@ -36,8 +36,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"get-security-center-insight-context">;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "get <issue-id>",
 	describe: "Retrieves Security Center Insight Context",
@@ -68,10 +66,10 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.accountId = accountId;
 
 				const result = await withProgress(`Loading`, async () =>
-					client.securityInsights.context.get({
+					client.send(operation, {
 						account_id: accountId,
 						issue_id: argv["issue-id"],
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Loaded` });
 			}

@@ -1,6 +1,6 @@
+import operation from "../../_operations/email-routing/addresses/delete.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * delete command
  * @generated from apis/overlays/email-routing.ts
@@ -42,9 +42,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 }
 
 type Args = InferArgs<typeof builder>;
-
-type Request =
-	SdkRequest<"email-routing-destination-addresses-delete-destination-address">;
 
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "delete <destination-address-identifier>",
@@ -91,11 +88,11 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				}
 
 				const result = await withProgress(`Deleting`, async () =>
-					client.emailRouting.addresses.delete({
+					client.send(operation, {
 						account_id: accountId,
 						destination_address_identifier:
 							argv["destination-address-identifier"],
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Deleted` });
 			}

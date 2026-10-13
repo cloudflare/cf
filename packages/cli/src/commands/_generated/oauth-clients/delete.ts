@@ -1,6 +1,6 @@
+import operation from "../_operations/oauth-clients/delete.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * delete command
  * @generated from apis/overlays/oauth-clients.ts
@@ -42,8 +42,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 }
 
 type Args = InferArgs<typeof builder>;
-
-type Request = SdkRequest<"oauth-clients-delete">;
 
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "delete <oauth-client-id>",
@@ -88,10 +86,10 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				}
 
 				const result = await withProgress(`Deleting`, async () =>
-					client.oauthClients.delete({
+					client.send(operation, {
 						account_id: accountId,
 						oauth_client_id: argv["oauth-client-id"],
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Deleted` });
 			}

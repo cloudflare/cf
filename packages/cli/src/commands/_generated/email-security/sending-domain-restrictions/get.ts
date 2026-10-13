@@ -1,6 +1,6 @@
+import operation from "../../_operations/email-security/sending-domain-restrictions/get.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * get command
  * @generated from apis/overlays/email-security.ts
@@ -36,8 +36,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"email_security_get_sending_domain_restriction">;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "get <sending-domain-restriction-id>",
 	describe: "Get a sending domain restriction",
@@ -72,11 +70,11 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.accountId = accountId;
 
 				const result = await withProgress(`Loading`, async () =>
-					client.emailSecurity.sendingDomainRestrictions.get({
+					client.send(operation, {
 						account_id: accountId,
 						sending_domain_restriction_id:
 							argv["sending-domain-restriction-id"],
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Loaded` });
 			}

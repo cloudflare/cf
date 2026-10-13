@@ -1,6 +1,6 @@
+import operation from "../../_operations/pay-per-use/pricing/opt-out-operator-price.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * opt-out-operator-price command
  * @generated from apis/overlays/pay-per-use.ts
@@ -37,8 +37,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 }
 
 type Args = InferArgs<typeof builder>;
-
-type Request = SdkRequest<"pay-per-crawl.deletePPUPublisherPrice">;
 
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "opt-out-operator-price <operator-id>",
@@ -80,10 +78,10 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				}
 
 				const result = await withProgress(`Deleting`, async () =>
-					client.payPerUse.pricing.optOutOperatorPrice({
+					client.send(operation, {
 						zone_id: zoneId,
 						operator_id: argv["operator-id"],
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Deleted` });
 			}

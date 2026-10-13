@@ -1,6 +1,6 @@
+import operation from "../../_operations/addressing/address-maps/get.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * get command
  * @generated from apis/overlays/addressing.ts
@@ -36,9 +36,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request =
-	SdkRequest<"ip-address-management-address-maps-address-map-details">;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "get <address-map-id>",
 	describe: "Address Map Details",
@@ -71,10 +68,10 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.accountId = accountId;
 
 				const result = await withProgress(`Loading`, async () =>
-					client.addressing.addressMaps.get({
+					client.send(operation, {
 						account_id: accountId,
 						address_map_id: argv["address-map-id"],
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Loaded` });
 			}

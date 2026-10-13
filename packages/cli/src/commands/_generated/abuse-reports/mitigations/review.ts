@@ -1,6 +1,6 @@
+import operation from "../../_operations/abuse-reports/mitigations/review.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * review command
  * @generated from apis/overlays/abuse-reports.ts
@@ -148,9 +148,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"RequestReview">;
-type Body = Request["body"];
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "review <report-id>",
 	describe: "Request review on mitigations",
@@ -255,20 +252,20 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.accountId = accountId;
 
 				if (argv.body) {
-					const bodyData = parseBody<Request["body"]>(argv.body);
+					const bodyData = parseBody(argv.body);
 					const result = await withProgress(`Creating`, async () =>
-						client.abuseReports.mitigations.review({
+						client.send(operation, {
 							body: bodyData,
 							account_id: accountId,
 							report_id: argv["report-id"],
-						} satisfies Request)
+						})
 					);
 					formatOutput(result, { successLabel: `Created` });
 					return;
 				}
 
 				// Assemble request body from individual flags
-				const bodyData = compactBody<Body>({
+				const bodyData = compactBody({
 					appeals: parseObjectArray(argv["appeals"], "appeals"),
 					data: {
 						city: resolveFileToken(
@@ -333,11 +330,11 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					type: argv["type"],
 				});
 				const result = await withProgress(`Creating`, async () =>
-					client.abuseReports.mitigations.review({
+					client.send(operation, {
 						body: bodyData,
 						account_id: accountId,
 						report_id: argv["report-id"],
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Created` });
 			}

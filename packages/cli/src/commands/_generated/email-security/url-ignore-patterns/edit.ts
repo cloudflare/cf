@@ -1,6 +1,6 @@
+import operation from "../../_operations/email-security/url-ignore-patterns/edit.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * edit command
  * @generated from apis/overlays/email-security.ts
@@ -53,9 +53,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"email_security_update_url_ignore_pattern">;
-type Body = Request["body"];
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "edit <pattern-id>",
 	describe: "Update a URL ignore pattern",
@@ -101,20 +98,20 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.accountId = accountId;
 
 				if (argv.body) {
-					const bodyData = parseBody<Request["body"]>(argv.body);
+					const bodyData = parseBody(argv.body);
 					const result = await withProgress(`Updating`, async () =>
-						client.emailSecurity.urlIgnorePatterns.edit({
+						client.send(operation, {
 							body: bodyData,
 							account_id: accountId,
 							pattern_id: argv["pattern-id"],
-						} satisfies Request)
+						})
 					);
 					formatOutput(result, { successLabel: `Updated` });
 					return;
 				}
 
 				// Assemble request body from individual flags
-				const bodyData = compactBody<Body>({
+				const bodyData = compactBody({
 					comments: resolveFileToken(
 						argv["comments"] as string | undefined,
 						"comments",
@@ -127,11 +124,11 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					),
 				});
 				const result = await withProgress(`Updating`, async () =>
-					client.emailSecurity.urlIgnorePatterns.edit({
+					client.send(operation, {
 						body: bodyData,
 						account_id: accountId,
 						pattern_id: argv["pattern-id"],
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Updated` });
 			}

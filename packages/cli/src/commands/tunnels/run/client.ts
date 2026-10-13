@@ -1,5 +1,7 @@
+import { listTunnels } from "../../../lib/api-operations.js";
 import { isUUID } from "../../../lib/resolve.js";
 import type { Cloudflare } from "../../../lib/auth.js";
+import getTunnelTokenOperation from "#operations/tunnels/token/get.js";
 
 const TUNNEL_LIST_PAGE_SIZE = 1000;
 
@@ -15,13 +17,16 @@ export async function resolveTunnelId(
 	let matchCount = 0;
 	let matchId: string | undefined;
 	for (let page = 1; ; page++) {
-		const response = await client.tunnel.list({
+		const response = (await client.send(listTunnels, {
 			account_id: accountId,
 			name: nameOrId,
 			is_deleted: false,
 			page,
 			per_page: TUNNEL_LIST_PAGE_SIZE,
-		});
+		})) as {
+			result?: { id?: string; name?: string }[];
+			result_info?: { per_page?: number };
+		};
 		const tunnels = response.result ?? [];
 		for (const tunnel of tunnels) {
 			if (tunnel.name === nameOrId) {
@@ -61,7 +66,7 @@ export async function getTunnelToken(
 	accountId: string,
 	tunnelId: string
 ): Promise<string> {
-	const token = await client.tunnels.token.get({
+	const token = await client.send(getTunnelTokenOperation, {
 		account_id: accountId,
 		tunnel_id: tunnelId,
 	});

@@ -1,5 +1,5 @@
-import { http, HttpResponse } from "msw";
-import { afterEach, beforeEach, describe, it, vi } from "vite-plus/test";
+import { http, HttpResponse } from "msw/http";
+import { afterEach, beforeEach, describe, it } from "vite-plus/test";
 import { mockAccountId, mockApiToken } from "../helpers/mock-account-id";
 import { mockConsoleMethods } from "../helpers/mock-console";
 import { clearDialogs, mockConfirm } from "../helpers/mock-dialogs";
@@ -52,11 +52,6 @@ describe("vectorize commands", () => {
 	const std = mockConsoleMethods();
 
 	beforeEach(() => {
-		// @ts-expect-error we're using a very simple setTimeout mock here
-		vi.spyOn(global, "setTimeout").mockImplementation((fn, _period) => {
-			// eslint-disable-next-line @typescript-eslint/no-implied-eval -- fn is always a function in this mock
-			setImmediate(fn);
-		});
 		setIsTTY(true);
 	});
 
@@ -72,12 +67,16 @@ describe("vectorize commands", () => {
 	it.skip("should handle a delete on a vectorize V1 index", async () => {});
 
 	it("should handle creating a vectorize index", async ({ expect }) => {
-		mockVectorizeV2Request();
+		const onCreate = mockVectorizeV2Request();
 		// cf's `vectorize create` has no positional; the index name
 		// is the `--name` body field.
 		await runWrangler(
-			"vectorize create --name=test-index --config-dimensions=1536 --config-metric=euclidean"
+			"vectorize create --name=test-index --index-config-dimensions=1536 --index-config-metric=euclidean"
 		);
+		expect(onCreate).toHaveBeenCalledExactlyOnceWith({
+			name: "test-index",
+			config: { dimensions: 1536, metric: "euclidean" },
+		});
 		expect(JSON.parse(std.out)).toMatchInlineSnapshot(`
 			{
 			  "config": {
@@ -95,10 +94,14 @@ describe("vectorize commands", () => {
 	it("should handle creating a vectorize index with preset", async ({
 		expect,
 	}) => {
-		mockVectorizeV2Request();
+		const onCreate = mockVectorizeV2Request();
 		await runWrangler(
-			"vectorize create --name=test-index --config-preset=openai/text-embedding-ada-002"
+			"vectorize create --name=test-index --index-config-preset=openai/text-embedding-ada-002"
 		);
+		expect(onCreate).toHaveBeenCalledExactlyOnceWith({
+			name: "test-index",
+			config: { preset: "openai/text-embedding-ada-002" },
+		});
 		expect(JSON.parse(std.out)).toMatchInlineSnapshot(`
 			{
 			  "config": {
@@ -118,11 +121,11 @@ describe("vectorize commands", () => {
 
 		await expect(() =>
 			runWrangler(
-				"vectorize create --name=test-index --config-dimensions=1536 --config-metric=pythagorian"
+				"vectorize create --name=test-index --index-config-dimensions=1536 --index-config-metric=pythagorian"
 			)
 		).rejects.toThrow(
 			`Invalid values:
-  Argument: config-metric, Given: "pythagorian", Choices: "cosine", "euclidean", "dot-product"`
+  Argument: index-config-metric, Given: "pythagorian", Choices: "cosine", "euclidean", "dot-product"`
 		);
 	});
 
@@ -131,11 +134,11 @@ describe("vectorize commands", () => {
 
 		await expect(() =>
 			runWrangler(
-				"vectorize create --name=test-index --config-preset=openai/gpt-400-pro-max-ultra"
+				"vectorize create --name=test-index --index-config-preset=openai/gpt-400-pro-max-ultra"
 			)
 		).rejects.toThrow(
 			`Invalid values:
-  Argument: config-preset, Given: "openai/gpt-400-pro-max-ultra", Choices: "@cf/baai/bge-small-en-v1.5", "@cf/baai/bge-base-en-v1.5", "@cf/baai/bge-large-en-v1.5", "openai/text-embedding-ada-002", "cohere/embed-multilingual-v2.0"`
+  Argument: index-config-preset, Given: "openai/gpt-400-pro-max-ultra", Choices: "@cf/baai/bge-small-en-v1.5", "@cf/baai/bge-base-en-v1.5", "@cf/baai/bge-large-en-v1.5", "openai/text-embedding-ada-002", "cohere/embed-multilingual-v2.0"`
 		);
 	});
 
@@ -679,6 +682,7 @@ describe.skip("vectorize query filter", () => {
 
 /** Create a mock handler for the Vectorize V2 API */
 function mockVectorizeV2Request() {
+	const onCreate = vi.fn<(body: unknown) => void>();
 	msw.use(
 		http.get(
 			"*/accounts/:accountId/vectorize/v2/indexes/test-index",
@@ -703,7 +707,8 @@ function mockVectorizeV2Request() {
 		),
 		http.post(
 			"*/accounts/:accountId/vectorize/v2/indexes",
-			() => {
+			async ({ request }) => {
+				onCreate(await request.json());
 				return HttpResponse.json(
 					createFetchResult(
 						{
@@ -966,6 +971,7 @@ function mockVectorizeV2Request() {
 			{ once: true }
 		)
 	);
+	return onCreate;
 }
 
 function mockVectorizeV2RequestError() {

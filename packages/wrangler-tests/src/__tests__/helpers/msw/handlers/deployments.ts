@@ -1,4 +1,4 @@
-import { http, HttpResponse } from "msw";
+import { http, HttpResponse } from "msw/http";
 import { assert } from "vite-plus/test";
 import { createFetchResult } from "../index";
 

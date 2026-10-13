@@ -1,6 +1,6 @@
+import operation from "../../../_operations/realtime/kit/livestreams/stop.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * stop command
  * @generated from apis/overlays/realtime.ts
@@ -48,8 +48,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"stop_livestreaming">;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "stop <meeting-id>",
 	describe: "Stop livestreaming a meeting",
@@ -94,11 +92,11 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				}
 
 				const result = await withProgress(`Deleting`, async () =>
-					client.realtime.kit.livestreams.stop({
+					client.send(operation, {
 						account_id: accountId,
 						app_id: argv["app-id"],
 						meeting_id: argv["meeting-id"],
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Deleted` });
 			}

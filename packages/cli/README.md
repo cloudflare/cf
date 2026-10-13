@@ -71,5 +71,15 @@ terminal.
 
 ## Documentation
 
+Search live Cloudflare guides and examples without logging in:
+
+```sh
+cf docs search "schedule a worker"
+```
+
+Results are a ranked JSON array containing `title`, `description`, and `url`.
+Fetch a result's URL with the `Accept: text/markdown` header to read the full
+page as Markdown.
+
 - [Cloudflare developer docs](https://developers.cloudflare.com/)
 - [cf CLI telemetry](https://github.com/cloudflare/cf/blob/main/packages/cli/telemetry.md)

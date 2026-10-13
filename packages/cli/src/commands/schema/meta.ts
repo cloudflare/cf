@@ -1,0 +1,38 @@
+import type { CommandMeta } from "../../lib/command-meta.js";
+
+export default [
+	{
+		command: "cf schema",
+		name: "schema",
+		fullPath: ["schema"],
+		category: "read",
+		description: "Show API schema details for a command",
+		usage: "cf schema [command..] [options]",
+		arguments: [
+			{
+				name: "command",
+				position: 0,
+				type: "string",
+				required: false,
+				description: "Command path segments (e.g., dns records create)",
+			},
+		],
+		options: [
+			{
+				name: "list",
+				type: "boolean",
+				required: false,
+				description: "List all available schemas",
+				default: false,
+			},
+			{
+				name: "dry-run",
+				type: "boolean",
+				required: false,
+				description:
+					"Parse arguments and show the command without executing it",
+				default: false,
+			},
+		],
+	},
+] satisfies CommandMeta[];

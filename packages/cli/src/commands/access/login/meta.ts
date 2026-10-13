@@ -1,0 +1,29 @@
+import type { LeafCommandMeta } from "../../../lib/command-meta.js";
+
+export default {
+	command: "cf access login",
+	name: "login",
+	fullPath: ["access", "login"],
+	category: "action",
+	description:
+		"Authenticate with an Access application and store its JWT through cloudflared.",
+	usage: "cf access login <url>",
+	arguments: [
+		{
+			name: "url",
+			position: 0,
+			type: "string",
+			required: true,
+			description: "URL of the Access application",
+		},
+	],
+	options: [
+		{
+			name: "dry-run",
+			type: "boolean",
+			required: false,
+			description: "Parse arguments and show the command without executing it",
+			default: false,
+		},
+	],
+} satisfies LeafCommandMeta;

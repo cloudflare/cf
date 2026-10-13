@@ -1,6 +1,6 @@
+import operation from "../../../_operations/images/import/sources/check.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * check command
  * @generated from apis/overlays/images.ts
@@ -36,9 +36,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request =
-	SdkRequest<"cloudflare-images-sourcingkit-get-source-connectivity">;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "check <source-id>",
 	describe: "Get source connectivity status",
@@ -69,10 +66,10 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.accountId = accountId;
 
 				const result = await withProgress(`Loading`, async () =>
-					client.images.import.sources.check({
+					client.send(operation, {
 						account_id: accountId,
 						source_id: argv["source-id"],
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Loaded` });
 			}

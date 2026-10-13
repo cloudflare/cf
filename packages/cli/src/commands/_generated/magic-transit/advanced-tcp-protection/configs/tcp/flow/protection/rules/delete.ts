@@ -1,6 +1,6 @@
+import operation from "../../../../../../../_operations/magic-transit/advanced-tcp-protection/configs/tcp/flow/protection/rules/delete.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * delete command
  * @generated from apis/overlays/magic-transit.ts
@@ -43,8 +43,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"deleteTcpFlowProtectionRule">;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "delete <rule-id>",
 	describe: "Delete TCP Flow Protection rule.",
@@ -83,12 +81,10 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				}
 
 				const result = await withProgress(`Deleting`, async () =>
-					client.magicTransit.advancedTcpProtection.configs.tcp.flow.protection.rules.delete(
-						{
-							account_id: accountId,
-							rule_id: argv["rule-id"],
-						} satisfies Request
-					)
+					client.send(operation, {
+						account_id: accountId,
+						rule_id: argv["rule-id"],
+					})
 				);
 				formatOutput(result, { successLabel: `Deleted` });
 			}

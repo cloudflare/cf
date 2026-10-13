@@ -1,6 +1,6 @@
+import operation from "../_operations/agent-memory/delete-session.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * delete-session command
  * @generated from apis/overlays/agent-memory.ts
@@ -53,8 +53,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"agent-memory-session-delete">;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "delete-session <session-id>",
 	describe: "Delete a session",
@@ -100,12 +98,12 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				}
 
 				const result = await withProgress(`Deleting`, async () =>
-					client.agentMemory.deleteSession({
+					client.send(operation, {
 						account_id: accountId,
 						namespace_name: argv["namespace-name"],
 						profile_name: argv["profile-name"],
 						session_id: argv["session-id"],
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Deleted` });
 			}

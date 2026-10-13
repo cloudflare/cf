@@ -1,6 +1,6 @@
+import operation from "../../_operations/accounts/tokens/roll.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * roll command
  * @generated from apis/overlays/accounts.ts
@@ -43,8 +43,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"account-api-tokens-roll-token">;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "roll <token-id>",
 	describe: "Roll Token",
@@ -86,10 +84,10 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				}
 
 				const result = await withProgress(`Deleting`, async () =>
-					client.accounts.tokens.roll({
+					client.send(operation, {
 						account_id: accountId,
 						token_id: argv["token-id"],
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Deleted` });
 			}

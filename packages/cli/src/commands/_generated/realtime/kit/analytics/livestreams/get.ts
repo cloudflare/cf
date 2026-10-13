@@ -1,6 +1,6 @@
+import operation from "../../../../_operations/realtime/kit/analytics/livestreams/get.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkQuery, SdkRequest } from "#sdk";
 /**
  * get command
  * @generated from apis/overlays/realtime.ts
@@ -50,9 +50,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"get-livestream-analytics-complete">;
-type Query = SdkQuery<"get-livestream-analytics-complete">;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "get <app-id>",
 	describe: "Fetch complete analytics data for your livestreams",
@@ -67,7 +64,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
-				const queryParams: Query = {
+				const queryParams: Record<string, unknown> = {
 					start_time: argv["start-time"],
 					end_time: argv["end-time"],
 					filters: argv["filters"],
@@ -89,11 +86,11 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.accountId = accountId;
 
 				const result = await withProgress(`Loading`, async () =>
-					client.realtime.kit.analytics.livestreams.get({
+					client.send(operation, {
 						account_id: accountId,
 						app_id: argv["app-id"],
 						...queryParams,
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Loaded` });
 			}

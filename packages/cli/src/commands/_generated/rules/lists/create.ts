@@ -1,6 +1,6 @@
+import operation from "../../_operations/rules/lists/create.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * create command
  * @generated from apis/overlays/rules.ts
@@ -17,7 +17,10 @@ import { resolveFileToken } from "#lib/input-validation.js";
 import { LOCAL_ACCOUNT_ID } from "#lib/local.js";
 import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
-import { promptForRequiredField } from "#lib/prompt.js";
+import {
+	promptForRequiredEnumField,
+	promptForRequiredField,
+} from "#lib/prompt.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
 function builder(yargs: Argv<CommonYargsOptions>) {
@@ -27,6 +30,13 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			type: "string",
 			description: "An informative summary of the list.",
 		})
+		.option("kind", {
+			type: "string",
+			description:
+				"The type of the list. Each type supports specific list items (IP addresses, ASNs, hostnames or redirects).",
+			choices: ["ip", "redirect", "hostname", "asn"],
+		})
+		.coerce("kind", (value) => resolveFileToken(value, "kind", "text"))
 		.option("name", {
 			type: "string",
 			description:
@@ -45,9 +55,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"lists-create-a-list">;
-type Body = Request;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "create",
 	describe: "Create a list",
@@ -57,7 +64,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			{
 				command: "rules lists create",
 				classification: {
-					safeFlags: ["dry-run"],
+					safeFlags: ["kind", "dry-run"],
 				} satisfies ArgClassification<Args>,
 			},
 			argv as Record<string, unknown>,
@@ -79,6 +86,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 											"description",
 											"text"
 										),
+										kind: argv["kind"],
 										name: resolveFileToken(
 											argv["name"] as string | undefined,
 											"name",
@@ -93,15 +101,19 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.accountId = accountId;
 
 				if (argv.body) {
-					const bodyData = parseBody<Request>(argv.body);
+					const bodyData = parseBody(argv.body);
 					const result = await withProgress(`Creating`, async () =>
-						client.rules.lists.create({
-							...bodyData,
-							account_id: accountId,
-						} satisfies Request)
+						client.send(operation, { body: bodyData, account_id: accountId })
 					);
 					formatOutput(result, { successLabel: `Created` });
 					return;
+				}
+				if (argv["kind"] === undefined) {
+					argv["kind"] = await promptForRequiredEnumField(
+						"kind",
+						"The type of the list. Each type supports specific list items (IP addresses, ASNs, hostnames or redirects).",
+						["ip", "redirect", "hostname", "asn"] as const
+					);
 				}
 				if (argv["name"] === undefined) {
 					argv["name"] = await promptForRequiredField(
@@ -111,12 +123,13 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				}
 
 				// Assemble request body from individual flags
-				const bodyData = compactBody<Body>({
+				const bodyData = compactBody({
 					description: resolveFileToken(
 						argv["description"] as string | undefined,
 						"description",
 						"text"
 					),
+					kind: argv["kind"],
 					name: resolveFileToken(
 						argv["name"] as string | undefined,
 						"name",
@@ -124,10 +137,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					),
 				});
 				const result = await withProgress(`Creating`, async () =>
-					client.rules.lists.create({
-						...bodyData,
-						account_id: accountId,
-					} satisfies Request)
+					client.send(operation, { body: bodyData, account_id: accountId })
 				);
 				formatOutput(result, { successLabel: `Created` });
 			}

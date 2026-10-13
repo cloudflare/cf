@@ -60,6 +60,12 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description:
 				"Only allow requests that match the provided regex patterns, eg. '/^.*\\.(css)'. Reject rules are applied first.",
 		})
+		.option("allow-resource-types", {
+			type: "string",
+			array: true,
+			description:
+				"Only allow requests that match the provided resource types, eg. 'image' or 'script'. Reject rules are applied first.",
+		})
 		.option("authenticate-password", {
 			type: "string",
 			description: "The authenticate.password field",
@@ -104,6 +110,12 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description:
 				"Block undesired requests that match the provided regex patterns, eg. '/^.*\\.(css)'.",
 		})
+		.option("reject-resource-types", {
+			type: "string",
+			array: true,
+			description:
+				"Block undesired requests that match the provided resource types, eg. 'image' or 'script'.",
+		})
 		.option("screenshot-options-capture-beyond-viewport", {
 			type: "boolean",
 			description: "The screenshotOptions.captureBeyondViewport field",
@@ -128,6 +140,14 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			type: "number",
 			description: "The screenshotOptions.clip.y field",
 		})
+		.option("screenshot-options-encoding", {
+			type: "string",
+			description: "The screenshotOptions.encoding field",
+			choices: ["binary", "base64"],
+		})
+		.coerce("screenshot-options-encoding", (value) =>
+			resolveFileToken(value, "screenshot-options-encoding", "text")
+		)
 		.option("screenshot-options-from-surface", {
 			type: "boolean",
 			description: "The screenshotOptions.fromSurface field",
@@ -148,6 +168,14 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			type: "number",
 			description: "The screenshotOptions.quality field",
 		})
+		.option("screenshot-options-type", {
+			type: "string",
+			description: "The screenshotOptions.type field",
+			choices: ["png", "jpeg", "webp"],
+		})
+		.coerce("screenshot-options-type", (value) =>
+			resolveFileToken(value, "screenshot-options-type", "text")
+		)
 		.option("scroll-page", {
 			type: "boolean",
 			description: "The scrollPage field",
@@ -251,11 +279,13 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"screenshot-options-clip-width",
 				"screenshot-options-clip-x",
 				"screenshot-options-clip-y",
+				"screenshot-options-encoding",
 				"screenshot-options-from-surface",
 				"screenshot-options-full-page",
 				"screenshot-options-omit-background",
 				"screenshot-options-optimize-for-speed",
 				"screenshot-options-quality",
+				"screenshot-options-type",
 			].some((k) => argv[k] !== undefined);
 			if (groupSet) {
 				const missing = [
@@ -329,10 +359,12 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						"browser",
 						"best-attempt",
 						"screenshot-options-capture-beyond-viewport",
+						"screenshot-options-encoding",
 						"screenshot-options-from-surface",
 						"screenshot-options-full-page",
 						"screenshot-options-omit-background",
 						"screenshot-options-optimize-for-speed",
+						"screenshot-options-type",
 						"scroll-page",
 						"set-java-script-enabled",
 						"viewport-has-touch",
@@ -374,6 +406,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 											"add-style-tag"
 										),
 										allowRequestPattern: argv["allow-request-pattern"],
+										allowResourceTypes: argv["allow-resource-types"],
 										authenticate: {
 											password: resolveFileToken(
 												argv["authenticate-password"] as string | undefined,
@@ -414,6 +447,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 											"text"
 										),
 										rejectRequestPattern: argv["reject-request-pattern"],
+										rejectResourceTypes: argv["reject-resource-types"],
 										screenshotOptions: {
 											captureBeyondViewport:
 												argv["screenshot-options-capture-beyond-viewport"],
@@ -424,6 +458,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 												x: argv["screenshot-options-clip-x"],
 												y: argv["screenshot-options-clip-y"],
 											},
+											encoding: argv["screenshot-options-encoding"],
 											fromSurface: argv["screenshot-options-from-surface"],
 											fullPage: argv["screenshot-options-full-page"],
 											omitBackground:
@@ -431,6 +466,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 											optimizeForSpeed:
 												argv["screenshot-options-optimize-for-speed"],
 											quality: argv["screenshot-options-quality"],
+											type: argv["screenshot-options-type"],
 										},
 										scrollPage: argv["scroll-page"],
 										selector: resolveFileToken(
@@ -526,6 +562,12 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						["allowRequestPattern"],
 						argv["allow-request-pattern"]
 					);
+				if (argv["allow-resource-types"] !== undefined)
+					setNestedValue(
+						bodyData,
+						["allowResourceTypes"],
+						argv["allow-resource-types"]
+					);
 				if (argv["authenticate-password"] !== undefined)
 					setNestedValue(
 						bodyData,
@@ -602,6 +644,12 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						["rejectRequestPattern"],
 						argv["reject-request-pattern"]
 					);
+				if (argv["reject-resource-types"] !== undefined)
+					setNestedValue(
+						bodyData,
+						["rejectResourceTypes"],
+						argv["reject-resource-types"]
+					);
 				if (argv["screenshot-options-capture-beyond-viewport"] !== undefined)
 					setNestedValue(
 						bodyData,
@@ -638,6 +686,12 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						["screenshotOptions", "clip", "y"],
 						argv["screenshot-options-clip-y"]
 					);
+				if (argv["screenshot-options-encoding"] !== undefined)
+					setNestedValue(
+						bodyData,
+						["screenshotOptions", "encoding"],
+						argv["screenshot-options-encoding"]
+					);
 				if (argv["screenshot-options-from-surface"] !== undefined)
 					setNestedValue(
 						bodyData,
@@ -667,6 +721,12 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						bodyData,
 						["screenshotOptions", "quality"],
 						argv["screenshot-options-quality"]
+					);
+				if (argv["screenshot-options-type"] !== undefined)
+					setNestedValue(
+						bodyData,
+						["screenshotOptions", "type"],
+						argv["screenshot-options-type"]
 					);
 				if (argv["scroll-page"] !== undefined)
 					setNestedValue(bodyData, ["scrollPage"], argv["scroll-page"]);

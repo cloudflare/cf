@@ -1,6 +1,6 @@
+import operation from "../../../_operations/dns/zone-transfers/force-axfr/create.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * create command
  * @generated from apis/overlays/dns.ts
@@ -25,8 +25,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 }
 
 type Args = InferArgs<typeof builder>;
-
-type Request = SdkRequest<"secondary-dns-(-secondary-zone)-force-axfr">;
 
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "create",
@@ -61,9 +59,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.zoneId = zoneId;
 
 				const result = await withProgress(`Creating`, async () =>
-					client.dns.zoneTransfers.forceAxfr.create({
-						zone_id: zoneId,
-					} satisfies Request)
+					client.send(operation, { zone_id: zoneId })
 				);
 				formatOutput(result, { successLabel: `Created` });
 			}

@@ -144,7 +144,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						"PUT",
 						`/accounts/${accountId}/r2/buckets/${encodeURIComponent(String(argv["bucket-name"]))}/domains/custom/${encodeURIComponent(String(argv["domain"]))}`,
 						{
-							body: Object.keys(bodyData).length > 0 ? bodyData : undefined,
+							body: bodyData,
 							headers: Object.keys(headers).length > 0 ? headers : undefined,
 						}
 					)

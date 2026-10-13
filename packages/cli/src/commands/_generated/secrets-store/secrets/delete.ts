@@ -1,6 +1,6 @@
+import operation from "../../_operations/secrets-store/secrets/delete.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * delete command
  * @generated from apis/overlays/secrets-store.ts
@@ -48,8 +48,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"secrets-store-secret-delete-by-id">;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "delete <secret-id>",
 	describe: "Delete a secret",
@@ -89,11 +87,11 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				}
 
 				const result = await withProgress(`Deleting`, async () =>
-					client.secretsStore.secrets.delete({
+					client.send(operation, {
 						account_id: accountId,
 						store_id: argv["store-id"],
 						secret_id: argv["secret-id"],
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Deleted` });
 			}

@@ -1,6 +1,6 @@
+import operation from "../../../_operations/zero-trust/casb/findings/get.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * get command
  * @generated from apis/overlays/zero-trust.ts
@@ -37,8 +37,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"GetFinding">;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "get <finding-id>",
 	describe: "Get a posture finding",
@@ -69,10 +67,10 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.accountId = accountId;
 
 				const result = await withProgress(`Loading`, async () =>
-					client.zeroTrust.casb.findings.get({
+					client.send(operation, {
 						account_id: accountId,
 						finding_id: argv["finding-id"],
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Loaded` });
 			}

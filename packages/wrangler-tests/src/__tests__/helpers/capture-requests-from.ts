@@ -1,6 +1,6 @@
-import { http } from "msw";
+import { http } from "msw/http";
 import { msw } from "./msw";
-import type { HttpHandler } from "msw";
+import type { HttpHandler } from "msw/http";
 
 /**
  * Sets up an msw http handler that captures each incoming request context.

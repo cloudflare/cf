@@ -1,6 +1,6 @@
+import operation from "../../../../../_operations/magic-transit/advanced-tcp-protection/configs/allowlist/prefix/delete.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * delete command
  * @generated from apis/overlays/magic-transit.ts
@@ -43,8 +43,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"deleteAllowlistPrefix">;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "delete <prefix-id>",
 	describe: "Delete allowlist prefix.",
@@ -83,12 +81,10 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				}
 
 				const result = await withProgress(`Deleting`, async () =>
-					client.magicTransit.advancedTcpProtection.configs.allowlist.prefix.delete(
-						{
-							account_id: accountId,
-							prefix_id: argv["prefix-id"],
-						} satisfies Request
-					)
+					client.send(operation, {
+						account_id: accountId,
+						prefix_id: argv["prefix-id"],
+					})
 				);
 				formatOutput(result, { successLabel: `Deleted` });
 			}

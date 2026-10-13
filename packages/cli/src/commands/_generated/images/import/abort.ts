@@ -1,6 +1,6 @@
+import operation from "../../_operations/images/import/abort.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * abort command
  * @generated from apis/overlays/images.ts
@@ -36,8 +36,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"cloudflare-images-sourcingkit-abort-migration">;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "abort <migration-id>",
 	describe: "Abort a migration",
@@ -68,10 +66,10 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.accountId = accountId;
 
 				const result = await withProgress(`Updating`, async () =>
-					client.images.import.abort({
+					client.send(operation, {
 						account_id: accountId,
 						migration_id: argv["migration-id"],
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Updated` });
 			}

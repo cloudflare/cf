@@ -1,6 +1,6 @@
+import operation from "../_operations/agent-memory/delete-memory.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * delete-memory command
  * @generated from apis/overlays/agent-memory.ts
@@ -53,8 +53,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"agent-memory-memory-delete">;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "delete-memory <memory-id>",
 	describe: "Delete a memory",
@@ -100,12 +98,12 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				}
 
 				const result = await withProgress(`Deleting`, async () =>
-					client.agentMemory.deleteMemory({
+					client.send(operation, {
 						account_id: accountId,
 						namespace_name: argv["namespace-name"],
 						profile_name: argv["profile-name"],
 						memory_id: argv["memory-id"],
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Deleted` });
 			}

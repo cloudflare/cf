@@ -1,6 +1,6 @@
+import operation from "../../_operations/waiting-rooms/events/edit.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * edit command
  * @generated from apis/overlays/waiting-rooms.ts
@@ -130,9 +130,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"waiting-room-patch-event">;
-type Body = Request["body"];
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "edit <event-id>",
 	describe: "Patch event",
@@ -160,9 +157,9 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						method: "PATCH",
 						url: `https://api.cloudflare.com/client/v4/zones/${argv.zone ?? argv.zoneId ?? "<zone>"}/waiting_rooms/${argv["waiting-room-id"] == null ? "<waiting-room-id>" : encodeURIComponent(String(argv["waiting-room-id"]))}/events/${argv["event-id"] == null ? "<event-id>" : encodeURIComponent(String(argv["event-id"]))}`,
 						pathParams: {
-							"event-id": String(argv["event-id"] ?? ""),
-							"waiting-room-id": String(argv["waiting-room-id"] ?? ""),
 							"zone-id": String(argv.zone ?? argv["zone-id"] ?? ""),
+							"waiting-room-id": String(argv["waiting-room-id"] ?? ""),
+							"event-id": String(argv["event-id"] ?? ""),
 						},
 						bodyKind: "json",
 						body:
@@ -223,14 +220,14 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.zoneId = zoneId;
 
 				if (argv.body) {
-					const bodyData = parseBody<Request["body"]>(argv.body);
+					const bodyData = parseBody(argv.body);
 					const result = await withProgress(`Updating`, async () =>
-						client.waitingRooms.events.edit({
+						client.send(operation, {
 							body: bodyData,
 							zone_id: zoneId,
 							waiting_room_id: argv["waiting-room-id"],
 							event_id: argv["event-id"],
-						} satisfies Request)
+						})
 					);
 					formatOutput(result, { successLabel: `Updated` });
 					return;
@@ -255,7 +252,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				}
 
 				// Assemble request body from individual flags
-				const bodyData = compactBody<Body>({
+				const bodyData = compactBody({
 					custom_page_html: resolveFileToken(
 						argv["custom-page-html"] as string | undefined,
 						"custom-page-html",
@@ -301,12 +298,12 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					turnstile_mode: argv["turnstile-mode"],
 				});
 				const result = await withProgress(`Updating`, async () =>
-					client.waitingRooms.events.edit({
+					client.send(operation, {
 						body: bodyData,
 						zone_id: zoneId,
 						waiting_room_id: argv["waiting-room-id"],
 						event_id: argv["event-id"],
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Updated` });
 			}

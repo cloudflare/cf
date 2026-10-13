@@ -1,8 +1,8 @@
 import { readFileSync } from "node:fs";
 import { join } from "node:path";
 import { describe, expect, it } from "vite-plus/test";
-import { rootHandWrittenCommands } from "../../commands/hand-written.js";
-import type { CommandMeta } from "@cloudflare/forge";
+import { loadableRootCommands } from "../../commands/root-commands.js";
+import type { CommandMeta } from "../../lib/metadata.js";
 
 type HandWrittenCommandMeta = CommandMeta & {
 	handWritten: {
@@ -47,6 +47,7 @@ describe("hand-written command metadata", () => {
 				"cf complete",
 				"cf deploy",
 				"cf dev",
+				"cf docs search",
 				"cf init",
 				"cf init workers",
 				"cf migrate",
@@ -62,6 +63,7 @@ describe("hand-written command metadata", () => {
 			"cf auth login",
 			"cf deploy",
 			"cf dev",
+			"cf docs search",
 			"cf schema",
 			"cf tools",
 		]) {
@@ -106,7 +108,7 @@ describe("hand-written command metadata", () => {
 	});
 
 	it("classifies deploy control flags as telemetry-safe", () => {
-		const deploy = rootHandWrittenCommands().find(
+		const deploy = loadableRootCommands().find(
 			(command) => command.command === "deploy"
 		);
 
@@ -165,7 +167,7 @@ describe("hand-written-only command metadata", () => {
 	);
 
 	it("contains only hand-written commands", () => {
-		expect(commands.size).toBe(49);
+		expect(commands.size).toBe(50);
 		expect(commands.has("cf pages deploy")).toBe(true);
 		expect(commands.has("cf tunnels diag")).toBe(true);
 		expect(commands.has("cf tunnels login")).toBe(true);
@@ -189,6 +191,7 @@ describe("hand-written-only command metadata", () => {
 				"cf containers images list",
 				"cf containers push",
 				"cf deploy",
+				"cf docs search",
 				"cf init",
 				"cf init workers",
 				"cf migrate",
@@ -254,11 +257,9 @@ describe("hand-written-only command metadata", () => {
 	});
 
 	it("preserves spec-derived API identity for leaf overrides", () => {
-		expect(commands.get("cf ai run")?.operationId).toBe(
-			"workers-ai-post-run-generic"
-		);
+		expect(commands.get("cf ai run")?.operationId).toBe("ai.run");
 		expect(commands.get("cf registrar registrations create")?.operationId).toBe(
-			"registrar-domain-registration-create"
+			"registrar.registrations.create"
 		);
 	});
 

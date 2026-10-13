@@ -1,6 +1,6 @@
+import operation from "../../../_operations/accounts/billing/payment-methods/get.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * get command
  * @generated from apis/overlays/accounts.ts
@@ -36,8 +36,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"account-billing-get-payment-method">;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "get <payment-method-id>",
 	describe: "Get Payment Method",
@@ -70,10 +68,10 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.accountId = accountId;
 
 				const result = await withProgress(`Loading`, async () =>
-					client.accounts.billing.paymentMethods.get({
+					client.send(operation, {
 						account_id: accountId,
 						payment_method_id: argv["payment-method-id"],
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Loaded` });
 			}

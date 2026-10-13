@@ -1,6 +1,6 @@
+import operation from "../../../_operations/zero-trust/cws/policy-sets/delete.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * delete command
  * @generated from apis/overlays/zero-trust.ts
@@ -42,8 +42,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 }
 
 type Args = InferArgs<typeof builder>;
-
-type Request = SdkRequest<"cws-delete-policy-set">;
 
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "delete <policy-set-id>",
@@ -88,10 +86,10 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				}
 
 				const result = await withProgress(`Deleting`, async () =>
-					client.zeroTrust.cws.policySets.delete({
+					client.send(operation, {
 						account_id: accountId,
 						policy_set_id: argv["policy-set-id"],
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Deleted` });
 			}

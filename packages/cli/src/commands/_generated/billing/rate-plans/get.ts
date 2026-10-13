@@ -1,6 +1,6 @@
+import operation from "../../_operations/billing/rate-plans/get.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * get command
  * @generated from apis/overlays/billing.ts
@@ -31,8 +31,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"billing-get-rate-plan">;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "get <public-key>",
 	describe: "Get Rate Plan by Public Key",
@@ -60,9 +58,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				const client = await createCommandClient(argv);
 
 				const result = await withProgress(`Loading`, async () =>
-					client.billing.ratePlans.get({
-						public_key: argv["public-key"],
-					} satisfies Request)
+					client.send(operation, { public_key: argv["public-key"] })
 				);
 				formatOutput(result, { successLabel: `Loaded` });
 			}

@@ -1,6 +1,6 @@
+import operation from "../../_operations/alerting/silences/delete.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * delete command
  * @generated from apis/overlays/alerting.ts
@@ -43,8 +43,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"notification-silences-delete-silences">;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "delete <silence-id>",
 	describe: "Delete Silence",
@@ -86,10 +84,10 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				}
 
 				const result = await withProgress(`Deleting`, async () =>
-					client.alerting.silences.delete({
+					client.send(operation, {
 						account_id: accountId,
 						silence_id: argv["silence-id"],
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Deleted` });
 			}

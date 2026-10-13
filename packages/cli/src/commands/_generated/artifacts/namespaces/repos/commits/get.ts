@@ -1,6 +1,6 @@
+import operation from "../../../../_operations/artifacts/namespaces/repos/commits/get.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * get command
  * @generated from apis/overlays/artifacts.ts
@@ -46,8 +46,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"artifacts_repos_commit_get">;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "get <hash>",
 	describe: "Read a Git commit",
@@ -82,12 +80,12 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.accountId = accountId;
 
 				const result = await withProgress(`Loading`, async () =>
-					client.artifacts.namespaces.repos.commits.get({
+					client.send(operation, {
 						account_id: accountId,
 						namespace: argv["namespace"],
 						name: argv["name"],
 						hash: argv["hash"],
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Loaded` });
 			}

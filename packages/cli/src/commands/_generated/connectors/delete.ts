@@ -1,6 +1,6 @@
+import operation from "../_operations/connectors/delete.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * delete command
  * @generated from apis/overlays/connectors.ts
@@ -43,8 +43,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"mconn-connectors-delete">;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "delete <connector-id>",
 	describe: "Delete Connector",
@@ -81,10 +79,10 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				}
 
 				const result = await withProgress(`Deleting`, async () =>
-					client.connectors.delete({
+					client.send(operation, {
 						account_id: accountId,
 						connector_id: argv["connector-id"],
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Deleted` });
 			}

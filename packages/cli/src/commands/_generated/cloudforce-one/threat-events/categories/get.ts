@@ -1,6 +1,6 @@
+import operation from "../../../_operations/cloudforce-one/threat-events/categories/get.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * get command
  * @generated from apis/overlays/cloudforce-one.ts
@@ -36,8 +36,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"get_CategoryRead">;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "get <category-id>",
 	describe: "Reads a category",
@@ -68,10 +66,10 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.accountId = accountId;
 
 				const result = await withProgress(`Loading`, async () =>
-					client.cloudforceOne.threatEvents.categories.get({
+					client.send(operation, {
 						account_id: accountId,
 						category_id: argv["category-id"],
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Loaded` });
 			}

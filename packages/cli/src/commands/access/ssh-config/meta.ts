@@ -1,0 +1,32 @@
+import type { LeafCommandMeta } from "../../../lib/command-meta.js";
+
+export default {
+	command: "cf access ssh-config",
+	name: "ssh-config",
+	fullPath: ["access", "ssh-config"],
+	category: "action",
+	description: "Print an example SSH configuration for an Access application.",
+	usage: "cf access ssh-config [--hostname <hostname>] [--short-lived-cert]",
+	arguments: [],
+	options: [
+		{
+			name: "hostname",
+			type: "string",
+			required: false,
+			description: "Hostname of the Access application",
+		},
+		{
+			name: "short-lived-cert",
+			type: "boolean",
+			required: false,
+			description: "Include short-lived certificate configuration",
+		},
+		{
+			name: "dry-run",
+			type: "boolean",
+			required: false,
+			description: "Parse arguments and show the command without executing it",
+			default: false,
+		},
+	],
+} satisfies LeafCommandMeta;

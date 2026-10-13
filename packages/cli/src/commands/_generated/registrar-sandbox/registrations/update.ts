@@ -117,7 +117,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						"PATCH",
 						`/accounts/${accountId}/registrar-sandbox/registrations/${encodeURIComponent(String(argv["domain-name"]))}`,
 						{
-							body: Object.keys(bodyData).length > 0 ? bodyData : undefined,
+							body: bodyData,
 							headers: Object.keys(headers).length > 0 ? headers : undefined,
 						}
 					)

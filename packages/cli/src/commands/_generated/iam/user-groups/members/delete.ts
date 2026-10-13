@@ -1,6 +1,6 @@
+import operation from "../../../_operations/iam/user-groups/members/delete.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * delete command
  * @generated from apis/overlays/iam.ts
@@ -48,8 +48,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"account-user-group-member-delete">;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "delete <member-id>",
 	describe: "Remove User Group Member",
@@ -94,11 +92,11 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				}
 
 				const result = await withProgress(`Deleting`, async () =>
-					client.iam.userGroups.members.delete({
+					client.send(operation, {
 						account_id: accountId,
 						user_group_id: argv["user-group-id"],
 						member_id: argv["member-id"],
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Deleted` });
 			}

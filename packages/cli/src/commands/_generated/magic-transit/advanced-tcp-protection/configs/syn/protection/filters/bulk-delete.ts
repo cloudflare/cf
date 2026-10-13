@@ -1,6 +1,6 @@
+import operation from "../../../../../../_operations/magic-transit/advanced-tcp-protection/configs/syn/protection/filters/bulk-delete.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * bulk-delete command
  * @generated from apis/overlays/magic-transit.ts
@@ -37,8 +37,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 }
 
 type Args = InferArgs<typeof builder>;
-
-type Request = SdkRequest<"deleteSynProtectionFiltersForAccount">;
 
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "bulk-delete",
@@ -78,9 +76,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				}
 
 				const result = await withProgress(`Deleting`, async () =>
-					client.magicTransit.advancedTcpProtection.configs.syn.protection.filters.bulkDelete(
-						{ account_id: accountId } satisfies Request
-					)
+					client.send(operation, { account_id: accountId })
 				);
 				formatOutput(result, { successLabel: `Deleted` });
 			}

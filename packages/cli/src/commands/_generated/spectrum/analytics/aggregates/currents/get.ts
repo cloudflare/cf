@@ -1,6 +1,6 @@
+import operation from "../../../../_operations/spectrum/analytics/aggregates/currents/get.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkQuery, SdkRequest } from "#sdk";
 /**
  * get command
  * @generated from apis/overlays/spectrum.ts
@@ -35,11 +35,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request =
-	SdkRequest<"spectrum-aggregate-analytics-get-current-aggregated-analytics">;
-type Query =
-	SdkQuery<"spectrum-aggregate-analytics-get-current-aggregated-analytics">;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "get",
 	describe: "Get current aggregated analytics",
@@ -54,7 +49,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
-				const queryParams: Query = {
+				const queryParams: Record<string, unknown> = {
 					appID: argv["app-id"],
 					colo_name: argv["colo-name"],
 				};
@@ -78,10 +73,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.zoneId = zoneId;
 
 				const result = await withProgress(`Loading`, async () =>
-					client.spectrum.analytics.aggregates.currents.get({
-						zone_id: zoneId,
-						...queryParams,
-					} satisfies Request)
+					client.send(operation, { zone_id: zoneId, ...queryParams })
 				);
 				formatOutput(result, { successLabel: `Loaded` });
 			}

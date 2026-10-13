@@ -1,6 +1,6 @@
+import operation from "../../../../_operations/realtime/kit/livestreams/sessions/list-active.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * list-active command
  * @generated from apis/overlays/realtime.ts
@@ -41,8 +41,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"get-v2-active-livestream-session-details">;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "list-active <livestream-id>",
 	describe: "Fetch active livestream session details",
@@ -76,11 +74,11 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.accountId = accountId;
 
 				const result = await withProgress(`Loading`, async () =>
-					client.realtime.kit.livestreams.sessions.listActive({
+					client.send(operation, {
 						account_id: accountId,
 						app_id: argv["app-id"],
 						livestream_id: argv["livestream-id"],
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Loaded` });
 			}

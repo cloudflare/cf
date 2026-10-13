@@ -1,6 +1,6 @@
+import operation from "../../../_operations/r2/super-slurper/jobs/pause.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * pause command
  * @generated from apis/overlays/r2.ts
@@ -36,8 +36,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"slurper-pause-job">;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "pause <job-id>",
 	describe: "Pause a job",
@@ -68,10 +66,10 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.accountId = accountId;
 
 				const result = await withProgress(`Updating`, async () =>
-					client.r2.superSlurper.jobs.pause({
+					client.send(operation, {
 						account_id: accountId,
 						job_id: argv["job-id"],
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Updated` });
 			}

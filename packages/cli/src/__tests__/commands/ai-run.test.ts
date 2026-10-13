@@ -1,6 +1,6 @@
 import { readFileSync, writeFileSync } from "node:fs";
 import { runInTempDir } from "@cloudflare/workers-utils/test-helpers";
-import { http, HttpResponse } from "msw";
+import { http, HttpResponse } from "msw/http";
 import {
 	afterEach,
 	beforeEach,
@@ -18,6 +18,7 @@ import { runCf } from "../helpers/run-cf.js";
 import "../../lib/auth.js";
 import type { Cloudflare } from "../../lib/auth.js";
 import type * as PromptModule from "../../lib/prompt.js";
+import getModelSchema from "#operations/ai/get-model-schema.js";
 
 const promptMocks = vi.hoisted(() => ({
 	enabled: false,
@@ -728,11 +729,9 @@ describe("cf ai run", () => {
 		expect(runBodies).toEqual([]);
 	});
 
-	it("uses the SDK's normal request policy outside help", async () => {
+	it("uses the normal request policy outside help", async () => {
 		const get = vi.fn().mockResolvedValue({ input: INPUT_SCHEMA });
-		const client = {
-			ai: { getModelSchema: get },
-		} as unknown as Cloudflare;
+		const client = { send: get } as unknown as Cloudflare;
 
 		await expect(
 			getModelInputSchema(
@@ -741,7 +740,7 @@ describe("cf ai run", () => {
 				async () => client
 			)
 		).resolves.toMatchObject({ ok: true });
-		expect(get).toHaveBeenCalledWith({
+		expect(get).toHaveBeenCalledWith(getModelSchema, {
 			account_id: "normal-policy-account",
 			model: "@cf/test/normal-policy",
 		});
@@ -776,7 +775,7 @@ describe("cf ai run", () => {
 	});
 
 	it("validates and previews without running under --dry-run", async () => {
-		// No run handler: `onUnhandledRequest: "error"` proves nothing was
+		// No run handler: `onUnhandledFrame: "error"` proves nothing was
 		// sent to the inference endpoint.
 		server.use(schemaHandler());
 
@@ -970,7 +969,7 @@ describe("cf ai run — spec drift guard", () => {
 		expect(spec).toBeDefined();
 		expect(spec?.httpMethod).toBe("POST");
 		expect(spec?.path).toBe("/accounts/{account_id}/ai/run");
-		expect(spec?.operationId).toBe("workers-ai-post-run-generic");
+		expect(spec?.operationId).toBe("ai.run");
 		expect(spec?.hasRequestBody).toBe(true);
 		expect(spec?.requestBodyFields).toContainEqual(
 			expect.objectContaining({ name: "model", required: true })

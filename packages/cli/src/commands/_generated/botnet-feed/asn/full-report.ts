@@ -1,6 +1,6 @@
+import operation from "../../_operations/botnet-feed/asn/full-report.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * full-report command
  * @generated from apis/overlays/botnet-feed.ts
@@ -36,8 +36,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"botnet-threat-feed-get-full-report">;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "full-report <asn-id>",
 	describe: "Get full report",
@@ -68,10 +66,10 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.accountId = accountId;
 
 				const result = await withProgress(`Loading`, async () =>
-					client.botnetFeed.asn.fullReport({
+					client.send(operation, {
 						account_id: accountId,
 						asn_id: argv["asn-id"],
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Loaded` });
 			}

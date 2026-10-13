@@ -1,6 +1,6 @@
+import operation from "../../_operations/turnstile/widgets/update.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * update command
  * @generated from apis/overlays/turnstile.ts
@@ -94,9 +94,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"accounts-turnstile-widget-update">;
-type Body = Request;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "update <sitekey>",
 	describe: "Update a Turnstile Widget",
@@ -152,13 +149,13 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.accountId = accountId;
 
 				if (argv.body) {
-					const bodyData = parseBody<Request>(argv.body);
+					const bodyData = parseBody(argv.body);
 					const result = await withProgress(`Updating`, async () =>
-						client.turnstile.widgets.update({
-							...bodyData,
+						client.send(operation, {
+							body: bodyData,
 							account_id: accountId,
 							sitekey: argv["sitekey"],
-						} satisfies Request)
+						})
 					);
 					formatOutput(result, { successLabel: `Updated` });
 					return;
@@ -183,7 +180,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				}
 
 				// Assemble request body from individual flags
-				const bodyData = compactBody<Body>({
+				const bodyData = compactBody({
 					bot_fight_mode: argv["bot-fight-mode"],
 					clearance_level: argv["clearance-level"],
 					domains: argv["domains"],
@@ -198,11 +195,11 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					region: argv["region"],
 				});
 				const result = await withProgress(`Updating`, async () =>
-					client.turnstile.widgets.update({
-						...bodyData,
+					client.send(operation, {
+						body: bodyData,
 						account_id: accountId,
 						sitekey: argv["sitekey"],
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Updated` });
 			}

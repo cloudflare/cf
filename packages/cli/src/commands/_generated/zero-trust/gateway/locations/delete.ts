@@ -1,6 +1,6 @@
+import operation from "../../../_operations/zero-trust/gateway/locations/delete.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * delete command
  * @generated from apis/overlays/zero-trust.ts
@@ -43,9 +43,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request =
-	SdkRequest<"zero-trust-gateway-locations-delete-zero-trust-gateway-location">;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "delete <location-id>",
 	describe: "Delete a Zero Trust Gateway location",
@@ -82,10 +79,10 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				}
 
 				const result = await withProgress(`Deleting`, async () =>
-					client.zeroTrust.gateway.locations.delete({
+					client.send(operation, {
 						account_id: accountId,
 						location_id: argv["location-id"],
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Deleted` });
 			}

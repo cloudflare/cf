@@ -1,6 +1,6 @@
+import operation from "../../../_operations/zero-trust/identity-providers/saml-certificate/create.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * create command
  * @generated from apis/overlays/zero-trust.ts
@@ -36,9 +36,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request =
-	SdkRequest<"access-identity-providers-create-saml-certificate-for-identity-provider">;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "create <identity-provider-id>",
 	describe: "Create SAML encryption certificate for Identity Provider",
@@ -73,10 +70,10 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.accountId = accountId;
 
 				const result = await withProgress(`Creating`, async () =>
-					client.zeroTrust.identityProviders.samlCertificate.create({
+					client.send(operation, {
 						account_id: accountId,
 						identity_provider_id: argv["identity-provider-id"],
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Created` });
 			}

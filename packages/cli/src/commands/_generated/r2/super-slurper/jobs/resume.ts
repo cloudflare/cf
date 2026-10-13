@@ -1,6 +1,6 @@
+import operation from "../../../_operations/r2/super-slurper/jobs/resume.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * resume command
  * @generated from apis/overlays/r2.ts
@@ -36,8 +36,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"slurper-resume-job">;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "resume <job-id>",
 	describe: "Resume a job",
@@ -68,10 +66,10 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.accountId = accountId;
 
 				const result = await withProgress(`Updating`, async () =>
-					client.r2.superSlurper.jobs.resume({
+					client.send(operation, {
 						account_id: accountId,
 						job_id: argv["job-id"],
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Updated` });
 			}

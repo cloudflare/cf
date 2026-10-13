@@ -6,12 +6,9 @@ export default class ImportReporter implements Reporter {
 	onTestModuleEnd(testModule: TestModule): void {
 		const diagnostic = testModule.diagnostic();
 		const imports = Object.entries(diagnostic.importDurations);
-		const sdkImports = imports.filter(([id]) =>
-			id.replaceAll("\\", "/").includes("/src/sdk/")
-		);
 		console.log(
-			`\n${testModule.relativeModuleId}: ${imports.length} tracked collection imports ` +
-				`(${sdkImports.length} SDK), ${Math.round(diagnostic.collectDuration)}ms collection, ` +
+			`\n${testModule.relativeModuleId}: ${imports.length} tracked collection imports, ` +
+				`${Math.round(diagnostic.collectDuration)}ms collection, ` +
 				`${Math.round(diagnostic.duration)}ms tests`
 		);
 		for (const [id, duration] of imports

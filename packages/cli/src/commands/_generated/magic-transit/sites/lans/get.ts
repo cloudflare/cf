@@ -1,6 +1,6 @@
+import operation from "../../../_operations/magic-transit/sites/lans/get.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * get command
  * @generated from apis/overlays/magic-transit.ts
@@ -41,8 +41,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"magic-site-lans-lan-details">;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "get <lan-id>",
 	describe: "Site LAN Details",
@@ -76,11 +74,11 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.accountId = accountId;
 
 				const result = await withProgress(`Loading`, async () =>
-					client.magicTransit.sites.lans.get({
+					client.send(operation, {
 						account_id: accountId,
 						site_id: argv["site-id"],
 						lan_id: argv["lan-id"],
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Loaded` });
 			}

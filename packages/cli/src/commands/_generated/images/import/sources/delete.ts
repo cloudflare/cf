@@ -1,6 +1,6 @@
+import operation from "../../../_operations/images/import/sources/delete.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * delete command
  * @generated from apis/overlays/images.ts
@@ -43,8 +43,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"cloudflare-images-sourcingkit-delete-source">;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "delete <source-id>",
 	describe: "Delete a sourcing kit source",
@@ -86,10 +84,10 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				}
 
 				const result = await withProgress(`Deleting`, async () =>
-					client.images.import.sources.delete({
+					client.send(operation, {
 						account_id: accountId,
 						source_id: argv["source-id"],
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Deleted` });
 			}

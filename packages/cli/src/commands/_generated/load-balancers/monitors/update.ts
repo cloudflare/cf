@@ -1,6 +1,6 @@
+import operation from "../../_operations/load-balancers/monitors/update.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * update command
  * @generated from apis/overlays/load-balancers.ts
@@ -118,9 +118,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"account-load-balancer-monitors-update-monitor">;
-type Body = Request["body"];
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "update <monitor-id>",
 	describe: "Update Monitor",
@@ -195,20 +192,20 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.accountId = accountId;
 
 				if (argv.body) {
-					const bodyData = parseBody<Request["body"]>(argv.body);
+					const bodyData = parseBody(argv.body);
 					const result = await withProgress(`Updating`, async () =>
-						client.loadBalancers.monitors.update({
+						client.send(operation, {
 							body: bodyData,
 							account_id: accountId,
 							monitor_id: argv["monitor-id"],
-						} satisfies Request)
+						})
 					);
 					formatOutput(result, { successLabel: `Updated` });
 					return;
 				}
 
 				// Assemble request body from individual flags
-				const bodyData = compactBody<Body>({
+				const bodyData = compactBody({
 					allow_insecure: argv["allow-insecure"],
 					consecutive_down: argv["consecutive-down"],
 					consecutive_up: argv["consecutive-up"],
@@ -250,11 +247,11 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					type: argv["type"],
 				});
 				const result = await withProgress(`Updating`, async () =>
-					client.loadBalancers.monitors.update({
+					client.send(operation, {
 						body: bodyData,
 						account_id: accountId,
 						monitor_id: argv["monitor-id"],
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Updated` });
 			}

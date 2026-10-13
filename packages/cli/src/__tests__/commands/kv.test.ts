@@ -1,5 +1,5 @@
 import { runInTempDir } from "@cloudflare/workers-utils/test-helpers";
-import { http, HttpResponse } from "msw";
+import { http, HttpResponse } from "msw/http";
 import {
 	afterEach,
 	beforeEach,
@@ -13,7 +13,7 @@ import { runCf } from "../helpers/run-cf.js";
 
 /**
  * End-to-end network tests for `cf kv` commands, driven through the real
- * `runMain` → yargs → SDK → `globalThis.fetch` stack with MSW standing
+ * `runMain` → yargs → API client → `globalThis.fetch` stack with MSW standing
  * in for the Cloudflare API.
  *
  * kv is an interesting harness target for three reasons:
@@ -21,13 +21,13 @@ import { runCf } from "../helpers/run-cf.js";
  *    `/accounts/{id}/storage/kv/...`; the account id is resolved from
  *    `CLOUDFLARE_ACCOUNT_ID` (set in ENV so no interactive picker /
  *    `/accounts` round-trip fires).
- *  - **Raw-bytes output.** `kv keys get` bypasses the SDK envelope and
+ *  - **Raw-bytes output.** `kv keys get` bypasses the client envelope and
  *    writes the response body verbatim via `process.stdout.write`
  *    (lib/raw-fetch.ts), so it's asserted against a stdout-write spy
  *    rather than the JSON console.log path.
  *  - **Delete confirmation.** `kv namespaces delete` runs through
  *    `confirmDelete`; without `--force` in a non-TTY it aborts before
- *    any request (proven by the `onUnhandledRequest: "error"` guard).
+ *    any request (proven by the `onUnhandledFrame: "error"` guard).
  *
  * `runInTempDir` isolates HOME/XDG so a developer's stored OAuth token
  * can't substitute for the fake env token under test.
@@ -147,7 +147,7 @@ describe("cf kv (network)", () => {
 
 	it("namespaces delete without --force — aborts before any request", async () => {
 		// No DELETE handler registered: if a request fired, the MSW
-		// onUnhandledRequest:"error" guard would fail the test.
+		// onUnhandledFrame:"error" guard would fail the test.
 		const { exitCode } = await runCf(
 			["kv", "namespaces", "delete", "ns-1"],
 			ENV
@@ -220,7 +220,7 @@ describe("cf kv (network)", () => {
 	});
 
 	it("--dry-run prints the planned request without hitting the network", async () => {
-		// No handler: a real request would trip onUnhandledRequest:"error".
+		// No handler: a real request would trip onUnhandledFrame:"error".
 		const { exitCode } = await runCf(
 			["kv", "namespaces", "create", "--title", "x", "--dry-run"],
 			ENV

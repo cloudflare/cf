@@ -1,6 +1,6 @@
+import operation from "../../_operations/pipelines/streams/get.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * get command
  * @generated from apis/overlays/pipelines.ts
@@ -34,9 +34,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request =
-	SdkRequest<"getV4AccountsByAccount_idPipelinesV1StreamsByStream_id">;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "get <stream-id>",
 	describe: "Get Stream Details",
@@ -67,10 +64,10 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.accountId = accountId;
 
 				const result = await withProgress(`Loading`, async () =>
-					client.pipelines.streams.get({
+					client.send(operation, {
 						account_id: accountId,
 						stream_id: argv["stream-id"],
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Loaded` });
 			}

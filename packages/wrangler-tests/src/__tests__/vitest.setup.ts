@@ -8,7 +8,7 @@ process.env.CLI_VERSION = "x.x.x";
 
 import { PassThrough } from "node:stream";
 import chalk from "chalk";
-import { passthrough } from "msw";
+import { HttpNetworkFrame } from "msw/experimental";
 import { afterAll, afterEach, beforeAll, beforeEach, vi } from "vite-plus/test";
 import { msw } from "./helpers/msw";
 
@@ -103,11 +103,16 @@ vi.mock("../update-check");
 
 beforeAll(() => {
 	msw.listen({
-		onUnhandledRequest: (request) => {
+		onUnhandledFrame: ({ frame, defaults }) => {
+			if (!(frame instanceof HttpNetworkFrame)) {
+				return defaults.error();
+			}
+
+			const { request } = frame.data;
 			const { hostname, href } = new URL(request.url);
 			const localHostnames = ["localhost", "127.0.0.1"]; // TODO: add other local hostnames if you need them
 			if (localHostnames.includes(hostname)) {
-				return passthrough();
+				return;
 			}
 
 			throw new Error(

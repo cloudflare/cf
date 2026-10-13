@@ -1,6 +1,6 @@
+import operation from "../_operations/pipelines/legacy-update.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * legacy-update command
  * @generated from apis/overlays/pipelines.ts
@@ -115,10 +115,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request =
-	SdkRequest<"putV4AccountsByAccount_idPipelinesByPipeline_name_deprecated">;
-type Body = Request;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "legacy-update <pipeline-name>",
 	describe: "[DEPRECATED] Update Pipeline",
@@ -222,13 +218,13 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.accountId = accountId;
 
 				if (argv.body) {
-					const bodyData = parseBody<Request>(argv.body);
+					const bodyData = parseBody(argv.body);
 					const result = await withProgress(`Updating`, async () =>
-						client.pipelines.legacyUpdate({
-							...bodyData,
+						client.send(operation, {
+							body: bodyData,
 							account_id: accountId,
 							pipeline_name: argv["pipeline-name"],
-						} satisfies Request)
+						})
 					);
 					formatOutput(result, { successLabel: `Updated` });
 					return;
@@ -287,7 +283,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				}
 
 				// Assemble request body from individual flags
-				const bodyData = compactBody<Body>({
+				const bodyData = compactBody({
 					destination: {
 						batch: {
 							max_bytes: argv["destination-batch-max-bytes"],
@@ -346,11 +342,11 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					source: parseObjectArray(argv["source"], "source"),
 				});
 				const result = await withProgress(`Updating`, async () =>
-					client.pipelines.legacyUpdate({
-						...bodyData,
+					client.send(operation, {
+						body: bodyData,
 						account_id: accountId,
 						pipeline_name: argv["pipeline-name"],
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Updated` });
 			}

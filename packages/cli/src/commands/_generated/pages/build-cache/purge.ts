@@ -1,6 +1,6 @@
+import operation from "../../_operations/pages/build-cache/purge.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * purge command
  * @generated from apis/overlays/pages.ts
@@ -44,8 +44,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"pages-purge-build-cache">;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "purge <project-name>",
 	describe: "Purge the Pages build cache",
@@ -87,10 +85,10 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				}
 
 				const result = await withProgress(`Deleting`, async () =>
-					client.pages.buildCache.purge({
+					client.send(operation, {
 						account_id: accountId,
 						project_name: argv["project-name"],
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Deleted` });
 			}

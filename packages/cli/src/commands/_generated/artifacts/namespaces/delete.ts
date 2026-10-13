@@ -1,6 +1,6 @@
+import operation from "../../_operations/artifacts/namespaces/delete.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * delete command
  * @generated from apis/overlays/artifacts.ts
@@ -43,8 +43,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"artifacts_namespaces_delete">;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "delete <namespace>",
 	describe: "Delete a namespace",
@@ -81,10 +79,10 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				}
 
 				const result = await withProgress(`Deleting`, async () =>
-					client.artifacts.namespaces.delete({
+					client.send(operation, {
 						account_id: accountId,
 						namespace: argv["namespace"],
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Deleted` });
 			}

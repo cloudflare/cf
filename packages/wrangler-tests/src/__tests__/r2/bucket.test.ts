@@ -1,5 +1,5 @@
 import { writeFileSync } from "node:fs";
-import { http, HttpResponse } from "msw";
+import { http, HttpResponse } from "msw/http";
 // eslint-disable-next-line no-restricted-imports
 import { afterEach, beforeEach, describe, expect, it } from "vite-plus/test";
 import { mockAccountId, mockApiToken } from "../helpers/mock-account-id";

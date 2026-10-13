@@ -1,6 +1,6 @@
+import operation from "../../_operations/magic-transit/apps/delete.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * delete command
  * @generated from apis/overlays/magic-transit.ts
@@ -43,8 +43,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"magic-account-apps-delete-app">;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "delete <account-app-id>",
 	describe: "Delete Account App",
@@ -83,10 +81,10 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				}
 
 				const result = await withProgress(`Deleting`, async () =>
-					client.magicTransit.apps.delete({
+					client.send(operation, {
 						account_id: accountId,
 						account_app_id: argv["account-app-id"],
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Deleted` });
 			}

@@ -1,6 +1,6 @@
+import operation from "../../../../_operations/cloudforce-one/threat-signals/articles/tags/remove.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * remove command
  * @generated from apis/overlays/cloudforce-one.ts
@@ -48,8 +48,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"rssArticleTagRemove">;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "remove <tag-id>",
 	describe: "Remove tag from Threat Signals article",
@@ -89,11 +87,11 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				}
 
 				const result = await withProgress(`Deleting`, async () =>
-					client.cloudforceOne.threatSignals.articles.tags.remove({
+					client.send(operation, {
 						account_id: accountId,
 						article_id: argv["article-id"],
 						tag_id: argv["tag-id"],
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Deleted` });
 			}

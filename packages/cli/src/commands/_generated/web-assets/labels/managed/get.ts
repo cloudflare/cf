@@ -1,6 +1,6 @@
+import operation from "../../../_operations/web-assets/labels/managed/get.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkQuery, SdkRequest } from "#sdk";
 /**
  * get command
  * @generated from apis/overlays/web-assets.ts
@@ -35,9 +35,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"api-shield-labels-get-managed-label">;
-type Query = SdkQuery<"api-shield-labels-get-managed-label">;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "get <name>",
 	describe: "Get a managed operation label",
@@ -52,7 +49,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
-				const queryParams: Query = {
+				const queryParams: Record<string, unknown> = {
 					with_mapped_resource_counts: argv["with-mapped-resource-counts"],
 				};
 				if (argv.dryRun) {
@@ -76,11 +73,11 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.zoneId = zoneId;
 
 				const result = await withProgress(`Loading`, async () =>
-					client.webAssets.labels.managed.get({
+					client.send(operation, {
 						zone_id: zoneId,
 						name: argv["name"],
 						...queryParams,
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Loaded` });
 			}

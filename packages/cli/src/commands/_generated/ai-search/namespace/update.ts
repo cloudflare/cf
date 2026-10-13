@@ -1,6 +1,5 @@
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * update command
  * @generated from apis/overlays/ai-search.ts
@@ -9,9 +8,10 @@ import type { Argv, CommandModule } from "yargs";
 import {
 	createCommandClient,
 	getAccountId,
+	requestApi,
 	resolveAccountIdSilent,
 } from "#lib/auth.js";
-import { compactBody, parseBody } from "#lib/body-parser.js";
+import { compactBody, parseBody, setNestedValue } from "#lib/body-parser.js";
 import { formatDryRun } from "#lib/dry-run.js";
 import { resolveFileToken } from "#lib/input-validation.js";
 import { LOCAL_ACCOUNT_ID } from "#lib/local.js";
@@ -109,9 +109,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"ai-search-update-namespace">;
-type Body = Request;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "update <namespace>",
 	describe: "Update a namespace",
@@ -201,64 +198,121 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.accountId = accountId;
 
 				if (argv.body) {
-					const bodyData = parseBody<Request>(argv.body);
+					const bodyData = parseBody(argv.body);
 					const result = await withProgress(`Updating`, async () =>
-						client.aiSearch.namespace.update({
-							...bodyData,
-							account_id: accountId,
-							namespace: argv["namespace"],
-						} satisfies Request)
+						requestApi<unknown>(
+							client,
+							"PUT",
+							`/accounts/${accountId}/ai-search/namespaces/${encodeURIComponent(String(argv["namespace"]))}`,
+							{ body: bodyData }
+						)
 					);
 					formatOutput(result, { successLabel: `Updated` });
 					return;
 				}
 
 				// Assemble request body from individual flags
-				const bodyData = compactBody<Body>({
-					description: resolveFileToken(
-						argv["description"] as string | undefined,
-						"description",
-						"text"
-					),
-					public_endpoint_params: {
-						authorized_hosts: argv["public-endpoint-params-authorized-hosts"],
-						chat_completions_endpoint: {
-							disabled:
-								argv[
-									"public-endpoint-params-chat-completions-endpoint-disabled"
-								],
-						},
-						custom_domains: argv["public-endpoint-params-custom-domains"],
-						default_domain_enabled:
-							argv["public-endpoint-params-default-domain-enabled"],
-						enabled: argv["public-endpoint-params-enabled"],
-						instances_allowed: argv["public-endpoint-params-instances-allowed"],
-						mcp: {
-							description: resolveFileToken(
-								argv["public-endpoint-params-mcp-description"] as
-									| string
-									| undefined,
-								"public-endpoint-params-mcp-description",
-								"text"
-							),
-							disabled: argv["public-endpoint-params-mcp-disabled"],
-						},
-						rate_limit: {
-							period_ms: argv["public-endpoint-params-rate-limit-period-ms"],
-							requests: argv["public-endpoint-params-rate-limit-requests"],
-							technique: argv["public-endpoint-params-rate-limit-technique"],
-						},
-						search_endpoint: {
-							disabled: argv["public-endpoint-params-search-endpoint-disabled"],
-						},
-					},
-				});
+				const bodyData: Record<string, unknown> = {};
+				if (argv["description"] !== undefined)
+					setNestedValue(
+						bodyData,
+						["description"],
+						resolveFileToken(
+							argv["description"] as string | undefined,
+							"description",
+							"text"
+						)
+					);
+				if (argv["public-endpoint-params-authorized-hosts"] !== undefined)
+					setNestedValue(
+						bodyData,
+						["public_endpoint_params", "authorized_hosts"],
+						argv["public-endpoint-params-authorized-hosts"]
+					);
+				if (
+					argv["public-endpoint-params-chat-completions-endpoint-disabled"] !==
+					undefined
+				)
+					setNestedValue(
+						bodyData,
+						["public_endpoint_params", "chat_completions_endpoint", "disabled"],
+						argv["public-endpoint-params-chat-completions-endpoint-disabled"]
+					);
+				if (argv["public-endpoint-params-custom-domains"] !== undefined)
+					setNestedValue(
+						bodyData,
+						["public_endpoint_params", "custom_domains"],
+						argv["public-endpoint-params-custom-domains"]
+					);
+				if (argv["public-endpoint-params-default-domain-enabled"] !== undefined)
+					setNestedValue(
+						bodyData,
+						["public_endpoint_params", "default_domain_enabled"],
+						argv["public-endpoint-params-default-domain-enabled"]
+					);
+				if (argv["public-endpoint-params-enabled"] !== undefined)
+					setNestedValue(
+						bodyData,
+						["public_endpoint_params", "enabled"],
+						argv["public-endpoint-params-enabled"]
+					);
+				if (argv["public-endpoint-params-instances-allowed"] !== undefined)
+					setNestedValue(
+						bodyData,
+						["public_endpoint_params", "instances_allowed"],
+						argv["public-endpoint-params-instances-allowed"]
+					);
+				if (argv["public-endpoint-params-mcp-description"] !== undefined)
+					setNestedValue(
+						bodyData,
+						["public_endpoint_params", "mcp", "description"],
+						resolveFileToken(
+							argv["public-endpoint-params-mcp-description"] as
+								| string
+								| undefined,
+							"public-endpoint-params-mcp-description",
+							"text"
+						)
+					);
+				if (argv["public-endpoint-params-mcp-disabled"] !== undefined)
+					setNestedValue(
+						bodyData,
+						["public_endpoint_params", "mcp", "disabled"],
+						argv["public-endpoint-params-mcp-disabled"]
+					);
+				if (argv["public-endpoint-params-rate-limit-period-ms"] !== undefined)
+					setNestedValue(
+						bodyData,
+						["public_endpoint_params", "rate_limit", "period_ms"],
+						argv["public-endpoint-params-rate-limit-period-ms"]
+					);
+				if (argv["public-endpoint-params-rate-limit-requests"] !== undefined)
+					setNestedValue(
+						bodyData,
+						["public_endpoint_params", "rate_limit", "requests"],
+						argv["public-endpoint-params-rate-limit-requests"]
+					);
+				if (argv["public-endpoint-params-rate-limit-technique"] !== undefined)
+					setNestedValue(
+						bodyData,
+						["public_endpoint_params", "rate_limit", "technique"],
+						argv["public-endpoint-params-rate-limit-technique"]
+					);
+				if (
+					argv["public-endpoint-params-search-endpoint-disabled"] !== undefined
+				)
+					setNestedValue(
+						bodyData,
+						["public_endpoint_params", "search_endpoint", "disabled"],
+						argv["public-endpoint-params-search-endpoint-disabled"]
+					);
 				const result = await withProgress(`Updating`, async () =>
-					client.aiSearch.namespace.update({
-						...bodyData,
-						account_id: accountId,
-						namespace: argv["namespace"],
-					} satisfies Request)
+					requestApi<unknown>(
+						client,
+						"PUT",
+						`/accounts/${accountId}/ai-search/namespaces/${encodeURIComponent(String(argv["namespace"]))}`,
+						{ body: bodyData }
+					)
 				);
 				formatOutput(result, { successLabel: `Updated` });
 			}

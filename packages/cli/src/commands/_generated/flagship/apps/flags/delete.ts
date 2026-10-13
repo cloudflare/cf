@@ -1,6 +1,6 @@
+import operation from "../../../_operations/flagship/apps/flags/delete.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * delete command
  * @generated from apis/overlays/flagship.ts
@@ -48,8 +48,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"flagship_delete_flag">;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "delete <flag-key>",
 	describe: "Delete flag",
@@ -94,11 +92,11 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				}
 
 				const result = await withProgress(`Deleting`, async () =>
-					client.flagship.apps.flags.delete({
+					client.send(operation, {
 						account_id: accountId,
 						app_id: argv["app-id"],
 						flag_key: argv["flag-key"],
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Deleted` });
 			}

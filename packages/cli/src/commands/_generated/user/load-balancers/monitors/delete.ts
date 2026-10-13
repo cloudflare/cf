@@ -1,6 +1,6 @@
+import operation from "../../../_operations/user/load-balancers/monitors/delete.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * delete command
  * @generated from apis/overlays/user.ts
@@ -38,8 +38,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"load-balancer-monitors-delete-monitor">;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "delete <monitor-id>",
 	describe: "Delete Monitor",
@@ -73,9 +71,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				}
 
 				const result = await withProgress(`Deleting`, async () =>
-					client.user.loadBalancers.monitors.delete({
-						monitor_id: argv["monitor-id"],
-					} satisfies Request)
+					client.send(operation, { monitor_id: argv["monitor-id"] })
 				);
 				formatOutput(result, { successLabel: `Deleted` });
 			}

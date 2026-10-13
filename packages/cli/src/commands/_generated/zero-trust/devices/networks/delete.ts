@@ -1,6 +1,6 @@
+import operation from "../../../_operations/zero-trust/devices/networks/delete.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * delete command
  * @generated from apis/overlays/zero-trust.ts
@@ -43,9 +43,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request =
-	SdkRequest<"device-managed-networks-delete-device-managed-network">;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "delete <network-id>",
 	describe: "Delete a device managed network",
@@ -82,10 +79,10 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				}
 
 				const result = await withProgress(`Deleting`, async () =>
-					client.zeroTrust.devices.networks.delete({
+					client.send(operation, {
 						account_id: accountId,
 						network_id: argv["network-id"],
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Deleted` });
 			}

@@ -19,7 +19,9 @@ Command telemetry uses command-started and command-finished events containing:
 
 - The canonical command path (for example, `cf zones list`), without positional
   values.
-- The search query passed to `cf cli search`, to help us make sure relevant results are being returned.
+- The search query passed to `cf cli search` or `cf docs search`, to help us
+  make sure relevant results are being returned. Queries are limited to 1,024
+  characters in telemetry and included only in command-finished events.
 - The names of flags used and their combinations. Boolean and recognized enum
   values may be included; free-form values are replaced with `<REDACTED>`.
 - Command duration and its outcome (`success`, `error`, or `cancelled`).
@@ -40,6 +42,10 @@ Command telemetry uses command-started and command-finished events containing:
 When help is shown, `cf` sends one `cf help shown` event with the command path.
 Help events do not include arguments or command duration.
 
+Keep `cf cli search` and `cf docs search` queries anonymous; describe the action
+and resource type only. Never include names, email addresses, domains, account
+or resource IDs, tokens, or other identifying values.
+
 Cloudflare receives the IP address associated with the telemetry request. It is
 handled according to Cloudflare's
 [Privacy Policy](https://www.cloudflare.com/privacypolicy/).
@@ -51,11 +57,11 @@ requests needed to carry out commands.
 
 ## What is never collected?
 
-Apart from the `cf cli search` query described above, `cf` does not include account or zone identifiers, domain names, positional
-values, request or file contents, file paths, credentials, raw error messages,
-stack traces, or API response data in its command telemetry. Free-form flag
-values are redacted, and error reporting uses only the error class, status, and
-numeric codes described above.
+Apart from the search queries described above, `cf` does not include account or
+zone identifiers, domain names, positional values, request or file contents,
+file paths, credentials, raw error messages, stack traces, or API response data
+in its command telemetry. Free-form flag values are redacted, and error
+reporting uses only the error class, status, and numeric codes described above.
 
 ## How can I inspect what is sent?
 

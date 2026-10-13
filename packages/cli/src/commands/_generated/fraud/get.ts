@@ -1,6 +1,6 @@
+import operation from "../_operations/fraud/get.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * get command
  * @generated from apis/overlays/fraud.ts
@@ -23,8 +23,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 }
 
 type Args = InferArgs<typeof builder>;
-
-type Request = SdkRequest<"fraud-detection-zone-get-settings">;
 
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "get",
@@ -59,7 +57,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.zoneId = zoneId;
 
 				const result = await withProgress(`Loading`, async () =>
-					client.fraud.get({ zone_id: zoneId } satisfies Request)
+					client.send(operation, { zone_id: zoneId })
 				);
 				formatOutput(result, { successLabel: `Loaded` });
 			}

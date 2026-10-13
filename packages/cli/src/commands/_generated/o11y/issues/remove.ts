@@ -1,6 +1,6 @@
+import operation from "../../_operations/o11y/issues/remove.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * remove command
  * @generated from apis/overlays/o11y.ts
@@ -48,8 +48,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"issues.groups.members.remove">;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "remove <issueId>",
 	describe: "Remove an issue group member",
@@ -89,11 +87,11 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				}
 
 				const result = await withProgress(`Deleting`, async () =>
-					client.observability.issues.remove({
+					client.send(operation, {
 						account_id: accountId,
 						groupId: argv["group-id"],
 						issueId: argv["issue-id"],
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Deleted` });
 			}

@@ -1,6 +1,6 @@
+import operation from "../_operations/agent-memory/delete-profile.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * delete-profile command
  * @generated from apis/overlays/agent-memory.ts
@@ -48,8 +48,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"agent-memory-profile-delete">;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "delete-profile <profile-name>",
 	describe: "Delete a profile",
@@ -94,11 +92,11 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				}
 
 				const result = await withProgress(`Deleting`, async () =>
-					client.agentMemory.deleteProfile({
+					client.send(operation, {
 						account_id: accountId,
 						namespace_name: argv["namespace-name"],
 						profile_name: argv["profile-name"],
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Deleted` });
 			}

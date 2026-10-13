@@ -1,6 +1,6 @@
+import operation from "../../../_operations/zero-trust/cws/domain-acls/update.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * update command
  * @generated from apis/overlays/zero-trust.ts
@@ -44,7 +44,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("entries", {
 			type: "string",
 			description:
-				"Replacement set of domain entries. Provide as a JSON array of objects or @path/to/file.json.",
+				"Replacement set of domain entries. Each domain must appear at most once. Provide as a JSON array of objects or @path/to/file.json.",
 		})
 		.option("name", { type: "string", description: "Name of the domain ACL" })
 		.option("dry-run", {
@@ -59,9 +59,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 }
 
 type Args = InferArgs<typeof builder>;
-
-type Request = SdkRequest<"cws-update-domain-acl">;
-type Body = Request;
 
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "update <domain-acl-id>",
@@ -107,13 +104,13 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.accountId = accountId;
 
 				if (argv.body) {
-					const bodyData = parseBody<Request>(argv.body);
+					const bodyData = parseBody(argv.body);
 					const result = await withProgress(`Updating`, async () =>
-						client.zeroTrust.cws.domainAcls.update({
-							...bodyData,
+						client.send(operation, {
+							body: bodyData,
 							account_id: accountId,
 							domain_acl_id: argv["domain-acl-id"],
-						} satisfies Request)
+						})
 					);
 					formatOutput(result, { successLabel: `Updated` });
 					return;
@@ -138,7 +135,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				}
 
 				// Assemble request body from individual flags
-				const bodyData = compactBody<Body>({
+				const bodyData = compactBody({
 					default_action: argv["default-action"],
 					entries: parseObjectArray(argv["entries"], "entries"),
 					name: resolveFileToken(
@@ -148,11 +145,11 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					),
 				});
 				const result = await withProgress(`Updating`, async () =>
-					client.zeroTrust.cws.domainAcls.update({
-						...bodyData,
+					client.send(operation, {
+						body: bodyData,
 						account_id: accountId,
 						domain_acl_id: argv["domain-acl-id"],
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Updated` });
 			}

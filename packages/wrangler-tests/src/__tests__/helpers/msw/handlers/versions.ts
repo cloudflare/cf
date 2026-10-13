@@ -1,4 +1,4 @@
-import { http, HttpResponse } from "msw";
+import { http, HttpResponse } from "msw/http";
 import { createFetchResult } from "../index";
 import type { ApiDeployment, ApiVersion } from "../../../../versions/types";
 

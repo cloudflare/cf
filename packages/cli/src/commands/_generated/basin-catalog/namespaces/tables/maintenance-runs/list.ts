@@ -1,6 +1,6 @@
+import operation from "../../../../_operations/basin-catalog/namespaces/tables/maintenance-runs/list.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkQuery, SdkRequest } from "#sdk";
 /**
  * list command
  * @generated from apis/overlays/basin-catalog.ts
@@ -48,9 +48,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"basin-list-table-maintenance-runs">;
-type Query = SdkQuery<"basin-list-table-maintenance-runs">;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "list",
 	describe: "List table maintenance runs",
@@ -65,7 +62,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
-				const queryParams: Query = {
+				const queryParams: Record<string, unknown> = {
 					page_size: argv["page-size"],
 					page_token: argv["page-token"],
 				};
@@ -90,13 +87,13 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.accountId = accountId;
 
 				const result = await withProgress(`Loading`, async () =>
-					client.basinCatalog.namespaces.tables.maintenanceRuns.list({
+					client.send(operation, {
 						account_id: accountId,
 						bucket_name: argv["bucket-name"],
 						namespace: argv["namespace"],
 						table_name: argv["table-name"],
 						...queryParams,
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Loaded` });
 			}

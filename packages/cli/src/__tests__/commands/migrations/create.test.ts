@@ -13,7 +13,7 @@ import { runCf } from "../../helpers/run-cf.js";
 
 /**
  * `cf d1 migrations create`. Entirely local: MSW is armed with no handlers and
- * `onUnhandledRequest: "error"`, so any outbound request would fail the
+ * `onUnhandledFrame: "error"`, so any outbound request would fail the
  * test — which is the assertion that this command needs no credentials.
  */
 describe("cf d1 migrations create", () => {

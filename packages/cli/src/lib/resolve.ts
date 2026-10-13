@@ -4,12 +4,13 @@
  * Allows users to use friendly names instead of UUIDs
  */
 import type { Cloudflare } from "./auth.js";
+import listZones from "#operations/zones/list.js";
 
 /**
  * Small in-memory TTL cache for resolver lookups (e.g. zone names).
  *
  * Used to avoid repeated API calls when a single cf invocation resolves
- * the same friendly name more than once, or when the SDK's per-process
+ * the same friendly name more than once, or when the client's per-process
  * lifetime sees several quick calls in a row. 60s default mirrors the
  * previous standalone `completion-cache.ts` helper that lived here for
  * the same reason; inlined to drop one indirection.
@@ -112,7 +113,7 @@ interface Zone {
  * If the input looks like a UUID/ID, return it as-is.
  * Otherwise, look up the zone by name.
  *
- * @param client - Cloudflare SDK client
+ * @param client - Cloudflare API client
  * @param accountId - Account ID to search in
  * @param zoneIdOrName - Zone ID or zone name (e.g., "example.com")
  * @returns Zone ID
@@ -139,9 +140,11 @@ export async function resolveZoneId(
 	const zoneName = zoneIdOrName.toLowerCase();
 	const cacheKey = `zones:${accountId}:${zoneName}`;
 	const zones = await getCached<Zone[]>(cacheKey, async () => {
-		return (
-			await client.zones.list({ "account.id": accountId, name: zoneName })
-		).result;
+		const response = (await client.send(listZones, {
+			"account.id": accountId,
+			name: zoneName,
+		})) as { result: Zone[] };
+		return response.result;
 	});
 
 	const zone = zones.find((z) => z.name.toLowerCase() === zoneName);

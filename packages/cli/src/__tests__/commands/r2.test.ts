@@ -1,5 +1,5 @@
 import { runInTempDir, seed } from "@cloudflare/workers-utils/test-helpers";
-import { http, HttpResponse } from "msw";
+import { http, HttpResponse } from "msw/http";
 import {
 	afterEach,
 	beforeEach,
@@ -13,7 +13,7 @@ import { runCf } from "../helpers/run-cf.js";
 
 /**
  * End-to-end network tests for `cf r2 buckets` commands, driven through
- * the real `runMain` → yargs → SDK → `globalThis.fetch` stack with MSW
+ * the real `runMain` → yargs → API client → `globalThis.fetch` stack with MSW
  * standing in for the Cloudflare API.
  *
  * Coverage mirrors the harness exemplar (`zones-list.test.ts`) but for
@@ -26,7 +26,7 @@ import { runCf } from "../helpers/run-cf.js";
  *
  * `runInTempDir` isolates HOME/XDG so a developer's stored OAuth token
  * can't substitute for the fake env token under test. The MSW server
- * uses `onUnhandledRequest: "error"`, so any request that escapes the
+ * uses `onUnhandledFrame: "error"`, so any request that escapes the
  * mocks fails the test loudly rather than reaching the real API.
  */
 describe("cf r2 buckets (network)", () => {
@@ -261,7 +261,7 @@ describe("cf r2 buckets (network)", () => {
 
 	it("delete without --force — aborts before any request", async () => {
 		// No DELETE handler registered: a request would trip the MSW
-		// onUnhandledRequest:"error" guard.
+		// onUnhandledFrame:"error" guard.
 		const { exitCode } = await runCf(
 			["r2", "buckets", "delete", "my-bucket"],
 			ENV

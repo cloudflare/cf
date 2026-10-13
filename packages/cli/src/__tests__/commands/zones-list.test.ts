@@ -1,6 +1,6 @@
 import { writeFile } from "node:fs/promises";
 import { runInTempDir } from "@cloudflare/workers-utils/test-helpers";
-import { http, HttpResponse } from "msw";
+import { http, HttpResponse } from "msw/http";
 import {
 	afterEach,
 	beforeEach,
@@ -14,7 +14,7 @@ import { runCf } from "../helpers/run-cf.js";
 
 /**
  * End-to-end network tests for a generated command (`cf zones list`),
- * driven through the real `runMain` → yargs → SDK → `globalThis.fetch`
+ * driven through the real `runMain` → yargs → API client → `globalThis.fetch`
  * stack with MSW standing in for the Cloudflare API.
  *
  * `zones list` is chosen as the harness exemplar because it's a plain
@@ -24,14 +24,14 @@ import { runCf } from "../helpers/run-cf.js";
  * injection, query-param forwarding, response-envelope unwrapping, and
  * JSON stdout formatting.
  *
- * The SDK is pointed at a stable test origin via `CLOUDFLARE_API_BASE_URL`
+ * The client is pointed at a stable test origin via `CLOUDFLARE_API_BASE_URL`
  * (honoured by `createCommandClient`) and authenticated with a fake
  * `CLOUDFLARE_API_TOKEN`. `runInTempDir` isolates HOME/XDG so a
  * developer's real stored OAuth token can't substitute for the env
  * token under test.
  *
  * NOTE: these are unit tests — the MSW server is configured with
- * `onUnhandledRequest: "error"`, so any request that escapes the mocks
+ * `onUnhandledFrame: "error"`, so any request that escapes the mocks
  * (i.e. a real call to api.cloudflare.com) fails the test loudly rather
  * than silently hitting the network.
  */
@@ -227,7 +227,7 @@ describe("cf zones list (network)", () => {
 
 	it("--dry-run prints the planned request without hitting the network", async () => {
 		// No handler registered: if --dry-run made a request, the
-		// onUnhandledRequest:"error" guard would fail the test.
+		// onUnhandledFrame:"error" guard would fail the test.
 		const { exitCode } = await runCf(
 			["zones", "list", "--status", "active", "--dry-run"],
 			ENV

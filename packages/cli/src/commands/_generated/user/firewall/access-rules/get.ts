@@ -1,6 +1,6 @@
+import operation from "../../../_operations/user/firewall/access-rules/get.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * get command
  * @generated from apis/overlays/user.ts
@@ -31,8 +31,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"ip-access-rules-for-a-user-get-an-ip-access-rule">;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "get <rule-id>",
 	describe: "Get an IP Access rule",
@@ -60,9 +58,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				const client = await createCommandClient(argv);
 
 				const result = await withProgress(`Loading`, async () =>
-					client.user.firewall.accessRules.get({
-						rule_id: argv["rule-id"],
-					} satisfies Request)
+					client.send(operation, { rule_id: argv["rule-id"] })
 				);
 				formatOutput(result, { successLabel: `Loaded` });
 			}

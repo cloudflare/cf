@@ -1,6 +1,6 @@
+import operation from "../../_operations/tunnels/connections/cleanup.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkQuery, SdkRequest } from "#sdk";
 /**
  * cleanup command
  * @generated from apis/overlays/tunnels.ts
@@ -47,11 +47,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request =
-	SdkRequest<"cloudflare-tunnel-clean-up-cloudflare-tunnel-connections">;
-type Query =
-	SdkQuery<"cloudflare-tunnel-clean-up-cloudflare-tunnel-connections">;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "cleanup <tunnel-id>",
 	describe: "Clean up Cloudflare Tunnel connections",
@@ -67,7 +62,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
-				const queryParams: Query = {
+				const queryParams: Record<string, unknown> = {
 					client_id: argv["client-id"],
 				};
 				if (argv.dryRun) {
@@ -97,11 +92,11 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				}
 
 				const result = await withProgress(`Deleting`, async () =>
-					client.tunnels.connections.cleanup({
+					client.send(operation, {
 						account_id: accountId,
 						tunnel_id: argv["tunnel-id"],
 						...queryParams,
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Deleted` });
 			}

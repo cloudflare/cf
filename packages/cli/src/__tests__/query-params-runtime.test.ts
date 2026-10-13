@@ -1,5 +1,5 @@
 import { runInTempDir } from "@cloudflare/workers-utils/test-helpers";
-import { http, HttpResponse } from "msw";
+import { http, HttpResponse } from "msw/http";
 import { setupServer } from "msw/node";
 import {
 	afterAll,
@@ -18,7 +18,7 @@ import { runCf } from "./helpers/run-cf.js";
  * flag is present, and the ones the user didn't pass are `undefined`.
  * The dry-run preview therefore renders `"query": {}` for a no-filter
  * read, which looks alarming. This test proves that's purely cosmetic:
- * on the wire, the SDK's URL builder drops `undefined`/null/empty query
+ * on the wire, the client's URL builder drops `undefined`/null/empty query
  * values, so an all-`undefined` `params` produces NO query string.
  *
  * It also pins the dotted-wire-spelling fix at runtime: `--name-exact`
@@ -38,7 +38,7 @@ describe("query params on the wire", () => {
 	const server = setupServer();
 	let lastUrl: URL | undefined;
 
-	beforeAll(() => server.listen({ onUnhandledRequest: "error" }));
+	beforeAll(() => server.listen({ onUnhandledFrame: "error" }));
 	afterEach(() => {
 		server.resetHandlers();
 		lastUrl = undefined;

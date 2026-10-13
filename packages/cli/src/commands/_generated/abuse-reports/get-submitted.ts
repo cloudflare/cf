@@ -1,6 +1,6 @@
+import operation from "../_operations/abuse-reports/get-submitted.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * get-submitted command
  * @generated from apis/overlays/abuse-reports.ts
@@ -36,8 +36,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"GetSubmittedAbuseReport">;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "get-submitted <report-id>",
 	describe: "Get a submitted abuse report",
@@ -68,10 +66,10 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.accountId = accountId;
 
 				const result = await withProgress(`Loading`, async () =>
-					client.abuseReports.getSubmitted({
+					client.send(operation, {
 						account_id: accountId,
 						report_id: argv["report-id"],
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Loaded` });
 			}

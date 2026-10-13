@@ -1,5 +1,5 @@
+import $getbanners from "./get-banners.js";
 import $get from "./get.js";
-import $getBanners from "./getBanners.js";
 import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * results command group
@@ -14,7 +14,7 @@ const command: CommandModule<CommonYargsOptions> = {
 	builder: (yargs) => {
 		return yargs
 			.command($get)
-			.command($getBanners)
+			.command($getbanners)
 			.demandCommand(1, "Please specify a subcommand");
 	},
 

@@ -157,7 +157,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						client,
 						"PATCH",
 						`/accounts/${accountId}/one/integrations/${encodeURIComponent(String(argv["id"]))}`,
-						{ body: Object.keys(bodyData).length > 0 ? bodyData : undefined }
+						{ body: bodyData }
 					)
 				);
 				formatOutput(result, { successLabel: `Updated` });

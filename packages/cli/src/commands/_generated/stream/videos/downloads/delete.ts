@@ -1,6 +1,6 @@
+import operation from "../../../_operations/stream/videos/downloads/delete.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * delete command
  * @generated from apis/overlays/stream.ts
@@ -49,8 +49,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"stream-downloads-delete-type-specific-downloads">;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "delete <download-type>",
 	describe: "Delete download",
@@ -95,11 +93,11 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				}
 
 				const result = await withProgress(`Deleting`, async () =>
-					client.stream.videos.downloads.delete({
+					client.send(operation, {
 						account_id: accountId,
 						identifier: argv["identifier"],
 						download_type: argv["download-type"],
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Deleted` });
 			}

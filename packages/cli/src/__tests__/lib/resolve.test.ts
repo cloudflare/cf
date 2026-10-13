@@ -102,7 +102,7 @@ describe("isValidDomainName", () => {
 });
 
 /**
- * Build a fake SDK client whose `zones.list` filters the supplied zones by name
+ * Build a fake client whose zone listing filters the supplied zones by name
  * and records how many times it was called (to assert caching).
  */
 function fakeClient(zones: Array<{ id: string; name: string }>): {
@@ -111,13 +111,11 @@ function fakeClient(zones: Array<{ id: string; name: string }>): {
 } {
 	let calls = 0;
 	const client = {
-		zones: {
-			list: async (request: { name: string }) => {
-				calls++;
-				return {
-					result: zones.filter((zone) => zone.name === request.name),
-				};
-			},
+		send: async (_operation: unknown, request: { name: string }) => {
+			calls++;
+			return {
+				result: zones.filter((zone) => zone.name === request.name),
+			};
 		},
 	} as unknown as Cloudflare;
 	return { client, calls: () => calls };
@@ -187,7 +185,7 @@ describe("resolveZoneId", () => {
 	it("does not consult the cache for ID inputs", async () => {
 		const spy = vi.fn();
 		const client = {
-			zones: { list: spy },
+			send: spy,
 		} as unknown as Cloudflare;
 		await resolveZoneId(
 			client,

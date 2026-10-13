@@ -74,17 +74,3 @@ export type RemoveIndex<T> = {
  */
 export type InferArgs<Builder extends (y: never) => Argv> =
 	ReturnType<Builder> extends Argv<infer P> ? RemoveIndex<P> : never;
-
-/**
- * Refine selected inferred yargs fields for a typed SDK request.
- * Runtime behavior is unchanged; the returned builder is the same function.
- */
-export function withArgTypes<Overrides, Builder extends (yargs: never) => Argv>(
-	builder: Builder
-): (
-	yargs: Parameters<Builder>[0]
-) => Argv<Omit<InferArgs<Builder>, keyof Overrides> & Overrides> {
-	return builder as unknown as (
-		yargs: Parameters<Builder>[0]
-	) => Argv<Omit<InferArgs<Builder>, keyof Overrides> & Overrides>;
-}

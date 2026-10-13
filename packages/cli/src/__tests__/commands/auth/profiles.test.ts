@@ -7,9 +7,8 @@ import {
 	mockConsoleMethods,
 	runInTempDir,
 } from "@cloudflare/workers-utils/test-helpers";
-import { http, HttpResponse } from "msw";
-import { getGlobalDispatcher, MockAgent, setGlobalDispatcher } from "undici";
-import { afterAll, beforeAll, describe, expect, it, vi } from "vite-plus/test";
+import { http, HttpResponse } from "msw/http";
+import { beforeEach, describe, expect, it, vi } from "vite-plus/test";
 import { server, setupMsw, TEST_BASE_URL } from "../../helpers/msw.js";
 import { runCf } from "../../helpers/run-cf.js";
 
@@ -28,8 +27,6 @@ describe("cf auth profiles", () => {
 	runInTempDir();
 	setupMsw();
 	const std = mockConsoleMethods();
-	const mockAgent = new MockAgent();
-	const previousDispatcher = getGlobalDispatcher();
 	const store = createCfProfileStore({
 		logger: {
 			debug: () => {},
@@ -40,19 +37,13 @@ describe("cf auth profiles", () => {
 		},
 	});
 
-	beforeAll(() => {
-		mockAgent.disableNetConnect();
-		mockAgent
-			.get("https://dash.cloudflare.com")
-			.intercept({ path: "/oauth2/revoke", method: "POST" })
-			.reply(200, "")
-			.persist();
-		setGlobalDispatcher(mockAgent);
-	});
-
-	afterAll(async () => {
-		setGlobalDispatcher(previousDispatcher);
-		await mockAgent.close();
+	beforeEach(() => {
+		server.use(
+			http.post(
+				"https://dash.cloudflare.com/oauth2/revoke",
+				() => new HttpResponse("")
+			)
+		);
 	});
 
 	it("activates, lists, and deactivates a named profile", async () => {

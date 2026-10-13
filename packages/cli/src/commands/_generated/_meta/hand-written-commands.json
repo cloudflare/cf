@@ -289,7 +289,7 @@
 			"hasRequestBody": true,
 			"httpMethod": "POST",
 			"apiPath": "/accounts/{account_id}/ai/run",
-			"operationId": "workers-ai-post-run-generic",
+			"operationId": "ai.run",
 			"hideCommand": false,
 			"handWritten": {
 				"kind": "leafOverride",
@@ -1176,6 +1176,38 @@
 			}
 		},
 		{
+			"command": "cf docs search",
+			"name": "search",
+			"fullPath": ["docs", "search"],
+			"category": "read",
+			"description": "Search live Cloudflare documentation, guides, tutorials, and examples. Returns up to five ranked JSON results with title, description, and url. No Cloudflare login is required. Fetch a result's URL with Accept: text/markdown to read the full page as Markdown.",
+			"summary": "Search live Cloudflare documentation, guides, tutorials, and examples",
+			"usage": "cf docs search <query>",
+			"arguments": [
+				{
+					"name": "query",
+					"position": 0,
+					"type": "string",
+					"required": true,
+					"description": "Search terms or a question about Cloudflare"
+				}
+			],
+			"options": [
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Parse arguments and show the command without executing it",
+					"default": false
+				}
+			],
+			"handWritten": {
+				"kind": "root",
+				"overrides": false,
+				"dir": "docs"
+			}
+		},
+		{
 			"command": "cf init",
 			"name": "init",
 			"fullPath": ["init"],
@@ -1458,7 +1490,7 @@
 			"hasRequestBody": true,
 			"httpMethod": "POST",
 			"apiPath": "/accounts/{account_id}/registrar/registrations",
-			"operationId": "registrar-domain-registration-create",
+			"operationId": "registrar.registrations.create",
 			"hideCommand": false,
 			"handWritten": {
 				"kind": "leafOverride",
@@ -2014,6 +2046,7 @@
 		"workers versions": "Operations for versions",
 		"workers triggers": "Manage triggers (Routes, Workflows, Cron triggers etc.)",
 		"auth": "Manage authentication and profiles",
+		"docs": "Search live Cloudflare documentation",
 		"init": "Create a new Cloudflare project or set up an existing one",
 		"cli": "Discover commands and configure the cf CLI"
 	}

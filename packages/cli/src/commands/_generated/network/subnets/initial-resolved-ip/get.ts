@@ -1,6 +1,6 @@
+import operation from "../../../_operations/network/subnets/initial-resolved-ip/get.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * get command
  * @generated from apis/overlays/network.ts
@@ -36,8 +36,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"zero-trust-networks-subnet-get-initial-resolved-ip">;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "get <address-family>",
 	describe: "Get Initial Resolved IP Subnet",
@@ -70,10 +68,10 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.accountId = accountId;
 
 				const result = await withProgress(`Loading`, async () =>
-					client.network.subnets.initialResolvedIp.get({
+					client.send(operation, {
 						account_id: accountId,
 						address_family: argv["address-family"],
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Loaded` });
 			}

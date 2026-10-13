@@ -1,6 +1,6 @@
+import operation from "../../_operations/d1/time-travel/get-bookmark.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkQuery, SdkRequest } from "#sdk";
 /**
  * get-bookmark command
  * @generated from apis/overlays/d1.ts
@@ -41,9 +41,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"d1-time-travel-get-bookmark">;
-type Query = SdkQuery<"d1-time-travel-get-bookmark">;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "get-bookmark <database-id>",
 	describe: "Get D1 database bookmark",
@@ -58,7 +55,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
-				const queryParams: Query = {
+				const queryParams: Record<string, unknown> = {
 					timestamp: argv["timestamp"],
 				};
 				if (argv.dryRun) {
@@ -78,11 +75,11 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.accountId = accountId;
 
 				const result = await withProgress(`Loading`, async () =>
-					client.d1.timeTravel.getBookmark({
+					client.send(operation, {
 						account_id: accountId,
 						database_id: argv["database-id"],
 						...queryParams,
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Loaded` });
 			}

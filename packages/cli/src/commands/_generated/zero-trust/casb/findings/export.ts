@@ -1,6 +1,6 @@
+import operation from "../../../_operations/zero-trust/casb/findings/export.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * export command
  * @generated from apis/overlays/zero-trust.ts
@@ -73,9 +73,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"CreateFindingExportCSV">;
-type Body = Request;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "export",
 	describe: "Create new findings export request",
@@ -131,19 +128,16 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.accountId = accountId;
 
 				if (argv.body) {
-					const bodyData = parseBody<Request>(argv.body);
+					const bodyData = parseBody(argv.body);
 					const result = await withProgress(`Loading`, async () =>
-						client.zeroTrust.casb.findings.export({
-							...bodyData,
-							account_id: accountId,
-						} satisfies Request)
+						client.send(operation, { body: bodyData, account_id: accountId })
 					);
 					formatOutput(result, { successLabel: `Loaded` });
 					return;
 				}
 
 				// Assemble request body from individual flags
-				const bodyData = compactBody<Body>({
+				const bodyData = compactBody({
 					ignored: argv["ignored"],
 					integration_id: argv["integration-id"],
 					max_affliction_date: resolveFileToken(
@@ -166,10 +160,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					vendors: argv["vendors"],
 				});
 				const result = await withProgress(`Loading`, async () =>
-					client.zeroTrust.casb.findings.export({
-						...bodyData,
-						account_id: accountId,
-					} satisfies Request)
+					client.send(operation, { body: bodyData, account_id: accountId })
 				);
 				formatOutput(result, { successLabel: `Loaded` });
 			}

@@ -1,6 +1,6 @@
+import operation from "../../../_operations/addressing/prefixes/delegations/delete.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * delete command
  * @generated from apis/overlays/addressing.ts
@@ -48,9 +48,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request =
-	SdkRequest<"ip-address-management-prefix-delegation-delete-prefix-delegation">;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "delete <delegation-id>",
 	describe: "Delete Prefix Delegation",
@@ -73,8 +70,8 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						method: "DELETE",
 						url: `https://api.cloudflare.com/client/v4/accounts/${__cfDryRunAccountId ?? "<account-id>"}/addressing/prefixes/${argv["prefix-id"] == null ? "<prefix-id>" : encodeURIComponent(String(argv["prefix-id"]))}/delegations/${argv["delegation-id"] == null ? "<delegation-id>" : encodeURIComponent(String(argv["delegation-id"]))}`,
 						pathParams: {
-							"delegation-id": String(argv["delegation-id"] ?? ""),
 							"prefix-id": String(argv["prefix-id"] ?? ""),
+							"delegation-id": String(argv["delegation-id"] ?? ""),
 						},
 						bodyKind: "none",
 					});
@@ -90,11 +87,11 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				}
 
 				const result = await withProgress(`Deleting`, async () =>
-					client.addressing.prefixes.delegations.delete({
+					client.send(operation, {
 						account_id: accountId,
 						prefix_id: argv["prefix-id"],
 						delegation_id: argv["delegation-id"],
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Deleted` });
 			}

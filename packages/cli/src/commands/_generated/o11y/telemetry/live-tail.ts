@@ -1,3 +1,4 @@
+import operation from "../../_operations/o11y/telemetry/live-tail.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
@@ -8,15 +9,9 @@ import type { Argv, CommandModule } from "yargs";
 import {
 	createCommandClient,
 	getAccountId,
-	requestApi,
 	resolveAccountIdSilent,
 } from "#lib/auth.js";
-import {
-	compactBody,
-	parseBody,
-	parseObjectArray,
-	setNestedValue,
-} from "#lib/body-parser.js";
+import { compactBody, parseBody, parseObjectArray } from "#lib/body-parser.js";
 import { formatDryRun } from "#lib/dry-run.js";
 import { resolveFileToken } from "#lib/input-validation.js";
 import { LOCAL_ACCOUNT_ID } from "#lib/local.js";
@@ -102,48 +97,24 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				if (argv.body) {
 					const bodyData = parseBody(argv.body);
 					const result = await withProgress(`Creating`, async () =>
-						requestApi<unknown>(
-							client,
-							"POST",
-							`/accounts/${accountId}/workers/observability/telemetry/live-tail`,
-							{ body: bodyData }
-						)
+						client.send(operation, { body: bodyData, account_id: accountId })
 					);
 					formatOutput(result, { successLabel: `Created` });
 					return;
 				}
 
 				// Assemble request body from individual flags
-				const bodyData: Record<string, unknown> = {};
-				if (argv["filter-combination"] !== undefined)
-					setNestedValue(
-						bodyData,
-						["filterCombination"],
-						argv["filter-combination"]
-					);
-				if (argv["filters"] !== undefined)
-					setNestedValue(
-						bodyData,
-						["filters"],
-						parseObjectArray(argv["filters"], "filters")
-					);
-				if (argv["script-id"] !== undefined)
-					setNestedValue(
-						bodyData,
-						["scriptId"],
-						resolveFileToken(
-							argv["script-id"] as string | undefined,
-							"script-id",
-							"text"
-						)
-					);
+				const bodyData = compactBody({
+					filterCombination: argv["filter-combination"],
+					filters: parseObjectArray(argv["filters"], "filters"),
+					scriptId: resolveFileToken(
+						argv["script-id"] as string | undefined,
+						"script-id",
+						"text"
+					),
+				});
 				const result = await withProgress(`Creating`, async () =>
-					requestApi<unknown>(
-						client,
-						"POST",
-						`/accounts/${accountId}/workers/observability/telemetry/live-tail`,
-						{ body: Object.keys(bodyData).length > 0 ? bodyData : undefined }
-					)
+					client.send(operation, { body: bodyData, account_id: accountId })
 				);
 				formatOutput(result, { successLabel: `Created` });
 			}

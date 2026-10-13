@@ -1,6 +1,6 @@
+import operation from "../../../../../../_operations/magic-transit/advanced-tcp-protection/configs/syn/protection/filters/update.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * update command
  * @generated from apis/overlays/magic-transit.ts
@@ -46,9 +46,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"updateSynProtectionFilter">;
-type Body = Request["body"];
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "update <filter-id>",
 	describe: "Update SYN Protection filter.",
@@ -91,22 +88,20 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.accountId = accountId;
 
 				if (argv.body) {
-					const bodyData = parseBody<Request["body"]>(argv.body);
+					const bodyData = parseBody(argv.body);
 					const result = await withProgress(`Updating`, async () =>
-						client.magicTransit.advancedTcpProtection.configs.syn.protection.filters.update(
-							{
-								body: bodyData,
-								account_id: accountId,
-								filter_id: argv["filter-id"],
-							} satisfies Request
-						)
+						client.send(operation, {
+							body: bodyData,
+							account_id: accountId,
+							filter_id: argv["filter-id"],
+						})
 					);
 					formatOutput(result, { successLabel: `Updated` });
 					return;
 				}
 
 				// Assemble request body from individual flags
-				const bodyData = compactBody<Body>({
+				const bodyData = compactBody({
 					expression: resolveFileToken(
 						argv["expression"] as string | undefined,
 						"expression",
@@ -114,13 +109,11 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					),
 				});
 				const result = await withProgress(`Updating`, async () =>
-					client.magicTransit.advancedTcpProtection.configs.syn.protection.filters.update(
-						{
-							body: bodyData,
-							account_id: accountId,
-							filter_id: argv["filter-id"],
-						} satisfies Request
-					)
+					client.send(operation, {
+						body: bodyData,
+						account_id: accountId,
+						filter_id: argv["filter-id"],
+					})
 				);
 				formatOutput(result, { successLabel: `Updated` });
 			}

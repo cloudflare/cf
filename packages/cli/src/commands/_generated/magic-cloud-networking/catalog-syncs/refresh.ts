@@ -1,6 +1,6 @@
+import operation from "../../_operations/magic-cloud-networking/catalog-syncs/refresh.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * refresh command
  * @generated from apis/overlays/magic-cloud-networking.ts
@@ -36,8 +36,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"catalog-syncs-refresh">;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "refresh <sync-id>",
 	describe: "Run Catalog Sync",
@@ -68,10 +66,10 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.accountId = accountId;
 
 				const result = await withProgress(`Creating`, async () =>
-					client.magicCloudNetworking.catalogSyncs.refresh({
+					client.send(operation, {
 						account_id: accountId,
 						sync_id: argv["sync-id"],
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Created` });
 			}

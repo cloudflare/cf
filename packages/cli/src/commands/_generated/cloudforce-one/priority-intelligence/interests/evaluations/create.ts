@@ -1,6 +1,6 @@
+import operation from "../../../../_operations/cloudforce-one/priority-intelligence/interests/evaluations/create.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * create command
  * @generated from apis/overlays/cloudforce-one.ts
@@ -68,9 +68,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"post_PirInterestEvaluationCreate">;
-type Body = Request;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "create",
 	describe: "Evaluate recent event-dated changes for account interests",
@@ -124,18 +121,16 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.accountId = accountId;
 
 				if (argv.body) {
-					const bodyData = parseBody<Request>(argv.body);
+					const bodyData = parseBody(argv.body);
 					const result = await withProgress(`Creating`, async () =>
-						client.cloudforceOne.priorityIntelligence.interests.evaluations.create(
-							{ ...bodyData, account_id: accountId } satisfies Request
-						)
+						client.send(operation, { body: bodyData, account_id: accountId })
 					);
 					formatOutput(result, { successLabel: `Created` });
 					return;
 				}
 
 				// Assemble request body from individual flags
-				const bodyData = compactBody<Body>({
+				const bodyData = compactBody({
 					as_of: resolveFileToken(
 						argv["as-of"] as string | undefined,
 						"as-of",
@@ -152,9 +147,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					window_days: argv["window-days"],
 				});
 				const result = await withProgress(`Creating`, async () =>
-					client.cloudforceOne.priorityIntelligence.interests.evaluations.create(
-						{ ...bodyData, account_id: accountId } satisfies Request
-					)
+					client.send(operation, { body: bodyData, account_id: accountId })
 				);
 				formatOutput(result, { successLabel: `Created` });
 			}

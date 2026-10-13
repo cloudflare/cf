@@ -1,6 +1,6 @@
+import operation from "../../_operations/network/routes/resolve.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkQuery, SdkRequest } from "#sdk";
 /**
  * resolve command
  * @generated from apis/overlays/network.ts
@@ -45,9 +45,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"tunnel-route-get-tunnel-route-by-ip">;
-type Query = SdkQuery<"tunnel-route-get-tunnel-route-by-ip">;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "resolve <ip>",
 	describe: "Get tunnel route by IP",
@@ -62,7 +59,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
-				const queryParams: Query = {
+				const queryParams: Record<string, unknown> = {
 					virtual_network_id: argv["virtual-network-id"],
 					default_virtual_network_fallback:
 						argv["default-virtual-network-fallback"],
@@ -84,11 +81,11 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.accountId = accountId;
 
 				const result = await withProgress(`Loading`, async () =>
-					client.network.routes.resolve({
+					client.send(operation, {
 						account_id: accountId,
 						ip: argv["ip"],
 						...queryParams,
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Loaded` });
 			}

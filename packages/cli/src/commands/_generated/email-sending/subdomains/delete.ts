@@ -1,6 +1,6 @@
+import operation from "../../_operations/email-sending/subdomains/delete.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * delete command
  * @generated from apis/overlays/email-sending.ts
@@ -38,8 +38,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"email-sending-subdomains-delete-sending-subdomain">;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "delete <subdomain-id>",
 	describe: "Delete a sending subdomain",
@@ -61,8 +59,8 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						method: "DELETE",
 						url: `https://api.cloudflare.com/client/v4/zones/${argv.zone ?? argv.zoneId ?? "<zone>"}/email/sending/subdomains/${argv["subdomain-id"] == null ? "<subdomain-id>" : encodeURIComponent(String(argv["subdomain-id"]))}`,
 						pathParams: {
-							"subdomain-id": String(argv["subdomain-id"] ?? ""),
 							"zone-id": String(argv.zone ?? argv["zone-id"] ?? ""),
+							"subdomain-id": String(argv["subdomain-id"] ?? ""),
 						},
 						bodyKind: "none",
 					});
@@ -85,10 +83,10 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				}
 
 				const result = await withProgress(`Deleting`, async () =>
-					client.emailSending.subdomains.delete({
+					client.send(operation, {
 						zone_id: zoneId,
 						subdomain_id: argv["subdomain-id"],
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Deleted` });
 			}

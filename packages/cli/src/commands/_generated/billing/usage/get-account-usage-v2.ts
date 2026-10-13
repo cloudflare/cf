@@ -1,6 +1,6 @@
+import operation from "../../_operations/billing/usage/get-account-usage-v2.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkQuery, SdkRequest } from "#sdk";
 /**
  * get-account-usage-v2 command
  * @generated from apis/overlays/billing.ts
@@ -41,9 +41,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"billable-usage-v2-get-account-usage">;
-type Query = SdkQuery<"billable-usage-v2-get-account-usage">;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "get-account-usage-v2",
 	describe: "Get Account Usage (Version 2, Alpha, Restricted)",
@@ -58,7 +55,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
-				const queryParams: Query = {
+				const queryParams: Record<string, unknown> = {
 					from: argv["from"],
 					to: argv["to"],
 				};
@@ -79,10 +76,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.accountId = accountId;
 
 				const result = await withProgress(`Loading`, async () =>
-					client.billing.usage.getAccountUsageV2({
-						account_id: accountId,
-						...queryParams,
-					} satisfies Request)
+					client.send(operation, { account_id: accountId, ...queryParams })
 				);
 				formatOutput(result, { successLabel: `Loaded` });
 			}

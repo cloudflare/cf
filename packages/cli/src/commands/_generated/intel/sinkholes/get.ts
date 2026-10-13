@@ -1,6 +1,6 @@
+import operation from "../../_operations/intel/sinkholes/get.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * get command
  * @generated from apis/overlays/intel.ts
@@ -36,8 +36,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"sinkhole-config-get-sinkhole">;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "get <sinkhole-id>",
 	describe: "Get a sinkhole",
@@ -68,10 +66,10 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.accountId = accountId;
 
 				const result = await withProgress(`Loading`, async () =>
-					client.intel.sinkholes.get({
+					client.send(operation, {
 						account_id: accountId,
 						sinkhole_id: argv["sinkhole-id"],
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Loaded` });
 			}

@@ -1,6 +1,6 @@
+import operation from "../../../../_operations/api-security/schema-validation/settings/operations/get.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * get command
  * @generated from apis/overlays/api-security.ts
@@ -30,8 +30,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 }
 
 type Args = InferArgs<typeof builder>;
-
-type Request = SdkRequest<"schema-validation-get-per-operation-setting">;
 
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "get <operation-id>",
@@ -68,10 +66,10 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.zoneId = zoneId;
 
 				const result = await withProgress(`Loading`, async () =>
-					client.apiSecurity.schemaValidation.settings.operations.get({
+					client.send(operation, {
 						zone_id: zoneId,
 						operation_id: argv["operation-id"],
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Loaded` });
 			}

@@ -1,6 +1,6 @@
+import operation from "../../_operations/magic-network-monitoring/configs/delete.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * delete command
  * @generated from apis/overlays/magic-network-monitoring.ts
@@ -38,9 +38,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request =
-	SdkRequest<"magic-network-monitoring-configuration-delete-account-configuration">;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "delete",
 	describe: "Delete account configuration",
@@ -77,9 +74,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				}
 
 				const result = await withProgress(`Deleting`, async () =>
-					client.magicNetworkMonitoring.configs.delete({
-						account_id: accountId,
-					} satisfies Request)
+					client.send(operation, { account_id: accountId })
 				);
 				formatOutput(result, { successLabel: `Deleted` });
 			}

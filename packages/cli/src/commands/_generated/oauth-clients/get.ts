@@ -1,6 +1,6 @@
+import operation from "../_operations/oauth-clients/get.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * get command
  * @generated from apis/overlays/oauth-clients.ts
@@ -36,8 +36,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"oauth-clients-get">;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "get <oauth-client-id>",
 	describe: "OAuth Client Details",
@@ -70,10 +68,10 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.accountId = accountId;
 
 				const result = await withProgress(`Loading`, async () =>
-					client.oauthClients.get({
+					client.send(operation, {
 						account_id: accountId,
 						oauth_client_id: argv["oauth-client-id"],
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Loaded` });
 			}

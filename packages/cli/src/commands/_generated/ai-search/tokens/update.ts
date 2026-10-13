@@ -1,6 +1,5 @@
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * update command
  * @generated from apis/overlays/ai-search.ts
@@ -9,9 +8,10 @@ import type { Argv, CommandModule } from "yargs";
 import {
 	createCommandClient,
 	getAccountId,
+	requestApi,
 	resolveAccountIdSilent,
 } from "#lib/auth.js";
-import { compactBody, parseBody } from "#lib/body-parser.js";
+import { compactBody, parseBody, setNestedValue } from "#lib/body-parser.js";
 import { formatDryRun } from "#lib/dry-run.js";
 import { resolveFileToken } from "#lib/input-validation.js";
 import { LOCAL_ACCOUNT_ID } from "#lib/local.js";
@@ -52,9 +52,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 }
 
 type Args = InferArgs<typeof builder>;
-
-type Request = SdkRequest<"ai-search-update-tokens">;
-type Body = Request;
 
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "update <token-id>",
@@ -108,13 +105,14 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.accountId = accountId;
 
 				if (argv.body) {
-					const bodyData = parseBody<Request>(argv.body);
+					const bodyData = parseBody(argv.body);
 					const result = await withProgress(`Updating`, async () =>
-						client.aiSearch.tokens.update({
-							...bodyData,
-							account_id: accountId,
-							"token-id": argv["token-id"],
-						} satisfies Request)
+						requestApi<unknown>(
+							client,
+							"PUT",
+							`/accounts/${accountId}/ai-search/tokens/${encodeURIComponent(String(argv["token-id"]))}`,
+							{ body: bodyData }
+						)
 					);
 					formatOutput(result, { successLabel: `Updated` });
 					return;
@@ -137,30 +135,42 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				}
 
 				// Assemble request body from individual flags
-				const bodyData = compactBody<Body>({
-					cf_api_id: resolveFileToken(
-						argv["api-token-id"] as string | undefined,
-						"api-token-id",
-						"text"
-					),
-					cf_api_key: resolveFileToken(
-						argv["api-token"] as string | undefined,
-						"api-token",
-						"text"
-					),
-					legacy: argv["legacy"],
-					name: resolveFileToken(
-						argv["name"] as string | undefined,
-						"name",
-						"text"
-					),
-				});
+				const bodyData: Record<string, unknown> = {};
+				if (argv["api-token-id"] !== undefined)
+					setNestedValue(
+						bodyData,
+						["cf_api_id"],
+						resolveFileToken(
+							argv["api-token-id"] as string | undefined,
+							"api-token-id",
+							"text"
+						)
+					);
+				if (argv["api-token"] !== undefined)
+					setNestedValue(
+						bodyData,
+						["cf_api_key"],
+						resolveFileToken(
+							argv["api-token"] as string | undefined,
+							"api-token",
+							"text"
+						)
+					);
+				if (argv["legacy"] !== undefined)
+					setNestedValue(bodyData, ["legacy"], argv["legacy"]);
+				if (argv["name"] !== undefined)
+					setNestedValue(
+						bodyData,
+						["name"],
+						resolveFileToken(argv["name"] as string | undefined, "name", "text")
+					);
 				const result = await withProgress(`Updating`, async () =>
-					client.aiSearch.tokens.update({
-						...bodyData,
-						account_id: accountId,
-						"token-id": argv["token-id"],
-					} satisfies Request)
+					requestApi<unknown>(
+						client,
+						"PUT",
+						`/accounts/${accountId}/ai-search/tokens/${encodeURIComponent(String(argv["token-id"]))}`,
+						{ body: bodyData }
+					)
 				);
 				formatOutput(result, { successLabel: `Updated` });
 			}

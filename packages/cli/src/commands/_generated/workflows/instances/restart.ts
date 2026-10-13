@@ -1,6 +1,6 @@
+import operation from "../../_operations/workflows/instances/restart.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * restart command
  * @generated from apis/overlays/workflows.ts
@@ -97,9 +97,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"wor-change-status-workflow-instance">;
-type Body = Request["body"];
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "restart <instance-id>",
 	describe: "Change status of instance",
@@ -149,14 +146,14 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.accountId = accountId;
 
 				if (argv.body) {
-					const bodyData = parseBody<Request["body"]>(argv.body);
+					const bodyData = parseBody(argv.body);
 					const result = await withProgress(`Updating`, async () =>
-						client.workflows.instances.status.edit({
+						client.send(operation, {
 							body: bodyData,
 							account_id: accountId,
 							workflow_name: argv["workflow-name"],
 							instance_id: argv["instance-id"],
-						} satisfies Request)
+						})
 					);
 					formatOutput(result, { successLabel: `Updated` });
 					return;
@@ -170,7 +167,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				}
 
 				// Assemble request body from individual flags
-				const bodyData = compactBody<Body>({
+				const bodyData = compactBody({
 					status: argv["status"],
 					rollback: argv["rollback"],
 					from: {
@@ -184,12 +181,12 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					},
 				});
 				const result = await withProgress(`Updating`, async () =>
-					client.workflows.instances.status.edit({
+					client.send(operation, {
 						body: bodyData,
 						account_id: accountId,
 						workflow_name: argv["workflow-name"],
 						instance_id: argv["instance-id"],
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Updated` });
 			}

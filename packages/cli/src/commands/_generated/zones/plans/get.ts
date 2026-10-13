@@ -1,6 +1,6 @@
+import operation from "../../_operations/zones/plans/get.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * get command
  * @generated from apis/overlays/zones.ts
@@ -31,8 +31,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"zone-rate-plan-available-plan-details">;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "get <plan-identifier>",
 	describe: "Available Plan Details",
@@ -53,8 +51,8 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						method: "GET",
 						url: `https://api.cloudflare.com/client/v4/zones/${argv.zone ?? argv.zoneId ?? "<zone>"}/available_plans/${argv["plan-identifier"] == null ? "<plan-identifier>" : encodeURIComponent(String(argv["plan-identifier"]))}`,
 						pathParams: {
-							"plan-identifier": String(argv["plan-identifier"] ?? ""),
 							"zone-id": String(argv.zone ?? argv["zone-id"] ?? ""),
+							"plan-identifier": String(argv["plan-identifier"] ?? ""),
 						},
 						bodyKind: "none",
 					});
@@ -67,10 +65,10 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.zoneId = zoneId;
 
 				const result = await withProgress(`Loading`, async () =>
-					client.zones.plans.get({
+					client.send(operation, {
 						zone_id: zoneId,
 						plan_identifier: argv["plan-identifier"],
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Loaded` });
 			}

@@ -1,6 +1,6 @@
+import operation from "../../_operations/network/virtual-networks/get.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * get command
  * @generated from apis/overlays/network.ts
@@ -51,8 +51,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"tunnel-virtual-network-get">;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "get <virtual-network-id>",
 	describe: "Get a virtual network",
@@ -85,10 +83,10 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.accountId = accountId;
 
 				const result = await withProgress(`Loading`, async () =>
-					client.network.virtualNetworks.get({
+					client.send(operation, {
 						account_id: accountId,
 						virtual_network_id: argv["virtual-network-id"],
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Loaded` });
 			}

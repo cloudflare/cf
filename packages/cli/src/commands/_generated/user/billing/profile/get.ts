@@ -1,3 +1,4 @@
+import operation from "../../../_operations/user/billing/profile/get.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
@@ -52,7 +53,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				const client = await createCommandClient(argv);
 
 				const result = await withProgress(`Loading`, async () =>
-					client.user.billing.profile.get()
+					client.send(operation)
 				);
 				formatOutput(result, { successLabel: `Loaded` });
 			}

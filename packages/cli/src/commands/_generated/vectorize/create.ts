@@ -1,6 +1,6 @@
+import operation from "../_operations/vectorize/create.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * create command
  * @generated from apis/overlays/vectorize.ts
@@ -23,19 +23,19 @@ import { runWithTelemetry } from "#lib/telemetry/index.js";
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
 		.usage("$0 vectorize create\n\nCreates and returns a new Vectorize Index.")
-		.option("config-dimensions", {
+		.option("index-config-dimensions", {
 			type: "number",
 			description: "Specifies the number of dimensions for the index",
 		})
-		.option("config-metric", {
+		.option("index-config-metric", {
 			type: "string",
 			description: "Specifies the type of metric to use calculating distance.",
 			choices: ["cosine", "euclidean", "dot-product"],
 		})
-		.coerce("config-metric", (value) =>
-			resolveFileToken(value, "config-metric", "text")
+		.coerce("index-config-metric", (value) =>
+			resolveFileToken(value, "index-config-metric", "text")
 		)
-		.option("config-preset", {
+		.option("index-config-preset", {
 			type: "string",
 			description: "Specifies the preset to use for the index.",
 			choices: [
@@ -46,8 +46,8 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"cohere/embed-multilingual-v2.0",
 			],
 		})
-		.coerce("config-preset", (value) =>
-			resolveFileToken(value, "config-preset", "text")
+		.coerce("index-config-preset", (value) =>
+			resolveFileToken(value, "index-config-preset", "text")
 		)
 		.option("description", {
 			type: "string",
@@ -63,17 +63,17 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			type: "string",
 			description: "Raw JSON request body (bypasses individual flags)",
 		})
-		.conflicts("config-dimensions", ["config-preset"])
-		.implies("config-dimensions", ["config-metric"])
-		.conflicts("config-metric", ["config-preset"])
-		.implies("config-metric", ["config-dimensions"])
-		.conflicts("config-preset", ["config-dimensions", "config-metric"]);
+		.conflicts("index-config-dimensions", ["index-config-preset"])
+		.implies("index-config-dimensions", ["index-config-metric"])
+		.conflicts("index-config-metric", ["index-config-preset"])
+		.implies("index-config-metric", ["index-config-dimensions"])
+		.conflicts("index-config-preset", [
+			"index-config-dimensions",
+			"index-config-metric",
+		]);
 }
 
 type Args = InferArgs<typeof builder>;
-
-type Request = SdkRequest<"vectorize-create-vectorize-index">;
-type Body = Request["body"];
 
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "create",
@@ -84,7 +84,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			{
 				command: "vectorize create",
 				classification: {
-					safeFlags: ["config-metric", "config-preset", "dry-run"],
+					safeFlags: ["index-config-metric", "index-config-preset", "dry-run"],
 				} satisfies ArgClassification<Args>,
 			},
 			argv as Record<string, unknown>,
@@ -102,9 +102,9 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 								? parseBody(argv.body)
 								: compactBody({
 										config: {
-											dimensions: argv["config-dimensions"],
-											metric: argv["config-metric"],
-											preset: argv["config-preset"],
+											dimensions: argv["index-config-dimensions"],
+											metric: argv["index-config-metric"],
+											preset: argv["index-config-preset"],
 										},
 										description: resolveFileToken(
 											argv["description"] as string | undefined,
@@ -125,12 +125,9 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.accountId = accountId;
 
 				if (argv.body) {
-					const bodyData = parseBody<Request["body"]>(argv.body);
+					const bodyData = parseBody(argv.body);
 					const result = await withProgress(`Creating`, async () =>
-						client.vectorize.create({
-							body: bodyData,
-							account_id: accountId,
-						} satisfies Request)
+						client.send(operation, { body: bodyData, account_id: accountId })
 					);
 					formatOutput(result, { successLabel: `Created` });
 					return;
@@ -140,11 +137,11 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				}
 
 				// Assemble request body from individual flags
-				const bodyData = compactBody<Body>({
+				const bodyData = compactBody({
 					config: {
-						dimensions: argv["config-dimensions"],
-						metric: argv["config-metric"],
-						preset: argv["config-preset"],
+						dimensions: argv["index-config-dimensions"],
+						metric: argv["index-config-metric"],
+						preset: argv["index-config-preset"],
 					},
 					description: resolveFileToken(
 						argv["description"] as string | undefined,
@@ -158,10 +155,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					),
 				});
 				const result = await withProgress(`Creating`, async () =>
-					client.vectorize.create({
-						body: bodyData,
-						account_id: accountId,
-					} satisfies Request)
+					client.send(operation, { body: bodyData, account_id: accountId })
 				);
 				formatOutput(result, { successLabel: `Created` });
 			}

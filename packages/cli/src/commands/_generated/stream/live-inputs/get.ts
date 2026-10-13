@@ -1,6 +1,6 @@
+import operation from "../../_operations/stream/live-inputs/get.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * get command
  * @generated from apis/overlays/stream.ts
@@ -36,8 +36,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"stream-live-inputs-retrieve-a-live-input">;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "get <live-input-identifier>",
 	describe: "Retrieve a live input",
@@ -72,10 +70,10 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.accountId = accountId;
 
 				const result = await withProgress(`Loading`, async () =>
-					client.stream.liveInputs.get({
+					client.send(operation, {
 						account_id: accountId,
 						live_input_identifier: argv["live-input-identifier"],
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Loaded` });
 			}

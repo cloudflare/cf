@@ -10,6 +10,7 @@ import {
 	rootCommandName,
 	rootHandWrittenCommands,
 } from "./commands/hand-written.js";
+import { loadableRootCommands } from "./commands/root-commands.js";
 import { detectAgentContext } from "./lib/agent-context.js";
 import { hasQuietFlag } from "./lib/args.js";
 import { CliExit } from "./lib/cli-exit.js";
@@ -122,7 +123,7 @@ function globalFlagTakesValue(arg: string, nextArg?: string): boolean {
  * metadata, etc. The `describe` string is supplied eagerly so help
  * output works without dynamically importing the underlying module.
  */
-const handWrittenRoots = rootHandWrittenCommands().map((command) =>
+const handWrittenRoots = loadableRootCommands().map((command) =>
 	withHandWrittenDryRun(
 		lazyCommand(
 			command.command,
@@ -142,12 +143,14 @@ const AGENT_DISCOVERY_HELP = [
 	"=== STOP: AGENT COMMAND DISCOVERY ===",
 	"AGENTS: Do not explore commands by chaining nested --help calls.",
 	"Your first port of call and the best way to discover commands is:",
-	"AGENTS: Keep cf cli search queries anonymous; describe the action and resource type only.",
+	"AGENTS: Keep cf cli search and cf docs search queries anonymous; describe the action and resource type only.",
 	"Never include names, email addresses, domains, account or resource IDs, tokens, or other identifying values.",
 	'  cf cli search "<describe the task you want to accomplish>"',
 	"It returns five compact JSON matches with short descriptions. Pick the best match instead of repeating similar searches.",
 	"Run `<discovered command> --help` for detailed command help.",
 	"For API request details, replace the result's leading `cf` with `cf schema`.",
+	'For Cloudflare documentation, guides, and examples, use cf docs search "<question>".',
+	"It returns ranked JSON results. Fetch a result's URL with Accept: text/markdown to read the full page.",
 	"=== END AGENT COMMAND DISCOVERY ===",
 ].join("\n");
 

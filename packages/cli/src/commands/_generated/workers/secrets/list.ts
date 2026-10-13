@@ -1,6 +1,6 @@
+import operation from "../../_operations/workers/secrets/list.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * list command
  * @generated from apis/overlays/workers.ts
@@ -37,8 +37,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"worker-list-script-secrets">;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "list",
 	describe: "List secrets bound to a Worker script",
@@ -71,10 +69,10 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv["worker"] = scriptName;
 
 				const result = await withProgress(`Loading`, async () =>
-					client.workers.secrets.list({
+					client.send(operation, {
 						account_id: accountId,
 						script_name: scriptName,
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Loaded` });
 			}

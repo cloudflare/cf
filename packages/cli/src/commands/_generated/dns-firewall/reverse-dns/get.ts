@@ -1,6 +1,6 @@
+import operation from "../../_operations/dns-firewall/reverse-dns/get.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * get command
  * @generated from apis/overlays/dns-firewall.ts
@@ -36,8 +36,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"dns-firewall-show-dns-firewall-cluster-reverse-dns">;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "get <dns-firewall-id>",
 	describe: "Show DNS Firewall Cluster Reverse DNS",
@@ -70,10 +68,10 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.accountId = accountId;
 
 				const result = await withProgress(`Loading`, async () =>
-					client.dnsFirewall.reverseDns.get({
+					client.send(operation, {
 						account_id: accountId,
 						dns_firewall_id: argv["dns-firewall-id"],
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Loaded` });
 			}

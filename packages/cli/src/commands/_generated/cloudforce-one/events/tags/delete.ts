@@ -1,6 +1,6 @@
+import operation from "../../../_operations/cloudforce-one/events/tags/delete.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * delete command
  * @generated from apis/overlays/cloudforce-one.ts
@@ -43,8 +43,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"delete_TagDelete">;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "delete <tag-uuid>",
 	describe: "Deletes a tag (SoT)",
@@ -81,10 +79,10 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				}
 
 				const result = await withProgress(`Deleting`, async () =>
-					client.cloudforceOne.events.tags.delete({
+					client.send(operation, {
 						account_id: accountId,
 						tag_uuid: argv["tag-uuid"],
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Deleted` });
 			}

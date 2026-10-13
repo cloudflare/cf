@@ -1,6 +1,6 @@
+import operation from "../../_operations/magic-cloud-networking/on-ramps/delete.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkQuery, SdkRequest } from "#sdk";
 /**
  * delete command
  * @generated from apis/overlays/magic-cloud-networking.ts
@@ -39,9 +39,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"onramps-delete">;
-type Query = SdkQuery<"onramps-delete">;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "delete <onramp-id>",
 	describe: "Delete On-ramp",
@@ -56,7 +53,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
-				const queryParams: Query = {
+				const queryParams: Record<string, unknown> = {
 					destroy: argv["destroy"],
 					force: argv["force"],
 				};
@@ -82,11 +79,11 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				}
 
 				const result = await withProgress(`Deleting`, async () =>
-					client.magicCloudNetworking.onRamps.delete({
+					client.send(operation, {
 						account_id: accountId,
 						onramp_id: argv["onramp-id"],
 						...queryParams,
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Deleted` });
 			}

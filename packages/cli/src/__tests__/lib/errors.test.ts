@@ -8,7 +8,7 @@ import {
 	vi,
 } from "vite-plus/test";
 import { handleError } from "../../lib/errors.js";
-import { CloudflareApiError } from "#sdk/errors";
+import { ApiError } from "#api";
 
 /**
  * Unit tests for `lib/errors.ts` — the central `handleError` funnel that
@@ -53,7 +53,7 @@ describe("handleError", () => {
 
 	describe("APIError", () => {
 		it("renders code, message, status text, and a path-only request line", () => {
-			const err = new CloudflareApiError({
+			const err = new ApiError({
 				message: "Bad Request",
 				statusCode: 400,
 				body: {
@@ -80,7 +80,7 @@ describe("handleError", () => {
 		});
 
 		it("renders without a request line when none is attached", () => {
-			const err = new CloudflareApiError({
+			const err = new ApiError({
 				message: "Server Error",
 				statusCode: 500,
 				body: {
@@ -96,7 +96,7 @@ describe("handleError", () => {
 
 		it("hints to log in on 401", () => {
 			handleError(
-				new CloudflareApiError({
+				new ApiError({
 					message: "Unauthorized",
 					statusCode: 401,
 					body: { errors: [] },
@@ -107,7 +107,7 @@ describe("handleError", () => {
 
 		it("hints to check permissions on 403", () => {
 			handleError(
-				new CloudflareApiError({
+				new ApiError({
 					message: "Forbidden",
 					statusCode: 403,
 					body: { errors: [] },
@@ -118,7 +118,7 @@ describe("handleError", () => {
 
 		it("does not emit an auth hint for a 404", () => {
 			handleError(
-				new CloudflareApiError({
+				new ApiError({
 					message: "Not Found",
 					statusCode: 404,
 					body: { errors: [] },
@@ -131,7 +131,7 @@ describe("handleError", () => {
 	});
 
 	// The deploy path throws @cloudflare/workers-utils' APIError, a
-	// different class from the forge SDK's. Its actionable detail lives in
+	// different class from the API client's. Its actionable detail lives in
 	// `.notes`, not `.error.errors` — `handleError` must surface those or
 	// the failure reads as an opaque "request failed".
 	describe("workers-utils APIError (deploy path)", () => {

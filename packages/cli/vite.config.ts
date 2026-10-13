@@ -1,5 +1,6 @@
 import { cpSync, existsSync, mkdirSync } from "node:fs";
 import { join } from "node:path";
+import { fileURLToPath } from "node:url";
 import { defineConfig } from "vite-plus";
 
 const testBundle = process.env.CF_TEST_BUNDLE === "1";
@@ -7,8 +8,15 @@ const testBundle = process.env.CF_TEST_BUNDLE === "1";
 export default defineConfig({
 	run: {
 		tasks: {
+			// Compiles the generator plugin, whose entry is generator/index.ts, for
+			// generate.ts to run with forge.
+			"task:generate:plugin": {
+				command: "forge-plugin build generator/index.ts -o generator/cli.wasm",
+				cache: false,
+			},
 			"task:generate": {
 				command: "tsx generate.ts",
+				dependsOn: ["task:generate:plugin"],
 				cache: false,
 			},
 			"task:dev": {
@@ -32,7 +40,7 @@ export default defineConfig({
 				cache: false,
 			},
 			"task:check:type": {
-				command: "tsgo --noEmit",
+				command: "tsgo --noEmit && tsgo --noEmit -p generator/plugin",
 				dependsOn: [
 					"task:generate",
 					{ task: "task:build", from: ["dependencies", "devDependencies"] },
@@ -70,12 +78,23 @@ export default defineConfig({
 		unstubEnvs: true,
 		server: {
 			deps: {
-				inline: ["@cloudflare/workers-utils"],
+				// Native loading of workers-auth would bypass the Undici alias.
+				inline: ["@cloudflare/workers-utils", "@cloudflare/workers-auth"],
 			},
 		},
 	},
 	resolve: {
-		alias: [{ find: /^vitest$/, replacement: "vite-plus/test" }],
+		alias: [
+			{ find: /^vitest$/, replacement: "vite-plus/test" },
+			// MSW intercepts global fetch. Route workers-auth's imported Undici
+			// fetch through it so the same handlers guard every API request.
+			{
+				find: /^undici$/,
+				replacement: fileURLToPath(
+					new URL("./src/__tests__/helpers/undici-mock.ts", import.meta.url)
+				),
+			},
+		],
 	},
 	pack: {
 		deps: {

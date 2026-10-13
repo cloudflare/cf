@@ -1,6 +1,6 @@
+import operation from "../_operations/agent-memory/get-memory.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * get-memory command
  * @generated from apis/overlays/agent-memory.ts
@@ -46,8 +46,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"agent-memory-memory-get">;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "get-memory <memory-id>",
 	describe: "Get a memory",
@@ -82,12 +80,12 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.accountId = accountId;
 
 				const result = await withProgress(`Loading`, async () =>
-					client.agentMemory.getMemory({
+					client.send(operation, {
 						account_id: accountId,
 						namespace_name: argv["namespace-name"],
 						profile_name: argv["profile-name"],
 						memory_id: argv["memory-id"],
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Loaded` });
 			}

@@ -1,6 +1,6 @@
+import operation from "../../_operations/spectrum/apps/delete.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * delete command
  * @generated from apis/overlays/spectrum.ts
@@ -38,8 +38,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"spectrum-applications-delete-spectrum-application">;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "delete <app-id>",
 	describe: "Delete Spectrum application",
@@ -61,8 +59,8 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						method: "DELETE",
 						url: `https://api.cloudflare.com/client/v4/zones/${argv.zone ?? argv.zoneId ?? "<zone>"}/spectrum/apps/${argv["app-id"] == null ? "<app-id>" : encodeURIComponent(String(argv["app-id"]))}`,
 						pathParams: {
-							"app-id": String(argv["app-id"] ?? ""),
 							"zone-id": String(argv.zone ?? argv["zone-id"] ?? ""),
+							"app-id": String(argv["app-id"] ?? ""),
 						},
 						bodyKind: "none",
 					});
@@ -80,10 +78,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				}
 
 				const result = await withProgress(`Deleting`, async () =>
-					client.spectrum.apps.delete({
-						zone_id: zoneId,
-						app_id: argv["app-id"],
-					} satisfies Request)
+					client.send(operation, { zone_id: zoneId, app_id: argv["app-id"] })
 				);
 				formatOutput(result, { successLabel: `Deleted` });
 			}

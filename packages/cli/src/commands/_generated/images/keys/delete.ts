@@ -1,6 +1,6 @@
+import operation from "../../_operations/images/keys/delete.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * delete command
  * @generated from apis/overlays/images.ts
@@ -42,8 +42,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 }
 
 type Args = InferArgs<typeof builder>;
-
-type Request = SdkRequest<"cloudflare-images-keys-delete-signing-key">;
 
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "delete <signing-key-name>",
@@ -88,10 +86,10 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				}
 
 				const result = await withProgress(`Deleting`, async () =>
-					client.images.keys.delete({
+					client.send(operation, {
 						account_id: accountId,
 						signing_key_name: argv["signing-key-name"],
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Deleted` });
 			}

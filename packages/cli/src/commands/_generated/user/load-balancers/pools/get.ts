@@ -1,6 +1,6 @@
+import operation from "../../../_operations/user/load-balancers/pools/get.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * get command
  * @generated from apis/overlays/user.ts
@@ -31,8 +31,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"load-balancer-pools-pool-details">;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "get <pool-id>",
 	describe: "Pool Details",
@@ -60,9 +58,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				const client = await createCommandClient(argv);
 
 				const result = await withProgress(`Loading`, async () =>
-					client.user.loadBalancers.pools.get({
-						pool_id: argv["pool-id"],
-					} satisfies Request)
+					client.send(operation, { pool_id: argv["pool-id"] })
 				);
 				formatOutput(result, { successLabel: `Loaded` });
 			}

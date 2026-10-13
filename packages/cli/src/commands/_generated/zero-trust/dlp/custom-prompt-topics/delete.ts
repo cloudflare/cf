@@ -1,6 +1,6 @@
+import operation from "../../../_operations/zero-trust/dlp/custom-prompt-topics/delete.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * delete command
  * @generated from apis/overlays/zero-trust.ts
@@ -43,8 +43,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"dlp-custom-prompt-topics-delete">;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "delete <entry-id>",
 	describe: "Delete custom prompt topic",
@@ -81,10 +79,10 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				}
 
 				const result = await withProgress(`Deleting`, async () =>
-					client.zeroTrust.dlp.customPromptTopics.delete({
+					client.send(operation, {
 						account_id: accountId,
 						entry_id: argv["entry-id"],
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Deleted` });
 			}

@@ -1,6 +1,5 @@
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * edit command
  * @generated from apis/overlays/mesh.ts
@@ -9,9 +8,10 @@ import type { Argv, CommandModule } from "yargs";
 import {
 	createCommandClient,
 	getAccountId,
+	requestApi,
 	resolveAccountIdSilent,
 } from "#lib/auth.js";
-import { compactBody, parseBody } from "#lib/body-parser.js";
+import { compactBody, parseBody, setNestedValue } from "#lib/body-parser.js";
 import { formatDryRun } from "#lib/dry-run.js";
 import { resolveFileToken } from "#lib/input-validation.js";
 import { LOCAL_ACCOUNT_ID } from "#lib/local.js";
@@ -48,9 +48,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 }
 
 type Args = InferArgs<typeof builder>;
-
-type Request = SdkRequest<"cloudflare-tunnel-update-a-warp-connector-tunnel">;
-type Body = Request;
 
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "edit <node-id>",
@@ -98,37 +95,44 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.accountId = accountId;
 
 				if (argv.body) {
-					const bodyData = parseBody<Request>(argv.body);
+					const bodyData = parseBody(argv.body);
 					const result = await withProgress(`Updating`, async () =>
-						client.mesh.nodes.edit({
-							...bodyData,
-							account_id: accountId,
-							"node-id": argv["node-id"],
-						} satisfies Request)
+						requestApi<unknown>(
+							client,
+							"PATCH",
+							`/accounts/${accountId}/warp_connector/${encodeURIComponent(String(argv["node-id"]))}`,
+							{ body: bodyData }
+						)
 					);
 					formatOutput(result, { successLabel: `Updated` });
 					return;
 				}
 
 				// Assemble request body from individual flags
-				const bodyData = compactBody<Body>({
-					name: resolveFileToken(
-						argv["name"] as string | undefined,
-						"name",
-						"text"
-					),
-					tunnel_secret: resolveFileToken(
-						argv["tunnel-secret"] as string | undefined,
-						"tunnel-secret",
-						"text"
-					),
-				});
+				const bodyData: Record<string, unknown> = {};
+				if (argv["name"] !== undefined)
+					setNestedValue(
+						bodyData,
+						["name"],
+						resolveFileToken(argv["name"] as string | undefined, "name", "text")
+					);
+				if (argv["tunnel-secret"] !== undefined)
+					setNestedValue(
+						bodyData,
+						["tunnel_secret"],
+						resolveFileToken(
+							argv["tunnel-secret"] as string | undefined,
+							"tunnel-secret",
+							"text"
+						)
+					);
 				const result = await withProgress(`Updating`, async () =>
-					client.mesh.nodes.edit({
-						...bodyData,
-						account_id: accountId,
-						"node-id": argv["node-id"],
-					} satisfies Request)
+					requestApi<unknown>(
+						client,
+						"PATCH",
+						`/accounts/${accountId}/warp_connector/${encodeURIComponent(String(argv["node-id"]))}`,
+						{ body: bodyData }
+					)
 				);
 				formatOutput(result, { successLabel: `Updated` });
 			}

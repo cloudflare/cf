@@ -232,7 +232,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						client,
 						"POST",
 						`/accounts/${accountId}/one/integrations`,
-						{ body: Object.keys(bodyData).length > 0 ? bodyData : undefined }
+						{ body: bodyData }
 					)
 				);
 				formatOutput(result, { successLabel: `Created` });

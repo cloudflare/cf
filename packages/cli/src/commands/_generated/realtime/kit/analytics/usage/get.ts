@@ -1,6 +1,6 @@
+import operation from "../../../../_operations/realtime/kit/analytics/usage/get.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkQuery, SdkRequest } from "#sdk";
 /**
  * get command
  * @generated from apis/overlays/realtime.ts
@@ -44,9 +44,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"get-org-analytics">;
-type Query = SdkQuery<"get-org-analytics">;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "get <app-id>",
 	describe: "Fetch day-wise session and recording analytics data for an App",
@@ -61,7 +58,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
-				const queryParams: Query = {
+				const queryParams: Record<string, unknown> = {
 					start_date: argv["start-date"],
 					end_date: argv["end-date"],
 				};
@@ -82,11 +79,11 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.accountId = accountId;
 
 				const result = await withProgress(`Loading`, async () =>
-					client.realtime.kit.analytics.usage.get({
+					client.send(operation, {
 						account_id: accountId,
 						app_id: argv["app-id"],
 						...queryParams,
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Loaded` });
 			}

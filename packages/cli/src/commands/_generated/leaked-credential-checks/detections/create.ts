@@ -1,6 +1,6 @@
+import operation from "../../_operations/leaked-credential-checks/detections/create.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * create command
  * @generated from apis/overlays/leaked-credential-checks.ts
@@ -19,6 +19,10 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.usage(
 			'$0 leaked-credential-checks detections create\n\nCreate a detection location for credentials that the default scan locations do not cover, using Rules language expressions such as `lookup_json_string(http.request.body.raw, "user")`. Only the username expression is required, and Leaked Credential Checks must be enabled on the zone.'
 		)
+		.option("id", {
+			type: "string",
+			description: "Defines the unique ID for this custom detection.",
+		})
 		.option("password", {
 			type: "string",
 			description:
@@ -42,10 +46,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 }
 
 type Args = InferArgs<typeof builder>;
-
-type Request =
-	SdkRequest<"waf-product-api-leaked-credentials-create-detection">;
-type Body = Request["body"];
 
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "create",
@@ -74,6 +74,11 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 							argv.body !== undefined
 								? parseBody(argv.body)
 								: compactBody({
+										id: resolveFileToken(
+											argv["id"] as string | undefined,
+											"id",
+											"text"
+										),
 										password: resolveFileToken(
 											argv["password"] as string | undefined,
 											"password",
@@ -95,19 +100,17 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.zoneId = zoneId;
 
 				if (argv.body) {
-					const bodyData = parseBody<Request["body"]>(argv.body);
+					const bodyData = parseBody(argv.body);
 					const result = await withProgress(`Creating`, async () =>
-						client.leakedCredentialChecks.detections.create({
-							body: bodyData,
-							zone_id: zoneId,
-						} satisfies Request)
+						client.send(operation, { body: bodyData, zone_id: zoneId })
 					);
 					formatOutput(result, { successLabel: `Created` });
 					return;
 				}
 
 				// Assemble request body from individual flags
-				const bodyData = compactBody<Body>({
+				const bodyData = compactBody({
+					id: resolveFileToken(argv["id"] as string | undefined, "id", "text"),
 					password: resolveFileToken(
 						argv["password"] as string | undefined,
 						"password",
@@ -120,10 +123,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					),
 				});
 				const result = await withProgress(`Creating`, async () =>
-					client.leakedCredentialChecks.detections.create({
-						body: bodyData,
-						zone_id: zoneId,
-					} satisfies Request)
+					client.send(operation, { body: bodyData, zone_id: zoneId })
 				);
 				formatOutput(result, { successLabel: `Created` });
 			}

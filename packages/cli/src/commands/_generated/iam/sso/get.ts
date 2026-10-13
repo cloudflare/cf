@@ -1,6 +1,6 @@
+import operation from "../../_operations/iam/sso/get.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * get command
  * @generated from apis/overlays/iam.ts
@@ -36,8 +36,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"get-sso-connector">;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "get <sso-connector-id>",
 	describe: "Get single SSO connector",
@@ -70,10 +68,10 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.accountId = accountId;
 
 				const result = await withProgress(`Loading`, async () =>
-					client.iam.sso.get({
+					client.send(operation, {
 						account_id: accountId,
 						sso_connector_id: argv["sso-connector-id"],
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Loaded` });
 			}

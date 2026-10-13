@@ -1,0 +1,26 @@
+import type { LeafCommandMeta } from "../../../../lib/command-meta.js";
+
+export default {
+	command: "cf containers images list",
+	name: "list",
+	fullPath: ["containers", "images", "list"],
+	category: "read",
+	description: "List images in the Cloudflare managed registry.",
+	usage: "cf containers images list [--filter <regex>]",
+	arguments: [],
+	options: [
+		{
+			name: "filter",
+			type: "string",
+			required: false,
+			description: "Regex to filter repository names",
+		},
+		{
+			name: "dry-run",
+			type: "boolean",
+			required: false,
+			description: "Parse arguments and show the command without executing it",
+			default: false,
+		},
+	],
+} satisfies LeafCommandMeta;

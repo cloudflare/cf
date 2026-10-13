@@ -1,7 +1,6 @@
 import { format } from "node:util";
 import { runInTempDir } from "@cloudflare/workers-utils/test-helpers";
-import { http, HttpResponse } from "msw";
-import { getGlobalDispatcher, MockAgent, setGlobalDispatcher } from "undici";
+import { http, HttpResponse } from "msw/http";
 import {
 	afterEach,
 	beforeEach,
@@ -49,27 +48,25 @@ describe("account selection", () => {
 	runInTempDir();
 	setupMsw();
 
-	const previousDispatcher = getGlobalDispatcher();
-	let accountsApi: MockAgent;
 	let terminal: string;
 
 	beforeEach(() => {
-		// workers-auth lists accounts through undici, which MSW doesn't intercept.
-		accountsApi = new MockAgent();
-		accountsApi.disableNetConnect();
-		const api = accountsApi.get("https://api.test");
 		const page = { page: 1, total_pages: 1 };
-		api
-			.intercept({ path: "/client/v4/accounts?page=1" })
-			.reply(200, { success: true, result: accounts, result_info: page });
-		api.intercept({ path: "/client/v4/memberships?page=1" }).reply(200, {
-			success: true,
-			result: accounts.map((account) => ({ account })),
-			result_info: page,
-		});
-		setGlobalDispatcher(accountsApi);
-
 		server.use(
+			http.get(`${TEST_BASE_URL}/accounts`, () =>
+				HttpResponse.json({
+					success: true,
+					result: accounts,
+					result_info: page,
+				})
+			),
+			http.get(`${TEST_BASE_URL}/memberships`, () =>
+				HttpResponse.json({
+					success: true,
+					result: accounts.map((account) => ({ account })),
+					result_info: page,
+				})
+			),
 			http.get(`${TEST_BASE_URL}/accounts/:accountId/pages/projects`, () =>
 				HttpResponse.json(createFetchResult([]))
 			)
@@ -91,10 +88,8 @@ describe("account selection", () => {
 		}
 	});
 
-	afterEach(async () => {
+	afterEach(() => {
 		vi.restoreAllMocks();
-		setGlobalDispatcher(previousDispatcher);
-		await accountsApi.close();
 	});
 
 	function run(...flags: string[]) {

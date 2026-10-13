@@ -1,6 +1,6 @@
+import operation from "../../../../../_operations/zero-trust/dex/test-results/traceroute/network-path/get.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * get command
  * @generated from apis/overlays/zero-trust.ts
@@ -36,8 +36,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"dex-endpoints-traceroute-test-result-network-path">;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "get <test-result-id>",
 	describe: "Get details for a specific traceroute test run",
@@ -71,10 +69,10 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.accountId = accountId;
 
 				const result = await withProgress(`Loading`, async () =>
-					client.zeroTrust.dex.testResults.traceroute.networkPath.get({
+					client.send(operation, {
 						account_id: accountId,
 						test_result_id: argv["test-result-id"],
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Loaded` });
 			}

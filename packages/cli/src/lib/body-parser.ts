@@ -5,7 +5,7 @@
  * request bodies from individual CLI flags.
  *
  * No value "hardening" happens here. cf is a client-side CLI driving the
- * user's own credentials — there's no trust boundary — and the SDK
+ * user's own credentials — there's no trust boundary — and the client
  * JSON-serialises the body before sending, so any byte (control chars
  * included) is escaped into valid JSON. The API, not cf, is the
  * authority on what a field may contain.

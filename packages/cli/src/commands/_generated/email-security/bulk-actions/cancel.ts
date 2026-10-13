@@ -1,6 +1,6 @@
+import operation from "../../_operations/email-security/bulk-actions/cancel.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * cancel command
  * @generated from apis/overlays/email-security.ts
@@ -36,8 +36,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"email_security_cancel_bulk_job">;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "cancel <job-id>",
 	describe: "Cancel a bulk action job",
@@ -68,10 +66,10 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.accountId = accountId;
 
 				const result = await withProgress(`Creating`, async () =>
-					client.emailSecurity.bulkActions.cancel({
+					client.send(operation, {
 						account_id: accountId,
 						job_id: argv["job-id"],
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Created` });
 			}

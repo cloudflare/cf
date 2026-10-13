@@ -42,16 +42,17 @@ const whoamiCommand: CommandModule<object, WhoamiArgs> = {
 
 		const { createCloudflareClientWithToken } =
 			await import("../../lib/auth.js");
+		const { default: getUser } = await import("#operations/user/get.js");
 		const client = createCloudflareClientWithToken({ apiToken: token });
 		let userEmail: string | undefined;
 		let accounts: Array<{ id: string; name: string }> = [];
 		const [userResult, accountsResult] = await Promise.allSettled([
-			client.user.get(),
+			client.send(getUser),
 			fetchAuthorizedAccounts(),
 		]);
 
 		if (userResult.status === "fulfilled") {
-			const user = userResult.value;
+			const user = userResult.value as object | null | undefined;
 			if (user && "email" in user && typeof user.email === "string") {
 				userEmail = user.email;
 			}

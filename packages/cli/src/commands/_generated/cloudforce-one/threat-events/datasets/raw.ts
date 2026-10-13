@@ -1,6 +1,6 @@
+import operation from "../../../_operations/cloudforce-one/threat-events/datasets/raw.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * raw command
  * @generated from apis/overlays/cloudforce-one.ts
@@ -41,8 +41,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"get_EventRawReadDS">;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "raw <event-id>",
 	describe: "Reads raw data for an event by UUID",
@@ -64,8 +62,8 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						method: "GET",
 						url: `https://api.cloudflare.com/client/v4/accounts/${__cfDryRunAccountId ?? "<account-id>"}/cloudforce-one/events/datasets/${argv["dataset-id"] == null ? "<dataset-id>" : encodeURIComponent(String(argv["dataset-id"]))}/events/${argv["event-id"] == null ? "<event-id>" : encodeURIComponent(String(argv["event-id"]))}/raw`,
 						pathParams: {
-							"event-id": String(argv["event-id"] ?? ""),
 							"dataset-id": String(argv["dataset-id"] ?? ""),
+							"event-id": String(argv["event-id"] ?? ""),
 						},
 						bodyKind: "none",
 					});
@@ -76,11 +74,11 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.accountId = accountId;
 
 				const result = await withProgress(`Loading`, async () =>
-					client.cloudforceOne.threatEvents.datasets.raw({
+					client.send(operation, {
 						account_id: accountId,
 						dataset_id: argv["dataset-id"],
 						event_id: argv["event-id"],
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Loaded` });
 			}

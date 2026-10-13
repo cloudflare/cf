@@ -499,6 +499,8 @@ export function commandCases(command: CommandMeta): RegressionCase[] {
 	return planned;
 }
 
+// CI runs one file per GitHub Actions job with Vitest --shard. Keep this equal
+// to the matrix size in .github/workflows/regression.yml.
 export const SHARDS = 12;
 
 // Keep each product's imports warm and balance by case count, not command count.

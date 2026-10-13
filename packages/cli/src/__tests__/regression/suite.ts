@@ -34,10 +34,6 @@ import type { RecordedRequest } from "./record.js";
 
 // Keep the CLI and its HTTP clients real. Only OS tools and package installs are
 // replaced: they cannot be intercepted by MSW or finish within the suite budget.
-vi.mock("../../commands/cloudflared.js", async (importOriginal) => ({
-	...(await importOriginal<Record<string, unknown>>()),
-	runCloudflared: vi.fn(async () => 0),
-}));
 vi.mock("../../lib/autoconfig.js", () => ({
 	analyzeProject: vi.fn(async () => undefined),
 	configureProject: vi.fn(async () => ({})),

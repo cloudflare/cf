@@ -21,7 +21,9 @@ intermediate command groups from the generated source. It omits `cf auth`,
 `cf build`, `cf deploy` and `cf dev`, including the hidden `cf login` alias, because their
 credential and local-project setup adds complexity without useful request-shape
 coverage. It also omits `cf containers build`, `cf containers push` and
-`cf containers ssh`, which start Docker or SSH. Every remaining leaf and group
+`cf containers ssh`, which start Docker or SSH, and all `cf access` commands plus
+`cf tunnels diag`, `login`, `quick-start`, `ready`, `run` and `tail`, which start
+cloudflared. Every remaining leaf and group
 runs without arguments. Leaves also run
 with required arguments, individual optional flags, all enum choices, both
 boolean values, pairwise flag presence/absence, alternate positional values,
@@ -36,8 +38,7 @@ Invocations use deterministic dummy API-token credentials in the environment.
 `workflows.ts` supplies original local project fixtures and response shapes for
 multi-request workflows. Generated commands must reach their declared method
 and endpoint, and API-backed
-hand-written workflows must reach their main endpoint. Cloudflared, project
-subprocesses, installs, native profiling and the Miniflare process are
+hand-written workflows must reach their main endpoint. Project subprocesses, installs, native profiling and the Miniflare process are
 replaced at their OS boundary. Local request rewriting remains real. These
 snapshots cover the CLI's HTTP behavior, not those external programs.
 

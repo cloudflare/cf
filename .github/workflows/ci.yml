@@ -44,6 +44,13 @@ jobs:
       - name: Lint, type-check, and format-check
         run: pnpm check
 
+      - name: Check the command generator
+        working-directory: packages/generator
+        run: |
+          cargo fmt --check
+          cargo clippy --locked --all-targets -- -D warnings
+          cargo test --locked
+
   cli:
     if: ${{ github.repository_owner == 'cloudflare' }}
     strategy:

@@ -4,13 +4,13 @@
  * document has a group of that name.
  */
 import { describe, expect, it } from "vite-plus/test";
-import { handWrittenMeta } from "../../../commands/hand-written-meta.js";
+import { handWrittenMeta } from "../../commands/hand-written-meta.js";
 import {
 	type HandWrittenCommand,
 	handWrittenCommands,
-} from "../../../commands/hand-written.js";
-import { generateFiles } from "../../helpers/cli-plugin.js";
-import type { Config } from "../../../../generator/plugin/index.js";
+} from "../../commands/hand-written.js";
+import { generateFiles } from "../helpers/generator.js";
+import type { GeneratorConfig } from "../../../generator/run.js";
 
 /** A document with an operation for each of `operations`. */
 function doc(operations: { group: string; name: string; hidden?: boolean }[]) {
@@ -41,7 +41,7 @@ function doc(operations: { group: string; name: string; hidden?: boolean }[]) {
 }
 
 /** The Preview entries of cf's registry, with `extra`. */
-function previews(extra: HandWrittenCommand[] = []): Config {
+function previews(extra: HandWrittenCommand[] = []): GeneratorConfig {
 	return {
 		handWritten: [
 			...handWrittenCommands.filter(

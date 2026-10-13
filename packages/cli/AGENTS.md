@@ -3,8 +3,9 @@
 Cloudflare CLI. Yargs-based, TypeScript, ESM, Node ≥ 22.
 
 This package IS the CLI. It also owns the generator that produces its
-per-API command surface: the forge plugin in `generator/plugin/`, which
-forge runs (`--target wasm://...`) to write `src/commands/_generated/`.
+per-API command surface: `generate.ts` prepares the OpenAPI document and
+runs the Rust command generator in `../generator/` (`packages/generator`),
+built on forge's library, to write `src/commands/_generated/`.
 
 ## Critical Invariant: Contain API Knowledge
 
@@ -16,7 +17,7 @@ The cross-cutting runtime (`src/index.ts` and generic helpers under `src/lib/`) 
 
 If a generic runtime or generator change starts branching on a product name, first look for a Forge/OpenAPI annotation. The existing Worker-name derivation is a narrowly scoped generator exception. The runtime exception is likewise contained: `context.ts` delegates non-ID global zone values to `resolve.ts`, which validates the domain and calls `client.zones.list()` for the selected account. Do not use either as permission to spread product checks through the runtime.
 
-**Documented exceptions:** `src/commands/hand-written.ts` is the central registry for every hand-written root, generated-parent presentation override, generated leaf override, added leaf command, and generated-tree subgroup. `generator/index.ts` bundles it, with each entry's `meta.ts` sidecar, into the generator plugin. `ai/run` and `registrar/registrations/create` replace spec-backed leaves; `workers/check`, `workers/types`, nested `workers/versions/create`, advisory-only `pages/deploy`, the cloudflared-backed `tunnels/quick-start` and `tunnels/run`, and the process-backed `access/*` workflows add local workflow leaves; Access also exposes its otherwise hidden generated parent; and `d1/migrations` plus `workers/triggers` add subgroups with no matching one-shot spec operation. Keep the implementations contained in their command directories, register them once in `hand-written.ts`, and retain drift guards for product-scoped entries.
+**Documented exceptions:** `src/commands/hand-written.ts` is the central registry for every hand-written root, generated-parent presentation override, generated leaf override, added leaf command, and generated-tree subgroup. `generate.ts` passes it, with each entry's `meta.ts` sidecar, to the generator as JSON. `ai/run` and `registrar/registrations/create` replace spec-backed leaves; `workers/check`, `workers/types`, nested `workers/versions/create`, advisory-only `pages/deploy`, the cloudflared-backed `tunnels/quick-start` and `tunnels/run`, and the process-backed `access/*` workflows add local workflow leaves; Access also exposes its otherwise hidden generated parent; and `d1/migrations` plus `workers/triggers` add subgroups with no matching one-shot spec operation. Keep the implementations contained in their command directories, register them once in `hand-written.ts`, and retain drift guards for product-scoped entries.
 
 ## Wrangler Parity Triage
 
@@ -40,7 +41,7 @@ second consumer.
 
 | Task                        | Location                                                                                                              |
 | --------------------------- | --------------------------------------------------------------------------------------------------------------------- |
-| Fix a generated command     | Overlay in `@cloudflare/forge` → regenerate                                                                           |
+| Fix a generated command     | Forge's OpenAPI overlays upstream → bump the OpenAPI release → regenerate                                             |
 | Hand-written root command   | `src/commands/{auth,build,cli,completions,dev,deploy,init}/`, `schema.ts`, or `tools.ts`                              |
 | Generated-tree exception    | `src/commands/{access,ai,registrar,d1,previews,tunnels,workers}/` plus the central registry and generator integration |
 | Hand-written registry/meta  | `src/commands/{hand-written,hand-written-meta,root-commands}.ts`, per-command `meta.ts`                               |
@@ -50,8 +51,8 @@ second consumer.
 | Local request routing       | `src/lib/local.ts`, `src/lib/local-runtime.ts`, `src/lib/registry.ts`                                                 |
 | Build/deploy conversion     | `src/lib/{build-output,deploy-context,deploy-input}.ts`                                                               |
 | Help labels and flag groups | yargs configuration in `src/index.ts` (no custom renderer)                                                            |
-| Generator output shape      | `generator/plugin/` (rerun `pnpm generate`)                                                                           |
-| Metadata JSON shape         | `generator/plugin/files.ts`                                                                                           |
+| Generator output shape      | `../generator/src/` (rerun `pnpm generate`)                                                                           |
+| Metadata JSON shape         | `../generator/src/files.rs`                                                                                           |
 | Shell completions           | `src/commands/completions/index.ts` (`@bomb.sh/tab`, backed by complete `commands.json` metadata)                     |
 
 ## Build
@@ -71,10 +72,10 @@ Build and type-check tasks also build workspace dependencies first. `pnpm dev`
 starts the source entry without generation or bundling. Task caching is disabled.
 
 `pnpm generate` downloads the pinned Forge `openapi.forge.json` release asset
-(or reads a local bundle override), prepares it, and runs the vendored forge
-binary with the generator plugin (`forge --target wasm://generator/cli.wasm`)
-into a cleared `src/commands/_generated/`; a post-step formats the emitted
-TypeScript. See "Generator plugin" below.
+(or reads a local bundle override), prepares it, and runs the command
+generator (`cargo run --release` in `packages/generator`, through
+`generator/run.ts`) into a cleared `src/commands/_generated/`; a post-step
+formats the emitted TypeScript. See "Command generator" below.
 
 ## Hand-Written Commands
 
@@ -87,7 +88,7 @@ JSON page metadata without authentication. Agents fetch returned URLs with
 
 `previews` uses a generated group containing the hand-written `previews deploy` workflow. Its parent override opts into `createIfMissing`, so generation creates an empty API parent when the pinned schema has no Preview CLI operations. Future schema operations join the same group without colliding with a hand-written root.
 
-The registry's other entries are spliced into the generated tree by the generator plugin, which `generator/index.ts` bundles them into: leaf overrides for `cf ai run` and `cf registrar registrations create`; added leaves for `cf workers check`, `cf workers types`, nested `cf workers versions create`, `cf tunnels quick-start`, `cf tunnels run`, and the process-backed `cf access` workflows; and subgroups for `cf d1 migrations` and `cf workers triggers`. The cloudflared-backed Tunnel and Access leaves delegate to the cf-managed cloudflared binary alongside their generated API-backed operations. `cf workers check` profiles the default Worker emitted through Build Output, or the one selected with `--worker`. `cf workers types` is the bounded source-config exception: it validates the Worker in the nearest `cloudflare.config.ts` and writes `.cloudflare/types/index.d.ts`. Version creation remains a project-aware Build Output workflow while the raw upload operations stay API-only. D1 migration apply targets a database identified by ID only, with `--dir` / `--pattern` / `--table` as flags rather than config; its bookkeeping is wire-compatible with `wrangler d1 migrations apply`.
+The registry's other entries are spliced into the generated tree by the command generator, which `generate.ts` passes them to: leaf overrides for `cf ai run` and `cf registrar registrations create`; added leaves for `cf workers check`, `cf workers types`, nested `cf workers versions create`, `cf tunnels quick-start`, `cf tunnels run`, and the process-backed `cf access` workflows; and subgroups for `cf d1 migrations` and `cf workers triggers`. The cloudflared-backed Tunnel and Access leaves delegate to the cf-managed cloudflared binary alongside their generated API-backed operations. `cf workers check` profiles the default Worker emitted through Build Output, or the one selected with `--worker`. `cf workers types` is the bounded source-config exception: it validates the Worker in the nearest `cloudflare.config.ts` and writes `.cloudflare/types/index.d.ts`. Version creation remains a project-aware Build Output workflow while the raw upload operations stay API-only. D1 migration apply targets a database identified by ID only, with `--dir` / `--pattern` / `--table` as flags rather than config; its bookkeeping is wire-compatible with `wrangler d1 migrations apply`.
 
 ## Dotenv and Child Processes
 
@@ -153,38 +154,33 @@ binding, with the default profile as fallback.
 
 The output is tracked in git, owned by `pnpm generate`, and must not be hand-edited. Shell-completion scripts are no longer generated — `cf complete` (backed by `@bomb.sh/tab`) reads the complete generated and hand-written command tree from `_meta/commands.json`. `_meta/hand-written-commands.json` republishes the hand-written subset with root/leaf/subgroup/override provenance.
 
-## Generator plugin
+## Command generator
 
-`generator/plugin/` is a forge plugin, written against
-`@cloudflare/forge/plugin`. Its entry module is `generator/index.ts`. The
-`task:generate:plugin` Vite+ task, which `task:generate` depends on, runs
-`forge-plugin build` (from the vendored package, with jco) to compile the
-entry to `generator/cli.wasm`, gitignored build output. `generate.ts` then
-runs that component with `forge --target wasm://...`. It runs in
-a sandboxed JavaScript engine (QuickJS), so it may only use the language: no
-Node APIs, `Intl`, or I/O. `generator/plugin/tsconfig.json` type-checks it,
-entry module included, that way, as part of `check:type`.
+The generator is a Rust program in `packages/generator`, which uses forge
+(the `forge` crate, a pinned git dependency) as a library: forge reads the
+document into its model, and the generator implements `forge::Plugin` over
+it. It needs a Rust toolchain (stable, at least the crate's
+`rust-version`); Cargo builds it on first use. `generator/run.ts` runs it
+with `cargo run --release --locked`, writing the document and the config to
+temporary JSON files.
 
-Since it reads nothing but the document, its config is bundled into it, and
-typed (`Config` in `generator/plugin/hand-written.ts`). The entry imports the
-hand-written registry, `src/commands/hand-written.ts`, as it is, so that
-module must stay plain data that imports nothing; root loaders and telemetry
-belong in `src/commands/root-commands.ts`. Anything else the plugin imports
-from `src/` must likewise import nothing Node- or DOM-typed, as
-`src/lib/command-meta.ts` does. That includes every command's `meta.ts`
-sidecar, listed in `src/commands/hand-written-meta.ts`: a sidecar exports
-its metadata `satisfies` `CommandMeta[]`, `LeafCommandMeta`, or
-`LeafOverrideMeta`, by kind, and the list's types require exactly one per
-registered command. The plugin keeps runtime checks only for what types
-cannot tie together: a sidecar's identity matching its registration, and
-its `--dry-run` option.
+Its config is the hand-written registry and sidecars, as
+`{ handWritten, sidecars }` JSON (`GeneratorConfig` in `generator/run.ts`),
+which `generate.ts` imports from `src/commands/hand-written.ts` and
+`src/commands/hand-written-meta.ts`. Keep `hand-written.ts` plain data that
+imports nothing; root loaders and telemetry belong in
+`src/commands/root-commands.ts`. A sidecar exports its metadata
+`satisfies` `CommandMeta[]`, `LeafCommandMeta`, or `LeafOverrideMeta`, by
+kind, and the list's types require exactly one per registered command. The
+generator keeps runtime checks only for what types cannot tie together: a
+sidecar's identity matching its registration, and its `--dry-run` option.
 
-The plugin does not emit the request runtime. It lives in `src/api/` and
+The generator does not emit the request runtime. It lives in `src/api/` and
 is imported as `#api`, like any other hand-maintained module.
 
 A command's files depend only on its own operation, so forge generates
-them in parallel: `generateGroup` writes each top-level group's command
-modules and indexes, each in a plugin instance of its own, and `generate`
+them in parallel: `generate_group` writes each top-level group's command
+modules and indexes, and `generate`
 writes what lists every command (the root index, the Access root, and
 `_meta/`) plus the runtime. The metadata pass checks everything the files
 pass does, so it reports every error. Keep new rules local to the
@@ -209,11 +205,12 @@ A typed call passes a JSON body whole, as the request's `body`
 (`client.send(operation, { body, ...params })`). The runtime sends it
 as-is, and adds the `constants` of fields that allow one value.
 
-Its tests are in `src/__tests__/generator/plugin/`. Deriving arguments and
-emitting a command are plain functions of a resolved operation, tested
-directly; tests that need forge to read a document use `generateFiles` from
-`src/__tests__/helpers/forge-cli.ts`, which builds a test plugin once per
-process.
+The oracle for a generator change is `src/commands/_generated/`: a
+refactor must leave it byte-for-byte unchanged after `pnpm generate`. Unit
+tests of argument derivation and emission are Rust tests in the crate
+(`cargo test` in `packages/generator`); tests that need a whole document use
+`generateFiles` from `src/__tests__/helpers/generator.ts`, which runs the
+generator on it.
 
 ## Formatting
 

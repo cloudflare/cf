@@ -4,14 +4,14 @@ import {
 	assertUniqueHandWrittenLeafCommandNames,
 	generateGroupIndexFile,
 	generateResourceIndexFile,
-} from "../helpers/forge-cli.js";
+} from "../helpers/generator.js";
 import {
 	handWrittenLeafCommandModule,
 	handWrittenLeafCommands,
 	handWrittenParentOverrides,
 	readHandWrittenLeafCommandMeta,
-} from "../helpers/forge-cli.js";
-import { errorMessage } from "../helpers/forge-cli.js";
+} from "../helpers/generator.js";
+import { errorMessage } from "../helpers/generator.js";
 
 const workersSchema = {
 	name: "workers",

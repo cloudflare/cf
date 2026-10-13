@@ -147,6 +147,23 @@ describe("deploy", () => {
 			expect(std.err).not.toContain("Temporary account ready:");
 		});
 
+		// cf-specific: a Build Output account is the deploy target.
+		it("rejects a Build Output account with a temporary account", async ({
+			expect,
+		}) => {
+			setIsTTY(false);
+			await seedBuildOutput("configured-account-id");
+			const creationRequests = mockTemporaryPreviewAccount();
+
+			await expect(
+				runWrangler("deploy --prebuilt --temporary-account")
+			).rejects.toThrow(
+				'The Build Output targets account "configured-account-id", so `--temporary-account` can\'t be used.'
+			);
+
+			expect(creationRequests).toHaveLength(0);
+		});
+
 		describe("with temporary preview accounts", () => {
 			it("creates a temporary preview account in non-interactive mode after printing terms notice", async ({
 				expect,
@@ -365,12 +382,11 @@ describe("deploy", () => {
 	});
 });
 
-// The configured account proves that a temporary account takes precedence.
-async function seedBuildOutput(): Promise<void> {
+async function seedBuildOutput(accountId?: string): Promise<void> {
 	await seed({
 		".cloudflare/output/v0/config.json": JSON.stringify({
 			buildContext: { isPreview: false },
-			accountId: "configured-account-id",
+			accountId,
 		}),
 		".cloudflare/output/v0/workers/default/worker.config.json": JSON.stringify({
 			name: "test-name",

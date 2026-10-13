@@ -39,7 +39,10 @@ const whoamiCommand: CommandModule<object, WhoamiArgs> = {
 		let token: string;
 		try {
 			token = await getAuthToken();
-		} catch {
+		} catch (error) {
+			if (isTemporaryAccountAllowed()) {
+				throw error;
+			}
 			formatOutput({ authenticated: false, error: "Not logged in" });
 			if (authSource === "none") {
 				console.error(

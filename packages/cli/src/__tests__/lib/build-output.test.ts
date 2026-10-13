@@ -9,6 +9,7 @@ import {
 	BuildOutputConfigError,
 	parseWorkerConfig,
 	selectBuildOutputWorker,
+	validateBuildOutputAccount,
 	validateBuildOutputMode,
 } from "../../lib/build-output.js";
 
@@ -178,6 +179,28 @@ describe("build output", () => {
 			expect(() => validateBuildOutputMode("staging", undefined)).toThrowError(
 				new BuildOutputConfigError(
 					'The Build Output does not record which mode it was created with, but this command requested mode "staging". Rebuild with "--mode staging" before deploying.'
+				)
+			);
+		});
+	});
+
+	describe("account validation", () => {
+		it.each([
+			{ accountId: undefined, temporaryAccount: true },
+			{ accountId: "account-id", temporaryAccount: false },
+		])(
+			"accepts account $accountId when temporary is $temporaryAccount",
+			({ accountId, temporaryAccount }) => {
+				expect(() =>
+					validateBuildOutputAccount(accountId, temporaryAccount)
+				).not.toThrow();
+			}
+		);
+
+		it("rejects a Build Output account with a temporary account", () => {
+			expect(() => validateBuildOutputAccount("account-id", true)).toThrowError(
+				new BuildOutputConfigError(
+					'The Build Output targets account "account-id", so `--temporary-account` can\'t be used. Remove `--temporary-account` to deploy to that account, or remove its account ID and rebuild.'
 				)
 			);
 		});

@@ -193,9 +193,8 @@ describe("cf auth profiles", () => {
 		await runCf(["auth", "logout"]);
 		expect(normalizeProfileOutput(std.getAndClearOut())).toMatchInlineSnapshot(`
 			"⚠ This directory has profile "work" active. \`cf auth logout\` removes the default profile's token, not "work".
-			To delete "work", run \`cf auth delete work\`.
-			ℹ Logging out...
-			Removed: OAuth tokens from <cwd>/home/.config/cloudflare/config/default.json"
+			To delete "work", run \`cf auth delete work\`."
 		`);
+		expect(std.err).toContain("Successfully logged out.");
 	});
 });

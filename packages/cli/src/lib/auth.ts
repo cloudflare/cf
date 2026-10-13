@@ -4,8 +4,8 @@ import { isUploadBody } from "./api-upload.js";
 import { getAuthToken } from "./auth-token.js";
 import { getComplianceRegion, resolveAccountIdSilent } from "./context.js";
 import {
-	activateTemporaryAccount,
 	isTemporaryAccountAllowed,
+	requireTemporaryAccount,
 } from "./oauth/index.js";
 import { getDefaultHeaders } from "./request-headers.js";
 import { ApiError, Client, type ClientOptions } from "#api";
@@ -290,11 +290,10 @@ export async function resolveAccountIdForHelp(
 	deadline: number
 ): Promise<string | undefined> {
 	if (isTemporaryAccountAllowed()) {
-		try {
-			return await activateTemporaryAccount();
-		} catch {
-			return undefined;
-		}
+		return requireTemporaryAccount().then(
+			({ accountId }) => accountId,
+			() => undefined
+		);
 	}
 
 	const stored = await resolveAccountIdSilent();

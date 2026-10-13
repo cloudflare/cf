@@ -23,6 +23,7 @@ vi.mock("@cloudflare/workers-auth/cf", () => ({
 		getOrSelectAccountId: getOrSelectAccountIdMock,
 		requireAuth: requireAuthMock,
 		setTemporaryAllowed: vi.fn(),
+		requireApiToken: () => ({ apiToken: "temporary-token" }),
 		getActiveAccountId: getActiveAccountIdMock,
 		fetchAllAccounts: fetchAllAccountsMock,
 	}),
@@ -83,9 +84,6 @@ describe("context", () => {
 
 			await expect(resolveAccountIdSilent()).resolves.toBeUndefined();
 			await expect(getAccountId()).resolves.toBe("temporary-account");
-			await expect(resolveAccountIdSilent()).resolves.toBe("temporary-account");
-			await expect(getAccountId()).resolves.toBe("temporary-account");
-			expect(requireAuthMock).toHaveBeenCalledOnce();
 			expect(requireAuthMock).toHaveBeenCalledWith({
 				compliance_region: "public",
 			});

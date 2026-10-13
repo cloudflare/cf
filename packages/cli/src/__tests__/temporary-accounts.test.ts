@@ -337,14 +337,12 @@ describe("--temporary-account", () => {
 	});
 
 	it("clears a cached account on logout without OAuth credentials", async () => {
-		const log = vi.spyOn(console, "log").mockImplementation(() => {});
+		const stderr = captureStderr();
 
 		await runCf(["auth", "logout"], env);
 
 		expect(existsSync(cachePath())).toBe(false);
-		expect(log.mock.calls.flat().join("\n")).toContain(
-			"Cleared temporary preview account."
-		);
+		expect(stderr()).toContain("Cleared temporary preview account.");
 	});
 
 	it("suggests a temporary account from whoami when unauthenticated", async () => {

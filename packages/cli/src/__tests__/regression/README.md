@@ -6,15 +6,17 @@ From the repository root:
 pnpm --filter cf test:regression
 pnpm --filter cf test:regression -t 'cf zones list$'
 pnpm --filter cf test:regression -t 'cf zones list$' -u
-pnpm --filter cf test:regression --shard=1/2
-pnpm --filter cf test:regression --shard=2/2
+pnpm --filter cf test:regression --shard=1/12
 ```
 
 Install against the frozen lockfile and run `pnpm generate` first when preparing
-a fresh checkout. The suite uses six worker forks across twelve balanced command files. Each fork
-owns its temporary working directory, MSW interceptor, credentials and state;
-each command owns its snapshot, so files can run in parallel or on separate CI
-shards. Arguments after `test:regression` go directly to Vitest.
+a fresh checkout. The suite has twelve command files balanced by case count.
+Locally, six worker forks run them in parallel. CI runs the separate
+`.github/workflows/regression.yml` workflow as twelve GitHub Actions shards,
+each running one file. Each fork owns its temporary working directory, MSW
+interceptor, credentials and state, and each command owns its snapshot.
+Arguments after `test:regression` go directly to Vitest. The harness checks in
+`harness.test.ts` run with the normal CLI test suite.
 
 `cases.ts` discovers executable commands from the tracked command catalogue and
 intermediate command groups from the generated source. It omits `cf auth`,

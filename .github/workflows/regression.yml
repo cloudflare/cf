@@ -1,0 +1,44 @@
+name: HTTP regression
+
+# Snapshots every HTTP request made by the cf command tree. The suite has 12
+# balanced files; each GitHub Actions shard runs one file.
+
+on:
+  pull_request:
+  merge_group:
+    types: [checks_requested]
+    branches:
+      - main
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+jobs:
+  regression:
+    if: ${{ github.repository_owner == 'cloudflare' }}
+    name: regression (${{ matrix.shard }}/12)
+    strategy:
+      fail-fast: false
+      matrix:
+        shard: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+        with:
+          fetch-depth: 1
+          persist-credentials: false
+
+      - name: Install dependencies
+        uses: ./.github/actions/install-dependencies
+
+      - name: Snapshot cf commands
+        run: pnpm --filter cf test:regression --shard=${{ matrix.shard }}/12

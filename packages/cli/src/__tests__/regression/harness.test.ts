@@ -2,6 +2,7 @@ import { describe, expect, it } from "vite-plus/test";
 import {
 	catalogue,
 	commandCases,
+	excludedRoots,
 	fixturePath,
 	groups,
 	presenceRows,
@@ -25,6 +26,17 @@ describe("regression coverage and request recording", () => {
 			groups.toSorted((a, b) => a.localeCompare(b))
 		);
 		expect(new Set(assignedGroups).size).toBe(assignedGroups.length);
+	});
+
+	it("omits auth, build, deploy and dev workflows", () => {
+		expect(
+			catalogue.commands.filter((command) =>
+				excludedRoots.has(command.fullPath[0] ?? "")
+			)
+		).toEqual([]);
+		expect(
+			groups.filter((group) => excludedRoots.has(group.split(" ")[0] ?? ""))
+		).toEqual([]);
 	});
 
 	it("includes an actual no-argument invocation for every executable", () => {

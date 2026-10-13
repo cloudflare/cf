@@ -8,7 +8,6 @@ export const workflowRequestPaths: Record<string, string> = {
 	"cf ai run": "/ai/run",
 	"cf docs search": "/api/ai-search/search",
 	"cf registrar registrations create": "/registrar/registrations",
-	"cf deploy": "/versions",
 	"cf workers versions create": "/versions",
 	"cf workers triggers deploy": "/schedules",
 	"cf previews deploy": "/deployments",
@@ -32,9 +31,6 @@ function seed(files: Record<string, string>): void {
 export function seedWorkflow(command: string): void {
 	if (
 		[
-			"cf build",
-			"cf dev",
-			"cf deploy",
 			"cf workers versions create",
 			"cf workers triggers deploy",
 			"cf previews deploy",
@@ -182,7 +178,6 @@ export function workflowResponse(command: string, request: Request): Response {
 	}
 	if (
 		[
-			"cf deploy",
 			"cf workers versions create",
 			"cf workers triggers deploy",
 			"cf previews deploy",

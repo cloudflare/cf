@@ -18,9 +18,11 @@ owns its temporary working directory, MSW interceptor, credentials and state;
 each command owns its snapshot, so files can run in parallel or on separate CI
 shards. Arguments after `test:regression` go directly to Vitest.
 
-`cases.ts` discovers executable commands from the tracked command catalogue,
-adds the hidden login alias, and discovers intermediate command groups from the
-generated source. Every leaf and group runs without arguments. Leaves also run
+`cases.ts` discovers executable commands from the tracked command catalogue and
+intermediate command groups from the generated source. It omits `cf auth`,
+`cf build`, `cf deploy` and `cf dev`, including the hidden `cf login` alias, because their
+credential and local-project setup adds complexity without useful request-shape
+coverage. Every remaining leaf and group runs without arguments. Leaves also run
 with required arguments, individual optional flags, all enum choices, both
 boolean values, pairwise flag presence/absence, alternate positional values,
 aliases, global flags, local mode, raw/file/array bodies and derived body fields.

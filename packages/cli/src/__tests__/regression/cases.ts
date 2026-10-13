@@ -10,12 +10,19 @@ export interface RegressionCase {
 	commandPath?: string[];
 }
 
+// These workflows need local project and credential setup that isn't useful
+// for request-shape regression coverage.
+export const excludedRoots = new Set(["auth", "build", "deploy", "dev"]);
+
 export const catalogue = JSON.parse(
 	readFileSync(
 		new URL("../../commands/_generated/_meta/commands.json", import.meta.url),
 		"utf8"
 	)
 ) as { commands: CommandMeta[]; descriptions: Record<string, string> };
+catalogue.commands = catalogue.commands.filter(
+	(command) => !excludedRoots.has(command.fullPath[0] ?? "")
+);
 
 export const handwritten = new Map<string, { dir: string; overrides: boolean }>(
 	(
@@ -34,20 +41,6 @@ export const handwritten = new Map<string, { dir: string; overrides: boolean }>(
 		}
 	).commands.map((command) => [command.command, command.handWritten])
 );
-
-// The hidden top-level login alias is registered at runtime but intentionally
-// omitted from the public completion catalogue.
-const login = catalogue.commands.find(
-	(command) => command.command === "cf auth login"
-);
-if (login) {
-	catalogue.commands.push({
-		...login,
-		command: "cf login",
-		fullPath: ["login"],
-	});
-	handwritten.set("cf login", { dir: "login", overrides: false });
-}
 
 export function generatedSource(command: CommandMeta): string | undefined {
 	if (handwritten.has(command.command)) {
@@ -96,7 +89,9 @@ export const groups = [
 				.map((_, index) => command.fullPath.slice(0, index + 1).join(" "))
 		),
 	]),
-].filter((path) => !leafPaths.has(path));
+].filter(
+	(path) => !leafPaths.has(path) && !excludedRoots.has(path.split(" ")[0] ?? "")
+);
 
 function value(
 	name: string,

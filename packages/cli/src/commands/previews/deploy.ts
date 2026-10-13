@@ -13,6 +13,7 @@ import {
 import {
 	getCloudflareApiBaseUrl,
 	getCloudflareComplianceRegion,
+	writeOutput,
 } from "@cloudflare/workers-utils";
 import { getAuthToken } from "../../lib/auth-token.js";
 import { BuildOutputConfigError } from "../../lib/build-output-error.js";
@@ -65,7 +66,7 @@ export function createPreviewDeployOutput(result: PreviewResult) {
 		preview_urls: result.preview.urls,
 		deployment_id: result.deployment.id,
 		deployment_urls: result.deployment.urls,
-	};
+	} as const;
 }
 
 export async function runPreviewDeploy(
@@ -172,7 +173,7 @@ async function deployPreviewBuildOutput(
 		);
 	}
 
-	return previewBuildOutput(
+	const result = await previewBuildOutput(
 		accountId,
 		{ name: previewName, json: true },
 		{
@@ -195,6 +196,11 @@ async function deployPreviewBuildOutput(
 			},
 		}
 	);
+	writeOutput({
+		...createPreviewDeployOutput(result),
+		worker_name: builtConfig.name ?? null,
+	});
+	return result;
 }
 
 const command: CommandModule<CommonYargsOptions, PreviewDeployArgs> = {

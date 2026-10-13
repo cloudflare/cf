@@ -77,7 +77,6 @@
 	},
 	"devDependencies": {
 		"@bomb.sh/tab": "0.0.22",
-		"@bytecodealliance/jco": "1.37.0",
 		"@clack/core": "1.5.1",
 		"@clack/prompts": "^1.8.1",
 		"@cloudflare/autoconfig": "0.7.8",
@@ -85,7 +84,6 @@
 		"@cloudflare/codemods": "0.4.2",
 		"@cloudflare/containers-shared": "0.21.6",
 		"@cloudflare/deploy-helpers": "0.20.2",
-		"@cloudflare/forge": "file:../../vendor/cloudflare-forge-0.1.0.tgz",
 		"@cloudflare/workers-auth": "0.14.0",
 		"@cloudflare/workers-utils": "0.47.2",
 		"@types/node": "25.9.9",

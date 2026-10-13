@@ -11,7 +11,7 @@ pnpm --filter cf test:regression --shard=1/12
 
 Install against the frozen lockfile and run `pnpm generate` first when preparing
 a fresh checkout. The suite has twelve command files balanced by case count.
-Locally, six worker forks run them in parallel. CI runs the separate
+Locally, Vitest runs them in parallel worker forks. CI runs the separate
 `.github/workflows/regression.yml` workflow as twelve GitHub Actions shards,
 each running one file. Each fork owns its temporary working directory, MSW
 interceptor, credentials and state, and each command owns its snapshot.

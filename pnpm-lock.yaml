@@ -178,7 +178,7 @@ overrides:
 patchedDependencies:
   '@changesets/cli@2.31.0': 059d085279022eeb7f92871a182f71310e4891b62871cfedccb21b34f4bfcd27
   '@cloudflare/containers-shared@*': ecd632c350c22e92f11dd426d4aec675be6515b0aa7e21f2ff1367e315e3ac59
-  '@cloudflare/deploy-helpers@*': 664a40a198d157b2798e2f45cf713cb4d5926bc697603116b32a25c9ab92879d
+  '@cloudflare/deploy-helpers@0.20.2': ccc77093efad88b7539a7cd31b7402b2f966db6ba94a41f4a03cfb820d7980d6
 
 importers:
 
@@ -298,7 +298,7 @@ importers:
         version: 0.21.6(patch_hash=ecd632c350c22e92f11dd426d4aec675be6515b0aa7e21f2ff1367e315e3ac59)(vitest@5.0.3)
       '@cloudflare/deploy-helpers':
         specifier: 0.20.2
-        version: 0.20.2(patch_hash=664a40a198d157b2798e2f45cf713cb4d5926bc697603116b32a25c9ab92879d)(@types/node@25.9.9)(vitest@5.0.3)
+        version: 0.20.2(patch_hash=ccc77093efad88b7539a7cd31b7402b2f966db6ba94a41f4a03cfb820d7980d6)(@types/node@25.9.9)(vitest@5.0.3)
       '@cloudflare/forge':
         specifier: file:../../vendor/cloudflare-forge-0.1.0.tgz
         version: file:vendor/cloudflare-forge-0.1.0.tgz(@bytecodealliance/jco@1.37.0)
@@ -326,6 +326,9 @@ importers:
       ci-info:
         specifier: ^4.4.0
         version: 4.4.0
+      dotenv-expand:
+        specifier: 12.0.2
+        version: 12.0.2
       esbuild:
         specifier: 0.28.2
         version: 0.28.2
@@ -2986,8 +2989,16 @@ packages:
   dom-accessibility-api@0.5.16:
     resolution: {integrity: sha512-X7BJ2yElsnOJ30pZF4uIIDfBEVgF4XEBxL9Bxhy6dnrm5hkzqmsWHGTiHqRiITNhMyFLyAiWndIJP7Z1NTteDg==}
 
+  dotenv-expand@12.0.2:
+    resolution: {integrity: sha512-lXpXz2ZE1cea1gL4sz2Ipj8y4PiVjytYr3Ij0SWoms1PGxIv7m2CRKuRuCRtHdVuvM/hNJPMxt5PbhboNC4dPQ==}
+    engines: {node: '>=12'}
+
   dotenv@16.3.1:
     resolution: {integrity: sha512-IPzF4w4/Rd94bA9imS68tZBaYyBWSCE47V1RGuMrB94iyTOIEwRmVL2x/4An+6mETpLrKJ5hQkB8W4kFAadeIQ==}
+    engines: {node: '>=12'}
+
+  dotenv@16.6.1:
+    resolution: {integrity: sha512-uBq4egWHTcTt33a72vpSG0z3HnPuIl6NqYcTrKEg2azoEyl2hpW0zqlxysq2pK9HlDIHyHyakeYaYnSAwd8bow==}
     engines: {node: '>=12'}
 
   eastasianwidth@0.2.0:
@@ -4411,7 +4422,7 @@ snapshots:
     transitivePeerDependencies:
       - vitest
 
-  '@cloudflare/deploy-helpers@0.20.2(patch_hash=664a40a198d157b2798e2f45cf713cb4d5926bc697603116b32a25c9ab92879d)(@types/node@25.9.9)(vitest@5.0.3)':
+  '@cloudflare/deploy-helpers@0.20.2(patch_hash=ccc77093efad88b7539a7cd31b7402b2f966db6ba94a41f4a03cfb820d7980d6)(@types/node@25.9.9)(vitest@5.0.3)':
     dependencies:
       '@cloudflare/cli-shared-helpers': 0.2.6(vitest@5.0.3)
       '@cloudflare/config': 0.25.0
@@ -6053,7 +6064,13 @@ snapshots:
 
   dom-accessibility-api@0.5.16: {}
 
+  dotenv-expand@12.0.2:
+    dependencies:
+      dotenv: 16.6.1
+
   dotenv@16.3.1: {}
+
+  dotenv@16.6.1: {}
 
   eastasianwidth@0.2.0: {}
 

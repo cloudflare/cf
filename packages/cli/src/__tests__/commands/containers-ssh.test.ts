@@ -20,11 +20,11 @@ import {
 import { openSession } from "../../lib/session.js";
 import { readState, updateState } from "../../lib/state.js";
 import { USER_AGENT } from "../../version.js";
-import { generateResourceIndexFile } from "../helpers/forge-cli.js";
+import { generateResourceIndexFile } from "../helpers/generator.js";
 import {
 	handWrittenLeafCommands,
 	readHandWrittenLeafCommandMeta,
-} from "../helpers/forge-cli.js";
+} from "../helpers/generator.js";
 import { server, setupMsw, TEST_BASE_URL } from "../helpers/msw.js";
 import { runCf } from "../helpers/run-cf.js";
 import type * as ContainersShared from "@cloudflare/containers-shared";

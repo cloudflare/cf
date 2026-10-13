@@ -1,0 +1,11 @@
+[package]
+name = "cf-generator"
+version = "0.0.0"
+edition = "2024"
+rust-version = "1.88"
+publish = false
+
+[dependencies]
+forge = { git = "https://github.com/cloudflare/forge", rev = "7f86447210b7bea3779bfdab3cd5655eade0eadb", default-features = false }
+serde = { version = "1", features = ["derive"] }
+serde_json = { version = "1", features = ["preserve_order"] }

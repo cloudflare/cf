@@ -2,8 +2,8 @@ import fs from "node:fs";
 import { fileURLToPath } from "node:url";
 import { describe, expect, it } from "vite-plus/test";
 import sidecar from "../../../commands/d1/migrations/meta.js";
-import { generateResourceIndexFile } from "../../helpers/forge-cli.js";
-import { handWrittenSubGroups } from "../../helpers/forge-cli.js";
+import { generateResourceIndexFile } from "../../helpers/generator.js";
+import { handWrittenSubGroups } from "../../helpers/generator.js";
 import type { CommandMeta } from "../../../lib/metadata.js";
 
 /**

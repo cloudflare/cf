@@ -1,11 +1,12 @@
 name: CI
 
-# Three jobs on every PR, merge-queue candidate, and push to main:
+# Four jobs on every PR, merge-queue candidate, and push to main:
 #
 #   check — `pnpm check` (generation, dependency builds, lint/format + tsgo) over
 #           the whole repo.
 #   cli   — the cf CLI's in-package vitest suite (packages/cli) on
 #           Linux, macOS, and Windows.
+#   regression — HTTP request snapshots for the cf command tree on Linux.
 #   wrangler-tests — the canonical Wrangler compatibility corpus retargeted
 #                    at cf (packages/wrangler-tests).
 
@@ -72,8 +73,21 @@ jobs:
       - name: Run cli tests
         run: pnpm --filter cf test
 
-      - name: Snapshot every cf command (three-minute budget)
-        if: runner.os == 'Linux'
+  regression:
+    if: ${{ github.repository_owner == 'cloudflare' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+        with:
+          fetch-depth: 1
+          persist-credentials: false
+
+      - name: Install dependencies
+        uses: ./.github/actions/install-dependencies
+
+      - name: Snapshot every cf command
         run: pnpm --filter cf test:regression
 
   wrangler-tests:

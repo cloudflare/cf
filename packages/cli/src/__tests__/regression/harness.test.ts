@@ -29,7 +29,7 @@ describe("regression coverage and request recording", () => {
 		expect(new Set(assignedGroups).size).toBe(assignedGroups.length);
 	});
 
-	it("omits auth, build, deploy and dev workflows", () => {
+	it("omits access, auth, build, deploy and dev workflows", () => {
 		expect(
 			catalogue.commands.filter((command) =>
 				excludedRoots.has(command.fullPath[0] ?? "")
@@ -40,7 +40,7 @@ describe("regression coverage and request recording", () => {
 		).toEqual([]);
 	});
 
-	it("omits commands that start Docker or SSH", () => {
+	it("omits commands that start Docker, SSH or cloudflared", () => {
 		expect(
 			catalogue.commands.filter((command) =>
 				excludedCommands.has(command.command)

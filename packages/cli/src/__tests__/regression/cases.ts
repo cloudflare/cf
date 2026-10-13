@@ -11,14 +11,27 @@ export interface RegressionCase {
 }
 
 // These workflows need local project and credential setup that isn't useful
-// for request-shape regression coverage.
-export const excludedRoots = new Set(["auth", "build", "deploy", "dev"]);
+// for request-shape regression coverage. Every `cf access` command starts
+// cloudflared.
+export const excludedRoots = new Set([
+	"access",
+	"auth",
+	"build",
+	"deploy",
+	"dev",
+]);
 
-// These commands would start Docker or SSH.
+// These commands would start Docker, SSH or cloudflared.
 export const excludedCommands = new Set([
 	"cf containers build",
 	"cf containers push",
 	"cf containers ssh",
+	"cf tunnels diag",
+	"cf tunnels login",
+	"cf tunnels quick-start",
+	"cf tunnels ready",
+	"cf tunnels run",
+	"cf tunnels tail",
 ]);
 
 export const catalogue = JSON.parse(

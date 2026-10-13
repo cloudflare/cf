@@ -15,7 +15,6 @@ export const workflowRequestPaths: Record<string, string> = {
 	"cf containers images delete": "/manifests/",
 	"cf d1 migrations list": "/query",
 	"cf d1 migrations apply": "/query",
-	"cf tunnels tail": "/management",
 };
 
 function seed(files: Record<string, string>): void {
@@ -151,9 +150,6 @@ export function workflowResponse(command: string, request: Request): Response {
 			}
 			return new HttpResponse(null);
 		}
-	}
-	if (command === "cf tunnels tail" && path.endsWith("/management")) {
-		return envelope("regression-management-token");
 	}
 	if (
 		[

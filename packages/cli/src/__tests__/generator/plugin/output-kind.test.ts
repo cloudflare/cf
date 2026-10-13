@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vite-plus/test";
-import { outputKind } from "../../../../generator/plugin/operation.js";
 import { operation } from "../../helpers/cli-plugin.js";
+import { outputKind } from "../../helpers/native-generator.js";
 
 describe("outputKind", () => {
 	it.each([

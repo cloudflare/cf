@@ -5,11 +5,11 @@ import {
 	runInTempDir,
 } from "@cloudflare/workers-utils/test-helpers";
 import { beforeEach, describe, expect, it, vi } from "vite-plus/test";
-import { generateResourceIndexFile } from "../helpers/forge-cli.js";
+import { generateResourceIndexFile } from "../helpers/generator.js";
 import {
 	handWrittenLeafCommands,
 	readHandWrittenLeafCommandMeta,
-} from "../helpers/forge-cli.js";
+} from "../helpers/generator.js";
 import { runCf } from "../helpers/run-cf.js";
 
 describe("cf pages deploy", () => {

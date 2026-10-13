@@ -20,7 +20,8 @@ Paths below are relative to the repository root unless a section uses the
 
 ```
 cf/
-├── packages/cli/       # cf — CLI + generator
+├── packages/generator/ # native Rust Forge plugin (src/, Cargo.toml, Cargo.lock)
+├── packages/cli/       # cf — CLI + OpenAPI preparation
 │   ├── src/
 │   │   ├── index.ts            # yargs entry; registers lazy-loaded generated
 │   │   │                       # commands + hand-written commands
@@ -57,11 +58,8 @@ cf/
 │   │   │   └── tools.ts        # hand-written: list/print MCP tool definitions
 │   │   ├── lib/                # see "Library Map" below
 │   │   └── __tests__/          # vitest + MSW harness (unit + command tests)
-│   ├── generator/              # the forge plugin that generates the commands,
-│   │   │                       # and OpenAPI preparation for it
-│   │   ├── plugin/             # the plugin: OpenAPI model → yargs commands + metadata
-│   │   ├── index.ts            # the plugin's entry module: registry + meta.ts sidecars
-│   │   ├── cli.wasm            # gitignored; task:generate:plugin compiles index.ts
+│   ├── generator/              # OpenAPI preparation and native process wrapper
+│   │   ├── run.ts             # normalization, JSON config, and Cargo invocation
 │   │   ├── cli-audience.ts     # drops operations outside the cf-cli audience
 │   │   ├── flag-names-cli-compat.ts # temporary flag names for clashing API fields
 │   │   └── workers-secret-cli-compat.ts # temporary spec patch
@@ -71,7 +69,7 @@ cf/
 │   ├── bin/cf                  # binary entry — loads lightweight delegation,
 │   │                           # then imports dist/index.mjs when staying local
 │   ├── dist/                   # gitignored, written by Vite+ Pack (chunked ESM)
-│   ├── generate.ts             # OpenAPI fetch + preparation → forge --target wasm://<plugin>
+│   ├── generate.ts             # OpenAPI fetch + preparation → native Rust generator
 │   ├── vite.config.ts          # test and production ESM bundle config
 │   └── build-test.mjs          # compiled bundle for Wrangler compatibility tests
 ├── packages/wrangler-tests/    # imported wrangler test corpus, using
@@ -141,23 +139,20 @@ Test infrastructure is split across two packages:
 pnpm build
   └─ vp run -r task:build
        └─ cf#task:build (vp pack), after cf#task:generate
-            ├─ cf#task:generate:plugin
-            │    └─ forge-plugin build generator/index.ts -o generator/cli.wasm
             └─ cf#task:generate: tsx packages/cli/generate.ts
                  ├─ fetch pinned Forge OpenAPI release (or preview bundle)
                  ├─ prepare it (hidden ops, account/zone routes, cf-cli audience)
                  ├─ rm -rf _generated/
                  ├─ forge normalize --leave-old-extensions -
-                 │    └─ pipe normalized JSON into forge - --target wasm://generator/cli.wasm --out _generated
+                 ├─ cargo run --release --locked --manifest-path packages/generator/Cargo.toml
+                 │    └─ normalized OpenAPI + JSON registry/metadata/flag policy → _generated
                  └─ vp fmt _generated/               # post-format emitted TS
 ```
 
-forge (the `@cloudflare/forge` binary, installed from a pinned preview) parses
-the document; the command generator is a forge plugin that lives here, in
-`packages/cli/generator/plugin/`. It is TypeScript written against
-`@cloudflare/forge/plugin`, which `forge-plugin build` compiles to a
-WebAssembly component that forge runs. It walks forge's model of the
-operations, each top-level group's commands in parallel, and emits:
+The pinned `@cloudflare/forge` npm binary normalizes the prepared document.
+The native generator in `packages/generator/src/` uses the Forge Rust library
+at the same commit, implements its `Plugin` trait, walks the operations with
+each top-level group in parallel, and emits:
 
 - `src/commands/_generated/<resource>/<sub>/<op>.ts` — yargs command modules
 - `src/commands/_generated/_operations/<resource>/<group>/<op>.ts` — one
@@ -172,19 +167,13 @@ operations, each top-level group's commands in parallel, and emits:
 - `src/commands/_generated/_meta/hand-written-commands.json` — hand-written subset with root/leaf/subgroup/override provenance
 - `src/commands/_generated/_meta/schemas.json` — per-op JSON schemas, with the flag that fills a path or query parameter when it has one
 
-`generate.ts` cleans the directory first; Vite+ formats afterward (kept
-out of the generator so it stays format-agnostic). A plugin reads nothing
-but the document, so its entry module, `generator/index.ts`, bundles what
-else it needs. It imports the hand-written registry,
-`src/commands/hand-written.ts`, directly: that module is plain data and
-imports nothing, and the root commands' loaders and telemetry live apart in
-`src/commands/root-commands.ts` so the bundle never follows them. It
-imports each command's `meta.ts` sidecar the same way, through
-`src/commands/hand-written-meta.ts`, whose types require exactly one typed
-sidecar per registered command. The `task:generate:plugin` Vite+ task,
-which `task:generate` depends on, runs `forge-plugin build` to compile the
-entry to the gitignored `generator/cli.wasm`. Running
-`generate.ts` directly requires that component to exist already.
+`generate.ts` cleans the directory first; Vite+ formats afterward. The wrapper
+`generator/run.ts` serializes the hand-written registry, typed `meta.ts`
+sidecars from `hand-written-meta.ts`, and the shared flag policy into temporary
+JSON, then runs Cargo. The registry remains import-free plain data; root lazy
+loaders and telemetry stay in `root-commands.ts`. Cargo builds the generator
+when its sources change and reuses the release binary afterward. Generation
+requires Rust 1.88 or newer; published cf installs do not require Rust.
 
 The commands send their requests through cf's thin runtime in `src/api/`
 (`Client`, `ApiError`, `Page`), imported as `#api`. It is ordinary hand-maintained
@@ -213,7 +202,7 @@ the complete generated and hand-written `_meta/commands.json` catalogue (see
 | Task                            | Location                                                                                                                                                                                                                                                          |
 | ------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | Add/fix a generated command     | Overlay files in `@cloudflare/forge` — NOT in this repo. Edit forge; Renovate picks up the new main build.                                                                                                                                                        |
-| Add a generated-command rule    | `packages/cli/generator/plugin/` — emits handler body, arg shapes, body validation, confirm prompts, etc.; rerun `pnpm generate`                                                                                                                                  |
+| Add a generated-command rule    | `packages/generator/src/` — emits handler body, arg shapes, body validation, confirm prompts, etc.; rerun `pnpm generate`                                                                                                                                         |
 | New cross-product flag          | yargs middleware in `packages/cli/src/index.ts` (`--zone`, `--profile`, `--quiet`, `--local`, `--persist-to`)                                                                                                                                                     |
 | Hand-written command            | roots under `packages/cli/src/commands/{auth,build,cli,completions,dev,deploy,init,previews}/` plus `schema.ts` and `tools.ts`; generated-tree exceptions under `{access,ai,registrar,d1,tunnels,workers}/`; register every one in `src/commands/hand-written.ts` |
 | Hand-written metadata/emit      | per-command `meta.ts`, `packages/cli/src/commands/{hand-written,hand-written-meta,root-commands}.ts`                                                                                                                                                              |
@@ -230,8 +219,8 @@ the complete generated and hand-written `_meta/commands.json` catalogue (see
 | Output / spinner / errors       | `packages/cli/src/lib/{output,progress,errors,prompt}.ts`, `lib/ui/`                                                                                                                                                                                              |
 | Body parsing / dry-run          | `packages/cli/src/lib/{body-parser,dry-run,resolve}.ts`                                                                                                                                                                                                           |
 | Raw / non-JSON responses        | `packages/cli/src/lib/raw-fetch.ts`                                                                                                                                                                                                                               |
-| Generator logic                 | `packages/cli/generator/plugin/{args,emit,files}.ts`                                                                                                                                                                                                              |
-| Emitted-file shape              | `packages/cli/generator/plugin/files.ts`                                                                                                                                                                                                                          |
+| Generator logic                 | `packages/generator/src/{args.rs,emit/,files.rs}`                                                                                                                                                                                                                 |
+| Emitted-file shape              | `packages/generator/src/files.rs`                                                                                                                                                                                                                                 |
 | Request runtime                 | `packages/cli/src/api/` (imported as `#api`); hand-written commands import operations from `#operations/<path>.js`                                                                                                                                                |
 | Lint / format rules             | `vite.config.ts`                                                                                                                                                                                                                                                  |
 | Forge / OpenAPI bump            | Forge: Renovate `renovate/forge` PR; OpenAPI: `Update OpenAPI` workflow PR; by hand, edit the SHA, `pnpm install`, `pnpm generate`                                                                                                                                |
@@ -363,7 +352,7 @@ Vite+ Pack preserves those dynamic root imports as code-split chunks (and may fa
 - `packages/cli/src/commands/_generated/` — yargs modules, `_operations/`
   operation literals, and `_meta/` JSON
 
-Tracked in git and never safe to patch by hand. Every `pnpm generate` cleans, rewrites, and Vite+-formats `_generated/`. Make changes in Forge's OpenAPI or in the generator plugin (`packages/cli/generator/plugin/`), then regenerate and commit the resulting artifacts.
+Tracked in git and never safe to patch by hand. Every `pnpm generate` cleans, rewrites, and Vite+-formats `_generated/`. Make changes in Forge's OpenAPI or in the generator plugin (`packages/generator/src/`), then regenerate and commit the resulting artifacts.
 
 GitHub collapses `_generated/` by default because it is marked `linguist-generated`, but AI reviewers must still review every changed file there.
 
@@ -438,7 +427,7 @@ review; for example, module upload names do not need to match the
 ## Generator Conventions
 
 How the generator turns forge methods into yargs commands. Important
-to know before editing `generator/plugin/`.
+to know before editing `packages/generator/src/`.
 
 ### Path-param routing
 
@@ -515,7 +504,7 @@ flag can also be repeated. `--file <path>` supplies one primary file as before.
 `src/commands/hand-written.ts` is the single registry for root commands,
 generated-parent presentation overrides, leaf overrides, added leaf commands,
 and subgroups. It is plain, typed data that imports nothing, because the
-generator plugin bundles it. A root command's lazy loader and telemetry go in
+generator wrapper serializes it. A root command's lazy loader and telemetry go in
 `src/commands/root-commands.ts`, keyed by its `dir`; the compiler requires
 exactly one entry there per registered root. `src/index.ts` derives its lazy
 root shells from the two; the generator plugin splices the non-root kinds into
@@ -775,12 +764,12 @@ The future names are not registered as options, so cf rejects them as unknown. A
 
 ## Forge package and OpenAPI pin
 
-`@cloudflare/forge` — the forge binary for every platform, which runs the
-plugin that generates the commands, and `@cloudflare/forge/plugin`, the
-library the plugin is written with — is not on npm. Forge's `Publish preview`
-workflow publishes a build to [pkg.pr.new](https://pkg.pr.new) from main
-pushes that change the package, and `packages/cli/package.json` pins one by
-commit: `https://pkg.pr.new/cloudflare/forge/@cloudflare/forge@<sha>`.
+`@cloudflare/forge` supplies the normalization binary and is installed from
+a commit-pinned [pkg.pr.new](https://pkg.pr.new) build in
+`packages/cli/package.json`. The native generator's `forge` Git dependency in
+`packages/generator/Cargo.toml` uses the same SHA. Generation rejects mismatched
+pins. Forge's `Publish preview` workflow publishes main pushes that change
+the package.
 `build-output-utils`, `config`, `containers-shared`, `workers-auth`,
 `workers-utils`, and `deploy-helpers` are installed from npm at exact versions.
 Dependency patches are registered in `pnpm-workspace.yaml` under
@@ -791,7 +780,8 @@ The two Forge inputs are updated separately:
 - **The forge package SHA** — Renovate (`renovate.json5`'s `customManagers` /
   `customDatasources`) follows the newest successful `publish-preview.yml` run
   on Forge's main branch and opens a `renovate/forge` PR. Its post-upgrade
-  tasks refresh `pnpm-lock.yaml`, run `pnpm generate` against the unchanged
+  tasks refresh `pnpm-lock.yaml`, synchronize the Cargo pin and lockfile with
+  `scripts/sync-generator-forge.mjs`, run `pnpm generate` against the unchanged
   OpenAPI pin, and write a `patch` changeset with
   `scripts/create-forge-changeset.mjs` when `_generated/` changed. Each command
   must match `allowedCommands` in `.github/renovate-global.json`.
@@ -806,8 +796,9 @@ The two Forge inputs are updated separately:
 Both PRs rewrite `_generated/`; whichever merges second is rebased or
 refreshed onto the new base and regenerated by its own automation.
 
-To move either pin by hand, edit the SHA, then run `pnpm install` and
-`pnpm generate`, and commit `pnpm-lock.yaml` and the regenerated output with it.
+To move a pin by hand, edit the SHA and run `pnpm install`. For a Forge package
+bump, also run `node scripts/sync-generator-forge.mjs`. Run `pnpm generate`
+and commit the lockfiles and regenerated output with the pin.
 
 When the Forge package publishes to npm: switch to the npm version and drop
 the `forge-main` custom manager and datasource.

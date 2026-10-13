@@ -1,0 +1,20 @@
+[package]
+name = "cf-generator"
+default-run = "cf-generator"
+version = "0.0.0"
+edition = "2024"
+rust-version = "1.88"
+publish = false
+
+[dependencies]
+forge = { git = "https://github.com/cloudflare/forge", rev = "1cf202d9b45ad766e7065d44a2478044a9d7bae0", default-features = false }
+serde = { version = "1", features = ["derive"] }
+serde_json = { version = "1", features = ["preserve_order"] }
+
+[features]
+test-harness = []
+
+[[bin]]
+name = "cf-generator-tests"
+path = "src/test_harness.rs"
+required-features = ["test-harness"]

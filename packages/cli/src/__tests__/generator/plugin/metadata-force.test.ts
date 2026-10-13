@@ -1,32 +1,29 @@
 import { describe, expect, it } from "vite-plus/test";
-import {
-	commandFiles,
-	metadataFiles,
-} from "../../../../generator/plugin/files.js";
-import { HandWritten } from "../../../../generator/plugin/hand-written.js";
-import { method, operation } from "../../helpers/cli-plugin.js";
-import type { Command } from "../../../../generator/plugin/commands.js";
+import { generateFiles } from "../../helpers/generator.js";
 import type { CommandMeta } from "../../../lib/command-meta.js";
 
 function generate(httpMethod: string, requireConfirmation?: string) {
-	const leaf = method("update", "things.update", { requireConfirmation });
-	const ops = new Map([[leaf.operationId, operation(httpMethod, "/things")]]);
-	const command: Command = {
-		name: "things",
-		description: "Example things",
-		items: [leaf],
-		hideCommand: false,
-	};
-	const hand = new HandWritten({
-		handWritten: [],
-		sidecars: { roots: {}, subgroups: {}, leaves: {}, leafOverrides: {} },
+	const files = generateFiles({
+		openapi: "3.0.3",
+		info: { title: "Test", version: "1" },
+		paths: {
+			"/things": {
+				[httpMethod]: {
+					operationId: "things.update",
+					summary: "Update things",
+					"x-fern-sdk-group-name": "things",
+					"x-fern-sdk-method-name": "update",
+					"x-forge-require-confirmation": requireConfirmation,
+					responses: {
+						"200": {
+							description: "OK",
+							content: { "application/json": { schema: { type: "object" } } },
+						},
+					},
+				},
+			},
+		},
 	});
-	const files = new Map(
-		[
-			...commandFiles(ops, command, hand),
-			...metadataFiles(ops, [command], hand),
-		].map((file) => [file.path, file.content])
-	);
 	const metadata = JSON.parse(files.get("_meta/commands.json") ?? "") as {
 		commands: CommandMeta[];
 	};

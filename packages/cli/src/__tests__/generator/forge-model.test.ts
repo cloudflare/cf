@@ -1,9 +1,9 @@
 /**
- * The commands the plugin derives from forge's model of a document: names,
+ * The commands the generator derives from forge's model of a document: names,
  * operation IDs, flags, and how a typed call sends each operation.
  */
 import { describe, expect, it } from "vite-plus/test";
-import { generateFiles } from "../../helpers/cli-plugin.js";
+import { generateFiles } from "../helpers/generator.js";
 
 type Json = Record<string, unknown>;
 
@@ -761,8 +761,8 @@ describe("the forge model", () => {
 			},
 			{ Thing: thing }
 		);
-		expect(operation(generateFiles(d), "things/create")).toContain(
-			`constants: {\n    kind: "widget",\n  },`
+		expect(operation(generateFiles(d), "things/create")).toMatch(
+			/constants: \{\s+kind: "widget",\s+\},/
 		);
 	});
 

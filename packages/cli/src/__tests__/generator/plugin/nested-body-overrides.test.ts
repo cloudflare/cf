@@ -3,7 +3,6 @@ import { Script } from "node:vm";
 import { runInTempDir, seed } from "@cloudflare/workers-utils/test-helpers";
 import { describe, expect, it, vi } from "vite-plus/test";
 import yargs, { type CommandModule } from "yargs";
-import { derive } from "../../../../generator/plugin/args.js";
 import { compactBody, parseBody } from "../../../lib/body-parser.js";
 import { resolveFileToken } from "../../../lib/input-validation.js";
 import {
@@ -13,8 +12,9 @@ import {
 	method,
 	operation,
 } from "../../helpers/cli-plugin.js";
-import type { Method } from "../../../../generator/plugin/commands.js";
+import { derive } from "../../helpers/native-generator.js";
 import type { CommandMeta } from "../../../lib/command-meta.js";
+import type { Method } from "../../helpers/native-generator.js";
 
 describe("exact body-field overrides", () => {
 	const op = operation("post", "/things", {

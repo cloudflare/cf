@@ -52,7 +52,7 @@ const devCommand: CommandModule<CommonYargsOptions, DevArgs> = {
 					`cf dev starts the appropriate development server for your project. ` +
 						`It runs your framework's dev command when available, falling back to an installed Cloudflare dev server.\n\n` +
 						`Only ${theme.brand("--mode")} is forwarded to supported framework development servers. ` +
-						`Other arguments are forwarded only to Cloudflare dev-server implementations.`
+						`${theme.brand("--profile")} and other arguments are forwarded only to Cloudflare dev-server implementations.`
 				) as Argv<DevArgs>
 		);
 	},
@@ -69,6 +69,8 @@ const devCommand: CommandModule<CommonYargsOptions, DevArgs> = {
 		// to be strings.
 		const implArgs = (argv.implArgs ?? []).map(String);
 		const modeArgs = argv.mode ? ["--mode", argv.mode] : [];
+		const profileArgs =
+			argv.profile !== undefined ? ["--profile", argv.profile] : [];
 		if (details?.devCommand) {
 			if (implArgs.length > 0) {
 				throw new Error(
@@ -94,7 +96,11 @@ const devCommand: CommandModule<CommonYargsOptions, DevArgs> = {
 
 		// Spawn and propagate the impl's exit code and termination signal.
 		// CliExit flows up to main() which lets bin/cf map to process.exit(code).
-		const result = await spawnImpl(picked, "dev", [...modeArgs, ...implArgs]);
+		const result = await spawnImpl(picked, "dev", [
+			...profileArgs,
+			...modeArgs,
+			...implArgs,
+		]);
 		throw new CliExit(result.exitCode, { signal: result.signal });
 	},
 };

@@ -1,6 +1,7 @@
 import { readFileSync } from "node:fs";
 import { resolve } from "node:path";
 import * as clack from "@clack/prompts";
+import { writeAuthConfigFile } from "@cloudflare/workers-auth/cf";
 import {
 	mockConsoleMethods,
 	runInTempDir,
@@ -626,6 +627,39 @@ describe("cf dev", () => {
 
 			const result = await runCf(["dev"]);
 			expect(result.exitCode).toBe(17);
+		});
+
+		it("forwards an explicitly selected auth profile to the impl", async () => {
+			for (const profile of ["personal", "work"]) {
+				writeAuthConfigFile(
+					{
+						oauth_token: `${profile}-token`,
+						expiration_time: "2999-01-01T00:00:00.000Z",
+					},
+					profile
+				);
+			}
+			await runCf(["auth", "activate", "personal"]);
+			await seed({
+				"package.json": JSON.stringify({
+					devDependencies: { "@cloudflare/vite-plugin": "beta" },
+				}),
+				"node_modules/@cloudflare/vite-plugin/package.json": JSON.stringify({
+					name: "@cloudflare/vite-plugin",
+					version: "2.0.0-beta.sha-805ec1ff3",
+				}),
+				"node_modules/@cloudflare/vite-plugin/bin/cf-vite": nodeScript(
+					'require("node:fs").writeFileSync("argv.out", process.argv.slice(2).join("\\n") + "\\n");'
+				),
+			});
+			makeExecutable("node_modules/@cloudflare/vite-plugin/bin/cf-vite");
+
+			const result = await runCf(["dev", "--profile", "work"]);
+
+			expect(result.exitCode).toBe(0);
+			expect(readFileSync(resolve(process.cwd(), "argv.out"), "utf8")).toBe(
+				"dev\n--profile\nwork\n"
+			);
 		});
 
 		it("forwards unknown flags to the impl", async () => {

@@ -42,6 +42,7 @@
     "narrow-sdk-error-imports",
     "noninteractive-abort-exit",
     "pages-deploy-guidance",
+    "path-parameter-overrides",
     "plain-version-output",
     "pnpm-init-build-approvals",
     "prebuilt-mode-validation",

@@ -153,6 +153,36 @@ describe("protobuf response emission", () => {
 	});
 });
 
+describe("raw response emission", () => {
+	it("sends header flags with a bodyless raw request", () => {
+		const op = operation(
+			"get",
+			"/accounts/{account_id}/r2/buckets/{bucket_name}/objects/{object_key}",
+			{
+				pathParams: [
+					param("account_id"),
+					param("bucket_name"),
+					param("object_key"),
+				],
+				headerParams: [
+					param("cf-r2-jurisdiction", undefined, {
+						required: false,
+						description: "Jurisdiction",
+					}),
+				],
+				responses: [["200", { content: ["application/octet-stream"] }]],
+			}
+		);
+		const ctx = context(method("get", "r2.objects.get"), "r2", op);
+		expect(ctx.outputKind).toBe("binary");
+		const output = handler(ctx).join("\n");
+		expect(output).toContain("fetchRawBytes(");
+		expect(output).toContain(
+			"persistTo: argv.persistTo as string | undefined, headers: Object.keys(headers).length > 0 ? headers : undefined"
+		);
+	});
+});
+
 describe("variant prompts", () => {
 	const bodyArg = (name: string, type: ArgType, rest: Partial<Arg> = {}) =>
 		arg(name, type, { in: "body", path: [name.replaceAll("-", "_")] }, rest);

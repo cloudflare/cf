@@ -300,3 +300,63 @@ describe("cf r2 buckets (network)", () => {
 		expect(stdout()).toContain("/r2/buckets");
 	});
 });
+
+describe("cf r2 objects get (network)", () => {
+	runInTempDir();
+	setupMsw();
+
+	const ENV = {
+		CLOUDFLARE_API_TOKEN: "test-token",
+		CLOUDFLARE_API_BASE_URL: TEST_BASE_URL,
+		CLOUDFLARE_ACCOUNT_ID: "test-account",
+	};
+	const ACCT = `${TEST_BASE_URL}/accounts/test-account`;
+
+	let outSpy: ReturnType<typeof vi.spyOn>;
+	let errSpy: ReturnType<typeof vi.spyOn>;
+
+	beforeEach(() => {
+		outSpy = vi.spyOn(process.stdout, "write").mockImplementation(() => true);
+		errSpy = vi.spyOn(process.stderr, "write").mockImplementation(() => true);
+	});
+
+	afterEach(() => {
+		outSpy.mockRestore();
+		errSpy.mockRestore();
+	});
+
+	it("sends --cf-r2-jurisdiction with the object request", async () => {
+		let jurisdiction: string | null = null;
+		server.use(
+			http.get(
+				`${ACCT}/r2/buckets/my-bucket/objects/report.txt`,
+				({ request }) => {
+					jurisdiction = request.headers.get("cf-r2-jurisdiction");
+					return new HttpResponse("object body", {
+						headers: { "Content-Type": "application/octet-stream" },
+					});
+				}
+			)
+		);
+
+		const { exitCode } = await runCf(
+			[
+				"r2",
+				"objects",
+				"get",
+				"report.txt",
+				"--bucket-name",
+				"my-bucket",
+				"--cf-r2-jurisdiction",
+				"eu",
+			],
+			ENV
+		);
+
+		expect(exitCode).toBe(0);
+		expect(jurisdiction).toBe("eu");
+		expect(
+			outSpy.mock.calls.map((c: unknown[]) => String(c[0])).join("")
+		).toContain("object body");
+	});
+});

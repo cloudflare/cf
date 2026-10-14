@@ -8,7 +8,7 @@ patchedDependencies:
   "@cloudflare/deploy-helpers@*": patches/@cloudflare__deploy-helpers@0.20.1.patch
 
 # Prevent transitive deps from pulling from git / tarball URLs.
-# Direct deps (vendor/*.tgz) are still allowed.
+# Direct deps (the pkg.pr.new @cloudflare/forge build) are still allowed.
 blockExoticSubdeps: true
 
 # Allow Cloudflare release batches before pnpm's maturity cutoff. Keep these

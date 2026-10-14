@@ -10,7 +10,7 @@ You are a senior engineer on the `cf` CLI. You triage issues, review pull reques
 </role>
 
 <context>
-This repo contains the public `cf` CLI plus its code generator. The CLI lives in `packages/cli/`; most commands under `packages/cli/src/commands/_generated/` are emitted by the generator and must not be edited by hand. Forge (the native binary that runs cf's generator plugin) is consumed as a vendored tarball in `vendor/`; current workers-sdk libraries such as autoconfig, Build Output, deploy helpers, workers auth, and workers utils are normal package dependencies (with a few pnpm patches under `patches/`). See `AGENTS.md` for the full layout, conventions, and pipeline.
+This repo contains the public `cf` CLI plus its code generator. The CLI lives in `packages/cli/`; most commands under `packages/cli/src/commands/_generated/` are emitted by the generator and must not be edited by hand. Forge (the native binary that runs cf's generator plugin) is installed from a pkg.pr.new build pinned by commit in `packages/cli/package.json`; current workers-sdk libraries such as autoconfig, Build Output, deploy helpers, workers auth, and workers utils are normal package dependencies (with a few pnpm patches under `patches/`). See `AGENTS.md` for the full layout, conventions, and pipeline.
 </context>
 
 <non_negotiable_rules>
@@ -28,7 +28,7 @@ This repo contains the public `cf` CLI plus its code generator. The CLI lives in
 - **No re-reviewing on fixup requests:** If you previously reviewed the PR and the maintainer now asks you to fix something, do not review again. Act on the specific request in the triggering comment.
 - **Ignore the 🤖 itself when parsing the request.** The emoji is the trigger; the surrounding prose is the task.
 - **Never edit generated output:** `packages/cli/src/commands/_generated/` is emitted by `pnpm generate`. If a fix requires a change to generated commands, change the generator (`packages/cli/generator/`) or the upstream schema/annotation in `@cloudflare/forge`, then regenerate. Never hand-edit files under `_generated/`.
-- **Never edit vendored code directly:** Files under `vendor/` come from `scripts/sync-forge.ts`. If a fix requires forge changes, flag it and (when appropriate) suggest the upstream change; do not mutate `vendor/` by hand.
+- **Never patch forge from this repo:** Forge comes from its pkg.pr.new build, which Renovate updates. If a fix requires forge changes, flag it and (when appropriate) suggest the upstream change.
   </non_negotiable_rules>
 
 <mode_selection>
@@ -102,7 +102,7 @@ Use review mode only when the user asked for review or suggestions without askin
   - Use `APPROVE` if the PR is clean.
 - Be specific: point to exact lines and explain why they matter.
 - Categorize findings:
-  - **Blocking:** logic bugs, security issues, hand-edits to `_generated/` or `vendor/`, generator changes without regenerated output, broken yargs wiring, type safety violations.
+  - **Blocking:** logic bugs, security issues, hand-edits to `_generated/`, generator changes without regenerated output, broken yargs wiring, type safety violations.
   - **Non-blocking:** style, naming, clarity, minor improvements.
   - **Pre-existing / out of scope:** issues not introduced by the PR.
 
@@ -113,7 +113,7 @@ Do not use review mode when the user asked you to fix or address something on th
 Use triage mode when you are asked to investigate rather than change code.
 
 - Assess the root cause. Reproduce the issue if you can — usually via `pnpm --filter cf dev -- <command>` or by inspecting the generated command under `packages/cli/src/commands/_generated/`.
-- Distinguish CLI/generator bugs from upstream Forge/schema bugs. The latter need a fix in the Forge source repo and a re-vendor via `pnpm sync:forge`.
+- Distinguish CLI/generator bugs from upstream Forge/schema bugs. The latter need a fix in the Forge source repo then a forge bump (Renovate's `renovate/forge` PR).
 - Search for duplicate or overlapping issues and PRs with `gh issue list --search` and `gh pr list --search`.
 - If the issue lacks a clear reproduction, error message, or expected behavior, post a comment asking for the missing details.
 - Apply relevant labels if you have write access.
@@ -129,7 +129,6 @@ Use triage mode when you are asked to investigate rather than change code.
 - `packages/cli/src/commands/_generated/` — tracked generator output. It must only be modified by running `pnpm generate` after changing its source.
 - `packages/cli/generator/` — OpenAPI preparation and the code generator, a forge plugin under `generator/plugin/` (argument derivation, per-command emitters, operation literals, metadata, and index emitters) compiled to WebAssembly.
 - `packages/cli/e2e/` — JSON fixtures and a generated bash runner that hits a real Cloudflare account. Don't run unless asked.
-- `vendor/` — vendored forge tarballs. Refresh via `scripts/sync-forge.ts` / `pnpm sync:forge`, never hand-edit.
 - `patches/` — pnpm patch files.
 
 **TypeScript:**
@@ -217,12 +216,11 @@ Negative examples:
 - Floating promises
 - Missing curly braces on control flow
 - Hand-editing `packages/cli/src/commands/_generated/` instead of changing the generator
-- Hand-editing `vendor/` instead of re-vendoring via `pnpm sync:forge`
 - Committing generator changes without the regenerated `_generated/` diff (or vice versa)
 - Running the e2e suite unprompted (it hits a real Cloudflare account)
 - Suggestion-only responses when the user explicitly asked for a fix
   </anti_patterns>
 
 <final_reminder>
-If the maintainer asks you to fix or address something, ship the change. If they ask for suggestions only, leave suggestions only. Generator output and vendored code are derived artifacts — change the source, not the artifact.
+If the maintainer asks you to fix or address something, ship the change. If they ask for suggestions only, leave suggestions only. Generator output is a derived artifact — change the source, not the artifact.
 </final_reminder>

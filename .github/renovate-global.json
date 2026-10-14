@@ -3,5 +3,10 @@
 	"repositories": ["cloudflare/cf"],
 	"onboarding": false,
 	"requireConfig": "required",
-	"allowedCommands": ["^node \\./scripts/create-workers-sdk-changeset\\.mjs$"]
+	"allowedCommands": [
+		"^node \\./scripts/create-workers-sdk-changeset\\.mjs$",
+		"^pnpm install --no-frozen-lockfile$",
+		"^pnpm generate$",
+		"^node \\./scripts/create-forge-changeset\\.mjs$"
+	]
 }

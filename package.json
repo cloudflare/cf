@@ -11,7 +11,6 @@
 		"check:format": "vp run repo:format",
 		"check:type": "vp run -r task:check:type",
 		"fix": "vp lint --fix --type-aware && vp fmt",
-		"sync:forge": "tsx scripts/sync-forge.ts",
 		"changeset": "changeset",
 		"changeset:version": "changeset version && vp fmt packages/cli/CHANGELOG.md"
 	},

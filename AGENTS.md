@@ -1,7 +1,7 @@
 # cf repo — AGENTS.md
 
 Contains the unscoped `cf` public npm CLI and its code generator. Shared code lives in
-`@cloudflare/forge`, vendored as a tarball in `vendor/` until it is on npm.
+`@cloudflare/forge`, installed from a pkg.pr.new build pinned by commit until it is on npm.
 
 ## Cross-platform support
 
@@ -74,11 +74,12 @@ cf/
 ├── fixtures/                   # cf dev discovery fixtures (vite-plugin +
 │                               # wrangler-bundler projects)
 ├── usecases/                   # per-command usage-scenario YAML catalogue
-├── vendor/                     # Vendored tarball: forge
 ├── patches/                    # pnpm patches: release publishing + Container image
 │                               # cleanup ownership
-├── scripts/sync-forge.ts       # re-vendor pipeline (FORGE_REPO=...)
-├── .github/workflows/          # CI, changesets publish, prerelease, benchmark, review
+├── scripts/                    # OpenAPI updater + Renovate changeset writers
+├── renovate.json5              # dependency updates, incl. the Forge package pin
+├── .github/workflows/          # CI, changesets publish, prerelease, benchmark,
+│                               # review, Renovate, Update Forge (OpenAPI pin)
 ├── pnpm-workspace.yaml         # dependency patches, catalogs, and build scripts
 ├── package.json                # scripts/deps + pnpm version
 └── vite.config.ts              # Vite+ tasks, lint, and format settings
@@ -145,7 +146,7 @@ pnpm build
                  └─ vp fmt _generated/               # post-format emitted TS
 ```
 
-forge (the vendored `@cloudflare/forge` binary, built from forge-rs) parses
+forge (the `@cloudflare/forge` binary, installed from pkg.pr.new) parses
 the document; the command generator is a forge plugin that lives here, in
 `packages/cli/generator/plugin/`. It is TypeScript written against
 `@cloudflare/forge/plugin`, which `forge-plugin build` compiles to a
@@ -209,7 +210,7 @@ the complete generated and hand-written `_meta/commands.json` catalogue (see
 
 | Task                            | Location                                                                                                                                                                                                                                                          |
 | ------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Add/fix a generated command     | Overlay files in `@cloudflare/forge` — NOT in this repo. Edit forge, republish, re-vendor (`pnpm sync:forge`).                                                                                                                                                    |
+| Add/fix a generated command     | Overlay files in `@cloudflare/forge` — NOT in this repo. Edit forge; Renovate picks up the new main build.                                                                                                                                                        |
 | Add a generated-command rule    | `packages/cli/generator/plugin/` — emits handler body, arg shapes, batching, confirm prompts, etc.; rerun `pnpm generate`                                                                                                                                         |
 | New cross-product flag          | yargs middleware in `packages/cli/src/index.ts` (`--zone`, `--profile`, `--quiet`, `--local`, `--persist-to`)                                                                                                                                                     |
 | Hand-written command            | roots under `packages/cli/src/commands/{auth,build,cli,completions,dev,deploy,init,previews}/` plus `schema.ts` and `tools.ts`; generated-tree exceptions under `{access,ai,registrar,d1,tunnels,workers}/`; register every one in `src/commands/hand-written.ts` |
@@ -231,7 +232,7 @@ the complete generated and hand-written `_meta/commands.json` catalogue (see
 | Emitted-file shape              | `packages/cli/generator/plugin/files.ts`                                                                                                                                                                                                                          |
 | Request runtime                 | `packages/cli/src/api/` (imported as `#api`); hand-written commands import operations from `#operations/<path>.js`                                                                                                                                                |
 | Lint / format rules             | `vite.config.ts`                                                                                                                                                                                                                                                  |
-| Vendored forge bump             | `pnpm sync:forge` (then commit `vendor/` and `package.json` diff)                                                                                                                                                                                                 |
+| Forge / OpenAPI bump            | Forge: Renovate `renovate/forge` PR; OpenAPI: `Update Forge` workflow PR; by hand, edit the SHA, `pnpm install`, `pnpm generate`                                                                                                                                  |
 | Patch a published dep           | `patches/*.patch` (created via `pnpm patch <pkg>`)                                                                                                                                                                                                                |
 
 ## Library Map (`packages/cli/src/lib/`)
@@ -694,31 +695,43 @@ Structured API output is JSON; generated `binary`/`text` endpoints write their p
 
 `--mode` is registered globally and exact colliding API fields are temporarily omitted. `--remote` exists on a generated Pay Per Crawl command. The other exact names in this table are not registered as root/global options today and are normally rejected outside a leaf that defines them. The in-source design list is the `Reserved (future)` comment in `src/index.ts`; it does not itself register or reject options.
 
-## Vendored packages
+## Forge package and OpenAPI pin
 
-Tarball in `vendor/`:
-
-- `cloudflare-forge-0.1.0.tgz` — the forge binary (forge-rs), for every
-  platform, which runs the plugin that generates the commands, and
-  `@cloudflare/forge/plugin`, the library the plugin is written with
-
-The Forge package is not published to npm yet, so
-`packages/cli/package.json` references it via a `file:` specifier.
+`@cloudflare/forge` — the forge binary for every platform, which runs the
+plugin that generates the commands, and `@cloudflare/forge/plugin`, the
+library the plugin is written with — is not on npm. Forge's `Publish preview`
+workflow publishes a build to [pkg.pr.new](https://pkg.pr.new) from main
+pushes that change the package, and `packages/cli/package.json` pins one by
+commit: `https://pkg.pr.new/cloudflare/forge/@cloudflare/forge@<sha>`.
 `build-output-utils`, `config`, `containers-shared`, `workers-auth`,
 `workers-utils`, and `deploy-helpers` are installed from npm at exact versions.
 Dependency patches are registered in `pnpm-workspace.yaml` under
 `patchedDependencies`; workers-auth is not patched.
 
-To re-vendor **forge**: build and pack it in forge-rs
-(`node releases/npm/scripts/compile.mjs && node releases/npm/scripts/archive.mjs`),
-then run `pnpm sync:forge` (defaults to `FORGE_RS_REPO=../forge-rs`). The
-script copies the tarball into `vendor/`, rewrites the forge `file:`
-specifier in `packages/cli/package.json`, and runs `pnpm install`.
+The two Forge inputs are updated separately:
 
-Then commit `vendor/` + the `package.json` diff.
+- **The forge package SHA** — Renovate (`renovate.json5`'s `customManagers` /
+  `customDatasources`) follows the newest successful `publish-preview.yml` run
+  on Forge's main branch and opens a `renovate/forge` PR. Its post-upgrade
+  tasks refresh `pnpm-lock.yaml`, run `pnpm generate` against the unchanged
+  OpenAPI pin, and write a `patch` changeset with
+  `scripts/create-forge-changeset.mjs` when `_generated/` changed. Each command
+  must match `allowedCommands` in `.github/renovate-global.json`.
+- **`FORGE_OPENAPI_VERSION`** in `packages/cli/generate.ts` — the `Update Forge`
+  workflow (`.github/workflows/update-forge.yml`) runs `scripts/update-forge.ts`
+  hourly and on a `forge-release-published` `repository_dispatch`. It pins the
+  latest `openapi@<sha>` Forge release, regenerates with the pinned forge
+  build, writes a `minor` changeset, and opens or refreshes the
+  `automation/update-forge` PR.
 
-When the Forge package publishes to npm: drop the tarball, switch to the npm
-version, and delete `scripts/sync-forge.ts`.
+Both PRs rewrite `_generated/`; whichever merges second is rebased or
+refreshed onto the new base and regenerated by its own automation.
+
+To move either pin by hand, edit the SHA, then run `pnpm install` and
+`pnpm generate`, and commit `pnpm-lock.yaml` and the regenerated output with it.
+
+When the Forge package publishes to npm: switch to the npm version and drop
+the `forge-main` custom manager and datasource.
 
 The containers-shared and deploy-helpers patches stay until those packages defer
 local image cleanup to cf's successful workflow boundary — see "Patched deps".
@@ -768,7 +781,7 @@ over adding switches in cf src/.
 | `x-forge-args` / `x-forge-params`                                                  | live   | Full argument/parameter overrides                                                                            |
 | `x-sensitive: true`                                                                | live   | Mark a request field for masked prompting and secret-only stdin ingestion                                    |
 
-Names discussed in planning documents such as `paramOverride.derive`, `x-forge-job-poll`, `x-forge-pre-delete-checks`, `x-forge-confirm-typed-name`, `x-forge-success-message`, and `x-forge-list-pagination` are proposals only. They are not part of the current vendored Forge schema and the generator does not read them.
+Names discussed in planning documents such as `paramOverride.derive`, `x-forge-job-poll`, `x-forge-pre-delete-checks`, `x-forge-confirm-typed-name`, `x-forge-success-message`, and `x-forge-list-pagination` are proposals only. They are not part of the current Forge schema and the generator does not read them.
 
 ## Known Anti-Patterns to Avoid
 
@@ -778,7 +791,7 @@ Names discussed in planning documents such as `paramOverride.derive`, `x-forge-j
 - Never use `git -C <dir>` for cross-directory git operations. Always
   cd into the right directory (use the bash tool's `workdir` parameter).
 - Never modify `@cloudflare/forge` from this repo. Changes go in the
-  forge source repo, republished, re-vendored.
+  forge source repo and picked up from its next main build.
 - Never use relative imports across package boundaries.
 - Never infer HTTP verbs from command names. Use the finalized OpenAPI operation resolved by Forge (`opInfo.method`).
 - Never hard-code API product names in generic/cross-cutting `packages/cli/src/` code. Keep the documented AI, Registrar, D1, and Workers workflow exceptions contained in their command directories, and keep the universal zone-name resolver confined to `context.ts` and `resolve.ts`.
@@ -826,7 +839,7 @@ CI). See `.changeset/README.md` for the full format and rules.
 ## Commands
 
 ```bash
-pnpm install           # uses vendor/ tarballs
+pnpm install           # forge comes from its pinned pkg.pr.new build
 pnpm build             # pinned public OpenAPI → CLI and dist/
 pnpm dev               # tsx packages/cli/src/dev.ts
 pnpm check             # generation + dependency builds + workspace tsgo + lint/format
@@ -834,7 +847,6 @@ pnpm check:lint        # Vite+ lint --type-aware
 pnpm check:type        # workspace tsgo, after generation and dependency builds
 pnpm check:format      # Vite+ format check
 pnpm fix               # Vite+ lint fix + format
-pnpm sync:forge        # re-vendor from FORGE_REPO (default ../forge)
 ```
 
 Build, type-check, and test commands declare their prerequisites in each
@@ -960,7 +972,7 @@ From the Forge RFC, these are the vocabulary and shapes to prefer for new overla
   expectations:
   - Per-platform binary: ~245–265 MB (Node ~50–60 MB + cf's bundled
     JS ~5–10 MB + bundled `@cloudflare/autoconfig` and framework
-    adapters ~3 MB + vendored forge ~3 MB + **miniflare ≈185 MB** +
+    adapters ~3 MB + forge ~3 MB + **miniflare ≈185 MB** +
     misc deps). Miniflare is now a hard runtime dep for `--local`
     (workerd ~140 MB, miniflare ~26 MB, sharp + libvips ~19 MB), and
     it dominates the budget.

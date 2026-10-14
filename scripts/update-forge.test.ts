@@ -1,14 +1,8 @@
 /* oxlint-disable turbo/no-undeclared-env-vars -- standalone automation tests */
 import assert from "node:assert/strict";
-import {
-	mkdirSync,
-	mkdtempSync,
-	readFileSync,
-	rmSync,
-	writeFileSync,
-} from "node:fs";
+import { mkdtempSync, rmSync } from "node:fs";
 import { tmpdir } from "node:os";
-import { dirname, join } from "node:path";
+import { join } from "node:path";
 import { test } from "node:test";
 import { setImmediate } from "node:timers/promises";
 import type { TestContext } from "node:test";
@@ -23,7 +17,6 @@ const {
 	getForgeEnvironment,
 	getLatestForgeRelease,
 	githubResponse,
-	prepareForgeOpenApi,
 	run,
 } = await import("./update-forge.ts");
 if (originalToken === undefined) {
@@ -65,7 +58,6 @@ await test("Forge release reads are anonymous while cf requests can authenticate
 	assert.deepEqual(await getLatestForgeRelease(), {
 		tag: `openapi@${version}`,
 		version,
-		assetId: 123,
 	});
 	await githubResponse("/repos/cloudflare/cf/pulls", {}, "cf-write-token");
 	assert.deepEqual(requests, [
@@ -91,57 +83,13 @@ await test("Forge subprocesses receive no GitHub tokens or injected Git credenti
 	assert.deepEqual(environment, originalEnvironment);
 });
 
-await test("OpenAPI assets download anonymously and compatibility fixes preserve the source", async (context) => {
-	const forgeDir = mkdtempSync(join(tmpdir(), "cf-forge-auth-test-"));
-	context.after(() => rmSync(forgeDir, { recursive: true, force: true }));
-	const compatibilityPath = join(
-		forgeDir,
-		"packages/forge/shared/fern-openapi-compat.ts"
+await test("releases without the OpenAPI asset are rejected", async (context) => {
+	context.mock.method(globalThis, "fetch", async () =>
+		Response.json({ tag_name: `openapi@${version}`, assets: [] })
 	);
-	mkdirSync(dirname(compatibilityPath), { recursive: true });
-	writeFileSync(join(forgeDir, "package.json"), '{"type":"module"}');
-	writeFileSync(
-		compatibilityPath,
-		`
-export function applyFernCompatibilityFixes(source) {
-  source.paths["/compatibility-fix"] = {};
-  return { fixes: 1 };
-}
-`
-	);
-
-	const source = { openapi: "3.0.0", paths: {} };
-	let downloaded = false;
-	context.mock.method(
-		globalThis,
-		"fetch",
-		async (url: string, init: RequestInit) => {
-			assert.equal(
-				new URL(url).pathname,
-				"/repos/cloudflare/forge/releases/assets/123"
-			);
-			const headers = new Headers(init.headers);
-			assert.equal(headers.get("Authorization"), null);
-			assert.equal(headers.get("Accept"), "application/octet-stream");
-			downloaded = true;
-			return Response.json(source);
-		}
-	);
-
-	await prepareForgeOpenApi(forgeDir, 123);
-	assert.equal(downloaded, true);
-	assert.deepEqual(
-		JSON.parse(readFileSync(join(forgeDir, "openapi.json"), "utf8")),
-		source
-	);
-	assert.deepEqual(
-		JSON.parse(
-			readFileSync(
-				join(forgeDir, "packages/cloudflare-fern-config/fern/openapi.json"),
-				"utf8"
-			)
-		),
-		{ openapi: "3.0.0", paths: { "/compatibility-fix": {} } }
+	await assert.rejects(
+		getLatestForgeRelease(),
+		/has no openapi\.forge\.json asset/
 	);
 });
 

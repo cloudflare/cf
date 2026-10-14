@@ -2,5 +2,6 @@
 	"platform": "github",
 	"repositories": ["cloudflare/cf"],
 	"onboarding": false,
-	"requireConfig": "required"
+	"requireConfig": "required",
+	"allowedCommands": ["^node \\./scripts/create-workers-sdk-changeset\\.mjs$"]
 }

@@ -39,6 +39,12 @@
 			groupName: "workers-sdk derived dependencies",
 			groupSlug: "workers-sdk",
 			minimumReleaseAge: "0 minutes",
+			postUpgradeTasks: {
+				commands: ["node ./scripts/create-workers-sdk-changeset.mjs"],
+				dataFileTemplate: "{{{toJSON upgrades}}}",
+				executionMode: "branch",
+				fileFilters: [".changeset/renovate-workers-sdk-*.md"],
+			},
 			schedule: ["at any time"],
 		},
 		{

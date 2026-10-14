@@ -1,6 +1,6 @@
+import operation from "../../../../../_operations/cloudforce-one/events/graphql/create/graph/qlv2.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * qlv2 command
  * @generated from apis/overlays/cloudforce-one.ts
@@ -30,8 +30,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 }
 
 type Args = InferArgs<typeof builder>;
-
-type Request = SdkRequest<"post_EventGraphQLV2">;
 
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "qlv2",
@@ -63,9 +61,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.accountId = accountId;
 
 				const result = await withProgress(`Creating`, async () =>
-					client.cloudforceOne.events.graphql.create.graph.qlv2({
-						account_id: accountId,
-					} satisfies Request)
+					client.send(operation, { account_id: accountId })
 				);
 				formatOutput(result, { successLabel: `Created` });
 			}

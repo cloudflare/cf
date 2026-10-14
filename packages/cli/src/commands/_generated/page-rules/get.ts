@@ -1,6 +1,6 @@
+import operation from "../_operations/page-rules/get.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * get command
  * @generated from apis/overlays/page-rules.ts
@@ -31,8 +31,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"page-rules-get-a-page-rule">;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "get <pagerule-id>",
 	describe: "Get a Page Rule",
@@ -53,8 +51,8 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						method: "GET",
 						url: `https://api.cloudflare.com/client/v4/zones/${argv.zone ?? argv.zoneId ?? "<zone>"}/pagerules/${argv["pagerule-id"] == null ? "<pagerule-id>" : encodeURIComponent(String(argv["pagerule-id"]))}`,
 						pathParams: {
-							"pagerule-id": String(argv["pagerule-id"] ?? ""),
 							"zone-id": String(argv.zone ?? argv["zone-id"] ?? ""),
+							"pagerule-id": String(argv["pagerule-id"] ?? ""),
 						},
 						bodyKind: "none",
 					});
@@ -67,10 +65,10 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.zoneId = zoneId;
 
 				const result = await withProgress(`Loading`, async () =>
-					client.pageRules.get({
+					client.send(operation, {
 						zone_id: zoneId,
 						pagerule_id: argv["pagerule-id"],
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Loaded` });
 			}

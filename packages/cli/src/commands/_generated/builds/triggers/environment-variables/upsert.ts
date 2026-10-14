@@ -1,6 +1,6 @@
+import operation from "../../../_operations/builds/triggers/environment-variables/upsert.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * upsert command
  * @generated from apis/overlays/builds.ts
@@ -42,9 +42,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"upsertEnvironmentVariables">;
-type Body = Request["body"];
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "upsert <trigger-uuid>",
 	describe: "Set build variables",
@@ -76,13 +73,13 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.accountId = accountId;
 
 				if (argv.body) {
-					const bodyData = parseBody<Request["body"]>(argv.body);
+					const bodyData = parseBody(argv.body);
 					const result = await withProgress(`Updating`, async () =>
-						client.builds.triggers.environmentVariables.upsert({
+						client.send(operation, {
 							body: bodyData,
 							account_id: accountId,
 							trigger_uuid: argv["trigger-uuid"],
-						} satisfies Request)
+						})
 					);
 					formatOutput(result, { successLabel: `Updated` });
 					return;

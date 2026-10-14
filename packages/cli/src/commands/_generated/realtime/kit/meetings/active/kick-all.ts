@@ -1,6 +1,6 @@
+import operation from "../../../../_operations/realtime/kit/meetings/active/kick-all.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * kick-all command
  * @generated from apis/overlays/realtime.ts
@@ -48,8 +48,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"KickAllParticipants">;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "kick-all <meeting-id>",
 	describe: "Kick all participants",
@@ -94,11 +92,11 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				}
 
 				const result = await withProgress(`Deleting`, async () =>
-					client.realtime.kit.meetings.active.kickAll({
+					client.send(operation, {
 						account_id: accountId,
 						app_id: argv["app-id"],
 						meeting_id: argv["meeting-id"],
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Deleted` });
 			}

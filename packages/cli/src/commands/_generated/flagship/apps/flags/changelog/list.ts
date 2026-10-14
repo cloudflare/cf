@@ -1,6 +1,6 @@
+import operation from "../../../../_operations/flagship/apps/flags/changelog/list.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkQuery, SdkRequest } from "#sdk";
 /**
  * list command
  * @generated from apis/overlays/flagship.ts
@@ -49,9 +49,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"flagship_get_flag_changelog">;
-type Query = SdkQuery<"flagship_get_flag_changelog">;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "list",
 	describe: "List flag changelog entries",
@@ -66,7 +63,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
-				const queryParams: Query = {
+				const queryParams: Record<string, unknown> = {
 					limit: argv["limit"],
 					cursor: argv["cursor"],
 				};
@@ -90,12 +87,12 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.accountId = accountId;
 
 				const result = await withProgress(`Loading`, async () =>
-					client.flagship.apps.flags.changelog.list({
+					client.send(operation, {
 						account_id: accountId,
 						app_id: argv["app-id"],
 						flag_key: argv["flag-key"],
 						...queryParams,
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Loaded` });
 			}

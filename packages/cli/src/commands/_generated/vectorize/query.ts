@@ -1,6 +1,6 @@
+import operation from "../_operations/vectorize/query.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * query command
  * @generated from apis/overlays/vectorize.ts
@@ -69,9 +69,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"vectorize-query-vector">;
-type Body = Request;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "query <index-name>",
 	describe: "Query Vectors",
@@ -111,13 +108,13 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.accountId = accountId;
 
 				if (argv.body) {
-					const bodyData = parseBody<Request>(argv.body);
+					const bodyData = parseBody(argv.body);
 					const result = await withProgress(`Loading`, async () =>
-						client.vectorize.query({
-							...bodyData,
+						client.send(operation, {
+							body: bodyData,
 							account_id: accountId,
 							index_name: argv["index-name"],
-						} satisfies Request)
+						})
 					);
 					formatOutput(result, { successLabel: `Loaded` });
 					return;
@@ -129,18 +126,18 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				}
 
 				// Assemble request body from individual flags
-				const bodyData = compactBody<Body>({
+				const bodyData = compactBody({
 					returnMetadata: argv["return-metadata"],
 					returnValues: argv["return-values"],
 					topK: argv["top-k"],
 					vector: argv["vector"],
 				});
 				const result = await withProgress(`Loading`, async () =>
-					client.vectorize.query({
-						...bodyData,
+					client.send(operation, {
+						body: bodyData,
 						account_id: accountId,
 						index_name: argv["index-name"],
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Loaded` });
 			}

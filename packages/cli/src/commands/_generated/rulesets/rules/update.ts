@@ -1,6 +1,6 @@
+import operation from "../../_operations/rulesets/rules/update.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkQuery, SdkRequest } from "#sdk";
 /**
  * update command
  * @generated from apis/overlays/rulesets.ts
@@ -71,12 +71,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request =
-	SdkRequest<"generated:patch:/{account_or_zone}/{account_or_zone_id}/rulesets/{ruleset_id}/rules/{rule_id}">;
-type Body = Request;
-type Query =
-	SdkQuery<"generated:patch:/{account_or_zone}/{account_or_zone_id}/rulesets/{ruleset_id}/rules/{rule_id}">;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "update <rule-id>",
 	describe: "Update an account or zone ruleset rule",
@@ -91,7 +85,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
-				const queryParams: Query = {
+				const queryParams: Record<string, unknown> = {
 					dry_run: argv["validate-only"],
 				};
 				if (argv.dryRun) {
@@ -108,9 +102,9 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						url: `https://api.cloudflare.com/client/v4/${accountOrZone}/${accountOrZoneId}/rulesets/${argv["ruleset-id"] == null ? "<ruleset-id>" : encodeURIComponent(String(argv["ruleset-id"]))}/rules/${argv["rule-id"] == null ? "<rule-id>" : encodeURIComponent(String(argv["rule-id"]))}`,
 						pathParams: {
 							"account-or-zone": String(accountOrZone),
-							"rule-id": String(argv["rule-id"] ?? ""),
-							"ruleset-id": String(argv["ruleset-id"] ?? ""),
 							"account-or-zone-id": String(accountOrZoneId),
+							"ruleset-id": String(argv["ruleset-id"] ?? ""),
+							"rule-id": String(argv["rule-id"] ?? ""),
 						},
 						query: queryParams,
 						bodyKind: "json",
@@ -152,28 +146,28 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				}
 
 				if (argv.body) {
-					const bodyData = parseBody<Request>(argv.body);
+					const bodyData = parseBody(argv.body);
 					const qs = new URLSearchParams(
 						Object.entries(queryParams)
 							.filter(([, v]) => v !== undefined)
 							.map(([k, v]) => [k, String(v)])
 					).toString();
 					const result = await withProgress(`Updating`, async () =>
-						client.rulesets.rules.update({
-							...bodyData,
+						client.send(operation, {
+							body: bodyData,
 							account_or_zone: accountOrZone,
 							account_or_zone_id: accountOrZoneId,
 							ruleset_id: argv["ruleset-id"],
 							rule_id: argv["rule-id"],
 							...queryParams,
-						} satisfies Request)
+						})
 					);
 					formatOutput(result, { successLabel: `Updated` });
 					return;
 				}
 
 				// Assemble request body from individual flags
-				const bodyData = compactBody<Body>({
+				const bodyData = compactBody({
 					position: {
 						before: resolveFileToken(
 							argv["position-before"] as string | undefined,
@@ -194,14 +188,14 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						.map(([k, v]) => [k, String(v)])
 				).toString();
 				const result = await withProgress(`Updating`, async () =>
-					client.rulesets.rules.update({
-						...bodyData,
+					client.send(operation, {
+						body: bodyData,
 						account_or_zone: accountOrZone,
 						account_or_zone_id: accountOrZoneId,
 						ruleset_id: argv["ruleset-id"],
 						rule_id: argv["rule-id"],
 						...queryParams,
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Updated` });
 			}

@@ -1,6 +1,6 @@
+import operation from "../../_operations/firewall/lockdowns/get.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * get command
  * @generated from apis/overlays/firewall.ts
@@ -31,8 +31,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"zone-lockdown-get-a-zone-lockdown-rule">;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "get <lock-downs-id>",
 	describe: "Get a Zone Lockdown rule",
@@ -53,8 +51,8 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						method: "GET",
 						url: `https://api.cloudflare.com/client/v4/zones/${argv.zone ?? argv.zoneId ?? "<zone>"}/firewall/lockdowns/${argv["lock-downs-id"] == null ? "<lock-downs-id>" : encodeURIComponent(String(argv["lock-downs-id"]))}`,
 						pathParams: {
-							"lock-downs-id": String(argv["lock-downs-id"] ?? ""),
 							"zone-id": String(argv.zone ?? argv["zone-id"] ?? ""),
+							"lock-downs-id": String(argv["lock-downs-id"] ?? ""),
 						},
 						bodyKind: "none",
 					});
@@ -67,10 +65,10 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.zoneId = zoneId;
 
 				const result = await withProgress(`Loading`, async () =>
-					client.firewall.lockdowns.get({
+					client.send(operation, {
 						zone_id: zoneId,
 						lock_downs_id: argv["lock-downs-id"],
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Loaded` });
 			}

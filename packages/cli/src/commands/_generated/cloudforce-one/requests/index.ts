@@ -1,12 +1,12 @@
 import $assets from "./assets/index.js";
 import $constants from "./constants/index.js";
-import $getRequestList from "./getRequestList.js";
-import $getRequestRead from "./getRequestRead.js";
+import $getrequestlist from "./get-request-list.js";
+import $getrequestread from "./get-request-read.js";
 import $legalresponse from "./legal-response/index.js";
 import $messages from "./messages/index.js";
 import $metadata from "./metadata/index.js";
-import $postRequestCreate from "./postRequestCreate.js";
-import $putRequestUpdate from "./putRequestUpdate.js";
+import $postrequestcreate from "./post-request-create.js";
+import $putrequestupdate from "./put-request-update.js";
 import $quota from "./quota/index.js";
 import $types from "./types/index.js";
 import $user from "./user/index.js";
@@ -24,10 +24,10 @@ const command: CommandModule<CommonYargsOptions> = {
 
 	builder: (yargs) => {
 		return yargs
-			.command($getRequestList)
-			.command($getRequestRead)
-			.command($postRequestCreate)
-			.command($putRequestUpdate)
+			.command($getrequestlist)
+			.command($getrequestread)
+			.command($postrequestcreate)
+			.command($putrequestupdate)
 			.command($assets)
 			.command($constants)
 			.command($legalresponse)

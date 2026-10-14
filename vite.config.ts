@@ -43,8 +43,6 @@ export default defineConfig({
 			"fixtures/**",
 			// Recorded API-fixture responses; reformatting them creates noise on every re-record.
 			"packages/cli/e2e/**/*.json",
-			// Fern-generated SDK source is committed verbatim.
-			"packages/cli/src/sdk/sdk/**",
 		],
 	},
 	lint: {
@@ -85,7 +83,6 @@ export default defineConfig({
 			"fixtures/**",
 			"packages/cli/generator/**",
 			"packages/cli/src/commands/_generated/**",
-			"packages/cli/src/sdk/sdk/**",
 			"packages/cli/src/lib/completions/**",
 		],
 		jsPlugins: [

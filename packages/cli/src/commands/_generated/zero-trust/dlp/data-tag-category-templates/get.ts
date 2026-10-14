@@ -1,6 +1,6 @@
+import operation from "../../../_operations/zero-trust/dlp/data-tag-category-templates/get.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * get command
  * @generated from apis/overlays/zero-trust.ts
@@ -36,8 +36,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"dlp-data-tag-category-template-read">;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "get <template-id>",
 	describe: "Retrieve a specific data tag category template.",
@@ -68,10 +66,10 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.accountId = accountId;
 
 				const result = await withProgress(`Loading`, async () =>
-					client.zeroTrust.dlp.dataTagCategoryTemplates.get({
+					client.send(operation, {
 						account_id: accountId,
 						template_id: argv["template-id"],
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Loaded` });
 			}

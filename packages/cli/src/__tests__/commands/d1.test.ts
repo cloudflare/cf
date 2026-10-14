@@ -13,7 +13,7 @@ import { runCf } from "../helpers/run-cf.js";
 
 /**
  * End-to-end network tests for `cf d1` commands, driven through the real
- * `runMain` → yargs → SDK → `globalThis.fetch` stack with MSW standing
+ * `runMain` → yargs → API client → `globalThis.fetch` stack with MSW standing
  * in for the Cloudflare API.
  *
  * d1 endpoints are account-scoped (`/accounts/{id}/d1/database/...`),

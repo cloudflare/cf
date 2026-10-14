@@ -12,12 +12,12 @@ import { server, setupMsw, TEST_BASE_URL } from "../helpers/msw.js";
 import { runCf } from "../helpers/run-cf.js";
 
 /**
- * Regression coverage for query parameters on body-bypass and typed SDK paths.
+ * Regression coverage for query parameters on body-bypass and typed paths.
  *
  * `cf kv keys put` has a real octet-stream body plus query parameters. It
  * exercises the generator's raw-body branch and verifies that its query bag is
  * appended to the generated URL. `cf workers secrets delete` covers the same
- * query serialization through a typed Fern call.
+ * query serialization through a typed `client.send` call.
  */
 describe("--body workaround forwards query params (network)", () => {
 	runInTempDir();
@@ -135,8 +135,8 @@ describe("--body workaround forwards query params (network)", () => {
 		expect(preview.body).toBe(requestBody);
 	});
 
-	it("forwards the same query param via the non-body SDK path (parity)", async () => {
-		// The bodyless command takes the typed Fern path. This pins the same
+	it("forwards the same query param via the non-body typed path (parity)", async () => {
+		// The bodyless command takes the typed path. This pins the same
 		// query serialization behavior there.
 		let lastUrl: URL | undefined;
 		server.use(

@@ -1,6 +1,6 @@
+import operation from "../../../_operations/realtime/kit/meetings/update.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * update command
  * @generated from apis/overlays/realtime.ts
@@ -154,6 +154,14 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description:
 				"Controls whether recordings are uploaded to RealtimeKit's bucket. If set to false, `download_url`, `audio_download_url`, `download_url_expiry` won't be generated for a recording.",
 		})
+		.option("recording-config-storage-config-type", {
+			type: "string",
+			description: "The recording_config.storage_config.type field",
+			choices: ["gcs", "aws", "azure", "digitalocean", "sftp"],
+		})
+		.coerce("recording-config-storage-config-type", (value) =>
+			resolveFileToken(value, "recording-config-storage-config-type", "text")
+		)
 		.option("recording-config-video-config-codec", {
 			type: "string",
 			description: "Codec using which the recording will be encoded.",
@@ -230,6 +238,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"recording-config-live-streaming-config-rtmp-url",
 				"recording-config-max-seconds",
 				"recording-config-realtimekit-bucket-config-enabled",
+				"recording-config-storage-config-type",
 				"recording-config-video-config-codec",
 				"recording-config-video-config-export-file",
 				"recording-config-video-config-height",
@@ -253,9 +262,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"update_meeting">;
-type Body = Request;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "update <meeting-id>",
 	describe: "Update a meeting",
@@ -277,6 +283,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						"recording-config-audio-config-codec",
 						"recording-config-audio-config-export-file",
 						"recording-config-realtimekit-bucket-config-enabled",
+						"recording-config-storage-config-type",
 						"recording-config-video-config-codec",
 						"recording-config-video-config-export-file",
 						"recording-config-video-config-watermark-position",
@@ -352,6 +359,9 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 														"recording-config-realtimekit-bucket-config-enabled"
 													],
 											},
+											storage_config: {
+												type: argv["recording-config-storage-config-type"],
+											},
 											video_config: {
 												codec: argv["recording-config-video-config-codec"],
 												export_file:
@@ -392,21 +402,21 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.accountId = accountId;
 
 				if (argv.body) {
-					const bodyData = parseBody<Request>(argv.body);
+					const bodyData = parseBody(argv.body);
 					const result = await withProgress(`Updating`, async () =>
-						client.realtime.kit.meetings.update({
-							...bodyData,
+						client.send(operation, {
+							body: bodyData,
 							account_id: accountId,
 							app_id: argv["app-id"],
 							meeting_id: argv["meeting-id"],
-						} satisfies Request)
+						})
 					);
 					formatOutput(result, { successLabel: `Updated` });
 					return;
 				}
 
 				// Assemble request body from individual flags
-				const bodyData = compactBody<Body>({
+				const bodyData = compactBody({
 					ai_config: {
 						summarization: {
 							summary_type: argv["ai-config-summarization-summary-type"],
@@ -448,6 +458,9 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 							enabled:
 								argv["recording-config-realtimekit-bucket-config-enabled"],
 						},
+						storage_config: {
+							type: argv["recording-config-storage-config-type"],
+						},
 						video_config: {
 							codec: argv["recording-config-video-config-codec"],
 							export_file: argv["recording-config-video-config-export-file"],
@@ -478,12 +491,12 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					transcribe_on_end: argv["transcribe-on-end"],
 				});
 				const result = await withProgress(`Updating`, async () =>
-					client.realtime.kit.meetings.update({
-						...bodyData,
+					client.send(operation, {
+						body: bodyData,
 						account_id: accountId,
 						app_id: argv["app-id"],
 						meeting_id: argv["meeting-id"],
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Updated` });
 			}

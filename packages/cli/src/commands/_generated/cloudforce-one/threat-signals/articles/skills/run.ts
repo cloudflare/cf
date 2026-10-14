@@ -1,6 +1,6 @@
+import operation from "../../../../_operations/cloudforce-one/threat-signals/articles/skills/run.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * run command
  * @generated from apis/overlays/cloudforce-one.ts
@@ -47,9 +47,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"rssArticleSkillRun">;
-type Body = Request["body"];
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "run <skill-id>",
 	describe: "Run and persist a Threat Signals article skill",
@@ -84,14 +81,14 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.accountId = accountId;
 
 				if (argv.body) {
-					const bodyData = parseBody<Request["body"]>(argv.body);
+					const bodyData = parseBody(argv.body);
 					const result = await withProgress(`Creating`, async () =>
-						client.cloudforceOne.threatSignals.articles.skills.run({
+						client.send(operation, {
 							body: bodyData,
 							account_id: accountId,
 							article_id: argv["article-id"],
 							skill_id: argv["skill-id"],
-						} satisfies Request)
+						})
 					);
 					formatOutput(result, { successLabel: `Created` });
 					return;

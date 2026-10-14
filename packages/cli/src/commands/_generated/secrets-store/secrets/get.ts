@@ -1,6 +1,6 @@
+import operation from "../../_operations/secrets-store/secrets/get.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * get command
  * @generated from apis/overlays/secrets-store.ts
@@ -41,8 +41,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"secrets-store-get-by-id">;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "get <secret-id>",
 	describe: "Get a secret by ID",
@@ -76,11 +74,11 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.accountId = accountId;
 
 				const result = await withProgress(`Loading`, async () =>
-					client.secretsStore.secrets.get({
+					client.send(operation, {
 						account_id: accountId,
 						store_id: argv["store-id"],
 						secret_id: argv["secret-id"],
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Loaded` });
 			}

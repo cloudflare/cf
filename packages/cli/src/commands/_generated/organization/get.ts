@@ -1,6 +1,6 @@
+import operation from "../_operations/organization/get.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * get command
  * @generated from apis/overlays/organization.ts
@@ -31,8 +31,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"Organizations_retrieve">;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "get <organization-id>",
 	describe: "Get organization",
@@ -62,9 +60,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				const client = await createCommandClient(argv);
 
 				const result = await withProgress(`Loading`, async () =>
-					client.organization.get({
-						organization_id: argv["organization-id"],
-					} satisfies Request)
+					client.send(operation, { organization_id: argv["organization-id"] })
 				);
 				formatOutput(result, { successLabel: `Loaded` });
 			}

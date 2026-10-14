@@ -4,7 +4,7 @@ import { openSession } from "./session.js";
 import { errorBlock } from "./ui/blocks.js";
 import { hint } from "./ui/format.js";
 import { theme } from "./ui/theme.js";
-import { CloudflareApiError } from "#sdk/errors";
+import { ApiError } from "#api";
 
 /**
  * Drop the protocol+host (and the `/client/v4` API-version prefix)
@@ -32,13 +32,13 @@ function shortenUrl(url: string): string {
  *
  * Called once, centrally, from `main()`
  * after `cli.parse()` rejects.  There is no per-handler invocation —
- * generated and hand-written command handlers let SDK errors
+ * generated and hand-written command handlers let API errors
  * propagate uncaught; yargs `.fail()` rethrows validation errors;
  * everything funnels here.
  *
- * - Cloudflare `APIError`s render as a boxed report with the failing
- *   request's HTTP method + path (read off `error.request`, populated
- *   by the forge SDK on every thrown `APIError`).
+ * - Cloudflare `ApiError`s render as a boxed report with the failing
+ *   request's path (read off `error.rawResponse`, populated by the API
+ *   client on every thrown `ApiError`).
  * - Plain `Error`s render with their message (and stack under `DEBUG=1`).
  * - Unknown error shapes get a generic box.
  *
@@ -62,8 +62,8 @@ export function handleError(error: unknown): unknown {
 	// branch on color support at the call sites below.
 	openSession(VERSION);
 
-	// Typed Fern calls and cf's passthrough/raw paths share this SDK error type.
-	if (error instanceof CloudflareApiError) {
+	// Typed calls and cf's passthrough/raw paths share this error type.
+	if (error instanceof ApiError) {
 		const status = error.statusCode;
 		const errorBody = error.body;
 		const statusText =
@@ -82,7 +82,7 @@ export function handleError(error: unknown): unknown {
 
 		// Path-only form keeps the box narrow; cf only talks to a
 		// fixed set of Cloudflare API hosts so the host adds no info.
-		// `error.rawResponse` is populated by the SDK on thrown errors;
+		// `error.rawResponse` is populated by the client on thrown errors;
 		// absent only for hand-constructed errors (tests, retry shims).
 		// The raw response carries no HTTP method, so the line is
 		// prefixed with a generic `HTTP` rather than the verb.
@@ -120,7 +120,7 @@ export function handleError(error: unknown): unknown {
 				})
 				.join("\n\n");
 		} else {
-			// No structured errors — surface the SDK's own message, falling
+			// No structured errors — surface the client's own message, falling
 			// back to the tail line, then subordinate the tail beneath it.
 			content = theme.error(theme.bold(error.message || tailLine));
 			if (error.message && tailLine) {
@@ -146,7 +146,7 @@ export function handleError(error: unknown): unknown {
 
 	// Handle Cloudflare API errors thrown by the deploy path. These come
 	// from @cloudflare/workers-utils (a *different* APIError class than the
-	// forge SDK's), so they don't match the branch above. The real API
+	// API client's), so they don't match the branch above. The real API
 	// error messages live in `.notes` ({text}[]) — the top-level `.message`
 	// is only the generic "A request to the Cloudflare API (…) failed."
 	// envelope. Surfacing the notes is what turns an opaque deploy failure

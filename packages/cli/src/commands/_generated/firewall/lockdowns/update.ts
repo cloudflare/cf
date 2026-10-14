@@ -1,6 +1,6 @@
+import operation from "../../_operations/firewall/lockdowns/update.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * update command
  * @generated from apis/overlays/firewall.ts
@@ -47,9 +47,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"zone-lockdown-update-a-zone-lockdown-rule">;
-type Body = Request;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "update <lock-downs-id>",
 	describe: "Update a Zone Lockdown rule",
@@ -70,8 +67,8 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						method: "PUT",
 						url: `https://api.cloudflare.com/client/v4/zones/${argv.zone ?? argv.zoneId ?? "<zone>"}/firewall/lockdowns/${argv["lock-downs-id"] == null ? "<lock-downs-id>" : encodeURIComponent(String(argv["lock-downs-id"]))}`,
 						pathParams: {
-							"lock-downs-id": String(argv["lock-downs-id"] ?? ""),
 							"zone-id": String(argv.zone ?? argv["zone-id"] ?? ""),
+							"lock-downs-id": String(argv["lock-downs-id"] ?? ""),
 						},
 						bodyKind: "json",
 						body:
@@ -94,13 +91,13 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.zoneId = zoneId;
 
 				if (argv.body) {
-					const bodyData = parseBody<Request>(argv.body);
+					const bodyData = parseBody(argv.body);
 					const result = await withProgress(`Updating`, async () =>
-						client.firewall.lockdowns.update({
-							...bodyData,
+						client.send(operation, {
+							body: bodyData,
 							zone_id: zoneId,
 							lock_downs_id: argv["lock-downs-id"],
-						} satisfies Request)
+						})
 					);
 					formatOutput(result, { successLabel: `Updated` });
 					return;
@@ -117,7 +114,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				}
 
 				// Assemble request body from individual flags
-				const bodyData = compactBody<Body>({
+				const bodyData = compactBody({
 					configurations: parseObjectArray(
 						argv["configurations"],
 						"configurations"
@@ -125,11 +122,11 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					urls: argv["urls"],
 				});
 				const result = await withProgress(`Updating`, async () =>
-					client.firewall.lockdowns.update({
-						...bodyData,
+					client.send(operation, {
+						body: bodyData,
 						zone_id: zoneId,
 						lock_downs_id: argv["lock-downs-id"],
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Updated` });
 			}

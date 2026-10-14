@@ -27,37 +27,15 @@
 import { existsSync, readFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
-import type {
+import type { CommandsMetadata } from "./command-meta.js";
+
+export type {
 	ArgumentMeta,
-	CommandMeta as ForgeCommandMeta,
+	CommandMeta,
+	CommandsMetadata,
 	ExampleMeta,
-	OptionMeta as ForgeOptionMeta,
-} from "@cloudflare/forge";
-
-/** Option metadata, including CLI aliases accepted by yargs. */
-export type OptionMeta = ForgeOptionMeta & {
-	alias?: string | string[];
-};
-
-/** Command metadata, including aliases and the summary used in listings. */
-export type CommandMeta = Omit<ForgeCommandMeta, "options"> & {
-	aliases?: string[];
-	summary?: string;
-	options: OptionMeta[];
-};
-
-export type { ArgumentMeta, ExampleMeta };
-
-/**
- * Metadata structure from the generated `commands.json` file.
- */
-export interface CommandsMetadata {
-	version: string;
-	generatedAt: string;
-	commands: CommandMeta[];
-	/** Descriptions for command groups (product and method group levels) */
-	descriptions?: Record<string, string>;
-}
+	OptionMeta,
+} from "./command-meta.js";
 
 /**
  * Runtime shape check for parsed command metadata.

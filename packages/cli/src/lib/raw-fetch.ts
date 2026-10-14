@@ -8,11 +8,11 @@ import { getDefaultHeaders } from "./request-headers.js";
 /**
  * Raw-output fetch helper.
  *
- * Bypasses the generated SDK's response decoding so handlers
+ * Bypasses the API client's response decoding so handlers
  * can stream binary or non-JSON-shaped bytes straight to stdout.
  *
- * The SDK's `client.<verb>(...)` methods always call `.text()` or
- * `.json()` on the response and unwrap the API envelope; that
+ * `Client.send` reads JSON responses as text, parses them and
+ * unwraps the API envelope; that
  * destroys binary payloads (KV values, R2 object bytes, signed-URL
  * downloads, etc.) and re-quotes plain-text responses.  Handlers
  * whose response MIME is `application/octet-stream` (or any other
@@ -23,14 +23,14 @@ import { getDefaultHeaders } from "./request-headers.js";
  * Local-mode aware: when `args.local` is set, the request is routed
  * through `createLocalFetch` (URL rewritten to the local-explorer,
  * Authorization stripped, Host pinned to localhost) — exactly the
- * same wrapper the SDK uses for envelope-decoded calls. Token
+ * same wrapper the client uses for envelope-decoded calls. Token
  * resolution is skipped in local mode so users without a Cloudflare
  * API token can still exercise local commands.
  *
- * Throws a `CloudflareApiError` on non-2xx responses so the existing
+ * Throws a `ApiError` on non-2xx responses so the existing
  * `handleError` rendering still applies.
  */
-import { CloudflareApiError } from "#sdk/errors";
+import { ApiError } from "#api";
 
 /**
  * Request body for a raw-output call. Mirrors the shapes the generated
@@ -83,7 +83,7 @@ export interface FetchRawOptions {
  * Call an arbitrary Cloudflare API path and return the raw response body
  * without decoding/parsing. Supports an optional request body so
  * mutating raw-output endpoints (e.g. AI image generation, which POSTs a
- * JSON prompt and gets back PNG bytes) bypass the SDK envelope on both
+ * JSON prompt and gets back PNG bytes) bypass the client envelope on both
  * the request and response sides.
  *
  * @param path Path beginning with `/` (e.g. `/accounts/123/storage/kv/...`).
@@ -134,7 +134,7 @@ export async function fetchRawBytes(
 
 	// Normalize the request body to a `fetch`-acceptable `BodyInit` and
 	// derive a `Content-Type` when the caller hasn't pinned one. Mirrors
-	// how the SDK serializes mutating requests so the wire shape matches.
+	// how the client serializes mutating requests so the wire shape matches.
 	let body: BodyInit | undefined;
 	const rawBody = options.body;
 	if (rawBody !== undefined && rawBody !== null) {
@@ -181,7 +181,7 @@ export async function fetchRawBytes(
 		} catch {
 			errorData = null;
 		}
-		throw new CloudflareApiError({
+		throw new ApiError({
 			statusCode: response.status,
 			body: errorData,
 			rawResponse: {

@@ -4,6 +4,7 @@ import {
 	resolveTunnelId,
 } from "../../../commands/tunnels/run/client.js";
 import type { Cloudflare } from "../../../lib/auth.js";
+import getTunnelTokenOperation from "#operations/tunnels/token/get.js";
 
 const UUID = "f70ff985-a4ef-4643-bbbc-4a0ed4fc8415";
 
@@ -11,13 +12,11 @@ function makeClient(overrides: {
 	list?: (request: unknown) => Promise<unknown>;
 	token?: (request: unknown) => Promise<unknown>;
 }): Cloudflare {
+	const list = overrides.list ?? vi.fn();
+	const token = overrides.token ?? vi.fn();
 	return {
-		tunnel: {
-			list: overrides.list ?? vi.fn(),
-		},
-		tunnels: {
-			token: { get: overrides.token ?? vi.fn() },
-		},
+		send: (operation: unknown, request: unknown) =>
+			operation === getTunnelTokenOperation ? token(request) : list(request),
 	} as unknown as Cloudflare;
 }
 

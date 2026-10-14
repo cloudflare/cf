@@ -1,6 +1,6 @@
+import operation from "../../../_operations/realtime/kit/presets/get.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * get command
  * @generated from apis/overlays/realtime.ts
@@ -41,8 +41,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"get-presets-preset_id">;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "get <preset-id>",
 	describe: "Fetch details of a preset",
@@ -76,11 +74,11 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.accountId = accountId;
 
 				const result = await withProgress(`Loading`, async () =>
-					client.realtime.kit.presets.get({
+					client.send(operation, {
 						account_id: accountId,
 						app_id: argv["app-id"],
 						preset_id: argv["preset-id"],
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Loaded` });
 			}

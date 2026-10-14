@@ -1,6 +1,6 @@
+import operation from "../../_operations/origin-tls-client-auth/zone-certificates/delete.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * delete command
  * @generated from apis/overlays/origin-tls-client-auth.ts
@@ -38,9 +38,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request =
-	SdkRequest<"zone-level-authenticated-origin-pulls-delete-certificate">;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "delete <certificate-id>",
 	describe: "Delete Certificate",
@@ -62,8 +59,8 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						method: "DELETE",
 						url: `https://api.cloudflare.com/client/v4/zones/${argv.zone ?? argv.zoneId ?? "<zone>"}/origin_tls_client_auth/${argv["certificate-id"] == null ? "<certificate-id>" : encodeURIComponent(String(argv["certificate-id"]))}`,
 						pathParams: {
-							"certificate-id": String(argv["certificate-id"] ?? ""),
 							"zone-id": String(argv.zone ?? argv["zone-id"] ?? ""),
+							"certificate-id": String(argv["certificate-id"] ?? ""),
 						},
 						bodyKind: "none",
 					});
@@ -81,10 +78,10 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				}
 
 				const result = await withProgress(`Deleting`, async () =>
-					client.originTlsClientAuth.zoneCertificates.delete({
+					client.send(operation, {
 						zone_id: zoneId,
 						certificate_id: argv["certificate-id"],
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Deleted` });
 			}

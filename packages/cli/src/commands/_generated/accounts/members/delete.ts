@@ -1,6 +1,6 @@
+import operation from "../../_operations/accounts/members/delete.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * delete command
  * @generated from apis/overlays/accounts.ts
@@ -43,8 +43,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"account-members-remove-member">;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "delete <member-id>",
 	describe: "Remove Member",
@@ -86,10 +84,10 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				}
 
 				const result = await withProgress(`Deleting`, async () =>
-					client.accounts.members.delete({
+					client.send(operation, {
 						account_id: accountId,
 						member_id: argv["member-id"],
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Deleted` });
 			}

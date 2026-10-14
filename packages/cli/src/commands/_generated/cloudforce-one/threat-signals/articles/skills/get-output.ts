@@ -1,6 +1,6 @@
+import operation from "../../../../_operations/cloudforce-one/threat-signals/articles/skills/get-output.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * get-output command
  * @generated from apis/overlays/cloudforce-one.ts
@@ -41,8 +41,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"rssArticleSkillOutputGet">;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "get-output <skill-id>",
 	describe: "Get Threat Signals article skill output",
@@ -77,11 +75,11 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.accountId = accountId;
 
 				const result = await withProgress(`Loading`, async () =>
-					client.cloudforceOne.threatSignals.articles.skills.getOutput({
+					client.send(operation, {
 						account_id: accountId,
 						article_id: argv["article-id"],
 						skill_id: argv["skill-id"],
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Loaded` });
 			}

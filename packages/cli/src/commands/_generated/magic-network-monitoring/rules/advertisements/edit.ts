@@ -1,6 +1,6 @@
+import operation from "../../../_operations/magic-network-monitoring/rules/advertisements/edit.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * edit command
  * @generated from apis/overlays/magic-network-monitoring.ts
@@ -36,9 +36,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request =
-	SdkRequest<"magic-network-monitoring-rules-update-advertisement-for-rule">;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "edit <rule-id>",
 	describe: "Update advertisement for rule",
@@ -69,10 +66,10 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.accountId = accountId;
 
 				const result = await withProgress(`Updating`, async () =>
-					client.magicNetworkMonitoring.rules.advertisements.edit({
+					client.send(operation, {
 						account_id: accountId,
 						rule_id: argv["rule-id"],
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Updated` });
 			}

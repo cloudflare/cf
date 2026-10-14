@@ -1,6 +1,6 @@
+import operation from "../../_operations/pages/deployments/create.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * create command
  * @generated from apis/overlays/pages.ts
@@ -79,8 +79,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 }
 
 type Args = InferArgs<typeof builder>;
-
-type Request = SdkRequest<"pages-deployment-create-deployment">;
 
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "create <project-name>",
@@ -253,10 +251,10 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				}
 
 				const result = await withProgress(`Creating`, async () =>
-					client.pages.deployments.create({
+					client.send(operation, {
 						account_id: accountId,
 						project_name: argv["project-name"],
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Created` });
 			}

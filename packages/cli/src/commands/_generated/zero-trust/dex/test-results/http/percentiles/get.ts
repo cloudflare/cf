@@ -1,6 +1,6 @@
+import operation from "../../../../../_operations/zero-trust/dex/test-results/http/percentiles/get.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkQuery, SdkRequest } from "#sdk";
 /**
  * get command
  * @generated from apis/overlays/zero-trust.ts
@@ -57,9 +57,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"dex-endpoints-http-test-percentiles">;
-type Query = SdkQuery<"dex-endpoints-http-test-percentiles">;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "get <test-id>",
 	describe: "Get percentiles for an http test",
@@ -74,7 +71,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
-				const queryParams: Query = {
+				const queryParams: Record<string, unknown> = {
 					deviceId: argv["device-id"],
 					from: argv["from"],
 					to: argv["to"],
@@ -97,11 +94,11 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.accountId = accountId;
 
 				const result = await withProgress(`Loading`, async () =>
-					client.zeroTrust.dex.testResults.http.percentiles.get({
+					client.send(operation, {
 						account_id: accountId,
 						test_id: argv["test-id"],
 						...queryParams,
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Loaded` });
 			}

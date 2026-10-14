@@ -1,6 +1,6 @@
+import operation from "../_operations/bot-management/update.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * update command
  * @generated from apis/overlays/bot-management.ts
@@ -205,9 +205,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"bot-management-for-a-zone-update-config">;
-type Body = Request["body"];
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "update",
 	describe: "Update Zone Bot Management Config",
@@ -332,19 +329,16 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.zoneId = zoneId;
 
 				if (argv.body) {
-					const bodyData = parseBody<Request["body"]>(argv.body);
+					const bodyData = parseBody(argv.body);
 					const result = await withProgress(`Updating`, async () =>
-						client.botManagement.update({
-							body: bodyData,
-							zone_id: zoneId,
-						} satisfies Request)
+						client.send(operation, { body: bodyData, zone_id: zoneId })
 					);
 					formatOutput(result, { successLabel: `Updated` });
 					return;
 				}
 
 				// Assemble request body from individual flags
-				const bodyData = compactBody<Body>({
+				const bodyData = compactBody({
 					ai_bots_migration_opt_out: argv["ai-bots-migration-opt-out"],
 					ai_bots_protection: argv["ai-bots-protection"],
 					ai_search: argv["ai-search"],
@@ -404,10 +398,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					suppress_session_score: argv["suppress-session-score"],
 				});
 				const result = await withProgress(`Updating`, async () =>
-					client.botManagement.update({
-						body: bodyData,
-						zone_id: zoneId,
-					} satisfies Request)
+					client.send(operation, { body: bodyData, zone_id: zoneId })
 				);
 				formatOutput(result, { successLabel: `Updated` });
 			}

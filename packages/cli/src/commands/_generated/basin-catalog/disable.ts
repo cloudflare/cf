@@ -1,6 +1,6 @@
+import operation from "../_operations/basin-catalog/disable.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * disable command
  * @generated from apis/overlays/basin-catalog.ts
@@ -43,8 +43,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"basin-disable-catalog">;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "disable <bucket-name>",
 	describe: "Disable Basin Catalog",
@@ -86,10 +84,10 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				}
 
 				const result = await withProgress(`Deleting`, async () =>
-					client.basinCatalog.disable({
+					client.send(operation, {
 						account_id: accountId,
 						bucket_name: argv["bucket-name"],
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Deleted` });
 			}

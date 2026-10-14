@@ -1,6 +1,6 @@
+import operation from "../_operations/queries/delete.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkQuery, SdkRequest } from "#sdk";
 /**
  * delete command
  * @generated from apis/overlays/queries.ts
@@ -41,9 +41,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"deleteAccountsAccountIdBrandProtectionQueries">;
-type Query = SdkQuery<"deleteAccountsAccountIdBrandProtectionQueries">;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "delete",
 	describe: "Delete saved string queries by ID",
@@ -59,7 +56,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
-				const queryParams: Query = {
+				const queryParams: Record<string, unknown> = {
 					id: argv["id"],
 					tag: argv["tag"],
 					scan: argv["scan"],
@@ -86,10 +83,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				}
 
 				const result = await withProgress(`Deleting`, async () =>
-					client.queries.delete({
-						account_id: accountId,
-						...queryParams,
-					} satisfies Request)
+					client.send(operation, { account_id: accountId, ...queryParams })
 				);
 				formatOutput(result, { successLabel: `Deleted` });
 			}

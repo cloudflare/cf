@@ -1,6 +1,6 @@
+import operation from "../../../../_operations/workers-for-platforms/dispatch-namespaces/scripts/settings/edit.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * edit command
  * @generated from apis/overlays/workers-for-platforms.ts
@@ -56,8 +56,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 }
 
 type Args = InferArgs<typeof builder>;
-
-type Request = SdkRequest<"namespace-worker-patch-script-settings">;
 
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "edit <script-name>",
@@ -156,11 +154,11 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				}
 
 				const result = await withProgress(`Updating`, async () =>
-					client.workersForPlatforms.dispatchNamespaces.scripts.settings.edit({
+					client.send(operation, {
 						account_id: accountId,
 						dispatch_namespace: argv["dispatch-namespace"],
 						script_name: argv["script-name"],
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Updated` });
 			}

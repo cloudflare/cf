@@ -1,6 +1,6 @@
+import operation from "../../_operations/secrets-store/secrets/duplicate.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * duplicate command
  * @generated from apis/overlays/secrets-store.ts
@@ -58,9 +58,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"secrets-store-duplicate-by-id">;
-type Body = Request;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "duplicate <secret-id>",
 	describe: "Duplicate Secret",
@@ -110,14 +107,14 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.accountId = accountId;
 
 				if (argv.body) {
-					const bodyData = parseBody<Request>(argv.body);
+					const bodyData = parseBody(argv.body);
 					const result = await withProgress(`Creating`, async () =>
-						client.secretsStore.secrets.duplicate({
-							...bodyData,
+						client.send(operation, {
+							body: bodyData,
 							account_id: accountId,
 							store_id: argv["store-id"],
 							secret_id: argv["secret-id"],
-						} satisfies Request)
+						})
 					);
 					formatOutput(result, { successLabel: `Created` });
 					return;
@@ -135,7 +132,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				}
 
 				// Assemble request body from individual flags
-				const bodyData = compactBody<Body>({
+				const bodyData = compactBody({
 					comment: resolveFileToken(
 						argv["comment"] as string | undefined,
 						"comment",
@@ -149,12 +146,12 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					scopes: argv["scopes"],
 				});
 				const result = await withProgress(`Creating`, async () =>
-					client.secretsStore.secrets.duplicate({
-						...bodyData,
+					client.send(operation, {
+						body: bodyData,
 						account_id: accountId,
 						store_id: argv["store-id"],
 						secret_id: argv["secret-id"],
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Created` });
 			}

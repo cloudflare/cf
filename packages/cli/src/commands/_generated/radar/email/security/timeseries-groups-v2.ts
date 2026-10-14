@@ -1,13 +1,12 @@
+import operation from "../../../_operations/radar/email/security/timeseries-groups-v2.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkQuery, SdkRequest } from "#sdk";
 /**
  * timeseries-groups-v2 command
  * @generated from apis/overlays/radar.ts
  */
 import type { Argv, CommandModule } from "yargs";
 import { createCommandClient } from "#lib/auth.js";
-import { withArgTypes } from "#lib/cli-types.js";
 import { formatDryRun } from "#lib/dry-run.js";
 import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
@@ -89,28 +88,12 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		});
 }
 
-type Request = SdkRequest<"radar-get-email-security-timeseries-group">;
-type Query = SdkQuery<"radar-get-email-security-timeseries-group">;
+type Args = InferArgs<typeof builder>;
 
-const typedBuilder = withArgTypes<
-	{
-		"agg-interval": Query["aggInterval"];
-		arc: Query["arc"];
-		dkim: Query["dkim"];
-		dmarc: Query["dmarc"];
-		spf: Query["spf"];
-		"tls-version": Query["tlsVersion"];
-		format: Query["format"];
-		dimension: Request["dimension"];
-	},
-	typeof builder
->(builder);
-
-type Args = InferArgs<typeof typedBuilder>;
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "timeseries-groups-v2 <dimension>",
 	describe: "Get email security time series grouped by dimension",
-	builder: typedBuilder,
+	builder,
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
@@ -121,7 +104,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
-				const queryParams: Query = {
+				const queryParams: Record<string, unknown> = {
 					aggInterval: argv["agg-interval"],
 					name: argv["name"],
 					dateRange: argv["date-range"],
@@ -149,10 +132,10 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				const client = await createCommandClient(argv);
 
 				const result = await withProgress(`Loading`, async () =>
-					client.radar.email.security.timeseriesGroupsV2({
+					client.send(operation, {
 						dimension: argv["dimension"],
 						...queryParams,
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Loaded` });
 			}

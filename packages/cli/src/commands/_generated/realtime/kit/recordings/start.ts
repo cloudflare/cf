@@ -1,6 +1,6 @@
+import operation from "../../../_operations/realtime/kit/recordings/start.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * start command
  * @generated from apis/overlays/realtime.ts
@@ -88,6 +88,14 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			type: "string",
 			description: "RTMP URL to stream to",
 		})
+		.option("storage-config-type", {
+			type: "string",
+			description: "The storage_config.type field",
+			choices: ["gcs", "aws", "azure", "digitalocean", "sftp"],
+		})
+		.coerce("storage-config-type", (value) =>
+			resolveFileToken(value, "storage-config-type", "text")
+		)
 		.option("url", {
 			type: "string",
 			description: "Pass a custom url to record arbitary screen",
@@ -161,9 +169,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"start_recording">;
-type Body = Request;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "start <app-id>",
 	describe: "Start recording a meeting",
@@ -180,6 +185,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						"audio-config-export-file",
 						"interactive-config-type",
 						"realtimekit-bucket-config-enabled",
+						"storage-config-type",
 						"video-config-codec",
 						"video-config-export-file",
 						"video-config-watermark-position",
@@ -232,6 +238,9 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 												"text"
 											),
 										},
+										storage_config: {
+											type: argv["storage-config-type"],
+										},
 										url: resolveFileToken(
 											argv["url"] as string | undefined,
 											"url",
@@ -266,13 +275,13 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.accountId = accountId;
 
 				if (argv.body) {
-					const bodyData = parseBody<Request>(argv.body);
+					const bodyData = parseBody(argv.body);
 					const result = await withProgress(`Creating`, async () =>
-						client.realtime.kit.recordings.start({
-							...bodyData,
+						client.send(operation, {
+							body: bodyData,
 							account_id: accountId,
 							app_id: argv["app-id"],
-						} satisfies Request)
+						})
 					);
 					formatOutput(result, { successLabel: `Created` });
 					return;
@@ -285,7 +294,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				}
 
 				// Assemble request body from individual flags
-				const bodyData = compactBody<Body>({
+				const bodyData = compactBody({
 					allow_multiple_recordings: argv["allow-multiple-recordings"],
 					audio_config: {
 						channel: argv["audio-config-channel"],
@@ -316,6 +325,9 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 							"text"
 						),
 					},
+					storage_config: {
+						type: argv["storage-config-type"],
+					},
 					url: resolveFileToken(
 						argv["url"] as string | undefined,
 						"url",
@@ -341,11 +353,11 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					},
 				});
 				const result = await withProgress(`Creating`, async () =>
-					client.realtime.kit.recordings.start({
-						...bodyData,
+					client.send(operation, {
+						body: bodyData,
 						account_id: accountId,
 						app_id: argv["app-id"],
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Created` });
 			}

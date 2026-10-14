@@ -1,6 +1,6 @@
+import operation from "../../../../_operations/zero-trust/cws/tenant-structures/nodes/batch.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * batch command
  * @generated from apis/overlays/zero-trust.ts
@@ -63,9 +63,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"cws-batch-tenant-nodes">;
-type Body = Request;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "batch <structure-id>",
 	describe: "Apply a batch of tenant node mutations",
@@ -115,13 +112,13 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				}
 
 				if (argv.body) {
-					const bodyData = parseBody<Request>(argv.body);
+					const bodyData = parseBody(argv.body);
 					const result = await withProgress(`Deleting`, async () =>
-						client.zeroTrust.cws.tenantStructures.nodes.batch({
-							...bodyData,
+						client.send(operation, {
+							body: bodyData,
 							account_id: accountId,
 							structure_id: argv["structure-id"],
-						} satisfies Request)
+						})
 					);
 					formatOutput(result, { successLabel: `Deleted` });
 					return;
@@ -143,17 +140,17 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				}
 
 				// Assemble request body from individual flags
-				const bodyData = compactBody<Body>({
+				const bodyData = compactBody({
 					creates: parseObjectArray(argv["creates"], "creates"),
 					deletes: parseObjectArray(argv["deletes"], "deletes"),
 					updates: parseObjectArray(argv["updates"], "updates"),
 				});
 				const result = await withProgress(`Deleting`, async () =>
-					client.zeroTrust.cws.tenantStructures.nodes.batch({
-						...bodyData,
+					client.send(operation, {
+						body: bodyData,
 						account_id: accountId,
 						structure_id: argv["structure-id"],
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Deleted` });
 			}

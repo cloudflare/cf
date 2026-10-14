@@ -1,6 +1,6 @@
+import operation from "../../_operations/mcp/servers/sync.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * sync command
  * @generated from apis/overlays/mcp.ts
@@ -36,8 +36,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"mcp-portals-api-sync-server">;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "sync <id>",
 	describe: "Sync MCP Server Capabilities",
@@ -68,10 +66,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.accountId = accountId;
 
 				const result = await withProgress(`Creating`, async () =>
-					client.mcp.servers.sync({
-						account_id: accountId,
-						id: argv["id"],
-					} satisfies Request)
+					client.send(operation, { account_id: accountId, id: argv["id"] })
 				);
 				formatOutput(result, { successLabel: `Created` });
 			}

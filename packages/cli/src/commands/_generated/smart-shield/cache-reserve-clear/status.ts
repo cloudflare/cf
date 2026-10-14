@@ -1,6 +1,6 @@
+import operation from "../../_operations/smart-shield/cache-reserve-clear/status.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * status command
  * @generated from apis/overlays/smart-shield.ts
@@ -25,8 +25,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 }
 
 type Args = InferArgs<typeof builder>;
-
-type Request = SdkRequest<"smart-shield-settings-get-cache-reserve-clear">;
 
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "status",
@@ -61,9 +59,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.zoneId = zoneId;
 
 				const result = await withProgress(`Loading`, async () =>
-					client.smartShield.cacheReserveClear.status({
-						zone_id: zoneId,
-					} satisfies Request)
+					client.send(operation, { zone_id: zoneId })
 				);
 				formatOutput(result, { successLabel: `Loaded` });
 			}

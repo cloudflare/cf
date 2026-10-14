@@ -12,7 +12,7 @@ import {
  * the `setNestedValue` reconstructor that turns flat CLI flags back into
  * a nested request body.
  *
- * cf does no value "hardening": the body is JSON-serialised by the SDK
+ * cf does no value "hardening": the body is JSON-serialised by the client
  * before sending, so control bytes escape into valid JSON and the API is
  * the authority on what a field accepts. These tests therefore pin shape
  * fidelity (objects/arrays/scalars round-trip) and `@file` ingestion —
@@ -42,7 +42,7 @@ describe("parseBody", () => {
 		);
 	});
 
-	// Control chars are valid JSON string content; the SDK escapes them
+	// Control chars are valid JSON string content; the client escapes them
 	// on the wire. cf passes them through verbatim rather than second-
 	// guessing the API. (The `\u0001` escape decodes to a real C1 byte.)
 	it("passes control characters through verbatim", () => {

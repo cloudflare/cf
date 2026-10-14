@@ -1,6 +1,6 @@
+import operation from "../../../../_operations/zero-trust/devices/posture/integrations/update.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * update command
  * @generated from apis/overlays/zero-trust.ts
@@ -143,8 +143,8 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		])
 		.implies("config-client-key", [
 			"config-api-url",
-			"config-customer-id",
 			"config-client-secret",
+			"config-customer-id",
 		])
 		.conflicts("config-access-client-id", [
 			"config-auth-url",
@@ -154,8 +154,8 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			"config-client-key",
 		])
 		.implies("config-access-client-id", [
-			"config-api-url",
 			"config-access-client-secret",
+			"config-api-url",
 		])
 		.conflicts("config-access-client-secret", [
 			"config-auth-url",
@@ -165,16 +165,12 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			"config-client-key",
 		])
 		.implies("config-access-client-secret", [
-			"config-api-url",
 			"config-access-client-id",
+			"config-api-url",
 		]);
 }
 
 type Args = InferArgs<typeof builder>;
-
-type Request =
-	SdkRequest<"device-posture-integrations-update-device-posture-integration">;
-type Body = Request;
 
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "update <integration-id>",
@@ -273,20 +269,20 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.accountId = accountId;
 
 				if (argv.body) {
-					const bodyData = parseBody<Request>(argv.body);
+					const bodyData = parseBody(argv.body);
 					const result = await withProgress(`Updating`, async () =>
-						client.zeroTrust.devices.posture.integrations.update({
-							...bodyData,
+						client.send(operation, {
+							body: bodyData,
 							account_id: accountId,
 							integration_id: argv["integration-id"],
-						} satisfies Request)
+						})
 					);
 					formatOutput(result, { successLabel: `Updated` });
 					return;
 				}
 
 				// Assemble request body from individual flags
-				const bodyData = compactBody<Body>({
+				const bodyData = compactBody({
 					config: {
 						api_url: resolveFileToken(
 							argv["config-api-url"] as string | undefined,
@@ -342,11 +338,11 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					type: argv["type"],
 				});
 				const result = await withProgress(`Updating`, async () =>
-					client.zeroTrust.devices.posture.integrations.update({
-						...bodyData,
+					client.send(operation, {
+						body: bodyData,
 						account_id: accountId,
 						integration_id: argv["integration-id"],
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Updated` });
 			}

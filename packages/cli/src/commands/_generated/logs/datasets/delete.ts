@@ -1,6 +1,6 @@
+import operation from "../../_operations/logs/datasets/delete.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * delete command
  * @generated from apis/overlays/logs.ts
@@ -43,9 +43,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 }
 
 type Args = InferArgs<typeof builder>;
-
-type Request =
-	SdkRequest<"generated:delete:/{account_or_zone}/{account_or_zone_id}/logs/explorer/datasets/{dataset_id}">;
 
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "delete <dataset-id>",
@@ -110,11 +107,11 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				}
 
 				const result = await withProgress(`Deleting`, async () =>
-					client.logs.datasets.delete({
+					client.send(operation, {
 						account_or_zone: accountOrZone,
 						account_or_zone_id: accountOrZoneId,
 						dataset_id: argv["dataset-id"],
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Deleted` });
 			}

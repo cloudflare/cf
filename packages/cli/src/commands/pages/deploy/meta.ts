@@ -1,0 +1,28 @@
+import type { LeafCommandMeta } from "../../../lib/command-meta.js";
+
+export default {
+	command: "cf pages deploy",
+	name: "deploy",
+	fullPath: ["pages", "deploy"],
+	category: "action",
+	description: "Deploy a directory of static assets as a Pages deployment.",
+	usage: "cf pages deploy [directory]",
+	arguments: [
+		{
+			name: "directory",
+			position: 0,
+			type: "string",
+			required: false,
+			description: "Pages build output directory (not deployed by cf)",
+		},
+	],
+	options: [
+		{
+			name: "dry-run",
+			type: "boolean",
+			required: false,
+			description: "Parse arguments and show the command without executing it",
+			default: false,
+		},
+	],
+} satisfies LeafCommandMeta;

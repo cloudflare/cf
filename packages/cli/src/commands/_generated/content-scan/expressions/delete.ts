@@ -1,6 +1,6 @@
+import operation from "../../_operations/content-scan/expressions/delete.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * delete command
  * @generated from apis/overlays/content-scan.ts
@@ -38,9 +38,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 }
 
 type Args = InferArgs<typeof builder>;
-
-type Request =
-	SdkRequest<"waf-content-scanning-delete-custom-scan-expressions">;
 
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "delete <expression-id>",
@@ -87,10 +84,10 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				}
 
 				const result = await withProgress(`Deleting`, async () =>
-					client.contentScan.expressions.delete({
+					client.send(operation, {
 						zone_id: zoneId,
 						expression_id: argv["expression-id"],
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Deleted` });
 			}

@@ -10,7 +10,6 @@ import {
 } from "vite-plus/test";
 import { formatOutput } from "../../lib/output.js";
 import { theme } from "../../lib/ui/theme.js";
-import { Page } from "../../sdk/sdk/core/pagination/Page.js";
 
 const ciInfo = vi.hoisted(() => ({ isCI: false }));
 vi.mock("ci-info", () => ({ default: ciInfo }));
@@ -237,38 +236,12 @@ describe("formatOutput", () => {
 		);
 	});
 
-	it("prints the payload from a Fern page response", () => {
+	it("prints the payload from a list response", () => {
 		formatOutput({
 			result: [{ id: "one" }, { id: "two" }],
 			result_info: { page: 1, total_pages: 1 },
 		});
 		expect(loggedJson()).toEqual([{ id: "one" }, { id: "two" }]);
-	});
-
-	it("prints the items from a Fern Page instance", () => {
-		const items = [{ name: "bar" }, { name: "foo" }];
-		const response = {
-			result: items,
-			result_info: { count: 2, cursor: "" },
-		};
-		const page = new Page({
-			response,
-			rawResponse: {
-				headers: new Headers(),
-				redirected: false,
-				status: 200,
-				statusText: "OK",
-				type: "default",
-				url: "",
-			},
-			hasNextPage: () => false,
-			getItems: ({ result }) => result,
-			loadPage: () => {
-				throw new Error("No next page");
-			},
-		});
-		formatOutput(page);
-		expect(loggedJson()).toEqual(items);
 	});
 
 	it("preserves ordinary objects with a result field", () => {

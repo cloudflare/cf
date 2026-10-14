@@ -1,11 +1,11 @@
 import { APIError as WorkersUtilsAPIError } from "@cloudflare/workers-utils";
 import { describe, expect, it } from "vite-plus/test";
 import { sanitizeError } from "../../../lib/telemetry/error-sanitization.js";
-import { CloudflareApiError } from "#sdk/errors";
+import { ApiError } from "#api";
 
 describe("sanitizeError", () => {
 	it("captures API status and numeric codes without messages", () => {
-		const error = new CloudflareApiError({
+		const error = new ApiError({
 			message: "sensitive",
 			statusCode: 404,
 			body: { errors: [{ code: 1003, message: "sensitive" }] },
@@ -51,7 +51,7 @@ describe("sanitizeError", () => {
 	it.each(["body", "statusCode"] as const)(
 		"handles a throwing SDK $property accessor",
 		(property) => {
-			const error = new CloudflareApiError({
+			const error = new ApiError({
 				message: "original failure",
 				statusCode: 500,
 				body: { errors: [] },
@@ -104,7 +104,7 @@ describe("sanitizeError", () => {
 	});
 
 	it("ignores malformed API error entries and non-finite codes", () => {
-		const error = new CloudflareApiError({
+		const error = new ApiError({
 			message: "sensitive",
 			statusCode: 400,
 			body: {
@@ -125,7 +125,7 @@ describe("sanitizeError", () => {
 		{ statusCode: 99 },
 		{ statusCode: 600 },
 	])("omits invalid SDK HTTP status $statusCode", ({ statusCode }) => {
-		const error = new CloudflareApiError({
+		const error = new ApiError({
 			message: "sensitive",
 			statusCode: statusCode as unknown as number,
 			body: { errors: [] },

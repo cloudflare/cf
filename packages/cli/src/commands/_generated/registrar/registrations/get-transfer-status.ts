@@ -1,6 +1,6 @@
+import operation from "../../_operations/registrar/registrations/get-transfer-status.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * get-transfer-status command
  * @generated from apis/overlays/registrar.ts
@@ -37,8 +37,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"registrar-domain-transfer-get-status">;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "get-transfer-status <domain-name>",
 	describe: "Get Transfer Status",
@@ -69,10 +67,10 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.accountId = accountId;
 
 				const result = await withProgress(`Loading`, async () =>
-					client.registrar.registrations.getTransferStatus({
+					client.send(operation, {
 						account_id: accountId,
 						domain_name: argv["domain-name"],
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Loaded` });
 			}

@@ -1,6 +1,5 @@
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * move command
  * @generated from apis/overlays/ai-search.ts
@@ -9,9 +8,10 @@ import type { Argv, CommandModule } from "yargs";
 import {
 	createCommandClient,
 	getAccountId,
+	requestApi,
 	resolveAccountIdSilent,
 } from "#lib/auth.js";
-import { compactBody, parseBody } from "#lib/body-parser.js";
+import { compactBody, parseBody, setNestedValue } from "#lib/body-parser.js";
 import { formatDryRun } from "#lib/dry-run.js";
 import { resolveFileToken } from "#lib/input-validation.js";
 import { LOCAL_ACCOUNT_ID } from "#lib/local.js";
@@ -51,9 +51,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 }
 
 type Args = InferArgs<typeof builder>;
-
-type Request = SdkRequest<"ai-search-move-instance">;
-type Body = Request;
 
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "move <instance-id>",
@@ -98,14 +95,14 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.accountId = accountId;
 
 				if (argv.body) {
-					const bodyData = parseBody<Request>(argv.body);
+					const bodyData = parseBody(argv.body);
 					const result = await withProgress(`Updating`, async () =>
-						client.aiSearch.move({
-							...bodyData,
-							account_id: accountId,
-							"source-namespace": argv["source-namespace"],
-							"instance-id": argv["instance-id"],
-						} satisfies Request)
+						requestApi<unknown>(
+							client,
+							"PATCH",
+							`/accounts/${accountId}/ai-search/namespaces/${encodeURIComponent(String(argv["source-namespace"]))}/instances/${encodeURIComponent(String(argv["instance-id"]))}`,
+							{ body: bodyData }
+						)
 					);
 					formatOutput(result, { successLabel: `Updated` });
 					return;
@@ -118,20 +115,24 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				}
 
 				// Assemble request body from individual flags
-				const bodyData = compactBody<Body>({
-					new_namespace: resolveFileToken(
-						argv["destination-namespace"] as string | undefined,
-						"destination-namespace",
-						"text"
-					),
-				});
+				const bodyData: Record<string, unknown> = {};
+				if (argv["destination-namespace"] !== undefined)
+					setNestedValue(
+						bodyData,
+						["new_namespace"],
+						resolveFileToken(
+							argv["destination-namespace"] as string | undefined,
+							"destination-namespace",
+							"text"
+						)
+					);
 				const result = await withProgress(`Updating`, async () =>
-					client.aiSearch.move({
-						...bodyData,
-						account_id: accountId,
-						"source-namespace": argv["source-namespace"],
-						"instance-id": argv["instance-id"],
-					} satisfies Request)
+					requestApi<unknown>(
+						client,
+						"PATCH",
+						`/accounts/${accountId}/ai-search/namespaces/${encodeURIComponent(String(argv["source-namespace"]))}/instances/${encodeURIComponent(String(argv["instance-id"]))}`,
+						{ body: bodyData }
+					)
 				);
 				formatOutput(result, { successLabel: `Updated` });
 			}

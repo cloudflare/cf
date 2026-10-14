@@ -1,6 +1,6 @@
+import operation from "../../../../_operations/zero-trust/devices/registrations/override-codes/get.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * get command
  * @generated from apis/overlays/zero-trust.ts
@@ -36,8 +36,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"get-registration-override-codes">;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "get <registration-id>",
 	describe: "Get override codes",
@@ -70,10 +68,10 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.accountId = accountId;
 
 				const result = await withProgress(`Loading`, async () =>
-					client.zeroTrust.devices.registrations.overrideCodes.get({
+					client.send(operation, {
 						account_id: accountId,
 						registration_id: argv["registration-id"],
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Loaded` });
 			}

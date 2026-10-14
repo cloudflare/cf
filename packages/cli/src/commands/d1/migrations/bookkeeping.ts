@@ -290,7 +290,7 @@ export function findDrizzleLayoutHint(
  *
  * Duplicated from wrangler (`d1/splitter.ts`) because cf has nowhere shared
  * to put it yet. The durable fix is the API not splitting this way, or the
- * normalization living next to the endpoint in the SDK — see
+ * normalization living next to the endpoint in the API — see
  * `test_bugs/d1-query-no-crlf-normalization.md`. Delete this when that
  * lands rather than copying it a third time.
  */

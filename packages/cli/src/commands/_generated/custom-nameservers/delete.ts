@@ -1,6 +1,6 @@
+import operation from "../_operations/custom-nameservers/delete.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * delete command
  * @generated from apis/overlays/custom-nameservers.ts
@@ -43,9 +43,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request =
-	SdkRequest<"account-level-custom-nameservers-delete-account-custom-nameserver">;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "delete <custom-ns-id>",
 	describe: "Delete Account Custom Nameserver",
@@ -82,10 +79,10 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				}
 
 				const result = await withProgress(`Deleting`, async () =>
-					client.customNameservers.delete({
+					client.send(operation, {
 						account_id: accountId,
 						custom_ns_id: argv["custom-ns-id"],
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Deleted` });
 			}

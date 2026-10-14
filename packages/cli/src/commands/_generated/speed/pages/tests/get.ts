@@ -1,6 +1,6 @@
+import operation from "../../../_operations/speed/pages/tests/get.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * get command
  * @generated from apis/overlays/speed.ts
@@ -35,8 +35,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 }
 
 type Args = InferArgs<typeof builder>;
-
-type Request = SdkRequest<"speed-get-test">;
 
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "get <test-id>",
@@ -73,11 +71,11 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.zoneId = zoneId;
 
 				const result = await withProgress(`Loading`, async () =>
-					client.speed.pages.tests.get({
+					client.send(operation, {
 						zone_id: zoneId,
 						url: argv["url"],
 						test_id: argv["test-id"],
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Loaded` });
 			}

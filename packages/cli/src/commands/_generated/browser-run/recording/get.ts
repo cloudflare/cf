@@ -1,6 +1,6 @@
+import operation from "../../_operations/browser-run/recording/get.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * get command
  * @generated from apis/overlays/browser-run.ts
@@ -36,8 +36,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"brapi-get_Recording">;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "get <session-id>",
 	describe: "Get recording data.",
@@ -68,10 +66,10 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.accountId = accountId;
 
 				const result = await withProgress(`Loading`, async () =>
-					client.browserRun.recording.get({
+					client.send(operation, {
 						account_id: accountId,
 						session_id: argv["session-id"],
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Loaded` });
 			}

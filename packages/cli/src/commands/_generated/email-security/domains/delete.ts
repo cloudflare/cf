@@ -1,6 +1,6 @@
+import operation from "../../_operations/email-security/domains/delete.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * delete command
  * @generated from apis/overlays/email-security.ts
@@ -43,8 +43,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"email_security_delete_domain">;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "delete <domain-id>",
 	describe: "Unprotect an email domain",
@@ -86,10 +84,10 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				}
 
 				const result = await withProgress(`Deleting`, async () =>
-					client.emailSecurity.domains.delete({
+					client.send(operation, {
 						account_id: accountId,
 						domain_id: argv["domain-id"],
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Deleted` });
 			}

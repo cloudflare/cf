@@ -1,6 +1,6 @@
+import operation from "../../_operations/magic-transit/bgp-filter-profiles/delete.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * delete command
  * @generated from apis/overlays/magic-transit.ts
@@ -43,8 +43,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"magic-bgp-delete-filter-profile">;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "delete <profile-id>",
 	describe: "Delete BGP Filter Profile",
@@ -81,10 +79,10 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				}
 
 				const result = await withProgress(`Deleting`, async () =>
-					client.magicTransit.bgpFilterProfiles.delete({
+					client.send(operation, {
 						account_id: accountId,
 						profile_id: argv["profile-id"],
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Deleted` });
 			}

@@ -2,6 +2,18 @@ import { domainToASCII } from "node:url";
 import type { Cloudflare } from "#lib/auth.js";
 import { withProgress } from "#lib/progress.js";
 import { sanitizeTerminalText } from "#lib/ui/sanitize.js";
+import checkDomains from "#operations/registrar/registrations/check.js";
+
+/** The response of a domain check. */
+interface DomainCheck {
+	domains: {
+		name: string;
+		registrable?: boolean;
+		reason?: string;
+		tier?: string;
+		pricing?: RegistrationPricing;
+	}[];
+}
 
 export interface RegistrationPricing {
 	currency: string;
@@ -23,12 +35,12 @@ export async function requireRegistrationAvailability(
 	const expectedDomain = domainToASCII(
 		domain.trim().replace(/\.$/, "")
 	).toLowerCase();
-	const availability = await withProgress(`Checking availability`, () =>
-		client.registrar.registrations.check({
+	const availability = (await withProgress(`Checking availability`, () =>
+		client.send(checkDomains, {
 			account_id: accountId,
-			domains: [domain],
+			body: { domains: [domain] },
 		})
-	);
+	)) as DomainCheck;
 	const matches =
 		expectedDomain === ""
 			? []

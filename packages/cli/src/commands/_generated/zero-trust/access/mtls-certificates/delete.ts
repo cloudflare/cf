@@ -1,6 +1,6 @@
+import operation from "../../../_operations/zero-trust/access/mtls-certificates/delete.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * delete command
  * @generated from apis/overlays/zero-trust.ts
@@ -44,9 +44,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request =
-	SdkRequest<"generated:delete:/{account_or_zone}/{account_or_zone_id}/access/certificates/{certificate_id}">;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "delete <certificate-id>",
 	describe: "Delete an mTLS certificate",
@@ -76,8 +73,8 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						url: `https://api.cloudflare.com/client/v4/${accountOrZone}/${accountOrZoneId}/access/certificates/${argv["certificate-id"] == null ? "<certificate-id>" : encodeURIComponent(String(argv["certificate-id"]))}`,
 						pathParams: {
 							"account-or-zone": String(accountOrZone),
-							"certificate-id": String(argv["certificate-id"] ?? ""),
 							"account-or-zone-id": String(accountOrZoneId),
+							"certificate-id": String(argv["certificate-id"] ?? ""),
 						},
 						bodyKind: "none",
 					});
@@ -105,11 +102,11 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				}
 
 				const result = await withProgress(`Deleting`, async () =>
-					client.zeroTrust.access.mtlsCertificates.delete({
+					client.send(operation, {
 						account_or_zone: accountOrZone,
 						account_or_zone_id: accountOrZoneId,
 						certificate_id: argv["certificate-id"],
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Deleted` });
 			}

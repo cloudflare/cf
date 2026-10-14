@@ -1,16 +1,18 @@
+import operation from "../../_operations/user/invites/respond.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * respond command
  * @generated from apis/overlays/user.ts
  */
 import type { Argv, CommandModule } from "yargs";
-import { createCommandClient, requestApi } from "#lib/auth.js";
-import { parseBody } from "#lib/body-parser.js";
+import { createCommandClient } from "#lib/auth.js";
+import { compactBody, parseBody } from "#lib/body-parser.js";
 import { formatDryRun } from "#lib/dry-run.js";
+import { resolveFileToken } from "#lib/input-validation.js";
 import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
+import { promptForRequiredEnumField } from "#lib/prompt.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
 function builder(yargs: Argv<CommonYargsOptions>) {
@@ -21,6 +23,13 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "Invite identifier tag.",
 			demandOption: true,
 		})
+		.option("status", {
+			type: "string",
+			description:
+				"Status of your response to the invitation (rejected or accepted).",
+			choices: ["accepted", "rejected"],
+		})
+		.coerce("status", (value) => resolveFileToken(value, "status", "text"))
 		.option("dry-run", {
 			type: "boolean",
 			description: "Validate and show what would happen without executing",
@@ -34,9 +43,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"user'-s-invites-respond-to-invitation">;
-type Body = Request;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "respond <invite-id>",
 	describe: "Respond to Invitation",
@@ -46,7 +52,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			{
 				command: "user invites respond",
 				classification: {
-					safeFlags: ["dry-run"],
+					safeFlags: ["status", "dry-run"],
 				} satisfies ArgClassification<Args>,
 			},
 			argv as Record<string, unknown>,
@@ -58,30 +64,45 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						url: `https://api.cloudflare.com/client/v4/user/invites/${argv["invite-id"] == null ? "<invite-id>" : encodeURIComponent(String(argv["invite-id"]))}`,
 						pathParams: { "invite-id": String(argv["invite-id"] ?? "") },
 						bodyKind: "json",
-						body: argv.body !== undefined ? parseBody(argv.body) : undefined,
+						body:
+							argv.body !== undefined
+								? parseBody(argv.body)
+								: compactBody({
+										status: argv["status"],
+									}),
 					});
 					return;
 				}
 				const client = await createCommandClient(argv);
 
 				if (argv.body) {
-					const bodyData = parseBody<Request>(argv.body);
+					const bodyData = parseBody(argv.body);
 					const result = await withProgress(`Updating`, async () =>
-						client.user.invites.respond({
-							...bodyData,
+						client.send(operation, {
+							body: bodyData,
 							invite_id: argv["invite-id"],
-						} satisfies Request)
+						})
 					);
 					formatOutput(result, { successLabel: `Updated` });
 					return;
 				}
+				if (argv["status"] === undefined) {
+					argv["status"] = await promptForRequiredEnumField(
+						"status",
+						"Status of your response to the invitation (rejected or accepted).",
+						["accepted", "rejected"] as const
+					);
+				}
 
+				// Assemble request body from individual flags
+				const bodyData = compactBody({
+					status: argv["status"],
+				});
 				const result = await withProgress(`Updating`, async () =>
-					requestApi<unknown>(
-						client,
-						"PATCH",
-						`/user/invites/${encodeURIComponent(String(argv["invite-id"]))}`
-					)
+					client.send(operation, {
+						body: bodyData,
+						invite_id: argv["invite-id"],
+					})
 				);
 				formatOutput(result, { successLabel: `Updated` });
 			}

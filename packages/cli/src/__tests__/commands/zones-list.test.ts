@@ -14,7 +14,7 @@ import { runCf } from "../helpers/run-cf.js";
 
 /**
  * End-to-end network tests for a generated command (`cf zones list`),
- * driven through the real `runMain` → yargs → SDK → `globalThis.fetch`
+ * driven through the real `runMain` → yargs → API client → `globalThis.fetch`
  * stack with MSW standing in for the Cloudflare API.
  *
  * `zones list` is chosen as the harness exemplar because it's a plain
@@ -24,7 +24,7 @@ import { runCf } from "../helpers/run-cf.js";
  * injection, query-param forwarding, response-envelope unwrapping, and
  * JSON stdout formatting.
  *
- * The SDK is pointed at a stable test origin via `CLOUDFLARE_API_BASE_URL`
+ * The client is pointed at a stable test origin via `CLOUDFLARE_API_BASE_URL`
  * (honoured by `createCommandClient`) and authenticated with a fake
  * `CLOUDFLARE_API_TOKEN`. `runInTempDir` isolates HOME/XDG so a
  * developer's real stored OAuth token can't substitute for the env

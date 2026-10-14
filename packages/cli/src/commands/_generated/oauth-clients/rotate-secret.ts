@@ -1,6 +1,6 @@
+import operation from "../_operations/oauth-clients/rotate-secret.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * rotate-secret command
  * @generated from apis/overlays/oauth-clients.ts
@@ -36,8 +36,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"oauth-clients-rotate-secret">;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "rotate-secret <oauth-client-id>",
 	describe: "Rotate OAuth Client Secret",
@@ -70,10 +68,10 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.accountId = accountId;
 
 				const result = await withProgress(`Creating`, async () =>
-					client.oauthClients.rotateSecret({
+					client.send(operation, {
 						account_id: accountId,
 						oauth_client_id: argv["oauth-client-id"],
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Created` });
 			}

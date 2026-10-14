@@ -1,6 +1,6 @@
+import operation from "../../_operations/queues/purge/status.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * status command
  * @generated from apis/overlays/queues.ts
@@ -36,8 +36,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"queues-purge-get">;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "status <queue-id>",
 	describe: "Get Queue Purge Status",
@@ -68,10 +66,10 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.accountId = accountId;
 
 				const result = await withProgress(`Loading`, async () =>
-					client.queues.purge.status({
+					client.send(operation, {
 						account_id: accountId,
 						queue_id: argv["queue-id"],
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Loaded` });
 			}

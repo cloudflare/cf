@@ -1,6 +1,6 @@
+import operation from "../../../_operations/basin-catalog/namespaces/tables/list.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkQuery, SdkRequest } from "#sdk";
 /**
  * list command
  * @generated from apis/overlays/basin-catalog.ts
@@ -62,9 +62,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"basin-list-tables">;
-type Query = SdkQuery<"basin-list-tables">;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "list",
 	describe: "List tables in namespace",
@@ -79,7 +76,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
-				const queryParams: Query = {
+				const queryParams: Record<string, unknown> = {
 					page_token: argv["page-token"],
 					page_size: argv["page-size"],
 					return_uuids: argv["return-uuids"],
@@ -105,12 +102,12 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.accountId = accountId;
 
 				const result = await withProgress(`Loading`, async () =>
-					client.basinCatalog.namespaces.tables.list({
+					client.send(operation, {
 						account_id: accountId,
 						bucket_name: argv["bucket-name"],
 						namespace: argv["namespace"],
 						...queryParams,
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Loaded` });
 			}

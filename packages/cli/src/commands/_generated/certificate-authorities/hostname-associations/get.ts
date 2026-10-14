@@ -1,6 +1,6 @@
+import operation from "../../_operations/certificate-authorities/hostname-associations/get.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkQuery, SdkRequest } from "#sdk";
 /**
  * get command
  * @generated from apis/overlays/certificate-authorities.ts
@@ -31,11 +31,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request =
-	SdkRequest<"client-certificate-for-a-zone-list-hostname-associations">;
-type Query =
-	SdkQuery<"client-certificate-for-a-zone-list-hostname-associations">;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "get",
 	describe: "List Hostname Associations",
@@ -50,7 +45,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
-				const queryParams: Query = {
+				const queryParams: Record<string, unknown> = {
 					mtls_certificate_id: argv["mtls-certificate-id"],
 				};
 				if (argv.dryRun) {
@@ -73,10 +68,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.zoneId = zoneId;
 
 				const result = await withProgress(`Loading`, async () =>
-					client.certificateAuthorities.hostnameAssociations.get({
-						zone_id: zoneId,
-						...queryParams,
-					} satisfies Request)
+					client.send(operation, { zone_id: zoneId, ...queryParams })
 				);
 				formatOutput(result, { successLabel: `Loaded` });
 			}

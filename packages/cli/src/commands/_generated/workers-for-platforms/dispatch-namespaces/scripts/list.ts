@@ -1,6 +1,6 @@
+import operation from "../../../_operations/workers-for-platforms/dispatch-namespaces/scripts/list.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkQuery, SdkRequest } from "#sdk";
 /**
  * list command
  * @generated from apis/overlays/workers-for-platforms.ts
@@ -41,9 +41,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"namespace-worker-list-scripts">;
-type Query = SdkQuery<"namespace-worker-list-scripts">;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "list",
 	describe: "List Workers for Platforms Scripts",
@@ -58,7 +55,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
-				const queryParams: Query = {
+				const queryParams: Record<string, unknown> = {
 					tags: argv["tags"],
 				};
 				if (argv.dryRun) {
@@ -81,11 +78,11 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.accountId = accountId;
 
 				const result = await withProgress(`Loading`, async () =>
-					client.workersForPlatforms.dispatchNamespaces.scripts.list({
+					client.send(operation, {
 						account_id: accountId,
 						dispatch_namespace: argv["dispatch-namespace"],
 						...queryParams,
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Loaded` });
 			}

@@ -1,6 +1,6 @@
+import operation from "../_operations/pipelines/legacy-delete.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * legacy-delete command
  * @generated from apis/overlays/pipelines.ts
@@ -43,9 +43,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request =
-	SdkRequest<"deleteV4AccountsByAccount_idPipelinesByPipeline_name_deprecated">;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "legacy-delete <pipeline-name>",
 	describe: "[DEPRECATED] Delete Pipeline",
@@ -84,10 +81,10 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				}
 
 				const result = await withProgress(`Deleting`, async () =>
-					client.pipelines.legacyDelete({
+					client.send(operation, {
 						account_id: accountId,
 						pipeline_name: argv["pipeline-name"],
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Deleted` });
 			}

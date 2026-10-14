@@ -1,6 +1,6 @@
+import operation from "../../_operations/builds/deploy-hooks/trigger.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * trigger command
  * @generated from apis/overlays/builds.ts
@@ -31,8 +31,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"triggerDeployHook">;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "trigger <deploy-hook-uuid>",
 	describe: "Trigger deploy hook",
@@ -62,9 +60,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				const client = await createCommandClient(argv);
 
 				const result = await withProgress(`Creating`, async () =>
-					client.builds.deployHooks.trigger({
-						deploy_hook_uuid: argv["deploy-hook-uuid"],
-					} satisfies Request)
+					client.send(operation, { deploy_hook_uuid: argv["deploy-hook-uuid"] })
 				);
 				formatOutput(result, { successLabel: `Created` });
 			}

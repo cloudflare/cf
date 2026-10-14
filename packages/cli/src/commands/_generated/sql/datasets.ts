@@ -1,6 +1,6 @@
+import operation from "../_operations/sql/datasets.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkQuery } from "#sdk";
 /**
  * datasets command
  * @generated from apis/overlays/sql.ts
@@ -60,8 +60,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Query = SdkQuery<"sql-api-introspection">;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "datasets",
 	describe: "List available analytics datasets",
@@ -83,7 +81,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
-				const queryParams: Query = {
+				const queryParams: Record<string, unknown> = {
 					account_tag: argv["account-tag"],
 					include_columns: argv["include-columns"],
 					include_custom_attributes: argv["include-custom-attributes"],
@@ -106,7 +104,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				const client = await createCommandClient(argv);
 
 				const result = await withProgress(`Loading`, async () =>
-					client.sql.datasets(queryParams)
+					client.send(operation, queryParams)
 				);
 				formatOutput(result, { successLabel: `Loaded` });
 			}

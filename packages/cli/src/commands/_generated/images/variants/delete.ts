@@ -1,6 +1,6 @@
+import operation from "../../_operations/images/variants/delete.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * delete command
  * @generated from apis/overlays/images.ts
@@ -43,8 +43,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"cloudflare-images-variants-delete-a-variant">;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "delete <variant-id>",
 	describe: "Delete a variant",
@@ -86,10 +84,10 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				}
 
 				const result = await withProgress(`Deleting`, async () =>
-					client.images.variants.delete({
+					client.send(operation, {
 						account_id: accountId,
 						variant_id: argv["variant-id"],
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Deleted` });
 			}

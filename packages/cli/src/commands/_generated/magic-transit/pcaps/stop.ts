@@ -1,6 +1,6 @@
+import operation from "../../_operations/magic-transit/pcaps/stop.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * stop command
  * @generated from apis/overlays/magic-transit.ts
@@ -40,8 +40,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 }
 
 type Args = InferArgs<typeof builder>;
-
-type Request = SdkRequest<"magic-pcap-collection-stop-full-pcap">;
 
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "stop <pcap-id>",
@@ -84,10 +82,10 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				}
 
 				const result = await withProgress(`Deleting`, async () =>
-					client.magicTransit.pcaps.stop({
+					client.send(operation, {
 						account_id: accountId,
 						pcap_id: argv["pcap-id"],
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Deleted` });
 			}

@@ -1,6 +1,6 @@
+import operation from "../../_operations/magic-cloud-networking/cloud-integrations/initial-setup.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * initial-setup command
  * @generated from apis/overlays/magic-cloud-networking.ts
@@ -36,8 +36,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"providers-initial-setup">;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "initial-setup <provider-id>",
 	describe: "Get Cloud Integration Setup Config",
@@ -69,10 +67,10 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.accountId = accountId;
 
 				const result = await withProgress(`Loading`, async () =>
-					client.magicCloudNetworking.cloudIntegrations.initialSetup({
+					client.send(operation, {
 						account_id: accountId,
 						provider_id: argv["provider-id"],
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Loaded` });
 			}

@@ -1,6 +1,6 @@
+import operation from "../../_operations/abuse-reports/appeals/eligibility.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * eligibility command
  * @generated from apis/overlays/abuse-reports.ts
@@ -36,8 +36,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"CheckAppealEligibility">;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "eligibility <report-id>",
 	describe: "Check whether a report can be appealed",
@@ -68,10 +66,10 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.accountId = accountId;
 
 				const result = await withProgress(`Loading`, async () =>
-					client.abuseReports.appeals.eligibility({
+					client.send(operation, {
 						account_id: accountId,
 						report_id: argv["report-id"],
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Loaded` });
 			}

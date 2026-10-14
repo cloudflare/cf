@@ -1,7 +1,26 @@
-import type { HandWrittenDryRunStrategy } from "../lib/hand-written-dry-run.js";
-import type { CommandTelemetryMeta } from "../lib/telemetry/run.js";
+/**
+ * The registry of hand-written commands: every root command, and every
+ * leaf, subgroup, and presentation override spliced into the generated
+ * tree. Each entry with a `dir` has a `meta.ts` sidecar there, listed in
+ * `hand-written-meta.ts`.
+ *
+ * The generator plugin bundles this module, and runs without Node, so it
+ * must stay plain data and import nothing. What a root command needs at run
+ * time, its loader and telemetry, is in `root-commands.ts`.
+ */
 
-type CommandImporter = () => Promise<{ default: unknown }>;
+/**
+ * How a hand-written command handles --dry-run:
+ *
+ * - `preview`: after yargs validates arguments, print a generic command preview
+ *   without argument values and exit before the handler runs. Only yargs
+ *   argument validation runs; command-specific handler validation is skipped.
+ * - `native`: run the command's handler, which must implement its own dry-run
+ *   validation and preview instead of performing the requested operation.
+ *
+ * A group strategy applies to every executable descendant.
+ */
+export type HandWrittenDryRunStrategy = "preview" | "native";
 
 export interface RootHandWrittenCommand {
 	kind: "root";
@@ -10,8 +29,6 @@ export interface RootHandWrittenCommand {
 	command: string;
 	describe: string | false;
 	dir: string;
-	load: CommandImporter;
-	telemetry: CommandTelemetryMeta | null;
 }
 
 export interface LeafOverrideHandWrittenCommand {
@@ -55,15 +72,15 @@ export type HandWrittenCommand =
 	| ParentOverrideHandWrittenCommand
 	| SubGroupHandWrittenCommand;
 
-export const handWrittenCommands: readonly HandWrittenCommand[] = [
+// `as const` keeps the directories literal, so `root-commands.ts` and
+// `hand-written-meta.ts` can require an entry for exactly these commands.
+const registry = [
 	{
 		kind: "root",
 		dryRun: "preview",
 		command: "auth",
 		describe: "Manage authentication and profiles",
 		dir: "auth",
-		load: () => import("./auth/index.js"),
-		telemetry: { command: "auth", recordArgs: false },
 	},
 	{
 		kind: "root",
@@ -71,8 +88,6 @@ export const handWrittenCommands: readonly HandWrittenCommand[] = [
 		command: "login",
 		describe: false,
 		dir: "login",
-		load: () => import("./login/index.js"),
-		telemetry: null,
 	},
 	{
 		kind: "root",
@@ -80,8 +95,6 @@ export const handWrittenCommands: readonly HandWrittenCommand[] = [
 		command: "build",
 		describe: "Build a project for Cloudflare",
 		dir: "build",
-		load: () => import("./build/index.js"),
-		telemetry: { command: "build", classification: { safeFlags: [] } },
 	},
 	{
 		kind: "root",
@@ -89,8 +102,6 @@ export const handWrittenCommands: readonly HandWrittenCommand[] = [
 		command: "complete [shell]",
 		describe: "Generate and handle shell completions",
 		dir: "completions",
-		load: () => import("./completions/index.js"),
-		telemetry: null,
 	},
 	{
 		kind: "root",
@@ -98,13 +109,6 @@ export const handWrittenCommands: readonly HandWrittenCommand[] = [
 		command: "deploy",
 		describe: "Deploy a project to Cloudflare",
 		dir: "deploy",
-		load: () => import("./deploy/index.js"),
-		telemetry: {
-			command: "deploy",
-			classification: {
-				safeFlags: ["dry-run", "prebuilt", "containers-rollout", "provision"],
-			},
-		},
 	},
 	{
 		kind: "root",
@@ -112,11 +116,6 @@ export const handWrittenCommands: readonly HandWrittenCommand[] = [
 		command: "dev [implArgs..]",
 		describe: "Run the project's Cloudflare dev server",
 		dir: "dev",
-		load: () => import("./dev/index.js"),
-		telemetry: {
-			command: "dev",
-			recordArgs: false,
-		},
 	},
 	{
 		kind: "root",
@@ -124,8 +123,6 @@ export const handWrittenCommands: readonly HandWrittenCommand[] = [
 		command: "docs",
 		describe: "Search live Cloudflare documentation",
 		dir: "docs",
-		load: () => import("./docs/index.js"),
-		telemetry: { command: "docs", recordArgs: false },
 	},
 	{
 		kind: "root",
@@ -133,11 +130,6 @@ export const handWrittenCommands: readonly HandWrittenCommand[] = [
 		command: "init [directory]",
 		describe: "Create a new Cloudflare project or set up an existing one",
 		dir: "init",
-		load: () => import("./init/index.js"),
-		telemetry: {
-			command: "init",
-			classification: { safeFlags: ["install", "package-manager"] },
-		},
 	},
 	{
 		kind: "root",
@@ -145,11 +137,6 @@ export const handWrittenCommands: readonly HandWrittenCommand[] = [
 		command: "migrate [path]",
 		describe: "Migrate a Wrangler project to cf",
 		dir: "migrate",
-		load: () => import("./migrate/index.js"),
-		telemetry: {
-			command: "migrate",
-			recordArgs: false,
-		},
 	},
 	{
 		kind: "root",
@@ -157,8 +144,6 @@ export const handWrittenCommands: readonly HandWrittenCommand[] = [
 		command: "cli",
 		describe: "Discover commands and configure the cf CLI",
 		dir: "cli",
-		load: () => import("./cli/index.js"),
-		telemetry: { command: "cli", recordArgs: false },
 	},
 	{
 		kind: "leaf",
@@ -180,11 +165,6 @@ export const handWrittenCommands: readonly HandWrittenCommand[] = [
 		command: "schema [command..]",
 		describe: "Show API schema details for a command",
 		dir: "schema",
-		load: () => import("./schema.js"),
-		telemetry: {
-			command: "schema",
-			classification: { safeFlags: ["list"] },
-		},
 	},
 	{
 		kind: "root",
@@ -192,11 +172,6 @@ export const handWrittenCommands: readonly HandWrittenCommand[] = [
 		command: "tools",
 		describe: false,
 		dir: "tools",
-		load: () => import("./tools.js"),
-		telemetry: {
-			command: "tools",
-			classification: { safeFlags: ["text"] },
-		},
 	},
 	{
 		kind: "leafOverride",
@@ -379,11 +354,25 @@ export const handWrittenCommands: readonly HandWrittenCommand[] = [
 		dir: "workers/triggers",
 		describe: "Manage triggers (Routes, Workflows, Cron triggers etc.)",
 	},
-];
+] as const satisfies readonly HandWrittenCommand[];
 
-export function rootHandWrittenCommands(): readonly RootHandWrittenCommand[] {
+/** The directory of each registered command of `kind`. */
+export type HandWrittenDir<K extends HandWrittenCommand["kind"]> = Extract<
+	(typeof registry)[number],
+	{ kind: K; dir: string }
+>["dir"];
+
+/** The directory of each root command, which names it in `root-commands.ts`. */
+export type RootCommandDir = HandWrittenDir<"root">;
+
+export const handWrittenCommands: readonly HandWrittenCommand[] = registry;
+
+export function rootHandWrittenCommands(): readonly (RootHandWrittenCommand & {
+	dir: RootCommandDir;
+})[] {
 	return handWrittenCommands.filter(
-		(command): command is RootHandWrittenCommand => command.kind === "root"
+		(command): command is RootHandWrittenCommand & { dir: RootCommandDir } =>
+			command.kind === "root"
 	);
 }
 

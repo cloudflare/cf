@@ -15,6 +15,7 @@ import {
 	readCachedSchema,
 	writeCachedSchema,
 } from "#lib/schema-cache.js";
+import getModelSchema from "#operations/ai/get-model-schema.js";
 
 const CACHE_NAMESPACE = "ai-model-schema";
 
@@ -23,7 +24,7 @@ const CACHE_NAMESPACE = "ai-model-schema";
  *
  * `createClient` is a thunk so a cache hit doesn't build a client, which
  * would resolve credentials on what may be a `--help` invocation. Help
- * supplies a deadline; normal execution uses the SDK's request policy.
+ * supplies a deadline; normal execution uses the client's request policy.
  */
 export async function getModelInputSchema(
 	model: string,
@@ -40,7 +41,7 @@ export async function getModelInputSchema(
 	try {
 		const client = await createClient();
 		if (deadline === undefined) {
-			result = await client.ai.getModelSchema({
+			result = await client.send(getModelSchema, {
 				account_id: accountId,
 				model,
 			});
@@ -49,7 +50,8 @@ export async function getModelInputSchema(
 			if (timeout <= 0) {
 				return { ok: false, reason: "the request timed out" };
 			}
-			result = await client.ai.getModelSchema(
+			result = await client.send(
+				getModelSchema,
 				{ account_id: accountId, model },
 				{ timeoutInSeconds: timeout / 1000, maxRetries: 0 }
 			);

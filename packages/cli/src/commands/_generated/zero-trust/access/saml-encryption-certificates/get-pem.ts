@@ -1,6 +1,6 @@
+import operation from "../../../_operations/zero-trust/access/saml-encryption-certificates/get-pem.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * get-pem command
  * @generated from apis/overlays/zero-trust.ts
@@ -36,8 +36,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"access-saml-certificates-get-pem">;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "get-pem <saml-cert-set-id>",
 	describe: "Download current certificate in PEM format",
@@ -71,10 +69,10 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.accountId = accountId;
 
 				const result = await withProgress(`Loading`, async () =>
-					client.zeroTrust.access.samlEncryptionCertificates.getPem({
+					client.send(operation, {
 						account_id: accountId,
 						saml_cert_set_id: argv["saml-cert-set-id"],
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Loaded` });
 			}

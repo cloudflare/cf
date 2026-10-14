@@ -1,6 +1,5 @@
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * get command
  * @generated from apis/overlays/rulesets.ts
@@ -10,6 +9,7 @@ import {
 	createCommandClient,
 	getAccountId,
 	getZoneId,
+	requestApi,
 	resolveAccountIdSilent,
 } from "#lib/auth.js";
 import { formatDryRun } from "#lib/dry-run.js";
@@ -42,9 +42,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request =
-	SdkRequest<"generated:get:/{account_or_zone}/{account_or_zone_id}/rulesets/phases/{ruleset_phase}/entrypoint/versions/{ruleset_version}">;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "get <ruleset-version>",
 	describe: "Get an account or zone entry point ruleset version",
@@ -73,9 +70,9 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						url: `https://api.cloudflare.com/client/v4/${accountOrZone}/${accountOrZoneId}/rulesets/phases/${argv["phase"] == null ? "<phase>" : encodeURIComponent(String(argv["phase"]))}/entrypoint/versions/${argv["ruleset-version"] == null ? "<ruleset-version>" : encodeURIComponent(String(argv["ruleset-version"]))}`,
 						pathParams: {
 							"account-or-zone": String(accountOrZone),
-							"ruleset-version": String(argv["ruleset-version"] ?? ""),
-							phase: String(argv["phase"] ?? ""),
 							"account-or-zone-id": String(accountOrZoneId),
+							phase: String(argv["phase"] ?? ""),
+							"ruleset-version": String(argv["ruleset-version"] ?? ""),
 						},
 						bodyKind: "none",
 					});
@@ -98,12 +95,11 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				}
 
 				const result = await withProgress(`Loading`, async () =>
-					client.rulesets.entrypoint.versions.get({
-						account_or_zone: accountOrZone,
-						account_or_zone_id: accountOrZoneId,
-						phase: argv["phase"],
-						ruleset_version: argv["ruleset-version"],
-					} satisfies Request)
+					requestApi<unknown>(
+						client,
+						"GET",
+						`/${accountOrZone}/${accountOrZoneId}/rulesets/phases/${encodeURIComponent(String(argv["phase"]))}/entrypoint/versions/${encodeURIComponent(String(argv["ruleset-version"]))}`
+					)
 				);
 				formatOutput(result, { successLabel: `Loaded` });
 			}

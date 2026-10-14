@@ -1,6 +1,6 @@
+import operation from "../../_operations/spectrum/apps/get.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * get command
  * @generated from apis/overlays/spectrum.ts
@@ -31,9 +31,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request =
-	SdkRequest<"spectrum-applications-get-spectrum-application-configuration">;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "get <app-id>",
 	describe: "Get Spectrum application configuration",
@@ -54,8 +51,8 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						method: "GET",
 						url: `https://api.cloudflare.com/client/v4/zones/${argv.zone ?? argv.zoneId ?? "<zone>"}/spectrum/apps/${argv["app-id"] == null ? "<app-id>" : encodeURIComponent(String(argv["app-id"]))}`,
 						pathParams: {
-							"app-id": String(argv["app-id"] ?? ""),
 							"zone-id": String(argv.zone ?? argv["zone-id"] ?? ""),
+							"app-id": String(argv["app-id"] ?? ""),
 						},
 						bodyKind: "none",
 					});
@@ -68,10 +65,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.zoneId = zoneId;
 
 				const result = await withProgress(`Loading`, async () =>
-					client.spectrum.apps.get({
-						zone_id: zoneId,
-						app_id: argv["app-id"],
-					} satisfies Request)
+					client.send(operation, { zone_id: zoneId, app_id: argv["app-id"] })
 				);
 				formatOutput(result, { successLabel: `Loaded` });
 			}

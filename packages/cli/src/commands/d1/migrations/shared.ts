@@ -24,6 +24,8 @@ import { createCommandClient, getAccountId } from "#lib/auth.js";
 import { LOCAL_ACCOUNT_ID } from "#lib/local.js";
 import { withProgress } from "#lib/progress.js";
 import { isId } from "#lib/resolve.js";
+import queryD1 from "#operations/d1/query.js";
+import rawD1 from "#operations/d1/raw.js";
 
 /**
  * `--dir` / `--pattern` — how migration files are discovered. All subcommands.
@@ -69,14 +71,22 @@ export async function executeSql(
 			body: { sql: normalizeSqlLineEndings(sql) },
 		};
 		if (!local) {
-			const response = await client.d1.query(request);
+			const response = (await client.send(queryD1, request)) as
+				| { result?: SqlResult[] }
+				| undefined;
 			return response?.result ?? [];
 		}
 
 		// Miniflare's explorer implements D1's /raw endpoint. Convert its
 		// rows-and-columns representation to /query's row-object shape so all
 		// migration bookkeeping above the transport stays identical.
-		const response = await client.d1.raw(request);
+		const response = (await client.send(rawD1, request)) as
+			| {
+					result?: (Omit<SqlResult, "results"> & {
+						results?: { columns?: string[]; rows?: unknown[][] };
+					})[];
+			  }
+			| undefined;
 		return (response?.result ?? []).map((result) => {
 			const columns = result.results?.columns ?? [];
 			const rows = result.results?.rows ?? [];

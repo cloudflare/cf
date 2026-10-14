@@ -1,6 +1,6 @@
+import operation from "../../_operations/email-sending/suppressions/get.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * get command
  * @generated from apis/overlays/email-sending.ts
@@ -36,8 +36,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"get_publicGetSendingSuppression">;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "get <suppression-id>",
 	describe: "Get account Email Sending suppression",
@@ -70,10 +68,10 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.accountId = accountId;
 
 				const result = await withProgress(`Loading`, async () =>
-					client.emailSending.suppressions.get({
+					client.send(operation, {
 						account_id: accountId,
 						suppression_id: argv["suppression-id"],
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Loaded` });
 			}

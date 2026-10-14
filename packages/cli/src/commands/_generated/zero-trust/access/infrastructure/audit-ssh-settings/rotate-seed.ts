@@ -1,6 +1,6 @@
+import operation from "../../../../_operations/zero-trust/access/infrastructure/audit-ssh-settings/rotate-seed.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * rotate-seed command
  * @generated from apis/overlays/zero-trust.ts
@@ -30,8 +30,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 }
 
 type Args = InferArgs<typeof builder>;
-
-type Request = SdkRequest<"zero-trust-rotate-ssh-account-seed">;
 
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "rotate-seed",
@@ -65,9 +63,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.accountId = accountId;
 
 				const result = await withProgress(`Creating`, async () =>
-					client.zeroTrust.access.infrastructure.auditSshSettings.rotateSeed({
-						account_id: accountId,
-					} satisfies Request)
+					client.send(operation, { account_id: accountId })
 				);
 				formatOutput(result, { successLabel: `Created` });
 			}

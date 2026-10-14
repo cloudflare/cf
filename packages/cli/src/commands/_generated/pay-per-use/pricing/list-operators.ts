@@ -1,6 +1,6 @@
+import operation from "../../_operations/pay-per-use/pricing/list-operators.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkQuery, SdkRequest } from "#sdk";
 /**
  * list-operators command
  * @generated from apis/overlays/pay-per-use.ts
@@ -28,9 +28,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"pay-per-crawl.listPPUOperators">;
-type Query = SdkQuery<"pay-per-crawl.listPPUOperators">;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "list-operators",
 	describe: "List pay-per-use operators",
@@ -45,7 +42,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
-				const queryParams: Query = {
+				const queryParams: Record<string, unknown> = {
 					page: argv["page"],
 					per_page: argv["per-page"],
 				};
@@ -69,10 +66,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.zoneId = zoneId;
 
 				const result = await withProgress(`Loading`, async () =>
-					client.payPerUse.pricing.listOperators({
-						zone_id: zoneId,
-						...queryParams,
-					} satisfies Request)
+					client.send(operation, { zone_id: zoneId, ...queryParams })
 				);
 				formatOutput(result, { successLabel: `Loaded` });
 			}

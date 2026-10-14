@@ -1,6 +1,6 @@
+import operation from "../../../../_operations/workers-for-platforms/dispatch-namespaces/scripts/secrets/delete.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkQuery, SdkRequest } from "#sdk";
 /**
  * delete command
  * @generated from apis/overlays/workers-for-platforms.ts
@@ -58,9 +58,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"namespace-worker-delete-script-secret">;
-type Query = SdkQuery<"namespace-worker-delete-script-secret">;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "delete <secret-name>",
 	describe: "Delete Workers for Platforms script secret",
@@ -77,7 +74,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
-				const queryParams: Query = {
+				const queryParams: Record<string, unknown> = {
 					url_encoded: argv["url-encoded"],
 				};
 				if (argv.dryRun) {
@@ -112,13 +109,13 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				}
 
 				const result = await withProgress(`Deleting`, async () =>
-					client.workersForPlatforms.dispatchNamespaces.scripts.secrets.delete({
+					client.send(operation, {
 						account_id: accountId,
 						dispatch_namespace: argv["dispatch-namespace"],
 						script_name: argv["script-name"],
 						secret_name: argv["secret-name"],
 						...queryParams,
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Deleted` });
 			}

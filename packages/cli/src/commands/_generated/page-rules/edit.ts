@@ -1,6 +1,6 @@
+import operation from "../_operations/page-rules/edit.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * edit command
  * @generated from apis/overlays/page-rules.ts
@@ -58,9 +58,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"page-rules-edit-a-page-rule">;
-type Body = Request;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "edit <pagerule-id>",
 	describe: "Edit a Page Rule",
@@ -81,8 +78,8 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						method: "PATCH",
 						url: `https://api.cloudflare.com/client/v4/zones/${argv.zone ?? argv.zoneId ?? "<zone>"}/pagerules/${argv["pagerule-id"] == null ? "<pagerule-id>" : encodeURIComponent(String(argv["pagerule-id"]))}`,
 						pathParams: {
-							"pagerule-id": String(argv["pagerule-id"] ?? ""),
 							"zone-id": String(argv.zone ?? argv["zone-id"] ?? ""),
+							"pagerule-id": String(argv["pagerule-id"] ?? ""),
 						},
 						bodyKind: "json",
 						body:
@@ -104,31 +101,31 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.zoneId = zoneId;
 
 				if (argv.body) {
-					const bodyData = parseBody<Request>(argv.body);
+					const bodyData = parseBody(argv.body);
 					const result = await withProgress(`Updating`, async () =>
-						client.pageRules.edit({
-							...bodyData,
+						client.send(operation, {
+							body: bodyData,
 							zone_id: zoneId,
 							pagerule_id: argv["pagerule-id"],
-						} satisfies Request)
+						})
 					);
 					formatOutput(result, { successLabel: `Updated` });
 					return;
 				}
 
 				// Assemble request body from individual flags
-				const bodyData = compactBody<Body>({
+				const bodyData = compactBody({
 					actions: parseObjectArray(argv["actions"], "actions"),
 					priority: argv["priority"],
 					status: argv["status"],
 					targets: parseObjectArray(argv["targets"], "targets"),
 				});
 				const result = await withProgress(`Updating`, async () =>
-					client.pageRules.edit({
-						...bodyData,
+					client.send(operation, {
+						body: bodyData,
 						zone_id: zoneId,
 						pagerule_id: argv["pagerule-id"],
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Updated` });
 			}

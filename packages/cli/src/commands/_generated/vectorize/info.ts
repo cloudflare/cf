@@ -1,6 +1,6 @@
+import operation from "../_operations/vectorize/info.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * info command
  * @generated from apis/overlays/vectorize.ts
@@ -36,8 +36,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"vectorize-index-info">;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "info <index-name>",
 	describe: "Get Vectorize Index Info",
@@ -68,10 +66,10 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.accountId = accountId;
 
 				const result = await withProgress(`Loading`, async () =>
-					client.vectorize.info({
+					client.send(operation, {
 						account_id: accountId,
 						index_name: argv["index-name"],
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Loaded` });
 			}

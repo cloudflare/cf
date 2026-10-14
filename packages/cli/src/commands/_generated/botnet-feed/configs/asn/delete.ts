@@ -1,6 +1,6 @@
+import operation from "../../../_operations/botnet-feed/configs/asn/delete.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * delete command
  * @generated from apis/overlays/botnet-feed.ts
@@ -43,8 +43,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"botnet-threat-feed-delete-asn">;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "delete <asn-id>",
 	describe: "Delete an ASN",
@@ -81,10 +79,10 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				}
 
 				const result = await withProgress(`Deleting`, async () =>
-					client.botnetFeed.configs.asn.delete({
+					client.send(operation, {
 						account_id: accountId,
 						asn_id: argv["asn-id"],
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Deleted` });
 			}

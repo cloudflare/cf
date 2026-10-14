@@ -13,7 +13,7 @@ import { server, setupMsw, TEST_BASE_URL } from "../../helpers/msw.js";
 import { runCf } from "../../helpers/run-cf.js";
 
 /**
- * `cf d1 migrations apply` driven through the real `runMain` → yargs → SDK
+ * `cf d1 migrations apply` driven through the real `runMain` → yargs → API client
  * stack, with MSW standing in for the D1 API and a temp cwd for the
  * migrations directory.
  *

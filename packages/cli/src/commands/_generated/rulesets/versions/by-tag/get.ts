@@ -1,6 +1,5 @@
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * get command
  * @generated from apis/overlays/rulesets.ts
@@ -10,6 +9,7 @@ import {
 	createCommandClient,
 	getAccountId,
 	getZoneId,
+	requestApi,
 	resolveAccountIdSilent,
 } from "#lib/auth.js";
 import { formatDryRun } from "#lib/dry-run.js";
@@ -47,9 +47,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request =
-	SdkRequest<"generated:get:/{account_or_zone}/{account_or_zone_id}/rulesets/{ruleset_id}/versions/{ruleset_version}/by_tag/{rule_tag}">;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "get <tag>",
 	describe: "List an account or zone ruleset version's rules by tag",
@@ -78,10 +75,10 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						url: `https://api.cloudflare.com/client/v4/${accountOrZone}/${accountOrZoneId}/rulesets/${argv["id"] == null ? "<id>" : encodeURIComponent(String(argv["id"]))}/versions/${argv["ruleset-version"] == null ? "<ruleset-version>" : encodeURIComponent(String(argv["ruleset-version"]))}/by_tag/${argv["tag"] == null ? "<tag>" : encodeURIComponent(String(argv["tag"]))}`,
 						pathParams: {
 							"account-or-zone": String(accountOrZone),
-							tag: String(argv["tag"] ?? ""),
-							"ruleset-version": String(argv["ruleset-version"] ?? ""),
-							id: String(argv["id"] ?? ""),
 							"account-or-zone-id": String(accountOrZoneId),
+							id: String(argv["id"] ?? ""),
+							"ruleset-version": String(argv["ruleset-version"] ?? ""),
+							tag: String(argv["tag"] ?? ""),
 						},
 						bodyKind: "none",
 					});
@@ -104,13 +101,11 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				}
 
 				const result = await withProgress(`Loading`, async () =>
-					client.rulesets.versions.byTag.get({
-						account_or_zone: accountOrZone,
-						account_or_zone_id: accountOrZoneId,
-						id: argv["id"],
-						ruleset_version: argv["ruleset-version"],
-						tag: argv["tag"],
-					} satisfies Request)
+					requestApi<unknown>(
+						client,
+						"GET",
+						`/${accountOrZone}/${accountOrZoneId}/rulesets/${encodeURIComponent(String(argv["id"]))}/versions/${encodeURIComponent(String(argv["ruleset-version"]))}/by_tag/${encodeURIComponent(String(argv["tag"]))}`
+					)
 				);
 				formatOutput(result, { successLabel: `Loaded` });
 			}

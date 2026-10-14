@@ -1,6 +1,6 @@
+import operation from "../../../_operations/zero-trust/gateway/rules/get.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * get command
  * @generated from apis/overlays/zero-trust.ts
@@ -36,9 +36,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request =
-	SdkRequest<"zero-trust-gateway-rules-zero-trust-gateway-rule-details">;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "get <rule-id>",
 	describe: "Get Zero Trust Gateway rule details.",
@@ -69,10 +66,10 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.accountId = accountId;
 
 				const result = await withProgress(`Loading`, async () =>
-					client.zeroTrust.gateway.rules.get({
+					client.send(operation, {
 						account_id: accountId,
 						rule_id: argv["rule-id"],
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Loaded` });
 			}

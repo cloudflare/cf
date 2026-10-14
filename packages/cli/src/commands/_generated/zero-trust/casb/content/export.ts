@@ -1,6 +1,6 @@
+import operation from "../../../_operations/zero-trust/casb/content/export.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * export command
  * @generated from apis/overlays/zero-trust.ts
@@ -74,9 +74,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"CreateContentExport">;
-type Body = Request;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "export",
 	describe: "Create a content export",
@@ -135,12 +132,9 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.accountId = accountId;
 
 				if (argv.body) {
-					const bodyData = parseBody<Request>(argv.body);
+					const bodyData = parseBody(argv.body);
 					const result = await withProgress(`Loading`, async () =>
-						client.zeroTrust.casb.content.export({
-							...bodyData,
-							account_id: accountId,
-						} satisfies Request)
+						client.send(operation, { body: bodyData, account_id: accountId })
 					);
 					formatOutput(result, { successLabel: `Loaded` });
 					return;
@@ -152,7 +146,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				}
 
 				// Assemble request body from individual flags
-				const bodyData = compactBody<Body>({
+				const bodyData = compactBody({
 					dlp_profile_id: argv["dlp-profile-id"],
 					dlp_profile_information: parseObjectArray(
 						argv["dlp-profile-information"],
@@ -178,10 +172,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					vendors: argv["vendors"],
 				});
 				const result = await withProgress(`Loading`, async () =>
-					client.zeroTrust.casb.content.export({
-						...bodyData,
-						account_id: accountId,
-					} satisfies Request)
+					client.send(operation, { body: bodyData, account_id: accountId })
 				);
 				formatOutput(result, { successLabel: `Loaded` });
 			}

@@ -1,6 +1,6 @@
+import operation from "../../../../_operations/workers-for-platforms/dispatch-namespaces/scripts/secrets/get.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkQuery, SdkRequest } from "#sdk";
 /**
  * get command
  * @generated from apis/overlays/workers-for-platforms.ts
@@ -51,9 +51,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"namespace-worker-get-script-secrets">;
-type Query = SdkQuery<"namespace-worker-get-script-secrets">;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "get <secret-name>",
 	describe: "Get Workers for Platforms Script Secret",
@@ -69,7 +66,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
-				const queryParams: Query = {
+				const queryParams: Record<string, unknown> = {
 					url_encoded: argv["url-encoded"],
 				};
 				if (argv.dryRun) {
@@ -94,13 +91,13 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.accountId = accountId;
 
 				const result = await withProgress(`Loading`, async () =>
-					client.workersForPlatforms.dispatchNamespaces.scripts.secrets.get({
+					client.send(operation, {
 						account_id: accountId,
 						dispatch_namespace: argv["dispatch-namespace"],
 						script_name: argv["script-name"],
 						secret_name: argv["secret-name"],
 						...queryParams,
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Loaded` });
 			}

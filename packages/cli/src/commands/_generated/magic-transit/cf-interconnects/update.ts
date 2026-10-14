@@ -473,7 +473,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						"PUT",
 						`/accounts/${accountId}/magic/cf_interconnects/${encodeURIComponent(String(argv["cf-interconnect-id"]))}`,
 						{
-							body: Object.keys(bodyData).length > 0 ? bodyData : undefined,
+							body: bodyData,
 							headers: Object.keys(headers).length > 0 ? headers : undefined,
 						}
 					)

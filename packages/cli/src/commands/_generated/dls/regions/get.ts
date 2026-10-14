@@ -1,6 +1,6 @@
+import operation from "../../_operations/dls/regions/get.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * get command
  * @generated from apis/overlays/dls.ts
@@ -35,8 +35,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"publicGetRegion">;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "get <region-id>",
 	describe: "Get a DLS region",
@@ -67,10 +65,10 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.accountId = accountId;
 
 				const result = await withProgress(`Loading`, async () =>
-					client.dls.regions.get({
+					client.send(operation, {
 						account_id: accountId,
 						region_id: argv["region-id"],
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Loaded` });
 			}

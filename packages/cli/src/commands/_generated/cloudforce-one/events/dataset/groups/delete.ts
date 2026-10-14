@@ -1,6 +1,6 @@
+import operation from "../../../../_operations/cloudforce-one/events/dataset/groups/delete.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * delete command
  * @generated from apis/overlays/cloudforce-one.ts
@@ -43,8 +43,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"delete_GroupDelete">;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "delete <group-id>",
 	describe: "Delete a group for an account",
@@ -81,10 +79,10 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				}
 
 				const result = await withProgress(`Deleting`, async () =>
-					client.cloudforceOne.events.dataset.groups.delete({
+					client.send(operation, {
 						account_id: accountId,
 						group_id: argv["group-id"],
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Deleted` });
 			}

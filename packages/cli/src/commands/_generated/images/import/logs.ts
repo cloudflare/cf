@@ -1,6 +1,6 @@
+import operation from "../../_operations/images/import/logs.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkQuery, SdkRequest } from "#sdk";
 /**
  * logs command
  * @generated from apis/overlays/images.ts
@@ -44,9 +44,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"cloudflare-images-sourcingkit-list-migration-logs">;
-type Query = SdkQuery<"cloudflare-images-sourcingkit-list-migration-logs">;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "logs <migration-id>",
 	describe: "List migration logs",
@@ -61,7 +58,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
-				const queryParams: Query = {
+				const queryParams: Record<string, unknown> = {
 					offset: argv["offset"],
 					limit: argv["limit"],
 				};
@@ -82,11 +79,11 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.accountId = accountId;
 
 				const result = await withProgress(`Loading`, async () =>
-					client.images.import.logs({
+					client.send(operation, {
 						account_id: accountId,
 						migration_id: argv["migration-id"],
 						...queryParams,
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Loaded` });
 			}

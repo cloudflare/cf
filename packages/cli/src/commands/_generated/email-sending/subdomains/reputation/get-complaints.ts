@@ -1,6 +1,6 @@
+import operation from "../../../_operations/email-sending/subdomains/reputation/get-complaints.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkQuery, SdkRequest } from "#sdk";
 /**
  * get-complaints command
  * @generated from apis/overlays/email-sending.ts
@@ -41,11 +41,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request =
-	SdkRequest<"email-sending-subdomains-get-sending-subdomain-reputation-complaints">;
-type Query =
-	SdkQuery<"email-sending-subdomains-get-sending-subdomain-reputation-complaints">;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "get-complaints <subdomain-id>",
 	describe: "Get sending subdomain complaint count",
@@ -60,7 +55,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
-				const queryParams: Query = {
+				const queryParams: Record<string, unknown> = {
 					start_at: argv["start-at"],
 					end_at: argv["end-at"],
 				};
@@ -70,8 +65,8 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						method: "GET",
 						url: `https://api.cloudflare.com/client/v4/zones/${argv.zone ?? argv.zoneId ?? "<zone>"}/email/sending/subdomains/${argv["subdomain-id"] == null ? "<subdomain-id>" : encodeURIComponent(String(argv["subdomain-id"]))}/reputation/complaints`,
 						pathParams: {
-							"subdomain-id": String(argv["subdomain-id"] ?? ""),
 							"zone-id": String(argv.zone ?? argv["zone-id"] ?? ""),
+							"subdomain-id": String(argv["subdomain-id"] ?? ""),
 						},
 						query: queryParams,
 						bodyKind: "none",
@@ -85,11 +80,11 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.zoneId = zoneId;
 
 				const result = await withProgress(`Loading`, async () =>
-					client.emailSending.subdomains.reputation.getComplaints({
+					client.send(operation, {
 						zone_id: zoneId,
 						subdomain_id: argv["subdomain-id"],
 						...queryParams,
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Loaded` });
 			}

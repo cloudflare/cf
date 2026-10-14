@@ -1,6 +1,6 @@
+import operation from "../../../../_operations/basin-catalog/namespaces/tables/maintenance-configs/queue.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * queue command
  * @generated from apis/overlays/basin-catalog.ts
@@ -12,7 +12,6 @@ import {
 	resolveAccountIdSilent,
 } from "#lib/auth.js";
 import { compactBody, parseBody } from "#lib/body-parser.js";
-import { withArgTypes } from "#lib/cli-types.js";
 import { formatDryRun } from "#lib/dry-run.js";
 import { resolveFileToken } from "#lib/input-validation.js";
 import { LOCAL_ACCOUNT_ID } from "#lib/local.js";
@@ -60,21 +59,12 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		});
 }
 
-type Request = SdkRequest<"basin-queue-table-maintenance">;
-type Body = Request["body"];
+type Args = InferArgs<typeof builder>;
 
-const typedBuilder = withArgTypes<
-	{
-		"configuration-type": Request["configuration_type"];
-	},
-	typeof builder
->(builder);
-
-type Args = InferArgs<typeof typedBuilder>;
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "queue <configuration-type>",
 	describe: "Queue table maintenance",
-	builder: typedBuilder,
+	builder,
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
@@ -117,23 +107,23 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.accountId = accountId;
 
 				if (argv.body) {
-					const bodyData = parseBody<Request["body"]>(argv.body);
+					const bodyData = parseBody(argv.body);
 					const result = await withProgress(`Creating`, async () =>
-						client.basinCatalog.namespaces.tables.maintenanceConfigs.queue({
+						client.send(operation, {
 							body: bodyData,
 							account_id: accountId,
 							bucket_name: argv["bucket-name"],
 							namespace: argv["namespace"],
 							table_name: argv["table-name"],
 							configuration_type: argv["configuration-type"],
-						} satisfies Request)
+						})
 					);
 					formatOutput(result, { successLabel: `Created` });
 					return;
 				}
 
 				// Assemble request body from individual flags
-				const bodyData = compactBody<Body>({
+				const bodyData = compactBody({
 					request_id: resolveFileToken(
 						argv["request-id"] as string | undefined,
 						"request-id",
@@ -141,14 +131,14 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					),
 				});
 				const result = await withProgress(`Creating`, async () =>
-					client.basinCatalog.namespaces.tables.maintenanceConfigs.queue({
+					client.send(operation, {
 						body: bodyData,
 						account_id: accountId,
 						bucket_name: argv["bucket-name"],
 						namespace: argv["namespace"],
 						table_name: argv["table-name"],
 						configuration_type: argv["configuration-type"],
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Created` });
 			}

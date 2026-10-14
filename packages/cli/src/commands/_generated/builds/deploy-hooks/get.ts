@@ -1,6 +1,6 @@
+import operation from "../../_operations/builds/deploy-hooks/get.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * get command
  * @generated from apis/overlays/builds.ts
@@ -41,8 +41,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"getDeployHook">;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "get <deploy-hook-uuid>",
 	describe: "Get a deploy hook",
@@ -76,11 +74,11 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.accountId = accountId;
 
 				const result = await withProgress(`Loading`, async () =>
-					client.builds.deployHooks.get({
+					client.send(operation, {
 						account_id: accountId,
 						script_name: argv["script-name"],
 						deploy_hook_uuid: argv["deploy-hook-uuid"],
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Loaded` });
 			}

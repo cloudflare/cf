@@ -1,6 +1,5 @@
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * get command
  * @generated from apis/overlays/mesh.ts
@@ -9,6 +8,7 @@ import type { Argv, CommandModule } from "yargs";
 import {
 	createCommandClient,
 	getAccountId,
+	requestApi,
 	resolveAccountIdSilent,
 } from "#lib/auth.js";
 import { formatDryRun } from "#lib/dry-run.js";
@@ -33,8 +33,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 }
 
 type Args = InferArgs<typeof builder>;
-
-type Request = SdkRequest<"cloudflare-tunnel-get-a-warp-connector-tunnel">;
 
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "get <node-id>",
@@ -66,10 +64,11 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.accountId = accountId;
 
 				const result = await withProgress(`Loading`, async () =>
-					client.mesh.nodes.get({
-						account_id: accountId,
-						"node-id": argv["node-id"],
-					} satisfies Request)
+					requestApi<unknown>(
+						client,
+						"GET",
+						`/accounts/${accountId}/warp_connector/${encodeURIComponent(String(argv["node-id"]))}`
+					)
 				);
 				formatOutput(result, { successLabel: `Loaded` });
 			}

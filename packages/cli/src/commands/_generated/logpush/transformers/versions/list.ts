@@ -1,6 +1,6 @@
+import operation from "../../../_operations/logpush/transformers/versions/list.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkQuery, SdkRequest } from "#sdk";
 /**
  * list command
  * @generated from apis/overlays/logpush.ts
@@ -40,11 +40,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request =
-	SdkRequest<"get-accounts-account_id-logpush-transformers-transformer_id-versions">;
-type Query =
-	SdkQuery<"get-accounts-account_id-logpush-transformers-transformer_id-versions">;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "list",
 	describe: "List transformer versions",
@@ -59,7 +54,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
-				const queryParams: Query = {
+				const queryParams: Record<string, unknown> = {
 					limit: argv["limit"],
 				};
 				if (argv.dryRun) {
@@ -81,11 +76,11 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.accountId = accountId;
 
 				const result = await withProgress(`Loading`, async () =>
-					client.logpush.transformers.versions.list({
+					client.send(operation, {
 						account_id: accountId,
 						transformer_id: argv["transformer-id"],
 						...queryParams,
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Loaded` });
 			}

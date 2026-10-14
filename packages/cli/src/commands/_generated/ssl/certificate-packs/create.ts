@@ -1,6 +1,6 @@
+import operation from "../../_operations/ssl/certificate-packs/create.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * create command
  * @generated from apis/overlays/ssl.ts
@@ -71,10 +71,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request =
-	SdkRequest<"certificate-packs-order-advanced-certificate-manager-certificate-pack">;
-type Body = Request;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "create",
 	describe: "Order Advanced Certificate Manager Certificate Pack",
@@ -125,12 +121,9 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.zoneId = zoneId;
 
 				if (argv.body) {
-					const bodyData = parseBody<Request>(argv.body);
+					const bodyData = parseBody(argv.body);
 					const result = await withProgress(`Creating`, async () =>
-						client.ssl.certificatePacks.create({
-							...bodyData,
-							zone_id: zoneId,
-						} satisfies Request)
+						client.send(operation, { body: bodyData, zone_id: zoneId })
 					);
 					formatOutput(result, { successLabel: `Created` });
 					return;
@@ -168,7 +161,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				}
 
 				// Assemble request body from individual flags
-				const bodyData = compactBody<Body>({
+				const bodyData = compactBody({
 					certificate_authority: argv["certificate-authority"],
 					cloudflare_branding: argv["cloudflare-branding"],
 					hosts: argv["hosts"],
@@ -177,10 +170,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					validity_days: argv["validity-days"],
 				});
 				const result = await withProgress(`Creating`, async () =>
-					client.ssl.certificatePacks.create({
-						...bodyData,
-						zone_id: zoneId,
-					} satisfies Request)
+					client.send(operation, { body: bodyData, zone_id: zoneId })
 				);
 				formatOutput(result, { successLabel: `Created` });
 			}

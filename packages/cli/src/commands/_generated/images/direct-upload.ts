@@ -1,6 +1,6 @@
+import operation from "../_operations/images/direct-upload.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * direct-upload command
  * @generated from apis/overlays/images.ts
@@ -65,9 +65,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 }
 
 type Args = InferArgs<typeof builder>;
-
-type Request =
-	SdkRequest<"cloudflare-images-create-authenticated-direct-upload-url-v-2">;
 
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "direct-upload",
@@ -207,9 +204,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				}
 
 				const result = await withProgress(`Creating`, async () =>
-					client.images.directUpload({
-						account_id: accountId,
-					} satisfies Request)
+					client.send(operation, { account_id: accountId })
 				);
 				formatOutput(result, { successLabel: `Created` });
 			}

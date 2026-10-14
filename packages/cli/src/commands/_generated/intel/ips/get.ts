@@ -1,6 +1,6 @@
+import operation from "../../_operations/intel/ips/get.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkQuery, SdkRequest } from "#sdk";
 /**
  * get command
  * @generated from apis/overlays/intel.ts
@@ -33,9 +33,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"ip-intelligence-get-ip-overview">;
-type Query = SdkQuery<"ip-intelligence-get-ip-overview">;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "get",
 	describe: "Get IP Overview",
@@ -50,7 +47,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
-				const queryParams: Query = {
+				const queryParams: Record<string, unknown> = {
 					ipv4: argv["ipv4"],
 					ipv6: argv["ipv6"],
 				};
@@ -71,10 +68,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.accountId = accountId;
 
 				const result = await withProgress(`Loading`, async () =>
-					client.intel.ips.get({
-						account_id: accountId,
-						...queryParams,
-					} satisfies Request)
+					client.send(operation, { account_id: accountId, ...queryParams })
 				);
 				formatOutput(result, { successLabel: `Loaded` });
 			}

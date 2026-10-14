@@ -1,6 +1,6 @@
+import operation from "../_operations/tenant-custom-nameservers/get.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * get command
  * @generated from apis/overlays/tenant-custom-nameservers.ts
@@ -31,9 +31,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request =
-	SdkRequest<"tenant-level-custom-nameservers-list-tenant-custom-nameservers">;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "get <tenant-tag>",
 	describe: "List Tenant Custom Nameservers",
@@ -61,9 +58,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				const client = await createCommandClient(argv);
 
 				const result = await withProgress(`Loading`, async () =>
-					client.tenantCustomNameservers.get({
-						tenant_tag: argv["tenant-tag"],
-					} satisfies Request)
+					client.send(operation, { tenant_tag: argv["tenant-tag"] })
 				);
 				formatOutput(result, { successLabel: `Loaded` });
 			}

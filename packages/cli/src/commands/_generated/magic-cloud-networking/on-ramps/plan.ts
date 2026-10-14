@@ -1,6 +1,6 @@
+import operation from "../../_operations/magic-cloud-networking/on-ramps/plan.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * plan command
  * @generated from apis/overlays/magic-cloud-networking.ts
@@ -36,8 +36,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"onramps-plan">;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "plan <onramp-id>",
 	describe: "Plan On-ramp",
@@ -68,10 +66,10 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.accountId = accountId;
 
 				const result = await withProgress(`Creating`, async () =>
-					client.magicCloudNetworking.onRamps.plan({
+					client.send(operation, {
 						account_id: accountId,
 						onramp_id: argv["onramp-id"],
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Created` });
 			}

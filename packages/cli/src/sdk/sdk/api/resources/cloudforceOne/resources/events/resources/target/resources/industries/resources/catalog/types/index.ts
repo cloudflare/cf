@@ -1,1 +1,0 @@
-export * from "./GetCatalogResponse.js";

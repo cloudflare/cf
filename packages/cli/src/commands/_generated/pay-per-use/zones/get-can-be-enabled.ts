@@ -1,6 +1,6 @@
+import operation from "../../_operations/pay-per-use/zones/get-can-be-enabled.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * get-can-be-enabled command
  * @generated from apis/overlays/pay-per-use.ts
@@ -25,8 +25,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 }
 
 type Args = InferArgs<typeof builder>;
-
-type Request = SdkRequest<"pay-per-crawl.getPPUZoneCanBeEnabled">;
 
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "get-can-be-enabled",
@@ -61,9 +59,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.zoneId = zoneId;
 
 				const result = await withProgress(`Loading`, async () =>
-					client.payPerUse.zones.getCanBeEnabled({
-						zone_id: zoneId,
-					} satisfies Request)
+					client.send(operation, { zone_id: zoneId })
 				);
 				formatOutput(result, { successLabel: `Loaded` });
 			}

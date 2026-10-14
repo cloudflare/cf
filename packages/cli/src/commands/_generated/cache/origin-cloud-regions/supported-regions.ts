@@ -1,6 +1,6 @@
+import operation from "../../_operations/cache/origin-cloud-regions/supported-regions.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * supported-regions command
  * @generated from apis/overlays/cache.ts
@@ -25,8 +25,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 }
 
 type Args = InferArgs<typeof builder>;
-
-type Request = SdkRequest<"origin-cloud-regions-v2-supported-regions">;
 
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "supported-regions",
@@ -61,9 +59,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.zoneId = zoneId;
 
 				const result = await withProgress(`Loading`, async () =>
-					client.cache.originCloudRegions.supportedRegions({
-						zone_id: zoneId,
-					} satisfies Request)
+					client.send(operation, { zone_id: zoneId })
 				);
 				formatOutput(result, { successLabel: `Loaded` });
 			}

@@ -1,6 +1,6 @@
+import operation from "../../../_operations/zero-trust/dex/tests/update.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * update command
  * @generated from apis/overlays/zero-trust.ts
@@ -86,9 +86,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"device-dex-test-update-device-dex-test">;
-type Body = Request["body"];
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "update <dex-test-id>",
 	describe: "Update Device DEX test",
@@ -160,13 +157,13 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.accountId = accountId;
 
 				if (argv.body) {
-					const bodyData = parseBody<Request["body"]>(argv.body);
+					const bodyData = parseBody(argv.body);
 					const result = await withProgress(`Updating`, async () =>
-						client.zeroTrust.dex.tests.update({
+						client.send(operation, {
 							body: bodyData,
 							account_id: accountId,
 							dex_test_id: argv["dex-test-id"],
-						} satisfies Request)
+						})
 					);
 					formatOutput(result, { successLabel: `Updated` });
 					return;
@@ -203,7 +200,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				}
 
 				// Assemble request body from individual flags
-				const bodyData = compactBody<Body>({
+				const bodyData = compactBody({
 					data: {
 						host: resolveFileToken(
 							argv["data-host"] as string | undefined,
@@ -236,11 +233,11 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					targeted: argv["targeted"],
 				});
 				const result = await withProgress(`Updating`, async () =>
-					client.zeroTrust.dex.tests.update({
+					client.send(operation, {
 						body: bodyData,
 						account_id: accountId,
 						dex_test_id: argv["dex-test-id"],
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Updated` });
 			}

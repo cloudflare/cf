@@ -1,6 +1,6 @@
+import operation from "../../_operations/zones/holds/delete.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkQuery, SdkRequest } from "#sdk";
 /**
  * delete command
  * @generated from apis/overlays/zones.ts
@@ -38,9 +38,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"zones-0-hold-delete">;
-type Query = SdkQuery<"zones-0-hold-delete">;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "delete",
 	describe: "Remove Zone Hold",
@@ -56,7 +53,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
-				const queryParams: Query = {
+				const queryParams: Record<string, unknown> = {
 					hold_after: argv["hold-after"],
 				};
 				if (argv.dryRun) {
@@ -84,10 +81,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				}
 
 				const result = await withProgress(`Deleting`, async () =>
-					client.zones.holds.delete({
-						zone_id: zoneId,
-						...queryParams,
-					} satisfies Request)
+					client.send(operation, { zone_id: zoneId, ...queryParams })
 				);
 				formatOutput(result, { successLabel: `Deleted` });
 			}

@@ -1,6 +1,6 @@
+import operation from "../../_operations/registrar/extensions/get.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * get command
  * @generated from apis/overlays/registrar.ts
@@ -36,8 +36,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"registrar-extension-get">;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "get <extension>",
 	describe: "Get extension",
@@ -68,10 +66,10 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.accountId = accountId;
 
 				const result = await withProgress(`Loading`, async () =>
-					client.registrar.extensions.get({
+					client.send(operation, {
 						account_id: accountId,
 						extension: argv["extension"],
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Loaded` });
 			}

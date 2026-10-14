@@ -1,6 +1,6 @@
+import operation from "../../../_operations/zero-trust/dlp/datasets/prepare-upload.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * prepare-upload command
  * @generated from apis/overlays/zero-trust.ts
@@ -36,8 +36,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"dlp-datasets-create-version">;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "prepare-upload <dataset-id>",
 	describe: "Prepare to upload a new version of a dataset",
@@ -68,10 +66,10 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.accountId = accountId;
 
 				const result = await withProgress(`Creating`, async () =>
-					client.zeroTrust.dlp.datasets.prepareUpload({
+					client.send(operation, {
 						account_id: accountId,
 						dataset_id: argv["dataset-id"],
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Created` });
 			}

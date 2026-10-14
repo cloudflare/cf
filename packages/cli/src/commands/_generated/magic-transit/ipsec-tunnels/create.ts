@@ -506,7 +506,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						"POST",
 						`/accounts/${accountId}/magic/ipsec_tunnels`,
 						{
-							body: Object.keys(bodyData).length > 0 ? bodyData : undefined,
+							body: bodyData,
 							headers: Object.keys(headers).length > 0 ? headers : undefined,
 						}
 					)

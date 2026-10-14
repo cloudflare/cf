@@ -1,6 +1,6 @@
+import operation from "../../_operations/network-interconnects/cnis/get.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * get command
  * @generated from apis/overlays/network-interconnects.ts
@@ -36,8 +36,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"get_cni">;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "get <cni>",
 	describe: "Get information about a CNI object",
@@ -68,10 +66,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.accountId = accountId;
 
 				const result = await withProgress(`Loading`, async () =>
-					client.networkInterconnects.cnis.get({
-						account_id: accountId,
-						cni: argv["cni"],
-					} satisfies Request)
+					client.send(operation, { account_id: accountId, cni: argv["cni"] })
 				);
 				formatOutput(result, { successLabel: `Loaded` });
 			}

@@ -6,13 +6,13 @@ import { server, setupMsw, TEST_BASE_URL } from "../helpers/msw.js";
 import type { Cloudflare } from "../../lib/auth.js";
 
 /**
- * Network-level tests for `resolveZoneId` against a *real* SDK client
+ * Network-level tests for `resolveZoneId` against a *real* API client
  * with MSW mocking the wire.
  *
  * `resolve.test.ts` already covers `resolveZoneId`'s branching with a
  * hand-rolled fake client (cache, ID passthrough, name lookup). This
- * file is complementary: it drives the genuine generated SDK
- * `client.zones.list(...)` call path so the SDK-integration seam (URL
+ * file is complementary: it drives the genuine
+ * `client.send(listZones, ...)` call path so the client-integration seam (URL
  * building, envelope unwrapping, auth header) is exercised end-to-end
  * rather than stubbed.
  *
@@ -82,7 +82,7 @@ describe("resolveZoneId (network)", () => {
 
 	it("returns an ID input verbatim without making a request", async () => {
 		// No handler: onUnhandledFrame:"error" fails the test if the
-		// SDK is consulted for an input that already looks like an ID.
+		// client is consulted for an input that already looks like an ID.
 		const id = "023e105f4ecef8ad9ca31a8372d0c353";
 		await expect(resolveZoneId(client(), "acct-net-2", id)).resolves.toBe(id);
 	});

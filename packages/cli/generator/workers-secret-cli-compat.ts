@@ -1,4 +1,4 @@
-import type { ForgeOpenApiDocument } from "@cloudflare/forge";
+import type { ForgeOpenApiDocument } from "./openapi.js";
 
 /**
  * Preserve the released `workers secrets update <name>` CLI shape after the

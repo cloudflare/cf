@@ -1,6 +1,6 @@
+import operation from "../../_operations/logpush/transformers/delete.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * delete command
  * @generated from apis/overlays/logpush.ts
@@ -43,9 +43,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request =
-	SdkRequest<"delete-accounts-account_id-logpush-transformers-transformer_id">;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "delete <transformer-id>",
 	describe: "Delete transformer",
@@ -84,10 +81,10 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				}
 
 				const result = await withProgress(`Deleting`, async () =>
-					client.logpush.transformers.delete({
+					client.send(operation, {
 						account_id: accountId,
 						transformer_id: argv["transformer-id"],
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Deleted` });
 			}

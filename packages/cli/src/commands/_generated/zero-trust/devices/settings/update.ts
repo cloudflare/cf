@@ -1,6 +1,6 @@
+import operation from "../../../_operations/zero-trust/devices/settings/update.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * update command
  * @generated from apis/overlays/zero-trust.ts
@@ -79,10 +79,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request =
-	SdkRequest<"zero-trust-accounts-patch-device-settings-for-the-zero-trust-account">;
-type Body = Request["body"];
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "update",
 	describe: "Update device settings",
@@ -155,19 +151,16 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.accountId = accountId;
 
 				if (argv.body) {
-					const bodyData = parseBody<Request["body"]>(argv.body);
+					const bodyData = parseBody(argv.body);
 					const result = await withProgress(`Updating`, async () =>
-						client.zeroTrust.devices.settings.update({
-							body: bodyData,
-							account_id: accountId,
-						} satisfies Request)
+						client.send(operation, { body: bodyData, account_id: accountId })
 					);
 					formatOutput(result, { successLabel: `Updated` });
 					return;
 				}
 
 				// Assemble request body from individual flags
-				const bodyData = compactBody<Body>({
+				const bodyData = compactBody({
 					disable_for_time: argv["disable-for-time"],
 					external_emergency_signal_enabled:
 						argv["external-emergency-signal-enabled"],
@@ -193,10 +186,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					use_zt_virtual_ip: argv["use-zt-virtual-ip"],
 				});
 				const result = await withProgress(`Updating`, async () =>
-					client.zeroTrust.devices.settings.update({
-						body: bodyData,
-						account_id: accountId,
-					} satisfies Request)
+					client.send(operation, { body: bodyData, account_id: accountId })
 				);
 				formatOutput(result, { successLabel: `Updated` });
 			}

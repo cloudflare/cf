@@ -1,6 +1,6 @@
+import operation from "../../_operations/workflows/concurrency/delete.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * delete command
  * @generated from apis/overlays/workflows.ts
@@ -43,8 +43,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"wor-delete-concurrency-key">;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "delete <key-id>",
 	describe: "Delete a concurrency key",
@@ -81,10 +79,10 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				}
 
 				const result = await withProgress(`Deleting`, async () =>
-					client.workflows.concurrency.delete({
+					client.send(operation, {
 						account_id: accountId,
 						key_id: argv["key-id"],
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Deleted` });
 			}

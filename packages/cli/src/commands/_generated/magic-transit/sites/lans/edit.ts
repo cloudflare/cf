@@ -1,6 +1,6 @@
+import operation from "../../../_operations/magic-transit/sites/lans/edit.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * edit command
  * @generated from apis/overlays/magic-transit.ts
@@ -135,9 +135,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"magic-site-lans-patch-lan">;
-type Body = Request["body"];
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "edit <lan-id>",
 	describe: "Patch Site LAN",
@@ -248,21 +245,21 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.accountId = accountId;
 
 				if (argv.body) {
-					const bodyData = parseBody<Request["body"]>(argv.body);
+					const bodyData = parseBody(argv.body);
 					const result = await withProgress(`Updating`, async () =>
-						client.magicTransit.sites.lans.edit({
+						client.send(operation, {
 							body: bodyData,
 							account_id: accountId,
 							site_id: argv["site-id"],
 							lan_id: argv["lan-id"],
-						} satisfies Request)
+						})
 					);
 					formatOutput(result, { successLabel: `Updated` });
 					return;
 				}
 
 				// Assemble request body from individual flags
-				const bodyData = compactBody<Body>({
+				const bodyData = compactBody({
 					bond_id: argv["bond-id"],
 					ha_link: argv["ha-link"],
 					is_breakout: argv["is-breakout"],
@@ -332,12 +329,12 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					vlan_tag: argv["vlan-tag"],
 				});
 				const result = await withProgress(`Updating`, async () =>
-					client.magicTransit.sites.lans.edit({
+					client.send(operation, {
 						body: bodyData,
 						account_id: accountId,
 						site_id: argv["site-id"],
 						lan_id: argv["lan-id"],
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Updated` });
 			}

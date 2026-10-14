@@ -1,6 +1,6 @@
+import operation from "../_operations/organization/create.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * create command
  * @generated from apis/overlays/organization.ts
@@ -21,7 +21,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			"$0 organization create\n\nCreate a new organization for a user. Sub-organization creation availability depends on the organization's capabilities. Authentication: Use a Global API key, or a User API Token with the `User Details Write` permission."
 		)
 		.option("name", { type: "string", description: "The name field" })
-		.option("parent-id", { type: "string", description: "The parent.id field" })
+		.option("parent-id", { type: "string", description: "Organization ID" })
 		.option("profile-business-address", {
 			type: "string",
 			description: "The profile.business_address field",
@@ -90,9 +90,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 }
 
 type Args = InferArgs<typeof builder>;
-
-type Request = SdkRequest<"Organizations_createUserOrganization">;
-type Body = Request;
 
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "create",
@@ -165,9 +162,9 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				const client = await createCommandClient(argv);
 
 				if (argv.body) {
-					const bodyData = parseBody<Request>(argv.body);
+					const bodyData = parseBody(argv.body);
 					const result = await withProgress(`Creating`, async () =>
-						client.organization.create({ ...bodyData } satisfies Request)
+						client.send(operation, { body: bodyData })
 					);
 					formatOutput(result, { successLabel: `Created` });
 					return;
@@ -177,7 +174,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				}
 
 				// Assemble request body from individual flags
-				const bodyData = compactBody<Body>({
+				const bodyData = compactBody({
 					name: resolveFileToken(
 						argv["name"] as string | undefined,
 						"name",
@@ -219,7 +216,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					},
 				});
 				const result = await withProgress(`Creating`, async () =>
-					client.organization.create({ ...bodyData } satisfies Request)
+					client.send(operation, { body: bodyData })
 				);
 				formatOutput(result, { successLabel: `Created` });
 			}

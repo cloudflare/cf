@@ -1,6 +1,6 @@
+import operation from "../../../_operations/api-security/token-validation/rules/delete.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * delete command
  * @generated from apis/overlays/api-security.ts
@@ -37,8 +37,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 }
 
 type Args = InferArgs<typeof builder>;
-
-type Request = SdkRequest<"token-validation-rules-delete">;
 
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "delete <rule-id>",
@@ -85,10 +83,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				}
 
 				const result = await withProgress(`Deleting`, async () =>
-					client.apiSecurity.tokenValidation.rules.delete({
-						zone_id: zoneId,
-						rule_id: argv["rule-id"],
-					} satisfies Request)
+					client.send(operation, { zone_id: zoneId, rule_id: argv["rule-id"] })
 				);
 				formatOutput(result, { successLabel: `Deleted` });
 			}

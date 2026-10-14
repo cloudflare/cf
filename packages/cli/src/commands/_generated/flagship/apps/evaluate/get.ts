@@ -1,6 +1,6 @@
+import operation from "../../../_operations/flagship/apps/evaluate/get.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkQuery, SdkRequest } from "#sdk";
 /**
  * get command
  * @generated from apis/overlays/flagship.ts
@@ -46,9 +46,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"flagship_evaluate_flag">;
-type Query = SdkQuery<"flagship_evaluate_flag">;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "get <app-id>",
 	describe: "Evaluate flag from query context",
@@ -63,7 +60,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
-				const queryParams: Query = {
+				const queryParams: Record<string, unknown> = {
 					flagKey: argv["flag-key"],
 					targetingKey: argv["targeting-key"],
 				};
@@ -84,11 +81,11 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.accountId = accountId;
 
 				const result = await withProgress(`Loading`, async () =>
-					client.flagship.apps.evaluate.get({
+					client.send(operation, {
 						account_id: accountId,
 						app_id: argv["app-id"],
 						...queryParams,
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Loaded` });
 			}

@@ -1,6 +1,6 @@
+import operation from "../../../_operations/email-sending/subdomains/dns/fix.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * fix command
  * @generated from apis/overlays/email-sending.ts
@@ -31,8 +31,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"email-sending-subdomains-fix-sending-subdomain-dns">;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "fix <subdomain-id>",
 	describe: "Fix sending subdomain DNS records",
@@ -53,8 +51,8 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						method: "POST",
 						url: `https://api.cloudflare.com/client/v4/zones/${argv.zone ?? argv.zoneId ?? "<zone>"}/email/sending/subdomains/${argv["subdomain-id"] == null ? "<subdomain-id>" : encodeURIComponent(String(argv["subdomain-id"]))}/dns`,
 						pathParams: {
-							"subdomain-id": String(argv["subdomain-id"] ?? ""),
 							"zone-id": String(argv.zone ?? argv["zone-id"] ?? ""),
+							"subdomain-id": String(argv["subdomain-id"] ?? ""),
 						},
 						bodyKind: "none",
 					});
@@ -67,10 +65,10 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.zoneId = zoneId;
 
 				const result = await withProgress(`Creating`, async () =>
-					client.emailSending.subdomains.dns.fix({
+					client.send(operation, {
 						zone_id: zoneId,
 						subdomain_id: argv["subdomain-id"],
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Created` });
 			}

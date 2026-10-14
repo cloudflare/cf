@@ -1,6 +1,6 @@
+import operation from "../../_operations/ai-gateway/logs/get-response.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * get-response command
  * @generated from apis/overlays/ai-gateway.ts
@@ -41,8 +41,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"aig-config-get-gateway-log-response">;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "get-response <id>",
 	describe: "Get Gateway Log Response",
@@ -64,8 +62,8 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						method: "GET",
 						url: `https://api.cloudflare.com/client/v4/accounts/${__cfDryRunAccountId ?? "<account-id>"}/ai-gateway/gateways/${argv["gateway-id"] == null ? "<gateway-id>" : encodeURIComponent(String(argv["gateway-id"]))}/logs/${argv["id"] == null ? "<id>" : encodeURIComponent(String(argv["id"]))}/response`,
 						pathParams: {
-							id: String(argv["id"] ?? ""),
 							"gateway-id": String(argv["gateway-id"] ?? ""),
+							id: String(argv["id"] ?? ""),
 						},
 						bodyKind: "none",
 					});
@@ -76,11 +74,11 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.accountId = accountId;
 
 				const result = await withProgress(`Loading`, async () =>
-					client.aiGateway.logs.getResponse({
+					client.send(operation, {
 						account_id: accountId,
 						gateway_id: argv["gateway-id"],
 						id: argv["id"],
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Loaded` });
 			}

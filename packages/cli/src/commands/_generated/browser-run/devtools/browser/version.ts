@@ -1,6 +1,6 @@
+import operation from "../../../_operations/browser-run/devtools/browser/version.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * version command
  * @generated from apis/overlays/browser-run.ts
@@ -36,8 +36,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"brapi-get_DevtoolsJsonVersion">;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "version <session-id>",
 	describe: "Get browser version metadata.",
@@ -68,10 +66,10 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.accountId = accountId;
 
 				const result = await withProgress(`Loading`, async () =>
-					client.browserRun.devtools.browser.version({
+					client.send(operation, {
 						account_id: accountId,
 						session_id: argv["session-id"],
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Loaded` });
 			}

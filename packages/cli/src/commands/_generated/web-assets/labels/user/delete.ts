@@ -1,6 +1,6 @@
+import operation from "../../../_operations/web-assets/labels/user/delete.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * delete command
  * @generated from apis/overlays/web-assets.ts
@@ -37,8 +37,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 }
 
 type Args = InferArgs<typeof builder>;
-
-type Request = SdkRequest<"api-shield-delete-user-label">;
 
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "delete <name>",
@@ -85,10 +83,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				}
 
 				const result = await withProgress(`Deleting`, async () =>
-					client.webAssets.labels.user.delete({
-						zone_id: zoneId,
-						name: argv["name"],
-					} satisfies Request)
+					client.send(operation, { zone_id: zoneId, name: argv["name"] })
 				);
 				formatOutput(result, { successLabel: `Deleted` });
 			}

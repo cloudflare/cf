@@ -1,6 +1,6 @@
+import operation from "../../../../../_operations/cloudforce-one/events/dataset/target/industries/get.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * get command
  * @generated from apis/overlays/cloudforce-one.ts
@@ -36,8 +36,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"get_TargetIndustryListByDataset">;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "get <dataset-id>",
 	describe: "Lists all target industries for a specific dataset",
@@ -68,10 +66,10 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.accountId = accountId;
 
 				const result = await withProgress(`Loading`, async () =>
-					client.cloudforceOne.events.dataset.target.industries.get({
+					client.send(operation, {
 						account_id: accountId,
 						dataset_id: argv["dataset-id"],
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Loaded` });
 			}

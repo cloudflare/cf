@@ -1,6 +1,6 @@
+import operation from "../../_operations/email-security/trusted-domains/delete.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * delete command
  * @generated from apis/overlays/email-security.ts
@@ -42,8 +42,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 }
 
 type Args = InferArgs<typeof builder>;
-
-type Request = SdkRequest<"email_security_delete_trusted_domain">;
 
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "delete <trusted-domain-id>",
@@ -88,10 +86,10 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				}
 
 				const result = await withProgress(`Deleting`, async () =>
-					client.emailSecurity.trustedDomains.delete({
+					client.send(operation, {
 						account_id: accountId,
 						trusted_domain_id: argv["trusted-domain-id"],
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Deleted` });
 			}

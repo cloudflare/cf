@@ -1,6 +1,6 @@
+import operation from "../../_operations/pipelines/streams/delete.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * delete command
  * @generated from apis/overlays/pipelines.ts
@@ -43,9 +43,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request =
-	SdkRequest<"deleteV4AccountsByAccount_idPipelinesV1StreamsByStream_id">;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "delete <stream-id>",
 	describe: "Delete Stream",
@@ -82,10 +79,10 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				}
 
 				const result = await withProgress(`Deleting`, async () =>
-					client.pipelines.streams.delete({
+					client.send(operation, {
 						account_id: accountId,
 						stream_id: argv["stream-id"],
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Deleted` });
 			}

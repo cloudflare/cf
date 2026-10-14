@@ -19,7 +19,7 @@ import { runCf } from "../helpers/run-cf.js";
  *
  * The same generated command must default to account scope and switch to zone
  * scope only when the global --zone flag is explicitly present. Load balancer
- * listing is a small typed-SDK request that exercises both generated request
+ * listing is a small typed request that exercises both generated request
  * properties without requiring a request body.
  */
 describe("combined account-or-zone scope", () => {
@@ -77,6 +77,28 @@ describe("combined account-or-zone scope", () => {
 		expect(exitCode).toBe(0);
 		expect(requested).toBe(true);
 	});
+
+	it.each([
+		[[], "accounts/test-account"],
+		[["--zone", ZONE_ID], `zones/${ZONE_ID}`],
+	])(
+		"resolves subscription scope from global context with %j",
+		async (flags, scope) => {
+			let requested = false;
+			server.use(
+				http.get(`${TEST_BASE_URL}/${scope}/subscriptions`, () => {
+					requested = true;
+					return HttpResponse.json({ success: true, result: [] });
+				})
+			);
+			const result = await runCf(
+				["accounts", "subscriptions", "get", ...flags],
+				ENV
+			);
+			expect(result.exitCode).toBe(0);
+			expect(requested).toBe(true);
+		}
+	);
 
 	it("previews the same account and zone scope selection", async () => {
 		await runCf(["load-balancers", "account", "list", "--dry-run"], ENV);

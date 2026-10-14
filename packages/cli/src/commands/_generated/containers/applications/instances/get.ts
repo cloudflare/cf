@@ -1,6 +1,6 @@
+import operation from "../../../_operations/containers/applications/instances/get.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * get command
  * @generated from apis/overlays/containers.ts
@@ -43,8 +43,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"getContainerInstance">;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "get <instance-id>",
 	describe: "Get a container instance",
@@ -78,11 +76,11 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.accountId = accountId;
 
 				const result = await withProgress(`Loading`, async () =>
-					client.containers.applications.instances.get({
+					client.send(operation, {
 						account_id: accountId,
 						application_id: argv["application-id"],
 						instance_id: argv["instance-id"],
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Loaded` });
 			}

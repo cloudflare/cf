@@ -1,6 +1,6 @@
+import operation from "../../_operations/email-routing/rules/get.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * get command
  * @generated from apis/overlays/email-routing.ts
@@ -31,8 +31,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"email-routing-routing-rules-get-routing-rule">;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "get <rule-identifier>",
 	describe: "Get routing rule",
@@ -53,8 +51,8 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						method: "GET",
 						url: `https://api.cloudflare.com/client/v4/zones/${argv.zone ?? argv.zoneId ?? "<zone>"}/email/routing/rules/${argv["rule-identifier"] == null ? "<rule-identifier>" : encodeURIComponent(String(argv["rule-identifier"]))}`,
 						pathParams: {
-							"rule-identifier": String(argv["rule-identifier"] ?? ""),
 							"zone-id": String(argv.zone ?? argv["zone-id"] ?? ""),
+							"rule-identifier": String(argv["rule-identifier"] ?? ""),
 						},
 						bodyKind: "none",
 					});
@@ -67,10 +65,10 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.zoneId = zoneId;
 
 				const result = await withProgress(`Loading`, async () =>
-					client.emailRouting.rules.get({
+					client.send(operation, {
 						zone_id: zoneId,
 						rule_identifier: argv["rule-identifier"],
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Loaded` });
 			}

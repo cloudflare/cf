@@ -1,6 +1,6 @@
+import operation from "../../../_operations/zero-trust/access/tags/delete.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * delete command
  * @generated from apis/overlays/zero-trust.ts
@@ -41,8 +41,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"access-tags-delete-a-tag">;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "delete <tag-name>",
 	describe: "Delete a tag",
@@ -79,10 +77,10 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				}
 
 				const result = await withProgress(`Deleting`, async () =>
-					client.zeroTrust.access.tags.delete({
+					client.send(operation, {
 						account_id: accountId,
 						tag_name: argv["tag-name"],
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Deleted` });
 			}

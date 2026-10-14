@@ -1,6 +1,6 @@
+import operation from "../../_operations/accounts/tokens/update.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * update command
  * @generated from apis/overlays/accounts.ts
@@ -73,9 +73,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"account-api-tokens-update-token">;
-type Body = Request["body"];
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "update <token-id>",
 	describe: "Update Token",
@@ -134,13 +131,13 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.accountId = accountId;
 
 				if (argv.body) {
-					const bodyData = parseBody<Request["body"]>(argv.body);
+					const bodyData = parseBody(argv.body);
 					const result = await withProgress(`Updating`, async () =>
-						client.accounts.tokens.update({
+						client.send(operation, {
 							body: bodyData,
 							account_id: accountId,
 							token_id: argv["token-id"],
-						} satisfies Request)
+						})
 					);
 					formatOutput(result, { successLabel: `Updated` });
 					return;
@@ -155,7 +152,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				}
 
 				// Assemble request body from individual flags
-				const bodyData = compactBody<Body>({
+				const bodyData = compactBody({
 					condition: {
 						request_ip: {
 							in: argv["condition-request-ip-in"],
@@ -181,11 +178,11 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					status: argv["status"],
 				});
 				const result = await withProgress(`Updating`, async () =>
-					client.accounts.tokens.update({
+					client.send(operation, {
 						body: bodyData,
 						account_id: accountId,
 						token_id: argv["token-id"],
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Updated` });
 			}

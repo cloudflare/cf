@@ -1,0 +1,28 @@
+import type { LeafCommandMeta } from "../../../lib/command-meta.js";
+
+export default {
+	command: "cf workers types",
+	name: "types",
+	fullPath: ["workers", "types"],
+	category: "action",
+	description:
+		"Generate TypeScript declarations for a Worker defined in cloudflare.config.ts.",
+	usage: "cf workers types [--include-runtime <boolean>]",
+	arguments: [],
+	options: [
+		{
+			name: "include-runtime",
+			type: "boolean",
+			required: false,
+			description: "Include Cloudflare Workers runtime types",
+			default: true,
+		},
+		{
+			name: "dry-run",
+			type: "boolean",
+			required: false,
+			description: "Parse arguments and show the command without executing it",
+			default: false,
+		},
+	],
+} satisfies LeafCommandMeta;

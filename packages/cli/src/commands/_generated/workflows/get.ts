@@ -1,6 +1,6 @@
+import operation from "../_operations/workflows/get.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * get command
  * @generated from apis/overlays/workflows.ts
@@ -36,8 +36,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"wor-get-workflow-details">;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "get <workflow-name>",
 	describe: "Get Workflow details",
@@ -70,10 +68,10 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.accountId = accountId;
 
 				const result = await withProgress(`Loading`, async () =>
-					client.workflows.get({
+					client.send(operation, {
 						account_id: accountId,
 						workflow_name: argv["workflow-name"],
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Loaded` });
 			}

@@ -1,6 +1,6 @@
+import operation from "../../../_operations/artifacts/namespaces/repos/get.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * get command
  * @generated from apis/overlays/artifacts.ts
@@ -41,8 +41,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"artifacts_repos_get">;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "get <name>",
 	describe: "Get a repository",
@@ -76,11 +74,11 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.accountId = accountId;
 
 				const result = await withProgress(`Loading`, async () =>
-					client.artifacts.namespaces.repos.get({
+					client.send(operation, {
 						account_id: accountId,
 						namespace: argv["namespace"],
 						name: argv["name"],
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Loaded` });
 			}

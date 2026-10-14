@@ -1,6 +1,6 @@
+import operation from "../../../_operations/network/routes/hostname/delete.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * delete command
  * @generated from apis/overlays/network.ts
@@ -42,8 +42,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 }
 
 type Args = InferArgs<typeof builder>;
-
-type Request = SdkRequest<"zero-trust-networks-route-hostname-delete">;
 
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "delete <hostname-route-id>",
@@ -88,10 +86,10 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				}
 
 				const result = await withProgress(`Deleting`, async () =>
-					client.network.routes.hostname.delete({
+					client.send(operation, {
 						account_id: accountId,
 						hostname_route_id: argv["hostname-route-id"],
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Deleted` });
 			}

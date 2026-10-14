@@ -1,6 +1,6 @@
+import operation from "../../../_operations/alerting/destinations/webhooks/delete.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * delete command
  * @generated from apis/overlays/alerting.ts
@@ -43,8 +43,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"notification-webhooks-delete-a-webhook">;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "delete <webhook-id>",
 	describe: "Delete a webhook",
@@ -86,10 +84,10 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				}
 
 				const result = await withProgress(`Deleting`, async () =>
-					client.alerting.destinations.webhooks.delete({
+					client.send(operation, {
 						account_id: accountId,
 						webhook_id: argv["webhook-id"],
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Deleted` });
 			}

@@ -1,6 +1,6 @@
+import operation from "../../../_operations/cloudforce-one/events/queries/delete.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * delete command
  * @generated from apis/overlays/cloudforce-one.ts
@@ -43,8 +43,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"delete_EventQueryDelete">;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "delete <query-id>",
 	describe: "Delete a saved event query",
@@ -81,10 +79,10 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				}
 
 				const result = await withProgress(`Deleting`, async () =>
-					client.cloudforceOne.events.queries.delete({
+					client.send(operation, {
 						account_id: accountId,
 						query_id: argv["query-id"],
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Deleted` });
 			}

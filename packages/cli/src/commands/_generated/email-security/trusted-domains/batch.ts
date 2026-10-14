@@ -1,6 +1,6 @@
+import operation from "../../_operations/email-security/trusted-domains/batch.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * batch command
  * @generated from apis/overlays/email-security.ts
@@ -63,9 +63,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"email_security_batch_trusted_domains">;
-type Body = Request;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "batch",
 	describe: "Batch trusted domain operations",
@@ -116,12 +113,9 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				}
 
 				if (argv.body) {
-					const bodyData = parseBody<Request>(argv.body);
+					const bodyData = parseBody(argv.body);
 					const result = await withProgress(`Deleting`, async () =>
-						client.emailSecurity.trustedDomains.batch({
-							...bodyData,
-							account_id: accountId,
-						} satisfies Request)
+						client.send(operation, { body: bodyData, account_id: accountId })
 					);
 					formatOutput(result, { successLabel: `Deleted` });
 					return;
@@ -148,17 +142,14 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				}
 
 				// Assemble request body from individual flags
-				const bodyData = compactBody<Body>({
+				const bodyData = compactBody({
 					deletes: parseObjectArray(argv["deletes"], "deletes"),
 					patches: parseObjectArray(argv["patches"], "patches"),
 					posts: parseObjectArray(argv["posts"], "posts"),
 					puts: parseObjectArray(argv["puts"], "puts"),
 				});
 				const result = await withProgress(`Deleting`, async () =>
-					client.emailSecurity.trustedDomains.batch({
-						...bodyData,
-						account_id: accountId,
-					} satisfies Request)
+					client.send(operation, { body: bodyData, account_id: accountId })
 				);
 				formatOutput(result, { successLabel: `Deleted` });
 			}

@@ -1,13 +1,12 @@
+import operation from "../../../_operations/radar/dns/top/ases.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkQuery } from "#sdk";
 /**
  * ases command
  * @generated from apis/overlays/radar.ts
  */
 import type { Argv, CommandModule } from "yargs";
 import { createCommandClient } from "#lib/auth.js";
-import { withArgTypes } from "#lib/cli-types.js";
 import { formatDryRun } from "#lib/dry-run.js";
 import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
@@ -122,31 +121,12 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		});
 }
 
-type Query = SdkQuery<"radar-get-dns-top-ases">;
+type Args = InferArgs<typeof builder>;
 
-const typedBuilder = withArgTypes<
-	{
-		"cache-hit": Query["cacheHit"];
-		nodata: Query["nodata"];
-		protocol: Query["protocol"];
-		"query-type": Query["queryType"];
-		"response-code": Query["responseCode"];
-		"response-ttl": Query["responseTtl"];
-		dnssec: Query["dnssec"];
-		"dnssec-aware": Query["dnssecAware"];
-		"dnssec-e2e": Query["dnssecE2e"];
-		"ip-version": Query["ipVersion"];
-		"matching-answer": Query["matchingAnswer"];
-		format: Query["format"];
-	},
-	typeof builder
->(builder);
-
-type Args = InferArgs<typeof typedBuilder>;
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "ases",
 	describe: "Get top ASes by DNS queries",
-	builder: typedBuilder,
+	builder,
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
@@ -157,7 +137,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
-				const queryParams: Query = {
+				const queryParams: Record<string, unknown> = {
 					limit: argv["limit"],
 					name: argv["name"],
 					dateRange: argv["date-range"],
@@ -194,7 +174,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				const client = await createCommandClient(argv);
 
 				const result = await withProgress(`Loading`, async () =>
-					client.radar.dns.top.ases(queryParams)
+					client.send(operation, queryParams)
 				);
 				formatOutput(result, { successLabel: `Loaded` });
 			}

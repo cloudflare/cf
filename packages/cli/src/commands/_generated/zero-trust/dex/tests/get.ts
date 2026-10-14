@@ -1,6 +1,6 @@
+import operation from "../../../_operations/zero-trust/dex/tests/get.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * get command
  * @generated from apis/overlays/zero-trust.ts
@@ -36,8 +36,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"device-dex-test-get-device-dex-test">;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "get <dex-test-id>",
 	describe: "Get Device DEX test",
@@ -68,10 +66,10 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.accountId = accountId;
 
 				const result = await withProgress(`Loading`, async () =>
-					client.zeroTrust.dex.tests.get({
+					client.send(operation, {
 						account_id: accountId,
 						dex_test_id: argv["dex-test-id"],
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Loaded` });
 			}

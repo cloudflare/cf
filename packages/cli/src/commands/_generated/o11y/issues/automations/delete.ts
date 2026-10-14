@@ -1,6 +1,6 @@
+import operation from "../../../_operations/o11y/issues/automations/delete.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * delete command
  * @generated from apis/overlays/o11y.ts
@@ -43,8 +43,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"issues.automations.delete">;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "delete <automationId>",
 	describe: "Delete an issue automation",
@@ -83,10 +81,10 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				}
 
 				const result = await withProgress(`Deleting`, async () =>
-					client.observability.issues.automations.delete({
+					client.send(operation, {
 						account_id: accountId,
 						automationId: argv["automation-id"],
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Deleted` });
 			}

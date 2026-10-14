@@ -1,6 +1,6 @@
+import operation from "../../../_operations/cloudforce-one/threat-events/raw/get.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * get command
  * @generated from apis/overlays/cloudforce-one.ts
@@ -41,8 +41,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"get_EventRawRead">;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "get <raw-id>",
 	describe: "Reads data for a raw event",
@@ -76,11 +74,11 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.accountId = accountId;
 
 				const result = await withProgress(`Loading`, async () =>
-					client.cloudforceOne.threatEvents.raw.get({
+					client.send(operation, {
 						account_id: accountId,
 						event_id: argv["event-id"],
 						raw_id: argv["raw-id"],
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Loaded` });
 			}

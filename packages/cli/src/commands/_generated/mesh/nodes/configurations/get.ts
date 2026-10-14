@@ -1,6 +1,6 @@
+import operation from "../../../_operations/mesh/nodes/configurations/get.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * get command
  * @generated from apis/overlays/mesh.ts
@@ -36,9 +36,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request =
-	SdkRequest<"cloudflare-tunnel-configuration-get-warp-connector-configuration">;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "get <tunnel-id>",
 	describe: "Get Mesh node HA configuration",
@@ -69,10 +66,10 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.accountId = accountId;
 
 				const result = await withProgress(`Loading`, async () =>
-					client.mesh.nodes.configurations.get({
+					client.send(operation, {
 						account_id: accountId,
 						tunnel_id: argv["tunnel-id"],
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Loaded` });
 			}

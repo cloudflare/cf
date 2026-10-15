@@ -13,9 +13,10 @@ const OPENAPI_ASSET = "openapi.forge.json";
 const OPENAPI_VERSION_PATTERN =
 	/^const FORGE_OPENAPI_VERSION = "([0-9a-f]{40})";$/m;
 const UPDATE_COMMIT_PATTERN =
-	/^chore: update Forge and OpenAPI to [0-9a-f]{12}$/;
+	/^chore: update (?:Forge and )?OpenAPI to [0-9a-f]{12}$/;
 const UPDATE_COMMIT_EMAIL =
 	"41898282+github-actions[bot]@users.noreply.github.com";
+// Keep managing the existing OpenAPI PR branch after renaming the workflow.
 const UPDATE_BRANCH = process.env.UPDATE_BRANCH ?? "automation/update-forge";
 const BASE_BRANCH = process.env.BASE_BRANCH ?? "main";
 const GITHUB_API_URL = process.env.GITHUB_API_URL ?? "https://api.github.com";
@@ -288,40 +289,52 @@ function extractOpenApiVersion(source: string, label: string): string {
 	return match[1];
 }
 
-export async function getLatestForgeRelease(): Promise<{
+export async function getLatestOpenApiRelease(): Promise<{
 	tag: string;
 	version: string;
 }> {
-	const release = await githubRequest(
-		`/repos/${FORGE_REPOSITORY}/releases/latest`,
-		{},
-		undefined,
-		"application/vnd.github+json",
-		readJson
-	);
-	if (!isObject(release) || typeof release.tag_name !== "string") {
-		throw new Error("Latest Forge release has no tag_name");
-	}
-
-	const match = release.tag_name.match(/^openapi@([0-9a-f]{40})$/);
-	if (!match?.[1]) {
-		throw new Error(
-			`Latest Forge release has an unexpected tag: ${release.tag_name}`
+	for (let page = 1; ; page++) {
+		const query = new URLSearchParams({ per_page: "100", page: String(page) });
+		const releases = await githubRequest(
+			`/repos/${FORGE_REPOSITORY}/releases?${query}`,
+			{},
+			undefined,
+			"application/vnd.github+json",
+			readJson
 		);
+		if (!Array.isArray(releases)) {
+			throw new Error("Forge releases response was not an array");
+		}
+		for (const release of releases) {
+			if (
+				!isObject(release) ||
+				release.draft ||
+				release.prerelease ||
+				typeof release.tag_name !== "string"
+			) {
+				continue;
+			}
+			const match = release.tag_name.match(/^openapi@([0-9a-f]{40})$/);
+			if (!match?.[1]) {
+				continue;
+			}
+			// generate.ts downloads this asset, so never pin a release without it.
+			const hasAsset =
+				Array.isArray(release.assets) &&
+				release.assets.some(
+					(item) => isObject(item) && item.name === OPENAPI_ASSET
+				);
+			if (!hasAsset) {
+				throw new Error(
+					`Forge release ${release.tag_name} has no ${OPENAPI_ASSET} asset`
+				);
+			}
+			return { tag: release.tag_name, version: match[1] };
+		}
+		if (releases.length < 100) {
+			throw new Error("No published Forge OpenAPI release found");
+		}
 	}
-	// generate.ts downloads this asset, so never pin a release without it.
-	const hasAsset =
-		Array.isArray(release.assets) &&
-		release.assets.some(
-			(item) => isObject(item) && item.name === OPENAPI_ASSET
-		);
-	if (!hasAsset) {
-		throw new Error(
-			`Forge release ${release.tag_name} has no ${OPENAPI_ASSET} asset`
-		);
-	}
-
-	return { tag: release.tag_name, version: match[1] };
 }
 
 /**
@@ -377,7 +390,7 @@ async function getOpenUpdatePullRequest(
 	return { number: first.number, headSha: first.head.sha };
 }
 
-async function getManagedUpdateCommit(
+export async function getManagedUpdateCommit(
 	repository: string,
 	updatePr: UpdatePullRequest
 ): Promise<ManagedUpdateCommit | undefined> {
@@ -445,7 +458,7 @@ async function assertCleanWorktree(): Promise<void> {
 	const status = await output("git", ["status", "--porcelain"]);
 	if (status) {
 		throw new Error(
-			"Refusing to update Forge because the working tree is not clean"
+			"Refusing to update OpenAPI because the working tree is not clean"
 		);
 	}
 }
@@ -453,7 +466,7 @@ async function assertCleanWorktree(): Promise<void> {
 function writeChangeset(version: string): void {
 	const changesetPath = join(
 		REPO_ROOT,
-		`.changeset/update-forge-${version.slice(0, 12)}.md`
+		`.changeset/update-openapi-${version.slice(0, 12)}.md`
 	);
 	writeFileSync(
 		changesetPath,
@@ -585,8 +598,8 @@ async function main(): Promise<void> {
 
 	const checkOnly = args.has("--check");
 	const repository = await inferRepository();
-	logStep("Checking the latest Forge release");
-	const { tag, version } = await getLatestForgeRelease();
+	logStep("Checking the latest OpenAPI release");
+	const { tag, version } = await getLatestOpenApiRelease();
 	const current = extractOpenApiVersion(
 		readFileSync(GENERATOR_PATH, "utf8"),
 		GENERATOR_PATH
@@ -616,7 +629,7 @@ async function main(): Promise<void> {
 				await closePullRequest(repository, updatePr.number);
 			}
 		}
-		console.log(`Already using the latest Forge release (${tag}).`);
+		console.log(`Already using the latest OpenAPI release (${tag}).`);
 		return;
 	}
 
@@ -633,7 +646,7 @@ async function main(): Promise<void> {
 		const proposedBaseSha = managedUpdateCommit.parentSha;
 		if (proposedBaseSha === baseSha) {
 			console.log(
-				`PR #${updatePr.number} already updates to the latest Forge release (${tag}).`
+				`PR #${updatePr.number} already updates to the latest OpenAPI release (${tag}).`
 			);
 			return;
 		}
@@ -641,7 +654,7 @@ async function main(): Promise<void> {
 			`Refreshing PR #${updatePr.number} on ${baseSha} (was based on ${proposedBaseSha}).`
 		);
 	} else {
-		console.log(`Updating Forge OpenAPI from ${current} to ${version}.`);
+		console.log(`Updating OpenAPI from ${current} to ${version}.`);
 	}
 
 	if (checkOnly) {
@@ -653,7 +666,6 @@ async function main(): Promise<void> {
 	await assertCleanWorktree();
 
 	const forgeEnvironment = getForgeEnvironment();
-	const failedChecks: string[] = [];
 
 	// The commands are generated by the plugin in packages/cli/generator,
 	// which the pinned forge build runs. Renovate moves that pin, so only the
@@ -663,49 +675,21 @@ async function main(): Promise<void> {
 
 	writeChangeset(version);
 	logStep("Regenerating the command surface");
-	let generated = true;
-	try {
-		await run("pnpm", ["generate"], { env: forgeEnvironment });
-	} catch {
-		generated = false;
-		failedChecks.push("pnpm generate");
-		console.warn("Generation failed; continuing to open the update PR.");
-	}
+	await run("pnpm", ["generate"], { env: forgeEnvironment });
 
 	logStep("Validating the generated update");
-	try {
-		await run("git", ["diff", "--check"], { env: forgeEnvironment });
-	} catch {
-		failedChecks.push("git diff --check");
-		console.warn("Diff validation failed; continuing to open the update PR.");
-	}
-	if (generated) {
-		try {
-			await run("pnpm", ["check"], { env: forgeEnvironment });
-		} catch {
-			failedChecks.push("pnpm check");
-			console.warn(
-				"Repository checks failed; continuing to open the update PR."
-			);
-		}
-	}
+	await run("git", ["diff", "--check"], { env: forgeEnvironment });
+	await run("pnpm", ["check"], { env: forgeEnvironment });
 
 	const shortVersion = version.slice(0, 12);
-	const title = `chore: update Forge and OpenAPI to ${shortVersion}`;
+	const title = `chore: update OpenAPI to ${shortVersion}`;
 	const releaseUrl = `${GITHUB_SERVER_URL}/${FORGE_REPOSITORY}/releases/tag/${encodeURIComponent(tag)}`;
-	const workflowRunUrl = process.env.GITHUB_RUN_ID
-		? `${GITHUB_SERVER_URL}/${repository}/actions/runs/${process.env.GITHUB_RUN_ID}`
-		: `${GITHUB_SERVER_URL}/${repository}/actions/workflows/update-forge.yml`;
-	const validationNote = failedChecks.length
-		? `\nUpdater validation failed at ${failedChecks.map((check) => `\`${check}\``).join(", ")}. The PR remains open so its checks can report the failure and the update can be fixed here. See the [updater run](${workflowRunUrl}).\n`
-		: "";
 	const body = `Updates cf to [\`${tag}\`](${releaseUrl}).
 
 - pins OpenAPI revision \`${version}\`
-- attempts to regenerate the committed command surface
-${validationNote}
+- regenerates the committed command surface with the pinned Forge package
 
-This PR is maintained automatically by [the Update Forge workflow](${GITHUB_SERVER_URL}/${repository}/actions/workflows/update-forge.yml).
+This PR is maintained automatically by [the Update OpenAPI workflow](${GITHUB_SERVER_URL}/${repository}/actions/workflows/update-openapi.yml).
 `;
 
 	logStep("Committing the generated update");
@@ -728,11 +712,6 @@ This PR is maintained automatically by [the Update Forge workflow](${GITHUB_SERV
 
 	logStep("Creating or updating the pull request");
 	await createOrUpdatePullRequest(repository, updatePr?.number, title, body);
-	if (failedChecks.length > 0) {
-		throw new Error(
-			`Opened the update PR with failed validation: ${failedChecks.join(", ")}`
-		);
-	}
 }
 
 if (

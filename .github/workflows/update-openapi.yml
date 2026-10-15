@@ -1,7 +1,7 @@
-name: Update Forge
+name: Update OpenAPI
 
 # GitHub Actions cannot subscribe to releases in another repository. Poll
-# hourly by default; Forge can avoid the polling delay by sending a
+# hourly by default; the spec publisher can avoid the polling delay by sending a
 # `forge-release-published` repository_dispatch event with a GitHub App or PAT.
 on:
   schedule:
@@ -15,6 +15,7 @@ permissions:
   pull-requests: write
 
 concurrency:
+  # Retain the group and branch so existing updater runs and PRs stay managed.
   group: update-forge
   cancel-in-progress: false
 
@@ -24,7 +25,7 @@ env:
 
 jobs:
   update:
-    name: Update Forge and OpenAPI
+    name: Update OpenAPI
     runs-on: ubuntu-latest
     timeout-minutes: 30
     env:
@@ -46,7 +47,7 @@ jobs:
           node-version: "22"
           run-install: true
 
-      - name: Update Forge and OpenAPI
-        run: node scripts/update-forge.ts
+      - name: Update OpenAPI
+        run: node scripts/update-openapi.ts
         env:
           GITHUB_TOKEN: ${{ secrets.GH_ACCESS_TOKEN || github.token }}

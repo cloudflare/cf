@@ -15,10 +15,11 @@ const {
 	createOrUpdatePullRequest,
 	formatError,
 	getForgeEnvironment,
-	getLatestForgeRelease,
+	getLatestOpenApiRelease,
+	getManagedUpdateCommit,
 	githubResponse,
 	run,
-} = await import("./update-forge.ts");
+} = await import("./update-openapi.ts");
 if (originalToken === undefined) {
 	delete process.env.GH_TOKEN;
 } else {
@@ -48,20 +49,22 @@ await test("Forge release reads are anonymous while cf requests can authenticate
 				path: new URL(url).pathname,
 				authorization: new Headers(init.headers).get("Authorization"),
 			});
-			return Response.json({
-				tag_name: `openapi@${version}`,
-				assets: [{ name: "openapi.forge.json", id: 123 }],
-			});
+			return Response.json([
+				{
+					tag_name: `openapi@${version}`,
+					assets: [{ name: "openapi.forge.json", id: 123 }],
+				},
+			]);
 		}
 	);
 
-	assert.deepEqual(await getLatestForgeRelease(), {
+	assert.deepEqual(await getLatestOpenApiRelease(), {
 		tag: `openapi@${version}`,
 		version,
 	});
 	await githubResponse("/repos/cloudflare/cf/pulls", {}, "cf-write-token");
 	assert.deepEqual(requests, [
-		{ path: "/repos/cloudflare/forge/releases/latest", authorization: null },
+		{ path: "/repos/cloudflare/forge/releases", authorization: null },
 		{
 			path: "/repos/cloudflare/cf/pulls",
 			authorization: "Bearer cf-write-token",
@@ -85,12 +88,91 @@ await test("Forge subprocesses receive no GitHub tokens or injected Git credenti
 
 await test("releases without the OpenAPI asset are rejected", async (context) => {
 	context.mock.method(globalThis, "fetch", async () =>
-		Response.json({ tag_name: `openapi@${version}`, assets: [] })
+		Response.json([{ tag_name: `openapi@${version}`, assets: [] }])
 	);
 	await assert.rejects(
-		getLatestForgeRelease(),
+		getLatestOpenApiRelease(),
 		/has no openapi\.forge\.json asset/
 	);
+});
+
+await test("OpenAPI polling skips unrelated releases, drafts, and prereleases across pages", async (context) => {
+	const pages: string[] = [];
+	context.mock.method(globalThis, "fetch", async (url: string) => {
+		const target = new URL(url);
+		assert.equal(target.searchParams.get("per_page"), "100");
+		pages.push(target.searchParams.get("page") ?? "");
+		if (pages.length === 1) {
+			return Response.json(
+				Array.from({ length: 100 }, () => ({ tag_name: "v0.2.0" }))
+			);
+		}
+		return Response.json([
+			{ tag_name: `openapi@${"c".repeat(40)}`, draft: true },
+			{ tag_name: `openapi@${"d".repeat(40)}`, prerelease: true },
+			{ tag_name: "openapi@invalid" },
+			{
+				tag_name: `openapi@${version}`,
+				assets: [{ name: "openapi.forge.json" }],
+			},
+			{
+				tag_name: `openapi@${"e".repeat(40)}`,
+				assets: [{ name: "openapi.forge.json" }],
+			},
+		]);
+	});
+	assert.deepEqual(await getLatestOpenApiRelease(), {
+		tag: `openapi@${version}`,
+		version,
+	});
+	assert.deepEqual(pages, ["1", "2"]);
+});
+
+await test("OpenAPI polling reports missing releases and invalid API responses", async (context) => {
+	for (const response of [[], [{ tag_name: "v0.2.0" }], {}]) {
+		context.mock.method(globalThis, "fetch", async () =>
+			Response.json(response)
+		);
+		await assert.rejects(
+			getLatestOpenApiRelease(),
+			/No published Forge OpenAPI release|response was not an array/
+		);
+	}
+});
+
+await test("the renamed updater recognizes old and new bot commits while protecting human edits", async (context) => {
+	const bot = "41898282+github-actions[bot]@users.noreply.github.com";
+	const sha = "a".repeat(40);
+	const parentSha = "f".repeat(40);
+	const pull = { number: 284, headSha: sha };
+	const commit = {
+		sha,
+		commit: {
+			author: { email: bot },
+			committer: { email: bot },
+			message: "",
+		},
+		parents: [{ sha: parentSha }],
+	};
+	let commits = [commit];
+	context.mock.method(globalThis, "fetch", async () => Response.json(commits));
+	for (const title of ["Forge and OpenAPI", "OpenAPI"]) {
+		commit.commit.message = `chore: update ${title} to ${version.slice(0, 12)}`;
+		assert.deepEqual(await getManagedUpdateCommit("cloudflare/cf", pull), {
+			parentSha,
+		});
+	}
+	commit.commit.message = `chore: update Forge to ${version.slice(0, 12)}`;
+	assert.equal(await getManagedUpdateCommit("cloudflare/cf", pull), undefined);
+	commit.commit.message = `chore: update OpenAPI to ${version.slice(0, 12)}`;
+	commit.commit.author.email = "contributor@example.com";
+	assert.equal(await getManagedUpdateCommit("cloudflare/cf", pull), undefined);
+	commit.commit.author.email = bot;
+	commit.commit.committer.email = "contributor@example.com";
+	assert.equal(await getManagedUpdateCommit("cloudflare/cf", pull), undefined);
+	commit.commit.committer.email = bot;
+	commits = [commit, commit];
+	assert.equal(await getManagedUpdateCommit("cloudflare/cf", pull), undefined);
 });
 
 function transportError(code = "UND_ERR_SOCKET"): TypeError {
@@ -245,12 +327,14 @@ await test("release reads retry failures while consuming the response body", asy
 				})
 			);
 		}
-		return Response.json({
-			tag_name: `openapi@${version}`,
-			assets: [{ name: "openapi.forge.json", id: 123 }],
-		});
+		return Response.json([
+			{
+				tag_name: `openapi@${version}`,
+				assets: [{ name: "openapi.forge.json", id: 123 }],
+			},
+		]);
 	});
-	const result = getLatestForgeRelease();
+	const result = getLatestOpenApiRelease();
 	await advanceRetry(context, 1000);
 	assert.equal((await result).version, version);
 	assert.equal(attempts, 2);
@@ -262,7 +346,7 @@ await test("invalid JSON is reported without retrying", async (context) => {
 		attempts++;
 		return new Response("invalid JSON");
 	});
-	await assert.rejects(getLatestForgeRelease(), (error: unknown) => {
+	await assert.rejects(getLatestOpenApiRelease(), (error: unknown) => {
 		assert.ok(error instanceof Error);
 		assert.ok(error.cause instanceof SyntaxError);
 		return true;

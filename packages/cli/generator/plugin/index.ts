@@ -10,6 +10,12 @@
  * `operation.ts` too. The commands send their requests through cf's
  * runtime library, `#api` (`src/api/`), which the plugin doesn't write.
  *
+ * Request-mapped aliases declare their inputs and JSON body with
+ * `x-forge-request-transform`. The shared Forge audience selector runs before
+ * parsing; this plugin validates the selected transform and emits one request
+ * through `#lib/request-body-transform.js`. Path, query and header parameters
+ * use the source operation's transport contract.
+ *
  * Each top-level group's commands are generated in parallel, in an instance
  * of the plugin of their own: what a command's files say depends on its own
  * operation alone. The files that list every command are generated once.

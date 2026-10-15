@@ -4,7 +4,11 @@
  * A port of cf's `arg-derivation.ts` and `intermediate-representation.ts`:
  * the single source of both the generated command and its metadata.
  */
-
+import {
+	validateRequestTransformArguments,
+	type RequestBodyTransform,
+	type RequestTransform,
+} from "@cloudflare/forge/request-transform";
 import {
 	FLAG_OWNER_TEXT,
 	type FlagOwner,
@@ -118,6 +122,7 @@ export interface OptionalParentGroup {
 /** What a command takes, and the facts about its operation every part of the generator branches on. */
 export interface Derived {
 	args: Arg[];
+	requestTransform?: RequestTransform;
 	optionalParentGroups: OptionalParentGroup[];
 	isMutating: boolean;
 	hasBody: boolean;
@@ -280,6 +285,28 @@ function fileFlagSegment(name: string): string | undefined {
 
 function naturalFlag(p: ParameterInfo): string {
 	return p.sdkName === undefined ? flagName(p.name) : kebab(p.sdkName);
+}
+
+function mapArgumentNames(
+	node: RequestBodyTransform,
+	names: ReadonlyMap<string, string>
+): RequestBodyTransform {
+	const name = (reference: string) => names.get(reference) ?? reference;
+	if ("arg" in node) return { arg: name(node.arg) };
+	if ("literal" in node) return node;
+	return {
+		object: node.object.map((entry) => ({
+			...entry,
+			key:
+				typeof entry.key === "string"
+					? entry.key
+					: { arg: name(entry.key.arg) },
+			value: mapArgumentNames(entry.value, names),
+			...(entry.omitIfUnset !== undefined
+				? { omitIfUnset: name(entry.omitIfUnset) }
+				: {}),
+		})),
+	};
 }
 
 function descriptionFromName(name: string): string {
@@ -499,9 +526,9 @@ export function derive(
 	}
 	const workers = resource === "workers";
 	const overrides: Overrides = method.params ?? {};
-	const hasFileUpload = op.requestContentTypes.some(
-		(c) => c !== "application/json"
-	);
+	const hasFileUpload =
+		!method.requestTransform &&
+		op.requestContentTypes.some((c) => c !== "application/json");
 	const names = new FlagNames(
 		`${op.method.toUpperCase()} ${op.path} (${method.operationId})`,
 		overrides,
@@ -514,14 +541,82 @@ export function derive(
 		})
 	);
 	const args: Arg[] = [];
+	const upper = op.method.toUpperCase();
+	const isMutating = upper !== "GET" && upper !== "HEAD";
 	pathParams(args, op, overrides, method, workers, names);
 	queryParams(args, op, overrides, workers, names);
 	headerParams(args, op, workers, names);
-	bodyParams(args, op, overrides, workers, names);
+	if (method.requestTransform) {
+		const alias = method.requestTransform;
+		if (
+			!op.hasRequestBody ||
+			!op.requestContentTypes.includes("application/json") ||
+			!isMutating
+		) {
+			throw new GenerateError(
+				"Request aliases require a mutating operation accepting an application/json body."
+			);
+		}
+		const inputNames = new Map<string, string>();
+		const inputs = alias.arguments.map((input) => {
+			const name = kebab(
+				names.name(
+					{ in: "body", path: [input.name] },
+					kebab(flagName(input.name))
+				)
+			);
+			inputNames.set(input.name, name);
+			args.push({
+				name,
+				description: input.description ?? descriptionFromName(input.name),
+				type: input.type,
+				required: input.required ?? false,
+				positional: input.positional ?? false,
+				origin: { in: "body", path: [name] },
+				secret: input.sensitive ?? false,
+				isZone: false,
+				isWorkerName: false,
+			});
+			return { ...input, name };
+		});
+		const requestTransform = {
+			...alias,
+			arguments: inputs,
+			requestBody: mapArgumentNames(alias.requestBody, inputNames),
+		};
+		names.assertNoClashes();
+		try {
+			validateRequestTransformArguments(
+				requestTransform,
+				args.map((arg) => ({
+					name: arg.name,
+					type: arg.type,
+					required: arg.required,
+					sensitive: arg.secret,
+				}))
+			);
+		} catch (error) {
+			throw new GenerateError(
+				`${method.operationId}: ${error instanceof Error ? error.message : String(error)}`
+			);
+		}
+		return {
+			args,
+			requestTransform,
+			optionalParentGroups: [],
+			isMutating,
+			hasBody: false,
+			hasEmptyBody: false,
+			hasBodyParams: alias.arguments.length > 0,
+			hasFileUpload: false,
+			multipartFlagFields: [],
+			multipartFileFields: [],
+		};
+	} else {
+		bodyParams(args, op, overrides, workers, names);
+	}
 
 	const optionalParentGroups = optionalParents(args);
-	const upper = op.method.toUpperCase();
-	const isMutating = upper !== "GET" && upper !== "HEAD";
 	const hasBody = isMutating && op.hasRequestBody;
 	const onlyJson =
 		op.requestContentTypes.length === 0 ||

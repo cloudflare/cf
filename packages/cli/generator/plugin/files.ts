@@ -316,6 +316,7 @@ class Walk {
 			}
 			return m;
 		});
+
 		optionMetas.push(
 			obj([
 				["name", "dry-run"],
@@ -385,6 +386,14 @@ class Walk {
 			["httpMethod", op.method.toUpperCase()],
 			["apiPath", op.path],
 			["operationId", method.operationId],
+			...(derived.requestTransform
+				? [
+						[
+							"requestTransform",
+							derived.requestTransform as unknown as Value,
+						] as [string, Value],
+					]
+				: []),
 			["hideCommand", hide],
 		]);
 	}
@@ -428,6 +437,14 @@ class Walk {
 		);
 		return obj([
 			["operationId", method.operationId],
+			...(derived.requestTransform
+				? [
+						[
+							"requestTransform",
+							derived.requestTransform as unknown as Value,
+						] as [string, Value],
+					]
+				: []),
 			["httpMethod", op.method.toUpperCase()],
 			["path", op.path],
 			["pathParams", params(op.pathParams, "path")],

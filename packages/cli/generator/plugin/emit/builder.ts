@@ -54,7 +54,8 @@ export function builderLines(ctx: Ctx): string[] {
 			arg.type === "objectArray" ||
 			arg.type === "nestedArray" ||
 			arg.type === "objectMap";
-		const skipDemand = isBody(arg) && d.hasBody;
+		const skipDemand =
+			isBody(arg) && (d.hasBody || ctx.derived.requestTransform !== undefined);
 		const type =
 			scalarArray || json
 				? "string"

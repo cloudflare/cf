@@ -6,7 +6,10 @@
  * and each method has an operation ID made of the names of its groups and
  * its own, such as `kv.namespaces.list`.
  */
-
+import {
+	parseRequestTransform,
+	type RequestTransform,
+} from "@cloudflare/forge/request-transform";
 import {
 	GenerateError,
 	isObject,
@@ -23,6 +26,7 @@ import type {
 /** A method: one operation, as a leaf command. */
 export interface Method {
 	readonly kind: "method";
+	requestTransform?: RequestTransform;
 	name: string;
 	operationId: string;
 	deprecated: boolean;
@@ -155,12 +159,28 @@ function method(
 	} else {
 		description = normalizeSpaces(m.description);
 	}
+	const transform = m.extension("x-forge-request-transform");
+	let requestTransform: RequestTransform | undefined;
+	if (transform !== undefined) {
+		try {
+			requestTransform = parseRequestTransform(transform);
+		} catch (error) {
+			const at =
+				path === undefined
+					? `${command}.${name}`
+					: `${command}.${path}.${name}`;
+			errors.push(
+				`${at}: ${error instanceof Error ? error.message : String(error)}`
+			);
+		}
+	}
 	const p = m.extension("x-forge-params");
 	const params = isObject(p) && Object.keys(p).length > 0 ? p : undefined;
 	return {
 		kind: "method",
 		name,
 		operationId: id,
+		requestTransform,
 		deprecated: m.availability === "deprecated",
 		params,
 		requireConfirmation: m.confirmation,

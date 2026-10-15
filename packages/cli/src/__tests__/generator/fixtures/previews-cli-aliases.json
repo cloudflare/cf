@@ -1,0 +1,217 @@
+{
+	"openapi": "3.0.0",
+	"info": {
+		"title": "Preview CLI projection fixture",
+		"version": "1"
+	},
+	"x-forge-commands": {
+		"previews": {
+			"description": "Manage Worker Previews.",
+			"groups": {
+				"secrets": {
+					"description": "Manage secrets on a Preview by creating a deployment."
+				},
+				"deployments": {
+					"description": "Manage Preview deployments."
+				}
+			}
+		}
+	},
+	"paths": {
+		"/accounts/{account_id}/workers/workers/{worker_id}/previews/{preview_id}/deployments/latest": {
+			"patch": {
+				"operationId": "workers.previews.deployments.patchLatest",
+				"summary": "Patch the latest Preview deployment.",
+				"description": "Create a deployment from the latest Preview deployment and a partial update.",
+				"x-fern-sdk-group-name": ["previews", "deployments"],
+				"x-fern-sdk-method-name": "edit",
+				"x-forge-aliases": [
+					{
+						"x-fern-sdk-group-name": "previews.secrets",
+						"x-fern-sdk-method-name": "put",
+						"x-fern-audiences": ["cf-cli"],
+						"description": "Set a secret and deploy the updated Preview.",
+						"x-forge-request-transform": {
+							"arguments": [
+								{
+									"name": "name",
+									"type": "string",
+									"required": true,
+									"positional": true,
+									"description": "Name of the Preview secret."
+								},
+								{
+									"name": "value",
+									"type": "string",
+									"required": true,
+									"sensitive": true,
+									"description": "Secret text. Omit to prompt or read from stdin."
+								}
+							],
+							"requestBody": {
+								"object": [
+									{
+										"key": "env",
+										"value": {
+											"object": [
+												{
+													"key": {
+														"arg": "name"
+													},
+													"value": {
+														"object": [
+															{
+																"key": "type",
+																"value": {
+																	"literal": "secret_text"
+																}
+															},
+															{
+																"key": "text",
+																"value": {
+																	"arg": "value"
+																}
+															}
+														]
+													}
+												}
+											]
+										}
+									}
+								]
+							}
+						}
+					},
+					{
+						"x-fern-sdk-group-name": "previews.secrets",
+						"x-fern-sdk-method-name": "delete",
+						"x-fern-audiences": ["cf-cli"],
+						"description": "Remove a secret and deploy the updated Preview.",
+						"x-forge-require-confirmation": "This operation removes the secret and deploys the updated Preview.",
+						"x-forge-request-transform": {
+							"arguments": [
+								{
+									"name": "name",
+									"type": "string",
+									"required": true,
+									"positional": true,
+									"description": "Name of the Preview secret."
+								}
+							],
+							"requestBody": {
+								"object": [
+									{
+										"key": "env",
+										"value": {
+											"object": [
+												{
+													"key": {
+														"arg": "name"
+													},
+													"value": {
+														"literal": null
+													}
+												}
+											]
+										}
+									}
+								]
+							}
+						}
+					}
+				],
+				"parameters": [
+					{
+						"name": "account_id",
+						"in": "path",
+						"required": true,
+						"description": "Account ID.",
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"name": "worker_id",
+						"in": "path",
+						"required": true,
+						"description": "Worker ID.",
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"name": "preview_id",
+						"in": "path",
+						"required": true,
+						"description": "Preview ID.",
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"name": "ignore_defaults",
+						"in": "query",
+						"description": "Skip defaults when applying the update.",
+						"schema": {
+							"type": "boolean"
+						}
+					}
+				],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"type": "object",
+								"properties": {
+									"env": {
+										"type": "object",
+										"description": "Bindings to update; omitted entries are inherited.",
+										"additionalProperties": {
+											"nullable": true,
+											"type": "object",
+											"properties": {
+												"type": {
+													"type": "string"
+												},
+												"text": {
+													"type": "string",
+													"x-sensitive": true
+												}
+											}
+										}
+									},
+									"metadata": {
+										"type": "object",
+										"properties": {
+											"label": {
+												"type": "string",
+												"description": "Deployment label."
+											}
+										}
+									}
+								}
+							}
+						}
+					}
+				},
+				"responses": {
+					"200": {
+						"description": "The new Preview deployment.",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "object"
+								}
+							}
+						}
+					}
+				},
+				"x-fern-availability": "beta"
+			}
+		}
+	},
+	"components": {
+		"schemas": {}
+	}
+}

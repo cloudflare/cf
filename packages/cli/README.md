@@ -29,6 +29,17 @@ option.
 
 Generated API commands follow the shape `cf <product> [group…] <operation>`. Use help or shell completion to discover the current surface; it changes with the pinned public OpenAPI release.
 
+## Generated command inputs
+
+Generated API commands accept `--body` for a raw JSON body, including `@path` to
+read a file. A command declared as a request-mapped alias instead exposes its
+own inputs and constructs the body for the same API operation. Sensitive values
+use the existing masked prompt or piped stdin; `--dry-run` redacts them without
+prompting or sending a request.
+
+Schema authors can find the mapping syntax in the
+[Forge package guide](https://github.com/cloudflare/forge/blob/main/packages/forge/README.md#request-transforms-and-audiences).
+
 ## Authentication
 
 cf resolves credentials in this order:

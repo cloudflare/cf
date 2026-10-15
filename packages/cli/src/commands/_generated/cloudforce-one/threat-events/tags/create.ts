@@ -11,7 +11,12 @@ import {
 	getAccountId,
 	resolveAccountIdSilent,
 } from "#lib/auth.js";
-import { compactBody, parseBody, parseObjectArray } from "#lib/body-parser.js";
+import {
+	compactBody,
+	parseBody,
+	parseJsonMap,
+	parseObjectArray,
+} from "#lib/body-parser.js";
 import { formatDryRun } from "#lib/dry-run.js";
 import { resolveFileToken } from "#lib/input-validation.js";
 import { LOCAL_ACCOUNT_ID } from "#lib/local.js";
@@ -77,6 +82,11 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "The internalDescription field",
 		})
 		.option("last-seen", { type: "string", description: "The lastSeen field" })
+		.option("properties", {
+			type: "string",
+			description:
+				"Structured metadata blob. Optional. When `categoryUuid` is given, validated against this category's schema on write. When typeless, accepted free-form. Use `{}` for a tag with no custom data. Provide as a JSON object or @path/to/file.json.",
+		})
 		.option("tlp", {
 			type: "string",
 			description:
@@ -131,52 +141,60 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						body:
 							argv.body !== undefined
 								? parseBody(argv.body)
-								: compactBody({
-										aliasGroupNames: argv["alias-group-names"],
-										aliasGroupNamesInternal: argv["alias-group-names-internal"],
-										aliases: parseObjectArray(argv["aliases"], "aliases"),
-										categoryUuid: resolveFileToken(
-											argv["category-uuid"] as string | undefined,
-											"category-uuid",
-											"text"
-										),
-										confidence: argv["confidence"],
-										dateOfDiscovery: resolveFileToken(
-											argv["date-of-discovery"] as string | undefined,
-											"date-of-discovery",
-											"text"
-										),
-										description: resolveFileToken(
-											argv["description"] as string | undefined,
-											"description",
-											"text"
-										),
-										externalReferenceLinks: argv["external-reference-links"],
-										externalReferences: parseObjectArray(
-											argv["external-references"],
-											"external-references"
-										),
-										internalAliases: parseObjectArray(
-											argv["internal-aliases"],
-											"internal-aliases"
-										),
-										internalDescription: resolveFileToken(
-											argv["internal-description"] as string | undefined,
-											"internal-description",
-											"text"
-										),
-										lastSeen: resolveFileToken(
-											argv["last-seen"] as string | undefined,
-											"last-seen",
-											"text"
-										),
-										tlp: argv["tlp"],
-										value: resolveFileToken(
-											argv["value"] as string | undefined,
-											"value",
-											"text"
-										),
-									}),
+								: compactBody(
+										{
+											aliasGroupNames: argv["alias-group-names"],
+											aliasGroupNamesInternal:
+												argv["alias-group-names-internal"],
+											aliases: parseObjectArray(argv["aliases"], "aliases"),
+											categoryUuid: resolveFileToken(
+												argv["category-uuid"] as string | undefined,
+												"category-uuid",
+												"text"
+											),
+											confidence: argv["confidence"],
+											dateOfDiscovery: resolveFileToken(
+												argv["date-of-discovery"] as string | undefined,
+												"date-of-discovery",
+												"text"
+											),
+											description: resolveFileToken(
+												argv["description"] as string | undefined,
+												"description",
+												"text"
+											),
+											externalReferenceLinks: argv["external-reference-links"],
+											externalReferences: parseObjectArray(
+												argv["external-references"],
+												"external-references"
+											),
+											internalAliases: parseObjectArray(
+												argv["internal-aliases"],
+												"internal-aliases"
+											),
+											internalDescription: resolveFileToken(
+												argv["internal-description"] as string | undefined,
+												"internal-description",
+												"text"
+											),
+											lastSeen: resolveFileToken(
+												argv["last-seen"] as string | undefined,
+												"last-seen",
+												"text"
+											),
+											properties: parseJsonMap(
+												argv["properties"],
+												"properties"
+											),
+											tlp: argv["tlp"],
+											value: resolveFileToken(
+												argv["value"] as string | undefined,
+												"value",
+												"text"
+											),
+										},
+										[["properties"]]
+									),
 					});
 					return;
 				}
@@ -200,52 +218,56 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				}
 
 				// Assemble request body from individual flags
-				const bodyData = compactBody({
-					aliasGroupNames: argv["alias-group-names"],
-					aliasGroupNamesInternal: argv["alias-group-names-internal"],
-					aliases: parseObjectArray(argv["aliases"], "aliases"),
-					categoryUuid: resolveFileToken(
-						argv["category-uuid"] as string | undefined,
-						"category-uuid",
-						"text"
-					),
-					confidence: argv["confidence"],
-					dateOfDiscovery: resolveFileToken(
-						argv["date-of-discovery"] as string | undefined,
-						"date-of-discovery",
-						"text"
-					),
-					description: resolveFileToken(
-						argv["description"] as string | undefined,
-						"description",
-						"text"
-					),
-					externalReferenceLinks: argv["external-reference-links"],
-					externalReferences: parseObjectArray(
-						argv["external-references"],
-						"external-references"
-					),
-					internalAliases: parseObjectArray(
-						argv["internal-aliases"],
-						"internal-aliases"
-					),
-					internalDescription: resolveFileToken(
-						argv["internal-description"] as string | undefined,
-						"internal-description",
-						"text"
-					),
-					lastSeen: resolveFileToken(
-						argv["last-seen"] as string | undefined,
-						"last-seen",
-						"text"
-					),
-					tlp: argv["tlp"],
-					value: resolveFileToken(
-						argv["value"] as string | undefined,
-						"value",
-						"text"
-					),
-				});
+				const bodyData = compactBody(
+					{
+						aliasGroupNames: argv["alias-group-names"],
+						aliasGroupNamesInternal: argv["alias-group-names-internal"],
+						aliases: parseObjectArray(argv["aliases"], "aliases"),
+						categoryUuid: resolveFileToken(
+							argv["category-uuid"] as string | undefined,
+							"category-uuid",
+							"text"
+						),
+						confidence: argv["confidence"],
+						dateOfDiscovery: resolveFileToken(
+							argv["date-of-discovery"] as string | undefined,
+							"date-of-discovery",
+							"text"
+						),
+						description: resolveFileToken(
+							argv["description"] as string | undefined,
+							"description",
+							"text"
+						),
+						externalReferenceLinks: argv["external-reference-links"],
+						externalReferences: parseObjectArray(
+							argv["external-references"],
+							"external-references"
+						),
+						internalAliases: parseObjectArray(
+							argv["internal-aliases"],
+							"internal-aliases"
+						),
+						internalDescription: resolveFileToken(
+							argv["internal-description"] as string | undefined,
+							"internal-description",
+							"text"
+						),
+						lastSeen: resolveFileToken(
+							argv["last-seen"] as string | undefined,
+							"last-seen",
+							"text"
+						),
+						properties: parseJsonMap(argv["properties"], "properties"),
+						tlp: argv["tlp"],
+						value: resolveFileToken(
+							argv["value"] as string | undefined,
+							"value",
+							"text"
+						),
+					},
+					[["properties"]]
+				);
 				const result = await withProgress(`Creating`, async () =>
 					client.send(operation, { body: bodyData, account_id: accountId })
 				);

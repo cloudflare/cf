@@ -11,7 +11,7 @@ import {
 	getAccountId,
 	resolveAccountIdSilent,
 } from "#lib/auth.js";
-import { compactBody, parseBody } from "#lib/body-parser.js";
+import { compactBody, parseBody, parseJsonMap } from "#lib/body-parser.js";
 import { formatDryRun } from "#lib/dry-run.js";
 import { resolveFileToken } from "#lib/input-validation.js";
 import { LOCAL_ACCOUNT_ID } from "#lib/local.js";
@@ -41,6 +41,11 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			type: "string",
 			description:
 				"Dataset UUID where the relationship row will be stored (locates the Indicators DO).",
+		})
+		.option("metadata", {
+			type: "string",
+			description:
+				"Arbitrary JSON metadata. Provide as a JSON object or @path/to/file.json.",
 		})
 		.option("target-id", {
 			type: "string",
@@ -94,25 +99,29 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						body:
 							argv.body !== undefined
 								? parseBody(argv.body)
-								: compactBody({
-										confidence: argv["confidence"],
-										datasetId: resolveFileToken(
-											argv["dataset-id"] as string | undefined,
-											"dataset-id",
-											"text"
-										),
-										targetId: resolveFileToken(
-											argv["target-id"] as string | undefined,
-											"target-id",
-											"text"
-										),
-										targetType: argv["target-type"],
-										type: resolveFileToken(
-											argv["type"] as string | undefined,
-											"type",
-											"text"
-										),
-									}),
+								: compactBody(
+										{
+											confidence: argv["confidence"],
+											datasetId: resolveFileToken(
+												argv["dataset-id"] as string | undefined,
+												"dataset-id",
+												"text"
+											),
+											metadata: parseJsonMap(argv["metadata"], "metadata"),
+											targetId: resolveFileToken(
+												argv["target-id"] as string | undefined,
+												"target-id",
+												"text"
+											),
+											targetType: argv["target-type"],
+											type: resolveFileToken(
+												argv["type"] as string | undefined,
+												"type",
+												"text"
+											),
+										},
+										[["metadata"]]
+									),
 					});
 					return;
 				}
@@ -159,25 +168,29 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				}
 
 				// Assemble request body from individual flags
-				const bodyData = compactBody({
-					confidence: argv["confidence"],
-					datasetId: resolveFileToken(
-						argv["dataset-id"] as string | undefined,
-						"dataset-id",
-						"text"
-					),
-					targetId: resolveFileToken(
-						argv["target-id"] as string | undefined,
-						"target-id",
-						"text"
-					),
-					targetType: argv["target-type"],
-					type: resolveFileToken(
-						argv["type"] as string | undefined,
-						"type",
-						"text"
-					),
-				});
+				const bodyData = compactBody(
+					{
+						confidence: argv["confidence"],
+						datasetId: resolveFileToken(
+							argv["dataset-id"] as string | undefined,
+							"dataset-id",
+							"text"
+						),
+						metadata: parseJsonMap(argv["metadata"], "metadata"),
+						targetId: resolveFileToken(
+							argv["target-id"] as string | undefined,
+							"target-id",
+							"text"
+						),
+						targetType: argv["target-type"],
+						type: resolveFileToken(
+							argv["type"] as string | undefined,
+							"type",
+							"text"
+						),
+					},
+					[["metadata"]]
+				);
 				const result = await withProgress(`Creating`, async () =>
 					client.send(operation, {
 						body: bodyData,

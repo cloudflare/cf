@@ -11,7 +11,7 @@ import {
 	getAccountId,
 	resolveAccountIdSilent,
 } from "#lib/auth.js";
-import { compactBody, parseBody } from "#lib/body-parser.js";
+import { compactBody, parseBody, parseJsonMap } from "#lib/body-parser.js";
 import { formatDryRun } from "#lib/dry-run.js";
 import { resolveFileToken } from "#lib/input-validation.js";
 import { LOCAL_ACCOUNT_ID } from "#lib/local.js";
@@ -80,6 +80,11 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			type: "string",
 			description: "Command to deploy the Worker.",
 		})
+		.option("previews-base-config-environment-variables", {
+			type: "string",
+			description:
+				"Map of environment-variable names to build-time values. Names must begin with a letter or underscore and contain only letters, numbers, and underscores. Provide as a JSON object or @path/to/file.json.",
+		})
 		.option("previews-base-config-path-excludes", {
 			type: "string",
 			array: true,
@@ -117,6 +122,11 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("production-settings-deploy-command", {
 			type: "string",
 			description: "Command to deploy the Worker.",
+		})
+		.option("production-settings-environment-variables", {
+			type: "string",
+			description:
+				"Map of environment-variable names to build-time values. Names must begin with a letter or underscore and contain only letters, numbers, and underscores. Provide as a JSON object or @path/to/file.json.",
 		})
 		.option("production-settings-path-excludes", {
 			type: "string",
@@ -183,119 +193,139 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						body:
 							argv.body !== undefined
 								? parseBody(argv.body)
-								: compactBody({
-										git_repository: {
-											branch: resolveFileToken(
-												argv["git-repository-branch"] as string | undefined,
-												"git-repository-branch",
-												"text"
-											),
-											provider_account_id: resolveFileToken(
-												argv["git-repository-provider-account-id"] as
-													| string
-													| undefined,
-												"git-repository-provider-account-id",
-												"text"
-											),
-											provider_account_name: resolveFileToken(
-												argv["git-repository-provider-account-name"] as
-													| string
-													| undefined,
-												"git-repository-provider-account-name",
-												"text"
-											),
-											provider_type: argv["git-repository-provider-type"],
-											repo_id: resolveFileToken(
-												argv["git-repository-repo-id"] as string | undefined,
-												"git-repository-repo-id",
-												"text"
-											),
-											repo_name: resolveFileToken(
-												argv["git-repository-repo-name"] as string | undefined,
-												"git-repository-repo-name",
-												"text"
-											),
-											grant_id: resolveFileToken(
-												argv["git-repository-grant-id"] as string | undefined,
-												"git-repository-grant-id",
+								: compactBody(
+										{
+											git_repository: {
+												branch: resolveFileToken(
+													argv["git-repository-branch"] as string | undefined,
+													"git-repository-branch",
+													"text"
+												),
+												provider_account_id: resolveFileToken(
+													argv["git-repository-provider-account-id"] as
+														| string
+														| undefined,
+													"git-repository-provider-account-id",
+													"text"
+												),
+												provider_account_name: resolveFileToken(
+													argv["git-repository-provider-account-name"] as
+														| string
+														| undefined,
+													"git-repository-provider-account-name",
+													"text"
+												),
+												provider_type: argv["git-repository-provider-type"],
+												repo_id: resolveFileToken(
+													argv["git-repository-repo-id"] as string | undefined,
+													"git-repository-repo-id",
+													"text"
+												),
+												repo_name: resolveFileToken(
+													argv["git-repository-repo-name"] as
+														| string
+														| undefined,
+													"git-repository-repo-name",
+													"text"
+												),
+												grant_id: resolveFileToken(
+													argv["git-repository-grant-id"] as string | undefined,
+													"git-repository-grant-id",
+													"text"
+												),
+											},
+											previews_base_config: {
+												build_caching_enabled:
+													argv["previews-base-config-build-caching-enabled"],
+												build_command: resolveFileToken(
+													argv["previews-base-config-build-command"] as
+														| string
+														| undefined,
+													"previews-base-config-build-command",
+													"text"
+												),
+												build_token_uuid: resolveFileToken(
+													argv["previews-base-config-build-token-uuid"] as
+														| string
+														| undefined,
+													"previews-base-config-build-token-uuid",
+													"text"
+												),
+												deploy_command: resolveFileToken(
+													argv["previews-base-config-deploy-command"] as
+														| string
+														| undefined,
+													"previews-base-config-deploy-command",
+													"text"
+												),
+												environment_variables: parseJsonMap(
+													argv["previews-base-config-environment-variables"],
+													"previews-base-config-environment-variables"
+												),
+												path_excludes:
+													argv["previews-base-config-path-excludes"],
+												path_includes:
+													argv["previews-base-config-path-includes"],
+												root_directory: resolveFileToken(
+													argv["previews-base-config-root-directory"] as
+														| string
+														| undefined,
+													"previews-base-config-root-directory",
+													"text"
+												),
+											},
+											previews_enabled: argv["previews-enabled"],
+											production_settings: {
+												build_caching_enabled:
+													argv["production-settings-build-caching-enabled"],
+												build_command: resolveFileToken(
+													argv["production-settings-build-command"] as
+														| string
+														| undefined,
+													"production-settings-build-command",
+													"text"
+												),
+												build_token_uuid: resolveFileToken(
+													argv["production-settings-build-token-uuid"] as
+														| string
+														| undefined,
+													"production-settings-build-token-uuid",
+													"text"
+												),
+												deploy_command: resolveFileToken(
+													argv["production-settings-deploy-command"] as
+														| string
+														| undefined,
+													"production-settings-deploy-command",
+													"text"
+												),
+												environment_variables: parseJsonMap(
+													argv["production-settings-environment-variables"],
+													"production-settings-environment-variables"
+												),
+												path_excludes:
+													argv["production-settings-path-excludes"],
+												path_includes:
+													argv["production-settings-path-includes"],
+												root_directory: resolveFileToken(
+													argv["production-settings-root-directory"] as
+														| string
+														| undefined,
+													"production-settings-root-directory",
+													"text"
+												),
+											},
+											script_tag: resolveFileToken(
+												argv["script-tag"] as string | undefined,
+												"script-tag",
 												"text"
 											),
 										},
-										previews_base_config: {
-											build_caching_enabled:
-												argv["previews-base-config-build-caching-enabled"],
-											build_command: resolveFileToken(
-												argv["previews-base-config-build-command"] as
-													| string
-													| undefined,
-												"previews-base-config-build-command",
-												"text"
-											),
-											build_token_uuid: resolveFileToken(
-												argv["previews-base-config-build-token-uuid"] as
-													| string
-													| undefined,
-												"previews-base-config-build-token-uuid",
-												"text"
-											),
-											deploy_command: resolveFileToken(
-												argv["previews-base-config-deploy-command"] as
-													| string
-													| undefined,
-												"previews-base-config-deploy-command",
-												"text"
-											),
-											path_excludes: argv["previews-base-config-path-excludes"],
-											path_includes: argv["previews-base-config-path-includes"],
-											root_directory: resolveFileToken(
-												argv["previews-base-config-root-directory"] as
-													| string
-													| undefined,
-												"previews-base-config-root-directory",
-												"text"
-											),
-										},
-										previews_enabled: argv["previews-enabled"],
-										production_settings: {
-											build_caching_enabled:
-												argv["production-settings-build-caching-enabled"],
-											build_command: resolveFileToken(
-												argv["production-settings-build-command"] as
-													| string
-													| undefined,
-												"production-settings-build-command",
-												"text"
-											),
-											build_token_uuid: resolveFileToken(
-												argv["production-settings-build-token-uuid"] as
-													| string
-													| undefined,
-												"production-settings-build-token-uuid",
-												"text"
-											),
-											deploy_command: resolveFileToken(
-												argv["production-settings-deploy-command"] as
-													| string
-													| undefined,
-												"production-settings-deploy-command",
-												"text"
-											),
-											path_excludes: argv["production-settings-path-excludes"],
-											path_includes: argv["production-settings-path-includes"],
-											root_directory: resolveFileToken(
-												argv["production-settings-root-directory"] as
-													| string
-													| undefined,
-												"production-settings-root-directory",
-												"text"
-											),
-										},
-										script_tag: resolveFileToken(
-											argv["script-tag"] as string | undefined,
-											"script-tag",
-											"text"
-										),
-									}),
+										[
+											["previews_base_config", "environment_variables"],
+											["production_settings", "environment_variables"],
+										]
+									),
 					});
 					return;
 				}
@@ -406,105 +436,131 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				}
 
 				// Assemble request body from individual flags
-				const bodyData = compactBody({
-					git_repository: {
-						branch: resolveFileToken(
-							argv["git-repository-branch"] as string | undefined,
-							"git-repository-branch",
-							"text"
-						),
-						provider_account_id: resolveFileToken(
-							argv["git-repository-provider-account-id"] as string | undefined,
-							"git-repository-provider-account-id",
-							"text"
-						),
-						provider_account_name: resolveFileToken(
-							argv["git-repository-provider-account-name"] as
-								| string
-								| undefined,
-							"git-repository-provider-account-name",
-							"text"
-						),
-						provider_type: argv["git-repository-provider-type"],
-						repo_id: resolveFileToken(
-							argv["git-repository-repo-id"] as string | undefined,
-							"git-repository-repo-id",
-							"text"
-						),
-						repo_name: resolveFileToken(
-							argv["git-repository-repo-name"] as string | undefined,
-							"git-repository-repo-name",
-							"text"
-						),
-						grant_id: resolveFileToken(
-							argv["git-repository-grant-id"] as string | undefined,
-							"git-repository-grant-id",
+				const bodyData = compactBody(
+					{
+						git_repository: {
+							branch: resolveFileToken(
+								argv["git-repository-branch"] as string | undefined,
+								"git-repository-branch",
+								"text"
+							),
+							provider_account_id: resolveFileToken(
+								argv["git-repository-provider-account-id"] as
+									| string
+									| undefined,
+								"git-repository-provider-account-id",
+								"text"
+							),
+							provider_account_name: resolveFileToken(
+								argv["git-repository-provider-account-name"] as
+									| string
+									| undefined,
+								"git-repository-provider-account-name",
+								"text"
+							),
+							provider_type: argv["git-repository-provider-type"],
+							repo_id: resolveFileToken(
+								argv["git-repository-repo-id"] as string | undefined,
+								"git-repository-repo-id",
+								"text"
+							),
+							repo_name: resolveFileToken(
+								argv["git-repository-repo-name"] as string | undefined,
+								"git-repository-repo-name",
+								"text"
+							),
+							grant_id: resolveFileToken(
+								argv["git-repository-grant-id"] as string | undefined,
+								"git-repository-grant-id",
+								"text"
+							),
+						},
+						previews_base_config: {
+							build_caching_enabled:
+								argv["previews-base-config-build-caching-enabled"],
+							build_command: resolveFileToken(
+								argv["previews-base-config-build-command"] as
+									| string
+									| undefined,
+								"previews-base-config-build-command",
+								"text"
+							),
+							build_token_uuid: resolveFileToken(
+								argv["previews-base-config-build-token-uuid"] as
+									| string
+									| undefined,
+								"previews-base-config-build-token-uuid",
+								"text"
+							),
+							deploy_command: resolveFileToken(
+								argv["previews-base-config-deploy-command"] as
+									| string
+									| undefined,
+								"previews-base-config-deploy-command",
+								"text"
+							),
+							environment_variables: parseJsonMap(
+								argv["previews-base-config-environment-variables"],
+								"previews-base-config-environment-variables"
+							),
+							path_excludes: argv["previews-base-config-path-excludes"],
+							path_includes: argv["previews-base-config-path-includes"],
+							root_directory: resolveFileToken(
+								argv["previews-base-config-root-directory"] as
+									| string
+									| undefined,
+								"previews-base-config-root-directory",
+								"text"
+							),
+						},
+						previews_enabled: argv["previews-enabled"],
+						production_settings: {
+							build_caching_enabled:
+								argv["production-settings-build-caching-enabled"],
+							build_command: resolveFileToken(
+								argv["production-settings-build-command"] as string | undefined,
+								"production-settings-build-command",
+								"text"
+							),
+							build_token_uuid: resolveFileToken(
+								argv["production-settings-build-token-uuid"] as
+									| string
+									| undefined,
+								"production-settings-build-token-uuid",
+								"text"
+							),
+							deploy_command: resolveFileToken(
+								argv["production-settings-deploy-command"] as
+									| string
+									| undefined,
+								"production-settings-deploy-command",
+								"text"
+							),
+							environment_variables: parseJsonMap(
+								argv["production-settings-environment-variables"],
+								"production-settings-environment-variables"
+							),
+							path_excludes: argv["production-settings-path-excludes"],
+							path_includes: argv["production-settings-path-includes"],
+							root_directory: resolveFileToken(
+								argv["production-settings-root-directory"] as
+									| string
+									| undefined,
+								"production-settings-root-directory",
+								"text"
+							),
+						},
+						script_tag: resolveFileToken(
+							argv["script-tag"] as string | undefined,
+							"script-tag",
 							"text"
 						),
 					},
-					previews_base_config: {
-						build_caching_enabled:
-							argv["previews-base-config-build-caching-enabled"],
-						build_command: resolveFileToken(
-							argv["previews-base-config-build-command"] as string | undefined,
-							"previews-base-config-build-command",
-							"text"
-						),
-						build_token_uuid: resolveFileToken(
-							argv["previews-base-config-build-token-uuid"] as
-								| string
-								| undefined,
-							"previews-base-config-build-token-uuid",
-							"text"
-						),
-						deploy_command: resolveFileToken(
-							argv["previews-base-config-deploy-command"] as string | undefined,
-							"previews-base-config-deploy-command",
-							"text"
-						),
-						path_excludes: argv["previews-base-config-path-excludes"],
-						path_includes: argv["previews-base-config-path-includes"],
-						root_directory: resolveFileToken(
-							argv["previews-base-config-root-directory"] as string | undefined,
-							"previews-base-config-root-directory",
-							"text"
-						),
-					},
-					previews_enabled: argv["previews-enabled"],
-					production_settings: {
-						build_caching_enabled:
-							argv["production-settings-build-caching-enabled"],
-						build_command: resolveFileToken(
-							argv["production-settings-build-command"] as string | undefined,
-							"production-settings-build-command",
-							"text"
-						),
-						build_token_uuid: resolveFileToken(
-							argv["production-settings-build-token-uuid"] as
-								| string
-								| undefined,
-							"production-settings-build-token-uuid",
-							"text"
-						),
-						deploy_command: resolveFileToken(
-							argv["production-settings-deploy-command"] as string | undefined,
-							"production-settings-deploy-command",
-							"text"
-						),
-						path_excludes: argv["production-settings-path-excludes"],
-						path_includes: argv["production-settings-path-includes"],
-						root_directory: resolveFileToken(
-							argv["production-settings-root-directory"] as string | undefined,
-							"production-settings-root-directory",
-							"text"
-						),
-					},
-					script_tag: resolveFileToken(
-						argv["script-tag"] as string | undefined,
-						"script-tag",
-						"text"
-					),
-				});
+					[
+						["previews_base_config", "environment_variables"],
+						["production_settings", "environment_variables"],
+					]
+				);
 				const result = await withProgress(`Creating`, async () =>
 					client.send(operation, { body: bodyData, account_id: accountId })
 				);

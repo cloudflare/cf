@@ -3,6 +3,7 @@ import { describe, expect, it } from "vite-plus/test";
 import {
 	compactBody,
 	parseBody,
+	parseJsonMap,
 	parseObjectArray,
 	setNestedValue,
 } from "../../lib/body-parser.js";
@@ -217,5 +218,78 @@ describe("compactBody", () => {
 				count: 0,
 			})
 		).toEqual({ values: [], nullable: null, enabled: false, count: 0 });
+	});
+});
+
+describe("JSON maps", () => {
+	runInTempDir();
+
+	it("parses maps without changing their keys or nested values", () => {
+		const json =
+			'{"env":"prod","empty":{},"nested":{"empty":{}},"__proto__":"value"}';
+		expect(parseJsonMap(json, "tags")).toEqual(JSON.parse(json));
+		expect(parseJsonMap("{}", "tags", true)).toEqual({});
+	});
+
+	it("reads a JSON map from a file whose path contains spaces", async () => {
+		await seed({ "tag inputs/tags.json": '{"env":"prod"}' });
+		expect(parseJsonMap("@tag inputs/tags.json", "tags")).toEqual({
+			env: "prod",
+		});
+	});
+
+	it("distinguishes an absent optional map from a required one", () => {
+		expect(parseJsonMap(undefined, "tags")).toBeUndefined();
+		expect(() => parseJsonMap(undefined, "tags", true)).toThrow(
+			"--tags is required"
+		);
+	});
+
+	it.each(["null", "[]", "1", "true", '"value"'])(
+		"rejects a non-object map: %s",
+		(input) => {
+			expect(() => parseJsonMap(input, "tags")).toThrow(
+				"--tags must be a JSON object."
+			);
+		}
+	);
+
+	it("rejects repeated flags and invalid JSON", () => {
+		expect(() => parseJsonMap(["{}", "{}"], "tags")).toThrow(
+			"--tags must be provided once"
+		);
+		expect(() => parseJsonMap("{bad", "tags")).toThrow(
+			"Invalid JSON in --tags"
+		);
+	});
+
+	it("retains explicit maps while removing absent generated parent objects", () => {
+		const value = {
+			settings: { tags: {}, absent: undefined },
+			other: {},
+			missing: undefined,
+		};
+		expect(compactBody(value, [["settings", "tags"]])).toEqual({
+			settings: { tags: {} },
+		});
+		const map = { empty: {}, nested: { empty: {} } };
+		expect(compactBody({ tags: map }, [["tags"]])).toEqual({ tags: map });
+		expect(compactBody({ tags: undefined }, [["tags"]])).toEqual({});
+	});
+
+	it("requires maps inside full request bodies, allowing an explicit empty map", () => {
+		const required = [{ path: ["settings", "tags"], flag: "settings-tags" }];
+		expect(parseBody('{"settings":{"tags":{}}}', required)).toEqual({
+			settings: { tags: {} },
+		});
+		for (const body of [
+			"{}",
+			'{"settings":{"tags":null}}',
+			'{"settings":{"tags":[]}}',
+		]) {
+			expect(() => parseBody(body, required)).toThrow(
+				"--body must include a JSON object at settings.tags"
+			);
+		}
 	});
 });

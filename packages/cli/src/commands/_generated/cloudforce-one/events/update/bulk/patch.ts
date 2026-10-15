@@ -11,7 +11,7 @@ import {
 	getAccountId,
 	resolveAccountIdSilent,
 } from "#lib/auth.js";
-import { compactBody, parseBody } from "#lib/body-parser.js";
+import { compactBody, parseBody, parseJsonMap } from "#lib/body-parser.js";
 import { formatDryRun } from "#lib/dry-run.js";
 import { resolveFileToken } from "#lib/input-validation.js";
 import { LOCAL_ACCOUNT_ID } from "#lib/local.js";
@@ -66,6 +66,11 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("updates-insight", {
 			type: "string",
 			description: "The updates.insight field",
+		})
+		.option("updates-raw-data", {
+			type: "string",
+			description:
+				"The updates.raw.data field. Provide as a JSON object or @path/to/file.json.",
 		})
 		.option("updates-raw-source", {
 			type: "string",
@@ -125,83 +130,92 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						body:
 							argv.body !== undefined
 								? parseBody(argv.body)
-								: compactBody({
-										datasetId: resolveFileToken(
-											argv["dataset-id"] as string | undefined,
-											"dataset-id",
-											"text"
-										),
-										eventIds: argv["event-ids"],
-										updates: {
-											attacker: resolveFileToken(
-												argv["updates-attacker"] as string | undefined,
-												"updates-attacker",
+								: compactBody(
+										{
+											datasetId: resolveFileToken(
+												argv["dataset-id"] as string | undefined,
+												"dataset-id",
 												"text"
 											),
-											attackerCountry: resolveFileToken(
-												argv["updates-attacker-country"] as string | undefined,
-												"updates-attacker-country",
-												"text"
-											),
-											category: resolveFileToken(
-												argv["updates-category"] as string | undefined,
-												"updates-category",
-												"text"
-											),
-											createdAt: resolveFileToken(
-												argv["updates-created-at"] as string | undefined,
-												"updates-created-at",
-												"text"
-											),
-											event: resolveFileToken(
-												argv["updates-event"] as string | undefined,
-												"updates-event",
-												"text"
-											),
-											indicator: resolveFileToken(
-												argv["updates-indicator"] as string | undefined,
-												"updates-indicator",
-												"text"
-											),
-											indicatorType: resolveFileToken(
-												argv["updates-indicator-type"] as string | undefined,
-												"updates-indicator-type",
-												"text"
-											),
-											insight: resolveFileToken(
-												argv["updates-insight"] as string | undefined,
-												"updates-insight",
-												"text"
-											),
-											raw: {
-												source: resolveFileToken(
-													argv["updates-raw-source"] as string | undefined,
-													"updates-raw-source",
+											eventIds: argv["event-ids"],
+											updates: {
+												attacker: resolveFileToken(
+													argv["updates-attacker"] as string | undefined,
+													"updates-attacker",
+													"text"
+												),
+												attackerCountry: resolveFileToken(
+													argv["updates-attacker-country"] as
+														| string
+														| undefined,
+													"updates-attacker-country",
+													"text"
+												),
+												category: resolveFileToken(
+													argv["updates-category"] as string | undefined,
+													"updates-category",
+													"text"
+												),
+												createdAt: resolveFileToken(
+													argv["updates-created-at"] as string | undefined,
+													"updates-created-at",
+													"text"
+												),
+												event: resolveFileToken(
+													argv["updates-event"] as string | undefined,
+													"updates-event",
+													"text"
+												),
+												indicator: resolveFileToken(
+													argv["updates-indicator"] as string | undefined,
+													"updates-indicator",
+													"text"
+												),
+												indicatorType: resolveFileToken(
+													argv["updates-indicator-type"] as string | undefined,
+													"updates-indicator-type",
+													"text"
+												),
+												insight: resolveFileToken(
+													argv["updates-insight"] as string | undefined,
+													"updates-insight",
+													"text"
+												),
+												raw: {
+													data: parseJsonMap(
+														argv["updates-raw-data"],
+														"updates-raw-data"
+													),
+													source: resolveFileToken(
+														argv["updates-raw-source"] as string | undefined,
+														"updates-raw-source",
+														"text"
+													),
+													tlp: resolveFileToken(
+														argv["updates-raw-tlp"] as string | undefined,
+														"updates-raw-tlp",
+														"text"
+													),
+												},
+												targetCountry: resolveFileToken(
+													argv["updates-target-country"] as string | undefined,
+													"updates-target-country",
+													"text"
+												),
+												targetIndustry: resolveFileToken(
+													argv["updates-target-industry"] as string | undefined,
+													"updates-target-industry",
 													"text"
 												),
 												tlp: resolveFileToken(
-													argv["updates-raw-tlp"] as string | undefined,
-													"updates-raw-tlp",
+													argv["updates-tlp"] as string | undefined,
+													"updates-tlp",
 													"text"
 												),
 											},
-											targetCountry: resolveFileToken(
-												argv["updates-target-country"] as string | undefined,
-												"updates-target-country",
-												"text"
-											),
-											targetIndustry: resolveFileToken(
-												argv["updates-target-industry"] as string | undefined,
-												"updates-target-industry",
-												"text"
-											),
-											tlp: resolveFileToken(
-												argv["updates-tlp"] as string | undefined,
-												"updates-tlp",
-												"text"
-											),
 										},
-									}),
+										[["updates", "raw", "data"]]
+									),
 					});
 					return;
 				}
@@ -230,83 +244,90 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				}
 
 				// Assemble request body from individual flags
-				const bodyData = compactBody({
-					datasetId: resolveFileToken(
-						argv["dataset-id"] as string | undefined,
-						"dataset-id",
-						"text"
-					),
-					eventIds: argv["event-ids"],
-					updates: {
-						attacker: resolveFileToken(
-							argv["updates-attacker"] as string | undefined,
-							"updates-attacker",
+				const bodyData = compactBody(
+					{
+						datasetId: resolveFileToken(
+							argv["dataset-id"] as string | undefined,
+							"dataset-id",
 							"text"
 						),
-						attackerCountry: resolveFileToken(
-							argv["updates-attacker-country"] as string | undefined,
-							"updates-attacker-country",
-							"text"
-						),
-						category: resolveFileToken(
-							argv["updates-category"] as string | undefined,
-							"updates-category",
-							"text"
-						),
-						createdAt: resolveFileToken(
-							argv["updates-created-at"] as string | undefined,
-							"updates-created-at",
-							"text"
-						),
-						event: resolveFileToken(
-							argv["updates-event"] as string | undefined,
-							"updates-event",
-							"text"
-						),
-						indicator: resolveFileToken(
-							argv["updates-indicator"] as string | undefined,
-							"updates-indicator",
-							"text"
-						),
-						indicatorType: resolveFileToken(
-							argv["updates-indicator-type"] as string | undefined,
-							"updates-indicator-type",
-							"text"
-						),
-						insight: resolveFileToken(
-							argv["updates-insight"] as string | undefined,
-							"updates-insight",
-							"text"
-						),
-						raw: {
-							source: resolveFileToken(
-								argv["updates-raw-source"] as string | undefined,
-								"updates-raw-source",
+						eventIds: argv["event-ids"],
+						updates: {
+							attacker: resolveFileToken(
+								argv["updates-attacker"] as string | undefined,
+								"updates-attacker",
+								"text"
+							),
+							attackerCountry: resolveFileToken(
+								argv["updates-attacker-country"] as string | undefined,
+								"updates-attacker-country",
+								"text"
+							),
+							category: resolveFileToken(
+								argv["updates-category"] as string | undefined,
+								"updates-category",
+								"text"
+							),
+							createdAt: resolveFileToken(
+								argv["updates-created-at"] as string | undefined,
+								"updates-created-at",
+								"text"
+							),
+							event: resolveFileToken(
+								argv["updates-event"] as string | undefined,
+								"updates-event",
+								"text"
+							),
+							indicator: resolveFileToken(
+								argv["updates-indicator"] as string | undefined,
+								"updates-indicator",
+								"text"
+							),
+							indicatorType: resolveFileToken(
+								argv["updates-indicator-type"] as string | undefined,
+								"updates-indicator-type",
+								"text"
+							),
+							insight: resolveFileToken(
+								argv["updates-insight"] as string | undefined,
+								"updates-insight",
+								"text"
+							),
+							raw: {
+								data: parseJsonMap(
+									argv["updates-raw-data"],
+									"updates-raw-data"
+								),
+								source: resolveFileToken(
+									argv["updates-raw-source"] as string | undefined,
+									"updates-raw-source",
+									"text"
+								),
+								tlp: resolveFileToken(
+									argv["updates-raw-tlp"] as string | undefined,
+									"updates-raw-tlp",
+									"text"
+								),
+							},
+							targetCountry: resolveFileToken(
+								argv["updates-target-country"] as string | undefined,
+								"updates-target-country",
+								"text"
+							),
+							targetIndustry: resolveFileToken(
+								argv["updates-target-industry"] as string | undefined,
+								"updates-target-industry",
 								"text"
 							),
 							tlp: resolveFileToken(
-								argv["updates-raw-tlp"] as string | undefined,
-								"updates-raw-tlp",
+								argv["updates-tlp"] as string | undefined,
+								"updates-tlp",
 								"text"
 							),
 						},
-						targetCountry: resolveFileToken(
-							argv["updates-target-country"] as string | undefined,
-							"updates-target-country",
-							"text"
-						),
-						targetIndustry: resolveFileToken(
-							argv["updates-target-industry"] as string | undefined,
-							"updates-target-industry",
-							"text"
-						),
-						tlp: resolveFileToken(
-							argv["updates-tlp"] as string | undefined,
-							"updates-tlp",
-							"text"
-						),
 					},
-				});
+					[["updates", "raw", "data"]]
+				);
 				const result = await withProgress(`Updating`, async () =>
 					client.send(operation, { body: bodyData, account_id: accountId })
 				);

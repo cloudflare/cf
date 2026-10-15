@@ -11,7 +11,7 @@ import {
 	getAccountId,
 	resolveAccountIdSilent,
 } from "#lib/auth.js";
-import { compactBody, parseBody } from "#lib/body-parser.js";
+import { compactBody, parseBody, parseJsonMap } from "#lib/body-parser.js";
 import { formatDryRun } from "#lib/dry-run.js";
 import { resolveFileToken } from "#lib/input-validation.js";
 import { LOCAL_ACCOUNT_ID } from "#lib/local.js";
@@ -29,6 +29,11 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			type: "string",
 			description: "Flagship app ID returned when the app was created.",
 			demandOption: true,
+		})
+		.option("context", {
+			type: "string",
+			description:
+				"Evaluation attributes keyed by name. Values may be any JSON value; the context supports up to 100 entries and 32 KB. Provide as a JSON object or @path/to/file.json.",
 		})
 		.option("flag-key", {
 			type: "string",
@@ -72,13 +77,17 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						body:
 							argv.body !== undefined
 								? parseBody(argv.body)
-								: compactBody({
-										flagKey: resolveFileToken(
-											argv["flag-key"] as string | undefined,
-											"flag-key",
-											"text"
-										),
-									}),
+								: compactBody(
+										{
+											context: parseJsonMap(argv["context"], "context"),
+											flagKey: resolveFileToken(
+												argv["flag-key"] as string | undefined,
+												"flag-key",
+												"text"
+											),
+										},
+										[["context"]]
+									),
 					});
 					return;
 				}
@@ -106,13 +115,17 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				}
 
 				// Assemble request body from individual flags
-				const bodyData = compactBody({
-					flagKey: resolveFileToken(
-						argv["flag-key"] as string | undefined,
-						"flag-key",
-						"text"
-					),
-				});
+				const bodyData = compactBody(
+					{
+						context: parseJsonMap(argv["context"], "context"),
+						flagKey: resolveFileToken(
+							argv["flag-key"] as string | undefined,
+							"flag-key",
+							"text"
+						),
+					},
+					[["context"]]
+				);
 				const result = await withProgress(`Creating`, async () =>
 					client.send(operation, {
 						body: bodyData,

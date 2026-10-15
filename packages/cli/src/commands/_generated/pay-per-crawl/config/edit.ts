@@ -7,7 +7,7 @@ import type { ArgClassification } from "#lib/telemetry/index.js";
  */
 import type { Argv, CommandModule } from "yargs";
 import { createCommandClient, getZoneId } from "#lib/auth.js";
-import { compactBody, parseBody } from "#lib/body-parser.js";
+import { compactBody, parseBody, parseJsonMap } from "#lib/body-parser.js";
 import { formatDryRun } from "#lib/dry-run.js";
 import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
@@ -18,6 +18,11 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.usage(
 			"$0 pay-per-crawl config edit\n\nChanges the pay-per-crawl config for a zone."
 		)
+		.option("bot-overrides", {
+			type: "string",
+			description:
+				"The bot_overrides field. Provide as a JSON object or @path/to/file.json.",
+		})
 		.option("enabled", { type: "boolean", description: "The enabled field" })
 		.option("price-usd-microcents", {
 			type: "number",
@@ -63,10 +68,17 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						body:
 							argv.body !== undefined
 								? parseBody(argv.body)
-								: compactBody({
-										enabled: argv["enabled"],
-										price_usd_microcents: argv["price-usd-microcents"],
-									}),
+								: compactBody(
+										{
+											bot_overrides: parseJsonMap(
+												argv["bot-overrides"],
+												"bot-overrides"
+											),
+											enabled: argv["enabled"],
+											price_usd_microcents: argv["price-usd-microcents"],
+										},
+										[["bot_overrides"]]
+									),
 					});
 					return;
 				}
@@ -86,10 +98,14 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				}
 
 				// Assemble request body from individual flags
-				const bodyData = compactBody({
-					enabled: argv["enabled"],
-					price_usd_microcents: argv["price-usd-microcents"],
-				});
+				const bodyData = compactBody(
+					{
+						bot_overrides: parseJsonMap(argv["bot-overrides"], "bot-overrides"),
+						enabled: argv["enabled"],
+						price_usd_microcents: argv["price-usd-microcents"],
+					},
+					[["bot_overrides"]]
+				);
 				const result = await withProgress(`Updating`, async () =>
 					client.send(operation, { body: bodyData, zone_id: zoneId })
 				);

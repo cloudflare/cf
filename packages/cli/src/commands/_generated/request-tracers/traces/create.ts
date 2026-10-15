@@ -11,7 +11,7 @@ import {
 	getAccountId,
 	resolveAccountIdSilent,
 } from "#lib/auth.js";
-import { compactBody, parseBody } from "#lib/body-parser.js";
+import { compactBody, parseBody, parseJsonMap } from "#lib/body-parser.js";
 import { formatDryRun } from "#lib/dry-run.js";
 import { resolveFileToken } from "#lib/input-validation.js";
 import { LOCAL_ACCOUNT_ID } from "#lib/local.js";
@@ -28,6 +28,11 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("body-base64", {
 			type: "string",
 			description: "Base64 encoded request body",
+		})
+		.option("body-json", {
+			type: "string",
+			description:
+				"Arbitrary json as request body. Provide as a JSON object or @path/to/file.json.",
 		})
 		.option("body-plain-text", {
 			type: "string",
@@ -86,6 +91,16 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			type: "number",
 			description:
 				"Threat score used for evaluating tracing request processing",
+		})
+		.option("cookies", {
+			type: "string",
+			description:
+				"Cookies added to tracing request. Provide as a JSON object or @path/to/file.json.",
+		})
+		.option("headers", {
+			type: "string",
+			description:
+				"Headers added to tracing request. Provide as a JSON object or @path/to/file.json.",
 		})
 		.option("method", {
 			type: "string",
@@ -147,89 +162,99 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						body:
 							argv.body !== undefined
 								? parseBody(argv.body)
-								: compactBody({
-										body: {
-											base64: resolveFileToken(
-												argv["body-base64"] as string | undefined,
-												"body-base64",
-												"text"
-											),
-											plain_text: resolveFileToken(
-												argv["body-plain-text"] as string | undefined,
-												"body-plain-text",
-												"text"
-											),
-										},
-										context: {
-											bot_score: argv["context-bot-score"],
-											geoloc: {
-												city: resolveFileToken(
-													argv["context-geoloc-city"] as string | undefined,
-													"context-geoloc-city",
+								: compactBody(
+										{
+											body: {
+												base64: resolveFileToken(
+													argv["body-base64"] as string | undefined,
+													"body-base64",
 													"text"
 												),
-												continent: resolveFileToken(
-													argv["context-geoloc-continent"] as
-														| string
-														| undefined,
-													"context-geoloc-continent",
-													"text"
-												),
-												is_eu_country: argv["context-geoloc-is-eu-country"],
-												iso_code: resolveFileToken(
-													argv["context-geoloc-iso-code"] as string | undefined,
-													"context-geoloc-iso-code",
-													"text"
-												),
-												latitude: argv["context-geoloc-latitude"],
-												longitude: argv["context-geoloc-longitude"],
-												postal_code: resolveFileToken(
-													argv["context-geoloc-postal-code"] as
-														| string
-														| undefined,
-													"context-geoloc-postal-code",
-													"text"
-												),
-												region_code: resolveFileToken(
-													argv["context-geoloc-region-code"] as
-														| string
-														| undefined,
-													"context-geoloc-region-code",
-													"text"
-												),
-												subdivision_2_iso_code: resolveFileToken(
-													argv["context-geoloc-subdivision-2-iso-code"] as
-														| string
-														| undefined,
-													"context-geoloc-subdivision-2-iso-code",
-													"text"
-												),
-												timezone: resolveFileToken(
-													argv["context-geoloc-timezone"] as string | undefined,
-													"context-geoloc-timezone",
+												json: parseJsonMap(argv["body-json"], "body-json"),
+												plain_text: resolveFileToken(
+													argv["body-plain-text"] as string | undefined,
+													"body-plain-text",
 													"text"
 												),
 											},
-											skip_challenge: argv["context-skip-challenge"],
-											threat_score: argv["context-threat-score"],
+											context: {
+												bot_score: argv["context-bot-score"],
+												geoloc: {
+													city: resolveFileToken(
+														argv["context-geoloc-city"] as string | undefined,
+														"context-geoloc-city",
+														"text"
+													),
+													continent: resolveFileToken(
+														argv["context-geoloc-continent"] as
+															| string
+															| undefined,
+														"context-geoloc-continent",
+														"text"
+													),
+													is_eu_country: argv["context-geoloc-is-eu-country"],
+													iso_code: resolveFileToken(
+														argv["context-geoloc-iso-code"] as
+															| string
+															| undefined,
+														"context-geoloc-iso-code",
+														"text"
+													),
+													latitude: argv["context-geoloc-latitude"],
+													longitude: argv["context-geoloc-longitude"],
+													postal_code: resolveFileToken(
+														argv["context-geoloc-postal-code"] as
+															| string
+															| undefined,
+														"context-geoloc-postal-code",
+														"text"
+													),
+													region_code: resolveFileToken(
+														argv["context-geoloc-region-code"] as
+															| string
+															| undefined,
+														"context-geoloc-region-code",
+														"text"
+													),
+													subdivision_2_iso_code: resolveFileToken(
+														argv["context-geoloc-subdivision-2-iso-code"] as
+															| string
+															| undefined,
+														"context-geoloc-subdivision-2-iso-code",
+														"text"
+													),
+													timezone: resolveFileToken(
+														argv["context-geoloc-timezone"] as
+															| string
+															| undefined,
+														"context-geoloc-timezone",
+														"text"
+													),
+												},
+												skip_challenge: argv["context-skip-challenge"],
+												threat_score: argv["context-threat-score"],
+											},
+											cookies: parseJsonMap(argv["cookies"], "cookies"),
+											headers: parseJsonMap(argv["headers"], "headers"),
+											method: resolveFileToken(
+												argv["method"] as string | undefined,
+												"method",
+												"text"
+											),
+											protocol: resolveFileToken(
+												argv["protocol"] as string | undefined,
+												"protocol",
+												"text"
+											),
+											skip_response: argv["skip-response"],
+											url: resolveFileToken(
+												argv["url"] as string | undefined,
+												"url",
+												"text"
+											),
 										},
-										method: resolveFileToken(
-											argv["method"] as string | undefined,
-											"method",
-											"text"
-										),
-										protocol: resolveFileToken(
-											argv["protocol"] as string | undefined,
-											"protocol",
-											"text"
-										),
-										skip_response: argv["skip-response"],
-										url: resolveFileToken(
-											argv["url"] as string | undefined,
-											"url",
-											"text"
-										),
-									}),
+										[["body", "json"], ["cookies"], ["headers"]]
+									),
 					});
 					return;
 				}
@@ -259,83 +284,89 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				}
 
 				// Assemble request body from individual flags
-				const bodyData = compactBody({
-					body: {
-						base64: resolveFileToken(
-							argv["body-base64"] as string | undefined,
-							"body-base64",
-							"text"
-						),
-						plain_text: resolveFileToken(
-							argv["body-plain-text"] as string | undefined,
-							"body-plain-text",
-							"text"
-						),
-					},
-					context: {
-						bot_score: argv["context-bot-score"],
-						geoloc: {
-							city: resolveFileToken(
-								argv["context-geoloc-city"] as string | undefined,
-								"context-geoloc-city",
+				const bodyData = compactBody(
+					{
+						body: {
+							base64: resolveFileToken(
+								argv["body-base64"] as string | undefined,
+								"body-base64",
 								"text"
 							),
-							continent: resolveFileToken(
-								argv["context-geoloc-continent"] as string | undefined,
-								"context-geoloc-continent",
-								"text"
-							),
-							is_eu_country: argv["context-geoloc-is-eu-country"],
-							iso_code: resolveFileToken(
-								argv["context-geoloc-iso-code"] as string | undefined,
-								"context-geoloc-iso-code",
-								"text"
-							),
-							latitude: argv["context-geoloc-latitude"],
-							longitude: argv["context-geoloc-longitude"],
-							postal_code: resolveFileToken(
-								argv["context-geoloc-postal-code"] as string | undefined,
-								"context-geoloc-postal-code",
-								"text"
-							),
-							region_code: resolveFileToken(
-								argv["context-geoloc-region-code"] as string | undefined,
-								"context-geoloc-region-code",
-								"text"
-							),
-							subdivision_2_iso_code: resolveFileToken(
-								argv["context-geoloc-subdivision-2-iso-code"] as
-									| string
-									| undefined,
-								"context-geoloc-subdivision-2-iso-code",
-								"text"
-							),
-							timezone: resolveFileToken(
-								argv["context-geoloc-timezone"] as string | undefined,
-								"context-geoloc-timezone",
+							json: parseJsonMap(argv["body-json"], "body-json"),
+							plain_text: resolveFileToken(
+								argv["body-plain-text"] as string | undefined,
+								"body-plain-text",
 								"text"
 							),
 						},
-						skip_challenge: argv["context-skip-challenge"],
-						threat_score: argv["context-threat-score"],
+						context: {
+							bot_score: argv["context-bot-score"],
+							geoloc: {
+								city: resolveFileToken(
+									argv["context-geoloc-city"] as string | undefined,
+									"context-geoloc-city",
+									"text"
+								),
+								continent: resolveFileToken(
+									argv["context-geoloc-continent"] as string | undefined,
+									"context-geoloc-continent",
+									"text"
+								),
+								is_eu_country: argv["context-geoloc-is-eu-country"],
+								iso_code: resolveFileToken(
+									argv["context-geoloc-iso-code"] as string | undefined,
+									"context-geoloc-iso-code",
+									"text"
+								),
+								latitude: argv["context-geoloc-latitude"],
+								longitude: argv["context-geoloc-longitude"],
+								postal_code: resolveFileToken(
+									argv["context-geoloc-postal-code"] as string | undefined,
+									"context-geoloc-postal-code",
+									"text"
+								),
+								region_code: resolveFileToken(
+									argv["context-geoloc-region-code"] as string | undefined,
+									"context-geoloc-region-code",
+									"text"
+								),
+								subdivision_2_iso_code: resolveFileToken(
+									argv["context-geoloc-subdivision-2-iso-code"] as
+										| string
+										| undefined,
+									"context-geoloc-subdivision-2-iso-code",
+									"text"
+								),
+								timezone: resolveFileToken(
+									argv["context-geoloc-timezone"] as string | undefined,
+									"context-geoloc-timezone",
+									"text"
+								),
+							},
+							skip_challenge: argv["context-skip-challenge"],
+							threat_score: argv["context-threat-score"],
+						},
+						cookies: parseJsonMap(argv["cookies"], "cookies"),
+						headers: parseJsonMap(argv["headers"], "headers"),
+						method: resolveFileToken(
+							argv["method"] as string | undefined,
+							"method",
+							"text"
+						),
+						protocol: resolveFileToken(
+							argv["protocol"] as string | undefined,
+							"protocol",
+							"text"
+						),
+						skip_response: argv["skip-response"],
+						url: resolveFileToken(
+							argv["url"] as string | undefined,
+							"url",
+							"text"
+						),
 					},
-					method: resolveFileToken(
-						argv["method"] as string | undefined,
-						"method",
-						"text"
-					),
-					protocol: resolveFileToken(
-						argv["protocol"] as string | undefined,
-						"protocol",
-						"text"
-					),
-					skip_response: argv["skip-response"],
-					url: resolveFileToken(
-						argv["url"] as string | undefined,
-						"url",
-						"text"
-					),
-				});
+					[["body", "json"], ["cookies"], ["headers"]]
+				);
 				const result = await withProgress(`Creating`, async () =>
 					client.send(operation, { body: bodyData, account_id: accountId })
 				);

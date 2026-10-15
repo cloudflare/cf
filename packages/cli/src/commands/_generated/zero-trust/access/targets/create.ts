@@ -11,7 +11,7 @@ import {
 	getAccountId,
 	resolveAccountIdSilent,
 } from "#lib/auth.js";
-import { compactBody, parseBody } from "#lib/body-parser.js";
+import { compactBody, parseBody, parseJsonMap } from "#lib/body-parser.js";
 import { formatDryRun } from "#lib/dry-run.js";
 import { resolveFileToken } from "#lib/input-validation.js";
 import { LOCAL_ACCOUNT_ID } from "#lib/local.js";
@@ -47,6 +47,11 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			type: "string",
 			description:
 				"(optional) Private virtual network identifier for the target. If omitted, the default virtual network ID will be used.",
+		})
+		.option("tags", {
+			type: "string",
+			description:
+				"Optional tags to associate with the target. Keys and values are\nuser-defined strings. Provide as a JSON object or @path/to/file.json.",
 		})
 		.option("dry-run", {
 			type: "boolean",
@@ -86,43 +91,47 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						body:
 							argv.body !== undefined
 								? parseBody(argv.body)
-								: compactBody({
-										hostname: resolveFileToken(
-											argv["hostname"] as string | undefined,
-											"hostname",
-											"text"
-										),
-										ip: {
-											ipv4: {
-												ip_addr: resolveFileToken(
-													argv["ip-ipv4-ip-addr"] as string | undefined,
-													"ip-ipv4-ip-addr",
-													"text"
-												),
-												virtual_network_id: resolveFileToken(
-													argv["ip-ipv4-virtual-network-id"] as
-														| string
-														| undefined,
-													"ip-ipv4-virtual-network-id",
-													"text"
-												),
+								: compactBody(
+										{
+											hostname: resolveFileToken(
+												argv["hostname"] as string | undefined,
+												"hostname",
+												"text"
+											),
+											ip: {
+												ipv4: {
+													ip_addr: resolveFileToken(
+														argv["ip-ipv4-ip-addr"] as string | undefined,
+														"ip-ipv4-ip-addr",
+														"text"
+													),
+													virtual_network_id: resolveFileToken(
+														argv["ip-ipv4-virtual-network-id"] as
+															| string
+															| undefined,
+														"ip-ipv4-virtual-network-id",
+														"text"
+													),
+												},
+												ipv6: {
+													ip_addr: resolveFileToken(
+														argv["ip-ipv6-ip-addr"] as string | undefined,
+														"ip-ipv6-ip-addr",
+														"text"
+													),
+													virtual_network_id: resolveFileToken(
+														argv["ip-ipv6-virtual-network-id"] as
+															| string
+															| undefined,
+														"ip-ipv6-virtual-network-id",
+														"text"
+													),
+												},
 											},
-											ipv6: {
-												ip_addr: resolveFileToken(
-													argv["ip-ipv6-ip-addr"] as string | undefined,
-													"ip-ipv6-ip-addr",
-													"text"
-												),
-												virtual_network_id: resolveFileToken(
-													argv["ip-ipv6-virtual-network-id"] as
-														| string
-														| undefined,
-													"ip-ipv6-virtual-network-id",
-													"text"
-												),
-											},
+											tags: parseJsonMap(argv["tags"], "tags"),
 										},
-									}),
+										[["tags"]]
+									),
 					});
 					return;
 				}
@@ -146,39 +155,43 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				}
 
 				// Assemble request body from individual flags
-				const bodyData = compactBody({
-					hostname: resolveFileToken(
-						argv["hostname"] as string | undefined,
-						"hostname",
-						"text"
-					),
-					ip: {
-						ipv4: {
-							ip_addr: resolveFileToken(
-								argv["ip-ipv4-ip-addr"] as string | undefined,
-								"ip-ipv4-ip-addr",
-								"text"
-							),
-							virtual_network_id: resolveFileToken(
-								argv["ip-ipv4-virtual-network-id"] as string | undefined,
-								"ip-ipv4-virtual-network-id",
-								"text"
-							),
+				const bodyData = compactBody(
+					{
+						hostname: resolveFileToken(
+							argv["hostname"] as string | undefined,
+							"hostname",
+							"text"
+						),
+						ip: {
+							ipv4: {
+								ip_addr: resolveFileToken(
+									argv["ip-ipv4-ip-addr"] as string | undefined,
+									"ip-ipv4-ip-addr",
+									"text"
+								),
+								virtual_network_id: resolveFileToken(
+									argv["ip-ipv4-virtual-network-id"] as string | undefined,
+									"ip-ipv4-virtual-network-id",
+									"text"
+								),
+							},
+							ipv6: {
+								ip_addr: resolveFileToken(
+									argv["ip-ipv6-ip-addr"] as string | undefined,
+									"ip-ipv6-ip-addr",
+									"text"
+								),
+								virtual_network_id: resolveFileToken(
+									argv["ip-ipv6-virtual-network-id"] as string | undefined,
+									"ip-ipv6-virtual-network-id",
+									"text"
+								),
+							},
 						},
-						ipv6: {
-							ip_addr: resolveFileToken(
-								argv["ip-ipv6-ip-addr"] as string | undefined,
-								"ip-ipv6-ip-addr",
-								"text"
-							),
-							virtual_network_id: resolveFileToken(
-								argv["ip-ipv6-virtual-network-id"] as string | undefined,
-								"ip-ipv6-virtual-network-id",
-								"text"
-							),
-						},
+						tags: parseJsonMap(argv["tags"], "tags"),
 					},
-				});
+					[["tags"]]
+				);
 				const result = await withProgress(`Creating`, async () =>
 					client.send(operation, { body: bodyData, account_id: accountId })
 				);

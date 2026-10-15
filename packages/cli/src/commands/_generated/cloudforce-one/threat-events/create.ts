@@ -7,7 +7,12 @@ import type { ArgClassification } from "#lib/telemetry/index.js";
  */
 import type { Argv, CommandModule } from "yargs";
 import { createCommandClient } from "#lib/auth.js";
-import { compactBody, parseBody, parseObjectArray } from "#lib/body-parser.js";
+import {
+	compactBody,
+	parseBody,
+	parseJsonMap,
+	parseObjectArray,
+} from "#lib/body-parser.js";
 import { formatDryRun } from "#lib/dry-run.js";
 import { resolveFileToken } from "#lib/input-validation.js";
 import { formatOutput } from "#lib/output.js";
@@ -52,6 +57,11 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"Array of indicators for this event. Supports multiple indicators per event for complex scenarios. Provide as a JSON array of objects or @path/to/file.json.",
 		})
 		.option("insight", { type: "string", description: "The insight field" })
+		.option("raw-data", {
+			type: "string",
+			description:
+				"The raw.data field. Provide as a JSON object or @path/to/file.json.",
+		})
 		.option("raw-source", {
 			type: "string",
 			description: "The raw.source field",
@@ -155,108 +165,116 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						bodyKind: "json",
 						body:
 							argv.body !== undefined
-								? parseBody(argv.body)
-								: compactBody({
-										accountId: argv["account-id-body"],
-										attacker: resolveFileToken(
-											argv["attacker"] as string | undefined,
-											"attacker",
-											"text"
-										),
-										attackerCountry: resolveFileToken(
-											argv["attacker-country"] as string | undefined,
-											"attacker-country",
-											"text"
-										),
-										category: resolveFileToken(
-											argv["category"] as string | undefined,
-											"category",
-											"text"
-										),
-										datasetId: resolveFileToken(
-											argv["dataset-id"] as string | undefined,
-											"dataset-id",
-											"text"
-										),
-										date: resolveFileToken(
-											argv["date"] as string | undefined,
-											"date",
-											"text"
-										),
-										event: resolveFileToken(
-											argv["event"] as string | undefined,
-											"event",
-											"text"
-										),
-										indicator: resolveFileToken(
-											argv["indicator"] as string | undefined,
-											"indicator",
-											"text"
-										),
-										indicatorType: resolveFileToken(
-											argv["indicator-type"] as string | undefined,
-											"indicator-type",
-											"text"
-										),
-										indicators: parseObjectArray(
-											argv["indicators"],
-											"indicators"
-										),
-										insight: resolveFileToken(
-											argv["insight"] as string | undefined,
-											"insight",
-											"text"
-										),
-										raw: {
-											source: resolveFileToken(
-												argv["raw-source"] as string | undefined,
-												"raw-source",
+								? parseBody(argv.body, [
+										{ path: ["raw", "data"], flag: "raw-data" },
+									])
+								: compactBody(
+										{
+											accountId: argv["account-id-body"],
+											attacker: resolveFileToken(
+												argv["attacker"] as string | undefined,
+												"attacker",
+												"text"
+											),
+											attackerCountry: resolveFileToken(
+												argv["attacker-country"] as string | undefined,
+												"attacker-country",
+												"text"
+											),
+											category: resolveFileToken(
+												argv["category"] as string | undefined,
+												"category",
+												"text"
+											),
+											datasetId: resolveFileToken(
+												argv["dataset-id"] as string | undefined,
+												"dataset-id",
+												"text"
+											),
+											date: resolveFileToken(
+												argv["date"] as string | undefined,
+												"date",
+												"text"
+											),
+											event: resolveFileToken(
+												argv["event"] as string | undefined,
+												"event",
+												"text"
+											),
+											indicator: resolveFileToken(
+												argv["indicator"] as string | undefined,
+												"indicator",
+												"text"
+											),
+											indicatorType: resolveFileToken(
+												argv["indicator-type"] as string | undefined,
+												"indicator-type",
+												"text"
+											),
+											indicators: parseObjectArray(
+												argv["indicators"],
+												"indicators"
+											),
+											insight: resolveFileToken(
+												argv["insight"] as string | undefined,
+												"insight",
+												"text"
+											),
+											raw: {
+												data: parseJsonMap(argv["raw-data"], "raw-data", true),
+												source: resolveFileToken(
+													argv["raw-source"] as string | undefined,
+													"raw-source",
+													"text"
+												),
+												tlp: resolveFileToken(
+													argv["raw-tlp"] as string | undefined,
+													"raw-tlp",
+													"text"
+												),
+											},
+											source: {
+												resourceId: resolveFileToken(
+													argv["source-resource-id"] as string | undefined,
+													"source-resource-id",
+													"text"
+												),
+												resourceType: argv["source-resource-type"],
+												system: argv["source-system"],
+												title: resolveFileToken(
+													argv["source-title"] as string | undefined,
+													"source-title",
+													"text"
+												),
+											},
+											tags: argv["tags"],
+											targetCountry: resolveFileToken(
+												argv["target-country"] as string | undefined,
+												"target-country",
+												"text"
+											),
+											targetIndustry: resolveFileToken(
+												argv["target-industry"] as string | undefined,
+												"target-industry",
 												"text"
 											),
 											tlp: resolveFileToken(
-												argv["raw-tlp"] as string | undefined,
-												"raw-tlp",
+												argv["tlp"] as string | undefined,
+												"tlp",
 												"text"
 											),
 										},
-										source: {
-											resourceId: resolveFileToken(
-												argv["source-resource-id"] as string | undefined,
-												"source-resource-id",
-												"text"
-											),
-											resourceType: argv["source-resource-type"],
-											system: argv["source-system"],
-											title: resolveFileToken(
-												argv["source-title"] as string | undefined,
-												"source-title",
-												"text"
-											),
-										},
-										tags: argv["tags"],
-										targetCountry: resolveFileToken(
-											argv["target-country"] as string | undefined,
-											"target-country",
-											"text"
-										),
-										targetIndustry: resolveFileToken(
-											argv["target-industry"] as string | undefined,
-											"target-industry",
-											"text"
-										),
-										tlp: resolveFileToken(
-											argv["tlp"] as string | undefined,
-											"tlp",
-											"text"
-										),
-									}),
+										[["raw", "data"]]
+									),
 					});
 					return;
 				}
 				const client = await createCommandClient(argv);
 
 				if (argv.body) {
-					const bodyData = parseBody(argv.body);
+					const bodyData = parseBody(argv.body, [
+						{ path: ["raw", "data"], flag: "raw-data" },
+					]);
 					const result = await withProgress(`Creating`, async () =>
 						client.send(operation, {
 							body: bodyData,
@@ -281,102 +299,111 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						"The event field"
 					);
 				}
+				if (argv["raw-data"] === undefined) {
+					throw new Error(
+						"--raw-data is required (or pass --body with this field set)."
+					);
+				}
 				if (argv["tlp"] === undefined) {
 					argv["tlp"] = await promptForRequiredField("tlp", "The tlp field");
 				}
 
 				// Assemble request body from individual flags
-				const bodyData = compactBody({
-					accountId: argv["account-id-body"],
-					attacker: resolveFileToken(
-						argv["attacker"] as string | undefined,
-						"attacker",
-						"text"
-					),
-					attackerCountry: resolveFileToken(
-						argv["attacker-country"] as string | undefined,
-						"attacker-country",
-						"text"
-					),
-					category: resolveFileToken(
-						argv["category"] as string | undefined,
-						"category",
-						"text"
-					),
-					datasetId: resolveFileToken(
-						argv["dataset-id"] as string | undefined,
-						"dataset-id",
-						"text"
-					),
-					date: resolveFileToken(
-						argv["date"] as string | undefined,
-						"date",
-						"text"
-					),
-					event: resolveFileToken(
-						argv["event"] as string | undefined,
-						"event",
-						"text"
-					),
-					indicator: resolveFileToken(
-						argv["indicator"] as string | undefined,
-						"indicator",
-						"text"
-					),
-					indicatorType: resolveFileToken(
-						argv["indicator-type"] as string | undefined,
-						"indicator-type",
-						"text"
-					),
-					indicators: parseObjectArray(argv["indicators"], "indicators"),
-					insight: resolveFileToken(
-						argv["insight"] as string | undefined,
-						"insight",
-						"text"
-					),
-					raw: {
-						source: resolveFileToken(
-							argv["raw-source"] as string | undefined,
-							"raw-source",
+				const bodyData = compactBody(
+					{
+						accountId: argv["account-id-body"],
+						attacker: resolveFileToken(
+							argv["attacker"] as string | undefined,
+							"attacker",
+							"text"
+						),
+						attackerCountry: resolveFileToken(
+							argv["attacker-country"] as string | undefined,
+							"attacker-country",
+							"text"
+						),
+						category: resolveFileToken(
+							argv["category"] as string | undefined,
+							"category",
+							"text"
+						),
+						datasetId: resolveFileToken(
+							argv["dataset-id"] as string | undefined,
+							"dataset-id",
+							"text"
+						),
+						date: resolveFileToken(
+							argv["date"] as string | undefined,
+							"date",
+							"text"
+						),
+						event: resolveFileToken(
+							argv["event"] as string | undefined,
+							"event",
+							"text"
+						),
+						indicator: resolveFileToken(
+							argv["indicator"] as string | undefined,
+							"indicator",
+							"text"
+						),
+						indicatorType: resolveFileToken(
+							argv["indicator-type"] as string | undefined,
+							"indicator-type",
+							"text"
+						),
+						indicators: parseObjectArray(argv["indicators"], "indicators"),
+						insight: resolveFileToken(
+							argv["insight"] as string | undefined,
+							"insight",
+							"text"
+						),
+						raw: {
+							data: parseJsonMap(argv["raw-data"], "raw-data", true),
+							source: resolveFileToken(
+								argv["raw-source"] as string | undefined,
+								"raw-source",
+								"text"
+							),
+							tlp: resolveFileToken(
+								argv["raw-tlp"] as string | undefined,
+								"raw-tlp",
+								"text"
+							),
+						},
+						source: {
+							resourceId: resolveFileToken(
+								argv["source-resource-id"] as string | undefined,
+								"source-resource-id",
+								"text"
+							),
+							resourceType: argv["source-resource-type"],
+							system: argv["source-system"],
+							title: resolveFileToken(
+								argv["source-title"] as string | undefined,
+								"source-title",
+								"text"
+							),
+						},
+						tags: argv["tags"],
+						targetCountry: resolveFileToken(
+							argv["target-country"] as string | undefined,
+							"target-country",
+							"text"
+						),
+						targetIndustry: resolveFileToken(
+							argv["target-industry"] as string | undefined,
+							"target-industry",
 							"text"
 						),
 						tlp: resolveFileToken(
-							argv["raw-tlp"] as string | undefined,
-							"raw-tlp",
+							argv["tlp"] as string | undefined,
+							"tlp",
 							"text"
 						),
 					},
-					source: {
-						resourceId: resolveFileToken(
-							argv["source-resource-id"] as string | undefined,
-							"source-resource-id",
-							"text"
-						),
-						resourceType: argv["source-resource-type"],
-						system: argv["source-system"],
-						title: resolveFileToken(
-							argv["source-title"] as string | undefined,
-							"source-title",
-							"text"
-						),
-					},
-					tags: argv["tags"],
-					targetCountry: resolveFileToken(
-						argv["target-country"] as string | undefined,
-						"target-country",
-						"text"
-					),
-					targetIndustry: resolveFileToken(
-						argv["target-industry"] as string | undefined,
-						"target-industry",
-						"text"
-					),
-					tlp: resolveFileToken(
-						argv["tlp"] as string | undefined,
-						"tlp",
-						"text"
-					),
-				});
+					[["raw", "data"]]
+				);
 				const result = await withProgress(`Creating`, async () =>
 					client.send(operation, {
 						body: bodyData,

@@ -11,7 +11,7 @@ import {
 	getAccountId,
 	resolveAccountIdSilent,
 } from "#lib/auth.js";
-import { compactBody, parseBody } from "#lib/body-parser.js";
+import { compactBody, parseBody, parseJsonMap } from "#lib/body-parser.js";
 import { formatDryRun } from "#lib/dry-run.js";
 import { resolveFileToken } from "#lib/input-validation.js";
 import { LOCAL_ACCOUNT_ID } from "#lib/local.js";
@@ -33,6 +33,11 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			type: "string",
 			description: "Event UUID.",
 			demandOption: true,
+		})
+		.option("data", {
+			type: "string",
+			description:
+				"The data field. Provide as a JSON object or @path/to/file.json.",
 		})
 		.option("source", { type: "string", description: "The source field" })
 		.option("tlp", { type: "string", description: "The tlp field" })
@@ -77,18 +82,22 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						body:
 							argv.body !== undefined
 								? parseBody(argv.body)
-								: compactBody({
-										source: resolveFileToken(
-											argv["source"] as string | undefined,
-											"source",
-											"text"
-										),
-										tlp: resolveFileToken(
-											argv["tlp"] as string | undefined,
-											"tlp",
-											"text"
-										),
-									}),
+								: compactBody(
+										{
+											data: parseJsonMap(argv["data"], "data"),
+											source: resolveFileToken(
+												argv["source"] as string | undefined,
+												"source",
+												"text"
+											),
+											tlp: resolveFileToken(
+												argv["tlp"] as string | undefined,
+												"tlp",
+												"text"
+											),
+										},
+										[["data"]]
+									),
 					});
 					return;
 				}
@@ -111,18 +120,22 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				}
 
 				// Assemble request body from individual flags
-				const bodyData = compactBody({
-					source: resolveFileToken(
-						argv["source"] as string | undefined,
-						"source",
-						"text"
-					),
-					tlp: resolveFileToken(
-						argv["tlp"] as string | undefined,
-						"tlp",
-						"text"
-					),
-				});
+				const bodyData = compactBody(
+					{
+						data: parseJsonMap(argv["data"], "data"),
+						source: resolveFileToken(
+							argv["source"] as string | undefined,
+							"source",
+							"text"
+						),
+						tlp: resolveFileToken(
+							argv["tlp"] as string | undefined,
+							"tlp",
+							"text"
+						),
+					},
+					[["data"]]
+				);
 				const result = await withProgress(`Updating`, async () =>
 					client.send(operation, {
 						body: bodyData,

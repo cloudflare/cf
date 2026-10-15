@@ -11,7 +11,7 @@ import {
 	getAccountId,
 	resolveAccountIdSilent,
 } from "#lib/auth.js";
-import { compactBody, parseBody } from "#lib/body-parser.js";
+import { compactBody, parseBody, parseJsonMap } from "#lib/body-parser.js";
 import { formatDryRun } from "#lib/dry-run.js";
 import { resolveFileToken } from "#lib/input-validation.js";
 import { LOCAL_ACCOUNT_ID } from "#lib/local.js";
@@ -32,6 +32,11 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("creator", {
 			type: "string",
 			description: "Can set the creator field with an internal user ID.",
+		})
+		.option("metadata", {
+			type: "string",
+			description:
+				"User modifiable key-value store. Can be used for keeping references to another system of record for managing images. No change if not specified. Provide as a JSON object or @path/to/file.json.",
 		})
 		.option("require-signed-urls", {
 			type: "boolean",
@@ -76,14 +81,18 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						body:
 							argv.body !== undefined
 								? parseBody(argv.body)
-								: compactBody({
-										creator: resolveFileToken(
-											argv["creator"] as string | undefined,
-											"creator",
-											"text"
-										),
-										requireSignedURLs: argv["require-signed-urls"],
-									}),
+								: compactBody(
+										{
+											creator: resolveFileToken(
+												argv["creator"] as string | undefined,
+												"creator",
+												"text"
+											),
+											metadata: parseJsonMap(argv["metadata"], "metadata"),
+											requireSignedURLs: argv["require-signed-urls"],
+										},
+										[["metadata"]]
+									),
 					});
 					return;
 				}
@@ -105,14 +114,18 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				}
 
 				// Assemble request body from individual flags
-				const bodyData = compactBody({
-					creator: resolveFileToken(
-						argv["creator"] as string | undefined,
-						"creator",
-						"text"
-					),
-					requireSignedURLs: argv["require-signed-urls"],
-				});
+				const bodyData = compactBody(
+					{
+						creator: resolveFileToken(
+							argv["creator"] as string | undefined,
+							"creator",
+							"text"
+						),
+						metadata: parseJsonMap(argv["metadata"], "metadata"),
+						requireSignedURLs: argv["require-signed-urls"],
+					},
+					[["metadata"]]
+				);
 				const result = await withProgress(`Updating`, async () =>
 					client.send(operation, {
 						body: bodyData,

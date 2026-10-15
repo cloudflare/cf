@@ -14,6 +14,7 @@ import {
 import {
 	compactBody,
 	parseBody,
+	parseJsonMap,
 	parseObjectArray,
 	setNestedValue,
 } from "#lib/body-parser.js";
@@ -55,6 +56,11 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			type: "boolean",
 			description: "The ai_search_options.cache.enabled field",
 		})
+		.option("ai-search-options-custom-metadata", {
+			type: "string",
+			description:
+				"Metadata added to AI Gateway logs for requests this operation triggers. Accepts up to 2 string, number, or boolean entries. Reserved keys: 'ai-search', 'task', 'origin', and any key beginning with 'cf.'. Provide as a JSON object or @path/to/file.json.",
+		})
 		.option("ai-search-options-instance-ids", {
 			type: "string",
 			array: true,
@@ -90,6 +96,11 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			type: "number",
 			description: "The ai_search_options.retrieval.context_expansion field",
 			default: 0,
+		})
+		.option("ai-search-options-retrieval-filters", {
+			type: "string",
+			description:
+				"The ai_search_options.retrieval.filters field. Provide as a JSON object or @path/to/file.json.",
 		})
 		.option("ai-search-options-retrieval-fusion-method", {
 			type: "string",
@@ -196,66 +207,84 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						body:
 							argv.body !== undefined
 								? parseBody(argv.body)
-								: compactBody({
-										ai_search_options: {
-											cache: {
-												cache_threshold:
-													argv["ai-search-options-cache-cache-threshold"],
-												enabled: argv["ai-search-options-cache-enabled"],
-											},
-											instance_ids: argv["ai-search-options-instance-ids"],
-											query_rewrite: {
-												enabled:
-													argv["ai-search-options-query-rewrite-enabled"],
-												model: resolveFileToken(
-													argv["ai-search-options-query-rewrite-model"] as
-														| string
-														| undefined,
-													"ai-search-options-query-rewrite-model",
-													"text"
+								: compactBody(
+										{
+											ai_search_options: {
+												cache: {
+													cache_threshold:
+														argv["ai-search-options-cache-cache-threshold"],
+													enabled: argv["ai-search-options-cache-enabled"],
+												},
+												custom_metadata: parseJsonMap(
+													argv["ai-search-options-custom-metadata"],
+													"ai-search-options-custom-metadata"
 												),
-												rewrite_prompt: resolveFileToken(
-													argv[
-														"ai-search-options-query-rewrite-rewrite-prompt"
-													] as string | undefined,
-													"ai-search-options-query-rewrite-rewrite-prompt",
-													"text"
-												),
+												instance_ids: argv["ai-search-options-instance-ids"],
+												query_rewrite: {
+													enabled:
+														argv["ai-search-options-query-rewrite-enabled"],
+													model: resolveFileToken(
+														argv["ai-search-options-query-rewrite-model"] as
+															| string
+															| undefined,
+														"ai-search-options-query-rewrite-model",
+														"text"
+													),
+													rewrite_prompt: resolveFileToken(
+														argv[
+															"ai-search-options-query-rewrite-rewrite-prompt"
+														] as string | undefined,
+														"ai-search-options-query-rewrite-rewrite-prompt",
+														"text"
+													),
+												},
+												reranking: {
+													enabled: argv["ai-search-options-reranking-enabled"],
+													match_threshold:
+														argv["ai-search-options-reranking-match-threshold"],
+													model: resolveFileToken(
+														argv["ai-search-options-reranking-model"] as
+															| string
+															| undefined,
+														"ai-search-options-reranking-model",
+														"text"
+													),
+												},
+												retrieval: {
+													context_expansion:
+														argv[
+															"ai-search-options-retrieval-context-expansion"
+														],
+													filters: parseJsonMap(
+														argv["ai-search-options-retrieval-filters"],
+														"ai-search-options-retrieval-filters"
+													),
+													fusion_method:
+														argv["ai-search-options-retrieval-fusion-method"],
+													keyword_match_mode:
+														argv[
+															"ai-search-options-retrieval-keyword-match-mode"
+														],
+													match_threshold:
+														argv["ai-search-options-retrieval-match-threshold"],
+													max_num_results:
+														argv["ai-search-options-retrieval-max-num-results"],
+													retrieval_type:
+														argv["ai-search-options-retrieval-retrieval-type"],
+													return_on_failure:
+														argv[
+															"ai-search-options-retrieval-return-on-failure"
+														],
+												},
 											},
-											reranking: {
-												enabled: argv["ai-search-options-reranking-enabled"],
-												match_threshold:
-													argv["ai-search-options-reranking-match-threshold"],
-												model: resolveFileToken(
-													argv["ai-search-options-reranking-model"] as
-														| string
-														| undefined,
-													"ai-search-options-reranking-model",
-													"text"
-												),
-											},
-											retrieval: {
-												context_expansion:
-													argv["ai-search-options-retrieval-context-expansion"],
-												fusion_method:
-													argv["ai-search-options-retrieval-fusion-method"],
-												keyword_match_mode:
-													argv[
-														"ai-search-options-retrieval-keyword-match-mode"
-													],
-												match_threshold:
-													argv["ai-search-options-retrieval-match-threshold"],
-												max_num_results:
-													argv["ai-search-options-retrieval-max-num-results"],
-												retrieval_type:
-													argv["ai-search-options-retrieval-retrieval-type"],
-												return_on_failure:
-													argv["ai-search-options-retrieval-return-on-failure"],
-											},
+											messages: parseObjectArray(argv["messages"], "messages"),
+											query: argv["query"],
 										},
-										messages: parseObjectArray(argv["messages"], "messages"),
-										query: argv["query"],
-									}),
+										[
+											["ai_search_options", "custom_metadata"],
+											["ai_search_options", "retrieval", "filters"],
+										]
+									),
 					});
 					return;
 				}
@@ -295,6 +324,15 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						bodyData,
 						["ai_search_options", "cache", "enabled"],
 						argv["ai-search-options-cache-enabled"]
+					);
+				if (argv["ai-search-options-custom-metadata"] !== undefined)
+					setNestedValue(
+						bodyData,
+						["ai_search_options", "custom_metadata"],
+						parseJsonMap(
+							argv["ai-search-options-custom-metadata"],
+							"ai-search-options-custom-metadata"
+						)
 					);
 				if (argv["ai-search-options-instance-ids"] !== undefined)
 					setNestedValue(
@@ -361,6 +399,15 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						bodyData,
 						["ai_search_options", "retrieval", "context_expansion"],
 						argv["ai-search-options-retrieval-context-expansion"]
+					);
+				if (argv["ai-search-options-retrieval-filters"] !== undefined)
+					setNestedValue(
+						bodyData,
+						["ai_search_options", "retrieval", "filters"],
+						parseJsonMap(
+							argv["ai-search-options-retrieval-filters"],
+							"ai-search-options-retrieval-filters"
+						)
 					);
 				if (argv["ai-search-options-retrieval-fusion-method"] !== undefined)
 					setNestedValue(

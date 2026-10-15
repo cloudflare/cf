@@ -11,7 +11,7 @@ import {
 	getAccountId,
 	resolveAccountIdSilent,
 } from "#lib/auth.js";
-import { compactBody, parseBody } from "#lib/body-parser.js";
+import { compactBody, parseBody, parseJsonMap } from "#lib/body-parser.js";
 import { formatDryRun } from "#lib/dry-run.js";
 import { resolveFileToken } from "#lib/input-validation.js";
 import { LOCAL_ACCOUNT_ID } from "#lib/local.js";
@@ -25,6 +25,11 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.usage(
 			"$0 logpush transformers preview\n\nExecutes a SQL transformer against a single input record and returns the transformed output. This is a stateless endpoint — nothing is persisted."
 		)
+		.option("input", {
+			type: "string",
+			description:
+				"A single log record to transform (JSON object). Provide as a JSON object or @path/to/file.json.",
+		})
 		.option("sql", {
 			type: "string",
 			description:
@@ -67,14 +72,18 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						bodyKind: "json",
 						body:
 							argv.body !== undefined
-								? parseBody(argv.body)
-								: compactBody({
-										sql: resolveFileToken(
-											argv["sql"] as string | undefined,
-											"sql",
-											"text"
-										),
-									}),
+								? parseBody(argv.body, [{ path: ["input"], flag: "input" }])
+								: compactBody(
+										{
+											input: parseJsonMap(argv["input"], "input", true),
+											sql: resolveFileToken(
+												argv["sql"] as string | undefined,
+												"sql",
+												"text"
+											),
+										},
+										[["input"]]
+									),
 					});
 					return;
 				}
@@ -83,12 +92,19 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.accountId = accountId;
 
 				if (argv.body) {
-					const bodyData = parseBody(argv.body);
+					const bodyData = parseBody(argv.body, [
+						{ path: ["input"], flag: "input" },
+					]);
 					const result = await withProgress(`Loading`, async () =>
 						client.send(operation, { body: bodyData, account_id: accountId })
 					);
 					formatOutput(result, { successLabel: `Loaded` });
 					return;
+				}
+				if (argv["input"] === undefined) {
+					throw new Error(
+						"--input is required (or pass --body with this field set)."
+					);
 				}
 				if (argv["sql"] === undefined) {
 					argv["sql"] = await promptForRequiredField(
@@ -98,13 +114,17 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				}
 
 				// Assemble request body from individual flags
-				const bodyData = compactBody({
-					sql: resolveFileToken(
-						argv["sql"] as string | undefined,
-						"sql",
-						"text"
-					),
-				});
+				const bodyData = compactBody(
+					{
+						input: parseJsonMap(argv["input"], "input", true),
+						sql: resolveFileToken(
+							argv["sql"] as string | undefined,
+							"sql",
+							"text"
+						),
+					},
+					[["input"]]
+				);
 				const result = await withProgress(`Loading`, async () =>
 					client.send(operation, { body: bodyData, account_id: accountId })
 				);

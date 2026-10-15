@@ -32,15 +32,15 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		})
 		.option("api-token-id", {
 			type: "string",
-			description: "Cloudflare API token ID.",
+			description: "The cf_api_id field",
 		})
 		.option("api-token", {
 			type: "string",
-			description: "Cloudflare API token value.",
+			description: "The cf_api_key field",
 		})
 		.option("legacy", {
 			type: "boolean",
-			description: "Whether the credential uses the legacy API key format.",
+			description: "The legacy field",
 			default: true,
 		})
 		.option("dry-run", {
@@ -114,13 +114,13 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				if (argv["api-token-id"] === undefined) {
 					argv["api-token-id"] = await promptForRequiredField(
 						"api-token-id",
-						"Cloudflare API token ID."
+						"The cf_api_id field"
 					);
 				}
 				if (argv["api-token"] === undefined) {
 					argv["api-token"] = await promptForRequiredField(
 						"api-token",
-						"Cloudflare API token value.",
+						"The cf_api_key field",
 						{ kind: "secret" }
 					);
 				}

@@ -12,7 +12,7 @@ import {
 	getWorkerName,
 	resolveAccountIdSilent,
 } from "#lib/auth.js";
-import { compactBody, parseBody, parseJsonMap } from "#lib/body-parser.js";
+import { compactBody, parseBody } from "#lib/body-parser.js";
 import { formatDryRun } from "#lib/dry-run.js";
 import { resolveFileToken } from "#lib/input-validation.js";
 import { LOCAL_ACCOUNT_ID } from "#lib/local.js";
@@ -46,11 +46,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			choices: ["secret_text", "secret_key"],
 		})
 		.coerce("type", (value) => resolveFileToken(value, "type", "text"))
-		.option("algorithm", {
-			type: "string",
-			description:
-				"Algorithm-specific key parameters. [Learn more](https://developer.mozilla.org/en-US/docs/Web/API/SubtleCrypto/importKey#algorithm). Provide as a JSON object or @path/to/file.json.",
-		})
 		.option("format", {
 			type: "string",
 			description:
@@ -62,11 +57,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			type: "string",
 			description:
 				'Base64-encoded key data. Required if `format` is "raw", "pkcs8", or "spki".',
-		})
-		.option("key-jwk", {
-			type: "string",
-			description:
-				'Key data in [JSON Web Key](https://developer.mozilla.org/en-US/docs/Web/API/SubtleCrypto/importKey#json_web_key) format. Required if `format` is "jwk". Provide as a JSON object or @path/to/file.json.',
 		})
 		.option("usages", {
 			type: "string",
@@ -83,21 +73,12 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			type: "string",
 			description: "A secret value accessible through a binding.",
 		})
-		.conflicts("text", [
-			"algorithm",
-			"format",
-			"key-base64",
-			"key-jwk",
-			"usages",
-		])
-		.conflicts("algorithm", ["text"])
-		.implies("algorithm", ["format", "usages"])
+		.conflicts("text", ["format", "key-base64", "usages"])
 		.conflicts("format", ["text"])
-		.implies("format", ["algorithm", "usages"])
+		.implies("format", ["usages"])
 		.conflicts("key-base64", ["text"])
-		.conflicts("key-jwk", ["text"])
 		.conflicts("usages", ["text"])
-		.implies("usages", ["algorithm", "format"]);
+		.implies("usages", ["format"]);
 }
 
 type Args = InferArgs<typeof builder>;
@@ -127,28 +108,23 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						body:
 							argv.body !== undefined
 								? parseBody(argv.body)
-								: compactBody(
-										{
-											text: resolveFileToken(
-												argv["text"] as string | undefined,
-												"text",
-												"text"
-											),
-											type: argv["type"],
-											algorithm: parseJsonMap(argv["algorithm"], "algorithm"),
-											format: argv["format"],
-											key_base64: resolveFileToken(
-												argv["key-base64"] as string | undefined,
-												"key-base64",
-												"text"
-											),
-											key_jwk: parseJsonMap(argv["key-jwk"], "key-jwk"),
-											usages: argv["usages"],
-											name: argv["name"],
-										},
-										[["algorithm"], ["key_jwk"]]
-									),
-						sensitiveBodyPaths: [["text"], ["key_base64"], ["key_jwk"]],
+								: compactBody({
+										text: resolveFileToken(
+											argv["text"] as string | undefined,
+											"text",
+											"text"
+										),
+										type: argv["type"],
+										format: argv["format"],
+										key_base64: resolveFileToken(
+											argv["key-base64"] as string | undefined,
+											"key-base64",
+											"text"
+										),
+										usages: argv["usages"],
+										name: argv["name"],
+									}),
+						sensitiveBodyPaths: [["text"], ["key_base64"]],
 					});
 					return;
 				}
@@ -185,46 +161,29 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						{ kind: "secret", question: "Enter value for --text" }
 					);
 				}
-				if (argv["type"] === "secret_key" && argv["algorithm"] === undefined) {
+				if (argv["type"] === "secret_key") {
 					throw new Error(
-						"--algorithm is required (or pass --body with this field set)."
-					);
-				}
-				if (argv["type"] === "secret_key" && argv["format"] === undefined) {
-					argv["format"] = await promptForRequiredField(
-						"format",
-						"Data format of the key. [Learn more](https://developer.mozilla.org/en-US/docs/Web/API/SubtleCrypto/importKey#format).",
-						{ question: "Enter value for --format" }
-					);
-				}
-				if (argv["type"] === "secret_key" && argv["usages"] === undefined) {
-					throw new Error(
-						"--usages is required (or pass --body with this field set)."
+						"The secret_key variant requires algorithm, which cannot be supplied as flags. Pass --body with a complete request body."
 					);
 				}
 
 				// Assemble request body from individual flags
-				const bodyData = compactBody(
-					{
-						text: resolveFileToken(
-							argv["text"] as string | undefined,
-							"text",
-							"text"
-						),
-						type: argv["type"],
-						algorithm: parseJsonMap(argv["algorithm"], "algorithm"),
-						format: argv["format"],
-						key_base64: resolveFileToken(
-							argv["key-base64"] as string | undefined,
-							"key-base64",
-							"text"
-						),
-						key_jwk: parseJsonMap(argv["key-jwk"], "key-jwk"),
-						usages: argv["usages"],
-						name: argv["name"],
-					},
-					[["algorithm"], ["key_jwk"]]
-				);
+				const bodyData = compactBody({
+					text: resolveFileToken(
+						argv["text"] as string | undefined,
+						"text",
+						"text"
+					),
+					type: argv["type"],
+					format: argv["format"],
+					key_base64: resolveFileToken(
+						argv["key-base64"] as string | undefined,
+						"key-base64",
+						"text"
+					),
+					usages: argv["usages"],
+					name: argv["name"],
+				});
 				const result = await withProgress(`Updating`, async () =>
 					client.send(operation, {
 						body: bodyData,

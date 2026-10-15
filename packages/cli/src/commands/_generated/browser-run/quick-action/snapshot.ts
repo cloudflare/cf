@@ -11,12 +11,7 @@ import {
 	getAccountId,
 	resolveAccountIdSilent,
 } from "#lib/auth.js";
-import {
-	compactBody,
-	parseBody,
-	parseJsonMap,
-	parseObjectArray,
-} from "#lib/body-parser.js";
+import { compactBody, parseBody, parseObjectArray } from "#lib/body-parser.js";
 import { formatDryRun } from "#lib/dry-run.js";
 import { resolveFileToken } from "#lib/input-validation.js";
 import { LOCAL_ACCOUNT_ID } from "#lib/local.js";
@@ -173,11 +168,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.coerce("screenshot-options-type", (value) =>
 			resolveFileToken(value, "screenshot-options-type", "text")
 		)
-		.option("set-extra-httpheaders", {
-			type: "string",
-			description:
-				"The setExtraHTTPHeaders field. Provide as a JSON object or @path/to/file.json.",
-		})
 		.option("set-java-script-enabled", {
 			type: "boolean",
 			description: "The setJavaScriptEnabled field",
@@ -382,119 +372,112 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						body:
 							argv.body !== undefined
 								? parseBody(argv.body)
-								: compactBody(
-										{
-											actionTimeout: argv["action-timeout"],
-											addScriptTag: parseObjectArray(
-												argv["add-script-tag"],
-												"add-script-tag"
-											),
-											addStyleTag: parseObjectArray(
-												argv["add-style-tag"],
-												"add-style-tag"
-											),
-											allowRequestPattern: argv["allow-request-pattern"],
-											allowResourceTypes: argv["allow-resource-types"],
-											authenticate: {
-												password: resolveFileToken(
-													argv["authenticate-password"] as string | undefined,
-													"authenticate-password",
-													"text"
-												),
-												username: resolveFileToken(
-													argv["authenticate-username"] as string | undefined,
-													"authenticate-username",
-													"text"
-												),
-											},
-											bestAttempt: argv["best-attempt"],
-											cookies: parseObjectArray(argv["cookies"], "cookies"),
-											emulateMediaType: resolveFileToken(
-												argv["emulate-media-type"] as string | undefined,
-												"emulate-media-type",
+								: compactBody({
+										actionTimeout: argv["action-timeout"],
+										addScriptTag: parseObjectArray(
+											argv["add-script-tag"],
+											"add-script-tag"
+										),
+										addStyleTag: parseObjectArray(
+											argv["add-style-tag"],
+											"add-style-tag"
+										),
+										allowRequestPattern: argv["allow-request-pattern"],
+										allowResourceTypes: argv["allow-resource-types"],
+										authenticate: {
+											password: resolveFileToken(
+												argv["authenticate-password"] as string | undefined,
+												"authenticate-password",
 												"text"
 											),
-											formats: argv["formats"],
-											gotoOptions: {
-												referer: resolveFileToken(
-													argv["goto-options-referer"] as string | undefined,
-													"goto-options-referer",
-													"text"
-												),
-												referrerPolicy: resolveFileToken(
-													argv["goto-options-referrer-policy"] as
-														| string
-														| undefined,
-													"goto-options-referrer-policy",
-													"text"
-												),
-												timeout: argv["goto-options-timeout"],
-											},
-											html: resolveFileToken(
-												argv["html"] as string | undefined,
-												"html",
+											username: resolveFileToken(
+												argv["authenticate-username"] as string | undefined,
+												"authenticate-username",
 												"text"
 											),
-											rejectRequestPattern: argv["reject-request-pattern"],
-											rejectResourceTypes: argv["reject-resource-types"],
-											screenshotOptions: {
-												captureBeyondViewport:
-													argv["screenshot-options-capture-beyond-viewport"],
-												clip: {
-													height: argv["screenshot-options-clip-height"],
-													scale: argv["screenshot-options-clip-scale"],
-													width: argv["screenshot-options-clip-width"],
-													x: argv["screenshot-options-clip-x"],
-													y: argv["screenshot-options-clip-y"],
-												},
-												fromSurface: argv["screenshot-options-from-surface"],
-												fullPage: argv["screenshot-options-full-page"],
-												omitBackground:
-													argv["screenshot-options-omit-background"],
-												optimizeForSpeed:
-													argv["screenshot-options-optimize-for-speed"],
-												quality: argv["screenshot-options-quality"],
-												type: argv["screenshot-options-type"],
-											},
-											setExtraHTTPHeaders: parseJsonMap(
-												argv["set-extra-httpheaders"],
-												"set-extra-httpheaders"
-											),
-											setJavaScriptEnabled: argv["set-java-script-enabled"],
-											url: resolveFileToken(
-												argv["url"] as string | undefined,
-												"url",
-												"text"
-											),
-											userAgent: resolveFileToken(
-												argv["user-agent"] as string | undefined,
-												"user-agent",
-												"text"
-											),
-											viewport: {
-												deviceScaleFactor: argv["viewport-device-scale-factor"],
-												hasTouch: argv["viewport-has-touch"],
-												height: argv["viewport-height"],
-												isLandscape: argv["viewport-is-landscape"],
-												isMobile: argv["viewport-is-mobile"],
-												width: argv["viewport-width"],
-											},
-											waitForSelector: {
-												hidden: argv["wait-for-selector-hidden"],
-												selector: resolveFileToken(
-													argv["wait-for-selector-selector"] as
-														| string
-														| undefined,
-													"wait-for-selector-selector",
-													"text"
-												),
-												timeout: argv["wait-for-selector-timeout"],
-												visible: argv["wait-for-selector-visible"],
-											},
-											waitForTimeout: argv["wait-for-timeout"],
 										},
-										[["setExtraHTTPHeaders"]]
-									),
+										bestAttempt: argv["best-attempt"],
+										cookies: parseObjectArray(argv["cookies"], "cookies"),
+										emulateMediaType: resolveFileToken(
+											argv["emulate-media-type"] as string | undefined,
+											"emulate-media-type",
+											"text"
+										),
+										formats: argv["formats"],
+										gotoOptions: {
+											referer: resolveFileToken(
+												argv["goto-options-referer"] as string | undefined,
+												"goto-options-referer",
+												"text"
+											),
+											referrerPolicy: resolveFileToken(
+												argv["goto-options-referrer-policy"] as
+													| string
+													| undefined,
+												"goto-options-referrer-policy",
+												"text"
+											),
+											timeout: argv["goto-options-timeout"],
+										},
+										html: resolveFileToken(
+											argv["html"] as string | undefined,
+											"html",
+											"text"
+										),
+										rejectRequestPattern: argv["reject-request-pattern"],
+										rejectResourceTypes: argv["reject-resource-types"],
+										screenshotOptions: {
+											captureBeyondViewport:
+												argv["screenshot-options-capture-beyond-viewport"],
+											clip: {
+												height: argv["screenshot-options-clip-height"],
+												scale: argv["screenshot-options-clip-scale"],
+												width: argv["screenshot-options-clip-width"],
+												x: argv["screenshot-options-clip-x"],
+												y: argv["screenshot-options-clip-y"],
+											},
+											fromSurface: argv["screenshot-options-from-surface"],
+											fullPage: argv["screenshot-options-full-page"],
+											omitBackground:
+												argv["screenshot-options-omit-background"],
+											optimizeForSpeed:
+												argv["screenshot-options-optimize-for-speed"],
+											quality: argv["screenshot-options-quality"],
+											type: argv["screenshot-options-type"],
+										},
+										setJavaScriptEnabled: argv["set-java-script-enabled"],
+										url: resolveFileToken(
+											argv["url"] as string | undefined,
+											"url",
+											"text"
+										),
+										userAgent: resolveFileToken(
+											argv["user-agent"] as string | undefined,
+											"user-agent",
+											"text"
+										),
+										viewport: {
+											deviceScaleFactor: argv["viewport-device-scale-factor"],
+											hasTouch: argv["viewport-has-touch"],
+											height: argv["viewport-height"],
+											isLandscape: argv["viewport-is-landscape"],
+											isMobile: argv["viewport-is-mobile"],
+											width: argv["viewport-width"],
+										},
+										waitForSelector: {
+											hidden: argv["wait-for-selector-hidden"],
+											selector: resolveFileToken(
+												argv["wait-for-selector-selector"] as
+													| string
+													| undefined,
+												"wait-for-selector-selector",
+												"text"
+											),
+											timeout: argv["wait-for-selector-timeout"],
+											visible: argv["wait-for-selector-visible"],
+										},
+										waitForTimeout: argv["wait-for-timeout"],
+									}),
 						sensitiveBodyPaths: [["authenticate", "password"]],
 					});
 					return;
@@ -522,113 +505,103 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				}
 
 				// Assemble request body from individual flags
-				const bodyData = compactBody(
-					{
-						actionTimeout: argv["action-timeout"],
-						addScriptTag: parseObjectArray(
-							argv["add-script-tag"],
-							"add-script-tag"
-						),
-						addStyleTag: parseObjectArray(
-							argv["add-style-tag"],
-							"add-style-tag"
-						),
-						allowRequestPattern: argv["allow-request-pattern"],
-						allowResourceTypes: argv["allow-resource-types"],
-						authenticate: {
-							password: resolveFileToken(
-								argv["authenticate-password"] as string | undefined,
-								"authenticate-password",
-								"text"
-							),
-							username: resolveFileToken(
-								argv["authenticate-username"] as string | undefined,
-								"authenticate-username",
-								"text"
-							),
-						},
-						bestAttempt: argv["best-attempt"],
-						cookies: parseObjectArray(argv["cookies"], "cookies"),
-						emulateMediaType: resolveFileToken(
-							argv["emulate-media-type"] as string | undefined,
-							"emulate-media-type",
+				const bodyData = compactBody({
+					actionTimeout: argv["action-timeout"],
+					addScriptTag: parseObjectArray(
+						argv["add-script-tag"],
+						"add-script-tag"
+					),
+					addStyleTag: parseObjectArray(argv["add-style-tag"], "add-style-tag"),
+					allowRequestPattern: argv["allow-request-pattern"],
+					allowResourceTypes: argv["allow-resource-types"],
+					authenticate: {
+						password: resolveFileToken(
+							argv["authenticate-password"] as string | undefined,
+							"authenticate-password",
 							"text"
 						),
-						formats: argv["formats"],
-						gotoOptions: {
-							referer: resolveFileToken(
-								argv["goto-options-referer"] as string | undefined,
-								"goto-options-referer",
-								"text"
-							),
-							referrerPolicy: resolveFileToken(
-								argv["goto-options-referrer-policy"] as string | undefined,
-								"goto-options-referrer-policy",
-								"text"
-							),
-							timeout: argv["goto-options-timeout"],
-						},
-						html: resolveFileToken(
-							argv["html"] as string | undefined,
-							"html",
+						username: resolveFileToken(
+							argv["authenticate-username"] as string | undefined,
+							"authenticate-username",
 							"text"
 						),
-						rejectRequestPattern: argv["reject-request-pattern"],
-						rejectResourceTypes: argv["reject-resource-types"],
-						screenshotOptions: {
-							captureBeyondViewport:
-								argv["screenshot-options-capture-beyond-viewport"],
-							clip: {
-								height: argv["screenshot-options-clip-height"],
-								scale: argv["screenshot-options-clip-scale"],
-								width: argv["screenshot-options-clip-width"],
-								x: argv["screenshot-options-clip-x"],
-								y: argv["screenshot-options-clip-y"],
-							},
-							fromSurface: argv["screenshot-options-from-surface"],
-							fullPage: argv["screenshot-options-full-page"],
-							omitBackground: argv["screenshot-options-omit-background"],
-							optimizeForSpeed: argv["screenshot-options-optimize-for-speed"],
-							quality: argv["screenshot-options-quality"],
-							type: argv["screenshot-options-type"],
-						},
-						setExtraHTTPHeaders: parseJsonMap(
-							argv["set-extra-httpheaders"],
-							"set-extra-httpheaders"
-						),
-						setJavaScriptEnabled: argv["set-java-script-enabled"],
-						url: resolveFileToken(
-							argv["url"] as string | undefined,
-							"url",
-							"text"
-						),
-						userAgent: resolveFileToken(
-							argv["user-agent"] as string | undefined,
-							"user-agent",
-							"text"
-						),
-						viewport: {
-							deviceScaleFactor: argv["viewport-device-scale-factor"],
-							hasTouch: argv["viewport-has-touch"],
-							height: argv["viewport-height"],
-							isLandscape: argv["viewport-is-landscape"],
-							isMobile: argv["viewport-is-mobile"],
-							width: argv["viewport-width"],
-						},
-						waitForSelector: {
-							hidden: argv["wait-for-selector-hidden"],
-							selector: resolveFileToken(
-								argv["wait-for-selector-selector"] as string | undefined,
-								"wait-for-selector-selector",
-								"text"
-							),
-							timeout: argv["wait-for-selector-timeout"],
-							visible: argv["wait-for-selector-visible"],
-						},
-						waitForTimeout: argv["wait-for-timeout"],
 					},
-					[["setExtraHTTPHeaders"]]
-				);
+					bestAttempt: argv["best-attempt"],
+					cookies: parseObjectArray(argv["cookies"], "cookies"),
+					emulateMediaType: resolveFileToken(
+						argv["emulate-media-type"] as string | undefined,
+						"emulate-media-type",
+						"text"
+					),
+					formats: argv["formats"],
+					gotoOptions: {
+						referer: resolveFileToken(
+							argv["goto-options-referer"] as string | undefined,
+							"goto-options-referer",
+							"text"
+						),
+						referrerPolicy: resolveFileToken(
+							argv["goto-options-referrer-policy"] as string | undefined,
+							"goto-options-referrer-policy",
+							"text"
+						),
+						timeout: argv["goto-options-timeout"],
+					},
+					html: resolveFileToken(
+						argv["html"] as string | undefined,
+						"html",
+						"text"
+					),
+					rejectRequestPattern: argv["reject-request-pattern"],
+					rejectResourceTypes: argv["reject-resource-types"],
+					screenshotOptions: {
+						captureBeyondViewport:
+							argv["screenshot-options-capture-beyond-viewport"],
+						clip: {
+							height: argv["screenshot-options-clip-height"],
+							scale: argv["screenshot-options-clip-scale"],
+							width: argv["screenshot-options-clip-width"],
+							x: argv["screenshot-options-clip-x"],
+							y: argv["screenshot-options-clip-y"],
+						},
+						fromSurface: argv["screenshot-options-from-surface"],
+						fullPage: argv["screenshot-options-full-page"],
+						omitBackground: argv["screenshot-options-omit-background"],
+						optimizeForSpeed: argv["screenshot-options-optimize-for-speed"],
+						quality: argv["screenshot-options-quality"],
+						type: argv["screenshot-options-type"],
+					},
+					setJavaScriptEnabled: argv["set-java-script-enabled"],
+					url: resolveFileToken(
+						argv["url"] as string | undefined,
+						"url",
+						"text"
+					),
+					userAgent: resolveFileToken(
+						argv["user-agent"] as string | undefined,
+						"user-agent",
+						"text"
+					),
+					viewport: {
+						deviceScaleFactor: argv["viewport-device-scale-factor"],
+						hasTouch: argv["viewport-has-touch"],
+						height: argv["viewport-height"],
+						isLandscape: argv["viewport-is-landscape"],
+						isMobile: argv["viewport-is-mobile"],
+						width: argv["viewport-width"],
+					},
+					waitForSelector: {
+						hidden: argv["wait-for-selector-hidden"],
+						selector: resolveFileToken(
+							argv["wait-for-selector-selector"] as string | undefined,
+							"wait-for-selector-selector",
+							"text"
+						),
+						timeout: argv["wait-for-selector-timeout"],
+						visible: argv["wait-for-selector-visible"],
+					},
+					waitForTimeout: argv["wait-for-timeout"],
+				});
 				const qs = new URLSearchParams(
 					Object.entries(queryParams)
 						.filter(([, v]) => v !== undefined)

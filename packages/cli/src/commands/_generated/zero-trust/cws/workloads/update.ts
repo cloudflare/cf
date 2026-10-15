@@ -11,7 +11,7 @@ import {
 	getAccountId,
 	resolveAccountIdSilent,
 } from "#lib/auth.js";
-import { compactBody, parseBody, parseJsonMap } from "#lib/body-parser.js";
+import { compactBody, parseBody } from "#lib/body-parser.js";
 import { formatDryRun } from "#lib/dry-run.js";
 import { resolveFileToken } from "#lib/input-validation.js";
 import { LOCAL_ACCOUNT_ID } from "#lib/local.js";
@@ -23,7 +23,7 @@ import { runWithTelemetry } from "#lib/telemetry/index.js";
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
 		.usage(
-			"$0 zero-trust cws workloads update <workload-id>\n\nReplaces the workload's configuration. Provide tags explicitly; use {} to clear them."
+			"$0 zero-trust cws workloads update <workload-id>\n\nReplaces the workload's configuration. Omit tags or use {} to clear them."
 		)
 		.positional("workload-id", {
 			type: "string",
@@ -42,11 +42,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("name", {
 			type: "string",
 			description: "Human-readable handle; unique per account.",
-		})
-		.option("tags", {
-			type: "string",
-			description:
-				"Replacement tag set (required). Provide the desired tags, or {} to clear them. Provide as a JSON object or @path/to/file.json.",
 		})
 		.option("dry-run", {
 			type: "boolean",
@@ -85,28 +80,24 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						bodyKind: "json",
 						body:
 							argv.body !== undefined
-								? parseBody(argv.body, [{ path: ["tags"], flag: "tags" }])
-								: compactBody(
-										{
-											description: resolveFileToken(
-												argv["description"] as string | undefined,
-												"description",
-												"text"
-											),
-											filter: resolveFileToken(
-												argv["filter"] as string | undefined,
-												"filter",
-												"text"
-											),
-											name: resolveFileToken(
-												argv["name"] as string | undefined,
-												"name",
-												"text"
-											),
-											tags: parseJsonMap(argv["tags"], "tags", true),
-										},
-										[["tags"]]
-									),
+								? parseBody(argv.body)
+								: compactBody({
+										description: resolveFileToken(
+											argv["description"] as string | undefined,
+											"description",
+											"text"
+										),
+										filter: resolveFileToken(
+											argv["filter"] as string | undefined,
+											"filter",
+											"text"
+										),
+										name: resolveFileToken(
+											argv["name"] as string | undefined,
+											"name",
+											"text"
+										),
+									}),
 					});
 					return;
 				}
@@ -115,9 +106,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.accountId = accountId;
 
 				if (argv.body) {
-					const bodyData = parseBody(argv.body, [
-						{ path: ["tags"], flag: "tags" },
-					]);
+					const bodyData = parseBody(argv.body);
 					const result = await withProgress(`Updating`, async () =>
 						client.send(operation, {
 							body: bodyData,
@@ -140,34 +129,25 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						"Human-readable handle; unique per account."
 					);
 				}
-				if (argv["tags"] === undefined) {
-					throw new Error(
-						"--tags is required (or pass --body with this field set)."
-					);
-				}
 
 				// Assemble request body from individual flags
-				const bodyData = compactBody(
-					{
-						description: resolveFileToken(
-							argv["description"] as string | undefined,
-							"description",
-							"text"
-						),
-						filter: resolveFileToken(
-							argv["filter"] as string | undefined,
-							"filter",
-							"text"
-						),
-						name: resolveFileToken(
-							argv["name"] as string | undefined,
-							"name",
-							"text"
-						),
-						tags: parseJsonMap(argv["tags"], "tags", true),
-					},
-					[["tags"]]
-				);
+				const bodyData = compactBody({
+					description: resolveFileToken(
+						argv["description"] as string | undefined,
+						"description",
+						"text"
+					),
+					filter: resolveFileToken(
+						argv["filter"] as string | undefined,
+						"filter",
+						"text"
+					),
+					name: resolveFileToken(
+						argv["name"] as string | undefined,
+						"name",
+						"text"
+					),
+				});
 				const result = await withProgress(`Updating`, async () =>
 					client.send(operation, {
 						body: bodyData,

@@ -11,7 +11,7 @@ import {
 	getAccountId,
 	resolveAccountIdSilent,
 } from "#lib/auth.js";
-import { compactBody, parseBody, parseJsonMap } from "#lib/body-parser.js";
+import { parseBody } from "#lib/body-parser.js";
 import { formatDryRun } from "#lib/dry-run.js";
 import { LOCAL_ACCOUNT_ID } from "#lib/local.js";
 import { formatOutput } from "#lib/output.js";
@@ -32,11 +32,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			type: "string",
 			description: "Share identifier tag.",
 			demandOption: true,
-		})
-		.option("meta", {
-			type: "string",
-			description:
-				"Resource Metadata. Provide as a JSON object or @path/to/file.json.",
 		})
 		.option("dry-run", {
 			type: "boolean",
@@ -76,15 +71,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 							"share-resource-id": String(argv["share-resource-id"] ?? ""),
 						},
 						bodyKind: "json",
-						body:
-							argv.body !== undefined
-								? parseBody(argv.body, [{ path: ["meta"], flag: "meta" }])
-								: compactBody(
-										{
-											meta: parseJsonMap(argv["meta"], "meta", true),
-										},
-										[["meta"]]
-									),
+						body: argv.body !== undefined ? parseBody(argv.body) : undefined,
 					});
 					return;
 				}
@@ -93,9 +80,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.accountId = accountId;
 
 				if (argv.body) {
-					const bodyData = parseBody(argv.body, [
-						{ path: ["meta"], flag: "meta" },
-					]);
+					const bodyData = parseBody(argv.body);
 					const result = await withProgress(`Updating`, async () =>
 						client.send(operation, {
 							body: bodyData,
@@ -107,28 +92,12 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					formatOutput(result, { successLabel: `Updated` });
 					return;
 				}
-				if (argv["meta"] === undefined) {
+
+				if (argv.body === undefined) {
 					throw new Error(
-						"--meta is required (or pass --body with this field set)."
+						"--body is required for this command. Pass --body '<json>' or --body @path/to/file.json."
 					);
 				}
-
-				// Assemble request body from individual flags
-				const bodyData = compactBody(
-					{
-						meta: parseJsonMap(argv["meta"], "meta", true),
-					},
-					[["meta"]]
-				);
-				const result = await withProgress(`Updating`, async () =>
-					client.send(operation, {
-						body: bodyData,
-						account_id: accountId,
-						share_id: argv["share-id"],
-						share_resource_id: argv["share-resource-id"],
-					})
-				);
-				formatOutput(result, { successLabel: `Updated` });
 			}
 		),
 };

@@ -11,12 +11,7 @@ import {
 	requestApi,
 	resolveAccountIdSilent,
 } from "#lib/auth.js";
-import {
-	compactBody,
-	parseBody,
-	parseJsonMap,
-	setNestedValue,
-} from "#lib/body-parser.js";
+import { compactBody, parseBody, setNestedValue } from "#lib/body-parser.js";
 import { formatDryRun } from "#lib/dry-run.js";
 import { resolveFileToken } from "#lib/input-validation.js";
 import { LOCAL_ACCOUNT_ID } from "#lib/local.js";
@@ -48,11 +43,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description:
 				"Indicates whether the live input is enabled and can accept streams.",
 			default: true,
-		})
-		.option("meta", {
-			type: "string",
-			description:
-				"A user modifiable key-value store used to reference other systems of record for managing live inputs. Provide as a JSON object or @path/to/file.json.",
 		})
 		.option("prefer-low-latency", {
 			type: "boolean",
@@ -138,30 +128,25 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						body:
 							argv.body !== undefined
 								? parseBody(argv.body)
-								: compactBody(
-										{
-											defaultCreator: resolveFileToken(
-												argv["default-creator"] as string | undefined,
-												"default-creator",
-												"text"
-											),
-											deleteRecordingAfterDays:
-												argv["delete-recording-after-days"],
-											enabled: argv["enabled"],
-											meta: parseJsonMap(argv["meta"], "meta"),
-											preferLowLatency: argv["prefer-low-latency"],
-											recording: {
-												allowedOrigins: argv["recording-allowed-origins"],
-												hideLiveViewerCount:
-													argv["recording-hide-live-viewer-count"],
-												mode: argv["recording-mode"],
-												requireSignedURLs:
-													argv["recording-require-signed-urls"],
-												timeoutSeconds: argv["recording-timeout-seconds"],
-											},
+								: compactBody({
+										defaultCreator: resolveFileToken(
+											argv["default-creator"] as string | undefined,
+											"default-creator",
+											"text"
+										),
+										deleteRecordingAfterDays:
+											argv["delete-recording-after-days"],
+										enabled: argv["enabled"],
+										preferLowLatency: argv["prefer-low-latency"],
+										recording: {
+											allowedOrigins: argv["recording-allowed-origins"],
+											hideLiveViewerCount:
+												argv["recording-hide-live-viewer-count"],
+											mode: argv["recording-mode"],
+											requireSignedURLs: argv["recording-require-signed-urls"],
+											timeoutSeconds: argv["recording-timeout-seconds"],
 										},
-										[["meta"]]
-									),
+									}),
 					});
 					return;
 				}
@@ -206,12 +191,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					);
 				if (argv["enabled"] !== undefined)
 					setNestedValue(bodyData, ["enabled"], argv["enabled"]);
-				if (argv["meta"] !== undefined)
-					setNestedValue(
-						bodyData,
-						["meta"],
-						parseJsonMap(argv["meta"], "meta")
-					);
 				if (argv["prefer-low-latency"] !== undefined)
 					setNestedValue(
 						bodyData,

@@ -7,7 +7,7 @@ import type { ArgClassification } from "#lib/telemetry/index.js";
  */
 import type { Argv, CommandModule } from "yargs";
 import { createCommandClient, getZoneId } from "#lib/auth.js";
-import { compactBody, parseBody, parseJsonMap } from "#lib/body-parser.js";
+import { compactBody, parseBody } from "#lib/body-parser.js";
 import { formatDryRun } from "#lib/dry-run.js";
 import { resolveFileToken } from "#lib/input-validation.js";
 import { formatOutput } from "#lib/output.js";
@@ -27,11 +27,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("description", {
 			type: "string",
 			description: "The description of the label",
-		})
-		.option("metadata", {
-			type: "string",
-			description:
-				"Metadata for the label. Provide as a JSON object or @path/to/file.json.",
 		})
 		.option("dry-run", {
 			type: "boolean",
@@ -73,17 +68,13 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						body:
 							argv.body !== undefined
 								? parseBody(argv.body)
-								: compactBody(
-										{
-											description: resolveFileToken(
-												argv["description"] as string | undefined,
-												"description",
-												"text"
-											),
-											metadata: parseJsonMap(argv["metadata"], "metadata"),
-										},
-										[["metadata"]]
-									),
+								: compactBody({
+										description: resolveFileToken(
+											argv["description"] as string | undefined,
+											"description",
+											"text"
+										),
+									}),
 					});
 					return;
 				}
@@ -107,17 +98,13 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				}
 
 				// Assemble request body from individual flags
-				const bodyData = compactBody(
-					{
-						description: resolveFileToken(
-							argv["description"] as string | undefined,
-							"description",
-							"text"
-						),
-						metadata: parseJsonMap(argv["metadata"], "metadata"),
-					},
-					[["metadata"]]
-				);
+				const bodyData = compactBody({
+					description: resolveFileToken(
+						argv["description"] as string | undefined,
+						"description",
+						"text"
+					),
+				});
 				const result = await withProgress(`Updating`, async () =>
 					client.send(operation, {
 						body: bodyData,

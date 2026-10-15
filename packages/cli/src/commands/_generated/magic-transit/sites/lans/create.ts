@@ -11,12 +11,7 @@ import {
 	getAccountId,
 	resolveAccountIdSilent,
 } from "#lib/auth.js";
-import {
-	compactBody,
-	parseBody,
-	parseJsonMap,
-	parseObjectArray,
-} from "#lib/body-parser.js";
+import { compactBody, parseBody, parseObjectArray } from "#lib/body-parser.js";
 import { formatDryRun } from "#lib/dry-run.js";
 import { resolveFileToken } from "#lib/input-validation.js";
 import { LOCAL_ACCOUNT_ID } from "#lib/local.js";
@@ -87,11 +82,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			array: true,
 			description: "The static_addressing.dhcp_server.dns_servers field",
 		})
-		.option("static-addressing-dhcp-server-reservations", {
-			type: "string",
-			description:
-				"Mapping of MAC addresses to IP addresses. Provide as a JSON object or @path/to/file.json.",
-		})
 		.option("static-addressing-secondary-address", {
 			type: "string",
 			description: "A valid CIDR notation representing an IP range.",
@@ -121,7 +111,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"static-addressing-dhcp-server-dhcp-pool-start",
 				"static-addressing-dhcp-server-dns-server",
 				"static-addressing-dhcp-server-dns-servers",
-				"static-addressing-dhcp-server-reservations",
 				"static-addressing-secondary-address",
 				"static-addressing-virtual-address",
 			].some((k) => argv[k] !== undefined);
@@ -166,91 +155,80 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						body:
 							argv.body !== undefined
 								? parseBody(argv.body)
-								: compactBody(
-										{
-											bond_id: argv["bond-id"],
-											ha_link: argv["ha-link"],
-											is_breakout: argv["is-breakout"],
-											is_prioritized: argv["is-prioritized"],
-											name: resolveFileToken(
-												argv["name"] as string | undefined,
-												"name",
+								: compactBody({
+										bond_id: argv["bond-id"],
+										ha_link: argv["ha-link"],
+										is_breakout: argv["is-breakout"],
+										is_prioritized: argv["is-prioritized"],
+										name: resolveFileToken(
+											argv["name"] as string | undefined,
+											"name",
+											"text"
+										),
+										nat: {
+											static_prefix: resolveFileToken(
+												argv["nat-static-prefix"] as string | undefined,
+												"nat-static-prefix",
 												"text"
 											),
-											nat: {
-												static_prefix: resolveFileToken(
-													argv["nat-static-prefix"] as string | undefined,
-													"nat-static-prefix",
-													"text"
-												),
-											},
-											physport: argv["physport"],
-											routed_subnets: parseObjectArray(
-												argv["routed-subnets"],
-												"routed-subnets"
-											),
-											static_addressing: {
-												address: resolveFileToken(
-													argv["static-addressing-address"] as
-														| string
-														| undefined,
-													"static-addressing-address",
-													"text"
-												),
-												dhcp_relay: {
-													server_addresses:
-														argv[
-															"static-addressing-dhcp-relay-server-addresses"
-														],
-												},
-												dhcp_server: {
-													dhcp_pool_end: resolveFileToken(
-														argv[
-															"static-addressing-dhcp-server-dhcp-pool-end"
-														] as string | undefined,
-														"static-addressing-dhcp-server-dhcp-pool-end",
-														"text"
-													),
-													dhcp_pool_start: resolveFileToken(
-														argv[
-															"static-addressing-dhcp-server-dhcp-pool-start"
-														] as string | undefined,
-														"static-addressing-dhcp-server-dhcp-pool-start",
-														"text"
-													),
-													dns_server: resolveFileToken(
-														argv["static-addressing-dhcp-server-dns-server"] as
-															| string
-															| undefined,
-														"static-addressing-dhcp-server-dns-server",
-														"text"
-													),
-													dns_servers:
-														argv["static-addressing-dhcp-server-dns-servers"],
-													reservations: parseJsonMap(
-														argv["static-addressing-dhcp-server-reservations"],
-														"static-addressing-dhcp-server-reservations"
-													),
-												},
-												secondary_address: resolveFileToken(
-													argv["static-addressing-secondary-address"] as
-														| string
-														| undefined,
-													"static-addressing-secondary-address",
-													"text"
-												),
-												virtual_address: resolveFileToken(
-													argv["static-addressing-virtual-address"] as
-														| string
-														| undefined,
-													"static-addressing-virtual-address",
-													"text"
-												),
-											},
-											vlan_tag: argv["vlan-tag"],
 										},
-										[["static_addressing", "dhcp_server", "reservations"]]
-									),
+										physport: argv["physport"],
+										routed_subnets: parseObjectArray(
+											argv["routed-subnets"],
+											"routed-subnets"
+										),
+										static_addressing: {
+											address: resolveFileToken(
+												argv["static-addressing-address"] as string | undefined,
+												"static-addressing-address",
+												"text"
+											),
+											dhcp_relay: {
+												server_addresses:
+													argv["static-addressing-dhcp-relay-server-addresses"],
+											},
+											dhcp_server: {
+												dhcp_pool_end: resolveFileToken(
+													argv[
+														"static-addressing-dhcp-server-dhcp-pool-end"
+													] as string | undefined,
+													"static-addressing-dhcp-server-dhcp-pool-end",
+													"text"
+												),
+												dhcp_pool_start: resolveFileToken(
+													argv[
+														"static-addressing-dhcp-server-dhcp-pool-start"
+													] as string | undefined,
+													"static-addressing-dhcp-server-dhcp-pool-start",
+													"text"
+												),
+												dns_server: resolveFileToken(
+													argv["static-addressing-dhcp-server-dns-server"] as
+														| string
+														| undefined,
+													"static-addressing-dhcp-server-dns-server",
+													"text"
+												),
+												dns_servers:
+													argv["static-addressing-dhcp-server-dns-servers"],
+											},
+											secondary_address: resolveFileToken(
+												argv["static-addressing-secondary-address"] as
+													| string
+													| undefined,
+												"static-addressing-secondary-address",
+												"text"
+											),
+											virtual_address: resolveFileToken(
+												argv["static-addressing-virtual-address"] as
+													| string
+													| undefined,
+												"static-addressing-virtual-address",
+												"text"
+											),
+										},
+										vlan_tag: argv["vlan-tag"],
+									}),
 					});
 					return;
 				}
@@ -272,84 +250,75 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				}
 
 				// Assemble request body from individual flags
-				const bodyData = compactBody(
-					{
-						bond_id: argv["bond-id"],
-						ha_link: argv["ha-link"],
-						is_breakout: argv["is-breakout"],
-						is_prioritized: argv["is-prioritized"],
-						name: resolveFileToken(
-							argv["name"] as string | undefined,
-							"name",
+				const bodyData = compactBody({
+					bond_id: argv["bond-id"],
+					ha_link: argv["ha-link"],
+					is_breakout: argv["is-breakout"],
+					is_prioritized: argv["is-prioritized"],
+					name: resolveFileToken(
+						argv["name"] as string | undefined,
+						"name",
+						"text"
+					),
+					nat: {
+						static_prefix: resolveFileToken(
+							argv["nat-static-prefix"] as string | undefined,
+							"nat-static-prefix",
 							"text"
 						),
-						nat: {
-							static_prefix: resolveFileToken(
-								argv["nat-static-prefix"] as string | undefined,
-								"nat-static-prefix",
-								"text"
-							),
-						},
-						physport: argv["physport"],
-						routed_subnets: parseObjectArray(
-							argv["routed-subnets"],
-							"routed-subnets"
+					},
+					physport: argv["physport"],
+					routed_subnets: parseObjectArray(
+						argv["routed-subnets"],
+						"routed-subnets"
+					),
+					static_addressing: {
+						address: resolveFileToken(
+							argv["static-addressing-address"] as string | undefined,
+							"static-addressing-address",
+							"text"
 						),
-						static_addressing: {
-							address: resolveFileToken(
-								argv["static-addressing-address"] as string | undefined,
-								"static-addressing-address",
-								"text"
-							),
-							dhcp_relay: {
-								server_addresses:
-									argv["static-addressing-dhcp-relay-server-addresses"],
-							},
-							dhcp_server: {
-								dhcp_pool_end: resolveFileToken(
-									argv["static-addressing-dhcp-server-dhcp-pool-end"] as
-										| string
-										| undefined,
-									"static-addressing-dhcp-server-dhcp-pool-end",
-									"text"
-								),
-								dhcp_pool_start: resolveFileToken(
-									argv["static-addressing-dhcp-server-dhcp-pool-start"] as
-										| string
-										| undefined,
-									"static-addressing-dhcp-server-dhcp-pool-start",
-									"text"
-								),
-								dns_server: resolveFileToken(
-									argv["static-addressing-dhcp-server-dns-server"] as
-										| string
-										| undefined,
-									"static-addressing-dhcp-server-dns-server",
-									"text"
-								),
-								dns_servers: argv["static-addressing-dhcp-server-dns-servers"],
-								reservations: parseJsonMap(
-									argv["static-addressing-dhcp-server-reservations"],
-									"static-addressing-dhcp-server-reservations"
-								),
-							},
-							secondary_address: resolveFileToken(
-								argv["static-addressing-secondary-address"] as
+						dhcp_relay: {
+							server_addresses:
+								argv["static-addressing-dhcp-relay-server-addresses"],
+						},
+						dhcp_server: {
+							dhcp_pool_end: resolveFileToken(
+								argv["static-addressing-dhcp-server-dhcp-pool-end"] as
 									| string
 									| undefined,
-								"static-addressing-secondary-address",
+								"static-addressing-dhcp-server-dhcp-pool-end",
 								"text"
 							),
-							virtual_address: resolveFileToken(
-								argv["static-addressing-virtual-address"] as string | undefined,
-								"static-addressing-virtual-address",
+							dhcp_pool_start: resolveFileToken(
+								argv["static-addressing-dhcp-server-dhcp-pool-start"] as
+									| string
+									| undefined,
+								"static-addressing-dhcp-server-dhcp-pool-start",
 								"text"
 							),
+							dns_server: resolveFileToken(
+								argv["static-addressing-dhcp-server-dns-server"] as
+									| string
+									| undefined,
+								"static-addressing-dhcp-server-dns-server",
+								"text"
+							),
+							dns_servers: argv["static-addressing-dhcp-server-dns-servers"],
 						},
-						vlan_tag: argv["vlan-tag"],
+						secondary_address: resolveFileToken(
+							argv["static-addressing-secondary-address"] as string | undefined,
+							"static-addressing-secondary-address",
+							"text"
+						),
+						virtual_address: resolveFileToken(
+							argv["static-addressing-virtual-address"] as string | undefined,
+							"static-addressing-virtual-address",
+							"text"
+						),
 					},
-					[["static_addressing", "dhcp_server", "reservations"]]
-				);
+					vlan_tag: argv["vlan-tag"],
+				});
 				const result = await withProgress(`Creating`, async () =>
 					client.send(operation, {
 						body: bodyData,

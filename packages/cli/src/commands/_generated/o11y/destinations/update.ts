@@ -11,7 +11,7 @@ import {
 	getAccountId,
 	resolveAccountIdSilent,
 } from "#lib/auth.js";
-import { compactBody, parseBody, parseJsonMap } from "#lib/body-parser.js";
+import { compactBody, parseBody } from "#lib/body-parser.js";
 import { formatDryRun } from "#lib/dry-run.js";
 import { resolveFileToken } from "#lib/input-validation.js";
 import { LOCAL_ACCOUNT_ID } from "#lib/local.js";
@@ -32,11 +32,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			type: "string",
 			description: "Slug",
 			demandOption: true,
-		})
-		.option("configuration-headers", {
-			type: "string",
-			description:
-				"The configuration.headers field. Provide as a JSON object or @path/to/file.json.",
 		})
 		.option("configuration-type", {
 			type: "string",
@@ -88,31 +83,18 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						bodyKind: "json",
 						body:
 							argv.body !== undefined
-								? parseBody(argv.body, [
-										{
-											path: ["configuration", "headers"],
-											flag: "configuration-headers",
+								? parseBody(argv.body)
+								: compactBody({
+										configuration: {
+											type: argv["configuration-type"],
+											url: resolveFileToken(
+												argv["configuration-url"] as string | undefined,
+												"configuration-url",
+												"text"
+											),
 										},
-									])
-								: compactBody(
-										{
-											configuration: {
-												headers: parseJsonMap(
-													argv["configuration-headers"],
-													"configuration-headers",
-													true
-												),
-												type: argv["configuration-type"],
-												url: resolveFileToken(
-													argv["configuration-url"] as string | undefined,
-													"configuration-url",
-													"text"
-												),
-											},
-											enabled: argv["enabled"],
-										},
-										[["configuration", "headers"]]
-									),
+										enabled: argv["enabled"],
+									}),
 					});
 					return;
 				}
@@ -121,12 +103,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.accountId = accountId;
 
 				if (argv.body) {
-					const bodyData = parseBody(argv.body, [
-						{
-							path: ["configuration", "headers"],
-							flag: "configuration-headers",
-						},
-					]);
+					const bodyData = parseBody(argv.body);
 					const result = await withProgress(`Updating`, async () =>
 						client.send(operation, {
 							body: bodyData,
@@ -136,11 +113,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					);
 					formatOutput(result, { successLabel: `Updated` });
 					return;
-				}
-				if (argv["configuration-headers"] === undefined) {
-					throw new Error(
-						"--configuration-headers is required (or pass --body with this field set)."
-					);
 				}
 				if (argv["configuration-type"] === undefined) {
 					argv["configuration-type"] = await promptForRequiredEnumField(
@@ -162,25 +134,17 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				}
 
 				// Assemble request body from individual flags
-				const bodyData = compactBody(
-					{
-						configuration: {
-							headers: parseJsonMap(
-								argv["configuration-headers"],
-								"configuration-headers",
-								true
-							),
-							type: argv["configuration-type"],
-							url: resolveFileToken(
-								argv["configuration-url"] as string | undefined,
-								"configuration-url",
-								"text"
-							),
-						},
-						enabled: argv["enabled"],
+				const bodyData = compactBody({
+					configuration: {
+						type: argv["configuration-type"],
+						url: resolveFileToken(
+							argv["configuration-url"] as string | undefined,
+							"configuration-url",
+							"text"
+						),
 					},
-					[["configuration", "headers"]]
-				);
+					enabled: argv["enabled"],
+				});
 				const result = await withProgress(`Updating`, async () =>
 					client.send(operation, {
 						body: bodyData,

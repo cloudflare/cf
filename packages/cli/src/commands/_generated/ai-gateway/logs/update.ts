@@ -11,7 +11,7 @@ import {
 	getAccountId,
 	resolveAccountIdSilent,
 } from "#lib/auth.js";
-import { compactBody, parseBody, parseJsonMap } from "#lib/body-parser.js";
+import { compactBody, parseBody } from "#lib/body-parser.js";
 import { formatDryRun } from "#lib/dry-run.js";
 import { LOCAL_ACCOUNT_ID } from "#lib/local.js";
 import { formatOutput } from "#lib/output.js";
@@ -34,11 +34,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			demandOption: true,
 		})
 		.option("feedback", { type: "number", description: "The feedback field" })
-		.option("metadata", {
-			type: "string",
-			description:
-				"The metadata field. Provide as a JSON object or @path/to/file.json.",
-		})
 		.option("score", { type: "number", description: "The score field" })
 		.option("dry-run", {
 			type: "boolean",
@@ -81,14 +76,10 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						body:
 							argv.body !== undefined
 								? parseBody(argv.body)
-								: compactBody(
-										{
-											feedback: argv["feedback"],
-											metadata: parseJsonMap(argv["metadata"], "metadata"),
-											score: argv["score"],
-										},
-										[["metadata"]]
-									),
+								: compactBody({
+										feedback: argv["feedback"],
+										score: argv["score"],
+									}),
 					});
 					return;
 				}
@@ -111,14 +102,10 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				}
 
 				// Assemble request body from individual flags
-				const bodyData = compactBody(
-					{
-						feedback: argv["feedback"],
-						metadata: parseJsonMap(argv["metadata"], "metadata"),
-						score: argv["score"],
-					},
-					[["metadata"]]
-				);
+				const bodyData = compactBody({
+					feedback: argv["feedback"],
+					score: argv["score"],
+				});
 				const result = await withProgress(`Updating`, async () =>
 					client.send(operation, {
 						body: bodyData,

@@ -11,12 +11,7 @@ import {
 	requestApi,
 	resolveAccountIdSilent,
 } from "#lib/auth.js";
-import {
-	compactBody,
-	parseBody,
-	parseJsonMap,
-	setNestedValue,
-} from "#lib/body-parser.js";
+import { compactBody, parseBody, setNestedValue } from "#lib/body-parser.js";
 import { formatDryRun } from "#lib/dry-run.js";
 import { readFileForFlag, resolveFileToken } from "#lib/input-validation.js";
 import { LOCAL_ACCOUNT_ID } from "#lib/local.js";
@@ -33,11 +28,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			type: "string",
 			description: "Integration ID.",
 			demandOption: true,
-		})
-		.option("credentials", {
-			type: "string",
-			description:
-				"Partial credential fields to merge with existing. Provide as a JSON object or @path/to/file.json.",
 		})
 		.option("dlp-profiles", {
 			type: "string",
@@ -100,23 +90,16 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 								? { file: argv.file }
 								: argv.body !== undefined
 									? parseBody(argv.body)
-									: compactBody(
-											{
-												credentials: parseJsonMap(
-													argv["credentials"],
-													"credentials"
-												),
-												dlp_profiles: argv["dlp-profiles"],
-												name: resolveFileToken(
-													argv["name"] as string | undefined,
-													"name",
-													"text"
-												),
-												permissions: argv["permissions"],
-												use_cases: argv["use-cases"],
-											},
-											[["credentials"]]
-										),
+									: compactBody({
+											dlp_profiles: argv["dlp-profiles"],
+											name: resolveFileToken(
+												argv["name"] as string | undefined,
+												"name",
+												"text"
+											),
+											permissions: argv["permissions"],
+											use_cases: argv["use-cases"],
+										}),
 					});
 					return;
 				}
@@ -157,12 +140,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 
 				// Assemble request body from individual flags
 				const bodyData: Record<string, unknown> = {};
-				if (argv["credentials"] !== undefined)
-					setNestedValue(
-						bodyData,
-						["credentials"],
-						parseJsonMap(argv["credentials"], "credentials")
-					);
 				if (argv["dlp-profiles"] !== undefined)
 					setNestedValue(bodyData, ["dlp_profiles"], argv["dlp-profiles"]);
 				if (argv["name"] !== undefined)

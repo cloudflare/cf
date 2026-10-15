@@ -11,7 +11,7 @@ import {
 	getAccountId,
 	resolveAccountIdSilent,
 } from "#lib/auth.js";
-import { compactBody, parseBody, parseJsonMap } from "#lib/body-parser.js";
+import { compactBody, parseBody } from "#lib/body-parser.js";
 import { formatDryRun } from "#lib/dry-run.js";
 import { resolveFileToken } from "#lib/input-validation.js";
 import { LOCAL_ACCOUNT_ID } from "#lib/local.js";
@@ -41,11 +41,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("confidence", {
 			type: "number",
 			description: "Confidence score 0–100.",
-		})
-		.option("metadata", {
-			type: "string",
-			description:
-				"Arbitrary JSON metadata. Provide as a JSON object or @path/to/file.json.",
 		})
 		.option("target-id", {
 			type: "string",
@@ -104,24 +99,20 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						body:
 							argv.body !== undefined
 								? parseBody(argv.body)
-								: compactBody(
-										{
-											confidence: argv["confidence"],
-											metadata: parseJsonMap(argv["metadata"], "metadata"),
-											targetId: resolveFileToken(
-												argv["target-id"] as string | undefined,
-												"target-id",
-												"text"
-											),
-											targetType: argv["target-type"],
-											type: resolveFileToken(
-												argv["type"] as string | undefined,
-												"type",
-												"text"
-											),
-										},
-										[["metadata"]]
-									),
+								: compactBody({
+										confidence: argv["confidence"],
+										targetId: resolveFileToken(
+											argv["target-id"] as string | undefined,
+											"target-id",
+											"text"
+										),
+										targetType: argv["target-type"],
+										type: resolveFileToken(
+											argv["type"] as string | undefined,
+											"type",
+											"text"
+										),
+									}),
 					});
 					return;
 				}
@@ -163,24 +154,20 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				}
 
 				// Assemble request body from individual flags
-				const bodyData = compactBody(
-					{
-						confidence: argv["confidence"],
-						metadata: parseJsonMap(argv["metadata"], "metadata"),
-						targetId: resolveFileToken(
-							argv["target-id"] as string | undefined,
-							"target-id",
-							"text"
-						),
-						targetType: argv["target-type"],
-						type: resolveFileToken(
-							argv["type"] as string | undefined,
-							"type",
-							"text"
-						),
-					},
-					[["metadata"]]
-				);
+				const bodyData = compactBody({
+					confidence: argv["confidence"],
+					targetId: resolveFileToken(
+						argv["target-id"] as string | undefined,
+						"target-id",
+						"text"
+					),
+					targetType: argv["target-type"],
+					type: resolveFileToken(
+						argv["type"] as string | undefined,
+						"type",
+						"text"
+					),
+				});
 				const result = await withProgress(`Creating`, async () =>
 					client.send(operation, {
 						body: bodyData,

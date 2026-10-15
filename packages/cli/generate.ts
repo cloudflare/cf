@@ -11,7 +11,6 @@ import { tmpdir } from "node:os";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { filterForCliAudience } from "./generator/cli-audience.js";
-import { requireCwsUpdateTags } from "./generator/cws-tags-cli-compat.js";
 import { hasAccountOrZoneScope } from "./generator/util.js";
 import { preserveWorkersSecretUpdatePositional } from "./generator/workers-secret-cli-compat.js";
 import type { ForgeOpenApiDocument } from "./generator/openapi.js";
@@ -219,7 +218,6 @@ const source = (
 ignoreInvalidHiddenOperations(source);
 prepareAccountOrZoneOperations(source);
 preserveWorkersSecretUpdatePositional(source);
-requireCwsUpdateTags(source);
 const audienceExcluded = filterForCliAudience(source);
 console.log(
 	`[cf-generator] Excluded ${audienceExcluded} operation(s) not targeting the cf-cli audience`

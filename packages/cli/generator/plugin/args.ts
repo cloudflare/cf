@@ -24,8 +24,8 @@ import type {
 
 /**
  * The kind of value an argument takes: an `enum` is a string from a fixed
- * list, an `array` repeated scalar values, and `objectArray` and `objectMap` take
- * JSON-valued flags holding an array of objects or a map.
+ * list, an `array` repeated scalar values, and an `objectArray` one
+ * JSON-valued flag holding an array of objects.
  */
 export type ArgType =
 	| "string"
@@ -33,8 +33,7 @@ export type ArgType =
 	| "boolean"
 	| "enum"
 	| "array"
-	| "objectArray"
-	| "objectMap";
+	| "objectArray";
 
 /** The type yargs is told, and that the metadata lists: enums and arrays are strings. */
 export function scalar(type: ArgType): "number" | "boolean" | "string" {
@@ -261,8 +260,6 @@ function bodyArgType(type: string, itemType: string | undefined): ArgType {
 			return "boolean";
 		case "array":
 			return itemType === "object" ? "objectArray" : "array";
-		case "object":
-			return "objectMap";
 		default:
 			return "string";
 	}
@@ -650,7 +647,6 @@ function bodyParams(
 			o.get("positional") === true &&
 			single &&
 			bp.type !== "boolean" &&
-			bp.type !== "object" &&
 			bp.itemType !== "object"
 		) {
 			const description =
@@ -707,23 +703,16 @@ function bodyParams(
 		const dflt = nestedUnderOptional ? undefined : effectiveDefault;
 		const bodyType = bodyArgType(effectiveType, bp.itemType);
 		const type: ArgType =
-			bodyType === "objectArray" || bodyType === "objectMap"
+			bodyType === "objectArray"
 				? bodyType
 				: enumValues !== undefined
 					? "enum"
 					: bodyType;
-		const base =
-			new Override(byPath).string("description") ??
-			bp.description ??
-			`The ${joined} field`;
+		const base = bp.description ?? `The ${joined} field`;
 		let description = base;
 		if (type === "objectArray") {
 			const separator = /[.!?]$/.test(base) ? " " : ". ";
 			description = `${base}${separator}Provide as a JSON array of objects or @path/to/file.json.`;
-		}
-		if (type === "objectMap") {
-			const separator = /[.!?]\s*$/.test(base) ? " " : ". ";
-			description = `${base.trimEnd()}${separator}Provide as a JSON object or @path/to/file.json.`;
 		}
 		const a = arg(
 			name,

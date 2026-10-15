@@ -11,12 +11,7 @@ import {
 	getAccountId,
 	resolveAccountIdSilent,
 } from "#lib/auth.js";
-import {
-	compactBody,
-	parseBody,
-	parseJsonMap,
-	parseObjectArray,
-} from "#lib/body-parser.js";
+import { compactBody, parseBody, parseObjectArray } from "#lib/body-parser.js";
 import { formatDryRun } from "#lib/dry-run.js";
 import { resolveFileToken } from "#lib/input-validation.js";
 import { LOCAL_ACCOUNT_ID } from "#lib/local.js";
@@ -28,7 +23,7 @@ import { runWithTelemetry } from "#lib/telemetry/index.js";
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
 		.usage(
-			"$0 zero-trust cws policy-sets update <policy-set-id>\n\nReplaces the policy set's configuration. Provide tags explicitly; use {} to clear them."
+			"$0 zero-trust cws policy-sets update <policy-set-id>\n\nReplaces the policy set's configuration. Omit tags or use {} to clear them."
 		)
 		.positional("policy-set-id", {
 			type: "string",
@@ -56,11 +51,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			type: "string",
 			description:
 				"Replacement set of policies with per-membership enforcement mode. Provide as a JSON array of objects or @path/to/file.json.",
-		})
-		.option("tags", {
-			type: "string",
-			description:
-				"Replacement tag set (required). Provide the desired tags, or {} to clear them. Provide as a JSON object or @path/to/file.json.",
 		})
 		.option("dry-run", {
 			type: "boolean",
@@ -101,26 +91,22 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						bodyKind: "json",
 						body:
 							argv.body !== undefined
-								? parseBody(argv.body, [{ path: ["tags"], flag: "tags" }])
-								: compactBody(
-										{
-											description: resolveFileToken(
-												argv["description"] as string | undefined,
-												"description",
-												"text"
-											),
-											exclude_workload_ids: argv["exclude-workload-ids"],
-											include_workload_ids: argv["include-workload-ids"],
-											name: resolveFileToken(
-												argv["name"] as string | undefined,
-												"name",
-												"text"
-											),
-											policies: parseObjectArray(argv["policies"], "policies"),
-											tags: parseJsonMap(argv["tags"], "tags", true),
-										},
-										[["tags"]]
-									),
+								? parseBody(argv.body)
+								: compactBody({
+										description: resolveFileToken(
+											argv["description"] as string | undefined,
+											"description",
+											"text"
+										),
+										exclude_workload_ids: argv["exclude-workload-ids"],
+										include_workload_ids: argv["include-workload-ids"],
+										name: resolveFileToken(
+											argv["name"] as string | undefined,
+											"name",
+											"text"
+										),
+										policies: parseObjectArray(argv["policies"], "policies"),
+									}),
 					});
 					return;
 				}
@@ -129,9 +115,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.accountId = accountId;
 
 				if (argv.body) {
-					const bodyData = parseBody(argv.body, [
-						{ path: ["tags"], flag: "tags" },
-					]);
+					const bodyData = parseBody(argv.body);
 					const result = await withProgress(`Updating`, async () =>
 						client.send(operation, {
 							body: bodyData,
@@ -153,32 +137,23 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						"--policies is required (or pass --body with this field set)."
 					);
 				}
-				if (argv["tags"] === undefined) {
-					throw new Error(
-						"--tags is required (or pass --body with this field set)."
-					);
-				}
 
 				// Assemble request body from individual flags
-				const bodyData = compactBody(
-					{
-						description: resolveFileToken(
-							argv["description"] as string | undefined,
-							"description",
-							"text"
-						),
-						exclude_workload_ids: argv["exclude-workload-ids"],
-						include_workload_ids: argv["include-workload-ids"],
-						name: resolveFileToken(
-							argv["name"] as string | undefined,
-							"name",
-							"text"
-						),
-						policies: parseObjectArray(argv["policies"], "policies"),
-						tags: parseJsonMap(argv["tags"], "tags", true),
-					},
-					[["tags"]]
-				);
+				const bodyData = compactBody({
+					description: resolveFileToken(
+						argv["description"] as string | undefined,
+						"description",
+						"text"
+					),
+					exclude_workload_ids: argv["exclude-workload-ids"],
+					include_workload_ids: argv["include-workload-ids"],
+					name: resolveFileToken(
+						argv["name"] as string | undefined,
+						"name",
+						"text"
+					),
+					policies: parseObjectArray(argv["policies"], "policies"),
+				});
 				const result = await withProgress(`Updating`, async () =>
 					client.send(operation, {
 						body: bodyData,

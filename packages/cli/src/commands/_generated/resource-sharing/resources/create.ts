@@ -11,7 +11,7 @@ import {
 	getAccountId,
 	resolveAccountIdSilent,
 } from "#lib/auth.js";
-import { compactBody, parseBody, parseJsonMap } from "#lib/body-parser.js";
+import { compactBody, parseBody } from "#lib/body-parser.js";
 import { formatDryRun } from "#lib/dry-run.js";
 import { resolveFileToken } from "#lib/input-validation.js";
 import { LOCAL_ACCOUNT_ID } from "#lib/local.js";
@@ -32,11 +32,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			type: "string",
 			description: "Share identifier tag.",
 			demandOption: true,
-		})
-		.option("meta", {
-			type: "string",
-			description:
-				"Resource Metadata. Provide as a JSON object or @path/to/file.json.",
 		})
 		.option("resource-account-id", {
 			type: "string",
@@ -99,24 +94,20 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						bodyKind: "json",
 						body:
 							argv.body !== undefined
-								? parseBody(argv.body, [{ path: ["meta"], flag: "meta" }])
-								: compactBody(
-										{
-											meta: parseJsonMap(argv["meta"], "meta", true),
-											resource_account_id: resolveFileToken(
-												argv["resource-account-id"] as string | undefined,
-												"resource-account-id",
-												"text"
-											),
-											resource_id: resolveFileToken(
-												argv["resource-id"] as string | undefined,
-												"resource-id",
-												"text"
-											),
-											resource_type: argv["resource-type"],
-										},
-										[["meta"]]
-									),
+								? parseBody(argv.body)
+								: compactBody({
+										resource_account_id: resolveFileToken(
+											argv["resource-account-id"] as string | undefined,
+											"resource-account-id",
+											"text"
+										),
+										resource_id: resolveFileToken(
+											argv["resource-id"] as string | undefined,
+											"resource-id",
+											"text"
+										),
+										resource_type: argv["resource-type"],
+									}),
 					});
 					return;
 				}
@@ -125,9 +116,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.accountId = accountId;
 
 				if (argv.body) {
-					const bodyData = parseBody(argv.body, [
-						{ path: ["meta"], flag: "meta" },
-					]);
+					const bodyData = parseBody(argv.body);
 					const result = await withProgress(`Creating`, async () =>
 						client.send(operation, {
 							body: bodyData,
@@ -137,11 +126,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					);
 					formatOutput(result, { successLabel: `Created` });
 					return;
-				}
-				if (argv["meta"] === undefined) {
-					throw new Error(
-						"--meta is required (or pass --body with this field set)."
-					);
 				}
 				if (argv["resource-account-id"] === undefined) {
 					argv["resource-account-id"] = await promptForRequiredField(
@@ -172,23 +156,19 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				}
 
 				// Assemble request body from individual flags
-				const bodyData = compactBody(
-					{
-						meta: parseJsonMap(argv["meta"], "meta", true),
-						resource_account_id: resolveFileToken(
-							argv["resource-account-id"] as string | undefined,
-							"resource-account-id",
-							"text"
-						),
-						resource_id: resolveFileToken(
-							argv["resource-id"] as string | undefined,
-							"resource-id",
-							"text"
-						),
-						resource_type: argv["resource-type"],
-					},
-					[["meta"]]
-				);
+				const bodyData = compactBody({
+					resource_account_id: resolveFileToken(
+						argv["resource-account-id"] as string | undefined,
+						"resource-account-id",
+						"text"
+					),
+					resource_id: resolveFileToken(
+						argv["resource-id"] as string | undefined,
+						"resource-id",
+						"text"
+					),
+					resource_type: argv["resource-type"],
+				});
 				const result = await withProgress(`Creating`, async () =>
 					client.send(operation, {
 						body: bodyData,

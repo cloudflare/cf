@@ -11,7 +11,7 @@ import {
 	getAccountId,
 	resolveAccountIdSilent,
 } from "#lib/auth.js";
-import { compactBody, parseBody, parseJsonMap } from "#lib/body-parser.js";
+import { compactBody, parseBody } from "#lib/body-parser.js";
 import { formatDryRun } from "#lib/dry-run.js";
 import { resolveFileToken } from "#lib/input-validation.js";
 import { LOCAL_ACCOUNT_ID } from "#lib/local.js";
@@ -28,11 +28,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.usage(
 			"$0 o11y destinations create\n\nCreate a new Workers Observability Telemetry Destination."
 		)
-		.option("configuration-headers", {
-			type: "string",
-			description:
-				"The configuration.headers field. Provide as a JSON object or @path/to/file.json.",
-		})
 		.option("configuration-logpush-dataset", {
 			type: "string",
 			description: "The configuration.logpushDataset field",
@@ -106,38 +101,25 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						bodyKind: "json",
 						body:
 							argv.body !== undefined
-								? parseBody(argv.body, [
-										{
-											path: ["configuration", "headers"],
-											flag: "configuration-headers",
-										},
-									])
-								: compactBody(
-										{
-											configuration: {
-												headers: parseJsonMap(
-													argv["configuration-headers"],
-													"configuration-headers",
-													true
-												),
-												logpushDataset: argv["configuration-logpush-dataset"],
-												type: argv["configuration-type"],
-												url: resolveFileToken(
-													argv["configuration-url"] as string | undefined,
-													"configuration-url",
-													"text"
-												),
-											},
-											enabled: argv["enabled"],
-											name: resolveFileToken(
-												argv["name"] as string | undefined,
-												"name",
+								? parseBody(argv.body)
+								: compactBody({
+										configuration: {
+											logpushDataset: argv["configuration-logpush-dataset"],
+											type: argv["configuration-type"],
+											url: resolveFileToken(
+												argv["configuration-url"] as string | undefined,
+												"configuration-url",
 												"text"
 											),
-											skipPreflightCheck: argv["skip-preflight-check"],
 										},
-										[["configuration", "headers"]]
-									),
+										enabled: argv["enabled"],
+										name: resolveFileToken(
+											argv["name"] as string | undefined,
+											"name",
+											"text"
+										),
+										skipPreflightCheck: argv["skip-preflight-check"],
+									}),
 					});
 					return;
 				}
@@ -146,22 +128,12 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.accountId = accountId;
 
 				if (argv.body) {
-					const bodyData = parseBody(argv.body, [
-						{
-							path: ["configuration", "headers"],
-							flag: "configuration-headers",
-						},
-					]);
+					const bodyData = parseBody(argv.body);
 					const result = await withProgress(`Creating`, async () =>
 						client.send(operation, { body: bodyData, account_id: accountId })
 					);
 					formatOutput(result, { successLabel: `Created` });
 					return;
-				}
-				if (argv["configuration-headers"] === undefined) {
-					throw new Error(
-						"--configuration-headers is required (or pass --body with this field set)."
-					);
 				}
 				if (argv["configuration-logpush-dataset"] === undefined) {
 					argv["configuration-logpush-dataset"] =
@@ -198,32 +170,24 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				}
 
 				// Assemble request body from individual flags
-				const bodyData = compactBody(
-					{
-						configuration: {
-							headers: parseJsonMap(
-								argv["configuration-headers"],
-								"configuration-headers",
-								true
-							),
-							logpushDataset: argv["configuration-logpush-dataset"],
-							type: argv["configuration-type"],
-							url: resolveFileToken(
-								argv["configuration-url"] as string | undefined,
-								"configuration-url",
-								"text"
-							),
-						},
-						enabled: argv["enabled"],
-						name: resolveFileToken(
-							argv["name"] as string | undefined,
-							"name",
+				const bodyData = compactBody({
+					configuration: {
+						logpushDataset: argv["configuration-logpush-dataset"],
+						type: argv["configuration-type"],
+						url: resolveFileToken(
+							argv["configuration-url"] as string | undefined,
+							"configuration-url",
 							"text"
 						),
-						skipPreflightCheck: argv["skip-preflight-check"],
 					},
-					[["configuration", "headers"]]
-				);
+					enabled: argv["enabled"],
+					name: resolveFileToken(
+						argv["name"] as string | undefined,
+						"name",
+						"text"
+					),
+					skipPreflightCheck: argv["skip-preflight-check"],
+				});
 				const result = await withProgress(`Creating`, async () =>
 					client.send(operation, { body: bodyData, account_id: accountId })
 				);

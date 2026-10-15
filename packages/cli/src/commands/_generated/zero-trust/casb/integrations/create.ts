@@ -11,12 +11,7 @@ import {
 	requestApi,
 	resolveAccountIdSilent,
 } from "#lib/auth.js";
-import {
-	compactBody,
-	parseBody,
-	parseJsonMap,
-	setNestedValue,
-} from "#lib/body-parser.js";
+import { compactBody, parseBody, setNestedValue } from "#lib/body-parser.js";
 import { formatDryRun } from "#lib/dry-run.js";
 import { readFileForFlag, resolveFileToken } from "#lib/input-validation.js";
 import { LOCAL_ACCOUNT_ID } from "#lib/local.js";
@@ -62,11 +57,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("auth-method", {
 			type: "string",
 			description: "Authentication method slug (uses default if omitted).",
-		})
-		.option("credentials", {
-			type: "string",
-			description:
-				"Credentials for the integration. Provide as a JSON object or @path/to/file.json.",
 		})
 		.option("dlp-profiles", {
 			type: "string",
@@ -128,33 +118,23 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 							argv.file !== undefined
 								? { file: argv.file }
 								: argv.body !== undefined
-									? parseBody(argv.body, [
-											{ path: ["credentials"], flag: "credentials" },
-										])
-									: compactBody(
-											{
-												application: argv["application"],
-												auth_method: resolveFileToken(
-													argv["auth-method"] as string | undefined,
-													"auth-method",
-													"text"
-												),
-												credentials: parseJsonMap(
-													argv["credentials"],
-													"credentials",
-													true
-												),
-												dlp_profiles: argv["dlp-profiles"],
-												name: resolveFileToken(
-													argv["name"] as string | undefined,
-													"name",
-													"text"
-												),
-												permissions: argv["permissions"],
-												use_cases: argv["use-cases"],
-											},
-											[["credentials"]]
-										),
+									? parseBody(argv.body)
+									: compactBody({
+											application: argv["application"],
+											auth_method: resolveFileToken(
+												argv["auth-method"] as string | undefined,
+												"auth-method",
+												"text"
+											),
+											dlp_profiles: argv["dlp-profiles"],
+											name: resolveFileToken(
+												argv["name"] as string | undefined,
+												"name",
+												"text"
+											),
+											permissions: argv["permissions"],
+											use_cases: argv["use-cases"],
+										}),
 					});
 					return;
 				}
@@ -180,9 +160,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				}
 
 				if (argv.body) {
-					const bodyData = parseBody(argv.body, [
-						{ path: ["credentials"], flag: "credentials" },
-					]);
+					const bodyData = parseBody(argv.body);
 					const result = await withProgress(`Creating`, async () =>
 						requestApi<unknown>(
 							client,
@@ -218,11 +196,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						] as const
 					);
 				}
-				if (argv["credentials"] === undefined) {
-					throw new Error(
-						"--credentials is required (or pass --body with this field set)."
-					);
-				}
 				if (argv["name"] === undefined) {
 					argv["name"] = await promptForRequiredField(
 						"name",
@@ -248,12 +221,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 							"auth-method",
 							"text"
 						)
-					);
-				if (argv["credentials"] !== undefined)
-					setNestedValue(
-						bodyData,
-						["credentials"],
-						parseJsonMap(argv["credentials"], "credentials", true)
 					);
 				if (argv["dlp-profiles"] !== undefined)
 					setNestedValue(bodyData, ["dlp_profiles"], argv["dlp-profiles"]);

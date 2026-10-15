@@ -11,7 +11,7 @@ import {
 	getAccountId,
 	resolveAccountIdSilent,
 } from "#lib/auth.js";
-import { compactBody, parseBody, parseJsonMap } from "#lib/body-parser.js";
+import { compactBody, parseBody } from "#lib/body-parser.js";
 import { formatDryRun } from "#lib/dry-run.js";
 import { resolveFileToken } from "#lib/input-validation.js";
 import { LOCAL_ACCOUNT_ID } from "#lib/local.js";
@@ -40,11 +40,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("name", {
 			type: "string",
 			description: "A human-readable name for the source.",
-		})
-		.option("secret", {
-			type: "string",
-			description:
-				"Storage credentials for accessing the bucket. Shape depends on vendor. Provide as a JSON object or @path/to/file.json.",
 		})
 		.option("vendor", {
 			type: "string",
@@ -89,29 +84,25 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						bodyKind: "json",
 						body:
 							argv.body !== undefined
-								? parseBody(argv.body, [{ path: ["secret"], flag: "secret" }])
-								: compactBody(
-										{
-											account: resolveFileToken(
-												argv["account"] as string | undefined,
-												"account",
-												"text"
-											),
-											bucket: resolveFileToken(
-												argv["bucket"] as string | undefined,
-												"bucket",
-												"text"
-											),
-											name: resolveFileToken(
-												argv["name"] as string | undefined,
-												"name",
-												"text"
-											),
-											secret: parseJsonMap(argv["secret"], "secret", true),
-											vendor: argv["vendor"],
-										},
-										[["secret"]]
-									),
+								? parseBody(argv.body)
+								: compactBody({
+										account: resolveFileToken(
+											argv["account"] as string | undefined,
+											"account",
+											"text"
+										),
+										bucket: resolveFileToken(
+											argv["bucket"] as string | undefined,
+											"bucket",
+											"text"
+										),
+										name: resolveFileToken(
+											argv["name"] as string | undefined,
+											"name",
+											"text"
+										),
+										vendor: argv["vendor"],
+									}),
 					});
 					return;
 				}
@@ -120,9 +111,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.accountId = accountId;
 
 				if (argv.body) {
-					const bodyData = parseBody(argv.body, [
-						{ path: ["secret"], flag: "secret" },
-					]);
+					const bodyData = parseBody(argv.body);
 					const result = await withProgress(`Creating`, async () =>
 						client.send(operation, { body: bodyData, account_id: accountId })
 					);
@@ -141,11 +130,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						"A human-readable name for the source."
 					);
 				}
-				if (argv["secret"] === undefined) {
-					throw new Error(
-						"--secret is required (or pass --body with this field set)."
-					);
-				}
 				if (argv["vendor"] === undefined) {
 					argv["vendor"] = await promptForRequiredEnumField(
 						"vendor",
@@ -155,28 +139,24 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				}
 
 				// Assemble request body from individual flags
-				const bodyData = compactBody(
-					{
-						account: resolveFileToken(
-							argv["account"] as string | undefined,
-							"account",
-							"text"
-						),
-						bucket: resolveFileToken(
-							argv["bucket"] as string | undefined,
-							"bucket",
-							"text"
-						),
-						name: resolveFileToken(
-							argv["name"] as string | undefined,
-							"name",
-							"text"
-						),
-						secret: parseJsonMap(argv["secret"], "secret", true),
-						vendor: argv["vendor"],
-					},
-					[["secret"]]
-				);
+				const bodyData = compactBody({
+					account: resolveFileToken(
+						argv["account"] as string | undefined,
+						"account",
+						"text"
+					),
+					bucket: resolveFileToken(
+						argv["bucket"] as string | undefined,
+						"bucket",
+						"text"
+					),
+					name: resolveFileToken(
+						argv["name"] as string | undefined,
+						"name",
+						"text"
+					),
+					vendor: argv["vendor"],
+				});
 				const result = await withProgress(`Creating`, async () =>
 					client.send(operation, { body: bodyData, account_id: accountId })
 				);

@@ -85,23 +85,23 @@ const auth = createCfAuth({
 		error instanceof NonInteractiveSelectionError,
 });
 
-let temporaryAccountAllowed = false;
+let temporaryAccountRequired = false;
 
 /**
- * Mark whether this invocation may provision a temporary preview account,
+ * Mark whether this invocation requires a temporary preview account,
  * optionally for an event.
  */
-export function setTemporaryAccountAllowed(
-	allowed: boolean,
+export function setTemporaryAccountRequired(
+	required: boolean,
 	request?: TemporaryAccountRequest
 ): void {
-	temporaryAccountAllowed = allowed;
-	auth.setTemporaryAllowed(allowed, request);
+	temporaryAccountRequired = required;
+	auth.setTemporaryAllowed(required, request);
 }
 
-/** Whether this invocation requested a temporary preview account. */
-export function isTemporaryAccountAllowed(): boolean {
-	return temporaryAccountAllowed;
+/** Whether authentication requires a temporary preview account. */
+export function isTemporaryAccountRequired(): boolean {
+	return temporaryAccountRequired;
 }
 
 /**

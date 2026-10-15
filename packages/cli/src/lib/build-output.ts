@@ -48,7 +48,7 @@ export function validateBuildOutputAccount(
 ): void {
 	if (accountId !== undefined && temporaryAccount) {
 		throw new BuildOutputConfigError(
-			`The Build Output targets account "${accountId}", so \`--temporary-account\` can't be used. Remove \`--temporary-account\` to deploy to that account, or remove its account ID and rebuild.`
+			`Temporary accounts can't be used when a specific account ID ("${accountId}") is set in your config file. Remove \`--temporary-account\` to use that account, or remove \`accountId\` from your config file and rebuild to use a temporary account.`
 		);
 	}
 }

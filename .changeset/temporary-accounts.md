@@ -8,6 +8,10 @@ When no Cloudflare credentials are available, commands can now create or reuse
 a short-lived account. cf prints the account's claim URL and uses that
 account's ID and scoped API token for the command.
 
+Help never creates a temporary account. `cf auth whoami` rejects
+`--temporary-account` and `--event-code` so checking authentication cannot
+create an account.
+
 When a command fails because no credentials exist, cf suggests rerunning it
 with `--temporary-account`.
 

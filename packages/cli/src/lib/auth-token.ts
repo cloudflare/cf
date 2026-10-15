@@ -2,7 +2,7 @@ import { getAuthFromEnv } from "@cloudflare/workers-auth";
 import { MissingCredentialsError } from "./errors.js";
 import {
 	getValidToken as getOAuthToken,
-	isTemporaryAccountAllowed,
+	isTemporaryAccountRequired,
 	requireTemporaryAccount,
 } from "./oauth/index.js";
 
@@ -21,7 +21,7 @@ import {
 export async function getAuthToken(
 	options?: Parameters<typeof requireTemporaryAccount>[0]
 ): Promise<string> {
-	if (isTemporaryAccountAllowed()) {
+	if (isTemporaryAccountRequired()) {
 		return (await requireTemporaryAccount(options)).apiToken;
 	}
 

@@ -11,7 +11,7 @@ import {
 	getAccountId,
 	resolveAccountIdSilent,
 } from "#lib/auth.js";
-import { compactBody, parseBody } from "#lib/body-parser.js";
+import { compactBody, parseBody, parseJsonMap } from "#lib/body-parser.js";
 import { formatDryRun } from "#lib/dry-run.js";
 import { resolveFileToken } from "#lib/input-validation.js";
 import { LOCAL_ACCOUNT_ID } from "#lib/local.js";
@@ -231,6 +231,11 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			],
 		})
 		.coerce("country", (value) => resolveFileToken(value, "country", "text"))
+		.option("custom-headers", {
+			type: "string",
+			description:
+				"Set custom headers. Provide as a JSON object or @path/to/file.json.",
+		})
 		.option("customagent", {
 			type: "string",
 			description: "The customagent field",
@@ -291,27 +296,34 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						body:
 							argv.body !== undefined
 								? parseBody(argv.body)
-								: compactBody({
-										agentReadiness: argv["agent-readiness"],
-										country: argv["country"],
-										customagent: resolveFileToken(
-											argv["customagent"] as string | undefined,
-											"customagent",
-											"text"
-										),
-										referer: resolveFileToken(
-											argv["referer"] as string | undefined,
-											"referer",
-											"text"
-										),
-										screenshotsResolutions: argv["screenshots-resolutions"],
-										url: resolveFileToken(
-											argv["url"] as string | undefined,
-											"url",
-											"text"
-										),
-										visibility: argv["visibility"],
-									}),
+								: compactBody(
+										{
+											agentReadiness: argv["agent-readiness"],
+											country: argv["country"],
+											customHeaders: parseJsonMap(
+												argv["custom-headers"],
+												"custom-headers"
+											),
+											customagent: resolveFileToken(
+												argv["customagent"] as string | undefined,
+												"customagent",
+												"text"
+											),
+											referer: resolveFileToken(
+												argv["referer"] as string | undefined,
+												"referer",
+												"text"
+											),
+											screenshotsResolutions: argv["screenshots-resolutions"],
+											url: resolveFileToken(
+												argv["url"] as string | undefined,
+												"url",
+												"text"
+											),
+											visibility: argv["visibility"],
+										},
+										[["customHeaders"]]
+									),
 					});
 					return;
 				}
@@ -332,27 +344,34 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				}
 
 				// Assemble request body from individual flags
-				const bodyData = compactBody({
-					agentReadiness: argv["agent-readiness"],
-					country: argv["country"],
-					customagent: resolveFileToken(
-						argv["customagent"] as string | undefined,
-						"customagent",
-						"text"
-					),
-					referer: resolveFileToken(
-						argv["referer"] as string | undefined,
-						"referer",
-						"text"
-					),
-					screenshotsResolutions: argv["screenshots-resolutions"],
-					url: resolveFileToken(
-						argv["url"] as string | undefined,
-						"url",
-						"text"
-					),
-					visibility: argv["visibility"],
-				});
+				const bodyData = compactBody(
+					{
+						agentReadiness: argv["agent-readiness"],
+						country: argv["country"],
+						customHeaders: parseJsonMap(
+							argv["custom-headers"],
+							"custom-headers"
+						),
+						customagent: resolveFileToken(
+							argv["customagent"] as string | undefined,
+							"customagent",
+							"text"
+						),
+						referer: resolveFileToken(
+							argv["referer"] as string | undefined,
+							"referer",
+							"text"
+						),
+						screenshotsResolutions: argv["screenshots-resolutions"],
+						url: resolveFileToken(
+							argv["url"] as string | undefined,
+							"url",
+							"text"
+						),
+						visibility: argv["visibility"],
+					},
+					[["customHeaders"]]
+				);
 				const result = await withProgress(`Creating`, async () =>
 					client.send(operation, { body: bodyData, account_id: accountId })
 				);

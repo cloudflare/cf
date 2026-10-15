@@ -14,6 +14,7 @@ import {
 import {
 	compactBody,
 	parseBody,
+	parseJsonMap,
 	parseObjectArray,
 	setNestedValue,
 } from "#lib/body-parser.js";
@@ -231,7 +232,10 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			type: "number",
 			description: "The score_threshold field",
 		})
-		.option("source", { type: "string", description: "The source field" })
+		.option("source", {
+			type: "string",
+			description: "R2 bucket name or HTTP(S) root website URL to index.",
+		})
 		.option("source-params-exclude-items", {
 			type: "string",
 			array: true,
@@ -289,6 +293,11 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"text"
 			)
 		)
+		.option("source-params-web-crawler-parse-options-include-headers", {
+			type: "string",
+			description:
+				"Up to 5 custom HTTP headers sent with each crawl request. Names must use RFC-7230 token characters, excluding spaces, colons, and control characters. Values must use HTAB and printable ASCII only, excluding CR and LF. Provide as a JSON object or @path/to/file.json.",
+		})
 		.option("source-params-web-crawler-parse-options-include-images", {
 			type: "boolean",
 			description:
@@ -446,214 +455,234 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						body:
 							argv.body !== undefined
 								? parseBody(argv.body)
-								: compactBody({
-										ai_gateway_id: resolveFileToken(
-											argv["ai-gateway-id"] as string | undefined,
-											"ai-gateway-id",
-											"text"
-										),
-										ai_search_model: resolveFileToken(
-											argv["ai-search-model"] as string | undefined,
-											"ai-search-model",
-											"text"
-										),
-										cache: argv["cache"],
-										cache_threshold: argv["cache-threshold"],
-										cache_ttl: argv["cache-ttl"],
-										chunk: argv["chunk"],
-										chunk_overlap: argv["chunk-overlap"],
-										chunk_size: argv["chunk-size"],
-										custom_metadata: parseObjectArray(
-											argv["custom-metadata"],
-											"custom-metadata"
-										),
-										embedding_model: resolveFileToken(
-											argv["embedding-model"] as string | undefined,
-											"embedding-model",
-											"text"
-										),
-										fusion_method: argv["fusion-method"],
-										index_method: {
-											keyword: argv["index-method-keyword"],
-											vector: argv["index-method-vector"],
-										},
-										indexing_options: {
-											keyword_tokenizer:
-												argv["indexing-options-keyword-tokenizer"],
-											use_ocr: argv["indexing-options-use-ocr"],
-										},
-										max_num_results: argv["max-num-results"],
-										metadata: {
-											created_from_aisearch_wizard:
-												argv["metadata-created-from-aisearch-wizard"],
-											created_from_emdash_plugin: {
-												type: argv["metadata-created-from-emdash-plugin-type"],
-												version: resolveFileToken(
-													argv[
-														"metadata-created-from-emdash-plugin-version"
-													] as string | undefined,
-													"metadata-created-from-emdash-plugin-version",
+								: compactBody(
+										{
+											ai_gateway_id: resolveFileToken(
+												argv["ai-gateway-id"] as string | undefined,
+												"ai-gateway-id",
+												"text"
+											),
+											ai_search_model: resolveFileToken(
+												argv["ai-search-model"] as string | undefined,
+												"ai-search-model",
+												"text"
+											),
+											cache: argv["cache"],
+											cache_threshold: argv["cache-threshold"],
+											cache_ttl: argv["cache-ttl"],
+											chunk: argv["chunk"],
+											chunk_overlap: argv["chunk-overlap"],
+											chunk_size: argv["chunk-size"],
+											custom_metadata: parseObjectArray(
+												argv["custom-metadata"],
+												"custom-metadata"
+											),
+											embedding_model: resolveFileToken(
+												argv["embedding-model"] as string | undefined,
+												"embedding-model",
+												"text"
+											),
+											fusion_method: argv["fusion-method"],
+											index_method: {
+												keyword: argv["index-method-keyword"],
+												vector: argv["index-method-vector"],
+											},
+											indexing_options: {
+												keyword_tokenizer:
+													argv["indexing-options-keyword-tokenizer"],
+												use_ocr: argv["indexing-options-use-ocr"],
+											},
+											max_num_results: argv["max-num-results"],
+											metadata: {
+												created_from_aisearch_wizard:
+													argv["metadata-created-from-aisearch-wizard"],
+												created_from_emdash_plugin: {
+													type: argv[
+														"metadata-created-from-emdash-plugin-type"
+													],
+													version: resolveFileToken(
+														argv[
+															"metadata-created-from-emdash-plugin-version"
+														] as string | undefined,
+														"metadata-created-from-emdash-plugin-version",
+														"text"
+													),
+												},
+												worker_domain: resolveFileToken(
+													argv["metadata-worker-domain"] as string | undefined,
+													"metadata-worker-domain",
 													"text"
 												),
 											},
-											worker_domain: resolveFileToken(
-												argv["metadata-worker-domain"] as string | undefined,
-												"metadata-worker-domain",
+											paused: argv["paused"],
+											public_endpoint_params: {
+												authorized_hosts:
+													argv["public-endpoint-params-authorized-hosts"],
+												chat_completions_endpoint: {
+													disabled:
+														argv[
+															"public-endpoint-params-chat-completions-endpoint-disabled"
+														],
+												},
+												custom_domains:
+													argv["public-endpoint-params-custom-domains"],
+												default_domain_enabled:
+													argv["public-endpoint-params-default-domain-enabled"],
+												enabled: argv["public-endpoint-params-enabled"],
+												mcp: {
+													description: resolveFileToken(
+														argv["public-endpoint-params-mcp-description"] as
+															| string
+															| undefined,
+														"public-endpoint-params-mcp-description",
+														"text"
+													),
+													disabled: argv["public-endpoint-params-mcp-disabled"],
+												},
+												rate_limit: {
+													period_ms:
+														argv["public-endpoint-params-rate-limit-period-ms"],
+													requests:
+														argv["public-endpoint-params-rate-limit-requests"],
+													technique:
+														argv["public-endpoint-params-rate-limit-technique"],
+												},
+												search_endpoint: {
+													disabled:
+														argv[
+															"public-endpoint-params-search-endpoint-disabled"
+														],
+												},
+											},
+											reranking: argv["reranking"],
+											reranking_model: resolveFileToken(
+												argv["reranking-model"] as string | undefined,
+												"reranking-model",
 												"text"
 											),
-										},
-										paused: argv["paused"],
-										public_endpoint_params: {
-											authorized_hosts:
-												argv["public-endpoint-params-authorized-hosts"],
-											chat_completions_endpoint: {
-												disabled:
-													argv[
-														"public-endpoint-params-chat-completions-endpoint-disabled"
-													],
+											retrieval_options: {
+												keyword_match_mode:
+													argv["retrieval-options-keyword-match-mode"],
 											},
-											custom_domains:
-												argv["public-endpoint-params-custom-domains"],
-											default_domain_enabled:
-												argv["public-endpoint-params-default-domain-enabled"],
-											enabled: argv["public-endpoint-params-enabled"],
-											mcp: {
-												description: resolveFileToken(
-													argv["public-endpoint-params-mcp-description"] as
+											rewrite_model: resolveFileToken(
+												argv["rewrite-model"] as string | undefined,
+												"rewrite-model",
+												"text"
+											),
+											rewrite_query: argv["rewrite-query"],
+											score_threshold: argv["score-threshold"],
+											source: resolveFileToken(
+												argv["source"] as string | undefined,
+												"source",
+												"text"
+											),
+											source_params: {
+												exclude_items: argv["source-params-exclude-items"],
+												include_items: argv["source-params-include-items"],
+												prefix: resolveFileToken(
+													argv["source-params-prefix"] as string | undefined,
+													"source-params-prefix",
+													"text"
+												),
+												r2_jurisdiction: resolveFileToken(
+													argv["source-params-r2-jurisdiction"] as
 														| string
 														| undefined,
-													"public-endpoint-params-mcp-description",
+													"source-params-r2-jurisdiction",
 													"text"
 												),
-												disabled: argv["public-endpoint-params-mcp-disabled"],
+												web_crawler: {
+													discover_options: {
+														depth:
+															argv[
+																"source-params-web-crawler-discover-options-depth"
+															],
+														include_external_links:
+															argv[
+																"source-params-web-crawler-discover-options-include-external-links"
+															],
+														include_subdomains:
+															argv[
+																"source-params-web-crawler-discover-options-include-subdomains"
+															],
+														limit:
+															argv[
+																"source-params-web-crawler-discover-options-limit"
+															],
+														max_age:
+															argv[
+																"source-params-web-crawler-discover-options-max-age"
+															],
+														source:
+															argv[
+																"source-params-web-crawler-discover-options-source"
+															],
+													},
+													parse_options: {
+														include_headers: parseJsonMap(
+															argv[
+																"source-params-web-crawler-parse-options-include-headers"
+															],
+															"source-params-web-crawler-parse-options-include-headers"
+														),
+														include_images:
+															argv[
+																"source-params-web-crawler-parse-options-include-images"
+															],
+														specific_sitemaps:
+															argv[
+																"source-params-web-crawler-parse-options-specific-sitemaps"
+															],
+														use_browser_rendering:
+															argv[
+																"source-params-web-crawler-parse-options-use-browser-rendering"
+															],
+													},
+													parse_type:
+														argv["source-params-web-crawler-parse-type"],
+												},
 											},
-											rate_limit: {
-												period_ms:
-													argv["public-endpoint-params-rate-limit-period-ms"],
-												requests:
-													argv["public-endpoint-params-rate-limit-requests"],
-												technique:
-													argv["public-endpoint-params-rate-limit-technique"],
-											},
-											search_endpoint: {
-												disabled:
-													argv[
-														"public-endpoint-params-search-endpoint-disabled"
-													],
-											},
-										},
-										reranking: argv["reranking"],
-										reranking_model: resolveFileToken(
-											argv["reranking-model"] as string | undefined,
-											"reranking-model",
-											"text"
-										),
-										retrieval_options: {
-											keyword_match_mode:
-												argv["retrieval-options-keyword-match-mode"],
-										},
-										rewrite_model: resolveFileToken(
-											argv["rewrite-model"] as string | undefined,
-											"rewrite-model",
-											"text"
-										),
-										rewrite_query: argv["rewrite-query"],
-										score_threshold: argv["score-threshold"],
-										source: resolveFileToken(
-											argv["source"] as string | undefined,
-											"source",
-											"text"
-										),
-										source_params: {
-											exclude_items: argv["source-params-exclude-items"],
-											include_items: argv["source-params-include-items"],
-											prefix: resolveFileToken(
-												argv["source-params-prefix"] as string | undefined,
-												"source-params-prefix",
+											summarization: argv["summarization"],
+											summarization_model: resolveFileToken(
+												argv["summarization-model"] as string | undefined,
+												"summarization-model",
 												"text"
 											),
-											r2_jurisdiction: resolveFileToken(
-												argv["source-params-r2-jurisdiction"] as
+											sync_interval: argv["sync-interval"],
+											system_prompt_ai_search: resolveFileToken(
+												argv["system-prompt-ai-search"] as string | undefined,
+												"system-prompt-ai-search",
+												"text"
+											),
+											system_prompt_index_summarization: resolveFileToken(
+												argv["system-prompt-index-summarization"] as
 													| string
 													| undefined,
-												"source-params-r2-jurisdiction",
+												"system-prompt-index-summarization",
 												"text"
 											),
-											web_crawler: {
-												discover_options: {
-													depth:
-														argv[
-															"source-params-web-crawler-discover-options-depth"
-														],
-													include_external_links:
-														argv[
-															"source-params-web-crawler-discover-options-include-external-links"
-														],
-													include_subdomains:
-														argv[
-															"source-params-web-crawler-discover-options-include-subdomains"
-														],
-													limit:
-														argv[
-															"source-params-web-crawler-discover-options-limit"
-														],
-													max_age:
-														argv[
-															"source-params-web-crawler-discover-options-max-age"
-														],
-													source:
-														argv[
-															"source-params-web-crawler-discover-options-source"
-														],
-												},
-												parse_options: {
-													include_images:
-														argv[
-															"source-params-web-crawler-parse-options-include-images"
-														],
-													specific_sitemaps:
-														argv[
-															"source-params-web-crawler-parse-options-specific-sitemaps"
-														],
-													use_browser_rendering:
-														argv[
-															"source-params-web-crawler-parse-options-use-browser-rendering"
-														],
-												},
-												parse_type:
-													argv["source-params-web-crawler-parse-type"],
-											},
+											system_prompt_rewrite_query: resolveFileToken(
+												argv["system-prompt-rewrite-query"] as
+													| string
+													| undefined,
+												"system-prompt-rewrite-query",
+												"text"
+											),
+											token_id: resolveFileToken(
+												argv["token-id"] as string | undefined,
+												"token-id",
+												"text"
+											),
 										},
-										summarization: argv["summarization"],
-										summarization_model: resolveFileToken(
-											argv["summarization-model"] as string | undefined,
-											"summarization-model",
-											"text"
-										),
-										sync_interval: argv["sync-interval"],
-										system_prompt_ai_search: resolveFileToken(
-											argv["system-prompt-ai-search"] as string | undefined,
-											"system-prompt-ai-search",
-											"text"
-										),
-										system_prompt_index_summarization: resolveFileToken(
-											argv["system-prompt-index-summarization"] as
-												| string
-												| undefined,
-											"system-prompt-index-summarization",
-											"text"
-										),
-										system_prompt_rewrite_query: resolveFileToken(
-											argv["system-prompt-rewrite-query"] as string | undefined,
-											"system-prompt-rewrite-query",
-											"text"
-										),
-										token_id: resolveFileToken(
-											argv["token-id"] as string | undefined,
-											"token-id",
-											"text"
-										),
-									}),
+										[
+											[
+												"source_params",
+												"web_crawler",
+												"parse_options",
+												"include_headers",
+											],
+										]
+									),
 					});
 					return;
 				}
@@ -1019,6 +1048,23 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						bodyData,
 						["source_params", "web_crawler", "discover_options", "source"],
 						argv["source-params-web-crawler-discover-options-source"]
+					);
+				if (
+					argv["source-params-web-crawler-parse-options-include-headers"] !==
+					undefined
+				)
+					setNestedValue(
+						bodyData,
+						[
+							"source_params",
+							"web_crawler",
+							"parse_options",
+							"include_headers",
+						],
+						parseJsonMap(
+							argv["source-params-web-crawler-parse-options-include-headers"],
+							"source-params-web-crawler-parse-options-include-headers"
+						)
 					);
 				if (
 					argv["source-params-web-crawler-parse-options-include-images"] !==

@@ -11,7 +11,12 @@ import {
 	requestApi,
 	resolveAccountIdSilent,
 } from "#lib/auth.js";
-import { compactBody, parseBody, setNestedValue } from "#lib/body-parser.js";
+import {
+	compactBody,
+	parseBody,
+	parseJsonMap,
+	setNestedValue,
+} from "#lib/body-parser.js";
 import { formatDryRun } from "#lib/dry-run.js";
 import { resolveFileToken } from "#lib/input-validation.js";
 import { LOCAL_ACCOUNT_ID } from "#lib/local.js";
@@ -48,6 +53,11 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			type: "number",
 			description:
 				"The maximum duration in seconds for a video upload. Can be set for a video that is not yet uploaded to limit its duration. Uploads that exceed the specified duration will fail during processing. A value of `-1` means the value is unknown.",
+		})
+		.option("meta", {
+			type: "string",
+			description:
+				"A user modifiable key-value store used to reference other systems of record for managing videos. Provide as a JSON object or @path/to/file.json.",
 		})
 		.option("require-signed-urls", {
 			type: "boolean",
@@ -111,34 +121,38 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						body:
 							argv.body !== undefined
 								? parseBody(argv.body)
-								: compactBody({
-										allowedOrigins: argv["allowed-origins"],
-										creator: resolveFileToken(
-											argv["creator"] as string | undefined,
-											"creator",
-											"text"
-										),
-										expiry: resolveFileToken(
-											argv["expiry"] as string | undefined,
-											"expiry",
-											"text"
-										),
-										maxDurationSeconds: argv["max-duration-seconds"],
-										requireSignedURLs: argv["require-signed-urls"],
-										scheduledDeletion: resolveFileToken(
-											argv["scheduled-deletion"] as string | undefined,
-											"scheduled-deletion",
-											"text"
-										),
-										thumbnailTimestampPct: argv["thumbnail-timestamp-pct"],
-										watermark: {
-											uid: resolveFileToken(
-												argv["watermark-uid"] as string | undefined,
-												"watermark-uid",
+								: compactBody(
+										{
+											allowedOrigins: argv["allowed-origins"],
+											creator: resolveFileToken(
+												argv["creator"] as string | undefined,
+												"creator",
 												"text"
 											),
+											expiry: resolveFileToken(
+												argv["expiry"] as string | undefined,
+												"expiry",
+												"text"
+											),
+											maxDurationSeconds: argv["max-duration-seconds"],
+											meta: parseJsonMap(argv["meta"], "meta"),
+											requireSignedURLs: argv["require-signed-urls"],
+											scheduledDeletion: resolveFileToken(
+												argv["scheduled-deletion"] as string | undefined,
+												"scheduled-deletion",
+												"text"
+											),
+											thumbnailTimestampPct: argv["thumbnail-timestamp-pct"],
+											watermark: {
+												uid: resolveFileToken(
+													argv["watermark-uid"] as string | undefined,
+													"watermark-uid",
+													"text"
+												),
+											},
 										},
-									}),
+										[["meta"]]
+									),
 					});
 					return;
 				}
@@ -197,6 +211,12 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						bodyData,
 						["maxDurationSeconds"],
 						argv["max-duration-seconds"]
+					);
+				if (argv["meta"] !== undefined)
+					setNestedValue(
+						bodyData,
+						["meta"],
+						parseJsonMap(argv["meta"], "meta")
 					);
 				if (argv["require-signed-urls"] !== undefined)
 					setNestedValue(

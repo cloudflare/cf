@@ -11,7 +11,7 @@ import {
 	getAccountId,
 	resolveAccountIdSilent,
 } from "#lib/auth.js";
-import { compactBody, parseBody } from "#lib/body-parser.js";
+import { compactBody, parseBody, parseJsonMap } from "#lib/body-parser.js";
 import { formatDryRun } from "#lib/dry-run.js";
 import { resolveFileToken } from "#lib/input-validation.js";
 import { LOCAL_ACCOUNT_ID } from "#lib/local.js";
@@ -91,6 +91,11 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			type: "number",
 			description:
 				"Set the order of your rules. Lower values indicate higher precedence. At each processing phase, evaluate applicable rules in ascending order of this value. Refer to [Order of enforcement](http://developers.cloudflare.com/learning-paths/secure-internet-traffic/understand-policies/order-of-enforcement/#manage-precedence-with-terraform) to manage precedence via Terraform.",
+		})
+		.option("rule-settings-add-headers", {
+			type: "string",
+			description:
+				"Add custom headers to allowed requests as key-value pairs. Use header names as keys that map to arrays of header values. Header values may contain `@{selector.name}` variable references that are interpolated at the edge. Use `@@{` to escape a literal `@{`. A maximum of 20 header operations (add + set + delete) is allowed per policy. Each header name may not exceed 256 bytes and each header value may not exceed 4 KB. Settable only for `http` rules with the action set to `allow`. Provide as a JSON object or @path/to/file.json.",
 		})
 		.option("rule-settings-allow-child-bypass", {
 			type: "boolean",
@@ -369,6 +374,11 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description:
 				"Enable to send queries that match the policy to Cloudflare's default 1.1.1.1 DNS resolver. Cannot set when 'dns_resolvers' specified or 'resolve_dns_internally' is set. Only valid when a rule's action set to 'resolve'. Settable only for `dns_resolver` rules.",
 		})
+		.option("rule-settings-set-headers", {
+			type: "string",
+			description:
+				"Replace existing headers on allowed requests with the specified key-value pairs. If a header does not exist, it is added. Header values may contain `@{selector.name}` variable references that are interpolated at the edge. Use `@@{` to escape a literal `@{`. A maximum of 20 header operations (add + set + delete) is allowed per policy. Each header name may not exceed 256 bytes and each header value may not exceed 4 KB. Settable only for `http` rules with the action set to `allow`. Provide as a JSON object or @path/to/file.json.",
+		})
 		.option("rule-settings-untrusted-cert-action", {
 			type: "string",
 			description:
@@ -434,6 +444,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		})
 		.check((argv) => {
 			const groupSet = [
+				"rule-settings-add-headers",
 				"rule-settings-allow-child-bypass",
 				"rule-settings-biso-admin-controls-copy",
 				"rule-settings-biso-admin-controls-dcp",
@@ -480,6 +491,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"rule-settings-resolve-dns-internally-fallback",
 				"rule-settings-resolve-dns-internally-view-id",
 				"rule-settings-resolve-dns-through-cloudflare",
+				"rule-settings-set-headers",
 				"rule-settings-untrusted-cert-action",
 			].some((k) => argv[k] !== undefined);
 			if (groupSet) {
@@ -558,257 +570,275 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						body:
 							argv.body !== undefined
 								? parseBody(argv.body)
-								: compactBody({
-										action: argv["action"],
-										description: resolveFileToken(
-											argv["description"] as string | undefined,
-											"description",
-											"text"
-										),
-										device_posture: resolveFileToken(
-											argv["device-posture"] as string | undefined,
-											"device-posture",
-											"text"
-										),
-										enabled: argv["enabled"],
-										expiration: {
-											duration: argv["expiration-duration"],
-										},
-										filters: argv["filters"],
-										identity: resolveFileToken(
-											argv["identity"] as string | undefined,
-											"identity",
-											"text"
-										),
-										name: resolveFileToken(
-											argv["name"] as string | undefined,
-											"name",
-											"text"
-										),
-										precedence: argv["precedence"],
-										rule_settings: {
-											allow_child_bypass:
-												argv["rule-settings-allow-child-bypass"],
-											biso_admin_controls: {
-												copy: argv["rule-settings-biso-admin-controls-copy"],
-												dcp: argv["rule-settings-biso-admin-controls-dcp"],
-												dd: argv["rule-settings-biso-admin-controls-dd"],
-												dk: argv["rule-settings-biso-admin-controls-dk"],
-												download:
-													argv["rule-settings-biso-admin-controls-download"],
-												dp: argv["rule-settings-biso-admin-controls-dp"],
-												du: argv["rule-settings-biso-admin-controls-du"],
-												keyboard:
-													argv["rule-settings-biso-admin-controls-keyboard"],
-												paste: argv["rule-settings-biso-admin-controls-paste"],
-												printing:
-													argv["rule-settings-biso-admin-controls-printing"],
-												upload:
-													argv["rule-settings-biso-admin-controls-upload"],
-												version:
-													argv["rule-settings-biso-admin-controls-version"],
-												wm_id: resolveFileToken(
-													argv["rule-settings-biso-admin-controls-wm-id"] as
-														| string
-														| undefined,
-													"rule-settings-biso-admin-controls-wm-id",
-													"text"
-												),
-											},
-											block_page: {
-												include_context:
-													argv["rule-settings-block-page-include-context"],
-												target_uri: resolveFileToken(
-													argv["rule-settings-block-page-target-uri"] as
-														| string
-														| undefined,
-													"rule-settings-block-page-target-uri",
-													"text"
-												),
-											},
-											block_page_enabled:
-												argv["rule-settings-block-page-enabled"],
-											block_reason: resolveFileToken(
-												argv["rule-settings-block-reason"] as
-													| string
-													| undefined,
-												"rule-settings-block-reason",
+								: compactBody(
+										{
+											action: argv["action"],
+											description: resolveFileToken(
+												argv["description"] as string | undefined,
+												"description",
 												"text"
 											),
-											bypass_parent_rule:
-												argv["rule-settings-bypass-parent-rule"],
-											check_session: {
-												duration: resolveFileToken(
-													argv["rule-settings-check-session-duration"] as
-														| string
-														| undefined,
-													"rule-settings-check-session-duration",
-													"text"
-												),
-												enforce: argv["rule-settings-check-session-enforce"],
+											device_posture: resolveFileToken(
+												argv["device-posture"] as string | undefined,
+												"device-posture",
+												"text"
+											),
+											enabled: argv["enabled"],
+											expiration: {
+												duration: argv["expiration-duration"],
 											},
-											delete_headers: argv["rule-settings-delete-headers"],
-											egress: {
-												ipv4: resolveFileToken(
-													argv["rule-settings-egress-ipv4"] as
+											filters: argv["filters"],
+											identity: resolveFileToken(
+												argv["identity"] as string | undefined,
+												"identity",
+												"text"
+											),
+											name: resolveFileToken(
+												argv["name"] as string | undefined,
+												"name",
+												"text"
+											),
+											precedence: argv["precedence"],
+											rule_settings: {
+												add_headers: parseJsonMap(
+													argv["rule-settings-add-headers"],
+													"rule-settings-add-headers"
+												),
+												allow_child_bypass:
+													argv["rule-settings-allow-child-bypass"],
+												biso_admin_controls: {
+													copy: argv["rule-settings-biso-admin-controls-copy"],
+													dcp: argv["rule-settings-biso-admin-controls-dcp"],
+													dd: argv["rule-settings-biso-admin-controls-dd"],
+													dk: argv["rule-settings-biso-admin-controls-dk"],
+													download:
+														argv["rule-settings-biso-admin-controls-download"],
+													dp: argv["rule-settings-biso-admin-controls-dp"],
+													du: argv["rule-settings-biso-admin-controls-du"],
+													keyboard:
+														argv["rule-settings-biso-admin-controls-keyboard"],
+													paste:
+														argv["rule-settings-biso-admin-controls-paste"],
+													printing:
+														argv["rule-settings-biso-admin-controls-printing"],
+													upload:
+														argv["rule-settings-biso-admin-controls-upload"],
+													version:
+														argv["rule-settings-biso-admin-controls-version"],
+													wm_id: resolveFileToken(
+														argv["rule-settings-biso-admin-controls-wm-id"] as
+															| string
+															| undefined,
+														"rule-settings-biso-admin-controls-wm-id",
+														"text"
+													),
+												},
+												block_page: {
+													include_context:
+														argv["rule-settings-block-page-include-context"],
+													target_uri: resolveFileToken(
+														argv["rule-settings-block-page-target-uri"] as
+															| string
+															| undefined,
+														"rule-settings-block-page-target-uri",
+														"text"
+													),
+												},
+												block_page_enabled:
+													argv["rule-settings-block-page-enabled"],
+												block_reason: resolveFileToken(
+													argv["rule-settings-block-reason"] as
 														| string
 														| undefined,
-													"rule-settings-egress-ipv4",
+													"rule-settings-block-reason",
 													"text"
 												),
-												ipv4_fallback: resolveFileToken(
-													argv["rule-settings-egress-ipv4-fallback"] as
-														| string
-														| undefined,
-													"rule-settings-egress-ipv4-fallback",
-													"text"
-												),
-												ipv6: resolveFileToken(
-													argv["rule-settings-egress-ipv6"] as
-														| string
-														| undefined,
-													"rule-settings-egress-ipv6",
-													"text"
-												),
-											},
-											forensic_copy: {
-												enabled: argv["rule-settings-forensic-copy-enabled"],
-											},
-											ignore_cname_category_matches:
-												argv["rule-settings-ignore-cname-category-matches"],
-											insecure_disable_dnssec_validation:
-												argv[
-													"rule-settings-insecure-disable-dnssec-validation"
-												],
-											ip_categories: argv["rule-settings-ip-categories"],
-											ip_indicator_feeds:
-												argv["rule-settings-ip-indicator-feeds"],
-											l4override: {
-												ip: resolveFileToken(
-													argv["rule-settings-l4override-ip"] as
-														| string
-														| undefined,
-													"rule-settings-l4override-ip",
-													"text"
-												),
-												port: argv["rule-settings-l4override-port"],
-											},
-											notification_settings: {
-												enabled:
-													argv["rule-settings-notification-settings-enabled"],
-												include_context:
+												bypass_parent_rule:
+													argv["rule-settings-bypass-parent-rule"],
+												check_session: {
+													duration: resolveFileToken(
+														argv["rule-settings-check-session-duration"] as
+															| string
+															| undefined,
+														"rule-settings-check-session-duration",
+														"text"
+													),
+													enforce: argv["rule-settings-check-session-enforce"],
+												},
+												delete_headers: argv["rule-settings-delete-headers"],
+												egress: {
+													ipv4: resolveFileToken(
+														argv["rule-settings-egress-ipv4"] as
+															| string
+															| undefined,
+														"rule-settings-egress-ipv4",
+														"text"
+													),
+													ipv4_fallback: resolveFileToken(
+														argv["rule-settings-egress-ipv4-fallback"] as
+															| string
+															| undefined,
+														"rule-settings-egress-ipv4-fallback",
+														"text"
+													),
+													ipv6: resolveFileToken(
+														argv["rule-settings-egress-ipv6"] as
+															| string
+															| undefined,
+														"rule-settings-egress-ipv6",
+														"text"
+													),
+												},
+												forensic_copy: {
+													enabled: argv["rule-settings-forensic-copy-enabled"],
+												},
+												ignore_cname_category_matches:
+													argv["rule-settings-ignore-cname-category-matches"],
+												insecure_disable_dnssec_validation:
 													argv[
-														"rule-settings-notification-settings-include-context"
+														"rule-settings-insecure-disable-dnssec-validation"
 													],
-												msg: resolveFileToken(
-													argv["rule-settings-notification-settings-msg"] as
+												ip_categories: argv["rule-settings-ip-categories"],
+												ip_indicator_feeds:
+													argv["rule-settings-ip-indicator-feeds"],
+												l4override: {
+													ip: resolveFileToken(
+														argv["rule-settings-l4override-ip"] as
+															| string
+															| undefined,
+														"rule-settings-l4override-ip",
+														"text"
+													),
+													port: argv["rule-settings-l4override-port"],
+												},
+												notification_settings: {
+													enabled:
+														argv["rule-settings-notification-settings-enabled"],
+													include_context:
+														argv[
+															"rule-settings-notification-settings-include-context"
+														],
+													msg: resolveFileToken(
+														argv["rule-settings-notification-settings-msg"] as
+															| string
+															| undefined,
+														"rule-settings-notification-settings-msg",
+														"text"
+													),
+													support_url: resolveFileToken(
+														argv[
+															"rule-settings-notification-settings-support-url"
+														] as string | undefined,
+														"rule-settings-notification-settings-support-url",
+														"text"
+													),
+												},
+												override_host: resolveFileToken(
+													argv["rule-settings-override-host"] as
 														| string
 														| undefined,
-													"rule-settings-notification-settings-msg",
+													"rule-settings-override-host",
 													"text"
 												),
-												support_url: resolveFileToken(
-													argv[
-														"rule-settings-notification-settings-support-url"
-													] as string | undefined,
-													"rule-settings-notification-settings-support-url",
+												override_ips: argv["rule-settings-override-ips"],
+												payload_log: {
+													enabled: argv["rule-settings-payload-log-enabled"],
+												},
+												quarantine: {
+													file_types:
+														argv["rule-settings-quarantine-file-types"],
+												},
+												redirect: {
+													include_context:
+														argv["rule-settings-redirect-include-context"],
+													preserve_path_and_query:
+														argv[
+															"rule-settings-redirect-preserve-path-and-query"
+														],
+													target_uri: resolveFileToken(
+														argv["rule-settings-redirect-target-uri"] as
+															| string
+															| undefined,
+														"rule-settings-redirect-target-uri",
+														"text"
+													),
+												},
+												resolve_dns_internally: {
+													fallback:
+														argv[
+															"rule-settings-resolve-dns-internally-fallback"
+														],
+													view_id: resolveFileToken(
+														argv[
+															"rule-settings-resolve-dns-internally-view-id"
+														] as string | undefined,
+														"rule-settings-resolve-dns-internally-view-id",
+														"text"
+													),
+												},
+												resolve_dns_through_cloudflare:
+													argv["rule-settings-resolve-dns-through-cloudflare"],
+												set_headers: parseJsonMap(
+													argv["rule-settings-set-headers"],
+													"rule-settings-set-headers"
+												),
+												untrusted_cert: {
+													action: argv["rule-settings-untrusted-cert-action"],
+												},
+											},
+											schedule: {
+												fri: resolveFileToken(
+													argv["schedule-fri"] as string | undefined,
+													"schedule-fri",
+													"text"
+												),
+												mon: resolveFileToken(
+													argv["schedule-mon"] as string | undefined,
+													"schedule-mon",
+													"text"
+												),
+												sat: resolveFileToken(
+													argv["schedule-sat"] as string | undefined,
+													"schedule-sat",
+													"text"
+												),
+												sun: resolveFileToken(
+													argv["schedule-sun"] as string | undefined,
+													"schedule-sun",
+													"text"
+												),
+												thu: resolveFileToken(
+													argv["schedule-thu"] as string | undefined,
+													"schedule-thu",
+													"text"
+												),
+												time_zone: resolveFileToken(
+													argv["schedule-time-zone"] as string | undefined,
+													"schedule-time-zone",
+													"text"
+												),
+												tue: resolveFileToken(
+													argv["schedule-tue"] as string | undefined,
+													"schedule-tue",
+													"text"
+												),
+												wed: resolveFileToken(
+													argv["schedule-wed"] as string | undefined,
+													"schedule-wed",
 													"text"
 												),
 											},
-											override_host: resolveFileToken(
-												argv["rule-settings-override-host"] as
-													| string
-													| undefined,
-												"rule-settings-override-host",
-												"text"
-											),
-											override_ips: argv["rule-settings-override-ips"],
-											payload_log: {
-												enabled: argv["rule-settings-payload-log-enabled"],
-											},
-											quarantine: {
-												file_types: argv["rule-settings-quarantine-file-types"],
-											},
-											redirect: {
-												include_context:
-													argv["rule-settings-redirect-include-context"],
-												preserve_path_and_query:
-													argv[
-														"rule-settings-redirect-preserve-path-and-query"
-													],
-												target_uri: resolveFileToken(
-													argv["rule-settings-redirect-target-uri"] as
-														| string
-														| undefined,
-													"rule-settings-redirect-target-uri",
-													"text"
-												),
-											},
-											resolve_dns_internally: {
-												fallback:
-													argv["rule-settings-resolve-dns-internally-fallback"],
-												view_id: resolveFileToken(
-													argv[
-														"rule-settings-resolve-dns-internally-view-id"
-													] as string | undefined,
-													"rule-settings-resolve-dns-internally-view-id",
-													"text"
-												),
-											},
-											resolve_dns_through_cloudflare:
-												argv["rule-settings-resolve-dns-through-cloudflare"],
-											untrusted_cert: {
-												action: argv["rule-settings-untrusted-cert-action"],
-											},
-										},
-										schedule: {
-											fri: resolveFileToken(
-												argv["schedule-fri"] as string | undefined,
-												"schedule-fri",
-												"text"
-											),
-											mon: resolveFileToken(
-												argv["schedule-mon"] as string | undefined,
-												"schedule-mon",
-												"text"
-											),
-											sat: resolveFileToken(
-												argv["schedule-sat"] as string | undefined,
-												"schedule-sat",
-												"text"
-											),
-											sun: resolveFileToken(
-												argv["schedule-sun"] as string | undefined,
-												"schedule-sun",
-												"text"
-											),
-											thu: resolveFileToken(
-												argv["schedule-thu"] as string | undefined,
-												"schedule-thu",
-												"text"
-											),
-											time_zone: resolveFileToken(
-												argv["schedule-time-zone"] as string | undefined,
-												"schedule-time-zone",
-												"text"
-											),
-											tue: resolveFileToken(
-												argv["schedule-tue"] as string | undefined,
-												"schedule-tue",
-												"text"
-											),
-											wed: resolveFileToken(
-												argv["schedule-wed"] as string | undefined,
-												"schedule-wed",
+											traffic: resolveFileToken(
+												argv["traffic"] as string | undefined,
+												"traffic",
 												"text"
 											),
 										},
-										traffic: resolveFileToken(
-											argv["traffic"] as string | undefined,
-											"traffic",
-											"text"
-										),
-									}),
+										[
+											["rule_settings", "add_headers"],
+											["rule_settings", "set_headers"],
+										]
+									),
 					});
 					return;
 				}
@@ -860,226 +890,243 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				}
 
 				// Assemble request body from individual flags
-				const bodyData = compactBody({
-					action: argv["action"],
-					description: resolveFileToken(
-						argv["description"] as string | undefined,
-						"description",
-						"text"
-					),
-					device_posture: resolveFileToken(
-						argv["device-posture"] as string | undefined,
-						"device-posture",
-						"text"
-					),
-					enabled: argv["enabled"],
-					expiration: {
-						duration: argv["expiration-duration"],
+				const bodyData = compactBody(
+					{
+						action: argv["action"],
+						description: resolveFileToken(
+							argv["description"] as string | undefined,
+							"description",
+							"text"
+						),
+						device_posture: resolveFileToken(
+							argv["device-posture"] as string | undefined,
+							"device-posture",
+							"text"
+						),
+						enabled: argv["enabled"],
+						expiration: {
+							duration: argv["expiration-duration"],
+						},
+						filters: argv["filters"],
+						identity: resolveFileToken(
+							argv["identity"] as string | undefined,
+							"identity",
+							"text"
+						),
+						name: resolveFileToken(
+							argv["name"] as string | undefined,
+							"name",
+							"text"
+						),
+						precedence: argv["precedence"],
+						rule_settings: {
+							add_headers: parseJsonMap(
+								argv["rule-settings-add-headers"],
+								"rule-settings-add-headers"
+							),
+							allow_child_bypass: argv["rule-settings-allow-child-bypass"],
+							biso_admin_controls: {
+								copy: argv["rule-settings-biso-admin-controls-copy"],
+								dcp: argv["rule-settings-biso-admin-controls-dcp"],
+								dd: argv["rule-settings-biso-admin-controls-dd"],
+								dk: argv["rule-settings-biso-admin-controls-dk"],
+								download: argv["rule-settings-biso-admin-controls-download"],
+								dp: argv["rule-settings-biso-admin-controls-dp"],
+								du: argv["rule-settings-biso-admin-controls-du"],
+								keyboard: argv["rule-settings-biso-admin-controls-keyboard"],
+								paste: argv["rule-settings-biso-admin-controls-paste"],
+								printing: argv["rule-settings-biso-admin-controls-printing"],
+								upload: argv["rule-settings-biso-admin-controls-upload"],
+								version: argv["rule-settings-biso-admin-controls-version"],
+								wm_id: resolveFileToken(
+									argv["rule-settings-biso-admin-controls-wm-id"] as
+										| string
+										| undefined,
+									"rule-settings-biso-admin-controls-wm-id",
+									"text"
+								),
+							},
+							block_page: {
+								include_context:
+									argv["rule-settings-block-page-include-context"],
+								target_uri: resolveFileToken(
+									argv["rule-settings-block-page-target-uri"] as
+										| string
+										| undefined,
+									"rule-settings-block-page-target-uri",
+									"text"
+								),
+							},
+							block_page_enabled: argv["rule-settings-block-page-enabled"],
+							block_reason: resolveFileToken(
+								argv["rule-settings-block-reason"] as string | undefined,
+								"rule-settings-block-reason",
+								"text"
+							),
+							bypass_parent_rule: argv["rule-settings-bypass-parent-rule"],
+							check_session: {
+								duration: resolveFileToken(
+									argv["rule-settings-check-session-duration"] as
+										| string
+										| undefined,
+									"rule-settings-check-session-duration",
+									"text"
+								),
+								enforce: argv["rule-settings-check-session-enforce"],
+							},
+							delete_headers: argv["rule-settings-delete-headers"],
+							egress: {
+								ipv4: resolveFileToken(
+									argv["rule-settings-egress-ipv4"] as string | undefined,
+									"rule-settings-egress-ipv4",
+									"text"
+								),
+								ipv4_fallback: resolveFileToken(
+									argv["rule-settings-egress-ipv4-fallback"] as
+										| string
+										| undefined,
+									"rule-settings-egress-ipv4-fallback",
+									"text"
+								),
+								ipv6: resolveFileToken(
+									argv["rule-settings-egress-ipv6"] as string | undefined,
+									"rule-settings-egress-ipv6",
+									"text"
+								),
+							},
+							forensic_copy: {
+								enabled: argv["rule-settings-forensic-copy-enabled"],
+							},
+							ignore_cname_category_matches:
+								argv["rule-settings-ignore-cname-category-matches"],
+							insecure_disable_dnssec_validation:
+								argv["rule-settings-insecure-disable-dnssec-validation"],
+							ip_categories: argv["rule-settings-ip-categories"],
+							ip_indicator_feeds: argv["rule-settings-ip-indicator-feeds"],
+							l4override: {
+								ip: resolveFileToken(
+									argv["rule-settings-l4override-ip"] as string | undefined,
+									"rule-settings-l4override-ip",
+									"text"
+								),
+								port: argv["rule-settings-l4override-port"],
+							},
+							notification_settings: {
+								enabled: argv["rule-settings-notification-settings-enabled"],
+								include_context:
+									argv["rule-settings-notification-settings-include-context"],
+								msg: resolveFileToken(
+									argv["rule-settings-notification-settings-msg"] as
+										| string
+										| undefined,
+									"rule-settings-notification-settings-msg",
+									"text"
+								),
+								support_url: resolveFileToken(
+									argv["rule-settings-notification-settings-support-url"] as
+										| string
+										| undefined,
+									"rule-settings-notification-settings-support-url",
+									"text"
+								),
+							},
+							override_host: resolveFileToken(
+								argv["rule-settings-override-host"] as string | undefined,
+								"rule-settings-override-host",
+								"text"
+							),
+							override_ips: argv["rule-settings-override-ips"],
+							payload_log: {
+								enabled: argv["rule-settings-payload-log-enabled"],
+							},
+							quarantine: {
+								file_types: argv["rule-settings-quarantine-file-types"],
+							},
+							redirect: {
+								include_context: argv["rule-settings-redirect-include-context"],
+								preserve_path_and_query:
+									argv["rule-settings-redirect-preserve-path-and-query"],
+								target_uri: resolveFileToken(
+									argv["rule-settings-redirect-target-uri"] as
+										| string
+										| undefined,
+									"rule-settings-redirect-target-uri",
+									"text"
+								),
+							},
+							resolve_dns_internally: {
+								fallback: argv["rule-settings-resolve-dns-internally-fallback"],
+								view_id: resolveFileToken(
+									argv["rule-settings-resolve-dns-internally-view-id"] as
+										| string
+										| undefined,
+									"rule-settings-resolve-dns-internally-view-id",
+									"text"
+								),
+							},
+							resolve_dns_through_cloudflare:
+								argv["rule-settings-resolve-dns-through-cloudflare"],
+							set_headers: parseJsonMap(
+								argv["rule-settings-set-headers"],
+								"rule-settings-set-headers"
+							),
+							untrusted_cert: {
+								action: argv["rule-settings-untrusted-cert-action"],
+							},
+						},
+						schedule: {
+							fri: resolveFileToken(
+								argv["schedule-fri"] as string | undefined,
+								"schedule-fri",
+								"text"
+							),
+							mon: resolveFileToken(
+								argv["schedule-mon"] as string | undefined,
+								"schedule-mon",
+								"text"
+							),
+							sat: resolveFileToken(
+								argv["schedule-sat"] as string | undefined,
+								"schedule-sat",
+								"text"
+							),
+							sun: resolveFileToken(
+								argv["schedule-sun"] as string | undefined,
+								"schedule-sun",
+								"text"
+							),
+							thu: resolveFileToken(
+								argv["schedule-thu"] as string | undefined,
+								"schedule-thu",
+								"text"
+							),
+							time_zone: resolveFileToken(
+								argv["schedule-time-zone"] as string | undefined,
+								"schedule-time-zone",
+								"text"
+							),
+							tue: resolveFileToken(
+								argv["schedule-tue"] as string | undefined,
+								"schedule-tue",
+								"text"
+							),
+							wed: resolveFileToken(
+								argv["schedule-wed"] as string | undefined,
+								"schedule-wed",
+								"text"
+							),
+						},
+						traffic: resolveFileToken(
+							argv["traffic"] as string | undefined,
+							"traffic",
+							"text"
+						),
 					},
-					filters: argv["filters"],
-					identity: resolveFileToken(
-						argv["identity"] as string | undefined,
-						"identity",
-						"text"
-					),
-					name: resolveFileToken(
-						argv["name"] as string | undefined,
-						"name",
-						"text"
-					),
-					precedence: argv["precedence"],
-					rule_settings: {
-						allow_child_bypass: argv["rule-settings-allow-child-bypass"],
-						biso_admin_controls: {
-							copy: argv["rule-settings-biso-admin-controls-copy"],
-							dcp: argv["rule-settings-biso-admin-controls-dcp"],
-							dd: argv["rule-settings-biso-admin-controls-dd"],
-							dk: argv["rule-settings-biso-admin-controls-dk"],
-							download: argv["rule-settings-biso-admin-controls-download"],
-							dp: argv["rule-settings-biso-admin-controls-dp"],
-							du: argv["rule-settings-biso-admin-controls-du"],
-							keyboard: argv["rule-settings-biso-admin-controls-keyboard"],
-							paste: argv["rule-settings-biso-admin-controls-paste"],
-							printing: argv["rule-settings-biso-admin-controls-printing"],
-							upload: argv["rule-settings-biso-admin-controls-upload"],
-							version: argv["rule-settings-biso-admin-controls-version"],
-							wm_id: resolveFileToken(
-								argv["rule-settings-biso-admin-controls-wm-id"] as
-									| string
-									| undefined,
-								"rule-settings-biso-admin-controls-wm-id",
-								"text"
-							),
-						},
-						block_page: {
-							include_context: argv["rule-settings-block-page-include-context"],
-							target_uri: resolveFileToken(
-								argv["rule-settings-block-page-target-uri"] as
-									| string
-									| undefined,
-								"rule-settings-block-page-target-uri",
-								"text"
-							),
-						},
-						block_page_enabled: argv["rule-settings-block-page-enabled"],
-						block_reason: resolveFileToken(
-							argv["rule-settings-block-reason"] as string | undefined,
-							"rule-settings-block-reason",
-							"text"
-						),
-						bypass_parent_rule: argv["rule-settings-bypass-parent-rule"],
-						check_session: {
-							duration: resolveFileToken(
-								argv["rule-settings-check-session-duration"] as
-									| string
-									| undefined,
-								"rule-settings-check-session-duration",
-								"text"
-							),
-							enforce: argv["rule-settings-check-session-enforce"],
-						},
-						delete_headers: argv["rule-settings-delete-headers"],
-						egress: {
-							ipv4: resolveFileToken(
-								argv["rule-settings-egress-ipv4"] as string | undefined,
-								"rule-settings-egress-ipv4",
-								"text"
-							),
-							ipv4_fallback: resolveFileToken(
-								argv["rule-settings-egress-ipv4-fallback"] as
-									| string
-									| undefined,
-								"rule-settings-egress-ipv4-fallback",
-								"text"
-							),
-							ipv6: resolveFileToken(
-								argv["rule-settings-egress-ipv6"] as string | undefined,
-								"rule-settings-egress-ipv6",
-								"text"
-							),
-						},
-						forensic_copy: {
-							enabled: argv["rule-settings-forensic-copy-enabled"],
-						},
-						ignore_cname_category_matches:
-							argv["rule-settings-ignore-cname-category-matches"],
-						insecure_disable_dnssec_validation:
-							argv["rule-settings-insecure-disable-dnssec-validation"],
-						ip_categories: argv["rule-settings-ip-categories"],
-						ip_indicator_feeds: argv["rule-settings-ip-indicator-feeds"],
-						l4override: {
-							ip: resolveFileToken(
-								argv["rule-settings-l4override-ip"] as string | undefined,
-								"rule-settings-l4override-ip",
-								"text"
-							),
-							port: argv["rule-settings-l4override-port"],
-						},
-						notification_settings: {
-							enabled: argv["rule-settings-notification-settings-enabled"],
-							include_context:
-								argv["rule-settings-notification-settings-include-context"],
-							msg: resolveFileToken(
-								argv["rule-settings-notification-settings-msg"] as
-									| string
-									| undefined,
-								"rule-settings-notification-settings-msg",
-								"text"
-							),
-							support_url: resolveFileToken(
-								argv["rule-settings-notification-settings-support-url"] as
-									| string
-									| undefined,
-								"rule-settings-notification-settings-support-url",
-								"text"
-							),
-						},
-						override_host: resolveFileToken(
-							argv["rule-settings-override-host"] as string | undefined,
-							"rule-settings-override-host",
-							"text"
-						),
-						override_ips: argv["rule-settings-override-ips"],
-						payload_log: {
-							enabled: argv["rule-settings-payload-log-enabled"],
-						},
-						quarantine: {
-							file_types: argv["rule-settings-quarantine-file-types"],
-						},
-						redirect: {
-							include_context: argv["rule-settings-redirect-include-context"],
-							preserve_path_and_query:
-								argv["rule-settings-redirect-preserve-path-and-query"],
-							target_uri: resolveFileToken(
-								argv["rule-settings-redirect-target-uri"] as string | undefined,
-								"rule-settings-redirect-target-uri",
-								"text"
-							),
-						},
-						resolve_dns_internally: {
-							fallback: argv["rule-settings-resolve-dns-internally-fallback"],
-							view_id: resolveFileToken(
-								argv["rule-settings-resolve-dns-internally-view-id"] as
-									| string
-									| undefined,
-								"rule-settings-resolve-dns-internally-view-id",
-								"text"
-							),
-						},
-						resolve_dns_through_cloudflare:
-							argv["rule-settings-resolve-dns-through-cloudflare"],
-						untrusted_cert: {
-							action: argv["rule-settings-untrusted-cert-action"],
-						},
-					},
-					schedule: {
-						fri: resolveFileToken(
-							argv["schedule-fri"] as string | undefined,
-							"schedule-fri",
-							"text"
-						),
-						mon: resolveFileToken(
-							argv["schedule-mon"] as string | undefined,
-							"schedule-mon",
-							"text"
-						),
-						sat: resolveFileToken(
-							argv["schedule-sat"] as string | undefined,
-							"schedule-sat",
-							"text"
-						),
-						sun: resolveFileToken(
-							argv["schedule-sun"] as string | undefined,
-							"schedule-sun",
-							"text"
-						),
-						thu: resolveFileToken(
-							argv["schedule-thu"] as string | undefined,
-							"schedule-thu",
-							"text"
-						),
-						time_zone: resolveFileToken(
-							argv["schedule-time-zone"] as string | undefined,
-							"schedule-time-zone",
-							"text"
-						),
-						tue: resolveFileToken(
-							argv["schedule-tue"] as string | undefined,
-							"schedule-tue",
-							"text"
-						),
-						wed: resolveFileToken(
-							argv["schedule-wed"] as string | undefined,
-							"schedule-wed",
-							"text"
-						),
-					},
-					traffic: resolveFileToken(
-						argv["traffic"] as string | undefined,
-						"traffic",
-						"text"
-					),
-				});
+					[
+						["rule_settings", "add_headers"],
+						["rule_settings", "set_headers"],
+					]
+				);
 				const result = await withProgress(`Updating`, async () =>
 					client.send(operation, {
 						body: bodyData,

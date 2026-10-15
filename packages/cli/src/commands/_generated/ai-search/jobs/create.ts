@@ -36,7 +36,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		})
 		.option("description", {
 			type: "string",
-			description: "The description field",
+			description: "Optional description for the indexing job.",
 		})
 		.option("dry-run", {
 			type: "boolean",

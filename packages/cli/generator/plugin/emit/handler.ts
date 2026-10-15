@@ -103,7 +103,45 @@ function prelude(ctx: Ctx): string[] {
 			}
 		}
 	}
+	const fields = ctx.derived.args.filter(isBody);
+	// A required body previously supplied through --body still needs explicit
+	// input when its only fields become optional JSON map flags.
+	if (
+		ctx.op.requestBodyMandatory &&
+		ctx.derived.hasBodyParams &&
+		fields.every((arg) => arg.type === "objectMap" && !arg.required)
+	) {
+		const missing = [
+			"argv.body",
+			...(ctx.derived.hasFileUpload ? ["argv.file"] : []),
+			...fields.map((a) => argvKey(a.name)),
+		]
+			.map((read) => `${read} === undefined`)
+			.join(" && ");
+		const flags = fields.map((arg) => `--${arg.name}`).join(", ");
+		lines.push(`      if (${missing}) {`);
+		lines.push(
+			`        throw new Error(${quote(`--body is required unless at least one JSON map flag is provided (${flags}).`)});`
+		);
+		lines.push("      }");
+	}
 	return lines;
+}
+
+function parseBodyExpression(ctx: Ctx): string {
+	const maps = bodyOptions(ctx.derived)
+		.filter((arg) => arg.type === "objectMap" && arg.required)
+		.map((arg) => ({ path: bodyPath(arg) ?? [], flag: arg.name }));
+	return maps.length > 0
+		? `parseBody(argv.body, ${stringify(maps)})`
+		: "parseBody(argv.body)";
+}
+
+function preservedBodyPaths(ctx: Ctx): string {
+	const paths = bodyOptions(ctx.derived)
+		.filter((arg) => arg.type === "objectMap")
+		.map((arg) => bodyPath(arg) ?? []);
+	return paths.length > 0 ? `, ${stringify(paths)}` : "";
 }
 
 export function dryRun(ctx: Ctx): string[] {
@@ -238,10 +276,12 @@ export function dryRun(ctx: Ctx): string[] {
 			} else {
 				lines.push("          body: argv.body !== undefined");
 			}
-			lines.push("            ? parseBody(argv.body)");
+			lines.push(`            ? ${parseBodyExpression(ctx)}`);
 			if (d.hasBodyParams) {
 				lines.push("            : compactBody(");
-				for (const line of bodyObject(ctx, "\t\t\t\t")) {
+				const object = bodyObject(ctx, "\t\t\t\t");
+				object[object.length - 1] += preservedBodyPaths(ctx);
+				for (const line of object) {
 					lines.push(`              ${line}`);
 				}
 				lines.push("            ),");
@@ -504,7 +544,7 @@ function bodyBypass(ctx: Ctx): string[] {
 	const batch = batchSize(op);
 	const lines = ["", "      if (argv.body) {"];
 	if (json) {
-		lines.push("        const bodyData = parseBody(argv.body);");
+		lines.push(`        const bodyData = ${parseBodyExpression(ctx)};`);
 	} else {
 		lines.push(
 			"        // Endpoint does not accept application/json — send --body as raw bytes,"
@@ -648,6 +688,9 @@ function bodyArgValue(arg: Arg, read: string): string {
 	if (arg.type === "objectArray") {
 		return `parseObjectArray(${read}, ${quote(arg.name)})`;
 	}
+	if (arg.type === "objectMap") {
+		return `parseJsonMap(${read}, ${quote(arg.name)}${arg.required ? ", true" : ""})`;
+	}
 	// Enum flags resolve `@file` in their builder's coerce, before validation.
 	if (arg.fromFile !== undefined && !hasChoices(arg)) {
 		return `resolveFileToken(${read} as string | undefined, ${quote(arg.name)}, ${fileFormat(arg)})`;
@@ -731,7 +774,9 @@ function bodyAssembly(ctx: Ctx): string[] {
 	const typed = sdk.canEmitTypedBodyCall(ctx);
 	if (typed) {
 		lines.push("      const bodyData = compactBody(");
-		for (const line of bodyObject(ctx, "\t\t")) {
+		const object = bodyObject(ctx, "\t\t");
+		object[object.length - 1] += preservedBodyPaths(ctx);
+		for (const line of object) {
 			lines.push(`        ${line}`);
 		}
 		lines.push("      );");
@@ -1036,6 +1081,9 @@ export function imports(ctx: Ctx): Imports {
 		}
 		if (d.hasBodyParams) {
 			names.push("compactBody");
+		}
+		if (bodyFlags.some((a) => a.type === "objectMap")) {
+			names.push("parseJsonMap");
 		}
 		if (bodyFlags.some((a) => a.type === "objectArray")) {
 			names.push("parseObjectArray");

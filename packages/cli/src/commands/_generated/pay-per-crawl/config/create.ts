@@ -7,7 +7,7 @@ import type { ArgClassification } from "#lib/telemetry/index.js";
  */
 import type { Argv, CommandModule } from "yargs";
 import { createCommandClient, getZoneId } from "#lib/auth.js";
-import { compactBody, parseBody } from "#lib/body-parser.js";
+import { compactBody, parseBody, parseJsonMap } from "#lib/body-parser.js";
 import { formatDryRun } from "#lib/dry-run.js";
 import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
@@ -18,6 +18,11 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.usage(
 			"$0 pay-per-crawl config create\n\nCreates the pay-per-crawl config for a zone."
 		)
+		.option("bot-overrides", {
+			type: "string",
+			description:
+				"The bot_overrides field. Provide as a JSON object or @path/to/file.json.",
+		})
 		.option("enabled", { type: "boolean", description: "The enabled field" })
 		.option("price-usd-microcents", {
 			type: "number",
@@ -63,11 +68,21 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						bodyKind: "json",
 						body:
 							argv.body !== undefined
-								? parseBody(argv.body)
-								: compactBody({
-										enabled: argv["enabled"],
-										price_usd_microcents: argv["price-usd-microcents"],
-									}),
+								? parseBody(argv.body, [
+										{ path: ["bot_overrides"], flag: "bot-overrides" },
+									])
+								: compactBody(
+										{
+											bot_overrides: parseJsonMap(
+												argv["bot-overrides"],
+												"bot-overrides",
+												true
+											),
+											enabled: argv["enabled"],
+											price_usd_microcents: argv["price-usd-microcents"],
+										},
+										[["bot_overrides"]]
+									),
 					});
 					return;
 				}
@@ -78,12 +93,19 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.zoneId = zoneId;
 
 				if (argv.body) {
-					const bodyData = parseBody(argv.body);
+					const bodyData = parseBody(argv.body, [
+						{ path: ["bot_overrides"], flag: "bot-overrides" },
+					]);
 					const result = await withProgress(`Creating`, async () =>
 						client.send(operation, { body: bodyData, zone_id: zoneId })
 					);
 					formatOutput(result, { successLabel: `Created` });
 					return;
+				}
+				if (argv["bot-overrides"] === undefined) {
+					throw new Error(
+						"--bot-overrides is required (or pass --body with this field set)."
+					);
 				}
 				if (argv["enabled"] === undefined) {
 					throw new Error(
@@ -97,10 +119,18 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				}
 
 				// Assemble request body from individual flags
-				const bodyData = compactBody({
-					enabled: argv["enabled"],
-					price_usd_microcents: argv["price-usd-microcents"],
-				});
+				const bodyData = compactBody(
+					{
+						bot_overrides: parseJsonMap(
+							argv["bot-overrides"],
+							"bot-overrides",
+							true
+						),
+						enabled: argv["enabled"],
+						price_usd_microcents: argv["price-usd-microcents"],
+					},
+					[["bot_overrides"]]
+				);
 				const result = await withProgress(`Creating`, async () =>
 					client.send(operation, { body: bodyData, zone_id: zoneId })
 				);

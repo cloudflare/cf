@@ -7,7 +7,7 @@ import type { ArgClassification } from "#lib/telemetry/index.js";
  */
 import type { Argv, CommandModule } from "yargs";
 import { createCommandClient, getZoneId } from "#lib/auth.js";
-import { compactBody, parseBody } from "#lib/body-parser.js";
+import { compactBody, parseBody, parseJsonMap } from "#lib/body-parser.js";
 import { formatDryRun } from "#lib/dry-run.js";
 import { resolveFileToken } from "#lib/input-validation.js";
 import { formatOutput } from "#lib/output.js";
@@ -20,6 +20,11 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.usage(
 			"$0 custom-hostnames create\n\nAdd a new custom hostname and request that an SSL certificate be issued for it. One of three validation methods—http, txt, email—should be used, with 'http' recommended if the CNAME is already in place (or will be soon). Specifying 'email' will send an email to the WHOIS contacts on file for the base domain plus hostmaster, postmaster, webmaster, admin, administrator. If http is used and the domain is not already pointing to the Managed CNAME host, the PATCH method must be used once it is (to complete validation). Enable bundling of certificates using the custom_cert_bundle field. The bundling process requires the following condition One certificate in the bundle must use an RSA, and the other must use an ECDSA."
 		)
+		.option("custom-metadata", {
+			type: "string",
+			description:
+				"Unique key/value metadata for this hostname. These are per-hostname (customer) settings. Provide as a JSON object or @path/to/file.json.",
+		})
 		.option("custom-origin-server", {
 			type: "string",
 			description:
@@ -178,53 +183,61 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						body:
 							argv.body !== undefined
 								? parseBody(argv.body)
-								: compactBody({
-										custom_origin_server: resolveFileToken(
-											argv["custom-origin-server"] as string | undefined,
-											"custom-origin-server",
-											"text"
-										),
-										custom_origin_sni: resolveFileToken(
-											argv["custom-origin-sni"] as string | undefined,
-											"custom-origin-sni",
-											"text"
-										),
-										hostname: resolveFileToken(
-											argv["hostname"] as string | undefined,
-											"hostname",
-											"text"
-										),
-										ssl: {
-											bundle_method: argv["ssl-bundle-method"],
-											certificate_authority: argv["ssl-certificate-authority"],
-											cloudflare_branding: argv["ssl-cloudflare-branding"],
-											custom_certificate: resolveFileToken(
-												argv["ssl-custom-certificate"] as string | undefined,
-												"ssl-custom-certificate",
+								: compactBody(
+										{
+											custom_metadata: parseJsonMap(
+												argv["custom-metadata"],
+												"custom-metadata"
+											),
+											custom_origin_server: resolveFileToken(
+												argv["custom-origin-server"] as string | undefined,
+												"custom-origin-server",
 												"text"
 											),
-											custom_csr_id: resolveFileToken(
-												argv["ssl-custom-csr-id"] as string | undefined,
-												"ssl-custom-csr-id",
+											custom_origin_sni: resolveFileToken(
+												argv["custom-origin-sni"] as string | undefined,
+												"custom-origin-sni",
 												"text"
 											),
-											custom_key: resolveFileToken(
-												argv["ssl-custom-key"] as string | undefined,
-												"ssl-custom-key",
+											hostname: resolveFileToken(
+												argv["hostname"] as string | undefined,
+												"hostname",
 												"text"
 											),
-											method: argv["ssl-method"],
-											settings: {
-												ciphers: argv["ssl-settings-ciphers"],
-												early_hints: argv["ssl-settings-early-hints"],
-												http2: argv["ssl-settings-http2"],
-												min_tls_version: argv["ssl-settings-min-tls-version"],
-												tls_1_3: argv["ssl-settings-tls-1-3"],
+											ssl: {
+												bundle_method: argv["ssl-bundle-method"],
+												certificate_authority:
+													argv["ssl-certificate-authority"],
+												cloudflare_branding: argv["ssl-cloudflare-branding"],
+												custom_certificate: resolveFileToken(
+													argv["ssl-custom-certificate"] as string | undefined,
+													"ssl-custom-certificate",
+													"text"
+												),
+												custom_csr_id: resolveFileToken(
+													argv["ssl-custom-csr-id"] as string | undefined,
+													"ssl-custom-csr-id",
+													"text"
+												),
+												custom_key: resolveFileToken(
+													argv["ssl-custom-key"] as string | undefined,
+													"ssl-custom-key",
+													"text"
+												),
+												method: argv["ssl-method"],
+												settings: {
+													ciphers: argv["ssl-settings-ciphers"],
+													early_hints: argv["ssl-settings-early-hints"],
+													http2: argv["ssl-settings-http2"],
+													min_tls_version: argv["ssl-settings-min-tls-version"],
+													tls_1_3: argv["ssl-settings-tls-1-3"],
+												},
+												type: argv["ssl-type"],
+												wildcard: argv["ssl-wildcard"],
 											},
-											type: argv["ssl-type"],
-											wildcard: argv["ssl-wildcard"],
 										},
-									}),
+										[["custom_metadata"]]
+									),
 						sensitiveBodyPaths: [["ssl", "custom_key"]],
 					});
 					return;
@@ -251,53 +264,60 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				}
 
 				// Assemble request body from individual flags
-				const bodyData = compactBody({
-					custom_origin_server: resolveFileToken(
-						argv["custom-origin-server"] as string | undefined,
-						"custom-origin-server",
-						"text"
-					),
-					custom_origin_sni: resolveFileToken(
-						argv["custom-origin-sni"] as string | undefined,
-						"custom-origin-sni",
-						"text"
-					),
-					hostname: resolveFileToken(
-						argv["hostname"] as string | undefined,
-						"hostname",
-						"text"
-					),
-					ssl: {
-						bundle_method: argv["ssl-bundle-method"],
-						certificate_authority: argv["ssl-certificate-authority"],
-						cloudflare_branding: argv["ssl-cloudflare-branding"],
-						custom_certificate: resolveFileToken(
-							argv["ssl-custom-certificate"] as string | undefined,
-							"ssl-custom-certificate",
+				const bodyData = compactBody(
+					{
+						custom_metadata: parseJsonMap(
+							argv["custom-metadata"],
+							"custom-metadata"
+						),
+						custom_origin_server: resolveFileToken(
+							argv["custom-origin-server"] as string | undefined,
+							"custom-origin-server",
 							"text"
 						),
-						custom_csr_id: resolveFileToken(
-							argv["ssl-custom-csr-id"] as string | undefined,
-							"ssl-custom-csr-id",
+						custom_origin_sni: resolveFileToken(
+							argv["custom-origin-sni"] as string | undefined,
+							"custom-origin-sni",
 							"text"
 						),
-						custom_key: resolveFileToken(
-							argv["ssl-custom-key"] as string | undefined,
-							"ssl-custom-key",
+						hostname: resolveFileToken(
+							argv["hostname"] as string | undefined,
+							"hostname",
 							"text"
 						),
-						method: argv["ssl-method"],
-						settings: {
-							ciphers: argv["ssl-settings-ciphers"],
-							early_hints: argv["ssl-settings-early-hints"],
-							http2: argv["ssl-settings-http2"],
-							min_tls_version: argv["ssl-settings-min-tls-version"],
-							tls_1_3: argv["ssl-settings-tls-1-3"],
+						ssl: {
+							bundle_method: argv["ssl-bundle-method"],
+							certificate_authority: argv["ssl-certificate-authority"],
+							cloudflare_branding: argv["ssl-cloudflare-branding"],
+							custom_certificate: resolveFileToken(
+								argv["ssl-custom-certificate"] as string | undefined,
+								"ssl-custom-certificate",
+								"text"
+							),
+							custom_csr_id: resolveFileToken(
+								argv["ssl-custom-csr-id"] as string | undefined,
+								"ssl-custom-csr-id",
+								"text"
+							),
+							custom_key: resolveFileToken(
+								argv["ssl-custom-key"] as string | undefined,
+								"ssl-custom-key",
+								"text"
+							),
+							method: argv["ssl-method"],
+							settings: {
+								ciphers: argv["ssl-settings-ciphers"],
+								early_hints: argv["ssl-settings-early-hints"],
+								http2: argv["ssl-settings-http2"],
+								min_tls_version: argv["ssl-settings-min-tls-version"],
+								tls_1_3: argv["ssl-settings-tls-1-3"],
+							},
+							type: argv["ssl-type"],
+							wildcard: argv["ssl-wildcard"],
 						},
-						type: argv["ssl-type"],
-						wildcard: argv["ssl-wildcard"],
 					},
-				});
+					[["custom_metadata"]]
+				);
 				const result = await withProgress(`Creating`, async () =>
 					client.send(operation, { body: bodyData, zone_id: zoneId })
 				);

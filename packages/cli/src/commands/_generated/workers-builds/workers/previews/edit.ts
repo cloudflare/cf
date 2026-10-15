@@ -11,7 +11,7 @@ import {
 	getAccountId,
 	resolveAccountIdSilent,
 } from "#lib/auth.js";
-import { compactBody, parseBody } from "#lib/body-parser.js";
+import { compactBody, parseBody, parseJsonMap } from "#lib/body-parser.js";
 import { formatDryRun } from "#lib/dry-run.js";
 import { resolveFileToken } from "#lib/input-validation.js";
 import { LOCAL_ACCOUNT_ID } from "#lib/local.js";
@@ -64,6 +64,11 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("settings-deploy-command", {
 			type: "string",
 			description: "Command to deploy the Worker.",
+		})
+		.option("settings-environment-variables", {
+			type: "string",
+			description:
+				"Environment variable updates. Set the variable entry to null to delete it. Provide as a JSON object or @path/to/file.json.",
 		})
 		.option("settings-path-excludes", {
 			type: "string",
@@ -127,41 +132,50 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						body:
 							argv.body !== undefined
 								? parseBody(argv.body)
-								: compactBody({
-										auto_build: argv["auto-build"],
-										auto_delete: argv["auto-delete"],
-										branch: resolveFileToken(
-											argv["branch"] as string | undefined,
-											"branch",
-											"text"
-										),
-										settings: {
-											build_caching_enabled:
-												argv["settings-build-caching-enabled"],
-											build_command: resolveFileToken(
-												argv["settings-build-command"] as string | undefined,
-												"settings-build-command",
+								: compactBody(
+										{
+											auto_build: argv["auto-build"],
+											auto_delete: argv["auto-delete"],
+											branch: resolveFileToken(
+												argv["branch"] as string | undefined,
+												"branch",
 												"text"
 											),
-											build_token_uuid: resolveFileToken(
-												argv["settings-build-token-uuid"] as string | undefined,
-												"settings-build-token-uuid",
-												"text"
-											),
-											deploy_command: resolveFileToken(
-												argv["settings-deploy-command"] as string | undefined,
-												"settings-deploy-command",
-												"text"
-											),
-											path_excludes: argv["settings-path-excludes"],
-											path_includes: argv["settings-path-includes"],
-											root_directory: resolveFileToken(
-												argv["settings-root-directory"] as string | undefined,
-												"settings-root-directory",
-												"text"
-											),
+											settings: {
+												build_caching_enabled:
+													argv["settings-build-caching-enabled"],
+												build_command: resolveFileToken(
+													argv["settings-build-command"] as string | undefined,
+													"settings-build-command",
+													"text"
+												),
+												build_token_uuid: resolveFileToken(
+													argv["settings-build-token-uuid"] as
+														| string
+														| undefined,
+													"settings-build-token-uuid",
+													"text"
+												),
+												deploy_command: resolveFileToken(
+													argv["settings-deploy-command"] as string | undefined,
+													"settings-deploy-command",
+													"text"
+												),
+												environment_variables: parseJsonMap(
+													argv["settings-environment-variables"],
+													"settings-environment-variables"
+												),
+												path_excludes: argv["settings-path-excludes"],
+												path_includes: argv["settings-path-includes"],
+												root_directory: resolveFileToken(
+													argv["settings-root-directory"] as string | undefined,
+													"settings-root-directory",
+													"text"
+												),
+											},
 										},
-									}),
+										[["settings", "environment_variables"]]
+									),
 					});
 					return;
 				}
@@ -184,40 +198,47 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				}
 
 				// Assemble request body from individual flags
-				const bodyData = compactBody({
-					auto_build: argv["auto-build"],
-					auto_delete: argv["auto-delete"],
-					branch: resolveFileToken(
-						argv["branch"] as string | undefined,
-						"branch",
-						"text"
-					),
-					settings: {
-						build_caching_enabled: argv["settings-build-caching-enabled"],
-						build_command: resolveFileToken(
-							argv["settings-build-command"] as string | undefined,
-							"settings-build-command",
+				const bodyData = compactBody(
+					{
+						auto_build: argv["auto-build"],
+						auto_delete: argv["auto-delete"],
+						branch: resolveFileToken(
+							argv["branch"] as string | undefined,
+							"branch",
 							"text"
 						),
-						build_token_uuid: resolveFileToken(
-							argv["settings-build-token-uuid"] as string | undefined,
-							"settings-build-token-uuid",
-							"text"
-						),
-						deploy_command: resolveFileToken(
-							argv["settings-deploy-command"] as string | undefined,
-							"settings-deploy-command",
-							"text"
-						),
-						path_excludes: argv["settings-path-excludes"],
-						path_includes: argv["settings-path-includes"],
-						root_directory: resolveFileToken(
-							argv["settings-root-directory"] as string | undefined,
-							"settings-root-directory",
-							"text"
-						),
+						settings: {
+							build_caching_enabled: argv["settings-build-caching-enabled"],
+							build_command: resolveFileToken(
+								argv["settings-build-command"] as string | undefined,
+								"settings-build-command",
+								"text"
+							),
+							build_token_uuid: resolveFileToken(
+								argv["settings-build-token-uuid"] as string | undefined,
+								"settings-build-token-uuid",
+								"text"
+							),
+							deploy_command: resolveFileToken(
+								argv["settings-deploy-command"] as string | undefined,
+								"settings-deploy-command",
+								"text"
+							),
+							environment_variables: parseJsonMap(
+								argv["settings-environment-variables"],
+								"settings-environment-variables"
+							),
+							path_excludes: argv["settings-path-excludes"],
+							path_includes: argv["settings-path-includes"],
+							root_directory: resolveFileToken(
+								argv["settings-root-directory"] as string | undefined,
+								"settings-root-directory",
+								"text"
+							),
+						},
 					},
-				});
+					[["settings", "environment_variables"]]
+				);
 				const result = await withProgress(`Updating`, async () =>
 					client.send(operation, {
 						body: bodyData,

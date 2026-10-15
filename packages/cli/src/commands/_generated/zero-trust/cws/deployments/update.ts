@@ -11,7 +11,7 @@ import {
 	getAccountId,
 	resolveAccountIdSilent,
 } from "#lib/auth.js";
-import { compactBody, parseBody } from "#lib/body-parser.js";
+import { compactBody, parseBody, parseJsonMap } from "#lib/body-parser.js";
 import { formatDryRun } from "#lib/dry-run.js";
 import { resolveFileToken } from "#lib/input-validation.js";
 import { LOCAL_ACCOUNT_ID } from "#lib/local.js";
@@ -73,6 +73,11 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description:
 				"Whether OPA builtin failures are raised as runtime evaluation errors. Omit to reset to true.",
 		})
+		.option("tags", {
+			type: "string",
+			description:
+				"Replacement tag set. Omit or use {} to clear. Keys are limited to 256 UTF-8 bytes and values to 1024 UTF-8 bytes. Provide as a JSON object or @path/to/file.json.",
+		})
 		.option("dry-run", {
 			type: "boolean",
 			description: "Validate and show what would happen without executing",
@@ -118,29 +123,33 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						body:
 							argv.body !== undefined
 								? parseBody(argv.body)
-								: compactBody({
-										basic_auth_credential_ids:
-											argv["basic-auth-credential-ids"],
-										default_mode: argv["default-mode"],
-										description: resolveFileToken(
-											argv["description"] as string | undefined,
-											"description",
-											"text"
-										),
-										domain_acl_id: resolveFileToken(
-											argv["domain-acl-id"] as string | undefined,
-											"domain-acl-id",
-											"text"
-										),
-										name: resolveFileToken(
-											argv["name"] as string | undefined,
-											"name",
-											"text"
-										),
-										on_error_action: argv["on-error-action"],
-										policy_set_ids: argv["policy-set-ids"],
-										rego_raise_error: argv["rego-raise-error"],
-									}),
+								: compactBody(
+										{
+											basic_auth_credential_ids:
+												argv["basic-auth-credential-ids"],
+											default_mode: argv["default-mode"],
+											description: resolveFileToken(
+												argv["description"] as string | undefined,
+												"description",
+												"text"
+											),
+											domain_acl_id: resolveFileToken(
+												argv["domain-acl-id"] as string | undefined,
+												"domain-acl-id",
+												"text"
+											),
+											name: resolveFileToken(
+												argv["name"] as string | undefined,
+												"name",
+												"text"
+											),
+											on_error_action: argv["on-error-action"],
+											policy_set_ids: argv["policy-set-ids"],
+											rego_raise_error: argv["rego-raise-error"],
+											tags: parseJsonMap(argv["tags"], "tags"),
+										},
+										[["tags"]]
+									),
 					});
 					return;
 				}
@@ -185,28 +194,32 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				}
 
 				// Assemble request body from individual flags
-				const bodyData = compactBody({
-					basic_auth_credential_ids: argv["basic-auth-credential-ids"],
-					default_mode: argv["default-mode"],
-					description: resolveFileToken(
-						argv["description"] as string | undefined,
-						"description",
-						"text"
-					),
-					domain_acl_id: resolveFileToken(
-						argv["domain-acl-id"] as string | undefined,
-						"domain-acl-id",
-						"text"
-					),
-					name: resolveFileToken(
-						argv["name"] as string | undefined,
-						"name",
-						"text"
-					),
-					on_error_action: argv["on-error-action"],
-					policy_set_ids: argv["policy-set-ids"],
-					rego_raise_error: argv["rego-raise-error"],
-				});
+				const bodyData = compactBody(
+					{
+						basic_auth_credential_ids: argv["basic-auth-credential-ids"],
+						default_mode: argv["default-mode"],
+						description: resolveFileToken(
+							argv["description"] as string | undefined,
+							"description",
+							"text"
+						),
+						domain_acl_id: resolveFileToken(
+							argv["domain-acl-id"] as string | undefined,
+							"domain-acl-id",
+							"text"
+						),
+						name: resolveFileToken(
+							argv["name"] as string | undefined,
+							"name",
+							"text"
+						),
+						on_error_action: argv["on-error-action"],
+						policy_set_ids: argv["policy-set-ids"],
+						rego_raise_error: argv["rego-raise-error"],
+						tags: parseJsonMap(argv["tags"], "tags"),
+					},
+					[["tags"]]
+				);
 				const result = await withProgress(`Updating`, async () =>
 					client.send(operation, {
 						body: bodyData,

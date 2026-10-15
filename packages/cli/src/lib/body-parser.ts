@@ -43,8 +43,11 @@ export function setNestedValue(
 	current[lastKey] = value;
 }
 
-export function compactBody<T>(value: unknown): T {
-	const compact = (item: unknown): unknown => {
+export function compactBody<T>(
+	value: unknown,
+	preservePaths: readonly (readonly string[])[] = []
+): T {
+	const compact = (item: unknown, path: readonly string[]): unknown => {
 		if (Array.isArray(item)) {
 			return item;
 		}
@@ -52,11 +55,18 @@ export function compactBody<T>(value: unknown): T {
 			return item;
 		}
 		const entries = Object.entries(item).flatMap(([key, child]) => {
-			const compacted = compact(child);
+			const childPath = [...path, key];
+			const preserve = preservePaths.some(
+				(p) =>
+					p.length === childPath.length &&
+					p.every((part, i) => part === childPath[i])
+			);
+			const compacted = preserve ? child : compact(child, childPath);
 			if (compacted === undefined) {
 				return [];
 			}
 			if (
+				!preserve &&
 				typeof compacted === "object" &&
 				compacted !== null &&
 				!Array.isArray(compacted) &&
@@ -68,7 +78,7 @@ export function compactBody<T>(value: unknown): T {
 		});
 		return Object.fromEntries(entries);
 	};
-	return compact(value) as T;
+	return compact(value, []) as T;
 }
 /**
  * Parse a raw JSON string from the --body flag.
@@ -113,8 +123,55 @@ function parseJson<T>(input: string, flagName: string): T {
 	}
 }
 
-export function parseBody<T = unknown>(input: string): T {
-	return parseJson<T>(input, "body");
+export function parseBody<T = unknown>(
+	input: string,
+	requiredMaps: readonly { path: readonly string[]; flag: string }[] = []
+): T {
+	const body = parseJson<unknown>(input, "body");
+	for (const { path, flag } of requiredMaps) {
+		let value: unknown = body;
+		for (const key of path) {
+			value =
+				isJsonObject(value) && Object.hasOwn(value, key)
+					? value[key]
+					: undefined;
+		}
+		if (!isJsonObject(value)) {
+			throw new Error(
+				`--body must include a JSON object at ${path.join(".")} (for --${flag}).`
+			);
+		}
+	}
+	return body as T;
+}
+
+function isJsonObject(value: unknown): value is Record<string, unknown> {
+	return value !== null && typeof value === "object" && !Array.isArray(value);
+}
+
+/** Parse a map as one JSON object, retaining its keys and values verbatim. */
+export function parseJsonMap(
+	input: unknown,
+	flagName: string,
+	required = false
+): Record<string, unknown> | undefined {
+	const flag = flagName.startsWith("--") ? flagName : `--${flagName}`;
+	if (input === undefined) {
+		if (required) {
+			throw new Error(
+				`${flag} is required (or pass --body with this field set).`
+			);
+		}
+		return undefined;
+	}
+	if (typeof input !== "string") {
+		throw new Error(`${flag} must be provided once as a JSON object.`);
+	}
+	const value = parseJson<unknown>(input, flagName);
+	if (!isJsonObject(value)) {
+		throw new Error(`${flag} must be a JSON object.`);
+	}
+	return value;
 }
 
 /**

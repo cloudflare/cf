@@ -11,7 +11,7 @@ import {
 	getAccountId,
 	resolveAccountIdSilent,
 } from "#lib/auth.js";
-import { compactBody, parseBody } from "#lib/body-parser.js";
+import { compactBody, parseBody, parseJsonMap } from "#lib/body-parser.js";
 import { formatDryRun } from "#lib/dry-run.js";
 import { resolveFileToken } from "#lib/input-validation.js";
 import { LOCAL_ACCOUNT_ID } from "#lib/local.js";
@@ -28,6 +28,11 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			type: "string",
 			description: "Index name",
 			demandOption: true,
+		})
+		.option("filter", {
+			type: "string",
+			description:
+				"A metadata filter expression used to limit nearest neighbor results. Provide as a JSON object or @path/to/file.json.",
 		})
 		.option("return-metadata", {
 			type: "string",
@@ -94,12 +99,16 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						body:
 							argv.body !== undefined
 								? parseBody(argv.body)
-								: compactBody({
-										returnMetadata: argv["return-metadata"],
-										returnValues: argv["return-values"],
-										topK: argv["top-k"],
-										vector: argv["vector"],
-									}),
+								: compactBody(
+										{
+											filter: parseJsonMap(argv["filter"], "filter"),
+											returnMetadata: argv["return-metadata"],
+											returnValues: argv["return-values"],
+											topK: argv["top-k"],
+											vector: argv["vector"],
+										},
+										[["filter"]]
+									),
 					});
 					return;
 				}
@@ -126,12 +135,16 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				}
 
 				// Assemble request body from individual flags
-				const bodyData = compactBody({
-					returnMetadata: argv["return-metadata"],
-					returnValues: argv["return-values"],
-					topK: argv["top-k"],
-					vector: argv["vector"],
-				});
+				const bodyData = compactBody(
+					{
+						filter: parseJsonMap(argv["filter"], "filter"),
+						returnMetadata: argv["return-metadata"],
+						returnValues: argv["return-values"],
+						topK: argv["top-k"],
+						vector: argv["vector"],
+					},
+					[["filter"]]
+				);
 				const result = await withProgress(`Loading`, async () =>
 					client.send(operation, {
 						body: bodyData,

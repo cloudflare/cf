@@ -7,7 +7,7 @@ import type { ArgClassification } from "#lib/telemetry/index.js";
  */
 import type { Argv, CommandModule } from "yargs";
 import { createCommandClient, getZoneId } from "#lib/auth.js";
-import { compactBody, parseBody } from "#lib/body-parser.js";
+import { compactBody, parseBody, parseJsonMap } from "#lib/body-parser.js";
 import { formatDryRun } from "#lib/dry-run.js";
 import { resolveFileToken } from "#lib/input-validation.js";
 import { formatOutput } from "#lib/output.js";
@@ -30,6 +30,21 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			type: "number",
 			description: "Session expiration time (seconds).",
 		})
+		.option("consent-button-text-translations-accept-all", {
+			type: "string",
+			description:
+				"Object where keys are language codes. Provide as a JSON object or @path/to/file.json.",
+		})
+		.option("consent-button-text-translations-confirm-my-choices", {
+			type: "string",
+			description:
+				"Object where keys are language codes. Provide as a JSON object or @path/to/file.json.",
+		})
+		.option("consent-button-text-translations-reject-all", {
+			type: "string",
+			description:
+				"Object where keys are language codes. Provide as a JSON object or @path/to/file.json.",
+		})
 		.option("consent-company-email", {
 			type: "string",
 			description: "The consent.companyEmail field",
@@ -45,6 +60,11 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("consent-consent-modal-intro-html", {
 			type: "string",
 			description: "The consent.consentModalIntroHTML field",
+		})
+		.option("consent-consent-modal-intro-htmlwith-translations", {
+			type: "string",
+			description:
+				"Object where keys are language codes. Provide as a JSON object or @path/to/file.json.",
 		})
 		.option("consent-cookie-name", {
 			type: "string",
@@ -69,6 +89,16 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("consent-hide-modal", {
 			type: "boolean",
 			description: "The consent.hideModal field",
+		})
+		.option("consent-purposes", {
+			type: "string",
+			description:
+				"Object where keys are purpose alpha-numeric IDs. Provide as a JSON object or @path/to/file.json.",
+		})
+		.option("consent-purposes-with-translations", {
+			type: "string",
+			description:
+				"Object where keys are purpose alpha-numeric IDs. Provide as a JSON object or @path/to/file.json.",
 		})
 		.option("consent-tcf-compliant", {
 			type: "boolean",
@@ -147,9 +177,24 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			type: "string",
 			description: "Custom endpoint for Zaraz tracking requests.",
 		})
+		.option("triggers", {
+			type: "string",
+			description:
+				"Triggers set up under Zaraz configuration, where key is the trigger alpha-numeric ID and value is the trigger configuration. Provide as a JSON object or @path/to/file.json.",
+		})
+		.option("variables", {
+			type: "string",
+			description:
+				"Variables set up under Zaraz configuration, where key is the variable alpha-numeric ID and value is the variable configuration. Values of variables of type secret are not included. Provide as a JSON object or @path/to/file.json.",
+		})
 		.option("zaraz-version", {
 			type: "number",
 			description: "Zaraz internal version of the config.",
+		})
+		.option("tools", {
+			type: "string",
+			description:
+				"Tools set up under Zaraz configuration, where key is the alpha-numeric tool ID and value is the tool configuration object. Provide as a JSON object or @path/to/file.json.",
 		})
 		.option("dry-run", {
 			type: "boolean",
@@ -162,22 +207,31 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		})
 		.check((argv) => {
 			const groupSet = [
+				"consent-button-text-translations-accept-all",
+				"consent-button-text-translations-confirm-my-choices",
+				"consent-button-text-translations-reject-all",
 				"consent-company-email",
 				"consent-company-name",
 				"consent-company-street-address",
 				"consent-consent-modal-intro-html",
+				"consent-consent-modal-intro-htmlwith-translations",
 				"consent-cookie-name",
 				"consent-custom-css",
 				"consent-custom-intro-disclaimer-dismissed",
 				"consent-default-language",
 				"consent-enabled",
 				"consent-hide-modal",
+				"consent-purposes",
+				"consent-purposes-with-translations",
 				"consent-tcf-compliant",
 			].some((k) => argv[k] !== undefined);
 			if (groupSet) {
-				const missing = ["consent-enabled"].filter(
-					(k) => argv[k] === undefined
-				);
+				const missing = [
+					"consent-button-text-translations-accept-all",
+					"consent-button-text-translations-confirm-my-choices",
+					"consent-button-text-translations-reject-all",
+					"consent-enabled",
+				].filter((k) => argv[k] === undefined);
 				if (missing.length > 0) {
 					throw new Error(
 						`${missing.map((m) => "--" + m).join(", ")} ${missing.length === 1 ? "is" : "are"} required when any --consent-* flag is set`
@@ -231,128 +285,196 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						bodyKind: "json",
 						body:
 							argv.body !== undefined
-								? parseBody(argv.body)
-								: compactBody({
-										analytics: {
-											defaultPurpose: resolveFileToken(
-												argv["analytics-default-purpose"] as string | undefined,
-												"analytics-default-purpose",
-												"text"
-											),
-											enabled: argv["analytics-enabled"],
-											sessionExpTime: argv["analytics-session-exp-time"],
-										},
-										consent: {
-											companyEmail: resolveFileToken(
-												argv["consent-company-email"] as string | undefined,
-												"consent-company-email",
-												"text"
-											),
-											companyName: resolveFileToken(
-												argv["consent-company-name"] as string | undefined,
-												"consent-company-name",
-												"text"
-											),
-											companyStreetAddress: resolveFileToken(
-												argv["consent-company-street-address"] as
-													| string
-													| undefined,
-												"consent-company-street-address",
-												"text"
-											),
-											consentModalIntroHTML: resolveFileToken(
-												argv["consent-consent-modal-intro-html"] as
-													| string
-													| undefined,
-												"consent-consent-modal-intro-html",
-												"text"
-											),
-											cookieName: resolveFileToken(
-												argv["consent-cookie-name"] as string | undefined,
-												"consent-cookie-name",
-												"text"
-											),
-											customCSS: resolveFileToken(
-												argv["consent-custom-css"] as string | undefined,
-												"consent-custom-css",
-												"text"
-											),
-											customIntroDisclaimerDismissed:
-												argv["consent-custom-intro-disclaimer-dismissed"],
-											defaultLanguage: resolveFileToken(
-												argv["consent-default-language"] as string | undefined,
-												"consent-default-language",
-												"text"
-											),
-											enabled: argv["consent-enabled"],
-											hideModal: argv["consent-hide-modal"],
-											tcfCompliant: argv["consent-tcf-compliant"],
-										},
-										dataLayer: argv["data-layer"],
-										debugKey: resolveFileToken(
-											argv["debug-key"] as string | undefined,
-											"debug-key",
-											"text"
-										),
-										historyChange: argv["history-change"],
-										settings: {
-											autoInjectScript: argv["settings-auto-inject-script"],
-											contextEnricher: {
-												escapedWorkerName: resolveFileToken(
-													argv[
-														"settings-context-enricher-escaped-worker-name"
-													] as string | undefined,
-													"settings-context-enricher-escaped-worker-name",
-													"text"
-												),
-												workerTag: resolveFileToken(
-													argv["settings-context-enricher-worker-tag"] as
+								? parseBody(argv.body, [
+										{ path: ["triggers"], flag: "triggers" },
+										{ path: ["variables"], flag: "variables" },
+										{ path: ["tools"], flag: "tools" },
+									])
+								: compactBody(
+										{
+											analytics: {
+												defaultPurpose: resolveFileToken(
+													argv["analytics-default-purpose"] as
 														| string
 														| undefined,
-													"settings-context-enricher-worker-tag",
+													"analytics-default-purpose",
+													"text"
+												),
+												enabled: argv["analytics-enabled"],
+												sessionExpTime: argv["analytics-session-exp-time"],
+											},
+											consent: {
+												buttonTextTranslations: {
+													accept_all: parseJsonMap(
+														argv["consent-button-text-translations-accept-all"],
+														"consent-button-text-translations-accept-all"
+													),
+													confirm_my_choices: parseJsonMap(
+														argv[
+															"consent-button-text-translations-confirm-my-choices"
+														],
+														"consent-button-text-translations-confirm-my-choices"
+													),
+													reject_all: parseJsonMap(
+														argv["consent-button-text-translations-reject-all"],
+														"consent-button-text-translations-reject-all"
+													),
+												},
+												companyEmail: resolveFileToken(
+													argv["consent-company-email"] as string | undefined,
+													"consent-company-email",
+													"text"
+												),
+												companyName: resolveFileToken(
+													argv["consent-company-name"] as string | undefined,
+													"consent-company-name",
+													"text"
+												),
+												companyStreetAddress: resolveFileToken(
+													argv["consent-company-street-address"] as
+														| string
+														| undefined,
+													"consent-company-street-address",
+													"text"
+												),
+												consentModalIntroHTML: resolveFileToken(
+													argv["consent-consent-modal-intro-html"] as
+														| string
+														| undefined,
+													"consent-consent-modal-intro-html",
+													"text"
+												),
+												consentModalIntroHTMLWithTranslations: parseJsonMap(
+													argv[
+														"consent-consent-modal-intro-htmlwith-translations"
+													],
+													"consent-consent-modal-intro-htmlwith-translations"
+												),
+												cookieName: resolveFileToken(
+													argv["consent-cookie-name"] as string | undefined,
+													"consent-cookie-name",
+													"text"
+												),
+												customCSS: resolveFileToken(
+													argv["consent-custom-css"] as string | undefined,
+													"consent-custom-css",
+													"text"
+												),
+												customIntroDisclaimerDismissed:
+													argv["consent-custom-intro-disclaimer-dismissed"],
+												defaultLanguage: resolveFileToken(
+													argv["consent-default-language"] as
+														| string
+														| undefined,
+													"consent-default-language",
+													"text"
+												),
+												enabled: argv["consent-enabled"],
+												hideModal: argv["consent-hide-modal"],
+												purposes: parseJsonMap(
+													argv["consent-purposes"],
+													"consent-purposes"
+												),
+												purposesWithTranslations: parseJsonMap(
+													argv["consent-purposes-with-translations"],
+													"consent-purposes-with-translations"
+												),
+												tcfCompliant: argv["consent-tcf-compliant"],
+											},
+											dataLayer: argv["data-layer"],
+											debugKey: resolveFileToken(
+												argv["debug-key"] as string | undefined,
+												"debug-key",
+												"text"
+											),
+											historyChange: argv["history-change"],
+											settings: {
+												autoInjectScript: argv["settings-auto-inject-script"],
+												contextEnricher: {
+													escapedWorkerName: resolveFileToken(
+														argv[
+															"settings-context-enricher-escaped-worker-name"
+														] as string | undefined,
+														"settings-context-enricher-escaped-worker-name",
+														"text"
+													),
+													workerTag: resolveFileToken(
+														argv["settings-context-enricher-worker-tag"] as
+															| string
+															| undefined,
+														"settings-context-enricher-worker-tag",
+														"text"
+													),
+												},
+												cookieDomain: resolveFileToken(
+													argv["settings-cookie-domain"] as string | undefined,
+													"settings-cookie-domain",
+													"text"
+												),
+												ecommerce: argv["settings-ecommerce"],
+												eventsApiPath: resolveFileToken(
+													argv["settings-events-api-path"] as
+														| string
+														| undefined,
+													"settings-events-api-path",
+													"text"
+												),
+												hideExternalReferer:
+													argv["settings-hide-external-referer"],
+												hideIPAddress: argv["settings-hide-ipaddress"],
+												hideQueryParams: argv["settings-hide-query-params"],
+												hideUserAgent: argv["settings-hide-user-agent"],
+												initPath: resolveFileToken(
+													argv["settings-init-path"] as string | undefined,
+													"settings-init-path",
+													"text"
+												),
+												injectIframes: argv["settings-inject-iframes"],
+												mcRootPath: resolveFileToken(
+													argv["settings-mc-root-path"] as string | undefined,
+													"settings-mc-root-path",
+													"text"
+												),
+												scriptPath: resolveFileToken(
+													argv["settings-script-path"] as string | undefined,
+													"settings-script-path",
+													"text"
+												),
+												trackPath: resolveFileToken(
+													argv["settings-track-path"] as string | undefined,
+													"settings-track-path",
 													"text"
 												),
 											},
-											cookieDomain: resolveFileToken(
-												argv["settings-cookie-domain"] as string | undefined,
-												"settings-cookie-domain",
-												"text"
+											triggers: parseJsonMap(
+												argv["triggers"],
+												"triggers",
+												true
 											),
-											ecommerce: argv["settings-ecommerce"],
-											eventsApiPath: resolveFileToken(
-												argv["settings-events-api-path"] as string | undefined,
-												"settings-events-api-path",
-												"text"
+											variables: parseJsonMap(
+												argv["variables"],
+												"variables",
+												true
 											),
-											hideExternalReferer:
-												argv["settings-hide-external-referer"],
-											hideIPAddress: argv["settings-hide-ipaddress"],
-											hideQueryParams: argv["settings-hide-query-params"],
-											hideUserAgent: argv["settings-hide-user-agent"],
-											initPath: resolveFileToken(
-												argv["settings-init-path"] as string | undefined,
-												"settings-init-path",
-												"text"
-											),
-											injectIframes: argv["settings-inject-iframes"],
-											mcRootPath: resolveFileToken(
-												argv["settings-mc-root-path"] as string | undefined,
-												"settings-mc-root-path",
-												"text"
-											),
-											scriptPath: resolveFileToken(
-												argv["settings-script-path"] as string | undefined,
-												"settings-script-path",
-												"text"
-											),
-											trackPath: resolveFileToken(
-												argv["settings-track-path"] as string | undefined,
-												"settings-track-path",
-												"text"
-											),
+											zarazVersion: argv["zaraz-version"],
+											tools: parseJsonMap(argv["tools"], "tools", true),
 										},
-										zarazVersion: argv["zaraz-version"],
-									}),
+										[
+											["consent", "buttonTextTranslations", "accept_all"],
+											[
+												"consent",
+												"buttonTextTranslations",
+												"confirm_my_choices",
+											],
+											["consent", "buttonTextTranslations", "reject_all"],
+											["consent", "consentModalIntroHTMLWithTranslations"],
+											["consent", "purposes"],
+											["consent", "purposesWithTranslations"],
+											["triggers"],
+											["variables"],
+											["tools"],
+										]
+									),
 					});
 					return;
 				}
@@ -363,7 +485,11 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.zoneId = zoneId;
 
 				if (argv.body) {
-					const bodyData = parseBody(argv.body);
+					const bodyData = parseBody(argv.body, [
+						{ path: ["triggers"], flag: "triggers" },
+						{ path: ["variables"], flag: "variables" },
+						{ path: ["tools"], flag: "tools" },
+					]);
 					const result = await withProgress(`Updating`, async () =>
 						client.send(operation, { body: bodyData, zone_id: zoneId })
 					);
@@ -402,129 +528,186 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 							"The settings.contextEnricher.workerTag field"
 						);
 				}
+				if (argv["triggers"] === undefined) {
+					throw new Error(
+						"--triggers is required (or pass --body with this field set)."
+					);
+				}
+				if (argv["variables"] === undefined) {
+					throw new Error(
+						"--variables is required (or pass --body with this field set)."
+					);
+				}
 				if (argv["zaraz-version"] === undefined) {
 					throw new Error(
 						"--zaraz-version is required (or pass --body with this field set)."
 					);
 				}
+				if (argv["tools"] === undefined) {
+					throw new Error(
+						"--tools is required (or pass --body with this field set)."
+					);
+				}
 
 				// Assemble request body from individual flags
-				const bodyData = compactBody({
-					analytics: {
-						defaultPurpose: resolveFileToken(
-							argv["analytics-default-purpose"] as string | undefined,
-							"analytics-default-purpose",
-							"text"
-						),
-						enabled: argv["analytics-enabled"],
-						sessionExpTime: argv["analytics-session-exp-time"],
-					},
-					consent: {
-						companyEmail: resolveFileToken(
-							argv["consent-company-email"] as string | undefined,
-							"consent-company-email",
-							"text"
-						),
-						companyName: resolveFileToken(
-							argv["consent-company-name"] as string | undefined,
-							"consent-company-name",
-							"text"
-						),
-						companyStreetAddress: resolveFileToken(
-							argv["consent-company-street-address"] as string | undefined,
-							"consent-company-street-address",
-							"text"
-						),
-						consentModalIntroHTML: resolveFileToken(
-							argv["consent-consent-modal-intro-html"] as string | undefined,
-							"consent-consent-modal-intro-html",
-							"text"
-						),
-						cookieName: resolveFileToken(
-							argv["consent-cookie-name"] as string | undefined,
-							"consent-cookie-name",
-							"text"
-						),
-						customCSS: resolveFileToken(
-							argv["consent-custom-css"] as string | undefined,
-							"consent-custom-css",
-							"text"
-						),
-						customIntroDisclaimerDismissed:
-							argv["consent-custom-intro-disclaimer-dismissed"],
-						defaultLanguage: resolveFileToken(
-							argv["consent-default-language"] as string | undefined,
-							"consent-default-language",
-							"text"
-						),
-						enabled: argv["consent-enabled"],
-						hideModal: argv["consent-hide-modal"],
-						tcfCompliant: argv["consent-tcf-compliant"],
-					},
-					dataLayer: argv["data-layer"],
-					debugKey: resolveFileToken(
-						argv["debug-key"] as string | undefined,
-						"debug-key",
-						"text"
-					),
-					historyChange: argv["history-change"],
-					settings: {
-						autoInjectScript: argv["settings-auto-inject-script"],
-						contextEnricher: {
-							escapedWorkerName: resolveFileToken(
-								argv["settings-context-enricher-escaped-worker-name"] as
-									| string
-									| undefined,
-								"settings-context-enricher-escaped-worker-name",
+				const bodyData = compactBody(
+					{
+						analytics: {
+							defaultPurpose: resolveFileToken(
+								argv["analytics-default-purpose"] as string | undefined,
+								"analytics-default-purpose",
 								"text"
 							),
-							workerTag: resolveFileToken(
-								argv["settings-context-enricher-worker-tag"] as
-									| string
-									| undefined,
-								"settings-context-enricher-worker-tag",
+							enabled: argv["analytics-enabled"],
+							sessionExpTime: argv["analytics-session-exp-time"],
+						},
+						consent: {
+							buttonTextTranslations: {
+								accept_all: parseJsonMap(
+									argv["consent-button-text-translations-accept-all"],
+									"consent-button-text-translations-accept-all"
+								),
+								confirm_my_choices: parseJsonMap(
+									argv["consent-button-text-translations-confirm-my-choices"],
+									"consent-button-text-translations-confirm-my-choices"
+								),
+								reject_all: parseJsonMap(
+									argv["consent-button-text-translations-reject-all"],
+									"consent-button-text-translations-reject-all"
+								),
+							},
+							companyEmail: resolveFileToken(
+								argv["consent-company-email"] as string | undefined,
+								"consent-company-email",
+								"text"
+							),
+							companyName: resolveFileToken(
+								argv["consent-company-name"] as string | undefined,
+								"consent-company-name",
+								"text"
+							),
+							companyStreetAddress: resolveFileToken(
+								argv["consent-company-street-address"] as string | undefined,
+								"consent-company-street-address",
+								"text"
+							),
+							consentModalIntroHTML: resolveFileToken(
+								argv["consent-consent-modal-intro-html"] as string | undefined,
+								"consent-consent-modal-intro-html",
+								"text"
+							),
+							consentModalIntroHTMLWithTranslations: parseJsonMap(
+								argv["consent-consent-modal-intro-htmlwith-translations"],
+								"consent-consent-modal-intro-htmlwith-translations"
+							),
+							cookieName: resolveFileToken(
+								argv["consent-cookie-name"] as string | undefined,
+								"consent-cookie-name",
+								"text"
+							),
+							customCSS: resolveFileToken(
+								argv["consent-custom-css"] as string | undefined,
+								"consent-custom-css",
+								"text"
+							),
+							customIntroDisclaimerDismissed:
+								argv["consent-custom-intro-disclaimer-dismissed"],
+							defaultLanguage: resolveFileToken(
+								argv["consent-default-language"] as string | undefined,
+								"consent-default-language",
+								"text"
+							),
+							enabled: argv["consent-enabled"],
+							hideModal: argv["consent-hide-modal"],
+							purposes: parseJsonMap(
+								argv["consent-purposes"],
+								"consent-purposes"
+							),
+							purposesWithTranslations: parseJsonMap(
+								argv["consent-purposes-with-translations"],
+								"consent-purposes-with-translations"
+							),
+							tcfCompliant: argv["consent-tcf-compliant"],
+						},
+						dataLayer: argv["data-layer"],
+						debugKey: resolveFileToken(
+							argv["debug-key"] as string | undefined,
+							"debug-key",
+							"text"
+						),
+						historyChange: argv["history-change"],
+						settings: {
+							autoInjectScript: argv["settings-auto-inject-script"],
+							contextEnricher: {
+								escapedWorkerName: resolveFileToken(
+									argv["settings-context-enricher-escaped-worker-name"] as
+										| string
+										| undefined,
+									"settings-context-enricher-escaped-worker-name",
+									"text"
+								),
+								workerTag: resolveFileToken(
+									argv["settings-context-enricher-worker-tag"] as
+										| string
+										| undefined,
+									"settings-context-enricher-worker-tag",
+									"text"
+								),
+							},
+							cookieDomain: resolveFileToken(
+								argv["settings-cookie-domain"] as string | undefined,
+								"settings-cookie-domain",
+								"text"
+							),
+							ecommerce: argv["settings-ecommerce"],
+							eventsApiPath: resolveFileToken(
+								argv["settings-events-api-path"] as string | undefined,
+								"settings-events-api-path",
+								"text"
+							),
+							hideExternalReferer: argv["settings-hide-external-referer"],
+							hideIPAddress: argv["settings-hide-ipaddress"],
+							hideQueryParams: argv["settings-hide-query-params"],
+							hideUserAgent: argv["settings-hide-user-agent"],
+							initPath: resolveFileToken(
+								argv["settings-init-path"] as string | undefined,
+								"settings-init-path",
+								"text"
+							),
+							injectIframes: argv["settings-inject-iframes"],
+							mcRootPath: resolveFileToken(
+								argv["settings-mc-root-path"] as string | undefined,
+								"settings-mc-root-path",
+								"text"
+							),
+							scriptPath: resolveFileToken(
+								argv["settings-script-path"] as string | undefined,
+								"settings-script-path",
+								"text"
+							),
+							trackPath: resolveFileToken(
+								argv["settings-track-path"] as string | undefined,
+								"settings-track-path",
 								"text"
 							),
 						},
-						cookieDomain: resolveFileToken(
-							argv["settings-cookie-domain"] as string | undefined,
-							"settings-cookie-domain",
-							"text"
-						),
-						ecommerce: argv["settings-ecommerce"],
-						eventsApiPath: resolveFileToken(
-							argv["settings-events-api-path"] as string | undefined,
-							"settings-events-api-path",
-							"text"
-						),
-						hideExternalReferer: argv["settings-hide-external-referer"],
-						hideIPAddress: argv["settings-hide-ipaddress"],
-						hideQueryParams: argv["settings-hide-query-params"],
-						hideUserAgent: argv["settings-hide-user-agent"],
-						initPath: resolveFileToken(
-							argv["settings-init-path"] as string | undefined,
-							"settings-init-path",
-							"text"
-						),
-						injectIframes: argv["settings-inject-iframes"],
-						mcRootPath: resolveFileToken(
-							argv["settings-mc-root-path"] as string | undefined,
-							"settings-mc-root-path",
-							"text"
-						),
-						scriptPath: resolveFileToken(
-							argv["settings-script-path"] as string | undefined,
-							"settings-script-path",
-							"text"
-						),
-						trackPath: resolveFileToken(
-							argv["settings-track-path"] as string | undefined,
-							"settings-track-path",
-							"text"
-						),
+						triggers: parseJsonMap(argv["triggers"], "triggers", true),
+						variables: parseJsonMap(argv["variables"], "variables", true),
+						zarazVersion: argv["zaraz-version"],
+						tools: parseJsonMap(argv["tools"], "tools", true),
 					},
-					zarazVersion: argv["zaraz-version"],
-				});
+					[
+						["consent", "buttonTextTranslations", "accept_all"],
+						["consent", "buttonTextTranslations", "confirm_my_choices"],
+						["consent", "buttonTextTranslations", "reject_all"],
+						["consent", "consentModalIntroHTMLWithTranslations"],
+						["consent", "purposes"],
+						["consent", "purposesWithTranslations"],
+						["triggers"],
+						["variables"],
+						["tools"],
+					]
+				);
 				const result = await withProgress(`Updating`, async () =>
 					client.send(operation, { body: bodyData, zone_id: zoneId })
 				);

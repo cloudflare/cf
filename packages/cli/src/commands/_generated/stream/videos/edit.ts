@@ -11,7 +11,7 @@ import {
 	getAccountId,
 	resolveAccountIdSilent,
 } from "#lib/auth.js";
-import { compactBody, parseBody } from "#lib/body-parser.js";
+import { compactBody, parseBody, parseJsonMap } from "#lib/body-parser.js";
 import { formatDryRun } from "#lib/dry-run.js";
 import { resolveFileToken } from "#lib/input-validation.js";
 import { LOCAL_ACCOUNT_ID } from "#lib/local.js";
@@ -43,6 +43,11 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			type: "number",
 			description:
 				"The maximum duration in seconds for a video upload. Can be set for a video that is not yet uploaded to limit its duration. Uploads that exceed the specified duration will fail during processing. A value of `-1` means the value is unknown.",
+		})
+		.option("meta", {
+			type: "string",
+			description:
+				"A user modifiable key-value store used to reference other systems of record for managing videos. Provide as a JSON object or @path/to/file.json.",
 		})
 		.option("public-details-channel-link", {
 			type: "string",
@@ -125,56 +130,62 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						body:
 							argv.body !== undefined
 								? parseBody(argv.body)
-								: compactBody({
-										allowedOrigins: argv["allowed-origins"],
-										creator: resolveFileToken(
-											argv["creator"] as string | undefined,
-											"creator",
-											"text"
-										),
-										maxDurationSeconds: argv["max-duration-seconds"],
-										publicDetails: {
-											channel_link: resolveFileToken(
-												argv["public-details-channel-link"] as
-													| string
-													| undefined,
-												"public-details-channel-link",
+								: compactBody(
+										{
+											allowedOrigins: argv["allowed-origins"],
+											creator: resolveFileToken(
+												argv["creator"] as string | undefined,
+												"creator",
 												"text"
 											),
-											logo: resolveFileToken(
-												argv["public-details-logo"] as string | undefined,
-												"public-details-logo",
+											maxDurationSeconds: argv["max-duration-seconds"],
+											meta: parseJsonMap(argv["meta"], "meta"),
+											publicDetails: {
+												channel_link: resolveFileToken(
+													argv["public-details-channel-link"] as
+														| string
+														| undefined,
+													"public-details-channel-link",
+													"text"
+												),
+												logo: resolveFileToken(
+													argv["public-details-logo"] as string | undefined,
+													"public-details-logo",
+													"text"
+												),
+												share_link: resolveFileToken(
+													argv["public-details-share-link"] as
+														| string
+														| undefined,
+													"public-details-share-link",
+													"text"
+												),
+												title: resolveFileToken(
+													argv["public-details-title"] as string | undefined,
+													"public-details-title",
+													"text"
+												),
+											},
+											requireSignedURLs: argv["require-signed-urls"],
+											scheduledDeletion: resolveFileToken(
+												argv["scheduled-deletion"] as string | undefined,
+												"scheduled-deletion",
 												"text"
 											),
-											share_link: resolveFileToken(
-												argv["public-details-share-link"] as string | undefined,
-												"public-details-share-link",
+											thumbnailTimestampPct: argv["thumbnail-timestamp-pct"],
+											uid: resolveFileToken(
+												argv["uid"] as string | undefined,
+												"uid",
 												"text"
 											),
-											title: resolveFileToken(
-												argv["public-details-title"] as string | undefined,
-												"public-details-title",
+											uploadExpiry: resolveFileToken(
+												argv["upload-expiry"] as string | undefined,
+												"upload-expiry",
 												"text"
 											),
 										},
-										requireSignedURLs: argv["require-signed-urls"],
-										scheduledDeletion: resolveFileToken(
-											argv["scheduled-deletion"] as string | undefined,
-											"scheduled-deletion",
-											"text"
-										),
-										thumbnailTimestampPct: argv["thumbnail-timestamp-pct"],
-										uid: resolveFileToken(
-											argv["uid"] as string | undefined,
-											"uid",
-											"text"
-										),
-										uploadExpiry: resolveFileToken(
-											argv["upload-expiry"] as string | undefined,
-											"upload-expiry",
-											"text"
-										),
-									}),
+										[["meta"]]
+									),
 					});
 					return;
 				}
@@ -196,54 +207,58 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				}
 
 				// Assemble request body from individual flags
-				const bodyData = compactBody({
-					allowedOrigins: argv["allowed-origins"],
-					creator: resolveFileToken(
-						argv["creator"] as string | undefined,
-						"creator",
-						"text"
-					),
-					maxDurationSeconds: argv["max-duration-seconds"],
-					publicDetails: {
-						channel_link: resolveFileToken(
-							argv["public-details-channel-link"] as string | undefined,
-							"public-details-channel-link",
+				const bodyData = compactBody(
+					{
+						allowedOrigins: argv["allowed-origins"],
+						creator: resolveFileToken(
+							argv["creator"] as string | undefined,
+							"creator",
 							"text"
 						),
-						logo: resolveFileToken(
-							argv["public-details-logo"] as string | undefined,
-							"public-details-logo",
+						maxDurationSeconds: argv["max-duration-seconds"],
+						meta: parseJsonMap(argv["meta"], "meta"),
+						publicDetails: {
+							channel_link: resolveFileToken(
+								argv["public-details-channel-link"] as string | undefined,
+								"public-details-channel-link",
+								"text"
+							),
+							logo: resolveFileToken(
+								argv["public-details-logo"] as string | undefined,
+								"public-details-logo",
+								"text"
+							),
+							share_link: resolveFileToken(
+								argv["public-details-share-link"] as string | undefined,
+								"public-details-share-link",
+								"text"
+							),
+							title: resolveFileToken(
+								argv["public-details-title"] as string | undefined,
+								"public-details-title",
+								"text"
+							),
+						},
+						requireSignedURLs: argv["require-signed-urls"],
+						scheduledDeletion: resolveFileToken(
+							argv["scheduled-deletion"] as string | undefined,
+							"scheduled-deletion",
 							"text"
 						),
-						share_link: resolveFileToken(
-							argv["public-details-share-link"] as string | undefined,
-							"public-details-share-link",
+						thumbnailTimestampPct: argv["thumbnail-timestamp-pct"],
+						uid: resolveFileToken(
+							argv["uid"] as string | undefined,
+							"uid",
 							"text"
 						),
-						title: resolveFileToken(
-							argv["public-details-title"] as string | undefined,
-							"public-details-title",
+						uploadExpiry: resolveFileToken(
+							argv["upload-expiry"] as string | undefined,
+							"upload-expiry",
 							"text"
 						),
 					},
-					requireSignedURLs: argv["require-signed-urls"],
-					scheduledDeletion: resolveFileToken(
-						argv["scheduled-deletion"] as string | undefined,
-						"scheduled-deletion",
-						"text"
-					),
-					thumbnailTimestampPct: argv["thumbnail-timestamp-pct"],
-					uid: resolveFileToken(
-						argv["uid"] as string | undefined,
-						"uid",
-						"text"
-					),
-					uploadExpiry: resolveFileToken(
-						argv["upload-expiry"] as string | undefined,
-						"upload-expiry",
-						"text"
-					),
-				});
+					[["meta"]]
+				);
 				const result = await withProgress(`Creating`, async () =>
 					client.send(operation, {
 						body: bodyData,

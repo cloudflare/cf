@@ -339,6 +339,60 @@ describe("deriveArgsFromOp path params", () => {
 });
 
 describe("deriveArgsFromOp body flags", () => {
+	it("uses exact description overrides without inheriting parent object prose", () => {
+		const op = operation("put", "/accounts/{account_id}/example", {
+			bodyParams: [
+				bodyParam("settings-enabled", "boolean", ["settings", "enabled"], {
+					description: "Enable the setting",
+				}),
+				bodyParam("settings-label", "string", ["settings", "label"], {
+					description: "API label",
+				}),
+			],
+			hasRequestBody: true,
+			requestContentTypes: ["application/json"],
+		});
+		const d = derived(
+			method(
+				{
+					settings: { description: "Settings as JSON" },
+					"settings.label": { description: "Choose a label" },
+				},
+				"update"
+			),
+			"example",
+			op
+		);
+		expect(find(d.args, "settings-enabled").description).toBe(
+			"Enable the setting"
+		);
+		expect(find(d.args, "settings-label").description).toBe("Choose a label");
+	});
+
+	it("uses a map description override and retains JSON input help", () => {
+		const op = operation("put", "/accounts/{account_id}/example", {
+			bodyParams: [
+				bodyParam("tags", "object", ["tags"], { description: "API prose" }),
+			],
+			hasRequestBody: true,
+			requestContentTypes: ["application/json"],
+		});
+		const d = derived(
+			method(
+				{ tags: { description: "Choose tags explicitly.", required: true } },
+				"update"
+			),
+			"example",
+			op
+		);
+		expect(find(d.args, "tags")).toMatchObject({
+			type: "objectMap",
+			required: true,
+			description:
+				"Choose tags explicitly. Provide as a JSON object or @path/to/file.json.",
+		});
+	});
+
 	it("uses forge's Fern-derived names for flags and conflicts", () => {
 		const op = operation("post", "/accounts/{account_id}/example", {
 			bodyParams: [

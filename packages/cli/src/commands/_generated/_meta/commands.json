@@ -9801,6 +9801,12 @@
 					"description": "The feedback field"
 				},
 				{
+					"name": "metadata",
+					"type": "string",
+					"required": false,
+					"description": "The metadata field. Provide as a JSON object or @path/to/file.json."
+				},
+				{
 					"name": "score",
 					"type": "number",
 					"required": false,
@@ -9869,6 +9875,12 @@
 					"description": "The ai_search_options.cache.enabled field"
 				},
 				{
+					"name": "ai-search-options-custom-metadata",
+					"type": "string",
+					"required": false,
+					"description": "Metadata added to AI Gateway logs for requests this operation triggers. Accepts up to 2 string, number, or boolean entries. Reserved keys: 'ai-search', 'task', 'origin', and any key beginning with 'cf.'. Provide as a JSON object or @path/to/file.json."
+				},
+				{
 					"name": "ai-search-options-query-rewrite-enabled",
 					"type": "boolean",
 					"required": false,
@@ -9909,6 +9921,12 @@
 					"type": "number",
 					"required": false,
 					"description": "The ai_search_options.retrieval.context_expansion field"
+				},
+				{
+					"name": "ai-search-options-retrieval-filters",
+					"type": "string",
+					"required": false,
+					"description": "The ai_search_options.retrieval.filters field. Provide as a JSON object or @path/to/file.json."
 				},
 				{
 					"name": "ai-search-options-retrieval-fusion-method",
@@ -10266,7 +10284,7 @@
 					"name": "source",
 					"type": "string",
 					"required": false,
-					"description": "The source field"
+					"description": "R2 bucket name or HTTP(S) root website URL to index. When type is omitted, the source determines it."
 				},
 				{
 					"name": "source-params-exclude-items",
@@ -10330,6 +10348,12 @@
 					"enum": ["all", "sitemaps", "links"]
 				},
 				{
+					"name": "source-params-web-crawler-parse-options-include-headers",
+					"type": "string",
+					"required": false,
+					"description": "Up to 5 custom HTTP headers sent with each crawl request. Names must use RFC-7230 token characters, excluding spaces, colons, and control characters. Values must use HTAB and printable ASCII only, excluding CR and LF. Provide as a JSON object or @path/to/file.json."
+				},
+				{
 					"name": "source-params-web-crawler-parse-options-include-images",
 					"type": "boolean",
 					"required": false,
@@ -10371,7 +10395,7 @@
 					"name": "type",
 					"type": "string",
 					"required": false,
-					"description": "Source type. When omitted or null with a non-blank source, HTTP(S) URLs infer web-crawler and existing R2 bucket names infer r2. A missing or blank source without a type uses managed upload-only storage.",
+					"description": "Data source type: r2 or web-crawler.",
 					"enum": ["r2", "web-crawler"]
 				},
 				{
@@ -11079,7 +11103,7 @@
 					"name": "description",
 					"type": "string",
 					"required": false,
-					"description": "The description field"
+					"description": "Optional description for the indexing job."
 				},
 				{
 					"name": "dry-run",
@@ -11345,7 +11369,7 @@
 					"name": "destination-namespace",
 					"type": "string",
 					"required": true,
-					"description": "Target namespace to move the instance into."
+					"description": "Namespace to move the instance into."
 				},
 				{
 					"name": "dry-run",
@@ -11404,6 +11428,12 @@
 					"description": "The ai_search_options.cache.enabled field"
 				},
 				{
+					"name": "ai-search-options-custom-metadata",
+					"type": "string",
+					"required": false,
+					"description": "Metadata added to AI Gateway logs for requests this operation triggers. Accepts up to 2 string, number, or boolean entries. Reserved keys: 'ai-search', 'task', 'origin', and any key beginning with 'cf.'. Provide as a JSON object or @path/to/file.json."
+				},
+				{
 					"name": "ai-search-options-instance-ids",
 					"type": "string",
 					"required": true,
@@ -11452,6 +11482,12 @@
 					"required": false,
 					"description": "The ai_search_options.retrieval.context_expansion field",
 					"default": 0
+				},
+				{
+					"name": "ai-search-options-retrieval-filters",
+					"type": "string",
+					"required": false,
+					"description": "The ai_search_options.retrieval.filters field. Provide as a JSON object or @path/to/file.json."
 				},
 				{
 					"name": "ai-search-options-retrieval-fusion-method",
@@ -11575,6 +11611,12 @@
 					"description": "The ai_search_options.cache.enabled field"
 				},
 				{
+					"name": "ai-search-options-custom-metadata",
+					"type": "string",
+					"required": false,
+					"description": "Metadata added to AI Gateway logs for requests this operation triggers. Accepts up to 2 string, number, or boolean entries. Reserved keys: 'ai-search', 'task', 'origin', and any key beginning with 'cf.'. Provide as a JSON object or @path/to/file.json."
+				},
+				{
 					"name": "ai-search-options-instance-ids",
 					"type": "string",
 					"required": true,
@@ -11623,6 +11665,12 @@
 					"required": false,
 					"description": "The ai_search_options.retrieval.context_expansion field",
 					"default": 0
+				},
+				{
+					"name": "ai-search-options-retrieval-filters",
+					"type": "string",
+					"required": false,
+					"description": "The ai_search_options.retrieval.filters field. Provide as a JSON object or @path/to/file.json."
 				},
 				{
 					"name": "ai-search-options-retrieval-fusion-method",
@@ -12118,6 +12166,12 @@
 					"description": "The ai_search_options.cache.enabled field"
 				},
 				{
+					"name": "ai-search-options-custom-metadata",
+					"type": "string",
+					"required": false,
+					"description": "Metadata added to AI Gateway logs for requests this operation triggers. Accepts up to 2 string, number, or boolean entries. Reserved keys: 'ai-search', 'task', 'origin', and any key beginning with 'cf.'. Provide as a JSON object or @path/to/file.json."
+				},
+				{
 					"name": "ai-search-options-query-rewrite-enabled",
 					"type": "boolean",
 					"required": false,
@@ -12158,6 +12212,12 @@
 					"type": "number",
 					"required": false,
 					"description": "The ai_search_options.retrieval.context_expansion field"
+				},
+				{
+					"name": "ai-search-options-retrieval-filters",
+					"type": "string",
+					"required": false,
+					"description": "The ai_search_options.retrieval.filters field. Provide as a JSON object or @path/to/file.json."
 				},
 				{
 					"name": "ai-search-options-retrieval-fusion-method",
@@ -12284,19 +12344,19 @@
 					"name": "api-token-id",
 					"type": "string",
 					"required": true,
-					"description": "The cf_api_id field"
+					"description": "Cloudflare API token ID."
 				},
 				{
 					"name": "api-token",
 					"type": "string",
 					"required": true,
-					"description": "The cf_api_key field"
+					"description": "Cloudflare API token value."
 				},
 				{
 					"name": "legacy",
 					"type": "boolean",
 					"required": false,
-					"description": "The legacy field",
+					"description": "Whether the credential uses the legacy API key format.",
 					"default": true
 				},
 				{
@@ -12447,26 +12507,26 @@
 					"name": "api-token-id",
 					"type": "string",
 					"required": true,
-					"description": "The cf_api_id field"
+					"description": "Cloudflare API token ID."
 				},
 				{
 					"name": "api-token",
 					"type": "string",
 					"required": true,
-					"description": "The cf_api_key field"
+					"description": "Cloudflare API token value."
 				},
 				{
 					"name": "legacy",
 					"type": "boolean",
 					"required": false,
-					"description": "The legacy field",
+					"description": "Whether the credential uses the legacy API key format.",
 					"default": true
 				},
 				{
 					"name": "name",
 					"type": "string",
 					"required": true,
-					"description": "The name field"
+					"description": "Human-readable name for the credential."
 				},
 				{
 					"name": "dry-run",
@@ -12766,7 +12826,7 @@
 					"name": "source",
 					"type": "string",
 					"required": false,
-					"description": "The source field"
+					"description": "R2 bucket name or HTTP(S) root website URL to index."
 				},
 				{
 					"name": "source-params-exclude-items",
@@ -12828,6 +12888,12 @@
 					"required": false,
 					"description": "Where the crawler looks for URLs: 'sitemaps' reads sitemap XML only, 'links' follows page links only, 'all' does both.",
 					"enum": ["all", "sitemaps", "links"]
+				},
+				{
+					"name": "source-params-web-crawler-parse-options-include-headers",
+					"type": "string",
+					"required": false,
+					"description": "Up to 5 custom HTTP headers sent with each crawl request. Names must use RFC-7230 token characters, excluding spaces, colons, and control characters. Values must use HTAB and printable ASCII only, excluding CR and LF. Provide as a JSON object or @path/to/file.json."
 				},
 				{
 					"name": "source-params-web-crawler-parse-options-include-images",
@@ -20503,6 +20569,24 @@
 					"description": "The requests field"
 				},
 				{
+					"name": "requests-by-attribute",
+					"type": "string",
+					"required": true,
+					"description": "Top attributes contributing to the feedback sample. Keys include topASNs, topCountries, topHosts, topIPs, topJA3Hashes, topJA4s, topPaths, topUserAgents. Provide as a JSON object or @path/to/file.json."
+				},
+				{
+					"name": "requests-by-score",
+					"type": "string",
+					"required": true,
+					"description": "Map of bot scores (1-99) to request counts. Sum must equal `requests`. Provide as a JSON object or @path/to/file.json."
+				},
+				{
+					"name": "requests-by-score-src",
+					"type": "string",
+					"required": true,
+					"description": "Map of score source to request counts. Sum must equal `requests`. Provide as a JSON object or @path/to/file.json."
+				},
+				{
 					"name": "subtype",
 					"type": "string",
 					"required": false,
@@ -22266,6 +22350,12 @@
 					"description": "The root field"
 				},
 				{
+					"name": "set-extra-httpheaders",
+					"type": "string",
+					"required": false,
+					"description": "The setExtraHTTPHeaders field. Provide as a JSON object or @path/to/file.json."
+				},
+				{
 					"name": "set-java-script-enabled",
 					"type": "boolean",
 					"required": false,
@@ -22488,6 +22578,12 @@
 					"type": "string",
 					"required": false,
 					"description": "Block undesired requests that match the provided resource types, eg. 'image' or 'script'."
+				},
+				{
+					"name": "set-extra-httpheaders",
+					"type": "string",
+					"required": false,
+					"description": "The setExtraHTTPHeaders field. Provide as a JSON object or @path/to/file.json."
 				},
 				{
 					"name": "set-java-script-enabled",
@@ -22726,10 +22822,22 @@
 					"description": "Block undesired requests that match the provided resource types, eg. 'image' or 'script'."
 				},
 				{
+					"name": "response-format-json-schema",
+					"type": "string",
+					"required": false,
+					"description": "Schema for the response format. More information here: https://developers.cloudflare.com/workers-ai/json-mode/. Provide as a JSON object or @path/to/file.json."
+				},
+				{
 					"name": "response-format-type",
 					"type": "string",
 					"required": false,
 					"description": "The response_format.type field"
+				},
+				{
+					"name": "set-extra-httpheaders",
+					"type": "string",
+					"required": false,
+					"description": "The setExtraHTTPHeaders field. Provide as a JSON object or @path/to/file.json."
 				},
 				{
 					"name": "set-java-script-enabled",
@@ -22963,6 +23071,12 @@
 					"description": "Block undesired requests that match the provided resource types, eg. 'image' or 'script'."
 				},
 				{
+					"name": "set-extra-httpheaders",
+					"type": "string",
+					"required": false,
+					"description": "The setExtraHTTPHeaders field. Provide as a JSON object or @path/to/file.json."
+				},
+				{
 					"name": "set-java-script-enabled",
 					"type": "boolean",
 					"required": false,
@@ -23192,6 +23306,12 @@
 					"type": "string",
 					"required": false,
 					"description": "Block undesired requests that match the provided resource types, eg. 'image' or 'script'."
+				},
+				{
+					"name": "set-extra-httpheaders",
+					"type": "string",
+					"required": false,
+					"description": "The setExtraHTTPHeaders field. Provide as a JSON object or @path/to/file.json."
 				},
 				{
 					"name": "set-java-script-enabled",
@@ -23509,6 +23629,12 @@
 					"description": "Block undesired requests that match the provided resource types, eg. 'image' or 'script'."
 				},
 				{
+					"name": "set-extra-httpheaders",
+					"type": "string",
+					"required": false,
+					"description": "The setExtraHTTPHeaders field. Provide as a JSON object or @path/to/file.json."
+				},
+				{
 					"name": "set-java-script-enabled",
 					"type": "boolean",
 					"required": false,
@@ -23737,6 +23863,12 @@
 					"type": "string",
 					"required": false,
 					"description": "Block undesired requests that match the provided resource types, eg. 'image' or 'script'."
+				},
+				{
+					"name": "set-extra-httpheaders",
+					"type": "string",
+					"required": false,
+					"description": "The setExtraHTTPHeaders field. Provide as a JSON object or @path/to/file.json."
 				},
 				{
 					"name": "set-java-script-enabled",
@@ -24055,6 +24187,12 @@
 					"description": "The selector field"
 				},
 				{
+					"name": "set-extra-httpheaders",
+					"type": "string",
+					"required": false,
+					"description": "The setExtraHTTPHeaders field. Provide as a JSON object or @path/to/file.json."
+				},
+				{
 					"name": "set-java-script-enabled",
 					"type": "boolean",
 					"required": false,
@@ -24356,6 +24494,12 @@
 					"required": false,
 					"description": "The screenshotOptions.type field",
 					"enum": ["png", "jpeg", "webp"]
+				},
+				{
+					"name": "set-extra-httpheaders",
+					"type": "string",
+					"required": false,
+					"description": "The setExtraHTTPHeaders field. Provide as a JSON object or @path/to/file.json."
 				},
 				{
 					"name": "set-java-script-enabled",
@@ -25825,6 +25969,12 @@
 					"description": "Command to deploy the Worker."
 				},
 				{
+					"name": "previews-base-config-environment-variables",
+					"type": "string",
+					"required": false,
+					"description": "Map of environment-variable names to build-time values. Names must begin with a letter or underscore and contain only letters, numbers, and underscores. Provide as a JSON object or @path/to/file.json."
+				},
+				{
 					"name": "previews-base-config-path-excludes",
 					"type": "string",
 					"required": false,
@@ -25873,6 +26023,12 @@
 					"type": "string",
 					"required": true,
 					"description": "Command to deploy the Worker."
+				},
+				{
+					"name": "production-settings-environment-variables",
+					"type": "string",
+					"required": false,
+					"description": "Map of environment-variable names to build-time values. Names must begin with a letter or underscore and contain only letters, numbers, and underscores. Provide as a JSON object or @path/to/file.json."
 				},
 				{
 					"name": "production-settings-path-excludes",
@@ -26039,6 +26195,12 @@
 					"description": "Command to deploy the Worker."
 				},
 				{
+					"name": "previews-base-config-environment-variables",
+					"type": "string",
+					"required": false,
+					"description": "Environment variable updates. Set the variable entry to null to delete it. Provide as a JSON object or @path/to/file.json."
+				},
+				{
 					"name": "previews-base-config-path-excludes",
 					"type": "string",
 					"required": false,
@@ -26085,6 +26247,12 @@
 					"type": "string",
 					"required": false,
 					"description": "Command to deploy the Worker."
+				},
+				{
+					"name": "production-settings-environment-variables",
+					"type": "string",
+					"required": false,
+					"description": "Environment variable updates. Set the variable entry to null to delete it. Provide as a JSON object or @path/to/file.json."
 				},
 				{
 					"name": "production-settings-path-excludes",
@@ -28222,6 +28390,12 @@
 					"description": "The insight field"
 				},
 				{
+					"name": "raw-data",
+					"type": "string",
+					"required": false,
+					"description": "The raw.data field. Provide as a JSON object or @path/to/file.json."
+				},
+				{
 					"name": "raw-source",
 					"type": "string",
 					"required": false,
@@ -29167,6 +29341,12 @@
 					"description": "Confidence score 0–100."
 				},
 				{
+					"name": "metadata",
+					"type": "string",
+					"required": false,
+					"description": "Arbitrary JSON metadata. Provide as a JSON object or @path/to/file.json."
+				},
+				{
 					"name": "target-id",
 					"type": "string",
 					"required": true,
@@ -29365,6 +29545,12 @@
 					"type": "number",
 					"required": false,
 					"description": "Updated confidence. null clears it."
+				},
+				{
+					"name": "metadata",
+					"type": "string",
+					"required": false,
+					"description": "Updated metadata. null clears it. Provide as a JSON object or @path/to/file.json."
 				},
 				{
 					"name": "type",
@@ -30416,6 +30602,12 @@
 					"description": "Event UUID."
 				},
 				{
+					"name": "data",
+					"type": "string",
+					"required": false,
+					"description": "The data field. Provide as a JSON object or @path/to/file.json."
+				},
+				{
 					"name": "source",
 					"type": "string",
 					"required": false,
@@ -31115,6 +31307,12 @@
 					"description": "The lastSeen field"
 				},
 				{
+					"name": "properties",
+					"type": "string",
+					"required": false,
+					"description": "Custom field values blob. When omitted, the existing value is preserved. When provided, performs a shallow per-key merge over the stored value (unmentioned keys are retained). Setting an individual key to null deletes that key. Validation runs against the merged result, so a partial update may omit a schema-required key if the stored value supplies it. Provide as a JSON object or @path/to/file.json."
+				},
+				{
 					"name": "tlp",
 					"type": "string",
 					"required": false,
@@ -31190,6 +31388,12 @@
 					"type": "string",
 					"required": true,
 					"description": "Dataset UUID where the relationship row will be stored (locates the Indicators DO)."
+				},
+				{
+					"name": "metadata",
+					"type": "string",
+					"required": false,
+					"description": "Arbitrary JSON metadata. Provide as a JSON object or @path/to/file.json."
 				},
 				{
 					"name": "target-id",
@@ -31383,6 +31587,12 @@
 					"description": "Updated confidence. null clears it."
 				},
 				{
+					"name": "metadata",
+					"type": "string",
+					"required": false,
+					"description": "Updated metadata. null clears it. Provide as a JSON object or @path/to/file.json."
+				},
+				{
 					"name": "type",
 					"type": "string",
 					"required": false,
@@ -31508,6 +31718,12 @@
 					"type": "string",
 					"required": false,
 					"description": "The updates.insight field"
+				},
+				{
+					"name": "updates-raw-data",
+					"type": "string",
+					"required": false,
+					"description": "The updates.raw.data field. Provide as a JSON object or @path/to/file.json."
 				},
 				{
 					"name": "updates-raw-source",
@@ -33173,6 +33389,12 @@
 					"type": "string",
 					"required": false,
 					"description": "Optional related event ID"
+				},
+				{
+					"name": "metadata",
+					"type": "string",
+					"required": false,
+					"description": "Optional metadata fields specific to the RFI type. Provide as a JSON object or @path/to/file.json."
 				},
 				{
 					"name": "priority",
@@ -35665,6 +35887,12 @@
 					"description": "The insight field"
 				},
 				{
+					"name": "raw-data",
+					"type": "string",
+					"required": true,
+					"description": "The raw.data field. Provide as a JSON object or @path/to/file.json."
+				},
+				{
 					"name": "raw-source",
 					"type": "string",
 					"required": false,
@@ -36017,6 +36245,12 @@
 					"description": "The insight field"
 				},
 				{
+					"name": "raw-data",
+					"type": "string",
+					"required": false,
+					"description": "The raw.data field. Provide as a JSON object or @path/to/file.json."
+				},
+				{
 					"name": "raw-source",
 					"type": "string",
 					"required": false,
@@ -36333,6 +36567,12 @@
 					"description": "Event UUID."
 				},
 				{
+					"name": "data",
+					"type": "string",
+					"required": false,
+					"description": "The data field. Provide as a JSON object or @path/to/file.json."
+				},
+				{
 					"name": "source",
 					"type": "string",
 					"required": false,
@@ -36620,6 +36860,12 @@
 					"type": "string",
 					"required": false,
 					"description": "The lastSeen field"
+				},
+				{
+					"name": "properties",
+					"type": "string",
+					"required": false,
+					"description": "Structured metadata blob. Optional. When `categoryUuid` is given, validated against this category's schema on write. When typeless, accepted free-form. Use `{}` for a tag with no custom data. Provide as a JSON object or @path/to/file.json."
 				},
 				{
 					"name": "tlp",
@@ -40107,6 +40353,12 @@
 					]
 				},
 				{
+					"name": "preferences",
+					"type": "string",
+					"required": false,
+					"description": "Preference keys mapped to subscription states to update. Only the preferences in this map change; others remain unchanged. Provide as a JSON object or @path/to/file.json."
+				},
+				{
 					"name": "dry-run",
 					"type": "boolean",
 					"required": false,
@@ -40160,6 +40412,12 @@
 					"type": "boolean",
 					"required": false,
 					"description": "Set to true to trigger re-sending the email verification.\nWrite-only; never appears in responses (omitted when false).\n"
+				},
+				{
+					"name": "value-sources",
+					"type": "string",
+					"required": false,
+					"description": "Map of scanning sources and their enabled state. Provide as a JSON object or @path/to/file.json."
 				},
 				{
 					"name": "dry-run",
@@ -40538,6 +40796,12 @@
 			"arguments": [],
 			"options": [
 				{
+					"name": "custom-metadata",
+					"type": "string",
+					"required": false,
+					"description": "Unique key/value metadata for this hostname. These are per-hostname (customer) settings. Provide as a JSON object or @path/to/file.json."
+				},
+				{
 					"name": "custom-origin-server",
 					"type": "string",
 					"required": false,
@@ -40717,6 +40981,12 @@
 				}
 			],
 			"options": [
+				{
+					"name": "custom-metadata",
+					"type": "string",
+					"required": false,
+					"description": "Unique key/value metadata for this hostname. These are per-hostname (customer) settings. Provide as a JSON object or @path/to/file.json."
+				},
 				{
 					"name": "custom-origin-server",
 					"type": "string",
@@ -45543,7 +45813,7 @@
 			"fullPath": ["dns-firewall", "reverse-dns", "edit"],
 			"description": "Update reverse DNS configuration (PTR records) for a DNS Firewall cluster",
 			"summary": "Update DNS Firewall Cluster Reverse DNS",
-			"usage": "cf dns-firewall reverse-dns edit <dns-firewall-id>",
+			"usage": "cf dns-firewall reverse-dns edit <dns-firewall-id> [options]",
 			"arguments": [
 				{
 					"name": "dns-firewall-id",
@@ -45554,6 +45824,12 @@
 				}
 			],
 			"options": [
+				{
+					"name": "ptr",
+					"type": "string",
+					"required": false,
+					"description": "Map of cluster IP addresses to PTR record contents. Provide as a JSON object or @path/to/file.json."
+				},
 				{
 					"name": "dry-run",
 					"type": "boolean",
@@ -50863,6 +51139,12 @@
 					"description": "Display name for the email address (e.g., 'John Doe'). Optional; set to null or leave it unset to send the address on its own."
 				},
 				{
+					"name": "headers",
+					"type": "string",
+					"required": false,
+					"description": "Custom email headers as key-value pairs. Provide as a JSON object or @path/to/file.json."
+				},
+				{
 					"name": "html",
 					"type": "string",
 					"required": false,
@@ -51449,6 +51731,12 @@
 					"type": "string",
 					"required": false,
 					"description": "Replacement advisory note. Send an empty string to clear it; omit to leave it unchanged."
+				},
+				{
+					"name": "scope",
+					"type": "string",
+					"required": false,
+					"description": "Not editable. Scope is fixed when the suppression is created; any value returns 400 with code `scope_immutable`. Delete and recreate the suppression to change it. Provide as a JSON object or @path/to/file.json."
 				},
 				{
 					"name": "dry-run",
@@ -52786,6 +53074,12 @@
 					"enum": ["boolean", "string", "number", "json"]
 				},
 				{
+					"name": "variations",
+					"type": "string",
+					"required": true,
+					"description": "Map of variation name to value. All values share the same type (boolean, string, number, or JSON object/array), and each serialized value stays within 10KB. Provide as a JSON object or @path/to/file.json."
+				},
+				{
 					"name": "dry-run",
 					"type": "boolean",
 					"required": false,
@@ -52861,6 +53155,12 @@
 				}
 			],
 			"options": [
+				{
+					"name": "context",
+					"type": "string",
+					"required": false,
+					"description": "Evaluation attributes keyed by name. Values may be any JSON value; the context supports up to 100 entries and 32 KB. Provide as a JSON object or @path/to/file.json."
+				},
 				{
 					"name": "flag-key",
 					"type": "string",
@@ -53027,6 +53327,12 @@
 					"required": false,
 					"description": "Deprecated compatibility field. Omit it; the API ignores this value and infers the type from the flag's variations.",
 					"enum": ["boolean", "string", "number", "json"]
+				},
+				{
+					"name": "variations",
+					"type": "string",
+					"required": true,
+					"description": "Map of variation name to value. All values share the same type (boolean, string, number, or JSON object/array), and each serialized value stays within 10KB. Provide as a JSON object or @path/to/file.json."
 				},
 				{
 					"name": "dry-run",
@@ -53392,6 +53698,12 @@
 					"description": "Follow redirects if the origin returns a 3xx status code."
 				},
 				{
+					"name": "http-config-header",
+					"type": "string",
+					"required": false,
+					"description": "The HTTP request headers to send in the health check. It is recommended you set a Host header by default. The User-Agent header cannot be overridden. Provide as a JSON object or @path/to/file.json."
+				},
+				{
 					"name": "http-config-method",
 					"type": "string",
 					"required": false,
@@ -53589,6 +53901,12 @@
 					"type": "boolean",
 					"required": false,
 					"description": "Follow redirects if the origin returns a 3xx status code."
+				},
+				{
+					"name": "http-config-header",
+					"type": "string",
+					"required": false,
+					"description": "The HTTP request headers to send in the health check. It is recommended you set a Host header by default. The User-Agent header cannot be overridden. Provide as a JSON object or @path/to/file.json."
 				},
 				{
 					"name": "http-config-method",
@@ -53816,6 +54134,12 @@
 					"type": "boolean",
 					"required": false,
 					"description": "Follow redirects if the origin returns a 3xx status code."
+				},
+				{
+					"name": "http-config-header",
+					"type": "string",
+					"required": false,
+					"description": "The HTTP request headers to send in the health check. It is recommended you set a Host header by default. The User-Agent header cannot be overridden. Provide as a JSON object or @path/to/file.json."
 				},
 				{
 					"name": "http-config-method",
@@ -54047,6 +54371,12 @@
 					"type": "boolean",
 					"required": false,
 					"description": "Follow redirects if the origin returns a 3xx status code."
+				},
+				{
+					"name": "http-config-header",
+					"type": "string",
+					"required": false,
+					"description": "The HTTP request headers to send in the health check. It is recommended you set a Host header by default. The User-Agent header cannot be overridden. Provide as a JSON object or @path/to/file.json."
 				},
 				{
 					"name": "http-config-method",
@@ -55893,6 +56223,12 @@
 					"description": "Can set the creator field with an internal user ID."
 				},
 				{
+					"name": "metadata",
+					"type": "string",
+					"required": false,
+					"description": "User modifiable key-value store. Can be used for keeping references to another system of record for managing images. No change if not specified. Provide as a JSON object or @path/to/file.json."
+				},
+				{
 					"name": "require-signed-urls",
 					"type": "boolean",
 					"required": false,
@@ -56385,6 +56721,12 @@
 					"description": "A human-readable name for the source."
 				},
 				{
+					"name": "secret",
+					"type": "string",
+					"required": true,
+					"description": "Storage credentials for accessing the bucket. Shape depends on vendor. Provide as a JSON object or @path/to/file.json."
+				},
+				{
 					"name": "vendor",
 					"type": "string",
 					"required": true,
@@ -56544,6 +56886,12 @@
 					"type": "string",
 					"required": false,
 					"description": "The region hint for the bucket (S3 only)."
+				},
+				{
+					"name": "secret",
+					"type": "string",
+					"required": true,
+					"description": "Storage credentials for accessing the bucket. Provide as a JSON object or @path/to/file.json."
 				},
 				{
 					"name": "vendor",
@@ -59859,6 +60207,12 @@
 					"description": "Extends zero-downtime failover of requests to healthy origins from alternate pools, when no healthy alternate exists in the same pool, according to the failover order defined by traffic and origin steering. When set false (the default) zero-downtime failover will only occur between origins within the same pool. See `session_affinity_attributes` for control over when sessions are broken or reassigned."
 				},
 				{
+					"name": "country-pools",
+					"type": "string",
+					"required": false,
+					"description": "A mapping of country codes to a list of pool IDs (ordered by their failover priority) for the given country. Any country not explicitly defined will fall back to using the corresponding region_pool mapping if it exists else to default_pools. Provide as a JSON object or @path/to/file.json."
+				},
+				{
 					"name": "default-pools",
 					"type": "string",
 					"required": true,
@@ -59910,6 +60264,12 @@
 					"description": "List of networks where Load Balancer or Pool is enabled."
 				},
 				{
+					"name": "pop-pools",
+					"type": "string",
+					"required": false,
+					"description": "Enterprise only: A mapping of Cloudflare PoP identifiers to a list of pool IDs (ordered by their failover priority) for the PoP (datacenter). Any PoPs not explicitly defined will fall back to using the corresponding country_pool, then region_pool mapping if it exists else to default_pools. Provide as a JSON object or @path/to/file.json."
+				},
+				{
 					"name": "proxied",
 					"type": "boolean",
 					"required": false,
@@ -59921,6 +60281,18 @@
 					"type": "number",
 					"required": false,
 					"description": "The default weight for pools in the load balancer that are not specified in the pool_weights map."
+				},
+				{
+					"name": "random-steering-pool-weights",
+					"type": "string",
+					"required": false,
+					"description": "A mapping of pool IDs to custom weights. The weight is relative to other pools in the load balancer. Provide as a JSON object or @path/to/file.json."
+				},
+				{
+					"name": "region-pools",
+					"type": "string",
+					"required": false,
+					"description": "A mapping of region codes to a list of pool IDs (ordered by their failover priority) for the given region. Any regions not explicitly defined will fall back to using default_pools. Provide as a JSON object or @path/to/file.json."
 				},
 				{
 					"name": "rules",
@@ -60080,6 +60452,12 @@
 					"description": "Extends zero-downtime failover of requests to healthy origins from alternate pools, when no healthy alternate exists in the same pool, according to the failover order defined by traffic and origin steering. When set false (the default) zero-downtime failover will only occur between origins within the same pool. See `session_affinity_attributes` for control over when sessions are broken or reassigned."
 				},
 				{
+					"name": "country-pools",
+					"type": "string",
+					"required": false,
+					"description": "A mapping of country codes to a list of pool IDs (ordered by their failover priority) for the given country. Any country not explicitly defined will fall back to using the corresponding region_pool mapping if it exists else to default_pools. Provide as a JSON object or @path/to/file.json."
+				},
+				{
 					"name": "default-pools",
 					"type": "string",
 					"required": false,
@@ -60131,6 +60509,12 @@
 					"description": "List of networks where Load Balancer or Pool is enabled."
 				},
 				{
+					"name": "pop-pools",
+					"type": "string",
+					"required": false,
+					"description": "Enterprise only: A mapping of Cloudflare PoP identifiers to a list of pool IDs (ordered by their failover priority) for the PoP (datacenter). Any PoPs not explicitly defined will fall back to using the corresponding country_pool, then region_pool mapping if it exists else to default_pools. Provide as a JSON object or @path/to/file.json."
+				},
+				{
 					"name": "proxied",
 					"type": "boolean",
 					"required": false,
@@ -60142,6 +60526,18 @@
 					"type": "number",
 					"required": false,
 					"description": "The default weight for pools in the load balancer that are not specified in the pool_weights map."
+				},
+				{
+					"name": "random-steering-pool-weights",
+					"type": "string",
+					"required": false,
+					"description": "A mapping of pool IDs to custom weights. The weight is relative to other pools in the load balancer. Provide as a JSON object or @path/to/file.json."
+				},
+				{
+					"name": "region-pools",
+					"type": "string",
+					"required": false,
+					"description": "A mapping of region codes to a list of pool IDs (ordered by their failover priority) for the given region. Any regions not explicitly defined will fall back to using default_pools. Provide as a JSON object or @path/to/file.json."
 				},
 				{
 					"name": "rules",
@@ -60325,6 +60721,12 @@
 					"description": "Extends zero-downtime failover of requests to healthy origins from alternate pools, when no healthy alternate exists in the same pool, according to the failover order defined by traffic and origin steering. When set false (the default) zero-downtime failover will only occur between origins within the same pool. See `session_affinity_attributes` for control over when sessions are broken or reassigned."
 				},
 				{
+					"name": "country-pools",
+					"type": "string",
+					"required": false,
+					"description": "A mapping of country codes to a list of pool IDs (ordered by their failover priority) for the given country. Any country not explicitly defined will fall back to using the corresponding region_pool mapping if it exists else to default_pools. Provide as a JSON object or @path/to/file.json."
+				},
+				{
 					"name": "default-pools",
 					"type": "string",
 					"required": true,
@@ -60376,6 +60778,12 @@
 					"description": "List of networks where Load Balancer or Pool is enabled."
 				},
 				{
+					"name": "pop-pools",
+					"type": "string",
+					"required": false,
+					"description": "Enterprise only: A mapping of Cloudflare PoP identifiers to a list of pool IDs (ordered by their failover priority) for the PoP (datacenter). Any PoPs not explicitly defined will fall back to using the corresponding country_pool, then region_pool mapping if it exists else to default_pools. Provide as a JSON object or @path/to/file.json."
+				},
+				{
 					"name": "proxied",
 					"type": "boolean",
 					"required": false,
@@ -60387,6 +60795,18 @@
 					"type": "number",
 					"required": false,
 					"description": "The default weight for pools in the load balancer that are not specified in the pool_weights map."
+				},
+				{
+					"name": "random-steering-pool-weights",
+					"type": "string",
+					"required": false,
+					"description": "A mapping of pool IDs to custom weights. The weight is relative to other pools in the load balancer. Provide as a JSON object or @path/to/file.json."
+				},
+				{
+					"name": "region-pools",
+					"type": "string",
+					"required": false,
+					"description": "A mapping of region codes to a list of pool IDs (ordered by their failover priority) for the given region. Any regions not explicitly defined will fall back to using default_pools. Provide as a JSON object or @path/to/file.json."
 				},
 				{
 					"name": "rules",
@@ -60831,6 +61251,12 @@
 					"default": false
 				},
 				{
+					"name": "header",
+					"type": "string",
+					"required": false,
+					"description": "The HTTP request headers to send in the health check. It is recommended you set a Host header by default. The User-Agent header cannot be overridden. This parameter is only valid for HTTP and HTTPS monitors. Provide as a JSON object or @path/to/file.json."
+				},
+				{
 					"name": "interval",
 					"type": "number",
 					"required": false,
@@ -61000,6 +61426,12 @@
 					"required": false,
 					"description": "Follow redirects if returned by the origin. This parameter is only valid for HTTP and HTTPS monitors.",
 					"default": false
+				},
+				{
+					"name": "header",
+					"type": "string",
+					"required": false,
+					"description": "The HTTP request headers to send in the health check. It is recommended you set a Host header by default. The User-Agent header cannot be overridden. This parameter is only valid for HTTP and HTTPS monitors. Provide as a JSON object or @path/to/file.json."
 				},
 				{
 					"name": "interval",
@@ -61197,6 +61629,12 @@
 					"default": false
 				},
 				{
+					"name": "header",
+					"type": "string",
+					"required": false,
+					"description": "The HTTP request headers to send in the health check. It is recommended you set a Host header by default. The User-Agent header cannot be overridden. This parameter is only valid for HTTP and HTTPS monitors. Provide as a JSON object or @path/to/file.json."
+				},
+				{
 					"name": "interval",
 					"type": "number",
 					"required": false,
@@ -61366,6 +61804,12 @@
 					"required": false,
 					"description": "Follow redirects if returned by the origin. This parameter is only valid for HTTP and HTTPS monitors.",
 					"default": false
+				},
+				{
+					"name": "header",
+					"type": "string",
+					"required": false,
+					"description": "The HTTP request headers to send in the health check. It is recommended you set a Host header by default. The User-Agent header cannot be overridden. This parameter is only valid for HTTP and HTTPS monitors. Provide as a JSON object or @path/to/file.json."
 				},
 				{
 					"name": "interval",
@@ -61937,6 +62381,12 @@
 					"required": false,
 					"description": "Follow redirects if returned by the origin. This parameter is only valid for HTTP and HTTPS monitors.",
 					"default": false
+				},
+				{
+					"name": "header",
+					"type": "string",
+					"required": false,
+					"description": "The HTTP request headers to send in the health check. It is recommended you set a Host header by default. The User-Agent header cannot be overridden. This parameter is only valid for HTTP and HTTPS monitors. Provide as a JSON object or @path/to/file.json."
 				},
 				{
 					"name": "interval",
@@ -63595,6 +64045,12 @@
 			"usage": "cf logpush transformers preview [options]",
 			"arguments": [],
 			"options": [
+				{
+					"name": "input",
+					"type": "string",
+					"required": true,
+					"description": "A single log record to transform (JSON object). Provide as a JSON object or @path/to/file.json."
+				},
 				{
 					"name": "sql",
 					"type": "string",
@@ -72612,6 +73068,12 @@
 					"description": "The static_addressing.dhcp_server.dns_servers field"
 				},
 				{
+					"name": "static-addressing-dhcp-server-reservations",
+					"type": "string",
+					"required": false,
+					"description": "Mapping of MAC addresses to IP addresses. Provide as a JSON object or @path/to/file.json."
+				},
+				{
 					"name": "static-addressing-secondary-address",
 					"type": "string",
 					"required": false,
@@ -72794,6 +73256,12 @@
 					"type": "string",
 					"required": false,
 					"description": "The static_addressing.dhcp_server.dns_servers field"
+				},
+				{
+					"name": "static-addressing-dhcp-server-reservations",
+					"type": "string",
+					"required": false,
+					"description": "Mapping of MAC addresses to IP addresses. Provide as a JSON object or @path/to/file.json."
 				},
 				{
 					"name": "static-addressing-secondary-address",
@@ -73008,6 +73476,12 @@
 					"type": "string",
 					"required": false,
 					"description": "The static_addressing.dhcp_server.dns_servers field"
+				},
+				{
+					"name": "static-addressing-dhcp-server-reservations",
+					"type": "string",
+					"required": false,
+					"description": "Mapping of MAC addresses to IP addresses. Provide as a JSON object or @path/to/file.json."
 				},
 				{
 					"name": "static-addressing-secondary-address",
@@ -74084,6 +74558,12 @@
 					"type": "string",
 					"required": false,
 					"description": "Optional. Supply this header to safely retry a request. Required when `worker_script_name` is supplied."
+				},
+				{
+					"name": "repo-hosts",
+					"type": "string",
+					"required": false,
+					"description": "Explicit hostname scopes. Every hostname must be authorized for its repository before review admission; rejected scopes return 422 and do not persist a scan request. Provide as a JSON object or @path/to/file.json."
 				},
 				{
 					"name": "repos",
@@ -78170,6 +78650,12 @@
 			"arguments": [],
 			"options": [
 				{
+					"name": "configuration-headers",
+					"type": "string",
+					"required": true,
+					"description": "The configuration.headers field. Provide as a JSON object or @path/to/file.json."
+				},
+				{
 					"name": "configuration-logpush-dataset",
 					"type": "string",
 					"required": true,
@@ -78331,6 +78817,12 @@
 				}
 			],
 			"options": [
+				{
+					"name": "configuration-headers",
+					"type": "string",
+					"required": true,
+					"description": "The configuration.headers field. Provide as a JSON object or @path/to/file.json."
+				},
 				{
 					"name": "configuration-type",
 					"type": "string",
@@ -82453,10 +82945,28 @@
 					"description": "The auth token for analytics."
 				},
 				{
+					"name": "deployment-configs-preview-ai-bindings",
+					"type": "string",
+					"required": false,
+					"description": "Constellation bindings used for Pages Functions. Provide as a JSON object or @path/to/file.json."
+				},
+				{
 					"name": "deployment-configs-preview-always-use-latest-compatibility-date",
 					"type": "boolean",
 					"required": false,
 					"description": "Whether to always use the latest compatibility date for Pages Functions."
+				},
+				{
+					"name": "deployment-configs-preview-analytics-engine-datasets",
+					"type": "string",
+					"required": false,
+					"description": "Analytics Engine bindings used for Pages Functions. Provide as a JSON object or @path/to/file.json."
+				},
+				{
+					"name": "deployment-configs-preview-browsers",
+					"type": "string",
+					"required": false,
+					"description": "Browser bindings used for Pages Functions. Provide as a JSON object or @path/to/file.json."
 				},
 				{
 					"name": "deployment-configs-preview-build-image-major-version",
@@ -82477,10 +82987,40 @@
 					"description": "Compatibility flags used for Pages Functions."
 				},
 				{
+					"name": "deployment-configs-preview-d1-databases",
+					"type": "string",
+					"required": false,
+					"description": "D1 databases used for Pages Functions. Provide as a JSON object or @path/to/file.json."
+				},
+				{
+					"name": "deployment-configs-preview-durable-object-namespaces",
+					"type": "string",
+					"required": false,
+					"description": "Durable Object namespaces used for Pages Functions. Provide as a JSON object or @path/to/file.json."
+				},
+				{
+					"name": "deployment-configs-preview-env-vars",
+					"type": "string",
+					"required": false,
+					"description": "Environment variables used for builds and Pages Functions. Provide as a JSON object or @path/to/file.json."
+				},
+				{
 					"name": "deployment-configs-preview-fail-open",
 					"type": "boolean",
 					"required": false,
 					"description": "Whether to fail open when the deployment config cannot be applied."
+				},
+				{
+					"name": "deployment-configs-preview-hyperdrive-bindings",
+					"type": "string",
+					"required": false,
+					"description": "Hyperdrive bindings used for Pages Functions. Provide as a JSON object or @path/to/file.json."
+				},
+				{
+					"name": "deployment-configs-preview-kv-namespaces",
+					"type": "string",
+					"required": false,
+					"description": "KV namespaces used for Pages Functions. Provide as a JSON object or @path/to/file.json."
 				},
 				{
 					"name": "deployment-configs-preview-limits-cpu-ms",
@@ -82489,10 +83029,34 @@
 					"description": "CPU time limit in milliseconds."
 				},
 				{
+					"name": "deployment-configs-preview-mtls-certificates",
+					"type": "string",
+					"required": false,
+					"description": "mTLS bindings used for Pages Functions. Provide as a JSON object or @path/to/file.json."
+				},
+				{
 					"name": "deployment-configs-preview-placement-mode",
 					"type": "string",
 					"required": false,
 					"description": "Placement mode."
+				},
+				{
+					"name": "deployment-configs-preview-queue-producers",
+					"type": "string",
+					"required": false,
+					"description": "Queue Producer bindings used for Pages Functions. Provide as a JSON object or @path/to/file.json."
+				},
+				{
+					"name": "deployment-configs-preview-r2-buckets",
+					"type": "string",
+					"required": false,
+					"description": "R2 buckets used for Pages Functions. Provide as a JSON object or @path/to/file.json."
+				},
+				{
+					"name": "deployment-configs-preview-services",
+					"type": "string",
+					"required": false,
+					"description": "Services used for Pages Functions. Provide as a JSON object or @path/to/file.json."
 				},
 				{
 					"name": "deployment-configs-preview-usage-model",
@@ -82502,16 +83066,40 @@
 					"enum": ["standard", "bundled", "unbound"]
 				},
 				{
+					"name": "deployment-configs-preview-vectorize-bindings",
+					"type": "string",
+					"required": false,
+					"description": "Vectorize bindings used for Pages Functions. Provide as a JSON object or @path/to/file.json."
+				},
+				{
 					"name": "deployment-configs-preview-wrangler-config-hash",
 					"type": "string",
 					"required": false,
 					"description": "Hash of the Wrangler configuration used for the deployment."
 				},
 				{
+					"name": "deployment-configs-production-ai-bindings",
+					"type": "string",
+					"required": false,
+					"description": "Constellation bindings used for Pages Functions. Provide as a JSON object or @path/to/file.json."
+				},
+				{
 					"name": "deployment-configs-production-always-use-latest-compatibility-date",
 					"type": "boolean",
 					"required": false,
 					"description": "Whether to always use the latest compatibility date for Pages Functions."
+				},
+				{
+					"name": "deployment-configs-production-analytics-engine-datasets",
+					"type": "string",
+					"required": false,
+					"description": "Analytics Engine bindings used for Pages Functions. Provide as a JSON object or @path/to/file.json."
+				},
+				{
+					"name": "deployment-configs-production-browsers",
+					"type": "string",
+					"required": false,
+					"description": "Browser bindings used for Pages Functions. Provide as a JSON object or @path/to/file.json."
 				},
 				{
 					"name": "deployment-configs-production-build-image-major-version",
@@ -82532,10 +83120,40 @@
 					"description": "Compatibility flags used for Pages Functions."
 				},
 				{
+					"name": "deployment-configs-production-d1-databases",
+					"type": "string",
+					"required": false,
+					"description": "D1 databases used for Pages Functions. Provide as a JSON object or @path/to/file.json."
+				},
+				{
+					"name": "deployment-configs-production-durable-object-namespaces",
+					"type": "string",
+					"required": false,
+					"description": "Durable Object namespaces used for Pages Functions. Provide as a JSON object or @path/to/file.json."
+				},
+				{
+					"name": "deployment-configs-production-env-vars",
+					"type": "string",
+					"required": false,
+					"description": "Environment variables used for builds and Pages Functions. Provide as a JSON object or @path/to/file.json."
+				},
+				{
 					"name": "deployment-configs-production-fail-open",
 					"type": "boolean",
 					"required": false,
 					"description": "Whether to fail open when the deployment config cannot be applied."
+				},
+				{
+					"name": "deployment-configs-production-hyperdrive-bindings",
+					"type": "string",
+					"required": false,
+					"description": "Hyperdrive bindings used for Pages Functions. Provide as a JSON object or @path/to/file.json."
+				},
+				{
+					"name": "deployment-configs-production-kv-namespaces",
+					"type": "string",
+					"required": false,
+					"description": "KV namespaces used for Pages Functions. Provide as a JSON object or @path/to/file.json."
 				},
 				{
 					"name": "deployment-configs-production-limits-cpu-ms",
@@ -82544,10 +83162,34 @@
 					"description": "CPU time limit in milliseconds."
 				},
 				{
+					"name": "deployment-configs-production-mtls-certificates",
+					"type": "string",
+					"required": false,
+					"description": "mTLS bindings used for Pages Functions. Provide as a JSON object or @path/to/file.json."
+				},
+				{
 					"name": "deployment-configs-production-placement-mode",
 					"type": "string",
 					"required": false,
 					"description": "Placement mode."
+				},
+				{
+					"name": "deployment-configs-production-queue-producers",
+					"type": "string",
+					"required": false,
+					"description": "Queue Producer bindings used for Pages Functions. Provide as a JSON object or @path/to/file.json."
+				},
+				{
+					"name": "deployment-configs-production-r2-buckets",
+					"type": "string",
+					"required": false,
+					"description": "R2 buckets used for Pages Functions. Provide as a JSON object or @path/to/file.json."
+				},
+				{
+					"name": "deployment-configs-production-services",
+					"type": "string",
+					"required": false,
+					"description": "Services used for Pages Functions. Provide as a JSON object or @path/to/file.json."
 				},
 				{
 					"name": "deployment-configs-production-usage-model",
@@ -82555,6 +83197,12 @@
 					"required": false,
 					"description": "The usage model for Pages Functions.",
 					"enum": ["standard", "bundled", "unbound"]
+				},
+				{
+					"name": "deployment-configs-production-vectorize-bindings",
+					"type": "string",
+					"required": false,
+					"description": "Vectorize bindings used for Pages Functions. Provide as a JSON object or @path/to/file.json."
 				},
 				{
 					"name": "deployment-configs-production-wrangler-config-hash",
@@ -83270,10 +83918,28 @@
 					"description": "The auth token for analytics."
 				},
 				{
+					"name": "deployment-configs-preview-ai-bindings",
+					"type": "string",
+					"required": false,
+					"description": "Constellation bindings used for Pages Functions. Provide as a JSON object or @path/to/file.json."
+				},
+				{
 					"name": "deployment-configs-preview-always-use-latest-compatibility-date",
 					"type": "boolean",
 					"required": false,
 					"description": "Whether to always use the latest compatibility date for Pages Functions."
+				},
+				{
+					"name": "deployment-configs-preview-analytics-engine-datasets",
+					"type": "string",
+					"required": false,
+					"description": "Analytics Engine bindings used for Pages Functions. Provide as a JSON object or @path/to/file.json."
+				},
+				{
+					"name": "deployment-configs-preview-browsers",
+					"type": "string",
+					"required": false,
+					"description": "Browser bindings used for Pages Functions. Provide as a JSON object or @path/to/file.json."
 				},
 				{
 					"name": "deployment-configs-preview-build-image-major-version",
@@ -83294,10 +83960,40 @@
 					"description": "Compatibility flags used for Pages Functions."
 				},
 				{
+					"name": "deployment-configs-preview-d1-databases",
+					"type": "string",
+					"required": false,
+					"description": "D1 databases used for Pages Functions. Provide as a JSON object or @path/to/file.json."
+				},
+				{
+					"name": "deployment-configs-preview-durable-object-namespaces",
+					"type": "string",
+					"required": false,
+					"description": "Durable Object namespaces used for Pages Functions. Provide as a JSON object or @path/to/file.json."
+				},
+				{
+					"name": "deployment-configs-preview-env-vars",
+					"type": "string",
+					"required": false,
+					"description": "Environment variables used for builds and Pages Functions. Provide as a JSON object or @path/to/file.json."
+				},
+				{
 					"name": "deployment-configs-preview-fail-open",
 					"type": "boolean",
 					"required": false,
 					"description": "Whether to fail open when the deployment config cannot be applied."
+				},
+				{
+					"name": "deployment-configs-preview-hyperdrive-bindings",
+					"type": "string",
+					"required": false,
+					"description": "Hyperdrive bindings used for Pages Functions. Provide as a JSON object or @path/to/file.json."
+				},
+				{
+					"name": "deployment-configs-preview-kv-namespaces",
+					"type": "string",
+					"required": false,
+					"description": "KV namespaces used for Pages Functions. Provide as a JSON object or @path/to/file.json."
 				},
 				{
 					"name": "deployment-configs-preview-limits-cpu-ms",
@@ -83306,10 +84002,34 @@
 					"description": "CPU time limit in milliseconds."
 				},
 				{
+					"name": "deployment-configs-preview-mtls-certificates",
+					"type": "string",
+					"required": false,
+					"description": "mTLS bindings used for Pages Functions. Provide as a JSON object or @path/to/file.json."
+				},
+				{
 					"name": "deployment-configs-preview-placement-mode",
 					"type": "string",
 					"required": false,
 					"description": "Placement mode."
+				},
+				{
+					"name": "deployment-configs-preview-queue-producers",
+					"type": "string",
+					"required": false,
+					"description": "Queue Producer bindings used for Pages Functions. Provide as a JSON object or @path/to/file.json."
+				},
+				{
+					"name": "deployment-configs-preview-r2-buckets",
+					"type": "string",
+					"required": false,
+					"description": "R2 buckets used for Pages Functions. Provide as a JSON object or @path/to/file.json."
+				},
+				{
+					"name": "deployment-configs-preview-services",
+					"type": "string",
+					"required": false,
+					"description": "Services used for Pages Functions. Provide as a JSON object or @path/to/file.json."
 				},
 				{
 					"name": "deployment-configs-preview-usage-model",
@@ -83319,16 +84039,40 @@
 					"enum": ["standard", "bundled", "unbound"]
 				},
 				{
+					"name": "deployment-configs-preview-vectorize-bindings",
+					"type": "string",
+					"required": false,
+					"description": "Vectorize bindings used for Pages Functions. Provide as a JSON object or @path/to/file.json."
+				},
+				{
 					"name": "deployment-configs-preview-wrangler-config-hash",
 					"type": "string",
 					"required": false,
 					"description": "Hash of the Wrangler configuration used for the deployment."
 				},
 				{
+					"name": "deployment-configs-production-ai-bindings",
+					"type": "string",
+					"required": false,
+					"description": "Constellation bindings used for Pages Functions. Provide as a JSON object or @path/to/file.json."
+				},
+				{
 					"name": "deployment-configs-production-always-use-latest-compatibility-date",
 					"type": "boolean",
 					"required": false,
 					"description": "Whether to always use the latest compatibility date for Pages Functions."
+				},
+				{
+					"name": "deployment-configs-production-analytics-engine-datasets",
+					"type": "string",
+					"required": false,
+					"description": "Analytics Engine bindings used for Pages Functions. Provide as a JSON object or @path/to/file.json."
+				},
+				{
+					"name": "deployment-configs-production-browsers",
+					"type": "string",
+					"required": false,
+					"description": "Browser bindings used for Pages Functions. Provide as a JSON object or @path/to/file.json."
 				},
 				{
 					"name": "deployment-configs-production-build-image-major-version",
@@ -83349,10 +84093,40 @@
 					"description": "Compatibility flags used for Pages Functions."
 				},
 				{
+					"name": "deployment-configs-production-d1-databases",
+					"type": "string",
+					"required": false,
+					"description": "D1 databases used for Pages Functions. Provide as a JSON object or @path/to/file.json."
+				},
+				{
+					"name": "deployment-configs-production-durable-object-namespaces",
+					"type": "string",
+					"required": false,
+					"description": "Durable Object namespaces used for Pages Functions. Provide as a JSON object or @path/to/file.json."
+				},
+				{
+					"name": "deployment-configs-production-env-vars",
+					"type": "string",
+					"required": false,
+					"description": "Environment variables used for builds and Pages Functions. Provide as a JSON object or @path/to/file.json."
+				},
+				{
 					"name": "deployment-configs-production-fail-open",
 					"type": "boolean",
 					"required": false,
 					"description": "Whether to fail open when the deployment config cannot be applied."
+				},
+				{
+					"name": "deployment-configs-production-hyperdrive-bindings",
+					"type": "string",
+					"required": false,
+					"description": "Hyperdrive bindings used for Pages Functions. Provide as a JSON object or @path/to/file.json."
+				},
+				{
+					"name": "deployment-configs-production-kv-namespaces",
+					"type": "string",
+					"required": false,
+					"description": "KV namespaces used for Pages Functions. Provide as a JSON object or @path/to/file.json."
 				},
 				{
 					"name": "deployment-configs-production-limits-cpu-ms",
@@ -83361,10 +84135,34 @@
 					"description": "CPU time limit in milliseconds."
 				},
 				{
+					"name": "deployment-configs-production-mtls-certificates",
+					"type": "string",
+					"required": false,
+					"description": "mTLS bindings used for Pages Functions. Provide as a JSON object or @path/to/file.json."
+				},
+				{
 					"name": "deployment-configs-production-placement-mode",
 					"type": "string",
 					"required": false,
 					"description": "Placement mode."
+				},
+				{
+					"name": "deployment-configs-production-queue-producers",
+					"type": "string",
+					"required": false,
+					"description": "Queue Producer bindings used for Pages Functions. Provide as a JSON object or @path/to/file.json."
+				},
+				{
+					"name": "deployment-configs-production-r2-buckets",
+					"type": "string",
+					"required": false,
+					"description": "R2 buckets used for Pages Functions. Provide as a JSON object or @path/to/file.json."
+				},
+				{
+					"name": "deployment-configs-production-services",
+					"type": "string",
+					"required": false,
+					"description": "Services used for Pages Functions. Provide as a JSON object or @path/to/file.json."
 				},
 				{
 					"name": "deployment-configs-production-usage-model",
@@ -83372,6 +84170,12 @@
 					"required": false,
 					"description": "The usage model for Pages Functions.",
 					"enum": ["standard", "bundled", "unbound"]
+				},
+				{
+					"name": "deployment-configs-production-vectorize-bindings",
+					"type": "string",
+					"required": false,
+					"description": "Vectorize bindings used for Pages Functions. Provide as a JSON object or @path/to/file.json."
 				},
 				{
 					"name": "deployment-configs-production-wrangler-config-hash",
@@ -83732,6 +84536,12 @@
 			"arguments": [],
 			"options": [
 				{
+					"name": "bot-overrides",
+					"type": "string",
+					"required": true,
+					"description": "The bot_overrides field. Provide as a JSON object or @path/to/file.json."
+				},
+				{
 					"name": "enabled",
 					"type": "boolean",
 					"required": true,
@@ -83773,6 +84583,12 @@
 			"usage": "cf pay-per-crawl config edit [options]",
 			"arguments": [],
 			"options": [
+				{
+					"name": "bot-overrides",
+					"type": "string",
+					"required": false,
+					"description": "The bot_overrides field. Provide as a JSON object or @path/to/file.json."
+				},
 				{
 					"name": "enabled",
 					"type": "boolean",
@@ -106462,6 +107278,12 @@
 					"description": "Can start plugins"
 				},
 				{
+					"name": "permissions-plugins-config",
+					"type": "string",
+					"required": true,
+					"description": "Plugin configuration keyed by plugin UUID. Provide as a JSON object or @path/to/file.json."
+				},
+				{
 					"name": "permissions-polls-can-create",
 					"type": "boolean",
 					"required": true,
@@ -107039,6 +107861,12 @@
 					"description": "Can start plugins"
 				},
 				{
+					"name": "permissions-plugins-config",
+					"type": "string",
+					"required": true,
+					"description": "Plugin configuration keyed by plugin UUID. Provide as a JSON object or @path/to/file.json."
+				},
+				{
 					"name": "permissions-polls-can-create",
 					"type": "boolean",
 					"required": true,
@@ -107489,6 +108317,12 @@
 					"type": "boolean",
 					"required": false,
 					"description": "Can start plugins"
+				},
+				{
+					"name": "permissions-plugins-config",
+					"type": "string",
+					"required": false,
+					"description": "Plugin configuration keyed by plugin UUID. Provide as a JSON object or @path/to/file.json."
 				},
 				{
 					"name": "permissions-polls-can-create",
@@ -108050,6 +108884,12 @@
 				}
 			],
 			"options": [
+				{
+					"name": "layers",
+					"type": "string",
+					"required": false,
+					"description": "Optional audio layer configuration. If omitted, RealtimeKit records all participant audio using the default file name prefix. Provide as a JSON object or @path/to/file.json."
+				},
 				{
 					"name": "meeting-id",
 					"type": "string",
@@ -110102,6 +110942,12 @@
 					"default": false
 				},
 				{
+					"name": "contact-extensions",
+					"type": "string",
+					"required": false,
+					"description": "Registry-specific contact extension values for the registrant.\n`GET /accounts/{account_id}/registrar/extensions/{extension}` documents the\nrequired keys and allowed values for each extension in the\n`transfer_schema.properties.contact_extensions` object.\n\nExamples include `.us` nexus fields, `.uk` registrant type fields,\nand `.ca` legal type fields. Include this object only when the extension's\ntransfer schema defines `contact_extensions`. Provide as a JSON object or @path/to/file.json."
+				},
+				{
 					"name": "contacts-administrator-email",
 					"type": "string",
 					"required": false,
@@ -110441,11 +111287,23 @@
 					"description": "Set to `respond-async` to receive an immediate `202 Accepted` without\nwaiting for the operation to complete (RFC 7240).\n\nThe header may be combined with other preferences using standard\ncomma-separated syntax."
 				},
 				{
+					"name": "acknowledgements",
+					"type": "string",
+					"required": false,
+					"description": "Provides user acknowledgements for a specific extension or premium\nregistration flow. The extension registration schema from the\nextension discovery endpoint identifies the required keys. Provide as a JSON object or @path/to/file.json."
+				},
+				{
 					"name": "auto-renew",
 					"type": "boolean",
 					"required": false,
 					"description": "Enable or disable automatic renewal. Defaults to `false` if omitted.\nSetting this field to `true` is an explicit opt-in authorizing\nCloudflare to charge the account's default payment method up to 30\ndays before domain expiry to renew the domain automatically.\nRenewal pricing may change over time based on registry pricing.\n",
 					"default": false
+				},
+				{
+					"name": "contact-extensions",
+					"type": "string",
+					"required": false,
+					"description": "Provides registry-specific contact extension values for the registrant.\n`GET /accounts/{account_id}/registrar/extensions/{extension}` identifies\nthe required keys and allowed values for each extension in the\n`registration_schema.properties.contact_extensions` object.\n\nExamples include `.us` nexus fields, `.uk` registrant type fields,\nand `.ca` legal type fields. Omit this object when the extension's\nregistration schema excludes `contact_extensions`. Provide as a JSON object or @path/to/file.json."
 				},
 				{
 					"name": "contacts-administrator-email",
@@ -111124,6 +111982,12 @@
 					"description": "Base64 encoded request body"
 				},
 				{
+					"name": "body-json",
+					"type": "string",
+					"required": false,
+					"description": "Arbitrary json as request body. Provide as a JSON object or @path/to/file.json."
+				},
+				{
 					"name": "body-plain-text",
 					"type": "string",
 					"required": false,
@@ -111206,6 +112070,18 @@
 					"type": "number",
 					"required": false,
 					"description": "Threat score used for evaluating tracing request processing"
+				},
+				{
+					"name": "cookies",
+					"type": "string",
+					"required": false,
+					"description": "Cookies added to tracing request. Provide as a JSON object or @path/to/file.json."
+				},
+				{
+					"name": "headers",
+					"type": "string",
+					"required": false,
+					"description": "Headers added to tracing request. Provide as a JSON object or @path/to/file.json."
 				},
 				{
 					"name": "method",
@@ -111949,6 +112825,12 @@
 			],
 			"options": [
 				{
+					"name": "meta",
+					"type": "string",
+					"required": true,
+					"description": "Resource Metadata. Provide as a JSON object or @path/to/file.json."
+				},
+				{
 					"name": "resource-account-id",
 					"type": "string",
 					"required": true,
@@ -112158,6 +113040,12 @@
 					"type": "string",
 					"required": true,
 					"description": "Share identifier tag."
+				},
+				{
+					"name": "meta",
+					"type": "string",
+					"required": true,
+					"description": "Resource Metadata. Provide as a JSON object or @path/to/file.json."
 				},
 				{
 					"name": "dry-run",
@@ -116271,6 +117159,12 @@
 					"description": "Follow redirects if the origin returns a 3xx status code."
 				},
 				{
+					"name": "http-config-header",
+					"type": "string",
+					"required": false,
+					"description": "The HTTP request headers to send in the health check. It is recommended you set a Host header by default. The User-Agent header cannot be overridden. Provide as a JSON object or @path/to/file.json."
+				},
+				{
 					"name": "http-config-method",
 					"type": "string",
 					"required": false,
@@ -116468,6 +117362,12 @@
 					"type": "boolean",
 					"required": false,
 					"description": "Follow redirects if the origin returns a 3xx status code."
+				},
+				{
+					"name": "http-config-header",
+					"type": "string",
+					"required": false,
+					"description": "The HTTP request headers to send in the health check. It is recommended you set a Host header by default. The User-Agent header cannot be overridden. Provide as a JSON object or @path/to/file.json."
 				},
 				{
 					"name": "http-config-method",
@@ -116717,6 +117617,12 @@
 					"required": false,
 					"description": "Follow redirects if the origin returns a 3xx status code.",
 					"default": false
+				},
+				{
+					"name": "result-http-config-header",
+					"type": "string",
+					"required": false,
+					"description": "The HTTP request headers to send in the health check. It is recommended you set a Host header by default. The User-Agent header cannot be overridden. Provide as a JSON object or @path/to/file.json."
 				},
 				{
 					"name": "result-http-config-method",
@@ -120926,6 +121832,12 @@
 					"default": true
 				},
 				{
+					"name": "meta",
+					"type": "string",
+					"required": false,
+					"description": "A user modifiable key-value store used to reference other systems of record for managing live inputs. Provide as a JSON object or @path/to/file.json."
+				},
+				{
 					"name": "prefer-low-latency",
 					"type": "boolean",
 					"required": false,
@@ -121385,6 +122297,12 @@
 					"required": false,
 					"description": "Indicates whether the live input is enabled and can accept streams.",
 					"default": true
+				},
+				{
+					"name": "meta",
+					"type": "string",
+					"required": false,
+					"description": "A user modifiable key-value store used to reference other systems of record for managing live inputs. Provide as a JSON object or @path/to/file.json."
 				},
 				{
 					"name": "prefer-low-latency",
@@ -121922,6 +122840,12 @@
 					"description": "A video's URL. Preferred over 'url'."
 				},
 				{
+					"name": "meta",
+					"type": "string",
+					"required": false,
+					"description": "A user modifiable key-value store used to reference other systems of record for managing videos. Provide as a JSON object or @path/to/file.json."
+				},
+				{
 					"name": "name",
 					"type": "string",
 					"required": false,
@@ -122018,6 +122942,12 @@
 					"type": "string",
 					"required": false,
 					"description": "A video's URL. The server must be publicly routable and support `HTTP HEAD` requests and `HTTP GET` range requests. The server should respond to `HTTP HEAD` requests with a `content-range` header that includes the size of the file. This is the preferred field over `url`."
+				},
+				{
+					"name": "meta",
+					"type": "string",
+					"required": false,
+					"description": "A user modifiable key-value store used to reference other systems of record for managing videos. Provide as a JSON object or @path/to/file.json."
 				},
 				{
 					"name": "name",
@@ -122205,6 +123135,12 @@
 					"description": "The maximum duration in seconds for a video upload. Can be set for a video that is not yet uploaded to limit its duration. Uploads that exceed the specified duration will fail during processing. A value of `-1` means the value is unknown."
 				},
 				{
+					"name": "meta",
+					"type": "string",
+					"required": false,
+					"description": "A user modifiable key-value store used to reference other systems of record for managing videos. Provide as a JSON object or @path/to/file.json."
+				},
+				{
 					"name": "require-signed-urls",
 					"type": "boolean",
 					"required": false,
@@ -122361,6 +123297,12 @@
 					"type": "number",
 					"required": false,
 					"description": "The maximum duration in seconds for a video upload. Can be set for a video that is not yet uploaded to limit its duration. Uploads that exceed the specified duration will fail during processing. A value of `-1` means the value is unknown."
+				},
+				{
+					"name": "meta",
+					"type": "string",
+					"required": false,
+					"description": "A user modifiable key-value store used to reference other systems of record for managing videos. Provide as a JSON object or @path/to/file.json."
 				},
 				{
 					"name": "public-details-channel-link",
@@ -124622,7 +125564,7 @@
 					"name": "widget-mode",
 					"type": "string",
 					"required": true,
-					"description": "Widget Mode",
+					"description": "Widget mode",
 					"enum": ["non-interactive", "invisible", "managed"]
 				},
 				{
@@ -124877,7 +125819,7 @@
 					"name": "widget-mode",
 					"type": "string",
 					"required": true,
-					"description": "Widget Mode",
+					"description": "Widget mode",
 					"enum": ["non-interactive", "invisible", "managed"]
 				},
 				{
@@ -125316,6 +126258,12 @@
 						"ZM",
 						"ZW"
 					]
+				},
+				{
+					"name": "custom-headers",
+					"type": "string",
+					"required": false,
+					"description": "Set custom headers. Provide as a JSON object or @path/to/file.json."
 				},
 				{
 					"name": "customagent",
@@ -126238,6 +127186,12 @@
 					"default": false
 				},
 				{
+					"name": "header",
+					"type": "string",
+					"required": false,
+					"description": "The HTTP request headers to send in the health check. It is recommended you set a Host header by default. The User-Agent header cannot be overridden. This parameter is only valid for HTTP and HTTPS monitors. Provide as a JSON object or @path/to/file.json."
+				},
+				{
 					"name": "interval",
 					"type": "number",
 					"required": false,
@@ -126407,6 +127361,12 @@
 					"required": false,
 					"description": "Follow redirects if returned by the origin. This parameter is only valid for HTTP and HTTPS monitors.",
 					"default": false
+				},
+				{
+					"name": "header",
+					"type": "string",
+					"required": false,
+					"description": "The HTTP request headers to send in the health check. It is recommended you set a Host header by default. The User-Agent header cannot be overridden. This parameter is only valid for HTTP and HTTPS monitors. Provide as a JSON object or @path/to/file.json."
 				},
 				{
 					"name": "interval",
@@ -126604,6 +127564,12 @@
 					"default": false
 				},
 				{
+					"name": "header",
+					"type": "string",
+					"required": false,
+					"description": "The HTTP request headers to send in the health check. It is recommended you set a Host header by default. The User-Agent header cannot be overridden. This parameter is only valid for HTTP and HTTPS monitors. Provide as a JSON object or @path/to/file.json."
+				},
+				{
 					"name": "interval",
 					"type": "number",
 					"required": false,
@@ -126771,6 +127737,12 @@
 					"required": false,
 					"description": "Follow redirects if returned by the origin. This parameter is only valid for HTTP and HTTPS monitors.",
 					"default": false
+				},
+				{
+					"name": "header",
+					"type": "string",
+					"required": false,
+					"description": "The HTTP request headers to send in the health check. It is recommended you set a Host header by default. The User-Agent header cannot be overridden. This parameter is only valid for HTTP and HTTPS monitors. Provide as a JSON object or @path/to/file.json."
 				},
 				{
 					"name": "interval",
@@ -127422,6 +128394,12 @@
 					"required": false,
 					"description": "Follow redirects if returned by the origin. This parameter is only valid for HTTP and HTTPS monitors.",
 					"default": false
+				},
+				{
+					"name": "header",
+					"type": "string",
+					"required": false,
+					"description": "The HTTP request headers to send in the health check. It is recommended you set a Host header by default. The User-Agent header cannot be overridden. This parameter is only valid for HTTP and HTTPS monitors. Provide as a JSON object or @path/to/file.json."
 				},
 				{
 					"name": "interval",
@@ -129102,6 +130080,12 @@
 				}
 			],
 			"options": [
+				{
+					"name": "filter",
+					"type": "string",
+					"required": false,
+					"description": "A metadata filter expression used to limit nearest neighbor results. Provide as a JSON object or @path/to/file.json."
+				},
 				{
 					"name": "return-metadata",
 					"type": "string",
@@ -131502,6 +132486,12 @@
 					"description": "The description of the label"
 				},
 				{
+					"name": "metadata",
+					"type": "string",
+					"required": false,
+					"description": "Metadata for the label. Provide as a JSON object or @path/to/file.json."
+				},
+				{
 					"name": "dry-run",
 					"type": "boolean",
 					"required": false,
@@ -131620,6 +132610,12 @@
 					"type": "string",
 					"required": false,
 					"description": "The description of the label"
+				},
+				{
+					"name": "metadata",
+					"type": "string",
+					"required": false,
+					"description": "Metadata for the label. Provide as a JSON object or @path/to/file.json."
 				},
 				{
 					"name": "dry-run",
@@ -133192,6 +134188,18 @@
 					"description": "Name of the script."
 				},
 				{
+					"name": "secrets",
+					"type": "string",
+					"required": false,
+					"description": "Map of secret names to secret values:\n- Set to a secret object to create or update.\n- Set to `null` to delete.\n- Omit to leave unchanged. Provide as a JSON object or @path/to/file.json."
+				},
+				{
+					"name": "version-tags",
+					"type": "string",
+					"required": false,
+					"description": "Optional version tags to apply to the new script version. Provide as a JSON object or @path/to/file.json."
+				},
+				{
 					"name": "dry-run",
 					"type": "boolean",
 					"required": false,
@@ -133373,6 +134381,12 @@
 					"enum": ["secret_text", "secret_key"]
 				},
 				{
+					"name": "algorithm",
+					"type": "string",
+					"required": false,
+					"description": "Algorithm-specific key parameters. [Learn more](https://developer.mozilla.org/en-US/docs/Web/API/SubtleCrypto/importKey#algorithm). Provide as a JSON object or @path/to/file.json."
+				},
+				{
 					"name": "format",
 					"type": "string",
 					"required": false,
@@ -133384,6 +134398,12 @@
 					"type": "string",
 					"required": false,
 					"description": "Base64-encoded key data. Required if `format` is \"raw\", \"pkcs8\", or \"spki\"."
+				},
+				{
+					"name": "key-jwk",
+					"type": "string",
+					"required": false,
+					"description": "Key data in [JSON Web Key](https://developer.mozilla.org/en-US/docs/Web/API/SubtleCrypto/importKey#json_web_key) format. Required if `format` is \"jwk\". Provide as a JSON object or @path/to/file.json."
 				},
 				{
 					"name": "usages",
@@ -133915,6 +134935,12 @@
 					"description": "Command to deploy the Worker."
 				},
 				{
+					"name": "settings-environment-variables",
+					"type": "string",
+					"required": false,
+					"description": "Environment variable updates. Set the variable entry to null to delete it. Provide as a JSON object or @path/to/file.json."
+				},
+				{
 					"name": "settings-path-excludes",
 					"type": "string",
 					"required": false,
@@ -134412,6 +135438,18 @@
 					"description": "Name of the script."
 				},
 				{
+					"name": "secrets",
+					"type": "string",
+					"required": false,
+					"description": "Map of secret names to secret values:\n- Set to a secret object to create or update.\n- Set to `null` to delete.\n- Omit to leave unchanged. Provide as a JSON object or @path/to/file.json."
+				},
+				{
+					"name": "version-tags",
+					"type": "string",
+					"required": false,
+					"description": "Optional version tags to apply to the new script version. Provide as a JSON object or @path/to/file.json."
+				},
+				{
 					"name": "dry-run",
 					"type": "boolean",
 					"required": false,
@@ -134641,6 +135679,12 @@
 					"enum": ["secret_text", "secret_key"]
 				},
 				{
+					"name": "algorithm",
+					"type": "string",
+					"required": false,
+					"description": "Algorithm-specific key parameters. [Learn more](https://developer.mozilla.org/en-US/docs/Web/API/SubtleCrypto/importKey#algorithm). Provide as a JSON object or @path/to/file.json."
+				},
+				{
 					"name": "format",
 					"type": "string",
 					"required": false,
@@ -134652,6 +135696,12 @@
 					"type": "string",
 					"required": false,
 					"description": "Base64-encoded key data. Required if `format` is \"raw\", \"pkcs8\", or \"spki\"."
+				},
+				{
+					"name": "key-jwk",
+					"type": "string",
+					"required": false,
+					"description": "Key data in [JSON Web Key](https://developer.mozilla.org/en-US/docs/Web/API/SubtleCrypto/importKey#json_web_key) format. Required if `format` is \"jwk\". Provide as a JSON object or @path/to/file.json."
 				},
 				{
 					"name": "usages",
@@ -136469,6 +137519,24 @@
 					"description": "Session expiration time (seconds)."
 				},
 				{
+					"name": "consent-button-text-translations-accept-all",
+					"type": "string",
+					"required": false,
+					"description": "Object where keys are language codes. Provide as a JSON object or @path/to/file.json."
+				},
+				{
+					"name": "consent-button-text-translations-confirm-my-choices",
+					"type": "string",
+					"required": false,
+					"description": "Object where keys are language codes. Provide as a JSON object or @path/to/file.json."
+				},
+				{
+					"name": "consent-button-text-translations-reject-all",
+					"type": "string",
+					"required": false,
+					"description": "Object where keys are language codes. Provide as a JSON object or @path/to/file.json."
+				},
+				{
 					"name": "consent-company-email",
 					"type": "string",
 					"required": false,
@@ -136491,6 +137559,12 @@
 					"type": "string",
 					"required": false,
 					"description": "The consent.consentModalIntroHTML field"
+				},
+				{
+					"name": "consent-consent-modal-intro-htmlwith-translations",
+					"type": "string",
+					"required": false,
+					"description": "Object where keys are language codes. Provide as a JSON object or @path/to/file.json."
 				},
 				{
 					"name": "consent-cookie-name",
@@ -136527,6 +137601,18 @@
 					"type": "boolean",
 					"required": false,
 					"description": "The consent.hideModal field"
+				},
+				{
+					"name": "consent-purposes",
+					"type": "string",
+					"required": false,
+					"description": "Object where keys are purpose alpha-numeric IDs. Provide as a JSON object or @path/to/file.json."
+				},
+				{
+					"name": "consent-purposes-with-translations",
+					"type": "string",
+					"required": false,
+					"description": "Object where keys are purpose alpha-numeric IDs. Provide as a JSON object or @path/to/file.json."
 				},
 				{
 					"name": "consent-tcf-compliant",
@@ -136643,10 +137729,28 @@
 					"description": "Custom endpoint for Zaraz tracking requests."
 				},
 				{
+					"name": "triggers",
+					"type": "string",
+					"required": true,
+					"description": "Triggers set up under Zaraz configuration, where key is the trigger alpha-numeric ID and value is the trigger configuration. Provide as a JSON object or @path/to/file.json."
+				},
+				{
+					"name": "variables",
+					"type": "string",
+					"required": true,
+					"description": "Variables set up under Zaraz configuration, where key is the variable alpha-numeric ID and value is the variable configuration. Values of variables of type secret are not included. Provide as a JSON object or @path/to/file.json."
+				},
+				{
 					"name": "zaraz-version",
 					"type": "number",
 					"required": true,
 					"description": "Zaraz internal version of the config."
+				},
+				{
+					"name": "tools",
+					"type": "string",
+					"required": true,
+					"description": "Tools set up under Zaraz configuration, where key is the alpha-numeric tool ID and value is the tool configuration object. Provide as a JSON object or @path/to/file.json."
 				},
 				{
 					"name": "dry-run",
@@ -140190,6 +141294,12 @@
 					"description": "(optional) Private virtual network identifier for the target. If omitted, the default virtual network ID will be used."
 				},
 				{
+					"name": "tags",
+					"type": "string",
+					"required": false,
+					"description": "Optional tags to associate with the target. Keys and values are\nuser-defined strings. Provide as a JSON object or @path/to/file.json."
+				},
+				{
 					"name": "dry-run",
 					"type": "boolean",
 					"required": false,
@@ -140472,6 +141582,12 @@
 					"type": "string",
 					"required": false,
 					"description": "(optional) Private virtual network identifier for the target. If omitted, the default virtual network ID will be used."
+				},
+				{
+					"name": "tags",
+					"type": "string",
+					"required": false,
+					"description": "Optional tags to associate with the target. Keys and values are\nuser-defined strings. Provide as a JSON object or @path/to/file.json."
 				},
 				{
 					"name": "dry-run",
@@ -142884,6 +144000,12 @@
 					"description": "Authentication method slug (uses default if omitted)."
 				},
 				{
+					"name": "credentials",
+					"type": "string",
+					"required": true,
+					"description": "Credentials for the integration. Provide as a JSON object or @path/to/file.json."
+				},
+				{
 					"name": "dlp-profiles",
 					"type": "string",
 					"required": false,
@@ -143160,6 +144282,12 @@
 				}
 			],
 			"options": [
+				{
+					"name": "credentials",
+					"type": "string",
+					"required": false,
+					"description": "Partial credential fields to merge with existing. Provide as a JSON object or @path/to/file.json."
+				},
 				{
 					"name": "dlp-profiles",
 					"type": "string",
@@ -144524,6 +145652,12 @@
 					"default": true
 				},
 				{
+					"name": "tags",
+					"type": "string",
+					"required": false,
+					"description": "Tags to attach. Keys are limited to 256 UTF-8 bytes and values to 1024 UTF-8 bytes. Provide as a JSON object or @path/to/file.json."
+				},
+				{
 					"name": "dry-run",
 					"type": "boolean",
 					"required": false,
@@ -144732,6 +145866,12 @@
 					"required": false,
 					"description": "Whether OPA builtin failures are raised as runtime evaluation errors. Omit to reset to true.",
 					"default": true
+				},
+				{
+					"name": "tags",
+					"type": "string",
+					"required": false,
+					"description": "Replacement tag set. Omit or use {} to clear. Keys are limited to 256 UTF-8 bytes and values to 1024 UTF-8 bytes. Provide as a JSON object or @path/to/file.json."
 				},
 				{
 					"name": "dry-run",
@@ -145026,6 +146166,12 @@
 					"description": "Inline Rego source with a package beginning with \"policy.\" Maximum 16384 UTF-8 bytes."
 				},
 				{
+					"name": "tags",
+					"type": "string",
+					"required": false,
+					"description": "Tags to attach. Keys are limited to 256 UTF-8 bytes and values to 1024 UTF-8 bytes. Provide as a JSON object or @path/to/file.json."
+				},
+				{
 					"name": "dry-run",
 					"type": "boolean",
 					"required": false,
@@ -145226,6 +146372,12 @@
 					"description": "Inline Rego source with a package beginning with \"policy.\" Maximum 16384 UTF-8 bytes."
 				},
 				{
+					"name": "tags",
+					"type": "string",
+					"required": false,
+					"description": "Replacement tag set. Omit or use {} to clear. Keys are limited to 256 UTF-8 bytes and values to 1024 UTF-8 bytes. Provide as a JSON object or @path/to/file.json."
+				},
+				{
 					"name": "dry-run",
 					"type": "boolean",
 					"required": false,
@@ -145284,6 +146436,12 @@
 					"type": "string",
 					"required": true,
 					"description": "Policies to include with per-membership enforcement mode. Provide as a JSON array of objects or @path/to/file.json."
+				},
+				{
+					"name": "tags",
+					"type": "string",
+					"required": false,
+					"description": "Tags to attach. Keys are limited to 256 UTF-8 bytes and values to 1024 UTF-8 bytes. Provide as a JSON object or @path/to/file.json."
 				},
 				{
 					"name": "dry-run",
@@ -145478,6 +146636,12 @@
 					"type": "string",
 					"required": true,
 					"description": "Replacement set of policies with per-membership enforcement mode. Provide as a JSON array of objects or @path/to/file.json."
+				},
+				{
+					"name": "tags",
+					"type": "string",
+					"required": false,
+					"description": "Replacement tag set. Omit or use {} to clear. Keys are limited to 256 UTF-8 bytes and values to 1024 UTF-8 bytes. Provide as a JSON object or @path/to/file.json."
 				},
 				{
 					"name": "dry-run",
@@ -146538,6 +147702,12 @@
 					"description": "Human-readable handle; unique per account."
 				},
 				{
+					"name": "tags",
+					"type": "string",
+					"required": false,
+					"description": "Tags to attach. Keys are limited to 256 UTF-8 bytes and values to 1024 UTF-8 bytes. Provide as a JSON object or @path/to/file.json."
+				},
+				{
 					"name": "dry-run",
 					"type": "boolean",
 					"required": false,
@@ -146718,6 +147888,12 @@
 					"type": "string",
 					"required": true,
 					"description": "Human-readable handle; unique per account."
+				},
+				{
+					"name": "tags",
+					"type": "string",
+					"required": false,
+					"description": "Replacement tag set. Omit or use {} to clear. Keys are limited to 256 UTF-8 bytes and values to 1024 UTF-8 bytes. Provide as a JSON object or @path/to/file.json."
 				},
 				{
 					"name": "dry-run",
@@ -150203,7 +151379,7 @@
 			"fullPath": ["zero-trust", "devices", "update"],
 			"description": "Updates properties of a WARP device.",
 			"summary": "Update device",
-			"usage": "cf zero-trust devices update <device-id>",
+			"usage": "cf zero-trust devices update <device-id> [options]",
 			"arguments": [
 				{
 					"name": "device-id",
@@ -150214,6 +151390,12 @@
 				}
 			],
 			"options": [
+				{
+					"name": "tags",
+					"type": "string",
+					"required": false,
+					"description": "Replaces all tags assigned to the physical device. An empty object removes all tags. Provide as a JSON object or @path/to/file.json."
+				},
 				{
 					"name": "dry-run",
 					"type": "boolean",
@@ -153408,9 +154590,15 @@
 			"fullPath": ["zero-trust", "dlp", "email", "rules", "bulk-edit"],
 			"description": "Reorders DLP email scanning rules by updating their priority values. Higher priority rules are evaluated first.",
 			"summary": "Update email scanner rule priorities",
-			"usage": "cf zero-trust dlp email rules bulk-edit",
+			"usage": "cf zero-trust dlp email rules bulk-edit [options]",
 			"arguments": [],
 			"options": [
+				{
+					"name": "new-priorities",
+					"type": "string",
+					"required": true,
+					"description": "The new_priorities field. Provide as a JSON object or @path/to/file.json."
+				},
 				{
 					"name": "dry-run",
 					"type": "boolean",
@@ -157186,6 +158374,12 @@
 					"description": "Set the order of your rules. Lower values indicate higher precedence. At each processing phase, evaluate applicable rules in ascending order of this value. Refer to [Order of enforcement](http://developers.cloudflare.com/learning-paths/secure-internet-traffic/understand-policies/order-of-enforcement/#manage-precedence-with-terraform) to manage precedence via Terraform."
 				},
 				{
+					"name": "rule-settings-add-headers",
+					"type": "string",
+					"required": false,
+					"description": "Add custom headers to allowed requests as key-value pairs. Use header names as keys that map to arrays of header values. Header values may contain `@{selector.name}` variable references that are interpolated at the edge. Use `@@{` to escape a literal `@{`. A maximum of 20 header operations (add + set + delete) is allowed per policy. Each header name may not exceed 256 bytes and each header value may not exceed 4 KB. Settable only for `http` rules with the action set to `allow`. Provide as a JSON object or @path/to/file.json."
+				},
+				{
 					"name": "rule-settings-allow-child-bypass",
 					"type": "boolean",
 					"required": false,
@@ -157468,6 +158662,12 @@
 					"type": "boolean",
 					"required": false,
 					"description": "Enable to send queries that match the policy to Cloudflare's default 1.1.1.1 DNS resolver. Cannot set when 'dns_resolvers' specified or 'resolve_dns_internally' is set. Only valid when a rule's action set to 'resolve'. Settable only for `dns_resolver` rules."
+				},
+				{
+					"name": "rule-settings-set-headers",
+					"type": "string",
+					"required": false,
+					"description": "Replace existing headers on allowed requests with the specified key-value pairs. If a header does not exist, it is added. Header values may contain `@{selector.name}` variable references that are interpolated at the edge. Use `@@{` to escape a literal `@{`. A maximum of 20 header operations (add + set + delete) is allowed per policy. Each header name may not exceed 256 bytes and each header value may not exceed 4 KB. Settable only for `http` rules with the action set to `allow`. Provide as a JSON object or @path/to/file.json."
 				},
 				{
 					"name": "rule-settings-untrusted-cert-action",
@@ -157815,6 +159015,12 @@
 					"description": "Set the order of your rules. Lower values indicate higher precedence. At each processing phase, evaluate applicable rules in ascending order of this value. Refer to [Order of enforcement](http://developers.cloudflare.com/learning-paths/secure-internet-traffic/understand-policies/order-of-enforcement/#manage-precedence-with-terraform) to manage precedence via Terraform."
 				},
 				{
+					"name": "rule-settings-add-headers",
+					"type": "string",
+					"required": false,
+					"description": "Add custom headers to allowed requests as key-value pairs. Use header names as keys that map to arrays of header values. Header values may contain `@{selector.name}` variable references that are interpolated at the edge. Use `@@{` to escape a literal `@{`. A maximum of 20 header operations (add + set + delete) is allowed per policy. Each header name may not exceed 256 bytes and each header value may not exceed 4 KB. Settable only for `http` rules with the action set to `allow`. Provide as a JSON object or @path/to/file.json."
+				},
+				{
 					"name": "rule-settings-allow-child-bypass",
 					"type": "boolean",
 					"required": false,
@@ -158097,6 +159303,12 @@
 					"type": "boolean",
 					"required": false,
 					"description": "Enable to send queries that match the policy to Cloudflare's default 1.1.1.1 DNS resolver. Cannot set when 'dns_resolvers' specified or 'resolve_dns_internally' is set. Only valid when a rule's action set to 'resolve'. Settable only for `dns_resolver` rules."
+				},
+				{
+					"name": "rule-settings-set-headers",
+					"type": "string",
+					"required": false,
+					"description": "Replace existing headers on allowed requests with the specified key-value pairs. If a header does not exist, it is added. Header values may contain `@{selector.name}` variable references that are interpolated at the edge. Use `@@{` to escape a literal `@{`. A maximum of 20 header operations (add + set + delete) is allowed per policy. Each header name may not exceed 256 bytes and each header value may not exceed 4 KB. Settable only for `http` rules with the action set to `allow`. Provide as a JSON object or @path/to/file.json."
 				},
 				{
 					"name": "rule-settings-untrusted-cert-action",
@@ -159432,9 +160644,15 @@
 			"fullPath": ["zero-trust", "risk-scoring", "behaviours", "update"],
 			"description": "Updates risk score behavior configurations, defining weights and thresholds for risk calculation.",
 			"summary": "Update configuration for risk behaviors",
-			"usage": "cf zero-trust risk-scoring behaviours update",
+			"usage": "cf zero-trust risk-scoring behaviours update [options]",
 			"arguments": [],
 			"options": [
+				{
+					"name": "behaviors",
+					"type": "string",
+					"required": true,
+					"description": "The behaviors field. Provide as a JSON object or @path/to/file.json."
+				},
 				{
 					"name": "dry-run",
 					"type": "boolean",

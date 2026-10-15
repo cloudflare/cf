@@ -13,6 +13,7 @@ import {
 import {
 	compactBody,
 	parseBody,
+	parseJsonMap,
 	parseObjectArray,
 	setNestedValue,
 } from "#lib/body-parser.js";
@@ -185,6 +186,11 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			array: true,
 			description:
 				"Block undesired requests that match the provided resource types, eg. 'image' or 'script'.",
+		})
+		.option("set-extra-httpheaders", {
+			type: "string",
+			description:
+				"The setExtraHTTPHeaders field. Provide as a JSON object or @path/to/file.json.",
 		})
 		.option("set-java-script-enabled", {
 			type: "boolean",
@@ -369,125 +375,132 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						body:
 							argv.body !== undefined
 								? parseBody(argv.body)
-								: compactBody({
-										actionTimeout: argv["action-timeout"],
-										addScriptTag: parseObjectArray(
-											argv["add-script-tag"],
-											"add-script-tag"
-										),
-										addStyleTag: parseObjectArray(
-											argv["add-style-tag"],
-											"add-style-tag"
-										),
-										allowRequestPattern: argv["allow-request-pattern"],
-										allowResourceTypes: argv["allow-resource-types"],
-										authenticate: {
-											password: resolveFileToken(
-												argv["authenticate-password"] as string | undefined,
-												"authenticate-password",
+								: compactBody(
+										{
+											actionTimeout: argv["action-timeout"],
+											addScriptTag: parseObjectArray(
+												argv["add-script-tag"],
+												"add-script-tag"
+											),
+											addStyleTag: parseObjectArray(
+												argv["add-style-tag"],
+												"add-style-tag"
+											),
+											allowRequestPattern: argv["allow-request-pattern"],
+											allowResourceTypes: argv["allow-resource-types"],
+											authenticate: {
+												password: resolveFileToken(
+													argv["authenticate-password"] as string | undefined,
+													"authenticate-password",
+													"text"
+												),
+												username: resolveFileToken(
+													argv["authenticate-username"] as string | undefined,
+													"authenticate-username",
+													"text"
+												),
+											},
+											bestAttempt: argv["best-attempt"],
+											cookies: parseObjectArray(argv["cookies"], "cookies"),
+											emulateMediaType: resolveFileToken(
+												argv["emulate-media-type"] as string | undefined,
+												"emulate-media-type",
 												"text"
 											),
-											username: resolveFileToken(
-												argv["authenticate-username"] as string | undefined,
-												"authenticate-username",
+											gotoOptions: {
+												referer: resolveFileToken(
+													argv["goto-options-referer"] as string | undefined,
+													"goto-options-referer",
+													"text"
+												),
+												referrerPolicy: resolveFileToken(
+													argv["goto-options-referrer-policy"] as
+														| string
+														| undefined,
+													"goto-options-referrer-policy",
+													"text"
+												),
+												timeout: argv["goto-options-timeout"],
+											},
+											html: resolveFileToken(
+												argv["html"] as string | undefined,
+												"html",
 												"text"
 											),
+											pdfOptions: {
+												displayHeaderFooter:
+													argv["pdf-options-display-header-footer"],
+												footerTemplate: resolveFileToken(
+													argv["pdf-options-footer-template"] as
+														| string
+														| undefined,
+													"pdf-options-footer-template",
+													"text"
+												),
+												format: argv["pdf-options-format"],
+												headerTemplate: resolveFileToken(
+													argv["pdf-options-header-template"] as
+														| string
+														| undefined,
+													"pdf-options-header-template",
+													"text"
+												),
+												landscape: argv["pdf-options-landscape"],
+												omitBackground: argv["pdf-options-omit-background"],
+												outline: argv["pdf-options-outline"],
+												pageRanges: resolveFileToken(
+													argv["pdf-options-page-ranges"] as string | undefined,
+													"pdf-options-page-ranges",
+													"text"
+												),
+												preferCSSPageSize:
+													argv["pdf-options-prefer-csspage-size"],
+												printBackground: argv["pdf-options-print-background"],
+												scale: argv["pdf-options-scale"],
+												tagged: argv["pdf-options-tagged"],
+												timeout: argv["pdf-options-timeout"],
+											},
+											rejectRequestPattern: argv["reject-request-pattern"],
+											rejectResourceTypes: argv["reject-resource-types"],
+											setExtraHTTPHeaders: parseJsonMap(
+												argv["set-extra-httpheaders"],
+												"set-extra-httpheaders"
+											),
+											setJavaScriptEnabled: argv["set-java-script-enabled"],
+											url: resolveFileToken(
+												argv["url"] as string | undefined,
+												"url",
+												"text"
+											),
+											userAgent: resolveFileToken(
+												argv["user-agent"] as string | undefined,
+												"user-agent",
+												"text"
+											),
+											viewport: {
+												deviceScaleFactor: argv["viewport-device-scale-factor"],
+												hasTouch: argv["viewport-has-touch"],
+												height: argv["viewport-height"],
+												isLandscape: argv["viewport-is-landscape"],
+												isMobile: argv["viewport-is-mobile"],
+												width: argv["viewport-width"],
+											},
+											waitForSelector: {
+												hidden: argv["wait-for-selector-hidden"],
+												selector: resolveFileToken(
+													argv["wait-for-selector-selector"] as
+														| string
+														| undefined,
+													"wait-for-selector-selector",
+													"text"
+												),
+												timeout: argv["wait-for-selector-timeout"],
+												visible: argv["wait-for-selector-visible"],
+											},
+											waitForTimeout: argv["wait-for-timeout"],
 										},
-										bestAttempt: argv["best-attempt"],
-										cookies: parseObjectArray(argv["cookies"], "cookies"),
-										emulateMediaType: resolveFileToken(
-											argv["emulate-media-type"] as string | undefined,
-											"emulate-media-type",
-											"text"
-										),
-										gotoOptions: {
-											referer: resolveFileToken(
-												argv["goto-options-referer"] as string | undefined,
-												"goto-options-referer",
-												"text"
-											),
-											referrerPolicy: resolveFileToken(
-												argv["goto-options-referrer-policy"] as
-													| string
-													| undefined,
-												"goto-options-referrer-policy",
-												"text"
-											),
-											timeout: argv["goto-options-timeout"],
-										},
-										html: resolveFileToken(
-											argv["html"] as string | undefined,
-											"html",
-											"text"
-										),
-										pdfOptions: {
-											displayHeaderFooter:
-												argv["pdf-options-display-header-footer"],
-											footerTemplate: resolveFileToken(
-												argv["pdf-options-footer-template"] as
-													| string
-													| undefined,
-												"pdf-options-footer-template",
-												"text"
-											),
-											format: argv["pdf-options-format"],
-											headerTemplate: resolveFileToken(
-												argv["pdf-options-header-template"] as
-													| string
-													| undefined,
-												"pdf-options-header-template",
-												"text"
-											),
-											landscape: argv["pdf-options-landscape"],
-											omitBackground: argv["pdf-options-omit-background"],
-											outline: argv["pdf-options-outline"],
-											pageRanges: resolveFileToken(
-												argv["pdf-options-page-ranges"] as string | undefined,
-												"pdf-options-page-ranges",
-												"text"
-											),
-											preferCSSPageSize:
-												argv["pdf-options-prefer-csspage-size"],
-											printBackground: argv["pdf-options-print-background"],
-											scale: argv["pdf-options-scale"],
-											tagged: argv["pdf-options-tagged"],
-											timeout: argv["pdf-options-timeout"],
-										},
-										rejectRequestPattern: argv["reject-request-pattern"],
-										rejectResourceTypes: argv["reject-resource-types"],
-										setJavaScriptEnabled: argv["set-java-script-enabled"],
-										url: resolveFileToken(
-											argv["url"] as string | undefined,
-											"url",
-											"text"
-										),
-										userAgent: resolveFileToken(
-											argv["user-agent"] as string | undefined,
-											"user-agent",
-											"text"
-										),
-										viewport: {
-											deviceScaleFactor: argv["viewport-device-scale-factor"],
-											hasTouch: argv["viewport-has-touch"],
-											height: argv["viewport-height"],
-											isLandscape: argv["viewport-is-landscape"],
-											isMobile: argv["viewport-is-mobile"],
-											width: argv["viewport-width"],
-										},
-										waitForSelector: {
-											hidden: argv["wait-for-selector-hidden"],
-											selector: resolveFileToken(
-												argv["wait-for-selector-selector"] as
-													| string
-													| undefined,
-												"wait-for-selector-selector",
-												"text"
-											),
-											timeout: argv["wait-for-selector-timeout"],
-											visible: argv["wait-for-selector-visible"],
-										},
-										waitForTimeout: argv["wait-for-timeout"],
-									}),
+										[["setExtraHTTPHeaders"]]
+									),
 						sensitiveBodyPaths: [["authenticate", "password"]],
 					});
 					return;
@@ -720,6 +733,12 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						bodyData,
 						["rejectResourceTypes"],
 						argv["reject-resource-types"]
+					);
+				if (argv["set-extra-httpheaders"] !== undefined)
+					setNestedValue(
+						bodyData,
+						["setExtraHTTPHeaders"],
+						parseJsonMap(argv["set-extra-httpheaders"], "set-extra-httpheaders")
 					);
 				if (argv["set-java-script-enabled"] !== undefined)
 					setNestedValue(

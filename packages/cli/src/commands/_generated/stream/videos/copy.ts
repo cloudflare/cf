@@ -11,7 +11,12 @@ import {
 	requestApi,
 	resolveAccountIdSilent,
 } from "#lib/auth.js";
-import { compactBody, parseBody, setNestedValue } from "#lib/body-parser.js";
+import {
+	compactBody,
+	parseBody,
+	parseJsonMap,
+	setNestedValue,
+} from "#lib/body-parser.js";
 import { formatDryRun } from "#lib/dry-run.js";
 import { resolveFileToken } from "#lib/input-validation.js";
 import { LOCAL_ACCOUNT_ID } from "#lib/local.js";
@@ -42,6 +47,11 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			type: "string",
 			description:
 				"A video's URL. The server must be publicly routable and support `HTTP HEAD` requests and `HTTP GET` range requests. The server should respond to `HTTP HEAD` requests with a `content-range` header that includes the size of the file. This is the preferred field over `url`.",
+		})
+		.option("meta", {
+			type: "string",
+			description:
+				"A user modifiable key-value store used to reference other systems of record for managing videos. Provide as a JSON object or @path/to/file.json.",
 		})
 		.option("name", {
 			type: "string",
@@ -115,43 +125,47 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						body:
 							argv.body !== undefined
 								? parseBody(argv.body)
-								: compactBody({
-										allowedOrigins: argv["allowed-origins"],
-										creator: resolveFileToken(
-											argv["creator"] as string | undefined,
-											"creator",
-											"text"
-										),
-										input: resolveFileToken(
-											argv["input"] as string | undefined,
-											"input",
-											"text"
-										),
-										name: resolveFileToken(
-											argv["name"] as string | undefined,
-											"name",
-											"text"
-										),
-										requireSignedURLs: argv["require-signed-urls"],
-										scheduledDeletion: resolveFileToken(
-											argv["scheduled-deletion"] as string | undefined,
-											"scheduled-deletion",
-											"text"
-										),
-										thumbnailTimestampPct: argv["thumbnail-timestamp-pct"],
-										url: resolveFileToken(
-											argv["url"] as string | undefined,
-											"url",
-											"text"
-										),
-										watermark: {
-											uid: resolveFileToken(
-												argv["watermark-uid"] as string | undefined,
-												"watermark-uid",
+								: compactBody(
+										{
+											allowedOrigins: argv["allowed-origins"],
+											creator: resolveFileToken(
+												argv["creator"] as string | undefined,
+												"creator",
 												"text"
 											),
+											input: resolveFileToken(
+												argv["input"] as string | undefined,
+												"input",
+												"text"
+											),
+											meta: parseJsonMap(argv["meta"], "meta"),
+											name: resolveFileToken(
+												argv["name"] as string | undefined,
+												"name",
+												"text"
+											),
+											requireSignedURLs: argv["require-signed-urls"],
+											scheduledDeletion: resolveFileToken(
+												argv["scheduled-deletion"] as string | undefined,
+												"scheduled-deletion",
+												"text"
+											),
+											thumbnailTimestampPct: argv["thumbnail-timestamp-pct"],
+											url: resolveFileToken(
+												argv["url"] as string | undefined,
+												"url",
+												"text"
+											),
+											watermark: {
+												uid: resolveFileToken(
+													argv["watermark-uid"] as string | undefined,
+													"watermark-uid",
+													"text"
+												),
+											},
 										},
-									}),
+										[["meta"]]
+									),
 					});
 					return;
 				}
@@ -199,6 +213,12 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 							"input",
 							"text"
 						)
+					);
+				if (argv["meta"] !== undefined)
+					setNestedValue(
+						bodyData,
+						["meta"],
+						parseJsonMap(argv["meta"], "meta")
 					);
 				if (argv["name"] !== undefined)
 					setNestedValue(

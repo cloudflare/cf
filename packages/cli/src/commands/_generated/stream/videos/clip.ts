@@ -11,7 +11,7 @@ import {
 	getAccountId,
 	resolveAccountIdSilent,
 } from "#lib/auth.js";
-import { compactBody, parseBody } from "#lib/body-parser.js";
+import { compactBody, parseBody, parseJsonMap } from "#lib/body-parser.js";
 import { formatDryRun } from "#lib/dry-run.js";
 import { resolveFileToken } from "#lib/input-validation.js";
 import { LOCAL_ACCOUNT_ID } from "#lib/local.js";
@@ -46,6 +46,11 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("input", {
 			type: "string",
 			description: "A video's URL. Preferred over 'url'.",
+		})
+		.option("meta", {
+			type: "string",
+			description:
+				"A user modifiable key-value store used to reference other systems of record for managing videos. Provide as a JSON object or @path/to/file.json.",
 		})
 		.option("name", { type: "string", description: "A name for the video." })
 		.option("require-signed-urls", {
@@ -115,50 +120,54 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						body:
 							argv.body !== undefined
 								? parseBody(argv.body)
-								: compactBody({
-										allowedOrigins: argv["allowed-origins"],
-										clippedFromVideoUID: resolveFileToken(
-											argv["clipped-from-video-uid"] as string | undefined,
-											"clipped-from-video-uid",
-											"text"
-										),
-										creator: resolveFileToken(
-											argv["creator"] as string | undefined,
-											"creator",
-											"text"
-										),
-										endTimeSeconds: argv["end-time-seconds"],
-										input: resolveFileToken(
-											argv["input"] as string | undefined,
-											"input",
-											"text"
-										),
-										name: resolveFileToken(
-											argv["name"] as string | undefined,
-											"name",
-											"text"
-										),
-										requireSignedURLs: argv["require-signed-urls"],
-										scheduledDeletion: resolveFileToken(
-											argv["scheduled-deletion"] as string | undefined,
-											"scheduled-deletion",
-											"text"
-										),
-										startTimeSeconds: argv["start-time-seconds"],
-										thumbnailTimestampPct: argv["thumbnail-timestamp-pct"],
-										url: resolveFileToken(
-											argv["url"] as string | undefined,
-											"url",
-											"text"
-										),
-										watermark: {
-											uid: resolveFileToken(
-												argv["watermark-uid"] as string | undefined,
-												"watermark-uid",
+								: compactBody(
+										{
+											allowedOrigins: argv["allowed-origins"],
+											clippedFromVideoUID: resolveFileToken(
+												argv["clipped-from-video-uid"] as string | undefined,
+												"clipped-from-video-uid",
 												"text"
 											),
+											creator: resolveFileToken(
+												argv["creator"] as string | undefined,
+												"creator",
+												"text"
+											),
+											endTimeSeconds: argv["end-time-seconds"],
+											input: resolveFileToken(
+												argv["input"] as string | undefined,
+												"input",
+												"text"
+											),
+											meta: parseJsonMap(argv["meta"], "meta"),
+											name: resolveFileToken(
+												argv["name"] as string | undefined,
+												"name",
+												"text"
+											),
+											requireSignedURLs: argv["require-signed-urls"],
+											scheduledDeletion: resolveFileToken(
+												argv["scheduled-deletion"] as string | undefined,
+												"scheduled-deletion",
+												"text"
+											),
+											startTimeSeconds: argv["start-time-seconds"],
+											thumbnailTimestampPct: argv["thumbnail-timestamp-pct"],
+											url: resolveFileToken(
+												argv["url"] as string | undefined,
+												"url",
+												"text"
+											),
+											watermark: {
+												uid: resolveFileToken(
+													argv["watermark-uid"] as string | undefined,
+													"watermark-uid",
+													"text"
+												),
+											},
 										},
-									}),
+										[["meta"]]
+									),
 					});
 					return;
 				}
@@ -192,50 +201,54 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				}
 
 				// Assemble request body from individual flags
-				const bodyData = compactBody({
-					allowedOrigins: argv["allowed-origins"],
-					clippedFromVideoUID: resolveFileToken(
-						argv["clipped-from-video-uid"] as string | undefined,
-						"clipped-from-video-uid",
-						"text"
-					),
-					creator: resolveFileToken(
-						argv["creator"] as string | undefined,
-						"creator",
-						"text"
-					),
-					endTimeSeconds: argv["end-time-seconds"],
-					input: resolveFileToken(
-						argv["input"] as string | undefined,
-						"input",
-						"text"
-					),
-					name: resolveFileToken(
-						argv["name"] as string | undefined,
-						"name",
-						"text"
-					),
-					requireSignedURLs: argv["require-signed-urls"],
-					scheduledDeletion: resolveFileToken(
-						argv["scheduled-deletion"] as string | undefined,
-						"scheduled-deletion",
-						"text"
-					),
-					startTimeSeconds: argv["start-time-seconds"],
-					thumbnailTimestampPct: argv["thumbnail-timestamp-pct"],
-					url: resolveFileToken(
-						argv["url"] as string | undefined,
-						"url",
-						"text"
-					),
-					watermark: {
-						uid: resolveFileToken(
-							argv["watermark-uid"] as string | undefined,
-							"watermark-uid",
+				const bodyData = compactBody(
+					{
+						allowedOrigins: argv["allowed-origins"],
+						clippedFromVideoUID: resolveFileToken(
+							argv["clipped-from-video-uid"] as string | undefined,
+							"clipped-from-video-uid",
 							"text"
 						),
+						creator: resolveFileToken(
+							argv["creator"] as string | undefined,
+							"creator",
+							"text"
+						),
+						endTimeSeconds: argv["end-time-seconds"],
+						input: resolveFileToken(
+							argv["input"] as string | undefined,
+							"input",
+							"text"
+						),
+						meta: parseJsonMap(argv["meta"], "meta"),
+						name: resolveFileToken(
+							argv["name"] as string | undefined,
+							"name",
+							"text"
+						),
+						requireSignedURLs: argv["require-signed-urls"],
+						scheduledDeletion: resolveFileToken(
+							argv["scheduled-deletion"] as string | undefined,
+							"scheduled-deletion",
+							"text"
+						),
+						startTimeSeconds: argv["start-time-seconds"],
+						thumbnailTimestampPct: argv["thumbnail-timestamp-pct"],
+						url: resolveFileToken(
+							argv["url"] as string | undefined,
+							"url",
+							"text"
+						),
+						watermark: {
+							uid: resolveFileToken(
+								argv["watermark-uid"] as string | undefined,
+								"watermark-uid",
+								"text"
+							),
+						},
 					},
-				});
+					[["meta"]]
+				);
 				const result = await withProgress(`Creating`, async () =>
 					client.send(operation, { body: bodyData, account_id: accountId })
 				);

@@ -49,6 +49,7 @@ interface Schema {
 	/** The model a `$ref` points to, for a schema that is one, which `resolve` follows. */
 	readonly reference?: Model;
 	readonly kind?: Kind;
+	readonly map?: boolean;
 	/** The properties, when the schema has `properties`. */
 	readonly properties?: readonly Prop[];
 	readonly required: readonly string[];
@@ -136,6 +137,7 @@ function makeView(type: Type): Schema {
 		case "object":
 			return {
 				kind: "object",
+				map: type.fields.length === 0 && type.extra !== undefined,
 				properties: type.fields.map((f) => {
 					const d = f.default;
 					return {
@@ -195,6 +197,7 @@ function flattenAllOf(schemas: readonly Schema[]): Schema {
 	const properties: Prop[] = [];
 	const required: string[] = [];
 	let oneOf: readonly Schema[] | undefined;
+	let map = false;
 	const insert = (prop: Prop) => {
 		const i = properties.findIndex((p) => p.name === prop.name);
 		if (i >= 0) {
@@ -205,6 +208,7 @@ function flattenAllOf(schemas: readonly Schema[]): Schema {
 	};
 	for (const s of schemas) {
 		const resolved = resolve(s);
+		map ||= resolved.map === true;
 		for (const prop of resolved.properties ?? []) {
 			insert(prop);
 		}
@@ -214,6 +218,7 @@ function flattenAllOf(schemas: readonly Schema[]): Schema {
 		}
 		if (resolved.allOf !== undefined) {
 			const nested = flattenAllOf(resolved.allOf);
+			map ||= nested.map === true;
 			for (const prop of nested.properties ?? []) {
 				insert(prop);
 			}
@@ -225,6 +230,7 @@ function flattenAllOf(schemas: readonly Schema[]): Schema {
 	}
 	return {
 		kind: "object",
+		map: map && properties.length === 0,
 		properties,
 		required: dedup(required),
 		oneOf,
@@ -283,6 +289,22 @@ function arrayBodyParam(
 	info.description = prop.description;
 	info.sensitive = prop.sensitive;
 	return info;
+}
+
+function mapBodyParam(
+	prop: Prop,
+	name: string,
+	path: string[],
+	required: boolean
+): BodyParamInfo {
+	return {
+		name,
+		required,
+		type: "object",
+		apiFieldPath: path,
+		description: prop.description,
+		sensitive: prop.sensitive,
+	};
 }
 
 function scalarBodyParam(
@@ -370,6 +392,10 @@ function propertiesFromSchema(
 		if (isObjectKind(resolved) || resolved.allOf !== undefined) {
 			const nested =
 				resolved.allOf !== undefined ? flattenAllOf(resolved.allOf) : resolved;
+			if (nested.map) {
+				results.push(mapBodyParam(prop, flag, current, isRequired));
+				continue;
+			}
 			results.push(
 				...propertiesFromSchema(
 					nested,
@@ -631,6 +657,10 @@ export function bodyProperties(type: Type): BodyParamInfo[] {
 		}
 		if (prop.allOf !== undefined) {
 			const merged = flattenAllOf(prop.allOf);
+			if (merged.map) {
+				results.push(mapBodyParam(raw, prefix, path, isRequired));
+				continue;
+			}
 			if (merged.oneOf !== undefined) {
 				results.push(...oneOfConstraints(merged.oneOf, prefix, path, 1));
 			} else {
@@ -638,6 +668,10 @@ export function bodyProperties(type: Type): BodyParamInfo[] {
 					...propertiesFromSchema(merged, prefix, path, merged.required, 1)
 				);
 			}
+			continue;
+		}
+		if (prop.map) {
+			results.push(mapBodyParam(raw, prefix, path, isRequired));
 			continue;
 		}
 		if (isObjectKind(prop)) {

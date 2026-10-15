@@ -11,7 +11,12 @@ import {
 	getAccountId,
 	resolveAccountIdSilent,
 } from "#lib/auth.js";
-import { compactBody, parseBody, parseObjectArray } from "#lib/body-parser.js";
+import {
+	compactBody,
+	parseBody,
+	parseJsonMap,
+	parseObjectArray,
+} from "#lib/body-parser.js";
 import { formatDryRun } from "#lib/dry-run.js";
 import { resolveFileToken } from "#lib/input-validation.js";
 import { LOCAL_ACCOUNT_ID } from "#lib/local.js";
@@ -56,6 +61,11 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			type: "string",
 			description:
 				"Display name for the email address (e.g., 'John Doe'). Optional; set to null or leave it unset to send the address on its own.",
+		})
+		.option("headers", {
+			type: "string",
+			description:
+				"Custom email headers as key-value pairs. Provide as a JSON object or @path/to/file.json.",
 		})
 		.option("html", {
 			type: "string",
@@ -124,87 +134,91 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						body:
 							argv.body !== undefined
 								? parseBody(argv.body)
-								: compactBody({
-										attachments: parseObjectArray(
-											argv["attachments"],
-											"attachments"
-										),
-										bcc: {
-											address: resolveFileToken(
-												argv["bcc-address"] as string | undefined,
-												"bcc-address",
+								: compactBody(
+										{
+											attachments: parseObjectArray(
+												argv["attachments"],
+												"attachments"
+											),
+											bcc: {
+												address: resolveFileToken(
+													argv["bcc-address"] as string | undefined,
+													"bcc-address",
+													"text"
+												),
+												name: resolveFileToken(
+													argv["bcc-name"] as string | undefined,
+													"bcc-name",
+													"text"
+												),
+											},
+											cc: {
+												address: resolveFileToken(
+													argv["cc-address"] as string | undefined,
+													"cc-address",
+													"text"
+												),
+												name: resolveFileToken(
+													argv["cc-name"] as string | undefined,
+													"cc-name",
+													"text"
+												),
+											},
+											from: {
+												address: resolveFileToken(
+													argv["from-address"] as string | undefined,
+													"from-address",
+													"text"
+												),
+												name: resolveFileToken(
+													argv["from-name"] as string | undefined,
+													"from-name",
+													"text"
+												),
+											},
+											headers: parseJsonMap(argv["headers"], "headers"),
+											html: resolveFileToken(
+												argv["html"] as string | undefined,
+												"html",
 												"text"
 											),
-											name: resolveFileToken(
-												argv["bcc-name"] as string | undefined,
-												"bcc-name",
+											reply_to: {
+												address: resolveFileToken(
+													argv["reply-to-address"] as string | undefined,
+													"reply-to-address",
+													"text"
+												),
+												name: resolveFileToken(
+													argv["reply-to-name"] as string | undefined,
+													"reply-to-name",
+													"text"
+												),
+											},
+											subject: resolveFileToken(
+												argv["subject"] as string | undefined,
+												"subject",
 												"text"
 											),
+											text: resolveFileToken(
+												argv["text"] as string | undefined,
+												"text",
+												"text"
+											),
+											to: {
+												address: resolveFileToken(
+													argv["to-address"] as string | undefined,
+													"to-address",
+													"text"
+												),
+												name: resolveFileToken(
+													argv["to-name"] as string | undefined,
+													"to-name",
+													"text"
+												),
+											},
 										},
-										cc: {
-											address: resolveFileToken(
-												argv["cc-address"] as string | undefined,
-												"cc-address",
-												"text"
-											),
-											name: resolveFileToken(
-												argv["cc-name"] as string | undefined,
-												"cc-name",
-												"text"
-											),
-										},
-										from: {
-											address: resolveFileToken(
-												argv["from-address"] as string | undefined,
-												"from-address",
-												"text"
-											),
-											name: resolveFileToken(
-												argv["from-name"] as string | undefined,
-												"from-name",
-												"text"
-											),
-										},
-										html: resolveFileToken(
-											argv["html"] as string | undefined,
-											"html",
-											"text"
-										),
-										reply_to: {
-											address: resolveFileToken(
-												argv["reply-to-address"] as string | undefined,
-												"reply-to-address",
-												"text"
-											),
-											name: resolveFileToken(
-												argv["reply-to-name"] as string | undefined,
-												"reply-to-name",
-												"text"
-											),
-										},
-										subject: resolveFileToken(
-											argv["subject"] as string | undefined,
-											"subject",
-											"text"
-										),
-										text: resolveFileToken(
-											argv["text"] as string | undefined,
-											"text",
-											"text"
-										),
-										to: {
-											address: resolveFileToken(
-												argv["to-address"] as string | undefined,
-												"to-address",
-												"text"
-											),
-											name: resolveFileToken(
-												argv["to-name"] as string | undefined,
-												"to-name",
-												"text"
-											),
-										},
-									}),
+										[["headers"]]
+									),
 					});
 					return;
 				}
@@ -228,84 +242,88 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				}
 
 				// Assemble request body from individual flags
-				const bodyData = compactBody({
-					attachments: parseObjectArray(argv["attachments"], "attachments"),
-					bcc: {
-						address: resolveFileToken(
-							argv["bcc-address"] as string | undefined,
-							"bcc-address",
+				const bodyData = compactBody(
+					{
+						attachments: parseObjectArray(argv["attachments"], "attachments"),
+						bcc: {
+							address: resolveFileToken(
+								argv["bcc-address"] as string | undefined,
+								"bcc-address",
+								"text"
+							),
+							name: resolveFileToken(
+								argv["bcc-name"] as string | undefined,
+								"bcc-name",
+								"text"
+							),
+						},
+						cc: {
+							address: resolveFileToken(
+								argv["cc-address"] as string | undefined,
+								"cc-address",
+								"text"
+							),
+							name: resolveFileToken(
+								argv["cc-name"] as string | undefined,
+								"cc-name",
+								"text"
+							),
+						},
+						from: {
+							address: resolveFileToken(
+								argv["from-address"] as string | undefined,
+								"from-address",
+								"text"
+							),
+							name: resolveFileToken(
+								argv["from-name"] as string | undefined,
+								"from-name",
+								"text"
+							),
+						},
+						headers: parseJsonMap(argv["headers"], "headers"),
+						html: resolveFileToken(
+							argv["html"] as string | undefined,
+							"html",
 							"text"
 						),
-						name: resolveFileToken(
-							argv["bcc-name"] as string | undefined,
-							"bcc-name",
+						reply_to: {
+							address: resolveFileToken(
+								argv["reply-to-address"] as string | undefined,
+								"reply-to-address",
+								"text"
+							),
+							name: resolveFileToken(
+								argv["reply-to-name"] as string | undefined,
+								"reply-to-name",
+								"text"
+							),
+						},
+						subject: resolveFileToken(
+							argv["subject"] as string | undefined,
+							"subject",
 							"text"
 						),
+						text: resolveFileToken(
+							argv["text"] as string | undefined,
+							"text",
+							"text"
+						),
+						to: {
+							address: resolveFileToken(
+								argv["to-address"] as string | undefined,
+								"to-address",
+								"text"
+							),
+							name: resolveFileToken(
+								argv["to-name"] as string | undefined,
+								"to-name",
+								"text"
+							),
+						},
 					},
-					cc: {
-						address: resolveFileToken(
-							argv["cc-address"] as string | undefined,
-							"cc-address",
-							"text"
-						),
-						name: resolveFileToken(
-							argv["cc-name"] as string | undefined,
-							"cc-name",
-							"text"
-						),
-					},
-					from: {
-						address: resolveFileToken(
-							argv["from-address"] as string | undefined,
-							"from-address",
-							"text"
-						),
-						name: resolveFileToken(
-							argv["from-name"] as string | undefined,
-							"from-name",
-							"text"
-						),
-					},
-					html: resolveFileToken(
-						argv["html"] as string | undefined,
-						"html",
-						"text"
-					),
-					reply_to: {
-						address: resolveFileToken(
-							argv["reply-to-address"] as string | undefined,
-							"reply-to-address",
-							"text"
-						),
-						name: resolveFileToken(
-							argv["reply-to-name"] as string | undefined,
-							"reply-to-name",
-							"text"
-						),
-					},
-					subject: resolveFileToken(
-						argv["subject"] as string | undefined,
-						"subject",
-						"text"
-					),
-					text: resolveFileToken(
-						argv["text"] as string | undefined,
-						"text",
-						"text"
-					),
-					to: {
-						address: resolveFileToken(
-							argv["to-address"] as string | undefined,
-							"to-address",
-							"text"
-						),
-						name: resolveFileToken(
-							argv["to-name"] as string | undefined,
-							"to-name",
-							"text"
-						),
-					},
-				});
+					[["headers"]]
+				);
 				const result = await withProgress(`Creating`, async () =>
 					client.send(operation, { body: bodyData, account_id: accountId })
 				);

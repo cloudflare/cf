@@ -209,6 +209,11 @@ A typed call passes a JSON body whole, as the request's `body`
 (`client.send(operation, { body, ...params })`). The runtime sends it
 as-is, and adds the `constants` of fields that allow one value.
 
+JSON map body fields are emitted as one JSON object flag, accepting inline JSON
+or `@path`. Their values, including empty objects, bypass body compaction so
+an explicit empty map reaches the API. Maps required by the schema or CLI
+metadata must also be present in `--body`.
+
 Its tests are in `src/__tests__/generator/plugin/`. Deriving arguments and
 emitting a command are plain functions of a resolved operation, tested
 directly; tests that need forge to read a document use `generateFiles` from

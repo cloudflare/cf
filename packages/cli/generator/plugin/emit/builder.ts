@@ -55,7 +55,7 @@ export function builderLines(ctx: Ctx): string[] {
 	for (const arg of options) {
 		const name = kebab(arg.name);
 		const scalarArray = arg.type === "array";
-		const array = scalarArray || arg.type === "objectArray";
+		const json = arg.type === "objectArray" || arg.type === "objectMap";
 		const skipDemand = isBody(arg) && d.hasBody;
 		const disc = op.bodyDiscriminator;
 		const discriminator =
@@ -64,14 +64,16 @@ export function builderLines(ctx: Ctx): string[] {
 			arg.origin.path.length === 1 &&
 			arg.origin.path[0] === disc.field;
 		const suppressDefault =
-			array ||
+			scalarArray ||
+			json ||
 			conflictFlags.includes(name) ||
 			(isBody(arg) && partialUpdate && !discriminator);
-		const type = array
-			? "string"
-			: arg.type === "number" || arg.type === "boolean"
-				? arg.type
-				: "string";
+		const type =
+			scalarArray || json
+				? "string"
+				: arg.type === "number" || arg.type === "boolean"
+					? arg.type
+					: "string";
 		const dflt = suppressDefault ? undefined : arg.default;
 		const demand =
 			arg.required && !arg.isZone && !arg.isWorkerName && !skipDemand;

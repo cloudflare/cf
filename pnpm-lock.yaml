@@ -291,11 +291,11 @@ importers:
         specifier: 0.5.0
         version: 0.5.0
       '@cloudflare/containers-shared':
-        specifier: 0.21.7
-        version: 0.21.7(patch_hash=ecd632c350c22e92f11dd426d4aec675be6515b0aa7e21f2ff1367e315e3ac59)(vitest@5.0.3)
+        specifier: 0.22.0
+        version: 0.22.0(patch_hash=ecd632c350c22e92f11dd426d4aec675be6515b0aa7e21f2ff1367e315e3ac59)(vitest@5.0.3)
       '@cloudflare/deploy-helpers':
-        specifier: 0.20.3
-        version: 0.20.3(patch_hash=664a40a198d157b2798e2f45cf713cb4d5926bc697603116b32a25c9ab92879d)(@types/node@25.9.9)(vitest@5.0.3)
+        specifier: 0.20.4
+        version: 0.20.4(patch_hash=664a40a198d157b2798e2f45cf713cb4d5926bc697603116b32a25c9ab92879d)(@types/node@25.9.9)(vitest@5.0.3)
       '@cloudflare/forge':
         specifier: https://pkg.pr.new/cloudflare/forge/@cloudflare/forge@7d40705fb61e7eedfe62e547348e0b291555739d
         version: https://pkg.pr.new/cloudflare/forge/@cloudflare/forge@7d40705fb61e7eedfe62e547348e0b291555739d(@bytecodealliance/jco@1.37.0)
@@ -713,12 +713,12 @@ packages:
   '@cloudflare/config@0.26.0':
     resolution: {integrity: sha512-18i2llyc49mWX/CQ5edwBlXclfMWZ6QIvquRbHWuxRYzKVd/immaQyRNvwqIHMUowDeNRwVk+K68xsVavdXPSQ==}
 
-  '@cloudflare/containers-shared@0.21.7':
-    resolution: {integrity: sha512-HX+HdYJd9EFxpr4o6fqWhih/L2Nb1yiZL6HM6rv49K70geFjFnsX+P6xS+7UZdVnXTrVv/WpbhnTcZJF9LHuzQ==}
+  '@cloudflare/containers-shared@0.22.0':
+    resolution: {integrity: sha512-Wp+5vRtKkTmrtKPnSl2BzPT3o7bfGw8/c+iULZvEGl/0smM2d/g8YMzX4NdNhJnDzt0T76V7m/QaNnLya3pqJw==}
     engines: {node: '>=22.0.0'}
 
-  '@cloudflare/deploy-helpers@0.20.3':
-    resolution: {integrity: sha512-ebapkNJtKL++I2Yr01Ep6XkUlbMjcC/IMrGAsaeqs9xVE2SysOtXFuy+1ZghfTbK38qVm2HeMm37YHBvFfnjbg==}
+  '@cloudflare/deploy-helpers@0.20.4':
+    resolution: {integrity: sha512-r49l0Rkat71P8Ozu6nkmypCLPksg79yfxWKq373fH9lsIB3YVWscBT+qq5FV3WFM5S6Qvo6aGwukWwedsTNHpw==}
 
   '@cloudflare/forge@https://pkg.pr.new/cloudflare/forge/@cloudflare/forge@7d40705fb61e7eedfe62e547348e0b291555739d':
     resolution: {integrity: sha512-hheUBN/eRCX9zOOFW8g9nb4sNecKnph5Bi8++lYuqToFBrHRrzTfQ7tNfgIkFKgi8OU/BACvI7znZ0hLWSChKA==, tarball: https://pkg.pr.new/cloudflare/forge/@cloudflare/forge@7d40705fb61e7eedfe62e547348e0b291555739d}
@@ -4402,7 +4402,7 @@ snapshots:
     dependencies:
       zod: 4.6.5
 
-  '@cloudflare/containers-shared@0.21.7(patch_hash=ecd632c350c22e92f11dd426d4aec675be6515b0aa7e21f2ff1367e315e3ac59)(vitest@5.0.3)':
+  '@cloudflare/containers-shared@0.22.0(patch_hash=ecd632c350c22e92f11dd426d4aec675be6515b0aa7e21f2ff1367e315e3ac59)(vitest@5.0.3)':
     dependencies:
       '@cloudflare/build-output-utils': 0.9.2
       '@cloudflare/cli-shared-helpers': 0.2.6(vitest@5.0.3)
@@ -4411,11 +4411,11 @@ snapshots:
     transitivePeerDependencies:
       - vitest
 
-  '@cloudflare/deploy-helpers@0.20.3(patch_hash=664a40a198d157b2798e2f45cf713cb4d5926bc697603116b32a25c9ab92879d)(@types/node@25.9.9)(vitest@5.0.3)':
+  '@cloudflare/deploy-helpers@0.20.4(patch_hash=664a40a198d157b2798e2f45cf713cb4d5926bc697603116b32a25c9ab92879d)(@types/node@25.9.9)(vitest@5.0.3)':
     dependencies:
       '@cloudflare/cli-shared-helpers': 0.2.6(vitest@5.0.3)
       '@cloudflare/config': 0.26.0
-      '@cloudflare/containers-shared': 0.21.7(patch_hash=ecd632c350c22e92f11dd426d4aec675be6515b0aa7e21f2ff1367e315e3ac59)(vitest@5.0.3)
+      '@cloudflare/containers-shared': 0.22.0(patch_hash=ecd632c350c22e92f11dd426d4aec675be6515b0aa7e21f2ff1367e315e3ac59)(vitest@5.0.3)
       '@cloudflare/workers-utils': 0.47.2(vitest@5.0.3)
       blake3-wasm: 2.1.5
       chalk: 5.3.0

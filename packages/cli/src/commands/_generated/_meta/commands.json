@@ -42635,7 +42635,7 @@
 			"httpMethod": "POST",
 			"apiPath": "/accounts/{account_id}/diagnostics/endpoint-healthchecks",
 			"operationId": "diagnostics.endpoint-healthchecks.create",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf diagnostics endpoint-healthchecks delete",
@@ -42667,7 +42667,7 @@
 			"httpMethod": "DELETE",
 			"apiPath": "/accounts/{account_id}/diagnostics/endpoint-healthchecks/{id}",
 			"operationId": "diagnostics.endpoint-healthchecks.delete",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf diagnostics endpoint-healthchecks get",
@@ -42699,7 +42699,7 @@
 			"httpMethod": "GET",
 			"apiPath": "/accounts/{account_id}/diagnostics/endpoint-healthchecks/{id}",
 			"operationId": "diagnostics.endpoint-healthchecks.get",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf diagnostics endpoint-healthchecks list",
@@ -42723,13 +42723,13 @@
 			"httpMethod": "GET",
 			"apiPath": "/accounts/{account_id}/diagnostics/endpoint-healthchecks",
 			"operationId": "diagnostics.endpoint-healthchecks.list",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf diagnostics endpoint-healthchecks update",
 			"name": "update",
 			"fullPath": ["diagnostics", "endpoint-healthchecks", "update"],
-			"description": "Update a Endpoint Health Check.",
+			"description": "Update an Endpoint Health Check.",
 			"summary": "Update Endpoint Health Check",
 			"usage": "cf diagnostics endpoint-healthchecks update <id> [options]",
 			"arguments": [
@@ -42781,7 +42781,7 @@
 			"httpMethod": "PUT",
 			"apiPath": "/accounts/{account_id}/diagnostics/endpoint-healthchecks/{id}",
 			"operationId": "diagnostics.endpoint-healthchecks.update",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf diagnostics traceroutes create",
@@ -42854,7 +42854,7 @@
 			"httpMethod": "POST",
 			"apiPath": "/accounts/{account_id}/diagnostics/traceroute",
 			"operationId": "diagnostics.traceroutes.create",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf dls regional-services prefix-bindings create",
@@ -163233,7 +163233,7 @@
 		"d1 time-travel": "use specific point-in-time backups of your D1 database",
 		"d1 migrations": "Create, list, and apply D1 database migrations",
 		"diagnostics": "Network diagnostic tools — traceroutes from Cloudflare's edge and endpoint health checks",
-		"diagnostics endpoint-healthchecks": "Monitor external endpoint availability with periodic HTTP/HTTPS health checks",
+		"diagnostics endpoint-healthchecks": "Monitor endpoint reachability from Cloudflare with periodic ICMP health checks",
 		"diagnostics traceroutes": "Run traceroutes from Cloudflare data centers to diagnose network path issues",
 		"dls": "dls",
 		"dls regional-services": "Operations for regional-services",

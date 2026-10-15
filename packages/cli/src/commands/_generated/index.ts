@@ -397,7 +397,7 @@ export const generatedCommands: GeneratedCommand[] = [
 			() => import("./diagnostics/index.js"),
 			null
 		),
-		hideCommand: true,
+		hideCommand: false,
 	},
 	{
 		command: lazyCommand<CommonYargsOptions>(

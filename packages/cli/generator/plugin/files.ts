@@ -303,6 +303,7 @@ class Walk {
 			}
 			return m;
 		});
+
 		optionMetas.push(
 			obj([
 				["name", "dry-run"],
@@ -349,6 +350,14 @@ class Walk {
 			["httpMethod", op.method.toUpperCase()],
 			["apiPath", op.path],
 			["operationId", method.operationId],
+			...(derived.requestTransform
+				? [
+						[
+							"requestTransform",
+							derived.requestTransform as unknown as Value,
+						] as [string, Value],
+					]
+				: []),
 			["hideCommand", hide],
 		]);
 	}
@@ -379,6 +388,14 @@ class Walk {
 		);
 		return obj([
 			["operationId", method.operationId],
+			...(derived.requestTransform
+				? [
+						[
+							"requestTransform",
+							derived.requestTransform as unknown as Value,
+						] as [string, Value],
+					]
+				: []),
 			["httpMethod", op.method.toUpperCase()],
 			["path", op.path],
 			["pathParams", params(op.pathParams)],
@@ -414,11 +431,7 @@ class Walk {
 				? `${resource} ${group.replaceAll("/", " ")} ${method.name}`
 				: `${resource} ${method.name}`;
 		const hasForce = ctx.derived.args.some((a) => a.name === "force");
-		const generatedForce =
-			(op.method === "delete" ||
-				(method.requireConfirmation !== undefined &&
-					method.requireConfirmation !== "")) &&
-			!hasForce;
+		const generatedForce = ctx.isDelete && !hasForce;
 		const safeFlags = telemetrySafeFlags(
 			ctx.derived.args,
 			generatedForce,

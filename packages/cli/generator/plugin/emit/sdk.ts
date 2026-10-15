@@ -62,6 +62,7 @@ function pathFields(ctx: Ctx): string[] {
 function baseTypedGuards(ctx: Ctx): boolean {
 	const blocking = ctx.requiredOptionArgs.some((a) => !isBody(a));
 	return (
+		!ctx.derived.requestTransform &&
 		// A path parameter renamed with `x-fern-parameter-name` is sent with a
 		// passthrough request.
 		!ctx.op.pathParams.some((p) => p.sdkName !== undefined) &&

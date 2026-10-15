@@ -71,7 +71,9 @@ export function handler(ctx: Ctx): string[] {
 	lines.push(...fileUpload(ctx));
 	lines.push(...bodyBypass(ctx));
 	lines.push(...bodyPrompts(ctx));
-	if (ctx.derived.hasBodyParams) {
+	if (ctx.derived.requestTransform) {
+		lines.push(...mappedCall(ctx));
+	} else if (ctx.derived.hasBodyParams) {
 		lines.push(...bodyAssembly(ctx));
 	} else {
 		lines.push(...plainCall(ctx));
@@ -219,7 +221,9 @@ export function dryRun(ctx: Ctx): string[] {
 	command.push(ctx.method.name);
 	const commandStr = command.filter((c) => c !== "").join(" ");
 	let bodyKind: string;
-	if (!d.isMutating) {
+	if (ctx.derived.requestTransform) {
+		bodyKind = "'json'";
+	} else if (!d.isMutating) {
 		bodyKind = "'none'";
 	} else if (multipartOnly) {
 		bodyKind = "'multipart'";
@@ -261,7 +265,18 @@ export function dryRun(ctx: Ctx): string[] {
 		lines.push("          query: queryParams,");
 	}
 	lines.push(`          bodyKind: ${bodyKind},`);
-	if (d.hasBody) {
+	if (ctx.derived.requestTransform) {
+		const redacted = ctx.derived.requestTransform.arguments
+			.filter((arg) => arg.sensitive)
+			.map((arg) =>
+				arg.required
+					? quote(arg.name)
+					: `...(${argvKey(arg.name)} !== undefined ? [${quote(arg.name)}] : [])`
+			);
+		lines.push(
+			`          body: transformRequestBody(${quote(JSON.stringify(ctx.derived.requestTransform.requestBody))}, argv, [${redacted.join(", ")}]),`
+		);
+	} else if (d.hasBody) {
 		if (multipartOnly) {
 			lines.push(`          body: { ${bodyEntries.join(", ")} },`);
 		} else if (d.multipart !== undefined && flagReads.length > 0) {
@@ -644,7 +659,7 @@ export function bodyPrompts(ctx: Ctx): string[] {
 				);
 			} else {
 				lines.push(
-					`        throw new Error('--${arg.name} is required (or pass --body with this field set).');`
+					`        throw new Error('--${arg.name} is required${ctx.derived.requestTransform ? "" : " (or pass --body with this field set)"}.');`
 				);
 			}
 			lines.push("      }");
@@ -1068,6 +1083,10 @@ export function imports(ctx: Ctx): Imports {
 	if (ctx.outputKind === "binary" || ctx.outputKind === "text") {
 		i.from(`${lib}/raw-fetch.js`, ["fetchRawBytes", "writeRawOutput"]);
 	}
+	if (ctx.derived.requestTransform) {
+		i.from(`${lib}/request-body-transform.js`, ["transformRequestBody"]);
+		if (!ctx.isRawOutput) i.from(`${lib}/auth.js`, ["requestApi"]);
+	}
 	const bodyFlags = bodyOptions(d);
 	const bodyArgs = [...bodyFlags, ...bodyFieldArgs(ctx).map(([arg]) => arg)];
 	const flagsNeedToken = bodyArgs.some((a) => a.fromFile !== undefined);
@@ -1084,7 +1103,7 @@ export function imports(ctx: Ctx): Imports {
 		}
 		i.from(`${lib}/input-validation.js`, names);
 	}
-	if (d.hasBody || d.hasBodyParams) {
+	if ((d.hasBody || d.hasBodyParams) && !ctx.derived.requestTransform) {
 		const names: string[] = [];
 		if (d.hasBody) {
 			names.push("parseBody");
@@ -1138,4 +1157,26 @@ export function imports(ctx: Ctx): Imports {
 		i.defaultFrom(sdk.operationModule(ctx), "operation");
 	}
 	return i;
+}
+
+function mappedCall(ctx: Ctx): string[] {
+	const alias = ctx.derived.requestTransform;
+	if (!alias) return [];
+	const lines = [
+		`      const bodyData = transformRequestBody(${quote(JSON.stringify(alias.requestBody))}, argv);`,
+	];
+	let url = `\`${ctx.resolvedRequestPath}\``;
+	if (ctx.hasParams) {
+		lines.push(`      const qs = ${QS_FROM_PARAMS};`);
+		url = `\`${ctx.resolvedRequestPath}\${qs ? '?' + qs : ''}\``;
+	}
+	const opts = ["body: bodyData"];
+	if (ctx.hasHeaders) opts.push(`headers: ${HEADERS_GUARDED}`);
+	if (ctx.isRawOutput)
+		return [...lines, ...emitRawTail(ctx, "      ", url, opts)];
+	lines.push(
+		`      const result = ${wrapAwait(ctx, requestApi(ctx, url, `{ ${opts.join(", ")} }`))};`
+	);
+	lines.push(formatOutputCall(ctx, "      "));
+	return lines;
 }

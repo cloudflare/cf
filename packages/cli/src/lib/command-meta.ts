@@ -2,9 +2,11 @@
  * The shape of command metadata: what the generated `_meta/*.json` lists,
  * and what each hand-written command's `meta.ts` sidecar declares.
  *
- * This module imports nothing, so the generator plugin, which runs without
- * Node, can type its sidecars with it.
+ * This module has only type imports, so the generator plugin, which runs
+ * without Node, can type its sidecars with it.
  */
+
+import type { RequestTransform } from "@cloudflare/forge/request-transform";
 
 /** Metadata for a positional argument of a command. */
 export interface ArgumentMeta {
@@ -76,6 +78,8 @@ export interface CommandMeta {
 	apiPath?: string;
 	/** OpenAPI operation ID */
 	operationId?: string;
+	/** Mapping from command arguments to the API request body. */
+	requestTransform?: RequestTransform;
 	/** Whether the operation accepts a request body */
 	hasRequestBody?: boolean;
 	/** Whether this command is hidden by default */

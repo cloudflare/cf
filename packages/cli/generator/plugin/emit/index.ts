@@ -311,7 +311,9 @@ export function context(
 	const needsWorkerName = firstPositionalIsWorkerName || pathNeedsWorker;
 
 	const bodyFields = derived.args.filter(isBody);
-	const [block, needsText] = variantPromptBlock(op, bodyFields);
+	const [block, needsText] = derived.requestTransform
+		? ([[], false] as [string[], boolean])
+		: variantPromptBlock(op, bodyFields);
 
 	const requireConfirmation = method.requireConfirmation;
 	const isDelete =

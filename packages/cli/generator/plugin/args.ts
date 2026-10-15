@@ -4,7 +4,11 @@
  * A port of cf's `arg-derivation.ts` and `intermediate-representation.ts`:
  * the single source of both the generated command and its metadata.
  */
-
+import {
+	validateRequestTransformArguments,
+	type RequestBodyTransform,
+	type RequestTransform,
+} from "@cloudflare/forge/request-transform";
 import {
 	GenerateError,
 	get,
@@ -109,6 +113,7 @@ export interface OptionalParentGroup {
 /** What a command takes, and the facts about its operation every part of the generator branches on. */
 export interface Derived {
 	args: Arg[];
+	requestTransform?: RequestTransform;
 	optionalParentGroups: OptionalParentGroup[];
 	isMutating: boolean;
 	hasBody: boolean;
@@ -276,6 +281,28 @@ function parameterFlagName(
 		: cliFlagName(kebab(sdkName));
 }
 
+function mapArgumentNames(
+	node: RequestBodyTransform,
+	names: ReadonlyMap<string, string>
+): RequestBodyTransform {
+	const name = (reference: string) => names.get(reference) ?? reference;
+	if ("arg" in node) return { arg: name(node.arg) };
+	if ("literal" in node) return node;
+	return {
+		object: node.object.map((entry) => ({
+			...entry,
+			key:
+				typeof entry.key === "string"
+					? entry.key
+					: { arg: name(entry.key.arg) },
+			value: mapArgumentNames(entry.value, names),
+			...(entry.omitIfUnset !== undefined
+				? { omitIfUnset: name(entry.omitIfUnset) }
+				: {}),
+		})),
+	};
+}
+
 function descriptionFromName(name: string): string {
 	return name
 		.split("_")
@@ -371,14 +398,99 @@ export function derive(
 	const workers = resource === "workers";
 	const overrides: Overrides = method.params ?? {};
 	const args: Arg[] = [];
+	const upper = op.method.toUpperCase();
+	const isMutating = upper !== "GET" && upper !== "HEAD";
 	pathParams(args, op, overrides, method, workers);
 	queryParams(args, op, overrides, workers);
 	headerParams(args, op, workers);
-	bodyParams(args, op, overrides, workers);
+	if (method.requestTransform) {
+		const alias = method.requestTransform;
+		if (
+			!op.hasRequestBody ||
+			!op.requestContentTypes.includes("application/json") ||
+			!isMutating
+		) {
+			throw new GenerateError(
+				"Request aliases require a mutating operation accepting an application/json body."
+			);
+		}
+		const reserved = [
+			...CLI_ONLY_OPTIONS,
+			"force",
+			"f",
+			"mode",
+			"m",
+			"help",
+			"h",
+			"version",
+			"v",
+			"zone",
+			"z",
+			"profile",
+			"quiet",
+			"q",
+		];
+		const names = new Map<string, string>();
+		const inputs = alias.arguments.map((input) => {
+			const name = parameterFlagName(input.name, input.name);
+			if (
+				name === undefined ||
+				reserved.includes(name) ||
+				args.some((arg) => kebab(arg.name) === name)
+			)
+				throw new GenerateError(
+					`Request alias argument collides with a reserved option or parameter: ${input.name}`
+				);
+			names.set(input.name, name);
+			args.push({
+				name,
+				description: input.description ?? descriptionFromName(input.name),
+				type: input.type,
+				required: input.required ?? false,
+				positional: input.positional ?? false,
+				origin: { in: "body", path: [name] },
+				secret: input.sensitive ?? false,
+				isZone: false,
+				isWorkerName: false,
+			});
+			return { ...input, name };
+		});
+		const requestTransform = {
+			...alias,
+			arguments: inputs,
+			requestBody: mapArgumentNames(alias.requestBody, names),
+		};
+		try {
+			validateRequestTransformArguments(
+				requestTransform,
+				args.map((arg) => ({
+					name: arg.name,
+					type: arg.type,
+					required: arg.required,
+					sensitive: arg.secret,
+				}))
+			);
+		} catch (error) {
+			throw new GenerateError(
+				`${method.operationId}: ${error instanceof Error ? error.message : String(error)}`
+			);
+		}
+		return {
+			args,
+			requestTransform,
+			optionalParentGroups: [],
+			isMutating,
+			hasBody: false,
+			hasEmptyBody: false,
+			hasBodyParams: alias.arguments.length > 0,
+			hasFileUpload: false,
+			multipartFlagFields: [],
+		};
+	} else {
+		bodyParams(args, op, overrides, workers);
+	}
 
 	const optionalParentGroups = optionalParents(args, op);
-	const upper = op.method.toUpperCase();
-	const isMutating = upper !== "GET" && upper !== "HEAD";
 	const hasBody = isMutating && op.hasRequestBody;
 	const onlyJson =
 		op.requestContentTypes.length === 0 ||

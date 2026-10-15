@@ -6,7 +6,7 @@ import {
 	pushBuiltContainerImage,
 	pushImageIfChanged,
 } from "@cloudflare/containers-shared";
-import { configFileName, getDockerPath } from "@cloudflare/workers-utils";
+import { getDockerPath } from "@cloudflare/workers-utils";
 import type {
 	ContainerNormalizedConfig,
 	ImageRef,
@@ -83,10 +83,7 @@ export function createPreviewContainerCallbacks(
 						{
 							imageRef,
 							durable_object_namespace_id: namespaceId,
-							configFileName: configFileName(
-								config.configPath,
-								config.userConfigPath
-							),
+							configFileName: "cf config",
 							observabilityTargetPercentageField: "targetInstancePercentage",
 							observabilityTargetCountField: "targetInstanceCount",
 						},

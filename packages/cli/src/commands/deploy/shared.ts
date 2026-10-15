@@ -202,6 +202,7 @@ async function uploadBuildOutput(argv: UploadArgs, ctx: UploadCommand) {
 			workersDevConfigAssignment: (value) => `workersDev: ${value}`,
 			previewUrlsConfigFieldName: "previewUrls",
 			previewUrlsConfigAssignment: (value) => `previewUrls: ${value}`,
+			configFileName: "cf config",
 			observabilityTargetPercentageField: "targetInstancePercentage",
 			observabilityTargetCountField: "targetInstanceCount",
 			syncWorkersSite: undefined,

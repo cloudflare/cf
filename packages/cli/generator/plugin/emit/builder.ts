@@ -3,6 +3,7 @@ import {
 	fileFormat,
 	hasChoices,
 	isBody,
+	optionDefaults,
 	options as optionArgs,
 	positionals,
 } from "../args.js";
@@ -27,13 +28,7 @@ export function builderLines(ctx: Ctx): string[] {
 	const op = ctx.op;
 	const positional = positionals(d);
 	const options = optionArgs(d);
-	const conflictFlags: string[] = [];
-	for (const a of d.args) {
-		if (a.conflicts !== undefined && a.conflicts.length > 0) {
-			conflictFlags.push(kebab(a.name));
-			conflictFlags.push(...a.conflicts.map(kebab));
-		}
-	}
+	const defaults = optionDefaults(d, op);
 	const lines: string[] = [];
 	for (const arg of positional) {
 		lines.push(`      .positional('${kebab(arg.name)}', {`);
@@ -51,30 +46,17 @@ export function builderLines(ctx: Ctx): string[] {
 		}
 		lines.push("      })");
 	}
-	const partialUpdate = op.method === "patch" || op.method === "put";
 	for (const arg of options) {
 		const name = kebab(arg.name);
 		const scalarArray = arg.type === "array";
 		const json = arg.type === "objectArray" || arg.type === "objectMap";
 		const skipDemand = isBody(arg) && d.hasBody;
-		const disc = op.bodyDiscriminator;
-		const discriminator =
-			disc !== undefined &&
-			arg.origin.in === "body" &&
-			arg.origin.path.length === 1 &&
-			arg.origin.path[0] === disc.field;
-		const suppressDefault =
-			scalarArray ||
-			json ||
-			conflictFlags.includes(name) ||
-			(isBody(arg) && partialUpdate && !discriminator);
 		const type =
 			scalarArray || json
 				? "string"
 				: arg.type === "number" || arg.type === "boolean"
 					? arg.type
 					: "string";
-		const dflt = suppressDefault ? undefined : arg.default;
 		const demand =
 			arg.required && !arg.isZone && !arg.isWorkerName && !skipDemand;
 		lines.push(
@@ -84,7 +66,7 @@ export function builderLines(ctx: Ctx): string[] {
 				["alias", arg.isWorkerName ? "script-name" : undefined],
 				["description", arg.description],
 				["choices", arg.choices],
-				["default", dflt],
+				["default", defaults.get(arg.name)],
 				["demandOption", demand ? true : undefined],
 			])
 		);

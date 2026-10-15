@@ -4483,8 +4483,7 @@
 					"name": "enabled",
 					"type": "boolean",
 					"required": false,
-					"description": "Whether the Address Map is enabled or not. Cloudflare's DNS will not respond with IP addresses on an Address Map until the map is enabled.",
-					"default": false
+					"description": "Whether the Address Map is enabled or not. Cloudflare's DNS will not respond with IP addresses on an Address Map until the map is enabled."
 				},
 				{
 					"name": "dry-run",
@@ -5192,15 +5191,13 @@
 					"name": "asn-prepend-count",
 					"type": "number",
 					"required": false,
-					"description": "Number of times to prepend the Cloudflare ASN to the BGP AS-Path attribute",
-					"default": 0
+					"description": "Number of times to prepend the Cloudflare ASN to the BGP AS-Path attribute"
 				},
 				{
 					"name": "auto-advertise-withdraw",
 					"type": "boolean",
 					"required": false,
-					"description": "Determines if Cloudflare advertises a BYOIP BGP prefix even when there is no matching BGP prefix in the Magic routing table. When true, Cloudflare will automatically withdraw the BGP prefix when there are no matching BGP routes, and will resume advertising when there is at least one matching BGP route.",
-					"default": false
+					"description": "Determines if Cloudflare advertises a BYOIP BGP prefix even when there is no matching BGP prefix in the Magic routing table. When true, Cloudflare will automatically withdraw the BGP prefix when there are no matching BGP routes, and will resume advertising when there is at least one matching BGP route."
 				},
 				{
 					"name": "on-demand-advertised",
@@ -9348,7 +9345,6 @@
 					"type": "string",
 					"required": false,
 					"description": "Controls how Workers AI inference calls routed through this gateway are billed. 'postpaid' bills the account directly through Workers AI; 'unified' deducts credits via AI Gateway using neuron-based pricing and delegates billing to AI Gateway.",
-					"default": "postpaid",
 					"enum": ["postpaid", "unified"]
 				},
 				{
@@ -10872,15 +10868,13 @@
 					"type": "string",
 					"required": true,
 					"description": "The next_action field",
-					"default": "INDEX",
 					"enum": ["INDEX"]
 				},
 				{
 					"name": "wait-for-completion",
 					"type": "boolean",
 					"required": false,
-					"description": "Wait for indexing before responding. After processing, vector-indexed instances use any time remaining in a 25s wait budget to confirm Vectorize ingestion. Processing itself continues uninterrupted and can exceed that budget. If confirmation times out, the response returns the current item state and background indexing continues. Defaults to false.",
-					"default": false
+					"description": "Wait for indexing before responding. After processing, vector-indexed instances use any time remaining in a 25s wait budget to confirm Vectorize ingestion. Processing itself continues uninterrupted and can exceed that budget. If confirmation times out, the response returns the current item state and background indexing continues. Defaults to false."
 				},
 				{
 					"name": "dry-run",
@@ -10987,15 +10981,13 @@
 					"type": "string",
 					"required": true,
 					"description": "The next_action field",
-					"default": "INDEX",
 					"enum": ["INDEX"]
 				},
 				{
 					"name": "wait-for-completion",
 					"type": "boolean",
 					"required": false,
-					"description": "Wait for indexing before responding. After processing, vector-indexed instances use any time remaining in a 25s wait budget to confirm Vectorize ingestion. Processing itself continues uninterrupted and can exceed that budget. If confirmation times out, the response returns the current item state and background indexing continues. Defaults to false.",
-					"default": false
+					"description": "Wait for indexing before responding. After processing, vector-indexed instances use any time remaining in a 25s wait budget to confirm Vectorize ingestion. Processing itself continues uninterrupted and can exceed that budget. If confirmation times out, the response returns the current item state and background indexing continues. Defaults to false."
 				},
 				{
 					"name": "dry-run",
@@ -11052,7 +11044,6 @@
 					"type": "string",
 					"required": true,
 					"description": "The action field",
-					"default": "cancel",
 					"enum": ["cancel"]
 				},
 				{
@@ -12519,8 +12510,7 @@
 					"name": "legacy",
 					"type": "boolean",
 					"required": false,
-					"description": "Whether the credential uses the legacy API key format.",
-					"default": true
+					"description": "Whether the credential uses the legacy API key format."
 				},
 				{
 					"name": "name",
@@ -12588,15 +12578,13 @@
 					"name": "cache",
 					"type": "boolean",
 					"required": false,
-					"description": "The cache field",
-					"default": true
+					"description": "The cache field"
 				},
 				{
 					"name": "cache-threshold",
 					"type": "string",
 					"required": false,
 					"description": "The cache_threshold field",
-					"default": "close_enough",
 					"enum": [
 						"super_strict_match",
 						"close_enough",
@@ -12608,22 +12596,19 @@
 					"name": "cache-ttl",
 					"type": "number",
 					"required": false,
-					"description": "Cache entry TTL in seconds. Allowed values: 600 (10min), 1800 (30min), 3600 (1h), 7200 (2h), 21600 (6h), 43200 (12h), 86400 (24h), 172800 (48h), 259200 (72h), 518400 (6d).",
-					"default": 172800
+					"description": "Cache entry TTL in seconds. Allowed values: 600 (10min), 1800 (30min), 3600 (1h), 7200 (2h), 21600 (6h), 43200 (12h), 86400 (24h), 172800 (48h), 259200 (72h), 518400 (6d)."
 				},
 				{
 					"name": "chunk",
 					"type": "boolean",
 					"required": false,
-					"description": "The chunk field",
-					"default": true
+					"description": "The chunk field"
 				},
 				{
 					"name": "chunk-overlap",
 					"type": "number",
 					"required": false,
-					"description": "The chunk_overlap field",
-					"default": 10
+					"description": "The chunk_overlap field"
 				},
 				{
 					"name": "chunk-size",
@@ -12648,7 +12633,6 @@
 					"type": "string",
 					"required": false,
 					"description": "The fusion_method field",
-					"default": "rrf",
 					"enum": ["max", "rrf"]
 				},
 				{
@@ -12680,8 +12664,7 @@
 					"name": "max-num-results",
 					"type": "number",
 					"required": false,
-					"description": "The max_num_results field",
-					"default": 10
+					"description": "The max_num_results field"
 				},
 				{
 					"name": "metadata-created-from-aisearch-wizard",
@@ -12712,8 +12695,7 @@
 					"name": "paused",
 					"type": "boolean",
 					"required": false,
-					"description": "The paused field",
-					"default": false
+					"description": "The paused field"
 				},
 				{
 					"name": "public-endpoint-params-authorized-hosts",
@@ -12786,8 +12768,7 @@
 					"name": "reranking",
 					"type": "boolean",
 					"required": false,
-					"description": "The reranking field",
-					"default": false
+					"description": "The reranking field"
 				},
 				{
 					"name": "reranking-model",
@@ -12812,15 +12793,13 @@
 					"name": "rewrite-query",
 					"type": "boolean",
 					"required": false,
-					"description": "The rewrite_query field",
-					"default": false
+					"description": "The rewrite_query field"
 				},
 				{
 					"name": "score-threshold",
 					"type": "number",
 					"required": false,
-					"description": "The score_threshold field",
-					"default": 0.4
+					"description": "The score_threshold field"
 				},
 				{
 					"name": "source",
@@ -12924,8 +12903,7 @@
 					"name": "summarization",
 					"type": "boolean",
 					"required": false,
-					"description": "The summarization field",
-					"default": false
+					"description": "The summarization field"
 				},
 				{
 					"name": "summarization-model",
@@ -12937,8 +12915,7 @@
 					"name": "sync-interval",
 					"type": "number",
 					"required": false,
-					"description": "Interval between automatic syncs, in seconds. Allowed values: 900 (15min), 1800 (30min), 3600 (1h), 7200 (2h), 14400 (4h), 21600 (6h), 43200 (12h), 86400 (24h).",
-					"default": 21600
+					"description": "Interval between automatic syncs, in seconds. Allowed values: 900 (15min), 1800 (30min), 3600 (1h), 7200 (2h), 14400 (4h), 21600 (6h), 43200 (12h), 86400 (24h)."
 				},
 				{
 					"name": "system-prompt-ai-search",
@@ -14241,8 +14218,7 @@
 					"name": "enabled",
 					"type": "boolean",
 					"required": false,
-					"description": "Whether or not the Notification policy is enabled.",
-					"default": true
+					"description": "Whether or not the Notification policy is enabled."
 				},
 				{
 					"name": "filters-actions",
@@ -20681,8 +20657,7 @@
 					"name": "ai-bots-migration-opt-out",
 					"type": "boolean",
 					"required": false,
-					"description": "Temporary migration flag tracking zones opted out of AI bots managed-rule updates.",
-					"default": false
+					"description": "Temporary migration flag tracking zones opted out of AI bots managed-rule updates."
 				},
 				{
 					"name": "ai-bots-protection",
@@ -20716,8 +20691,7 @@
 					"name": "bot-preference-sync-enabled",
 					"type": "boolean",
 					"required": false,
-					"description": "Enable Bot Preference Sync for this zone. When enabled, Cloudflare can serve robots.txt content derived from the zone's AI Search, AI User, and AI Training preferences.",
-					"default": false
+					"description": "Enable Bot Preference Sync for this zone. When enabled, Cloudflare can serve robots.txt content derived from the zone's AI Search, AI User, and AI Training preferences."
 				},
 				{
 					"name": "cf-robots-variant",
@@ -20750,8 +20724,7 @@
 					"name": "is-robots-txt-managed",
 					"type": "boolean",
 					"required": false,
-					"description": "Enable cloudflare managed robots.txt. If an existing robots.txt is detected, then managed robots.txt will be prepended to the existing robots.txt.",
-					"default": false
+					"description": "Enable cloudflare managed robots.txt. If an existing robots.txt is detected, then managed robots.txt will be prepended to the existing robots.txt."
 				},
 				{
 					"name": "jsd-api-results-enabled",
@@ -25795,8 +25768,7 @@
 					"name": "build-caching-enabled",
 					"type": "boolean",
 					"required": false,
-					"description": "Whether builds reuse cached dependencies and build artifacts.",
-					"default": false
+					"description": "Whether builds reuse cached dependencies and build artifacts."
 				},
 				{
 					"name": "build-command",
@@ -26678,7 +26650,6 @@
 					"type": "string",
 					"required": true,
 					"description": "Value of the Regional Tiered Cache zone setting.",
-					"default": "off",
 					"enum": ["on", "off"]
 				},
 				{
@@ -26764,7 +26735,6 @@
 					"type": "string",
 					"required": true,
 					"description": "Value of the Cache Reserve zone setting.",
-					"default": "off",
 					"enum": ["on", "off"]
 				},
 				{
@@ -34536,8 +34506,7 @@
 					"name": "enabled",
 					"type": "boolean",
 					"required": false,
-					"description": "The enabled field",
-					"default": true
+					"description": "The enabled field"
 				},
 				{
 					"name": "meta",
@@ -34556,7 +34525,6 @@
 					"type": "string",
 					"required": false,
 					"description": "Disposition for matching email. This emits status metadata with the selected value.",
-					"default": "silent",
 					"enum": ["silent", "blocking"]
 				},
 				{
@@ -39265,8 +39233,7 @@
 					"name": "rollout-active-grace-period",
 					"type": "number",
 					"required": false,
-					"description": "Grace period for active instances to stay alive before becoming eligible for shutdown signal due to a rollout, in seconds.\nDefaults to 0.\n",
-					"default": 0
+					"description": "Grace period for active instances to stay alive before becoming eligible for shutdown signal due to a rollout, in seconds.\nDefaults to 0.\n"
 				},
 				{
 					"name": "scheduling-policy",
@@ -39385,8 +39352,7 @@
 					"name": "rollout-active-grace-period",
 					"type": "number",
 					"required": false,
-					"description": "Grace period for active instances to stay alive before becoming eligible for shutdown signal due to a rollout, in seconds.\nDefaults to 0.\n",
-					"default": 0
+					"description": "Grace period for active instances to stay alive before becoming eligible for shutdown signal due to a rollout, in seconds.\nDefaults to 0.\n"
 				},
 				{
 					"name": "dry-run",
@@ -41845,8 +41811,7 @@
 					"name": "url",
 					"type": "string",
 					"required": true,
-					"description": "The URL associated with the custom page.",
-					"default": ""
+					"description": "The URL associated with the custom page."
 				},
 				{
 					"name": "dry-run",
@@ -42747,7 +42712,6 @@
 					"type": "string",
 					"required": true,
 					"description": "type of check to perform",
-					"default": "icmp",
 					"enum": ["icmp"]
 				},
 				{
@@ -44846,8 +44810,7 @@
 					"name": "auto-refresh-seconds",
 					"type": "number",
 					"required": true,
-					"description": "How often should a secondary zone auto refresh regardless of DNS NOTIFY.\nNot applicable for primary zones.",
-					"default": 86400
+					"description": "How often should a secondary zone auto refresh regardless of DNS NOTIFY.\nNot applicable for primary zones."
 				},
 				{
 					"name": "name",
@@ -45677,15 +45640,13 @@
 					"name": "maximum-cache-ttl",
 					"type": "number",
 					"required": false,
-					"description": "By default, Cloudflare attempts to cache responses for as long as\nindicated by the TTL received from upstream nameservers. This setting\nsets an upper bound on this duration. For caching purposes, higher TTLs\nwill be decreased to the maximum value defined by this setting.\n\nThis setting does not affect the TTL value in the DNS response\nCloudflare returns to clients. Cloudflare will always forward the TTL\nvalue received from upstream nameservers.\n",
-					"default": 900
+					"description": "By default, Cloudflare attempts to cache responses for as long as\nindicated by the TTL received from upstream nameservers. This setting\nsets an upper bound on this duration. For caching purposes, higher TTLs\nwill be decreased to the maximum value defined by this setting.\n\nThis setting does not affect the TTL value in the DNS response\nCloudflare returns to clients. Cloudflare will always forward the TTL\nvalue received from upstream nameservers.\n"
 				},
 				{
 					"name": "minimum-cache-ttl",
 					"type": "number",
 					"required": false,
-					"description": "By default, Cloudflare attempts to cache responses for as long as\nindicated by the TTL received from upstream nameservers. This setting\nsets a lower bound on this duration. For caching purposes, lower TTLs\nwill be increased to the minimum value defined by this setting.\n\nThis setting does not affect the TTL value in the DNS response\nCloudflare returns to clients. Cloudflare will always forward the TTL\nvalue received from upstream nameservers.\n\nNote that, even with this setting, there is no guarantee that a\nresponse will be cached for at least the specified duration. Cached\nresponses may be removed earlier for capacity or other operational\nreasons.\n",
-					"default": 60
+					"description": "By default, Cloudflare attempts to cache responses for as long as\nindicated by the TTL received from upstream nameservers. This setting\nsets a lower bound on this duration. For caching purposes, lower TTLs\nwill be increased to the minimum value defined by this setting.\n\nThis setting does not affect the TTL value in the DNS response\nCloudflare returns to clients. Cloudflare will always forward the TTL\nvalue received from upstream nameservers.\n\nNote that, even with this setting, there is no guarantee that a\nresponse will be cached for at least the specified duration. Cached\nresponses may be removed earlier for capacity or other operational\nreasons.\n"
 				},
 				{
 					"name": "name",
@@ -45709,8 +45670,7 @@
 					"name": "retries",
 					"type": "number",
 					"required": false,
-					"description": "Number of retries for fetching DNS responses from upstream nameservers (not counting the initial attempt)",
-					"default": 2
+					"description": "Number of retries for fetching DNS responses from upstream nameservers (not counting the initial attempt)"
 				},
 				{
 					"name": "upstream-ips",
@@ -46460,8 +46420,7 @@
 					"name": "enabled",
 					"type": "boolean",
 					"required": false,
-					"description": "Routing rule status.",
-					"default": true
+					"description": "Routing rule status."
 				},
 				{
 					"name": "matchers",
@@ -46486,7 +46445,6 @@
 					"type": "string",
 					"required": false,
 					"description": "Who manages the rule. `api` covers dashboard, generic API, and Terraform;\n`wrangler` means the rule is managed by a Worker's wrangler.jsonc. Defaults\nto `api` when omitted on write.\n",
-					"default": "api",
 					"enum": ["api", "wrangler"]
 				},
 				{
@@ -46768,8 +46726,7 @@
 					"name": "enabled",
 					"type": "boolean",
 					"required": false,
-					"description": "Routing rule status.",
-					"default": true
+					"description": "Routing rule status."
 				},
 				{
 					"name": "matchers",
@@ -46793,15 +46750,13 @@
 					"name": "priority",
 					"type": "number",
 					"required": false,
-					"description": "Priority of the routing rule.",
-					"default": 0
+					"description": "Priority of the routing rule."
 				},
 				{
 					"name": "source",
 					"type": "string",
 					"required": false,
 					"description": "Who manages the rule. `api` covers dashboard, generic API, and Terraform;\n`wrangler` means the rule is managed by a Worker's wrangler.jsonc. Defaults\nto `api` when omitted on write.\n",
-					"default": "api",
 					"enum": ["api", "wrangler"]
 				},
 				{
@@ -53862,15 +53817,13 @@
 					"name": "consecutive-fails",
 					"type": "number",
 					"required": false,
-					"description": "The number of consecutive fails required from a health check before changing the health to unhealthy.",
-					"default": 1
+					"description": "The number of consecutive fails required from a health check before changing the health to unhealthy."
 				},
 				{
 					"name": "consecutive-successes",
 					"type": "number",
 					"required": false,
-					"description": "The number of consecutive successes required from a health check before changing the health to healthy.",
-					"default": 1
+					"description": "The number of consecutive successes required from a health check before changing the health to healthy."
 				},
 				{
 					"name": "description",
@@ -53931,8 +53884,7 @@
 					"name": "interval",
 					"type": "number",
 					"required": false,
-					"description": "The interval between each health check. Shorter intervals may give quicker notifications if the origin status changes, but will increase load on the origin as we check from multiple locations.",
-					"default": 60
+					"description": "The interval between each health check. Shorter intervals may give quicker notifications if the origin status changes, but will increase load on the origin as we check from multiple locations."
 				},
 				{
 					"name": "name",
@@ -53944,15 +53896,13 @@
 					"name": "retries",
 					"type": "number",
 					"required": false,
-					"description": "The number of retries to attempt in case of a timeout before marking the origin as unhealthy. Retries are attempted immediately.",
-					"default": 2
+					"description": "The number of retries to attempt in case of a timeout before marking the origin as unhealthy. Retries are attempted immediately."
 				},
 				{
 					"name": "suspended",
 					"type": "boolean",
 					"required": false,
-					"description": "If suspended, no health checks are sent to the origin.",
-					"default": false
+					"description": "If suspended, no health checks are sent to the origin."
 				},
 				{
 					"name": "tcp-config-method",
@@ -53971,15 +53921,13 @@
 					"name": "timeout",
 					"type": "number",
 					"required": false,
-					"description": "The timeout (in seconds) before marking the health check as failed.",
-					"default": 5
+					"description": "The timeout (in seconds) before marking the health check as failed."
 				},
 				{
 					"name": "type",
 					"type": "string",
 					"required": false,
-					"description": "The protocol to use for the health check. Currently supported protocols are 'HTTP', 'HTTPS' and 'TCP'.",
-					"default": "HTTP"
+					"description": "The protocol to use for the health check. Currently supported protocols are 'HTTP', 'HTTPS' and 'TCP'."
 				},
 				{
 					"name": "dry-run",
@@ -54332,15 +54280,13 @@
 					"name": "consecutive-fails",
 					"type": "number",
 					"required": false,
-					"description": "The number of consecutive fails required from a health check before changing the health to unhealthy.",
-					"default": 1
+					"description": "The number of consecutive fails required from a health check before changing the health to unhealthy."
 				},
 				{
 					"name": "consecutive-successes",
 					"type": "number",
 					"required": false,
-					"description": "The number of consecutive successes required from a health check before changing the health to healthy.",
-					"default": 1
+					"description": "The number of consecutive successes required from a health check before changing the health to healthy."
 				},
 				{
 					"name": "description",
@@ -54401,8 +54347,7 @@
 					"name": "interval",
 					"type": "number",
 					"required": false,
-					"description": "The interval between each health check. Shorter intervals may give quicker notifications if the origin status changes, but will increase load on the origin as we check from multiple locations.",
-					"default": 60
+					"description": "The interval between each health check. Shorter intervals may give quicker notifications if the origin status changes, but will increase load on the origin as we check from multiple locations."
 				},
 				{
 					"name": "name",
@@ -54414,15 +54359,13 @@
 					"name": "retries",
 					"type": "number",
 					"required": false,
-					"description": "The number of retries to attempt in case of a timeout before marking the origin as unhealthy. Retries are attempted immediately.",
-					"default": 2
+					"description": "The number of retries to attempt in case of a timeout before marking the origin as unhealthy. Retries are attempted immediately."
 				},
 				{
 					"name": "suspended",
 					"type": "boolean",
 					"required": false,
-					"description": "If suspended, no health checks are sent to the origin.",
-					"default": false
+					"description": "If suspended, no health checks are sent to the origin."
 				},
 				{
 					"name": "tcp-config-method",
@@ -54441,15 +54384,13 @@
 					"name": "timeout",
 					"type": "number",
 					"required": false,
-					"description": "The timeout (in seconds) before marking the health check as failed.",
-					"default": 5
+					"description": "The timeout (in seconds) before marking the health check as failed."
 				},
 				{
 					"name": "type",
 					"type": "string",
 					"required": false,
-					"description": "The protocol to use for the health check. Currently supported protocols are 'HTTP', 'HTTPS' and 'TCP'.",
-					"default": "HTTP"
+					"description": "The protocol to use for the health check. Currently supported protocols are 'HTTP', 'HTTPS' and 'TCP'."
 				},
 				{
 					"name": "dry-run",
@@ -55647,8 +55588,7 @@
 					"name": "use-fedramp-language",
 					"type": "boolean",
 					"required": false,
-					"description": "Controls the display of FedRAMP language to the user during SSO login",
-					"default": false
+					"description": "Controls the display of FedRAMP language to the user during SSO login"
 				},
 				{
 					"name": "dry-run",
@@ -57280,8 +57220,7 @@
 					"name": "never-require-signed-urls",
 					"type": "boolean",
 					"required": false,
-					"description": "Indicates whether the variant can access an image without a signature, regardless of image access control.",
-					"default": false
+					"description": "Indicates whether the variant can access an image without a signature, regardless of image access control."
 				},
 				{
 					"name": "options-fit",
@@ -60473,8 +60412,7 @@
 					"name": "enabled",
 					"type": "boolean",
 					"required": false,
-					"description": "Whether to enable (the default) this load balancer.",
-					"default": true
+					"description": "Whether to enable (the default) this load balancer."
 				},
 				{
 					"name": "fallback-pool",
@@ -60518,8 +60456,7 @@
 					"name": "proxied",
 					"type": "boolean",
 					"required": false,
-					"description": "Whether the hostname should be gray clouded (false) or orange clouded (true).",
-					"default": false
+					"description": "Whether the hostname should be gray clouded (false) or orange clouded (true)."
 				},
 				{
 					"name": "random-steering-default-weight",
@@ -60550,7 +60487,6 @@
 					"type": "string",
 					"required": false,
 					"description": "Specifies the type of session affinity the load balancer should use unless specified as `\"none\"`. The supported types are: - `\"cookie\"`: On the first request to a proxied load balancer, a cookie is generated, encoding information of which origin the request will be forwarded to. Subsequent requests, by the same client to the same load balancer, will be sent to the origin server the cookie encodes, for the duration of the cookie and as long as the origin server remains healthy. If the cookie has expired or the origin server is unhealthy, then a new origin server is calculated and used. - `\"ip_cookie\"`: Behaves the same as `\"cookie\"` except the initial origin selection is stable and based on the client's ip address. - `\"header\"`: On the first request to a proxied load balancer, a session key based on the configured HTTP headers (see `session_affinity_attributes.headers`) is generated, encoding the request headers used for storing in the load balancer session state which origin the request will be forwarded to. Subsequent requests to the load balancer with the same headers will be sent to the same origin server, for the duration of the session and as long as the origin server remains healthy. If the session has been idle for the duration of `session_affinity_ttl` seconds or the origin server is unhealthy, then a new origin server is calculated and used. See `headers` in `session_affinity_attributes` for additional required configuration.",
-					"default": "none",
 					"enum": ["none", "cookie", "ip_cookie", "header"]
 				},
 				{
@@ -60603,7 +60539,6 @@
 					"type": "string",
 					"required": false,
 					"description": "Steering Policy for this load balancer.\n- `\"off\"`: Use `default_pools`.\n- `\"geo\"`: Use `region_pools`/`country_pools`/`pop_pools`. For non-proxied requests, the country for `country_pools` is determined by `location_strategy`.\n- `\"random\"`: Select a pool randomly.\n- `\"dynamic_latency\"`: Use round trip time to select the closest pool in default_pools (requires pool health checks).\n- `\"proximity\"`: Use the pools' latitude and longitude to select the closest pool using the Cloudflare PoP location for proxied requests or the location determined by `location_strategy` for non-proxied requests.\n- `\"least_outstanding_requests\"`: Select a pool by taking into consideration `random_steering` weights, as well as each pool's number of outstanding requests. Pools with more pending requests are weighted proportionately less relative to others.\n- `\"least_connections\"`: Select a pool by taking into consideration `random_steering` weights, as well as each pool's number of open connections. Pools with more open connections are weighted proportionately less relative to others. Supported for HTTP/1 and HTTP/2 connections.\n- `\"\"`: Will map to `\"geo\"` if you use `region_pools`/`country_pools`/`pop_pools` otherwise `\"off\"`.",
-					"default": "",
 					"enum": [
 						"off",
 						"geo",
@@ -60742,8 +60677,7 @@
 					"name": "enabled",
 					"type": "boolean",
 					"required": false,
-					"description": "Whether to enable (the default) this load balancer.",
-					"default": true
+					"description": "Whether to enable (the default) this load balancer."
 				},
 				{
 					"name": "fallback-pool",
@@ -60787,8 +60721,7 @@
 					"name": "proxied",
 					"type": "boolean",
 					"required": false,
-					"description": "Whether the hostname should be gray clouded (false) or orange clouded (true).",
-					"default": false
+					"description": "Whether the hostname should be gray clouded (false) or orange clouded (true)."
 				},
 				{
 					"name": "random-steering-default-weight",
@@ -60819,7 +60752,6 @@
 					"type": "string",
 					"required": false,
 					"description": "Specifies the type of session affinity the load balancer should use unless specified as `\"none\"`. The supported types are: - `\"cookie\"`: On the first request to a proxied load balancer, a cookie is generated, encoding information of which origin the request will be forwarded to. Subsequent requests, by the same client to the same load balancer, will be sent to the origin server the cookie encodes, for the duration of the cookie and as long as the origin server remains healthy. If the cookie has expired or the origin server is unhealthy, then a new origin server is calculated and used. - `\"ip_cookie\"`: Behaves the same as `\"cookie\"` except the initial origin selection is stable and based on the client's ip address. - `\"header\"`: On the first request to a proxied load balancer, a session key based on the configured HTTP headers (see `session_affinity_attributes.headers`) is generated, encoding the request headers used for storing in the load balancer session state which origin the request will be forwarded to. Subsequent requests to the load balancer with the same headers will be sent to the same origin server, for the duration of the session and as long as the origin server remains healthy. If the session has been idle for the duration of `session_affinity_ttl` seconds or the origin server is unhealthy, then a new origin server is calculated and used. See `headers` in `session_affinity_attributes` for additional required configuration.",
-					"default": "none",
 					"enum": ["none", "cookie", "ip_cookie", "header"]
 				},
 				{
@@ -60872,7 +60804,6 @@
 					"type": "string",
 					"required": false,
 					"description": "Steering Policy for this load balancer.\n- `\"off\"`: Use `default_pools`.\n- `\"geo\"`: Use `region_pools`/`country_pools`/`pop_pools`. For non-proxied requests, the country for `country_pools` is determined by `location_strategy`.\n- `\"random\"`: Select a pool randomly.\n- `\"dynamic_latency\"`: Use round trip time to select the closest pool in default_pools (requires pool health checks).\n- `\"proximity\"`: Use the pools' latitude and longitude to select the closest pool using the Cloudflare PoP location for proxied requests or the location determined by `location_strategy` for non-proxied requests.\n- `\"least_outstanding_requests\"`: Select a pool by taking into consideration `random_steering` weights, as well as each pool's number of outstanding requests. Pools with more pending requests are weighted proportionately less relative to others.\n- `\"least_connections\"`: Select a pool by taking into consideration `random_steering` weights, as well as each pool's number of open connections. Pools with more open connections are weighted proportionately less relative to others. Supported for HTTP/1 and HTTP/2 connections.\n- `\"\"`: Will map to `\"geo\"` if you use `region_pools`/`country_pools`/`pop_pools` otherwise `\"off\"`.",
-					"default": "",
 					"enum": [
 						"off",
 						"geo",
@@ -61384,8 +61315,7 @@
 					"name": "allow-insecure",
 					"type": "boolean",
 					"required": false,
-					"description": "Do not validate the certificate when monitor use HTTPS. This parameter is currently only valid for HTTP and HTTPS monitors.",
-					"default": false
+					"description": "Do not validate the certificate when monitor use HTTPS. This parameter is currently only valid for HTTP and HTTPS monitors."
 				},
 				{
 					"name": "consecutive-down",
@@ -61403,29 +61333,25 @@
 					"name": "description",
 					"type": "string",
 					"required": false,
-					"description": "Object description.",
-					"default": ""
+					"description": "Object description."
 				},
 				{
 					"name": "expected-body",
 					"type": "string",
 					"required": false,
-					"description": "A case-insensitive sub-string to look for in the response body. If this string is not found, the origin will be marked as unhealthy. This parameter is only valid for HTTP and HTTPS monitors.",
-					"default": ""
+					"description": "A case-insensitive sub-string to look for in the response body. If this string is not found, the origin will be marked as unhealthy. This parameter is only valid for HTTP and HTTPS monitors."
 				},
 				{
 					"name": "expected-codes",
 					"type": "string",
 					"required": false,
-					"description": "The expected HTTP response code or code range of the health check. This parameter is only valid for HTTP and HTTPS monitors.",
-					"default": ""
+					"description": "The expected HTTP response code or code range of the health check. This parameter is only valid for HTTP and HTTPS monitors."
 				},
 				{
 					"name": "follow-redirects",
 					"type": "boolean",
 					"required": false,
-					"description": "Follow redirects if returned by the origin. This parameter is only valid for HTTP and HTTPS monitors.",
-					"default": false
+					"description": "Follow redirects if returned by the origin. This parameter is only valid for HTTP and HTTPS monitors."
 				},
 				{
 					"name": "header",
@@ -61437,8 +61363,7 @@
 					"name": "interval",
 					"type": "number",
 					"required": false,
-					"description": "The interval between each health check. Shorter intervals may improve failover time, but will increase load on the origins as we check from multiple locations.",
-					"default": 60
+					"description": "The interval between each health check. Shorter intervals may improve failover time, but will increase load on the origins as we check from multiple locations."
 				},
 				{
 					"name": "method",
@@ -61462,29 +61387,25 @@
 					"name": "probe-zone",
 					"type": "string",
 					"required": false,
-					"description": "Assign this monitor to emulate the specified zone while probing. This parameter is only valid for HTTP and HTTPS monitors.",
-					"default": ""
+					"description": "Assign this monitor to emulate the specified zone while probing. This parameter is only valid for HTTP and HTTPS monitors."
 				},
 				{
 					"name": "retries",
 					"type": "number",
 					"required": false,
-					"description": "The number of retries to attempt in case of a timeout before marking the origin as unhealthy. Retries are attempted immediately.",
-					"default": 2
+					"description": "The number of retries to attempt in case of a timeout before marking the origin as unhealthy. Retries are attempted immediately."
 				},
 				{
 					"name": "timeout",
 					"type": "number",
 					"required": false,
-					"description": "The timeout (in seconds) before marking the health check as failed.",
-					"default": 5
+					"description": "The timeout (in seconds) before marking the health check as failed."
 				},
 				{
 					"name": "type",
 					"type": "string",
 					"required": false,
 					"description": "The protocol to use for the health check. Currently supported protocols are 'HTTP','HTTPS', 'TCP', 'ICMP-PING', 'UDP-ICMP', and 'SMTP'.",
-					"default": "http",
 					"enum": ["http", "https", "tcp", "udp_icmp", "icmp_ping", "smtp"]
 				},
 				{
@@ -61762,8 +61683,7 @@
 					"name": "allow-insecure",
 					"type": "boolean",
 					"required": false,
-					"description": "Do not validate the certificate when monitor use HTTPS. This parameter is currently only valid for HTTP and HTTPS monitors.",
-					"default": false
+					"description": "Do not validate the certificate when monitor use HTTPS. This parameter is currently only valid for HTTP and HTTPS monitors."
 				},
 				{
 					"name": "consecutive-down",
@@ -61781,29 +61701,25 @@
 					"name": "description",
 					"type": "string",
 					"required": false,
-					"description": "Object description.",
-					"default": ""
+					"description": "Object description."
 				},
 				{
 					"name": "expected-body",
 					"type": "string",
 					"required": false,
-					"description": "A case-insensitive sub-string to look for in the response body. If this string is not found, the origin will be marked as unhealthy. This parameter is only valid for HTTP and HTTPS monitors.",
-					"default": ""
+					"description": "A case-insensitive sub-string to look for in the response body. If this string is not found, the origin will be marked as unhealthy. This parameter is only valid for HTTP and HTTPS monitors."
 				},
 				{
 					"name": "expected-codes",
 					"type": "string",
 					"required": false,
-					"description": "The expected HTTP response code or code range of the health check. This parameter is only valid for HTTP and HTTPS monitors.",
-					"default": ""
+					"description": "The expected HTTP response code or code range of the health check. This parameter is only valid for HTTP and HTTPS monitors."
 				},
 				{
 					"name": "follow-redirects",
 					"type": "boolean",
 					"required": false,
-					"description": "Follow redirects if returned by the origin. This parameter is only valid for HTTP and HTTPS monitors.",
-					"default": false
+					"description": "Follow redirects if returned by the origin. This parameter is only valid for HTTP and HTTPS monitors."
 				},
 				{
 					"name": "header",
@@ -61815,8 +61731,7 @@
 					"name": "interval",
 					"type": "number",
 					"required": false,
-					"description": "The interval between each health check. Shorter intervals may improve failover time, but will increase load on the origins as we check from multiple locations.",
-					"default": 60
+					"description": "The interval between each health check. Shorter intervals may improve failover time, but will increase load on the origins as we check from multiple locations."
 				},
 				{
 					"name": "method",
@@ -61840,29 +61755,25 @@
 					"name": "probe-zone",
 					"type": "string",
 					"required": false,
-					"description": "Assign this monitor to emulate the specified zone while probing. This parameter is only valid for HTTP and HTTPS monitors.",
-					"default": ""
+					"description": "Assign this monitor to emulate the specified zone while probing. This parameter is only valid for HTTP and HTTPS monitors."
 				},
 				{
 					"name": "retries",
 					"type": "number",
 					"required": false,
-					"description": "The number of retries to attempt in case of a timeout before marking the origin as unhealthy. Retries are attempted immediately.",
-					"default": 2
+					"description": "The number of retries to attempt in case of a timeout before marking the origin as unhealthy. Retries are attempted immediately."
 				},
 				{
 					"name": "timeout",
 					"type": "number",
 					"required": false,
-					"description": "The timeout (in seconds) before marking the health check as failed.",
-					"default": 5
+					"description": "The timeout (in seconds) before marking the health check as failed."
 				},
 				{
 					"name": "type",
 					"type": "string",
 					"required": false,
 					"description": "The protocol to use for the health check. Currently supported protocols are 'HTTP','HTTPS', 'TCP', 'ICMP-PING', 'UDP-ICMP', and 'SMTP'.",
-					"default": "http",
 					"enum": ["http", "https", "tcp", "udp_icmp", "icmp_ping", "smtp"]
 				},
 				{
@@ -62137,15 +62048,13 @@
 					"name": "description",
 					"type": "string",
 					"required": false,
-					"description": "A human-readable description of the pool.",
-					"default": ""
+					"description": "A human-readable description of the pool."
 				},
 				{
 					"name": "enabled",
 					"type": "boolean",
 					"required": false,
-					"description": "Whether to enable (the default) or disable this pool. Disabled pools will not receive traffic and are excluded from health checks. Disabling a pool will cause any load balancers using it to failover to the next pool (if any).",
-					"default": true
+					"description": "Whether to enable (the default) or disable this pool. Disabled pools will not receive traffic and are excluded from health checks. Disabling a pool will cause any load balancers using it to failover to the next pool (if any)."
 				},
 				{
 					"name": "health-sources",
@@ -62195,8 +62104,7 @@
 					"name": "minimum-origins",
 					"type": "number",
 					"required": false,
-					"description": "The minimum number of origins that must be healthy for this pool to serve traffic. If the number of healthy origins falls below this number, the pool will be marked unhealthy and will failover to the next available pool.",
-					"default": 1
+					"description": "The minimum number of origins that must be healthy for this pool to serve traffic. If the number of healthy origins falls below this number, the pool will be marked unhealthy and will failover to the next available pool."
 				},
 				{
 					"name": "monitor",
@@ -62220,8 +62128,7 @@
 					"name": "notification-email",
 					"type": "string",
 					"required": false,
-					"description": "This field is now deprecated. It has been moved to Cloudflare's Centralized Notification service https://developers.cloudflare.com/fundamentals/notifications/. The email address to send health status notifications to. This can be an individual mailbox or a mailing list. Multiple emails can be supplied as a comma delimited list.",
-					"default": ""
+					"description": "This field is now deprecated. It has been moved to Cloudflare's Centralized Notification service https://developers.cloudflare.com/fundamentals/notifications/. The email address to send health status notifications to. This can be an individual mailbox or a mailing list. Multiple emails can be supplied as a comma delimited list."
 				},
 				{
 					"name": "notification-filter-origin-disable",
@@ -62584,15 +62491,13 @@
 					"name": "description",
 					"type": "string",
 					"required": false,
-					"description": "A human-readable description of the pool.",
-					"default": ""
+					"description": "A human-readable description of the pool."
 				},
 				{
 					"name": "enabled",
 					"type": "boolean",
 					"required": false,
-					"description": "Whether to enable (the default) or disable this pool. Disabled pools will not receive traffic and are excluded from health checks. Disabling a pool will cause any load balancers using it to failover to the next pool (if any).",
-					"default": true
+					"description": "Whether to enable (the default) or disable this pool. Disabled pools will not receive traffic and are excluded from health checks. Disabling a pool will cause any load balancers using it to failover to the next pool (if any)."
 				},
 				{
 					"name": "health-sources",
@@ -62642,8 +62547,7 @@
 					"name": "minimum-origins",
 					"type": "number",
 					"required": false,
-					"description": "The minimum number of origins that must be healthy for this pool to serve traffic. If the number of healthy origins falls below this number, the pool will be marked unhealthy and will failover to the next available pool.",
-					"default": 1
+					"description": "The minimum number of origins that must be healthy for this pool to serve traffic. If the number of healthy origins falls below this number, the pool will be marked unhealthy and will failover to the next available pool."
 				},
 				{
 					"name": "monitor",
@@ -62667,8 +62571,7 @@
 					"name": "notification-email",
 					"type": "string",
 					"required": false,
-					"description": "This field is now deprecated. It has been moved to Cloudflare's Centralized Notification service https://developers.cloudflare.com/fundamentals/notifications/. The email address to send health status notifications to. This can be an individual mailbox or a mailing list. Multiple emails can be supplied as a comma delimited list.",
-					"default": ""
+					"description": "This field is now deprecated. It has been moved to Cloudflare's Centralized Notification service https://developers.cloudflare.com/fundamentals/notifications/. The email address to send health status notifications to. This can be an individual mailbox or a mailing list. Multiple emails can be supplied as a comma delimited list."
 				},
 				{
 					"name": "notification-filter-origin-disable",
@@ -63453,8 +63356,7 @@
 					"name": "enabled",
 					"type": "boolean",
 					"required": false,
-					"description": "Flag that indicates if the job is enabled.",
-					"default": false
+					"description": "Flag that indicates if the job is enabled."
 				},
 				{
 					"name": "filter",
@@ -63466,15 +63368,13 @@
 					"name": "filter-attack-traffic",
 					"type": "boolean",
 					"required": false,
-					"description": "When true, excludes DDoS attack traffic from logs. This option is supported for the `http_requests`, `firewall_events`, and `network_analytics_logs` datasets.",
-					"default": false
+					"description": "When true, excludes DDoS attack traffic from logs. This option is supported for the `http_requests`, `firewall_events`, and `network_analytics_logs` datasets."
 				},
 				{
 					"name": "frequency",
 					"type": "string",
 					"required": false,
 					"description": "This field is deprecated. Please use `max_upload_*` parameters instead. . The frequency at which Cloudflare sends batches of logs to your destination. Setting frequency to high sends your logs in larger quantities of smaller files. Setting frequency to low sends logs in smaller quantities of larger files.",
-					"default": "high",
 					"enum": ["high", "low"]
 				},
 				{
@@ -63482,7 +63382,6 @@
 					"type": "string",
 					"required": false,
 					"description": "The kind parameter (optional) is used to differentiate between Logpush and Edge Log Delivery jobs (when supported by the dataset).",
-					"default": "",
 					"enum": ["edge"]
 				},
 				{
@@ -66512,8 +66411,7 @@
 					"name": "default-sampling",
 					"type": "number",
 					"required": false,
-					"description": "Fallback sampling rate of flow messages being sent in packets per second. This should match the packet sampling rate configured on the router.",
-					"default": 1
+					"description": "Fallback sampling rate of flow messages being sent in packets per second. This should match the packet sampling rate configured on the router."
 				},
 				{
 					"name": "name",
@@ -66615,8 +66513,7 @@
 					"name": "default-sampling",
 					"type": "number",
 					"required": true,
-					"description": "Fallback sampling rate of flow messages being sent in packets per second. This should match the packet sampling rate configured on the router.",
-					"default": 1
+					"description": "Fallback sampling rate of flow messages being sent in packets per second. This should match the packet sampling rate configured on the router."
 				},
 				{
 					"name": "name",
@@ -66916,7 +66813,6 @@
 					"type": "string",
 					"required": false,
 					"description": "The amount of time that the rule threshold must be exceeded to send an alert notification. The final value must be equivalent to one of the following 8 values [\"1m\",\"5m\",\"10m\",\"15m\",\"20m\",\"30m\",\"45m\",\"60m\"].",
-					"default": "1m",
 					"enum": ["1m", "5m", "10m", "15m", "20m", "30m", "45m", "60m"]
 				},
 				{
@@ -67068,7 +66964,6 @@
 					"type": "string",
 					"required": false,
 					"description": "The amount of time that the rule threshold must be exceeded to send an alert notification. The final value must be equivalent to one of the following 8 values [\"1m\",\"5m\",\"10m\",\"15m\",\"20m\",\"30m\",\"45m\",\"60m\"].",
-					"default": "1m",
 					"enum": ["1m", "5m", "10m", "15m", "20m", "30m", "45m", "60m"]
 				},
 				{
@@ -69834,8 +69729,7 @@
 					"name": "automatic-return-routing",
 					"type": "boolean",
 					"required": false,
-					"description": "True if automatic stateful return routing should be enabled for a tunnel, false otherwise. Requires the `coupler_integration` account flag to be enabled; requests setting this to `true` without that flag will be rejected.",
-					"default": false
+					"description": "True if automatic stateful return routing should be enabled for a tunnel, false otherwise. Requires the `coupler_integration` account flag to be enabled; requests setting this to `true` without that flag will be rejected."
 				},
 				{
 					"name": "bgp-as-no",
@@ -69952,8 +69846,7 @@
 					"name": "mtu",
 					"type": "number",
 					"required": false,
-					"description": "The Maximum Transmission Unit (MTU) in bytes for the interconnect. The minimum value is 576.",
-					"default": 1476
+					"description": "The Maximum Transmission Unit (MTU) in bytes for the interconnect. The minimum value is 576."
 				},
 				{
 					"name": "name",
@@ -70637,8 +70530,7 @@
 					"name": "automatic-return-routing",
 					"type": "boolean",
 					"required": false,
-					"description": "True if automatic stateful return routing should be enabled for a tunnel, false otherwise. Requires the `coupler_integration` account flag to be enabled; requests setting this to `true` without that flag will be rejected.",
-					"default": false
+					"description": "True if automatic stateful return routing should be enabled for a tunnel, false otherwise. Requires the `coupler_integration` account flag to be enabled; requests setting this to `true` without that flag will be rejected."
 				},
 				{
 					"name": "cloudflare-gre-endpoint",
@@ -70707,8 +70599,7 @@
 					"name": "mtu",
 					"type": "number",
 					"required": false,
-					"description": "Maximum Transmission Unit (MTU) in bytes for the GRE tunnel. The minimum value is 576.",
-					"default": 1476
+					"description": "Maximum Transmission Unit (MTU) in bytes for the GRE tunnel. The minimum value is 576."
 				},
 				{
 					"name": "name",
@@ -70720,8 +70611,7 @@
 					"name": "ttl",
 					"type": "number",
 					"required": false,
-					"description": "Time To Live (TTL) in number of hops of the GRE tunnel.",
-					"default": 64
+					"description": "Time To Live (TTL) in number of hops of the GRE tunnel."
 				},
 				{
 					"name": "dry-run",
@@ -71148,8 +71038,7 @@
 					"name": "automatic-return-routing",
 					"type": "boolean",
 					"required": false,
-					"description": "True if automatic stateful return routing should be enabled for a tunnel, false otherwise. Requires the `coupler_integration` account flag to be enabled; requests setting this to `true` without that flag will be rejected.",
-					"default": false
+					"description": "True if automatic stateful return routing should be enabled for a tunnel, false otherwise. Requires the `coupler_integration` account flag to be enabled; requests setting this to `true` without that flag will be rejected."
 				},
 				{
 					"name": "bgp-customer-asn",
@@ -71266,8 +71155,7 @@
 					"name": "replay-protection",
 					"type": "boolean",
 					"required": false,
-					"description": "If `true`, then IPsec replay protection will be supported in the Cloudflare-to-customer direction.",
-					"default": false
+					"description": "If `true`, then IPsec replay protection will be supported in the Cloudflare-to-customer direction."
 				},
 				{
 					"name": "dry-run",
@@ -71732,8 +71620,7 @@
 					"name": "description",
 					"type": "string",
 					"required": false,
-					"description": "Optional description",
-					"default": ""
+					"description": "Optional description"
 				},
 				{
 					"name": "members",
@@ -76613,8 +76500,7 @@
 					"name": "comment",
 					"type": "string",
 					"required": false,
-					"description": "Optional remark describing the route.",
-					"default": ""
+					"description": "Optional remark describing the route."
 				},
 				{
 					"name": "network",
@@ -77076,8 +76962,7 @@
 					"name": "comment",
 					"type": "string",
 					"required": false,
-					"description": "An optional description of the subnet.",
-					"default": ""
+					"description": "An optional description of the subnet."
 				},
 				{
 					"name": "name",
@@ -77165,8 +77050,7 @@
 					"name": "comment",
 					"type": "string",
 					"required": false,
-					"description": "An optional description of the subnet.",
-					"default": ""
+					"description": "An optional description of the subnet."
 				},
 				{
 					"name": "name",
@@ -77435,15 +77319,13 @@
 					"name": "comment",
 					"type": "string",
 					"required": false,
-					"description": "An optional description of the subnet.",
-					"default": ""
+					"description": "An optional description of the subnet."
 				},
 				{
 					"name": "is-default-network",
 					"type": "boolean",
 					"required": false,
-					"description": "If `true`, this is the default subnet for the account. There can only be one default subnet per account.",
-					"default": false
+					"description": "If `true`, this is the default subnet for the account. There can only be one default subnet per account."
 				},
 				{
 					"name": "name",
@@ -77619,15 +77501,13 @@
 					"name": "comment",
 					"type": "string",
 					"required": false,
-					"description": "Optional remark describing the virtual network.",
-					"default": ""
+					"description": "Optional remark describing the virtual network."
 				},
 				{
 					"name": "is-default-network",
 					"type": "boolean",
 					"required": false,
-					"description": "If `true`, this virtual network is the default for the account.",
-					"default": false
+					"description": "If `true`, this virtual network is the default for the account."
 				},
 				{
 					"name": "name",
@@ -82540,7 +82420,6 @@
 					"type": "string",
 					"required": true,
 					"description": "Value of the Origin Post Quantum Encryption Setting.",
-					"default": "supported",
 					"enum": ["preferred", "supported", "off"]
 				},
 				{
@@ -82680,15 +82559,13 @@
 					"name": "priority",
 					"type": "number",
 					"required": false,
-					"description": "The priority of the rule, used to define which Page Rule is processed\nover another. A higher number indicates a higher priority. For example,\nif you have a catch-all Page Rule (rule A: `/images/*`) but want a more\nspecific Page Rule to take precedence (rule B: `/images/special/*`),\nspecify a higher priority for rule B so it overrides rule A.\n",
-					"default": 1
+					"description": "The priority of the rule, used to define which Page Rule is processed\nover another. A higher number indicates a higher priority. For example,\nif you have a catch-all Page Rule (rule A: `/images/*`) but want a more\nspecific Page Rule to take precedence (rule B: `/images/special/*`),\nspecify a higher priority for rule B so it overrides rule A.\n"
 				},
 				{
 					"name": "status",
 					"type": "string",
 					"required": false,
 					"description": "The status of the Page Rule.",
-					"default": "disabled",
 					"enum": ["active", "disabled"]
 				},
 				{
@@ -82829,15 +82706,13 @@
 					"name": "priority",
 					"type": "number",
 					"required": false,
-					"description": "The priority of the rule, used to define which Page Rule is processed\nover another. A higher number indicates a higher priority. For example,\nif you have a catch-all Page Rule (rule A: `/images/*`) but want a more\nspecific Page Rule to take precedence (rule B: `/images/special/*`),\nspecify a higher priority for rule B so it overrides rule A.\n",
-					"default": 1
+					"description": "The priority of the rule, used to define which Page Rule is processed\nover another. A higher number indicates a higher priority. For example,\nif you have a catch-all Page Rule (rule A: `/images/*`) but want a more\nspecific Page Rule to take precedence (rule B: `/images/special/*`),\nspecify a higher priority for rule B so it overrides rule A.\n"
 				},
 				{
 					"name": "status",
 					"type": "string",
 					"required": false,
 					"description": "The status of the Page Rule.",
-					"default": "disabled",
 					"enum": ["active", "disabled"]
 				},
 				{
@@ -106593,22 +106468,19 @@
 					"name": "live-stream-on-start",
 					"type": "boolean",
 					"required": false,
-					"description": "Specifies if the meeting should start getting livestreamed on start.",
-					"default": false
+					"description": "Specifies if the meeting should start getting livestreamed on start."
 				},
 				{
 					"name": "persist-chat",
 					"type": "boolean",
 					"required": false,
-					"description": "If a meeting is set to persist_chat, meeting chat would remain for a week within the meeting space.",
-					"default": false
+					"description": "If a meeting is set to persist_chat, meeting chat would remain for a week within the meeting space."
 				},
 				{
 					"name": "record-on-start",
 					"type": "boolean",
 					"required": false,
-					"description": "Specifies if the meeting should start getting recorded as soon as someone joins the meeting.",
-					"default": false
+					"description": "Specifies if the meeting should start getting recorded as soon as someone joins the meeting."
 				},
 				{
 					"name": "recording-config-audio-config-channel",
@@ -106703,15 +106575,13 @@
 					"name": "session-keep-alive-time-in-secs",
 					"type": "number",
 					"required": false,
-					"description": "Time in seconds, for which a session remains active, after the last participant has left the meeting.",
-					"default": 60
+					"description": "Time in seconds, for which a session remains active, after the last participant has left the meeting."
 				},
 				{
 					"name": "summarize-on-end",
 					"type": "boolean",
 					"required": false,
-					"description": "Automatically generate summary of meetings using transcripts. Requires Transcriptions to be enabled, and can be retrieved via Webhooks or summary API.",
-					"default": false
+					"description": "Automatically generate summary of meetings using transcripts. Requires Transcriptions to be enabled, and can be retrieved via Webhooks or summary API."
 				},
 				{
 					"name": "title",
@@ -106723,8 +106593,7 @@
 					"name": "transcribe-on-end",
 					"type": "boolean",
 					"required": false,
-					"description": "Automatically generate transcripts when the meeting ends.",
-					"default": false
+					"description": "Automatically generate transcripts when the meeting ends."
 				},
 				{
 					"name": "dry-run",
@@ -107655,8 +107524,7 @@
 					"name": "config-media-video-simulcast",
 					"type": "boolean",
 					"required": false,
-					"description": "Enable simulcast for participant videos.",
-					"default": false
+					"description": "Enable simulcast for participant videos."
 				},
 				{
 					"name": "config-view-type",
@@ -109683,8 +109551,7 @@
 					"name": "enabled",
 					"type": "boolean",
 					"required": false,
-					"description": "Set whether or not the webhook should be active when created",
-					"default": true
+					"description": "Set whether or not the webhook should be active when created"
 				},
 				{
 					"name": "events",
@@ -109752,8 +109619,7 @@
 					"name": "enabled",
 					"type": "boolean",
 					"required": false,
-					"description": "The enabled field",
-					"default": true
+					"description": "The enabled field"
 				},
 				{
 					"name": "events",
@@ -110262,8 +110128,7 @@
 					"name": "name",
 					"type": "string",
 					"required": false,
-					"description": "A short description of a Realtime SFU app, not shown to end users.",
-					"default": ""
+					"description": "A short description of a Realtime SFU app, not shown to end users."
 				},
 				{
 					"name": "dry-run",
@@ -110432,8 +110297,7 @@
 					"name": "name",
 					"type": "string",
 					"required": false,
-					"description": "A short description of a TURN key, not shown to end users.",
-					"default": ""
+					"description": "A short description of a TURN key, not shown to end users."
 				},
 				{
 					"name": "dry-run",
@@ -113722,8 +113586,7 @@
 					"name": "description",
 					"type": "string",
 					"required": false,
-					"description": "An informative description of the ruleset.",
-					"default": ""
+					"description": "An informative description of the ruleset."
 				},
 				{
 					"name": "name",
@@ -114095,8 +113958,7 @@
 					"name": "description",
 					"type": "string",
 					"required": false,
-					"description": "An informative description of the ruleset.",
-					"default": ""
+					"description": "An informative description of the ruleset."
 				},
 				{
 					"name": "name",
@@ -117323,15 +117185,13 @@
 					"name": "consecutive-fails",
 					"type": "number",
 					"required": false,
-					"description": "The number of consecutive fails required from a health check before changing the health to unhealthy.",
-					"default": 1
+					"description": "The number of consecutive fails required from a health check before changing the health to unhealthy."
 				},
 				{
 					"name": "consecutive-successes",
 					"type": "number",
 					"required": false,
-					"description": "The number of consecutive successes required from a health check before changing the health to healthy.",
-					"default": 1
+					"description": "The number of consecutive successes required from a health check before changing the health to healthy."
 				},
 				{
 					"name": "description",
@@ -117392,8 +117252,7 @@
 					"name": "interval",
 					"type": "number",
 					"required": false,
-					"description": "The interval between each health check. Shorter intervals may give quicker notifications if the origin status changes, but will increase load on the origin as we check from multiple locations.",
-					"default": 60
+					"description": "The interval between each health check. Shorter intervals may give quicker notifications if the origin status changes, but will increase load on the origin as we check from multiple locations."
 				},
 				{
 					"name": "name",
@@ -117405,15 +117264,13 @@
 					"name": "retries",
 					"type": "number",
 					"required": false,
-					"description": "The number of retries to attempt in case of a timeout before marking the origin as unhealthy. Retries are attempted immediately.",
-					"default": 2
+					"description": "The number of retries to attempt in case of a timeout before marking the origin as unhealthy. Retries are attempted immediately."
 				},
 				{
 					"name": "suspended",
 					"type": "boolean",
 					"required": false,
-					"description": "If suspended, no health checks are sent to the origin.",
-					"default": false
+					"description": "If suspended, no health checks are sent to the origin."
 				},
 				{
 					"name": "tcp-config-method",
@@ -117432,15 +117289,13 @@
 					"name": "timeout",
 					"type": "number",
 					"required": false,
-					"description": "The timeout (in seconds) before marking the health check as failed.",
-					"default": 5
+					"description": "The timeout (in seconds) before marking the health check as failed."
 				},
 				{
 					"name": "type",
 					"type": "string",
 					"required": false,
-					"description": "The protocol to use for the health check. Currently supported protocols are 'HTTP', 'HTTPS' and 'TCP'.",
-					"default": "HTTP"
+					"description": "The protocol to use for the health check. Currently supported protocols are 'HTTP', 'HTTPS' and 'TCP'."
 				},
 				{
 					"name": "dry-run",
@@ -117576,15 +117431,13 @@
 					"name": "result-consecutive-fails",
 					"type": "number",
 					"required": false,
-					"description": "The number of consecutive fails required from a health check before changing the health to unhealthy.",
-					"default": 1
+					"description": "The number of consecutive fails required from a health check before changing the health to unhealthy."
 				},
 				{
 					"name": "result-consecutive-successes",
 					"type": "number",
 					"required": false,
-					"description": "The number of consecutive successes required from a health check before changing the health to healthy.",
-					"default": 1
+					"description": "The number of consecutive successes required from a health check before changing the health to healthy."
 				},
 				{
 					"name": "result-description",
@@ -117596,8 +117449,7 @@
 					"name": "result-http-config-allow-insecure",
 					"type": "boolean",
 					"required": false,
-					"description": "Do not validate the certificate when the health check uses HTTPS.",
-					"default": false
+					"description": "Do not validate the certificate when the health check uses HTTPS."
 				},
 				{
 					"name": "result-http-config-expected-body",
@@ -117615,8 +117467,7 @@
 					"name": "result-http-config-follow-redirects",
 					"type": "boolean",
 					"required": false,
-					"description": "Follow redirects if the origin returns a 3xx status code.",
-					"default": false
+					"description": "Follow redirects if the origin returns a 3xx status code."
 				},
 				{
 					"name": "result-http-config-header",
@@ -117629,29 +117480,25 @@
 					"type": "string",
 					"required": false,
 					"description": "The HTTP method to use for the health check.",
-					"default": "GET",
 					"enum": ["GET", "HEAD"]
 				},
 				{
 					"name": "result-http-config-path",
 					"type": "string",
 					"required": false,
-					"description": "The endpoint path to health check against.",
-					"default": "/"
+					"description": "The endpoint path to health check against."
 				},
 				{
 					"name": "result-http-config-port",
 					"type": "number",
 					"required": false,
-					"description": "Port number to connect to for the health check. Defaults to 80 if type is HTTP or 443 if type is HTTPS.",
-					"default": 80
+					"description": "Port number to connect to for the health check. Defaults to 80 if type is HTTP or 443 if type is HTTPS."
 				},
 				{
 					"name": "result-interval",
 					"type": "number",
 					"required": false,
-					"description": "The interval between each health check. Shorter intervals may give quicker notifications if the origin status changes, but will increase load on the origin as we check from multiple locations.",
-					"default": 60
+					"description": "The interval between each health check. Shorter intervals may give quicker notifications if the origin status changes, but will increase load on the origin as we check from multiple locations."
 				},
 				{
 					"name": "result-name",
@@ -117663,44 +117510,38 @@
 					"name": "result-retries",
 					"type": "number",
 					"required": false,
-					"description": "The number of retries to attempt in case of a timeout before marking the origin as unhealthy. Retries are attempted immediately.",
-					"default": 2
+					"description": "The number of retries to attempt in case of a timeout before marking the origin as unhealthy. Retries are attempted immediately."
 				},
 				{
 					"name": "result-suspended",
 					"type": "boolean",
 					"required": false,
-					"description": "If suspended, no health checks are sent to the origin.",
-					"default": false
+					"description": "If suspended, no health checks are sent to the origin."
 				},
 				{
 					"name": "result-tcp-config-method",
 					"type": "string",
 					"required": false,
 					"description": "The TCP connection method to use for the health check.",
-					"default": "connection_established",
 					"enum": ["connection_established"]
 				},
 				{
 					"name": "result-tcp-config-port",
 					"type": "number",
 					"required": false,
-					"description": "Port number to connect to for the health check. Defaults to 80.",
-					"default": 80
+					"description": "Port number to connect to for the health check. Defaults to 80."
 				},
 				{
 					"name": "result-timeout",
 					"type": "number",
 					"required": false,
-					"description": "The timeout (in seconds) before marking the health check as failed.",
-					"default": 5
+					"description": "The timeout (in seconds) before marking the health check as failed."
 				},
 				{
 					"name": "result-type",
 					"type": "string",
 					"required": false,
-					"description": "The protocol to use for the health check. Currently supported protocols are 'HTTP', 'HTTPS' and 'TCP'.",
-					"default": "HTTP"
+					"description": "The protocol to use for the health check. Currently supported protocols are 'HTTP', 'HTTPS' and 'TCP'."
 				},
 				{
 					"name": "success",
@@ -118540,8 +118381,7 @@
 					"name": "argo-smart-routing",
 					"type": "boolean",
 					"required": false,
-					"description": "Enables Argo Smart Routing for this application.\nNotes: Only available for TCP or UDP applications with traffic_type set to \"direct\".",
-					"default": false
+					"description": "Enables Argo Smart Routing for this application.\nNotes: Only available for TCP or UDP applications with traffic_type set to \"direct\"."
 				},
 				{
 					"name": "dns-name",
@@ -118580,8 +118420,7 @@
 					"name": "ip-firewall",
 					"type": "boolean",
 					"required": false,
-					"description": "Enables IP Access Rules for this application.\nNotes: Only available for TCP applications.",
-					"default": false
+					"description": "Enables IP Access Rules for this application.\nNotes: Only available for TCP applications."
 				},
 				{
 					"name": "origin-direct",
@@ -118625,7 +118464,6 @@
 					"type": "string",
 					"required": false,
 					"description": "Enables Proxy Protocol to the origin. Refer to [Enable Proxy protocol](https://developers.cloudflare.com/spectrum/getting-started/proxy-protocol/) for implementation details on PROXY Protocol V1, PROXY Protocol V2, and Simple Proxy Protocol.",
-					"default": "off",
 					"enum": ["off", "v1", "v2", "simple"]
 				},
 				{
@@ -118633,7 +118471,6 @@
 					"type": "string",
 					"required": false,
 					"description": "The type of TLS termination associated with the application.",
-					"default": "off",
 					"enum": ["off", "flexible", "full", "strict"]
 				},
 				{
@@ -118641,7 +118478,6 @@
 					"type": "string",
 					"required": false,
 					"description": "Determines how data travels from the edge to your origin. When set to \"direct\", Spectrum will send traffic directly to your origin, and the application's type is derived from the `protocol`. When set to \"http\" or \"https\", Spectrum will apply Cloudflare's HTTP/HTTPS features as it sends traffic to your origin, and the application type matches this property exactly. When set to \"worker\", traffic is sent to the Worker specified by `origin_worker_id`.",
-					"default": "direct",
 					"enum": ["direct", "http", "https", "worker"]
 				},
 				{
@@ -120281,7 +120117,6 @@
 					"type": "string",
 					"required": false,
 					"description": "A ubiquitous bundle has the highest probability of being verified everywhere, even by clients using outdated or unusual trust stores. An optimal bundle uses the shortest chain and newest intermediates. And the force bundle verifies the chain, but does not otherwise modify it.",
-					"default": "ubiquitous",
 					"enum": ["ubiquitous", "optimal", "force"]
 				},
 				{
@@ -120301,7 +120136,6 @@
 					"type": "string",
 					"required": false,
 					"description": "The environment to deploy the certificate to, defaults to production.",
-					"default": "production",
 					"enum": ["staging", "production"]
 				},
 				{
@@ -120632,8 +120466,7 @@
 					"name": "port",
 					"type": "number",
 					"required": false,
-					"description": "The keyless SSL port used to communicate between Cloudflare and the client's Keyless SSL server.",
-					"default": 24008
+					"description": "The keyless SSL port used to communicate between Cloudflare and the client's Keyless SSL server."
 				},
 				{
 					"name": "tunnel-private-ip",
@@ -122206,8 +122039,7 @@
 					"name": "enabled",
 					"type": "boolean",
 					"required": true,
-					"description": "When enabled, live video streamed to the associated live input will be sent to the output URL. When disabled, live video will not be sent to the output URL, even when streaming to the associated live input. Use this to control precisely when you start and stop simulcasting to specific destinations like YouTube and Twitch.",
-					"default": true
+					"description": "When enabled, live video streamed to the associated live input will be sent to the output URL. When disabled, live video will not be sent to the output URL, even when streaming to the associated live input. Use this to control precisely when you start and stop simulcasting to specific destinations like YouTube and Twitch."
 				},
 				{
 					"name": "dry-run",
@@ -122295,8 +122127,7 @@
 					"name": "enabled",
 					"type": "boolean",
 					"required": false,
-					"description": "Indicates whether the live input is enabled and can accept streams.",
-					"default": true
+					"description": "Indicates whether the live input is enabled and can accept streams."
 				},
 				{
 					"name": "meta",
@@ -122308,8 +122139,7 @@
 					"name": "prefer-low-latency",
 					"type": "boolean",
 					"required": false,
-					"description": "When enabled, the live stream is delivered using Low-Latency HLS (LL-HLS), reducing glass-to-glass latency for viewers at the cost of reduced player compatibility.",
-					"default": false
+					"description": "When enabled, the live stream is delivered using Low-Latency HLS (LL-HLS), reducing glass-to-glass latency for viewers at the cost of reduced player compatibility."
 				},
 				{
 					"name": "recording-allowed-origins",
@@ -122508,8 +122338,7 @@
 					"name": "default",
 					"type": "boolean",
 					"required": false,
-					"description": "Denotes whether the audio track will be played by default in a player.",
-					"default": false
+					"description": "Denotes whether the audio track will be played by default in a player."
 				},
 				{
 					"name": "label",
@@ -125839,7 +125668,6 @@
 					"type": "string",
 					"required": false,
 					"description": "Region where this widget can be used. This cannot be changed after creation.\n",
-					"default": "world",
 					"enum": ["world", "china"]
 				},
 				{
@@ -127319,8 +127147,7 @@
 					"name": "allow-insecure",
 					"type": "boolean",
 					"required": false,
-					"description": "Do not validate the certificate when monitor use HTTPS. This parameter is currently only valid for HTTP and HTTPS monitors.",
-					"default": false
+					"description": "Do not validate the certificate when monitor use HTTPS. This parameter is currently only valid for HTTP and HTTPS monitors."
 				},
 				{
 					"name": "consecutive-down",
@@ -127338,29 +127165,25 @@
 					"name": "description",
 					"type": "string",
 					"required": false,
-					"description": "Object description.",
-					"default": ""
+					"description": "Object description."
 				},
 				{
 					"name": "expected-body",
 					"type": "string",
 					"required": false,
-					"description": "A case-insensitive sub-string to look for in the response body. If this string is not found, the origin will be marked as unhealthy. This parameter is only valid for HTTP and HTTPS monitors.",
-					"default": ""
+					"description": "A case-insensitive sub-string to look for in the response body. If this string is not found, the origin will be marked as unhealthy. This parameter is only valid for HTTP and HTTPS monitors."
 				},
 				{
 					"name": "expected-codes",
 					"type": "string",
 					"required": false,
-					"description": "The expected HTTP response code or code range of the health check. This parameter is only valid for HTTP and HTTPS monitors.",
-					"default": ""
+					"description": "The expected HTTP response code or code range of the health check. This parameter is only valid for HTTP and HTTPS monitors."
 				},
 				{
 					"name": "follow-redirects",
 					"type": "boolean",
 					"required": false,
-					"description": "Follow redirects if returned by the origin. This parameter is only valid for HTTP and HTTPS monitors.",
-					"default": false
+					"description": "Follow redirects if returned by the origin. This parameter is only valid for HTTP and HTTPS monitors."
 				},
 				{
 					"name": "header",
@@ -127372,8 +127195,7 @@
 					"name": "interval",
 					"type": "number",
 					"required": false,
-					"description": "The interval between each health check. Shorter intervals may improve failover time, but will increase load on the origins as we check from multiple locations.",
-					"default": 60
+					"description": "The interval between each health check. Shorter intervals may improve failover time, but will increase load on the origins as we check from multiple locations."
 				},
 				{
 					"name": "method",
@@ -127397,29 +127219,25 @@
 					"name": "probe-zone",
 					"type": "string",
 					"required": false,
-					"description": "Assign this monitor to emulate the specified zone while probing. This parameter is only valid for HTTP and HTTPS monitors.",
-					"default": ""
+					"description": "Assign this monitor to emulate the specified zone while probing. This parameter is only valid for HTTP and HTTPS monitors."
 				},
 				{
 					"name": "retries",
 					"type": "number",
 					"required": false,
-					"description": "The number of retries to attempt in case of a timeout before marking the origin as unhealthy. Retries are attempted immediately.",
-					"default": 2
+					"description": "The number of retries to attempt in case of a timeout before marking the origin as unhealthy. Retries are attempted immediately."
 				},
 				{
 					"name": "timeout",
 					"type": "number",
 					"required": false,
-					"description": "The timeout (in seconds) before marking the health check as failed.",
-					"default": 5
+					"description": "The timeout (in seconds) before marking the health check as failed."
 				},
 				{
 					"name": "type",
 					"type": "string",
 					"required": false,
 					"description": "The protocol to use for the health check. Currently supported protocols are 'HTTP','HTTPS', 'TCP', 'ICMP-PING', 'UDP-ICMP', and 'SMTP'.",
-					"default": "http",
 					"enum": ["http", "https", "tcp", "udp_icmp", "icmp_ping", "smtp"]
 				},
 				{
@@ -127695,8 +127513,7 @@
 					"name": "allow-insecure",
 					"type": "boolean",
 					"required": false,
-					"description": "Do not validate the certificate when monitor use HTTPS. This parameter is currently only valid for HTTP and HTTPS monitors.",
-					"default": false
+					"description": "Do not validate the certificate when monitor use HTTPS. This parameter is currently only valid for HTTP and HTTPS monitors."
 				},
 				{
 					"name": "consecutive-down",
@@ -127714,29 +127531,25 @@
 					"name": "description",
 					"type": "string",
 					"required": false,
-					"description": "Object description.",
-					"default": ""
+					"description": "Object description."
 				},
 				{
 					"name": "expected-body",
 					"type": "string",
 					"required": false,
-					"description": "A case-insensitive sub-string to look for in the response body. If this string is not found, the origin will be marked as unhealthy. This parameter is only valid for HTTP and HTTPS monitors.",
-					"default": ""
+					"description": "A case-insensitive sub-string to look for in the response body. If this string is not found, the origin will be marked as unhealthy. This parameter is only valid for HTTP and HTTPS monitors."
 				},
 				{
 					"name": "expected-codes",
 					"type": "string",
 					"required": false,
-					"description": "The expected HTTP response code or code range of the health check. This parameter is only valid for HTTP and HTTPS monitors.",
-					"default": ""
+					"description": "The expected HTTP response code or code range of the health check. This parameter is only valid for HTTP and HTTPS monitors."
 				},
 				{
 					"name": "follow-redirects",
 					"type": "boolean",
 					"required": false,
-					"description": "Follow redirects if returned by the origin. This parameter is only valid for HTTP and HTTPS monitors.",
-					"default": false
+					"description": "Follow redirects if returned by the origin. This parameter is only valid for HTTP and HTTPS monitors."
 				},
 				{
 					"name": "header",
@@ -127748,8 +127561,7 @@
 					"name": "interval",
 					"type": "number",
 					"required": false,
-					"description": "The interval between each health check. Shorter intervals may improve failover time, but will increase load on the origins as we check from multiple locations.",
-					"default": 60
+					"description": "The interval between each health check. Shorter intervals may improve failover time, but will increase load on the origins as we check from multiple locations."
 				},
 				{
 					"name": "method",
@@ -127773,29 +127585,25 @@
 					"name": "probe-zone",
 					"type": "string",
 					"required": false,
-					"description": "Assign this monitor to emulate the specified zone while probing. This parameter is only valid for HTTP and HTTPS monitors.",
-					"default": ""
+					"description": "Assign this monitor to emulate the specified zone while probing. This parameter is only valid for HTTP and HTTPS monitors."
 				},
 				{
 					"name": "retries",
 					"type": "number",
 					"required": false,
-					"description": "The number of retries to attempt in case of a timeout before marking the origin as unhealthy. Retries are attempted immediately.",
-					"default": 2
+					"description": "The number of retries to attempt in case of a timeout before marking the origin as unhealthy. Retries are attempted immediately."
 				},
 				{
 					"name": "timeout",
 					"type": "number",
 					"required": false,
-					"description": "The timeout (in seconds) before marking the health check as failed.",
-					"default": 5
+					"description": "The timeout (in seconds) before marking the health check as failed."
 				},
 				{
 					"name": "type",
 					"type": "string",
 					"required": false,
 					"description": "The protocol to use for the health check. Currently supported protocols are 'HTTP','HTTPS', 'TCP', 'ICMP-PING', 'UDP-ICMP', and 'SMTP'.",
-					"default": "http",
 					"enum": ["http", "https", "tcp", "udp_icmp", "icmp_ping", "smtp"]
 				},
 				{
@@ -128052,15 +127860,13 @@
 					"name": "description",
 					"type": "string",
 					"required": false,
-					"description": "A human-readable description of the pool.",
-					"default": ""
+					"description": "A human-readable description of the pool."
 				},
 				{
 					"name": "enabled",
 					"type": "boolean",
 					"required": false,
-					"description": "Whether to enable (the default) or disable this pool. Disabled pools will not receive traffic and are excluded from health checks. Disabling a pool will cause any load balancers using it to failover to the next pool (if any).",
-					"default": true
+					"description": "Whether to enable (the default) or disable this pool. Disabled pools will not receive traffic and are excluded from health checks. Disabling a pool will cause any load balancers using it to failover to the next pool (if any)."
 				},
 				{
 					"name": "health-sources",
@@ -128110,8 +127916,7 @@
 					"name": "minimum-origins",
 					"type": "number",
 					"required": false,
-					"description": "The minimum number of origins that must be healthy for this pool to serve traffic. If the number of healthy origins falls below this number, the pool will be marked unhealthy and will failover to the next available pool.",
-					"default": 1
+					"description": "The minimum number of origins that must be healthy for this pool to serve traffic. If the number of healthy origins falls below this number, the pool will be marked unhealthy and will failover to the next available pool."
 				},
 				{
 					"name": "monitor",
@@ -128135,8 +127940,7 @@
 					"name": "notification-email",
 					"type": "string",
 					"required": false,
-					"description": "This field is now deprecated. It has been moved to Cloudflare's Centralized Notification service https://developers.cloudflare.com/fundamentals/notifications/. The email address to send health status notifications to. This can be an individual mailbox or a mailing list. Multiple emails can be supplied as a comma delimited list.",
-					"default": ""
+					"description": "This field is now deprecated. It has been moved to Cloudflare's Centralized Notification service https://developers.cloudflare.com/fundamentals/notifications/. The email address to send health status notifications to. This can be an individual mailbox or a mailing list. Multiple emails can be supplied as a comma delimited list."
 				},
 				{
 					"name": "notification-filter-origin-disable",
@@ -128533,15 +128337,13 @@
 					"name": "description",
 					"type": "string",
 					"required": false,
-					"description": "A human-readable description of the pool.",
-					"default": ""
+					"description": "A human-readable description of the pool."
 				},
 				{
 					"name": "enabled",
 					"type": "boolean",
 					"required": false,
-					"description": "Whether to enable (the default) or disable this pool. Disabled pools will not receive traffic and are excluded from health checks. Disabling a pool will cause any load balancers using it to failover to the next pool (if any).",
-					"default": true
+					"description": "Whether to enable (the default) or disable this pool. Disabled pools will not receive traffic and are excluded from health checks. Disabling a pool will cause any load balancers using it to failover to the next pool (if any)."
 				},
 				{
 					"name": "health-sources",
@@ -128591,8 +128393,7 @@
 					"name": "minimum-origins",
 					"type": "number",
 					"required": false,
-					"description": "The minimum number of origins that must be healthy for this pool to serve traffic. If the number of healthy origins falls below this number, the pool will be marked unhealthy and will failover to the next available pool.",
-					"default": 1
+					"description": "The minimum number of origins that must be healthy for this pool to serve traffic. If the number of healthy origins falls below this number, the pool will be marked unhealthy and will failover to the next available pool."
 				},
 				{
 					"name": "monitor",
@@ -128622,8 +128423,7 @@
 					"name": "notification-email",
 					"type": "string",
 					"required": false,
-					"description": "This field is now deprecated. It has been moved to Cloudflare's Centralized Notification service https://developers.cloudflare.com/fundamentals/notifications/. The email address to send health status notifications to. This can be an individual mailbox or a mailing list. Multiple emails can be supplied as a comma delimited list.",
-					"default": ""
+					"description": "This field is now deprecated. It has been moved to Cloudflare's Centralized Notification service https://developers.cloudflare.com/fundamentals/notifications/. The email address to send health status notifications to. This can be an individual mailbox or a mailing list. Multiple emails can be supplied as a comma delimited list."
 				},
 				{
 					"name": "notification-filter-origin-disable",
@@ -130522,22 +130322,19 @@
 					"name": "cookie-suffix",
 					"type": "string",
 					"required": false,
-					"description": "Appends a '_' + a custom suffix to the end of Cloudflare Waiting Room's cookie name(__cf_waitingroom). If `cookie_suffix` is \"abcd\", the cookie name will be `__cf_waitingroom_abcd`. This field is required if using `additional_routes`.",
-					"default": ""
+					"description": "Appends a '_' + a custom suffix to the end of Cloudflare Waiting Room's cookie name(__cf_waitingroom). If `cookie_suffix` is \"abcd\", the cookie name will be `__cf_waitingroom_abcd`. This field is required if using `additional_routes`."
 				},
 				{
 					"name": "custom-page-html",
 					"type": "string",
 					"required": false,
-					"description": "Only available for the Waiting Room Advanced subscription. This is a template html file that will be rendered at the edge. If no custom_page_html is provided, the default waiting room will be used. The template is based on mustache ( https://mustache.github.io/ ). There are several variables that are evaluated by the Cloudflare edge:\n1. {{`waitTimeKnown`}} Acts like a boolean value that indicates the behavior to take when wait time is not available, for instance when queue_all is **true**.\n2. {{`waitTimeFormatted`}} Estimated wait time for the user. For example, five minutes. Alternatively, you can use:\n3. {{`waitTime`}} Number of minutes of estimated wait for a user.\n4. {{`waitTimeHours`}} Number of hours of estimated wait for a user (`Math.floor(waitTime/60)`).\n5. {{`waitTimeHourMinutes`}} Number of minutes above the `waitTimeHours` value (`waitTime%60`).\n6. {{`queueIsFull`}} Changes to **true** when no more people can be added to the queue.\n\nTo view the full list of variables, look at the `cfWaitingRoom` object described under the `json_response_enabled` property in other Waiting Room API calls.",
-					"default": ""
+					"description": "Only available for the Waiting Room Advanced subscription. This is a template html file that will be rendered at the edge. If no custom_page_html is provided, the default waiting room will be used. The template is based on mustache ( https://mustache.github.io/ ). There are several variables that are evaluated by the Cloudflare edge:\n1. {{`waitTimeKnown`}} Acts like a boolean value that indicates the behavior to take when wait time is not available, for instance when queue_all is **true**.\n2. {{`waitTimeFormatted`}} Estimated wait time for the user. For example, five minutes. Alternatively, you can use:\n3. {{`waitTime`}} Number of minutes of estimated wait for a user.\n4. {{`waitTimeHours`}} Number of hours of estimated wait for a user (`Math.floor(waitTime/60)`).\n5. {{`waitTimeHourMinutes`}} Number of minutes above the `waitTimeHours` value (`waitTime%60`).\n6. {{`queueIsFull`}} Changes to **true** when no more people can be added to the queue.\n\nTo view the full list of variables, look at the `cfWaitingRoom` object described under the `json_response_enabled` property in other Waiting Room API calls."
 				},
 				{
 					"name": "default-template-language",
 					"type": "string",
 					"required": false,
 					"description": "The language of the default page template. If no default_template_language is provided, then `en-US` (English) will be used.",
-					"default": "en-US",
 					"enum": [
 						"en-US",
 						"es-ES",
@@ -130584,15 +130381,13 @@
 					"name": "description",
 					"type": "string",
 					"required": false,
-					"description": "A note that you can use to add more details about the waiting room.",
-					"default": ""
+					"description": "A note that you can use to add more details about the waiting room."
 				},
 				{
 					"name": "disable-session-renewal",
 					"type": "boolean",
 					"required": false,
-					"description": "Only available for the Waiting Room Advanced subscription. Disables automatic renewal of session cookies. If `true`, an accepted user will have session_duration minutes to browse the site. After that, they will have to go through the waiting room again. If `false`, a user's session cookie will be automatically renewed on every request.",
-					"default": false
+					"description": "Only available for the Waiting Room Advanced subscription. Disables automatic renewal of session cookies. If `true`, an accepted user will have session_duration minutes to browse the site. After that, they will have to go through the waiting room again. If `false`, a user's session cookie will be automatically renewed on every request."
 				},
 				{
 					"name": "enabled-origin-commands",
@@ -130610,8 +130405,7 @@
 					"name": "json-response-enabled",
 					"type": "boolean",
 					"required": false,
-					"description": "Only available for the Waiting Room Advanced subscription. If `true`, requests to the waiting room with the header `Accept: application/json` will receive a JSON response object with information on the user's status in the waiting room as opposed to the configured static HTML page. This JSON response object has one property `cfWaitingRoom` which is an object containing the following fields:\n1. `inWaitingRoom`: Boolean indicating if the user is in the waiting room (always **true**).\n2. `waitTimeKnown`: Boolean indicating if the current estimated wait times are accurate. If **false**, they are not available.\n3. `waitTime`: Valid only when `waitTimeKnown` is **true**. Integer indicating the current estimated time in minutes the user will wait in the waiting room. When `queueingMethod` is **random**, this is set to `waitTime50Percentile`.\n4. `waitTime25Percentile`: Valid only when `queueingMethod` is **random** and `waitTimeKnown` is **true**. Integer indicating the current estimated maximum wait time for the 25% of users that gain entry the fastest (25th percentile).\n5. `waitTime50Percentile`: Valid only when `queueingMethod` is **random** and `waitTimeKnown` is **true**. Integer indicating the current estimated maximum wait time for the 50% of users that gain entry the fastest (50th percentile). In other words, half of the queued users are expected to let into the origin website before `waitTime50Percentile` and half are expected to be let in after it.\n6. `waitTime75Percentile`: Valid only when `queueingMethod` is **random** and `waitTimeKnown` is **true**. Integer indicating the current estimated maximum wait time for the 75% of users that gain entry the fastest (75th percentile).\n7. `waitTimeFormatted`: String displaying the `waitTime` formatted in English for users. If `waitTimeKnown` is **false**, `waitTimeFormatted` will display **unavailable**.\n8. `queueIsFull`: Boolean indicating if the waiting room's queue is currently full and not accepting new users at the moment.\n9. `queueAll`: Boolean indicating if all users will be queued in the waiting room and no one will be let into the origin website.\n10. `lastUpdated`: String displaying the timestamp as an ISO 8601 string of the user's last attempt to leave the waiting room and be let into the origin website. The user is able to make another attempt after `refreshIntervalSeconds` past this time. If the user makes a request too soon, it will be ignored and `lastUpdated` will not change.\n11. `refreshIntervalSeconds`: Integer indicating the number of seconds after `lastUpdated` until the user is able to make another attempt to leave the waiting room and be let into the origin website. When the `queueingMethod` is `reject`, there is no specified refresh time —\\_it will always be **zero**.\n12. `queueingMethod`: The queueing method currently used by the waiting room. It is either **fifo**, **random**, **passthrough**, or **reject**.\n13. `isFIFOQueue`: Boolean indicating if the waiting room uses a FIFO (First-In-First-Out) queue.\n14. `isRandomQueue`: Boolean indicating if the waiting room uses a Random queue where users gain access randomly.\n15. `isPassthroughQueue`: Boolean indicating if the waiting room uses a passthrough queue. Keep in mind that when passthrough is enabled, this JSON response will only exist when `queueAll` is **true** or `isEventPrequeueing` is **true** because in all other cases requests will go directly to the origin.\n16. `isRejectQueue`: Boolean indicating if the waiting room uses a reject queue.\n17. `isEventActive`: Boolean indicating if an event is currently occurring. Events are able to change a waiting room's behavior during a specified period of time. For additional information, look at the event properties `prequeue_start_time`, `event_start_time`, and `event_end_time` in the documentation for creating waiting room events. Events are considered active between these start and end times, as well as during the prequeueing period if it exists.\n18. `isEventPrequeueing`: Valid only when `isEventActive` is **true**. Boolean indicating if an event is currently prequeueing users before it starts.\n19. `timeUntilEventStart`: Valid only when `isEventPrequeueing` is **true**. Integer indicating the number of minutes until the event starts.\n20. `timeUntilEventStartFormatted`: String displaying the `timeUntilEventStart` formatted in English for users. If `isEventPrequeueing` is **false**, `timeUntilEventStartFormatted` will display **unavailable**.\n21. `timeUntilEventEnd`: Valid only when `isEventActive` is **true**. Integer indicating the number of minutes until the event ends.\n22. `timeUntilEventEndFormatted`: String displaying the `timeUntilEventEnd` formatted in English for users. If `isEventActive` is **false**, `timeUntilEventEndFormatted` will display **unavailable**.\n23. `shuffleAtEventStart`: Valid only when `isEventActive` is **true**. Boolean indicating if the users in the prequeue are shuffled randomly when the event starts.\n24. `turnstile`: Empty when turnstile isn't enabled. String displaying an html tag to display the Turnstile widget. Please add the `{{{turnstile}}}` tag to the `custom_html` template to ensure the Turnstile widget appears.\n25. `infiniteQueue`: Boolean indicating whether the response is for a user in the infinite queue.\n\nAn example cURL to a waiting room could be:\n\n\tcurl -X GET \"https://example.com/waitingroom\" \\\n\t\t-H \"Accept: application/json\"\n\nIf `json_response_enabled` is **true** and the request hits the waiting room, an example JSON response when `queueingMethod` is **fifo** and no event is active could be:\n\n\t{\n\t\t\"cfWaitingRoom\": {\n\t\t\t\"inWaitingRoom\": true,\n\t\t\t\"waitTimeKnown\": true,\n\t\t\t\"waitTime\": 10,\n\t\t\t\"waitTime25Percentile\": 0,\n\t\t\t\"waitTime50Percentile\": 0,\n\t\t\t\"waitTime75Percentile\": 0,\n\t\t\t\"waitTimeFormatted\": \"10 minutes\",\n\t\t\t\"queueIsFull\": false,\n\t\t\t\"queueAll\": false,\n\t\t\t\"lastUpdated\": \"2020-08-03T23:46:00.000Z\",\n\t\t\t\"refreshIntervalSeconds\": 20,\n\t\t\t\"queueingMethod\": \"fifo\",\n\t\t\t\"isFIFOQueue\": true,\n\t\t\t\"isRandomQueue\": false,\n\t\t\t\"isPassthroughQueue\": false,\n\t\t\t\"isRejectQueue\": false,\n\t\t\t\"isEventActive\": false,\n\t\t\t\"isEventPrequeueing\": false,\n\t\t\t\"timeUntilEventStart\": 0,\n\t\t\t\"timeUntilEventStartFormatted\": \"unavailable\",\n\t\t\t\"timeUntilEventEnd\": 0,\n\t\t\t\"timeUntilEventEndFormatted\": \"unavailable\",\n\t\t\t\"shuffleAtEventStart\": false\n\t\t}\n\t}\n\nIf `json_response_enabled` is **true** and the request hits the waiting room, an example JSON response when `queueingMethod` is **random** and an event is active could be:\n\n\t{\n\t\t\"cfWaitingRoom\": {\n\t\t\t\"inWaitingRoom\": true,\n\t\t\t\"waitTimeKnown\": true,\n\t\t\t\"waitTime\": 10,\n\t\t\t\"waitTime25Percentile\": 5,\n\t\t\t\"waitTime50Percentile\": 10,\n\t\t\t\"waitTime75Percentile\": 15,\n\t\t\t\"waitTimeFormatted\": \"5 minutes to 15 minutes\",\n\t\t\t\"queueIsFull\": false,\n\t\t\t\"queueAll\": false,\n\t\t\t\"lastUpdated\": \"2020-08-03T23:46:00.000Z\",\n\t\t\t\"refreshIntervalSeconds\": 20,\n\t\t\t\"queueingMethod\": \"random\",\n\t\t\t\"isFIFOQueue\": false,\n\t\t\t\"isRandomQueue\": true,\n\t\t\t\"isPassthroughQueue\": false,\n\t\t\t\"isRejectQueue\": false,\n\t\t\t\"isEventActive\": true,\n\t\t\t\"isEventPrequeueing\": false,\n\t\t\t\"timeUntilEventStart\": 0,\n\t\t\t\"timeUntilEventStartFormatted\": \"unavailable\",\n\t\t\t\"timeUntilEventEnd\": 15,\n\t\t\t\"timeUntilEventEndFormatted\": \"15 minutes\",\n\t\t\t\"shuffleAtEventStart\": true\n\t\t}\n\t}",
-					"default": false
+					"description": "Only available for the Waiting Room Advanced subscription. If `true`, requests to the waiting room with the header `Accept: application/json` will receive a JSON response object with information on the user's status in the waiting room as opposed to the configured static HTML page. This JSON response object has one property `cfWaitingRoom` which is an object containing the following fields:\n1. `inWaitingRoom`: Boolean indicating if the user is in the waiting room (always **true**).\n2. `waitTimeKnown`: Boolean indicating if the current estimated wait times are accurate. If **false**, they are not available.\n3. `waitTime`: Valid only when `waitTimeKnown` is **true**. Integer indicating the current estimated time in minutes the user will wait in the waiting room. When `queueingMethod` is **random**, this is set to `waitTime50Percentile`.\n4. `waitTime25Percentile`: Valid only when `queueingMethod` is **random** and `waitTimeKnown` is **true**. Integer indicating the current estimated maximum wait time for the 25% of users that gain entry the fastest (25th percentile).\n5. `waitTime50Percentile`: Valid only when `queueingMethod` is **random** and `waitTimeKnown` is **true**. Integer indicating the current estimated maximum wait time for the 50% of users that gain entry the fastest (50th percentile). In other words, half of the queued users are expected to let into the origin website before `waitTime50Percentile` and half are expected to be let in after it.\n6. `waitTime75Percentile`: Valid only when `queueingMethod` is **random** and `waitTimeKnown` is **true**. Integer indicating the current estimated maximum wait time for the 75% of users that gain entry the fastest (75th percentile).\n7. `waitTimeFormatted`: String displaying the `waitTime` formatted in English for users. If `waitTimeKnown` is **false**, `waitTimeFormatted` will display **unavailable**.\n8. `queueIsFull`: Boolean indicating if the waiting room's queue is currently full and not accepting new users at the moment.\n9. `queueAll`: Boolean indicating if all users will be queued in the waiting room and no one will be let into the origin website.\n10. `lastUpdated`: String displaying the timestamp as an ISO 8601 string of the user's last attempt to leave the waiting room and be let into the origin website. The user is able to make another attempt after `refreshIntervalSeconds` past this time. If the user makes a request too soon, it will be ignored and `lastUpdated` will not change.\n11. `refreshIntervalSeconds`: Integer indicating the number of seconds after `lastUpdated` until the user is able to make another attempt to leave the waiting room and be let into the origin website. When the `queueingMethod` is `reject`, there is no specified refresh time —\\_it will always be **zero**.\n12. `queueingMethod`: The queueing method currently used by the waiting room. It is either **fifo**, **random**, **passthrough**, or **reject**.\n13. `isFIFOQueue`: Boolean indicating if the waiting room uses a FIFO (First-In-First-Out) queue.\n14. `isRandomQueue`: Boolean indicating if the waiting room uses a Random queue where users gain access randomly.\n15. `isPassthroughQueue`: Boolean indicating if the waiting room uses a passthrough queue. Keep in mind that when passthrough is enabled, this JSON response will only exist when `queueAll` is **true** or `isEventPrequeueing` is **true** because in all other cases requests will go directly to the origin.\n16. `isRejectQueue`: Boolean indicating if the waiting room uses a reject queue.\n17. `isEventActive`: Boolean indicating if an event is currently occurring. Events are able to change a waiting room's behavior during a specified period of time. For additional information, look at the event properties `prequeue_start_time`, `event_start_time`, and `event_end_time` in the documentation for creating waiting room events. Events are considered active between these start and end times, as well as during the prequeueing period if it exists.\n18. `isEventPrequeueing`: Valid only when `isEventActive` is **true**. Boolean indicating if an event is currently prequeueing users before it starts.\n19. `timeUntilEventStart`: Valid only when `isEventPrequeueing` is **true**. Integer indicating the number of minutes until the event starts.\n20. `timeUntilEventStartFormatted`: String displaying the `timeUntilEventStart` formatted in English for users. If `isEventPrequeueing` is **false**, `timeUntilEventStartFormatted` will display **unavailable**.\n21. `timeUntilEventEnd`: Valid only when `isEventActive` is **true**. Integer indicating the number of minutes until the event ends.\n22. `timeUntilEventEndFormatted`: String displaying the `timeUntilEventEnd` formatted in English for users. If `isEventActive` is **false**, `timeUntilEventEndFormatted` will display **unavailable**.\n23. `shuffleAtEventStart`: Valid only when `isEventActive` is **true**. Boolean indicating if the users in the prequeue are shuffled randomly when the event starts.\n24. `turnstile`: Empty when turnstile isn't enabled. String displaying an html tag to display the Turnstile widget. Please add the `{{{turnstile}}}` tag to the `custom_html` template to ensure the Turnstile widget appears.\n25. `infiniteQueue`: Boolean indicating whether the response is for a user in the infinite queue.\n\nAn example cURL to a waiting room could be:\n\n\tcurl -X GET \"https://example.com/waitingroom\" \\\n\t\t-H \"Accept: application/json\"\n\nIf `json_response_enabled` is **true** and the request hits the waiting room, an example JSON response when `queueingMethod` is **fifo** and no event is active could be:\n\n\t{\n\t\t\"cfWaitingRoom\": {\n\t\t\t\"inWaitingRoom\": true,\n\t\t\t\"waitTimeKnown\": true,\n\t\t\t\"waitTime\": 10,\n\t\t\t\"waitTime25Percentile\": 0,\n\t\t\t\"waitTime50Percentile\": 0,\n\t\t\t\"waitTime75Percentile\": 0,\n\t\t\t\"waitTimeFormatted\": \"10 minutes\",\n\t\t\t\"queueIsFull\": false,\n\t\t\t\"queueAll\": false,\n\t\t\t\"lastUpdated\": \"2020-08-03T23:46:00.000Z\",\n\t\t\t\"refreshIntervalSeconds\": 20,\n\t\t\t\"queueingMethod\": \"fifo\",\n\t\t\t\"isFIFOQueue\": true,\n\t\t\t\"isRandomQueue\": false,\n\t\t\t\"isPassthroughQueue\": false,\n\t\t\t\"isRejectQueue\": false,\n\t\t\t\"isEventActive\": false,\n\t\t\t\"isEventPrequeueing\": false,\n\t\t\t\"timeUntilEventStart\": 0,\n\t\t\t\"timeUntilEventStartFormatted\": \"unavailable\",\n\t\t\t\"timeUntilEventEnd\": 0,\n\t\t\t\"timeUntilEventEndFormatted\": \"unavailable\",\n\t\t\t\"shuffleAtEventStart\": false\n\t\t}\n\t}\n\nIf `json_response_enabled` is **true** and the request hits the waiting room, an example JSON response when `queueingMethod` is **random** and an event is active could be:\n\n\t{\n\t\t\"cfWaitingRoom\": {\n\t\t\t\"inWaitingRoom\": true,\n\t\t\t\"waitTimeKnown\": true,\n\t\t\t\"waitTime\": 10,\n\t\t\t\"waitTime25Percentile\": 5,\n\t\t\t\"waitTime50Percentile\": 10,\n\t\t\t\"waitTime75Percentile\": 15,\n\t\t\t\"waitTimeFormatted\": \"5 minutes to 15 minutes\",\n\t\t\t\"queueIsFull\": false,\n\t\t\t\"queueAll\": false,\n\t\t\t\"lastUpdated\": \"2020-08-03T23:46:00.000Z\",\n\t\t\t\"refreshIntervalSeconds\": 20,\n\t\t\t\"queueingMethod\": \"random\",\n\t\t\t\"isFIFOQueue\": false,\n\t\t\t\"isRandomQueue\": true,\n\t\t\t\"isPassthroughQueue\": false,\n\t\t\t\"isRejectQueue\": false,\n\t\t\t\"isEventActive\": true,\n\t\t\t\"isEventPrequeueing\": false,\n\t\t\t\"timeUntilEventStart\": 0,\n\t\t\t\"timeUntilEventStartFormatted\": \"unavailable\",\n\t\t\t\"timeUntilEventEnd\": 15,\n\t\t\t\"timeUntilEventEndFormatted\": \"15 minutes\",\n\t\t\t\"shuffleAtEventStart\": true\n\t\t}\n\t}"
 				},
 				{
 					"name": "name",
@@ -130629,44 +130423,38 @@
 					"name": "path",
 					"type": "string",
 					"required": false,
-					"description": "Sets the path within the host to enable the waiting room on. The waiting room will be enabled for all subpaths as well. If there are two waiting rooms on the same subpath, the waiting room for the most specific path will be chosen. Wildcards and query parameters are not supported.",
-					"default": "/"
+					"description": "Sets the path within the host to enable the waiting room on. The waiting room will be enabled for all subpaths as well. If there are two waiting rooms on the same subpath, the waiting room for the most specific path will be chosen. Wildcards and query parameters are not supported."
 				},
 				{
 					"name": "queue-all",
 					"type": "boolean",
 					"required": false,
-					"description": "If queue_all is `true`, all the traffic that is coming to a route will be sent to the waiting room. No new traffic can get to the route once this field is set and estimated time will become unavailable.",
-					"default": false
+					"description": "If queue_all is `true`, all the traffic that is coming to a route will be sent to the waiting room. No new traffic can get to the route once this field is set and estimated time will become unavailable."
 				},
 				{
 					"name": "queueing-method",
 					"type": "string",
 					"required": false,
 					"description": "Sets the queueing method used by the waiting room. Changing this parameter from the **default** queueing method is only available for the Waiting Room Advanced subscription. Regardless of the queueing method, if `queue_all` is enabled or an event is prequeueing, users in the waiting room will not be accepted to the origin. These users will always see a waiting room page that refreshes automatically. The valid queueing methods are:\n1. `fifo` **(default)**: First-In-First-Out queue where customers gain access in the order they arrived.\n2. `random`: Random queue where customers gain access randomly, regardless of arrival time.\n3. `passthrough`: Users will pass directly through the waiting room and into the origin website. As a result, any configured limits will not be respected while this is enabled. This method can be used as an alternative to disabling a waiting room (with `suspended`) so that analytics are still reported. This can be used if you wish to allow all traffic normally, but want to restrict traffic during a waiting room event, or vice versa.\n4. `reject`: Users will be immediately rejected from the waiting room. As a result, no users will reach the origin website while this is enabled. This can be used if you wish to reject all traffic while performing maintenance, block traffic during a specified period of time (an event), or block traffic while events are not occurring. Consider a waiting room used for vaccine distribution that only allows traffic during sign-up events, and otherwise blocks all traffic. For this case, the waiting room uses `reject`, and its events override this with `fifo`, `random`, or `passthrough`. When this queueing method is enabled and neither `queueAll` is enabled nor an event is prequeueing, the waiting room page **will not refresh automatically**.",
-					"default": "fifo",
 					"enum": ["fifo", "random", "passthrough", "reject"]
 				},
 				{
 					"name": "queueing-status-code",
 					"type": "number",
 					"required": false,
-					"description": "HTTP status code returned to a user while in the queue.",
-					"default": 200
+					"description": "HTTP status code returned to a user while in the queue."
 				},
 				{
 					"name": "session-duration",
 					"type": "number",
 					"required": false,
-					"description": "Lifetime of a cookie (in minutes) set by Cloudflare for users who get access to the route. If a user is not seen by Cloudflare again in that time period, they will be treated as a new user that visits the route.",
-					"default": 5
+					"description": "Lifetime of a cookie (in minutes) set by Cloudflare for users who get access to the route. If a user is not seen by Cloudflare again in that time period, they will be treated as a new user that visits the route."
 				},
 				{
 					"name": "suspended",
 					"type": "boolean",
 					"required": false,
-					"description": "Suspends or allows traffic going to the waiting room. If set to `true`, the traffic will not go to the waiting room.",
-					"default": false
+					"description": "Suspends or allows traffic going to the waiting room. If set to `true`, the traffic will not go to the waiting room."
 				},
 				{
 					"name": "total-active-users",
@@ -130679,7 +130467,6 @@
 					"type": "string",
 					"required": false,
 					"description": "Which action to take when a bot is detected using Turnstile. `log` will\nhave no impact on queueing behavior, simply keeping track of how many\nbots are detected in Waiting Room Analytics. `infinite_queue` will send\nbots to a false queueing state, where they will never reach your\norigin. `infinite_queue` requires Advanced Waiting Room.\n",
-					"default": "log",
 					"enum": ["log", "infinite_queue"]
 				},
 				{
@@ -130687,7 +130474,6 @@
 					"type": "string",
 					"required": false,
 					"description": "Which Turnstile widget type to use for detecting bot traffic. See\n[the Turnstile documentation](https://developers.cloudflare.com/turnstile/concepts/widget/#widget-types)\nfor the definitions of these widget types. Set to `off` to disable the\nTurnstile integration entirely. Setting this to anything other than\n`off` or `invisible` requires Advanced Waiting Room.\n",
-					"default": "invisible",
 					"enum": [
 						"off",
 						"invisible",
@@ -130963,8 +130749,7 @@
 					"name": "description",
 					"type": "string",
 					"required": false,
-					"description": "A note that you can use to add more details about the event.",
-					"default": ""
+					"description": "A note that you can use to add more details about the event."
 				},
 				{
 					"name": "disable-session-renewal",
@@ -131018,15 +130803,13 @@
 					"name": "shuffle-at-event-start",
 					"type": "boolean",
 					"required": false,
-					"description": "If enabled, users in the prequeue will be shuffled randomly at the `event_start_time`. Requires that `prequeue_start_time` is not null. This is useful for situations when many users will join the event prequeue at the same time and you want to shuffle them to ensure fairness. Naturally, it makes the most sense to enable this feature when the `queueing_method` during the event respects ordering such as **fifo**, or else the shuffling may be unnecessary.",
-					"default": false
+					"description": "If enabled, users in the prequeue will be shuffled randomly at the `event_start_time`. Requires that `prequeue_start_time` is not null. This is useful for situations when many users will join the event prequeue at the same time and you want to shuffle them to ensure fairness. Naturally, it makes the most sense to enable this feature when the `queueing_method` during the event respects ordering such as **fifo**, or else the shuffling may be unnecessary."
 				},
 				{
 					"name": "suspended",
 					"type": "boolean",
 					"required": false,
-					"description": "Suspends or allows an event. If set to `true`, the event is ignored and traffic will be handled based on the waiting room configuration.",
-					"default": false
+					"description": "Suspends or allows an event. If set to `true`, the event is ignored and traffic will be handled based on the waiting room configuration."
 				},
 				{
 					"name": "total-active-users",
@@ -131187,8 +130970,7 @@
 					"name": "description",
 					"type": "string",
 					"required": false,
-					"description": "A note that you can use to add more details about the event.",
-					"default": ""
+					"description": "A note that you can use to add more details about the event."
 				},
 				{
 					"name": "disable-session-renewal",
@@ -131242,15 +131024,13 @@
 					"name": "shuffle-at-event-start",
 					"type": "boolean",
 					"required": false,
-					"description": "If enabled, users in the prequeue will be shuffled randomly at the `event_start_time`. Requires that `prequeue_start_time` is not null. This is useful for situations when many users will join the event prequeue at the same time and you want to shuffle them to ensure fairness. Naturally, it makes the most sense to enable this feature when the `queueing_method` during the event respects ordering such as **fifo**, or else the shuffling may be unnecessary.",
-					"default": false
+					"description": "If enabled, users in the prequeue will be shuffled randomly at the `event_start_time`. Requires that `prequeue_start_time` is not null. This is useful for situations when many users will join the event prequeue at the same time and you want to shuffle them to ensure fairness. Naturally, it makes the most sense to enable this feature when the `queueing_method` during the event respects ordering such as **fifo**, or else the shuffling may be unnecessary."
 				},
 				{
 					"name": "suspended",
 					"type": "boolean",
 					"required": false,
-					"description": "Suspends or allows an event. If set to `true`, the event is ignored and traffic will be handled based on the waiting room configuration.",
-					"default": false
+					"description": "Suspends or allows an event. If set to `true`, the event is ignored and traffic will be handled based on the waiting room configuration."
 				},
 				{
 					"name": "total-active-users",
@@ -131504,15 +131284,13 @@
 					"name": "description",
 					"type": "string",
 					"required": false,
-					"description": "The description of the rule.",
-					"default": ""
+					"description": "The description of the rule."
 				},
 				{
 					"name": "enabled",
 					"type": "boolean",
 					"required": false,
-					"description": "When set to true, the rule is enabled.",
-					"default": true
+					"description": "When set to true, the rule is enabled."
 				},
 				{
 					"name": "expression",
@@ -131642,8 +131420,7 @@
 					"name": "search-engine-crawler-bypass",
 					"type": "boolean",
 					"required": false,
-					"description": "Whether to allow verified search engine crawlers to bypass all waiting rooms on this zone.\nVerified search engine crawlers will not be tracked or counted by the waiting room system,\nand will not appear in waiting room analytics.\n",
-					"default": false
+					"description": "Whether to allow verified search engine crawlers to bypass all waiting rooms on this zone.\nVerified search engine crawlers will not be tracked or counted by the waiting room system,\nand will not appear in waiting room analytics.\n"
 				},
 				{
 					"name": "dry-run",
@@ -131703,8 +131480,7 @@
 					"name": "search-engine-crawler-bypass",
 					"type": "boolean",
 					"required": false,
-					"description": "Whether to allow verified search engine crawlers to bypass all waiting rooms on this zone.\nVerified search engine crawlers will not be tracked or counted by the waiting room system,\nand will not appear in waiting room analytics.\n",
-					"default": false
+					"description": "Whether to allow verified search engine crawlers to bypass all waiting rooms on this zone.\nVerified search engine crawlers will not be tracked or counted by the waiting room system,\nand will not appear in waiting room analytics.\n"
 				},
 				{
 					"name": "dry-run",
@@ -131800,22 +131576,19 @@
 					"name": "cookie-suffix",
 					"type": "string",
 					"required": false,
-					"description": "Appends a '_' + a custom suffix to the end of Cloudflare Waiting Room's cookie name(__cf_waitingroom). If `cookie_suffix` is \"abcd\", the cookie name will be `__cf_waitingroom_abcd`. This field is required if using `additional_routes`.",
-					"default": ""
+					"description": "Appends a '_' + a custom suffix to the end of Cloudflare Waiting Room's cookie name(__cf_waitingroom). If `cookie_suffix` is \"abcd\", the cookie name will be `__cf_waitingroom_abcd`. This field is required if using `additional_routes`."
 				},
 				{
 					"name": "custom-page-html",
 					"type": "string",
 					"required": false,
-					"description": "Only available for the Waiting Room Advanced subscription. This is a template html file that will be rendered at the edge. If no custom_page_html is provided, the default waiting room will be used. The template is based on mustache ( https://mustache.github.io/ ). There are several variables that are evaluated by the Cloudflare edge:\n1. {{`waitTimeKnown`}} Acts like a boolean value that indicates the behavior to take when wait time is not available, for instance when queue_all is **true**.\n2. {{`waitTimeFormatted`}} Estimated wait time for the user. For example, five minutes. Alternatively, you can use:\n3. {{`waitTime`}} Number of minutes of estimated wait for a user.\n4. {{`waitTimeHours`}} Number of hours of estimated wait for a user (`Math.floor(waitTime/60)`).\n5. {{`waitTimeHourMinutes`}} Number of minutes above the `waitTimeHours` value (`waitTime%60`).\n6. {{`queueIsFull`}} Changes to **true** when no more people can be added to the queue.\n\nTo view the full list of variables, look at the `cfWaitingRoom` object described under the `json_response_enabled` property in other Waiting Room API calls.",
-					"default": ""
+					"description": "Only available for the Waiting Room Advanced subscription. This is a template html file that will be rendered at the edge. If no custom_page_html is provided, the default waiting room will be used. The template is based on mustache ( https://mustache.github.io/ ). There are several variables that are evaluated by the Cloudflare edge:\n1. {{`waitTimeKnown`}} Acts like a boolean value that indicates the behavior to take when wait time is not available, for instance when queue_all is **true**.\n2. {{`waitTimeFormatted`}} Estimated wait time for the user. For example, five minutes. Alternatively, you can use:\n3. {{`waitTime`}} Number of minutes of estimated wait for a user.\n4. {{`waitTimeHours`}} Number of hours of estimated wait for a user (`Math.floor(waitTime/60)`).\n5. {{`waitTimeHourMinutes`}} Number of minutes above the `waitTimeHours` value (`waitTime%60`).\n6. {{`queueIsFull`}} Changes to **true** when no more people can be added to the queue.\n\nTo view the full list of variables, look at the `cfWaitingRoom` object described under the `json_response_enabled` property in other Waiting Room API calls."
 				},
 				{
 					"name": "default-template-language",
 					"type": "string",
 					"required": false,
 					"description": "The language of the default page template. If no default_template_language is provided, then `en-US` (English) will be used.",
-					"default": "en-US",
 					"enum": [
 						"en-US",
 						"es-ES",
@@ -131862,15 +131635,13 @@
 					"name": "description",
 					"type": "string",
 					"required": false,
-					"description": "A note that you can use to add more details about the waiting room.",
-					"default": ""
+					"description": "A note that you can use to add more details about the waiting room."
 				},
 				{
 					"name": "disable-session-renewal",
 					"type": "boolean",
 					"required": false,
-					"description": "Only available for the Waiting Room Advanced subscription. Disables automatic renewal of session cookies. If `true`, an accepted user will have session_duration minutes to browse the site. After that, they will have to go through the waiting room again. If `false`, a user's session cookie will be automatically renewed on every request.",
-					"default": false
+					"description": "Only available for the Waiting Room Advanced subscription. Disables automatic renewal of session cookies. If `true`, an accepted user will have session_duration minutes to browse the site. After that, they will have to go through the waiting room again. If `false`, a user's session cookie will be automatically renewed on every request."
 				},
 				{
 					"name": "enabled-origin-commands",
@@ -131888,8 +131659,7 @@
 					"name": "json-response-enabled",
 					"type": "boolean",
 					"required": false,
-					"description": "Only available for the Waiting Room Advanced subscription. If `true`, requests to the waiting room with the header `Accept: application/json` will receive a JSON response object with information on the user's status in the waiting room as opposed to the configured static HTML page. This JSON response object has one property `cfWaitingRoom` which is an object containing the following fields:\n1. `inWaitingRoom`: Boolean indicating if the user is in the waiting room (always **true**).\n2. `waitTimeKnown`: Boolean indicating if the current estimated wait times are accurate. If **false**, they are not available.\n3. `waitTime`: Valid only when `waitTimeKnown` is **true**. Integer indicating the current estimated time in minutes the user will wait in the waiting room. When `queueingMethod` is **random**, this is set to `waitTime50Percentile`.\n4. `waitTime25Percentile`: Valid only when `queueingMethod` is **random** and `waitTimeKnown` is **true**. Integer indicating the current estimated maximum wait time for the 25% of users that gain entry the fastest (25th percentile).\n5. `waitTime50Percentile`: Valid only when `queueingMethod` is **random** and `waitTimeKnown` is **true**. Integer indicating the current estimated maximum wait time for the 50% of users that gain entry the fastest (50th percentile). In other words, half of the queued users are expected to let into the origin website before `waitTime50Percentile` and half are expected to be let in after it.\n6. `waitTime75Percentile`: Valid only when `queueingMethod` is **random** and `waitTimeKnown` is **true**. Integer indicating the current estimated maximum wait time for the 75% of users that gain entry the fastest (75th percentile).\n7. `waitTimeFormatted`: String displaying the `waitTime` formatted in English for users. If `waitTimeKnown` is **false**, `waitTimeFormatted` will display **unavailable**.\n8. `queueIsFull`: Boolean indicating if the waiting room's queue is currently full and not accepting new users at the moment.\n9. `queueAll`: Boolean indicating if all users will be queued in the waiting room and no one will be let into the origin website.\n10. `lastUpdated`: String displaying the timestamp as an ISO 8601 string of the user's last attempt to leave the waiting room and be let into the origin website. The user is able to make another attempt after `refreshIntervalSeconds` past this time. If the user makes a request too soon, it will be ignored and `lastUpdated` will not change.\n11. `refreshIntervalSeconds`: Integer indicating the number of seconds after `lastUpdated` until the user is able to make another attempt to leave the waiting room and be let into the origin website. When the `queueingMethod` is `reject`, there is no specified refresh time —\\_it will always be **zero**.\n12. `queueingMethod`: The queueing method currently used by the waiting room. It is either **fifo**, **random**, **passthrough**, or **reject**.\n13. `isFIFOQueue`: Boolean indicating if the waiting room uses a FIFO (First-In-First-Out) queue.\n14. `isRandomQueue`: Boolean indicating if the waiting room uses a Random queue where users gain access randomly.\n15. `isPassthroughQueue`: Boolean indicating if the waiting room uses a passthrough queue. Keep in mind that when passthrough is enabled, this JSON response will only exist when `queueAll` is **true** or `isEventPrequeueing` is **true** because in all other cases requests will go directly to the origin.\n16. `isRejectQueue`: Boolean indicating if the waiting room uses a reject queue.\n17. `isEventActive`: Boolean indicating if an event is currently occurring. Events are able to change a waiting room's behavior during a specified period of time. For additional information, look at the event properties `prequeue_start_time`, `event_start_time`, and `event_end_time` in the documentation for creating waiting room events. Events are considered active between these start and end times, as well as during the prequeueing period if it exists.\n18. `isEventPrequeueing`: Valid only when `isEventActive` is **true**. Boolean indicating if an event is currently prequeueing users before it starts.\n19. `timeUntilEventStart`: Valid only when `isEventPrequeueing` is **true**. Integer indicating the number of minutes until the event starts.\n20. `timeUntilEventStartFormatted`: String displaying the `timeUntilEventStart` formatted in English for users. If `isEventPrequeueing` is **false**, `timeUntilEventStartFormatted` will display **unavailable**.\n21. `timeUntilEventEnd`: Valid only when `isEventActive` is **true**. Integer indicating the number of minutes until the event ends.\n22. `timeUntilEventEndFormatted`: String displaying the `timeUntilEventEnd` formatted in English for users. If `isEventActive` is **false**, `timeUntilEventEndFormatted` will display **unavailable**.\n23. `shuffleAtEventStart`: Valid only when `isEventActive` is **true**. Boolean indicating if the users in the prequeue are shuffled randomly when the event starts.\n24. `turnstile`: Empty when turnstile isn't enabled. String displaying an html tag to display the Turnstile widget. Please add the `{{{turnstile}}}` tag to the `custom_html` template to ensure the Turnstile widget appears.\n25. `infiniteQueue`: Boolean indicating whether the response is for a user in the infinite queue.\n\nAn example cURL to a waiting room could be:\n\n\tcurl -X GET \"https://example.com/waitingroom\" \\\n\t\t-H \"Accept: application/json\"\n\nIf `json_response_enabled` is **true** and the request hits the waiting room, an example JSON response when `queueingMethod` is **fifo** and no event is active could be:\n\n\t{\n\t\t\"cfWaitingRoom\": {\n\t\t\t\"inWaitingRoom\": true,\n\t\t\t\"waitTimeKnown\": true,\n\t\t\t\"waitTime\": 10,\n\t\t\t\"waitTime25Percentile\": 0,\n\t\t\t\"waitTime50Percentile\": 0,\n\t\t\t\"waitTime75Percentile\": 0,\n\t\t\t\"waitTimeFormatted\": \"10 minutes\",\n\t\t\t\"queueIsFull\": false,\n\t\t\t\"queueAll\": false,\n\t\t\t\"lastUpdated\": \"2020-08-03T23:46:00.000Z\",\n\t\t\t\"refreshIntervalSeconds\": 20,\n\t\t\t\"queueingMethod\": \"fifo\",\n\t\t\t\"isFIFOQueue\": true,\n\t\t\t\"isRandomQueue\": false,\n\t\t\t\"isPassthroughQueue\": false,\n\t\t\t\"isRejectQueue\": false,\n\t\t\t\"isEventActive\": false,\n\t\t\t\"isEventPrequeueing\": false,\n\t\t\t\"timeUntilEventStart\": 0,\n\t\t\t\"timeUntilEventStartFormatted\": \"unavailable\",\n\t\t\t\"timeUntilEventEnd\": 0,\n\t\t\t\"timeUntilEventEndFormatted\": \"unavailable\",\n\t\t\t\"shuffleAtEventStart\": false\n\t\t}\n\t}\n\nIf `json_response_enabled` is **true** and the request hits the waiting room, an example JSON response when `queueingMethod` is **random** and an event is active could be:\n\n\t{\n\t\t\"cfWaitingRoom\": {\n\t\t\t\"inWaitingRoom\": true,\n\t\t\t\"waitTimeKnown\": true,\n\t\t\t\"waitTime\": 10,\n\t\t\t\"waitTime25Percentile\": 5,\n\t\t\t\"waitTime50Percentile\": 10,\n\t\t\t\"waitTime75Percentile\": 15,\n\t\t\t\"waitTimeFormatted\": \"5 minutes to 15 minutes\",\n\t\t\t\"queueIsFull\": false,\n\t\t\t\"queueAll\": false,\n\t\t\t\"lastUpdated\": \"2020-08-03T23:46:00.000Z\",\n\t\t\t\"refreshIntervalSeconds\": 20,\n\t\t\t\"queueingMethod\": \"random\",\n\t\t\t\"isFIFOQueue\": false,\n\t\t\t\"isRandomQueue\": true,\n\t\t\t\"isPassthroughQueue\": false,\n\t\t\t\"isRejectQueue\": false,\n\t\t\t\"isEventActive\": true,\n\t\t\t\"isEventPrequeueing\": false,\n\t\t\t\"timeUntilEventStart\": 0,\n\t\t\t\"timeUntilEventStartFormatted\": \"unavailable\",\n\t\t\t\"timeUntilEventEnd\": 15,\n\t\t\t\"timeUntilEventEndFormatted\": \"15 minutes\",\n\t\t\t\"shuffleAtEventStart\": true\n\t\t}\n\t}",
-					"default": false
+					"description": "Only available for the Waiting Room Advanced subscription. If `true`, requests to the waiting room with the header `Accept: application/json` will receive a JSON response object with information on the user's status in the waiting room as opposed to the configured static HTML page. This JSON response object has one property `cfWaitingRoom` which is an object containing the following fields:\n1. `inWaitingRoom`: Boolean indicating if the user is in the waiting room (always **true**).\n2. `waitTimeKnown`: Boolean indicating if the current estimated wait times are accurate. If **false**, they are not available.\n3. `waitTime`: Valid only when `waitTimeKnown` is **true**. Integer indicating the current estimated time in minutes the user will wait in the waiting room. When `queueingMethod` is **random**, this is set to `waitTime50Percentile`.\n4. `waitTime25Percentile`: Valid only when `queueingMethod` is **random** and `waitTimeKnown` is **true**. Integer indicating the current estimated maximum wait time for the 25% of users that gain entry the fastest (25th percentile).\n5. `waitTime50Percentile`: Valid only when `queueingMethod` is **random** and `waitTimeKnown` is **true**. Integer indicating the current estimated maximum wait time for the 50% of users that gain entry the fastest (50th percentile). In other words, half of the queued users are expected to let into the origin website before `waitTime50Percentile` and half are expected to be let in after it.\n6. `waitTime75Percentile`: Valid only when `queueingMethod` is **random** and `waitTimeKnown` is **true**. Integer indicating the current estimated maximum wait time for the 75% of users that gain entry the fastest (75th percentile).\n7. `waitTimeFormatted`: String displaying the `waitTime` formatted in English for users. If `waitTimeKnown` is **false**, `waitTimeFormatted` will display **unavailable**.\n8. `queueIsFull`: Boolean indicating if the waiting room's queue is currently full and not accepting new users at the moment.\n9. `queueAll`: Boolean indicating if all users will be queued in the waiting room and no one will be let into the origin website.\n10. `lastUpdated`: String displaying the timestamp as an ISO 8601 string of the user's last attempt to leave the waiting room and be let into the origin website. The user is able to make another attempt after `refreshIntervalSeconds` past this time. If the user makes a request too soon, it will be ignored and `lastUpdated` will not change.\n11. `refreshIntervalSeconds`: Integer indicating the number of seconds after `lastUpdated` until the user is able to make another attempt to leave the waiting room and be let into the origin website. When the `queueingMethod` is `reject`, there is no specified refresh time —\\_it will always be **zero**.\n12. `queueingMethod`: The queueing method currently used by the waiting room. It is either **fifo**, **random**, **passthrough**, or **reject**.\n13. `isFIFOQueue`: Boolean indicating if the waiting room uses a FIFO (First-In-First-Out) queue.\n14. `isRandomQueue`: Boolean indicating if the waiting room uses a Random queue where users gain access randomly.\n15. `isPassthroughQueue`: Boolean indicating if the waiting room uses a passthrough queue. Keep in mind that when passthrough is enabled, this JSON response will only exist when `queueAll` is **true** or `isEventPrequeueing` is **true** because in all other cases requests will go directly to the origin.\n16. `isRejectQueue`: Boolean indicating if the waiting room uses a reject queue.\n17. `isEventActive`: Boolean indicating if an event is currently occurring. Events are able to change a waiting room's behavior during a specified period of time. For additional information, look at the event properties `prequeue_start_time`, `event_start_time`, and `event_end_time` in the documentation for creating waiting room events. Events are considered active between these start and end times, as well as during the prequeueing period if it exists.\n18. `isEventPrequeueing`: Valid only when `isEventActive` is **true**. Boolean indicating if an event is currently prequeueing users before it starts.\n19. `timeUntilEventStart`: Valid only when `isEventPrequeueing` is **true**. Integer indicating the number of minutes until the event starts.\n20. `timeUntilEventStartFormatted`: String displaying the `timeUntilEventStart` formatted in English for users. If `isEventPrequeueing` is **false**, `timeUntilEventStartFormatted` will display **unavailable**.\n21. `timeUntilEventEnd`: Valid only when `isEventActive` is **true**. Integer indicating the number of minutes until the event ends.\n22. `timeUntilEventEndFormatted`: String displaying the `timeUntilEventEnd` formatted in English for users. If `isEventActive` is **false**, `timeUntilEventEndFormatted` will display **unavailable**.\n23. `shuffleAtEventStart`: Valid only when `isEventActive` is **true**. Boolean indicating if the users in the prequeue are shuffled randomly when the event starts.\n24. `turnstile`: Empty when turnstile isn't enabled. String displaying an html tag to display the Turnstile widget. Please add the `{{{turnstile}}}` tag to the `custom_html` template to ensure the Turnstile widget appears.\n25. `infiniteQueue`: Boolean indicating whether the response is for a user in the infinite queue.\n\nAn example cURL to a waiting room could be:\n\n\tcurl -X GET \"https://example.com/waitingroom\" \\\n\t\t-H \"Accept: application/json\"\n\nIf `json_response_enabled` is **true** and the request hits the waiting room, an example JSON response when `queueingMethod` is **fifo** and no event is active could be:\n\n\t{\n\t\t\"cfWaitingRoom\": {\n\t\t\t\"inWaitingRoom\": true,\n\t\t\t\"waitTimeKnown\": true,\n\t\t\t\"waitTime\": 10,\n\t\t\t\"waitTime25Percentile\": 0,\n\t\t\t\"waitTime50Percentile\": 0,\n\t\t\t\"waitTime75Percentile\": 0,\n\t\t\t\"waitTimeFormatted\": \"10 minutes\",\n\t\t\t\"queueIsFull\": false,\n\t\t\t\"queueAll\": false,\n\t\t\t\"lastUpdated\": \"2020-08-03T23:46:00.000Z\",\n\t\t\t\"refreshIntervalSeconds\": 20,\n\t\t\t\"queueingMethod\": \"fifo\",\n\t\t\t\"isFIFOQueue\": true,\n\t\t\t\"isRandomQueue\": false,\n\t\t\t\"isPassthroughQueue\": false,\n\t\t\t\"isRejectQueue\": false,\n\t\t\t\"isEventActive\": false,\n\t\t\t\"isEventPrequeueing\": false,\n\t\t\t\"timeUntilEventStart\": 0,\n\t\t\t\"timeUntilEventStartFormatted\": \"unavailable\",\n\t\t\t\"timeUntilEventEnd\": 0,\n\t\t\t\"timeUntilEventEndFormatted\": \"unavailable\",\n\t\t\t\"shuffleAtEventStart\": false\n\t\t}\n\t}\n\nIf `json_response_enabled` is **true** and the request hits the waiting room, an example JSON response when `queueingMethod` is **random** and an event is active could be:\n\n\t{\n\t\t\"cfWaitingRoom\": {\n\t\t\t\"inWaitingRoom\": true,\n\t\t\t\"waitTimeKnown\": true,\n\t\t\t\"waitTime\": 10,\n\t\t\t\"waitTime25Percentile\": 5,\n\t\t\t\"waitTime50Percentile\": 10,\n\t\t\t\"waitTime75Percentile\": 15,\n\t\t\t\"waitTimeFormatted\": \"5 minutes to 15 minutes\",\n\t\t\t\"queueIsFull\": false,\n\t\t\t\"queueAll\": false,\n\t\t\t\"lastUpdated\": \"2020-08-03T23:46:00.000Z\",\n\t\t\t\"refreshIntervalSeconds\": 20,\n\t\t\t\"queueingMethod\": \"random\",\n\t\t\t\"isFIFOQueue\": false,\n\t\t\t\"isRandomQueue\": true,\n\t\t\t\"isPassthroughQueue\": false,\n\t\t\t\"isRejectQueue\": false,\n\t\t\t\"isEventActive\": true,\n\t\t\t\"isEventPrequeueing\": false,\n\t\t\t\"timeUntilEventStart\": 0,\n\t\t\t\"timeUntilEventStartFormatted\": \"unavailable\",\n\t\t\t\"timeUntilEventEnd\": 15,\n\t\t\t\"timeUntilEventEndFormatted\": \"15 minutes\",\n\t\t\t\"shuffleAtEventStart\": true\n\t\t}\n\t}"
 				},
 				{
 					"name": "name",
@@ -131907,44 +131677,38 @@
 					"name": "path",
 					"type": "string",
 					"required": false,
-					"description": "Sets the path within the host to enable the waiting room on. The waiting room will be enabled for all subpaths as well. If there are two waiting rooms on the same subpath, the waiting room for the most specific path will be chosen. Wildcards and query parameters are not supported.",
-					"default": "/"
+					"description": "Sets the path within the host to enable the waiting room on. The waiting room will be enabled for all subpaths as well. If there are two waiting rooms on the same subpath, the waiting room for the most specific path will be chosen. Wildcards and query parameters are not supported."
 				},
 				{
 					"name": "queue-all",
 					"type": "boolean",
 					"required": false,
-					"description": "If queue_all is `true`, all the traffic that is coming to a route will be sent to the waiting room. No new traffic can get to the route once this field is set and estimated time will become unavailable.",
-					"default": false
+					"description": "If queue_all is `true`, all the traffic that is coming to a route will be sent to the waiting room. No new traffic can get to the route once this field is set and estimated time will become unavailable."
 				},
 				{
 					"name": "queueing-method",
 					"type": "string",
 					"required": false,
 					"description": "Sets the queueing method used by the waiting room. Changing this parameter from the **default** queueing method is only available for the Waiting Room Advanced subscription. Regardless of the queueing method, if `queue_all` is enabled or an event is prequeueing, users in the waiting room will not be accepted to the origin. These users will always see a waiting room page that refreshes automatically. The valid queueing methods are:\n1. `fifo` **(default)**: First-In-First-Out queue where customers gain access in the order they arrived.\n2. `random`: Random queue where customers gain access randomly, regardless of arrival time.\n3. `passthrough`: Users will pass directly through the waiting room and into the origin website. As a result, any configured limits will not be respected while this is enabled. This method can be used as an alternative to disabling a waiting room (with `suspended`) so that analytics are still reported. This can be used if you wish to allow all traffic normally, but want to restrict traffic during a waiting room event, or vice versa.\n4. `reject`: Users will be immediately rejected from the waiting room. As a result, no users will reach the origin website while this is enabled. This can be used if you wish to reject all traffic while performing maintenance, block traffic during a specified period of time (an event), or block traffic while events are not occurring. Consider a waiting room used for vaccine distribution that only allows traffic during sign-up events, and otherwise blocks all traffic. For this case, the waiting room uses `reject`, and its events override this with `fifo`, `random`, or `passthrough`. When this queueing method is enabled and neither `queueAll` is enabled nor an event is prequeueing, the waiting room page **will not refresh automatically**.",
-					"default": "fifo",
 					"enum": ["fifo", "random", "passthrough", "reject"]
 				},
 				{
 					"name": "queueing-status-code",
 					"type": "number",
 					"required": false,
-					"description": "HTTP status code returned to a user while in the queue.",
-					"default": 200
+					"description": "HTTP status code returned to a user while in the queue."
 				},
 				{
 					"name": "session-duration",
 					"type": "number",
 					"required": false,
-					"description": "Lifetime of a cookie (in minutes) set by Cloudflare for users who get access to the route. If a user is not seen by Cloudflare again in that time period, they will be treated as a new user that visits the route.",
-					"default": 5
+					"description": "Lifetime of a cookie (in minutes) set by Cloudflare for users who get access to the route. If a user is not seen by Cloudflare again in that time period, they will be treated as a new user that visits the route."
 				},
 				{
 					"name": "suspended",
 					"type": "boolean",
 					"required": false,
-					"description": "Suspends or allows traffic going to the waiting room. If set to `true`, the traffic will not go to the waiting room.",
-					"default": false
+					"description": "Suspends or allows traffic going to the waiting room. If set to `true`, the traffic will not go to the waiting room."
 				},
 				{
 					"name": "total-active-users",
@@ -131957,7 +131721,6 @@
 					"type": "string",
 					"required": false,
 					"description": "Which action to take when a bot is detected using Turnstile. `log` will\nhave no impact on queueing behavior, simply keeping track of how many\nbots are detected in Waiting Room Analytics. `infinite_queue` will send\nbots to a false queueing state, where they will never reach your\norigin. `infinite_queue` requires Advanced Waiting Room.\n",
-					"default": "log",
 					"enum": ["log", "infinite_queue"]
 				},
 				{
@@ -131965,7 +131728,6 @@
 					"type": "string",
 					"required": false,
 					"description": "Which Turnstile widget type to use for detecting bot traffic. See\n[the Turnstile documentation](https://developers.cloudflare.com/turnstile/concepts/widget/#widget-types)\nfor the definitions of these widget types. Set to `off` to disable the\nTurnstile integration entirely. Setting this to anything other than\n`off` or `invisible` requires Advanced Waiting Room.\n",
-					"default": "invisible",
 					"enum": [
 						"off",
 						"invisible",
@@ -136916,7 +136678,6 @@
 					"type": "string",
 					"required": true,
 					"description": "The status field",
-					"default": "pause",
 					"enum": ["pause", "resume", "terminate", "restart"]
 				},
 				{
@@ -136993,7 +136754,6 @@
 					"type": "string",
 					"required": true,
 					"description": "The status field",
-					"default": "restart",
 					"enum": ["pause", "resume", "terminate", "restart"]
 				},
 				{
@@ -137070,7 +136830,6 @@
 					"type": "string",
 					"required": true,
 					"description": "The status field",
-					"default": "resume",
 					"enum": ["pause", "resume", "terminate", "restart"]
 				},
 				{
@@ -137204,7 +136963,6 @@
 					"type": "string",
 					"required": true,
 					"description": "The status field",
-					"default": "terminate",
 					"enum": ["pause", "resume", "terminate", "restart"]
 				},
 				{
@@ -140839,15 +140597,13 @@
 					"name": "client-secret-version",
 					"type": "number",
 					"required": false,
-					"description": "A version number identifying the current `client_secret` associated with the service token. Incrementing it triggers a rotation; the previous secret will still be accepted until the time indicated by `previous_client_secret_expires_at`. If the service token was reported as leaked, `previous_client_secret_expires_at` is not required, may not be in the future, and the previous secret is discarded immediately.",
-					"default": 1
+					"description": "A version number identifying the current `client_secret` associated with the service token. Incrementing it triggers a rotation; the previous secret will still be accepted until the time indicated by `previous_client_secret_expires_at`. If the service token was reported as leaked, `previous_client_secret_expires_at` is not required, may not be in the future, and the previous secret is discarded immediately."
 				},
 				{
 					"name": "duration",
 					"type": "string",
 					"required": false,
-					"description": "The duration for how long the service token will be valid. Must be in the format `300ms` or `2h45m`, or the special value `forever` for non-expiring tokens. Valid time units are: ns, us (or µs), ms, s, m, h. The default is 1 year in hours (8760h).",
-					"default": "8760h"
+					"description": "The duration for how long the service token will be valid. Must be in the format `300ms` or `2h45m`, or the special value `forever` for non-expiring tokens. Valid time units are: ns, us (or µs), ms, s, m, h. The default is 1 year in hours (8760h)."
 				},
 				{
 					"name": "enabled",
@@ -145851,7 +145607,6 @@
 					"type": "string",
 					"required": false,
 					"description": "Action for runtime Rego errors. Omit to reset to BLOCK.",
-					"default": "BLOCK",
 					"enum": ["BLOCK", "SKIP"]
 				},
 				{
@@ -145864,8 +145619,7 @@
 					"name": "rego-raise-error",
 					"type": "boolean",
 					"required": false,
-					"description": "Whether OPA builtin failures are raised as runtime evaluation errors. Omit to reset to true.",
-					"default": true
+					"description": "Whether OPA builtin failures are raised as runtime evaluation errors. Omit to reset to true."
 				},
 				{
 					"name": "tags",
@@ -150514,29 +150268,25 @@
 					"name": "allow-mode-switch",
 					"type": "boolean",
 					"required": false,
-					"description": "Whether to allow the user to switch WARP between modes.",
-					"default": false
+					"description": "Whether to allow the user to switch WARP between modes."
 				},
 				{
 					"name": "allow-updates",
 					"type": "boolean",
 					"required": false,
-					"description": "Whether to receive update notifications when a new version of the client is available.",
-					"default": false
+					"description": "Whether to receive update notifications when a new version of the client is available."
 				},
 				{
 					"name": "allowed-to-leave",
 					"type": "boolean",
 					"required": false,
-					"description": "Whether to allow devices to leave the organization.",
-					"default": true
+					"description": "Whether to allow devices to leave the organization."
 				},
 				{
 					"name": "auto-connect",
 					"type": "number",
 					"required": false,
-					"description": "The amount of time in seconds to reconnect after having been disabled.",
-					"default": 0
+					"description": "The amount of time in seconds to reconnect after having been disabled."
 				},
 				{
 					"name": "browser-extension-config-proxy-control",
@@ -150555,15 +150305,13 @@
 					"name": "captive-portal",
 					"type": "number",
 					"required": false,
-					"description": "Turn on the captive portal after the specified amount of time.",
-					"default": 180
+					"description": "Turn on the captive portal after the specified amount of time."
 				},
 				{
 					"name": "default",
 					"type": "boolean",
 					"required": false,
-					"description": "Whether the policy is the account default. WARP group profiles cannot set this field.",
-					"default": false
+					"description": "Whether the policy is the account default. WARP group profiles cannot set this field."
 				},
 				{
 					"name": "description",
@@ -150575,8 +150323,7 @@
 					"name": "disable-auto-fallback",
 					"type": "boolean",
 					"required": false,
-					"description": "If the `dns_server` field of a fallback domain is not present, the client will fall back to a best guess of the default/system DNS resolvers unless this policy option is set to `true`.",
-					"default": false
+					"description": "If the `dns_server` field of a fallback domain is not present, the client will fall back to a best guess of the default/system DNS resolvers unless this policy option is set to `true`."
 				},
 				{
 					"name": "dns-search-suffixes",
@@ -150600,8 +150347,7 @@
 					"name": "exclude-office-ips",
 					"type": "boolean",
 					"required": false,
-					"description": "Whether to add Microsoft IPs to Split Tunnel exclusions.",
-					"default": false
+					"description": "Whether to add Microsoft IPs to Split Tunnel exclusions."
 				},
 				{
 					"name": "global-acceleration-api-endpoints",
@@ -150673,15 +150419,13 @@
 					"name": "register-interface-ip-with-dns",
 					"type": "boolean",
 					"required": false,
-					"description": "Determines if the operating system will register WARP's local interface IP with your on-premises DNS server.",
-					"default": true
+					"description": "Determines if the operating system will register WARP's local interface IP with your on-premises DNS server."
 				},
 				{
 					"name": "sccm-vpn-boundary-support",
 					"type": "boolean",
 					"required": false,
-					"description": "Determines whether the WARP client indicates to SCCM that it is inside a VPN boundary. (Windows only).",
-					"default": false
+					"description": "Determines whether the WARP client indicates to SCCM that it is inside a VPN boundary. (Windows only)."
 				},
 				{
 					"name": "service-mode-v2-mode",
@@ -150699,29 +150443,25 @@
 					"name": "support-url",
 					"type": "string",
 					"required": false,
-					"description": "The URL to launch when the Send Feedback button is clicked.",
-					"default": ""
+					"description": "The URL to launch when the Send Feedback button is clicked."
 				},
 				{
 					"name": "switch-locked",
 					"type": "boolean",
 					"required": false,
-					"description": "Whether to allow the user to turn off the WARP switch and disconnect the client.",
-					"default": false
+					"description": "Whether to allow the user to turn off the WARP switch and disconnect the client."
 				},
 				{
 					"name": "tunnel-protocol",
 					"type": "string",
 					"required": false,
-					"description": "Determines which tunnel protocol to use.",
-					"default": ""
+					"description": "Determines which tunnel protocol to use."
 				},
 				{
 					"name": "uninstall-protection",
 					"type": "boolean",
 					"required": false,
-					"description": "Determines whether uninstalling the WARP client requires an override code. (Windows only).",
-					"default": false
+					"description": "Determines whether uninstalling the WARP client requires an override code. (Windows only)."
 				},
 				{
 					"name": "virtual-networks-allowed",
@@ -150793,43 +150533,37 @@
 					"name": "allow-mode-switch",
 					"type": "boolean",
 					"required": false,
-					"description": "Whether to allow the user to switch WARP between modes.",
-					"default": false
+					"description": "Whether to allow the user to switch WARP between modes."
 				},
 				{
 					"name": "allow-updates",
 					"type": "boolean",
 					"required": false,
-					"description": "Whether to receive update notifications when a new version of the client is available.",
-					"default": false
+					"description": "Whether to receive update notifications when a new version of the client is available."
 				},
 				{
 					"name": "allowed-to-leave",
 					"type": "boolean",
 					"required": false,
-					"description": "Whether to allow devices to leave the organization.",
-					"default": true
+					"description": "Whether to allow devices to leave the organization."
 				},
 				{
 					"name": "auto-connect",
 					"type": "number",
 					"required": false,
-					"description": "The amount of time in seconds to reconnect after having been disabled.",
-					"default": 0
+					"description": "The amount of time in seconds to reconnect after having been disabled."
 				},
 				{
 					"name": "captive-portal",
 					"type": "number",
 					"required": false,
-					"description": "Turn on the captive portal after the specified amount of time.",
-					"default": 180
+					"description": "Turn on the captive portal after the specified amount of time."
 				},
 				{
 					"name": "disable-auto-fallback",
 					"type": "boolean",
 					"required": false,
-					"description": "If the `dns_server` field of a fallback domain is not present, the client will fall back to a best guess of the default/system DNS resolvers unless this policy option is set to `true`.",
-					"default": false
+					"description": "If the `dns_server` field of a fallback domain is not present, the client will fall back to a best guess of the default/system DNS resolvers unless this policy option is set to `true`."
 				},
 				{
 					"name": "dns-search-suffixes",
@@ -150847,8 +150581,7 @@
 					"name": "exclude-office-ips",
 					"type": "boolean",
 					"required": false,
-					"description": "Whether to add Microsoft IPs to Split Tunnel exclusions.",
-					"default": false
+					"description": "Whether to add Microsoft IPs to Split Tunnel exclusions."
 				},
 				{
 					"name": "global-acceleration-api-endpoints",
@@ -150902,15 +150635,13 @@
 					"name": "register-interface-ip-with-dns",
 					"type": "boolean",
 					"required": false,
-					"description": "Determines if the operating system will register WARP's local interface IP with your on-premises DNS server.",
-					"default": true
+					"description": "Determines if the operating system will register WARP's local interface IP with your on-premises DNS server."
 				},
 				{
 					"name": "sccm-vpn-boundary-support",
 					"type": "boolean",
 					"required": false,
-					"description": "Determines whether the WARP client indicates to SCCM that it is inside a VPN boundary. (Windows only).",
-					"default": false
+					"description": "Determines whether the WARP client indicates to SCCM that it is inside a VPN boundary. (Windows only)."
 				},
 				{
 					"name": "service-mode-v2-mode",
@@ -150928,29 +150659,25 @@
 					"name": "support-url",
 					"type": "string",
 					"required": false,
-					"description": "The URL to launch when the Send Feedback button is clicked.",
-					"default": ""
+					"description": "The URL to launch when the Send Feedback button is clicked."
 				},
 				{
 					"name": "switch-locked",
 					"type": "boolean",
 					"required": false,
-					"description": "Whether to allow the user to turn off the WARP switch and disconnect the client.",
-					"default": false
+					"description": "Whether to allow the user to turn off the WARP switch and disconnect the client."
 				},
 				{
 					"name": "tunnel-protocol",
 					"type": "string",
 					"required": false,
-					"description": "Determines which tunnel protocol to use.",
-					"default": ""
+					"description": "Determines which tunnel protocol to use."
 				},
 				{
 					"name": "uninstall-protection",
 					"type": "boolean",
 					"required": false,
-					"description": "Determines whether uninstalling the WARP client requires an override code. (Windows only).",
-					"default": false
+					"description": "Determines whether uninstalling the WARP client requires an override code. (Windows only)."
 				},
 				{
 					"name": "virtual-networks-allowed",
@@ -155312,8 +155039,7 @@
 					"name": "ai-context-enabled",
 					"type": "boolean",
 					"required": false,
-					"description": "The ai_context_enabled field",
-					"default": false
+					"description": "The ai_context_enabled field"
 				},
 				{
 					"name": "allowed-match-count",
@@ -155325,8 +155051,7 @@
 					"name": "confidence-threshold",
 					"type": "string",
 					"required": false,
-					"description": "The confidence_threshold field",
-					"default": "low"
+					"description": "The confidence_threshold field"
 				},
 				{
 					"name": "context-awareness-enabled",
@@ -155374,8 +155099,7 @@
 					"name": "ocr-enabled",
 					"type": "boolean",
 					"required": false,
-					"description": "The ocr_enabled field",
-					"default": false
+					"description": "The ocr_enabled field"
 				},
 				{
 					"name": "sensitivity-levels",
@@ -155493,22 +155217,19 @@
 					"name": "ai-context-enabled",
 					"type": "boolean",
 					"required": false,
-					"description": "The ai_context_enabled field",
-					"default": false
+					"description": "The ai_context_enabled field"
 				},
 				{
 					"name": "allowed-match-count",
 					"type": "number",
 					"required": false,
-					"description": "The allowed_match_count field",
-					"default": 0
+					"description": "The allowed_match_count field"
 				},
 				{
 					"name": "confidence-threshold",
 					"type": "string",
 					"required": false,
-					"description": "The confidence_threshold field",
-					"default": "low"
+					"description": "The confidence_threshold field"
 				},
 				{
 					"name": "context-awareness-enabled",
@@ -155532,8 +155253,7 @@
 					"name": "ocr-enabled",
 					"type": "boolean",
 					"required": false,
-					"description": "The ocr_enabled field",
-					"default": false
+					"description": "The ocr_enabled field"
 				},
 				{
 					"name": "dry-run",
@@ -156145,15 +155865,13 @@
 					"name": "ai-context-analysis",
 					"type": "boolean",
 					"required": false,
-					"description": "Whether AI context analysis is enabled at the account level.",
-					"default": false
+					"description": "Whether AI context analysis is enabled at the account level."
 				},
 				{
 					"name": "ocr",
 					"type": "boolean",
 					"required": false,
-					"description": "Whether OCR is enabled at the account level.",
-					"default": false
+					"description": "Whether OCR is enabled at the account level."
 				},
 				{
 					"name": "payload-logging-masking-level",
@@ -156226,15 +155944,13 @@
 					"name": "ai-context-analysis",
 					"type": "boolean",
 					"required": false,
-					"description": "Whether AI context analysis is enabled at the account level.",
-					"default": false
+					"description": "Whether AI context analysis is enabled at the account level."
 				},
 				{
 					"name": "ocr",
 					"type": "boolean",
 					"required": false,
-					"description": "Whether OCR is enabled at the account level.",
-					"default": false
+					"description": "Whether OCR is enabled at the account level."
 				},
 				{
 					"name": "payload-logging-masking-level",
@@ -157681,15 +157397,13 @@
 					"name": "client-default",
 					"type": "boolean",
 					"required": false,
-					"description": "Indicate whether this location is the default location.",
-					"default": false
+					"description": "Indicate whether this location is the default location."
 				},
 				{
 					"name": "dns64-enabled",
 					"type": "boolean",
 					"required": false,
-					"description": "Enable DNS64 synthesis for DNS queries matched to this location. When updating a location, omitting this field resets it to false.",
-					"default": false
+					"description": "Enable DNS64 synthesis for DNS queries matched to this location. When updating a location, omitting this field resets it to false."
 				},
 				{
 					"name": "dns-destination-ips-id",
@@ -157701,8 +157415,7 @@
 					"name": "ecs-support",
 					"type": "boolean",
 					"required": false,
-					"description": "Indicate whether the location must resolve EDNS queries.",
-					"default": false
+					"description": "Indicate whether the location must resolve EDNS queries."
 				},
 				{
 					"name": "endpoints-doh-enabled",
@@ -157817,8 +157530,7 @@
 					"name": "redact-pii",
 					"type": "boolean",
 					"required": false,
-					"description": "Indicate whether to redact personally identifiable information from activity logging (PII fields include source IP, user email, user ID, device ID, URL, referrer, and user agent).",
-					"default": false
+					"description": "Indicate whether to redact personally identifiable information from activity logging (PII fields include source IP, user email, user ID, device ID, URL, referrer, and user agent)."
 				},
 				{
 					"name": "settings-by-rule-type-dns-log-all",
@@ -158973,15 +158685,13 @@
 					"name": "device-posture",
 					"type": "string",
 					"required": false,
-					"description": "Specify the wirefilter expression used for device posture check. The API automatically formats and sanitizes expressions before storing them. To prevent Terraform state drift, use the formatted expression returned in the API response.",
-					"default": ""
+					"description": "Specify the wirefilter expression used for device posture check. The API automatically formats and sanitizes expressions before storing them. To prevent Terraform state drift, use the formatted expression returned in the API response."
 				},
 				{
 					"name": "enabled",
 					"type": "boolean",
 					"required": false,
-					"description": "Specify whether the rule is enabled.",
-					"default": false
+					"description": "Specify whether the rule is enabled."
 				},
 				{
 					"name": "expiration-duration",
@@ -158999,8 +158709,7 @@
 					"name": "identity",
 					"type": "string",
 					"required": false,
-					"description": "Specify the wirefilter expression used for identity matching. The API automatically formats and sanitizes expressions before storing them. To prevent Terraform state drift, use the formatted expression returned in the API response.",
-					"default": ""
+					"description": "Specify the wirefilter expression used for identity matching. The API automatically formats and sanitizes expressions before storing them. To prevent Terraform state drift, use the formatted expression returned in the API response."
 				},
 				{
 					"name": "name",
@@ -159369,8 +159078,7 @@
 					"name": "traffic",
 					"type": "string",
 					"required": false,
-					"description": "Specify the wirefilter expression used for traffic matching. The API automatically formats and sanitizes expressions before storing them. To prevent Terraform state drift, use the formatted expression returned in the API response.",
-					"default": ""
+					"description": "Specify the wirefilter expression used for traffic matching. The API automatically formats and sanitizes expressions before storing them. To prevent Terraform state drift, use the formatted expression returned in the API response."
 				},
 				{
 					"name": "dry-run",
@@ -160384,8 +160092,7 @@
 					"name": "allow-authenticate-via-warp",
 					"type": "boolean",
 					"required": false,
-					"description": "When set to true, users can authenticate via WARP for any application in your organization. Application settings will take precedence over this value.",
-					"default": false
+					"description": "When set to true, users can authenticate via WARP for any application in your organization. Application settings will take precedence over this value."
 				},
 				{
 					"name": "auth-domain",
@@ -160397,8 +160104,7 @@
 					"name": "auto-redirect-to-identity",
 					"type": "boolean",
 					"required": false,
-					"description": "When set to `true`, users skip the identity provider selection step during login.",
-					"default": false
+					"description": "When set to `true`, users skip the identity provider selection step during login."
 				},
 				{
 					"name": "custom-pages-forbidden",
@@ -160428,15 +160134,13 @@
 					"name": "disable-end-user-app-creation",
 					"type": "boolean",
 					"required": false,
-					"description": "Whether creation of end user applications is disabled for this organization.",
-					"default": false
+					"description": "Whether creation of end user applications is disabled for this organization."
 				},
 				{
 					"name": "is-ui-read-only",
 					"type": "boolean",
 					"required": false,
-					"description": "Lock all settings as Read-Only in the Dashboard, regardless of user permission. Updates may only be made via the API or Terraform for this account when enabled.",
-					"default": false
+					"description": "Lock all settings as Read-Only in the Dashboard, regardless of user permission. Updates may only be made via the API or Terraform for this account when enabled."
 				},
 				{
 					"name": "login-design-background-color",
@@ -160528,8 +160232,7 @@
 					"name": "mfa-required-for-all-apps",
 					"type": "boolean",
 					"required": false,
-					"description": "Determines whether global MFA settings apply to applications by default. The organization must have MFA enabled with at least one authentication method and a session duration configured. Note: 'allowed_authenticators' cannot contain only the infrastructure SSH authenticators ('piv_key' and 'ssh_fido2_key') if the organization has any non-infrastructure applications.",
-					"default": false
+					"description": "Determines whether global MFA settings apply to applications by default. The organization must have MFA enabled with at least one authentication method and a session duration configured. Note: 'allowed_authenticators' cannot contain only the infrastructure SSH authenticators ('piv_key' and 'ssh_fido2_key') if the organization has any non-infrastructure applications."
 				},
 				{
 					"name": "name",
@@ -160584,8 +160287,7 @@
 					"name": "warp-auth-non-browser-401",
 					"type": "boolean",
 					"required": false,
-					"description": "When enabled, unsuccessful WARP authentication requests with a non-HTML Accept header return a 401 response instead of redirecting to the login page.",
-					"default": false
+					"description": "When enabled, unsuccessful WARP authentication requests with a non-HTML Accept header return a 401 response instead of redirecting to the login page."
 				},
 				{
 					"name": "warp-auth-session-duration",
@@ -161433,8 +161135,7 @@
 					"name": "paused",
 					"type": "boolean",
 					"required": false,
-					"description": "Indicates whether the zone is only using Cloudflare DNS services. A\ntrue value means the zone will not receive security or performance\nbenefits.\n",
-					"default": false
+					"description": "Indicates whether the zone is only using Cloudflare DNS services. A\ntrue value means the zone will not receive security or performance\nbenefits.\n"
 				},
 				{
 					"name": "plan-id",
@@ -161490,7 +161191,6 @@
 					"type": "string",
 					"required": true,
 					"description": "Whether the feature is enabled or disabled.",
-					"default": "off",
 					"enum": ["on", "off"]
 				},
 				{
@@ -162300,8 +162000,7 @@
 					"name": "enabled",
 					"type": "boolean",
 					"required": false,
-					"description": "ssl-recommender enrollment setting.",
-					"default": false
+					"description": "ssl-recommender enrollment setting."
 				},
 				{
 					"name": "value-enabled",

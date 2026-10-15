@@ -128,6 +128,43 @@ export const queryArgs = (d: Derived): Arg[] =>
 export const headerArgs = (d: Derived): Arg[] =>
 	d.args.filter((a) => a.origin.in === "header");
 
+/** Defaults applied by yargs and advertised to metadata consumers. */
+export function optionDefaults(
+	d: Derived,
+	op: OperationInfo
+): Map<string, Value> {
+	const conflictFlags = new Set<string>();
+	for (const a of d.args) {
+		if (a.conflicts !== undefined && a.conflicts.length > 0) {
+			conflictFlags.add(kebab(a.name));
+			for (const name of a.conflicts) {
+				conflictFlags.add(kebab(name));
+			}
+		}
+	}
+	const partialUpdate = op.method === "patch" || op.method === "put";
+	const defaults = new Map<string, Value>();
+	for (const a of options(d)) {
+		const discriminator =
+			op.bodyDiscriminator !== undefined &&
+			a.origin.in === "body" &&
+			a.origin.path.length === 1 &&
+			a.origin.path[0] === op.bodyDiscriminator.field;
+		if (
+			a.default === undefined ||
+			a.type === "array" ||
+			a.type === "objectArray" ||
+			a.type === "objectMap" ||
+			conflictFlags.has(kebab(a.name)) ||
+			(isBody(a) && partialUpdate && !discriminator)
+		) {
+			continue;
+		}
+		defaults.set(a.name, a.default);
+	}
+	return defaults;
+}
+
 /** Options that only the CLI uses, which never become body flags. */
 export const CLI_ONLY_OPTIONS: readonly string[] = [
 	"dry-run",

@@ -297,8 +297,8 @@ importers:
         specifier: 0.20.3
         version: 0.20.3(patch_hash=664a40a198d157b2798e2f45cf713cb4d5926bc697603116b32a25c9ab92879d)(@types/node@25.9.9)(vitest@5.0.3)
       '@cloudflare/forge':
-        specifier: https://pkg.pr.new/cloudflare/forge/@cloudflare/forge@697d90ee16c0713d1302472e2bb81d2984d6e0a8
-        version: https://pkg.pr.new/cloudflare/forge/@cloudflare/forge@697d90ee16c0713d1302472e2bb81d2984d6e0a8(@bytecodealliance/jco@1.37.0)
+        specifier: https://pkg.pr.new/cloudflare/forge/@cloudflare/forge@7d40705fb61e7eedfe62e547348e0b291555739d
+        version: https://pkg.pr.new/cloudflare/forge/@cloudflare/forge@7d40705fb61e7eedfe62e547348e0b291555739d(@bytecodealliance/jco@1.37.0)
       '@cloudflare/workers-auth':
         specifier: 0.14.0
         version: 0.14.0(msw@3.0.2(@types/node@25.9.9)(@typescript/native-preview@7.0.0-dev.20260707.2)(esbuild@0.28.2)(graphql@16.14.2)(supports-color@10.2.2)(tsx@4.21.0)(typescript@6.0.3)(unrun@0.2.39)(yaml@2.9.0))(vitest@5.0.3)
@@ -720,8 +720,8 @@ packages:
   '@cloudflare/deploy-helpers@0.20.3':
     resolution: {integrity: sha512-ebapkNJtKL++I2Yr01Ep6XkUlbMjcC/IMrGAsaeqs9xVE2SysOtXFuy+1ZghfTbK38qVm2HeMm37YHBvFfnjbg==}
 
-  '@cloudflare/forge@https://pkg.pr.new/cloudflare/forge/@cloudflare/forge@697d90ee16c0713d1302472e2bb81d2984d6e0a8':
-    resolution: {integrity: sha512-GFc+YtNceakgaXChK5pbRkVokwDGo/kfAtW7KdiEbCmIYe2DBk5XQv99+A9cJ93v8PQ4xE7C00mCLuXzv2NPRg==, tarball: https://pkg.pr.new/cloudflare/forge/@cloudflare/forge@697d90ee16c0713d1302472e2bb81d2984d6e0a8}
+  '@cloudflare/forge@https://pkg.pr.new/cloudflare/forge/@cloudflare/forge@7d40705fb61e7eedfe62e547348e0b291555739d':
+    resolution: {integrity: sha512-hheUBN/eRCX9zOOFW8g9nb4sNecKnph5Bi8++lYuqToFBrHRrzTfQ7tNfgIkFKgi8OU/BACvI7znZ0hLWSChKA==, tarball: https://pkg.pr.new/cloudflare/forge/@cloudflare/forge@7d40705fb61e7eedfe62e547348e0b291555739d}
     version: 0.1.0
     engines: {node: '>=18'}
     hasBin: true
@@ -4433,7 +4433,7 @@ snapshots:
       - utf-8-validate
       - vitest
 
-  '@cloudflare/forge@https://pkg.pr.new/cloudflare/forge/@cloudflare/forge@697d90ee16c0713d1302472e2bb81d2984d6e0a8(@bytecodealliance/jco@1.37.0)':
+  '@cloudflare/forge@https://pkg.pr.new/cloudflare/forge/@cloudflare/forge@7d40705fb61e7eedfe62e547348e0b291555739d(@bytecodealliance/jco@1.37.0)':
     optionalDependencies:
       '@bytecodealliance/jco': 1.37.0
 

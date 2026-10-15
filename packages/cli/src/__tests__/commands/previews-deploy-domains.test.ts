@@ -72,7 +72,6 @@ describe("cf previews deploy — custom domains", () => {
 		});
 		await writeWorkerConfig({
 			root: process.cwd(),
-			isPreview: true,
 			config: InputWorkerSchema.parse({
 				name: "test-worker",
 				compatibilityDate: "2025-01-01",

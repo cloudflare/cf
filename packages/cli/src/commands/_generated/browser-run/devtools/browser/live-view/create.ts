@@ -43,6 +43,16 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.coerce("guardrails-mode", (value) =>
 			resolveFileToken(value, "guardrails-mode", "text")
 		)
+		.option("view-mode", {
+			type: "string",
+			description:
+				"UI mode: 'devtools' (Chrome DevTools), 'tab' (single tab view), 'full' (multi-tab browser)",
+			choices: ["devtools", "tab", "full"],
+			default: "devtools",
+		})
+		.coerce("view-mode", (value) =>
+			resolveFileToken(value, "view-mode", "text")
+		)
 		.option("target-id", {
 			type: "string",
 			description:
@@ -84,7 +94,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			{
 				command: "browser-run devtools browser live-view create",
 				classification: {
-					safeFlags: ["guardrails-mode", "dry-run"],
+					safeFlags: ["guardrails-mode", "view-mode", "dry-run"],
 				} satisfies ArgClassification<Args>,
 			},
 			argv as Record<string, unknown>,
@@ -105,6 +115,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 										guardrails: {
 											mode: argv["guardrails-mode"],
 										},
+										mode: argv["view-mode"],
 										targetId: resolveFileToken(
 											argv["target-id"] as string | undefined,
 											"target-id",
@@ -137,6 +148,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					guardrails: {
 						mode: argv["guardrails-mode"],
 					},
+					mode: argv["view-mode"],
 					targetId: resolveFileToken(
 						argv["target-id"] as string | undefined,
 						"target-id",

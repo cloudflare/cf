@@ -1,3 +1,4 @@
+import operation from "../_operations/ai-search/create.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
@@ -8,15 +9,9 @@ import type { Argv, CommandModule } from "yargs";
 import {
 	createCommandClient,
 	getAccountId,
-	requestApi,
 	resolveAccountIdSilent,
 } from "#lib/auth.js";
-import {
-	compactBody,
-	parseBody,
-	parseObjectArray,
-	setNestedValue,
-} from "#lib/body-parser.js";
+import { compactBody, parseBody, parseObjectArray } from "#lib/body-parser.js";
 import { formatDryRun } from "#lib/dry-run.js";
 import { resolveFileToken } from "#lib/input-validation.js";
 import { LOCAL_ACCOUNT_ID } from "#lib/local.js";
@@ -169,7 +164,8 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		})
 		.option("public-endpoint-params-chat-completions-endpoint-disabled", {
 			type: "boolean",
-			description: "Disable chat completions endpoint for this public endpoint",
+			description:
+				"Disable chat completions endpoint for this public endpoint.",
 		})
 		.option("public-endpoint-params-custom-domains", {
 			type: "string",
@@ -192,7 +188,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		})
 		.option("public-endpoint-params-mcp-disabled", {
 			type: "boolean",
-			description: "Disable MCP endpoint for this public endpoint",
+			description: "Disable MCP endpoint for this public endpoint.",
 		})
 		.option("public-endpoint-params-rate-limit-period-ms", {
 			type: "number",
@@ -216,7 +212,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		)
 		.option("public-endpoint-params-search-endpoint-disabled", {
 			type: "boolean",
-			description: "Disable search endpoint for this public endpoint",
+			description: "Disable search endpoint for this public endpoint.",
 		})
 		.option("reranking", {
 			type: "boolean",
@@ -230,7 +226,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("retrieval-options-keyword-match-mode", {
 			type: "string",
 			description:
-				"Controls which documents are candidates for BM25 scoring. 'and' restricts candidates to documents containing all query terms; 'or' includes any document containing at least one term, ranked by BM25 relevance. When omitted on an update, the existing stored value is preserved; when never set, search falls back to 'and'.",
+				"Controls which documents become candidates for BM25 scoring. 'and' restricts candidates to documents containing all query terms; 'or' includes any document containing at least one term and ranks results according to BM25 relevance. When omitted on an update, the existing stored value stays unchanged; when never set, search falls back to 'and'.",
 			choices: ["and", "or"],
 		})
 		.coerce("retrieval-options-keyword-match-mode", (value) =>
@@ -256,13 +252,13 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			type: "string",
 			array: true,
 			description:
-				"List of path patterns to exclude. Uses micromatch glob syntax: * matches within a path segment, ** matches across path segments (e.g., /admin/** matches /admin/users and /admin/settings/advanced). Most accounts are limited to 10 rules; contact support to raise it.",
+				"List of path patterns to exclude. Uses micromatch glob syntax: * matches within a path segment, ** matches across path segments (e.g., /admin/** matches /admin/users and /admin/settings/advanced). Most accounts have a limit of 10 rules; contact support to raise it.",
 		})
 		.option("source-params-include-items", {
 			type: "string",
 			array: true,
 			description:
-				"List of path patterns to include. Uses micromatch glob syntax: * matches within a path segment, ** matches across path segments (e.g., /blog/** matches /blog/post and /blog/2024/post). Most accounts are limited to 10 rules; contact support to raise it.",
+				"List of path patterns to include. Uses micromatch glob syntax: * matches within a path segment, ** matches across path segments (e.g., /blog/** matches /blog/post and /blog/2024/post). Most accounts have a limit of 10 rules; contact support to raise it.",
 		})
 		.option("source-params-prefix", {
 			type: "string",
@@ -281,7 +277,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			{
 				type: "boolean",
 				description:
-					"Follow links that point outside the source domain. Must stay `false` — discover crawls are restricted to the zone you own.",
+					"Follow links that point outside the source domain. Must stay `false` because discover crawls only cover the zone you own.",
 			}
 		)
 		.option("source-params-web-crawler-discover-options-include-subdomains", {
@@ -328,7 +324,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("source-params-web-crawler-parse-type", {
 			type: "string",
 			description:
-				"How URLs are discovered. 'sitemap' reads XML sitemaps; 'discover' follows links recursively and requires the source to be a Verified zone on this account.",
+				"How the crawler finds URLs. 'sitemap' reads XML sitemaps; 'discover' follows links recursively and requires the source to belong to a Verified zone on this account.",
 			choices: ["sitemap", "discover"],
 		})
 		.coerce("source-params-web-crawler-parse-type", (value) =>
@@ -648,434 +644,187 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				if (argv.body) {
 					const bodyData = parseBody(argv.body);
 					const result = await withProgress(`Creating`, async () =>
-						requestApi<unknown>(
-							client,
-							"POST",
-							`/accounts/${accountId}/ai-search/namespaces/${encodeURIComponent(String(argv["namespace"]))}/instances`,
-							{ body: bodyData }
-						)
+						client.send(operation, {
+							body: bodyData,
+							account_id: accountId,
+							namespace: argv["namespace"],
+						})
 					);
 					formatOutput(result, { successLabel: `Created` });
 					return;
 				}
 
 				// Assemble request body from individual flags
-				const bodyData: Record<string, unknown> = {};
-				if (argv["ai-gateway-id"] !== undefined)
-					setNestedValue(
-						bodyData,
-						["ai_gateway_id"],
-						resolveFileToken(
-							argv["ai-gateway-id"] as string | undefined,
-							"ai-gateway-id",
-							"text"
-						)
-					);
-				if (argv["ai-search-model"] !== undefined)
-					setNestedValue(
-						bodyData,
-						["ai_search_model"],
-						resolveFileToken(
-							argv["ai-search-model"] as string | undefined,
-							"ai-search-model",
-							"text"
-						)
-					);
-				if (argv["cache"] !== undefined)
-					setNestedValue(bodyData, ["cache"], argv["cache"]);
-				if (argv["cache-threshold"] !== undefined)
-					setNestedValue(
-						bodyData,
-						["cache_threshold"],
-						argv["cache-threshold"]
-					);
-				if (argv["cache-ttl"] !== undefined)
-					setNestedValue(bodyData, ["cache_ttl"], argv["cache-ttl"]);
-				if (argv["chunk"] !== undefined)
-					setNestedValue(bodyData, ["chunk"], argv["chunk"]);
-				if (argv["chunk-overlap"] !== undefined)
-					setNestedValue(bodyData, ["chunk_overlap"], argv["chunk-overlap"]);
-				if (argv["chunk-size"] !== undefined)
-					setNestedValue(bodyData, ["chunk_size"], argv["chunk-size"]);
-				if (argv["custom-metadata"] !== undefined)
-					setNestedValue(
-						bodyData,
-						["custom_metadata"],
-						parseObjectArray(argv["custom-metadata"], "custom-metadata")
-					);
-				if (argv["embedding-model"] !== undefined)
-					setNestedValue(
-						bodyData,
-						["embedding_model"],
-						resolveFileToken(
-							argv["embedding-model"] as string | undefined,
-							"embedding-model",
-							"text"
-						)
-					);
-				if (argv["fusion-method"] !== undefined)
-					setNestedValue(bodyData, ["fusion_method"], argv["fusion-method"]);
-				if (argv["hybrid-search-enabled"] !== undefined)
-					setNestedValue(
-						bodyData,
-						["hybrid_search_enabled"],
-						argv["hybrid-search-enabled"]
-					);
-				if (argv["index-method-keyword"] !== undefined)
-					setNestedValue(
-						bodyData,
-						["index_method", "keyword"],
-						argv["index-method-keyword"]
-					);
-				if (argv["index-method-vector"] !== undefined)
-					setNestedValue(
-						bodyData,
-						["index_method", "vector"],
-						argv["index-method-vector"]
-					);
-				if (argv["indexing-options-keyword-tokenizer"] !== undefined)
-					setNestedValue(
-						bodyData,
-						["indexing_options", "keyword_tokenizer"],
-						argv["indexing-options-keyword-tokenizer"]
-					);
-				if (argv["indexing-options-use-ocr"] !== undefined)
-					setNestedValue(
-						bodyData,
-						["indexing_options", "use_ocr"],
-						argv["indexing-options-use-ocr"]
-					);
-				if (argv["max-num-results"] !== undefined)
-					setNestedValue(
-						bodyData,
-						["max_num_results"],
-						argv["max-num-results"]
-					);
-				if (argv["metadata-created-from-aisearch-wizard"] !== undefined)
-					setNestedValue(
-						bodyData,
-						["metadata", "created_from_aisearch_wizard"],
-						argv["metadata-created-from-aisearch-wizard"]
-					);
-				if (argv["metadata-created-from-emdash-plugin-type"] !== undefined)
-					setNestedValue(
-						bodyData,
-						["metadata", "created_from_emdash_plugin", "type"],
-						argv["metadata-created-from-emdash-plugin-type"]
-					);
-				if (argv["metadata-created-from-emdash-plugin-version"] !== undefined)
-					setNestedValue(
-						bodyData,
-						["metadata", "created_from_emdash_plugin", "version"],
-						resolveFileToken(
-							argv["metadata-created-from-emdash-plugin-version"] as
-								| string
-								| undefined,
-							"metadata-created-from-emdash-plugin-version",
-							"text"
-						)
-					);
-				if (argv["metadata-worker-domain"] !== undefined)
-					setNestedValue(
-						bodyData,
-						["metadata", "worker_domain"],
-						resolveFileToken(
+				const bodyData = compactBody({
+					ai_gateway_id: resolveFileToken(
+						argv["ai-gateway-id"] as string | undefined,
+						"ai-gateway-id",
+						"text"
+					),
+					ai_search_model: resolveFileToken(
+						argv["ai-search-model"] as string | undefined,
+						"ai-search-model",
+						"text"
+					),
+					cache: argv["cache"],
+					cache_threshold: argv["cache-threshold"],
+					cache_ttl: argv["cache-ttl"],
+					chunk: argv["chunk"],
+					chunk_overlap: argv["chunk-overlap"],
+					chunk_size: argv["chunk-size"],
+					custom_metadata: parseObjectArray(
+						argv["custom-metadata"],
+						"custom-metadata"
+					),
+					embedding_model: resolveFileToken(
+						argv["embedding-model"] as string | undefined,
+						"embedding-model",
+						"text"
+					),
+					fusion_method: argv["fusion-method"],
+					hybrid_search_enabled: argv["hybrid-search-enabled"],
+					index_method: {
+						keyword: argv["index-method-keyword"],
+						vector: argv["index-method-vector"],
+					},
+					indexing_options: {
+						keyword_tokenizer: argv["indexing-options-keyword-tokenizer"],
+						use_ocr: argv["indexing-options-use-ocr"],
+					},
+					max_num_results: argv["max-num-results"],
+					metadata: {
+						created_from_aisearch_wizard:
+							argv["metadata-created-from-aisearch-wizard"],
+						created_from_emdash_plugin: {
+							type: argv["metadata-created-from-emdash-plugin-type"],
+							version: resolveFileToken(
+								argv["metadata-created-from-emdash-plugin-version"] as
+									| string
+									| undefined,
+								"metadata-created-from-emdash-plugin-version",
+								"text"
+							),
+						},
+						worker_domain: resolveFileToken(
 							argv["metadata-worker-domain"] as string | undefined,
 							"metadata-worker-domain",
 							"text"
-						)
-					);
-				if (argv["public-endpoint-params-authorized-hosts"] !== undefined)
-					setNestedValue(
-						bodyData,
-						["public_endpoint_params", "authorized_hosts"],
-						argv["public-endpoint-params-authorized-hosts"]
-					);
-				if (
-					argv["public-endpoint-params-chat-completions-endpoint-disabled"] !==
-					undefined
-				)
-					setNestedValue(
-						bodyData,
-						["public_endpoint_params", "chat_completions_endpoint", "disabled"],
-						argv["public-endpoint-params-chat-completions-endpoint-disabled"]
-					);
-				if (argv["public-endpoint-params-custom-domains"] !== undefined)
-					setNestedValue(
-						bodyData,
-						["public_endpoint_params", "custom_domains"],
-						argv["public-endpoint-params-custom-domains"]
-					);
-				if (argv["public-endpoint-params-default-domain-enabled"] !== undefined)
-					setNestedValue(
-						bodyData,
-						["public_endpoint_params", "default_domain_enabled"],
-						argv["public-endpoint-params-default-domain-enabled"]
-					);
-				if (argv["public-endpoint-params-enabled"] !== undefined)
-					setNestedValue(
-						bodyData,
-						["public_endpoint_params", "enabled"],
-						argv["public-endpoint-params-enabled"]
-					);
-				if (argv["public-endpoint-params-mcp-description"] !== undefined)
-					setNestedValue(
-						bodyData,
-						["public_endpoint_params", "mcp", "description"],
-						resolveFileToken(
-							argv["public-endpoint-params-mcp-description"] as
-								| string
-								| undefined,
-							"public-endpoint-params-mcp-description",
-							"text"
-						)
-					);
-				if (argv["public-endpoint-params-mcp-disabled"] !== undefined)
-					setNestedValue(
-						bodyData,
-						["public_endpoint_params", "mcp", "disabled"],
-						argv["public-endpoint-params-mcp-disabled"]
-					);
-				if (argv["public-endpoint-params-rate-limit-period-ms"] !== undefined)
-					setNestedValue(
-						bodyData,
-						["public_endpoint_params", "rate_limit", "period_ms"],
-						argv["public-endpoint-params-rate-limit-period-ms"]
-					);
-				if (argv["public-endpoint-params-rate-limit-requests"] !== undefined)
-					setNestedValue(
-						bodyData,
-						["public_endpoint_params", "rate_limit", "requests"],
-						argv["public-endpoint-params-rate-limit-requests"]
-					);
-				if (argv["public-endpoint-params-rate-limit-technique"] !== undefined)
-					setNestedValue(
-						bodyData,
-						["public_endpoint_params", "rate_limit", "technique"],
-						argv["public-endpoint-params-rate-limit-technique"]
-					);
-				if (
-					argv["public-endpoint-params-search-endpoint-disabled"] !== undefined
-				)
-					setNestedValue(
-						bodyData,
-						["public_endpoint_params", "search_endpoint", "disabled"],
-						argv["public-endpoint-params-search-endpoint-disabled"]
-					);
-				if (argv["reranking"] !== undefined)
-					setNestedValue(bodyData, ["reranking"], argv["reranking"]);
-				if (argv["reranking-model"] !== undefined)
-					setNestedValue(
-						bodyData,
-						["reranking_model"],
-						resolveFileToken(
-							argv["reranking-model"] as string | undefined,
-							"reranking-model",
-							"text"
-						)
-					);
-				if (argv["retrieval-options-keyword-match-mode"] !== undefined)
-					setNestedValue(
-						bodyData,
-						["retrieval_options", "keyword_match_mode"],
-						argv["retrieval-options-keyword-match-mode"]
-					);
-				if (argv["rewrite-model"] !== undefined)
-					setNestedValue(
-						bodyData,
-						["rewrite_model"],
-						resolveFileToken(
-							argv["rewrite-model"] as string | undefined,
-							"rewrite-model",
-							"text"
-						)
-					);
-				if (argv["rewrite-query"] !== undefined)
-					setNestedValue(bodyData, ["rewrite_query"], argv["rewrite-query"]);
-				if (argv["score-threshold"] !== undefined)
-					setNestedValue(
-						bodyData,
-						["score_threshold"],
-						argv["score-threshold"]
-					);
-				if (argv["source"] !== undefined)
-					setNestedValue(
-						bodyData,
-						["source"],
-						resolveFileToken(
-							argv["source"] as string | undefined,
-							"source",
-							"text"
-						)
-					);
-				if (argv["source-params-exclude-items"] !== undefined)
-					setNestedValue(
-						bodyData,
-						["source_params", "exclude_items"],
-						argv["source-params-exclude-items"]
-					);
-				if (argv["source-params-include-items"] !== undefined)
-					setNestedValue(
-						bodyData,
-						["source_params", "include_items"],
-						argv["source-params-include-items"]
-					);
-				if (argv["source-params-prefix"] !== undefined)
-					setNestedValue(
-						bodyData,
-						["source_params", "prefix"],
-						resolveFileToken(
+						),
+					},
+					public_endpoint_params: {
+						authorized_hosts: argv["public-endpoint-params-authorized-hosts"],
+						chat_completions_endpoint: {
+							disabled:
+								argv[
+									"public-endpoint-params-chat-completions-endpoint-disabled"
+								],
+						},
+						custom_domains: argv["public-endpoint-params-custom-domains"],
+						default_domain_enabled:
+							argv["public-endpoint-params-default-domain-enabled"],
+						enabled: argv["public-endpoint-params-enabled"],
+						mcp: {
+							description: resolveFileToken(
+								argv["public-endpoint-params-mcp-description"] as
+									| string
+									| undefined,
+								"public-endpoint-params-mcp-description",
+								"text"
+							),
+							disabled: argv["public-endpoint-params-mcp-disabled"],
+						},
+						rate_limit: {
+							period_ms: argv["public-endpoint-params-rate-limit-period-ms"],
+							requests: argv["public-endpoint-params-rate-limit-requests"],
+							technique: argv["public-endpoint-params-rate-limit-technique"],
+						},
+						search_endpoint: {
+							disabled: argv["public-endpoint-params-search-endpoint-disabled"],
+						},
+					},
+					reranking: argv["reranking"],
+					reranking_model: resolveFileToken(
+						argv["reranking-model"] as string | undefined,
+						"reranking-model",
+						"text"
+					),
+					retrieval_options: {
+						keyword_match_mode: argv["retrieval-options-keyword-match-mode"],
+					},
+					rewrite_model: resolveFileToken(
+						argv["rewrite-model"] as string | undefined,
+						"rewrite-model",
+						"text"
+					),
+					rewrite_query: argv["rewrite-query"],
+					score_threshold: argv["score-threshold"],
+					source: resolveFileToken(
+						argv["source"] as string | undefined,
+						"source",
+						"text"
+					),
+					source_params: {
+						exclude_items: argv["source-params-exclude-items"],
+						include_items: argv["source-params-include-items"],
+						prefix: resolveFileToken(
 							argv["source-params-prefix"] as string | undefined,
 							"source-params-prefix",
 							"text"
-						)
-					);
-				if (argv["source-params-r2-jurisdiction"] !== undefined)
-					setNestedValue(
-						bodyData,
-						["source_params", "r2_jurisdiction"],
-						resolveFileToken(
+						),
+						r2_jurisdiction: resolveFileToken(
 							argv["source-params-r2-jurisdiction"] as string | undefined,
 							"source-params-r2-jurisdiction",
 							"text"
-						)
-					);
-				if (
-					argv["source-params-web-crawler-discover-options-depth"] !== undefined
-				)
-					setNestedValue(
-						bodyData,
-						["source_params", "web_crawler", "discover_options", "depth"],
-						argv["source-params-web-crawler-discover-options-depth"]
-					);
-				if (
-					argv[
-						"source-params-web-crawler-discover-options-include-external-links"
-					] !== undefined
-				)
-					setNestedValue(
-						bodyData,
-						[
-							"source_params",
-							"web_crawler",
-							"discover_options",
-							"include_external_links",
-						],
-						argv[
-							"source-params-web-crawler-discover-options-include-external-links"
-						]
-					);
-				if (
-					argv[
-						"source-params-web-crawler-discover-options-include-subdomains"
-					] !== undefined
-				)
-					setNestedValue(
-						bodyData,
-						[
-							"source_params",
-							"web_crawler",
-							"discover_options",
-							"include_subdomains",
-						],
-						argv[
-							"source-params-web-crawler-discover-options-include-subdomains"
-						]
-					);
-				if (
-					argv["source-params-web-crawler-discover-options-limit"] !== undefined
-				)
-					setNestedValue(
-						bodyData,
-						["source_params", "web_crawler", "discover_options", "limit"],
-						argv["source-params-web-crawler-discover-options-limit"]
-					);
-				if (
-					argv["source-params-web-crawler-discover-options-max-age"] !==
-					undefined
-				)
-					setNestedValue(
-						bodyData,
-						["source_params", "web_crawler", "discover_options", "max_age"],
-						argv["source-params-web-crawler-discover-options-max-age"]
-					);
-				if (
-					argv["source-params-web-crawler-discover-options-source"] !==
-					undefined
-				)
-					setNestedValue(
-						bodyData,
-						["source_params", "web_crawler", "discover_options", "source"],
-						argv["source-params-web-crawler-discover-options-source"]
-					);
-				if (
-					argv["source-params-web-crawler-parse-options-include-images"] !==
-					undefined
-				)
-					setNestedValue(
-						bodyData,
-						["source_params", "web_crawler", "parse_options", "include_images"],
-						argv["source-params-web-crawler-parse-options-include-images"]
-					);
-				if (
-					argv["source-params-web-crawler-parse-options-specific-sitemaps"] !==
-					undefined
-				)
-					setNestedValue(
-						bodyData,
-						[
-							"source_params",
-							"web_crawler",
-							"parse_options",
-							"specific_sitemaps",
-						],
-						argv["source-params-web-crawler-parse-options-specific-sitemaps"]
-					);
-				if (
-					argv[
-						"source-params-web-crawler-parse-options-use-browser-rendering"
-					] !== undefined
-				)
-					setNestedValue(
-						bodyData,
-						[
-							"source_params",
-							"web_crawler",
-							"parse_options",
-							"use_browser_rendering",
-						],
-						argv[
-							"source-params-web-crawler-parse-options-use-browser-rendering"
-						]
-					);
-				if (argv["source-params-web-crawler-parse-type"] !== undefined)
-					setNestedValue(
-						bodyData,
-						["source_params", "web_crawler", "parse_type"],
-						argv["source-params-web-crawler-parse-type"]
-					);
-				if (argv["sync-interval"] !== undefined)
-					setNestedValue(bodyData, ["sync_interval"], argv["sync-interval"]);
-				if (argv["token-id"] !== undefined)
-					setNestedValue(
-						bodyData,
-						["token_id"],
-						resolveFileToken(
-							argv["token-id"] as string | undefined,
-							"token-id",
-							"text"
-						)
-					);
-				if (argv["type"] !== undefined)
-					setNestedValue(bodyData, ["type"], argv["type"]);
-				if (argv["id"] !== undefined) bodyData["id"] = argv["id"];
+						),
+						web_crawler: {
+							discover_options: {
+								depth: argv["source-params-web-crawler-discover-options-depth"],
+								include_external_links:
+									argv[
+										"source-params-web-crawler-discover-options-include-external-links"
+									],
+								include_subdomains:
+									argv[
+										"source-params-web-crawler-discover-options-include-subdomains"
+									],
+								limit: argv["source-params-web-crawler-discover-options-limit"],
+								max_age:
+									argv["source-params-web-crawler-discover-options-max-age"],
+								source:
+									argv["source-params-web-crawler-discover-options-source"],
+							},
+							parse_options: {
+								include_images:
+									argv[
+										"source-params-web-crawler-parse-options-include-images"
+									],
+								specific_sitemaps:
+									argv[
+										"source-params-web-crawler-parse-options-specific-sitemaps"
+									],
+								use_browser_rendering:
+									argv[
+										"source-params-web-crawler-parse-options-use-browser-rendering"
+									],
+							},
+							parse_type: argv["source-params-web-crawler-parse-type"],
+						},
+					},
+					sync_interval: argv["sync-interval"],
+					token_id: resolveFileToken(
+						argv["token-id"] as string | undefined,
+						"token-id",
+						"text"
+					),
+					type: argv["type"],
+					id: argv["id"],
+				});
 				const result = await withProgress(`Creating`, async () =>
-					requestApi<unknown>(
-						client,
-						"POST",
-						`/accounts/${accountId}/ai-search/namespaces/${encodeURIComponent(String(argv["namespace"]))}/instances`,
-						{ body: bodyData }
-					)
+					client.send(operation, {
+						body: bodyData,
+						account_id: accountId,
+						namespace: argv["namespace"],
+					})
 				);
 				formatOutput(result, { successLabel: `Created` });
 			}

@@ -8,7 +8,8 @@ import type { CommandModule } from "yargs";
 
 const command: CommandModule<CommonYargsOptions> = {
 	command: "preview",
-	describe: "Load Balancers operations",
+	describe:
+		"Preview pool health with a monitor configuration before applying it",
 
 	builder: (yargs) => {
 		return yargs

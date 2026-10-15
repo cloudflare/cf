@@ -35,7 +35,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("per-page", {
 			type: "number",
 			description:
-				"Number of objects to return per page. Defaults to `20` when `page`\nis supplied without `per_page`. May be omitted entirely along with\n`page` to receive a non-paginated response.",
+				"Number of objects to return per page. Defaults to `20` when `page` is supplied without `per_page`. May be omitted entirely along with `page` to receive a non-paginated response.",
 		})
 		.option("dry-run", {
 			type: "boolean",

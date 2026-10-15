@@ -29,86 +29,86 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "UUID of the tunnel.",
 			demandOption: true,
 		})
-		.option("config-origin-request-access-aud-tag", {
+		.option("tunnel-config-origin-request-access-aud-tag", {
 			type: "string",
 			array: true,
 			description:
 				"Access applications that are allowed to reach this hostname for this Tunnel. Audience tags can be identified in the dashboard or via the List Access policies API.",
 		})
-		.option("config-origin-request-access-required", {
+		.option("tunnel-config-origin-request-access-required", {
 			type: "boolean",
 			description: "Deny traffic that has not fulfilled Access authorization.",
 		})
-		.option("config-origin-request-access-team-name", {
+		.option("tunnel-config-origin-request-access-team-name", {
 			type: "string",
 			description: "The config.originRequest.access.teamName field",
 		})
-		.option("config-origin-request-ca-pool", {
+		.option("tunnel-config-origin-request-ca-pool", {
 			type: "string",
 			description:
 				"Path to the certificate authority (CA) for the certificate of your origin. This option should be used only if your certificate is not signed by Cloudflare.",
 		})
-		.option("config-origin-request-connect-timeout", {
+		.option("tunnel-config-origin-request-connect-timeout", {
 			type: "number",
 			description:
 				"Timeout for establishing a new TCP connection to your origin server. This excludes the time taken to establish TLS, which is controlled by tlsTimeout.",
 		})
-		.option("config-origin-request-disable-chunked-encoding", {
+		.option("tunnel-config-origin-request-disable-chunked-encoding", {
 			type: "boolean",
 			description:
 				"Disables chunked transfer encoding. Useful if you are running a WSGI server.",
 		})
-		.option("config-origin-request-http2origin", {
+		.option("tunnel-config-origin-request-http2origin", {
 			type: "boolean",
 			description:
 				"Attempt to connect to origin using HTTP2. Origin must be configured as https.",
 		})
-		.option("config-origin-request-http-host-header", {
+		.option("tunnel-config-origin-request-http-host-header", {
 			type: "string",
 			description:
 				"Sets the HTTP Host header on requests sent to the local service.",
 		})
-		.option("config-origin-request-keep-alive-connections", {
+		.option("tunnel-config-origin-request-keep-alive-connections", {
 			type: "number",
 			description:
 				"Maximum number of idle keepalive connections between Tunnel and your origin. This does not restrict the total number of concurrent connections.",
 		})
-		.option("config-origin-request-keep-alive-timeout", {
+		.option("tunnel-config-origin-request-keep-alive-timeout", {
 			type: "number",
 			description:
 				"Timeout after which an idle keepalive connection can be discarded.",
 		})
-		.option("config-origin-request-match-snito-host", {
+		.option("tunnel-config-origin-request-match-snito-host", {
 			type: "boolean",
 			description:
 				"Auto configure the Hostname on the origin server certificate.",
 		})
-		.option("config-origin-request-no-happy-eyeballs", {
+		.option("tunnel-config-origin-request-no-happy-eyeballs", {
 			type: "boolean",
 			description:
 				"Disable the “happy eyeballs” algorithm for IPv4/IPv6 fallback if your local network has misconfigured one of the protocols.",
 		})
-		.option("config-origin-request-no-tlsverify", {
+		.option("tunnel-config-origin-request-no-tlsverify", {
 			type: "boolean",
 			description:
 				"Disables TLS verification of the certificate presented by your origin. Will allow any certificate from the origin to be accepted.",
 		})
-		.option("config-origin-request-origin-server-name", {
+		.option("tunnel-config-origin-request-origin-server-name", {
 			type: "string",
 			description:
 				"Hostname that cloudflared should expect from your origin server certificate.",
 		})
-		.option("config-origin-request-proxy-type", {
+		.option("tunnel-config-origin-request-proxy-type", {
 			type: "string",
 			description:
 				'cloudflared starts a proxy server to translate HTTP traffic into TCP when proxying, for example, SSH or RDP. This configures what type of proxy will be started. Valid options are: "" for the regular proxy and "socks" for a SOCKS5 proxy.\n',
 		})
-		.option("config-origin-request-tcp-keep-alive", {
+		.option("tunnel-config-origin-request-tcp-keep-alive", {
 			type: "number",
 			description:
 				"The timeout after which a TCP keepalive packet is sent on a connection between Tunnel and the origin server.",
 		})
-		.option("config-origin-request-tls-timeout", {
+		.option("tunnel-config-origin-request-tls-timeout", {
 			type: "number",
 			description:
 				"Timeout for completing a TLS handshake to your origin server, if you have chosen to connect Tunnel to an HTTPS server.",
@@ -124,28 +124,28 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		})
 		.check((argv) => {
 			const groupSet = [
-				"config-origin-request-access-aud-tag",
-				"config-origin-request-access-required",
-				"config-origin-request-access-team-name",
-				"config-origin-request-ca-pool",
-				"config-origin-request-connect-timeout",
-				"config-origin-request-disable-chunked-encoding",
-				"config-origin-request-http2origin",
-				"config-origin-request-http-host-header",
-				"config-origin-request-keep-alive-connections",
-				"config-origin-request-keep-alive-timeout",
-				"config-origin-request-match-snito-host",
-				"config-origin-request-no-happy-eyeballs",
-				"config-origin-request-no-tlsverify",
-				"config-origin-request-origin-server-name",
-				"config-origin-request-proxy-type",
-				"config-origin-request-tcp-keep-alive",
-				"config-origin-request-tls-timeout",
+				"tunnel-config-origin-request-access-aud-tag",
+				"tunnel-config-origin-request-access-required",
+				"tunnel-config-origin-request-access-team-name",
+				"tunnel-config-origin-request-ca-pool",
+				"tunnel-config-origin-request-connect-timeout",
+				"tunnel-config-origin-request-disable-chunked-encoding",
+				"tunnel-config-origin-request-http2origin",
+				"tunnel-config-origin-request-http-host-header",
+				"tunnel-config-origin-request-keep-alive-connections",
+				"tunnel-config-origin-request-keep-alive-timeout",
+				"tunnel-config-origin-request-match-snito-host",
+				"tunnel-config-origin-request-no-happy-eyeballs",
+				"tunnel-config-origin-request-no-tlsverify",
+				"tunnel-config-origin-request-origin-server-name",
+				"tunnel-config-origin-request-proxy-type",
+				"tunnel-config-origin-request-tcp-keep-alive",
+				"tunnel-config-origin-request-tls-timeout",
 			].some((k) => argv[k] !== undefined);
 			if (groupSet) {
 				const missing = [
-					"config-origin-request-access-aud-tag",
-					"config-origin-request-access-team-name",
+					"tunnel-config-origin-request-access-aud-tag",
+					"tunnel-config-origin-request-access-team-name",
 				].filter((k) => argv[k] === undefined);
 				if (missing.length > 0) {
 					throw new Error(
@@ -169,12 +169,12 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				command: "tunnels config update",
 				classification: {
 					safeFlags: [
-						"config-origin-request-access-required",
-						"config-origin-request-disable-chunked-encoding",
-						"config-origin-request-http2origin",
-						"config-origin-request-match-snito-host",
-						"config-origin-request-no-happy-eyeballs",
-						"config-origin-request-no-tlsverify",
+						"tunnel-config-origin-request-access-required",
+						"tunnel-config-origin-request-disable-chunked-encoding",
+						"tunnel-config-origin-request-http2origin",
+						"tunnel-config-origin-request-match-snito-host",
+						"tunnel-config-origin-request-no-happy-eyeballs",
+						"tunnel-config-origin-request-no-tlsverify",
 						"dry-run",
 					],
 				} satisfies ArgClassification<Args>,
@@ -196,64 +196,76 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 										config: {
 											originRequest: {
 												access: {
-													audTag: argv["config-origin-request-access-aud-tag"],
+													audTag:
+														argv["tunnel-config-origin-request-access-aud-tag"],
 													required:
-														argv["config-origin-request-access-required"],
+														argv[
+															"tunnel-config-origin-request-access-required"
+														],
 													teamName: resolveFileToken(
-														argv["config-origin-request-access-team-name"] as
-															| string
-															| undefined,
-														"config-origin-request-access-team-name",
+														argv[
+															"tunnel-config-origin-request-access-team-name"
+														] as string | undefined,
+														"tunnel-config-origin-request-access-team-name",
 														"text"
 													),
 												},
 												caPool: resolveFileToken(
-													argv["config-origin-request-ca-pool"] as
+													argv["tunnel-config-origin-request-ca-pool"] as
 														| string
 														| undefined,
-													"config-origin-request-ca-pool",
+													"tunnel-config-origin-request-ca-pool",
 													"text"
 												),
 												connectTimeout:
-													argv["config-origin-request-connect-timeout"],
+													argv["tunnel-config-origin-request-connect-timeout"],
 												disableChunkedEncoding:
 													argv[
-														"config-origin-request-disable-chunked-encoding"
+														"tunnel-config-origin-request-disable-chunked-encoding"
 													],
-												http2Origin: argv["config-origin-request-http2origin"],
+												http2Origin:
+													argv["tunnel-config-origin-request-http2origin"],
 												httpHostHeader: resolveFileToken(
-													argv["config-origin-request-http-host-header"] as
-														| string
-														| undefined,
-													"config-origin-request-http-host-header",
+													argv[
+														"tunnel-config-origin-request-http-host-header"
+													] as string | undefined,
+													"tunnel-config-origin-request-http-host-header",
 													"text"
 												),
 												keepAliveConnections:
-													argv["config-origin-request-keep-alive-connections"],
+													argv[
+														"tunnel-config-origin-request-keep-alive-connections"
+													],
 												keepAliveTimeout:
-													argv["config-origin-request-keep-alive-timeout"],
+													argv[
+														"tunnel-config-origin-request-keep-alive-timeout"
+													],
 												matchSNItoHost:
-													argv["config-origin-request-match-snito-host"],
+													argv["tunnel-config-origin-request-match-snito-host"],
 												noHappyEyeballs:
-													argv["config-origin-request-no-happy-eyeballs"],
-												noTLSVerify: argv["config-origin-request-no-tlsverify"],
+													argv[
+														"tunnel-config-origin-request-no-happy-eyeballs"
+													],
+												noTLSVerify:
+													argv["tunnel-config-origin-request-no-tlsverify"],
 												originServerName: resolveFileToken(
-													argv["config-origin-request-origin-server-name"] as
-														| string
-														| undefined,
-													"config-origin-request-origin-server-name",
+													argv[
+														"tunnel-config-origin-request-origin-server-name"
+													] as string | undefined,
+													"tunnel-config-origin-request-origin-server-name",
 													"text"
 												),
 												proxyType: resolveFileToken(
-													argv["config-origin-request-proxy-type"] as
+													argv["tunnel-config-origin-request-proxy-type"] as
 														| string
 														| undefined,
-													"config-origin-request-proxy-type",
+													"tunnel-config-origin-request-proxy-type",
 													"text"
 												),
 												tcpKeepAlive:
-													argv["config-origin-request-tcp-keep-alive"],
-												tlsTimeout: argv["config-origin-request-tls-timeout"],
+													argv["tunnel-config-origin-request-tcp-keep-alive"],
+												tlsTimeout:
+													argv["tunnel-config-origin-request-tls-timeout"],
 											},
 										},
 									}),
@@ -282,53 +294,60 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					config: {
 						originRequest: {
 							access: {
-								audTag: argv["config-origin-request-access-aud-tag"],
-								required: argv["config-origin-request-access-required"],
+								audTag: argv["tunnel-config-origin-request-access-aud-tag"],
+								required: argv["tunnel-config-origin-request-access-required"],
 								teamName: resolveFileToken(
-									argv["config-origin-request-access-team-name"] as
+									argv["tunnel-config-origin-request-access-team-name"] as
 										| string
 										| undefined,
-									"config-origin-request-access-team-name",
+									"tunnel-config-origin-request-access-team-name",
 									"text"
 								),
 							},
 							caPool: resolveFileToken(
-								argv["config-origin-request-ca-pool"] as string | undefined,
-								"config-origin-request-ca-pool",
-								"text"
-							),
-							connectTimeout: argv["config-origin-request-connect-timeout"],
-							disableChunkedEncoding:
-								argv["config-origin-request-disable-chunked-encoding"],
-							http2Origin: argv["config-origin-request-http2origin"],
-							httpHostHeader: resolveFileToken(
-								argv["config-origin-request-http-host-header"] as
+								argv["tunnel-config-origin-request-ca-pool"] as
 									| string
 									| undefined,
-								"config-origin-request-http-host-header",
+								"tunnel-config-origin-request-ca-pool",
+								"text"
+							),
+							connectTimeout:
+								argv["tunnel-config-origin-request-connect-timeout"],
+							disableChunkedEncoding:
+								argv["tunnel-config-origin-request-disable-chunked-encoding"],
+							http2Origin: argv["tunnel-config-origin-request-http2origin"],
+							httpHostHeader: resolveFileToken(
+								argv["tunnel-config-origin-request-http-host-header"] as
+									| string
+									| undefined,
+								"tunnel-config-origin-request-http-host-header",
 								"text"
 							),
 							keepAliveConnections:
-								argv["config-origin-request-keep-alive-connections"],
+								argv["tunnel-config-origin-request-keep-alive-connections"],
 							keepAliveTimeout:
-								argv["config-origin-request-keep-alive-timeout"],
-							matchSNItoHost: argv["config-origin-request-match-snito-host"],
-							noHappyEyeballs: argv["config-origin-request-no-happy-eyeballs"],
-							noTLSVerify: argv["config-origin-request-no-tlsverify"],
+								argv["tunnel-config-origin-request-keep-alive-timeout"],
+							matchSNItoHost:
+								argv["tunnel-config-origin-request-match-snito-host"],
+							noHappyEyeballs:
+								argv["tunnel-config-origin-request-no-happy-eyeballs"],
+							noTLSVerify: argv["tunnel-config-origin-request-no-tlsverify"],
 							originServerName: resolveFileToken(
-								argv["config-origin-request-origin-server-name"] as
+								argv["tunnel-config-origin-request-origin-server-name"] as
 									| string
 									| undefined,
-								"config-origin-request-origin-server-name",
+								"tunnel-config-origin-request-origin-server-name",
 								"text"
 							),
 							proxyType: resolveFileToken(
-								argv["config-origin-request-proxy-type"] as string | undefined,
-								"config-origin-request-proxy-type",
+								argv["tunnel-config-origin-request-proxy-type"] as
+									| string
+									| undefined,
+								"tunnel-config-origin-request-proxy-type",
 								"text"
 							),
-							tcpKeepAlive: argv["config-origin-request-tcp-keep-alive"],
-							tlsTimeout: argv["config-origin-request-tls-timeout"],
+							tcpKeepAlive: argv["tunnel-config-origin-request-tcp-keep-alive"],
+							tlsTimeout: argv["tunnel-config-origin-request-tls-timeout"],
 						},
 					},
 				});

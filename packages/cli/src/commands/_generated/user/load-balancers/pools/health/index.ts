@@ -8,7 +8,7 @@ import type { CommandModule } from "yargs";
 
 const command: CommandModule<CommonYargsOptions> = {
 	command: "health",
-	describe: "Load Balancers operations",
+	describe: "View the current health of an origin pool",
 
 	builder: (yargs) => {
 		return yargs.command($get).demandCommand(1, "Please specify a subcommand");

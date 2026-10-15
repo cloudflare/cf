@@ -23,7 +23,7 @@ import { runWithTelemetry } from "#lib/telemetry/index.js";
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
 		.usage(
-			"$0 zero-trust cws policy-sets update <policy-set-id>\n\nReplaces the policy set's configuration. Omit tags to preserve them; use {} to clear them."
+			"$0 zero-trust cws policy-sets update <policy-set-id>\n\nReplaces the policy set's configuration. Omit tags or use {} to clear them."
 		)
 		.positional("policy-set-id", {
 			type: "string",

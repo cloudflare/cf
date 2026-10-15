@@ -38,7 +38,7 @@ type Args = InferArgs<typeof builder>;
 
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "list",
-	describe: "List K2 stream subscriptions",
+	describe: "List subscriptions with consumer lag",
 	builder,
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(

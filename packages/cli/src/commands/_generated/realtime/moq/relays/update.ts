@@ -29,7 +29,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "Relay unique identifier (32 hex characters).",
 			demandOption: true,
 		})
-		.option("config-upstreams-enabled", {
+		.option("relay-config-upstreams-enabled", {
 			type: "boolean",
 			description: "The config.upstreams.enabled field",
 		})
@@ -56,7 +56,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			{
 				command: "realtime moq relays update",
 				classification: {
-					safeFlags: ["config-upstreams-enabled", "dry-run"],
+					safeFlags: ["relay-config-upstreams-enabled", "dry-run"],
 				} satisfies ArgClassification<Args>,
 			},
 			argv as Record<string, unknown>,
@@ -75,7 +75,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 								: compactBody({
 										config: {
 											upstreams: {
-												enabled: argv["config-upstreams-enabled"],
+												enabled: argv["relay-config-upstreams-enabled"],
 											},
 										},
 										name: resolveFileToken(
@@ -108,7 +108,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				const bodyData = compactBody({
 					config: {
 						upstreams: {
-							enabled: argv["config-upstreams-enabled"],
+							enabled: argv["relay-config-upstreams-enabled"],
 						},
 					},
 					name: resolveFileToken(

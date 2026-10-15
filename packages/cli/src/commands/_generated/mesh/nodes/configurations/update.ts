@@ -30,7 +30,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "UUID of the tunnel.",
 			demandOption: true,
 		})
-		.option("config-fnr-id", {
+		.option("mesh-config-fnr-id", {
 			type: "string",
 			description:
 				"Floating Network Resource ID — the secondary ENI that is moved between nodes on failover.",
@@ -83,8 +83,8 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 								: compactBody({
 										config: {
 											fnr_id: resolveFileToken(
-												argv["config-fnr-id"] as string | undefined,
-												"config-fnr-id",
+												argv["mesh-config-fnr-id"] as string | undefined,
+												"mesh-config-fnr-id",
 												"text"
 											),
 										},
@@ -121,8 +121,8 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				const bodyData = compactBody({
 					config: {
 						fnr_id: resolveFileToken(
-							argv["config-fnr-id"] as string | undefined,
-							"config-fnr-id",
+							argv["mesh-config-fnr-id"] as string | undefined,
+							"mesh-config-fnr-id",
 							"text"
 						),
 					},

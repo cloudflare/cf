@@ -51,7 +51,7 @@
 					"name": "comments",
 					"type": "string",
 					"required": false,
-					"description": "Any additional comments about the infringement not exceeding 2000 characters"
+					"description": "Any additional comments about the infringement not exceeding 2000 characters. Comments are kept internal to Cloudflare and not shared with the host or customer as part of regular processing. For delegated reports, comments may be shared in full."
 				},
 				{
 					"name": "company",
@@ -141,7 +141,7 @@
 					"name": "host-notification",
 					"type": "string",
 					"required": false,
-					"description": "Notification type based on the abuse type. NOTE: Copyright (DMCA) and Trademark reports cannot be anonymous.\n"
+					"description": "Notification type based on the abuse type. For delegated reports, the report—including contact information and comments—will be forwarded to the customer in full regardless of this value. NOTE: Copyright (DMCA) and Trademark reports cannot be anonymous.\n"
 				},
 				{
 					"name": "original-work",
@@ -153,7 +153,7 @@
 					"name": "owner-notification",
 					"type": "string",
 					"required": true,
-					"description": "Notification type based on the abuse type. NOTE: Copyright (DMCA) and Trademark reports cannot be anonymous.\n"
+					"description": "Notification type based on the abuse type. For delegated reports, the report—including contact information and comments—will be forwarded to the customer in full regardless of this value. NOTE: Copyright (DMCA) and Trademark reports cannot be anonymous.\n"
 				},
 				{
 					"name": "signature",
@@ -669,120 +669,6 @@
 					"type": "string",
 					"required": false,
 					"description": "The type of appeal being submitted."
-				}
-			]
-		},
-		"account-tags delete": {
-			"operationId": "account-tags.delete",
-			"httpMethod": "DELETE",
-			"path": "/{account_or_zone}/{account_or_zone_id}/tags",
-			"pathParams": [
-				{
-					"name": "account_or_zone",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "account_or_zone_id",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": true,
-			"requestBodyFields": [
-				{
-					"name": "resource-id",
-					"type": "string",
-					"required": true,
-					"description": "Identifies the unique resource."
-				},
-				{
-					"name": "resource-type",
-					"type": "string",
-					"required": true,
-					"description": "Enum for worker_version resource type."
-				},
-				{
-					"name": "worker-id",
-					"type": "string",
-					"required": false,
-					"description": "Worker ID is required only for worker_version resources"
-				}
-			]
-		},
-		"account-tags get": {
-			"operationId": "account-tags.get",
-			"httpMethod": "GET",
-			"path": "/{account_or_zone}/{account_or_zone_id}/tags",
-			"pathParams": [
-				{
-					"name": "account_or_zone",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "account_or_zone_id",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [
-				{
-					"name": "resource_id",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "resource_type",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "worker_id",
-					"type": "string",
-					"required": false
-				}
-			],
-			"hasRequestBody": false,
-			"requestBodyFields": []
-		},
-		"account-tags update": {
-			"operationId": "account-tags.update",
-			"httpMethod": "PUT",
-			"path": "/{account_or_zone}/{account_or_zone_id}/tags",
-			"pathParams": [
-				{
-					"name": "account_or_zone",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "account_or_zone_id",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": true,
-			"requestBodyFields": [
-				{
-					"name": "resource-id",
-					"type": "string",
-					"required": true,
-					"description": "Identifies the unique resource."
-				},
-				{
-					"name": "resource-type",
-					"type": "string",
-					"required": true,
-					"description": "Enum for worker_version resource type."
-				},
-				{
-					"name": "worker-id",
-					"type": "string",
-					"required": false,
-					"description": "Worker ID is required only for worker_version resources"
 				}
 			]
 		},
@@ -7004,7 +6890,7 @@
 		"ai-search chat-completions": {
 			"operationId": "ai-search.chat-completions",
 			"httpMethod": "POST",
-			"path": "/accounts/{account_id}/ai-search/namespaces/{name}/instances/{id}/chat/completions",
+			"path": "/accounts/{account_id}/ai-search/namespaces/{namespace}/instances/{id}/chat/completions",
 			"pathParams": [
 				{
 					"name": "account_id",
@@ -7012,7 +6898,7 @@
 					"required": true
 				},
 				{
-					"name": "name",
+					"name": "namespace",
 					"type": "string",
 					"required": true
 				},
@@ -7089,19 +6975,19 @@
 					"name": "ai-search-options-retrieval-keyword-match-mode",
 					"type": "string",
 					"required": false,
-					"description": "Controls which documents are candidates for BM25 scoring. 'and' restricts candidates to documents containing all query terms; 'or' includes any document containing at least one term, ranked by BM25 relevance. When omitted, falls back to the instance-level retrieval_options.keyword_match_mode, then to 'and'."
+					"description": "Controls which documents become candidates for BM25 scoring. 'and' restricts candidates to documents containing all query terms; 'or' includes any document containing at least one term and ranks results according to BM25 relevance. When omitted, falls back to the instance-level retrieval_options.keyword_match_mode, then to 'and'."
 				},
 				{
 					"name": "ai-search-options-retrieval-match-threshold",
 					"type": "number",
 					"required": false,
-					"description": "The ai_search_options.retrieval.match_threshold field"
+					"description": "Minimum similarity score a chunk must reach to be returned. When omitted, falls back to the instance-level score_threshold, then to 0.4."
 				},
 				{
 					"name": "ai-search-options-retrieval-max-num-results",
 					"type": "number",
 					"required": false,
-					"description": "The ai_search_options.retrieval.max_num_results field"
+					"description": "Maximum number of results to return. When omitted, falls back to the instance-level max_num_results, then to 10."
 				},
 				{
 					"name": "ai-search-options-retrieval-retrieval-type",
@@ -7138,7 +7024,7 @@
 		"ai-search create": {
 			"operationId": "ai-search.create",
 			"httpMethod": "POST",
-			"path": "/accounts/{account_id}/ai-search/namespaces/{name}/instances",
+			"path": "/accounts/{account_id}/ai-search/namespaces/{namespace}/instances",
 			"pathParams": [
 				{
 					"name": "account_id",
@@ -7146,7 +7032,7 @@
 					"required": true
 				},
 				{
-					"name": "name",
+					"name": "namespace",
 					"type": "string",
 					"required": true
 				}
@@ -7296,7 +7182,7 @@
 					"name": "public-endpoint-params-chat-completions-endpoint-disabled",
 					"type": "boolean",
 					"required": false,
-					"description": "Disable chat completions endpoint for this public endpoint"
+					"description": "Disable chat completions endpoint for this public endpoint."
 				},
 				{
 					"name": "public-endpoint-params-custom-domains",
@@ -7326,7 +7212,7 @@
 					"name": "public-endpoint-params-mcp-disabled",
 					"type": "boolean",
 					"required": false,
-					"description": "Disable MCP endpoint for this public endpoint"
+					"description": "Disable MCP endpoint for this public endpoint."
 				},
 				{
 					"name": "public-endpoint-params-rate-limit-period-ms",
@@ -7350,7 +7236,7 @@
 					"name": "public-endpoint-params-search-endpoint-disabled",
 					"type": "boolean",
 					"required": false,
-					"description": "Disable search endpoint for this public endpoint"
+					"description": "Disable search endpoint for this public endpoint."
 				},
 				{
 					"name": "reranking",
@@ -7368,7 +7254,7 @@
 					"name": "retrieval-options-keyword-match-mode",
 					"type": "string",
 					"required": false,
-					"description": "Controls which documents are candidates for BM25 scoring. 'and' restricts candidates to documents containing all query terms; 'or' includes any document containing at least one term, ranked by BM25 relevance. When omitted on an update, the existing stored value is preserved; when never set, search falls back to 'and'."
+					"description": "Controls which documents become candidates for BM25 scoring. 'and' restricts candidates to documents containing all query terms; 'or' includes any document containing at least one term and ranks results according to BM25 relevance. When omitted on an update, the existing stored value stays unchanged; when never set, search falls back to 'and'."
 				},
 				{
 					"name": "rewrite-model",
@@ -7398,13 +7284,13 @@
 					"name": "source-params-exclude-items",
 					"type": "string",
 					"required": false,
-					"description": "List of path patterns to exclude. Uses micromatch glob syntax: * matches within a path segment, ** matches across path segments (e.g., /admin/** matches /admin/users and /admin/settings/advanced). Most accounts are limited to 10 rules; contact support to raise it."
+					"description": "List of path patterns to exclude. Uses micromatch glob syntax: * matches within a path segment, ** matches across path segments (e.g., /admin/** matches /admin/users and /admin/settings/advanced). Most accounts have a limit of 10 rules; contact support to raise it."
 				},
 				{
 					"name": "source-params-include-items",
 					"type": "string",
 					"required": false,
-					"description": "List of path patterns to include. Uses micromatch glob syntax: * matches within a path segment, ** matches across path segments (e.g., /blog/** matches /blog/post and /blog/2024/post). Most accounts are limited to 10 rules; contact support to raise it."
+					"description": "List of path patterns to include. Uses micromatch glob syntax: * matches within a path segment, ** matches across path segments (e.g., /blog/** matches /blog/post and /blog/2024/post). Most accounts have a limit of 10 rules; contact support to raise it."
 				},
 				{
 					"name": "source-params-prefix",
@@ -7428,7 +7314,7 @@
 					"name": "source-params-web-crawler-discover-options-include-external-links",
 					"type": "boolean",
 					"required": false,
-					"description": "Follow links that point outside the source domain. Must stay `false` — discover crawls are restricted to the zone you own."
+					"description": "Follow links that point outside the source domain. Must stay `false` because discover crawls only cover the zone you own."
 				},
 				{
 					"name": "source-params-web-crawler-discover-options-include-subdomains",
@@ -7476,7 +7362,7 @@
 					"name": "source-params-web-crawler-parse-type",
 					"type": "string",
 					"required": false,
-					"description": "How URLs are discovered. 'sitemap' reads XML sitemaps; 'discover' follows links recursively and requires the source to be a Verified zone on this account."
+					"description": "How the crawler finds URLs. 'sitemap' reads XML sitemaps; 'discover' follows links recursively and requires the source to belong to a Verified zone on this account."
 				},
 				{
 					"name": "sync-interval",
@@ -7501,7 +7387,7 @@
 		"ai-search delete": {
 			"operationId": "ai-search.delete",
 			"httpMethod": "DELETE",
-			"path": "/accounts/{account_id}/ai-search/namespaces/{name}/instances/{id}",
+			"path": "/accounts/{account_id}/ai-search/namespaces/{namespace}/instances/{id}",
 			"pathParams": [
 				{
 					"name": "account_id",
@@ -7509,7 +7395,7 @@
 					"required": true
 				},
 				{
-					"name": "name",
+					"name": "namespace",
 					"type": "string",
 					"required": true
 				},
@@ -7526,7 +7412,7 @@
 		"ai-search get": {
 			"operationId": "ai-search.get",
 			"httpMethod": "GET",
-			"path": "/accounts/{account_id}/ai-search/namespaces/{name}/instances/{id}",
+			"path": "/accounts/{account_id}/ai-search/namespaces/{namespace}/instances/{id}",
 			"pathParams": [
 				{
 					"name": "account_id",
@@ -7534,7 +7420,7 @@
 					"required": true
 				},
 				{
-					"name": "name",
+					"name": "namespace",
 					"type": "string",
 					"required": true
 				},
@@ -7551,7 +7437,7 @@
 		"ai-search items chunks": {
 			"operationId": "ai-search.items.chunks",
 			"httpMethod": "GET",
-			"path": "/accounts/{account_id}/ai-search/namespaces/{name}/instances/{id}/items/{item_id}/chunks",
+			"path": "/accounts/{account_id}/ai-search/namespaces/{namespace}/instances/{id}/items/{item_id}/chunks",
 			"pathParams": [
 				{
 					"name": "account_id",
@@ -7559,7 +7445,7 @@
 					"required": true
 				},
 				{
-					"name": "name",
+					"name": "namespace",
 					"type": "string",
 					"required": true
 				},
@@ -7592,7 +7478,7 @@
 		"ai-search items delete": {
 			"operationId": "ai-search.items.delete",
 			"httpMethod": "DELETE",
-			"path": "/accounts/{account_id}/ai-search/namespaces/{name}/instances/{id}/items/{item_id}",
+			"path": "/accounts/{account_id}/ai-search/namespaces/{namespace}/instances/{id}/items/{item_id}",
 			"pathParams": [
 				{
 					"name": "account_id",
@@ -7600,7 +7486,7 @@
 					"required": true
 				},
 				{
-					"name": "name",
+					"name": "namespace",
 					"type": "string",
 					"required": true
 				},
@@ -7622,7 +7508,7 @@
 		"ai-search items download": {
 			"operationId": "ai-search.items.download",
 			"httpMethod": "GET",
-			"path": "/accounts/{account_id}/ai-search/namespaces/{name}/instances/{id}/items/{item_id}/download",
+			"path": "/accounts/{account_id}/ai-search/namespaces/{namespace}/instances/{id}/items/{item_id}/download",
 			"pathParams": [
 				{
 					"name": "account_id",
@@ -7630,7 +7516,7 @@
 					"required": true
 				},
 				{
-					"name": "name",
+					"name": "namespace",
 					"type": "string",
 					"required": true
 				},
@@ -7652,7 +7538,7 @@
 		"ai-search items get": {
 			"operationId": "ai-search.items.get",
 			"httpMethod": "GET",
-			"path": "/accounts/{account_id}/ai-search/namespaces/{name}/instances/{id}/items/{item_id}",
+			"path": "/accounts/{account_id}/ai-search/namespaces/{namespace}/instances/{id}/items/{item_id}",
 			"pathParams": [
 				{
 					"name": "account_id",
@@ -7660,7 +7546,7 @@
 					"required": true
 				},
 				{
-					"name": "name",
+					"name": "namespace",
 					"type": "string",
 					"required": true
 				},
@@ -7682,7 +7568,7 @@
 		"ai-search items list": {
 			"operationId": "ai-search.items.list",
 			"httpMethod": "GET",
-			"path": "/accounts/{account_id}/ai-search/namespaces/{name}/instances/{id}/items",
+			"path": "/accounts/{account_id}/ai-search/namespaces/{namespace}/instances/{id}/items",
 			"pathParams": [
 				{
 					"name": "account_id",
@@ -7690,7 +7576,7 @@
 					"required": true
 				},
 				{
-					"name": "name",
+					"name": "namespace",
 					"type": "string",
 					"required": true
 				},
@@ -7753,7 +7639,7 @@
 		"ai-search items logs": {
 			"operationId": "ai-search.items.logs",
 			"httpMethod": "GET",
-			"path": "/accounts/{account_id}/ai-search/namespaces/{name}/instances/{id}/items/{item_id}/logs",
+			"path": "/accounts/{account_id}/ai-search/namespaces/{namespace}/instances/{id}/items/{item_id}/logs",
 			"pathParams": [
 				{
 					"name": "account_id",
@@ -7761,7 +7647,7 @@
 					"required": true
 				},
 				{
-					"name": "name",
+					"name": "namespace",
 					"type": "string",
 					"required": true
 				},
@@ -7794,7 +7680,7 @@
 		"ai-search items sync": {
 			"operationId": "ai-search.items.sync",
 			"httpMethod": "PATCH",
-			"path": "/accounts/{account_id}/ai-search/namespaces/{name}/instances/{id}/items/{item_id}",
+			"path": "/accounts/{account_id}/ai-search/namespaces/{namespace}/instances/{id}/items/{item_id}",
 			"pathParams": [
 				{
 					"name": "account_id",
@@ -7802,7 +7688,7 @@
 					"required": true
 				},
 				{
-					"name": "name",
+					"name": "namespace",
 					"type": "string",
 					"required": true
 				},
@@ -7830,14 +7716,14 @@
 					"name": "wait-for-completion",
 					"type": "boolean",
 					"required": false,
-					"description": "Wait for indexing before responding. After processing, vector-indexed instances use any time remaining in a 25s wait budget to confirm Vectorize ingestion. Processing itself is not interrupted and can exceed that budget. If confirmation times out, the current item state is returned and background indexing continues. Defaults to false."
+					"description": "Wait for indexing before responding. After processing, vector-indexed instances use any time remaining in a 25s wait budget to confirm Vectorize ingestion. Processing itself continues uninterrupted and can exceed that budget. If confirmation times out, the response returns the current item state and background indexing continues. Defaults to false."
 				}
 			]
 		},
 		"ai-search items upload": {
 			"operationId": "ai-search.items.upload",
 			"httpMethod": "POST",
-			"path": "/accounts/{account_id}/ai-search/namespaces/{name}/instances/{id}/items",
+			"path": "/accounts/{account_id}/ai-search/namespaces/{namespace}/instances/{id}/items",
 			"pathParams": [
 				{
 					"name": "account_id",
@@ -7845,7 +7731,7 @@
 					"required": true
 				},
 				{
-					"name": "name",
+					"name": "namespace",
 					"type": "string",
 					"required": true
 				},
@@ -7862,7 +7748,7 @@
 		"ai-search items upsert": {
 			"operationId": "ai-search.items.upsert",
 			"httpMethod": "PUT",
-			"path": "/accounts/{account_id}/ai-search/namespaces/{name}/instances/{id}/items",
+			"path": "/accounts/{account_id}/ai-search/namespaces/{namespace}/instances/{id}/items",
 			"pathParams": [
 				{
 					"name": "account_id",
@@ -7870,7 +7756,7 @@
 					"required": true
 				},
 				{
-					"name": "name",
+					"name": "namespace",
 					"type": "string",
 					"required": true
 				},
@@ -7899,14 +7785,14 @@
 					"name": "wait-for-completion",
 					"type": "boolean",
 					"required": false,
-					"description": "Wait for indexing before responding. After processing, vector-indexed instances use any time remaining in a 25s wait budget to confirm Vectorize ingestion. Processing itself is not interrupted and can exceed that budget. If confirmation times out, the current item state is returned and background indexing continues. Defaults to false."
+					"description": "Wait for indexing before responding. After processing, vector-indexed instances use any time remaining in a 25s wait budget to confirm Vectorize ingestion. Processing itself continues uninterrupted and can exceed that budget. If confirmation times out, the response returns the current item state and background indexing continues. Defaults to false."
 				}
 			]
 		},
 		"ai-search jobs cancel": {
 			"operationId": "ai-search.jobs.cancel",
 			"httpMethod": "PATCH",
-			"path": "/accounts/{account_id}/ai-search/namespaces/{name}/instances/{id}/jobs/{job_id}",
+			"path": "/accounts/{account_id}/ai-search/namespaces/{namespace}/instances/{id}/jobs/{job_id}",
 			"pathParams": [
 				{
 					"name": "account_id",
@@ -7914,7 +7800,7 @@
 					"required": true
 				},
 				{
-					"name": "name",
+					"name": "namespace",
 					"type": "string",
 					"required": true
 				},
@@ -7943,7 +7829,7 @@
 		"ai-search jobs create": {
 			"operationId": "ai-search.jobs.create",
 			"httpMethod": "POST",
-			"path": "/accounts/{account_id}/ai-search/namespaces/{name}/instances/{id}/jobs",
+			"path": "/accounts/{account_id}/ai-search/namespaces/{namespace}/instances/{id}/jobs",
 			"pathParams": [
 				{
 					"name": "account_id",
@@ -7951,7 +7837,7 @@
 					"required": true
 				},
 				{
-					"name": "name",
+					"name": "namespace",
 					"type": "string",
 					"required": true
 				},
@@ -7975,7 +7861,7 @@
 		"ai-search jobs get": {
 			"operationId": "ai-search.jobs.get",
 			"httpMethod": "GET",
-			"path": "/accounts/{account_id}/ai-search/namespaces/{name}/instances/{id}/jobs/{job_id}",
+			"path": "/accounts/{account_id}/ai-search/namespaces/{namespace}/instances/{id}/jobs/{job_id}",
 			"pathParams": [
 				{
 					"name": "account_id",
@@ -7983,7 +7869,7 @@
 					"required": true
 				},
 				{
-					"name": "name",
+					"name": "namespace",
 					"type": "string",
 					"required": true
 				},
@@ -8005,7 +7891,7 @@
 		"ai-search jobs list": {
 			"operationId": "ai-search.jobs.list",
 			"httpMethod": "GET",
-			"path": "/accounts/{account_id}/ai-search/namespaces/{name}/instances/{id}/jobs",
+			"path": "/accounts/{account_id}/ai-search/namespaces/{namespace}/instances/{id}/jobs",
 			"pathParams": [
 				{
 					"name": "account_id",
@@ -8013,7 +7899,7 @@
 					"required": true
 				},
 				{
-					"name": "name",
+					"name": "namespace",
 					"type": "string",
 					"required": true
 				},
@@ -8041,7 +7927,7 @@
 		"ai-search jobs logs": {
 			"operationId": "ai-search.jobs.logs",
 			"httpMethod": "GET",
-			"path": "/accounts/{account_id}/ai-search/namespaces/{name}/instances/{id}/jobs/{job_id}/logs",
+			"path": "/accounts/{account_id}/ai-search/namespaces/{namespace}/instances/{id}/jobs/{job_id}/logs",
 			"pathParams": [
 				{
 					"name": "account_id",
@@ -8049,7 +7935,7 @@
 					"required": true
 				},
 				{
-					"name": "name",
+					"name": "namespace",
 					"type": "string",
 					"required": true
 				},
@@ -8082,7 +7968,7 @@
 		"ai-search list": {
 			"operationId": "ai-search.list",
 			"httpMethod": "GET",
-			"path": "/accounts/{account_id}/ai-search/namespaces/{name}/instances",
+			"path": "/accounts/{account_id}/ai-search/namespaces/{namespace}/instances",
 			"pathParams": [
 				{
 					"name": "account_id",
@@ -8090,7 +7976,7 @@
 					"required": true
 				},
 				{
-					"name": "name",
+					"name": "namespace",
 					"type": "string",
 					"required": true
 				}
@@ -8133,7 +8019,7 @@
 		"ai-search move": {
 			"operationId": "ai-search.move",
 			"httpMethod": "PATCH",
-			"path": "/accounts/{account_id}/ai-search/namespaces/{name}/instances/{id}",
+			"path": "/accounts/{account_id}/ai-search/namespaces/{namespace}/instances/{id}",
 			"pathParams": [
 				{
 					"name": "account_id",
@@ -8141,7 +8027,7 @@
 					"required": true
 				},
 				{
-					"name": "name",
+					"name": "namespace",
 					"type": "string",
 					"required": true
 				},
@@ -8251,19 +8137,19 @@
 					"name": "ai-search-options-retrieval-keyword-match-mode",
 					"type": "string",
 					"required": false,
-					"description": "Controls which documents are candidates for BM25 scoring. 'and' restricts candidates to documents containing all query terms; 'or' includes any document containing at least one term, ranked by BM25 relevance. When omitted, falls back to the instance-level retrieval_options.keyword_match_mode, then to 'and'."
+					"description": "Controls which documents become candidates for BM25 scoring. 'and' restricts candidates to documents containing all query terms; 'or' includes any document containing at least one term and ranks results according to BM25 relevance. When omitted, falls back to the instance-level retrieval_options.keyword_match_mode, then to 'and'."
 				},
 				{
 					"name": "ai-search-options-retrieval-match-threshold",
 					"type": "number",
 					"required": false,
-					"description": "The ai_search_options.retrieval.match_threshold field"
+					"description": "Minimum score a chunk must reach to be returned. When omitted, each instance's chunks are filtered by that instance's score_threshold, capped at the lower of the first instance's score_threshold and 0.4."
 				},
 				{
 					"name": "ai-search-options-retrieval-max-num-results",
 					"type": "number",
 					"required": false,
-					"description": "The ai_search_options.retrieval.max_num_results field"
+					"description": "Maximum number of merged results to return. When omitted, defaults to the first instance's max_num_results, then 10."
 				},
 				{
 					"name": "ai-search-options-retrieval-retrieval-type",
@@ -8386,19 +8272,19 @@
 					"name": "ai-search-options-retrieval-keyword-match-mode",
 					"type": "string",
 					"required": false,
-					"description": "Controls which documents are candidates for BM25 scoring. 'and' restricts candidates to documents containing all query terms; 'or' includes any document containing at least one term, ranked by BM25 relevance. When omitted, falls back to the instance-level retrieval_options.keyword_match_mode, then to 'and'."
+					"description": "Controls which documents become candidates for BM25 scoring. 'and' restricts candidates to documents containing all query terms; 'or' includes any document containing at least one term and ranks results according to BM25 relevance. When omitted, falls back to the instance-level retrieval_options.keyword_match_mode, then to 'and'."
 				},
 				{
 					"name": "ai-search-options-retrieval-match-threshold",
 					"type": "number",
 					"required": false,
-					"description": "The ai_search_options.retrieval.match_threshold field"
+					"description": "Minimum score a chunk must reach to be returned. When omitted, each instance's chunks are filtered by that instance's score_threshold, capped at 0.4."
 				},
 				{
 					"name": "ai-search-options-retrieval-max-num-results",
 					"type": "number",
 					"required": false,
-					"description": "The ai_search_options.retrieval.max_num_results field"
+					"description": "Maximum number of merged results to return. When omitted, defaults to the sum of the searched instances' max_num_results (each falling back to 10), up to 50."
 				},
 				{
 					"name": "ai-search-options-retrieval-retrieval-type",
@@ -8462,7 +8348,7 @@
 					"name": "public-endpoint-params-chat-completions-endpoint-disabled",
 					"type": "boolean",
 					"required": false,
-					"description": "Disable chat completions endpoint for this public endpoint"
+					"description": "Disable chat completions endpoint for this public endpoint."
 				},
 				{
 					"name": "public-endpoint-params-custom-domains",
@@ -8486,7 +8372,7 @@
 					"name": "public-endpoint-params-instances-allowed",
 					"type": "string",
 					"required": false,
-					"description": "Instance IDs exposed through the namespace public endpoint. Empty means nothing is searchable. Every ID must be an existing instance in this namespace, and the list cannot exceed the account's multi-instance search limit."
+					"description": "Instance IDs exposed through the namespace public endpoint. Empty means nothing is searchable. Every ID must reference an existing instance in this namespace, and the list must stay within the account's multi-instance search limit."
 				},
 				{
 					"name": "public-endpoint-params-mcp-description",
@@ -8498,7 +8384,7 @@
 					"name": "public-endpoint-params-mcp-disabled",
 					"type": "boolean",
 					"required": false,
-					"description": "Disable MCP endpoint for this public endpoint"
+					"description": "Disable MCP endpoint for this public endpoint."
 				},
 				{
 					"name": "public-endpoint-params-rate-limit-period-ms",
@@ -8522,7 +8408,7 @@
 					"name": "public-endpoint-params-search-endpoint-disabled",
 					"type": "boolean",
 					"required": false,
-					"description": "Disable search endpoint for this public endpoint"
+					"description": "Disable search endpoint for this public endpoint."
 				}
 			]
 		},
@@ -8632,7 +8518,7 @@
 					"name": "public-endpoint-params-chat-completions-endpoint-disabled",
 					"type": "boolean",
 					"required": false,
-					"description": "Disable chat completions endpoint for this public endpoint"
+					"description": "Disable chat completions endpoint for this public endpoint."
 				},
 				{
 					"name": "public-endpoint-params-custom-domains",
@@ -8656,7 +8542,7 @@
 					"name": "public-endpoint-params-instances-allowed",
 					"type": "string",
 					"required": false,
-					"description": "Instance IDs exposed through the namespace public endpoint. Empty means nothing is searchable. Every ID must be an existing instance in this namespace, and the list cannot exceed the account's multi-instance search limit."
+					"description": "Instance IDs exposed through the namespace public endpoint. Empty means nothing is searchable. Every ID must reference an existing instance in this namespace, and the list must stay within the account's multi-instance search limit."
 				},
 				{
 					"name": "public-endpoint-params-mcp-description",
@@ -8668,7 +8554,7 @@
 					"name": "public-endpoint-params-mcp-disabled",
 					"type": "boolean",
 					"required": false,
-					"description": "Disable MCP endpoint for this public endpoint"
+					"description": "Disable MCP endpoint for this public endpoint."
 				},
 				{
 					"name": "public-endpoint-params-rate-limit-period-ms",
@@ -8692,14 +8578,14 @@
 					"name": "public-endpoint-params-search-endpoint-disabled",
 					"type": "boolean",
 					"required": false,
-					"description": "Disable search endpoint for this public endpoint"
+					"description": "Disable search endpoint for this public endpoint."
 				}
 			]
 		},
 		"ai-search purge-cache": {
 			"operationId": "ai-search.purge-cache",
 			"httpMethod": "POST",
-			"path": "/accounts/{account_id}/ai-search/namespaces/{name}/instances/{id}/purge_cache",
+			"path": "/accounts/{account_id}/ai-search/namespaces/{namespace}/instances/{id}/purge_cache",
 			"pathParams": [
 				{
 					"name": "account_id",
@@ -8707,7 +8593,7 @@
 					"required": true
 				},
 				{
-					"name": "name",
+					"name": "namespace",
 					"type": "string",
 					"required": true
 				},
@@ -8724,7 +8610,7 @@
 		"ai-search search": {
 			"operationId": "ai-search.search",
 			"httpMethod": "POST",
-			"path": "/accounts/{account_id}/ai-search/namespaces/{name}/instances/{id}/search",
+			"path": "/accounts/{account_id}/ai-search/namespaces/{namespace}/instances/{id}/search",
 			"pathParams": [
 				{
 					"name": "account_id",
@@ -8732,7 +8618,7 @@
 					"required": true
 				},
 				{
-					"name": "name",
+					"name": "namespace",
 					"type": "string",
 					"required": true
 				},
@@ -8809,19 +8695,19 @@
 					"name": "ai-search-options-retrieval-keyword-match-mode",
 					"type": "string",
 					"required": false,
-					"description": "Controls which documents are candidates for BM25 scoring. 'and' restricts candidates to documents containing all query terms; 'or' includes any document containing at least one term, ranked by BM25 relevance. When omitted, falls back to the instance-level retrieval_options.keyword_match_mode, then to 'and'."
+					"description": "Controls which documents become candidates for BM25 scoring. 'and' restricts candidates to documents containing all query terms; 'or' includes any document containing at least one term and ranks results according to BM25 relevance. When omitted, falls back to the instance-level retrieval_options.keyword_match_mode, then to 'and'."
 				},
 				{
 					"name": "ai-search-options-retrieval-match-threshold",
 					"type": "number",
 					"required": false,
-					"description": "The ai_search_options.retrieval.match_threshold field"
+					"description": "Minimum similarity score a chunk must reach to be returned. When omitted, falls back to the instance-level score_threshold, then to 0.4."
 				},
 				{
 					"name": "ai-search-options-retrieval-max-num-results",
 					"type": "number",
 					"required": false,
-					"description": "The ai_search_options.retrieval.max_num_results field"
+					"description": "Maximum number of results to return. When omitted, falls back to the instance-level max_num_results, then to 10."
 				},
 				{
 					"name": "ai-search-options-retrieval-retrieval-type",
@@ -8852,7 +8738,7 @@
 		"ai-search stats": {
 			"operationId": "ai-search.stats",
 			"httpMethod": "GET",
-			"path": "/accounts/{account_id}/ai-search/namespaces/{name}/instances/{id}/stats",
+			"path": "/accounts/{account_id}/ai-search/namespaces/{namespace}/instances/{id}/stats",
 			"pathParams": [
 				{
 					"name": "account_id",
@@ -8860,7 +8746,7 @@
 					"required": true
 				},
 				{
-					"name": "name",
+					"name": "namespace",
 					"type": "string",
 					"required": true
 				},
@@ -9033,7 +8919,7 @@
 		"ai-search update": {
 			"operationId": "ai-search.update",
 			"httpMethod": "PUT",
-			"path": "/accounts/{account_id}/ai-search/namespaces/{name}/instances/{id}",
+			"path": "/accounts/{account_id}/ai-search/namespaces/{namespace}/instances/{id}",
 			"pathParams": [
 				{
 					"name": "account_id",
@@ -9041,7 +8927,7 @@
 					"required": true
 				},
 				{
-					"name": "name",
+					"name": "namespace",
 					"type": "string",
 					"required": true
 				},
@@ -9190,7 +9076,7 @@
 					"name": "public-endpoint-params-chat-completions-endpoint-disabled",
 					"type": "boolean",
 					"required": false,
-					"description": "Disable chat completions endpoint for this public endpoint"
+					"description": "Disable chat completions endpoint for this public endpoint."
 				},
 				{
 					"name": "public-endpoint-params-custom-domains",
@@ -9220,7 +9106,7 @@
 					"name": "public-endpoint-params-mcp-disabled",
 					"type": "boolean",
 					"required": false,
-					"description": "Disable MCP endpoint for this public endpoint"
+					"description": "Disable MCP endpoint for this public endpoint."
 				},
 				{
 					"name": "public-endpoint-params-rate-limit-period-ms",
@@ -9244,7 +9130,7 @@
 					"name": "public-endpoint-params-search-endpoint-disabled",
 					"type": "boolean",
 					"required": false,
-					"description": "Disable search endpoint for this public endpoint"
+					"description": "Disable search endpoint for this public endpoint."
 				},
 				{
 					"name": "reranking",
@@ -9262,7 +9148,7 @@
 					"name": "retrieval-options-keyword-match-mode",
 					"type": "string",
 					"required": false,
-					"description": "Controls which documents are candidates for BM25 scoring. 'and' restricts candidates to documents containing all query terms; 'or' includes any document containing at least one term, ranked by BM25 relevance. When omitted on an update, the existing stored value is preserved; when never set, search falls back to 'and'."
+					"description": "Controls which documents become candidates for BM25 scoring. 'and' restricts candidates to documents containing all query terms; 'or' includes any document containing at least one term and ranks results according to BM25 relevance. When omitted on an update, the existing stored value stays unchanged; when never set, search falls back to 'and'."
 				},
 				{
 					"name": "rewrite-model",
@@ -9292,13 +9178,13 @@
 					"name": "source-params-exclude-items",
 					"type": "string",
 					"required": false,
-					"description": "List of path patterns to exclude. Uses micromatch glob syntax: * matches within a path segment, ** matches across path segments (e.g., /admin/** matches /admin/users and /admin/settings/advanced). Most accounts are limited to 10 rules; contact support to raise it."
+					"description": "List of path patterns to exclude. Uses micromatch glob syntax: * matches within a path segment, ** matches across path segments (e.g., /admin/** matches /admin/users and /admin/settings/advanced). Most accounts have a limit of 10 rules; contact support to raise it."
 				},
 				{
 					"name": "source-params-include-items",
 					"type": "string",
 					"required": false,
-					"description": "List of path patterns to include. Uses micromatch glob syntax: * matches within a path segment, ** matches across path segments (e.g., /blog/** matches /blog/post and /blog/2024/post). Most accounts are limited to 10 rules; contact support to raise it."
+					"description": "List of path patterns to include. Uses micromatch glob syntax: * matches within a path segment, ** matches across path segments (e.g., /blog/** matches /blog/post and /blog/2024/post). Most accounts have a limit of 10 rules; contact support to raise it."
 				},
 				{
 					"name": "source-params-prefix",
@@ -9322,7 +9208,7 @@
 					"name": "source-params-web-crawler-discover-options-include-external-links",
 					"type": "boolean",
 					"required": false,
-					"description": "Follow links that point outside the source domain. Must stay `false` — discover crawls are restricted to the zone you own."
+					"description": "Follow links that point outside the source domain. Must stay `false` because discover crawls only cover the zone you own."
 				},
 				{
 					"name": "source-params-web-crawler-discover-options-include-subdomains",
@@ -9370,7 +9256,7 @@
 					"name": "source-params-web-crawler-parse-type",
 					"type": "string",
 					"required": false,
-					"description": "How URLs are discovered. 'sitemap' reads XML sitemaps; 'discover' follows links recursively and requires the source to be a Verified zone on this account."
+					"description": "How the crawler finds URLs. 'sitemap' reads XML sitemaps; 'discover' follows links recursively and requires the source to belong to a Verified zone on this account."
 				},
 				{
 					"name": "summarization",
@@ -15315,6 +15201,12 @@
 					"description": "The guardrails.mode field"
 				},
 				{
+					"name": "view-mode",
+					"type": "string",
+					"required": false,
+					"description": "UI mode: 'devtools' (Chrome DevTools), 'tab' (single tab view), 'full' (multi-tab browser)"
+				},
+				{
 					"name": "target-id",
 					"type": "string",
 					"required": false,
@@ -19428,191 +19320,6 @@
 			"hasRequestBody": false,
 			"requestBodyFields": []
 		},
-		"certificate-authorities hostname-associations get": {
-			"operationId": "certificate-authorities.hostname-associations.get",
-			"httpMethod": "GET",
-			"path": "/zones/{zone_id}/certificate_authorities/hostname_associations",
-			"pathParams": [
-				{
-					"name": "zone_id",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [
-				{
-					"name": "mtls_certificate_id",
-					"type": "string",
-					"required": false
-				}
-			],
-			"hasRequestBody": false,
-			"requestBodyFields": []
-		},
-		"certificate-authorities hostname-associations update": {
-			"operationId": "certificate-authorities.hostname-associations.update",
-			"httpMethod": "PUT",
-			"path": "/zones/{zone_id}/certificate_authorities/hostname_associations",
-			"pathParams": [
-				{
-					"name": "zone_id",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": true,
-			"requestBodyFields": [
-				{
-					"name": "hostnames",
-					"type": "string",
-					"required": false,
-					"description": "The hostnames field"
-				},
-				{
-					"name": "mtls-certificate-id",
-					"type": "string",
-					"required": false,
-					"description": "The UUID for a certificate that was uploaded to the mTLS Certificate Management endpoint. If no mtls_certificate_id is given, the hostnames will be associated to your active Cloudflare Managed CA."
-				}
-			]
-		},
-		"client-certificates create": {
-			"operationId": "client-certificates.create",
-			"httpMethod": "POST",
-			"path": "/zones/{zone_id}/client_certificates",
-			"pathParams": [
-				{
-					"name": "zone_id",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": true,
-			"requestBodyFields": [
-				{
-					"name": "csr",
-					"type": "string",
-					"required": true,
-					"description": "The Certificate Signing Request (CSR). Must be newline-encoded."
-				},
-				{
-					"name": "validity-days",
-					"type": "number",
-					"required": true,
-					"description": "The number of days the Client Certificate will be valid after the issued_on date."
-				}
-			]
-		},
-		"client-certificates delete": {
-			"operationId": "client-certificates.delete",
-			"httpMethod": "DELETE",
-			"path": "/zones/{zone_id}/client_certificates/{client_certificate_id}",
-			"pathParams": [
-				{
-					"name": "zone_id",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "client_certificate_id",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": false,
-			"requestBodyFields": []
-		},
-		"client-certificates edit": {
-			"operationId": "client-certificates.edit",
-			"httpMethod": "PATCH",
-			"path": "/zones/{zone_id}/client_certificates/{client_certificate_id}",
-			"pathParams": [
-				{
-					"name": "zone_id",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "client_certificate_id",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": true,
-			"requestBodyFields": [
-				{
-					"name": "reactivate",
-					"type": "boolean",
-					"required": false,
-					"description": "The reactivate field"
-				}
-			]
-		},
-		"client-certificates get": {
-			"operationId": "client-certificates.get",
-			"httpMethod": "GET",
-			"path": "/zones/{zone_id}/client_certificates/{client_certificate_id}",
-			"pathParams": [
-				{
-					"name": "zone_id",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "client_certificate_id",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": false,
-			"requestBodyFields": []
-		},
-		"client-certificates list": {
-			"operationId": "client-certificates.list",
-			"httpMethod": "GET",
-			"path": "/zones/{zone_id}/client_certificates",
-			"pathParams": [
-				{
-					"name": "zone_id",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [
-				{
-					"name": "status",
-					"type": "string",
-					"required": false
-				},
-				{
-					"name": "page",
-					"type": "number",
-					"required": false
-				},
-				{
-					"name": "per_page",
-					"type": "number",
-					"required": false
-				},
-				{
-					"name": "limit",
-					"type": "number",
-					"required": false
-				},
-				{
-					"name": "offset",
-					"type": "number",
-					"required": false
-				}
-			],
-			"hasRequestBody": false,
-			"requestBodyFields": []
-		},
 		"client-side-security connections get": {
 			"operationId": "client-side-security.connections.get",
 			"httpMethod": "GET",
@@ -21662,13 +21369,13 @@
 					"name": "alert-enabled",
 					"type": "boolean",
 					"required": false,
-					"description": "Enable alerts for this query"
+					"description": "Deprecated and ignored: saved-query alerting and rules were removed."
 				},
 				{
 					"name": "alert-rollup-enabled",
 					"type": "boolean",
 					"required": false,
-					"description": "Enable alert rollup for this query"
+					"description": "Deprecated and ignored: saved-query alerting and rules were removed."
 				},
 				{
 					"name": "name",
@@ -21686,13 +21393,13 @@
 					"name": "rule-enabled",
 					"type": "boolean",
 					"required": false,
-					"description": "Enable rule for this query"
+					"description": "Deprecated and ignored: saved-query alerting and rules were removed."
 				},
 				{
 					"name": "rule-scope",
 					"type": "string",
 					"required": false,
-					"description": "Scope for the rule"
+					"description": "Deprecated and ignored: saved-query alerting and rules were removed."
 				}
 			]
 		},
@@ -21713,14 +21420,14 @@
 				{
 					"name": "alert-enabled",
 					"type": "boolean",
-					"required": true,
-					"description": "Enable alerts for this query"
+					"required": false,
+					"description": "Deprecated and ignored: saved-query alerting and rules were removed."
 				},
 				{
 					"name": "alert-rollup-enabled",
 					"type": "boolean",
-					"required": true,
-					"description": "Enable alert rollup for this query"
+					"required": false,
+					"description": "Deprecated and ignored: saved-query alerting and rules were removed."
 				},
 				{
 					"name": "name",
@@ -21737,14 +21444,14 @@
 				{
 					"name": "rule-enabled",
 					"type": "boolean",
-					"required": true,
-					"description": "Enable rule for this query"
+					"required": false,
+					"description": "Deprecated and ignored: saved-query alerting and rules were removed."
 				},
 				{
 					"name": "rule-scope",
 					"type": "string",
 					"required": false,
-					"description": "Scope for the rule"
+					"description": "Deprecated and ignored: saved-query alerting and rules were removed."
 				}
 			]
 		},
@@ -21826,13 +21533,13 @@
 					"name": "alert-enabled",
 					"type": "boolean",
 					"required": false,
-					"description": "Enable alerts for this query"
+					"description": "Deprecated and ignored: saved-query alerting and rules were removed."
 				},
 				{
 					"name": "alert-rollup-enabled",
 					"type": "boolean",
 					"required": false,
-					"description": "Enable alert rollup for this query"
+					"description": "Deprecated and ignored: saved-query alerting and rules were removed."
 				},
 				{
 					"name": "name",
@@ -21850,13 +21557,13 @@
 					"name": "rule-enabled",
 					"type": "boolean",
 					"required": false,
-					"description": "Enable rule for this query"
+					"description": "Deprecated and ignored: saved-query alerting and rules were removed."
 				},
 				{
 					"name": "rule-scope",
 					"type": "string",
 					"required": false,
-					"description": "Scope for the rule"
+					"description": "Deprecated and ignored: saved-query alerting and rules were removed."
 				}
 			]
 		},
@@ -22710,10 +22417,52 @@
 			"hasRequestBody": true,
 			"requestBodyFields": [
 				{
+					"name": "dataset-scope-type",
+					"type": "string",
+					"required": false,
+					"description": "The dataset_scope.type field"
+				},
+				{
+					"name": "dataset-scope-dataset-ids",
+					"type": "string",
+					"required": false,
+					"description": "The dataset_scope.dataset_ids field"
+				},
+				{
+					"name": "digest-interval-hours",
+					"type": "number",
+					"required": false,
+					"description": "Hours between digests: 6, 12, or 24. Used only when `notification_mode` is `digest`."
+				},
+				{
+					"name": "intent-indicators",
+					"type": "string",
+					"required": false,
+					"description": "The intent.indicators field"
+				},
+				{
+					"name": "intent-unsupported-terms",
+					"type": "string",
+					"required": false,
+					"description": "The intent.unsupported_terms field"
+				},
+				{
 					"name": "labels",
 					"type": "string",
 					"required": false,
 					"description": "The labels field"
+				},
+				{
+					"name": "model",
+					"type": "string",
+					"required": false,
+					"description": "The model field"
+				},
+				{
+					"name": "notification-mode",
+					"type": "string",
+					"required": false,
+					"description": "`none` or `digest`. Notifications are opt-in. `immediate` is reserved and currently rejected."
 				},
 				{
 					"name": "priority",
@@ -22722,10 +22471,34 @@
 					"description": "The priority field"
 				},
 				{
+					"name": "query-version",
+					"type": "number",
+					"required": false,
+					"description": "Ignored. Accepted so a PIR read from the API can be sent back unchanged."
+				},
+				{
+					"name": "query-source",
+					"type": "string",
+					"required": false,
+					"description": "The query_source field"
+				},
+				{
 					"name": "requirement",
 					"type": "string",
 					"required": true,
 					"description": "The requirement field"
+				},
+				{
+					"name": "status",
+					"type": "string",
+					"required": false,
+					"description": "The status field"
+				},
+				{
+					"name": "title",
+					"type": "string",
+					"required": false,
+					"description": "The title field"
 				},
 				{
 					"name": "tlp",
@@ -23150,10 +22923,58 @@
 			"hasRequestBody": true,
 			"requestBodyFields": [
 				{
+					"name": "confirm-query",
+					"type": "boolean",
+					"required": false,
+					"description": "Write-only. `true` confirms the query still fits the requirement, clearing `query_stale` without changing the query or its version. Requires a query."
+				},
+				{
+					"name": "dataset-scope-type",
+					"type": "string",
+					"required": false,
+					"description": "The dataset_scope.type field"
+				},
+				{
+					"name": "dataset-scope-dataset-ids",
+					"type": "string",
+					"required": false,
+					"description": "The dataset_scope.dataset_ids field"
+				},
+				{
+					"name": "digest-interval-hours",
+					"type": "number",
+					"required": false,
+					"description": "Hours between digests: 6, 12, or 24. Used only when `notification_mode` is `digest`."
+				},
+				{
+					"name": "intent-indicators",
+					"type": "string",
+					"required": false,
+					"description": "The intent.indicators field"
+				},
+				{
+					"name": "intent-unsupported-terms",
+					"type": "string",
+					"required": false,
+					"description": "The intent.unsupported_terms field"
+				},
+				{
 					"name": "labels",
 					"type": "string",
 					"required": false,
 					"description": "The labels field"
+				},
+				{
+					"name": "model",
+					"type": "string",
+					"required": false,
+					"description": "The model field"
+				},
+				{
+					"name": "notification-mode",
+					"type": "string",
+					"required": false,
+					"description": "`none` or `digest`. Notifications are opt-in. `immediate` is reserved and currently rejected."
 				},
 				{
 					"name": "priority",
@@ -23162,10 +22983,34 @@
 					"description": "The priority field"
 				},
 				{
+					"name": "query-version",
+					"type": "number",
+					"required": false,
+					"description": "Ignored. Accepted so a PIR read from the API can be sent back unchanged."
+				},
+				{
+					"name": "query-source",
+					"type": "string",
+					"required": false,
+					"description": "The query_source field"
+				},
+				{
 					"name": "requirement",
 					"type": "string",
 					"required": false,
 					"description": "The requirement field"
+				},
+				{
+					"name": "status",
+					"type": "string",
+					"required": false,
+					"description": "The status field"
+				},
+				{
+					"name": "title",
+					"type": "string",
+					"required": false,
+					"description": "The title field"
 				},
 				{
 					"name": "tlp",
@@ -28425,274 +28270,6 @@
 			"hasRequestBody": false,
 			"requestBodyFields": []
 		},
-		"ct-alerting get": {
-			"operationId": "ct-alerting.get",
-			"httpMethod": "GET",
-			"path": "/zones/{zone_id}/ct/alerting",
-			"pathParams": [
-				{
-					"name": "zone_id",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": false,
-			"requestBodyFields": []
-		},
-		"ct-alerting update": {
-			"operationId": "ct-alerting.update",
-			"httpMethod": "PATCH",
-			"path": "/zones/{zone_id}/ct/alerting",
-			"pathParams": [
-				{
-					"name": "zone_id",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": true,
-			"requestBodyFields": [
-				{
-					"name": "emails",
-					"type": "string",
-					"required": false,
-					"description": "Email addresses that receive CT alert notifications for the zone. A maximum of 100 addresses may be configured. Each address must be a valid RFC 5322 email address and must not contain a comma.\n"
-				},
-				{
-					"name": "enabled",
-					"type": "boolean",
-					"required": true,
-					"description": "Whether CT alerting is enabled for the zone."
-				}
-			]
-		},
-		"custom-certificates create": {
-			"operationId": "custom-certificates.create",
-			"httpMethod": "POST",
-			"path": "/zones/{zone_id}/custom_certificates",
-			"pathParams": [
-				{
-					"name": "zone_id",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": true,
-			"requestBodyFields": [
-				{
-					"name": "bundle-method",
-					"type": "string",
-					"required": false,
-					"description": "A ubiquitous bundle has the highest probability of being verified everywhere, even by clients using outdated or unusual trust stores. An optimal bundle uses the shortest chain and newest intermediates. And the force bundle verifies the chain, but does not otherwise modify it."
-				},
-				{
-					"name": "certificate",
-					"type": "string",
-					"required": true,
-					"description": "The zone's SSL certificate or certificate and the intermediate(s)."
-				},
-				{
-					"name": "custom-csr-id",
-					"type": "string",
-					"required": false,
-					"description": "The identifier for the Custom CSR that was used."
-				},
-				{
-					"name": "deploy",
-					"type": "string",
-					"required": false,
-					"description": "The environment to deploy the certificate to, defaults to production."
-				},
-				{
-					"name": "geo-restrictions-label",
-					"type": "string",
-					"required": false,
-					"description": "The geo_restrictions.label field"
-				},
-				{
-					"name": "policy",
-					"type": "string",
-					"required": false,
-					"description": "Specify the policy that determines the region where your private key will be held locally. HTTPS connections to any excluded data center will still be fully encrypted, but will incur some latency while Keyless SSL is used to complete the handshake with the nearest allowed data center. Any combination of countries, specified by their two letter country code (https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2#Officially_assigned_code_elements) can be chosen, such as 'country: IN', as well as 'region: EU' which refers to the EU region. If there are too few data centers satisfying the policy, it will be rejected.\nNote: The API accepts this field as either \"policy\" or \"policy_restrictions\" in requests. Responses return this field as \"policy_restrictions\"."
-				},
-				{
-					"name": "private-key",
-					"type": "string",
-					"required": false,
-					"description": "The zone's private key. Not required if custom_csr_id is provided, in which case the private key is retrieved from the CSR record held by Cloudflare."
-				},
-				{
-					"name": "type",
-					"type": "string",
-					"required": false,
-					"description": "The type 'legacy_custom' enables support for legacy clients which do not include SNI in the TLS handshake."
-				}
-			]
-		},
-		"custom-certificates delete": {
-			"operationId": "custom-certificates.delete",
-			"httpMethod": "DELETE",
-			"path": "/zones/{zone_id}/custom_certificates/{custom_certificate_id}",
-			"pathParams": [
-				{
-					"name": "zone_id",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "custom_certificate_id",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": false,
-			"requestBodyFields": []
-		},
-		"custom-certificates edit": {
-			"operationId": "custom-certificates.edit",
-			"httpMethod": "PATCH",
-			"path": "/zones/{zone_id}/custom_certificates/{custom_certificate_id}",
-			"pathParams": [
-				{
-					"name": "zone_id",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "custom_certificate_id",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": true,
-			"requestBodyFields": [
-				{
-					"name": "bundle-method",
-					"type": "string",
-					"required": false,
-					"description": "A ubiquitous bundle has the highest probability of being verified everywhere, even by clients using outdated or unusual trust stores. An optimal bundle uses the shortest chain and newest intermediates. And the force bundle verifies the chain, but does not otherwise modify it."
-				},
-				{
-					"name": "certificate",
-					"type": "string",
-					"required": false,
-					"description": "The zone's SSL certificate or certificate and the intermediate(s)."
-				},
-				{
-					"name": "custom-csr-id",
-					"type": "string",
-					"required": false,
-					"description": "The identifier for the Custom CSR that was used."
-				},
-				{
-					"name": "deploy",
-					"type": "string",
-					"required": false,
-					"description": "The environment to deploy the certificate to, defaults to production."
-				},
-				{
-					"name": "geo-restrictions-label",
-					"type": "string",
-					"required": false,
-					"description": "The geo_restrictions.label field"
-				},
-				{
-					"name": "policy",
-					"type": "string",
-					"required": false,
-					"description": "Specify the policy that determines the region where your private key will be held locally. HTTPS connections to any excluded data center will still be fully encrypted, but will incur some latency while Keyless SSL is used to complete the handshake with the nearest allowed data center. Any combination of countries, specified by their two letter country code (https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2#Officially_assigned_code_elements) can be chosen, such as 'country: IN', as well as 'region: EU' which refers to the EU region. If there are too few data centers satisfying the policy, it will be rejected.\nNote: The API accepts this field as either \"policy\" or \"policy_restrictions\" in requests. Responses return this field as \"policy_restrictions\"."
-				},
-				{
-					"name": "private-key",
-					"type": "string",
-					"required": false,
-					"description": "The zone's private key. Not required if custom_csr_id is provided, in which case the private key is retrieved from the CSR record held by Cloudflare."
-				}
-			]
-		},
-		"custom-certificates get": {
-			"operationId": "custom-certificates.get",
-			"httpMethod": "GET",
-			"path": "/zones/{zone_id}/custom_certificates/{custom_certificate_id}",
-			"pathParams": [
-				{
-					"name": "zone_id",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "custom_certificate_id",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": false,
-			"requestBodyFields": []
-		},
-		"custom-certificates list": {
-			"operationId": "custom-certificates.list",
-			"httpMethod": "GET",
-			"path": "/zones/{zone_id}/custom_certificates",
-			"pathParams": [
-				{
-					"name": "zone_id",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [
-				{
-					"name": "page",
-					"type": "number",
-					"required": false
-				},
-				{
-					"name": "per_page",
-					"type": "number",
-					"required": false
-				},
-				{
-					"name": "match",
-					"type": "string",
-					"required": false
-				},
-				{
-					"name": "status",
-					"type": "string",
-					"required": false
-				}
-			],
-			"hasRequestBody": false,
-			"requestBodyFields": []
-		},
-		"custom-certificates prioritize update": {
-			"operationId": "custom-certificates.prioritize.update",
-			"httpMethod": "PUT",
-			"path": "/zones/{zone_id}/custom_certificates/prioritize",
-			"pathParams": [
-				{
-					"name": "zone_id",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": true,
-			"requestBodyFields": [
-				{
-					"name": "certificates",
-					"type": "string",
-					"required": true,
-					"description": "Array of ordered certificates. Provide as a JSON array of objects or @path/to/file.json."
-				}
-			]
-		},
 		"custom-csrs create": {
 			"operationId": "custom-csrs.create",
 			"httpMethod": "POST",
@@ -29444,6 +29021,209 @@
 			"hasRequestBody": false,
 			"requestBodyFields": []
 		},
+		"custom-pages account-assets create": {
+			"operationId": "custom-pages.account-assets.create",
+			"httpMethod": "POST",
+			"path": "/{account_or_zone}/{account_or_zone_id}/custom_pages/assets",
+			"pathParams": [
+				{
+					"name": "account_or_zone",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "account_or_zone_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": true,
+			"requestBodyFields": [
+				{
+					"name": "description",
+					"type": "string",
+					"required": true,
+					"description": "A short description of the custom asset."
+				},
+				{
+					"name": "name",
+					"type": "string",
+					"required": true,
+					"description": "The unique name of the custom asset. Can only contain letters (A-Z, a-z), numbers (0-9), and underscores (_)."
+				},
+				{
+					"name": "url",
+					"type": "string",
+					"required": true,
+					"description": "The URL where the asset content is fetched from."
+				}
+			]
+		},
+		"custom-pages account-assets delete": {
+			"operationId": "custom-pages.account-assets.delete",
+			"httpMethod": "DELETE",
+			"path": "/{account_or_zone}/{account_or_zone_id}/custom_pages/assets/{asset_name}",
+			"pathParams": [
+				{
+					"name": "account_or_zone",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "account_or_zone_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "asset_name",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"custom-pages account-assets get": {
+			"operationId": "custom-pages.account-assets.get",
+			"httpMethod": "GET",
+			"path": "/{account_or_zone}/{account_or_zone_id}/custom_pages/assets/{asset_name}",
+			"pathParams": [
+				{
+					"name": "account_or_zone",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "account_or_zone_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "asset_name",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"custom-pages account-assets list": {
+			"operationId": "custom-pages.account-assets.list",
+			"httpMethod": "GET",
+			"path": "/{account_or_zone}/{account_or_zone_id}/custom_pages/assets",
+			"pathParams": [
+				{
+					"name": "account_or_zone",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "account_or_zone_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [
+				{
+					"name": "page",
+					"type": "number",
+					"required": false
+				},
+				{
+					"name": "per_page",
+					"type": "number",
+					"required": false
+				}
+			],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"custom-pages account-assets update": {
+			"operationId": "custom-pages.account-assets.update",
+			"httpMethod": "PUT",
+			"path": "/{account_or_zone}/{account_or_zone_id}/custom_pages/assets/{asset_name}",
+			"pathParams": [
+				{
+					"name": "account_or_zone",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "account_or_zone_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "asset_name",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": true,
+			"requestBodyFields": [
+				{
+					"name": "description",
+					"type": "string",
+					"required": true,
+					"description": "A short description of the custom asset."
+				},
+				{
+					"name": "url",
+					"type": "string",
+					"required": true,
+					"description": "The URL where the asset content is fetched from."
+				}
+			]
+		},
+		"custom-pages account-custom-pages get": {
+			"operationId": "custom-pages.account-custom-pages.get",
+			"httpMethod": "GET",
+			"path": "/{account_or_zone}/{account_or_zone_id}/custom_pages/{identifier}",
+			"pathParams": [
+				{
+					"name": "account_or_zone",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "account_or_zone_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "identifier",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"custom-pages account-custom-pages list": {
+			"operationId": "custom-pages.account-custom-pages.list",
+			"httpMethod": "GET",
+			"path": "/{account_or_zone}/{account_or_zone_id}/custom_pages",
+			"pathParams": [
+				{
+					"name": "account_or_zone",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "account_or_zone_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
 		"custom-pages account-custom-pages preview-tokens create": {
 			"operationId": "custom-pages.account-custom-pages.preview-tokens.create",
 			"httpMethod": "POST",
@@ -29520,209 +29300,6 @@
 					"description": "The URL associated with the custom page."
 				}
 			]
-		},
-		"custom-pages assets create custom asset": {
-			"operationId": "custom-pages.assets.create.custom.asset",
-			"httpMethod": "POST",
-			"path": "/{account_or_zone}/{account_or_zone_id}/custom_pages/assets",
-			"pathParams": [
-				{
-					"name": "account_or_zone",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "account_or_zone_id",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": true,
-			"requestBodyFields": [
-				{
-					"name": "description",
-					"type": "string",
-					"required": true,
-					"description": "A short description of the custom asset."
-				},
-				{
-					"name": "name",
-					"type": "string",
-					"required": true,
-					"description": "The unique name of the custom asset. Can only contain letters (A-Z, a-z), numbers (0-9), and underscores (_)."
-				},
-				{
-					"name": "url",
-					"type": "string",
-					"required": true,
-					"description": "The URL where the asset content is fetched from."
-				}
-			]
-		},
-		"custom-pages assets delete custom asset": {
-			"operationId": "custom-pages.assets.delete.custom.asset",
-			"httpMethod": "DELETE",
-			"path": "/{account_or_zone}/{account_or_zone_id}/custom_pages/assets/{asset_name}",
-			"pathParams": [
-				{
-					"name": "account_or_zone",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "account_or_zone_id",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "asset_name",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": false,
-			"requestBodyFields": []
-		},
-		"custom-pages assets get custom asset": {
-			"operationId": "custom-pages.assets.get.custom.asset",
-			"httpMethod": "GET",
-			"path": "/{account_or_zone}/{account_or_zone_id}/custom_pages/assets/{asset_name}",
-			"pathParams": [
-				{
-					"name": "account_or_zone",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "account_or_zone_id",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "asset_name",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": false,
-			"requestBodyFields": []
-		},
-		"custom-pages assets list custom assets": {
-			"operationId": "custom-pages.assets.list.custom.assets",
-			"httpMethod": "GET",
-			"path": "/{account_or_zone}/{account_or_zone_id}/custom_pages/assets",
-			"pathParams": [
-				{
-					"name": "account_or_zone",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "account_or_zone_id",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [
-				{
-					"name": "page",
-					"type": "number",
-					"required": false
-				},
-				{
-					"name": "per_page",
-					"type": "number",
-					"required": false
-				}
-			],
-			"hasRequestBody": false,
-			"requestBodyFields": []
-		},
-		"custom-pages assets update custom asset": {
-			"operationId": "custom-pages.assets.update.custom.asset",
-			"httpMethod": "PUT",
-			"path": "/{account_or_zone}/{account_or_zone_id}/custom_pages/assets/{asset_name}",
-			"pathParams": [
-				{
-					"name": "account_or_zone",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "account_or_zone_id",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "asset_name",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": true,
-			"requestBodyFields": [
-				{
-					"name": "description",
-					"type": "string",
-					"required": true,
-					"description": "A short description of the custom asset."
-				},
-				{
-					"name": "url",
-					"type": "string",
-					"required": true,
-					"description": "The URL where the asset content is fetched from."
-				}
-			]
-		},
-		"custom-pages get": {
-			"operationId": "custom-pages.get",
-			"httpMethod": "GET",
-			"path": "/{account_or_zone}/{account_or_zone_id}/custom_pages/{identifier}",
-			"pathParams": [
-				{
-					"name": "account_or_zone",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "account_or_zone_id",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "identifier",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": false,
-			"requestBodyFields": []
-		},
-		"custom-pages list": {
-			"operationId": "custom-pages.list",
-			"httpMethod": "GET",
-			"path": "/{account_or_zone}/{account_or_zone_id}/custom_pages",
-			"pathParams": [
-				{
-					"name": "account_or_zone",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "account_or_zone_id",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": false,
-			"requestBodyFields": []
 		},
 		"d1 create": {
 			"operationId": "d1.create",
@@ -30056,21 +29633,6 @@
 					"description": "The read replication mode for the database. Use 'auto' to create replicas and allow D1 automatically place them around the world, or 'disabled' to not use any database replicas (it can take a few hours for all replicas to be deleted)."
 				}
 			]
-		},
-		"dcv-delegation get": {
-			"operationId": "dcv-delegation.get",
-			"httpMethod": "GET",
-			"path": "/zones/{zone_id}/dcv_delegation/uuid",
-			"pathParams": [
-				{
-					"name": "zone_id",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": false,
-			"requestBodyFields": []
 		},
 		"diagnostics endpoint-healthchecks create": {
 			"operationId": "diagnostics.endpoint-healthchecks.create",
@@ -36655,6 +36217,12 @@
 					"description": "The IP address to match. This address will be compared to the IP address of incoming requests."
 				},
 				{
+					"name": "access-rule-mode",
+					"type": "string",
+					"required": true,
+					"description": "The action to apply to a matched request."
+				},
+				{
 					"name": "notes",
 					"type": "string",
 					"required": false,
@@ -36722,6 +36290,12 @@
 					"type": "string",
 					"required": false,
 					"description": "The IP address to match. This address will be compared to the IP address of incoming requests."
+				},
+				{
+					"name": "access-rule-mode",
+					"type": "string",
+					"required": true,
+					"description": "The action to apply to a matched request."
 				},
 				{
 					"name": "notes",
@@ -37045,6 +36619,12 @@
 					"description": "An informative summary of the rule. This value is sanitized and any tags will be removed."
 				},
 				{
+					"name": "access-rule-mode",
+					"type": "string",
+					"required": true,
+					"description": "The action to apply to a matched request."
+				},
+				{
 					"name": "paused",
 					"type": "boolean",
 					"required": false,
@@ -37169,6 +36749,12 @@
 					"type": "string",
 					"required": false,
 					"description": "An informative summary of the rule. This value is sanitized and any tags will be removed."
+				},
+				{
+					"name": "access-rule-mode",
+					"type": "string",
+					"required": true,
+					"description": "The action to apply to a matched request."
 				},
 				{
 					"name": "paused",
@@ -41758,197 +41344,6 @@
 				}
 			]
 		},
-		"keyless-certificates create": {
-			"operationId": "keyless-certificates.create",
-			"httpMethod": "POST",
-			"path": "/zones/{zone_id}/keyless_certificates",
-			"pathParams": [
-				{
-					"name": "zone_id",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": true,
-			"requestBodyFields": [
-				{
-					"name": "bundle-method",
-					"type": "string",
-					"required": false,
-					"description": "A ubiquitous bundle has the highest probability of being verified everywhere, even by clients using outdated or unusual trust stores. An optimal bundle uses the shortest chain and newest intermediates. And the force bundle verifies the chain, but does not otherwise modify it."
-				},
-				{
-					"name": "certificate",
-					"type": "string",
-					"required": true,
-					"description": "The zone's SSL certificate or SSL certificate and intermediate(s)."
-				},
-				{
-					"name": "host",
-					"type": "string",
-					"required": true,
-					"description": "The keyless SSL name."
-				},
-				{
-					"name": "name",
-					"type": "string",
-					"required": false,
-					"description": "The keyless SSL name."
-				},
-				{
-					"name": "port",
-					"type": "number",
-					"required": true,
-					"description": "The keyless SSL port used to communicate between Cloudflare and the client's Keyless SSL server."
-				},
-				{
-					"name": "tunnel-private-ip",
-					"type": "string",
-					"required": false,
-					"description": "Private IP of the Key Server Host."
-				},
-				{
-					"name": "tunnel-vnet-id",
-					"type": "string",
-					"required": false,
-					"description": "Cloudflare Tunnel Virtual Network ID."
-				}
-			]
-		},
-		"keyless-certificates delete": {
-			"operationId": "keyless-certificates.delete",
-			"httpMethod": "DELETE",
-			"path": "/zones/{zone_id}/keyless_certificates/{keyless_certificate_id}",
-			"pathParams": [
-				{
-					"name": "zone_id",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "keyless_certificate_id",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": false,
-			"requestBodyFields": []
-		},
-		"keyless-certificates edit": {
-			"operationId": "keyless-certificates.edit",
-			"httpMethod": "PATCH",
-			"path": "/zones/{zone_id}/keyless_certificates/{keyless_certificate_id}",
-			"pathParams": [
-				{
-					"name": "zone_id",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "keyless_certificate_id",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": true,
-			"requestBodyFields": [
-				{
-					"name": "enabled",
-					"type": "boolean",
-					"required": false,
-					"description": "Whether or not the Keyless SSL is on or off."
-				},
-				{
-					"name": "host",
-					"type": "string",
-					"required": false,
-					"description": "The keyless SSL name."
-				},
-				{
-					"name": "name",
-					"type": "string",
-					"required": false,
-					"description": "The keyless SSL name."
-				},
-				{
-					"name": "port",
-					"type": "number",
-					"required": false,
-					"description": "The keyless SSL port used to communicate between Cloudflare and the client's Keyless SSL server."
-				},
-				{
-					"name": "tunnel-private-ip",
-					"type": "string",
-					"required": false,
-					"description": "Private IP of the Key Server Host."
-				},
-				{
-					"name": "tunnel-vnet-id",
-					"type": "string",
-					"required": false,
-					"description": "Cloudflare Tunnel Virtual Network ID."
-				}
-			]
-		},
-		"keyless-certificates get": {
-			"operationId": "keyless-certificates.get",
-			"httpMethod": "GET",
-			"path": "/zones/{zone_id}/keyless_certificates/{keyless_certificate_id}",
-			"pathParams": [
-				{
-					"name": "zone_id",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "keyless_certificate_id",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": false,
-			"requestBodyFields": []
-		},
-		"keyless-certificates list": {
-			"operationId": "keyless-certificates.list",
-			"httpMethod": "GET",
-			"path": "/zones/{zone_id}/keyless_certificates",
-			"pathParams": [
-				{
-					"name": "zone_id",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": false,
-			"requestBodyFields": []
-		},
-		"keys list": {
-			"operationId": "keys.list",
-			"httpMethod": "GET",
-			"path": "/accounts/{account_id}/tags/keys",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [
-				{
-					"name": "cursor",
-					"type": "string",
-					"required": false
-				}
-			],
-			"hasRequestBody": false,
-			"requestBodyFields": []
-		},
 		"kv bulk delete": {
 			"operationId": "kv.bulk.delete",
 			"httpMethod": "POST",
@@ -43727,7 +43122,14 @@
 			],
 			"queryParams": [],
 			"hasRequestBody": true,
-			"requestBodyFields": []
+			"requestBodyFields": [
+				{
+					"name": "notification-email",
+					"type": "string",
+					"required": false,
+					"description": "The email address to send health status notifications to. This field is now deprecated in favor of Cloudflare Notifications for Load Balancing, so only resetting this field with an empty string `\"\"` is accepted."
+				}
+			]
 		},
 		"load-balancers pools create": {
 			"operationId": "load-balancers.pools.create",
@@ -52100,6 +51502,18 @@
 					"description": "The priority field"
 				},
 				{
+					"name": "provisioned-download-kbps",
+					"type": "number",
+					"required": false,
+					"description": "Provisioned download rate of the WAN circuit in kilobits per second."
+				},
+				{
+					"name": "provisioned-upload-kbps",
+					"type": "number",
+					"required": false,
+					"description": "Provisioned upload rate of the WAN circuit in kilobits per second."
+				},
+				{
 					"name": "static-addressing-address",
 					"type": "string",
 					"required": false,
@@ -52116,6 +51530,12 @@
 					"type": "string",
 					"required": false,
 					"description": "A valid CIDR notation representing an IP range."
+				},
+				{
+					"name": "static-addressing-secondary-gateway-address",
+					"type": "string",
+					"required": false,
+					"description": "Gateway address for the secondary connector of a high availability site."
 				},
 				{
 					"name": "vlan-tag",
@@ -52205,6 +51625,18 @@
 					"description": "The priority field"
 				},
 				{
+					"name": "provisioned-download-kbps",
+					"type": "number",
+					"required": false,
+					"description": "Provisioned download rate of the WAN circuit in kilobits per second. Set to null to remove it."
+				},
+				{
+					"name": "provisioned-upload-kbps",
+					"type": "number",
+					"required": false,
+					"description": "Provisioned upload rate of the WAN circuit in kilobits per second. Set to null to remove it."
+				},
+				{
 					"name": "static-addressing-address",
 					"type": "string",
 					"required": false,
@@ -52221,6 +51653,12 @@
 					"type": "string",
 					"required": false,
 					"description": "A valid CIDR notation representing an IP range."
+				},
+				{
+					"name": "static-addressing-secondary-gateway-address",
+					"type": "string",
+					"required": false,
+					"description": "Gateway address for the secondary connector of a high availability site. Set to null to remove it."
 				},
 				{
 					"name": "vlan-tag",
@@ -52330,6 +51768,18 @@
 					"description": "The priority field"
 				},
 				{
+					"name": "provisioned-download-kbps",
+					"type": "number",
+					"required": false,
+					"description": "Provisioned download rate of the WAN circuit in kilobits per second. Set to null to remove it."
+				},
+				{
+					"name": "provisioned-upload-kbps",
+					"type": "number",
+					"required": false,
+					"description": "Provisioned upload rate of the WAN circuit in kilobits per second. Set to null to remove it."
+				},
+				{
 					"name": "static-addressing-address",
 					"type": "string",
 					"required": false,
@@ -52346,6 +51796,12 @@
 					"type": "string",
 					"required": false,
 					"description": "A valid CIDR notation representing an IP range."
+				},
+				{
+					"name": "static-addressing-secondary-gateway-address",
+					"type": "string",
+					"required": false,
+					"description": "Gateway address for the secondary connector of a high availability site. Set to null to remove it."
 				},
 				{
 					"name": "vlan-tag",
@@ -52746,6 +52202,11 @@
 					"name": "days",
 					"type": "number",
 					"required": false
+				},
+				{
+					"name": "response_status",
+					"type": "string",
+					"required": false
 				}
 			],
 			"hasRequestBody": false,
@@ -52921,6 +52382,11 @@
 				{
 					"name": "days",
 					"type": "number",
+					"required": false
+				},
+				{
+					"name": "response_status",
+					"type": "string",
 					"required": false
 				}
 			],
@@ -53199,6 +52665,11 @@
 					"name": "days",
 					"type": "number",
 					"required": false
+				},
+				{
+					"name": "response_status",
+					"type": "string",
+					"required": false
 				}
 			],
 			"hasRequestBody": false,
@@ -53313,7 +52784,7 @@
 			"hasRequestBody": true,
 			"requestBodyFields": [
 				{
-					"name": "config-fnr-id",
+					"name": "mesh-config-fnr-id",
 					"type": "string",
 					"required": false,
 					"description": "Floating Network Resource ID — the secondary ENI that is moved between nodes on failover."
@@ -53786,127 +53257,6 @@
 				}
 			]
 		},
-		"mtls-certificates associations get": {
-			"operationId": "mtls-certificates.associations.get",
-			"httpMethod": "GET",
-			"path": "/accounts/{account_id}/mtls_certificates/{mtls_certificate_id}/associations",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "mtls_certificate_id",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": false,
-			"requestBodyFields": []
-		},
-		"mtls-certificates create": {
-			"operationId": "mtls-certificates.create",
-			"httpMethod": "POST",
-			"path": "/accounts/{account_id}/mtls_certificates",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": true,
-			"requestBodyFields": [
-				{
-					"name": "ca",
-					"type": "boolean",
-					"required": true,
-					"description": "Indicates whether the certificate is a CA or leaf certificate."
-				},
-				{
-					"name": "certificates",
-					"type": "string",
-					"required": true,
-					"description": "The uploaded root CA certificate."
-				},
-				{
-					"name": "name",
-					"type": "string",
-					"required": false,
-					"description": "Optional unique name for the certificate. Only used for human readability."
-				},
-				{
-					"name": "private-key",
-					"type": "string",
-					"required": false,
-					"description": "The private key for the certificate. This field is only needed for specific use cases such as using a custom certificate with Zero Trust's block page."
-				}
-			]
-		},
-		"mtls-certificates delete": {
-			"operationId": "mtls-certificates.delete",
-			"httpMethod": "DELETE",
-			"path": "/accounts/{account_id}/mtls_certificates/{mtls_certificate_id}",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "mtls_certificate_id",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": false,
-			"requestBodyFields": []
-		},
-		"mtls-certificates get": {
-			"operationId": "mtls-certificates.get",
-			"httpMethod": "GET",
-			"path": "/accounts/{account_id}/mtls_certificates/{mtls_certificate_id}",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "mtls_certificate_id",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": false,
-			"requestBodyFields": []
-		},
-		"mtls-certificates list": {
-			"operationId": "mtls-certificates.list",
-			"httpMethod": "GET",
-			"path": "/accounts/{account_id}/mtls_certificates",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [
-				{
-					"name": "type",
-					"type": "array",
-					"required": false
-				}
-			],
-			"hasRequestBody": false,
-			"requestBodyFields": []
-		},
 		"network routes cidr create": {
 			"operationId": "network.routes.cidr.create",
 			"httpMethod": "POST",
@@ -54329,6 +53679,26 @@
 					"description": "The private IPv4 or IPv6 range defining the subnet, in CIDR notation."
 				}
 			]
+		},
+		"network subnets cloudflare-source get": {
+			"operationId": "network.subnets.cloudflare-source.get",
+			"httpMethod": "GET",
+			"path": "/accounts/{account_id}/zerotrust/subnets/cloudflare_source/{address_family}",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "address_family",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": false,
+			"requestBodyFields": []
 		},
 		"network subnets initial-resolved-ip edit": {
 			"operationId": "network.subnets.initial-resolved-ip.edit",
@@ -58114,105 +57484,6 @@
 			"hasRequestBody": false,
 			"requestBodyFields": []
 		},
-		"origin-ca-certificates create": {
-			"operationId": "origin-ca-certificates.create",
-			"httpMethod": "POST",
-			"path": "/certificates",
-			"pathParams": [],
-			"queryParams": [],
-			"hasRequestBody": true,
-			"requestBodyFields": [
-				{
-					"name": "csr",
-					"type": "string",
-					"required": true,
-					"description": "The Certificate Signing Request (CSR). Must be newline-encoded."
-				},
-				{
-					"name": "hostnames",
-					"type": "string",
-					"required": true,
-					"description": "Array of hostnames or wildcard names bound to the certificate.\nHostnames must be fully qualified domain names (FQDNs) belonging to zones on your account (e.g., `example.com` or `sub.example.com`). Wildcards are supported only as a `*.` prefix for a single level (e.g., `*.example.com`). Double wildcards (`*.*.example.com`) and interior wildcards (`foo.*.example.com`) are not allowed. The wildcard suffix must be a multi-label domain (`*.example.com` is valid, but `*.com` is not). Unicode/IDN hostnames are accepted and automatically converted to punycode."
-				},
-				{
-					"name": "request-type",
-					"type": "string",
-					"required": true,
-					"description": "Signature type desired on certificate (\"origin-rsa\" (rsa), \"origin-ecc\" (ecdsa), or \"keyless-certificate\" (for Keyless SSL servers)."
-				},
-				{
-					"name": "requested-validity",
-					"type": "number",
-					"required": false,
-					"description": "The number of days for which the certificate should be valid."
-				}
-			]
-		},
-		"origin-ca-certificates delete": {
-			"operationId": "origin-ca-certificates.delete",
-			"httpMethod": "DELETE",
-			"path": "/certificates/{certificate_id}",
-			"pathParams": [
-				{
-					"name": "certificate_id",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": false,
-			"requestBodyFields": []
-		},
-		"origin-ca-certificates get": {
-			"operationId": "origin-ca-certificates.get",
-			"httpMethod": "GET",
-			"path": "/certificates/{certificate_id}",
-			"pathParams": [
-				{
-					"name": "certificate_id",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": false,
-			"requestBodyFields": []
-		},
-		"origin-ca-certificates list": {
-			"operationId": "origin-ca-certificates.list",
-			"httpMethod": "GET",
-			"path": "/certificates",
-			"pathParams": [],
-			"queryParams": [
-				{
-					"name": "zone_id",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "page",
-					"type": "number",
-					"required": false
-				},
-				{
-					"name": "per_page",
-					"type": "number",
-					"required": false
-				},
-				{
-					"name": "limit",
-					"type": "number",
-					"required": false
-				},
-				{
-					"name": "offset",
-					"type": "number",
-					"required": false
-				}
-			],
-			"hasRequestBody": false,
-			"requestBodyFields": []
-		},
 		"origin-post-quantum-encryption get": {
 			"operationId": "origin-post-quantum-encryption.get",
 			"httpMethod": "GET",
@@ -58249,282 +57520,6 @@
 					"description": "Value of the Origin Post Quantum Encryption Setting."
 				}
 			]
-		},
-		"origin-tls-client-auth hostname-associations list": {
-			"operationId": "origin-tls-client-auth.hostname-associations.list",
-			"httpMethod": "GET",
-			"path": "/zones/{zone_id}/origin_tls_client_auth/hostnames",
-			"pathParams": [
-				{
-					"name": "zone_id",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [
-				{
-					"name": "page",
-					"type": "number",
-					"required": false
-				},
-				{
-					"name": "per_page",
-					"type": "number",
-					"required": false
-				},
-				{
-					"name": "status",
-					"type": "string",
-					"required": false
-				}
-			],
-			"hasRequestBody": false,
-			"requestBodyFields": []
-		},
-		"origin-tls-client-auth hostname-certificates create": {
-			"operationId": "origin-tls-client-auth.hostname-certificates.create",
-			"httpMethod": "POST",
-			"path": "/zones/{zone_id}/origin_tls_client_auth/hostnames/certificates",
-			"pathParams": [
-				{
-					"name": "zone_id",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": true,
-			"requestBodyFields": [
-				{
-					"name": "certificate",
-					"type": "string",
-					"required": true,
-					"description": "The hostname certificate."
-				},
-				{
-					"name": "private-key",
-					"type": "string",
-					"required": true,
-					"description": "The hostname certificate's private key."
-				}
-			]
-		},
-		"origin-tls-client-auth hostname-certificates delete": {
-			"operationId": "origin-tls-client-auth.hostname-certificates.delete",
-			"httpMethod": "DELETE",
-			"path": "/zones/{zone_id}/origin_tls_client_auth/hostnames/certificates/{certificate_id}",
-			"pathParams": [
-				{
-					"name": "zone_id",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "certificate_id",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": false,
-			"requestBodyFields": []
-		},
-		"origin-tls-client-auth hostname-certificates get": {
-			"operationId": "origin-tls-client-auth.hostname-certificates.get",
-			"httpMethod": "GET",
-			"path": "/zones/{zone_id}/origin_tls_client_auth/hostnames/certificates/{certificate_id}",
-			"pathParams": [
-				{
-					"name": "zone_id",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "certificate_id",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": false,
-			"requestBodyFields": []
-		},
-		"origin-tls-client-auth hostname-certificates list": {
-			"operationId": "origin-tls-client-auth.hostname-certificates.list",
-			"httpMethod": "GET",
-			"path": "/zones/{zone_id}/origin_tls_client_auth/hostnames/certificates",
-			"pathParams": [
-				{
-					"name": "zone_id",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": false,
-			"requestBodyFields": []
-		},
-		"origin-tls-client-auth hostnames get": {
-			"operationId": "origin-tls-client-auth.hostnames.get",
-			"httpMethod": "GET",
-			"path": "/zones/{zone_id}/origin_tls_client_auth/hostnames/{hostname}",
-			"pathParams": [
-				{
-					"name": "zone_id",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "hostname",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": false,
-			"requestBodyFields": []
-		},
-		"origin-tls-client-auth hostnames update": {
-			"operationId": "origin-tls-client-auth.hostnames.update",
-			"httpMethod": "PUT",
-			"path": "/zones/{zone_id}/origin_tls_client_auth/hostnames",
-			"pathParams": [
-				{
-					"name": "zone_id",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": true,
-			"requestBodyFields": [
-				{
-					"name": "config",
-					"type": "string",
-					"required": true,
-					"description": "The config field. Provide as a JSON array of objects or @path/to/file.json."
-				}
-			]
-		},
-		"origin-tls-client-auth settings get": {
-			"operationId": "origin-tls-client-auth.settings.get",
-			"httpMethod": "GET",
-			"path": "/zones/{zone_id}/origin_tls_client_auth/settings",
-			"pathParams": [
-				{
-					"name": "zone_id",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": false,
-			"requestBodyFields": []
-		},
-		"origin-tls-client-auth settings update": {
-			"operationId": "origin-tls-client-auth.settings.update",
-			"httpMethod": "PUT",
-			"path": "/zones/{zone_id}/origin_tls_client_auth/settings",
-			"pathParams": [
-				{
-					"name": "zone_id",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": true,
-			"requestBodyFields": [
-				{
-					"name": "enabled",
-					"type": "boolean",
-					"required": true,
-					"description": "Indicates whether zone-level authenticated origin pulls is enabled."
-				}
-			]
-		},
-		"origin-tls-client-auth zone-certificates create": {
-			"operationId": "origin-tls-client-auth.zone-certificates.create",
-			"httpMethod": "POST",
-			"path": "/zones/{zone_id}/origin_tls_client_auth",
-			"pathParams": [
-				{
-					"name": "zone_id",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": true,
-			"requestBodyFields": [
-				{
-					"name": "certificate",
-					"type": "string",
-					"required": true,
-					"description": "The zone's leaf certificate."
-				},
-				{
-					"name": "private-key",
-					"type": "string",
-					"required": true,
-					"description": "The zone's private key."
-				}
-			]
-		},
-		"origin-tls-client-auth zone-certificates delete": {
-			"operationId": "origin-tls-client-auth.zone-certificates.delete",
-			"httpMethod": "DELETE",
-			"path": "/zones/{zone_id}/origin_tls_client_auth/{certificate_id}",
-			"pathParams": [
-				{
-					"name": "zone_id",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "certificate_id",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": false,
-			"requestBodyFields": []
-		},
-		"origin-tls-client-auth zone-certificates get": {
-			"operationId": "origin-tls-client-auth.zone-certificates.get",
-			"httpMethod": "GET",
-			"path": "/zones/{zone_id}/origin_tls_client_auth/{certificate_id}",
-			"pathParams": [
-				{
-					"name": "zone_id",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "certificate_id",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": false,
-			"requestBodyFields": []
-		},
-		"origin-tls-client-auth zone-certificates list": {
-			"operationId": "origin-tls-client-auth.zone-certificates.list",
-			"httpMethod": "GET",
-			"path": "/zones/{zone_id}/origin_tls_client_auth",
-			"pathParams": [
-				{
-					"name": "zone_id",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": false,
-			"requestBodyFields": []
 		},
 		"page-rules create": {
 			"operationId": "page-rules.create",
@@ -60843,97 +59838,97 @@
 			"hasRequestBody": true,
 			"requestBodyFields": [
 				{
-					"name": "config-account-id",
+					"name": "sink-config-account-id",
 					"type": "string",
 					"required": false,
 					"description": "Cloudflare Account ID for the bucket"
 				},
 				{
-					"name": "config-bucket",
+					"name": "sink-config-bucket",
 					"type": "string",
 					"required": false,
 					"description": "R2 Bucket to write to"
 				},
 				{
-					"name": "config-credentials-access-key-id",
+					"name": "sink-config-credentials-access-key-id",
 					"type": "string",
 					"required": false,
 					"description": "Cloudflare Account ID for the bucket"
 				},
 				{
-					"name": "config-credentials-secret-access-key",
+					"name": "sink-config-credentials-secret-access-key",
 					"type": "string",
 					"required": false,
 					"description": "Cloudflare Account ID for the bucket"
 				},
 				{
-					"name": "config-file-naming-prefix",
+					"name": "sink-config-file-naming-prefix",
 					"type": "string",
 					"required": false,
 					"description": "The prefix to use in file name. i.e prefix-<uuid>.parquet"
 				},
 				{
-					"name": "config-file-naming-strategy",
+					"name": "sink-config-file-naming-strategy",
 					"type": "string",
 					"required": false,
 					"description": "Filename generation strategy."
 				},
 				{
-					"name": "config-file-naming-suffix",
+					"name": "sink-config-file-naming-suffix",
 					"type": "string",
 					"required": false,
 					"description": "This will overwrite the default file suffix. i.e .parquet, use with caution"
 				},
 				{
-					"name": "config-jurisdiction",
+					"name": "sink-config-jurisdiction",
 					"type": "string",
 					"required": false,
 					"description": "Jurisdiction this bucket is hosted in"
 				},
 				{
-					"name": "config-partitioning-time-pattern",
+					"name": "sink-config-partitioning-time-pattern",
 					"type": "string",
 					"required": false,
 					"description": "The pattern of the date string"
 				},
 				{
-					"name": "config-path",
+					"name": "sink-config-path",
 					"type": "string",
 					"required": false,
 					"description": "Subpath within the bucket to write to"
 				},
 				{
-					"name": "config-rolling-policy-file-size-bytes",
+					"name": "sink-config-rolling-policy-file-size-bytes",
 					"type": "number",
 					"required": false,
 					"description": "Files will be rolled after reaching this number of bytes"
 				},
 				{
-					"name": "config-rolling-policy-inactivity-seconds",
+					"name": "sink-config-rolling-policy-inactivity-seconds",
 					"type": "number",
 					"required": false,
 					"description": "Number of seconds of inactivity to wait before rolling over to a new file"
 				},
 				{
-					"name": "config-rolling-policy-interval-seconds",
+					"name": "sink-config-rolling-policy-interval-seconds",
 					"type": "number",
 					"required": false,
 					"description": "Number of seconds to wait before rolling over to a new file"
 				},
 				{
-					"name": "config-namespace",
+					"name": "sink-config-namespace",
 					"type": "string",
 					"required": false,
 					"description": "Table namespace"
 				},
 				{
-					"name": "config-table-name",
+					"name": "sink-config-table-name",
 					"type": "string",
 					"required": false,
 					"description": "Table name"
 				},
 				{
-					"name": "config-token",
+					"name": "sink-config-token",
 					"type": "string",
 					"required": false,
 					"description": "Authentication token"
@@ -61331,16 +60326,16 @@
 			"hasRequestBody": true,
 			"requestBodyFields": [
 				{
-					"name": "default-mode",
+					"name": "rules",
 					"type": "string",
 					"required": false,
-					"description": "The zone-level Precursor enforcement mode applied to requests that do\nnot match a more specific enforcement rule.\n"
+					"description": "The ordered list of Precursor rules for the zone. Provide as a JSON array of objects or @path/to/file.json."
 				},
 				{
-					"name": "enforcement-rules",
-					"type": "string",
+					"name": "show-interstitial",
+					"type": "boolean",
 					"required": false,
-					"description": "The ordered list of enforcement rules for the zone. Provide as a JSON array of objects or @path/to/file.json."
+					"description": "Whether Precursor shows an interstitial when it takes action on a\nrequest.\n"
 				}
 			]
 		},
@@ -77689,7 +76684,7 @@
 			"hasRequestBody": true,
 			"requestBodyFields": [
 				{
-					"name": "config-upstreams-enabled",
+					"name": "relay-config-upstreams-enabled",
 					"type": "boolean",
 					"required": false,
 					"description": "The config.upstreams.enabled field"
@@ -79758,27 +78753,6 @@
 					"description": "The name of the share."
 				}
 			]
-		},
-		"resource-tagging summary get": {
-			"operationId": "resource-tagging.summary.get",
-			"httpMethod": "GET",
-			"path": "/accounts/{account_id}/tags/summary",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [
-				{
-					"name": "cursor",
-					"type": "string",
-					"required": false
-				}
-			],
-			"hasRequestBody": false,
-			"requestBodyFields": []
 		},
 		"rules lists bulk-operations get": {
 			"operationId": "rules.lists.bulk-operations.get",
@@ -84261,6 +83235,55 @@
 				}
 			]
 		},
+		"ssl certificate-authorities hostname-associations get": {
+			"operationId": "ssl.certificate-authorities.hostname-associations.get",
+			"httpMethod": "GET",
+			"path": "/zones/{zone_id}/certificate_authorities/hostname_associations",
+			"pathParams": [
+				{
+					"name": "zone_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [
+				{
+					"name": "mtls_certificate_id",
+					"type": "string",
+					"required": false
+				}
+			],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"ssl certificate-authorities hostname-associations update": {
+			"operationId": "ssl.certificate-authorities.hostname-associations.update",
+			"httpMethod": "PUT",
+			"path": "/zones/{zone_id}/certificate_authorities/hostname_associations",
+			"pathParams": [
+				{
+					"name": "zone_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": true,
+			"requestBodyFields": [
+				{
+					"name": "hostnames",
+					"type": "string",
+					"required": false,
+					"description": "The hostnames field"
+				},
+				{
+					"name": "mtls-certificate-id",
+					"type": "string",
+					"required": false,
+					"description": "The UUID for a certificate that was uploaded to the mTLS Certificate Management endpoint. If no mtls_certificate_id is given, the hostnames will be associated to your active Cloudflare Managed CA."
+				}
+			]
+		},
 		"ssl certificate-packs create": {
 			"operationId": "ssl.certificate-packs.create",
 			"httpMethod": "POST",
@@ -84420,6 +83443,1091 @@
 			"operationId": "ssl.certificate-packs.quota.get",
 			"httpMethod": "GET",
 			"path": "/zones/{zone_id}/ssl/certificate_packs/quota",
+			"pathParams": [
+				{
+					"name": "zone_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"ssl client-certificates create": {
+			"operationId": "ssl.client-certificates.create",
+			"httpMethod": "POST",
+			"path": "/zones/{zone_id}/client_certificates",
+			"pathParams": [
+				{
+					"name": "zone_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": true,
+			"requestBodyFields": [
+				{
+					"name": "csr",
+					"type": "string",
+					"required": true,
+					"description": "The Certificate Signing Request (CSR). Must be newline-encoded."
+				},
+				{
+					"name": "validity-days",
+					"type": "number",
+					"required": true,
+					"description": "The number of days the Client Certificate will be valid after the issued_on date."
+				}
+			]
+		},
+		"ssl client-certificates delete": {
+			"operationId": "ssl.client-certificates.delete",
+			"httpMethod": "DELETE",
+			"path": "/zones/{zone_id}/client_certificates/{client_certificate_id}",
+			"pathParams": [
+				{
+					"name": "zone_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "client_certificate_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"ssl client-certificates edit": {
+			"operationId": "ssl.client-certificates.edit",
+			"httpMethod": "PATCH",
+			"path": "/zones/{zone_id}/client_certificates/{client_certificate_id}",
+			"pathParams": [
+				{
+					"name": "zone_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "client_certificate_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": true,
+			"requestBodyFields": [
+				{
+					"name": "reactivate",
+					"type": "boolean",
+					"required": false,
+					"description": "The reactivate field"
+				}
+			]
+		},
+		"ssl client-certificates get": {
+			"operationId": "ssl.client-certificates.get",
+			"httpMethod": "GET",
+			"path": "/zones/{zone_id}/client_certificates/{client_certificate_id}",
+			"pathParams": [
+				{
+					"name": "zone_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "client_certificate_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"ssl client-certificates list": {
+			"operationId": "ssl.client-certificates.list",
+			"httpMethod": "GET",
+			"path": "/zones/{zone_id}/client_certificates",
+			"pathParams": [
+				{
+					"name": "zone_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [
+				{
+					"name": "status",
+					"type": "string",
+					"required": false
+				},
+				{
+					"name": "page",
+					"type": "number",
+					"required": false
+				},
+				{
+					"name": "per_page",
+					"type": "number",
+					"required": false
+				},
+				{
+					"name": "limit",
+					"type": "number",
+					"required": false
+				},
+				{
+					"name": "offset",
+					"type": "number",
+					"required": false
+				}
+			],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"ssl ct-alerting get": {
+			"operationId": "ssl.ct-alerting.get",
+			"httpMethod": "GET",
+			"path": "/zones/{zone_id}/ct/alerting",
+			"pathParams": [
+				{
+					"name": "zone_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"ssl ct-alerting update": {
+			"operationId": "ssl.ct-alerting.update",
+			"httpMethod": "PATCH",
+			"path": "/zones/{zone_id}/ct/alerting",
+			"pathParams": [
+				{
+					"name": "zone_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": true,
+			"requestBodyFields": [
+				{
+					"name": "emails",
+					"type": "string",
+					"required": false,
+					"description": "Email addresses that receive CT alert notifications for the zone. A maximum of 100 addresses may be configured. Each address must be a valid RFC 5322 email address and must not contain a comma.\n"
+				},
+				{
+					"name": "enabled",
+					"type": "boolean",
+					"required": true,
+					"description": "Whether CT alerting is enabled for the zone."
+				}
+			]
+		},
+		"ssl custom-certificates create": {
+			"operationId": "ssl.custom-certificates.create",
+			"httpMethod": "POST",
+			"path": "/zones/{zone_id}/custom_certificates",
+			"pathParams": [
+				{
+					"name": "zone_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": true,
+			"requestBodyFields": [
+				{
+					"name": "bundle-method",
+					"type": "string",
+					"required": false,
+					"description": "A ubiquitous bundle has the highest probability of being verified everywhere, even by clients using outdated or unusual trust stores. An optimal bundle uses the shortest chain and newest intermediates. And the force bundle verifies the chain, but does not otherwise modify it."
+				},
+				{
+					"name": "certificate",
+					"type": "string",
+					"required": true,
+					"description": "The zone's SSL certificate or certificate and the intermediate(s)."
+				},
+				{
+					"name": "custom-csr-id",
+					"type": "string",
+					"required": false,
+					"description": "The identifier for the Custom CSR that was used."
+				},
+				{
+					"name": "deploy",
+					"type": "string",
+					"required": false,
+					"description": "The environment to deploy the certificate to, defaults to production."
+				},
+				{
+					"name": "geo-restrictions-label",
+					"type": "string",
+					"required": false,
+					"description": "The geo_restrictions.label field"
+				},
+				{
+					"name": "policy",
+					"type": "string",
+					"required": false,
+					"description": "Specify the policy that determines the region where your private key will be held locally. HTTPS connections to any excluded data center will still be fully encrypted, but will incur some latency while Keyless SSL is used to complete the handshake with the nearest allowed data center. Any combination of countries, specified by their two letter country code (https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2#Officially_assigned_code_elements) can be chosen, such as 'country: IN', as well as 'region: EU' which refers to the EU region. If there are too few data centers satisfying the policy, it will be rejected.\nNote: The API accepts this field as either \"policy\" or \"policy_restrictions\" in requests. Responses return this field as \"policy_restrictions\"."
+				},
+				{
+					"name": "private-key",
+					"type": "string",
+					"required": false,
+					"description": "The zone's private key. Not required if custom_csr_id is provided, in which case the private key is retrieved from the CSR record held by Cloudflare."
+				},
+				{
+					"name": "type",
+					"type": "string",
+					"required": false,
+					"description": "The type 'legacy_custom' enables support for legacy clients which do not include SNI in the TLS handshake."
+				}
+			]
+		},
+		"ssl custom-certificates delete": {
+			"operationId": "ssl.custom-certificates.delete",
+			"httpMethod": "DELETE",
+			"path": "/zones/{zone_id}/custom_certificates/{custom_certificate_id}",
+			"pathParams": [
+				{
+					"name": "zone_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "custom_certificate_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"ssl custom-certificates edit": {
+			"operationId": "ssl.custom-certificates.edit",
+			"httpMethod": "PATCH",
+			"path": "/zones/{zone_id}/custom_certificates/{custom_certificate_id}",
+			"pathParams": [
+				{
+					"name": "zone_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "custom_certificate_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": true,
+			"requestBodyFields": [
+				{
+					"name": "bundle-method",
+					"type": "string",
+					"required": false,
+					"description": "A ubiquitous bundle has the highest probability of being verified everywhere, even by clients using outdated or unusual trust stores. An optimal bundle uses the shortest chain and newest intermediates. And the force bundle verifies the chain, but does not otherwise modify it."
+				},
+				{
+					"name": "certificate",
+					"type": "string",
+					"required": false,
+					"description": "The zone's SSL certificate or certificate and the intermediate(s)."
+				},
+				{
+					"name": "custom-csr-id",
+					"type": "string",
+					"required": false,
+					"description": "The identifier for the Custom CSR that was used."
+				},
+				{
+					"name": "deploy",
+					"type": "string",
+					"required": false,
+					"description": "The environment to deploy the certificate to, defaults to production."
+				},
+				{
+					"name": "geo-restrictions-label",
+					"type": "string",
+					"required": false,
+					"description": "The geo_restrictions.label field"
+				},
+				{
+					"name": "policy",
+					"type": "string",
+					"required": false,
+					"description": "Specify the policy that determines the region where your private key will be held locally. HTTPS connections to any excluded data center will still be fully encrypted, but will incur some latency while Keyless SSL is used to complete the handshake with the nearest allowed data center. Any combination of countries, specified by their two letter country code (https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2#Officially_assigned_code_elements) can be chosen, such as 'country: IN', as well as 'region: EU' which refers to the EU region. If there are too few data centers satisfying the policy, it will be rejected.\nNote: The API accepts this field as either \"policy\" or \"policy_restrictions\" in requests. Responses return this field as \"policy_restrictions\"."
+				},
+				{
+					"name": "private-key",
+					"type": "string",
+					"required": false,
+					"description": "The zone's private key. Not required if custom_csr_id is provided, in which case the private key is retrieved from the CSR record held by Cloudflare."
+				}
+			]
+		},
+		"ssl custom-certificates get": {
+			"operationId": "ssl.custom-certificates.get",
+			"httpMethod": "GET",
+			"path": "/zones/{zone_id}/custom_certificates/{custom_certificate_id}",
+			"pathParams": [
+				{
+					"name": "zone_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "custom_certificate_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"ssl custom-certificates list": {
+			"operationId": "ssl.custom-certificates.list",
+			"httpMethod": "GET",
+			"path": "/zones/{zone_id}/custom_certificates",
+			"pathParams": [
+				{
+					"name": "zone_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [
+				{
+					"name": "page",
+					"type": "number",
+					"required": false
+				},
+				{
+					"name": "per_page",
+					"type": "number",
+					"required": false
+				},
+				{
+					"name": "match",
+					"type": "string",
+					"required": false
+				},
+				{
+					"name": "status",
+					"type": "string",
+					"required": false
+				}
+			],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"ssl custom-certificates prioritize update": {
+			"operationId": "ssl.custom-certificates.prioritize.update",
+			"httpMethod": "PUT",
+			"path": "/zones/{zone_id}/custom_certificates/prioritize",
+			"pathParams": [
+				{
+					"name": "zone_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": true,
+			"requestBodyFields": [
+				{
+					"name": "certificates",
+					"type": "string",
+					"required": true,
+					"description": "Array of ordered certificates. Provide as a JSON array of objects or @path/to/file.json."
+				}
+			]
+		},
+		"ssl dcv-delegation get": {
+			"operationId": "ssl.dcv-delegation.get",
+			"httpMethod": "GET",
+			"path": "/zones/{zone_id}/dcv_delegation/uuid",
+			"pathParams": [
+				{
+					"name": "zone_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"ssl keyless-certificates create": {
+			"operationId": "ssl.keyless-certificates.create",
+			"httpMethod": "POST",
+			"path": "/zones/{zone_id}/keyless_certificates",
+			"pathParams": [
+				{
+					"name": "zone_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": true,
+			"requestBodyFields": [
+				{
+					"name": "bundle-method",
+					"type": "string",
+					"required": false,
+					"description": "A ubiquitous bundle has the highest probability of being verified everywhere, even by clients using outdated or unusual trust stores. An optimal bundle uses the shortest chain and newest intermediates. And the force bundle verifies the chain, but does not otherwise modify it."
+				},
+				{
+					"name": "certificate",
+					"type": "string",
+					"required": true,
+					"description": "The zone's SSL certificate or SSL certificate and intermediate(s)."
+				},
+				{
+					"name": "host",
+					"type": "string",
+					"required": true,
+					"description": "The keyless SSL name."
+				},
+				{
+					"name": "name",
+					"type": "string",
+					"required": false,
+					"description": "The keyless SSL name."
+				},
+				{
+					"name": "port",
+					"type": "number",
+					"required": true,
+					"description": "The keyless SSL port used to communicate between Cloudflare and the client's Keyless SSL server."
+				},
+				{
+					"name": "tunnel-private-ip",
+					"type": "string",
+					"required": false,
+					"description": "Private IP of the Key Server Host."
+				},
+				{
+					"name": "tunnel-vnet-id",
+					"type": "string",
+					"required": false,
+					"description": "Cloudflare Tunnel Virtual Network ID."
+				}
+			]
+		},
+		"ssl keyless-certificates delete": {
+			"operationId": "ssl.keyless-certificates.delete",
+			"httpMethod": "DELETE",
+			"path": "/zones/{zone_id}/keyless_certificates/{keyless_certificate_id}",
+			"pathParams": [
+				{
+					"name": "zone_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "keyless_certificate_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"ssl keyless-certificates edit": {
+			"operationId": "ssl.keyless-certificates.edit",
+			"httpMethod": "PATCH",
+			"path": "/zones/{zone_id}/keyless_certificates/{keyless_certificate_id}",
+			"pathParams": [
+				{
+					"name": "zone_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "keyless_certificate_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": true,
+			"requestBodyFields": [
+				{
+					"name": "enabled",
+					"type": "boolean",
+					"required": false,
+					"description": "Whether or not the Keyless SSL is on or off."
+				},
+				{
+					"name": "host",
+					"type": "string",
+					"required": false,
+					"description": "The keyless SSL name."
+				},
+				{
+					"name": "name",
+					"type": "string",
+					"required": false,
+					"description": "The keyless SSL name."
+				},
+				{
+					"name": "port",
+					"type": "number",
+					"required": false,
+					"description": "The keyless SSL port used to communicate between Cloudflare and the client's Keyless SSL server."
+				},
+				{
+					"name": "tunnel-private-ip",
+					"type": "string",
+					"required": false,
+					"description": "Private IP of the Key Server Host."
+				},
+				{
+					"name": "tunnel-vnet-id",
+					"type": "string",
+					"required": false,
+					"description": "Cloudflare Tunnel Virtual Network ID."
+				}
+			]
+		},
+		"ssl keyless-certificates get": {
+			"operationId": "ssl.keyless-certificates.get",
+			"httpMethod": "GET",
+			"path": "/zones/{zone_id}/keyless_certificates/{keyless_certificate_id}",
+			"pathParams": [
+				{
+					"name": "zone_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "keyless_certificate_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"ssl keyless-certificates list": {
+			"operationId": "ssl.keyless-certificates.list",
+			"httpMethod": "GET",
+			"path": "/zones/{zone_id}/keyless_certificates",
+			"pathParams": [
+				{
+					"name": "zone_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"ssl mtls-certificates associations get": {
+			"operationId": "ssl.mtls-certificates.associations.get",
+			"httpMethod": "GET",
+			"path": "/accounts/{account_id}/mtls_certificates/{mtls_certificate_id}/associations",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "mtls_certificate_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"ssl mtls-certificates create": {
+			"operationId": "ssl.mtls-certificates.create",
+			"httpMethod": "POST",
+			"path": "/accounts/{account_id}/mtls_certificates",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": true,
+			"requestBodyFields": [
+				{
+					"name": "ca",
+					"type": "boolean",
+					"required": true,
+					"description": "Indicates whether the certificate is a CA or leaf certificate."
+				},
+				{
+					"name": "certificates",
+					"type": "string",
+					"required": true,
+					"description": "The uploaded root CA certificate."
+				},
+				{
+					"name": "name",
+					"type": "string",
+					"required": false,
+					"description": "Optional unique name for the certificate. Only used for human readability."
+				},
+				{
+					"name": "private-key",
+					"type": "string",
+					"required": false,
+					"description": "The private key for the certificate. This field is only needed for specific use cases such as using a custom certificate with Zero Trust's block page."
+				}
+			]
+		},
+		"ssl mtls-certificates delete": {
+			"operationId": "ssl.mtls-certificates.delete",
+			"httpMethod": "DELETE",
+			"path": "/accounts/{account_id}/mtls_certificates/{mtls_certificate_id}",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "mtls_certificate_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"ssl mtls-certificates get": {
+			"operationId": "ssl.mtls-certificates.get",
+			"httpMethod": "GET",
+			"path": "/accounts/{account_id}/mtls_certificates/{mtls_certificate_id}",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "mtls_certificate_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"ssl mtls-certificates list": {
+			"operationId": "ssl.mtls-certificates.list",
+			"httpMethod": "GET",
+			"path": "/accounts/{account_id}/mtls_certificates",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [
+				{
+					"name": "type",
+					"type": "array",
+					"required": false
+				}
+			],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"ssl origin-ca-certificates create": {
+			"operationId": "ssl.origin-ca-certificates.create",
+			"httpMethod": "POST",
+			"path": "/certificates",
+			"pathParams": [],
+			"queryParams": [],
+			"hasRequestBody": true,
+			"requestBodyFields": [
+				{
+					"name": "csr",
+					"type": "string",
+					"required": true,
+					"description": "The Certificate Signing Request (CSR). Must be newline-encoded."
+				},
+				{
+					"name": "hostnames",
+					"type": "string",
+					"required": true,
+					"description": "Array of hostnames or wildcard names bound to the certificate.\nHostnames must be fully qualified domain names (FQDNs) belonging to zones on your account (e.g., `example.com` or `sub.example.com`). Wildcards are supported only as a `*.` prefix for a single level (e.g., `*.example.com`). Double wildcards (`*.*.example.com`) and interior wildcards (`foo.*.example.com`) are not allowed. The wildcard suffix must be a multi-label domain (`*.example.com` is valid, but `*.com` is not). Unicode/IDN hostnames are accepted and automatically converted to punycode."
+				},
+				{
+					"name": "request-type",
+					"type": "string",
+					"required": true,
+					"description": "Signature type desired on certificate (\"origin-rsa\" (rsa), \"origin-ecc\" (ecdsa), or \"keyless-certificate\" (for Keyless SSL servers)."
+				},
+				{
+					"name": "requested-validity",
+					"type": "number",
+					"required": false,
+					"description": "The number of days for which the certificate should be valid."
+				}
+			]
+		},
+		"ssl origin-ca-certificates delete": {
+			"operationId": "ssl.origin-ca-certificates.delete",
+			"httpMethod": "DELETE",
+			"path": "/certificates/{certificate_id}",
+			"pathParams": [
+				{
+					"name": "certificate_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"ssl origin-ca-certificates get": {
+			"operationId": "ssl.origin-ca-certificates.get",
+			"httpMethod": "GET",
+			"path": "/certificates/{certificate_id}",
+			"pathParams": [
+				{
+					"name": "certificate_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"ssl origin-ca-certificates list": {
+			"operationId": "ssl.origin-ca-certificates.list",
+			"httpMethod": "GET",
+			"path": "/certificates",
+			"pathParams": [],
+			"queryParams": [
+				{
+					"name": "zone_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "page",
+					"type": "number",
+					"required": false
+				},
+				{
+					"name": "per_page",
+					"type": "number",
+					"required": false
+				},
+				{
+					"name": "limit",
+					"type": "number",
+					"required": false
+				},
+				{
+					"name": "offset",
+					"type": "number",
+					"required": false
+				}
+			],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"ssl origin-tls-client-auth hostname-associations list": {
+			"operationId": "ssl.origin-tls-client-auth.hostname-associations.list",
+			"httpMethod": "GET",
+			"path": "/zones/{zone_id}/origin_tls_client_auth/hostnames",
+			"pathParams": [
+				{
+					"name": "zone_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [
+				{
+					"name": "page",
+					"type": "number",
+					"required": false
+				},
+				{
+					"name": "per_page",
+					"type": "number",
+					"required": false
+				},
+				{
+					"name": "status",
+					"type": "string",
+					"required": false
+				}
+			],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"ssl origin-tls-client-auth hostname-certificates create": {
+			"operationId": "ssl.origin-tls-client-auth.hostname-certificates.create",
+			"httpMethod": "POST",
+			"path": "/zones/{zone_id}/origin_tls_client_auth/hostnames/certificates",
+			"pathParams": [
+				{
+					"name": "zone_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": true,
+			"requestBodyFields": [
+				{
+					"name": "certificate",
+					"type": "string",
+					"required": true,
+					"description": "The hostname certificate."
+				},
+				{
+					"name": "private-key",
+					"type": "string",
+					"required": true,
+					"description": "The hostname certificate's private key."
+				}
+			]
+		},
+		"ssl origin-tls-client-auth hostname-certificates delete": {
+			"operationId": "ssl.origin-tls-client-auth.hostname-certificates.delete",
+			"httpMethod": "DELETE",
+			"path": "/zones/{zone_id}/origin_tls_client_auth/hostnames/certificates/{certificate_id}",
+			"pathParams": [
+				{
+					"name": "zone_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "certificate_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"ssl origin-tls-client-auth hostname-certificates get": {
+			"operationId": "ssl.origin-tls-client-auth.hostname-certificates.get",
+			"httpMethod": "GET",
+			"path": "/zones/{zone_id}/origin_tls_client_auth/hostnames/certificates/{certificate_id}",
+			"pathParams": [
+				{
+					"name": "zone_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "certificate_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"ssl origin-tls-client-auth hostname-certificates list": {
+			"operationId": "ssl.origin-tls-client-auth.hostname-certificates.list",
+			"httpMethod": "GET",
+			"path": "/zones/{zone_id}/origin_tls_client_auth/hostnames/certificates",
+			"pathParams": [
+				{
+					"name": "zone_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"ssl origin-tls-client-auth hostnames get": {
+			"operationId": "ssl.origin-tls-client-auth.hostnames.get",
+			"httpMethod": "GET",
+			"path": "/zones/{zone_id}/origin_tls_client_auth/hostnames/{hostname}",
+			"pathParams": [
+				{
+					"name": "zone_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "hostname",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"ssl origin-tls-client-auth hostnames update": {
+			"operationId": "ssl.origin-tls-client-auth.hostnames.update",
+			"httpMethod": "PUT",
+			"path": "/zones/{zone_id}/origin_tls_client_auth/hostnames",
+			"pathParams": [
+				{
+					"name": "zone_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": true,
+			"requestBodyFields": [
+				{
+					"name": "hostname-config",
+					"type": "string",
+					"required": true,
+					"description": "The config field. Provide as a JSON array of objects or @path/to/file.json."
+				}
+			]
+		},
+		"ssl origin-tls-client-auth settings get": {
+			"operationId": "ssl.origin-tls-client-auth.settings.get",
+			"httpMethod": "GET",
+			"path": "/zones/{zone_id}/origin_tls_client_auth/settings",
+			"pathParams": [
+				{
+					"name": "zone_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"ssl origin-tls-client-auth settings update": {
+			"operationId": "ssl.origin-tls-client-auth.settings.update",
+			"httpMethod": "PUT",
+			"path": "/zones/{zone_id}/origin_tls_client_auth/settings",
+			"pathParams": [
+				{
+					"name": "zone_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": true,
+			"requestBodyFields": [
+				{
+					"name": "enabled",
+					"type": "boolean",
+					"required": true,
+					"description": "Indicates whether zone-level authenticated origin pulls is enabled."
+				}
+			]
+		},
+		"ssl origin-tls-client-auth zone-certificates create": {
+			"operationId": "ssl.origin-tls-client-auth.zone-certificates.create",
+			"httpMethod": "POST",
+			"path": "/zones/{zone_id}/origin_tls_client_auth",
+			"pathParams": [
+				{
+					"name": "zone_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": true,
+			"requestBodyFields": [
+				{
+					"name": "certificate",
+					"type": "string",
+					"required": true,
+					"description": "The zone's leaf certificate."
+				},
+				{
+					"name": "private-key",
+					"type": "string",
+					"required": true,
+					"description": "The zone's private key."
+				}
+			]
+		},
+		"ssl origin-tls-client-auth zone-certificates delete": {
+			"operationId": "ssl.origin-tls-client-auth.zone-certificates.delete",
+			"httpMethod": "DELETE",
+			"path": "/zones/{zone_id}/origin_tls_client_auth/{certificate_id}",
+			"pathParams": [
+				{
+					"name": "zone_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "certificate_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"ssl origin-tls-client-auth zone-certificates get": {
+			"operationId": "ssl.origin-tls-client-auth.zone-certificates.get",
+			"httpMethod": "GET",
+			"path": "/zones/{zone_id}/origin_tls_client_auth/{certificate_id}",
+			"pathParams": [
+				{
+					"name": "zone_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "certificate_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"ssl origin-tls-client-auth zone-certificates list": {
+			"operationId": "ssl.origin-tls-client-auth.zone-certificates.list",
+			"httpMethod": "GET",
+			"path": "/zones/{zone_id}/origin_tls_client_auth",
 			"pathParams": [
 				{
 					"name": "zone_id",
@@ -85999,6 +86107,141 @@
 			"hasRequestBody": false,
 			"requestBodyFields": []
 		},
+		"tags account-resources delete": {
+			"operationId": "tags.account-resources.delete",
+			"httpMethod": "DELETE",
+			"path": "/{account_or_zone}/{account_or_zone_id}/tags",
+			"pathParams": [
+				{
+					"name": "account_or_zone",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "account_or_zone_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": true,
+			"requestBodyFields": [
+				{
+					"name": "resource-id",
+					"type": "string",
+					"required": true,
+					"description": "Identifies the unique resource."
+				},
+				{
+					"name": "resource-type",
+					"type": "string",
+					"required": true,
+					"description": "Enum for worker_version resource type."
+				},
+				{
+					"name": "worker-id",
+					"type": "string",
+					"required": false,
+					"description": "Worker ID is required only for worker_version resources"
+				}
+			]
+		},
+		"tags account-resources get": {
+			"operationId": "tags.account-resources.get",
+			"httpMethod": "GET",
+			"path": "/{account_or_zone}/{account_or_zone_id}/tags",
+			"pathParams": [
+				{
+					"name": "account_or_zone",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "account_or_zone_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [
+				{
+					"name": "resource_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "resource_type",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "worker_id",
+					"type": "string",
+					"required": false
+				}
+			],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"tags account-resources update": {
+			"operationId": "tags.account-resources.update",
+			"httpMethod": "PUT",
+			"path": "/{account_or_zone}/{account_or_zone_id}/tags",
+			"pathParams": [
+				{
+					"name": "account_or_zone",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "account_or_zone_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": true,
+			"requestBodyFields": [
+				{
+					"name": "resource-id",
+					"type": "string",
+					"required": true,
+					"description": "Identifies the unique resource."
+				},
+				{
+					"name": "resource-type",
+					"type": "string",
+					"required": true,
+					"description": "Enum for worker_version resource type."
+				},
+				{
+					"name": "worker-id",
+					"type": "string",
+					"required": false,
+					"description": "Worker ID is required only for worker_version resources"
+				}
+			]
+		},
+		"tags keys list": {
+			"operationId": "tags.keys.list",
+			"httpMethod": "GET",
+			"path": "/accounts/{account_id}/tags/keys",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [
+				{
+					"name": "cursor",
+					"type": "string",
+					"required": false
+				}
+			],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
 		"tags resources list": {
 			"operationId": "tags.resources.list",
 			"httpMethod": "GET",
@@ -86011,6 +86254,11 @@
 				}
 			],
 			"queryParams": [
+				{
+					"name": "include_navigation",
+					"type": "boolean",
+					"required": false
+				},
 				{
 					"name": "type",
 					"type": "array",
@@ -86034,6 +86282,58 @@
 				{
 					"name": "tag",
 					"type": "array",
+					"required": false
+				},
+				{
+					"name": "cursor",
+					"type": "string",
+					"required": false
+				}
+			],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"tags summary get": {
+			"operationId": "tags.summary.get",
+			"httpMethod": "GET",
+			"path": "/accounts/{account_id}/tags/summary",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [
+				{
+					"name": "cursor",
+					"type": "string",
+					"required": false
+				}
+			],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"tags values list": {
+			"operationId": "tags.values.list",
+			"httpMethod": "GET",
+			"path": "/accounts/{account_id}/tags/values/{tag_key}",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "tag_key",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [
+				{
+					"name": "type",
+					"type": "string",
 					"required": false
 				},
 				{
@@ -86208,103 +86508,103 @@
 			"hasRequestBody": true,
 			"requestBodyFields": [
 				{
-					"name": "config-origin-request-access-aud-tag",
+					"name": "tunnel-config-origin-request-access-aud-tag",
 					"type": "string",
 					"required": false,
 					"description": "Access applications that are allowed to reach this hostname for this Tunnel. Audience tags can be identified in the dashboard or via the List Access policies API."
 				},
 				{
-					"name": "config-origin-request-access-required",
+					"name": "tunnel-config-origin-request-access-required",
 					"type": "boolean",
 					"required": false,
 					"description": "Deny traffic that has not fulfilled Access authorization."
 				},
 				{
-					"name": "config-origin-request-access-team-name",
+					"name": "tunnel-config-origin-request-access-team-name",
 					"type": "string",
 					"required": false,
 					"description": "The config.originRequest.access.teamName field"
 				},
 				{
-					"name": "config-origin-request-ca-pool",
+					"name": "tunnel-config-origin-request-ca-pool",
 					"type": "string",
 					"required": false,
 					"description": "Path to the certificate authority (CA) for the certificate of your origin. This option should be used only if your certificate is not signed by Cloudflare."
 				},
 				{
-					"name": "config-origin-request-connect-timeout",
+					"name": "tunnel-config-origin-request-connect-timeout",
 					"type": "number",
 					"required": false,
 					"description": "Timeout for establishing a new TCP connection to your origin server. This excludes the time taken to establish TLS, which is controlled by tlsTimeout."
 				},
 				{
-					"name": "config-origin-request-disable-chunked-encoding",
+					"name": "tunnel-config-origin-request-disable-chunked-encoding",
 					"type": "boolean",
 					"required": false,
 					"description": "Disables chunked transfer encoding. Useful if you are running a WSGI server."
 				},
 				{
-					"name": "config-origin-request-http2origin",
+					"name": "tunnel-config-origin-request-http2origin",
 					"type": "boolean",
 					"required": false,
 					"description": "Attempt to connect to origin using HTTP2. Origin must be configured as https."
 				},
 				{
-					"name": "config-origin-request-http-host-header",
+					"name": "tunnel-config-origin-request-http-host-header",
 					"type": "string",
 					"required": false,
 					"description": "Sets the HTTP Host header on requests sent to the local service."
 				},
 				{
-					"name": "config-origin-request-keep-alive-connections",
+					"name": "tunnel-config-origin-request-keep-alive-connections",
 					"type": "number",
 					"required": false,
 					"description": "Maximum number of idle keepalive connections between Tunnel and your origin. This does not restrict the total number of concurrent connections."
 				},
 				{
-					"name": "config-origin-request-keep-alive-timeout",
+					"name": "tunnel-config-origin-request-keep-alive-timeout",
 					"type": "number",
 					"required": false,
 					"description": "Timeout after which an idle keepalive connection can be discarded."
 				},
 				{
-					"name": "config-origin-request-match-snito-host",
+					"name": "tunnel-config-origin-request-match-snito-host",
 					"type": "boolean",
 					"required": false,
 					"description": "Auto configure the Hostname on the origin server certificate."
 				},
 				{
-					"name": "config-origin-request-no-happy-eyeballs",
+					"name": "tunnel-config-origin-request-no-happy-eyeballs",
 					"type": "boolean",
 					"required": false,
 					"description": "Disable the “happy eyeballs” algorithm for IPv4/IPv6 fallback if your local network has misconfigured one of the protocols."
 				},
 				{
-					"name": "config-origin-request-no-tlsverify",
+					"name": "tunnel-config-origin-request-no-tlsverify",
 					"type": "boolean",
 					"required": false,
 					"description": "Disables TLS verification of the certificate presented by your origin. Will allow any certificate from the origin to be accepted."
 				},
 				{
-					"name": "config-origin-request-origin-server-name",
+					"name": "tunnel-config-origin-request-origin-server-name",
 					"type": "string",
 					"required": false,
 					"description": "Hostname that cloudflared should expect from your origin server certificate."
 				},
 				{
-					"name": "config-origin-request-proxy-type",
+					"name": "tunnel-config-origin-request-proxy-type",
 					"type": "string",
 					"required": false,
 					"description": "cloudflared starts a proxy server to translate HTTP traffic into TCP when proxying, for example, SSH or RDP. This configures what type of proxy will be started. Valid options are: \"\" for the regular proxy and \"socks\" for a SOCKS5 proxy.\n"
 				},
 				{
-					"name": "config-origin-request-tcp-keep-alive",
+					"name": "tunnel-config-origin-request-tcp-keep-alive",
 					"type": "number",
 					"required": false,
 					"description": "The timeout after which a TCP keepalive packet is sent on a connection between Tunnel and the origin server."
 				},
 				{
-					"name": "config-origin-request-tls-timeout",
+					"name": "tunnel-config-origin-request-tls-timeout",
 					"type": "number",
 					"required": false,
 					"description": "Timeout for completing a TLS handshake to your origin server, if you have chosen to connect Tunnel to an HTTPS server."
@@ -87337,6 +87637,12 @@
 					"description": "The IP address to match. This address will be compared to the IP address of incoming requests."
 				},
 				{
+					"name": "access-rule-mode",
+					"type": "string",
+					"required": true,
+					"description": "The action to apply to a matched request."
+				},
+				{
 					"name": "notes",
 					"type": "string",
 					"required": false,
@@ -87373,6 +87679,12 @@
 			"queryParams": [],
 			"hasRequestBody": true,
 			"requestBodyFields": [
+				{
+					"name": "access-rule-mode",
+					"type": "string",
+					"required": false,
+					"description": "The action to apply to a matched request."
+				},
 				{
 					"name": "notes",
 					"type": "string",
@@ -88284,7 +88596,14 @@
 			"pathParams": [],
 			"queryParams": [],
 			"hasRequestBody": true,
-			"requestBodyFields": []
+			"requestBodyFields": [
+				{
+					"name": "notification-email",
+					"type": "string",
+					"required": false,
+					"description": "The email address to send health status notifications to. This field is now deprecated in favor of Cloudflare Notifications for Load Balancing, so only resetting this field with an empty string `\"\"` is accepted."
+				}
+			]
 		},
 		"user load-balancers pools get": {
 			"operationId": "user.load-balancers.pools.get",
@@ -89106,37 +89425,6 @@
 			"path": "/user/tokens/verify",
 			"pathParams": [],
 			"queryParams": [],
-			"hasRequestBody": false,
-			"requestBodyFields": []
-		},
-		"values list": {
-			"operationId": "values.list",
-			"httpMethod": "GET",
-			"path": "/accounts/{account_id}/tags/values/{tag_key}",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "tag_key",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [
-				{
-					"name": "type",
-					"type": "string",
-					"required": false
-				},
-				{
-					"name": "cursor",
-					"type": "string",
-					"required": false
-				}
-			],
 			"hasRequestBody": false,
 			"requestBodyFields": []
 		},
@@ -96466,7 +96754,7 @@
 					"name": "client-secret-version",
 					"type": "number",
 					"required": false,
-					"description": "A version number identifying the current `client_secret` associated with the service token. Incrementing it triggers a rotation; the previous secret will still be accepted until the time indicated by `previous_client_secret_expires_at`."
+					"description": "A version number identifying the current `client_secret` associated with the service token. Incrementing it triggers a rotation; the previous secret will still be accepted until the time indicated by `previous_client_secret_expires_at`. If the service token was reported as leaked, `previous_client_secret_expires_at` is not required, may not be in the future, and the previous secret is discarded immediately."
 				},
 				{
 					"name": "duration",
@@ -96478,7 +96766,7 @@
 					"name": "enabled",
 					"type": "boolean",
 					"required": false,
-					"description": "Whether the service token is enabled. A disabled service token cannot be used to authenticate; both its current and previous `client_secret` stop being accepted, but the token itself is preserved and can be re-enabled at any time. Defaults to enabled when omitted on create."
+					"description": "Whether the service token is enabled. A disabled service token cannot be used to authenticate; both its current and previous `client_secret` stop being accepted, but the token itself is preserved and can be re-enabled. A service token reported as leaked is disabled automatically and cannot be re-enabled until its secret is rotated; attempting to do so returns a 409. Defaults to enabled when omitted on create."
 				},
 				{
 					"name": "name",
@@ -96490,7 +96778,7 @@
 					"name": "previous-client-secret-expires-at",
 					"type": "string",
 					"required": false,
-					"description": "The expiration of the previous `client_secret`. This can be modified at any point after a rotation. For example, you may extend it further into the future if you need more time to update services with the new secret; or move it into the past to immediately invalidate the previous token in case of compromise."
+					"description": "The expiration of the previous `client_secret`. This can be modified at any point after a rotation. For example, you may extend it further into the future if you need more time to update services with the new secret; or move it into the past to immediately invalidate the previous token in case of compromise. Rotating a service token that was reported as leaked discards the previous secret entirely, so no grace period can be set."
 				}
 			]
 		},
@@ -96628,7 +96916,7 @@
 					"name": "previous-client-secret-expires-at",
 					"type": "string",
 					"required": false,
-					"description": "The expiration of the previous `client_secret`. If not provided, it defaults to the current timestamp in order to immediately expire the previous secret."
+					"description": "The expiration of the previous `client_secret`. If not provided, it defaults to the current timestamp in order to immediately expire the previous secret. If the service token was reported as leaked, this must not be in the future; the leaked secret is discarded immediately."
 				}
 			]
 		},
@@ -96660,7 +96948,7 @@
 					"name": "client-secret-version",
 					"type": "number",
 					"required": false,
-					"description": "A version number identifying the current `client_secret` associated with the service token. Incrementing it triggers a rotation; the previous secret will still be accepted until the time indicated by `previous_client_secret_expires_at`."
+					"description": "A version number identifying the current `client_secret` associated with the service token. Incrementing it triggers a rotation; the previous secret will still be accepted until the time indicated by `previous_client_secret_expires_at`. If the service token was reported as leaked, `previous_client_secret_expires_at` is not required, may not be in the future, and the previous secret is discarded immediately."
 				},
 				{
 					"name": "duration",
@@ -96672,7 +96960,7 @@
 					"name": "enabled",
 					"type": "boolean",
 					"required": false,
-					"description": "Whether the service token is enabled. A disabled service token cannot be used to authenticate; both its current and previous `client_secret` stop being accepted, but the token itself is preserved and can be re-enabled at any time. Defaults to enabled when omitted on create."
+					"description": "Whether the service token is enabled. A disabled service token cannot be used to authenticate; both its current and previous `client_secret` stop being accepted, but the token itself is preserved and can be re-enabled. A service token reported as leaked is disabled automatically and cannot be re-enabled until its secret is rotated; attempting to do so returns a 409. Defaults to enabled when omitted on create."
 				},
 				{
 					"name": "name",
@@ -96684,7 +96972,7 @@
 					"name": "previous-client-secret-expires-at",
 					"type": "string",
 					"required": false,
-					"description": "The expiration of the previous `client_secret`. This can be modified at any point after a rotation. For example, you may extend it further into the future if you need more time to update services with the new secret; or move it into the past to immediately invalidate the previous token in case of compromise."
+					"description": "The expiration of the previous `client_secret`. This can be modified at any point after a rotation. For example, you may extend it further into the future if you need more time to update services with the new secret; or move it into the past to immediately invalidate the previous token in case of compromise. Rotating a service token that was reported as leaked discards the previous secret entirely, so no grace period can be set."
 				}
 			]
 		},
@@ -97287,6 +97575,402 @@
 				}
 			]
 		},
+		"zero-trust access user-populations users create": {
+			"operationId": "zero-trust.access.user-populations.users.create",
+			"httpMethod": "POST",
+			"path": "/accounts/{account_id}/access/user_populations/{user_population_id}/users",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "user_population_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": true,
+			"requestBodyFields": [
+				{
+					"name": "active",
+					"type": "boolean",
+					"required": false,
+					"description": "The active field"
+				},
+				{
+					"name": "display-name",
+					"type": "string",
+					"required": false,
+					"description": "The displayName field"
+				},
+				{
+					"name": "emails",
+					"type": "string",
+					"required": false,
+					"description": "The emails field. Provide as a JSON array of objects or @path/to/file.json."
+				},
+				{
+					"name": "external-id",
+					"type": "string",
+					"required": false,
+					"description": "The externalId field"
+				},
+				{
+					"name": "meta-created",
+					"type": "string",
+					"required": false,
+					"description": "The meta.created field"
+				},
+				{
+					"name": "meta-last-modified",
+					"type": "string",
+					"required": false,
+					"description": "The meta.lastModified field"
+				},
+				{
+					"name": "meta-location",
+					"type": "string",
+					"required": false,
+					"description": "The meta.location field"
+				},
+				{
+					"name": "meta-resource-type",
+					"type": "string",
+					"required": false,
+					"description": "The meta.resourceType field"
+				},
+				{
+					"name": "meta-version",
+					"type": "string",
+					"required": false,
+					"description": "The meta.version field"
+				},
+				{
+					"name": "name-family-name",
+					"type": "string",
+					"required": false,
+					"description": "The name.familyName field"
+				},
+				{
+					"name": "name-formatted",
+					"type": "string",
+					"required": false,
+					"description": "The name.formatted field"
+				},
+				{
+					"name": "name-given-name",
+					"type": "string",
+					"required": false,
+					"description": "The name.givenName field"
+				},
+				{
+					"name": "name-honorific-prefix",
+					"type": "string",
+					"required": false,
+					"description": "The name.honorificPrefix field"
+				},
+				{
+					"name": "name-honorific-suffix",
+					"type": "string",
+					"required": false,
+					"description": "The name.honorificSuffix field"
+				},
+				{
+					"name": "name-middle-name",
+					"type": "string",
+					"required": false,
+					"description": "The name.middleName field"
+				},
+				{
+					"name": "schemas",
+					"type": "string",
+					"required": false,
+					"description": "The SCIM schemas that apply to this resource."
+				},
+				{
+					"name": "user-name",
+					"type": "string",
+					"required": false,
+					"description": "The userName field"
+				}
+			]
+		},
+		"zero-trust access user-populations users delete": {
+			"operationId": "zero-trust.access.user-populations.users.delete",
+			"httpMethod": "DELETE",
+			"path": "/accounts/{account_id}/access/user_populations/{user_population_id}/users/{user_id}",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "user_population_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "user_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"zero-trust access user-populations users get": {
+			"operationId": "zero-trust.access.user-populations.users.get",
+			"httpMethod": "GET",
+			"path": "/accounts/{account_id}/access/user_populations/{user_population_id}/users/{user_id}",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "user_population_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "user_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [
+				{
+					"name": "attributes",
+					"type": "string",
+					"required": false
+				},
+				{
+					"name": "excludedAttributes",
+					"type": "string",
+					"required": false
+				}
+			],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"zero-trust access user-populations users list": {
+			"operationId": "zero-trust.access.user-populations.users.list",
+			"httpMethod": "GET",
+			"path": "/accounts/{account_id}/access/user_populations/{user_population_id}/users",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "user_population_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [
+				{
+					"name": "filter",
+					"type": "string",
+					"required": false
+				},
+				{
+					"name": "startIndex",
+					"type": "number",
+					"required": false
+				},
+				{
+					"name": "count",
+					"type": "number",
+					"required": false
+				},
+				{
+					"name": "attributes",
+					"type": "string",
+					"required": false
+				},
+				{
+					"name": "excludedAttributes",
+					"type": "string",
+					"required": false
+				}
+			],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"zero-trust access user-populations users replace": {
+			"operationId": "zero-trust.access.user-populations.users.replace",
+			"httpMethod": "PUT",
+			"path": "/accounts/{account_id}/access/user_populations/{user_population_id}/users/{user_id}",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "user_population_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "user_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": true,
+			"requestBodyFields": [
+				{
+					"name": "active",
+					"type": "boolean",
+					"required": false,
+					"description": "The active field"
+				},
+				{
+					"name": "display-name",
+					"type": "string",
+					"required": false,
+					"description": "The displayName field"
+				},
+				{
+					"name": "emails",
+					"type": "string",
+					"required": false,
+					"description": "The emails field. Provide as a JSON array of objects or @path/to/file.json."
+				},
+				{
+					"name": "external-id",
+					"type": "string",
+					"required": false,
+					"description": "The externalId field"
+				},
+				{
+					"name": "meta-created",
+					"type": "string",
+					"required": false,
+					"description": "The meta.created field"
+				},
+				{
+					"name": "meta-last-modified",
+					"type": "string",
+					"required": false,
+					"description": "The meta.lastModified field"
+				},
+				{
+					"name": "meta-location",
+					"type": "string",
+					"required": false,
+					"description": "The meta.location field"
+				},
+				{
+					"name": "meta-resource-type",
+					"type": "string",
+					"required": false,
+					"description": "The meta.resourceType field"
+				},
+				{
+					"name": "meta-version",
+					"type": "string",
+					"required": false,
+					"description": "The meta.version field"
+				},
+				{
+					"name": "name-family-name",
+					"type": "string",
+					"required": false,
+					"description": "The name.familyName field"
+				},
+				{
+					"name": "name-formatted",
+					"type": "string",
+					"required": false,
+					"description": "The name.formatted field"
+				},
+				{
+					"name": "name-given-name",
+					"type": "string",
+					"required": false,
+					"description": "The name.givenName field"
+				},
+				{
+					"name": "name-honorific-prefix",
+					"type": "string",
+					"required": false,
+					"description": "The name.honorificPrefix field"
+				},
+				{
+					"name": "name-honorific-suffix",
+					"type": "string",
+					"required": false,
+					"description": "The name.honorificSuffix field"
+				},
+				{
+					"name": "name-middle-name",
+					"type": "string",
+					"required": false,
+					"description": "The name.middleName field"
+				},
+				{
+					"name": "schemas",
+					"type": "string",
+					"required": false,
+					"description": "The SCIM schemas that apply to this resource."
+				},
+				{
+					"name": "user-name",
+					"type": "string",
+					"required": false,
+					"description": "The userName field"
+				}
+			]
+		},
+		"zero-trust access user-populations users update": {
+			"operationId": "zero-trust.access.user-populations.users.update",
+			"httpMethod": "PATCH",
+			"path": "/accounts/{account_id}/access/user_populations/{user_population_id}/users/{user_id}",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "user_population_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "user_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": true,
+			"requestBodyFields": [
+				{
+					"name": "operations",
+					"type": "string",
+					"required": true,
+					"description": "The Operations field. Provide as a JSON array of objects or @path/to/file.json."
+				},
+				{
+					"name": "schemas",
+					"type": "string",
+					"required": false,
+					"description": "The schemas field"
+				}
+			]
+		},
 		"zero-trust access users active-sessions get": {
 			"operationId": "zero-trust.access.users.active-sessions.get",
 			"httpMethod": "GET",
@@ -97556,55 +98240,6 @@
 					"type": "string",
 					"required": true,
 					"description": "The name of the user."
-				}
-			]
-		},
-		"zero-trust apps review status list": {
-			"operationId": "zero-trust.apps.review.status.list",
-			"httpMethod": "GET",
-			"path": "/accounts/{account_id}/gateway/apps/review_status",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": false,
-			"requestBodyFields": []
-		},
-		"zero-trust apps review status update": {
-			"operationId": "zero-trust.apps.review.status.update",
-			"httpMethod": "PUT",
-			"path": "/accounts/{account_id}/gateway/apps/review_status",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": true,
-			"requestBodyFields": [
-				{
-					"name": "approved-apps",
-					"type": "string",
-					"required": true,
-					"description": "Contains the ids of the approved applications."
-				},
-				{
-					"name": "in-review-apps",
-					"type": "string",
-					"required": true,
-					"description": "Contains the ids of the applications in review."
-				},
-				{
-					"name": "unapproved-apps",
-					"type": "string",
-					"required": true,
-					"description": "Contains the ids of the unapproved applications."
 				}
 			]
 		},
@@ -98468,7 +99103,7 @@
 					"name": "application",
 					"type": "string",
 					"required": true,
-					"description": "Vendor/application slug (e.g., GOOGLE_WORKSPACE).\n\n* `ANTHROPIC` - ANTHROPIC\n* `AWS` - AWS\n* `BITBUCKET` - BITBUCKET\n* `BOX` - BOX\n* `CONFLUENCE` - CONFLUENCE\n* `DROPBOX` - DROPBOX\n* `GITHUB` - GITHUB\n* `GOOGLE_CLOUD_PLATFORM` - GOOGLE_CLOUD_PLATFORM\n* `GOOGLE_WORKSPACE` - GOOGLE_WORKSPACE\n* `JIRA` - JIRA\n* `MICROSOFT_INTERNAL` - MICROSOFT_INTERNAL\n* `OPENAI` - OPENAI\n* `SALESFORCE` - SALESFORCE\n* `SERVICENOW` - SERVICENOW\n* `SLACK` - SLACK"
+					"description": "Vendor/application slug (e.g., GOOGLE_WORKSPACE).\n\n* `ANTHROPIC` - ANTHROPIC\n* `AWS` - AWS\n* `BITBUCKET` - BITBUCKET\n* `BOX` - BOX\n* `CONFLUENCE` - CONFLUENCE\n* `DROPBOX` - DROPBOX\n* `GITHUB` - GITHUB\n* `GOOGLE_CLOUD_PLATFORM` - GOOGLE_CLOUD_PLATFORM\n* `GOOGLE_WORKSPACE` - GOOGLE_WORKSPACE\n* `JIRA` - JIRA\n* `MICROSOFT_INTERNAL` - MICROSOFT_INTERNAL\n* `OPENAI` - OPENAI\n* `SALESFORCE` - SALESFORCE\n* `SERVICENOW` - SERVICENOW\n* `SLACK` - SLACK\n* `ZOOM` - ZOOM"
 				},
 				{
 					"name": "auth-method",
@@ -98497,8 +99132,8 @@
 				{
 					"name": "use-cases",
 					"type": "string",
-					"required": false,
-					"description": "List of use case or feature slugs to enroll (e.g., ['casb', 'ces', 'auto_remediation'])."
+					"required": true,
+					"description": "List of use case or feature slugs to enroll. At least one use case (casb, ces) is required; auto_remediation may be added alongside casb (e.g., ['casb', 'ces', 'auto_remediation'])."
 				}
 			]
 		},
@@ -99728,7 +100363,7 @@
 					"name": "on-error-action",
 					"type": "string",
 					"required": false,
-					"description": "Action for runtime Rego errors. Omit to preserve the current value."
+					"description": "Action for runtime Rego errors. Omit to reset to BLOCK."
 				},
 				{
 					"name": "policy-set-ids",
@@ -99740,7 +100375,7 @@
 					"name": "rego-raise-error",
 					"type": "boolean",
 					"required": false,
-					"description": "Whether OPA builtin failures are raised as runtime evaluation errors. Omit to preserve the current value."
+					"description": "Whether OPA builtin failures are raised as runtime evaluation errors. Omit to reset to true."
 				}
 			]
 		},
@@ -107763,21 +108398,6 @@
 			"hasRequestBody": false,
 			"requestBodyFields": []
 		},
-		"zero-trust gateway egress-cidr-pairs list": {
-			"operationId": "zero-trust.gateway.egress-cidr-pairs.list",
-			"httpMethod": "GET",
-			"path": "/accounts/{account_id}/gateway/egress_cidr_pairs",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": false,
-			"requestBodyFields": []
-		},
 		"zero-trust gateway list": {
 			"operationId": "zero-trust.gateway.list",
 			"httpMethod": "GET",
@@ -108016,21 +108636,6 @@
 					"description": "Specify the list name."
 				}
 			]
-		},
-		"zero-trust gateway lists upload": {
-			"operationId": "zero-trust.gateway.lists.upload",
-			"httpMethod": "POST",
-			"path": "/accounts/{account_id}/gateway/lists/upload",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": true,
-			"requestBodyFields": []
 		},
 		"zero-trust gateway locations create": {
 			"operationId": "zero-trust.gateway.locations.create",
@@ -108374,41 +108979,6 @@
 				}
 			]
 		},
-		"zero-trust gateway operations get": {
-			"operationId": "zero-trust.gateway.operations.get",
-			"httpMethod": "GET",
-			"path": "/accounts/{account_id}/gateway/operations/{operation_id}",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "operation_id",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": false,
-			"requestBodyFields": []
-		},
-		"zero-trust gateway operations list": {
-			"operationId": "zero-trust.gateway.operations.list",
-			"httpMethod": "GET",
-			"path": "/accounts/{account_id}/gateway/operations",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": false,
-			"requestBodyFields": []
-		},
 		"zero-trust gateway pacfiles create": {
 			"operationId": "zero-trust.gateway.pacfiles.create",
 			"httpMethod": "POST",
@@ -108685,21 +109255,6 @@
 			"hasRequestBody": false,
 			"requestBodyFields": []
 		},
-		"zero-trust gateway rules bulk-edit": {
-			"operationId": "zero-trust.gateway.rules.bulk-edit",
-			"httpMethod": "PATCH",
-			"path": "/accounts/{account_id}/gateway/rules",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": true,
-			"requestBodyFields": []
-		},
 		"zero-trust gateway rules create": {
 			"operationId": "zero-trust.gateway.rules.create",
 			"httpMethod": "POST",
@@ -108773,12 +109328,6 @@
 					"type": "boolean",
 					"required": false,
 					"description": "Set to enable MSP children to bypass this rule. Only parent MSP accounts can set this. this rule. Settable for all types of rules."
-				},
-				{
-					"name": "rule-settings-audit-ssh-command-logging",
-					"type": "boolean",
-					"required": false,
-					"description": "Enable SSH command logging."
 				},
 				{
 					"name": "rule-settings-biso-admin-controls-copy",
@@ -109132,51 +109681,6 @@
 			"hasRequestBody": false,
 			"requestBodyFields": []
 		},
-		"zero-trust gateway rules edit": {
-			"operationId": "zero-trust.gateway.rules.edit",
-			"httpMethod": "PATCH",
-			"path": "/accounts/{account_id}/gateway/rules/{rule_id}",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "rule_id",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": true,
-			"requestBodyFields": [
-				{
-					"name": "description",
-					"type": "string",
-					"required": false,
-					"description": "Specify the rule description."
-				},
-				{
-					"name": "enabled",
-					"type": "boolean",
-					"required": false,
-					"description": "Specify whether the rule is enabled."
-				},
-				{
-					"name": "name",
-					"type": "string",
-					"required": false,
-					"description": "Specify the rule name."
-				},
-				{
-					"name": "precedence",
-					"type": "number",
-					"required": false,
-					"description": "Set the order of your rules. Lower values indicate higher precedence. At each processing phase, evaluate applicable rules in ascending order of this value. Refer to [Order of enforcement](http://developers.cloudflare.com/learning-paths/secure-internet-traffic/understand-policies/order-of-enforcement/#manage-precedence-with-terraform) to manage precedence via Terraform."
-				}
-			]
-		},
 		"zero-trust gateway rules get": {
 			"operationId": "zero-trust.gateway.rules.get",
 			"httpMethod": "GET",
@@ -109346,12 +109850,6 @@
 					"type": "boolean",
 					"required": false,
 					"description": "Set to enable MSP children to bypass this rule. Only parent MSP accounts can set this. this rule. Settable for all types of rules."
-				},
-				{
-					"name": "rule-settings-audit-ssh-command-logging",
-					"type": "boolean",
-					"required": false,
-					"description": "Enable SSH command logging."
 				},
 				{
 					"name": "rule-settings-biso-admin-controls-copy",
@@ -110165,6 +110663,12 @@
 					"description": "Contains zone names to exempt from the `deny_unmatched_requests` feature. Requests to a subdomain in an exempted zone will block unauthenticated traffic by default if there is a configured Access application and policy that matches the request."
 				},
 				{
+					"name": "disable-end-user-app-creation",
+					"type": "boolean",
+					"required": false,
+					"description": "Whether creation of end user applications is disabled for this organization."
+				},
+				{
 					"name": "is-ui-read-only",
 					"type": "boolean",
 					"required": false,
@@ -110445,6 +110949,12 @@
 					"type": "string",
 					"required": false,
 					"description": "Contains zone names to exempt from the `deny_unmatched_requests` feature. Requests to a subdomain in an exempted zone will block unauthenticated traffic by default if there is a configured Access application and policy that matches the request."
+				},
+				{
+					"name": "disable-end-user-app-creation",
+					"type": "boolean",
+					"required": false,
+					"description": "Whether creation of end user applications is disabled for this organization."
 				},
 				{
 					"name": "is-ui-read-only",

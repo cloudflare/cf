@@ -21,7 +21,7 @@ import { runWithTelemetry } from "#lib/telemetry/index.js";
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
 		.usage(
-			"$0 ai-search namespace delete <namespace>\n\nPermanently delete a namespace. The namespace must be empty (no instances), and the default namespace cannot be deleted."
+			"$0 ai-search namespace delete <namespace>\n\nDeletes a namespace permanently. The namespace must not contain any instances (instances whose deletion is still in progress do not count), and the default namespace cannot be deleted."
 		)
 		.positional("namespace", {
 			type: "string",

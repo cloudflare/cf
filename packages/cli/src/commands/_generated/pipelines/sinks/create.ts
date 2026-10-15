@@ -26,71 +26,74 @@ import { runWithTelemetry } from "#lib/telemetry/index.js";
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
 		.usage("$0 pipelines sinks create\n\nCreate a new Sink.")
-		.option("config-account-id", {
+		.option("sink-config-account-id", {
 			type: "string",
 			description: "Cloudflare Account ID for the bucket",
 		})
-		.option("config-bucket", {
+		.option("sink-config-bucket", {
 			type: "string",
 			description: "R2 Bucket to write to",
 		})
-		.option("config-credentials-access-key-id", {
+		.option("sink-config-credentials-access-key-id", {
 			type: "string",
 			description: "Cloudflare Account ID for the bucket",
 		})
-		.option("config-credentials-secret-access-key", {
+		.option("sink-config-credentials-secret-access-key", {
 			type: "string",
 			description: "Cloudflare Account ID for the bucket",
 		})
-		.option("config-file-naming-prefix", {
+		.option("sink-config-file-naming-prefix", {
 			type: "string",
 			description: "The prefix to use in file name. i.e prefix-<uuid>.parquet",
 		})
-		.option("config-file-naming-strategy", {
+		.option("sink-config-file-naming-strategy", {
 			type: "string",
 			description: "Filename generation strategy.",
 			choices: ["serial", "uuid", "uuid_v7", "ulid"],
 		})
-		.coerce("config-file-naming-strategy", (value) =>
-			resolveFileToken(value, "config-file-naming-strategy", "text")
+		.coerce("sink-config-file-naming-strategy", (value) =>
+			resolveFileToken(value, "sink-config-file-naming-strategy", "text")
 		)
-		.option("config-file-naming-suffix", {
+		.option("sink-config-file-naming-suffix", {
 			type: "string",
 			description:
 				"This will overwrite the default file suffix. i.e .parquet, use with caution",
 		})
-		.option("config-jurisdiction", {
+		.option("sink-config-jurisdiction", {
 			type: "string",
 			description: "Jurisdiction this bucket is hosted in",
 		})
-		.option("config-partitioning-time-pattern", {
+		.option("sink-config-partitioning-time-pattern", {
 			type: "string",
 			description: "The pattern of the date string",
 		})
-		.option("config-path", {
+		.option("sink-config-path", {
 			type: "string",
 			description: "Subpath within the bucket to write to",
 		})
-		.option("config-rolling-policy-file-size-bytes", {
+		.option("sink-config-rolling-policy-file-size-bytes", {
 			type: "number",
 			description: "Files will be rolled after reaching this number of bytes",
 		})
-		.option("config-rolling-policy-inactivity-seconds", {
+		.option("sink-config-rolling-policy-inactivity-seconds", {
 			type: "number",
 			description:
 				"Number of seconds of inactivity to wait before rolling over to a new file",
 		})
-		.option("config-rolling-policy-interval-seconds", {
+		.option("sink-config-rolling-policy-interval-seconds", {
 			type: "number",
 			description:
 				"Number of seconds to wait before rolling over to a new file",
 		})
-		.option("config-namespace", {
+		.option("sink-config-namespace", {
 			type: "string",
 			description: "Table namespace",
 		})
-		.option("config-table-name", { type: "string", description: "Table name" })
-		.option("config-token", {
+		.option("sink-config-table-name", {
+			type: "string",
+			description: "Table name",
+		})
+		.option("sink-config-token", {
 			type: "string",
 			description: "Authentication token",
 		})
@@ -157,78 +160,78 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			type: "string",
 			description: "Raw JSON request body (bypasses individual flags)",
 		})
-		.conflicts("config-credentials-access-key-id", [
-			"config-namespace",
-			"config-table-name",
-			"config-token",
+		.conflicts("sink-config-credentials-access-key-id", [
+			"sink-config-namespace",
+			"sink-config-table-name",
+			"sink-config-token",
 		])
-		.conflicts("config-credentials-secret-access-key", [
-			"config-namespace",
-			"config-table-name",
-			"config-token",
+		.conflicts("sink-config-credentials-secret-access-key", [
+			"sink-config-namespace",
+			"sink-config-table-name",
+			"sink-config-token",
 		])
-		.conflicts("config-file-naming-prefix", [
-			"config-namespace",
-			"config-table-name",
-			"config-token",
+		.conflicts("sink-config-file-naming-prefix", [
+			"sink-config-namespace",
+			"sink-config-table-name",
+			"sink-config-token",
 		])
-		.conflicts("config-file-naming-strategy", [
-			"config-namespace",
-			"config-table-name",
-			"config-token",
+		.conflicts("sink-config-file-naming-strategy", [
+			"sink-config-namespace",
+			"sink-config-table-name",
+			"sink-config-token",
 		])
-		.conflicts("config-file-naming-suffix", [
-			"config-namespace",
-			"config-table-name",
-			"config-token",
+		.conflicts("sink-config-file-naming-suffix", [
+			"sink-config-namespace",
+			"sink-config-table-name",
+			"sink-config-token",
 		])
-		.conflicts("config-jurisdiction", [
-			"config-namespace",
-			"config-table-name",
-			"config-token",
+		.conflicts("sink-config-jurisdiction", [
+			"sink-config-namespace",
+			"sink-config-table-name",
+			"sink-config-token",
 		])
-		.conflicts("config-partitioning-time-pattern", [
-			"config-namespace",
-			"config-table-name",
-			"config-token",
+		.conflicts("sink-config-partitioning-time-pattern", [
+			"sink-config-namespace",
+			"sink-config-table-name",
+			"sink-config-token",
 		])
-		.conflicts("config-path", [
-			"config-namespace",
-			"config-table-name",
-			"config-token",
+		.conflicts("sink-config-path", [
+			"sink-config-namespace",
+			"sink-config-table-name",
+			"sink-config-token",
 		])
-		.conflicts("config-namespace", [
-			"config-credentials-access-key-id",
-			"config-credentials-secret-access-key",
-			"config-file-naming-prefix",
-			"config-file-naming-strategy",
-			"config-file-naming-suffix",
-			"config-jurisdiction",
-			"config-partitioning-time-pattern",
-			"config-path",
+		.conflicts("sink-config-namespace", [
+			"sink-config-credentials-access-key-id",
+			"sink-config-credentials-secret-access-key",
+			"sink-config-file-naming-prefix",
+			"sink-config-file-naming-strategy",
+			"sink-config-file-naming-suffix",
+			"sink-config-jurisdiction",
+			"sink-config-partitioning-time-pattern",
+			"sink-config-path",
 		])
-		.conflicts("config-table-name", [
-			"config-credentials-access-key-id",
-			"config-credentials-secret-access-key",
-			"config-file-naming-prefix",
-			"config-file-naming-strategy",
-			"config-file-naming-suffix",
-			"config-jurisdiction",
-			"config-partitioning-time-pattern",
-			"config-path",
+		.conflicts("sink-config-table-name", [
+			"sink-config-credentials-access-key-id",
+			"sink-config-credentials-secret-access-key",
+			"sink-config-file-naming-prefix",
+			"sink-config-file-naming-strategy",
+			"sink-config-file-naming-suffix",
+			"sink-config-jurisdiction",
+			"sink-config-partitioning-time-pattern",
+			"sink-config-path",
 		])
-		.implies("config-table-name", ["config-token"])
-		.conflicts("config-token", [
-			"config-credentials-access-key-id",
-			"config-credentials-secret-access-key",
-			"config-file-naming-prefix",
-			"config-file-naming-strategy",
-			"config-file-naming-suffix",
-			"config-jurisdiction",
-			"config-partitioning-time-pattern",
-			"config-path",
+		.implies("sink-config-table-name", ["sink-config-token"])
+		.conflicts("sink-config-token", [
+			"sink-config-credentials-access-key-id",
+			"sink-config-credentials-secret-access-key",
+			"sink-config-file-naming-prefix",
+			"sink-config-file-naming-strategy",
+			"sink-config-file-naming-suffix",
+			"sink-config-jurisdiction",
+			"sink-config-partitioning-time-pattern",
+			"sink-config-path",
 		])
-		.implies("config-token", ["config-table-name"])
+		.implies("sink-config-token", ["sink-config-table-name"])
 		.conflicts("format-decimal-encoding", ["format-row-group-bytes"])
 		.conflicts("format-timestamp-format", ["format-row-group-bytes"])
 		.conflicts("format-unstructured", ["format-row-group-bytes"])
@@ -239,41 +242,41 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		])
 		.check((argv) => {
 			const groupSet = [
-				"config-account-id",
-				"config-bucket",
-				"config-credentials-access-key-id",
-				"config-credentials-secret-access-key",
-				"config-file-naming-prefix",
-				"config-file-naming-strategy",
-				"config-file-naming-suffix",
-				"config-jurisdiction",
-				"config-partitioning-time-pattern",
-				"config-path",
-				"config-rolling-policy-file-size-bytes",
-				"config-rolling-policy-inactivity-seconds",
-				"config-rolling-policy-interval-seconds",
-				"config-namespace",
-				"config-table-name",
-				"config-token",
+				"sink-config-account-id",
+				"sink-config-bucket",
+				"sink-config-credentials-access-key-id",
+				"sink-config-credentials-secret-access-key",
+				"sink-config-file-naming-prefix",
+				"sink-config-file-naming-strategy",
+				"sink-config-file-naming-suffix",
+				"sink-config-jurisdiction",
+				"sink-config-partitioning-time-pattern",
+				"sink-config-path",
+				"sink-config-rolling-policy-file-size-bytes",
+				"sink-config-rolling-policy-inactivity-seconds",
+				"sink-config-rolling-policy-interval-seconds",
+				"sink-config-namespace",
+				"sink-config-table-name",
+				"sink-config-token",
 			].some((k) => argv[k] !== undefined);
 			if (groupSet) {
 				const requiredConflicts: Record<string, string[]> = {
-					"config-credentials-access-key-id": [
-						"config-namespace",
-						"config-table-name",
-						"config-token",
+					"sink-config-credentials-access-key-id": [
+						"sink-config-namespace",
+						"sink-config-table-name",
+						"sink-config-token",
 					],
-					"config-credentials-secret-access-key": [
-						"config-namespace",
-						"config-table-name",
-						"config-token",
+					"sink-config-credentials-secret-access-key": [
+						"sink-config-namespace",
+						"sink-config-table-name",
+						"sink-config-token",
 					],
 				};
 				const missing = [
-					"config-account-id",
-					"config-bucket",
-					"config-credentials-access-key-id",
-					"config-credentials-secret-access-key",
+					"sink-config-account-id",
+					"sink-config-bucket",
+					"sink-config-credentials-access-key-id",
+					"sink-config-credentials-secret-access-key",
 				].filter(
 					(k) =>
 						argv[k] === undefined &&
@@ -320,7 +323,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				command: "pipelines sinks create",
 				classification: {
 					safeFlags: [
-						"config-file-naming-strategy",
+						"sink-config-file-naming-strategy",
 						"format-decimal-encoding",
 						"format-timestamp-format",
 						"format-unstructured",
@@ -348,88 +351,88 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 								: compactBody({
 										config: {
 											account_id: resolveFileToken(
-												argv["config-account-id"] as string | undefined,
-												"config-account-id",
+												argv["sink-config-account-id"] as string | undefined,
+												"sink-config-account-id",
 												"text"
 											),
 											bucket: resolveFileToken(
-												argv["config-bucket"] as string | undefined,
-												"config-bucket",
+												argv["sink-config-bucket"] as string | undefined,
+												"sink-config-bucket",
 												"text"
 											),
 											credentials: {
 												access_key_id: resolveFileToken(
-													argv["config-credentials-access-key-id"] as
+													argv["sink-config-credentials-access-key-id"] as
 														| string
 														| undefined,
-													"config-credentials-access-key-id",
+													"sink-config-credentials-access-key-id",
 													"text"
 												),
 												secret_access_key: resolveFileToken(
-													argv["config-credentials-secret-access-key"] as
+													argv["sink-config-credentials-secret-access-key"] as
 														| string
 														| undefined,
-													"config-credentials-secret-access-key",
+													"sink-config-credentials-secret-access-key",
 													"text"
 												),
 											},
 											file_naming: {
 												prefix: resolveFileToken(
-													argv["config-file-naming-prefix"] as
+													argv["sink-config-file-naming-prefix"] as
 														| string
 														| undefined,
-													"config-file-naming-prefix",
+													"sink-config-file-naming-prefix",
 													"text"
 												),
-												strategy: argv["config-file-naming-strategy"],
+												strategy: argv["sink-config-file-naming-strategy"],
 												suffix: resolveFileToken(
-													argv["config-file-naming-suffix"] as
+													argv["sink-config-file-naming-suffix"] as
 														| string
 														| undefined,
-													"config-file-naming-suffix",
+													"sink-config-file-naming-suffix",
 													"text"
 												),
 											},
 											jurisdiction: resolveFileToken(
-												argv["config-jurisdiction"] as string | undefined,
-												"config-jurisdiction",
+												argv["sink-config-jurisdiction"] as string | undefined,
+												"sink-config-jurisdiction",
 												"text"
 											),
 											partitioning: {
 												time_pattern: resolveFileToken(
-													argv["config-partitioning-time-pattern"] as
+													argv["sink-config-partitioning-time-pattern"] as
 														| string
 														| undefined,
-													"config-partitioning-time-pattern",
+													"sink-config-partitioning-time-pattern",
 													"text"
 												),
 											},
 											path: resolveFileToken(
-												argv["config-path"] as string | undefined,
-												"config-path",
+												argv["sink-config-path"] as string | undefined,
+												"sink-config-path",
 												"text"
 											),
 											rolling_policy: {
 												file_size_bytes:
-													argv["config-rolling-policy-file-size-bytes"],
+													argv["sink-config-rolling-policy-file-size-bytes"],
 												inactivity_seconds:
-													argv["config-rolling-policy-inactivity-seconds"],
+													argv["sink-config-rolling-policy-inactivity-seconds"],
 												interval_seconds:
-													argv["config-rolling-policy-interval-seconds"],
+													argv["sink-config-rolling-policy-interval-seconds"],
 											},
 											namespace: resolveFileToken(
-												argv["config-namespace"] as string | undefined,
-												"config-namespace",
+												argv["sink-config-namespace"] as string | undefined,
+												"sink-config-namespace",
 												"text"
 											),
 											table_name: resolveFileToken(
-												argv["config-table-name"] as string | undefined,
-												"config-table-name",
+												argv["sink-config-table-name"] as string | undefined,
+												"sink-config-table-name",
 												"text"
 											),
 											token: resolveFileToken(
-												argv["config-token"] as string | undefined,
-												"config-token",
+												argv["sink-config-token"] as string | undefined,
+												"sink-config-token",
 												"text"
 											),
 										},
@@ -488,78 +491,84 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				const bodyData = compactBody({
 					config: {
 						account_id: resolveFileToken(
-							argv["config-account-id"] as string | undefined,
-							"config-account-id",
+							argv["sink-config-account-id"] as string | undefined,
+							"sink-config-account-id",
 							"text"
 						),
 						bucket: resolveFileToken(
-							argv["config-bucket"] as string | undefined,
-							"config-bucket",
+							argv["sink-config-bucket"] as string | undefined,
+							"sink-config-bucket",
 							"text"
 						),
 						credentials: {
 							access_key_id: resolveFileToken(
-								argv["config-credentials-access-key-id"] as string | undefined,
-								"config-credentials-access-key-id",
+								argv["sink-config-credentials-access-key-id"] as
+									| string
+									| undefined,
+								"sink-config-credentials-access-key-id",
 								"text"
 							),
 							secret_access_key: resolveFileToken(
-								argv["config-credentials-secret-access-key"] as
+								argv["sink-config-credentials-secret-access-key"] as
 									| string
 									| undefined,
-								"config-credentials-secret-access-key",
+								"sink-config-credentials-secret-access-key",
 								"text"
 							),
 						},
 						file_naming: {
 							prefix: resolveFileToken(
-								argv["config-file-naming-prefix"] as string | undefined,
-								"config-file-naming-prefix",
+								argv["sink-config-file-naming-prefix"] as string | undefined,
+								"sink-config-file-naming-prefix",
 								"text"
 							),
-							strategy: argv["config-file-naming-strategy"],
+							strategy: argv["sink-config-file-naming-strategy"],
 							suffix: resolveFileToken(
-								argv["config-file-naming-suffix"] as string | undefined,
-								"config-file-naming-suffix",
+								argv["sink-config-file-naming-suffix"] as string | undefined,
+								"sink-config-file-naming-suffix",
 								"text"
 							),
 						},
 						jurisdiction: resolveFileToken(
-							argv["config-jurisdiction"] as string | undefined,
-							"config-jurisdiction",
+							argv["sink-config-jurisdiction"] as string | undefined,
+							"sink-config-jurisdiction",
 							"text"
 						),
 						partitioning: {
 							time_pattern: resolveFileToken(
-								argv["config-partitioning-time-pattern"] as string | undefined,
-								"config-partitioning-time-pattern",
+								argv["sink-config-partitioning-time-pattern"] as
+									| string
+									| undefined,
+								"sink-config-partitioning-time-pattern",
 								"text"
 							),
 						},
 						path: resolveFileToken(
-							argv["config-path"] as string | undefined,
-							"config-path",
+							argv["sink-config-path"] as string | undefined,
+							"sink-config-path",
 							"text"
 						),
 						rolling_policy: {
-							file_size_bytes: argv["config-rolling-policy-file-size-bytes"],
+							file_size_bytes:
+								argv["sink-config-rolling-policy-file-size-bytes"],
 							inactivity_seconds:
-								argv["config-rolling-policy-inactivity-seconds"],
-							interval_seconds: argv["config-rolling-policy-interval-seconds"],
+								argv["sink-config-rolling-policy-inactivity-seconds"],
+							interval_seconds:
+								argv["sink-config-rolling-policy-interval-seconds"],
 						},
 						namespace: resolveFileToken(
-							argv["config-namespace"] as string | undefined,
-							"config-namespace",
+							argv["sink-config-namespace"] as string | undefined,
+							"sink-config-namespace",
 							"text"
 						),
 						table_name: resolveFileToken(
-							argv["config-table-name"] as string | undefined,
-							"config-table-name",
+							argv["sink-config-table-name"] as string | undefined,
+							"sink-config-table-name",
 							"text"
 						),
 						token: resolveFileToken(
-							argv["config-token"] as string | undefined,
-							"config-token",
+							argv["sink-config-token"] as string | undefined,
+							"sink-config-token",
 							"text"
 						),
 					},

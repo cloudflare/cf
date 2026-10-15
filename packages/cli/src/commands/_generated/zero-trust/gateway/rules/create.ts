@@ -95,10 +95,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description:
 				"Set to enable MSP children to bypass this rule. Only parent MSP accounts can set this. this rule. Settable for all types of rules.",
 		})
-		.option("rule-settings-audit-ssh-command-logging", {
-			type: "boolean",
-			description: "Enable SSH command logging.",
-		})
 		.option("rule-settings-biso-admin-controls-copy", {
 			type: "string",
 			description:
@@ -438,7 +434,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.check((argv) => {
 			const groupSet = [
 				"rule-settings-allow-child-bypass",
-				"rule-settings-audit-ssh-command-logging",
 				"rule-settings-biso-admin-controls-copy",
 				"rule-settings-biso-admin-controls-dcp",
 				"rule-settings-biso-admin-controls-dd",
@@ -516,7 +511,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						"action",
 						"enabled",
 						"rule-settings-allow-child-bypass",
-						"rule-settings-audit-ssh-command-logging",
 						"rule-settings-biso-admin-controls-copy",
 						"rule-settings-biso-admin-controls-dcp",
 						"rule-settings-biso-admin-controls-dd",
@@ -594,10 +588,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 										rule_settings: {
 											allow_child_bypass:
 												argv["rule-settings-allow-child-bypass"],
-											audit_ssh: {
-												command_logging:
-													argv["rule-settings-audit-ssh-command-logging"],
-											},
 											biso_admin_controls: {
 												copy: argv["rule-settings-biso-admin-controls-copy"],
 												dcp: argv["rule-settings-biso-admin-controls-dcp"],
@@ -895,9 +885,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					precedence: argv["precedence"],
 					rule_settings: {
 						allow_child_bypass: argv["rule-settings-allow-child-bypass"],
-						audit_ssh: {
-							command_logging: argv["rule-settings-audit-ssh-command-logging"],
-						},
 						biso_admin_controls: {
 							copy: argv["rule-settings-biso-admin-controls-copy"],
 							dcp: argv["rule-settings-biso-admin-controls-dcp"],

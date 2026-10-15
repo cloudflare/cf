@@ -1,7 +1,5 @@
+import $accountassets from "./account-assets/index.js";
 import $accountcustompages from "./account-custom-pages/index.js";
-import $assets from "./assets/index.js";
-import $get from "./get.js";
-import $list from "./list.js";
 import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * custom-pages command
@@ -16,10 +14,8 @@ const command: CommandModule<CommonYargsOptions> = {
 
 	builder: (yargs) => {
 		return yargs
-			.command($get)
-			.command($list)
+			.command($accountassets)
 			.command($accountcustompages)
-			.command($assets)
 			.demandCommand(1, "Please specify a subcommand");
 	},
 

@@ -27,7 +27,7 @@ import { runWithTelemetry } from "#lib/telemetry/index.js";
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
 		.usage(
-			"$0 ai-search update <instance-id>\n\nUpdate the configuration of an AI Search instance."
+			"$0 ai-search update <instance-id>\n\nUpdates the configuration of an AI Search instance."
 		)
 		.positional("instance-id", {
 			type: "string",
@@ -151,7 +151,8 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		})
 		.option("public-endpoint-params-chat-completions-endpoint-disabled", {
 			type: "boolean",
-			description: "Disable chat completions endpoint for this public endpoint",
+			description:
+				"Disable chat completions endpoint for this public endpoint.",
 		})
 		.option("public-endpoint-params-custom-domains", {
 			type: "string",
@@ -174,7 +175,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		})
 		.option("public-endpoint-params-mcp-disabled", {
 			type: "boolean",
-			description: "Disable MCP endpoint for this public endpoint",
+			description: "Disable MCP endpoint for this public endpoint.",
 		})
 		.option("public-endpoint-params-rate-limit-period-ms", {
 			type: "number",
@@ -198,7 +199,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		)
 		.option("public-endpoint-params-search-endpoint-disabled", {
 			type: "boolean",
-			description: "Disable search endpoint for this public endpoint",
+			description: "Disable search endpoint for this public endpoint.",
 		})
 		.option("reranking", {
 			type: "boolean",
@@ -211,7 +212,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("retrieval-options-keyword-match-mode", {
 			type: "string",
 			description:
-				"Controls which documents are candidates for BM25 scoring. 'and' restricts candidates to documents containing all query terms; 'or' includes any document containing at least one term, ranked by BM25 relevance. When omitted on an update, the existing stored value is preserved; when never set, search falls back to 'and'.",
+				"Controls which documents become candidates for BM25 scoring. 'and' restricts candidates to documents containing all query terms; 'or' includes any document containing at least one term and ranks results according to BM25 relevance. When omitted on an update, the existing stored value stays unchanged; when never set, search falls back to 'and'.",
 			choices: ["and", "or"],
 		})
 		.coerce("retrieval-options-keyword-match-mode", (value) =>
@@ -235,13 +236,13 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			type: "string",
 			array: true,
 			description:
-				"List of path patterns to exclude. Uses micromatch glob syntax: * matches within a path segment, ** matches across path segments (e.g., /admin/** matches /admin/users and /admin/settings/advanced). Most accounts are limited to 10 rules; contact support to raise it.",
+				"List of path patterns to exclude. Uses micromatch glob syntax: * matches within a path segment, ** matches across path segments (e.g., /admin/** matches /admin/users and /admin/settings/advanced). Most accounts have a limit of 10 rules; contact support to raise it.",
 		})
 		.option("source-params-include-items", {
 			type: "string",
 			array: true,
 			description:
-				"List of path patterns to include. Uses micromatch glob syntax: * matches within a path segment, ** matches across path segments (e.g., /blog/** matches /blog/post and /blog/2024/post). Most accounts are limited to 10 rules; contact support to raise it.",
+				"List of path patterns to include. Uses micromatch glob syntax: * matches within a path segment, ** matches across path segments (e.g., /blog/** matches /blog/post and /blog/2024/post). Most accounts have a limit of 10 rules; contact support to raise it.",
 		})
 		.option("source-params-prefix", {
 			type: "string",
@@ -260,7 +261,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			{
 				type: "boolean",
 				description:
-					"Follow links that point outside the source domain. Must stay `false` — discover crawls are restricted to the zone you own.",
+					"Follow links that point outside the source domain. Must stay `false` because discover crawls only cover the zone you own.",
 			}
 		)
 		.option("source-params-web-crawler-discover-options-include-subdomains", {
@@ -307,7 +308,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("source-params-web-crawler-parse-type", {
 			type: "string",
 			description:
-				"How URLs are discovered. 'sitemap' reads XML sitemaps; 'discover' follows links recursively and requires the source to be a Verified zone on this account.",
+				"How the crawler finds URLs. 'sitemap' reads XML sitemaps; 'discover' follows links recursively and requires the source to belong to a Verified zone on this account.",
 			choices: ["sitemap", "discover"],
 		})
 		.coerce("source-params-web-crawler-parse-type", (value) =>

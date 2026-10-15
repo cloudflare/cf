@@ -102,7 +102,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("ai-search-options-retrieval-keyword-match-mode", {
 			type: "string",
 			description:
-				"Controls which documents are candidates for BM25 scoring. 'and' restricts candidates to documents containing all query terms; 'or' includes any document containing at least one term, ranked by BM25 relevance. When omitted, falls back to the instance-level retrieval_options.keyword_match_mode, then to 'and'.",
+				"Controls which documents become candidates for BM25 scoring. 'and' restricts candidates to documents containing all query terms; 'or' includes any document containing at least one term and ranks results according to BM25 relevance. When omitted, falls back to the instance-level retrieval_options.keyword_match_mode, then to 'and'.",
 			choices: ["and", "or"],
 		})
 		.coerce("ai-search-options-retrieval-keyword-match-mode", (value) =>
@@ -114,13 +114,13 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		)
 		.option("ai-search-options-retrieval-match-threshold", {
 			type: "number",
-			description: "The ai_search_options.retrieval.match_threshold field",
-			default: 0.4,
+			description:
+				"Minimum score a chunk must reach to be returned. When omitted, each instance's chunks are filtered by that instance's score_threshold, capped at the lower of the first instance's score_threshold and 0.4.",
 		})
 		.option("ai-search-options-retrieval-max-num-results", {
 			type: "number",
-			description: "The ai_search_options.retrieval.max_num_results field",
-			default: 10,
+			description:
+				"Maximum number of merged results to return. When omitted, defaults to the first instance's max_num_results, then 10.",
 		})
 		.option("ai-search-options-retrieval-retrieval-type", {
 			type: "string",

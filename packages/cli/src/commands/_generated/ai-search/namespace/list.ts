@@ -20,7 +20,7 @@ import { runWithTelemetry } from "#lib/telemetry/index.js";
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
 		.usage(
-			"$0 ai-search namespace list\n\nList namespaces in the account, including their descriptions and creation times."
+			"$0 ai-search namespace list\n\nLists namespaces in the account, including their descriptions and creation times."
 		)
 		.option("page", { type: "number", description: "Page number (1-indexed)." })
 		.option("per-page", {

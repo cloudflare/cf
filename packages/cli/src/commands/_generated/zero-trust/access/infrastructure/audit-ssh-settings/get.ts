@@ -20,7 +20,7 @@ import { runWithTelemetry } from "#lib/telemetry/index.js";
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
 		.usage(
-			"$0 zero-trust access infrastructure audit-ssh-settings get\n\nRetrieve all Zero Trust Audit SSH and SSH with Access for Infrastructure settings for an account."
+			"$0 zero-trust access infrastructure audit-ssh-settings get\n\nRetrieve SSH with Access for Infrastructure settings for an account."
 		)
 		.option("dry-run", {
 			type: "boolean",

@@ -9,7 +9,7 @@ import type { CommandModule } from "yargs";
 const command: CommandModule<CommonYargsOptions> = {
 	command: "previews",
 	describe:
-		"Health check configurations that probe origin servers and determine pool availability",
+		"Preview how a monitor configuration evaluates pool health before applying it",
 
 	builder: (yargs) => {
 		return yargs

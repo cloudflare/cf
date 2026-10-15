@@ -32,15 +32,6 @@ export const generatedCommands: GeneratedCommand[] = [
 	},
 	{
 		command: lazyCommand<CommonYargsOptions>(
-			"account-tags",
-			"account-tags",
-			() => import("./account-tags/index.js"),
-			null
-		),
-		hideCommand: false,
-	},
-	{
-		command: lazyCommand<CommonYargsOptions>(
 			"accounts",
 			"Account settings, members, roles, subscriptions, and API tokens for your Cloudflare account",
 			() => import("./accounts/index.js"),
@@ -55,7 +46,7 @@ export const generatedCommands: GeneratedCommand[] = [
 			() => import("./acm/index.js"),
 			null
 		),
-		hideCommand: true,
+		hideCommand: false,
 	},
 	{
 		command: lazyCommand<CommonYargsOptions>(
@@ -154,7 +145,7 @@ export const generatedCommands: GeneratedCommand[] = [
 			() => import("./api-security/index.js"),
 			null
 		),
-		hideCommand: true,
+		hideCommand: false,
 	},
 	{
 		command: lazyCommand<CommonYargsOptions>(
@@ -257,24 +248,6 @@ export const generatedCommands: GeneratedCommand[] = [
 	},
 	{
 		command: lazyCommand<CommonYargsOptions>(
-			"certificate-authorities",
-			"certificate-authorities",
-			() => import("./certificate-authorities/index.js"),
-			null
-		),
-		hideCommand: true,
-	},
-	{
-		command: lazyCommand<CommonYargsOptions>(
-			"client-certificates",
-			"client-certificates",
-			() => import("./client-certificates/index.js"),
-			null
-		),
-		hideCommand: true,
-	},
-	{
-		command: lazyCommand<CommonYargsOptions>(
 			"client-side-security",
 			"Client-Side Security — monitor JavaScript, connections, and cookies on your pages for supply-chain attacks",
 			() => import("./client-side-security/index.js"),
@@ -307,7 +280,7 @@ export const generatedCommands: GeneratedCommand[] = [
 			() => import("./connector-interrupts/index.js"),
 			null
 		),
-		hideCommand: true,
+		hideCommand: false,
 	},
 	{
 		command: lazyCommand<CommonYargsOptions>(
@@ -316,7 +289,7 @@ export const generatedCommands: GeneratedCommand[] = [
 			() => import("./connector-telemetry-events/index.js"),
 			null
 		),
-		hideCommand: true,
+		hideCommand: false,
 	},
 	{
 		command: lazyCommand<CommonYargsOptions>(
@@ -325,7 +298,7 @@ export const generatedCommands: GeneratedCommand[] = [
 			() => import("./connector-telemetry-snapshots/index.js"),
 			null
 		),
-		hideCommand: true,
+		hideCommand: false,
 	},
 	{
 		command: lazyCommand<CommonYargsOptions>(
@@ -334,7 +307,7 @@ export const generatedCommands: GeneratedCommand[] = [
 			() => import("./connectors/index.js"),
 			null
 		),
-		hideCommand: true,
+		hideCommand: false,
 	},
 	{
 		command: lazyCommand<CommonYargsOptions>(
@@ -370,25 +343,7 @@ export const generatedCommands: GeneratedCommand[] = [
 			() => import("./csam-scanner/index.js"),
 			null
 		),
-		hideCommand: true,
-	},
-	{
-		command: lazyCommand<CommonYargsOptions>(
-			"ct-alerting",
-			"ct-alerting",
-			() => import("./ct-alerting/index.js"),
-			null
-		),
-		hideCommand: true,
-	},
-	{
-		command: lazyCommand<CommonYargsOptions>(
-			"custom-certificates",
-			"custom-certificates",
-			() => import("./custom-certificates/index.js"),
-			null
-		),
-		hideCommand: true,
+		hideCommand: false,
 	},
 	{
 		command: lazyCommand<CommonYargsOptions>(
@@ -406,7 +361,7 @@ export const generatedCommands: GeneratedCommand[] = [
 			() => import("./custom-hostnames/index.js"),
 			null
 		),
-		hideCommand: true,
+		hideCommand: false,
 	},
 	{
 		command: lazyCommand<CommonYargsOptions>(
@@ -434,15 +389,6 @@ export const generatedCommands: GeneratedCommand[] = [
 			null
 		),
 		hideCommand: false,
-	},
-	{
-		command: lazyCommand<CommonYargsOptions>(
-			"dcv-delegation",
-			"dcv-delegation",
-			() => import("./dcv-delegation/index.js"),
-			null
-		),
-		hideCommand: true,
 	},
 	{
 		command: lazyCommand<CommonYargsOptions>(
@@ -586,7 +532,7 @@ export const generatedCommands: GeneratedCommand[] = [
 			() => import("./hostnames/index.js"),
 			null
 		),
-		hideCommand: true,
+		hideCommand: false,
 	},
 	{
 		command: lazyCommand<CommonYargsOptions>(
@@ -638,24 +584,6 @@ export const generatedCommands: GeneratedCommand[] = [
 			"k2",
 			"Durable, ordered event streams that you produce records to and consume from with subscriptions",
 			() => import("./k2/index.js"),
-			null
-		),
-		hideCommand: false,
-	},
-	{
-		command: lazyCommand<CommonYargsOptions>(
-			"keyless-certificates",
-			"keyless-certificates",
-			() => import("./keyless-certificates/index.js"),
-			null
-		),
-		hideCommand: true,
-	},
-	{
-		command: lazyCommand<CommonYargsOptions>(
-			"keys",
-			"keys",
-			() => import("./keys/index.js"),
 			null
 		),
 		hideCommand: false,
@@ -748,7 +676,7 @@ export const generatedCommands: GeneratedCommand[] = [
 			() => import("./magic-transit/index.js"),
 			null
 		),
-		hideCommand: true,
+		hideCommand: false,
 	},
 	{
 		command: lazyCommand<CommonYargsOptions>(
@@ -793,7 +721,7 @@ export const generatedCommands: GeneratedCommand[] = [
 			() => import("./mesh/index.js"),
 			null
 		),
-		hideCommand: true,
+		hideCommand: false,
 	},
 	{
 		command: lazyCommand<CommonYargsOptions>(
@@ -806,21 +734,12 @@ export const generatedCommands: GeneratedCommand[] = [
 	},
 	{
 		command: lazyCommand<CommonYargsOptions>(
-			"mtls-certificates",
-			"mtls-certificates",
-			() => import("./mtls-certificates/index.js"),
-			null
-		),
-		hideCommand: true,
-	},
-	{
-		command: lazyCommand<CommonYargsOptions>(
 			"network",
 			"network",
 			() => import("./network/index.js"),
 			null
 		),
-		hideCommand: true,
+		hideCommand: false,
 	},
 	{
 		command: lazyCommand<CommonYargsOptions>(
@@ -878,27 +797,9 @@ export const generatedCommands: GeneratedCommand[] = [
 	},
 	{
 		command: lazyCommand<CommonYargsOptions>(
-			"origin-ca-certificates",
-			"origin-ca-certificates",
-			() => import("./origin-ca-certificates/index.js"),
-			null
-		),
-		hideCommand: true,
-	},
-	{
-		command: lazyCommand<CommonYargsOptions>(
 			"origin-post-quantum-encryption",
 			"Enable post-quantum key exchange for connections between Cloudflare and your origin server",
 			() => import("./origin-post-quantum-encryption/index.js"),
-			null
-		),
-		hideCommand: true,
-	},
-	{
-		command: lazyCommand<CommonYargsOptions>(
-			"origin-tls-client-auth",
-			"origin-tls-client-auth",
-			() => import("./origin-tls-client-auth/index.js"),
 			null
 		),
 		hideCommand: true,
@@ -1045,22 +946,13 @@ export const generatedCommands: GeneratedCommand[] = [
 			() => import("./request-tracers/index.js"),
 			null
 		),
-		hideCommand: true,
+		hideCommand: false,
 	},
 	{
 		command: lazyCommand<CommonYargsOptions>(
 			"resource-sharing",
 			"Share Cloudflare resources (zones, accounts) across organizations with granular access controls",
 			() => import("./resource-sharing/index.js"),
-			null
-		),
-		hideCommand: false,
-	},
-	{
-		command: lazyCommand<CommonYargsOptions>(
-			"resource-tagging",
-			"resource-tagging",
-			() => import("./resource-tagging/index.js"),
 			null
 		),
 		hideCommand: false,
@@ -1153,7 +1045,7 @@ export const generatedCommands: GeneratedCommand[] = [
 			() => import("./spectrum/index.js"),
 			null
 		),
-		hideCommand: true,
+		hideCommand: false,
 	},
 	{
 		command: lazyCommand<CommonYargsOptions>(
@@ -1180,7 +1072,7 @@ export const generatedCommands: GeneratedCommand[] = [
 			() => import("./ssl/index.js"),
 			null
 		),
-		hideCommand: true,
+		hideCommand: false,
 	},
 	{
 		command: lazyCommand<CommonYargsOptions>(
@@ -1234,7 +1126,7 @@ export const generatedCommands: GeneratedCommand[] = [
 			() => import("./tunnels/index.js"),
 			null
 		),
-		hideCommand: true,
+		hideCommand: false,
 	},
 	{
 		command: lazyCommand<CommonYargsOptions>(
@@ -1283,15 +1175,6 @@ export const generatedCommands: GeneratedCommand[] = [
 	},
 	{
 		command: lazyCommand<CommonYargsOptions>(
-			"values",
-			"values",
-			() => import("./values/index.js"),
-			null
-		),
-		hideCommand: false,
-	},
-	{
-		command: lazyCommand<CommonYargsOptions>(
 			"vectorize",
 			"Globally distributed vector database for building semantic search, recommendations, and RAG applications on Workers",
 			() => import("./vectorize/index.js"),
@@ -1315,7 +1198,7 @@ export const generatedCommands: GeneratedCommand[] = [
 			() => import("./web-assets/index.js"),
 			null
 		),
-		hideCommand: true,
+		hideCommand: false,
 	},
 	{
 		command: lazyCommand<CommonYargsOptions>(

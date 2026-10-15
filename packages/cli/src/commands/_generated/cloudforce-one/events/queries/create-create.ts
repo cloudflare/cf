@@ -27,11 +27,15 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		)
 		.option("alert-enabled", {
 			type: "boolean",
-			description: "Enable alerts for this query",
+			description:
+				"Deprecated and ignored: saved-query alerting and rules were removed.",
+			default: false,
 		})
 		.option("alert-rollup-enabled", {
 			type: "boolean",
-			description: "Enable alert rollup for this query",
+			description:
+				"Deprecated and ignored: saved-query alerting and rules were removed.",
+			default: false,
 		})
 		.option("name", {
 			type: "string",
@@ -43,9 +47,15 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		})
 		.option("rule-enabled", {
 			type: "boolean",
-			description: "Enable rule for this query",
+			description:
+				"Deprecated and ignored: saved-query alerting and rules were removed.",
+			default: false,
 		})
-		.option("rule-scope", { type: "string", description: "Scope for the rule" })
+		.option("rule-scope", {
+			type: "string",
+			description:
+				"Deprecated and ignored: saved-query alerting and rules were removed.",
+		})
 		.option("dry-run", {
 			type: "boolean",
 			description: "Validate and show what would happen without executing",
@@ -124,16 +134,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					formatOutput(result, { successLabel: `Created` });
 					return;
 				}
-				if (argv["alert-enabled"] === undefined) {
-					throw new Error(
-						"--alert-enabled is required (or pass --body with this field set)."
-					);
-				}
-				if (argv["alert-rollup-enabled"] === undefined) {
-					throw new Error(
-						"--alert-rollup-enabled is required (or pass --body with this field set)."
-					);
-				}
 				if (argv["name"] === undefined) {
 					argv["name"] = await promptForRequiredField(
 						"name",
@@ -144,11 +144,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					argv["query-json"] = await promptForRequiredField(
 						"query-json",
 						"JSON string containing the query parameters"
-					);
-				}
-				if (argv["rule-enabled"] === undefined) {
-					throw new Error(
-						"--rule-enabled is required (or pass --body with this field set)."
 					);
 				}
 

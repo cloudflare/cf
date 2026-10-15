@@ -20,7 +20,7 @@ import { runWithTelemetry } from "#lib/telemetry/index.js";
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
 		.usage(
-			"$0 ai-search tokens list\n\nList stored AI Search credentials in the account without exposing their secrets."
+			"$0 ai-search tokens list\n\nLists stored AI Search credentials in the account without exposing their secrets."
 		)
 		.option("page", { type: "number", description: "Page number (1-indexed)." })
 		.option("per-page", {

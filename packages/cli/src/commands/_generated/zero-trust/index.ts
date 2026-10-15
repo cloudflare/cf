@@ -1,5 +1,4 @@
 import $access from "./access/index.js";
-import $apps from "./apps/index.js";
 import $casb from "./casb/index.js";
 import $connectivitysettings from "./connectivity-settings/index.js";
 import $cws from "./cws/index.js";
@@ -27,7 +26,6 @@ const command: CommandModule<CommonYargsOptions> = {
 	builder: (yargs) => {
 		return yargs
 			.command($access)
-			.command($apps)
 			.command($casb)
 			.command($connectivitysettings)
 			.command($cws)

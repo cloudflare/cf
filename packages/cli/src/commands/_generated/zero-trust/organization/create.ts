@@ -53,6 +53,12 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description:
 				"Contains zone names to exempt from the `deny_unmatched_requests` feature. Requests to a subdomain in an exempted zone will block unauthenticated traffic by default if there is a configured Access application and policy that matches the request.",
 		})
+		.option("disable-end-user-app-creation", {
+			type: "boolean",
+			description:
+				"Whether creation of end user applications is disabled for this organization.",
+			default: false,
+		})
 		.option("is-ui-read-only", {
 			type: "boolean",
 			description:
@@ -241,6 +247,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						"allow-authenticate-via-warp",
 						"auto-redirect-to-identity",
 						"deny-unmatched-requests",
+						"disable-end-user-app-creation",
 						"is-ui-read-only",
 						"mfa-piv-key-requirements-pin-policy",
 						"mfa-piv-key-requirements-require-fips-device",
@@ -289,6 +296,8 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 										deny_unmatched_requests: argv["deny-unmatched-requests"],
 										deny_unmatched_requests_exempted_zone_names:
 											argv["deny-unmatched-requests-exempted-zone-names"],
+										disable_end_user_app_creation:
+											argv["disable-end-user-app-creation"],
 										is_ui_read_only: argv["is-ui-read-only"],
 										login_design: {
 											background_color: resolveFileToken(
@@ -441,6 +450,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					deny_unmatched_requests: argv["deny-unmatched-requests"],
 					deny_unmatched_requests_exempted_zone_names:
 						argv["deny-unmatched-requests-exempted-zone-names"],
+					disable_end_user_app_creation: argv["disable-end-user-app-creation"],
 					is_ui_read_only: argv["is-ui-read-only"],
 					login_design: {
 						background_color: resolveFileToken(

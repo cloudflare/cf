@@ -16,7 +16,7 @@ import { runWithTelemetry } from "#lib/telemetry/index.js";
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
 		.usage(
-			"$0 organization member delete <member-id>\n\nDelete a membership to a particular Organization. Authentication: A Global API key for a user with `com.cloudflare.api.tenant.unit.member.delete` is required. User API Tokens are not currently supported."
+			"$0 organization member delete <member-id>\n\nDelete a membership to a particular Organization."
 		)
 		.positional("member-id", {
 			type: "string",

@@ -31,7 +31,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("application", {
 			type: "string",
 			description:
-				"Vendor/application slug (e.g., GOOGLE_WORKSPACE).\n\n* `ANTHROPIC` - ANTHROPIC\n* `AWS` - AWS\n* `BITBUCKET` - BITBUCKET\n* `BOX` - BOX\n* `CONFLUENCE` - CONFLUENCE\n* `DROPBOX` - DROPBOX\n* `GITHUB` - GITHUB\n* `GOOGLE_CLOUD_PLATFORM` - GOOGLE_CLOUD_PLATFORM\n* `GOOGLE_WORKSPACE` - GOOGLE_WORKSPACE\n* `JIRA` - JIRA\n* `MICROSOFT_INTERNAL` - MICROSOFT_INTERNAL\n* `OPENAI` - OPENAI\n* `SALESFORCE` - SALESFORCE\n* `SERVICENOW` - SERVICENOW\n* `SLACK` - SLACK",
+				"Vendor/application slug (e.g., GOOGLE_WORKSPACE).\n\n* `ANTHROPIC` - ANTHROPIC\n* `AWS` - AWS\n* `BITBUCKET` - BITBUCKET\n* `BOX` - BOX\n* `CONFLUENCE` - CONFLUENCE\n* `DROPBOX` - DROPBOX\n* `GITHUB` - GITHUB\n* `GOOGLE_CLOUD_PLATFORM` - GOOGLE_CLOUD_PLATFORM\n* `GOOGLE_WORKSPACE` - GOOGLE_WORKSPACE\n* `JIRA` - JIRA\n* `MICROSOFT_INTERNAL` - MICROSOFT_INTERNAL\n* `OPENAI` - OPENAI\n* `SALESFORCE` - SALESFORCE\n* `SERVICENOW` - SERVICENOW\n* `SLACK` - SLACK\n* `ZOOM` - ZOOM",
 			choices: [
 				"ANTHROPIC",
 				"AWS",
@@ -48,6 +48,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"SALESFORCE",
 				"SERVICENOW",
 				"SLACK",
+				"ZOOM",
 			],
 		})
 		.coerce("application", (value) =>
@@ -72,7 +73,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			type: "string",
 			array: true,
 			description:
-				"List of use case or feature slugs to enroll (e.g., ['casb', 'ces', 'auto_remediation']).",
+				"List of use case or feature slugs to enroll. At least one use case (casb, ces) is required; auto_remediation may be added alongside casb (e.g., ['casb', 'ces', 'auto_remediation']).",
 		})
 		.option("dry-run", {
 			type: "boolean",
@@ -174,7 +175,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				if (argv["application"] === undefined) {
 					argv["application"] = await promptForRequiredEnumField(
 						"application",
-						"Vendor/application slug (e.g., GOOGLE_WORKSPACE).  * \`ANTHROPIC\` - ANTHROPIC * \`AWS\` - AWS * \`BITBUCKET\` - BITBUCKET * \`BOX\` - BOX * \`CONFLUENCE\` - CONFLUENCE * \`DROPBOX\` - DROPBOX * \`GITHUB\` - GITHUB * \`GOOGLE_CLOUD_PLATFORM\` - GOOGLE_CLOUD_PLATFORM * \`GOOGLE_WORKSPACE\` - GOOGLE_WORKSPACE * \`JIRA\` - JIRA * \`MICROSOFT_INTERNAL\` - MICROSOFT_INTERNAL * \`OPENAI\` - OPENAI * \`SALESFORCE\` - SALESFORCE * \`SERVICENOW\` - SERVICENOW * \`SLACK\` - SLACK",
+						"Vendor/application slug (e.g., GOOGLE_WORKSPACE).  * \`ANTHROPIC\` - ANTHROPIC * \`AWS\` - AWS * \`BITBUCKET\` - BITBUCKET * \`BOX\` - BOX * \`CONFLUENCE\` - CONFLUENCE * \`DROPBOX\` - DROPBOX * \`GITHUB\` - GITHUB * \`GOOGLE_CLOUD_PLATFORM\` - GOOGLE_CLOUD_PLATFORM * \`GOOGLE_WORKSPACE\` - GOOGLE_WORKSPACE * \`JIRA\` - JIRA * \`MICROSOFT_INTERNAL\` - MICROSOFT_INTERNAL * \`OPENAI\` - OPENAI * \`SALESFORCE\` - SALESFORCE * \`SERVICENOW\` - SERVICENOW * \`SLACK\` - SLACK * \`ZOOM\` - ZOOM",
 						[
 							"ANTHROPIC",
 							"AWS",
@@ -191,6 +192,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 							"SALESFORCE",
 							"SERVICENOW",
 							"SLACK",
+							"ZOOM",
 						] as const
 					);
 				}
@@ -198,6 +200,11 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					argv["name"] = await promptForRequiredField(
 						"name",
 						"Name of the integration."
+					);
+				}
+				if (argv["use-cases"] === undefined) {
+					throw new Error(
+						"--use-cases is required (or pass --body with this field set)."
 					);
 				}
 

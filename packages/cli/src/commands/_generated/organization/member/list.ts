@@ -15,7 +15,7 @@ import { runWithTelemetry } from "#lib/telemetry/index.js";
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
 		.usage(
-			"$0 organization member list\n\nList memberships for an Organization. Authentication: A Global API key for a user with `com.cloudflare.api.tenant.unit.member.list` is required. User API Tokens are not currently supported."
+			"$0 organization member list\n\nList memberships for an Organization."
 		)
 		.option("organization-id", {
 			type: "string",

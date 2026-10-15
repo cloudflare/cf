@@ -57,8 +57,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("name", { type: "string", description: "Name of the deployment" })
 		.option("on-error-action", {
 			type: "string",
-			description:
-				"Action for runtime Rego errors. Omit to preserve the current value.",
+			description: "Action for runtime Rego errors. Omit to reset to BLOCK.",
 			choices: ["BLOCK", "SKIP"],
 		})
 		.coerce("on-error-action", (value) =>
@@ -72,7 +71,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("rego-raise-error", {
 			type: "boolean",
 			description:
-				"Whether OPA builtin failures are raised as runtime evaluation errors. Omit to preserve the current value.",
+				"Whether OPA builtin failures are raised as runtime evaluation errors. Omit to reset to true.",
 		})
 		.option("dry-run", {
 			type: "boolean",

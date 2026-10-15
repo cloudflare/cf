@@ -21,7 +21,7 @@ import { runWithTelemetry } from "#lib/telemetry/index.js";
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
 		.usage(
-			"$0 ai-search tokens delete <token-id>\n\nPermanently delete a stored AI Search credential. Credentials in use by an instance cannot be deleted."
+			"$0 ai-search tokens delete <token-id>\n\nDeletes a stored AI Search credential permanently. Credentials in use by an instance cannot be deleted."
 		)
 		.positional("token-id", {
 			type: "string",

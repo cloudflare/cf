@@ -4,7 +4,7 @@ import { path } from "#api";
 export default {
 	method: "POST",
 	path: (request: Record<string, unknown>) =>
-		path`/accounts/${request.account_id}/ai-search/namespaces/${request.name}/instances/${request.id}/chat/completions`,
+		path`/accounts/${request.account_id}/ai-search/namespaces/${request.namespace}/instances/${request.id}/chat/completions`,
 	body: "json",
 	errors: {
 		400: "BadRequestError",

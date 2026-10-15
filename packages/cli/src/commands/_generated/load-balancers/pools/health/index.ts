@@ -10,7 +10,7 @@ import type { CommandModule } from "yargs";
 const command: CommandModule<CommonYargsOptions> = {
 	command: "health",
 	describe:
-		"Origin server pools with weighted traffic distribution, health thresholds, and geographic preferences",
+		"View current pool health or preview pool health with a monitor configuration",
 
 	builder: (yargs) => {
 		return yargs

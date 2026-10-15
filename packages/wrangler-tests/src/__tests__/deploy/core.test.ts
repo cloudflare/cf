@@ -23,8 +23,8 @@ import { runWrangler } from "../helpers/run-wrangler";
 // cf deploys Build Output rather than bundling an entrypoint, so these cases
 // seed `.cloudflare/output` and run `cf deploy --prebuilt`. cf spells
 // Wrangler's `--temporary` flag `--temporary-account`, accepts it (and
-// `--event-code`) on every command, and writes temporary-account notices to
-// stderr so stdout stays reserved for command output.
+// `--event-code`) globally except on `auth whoami`, and writes temporary-account
+// notices to stderr so stdout stays reserved for command output.
 describe("deploy", () => {
 	runInTempDir();
 	const std = mockConsoleMethods();
@@ -158,7 +158,7 @@ describe("deploy", () => {
 			await expect(
 				runWrangler("deploy --prebuilt --temporary-account")
 			).rejects.toThrow(
-				'The Build Output targets account "configured-account-id", so `--temporary-account` can\'t be used.'
+				'Temporary accounts can\'t be used when a specific account ID ("configured-account-id") is set in your config file.'
 			);
 
 			expect(creationRequests).toHaveLength(0);

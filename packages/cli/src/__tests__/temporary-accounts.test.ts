@@ -11,7 +11,7 @@ import { runInTempDir, seed } from "@cloudflare/workers-utils/test-helpers";
 import { http, HttpResponse } from "msw";
 import { beforeEach, describe, expect, it, vi } from "vite-plus/test";
 import { getAccountId, getAuthToken } from "../lib/auth.js";
-import { setTemporaryAccountAllowed } from "../lib/oauth/index.js";
+import { setTemporaryAccountRequired } from "../lib/oauth/index.js";
 import { server, setupMsw, TEST_BASE_URL } from "./helpers/msw.js";
 import { runCf } from "./helpers/run-cf.js";
 
@@ -104,7 +104,19 @@ describe("--temporary-account", () => {
 
 	function captureStderr() {
 		const errorLog = vi.spyOn(console, "error").mockImplementation(() => {});
+		errorLog.mockClear();
 		return () => errorLog.mock.calls.flat().join("\n");
+	}
+
+	function captureProvisioningRequests() {
+		const requests: string[] = [];
+		server.use(
+			http.post(/\/provisioning\/previews(?:\/challenge)?$/, ({ request }) => {
+				requests.push(request.url);
+				return HttpResponse.error();
+			})
+		);
+		return requests;
 	}
 
 	it("uses the temporary account ID and token for generated commands", async () => {
@@ -168,50 +180,47 @@ describe("--temporary-account", () => {
 		captureStderr();
 		vi.stubEnv("CLOUDFLARE_ACCOUNT_ID", "configured-account-id");
 		vi.stubEnv("CLOUDFLARE_API_TOKEN", undefined);
-		setTemporaryAccountAllowed(true);
+		setTemporaryAccountRequired(true);
 		try {
 			await expect(getAuthToken()).resolves.toBe(apiToken);
 			await expect(getAccountId()).resolves.toBe(accountId);
 		} finally {
-			setTemporaryAccountAllowed(false);
+			setTemporaryAccountRequired(false);
 		}
 	});
 
-	it("keeps runtime-schema help on the temporary account", async () => {
-		captureStderr();
-		const model = "@cf/test/model";
-		let authorization: string | null = null;
-		server.use(
-			http.get(
-				`${TEST_BASE_URL}/accounts/${accountId}/ai/models/schema`,
-				({ request }) => {
-					authorization = request.headers.get("authorization");
-					expect(new URL(request.url).searchParams.get("model")).toBe(model);
-					return HttpResponse.json({
-						success: true,
-						errors: [],
-						result: {
-							input: {
-								type: "object",
-								properties: { prompt: { type: "string" } },
-							},
-							output: { type: "object" },
-						},
-					});
+	describe.each([
+		{ command: ["ai", "run", "@cf/test/model"] },
+		{ command: ["registrar", "registrations", "create", "example.com"] },
+	])("schema-backed help for $command", ({ command }) => {
+		it.each([true, false])(
+			"never activates or provisions an account (cached: %s)",
+			async (cached) => {
+				const stderr = captureStderr();
+				const log = vi.spyOn(console, "log").mockImplementation(() => {});
+				log.mockClear();
+				if (!cached) {
+					rmSync(cachePath());
 				}
-			)
-		);
-		const log = vi.spyOn(console, "log").mockImplementation(() => {});
+				const requests = captureProvisioningRequests();
 
-		const result = await runCf(
-			["ai", "run", model, "--help", "--temporary-account"],
-			{ ...env, CLOUDFLARE_ACCOUNT_ID: "configured-account-id" }
-		);
+				for (const eventFlags of [[], ["--event-code", "TEST-EVENT-CODE"]]) {
+					await expect(
+						runCf(
+							[...command, "--help", "--temporary-account", ...eventFlags],
+							{
+								...env,
+								CLOUDFLARE_ACCOUNT_ID: "configured-account-id",
+							}
+						)
+					).resolves.toEqual({ exitCode: 0 });
+				}
 
-		expect(result.exitCode).toBe(0);
-		expect(authorization).toBe(`Bearer ${apiToken}`);
-		expect(log.mock.calls.flat().join("\n")).toContain(
-			`Input flags for ${model}`
+				expect(requests).toEqual([]);
+				expect(stderr()).not.toContain("Temporary account ready:");
+				expect(log.mock.calls.flat().join("\n")).toContain("cf auth login");
+				expect(existsSync(cachePath())).toBe(cached);
+			}
 		);
 	});
 
@@ -355,77 +364,71 @@ describe("--temporary-account", () => {
 		expect(stderr()).toContain("cf deploy --temporary-account");
 	});
 
-	it("reports the temporary account as whoami's auth source", async () => {
-		captureStderr();
-		const log = vi.spyOn(console, "log").mockImplementation(() => {});
-		const authorizations: Array<string | null> = [];
-		server.use(
-			http.get(`${TEST_BASE_URL}/user`, ({ request }) => {
-				authorizations.push(request.headers.get("authorization"));
-				return HttpResponse.json({ success: true, result: {} });
-			}),
-			http.get(`${TEST_BASE_URL}/accounts`, ({ request }) => {
-				authorizations.push(request.headers.get("authorization"));
-				return HttpResponse.json({
-					success: true,
-					result: [{ id: accountId, name: "Temporary Account" }],
-				});
-			})
-		);
+	it.each([true, false])(
+		"rejects temporary-account flags from whoami without provisioning (cached: %s)",
+		async (cached) => {
+			captureStderr();
+			const log = vi.spyOn(console, "log").mockImplementation(() => {});
+			log.mockClear();
+			if (!cached) {
+				rmSync(cachePath());
+			}
+			const requests = captureProvisioningRequests();
 
-		await runCf(["auth", "whoami", "--temporary-account"], env);
+			for (const eventFlags of [[], ["--event-code", "TEST-EVENT-CODE"]]) {
+				await expect(
+					runCf(["auth", "whoami", "--temporary-account", ...eventFlags], env)
+				).rejects.toThrow(
+					"--temporary-account and --event-code are not supported by cf auth whoami."
+				);
+			}
+			await expect(
+				runCf(["auth", "whoami", "--event-code", "TEST-EVENT-CODE"], env)
+			).rejects.toThrow("--event-code requires --temporary-account.");
+			expect(requests).toEqual([]);
+			expect(log).not.toHaveBeenCalled();
+			expect(existsSync(cachePath())).toBe(cached);
+		}
+	);
 
-		expect(JSON.parse(String(log.mock.calls.at(-1)?.[0]))).toMatchObject({
-			authenticated: true,
-			authSource: "temporary account",
-		});
-		expect(new Set(authorizations)).toEqual(new Set([`Bearer ${apiToken}`]));
-	});
-
-	it("rejects temporary-account failures from whoami", async () => {
-		const log = vi.spyOn(console, "log").mockImplementation(() => {});
-		log.mockClear();
-
-		await expect(
-			runCf(["auth", "whoami", "--temporary-account"], {
-				...env,
-				CLOUDFLARE_API_TOKEN: "existing-token",
-			})
-		).rejects.toThrow(
-			/You're already authenticated with Cloudflare, so `--temporary-account` can't be used\./
-		);
-		expect(log).not.toHaveBeenCalled();
-	});
-
-	it("uses the Build Output compliance region before provisioning", async () => {
-		captureStderr();
-		const creationRequests = mockProvisioning();
-		await seed({
-			".cloudflare/output/v0/config.json": JSON.stringify({
-				buildContext: { isPreview: false },
-				complianceRegion: "fedramp-high",
-			}),
-			".cloudflare/output/v0/workers/default/worker.config.json":
-				JSON.stringify({
-					name: "test-name",
-					compatibilityDate: "2025-01-01",
-					manifest: {
-						type: "complete",
-						mainModule: "index.js",
-						modules: { "index.js": { type: "esm" } },
-					},
+	it.each([
+		{ command: ["deploy"], isPreview: false },
+		{ command: ["workers", "versions", "create"], isPreview: false },
+		{ command: ["workers", "triggers", "deploy"], isPreview: false },
+		{ command: ["previews", "deploy", "test-preview"], isPreview: true },
+	])(
+		"uses the build's compliance region before provisioning for $command",
+		async ({ command, isPreview }) => {
+			captureStderr();
+			rmSync(cachePath());
+			const requests = captureProvisioningRequests();
+			await seed({
+				".cloudflare/output/v0/config.json": JSON.stringify({
+					buildContext: { isPreview },
+					complianceRegion: "fedramp-high",
 				}),
-			".cloudflare/output/v0/workers/default/bundle/index.js":
-				"export default {};",
-		});
+				".cloudflare/output/v0/workers/default/worker.config.json":
+					JSON.stringify({
+						name: "test-name",
+						compatibilityDate: "2025-01-01",
+						manifest: {
+							type: "complete",
+							mainModule: "index.js",
+							modules: { "index.js": { type: "esm" } },
+						},
+					}),
+				".cloudflare/output/v0/workers/default/bundle/index.js":
+					"export default {};",
+			});
 
-		await expect(
-			runCf(["deploy", "--prebuilt", "--temporary-account"], env)
-		).rejects.toThrow(
-			"Temporary accounts aren't available when the compliance region is not set to public."
-		);
-		expect(creationRequests).toHaveLength(0);
-	});
+			await expect(
+				runCf([...command, "--prebuilt", "--temporary-account"], env)
+			).rejects.toThrow(
+				"Temporary accounts aren't available when the compliance region is not set to public."
+			);
+			expect(requests).toEqual([]);
+		}
+	);
 
 	it("rejects the Wrangler flag spelling", async () => {
 		await expect(

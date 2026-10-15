@@ -5,7 +5,7 @@ import { CliExit } from "../../lib/cli-exit.js";
 const { getOAuthToken } = vi.hoisted(() => ({ getOAuthToken: vi.fn() }));
 vi.mock("../../lib/oauth/index.js", () => ({
 	getValidToken: getOAuthToken,
-	isTemporaryAccountAllowed: () => false,
+	isTemporaryAccountRequired: () => false,
 }));
 
 beforeEach(() => {

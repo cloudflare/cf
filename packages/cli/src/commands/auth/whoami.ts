@@ -2,14 +2,14 @@ import { getAuthToken } from "../../lib/auth-token.js";
 import {
 	fetchAuthorizedAccounts,
 	getConfigPath,
-	isTemporaryAccountAllowed,
 	readAuthCredentials,
 } from "../../lib/oauth/index.js";
 import { formatOutput } from "../../lib/output.js";
 import { hint } from "../../lib/ui/index.js";
+import type { CommonYargsOptions } from "../../lib/cli-types.js";
 import type { ArgumentsCamelCase, Argv, CommandModule } from "yargs";
 
-interface WhoamiArgs {}
+type WhoamiArgs = Pick<CommonYargsOptions, "temporary-account" | "event-code">;
 
 const whoamiCommand: CommandModule<object, WhoamiArgs> = {
 	command: "whoami",
@@ -19,7 +19,13 @@ const whoamiCommand: CommandModule<object, WhoamiArgs> = {
 		return yargs as Argv<WhoamiArgs>;
 	},
 
-	handler: async (_argv: ArgumentsCamelCase<WhoamiArgs>): Promise<void> => {
+	handler: async (argv: ArgumentsCamelCase<WhoamiArgs>): Promise<void> => {
+		if (argv["temporary-account"] || argv["event-code"] !== undefined) {
+			throw new Error(
+				"--temporary-account and --event-code are not supported by cf auth whoami."
+			);
+		}
+
 		// Determine the authentication source.
 		const envToken = process.env.CLOUDFLARE_API_TOKEN;
 		const stored = readAuthCredentials();
@@ -29,8 +35,6 @@ const whoamiCommand: CommandModule<object, WhoamiArgs> = {
 			authSource = "CLOUDFLARE_API_TOKEN environment variable";
 		} else if (stored?.oauth_token) {
 			authSource = `OAuth token from ${getConfigPath()}`;
-		} else if (isTemporaryAccountAllowed()) {
-			authSource = "temporary account";
 		} else {
 			authSource = "none";
 		}
@@ -39,10 +43,7 @@ const whoamiCommand: CommandModule<object, WhoamiArgs> = {
 		let token: string;
 		try {
 			token = await getAuthToken();
-		} catch (error) {
-			if (isTemporaryAccountAllowed()) {
-				throw error;
-			}
+		} catch {
 			formatOutput({ authenticated: false, error: "Not logged in" });
 			if (authSource === "none") {
 				console.error(

@@ -9,7 +9,7 @@ import {
 	getZoneId,
 	resolveAccountIdSilent,
 } from "../../lib/context.js";
-import { setTemporaryAccountAllowed } from "../../lib/oauth/index.js";
+import { setTemporaryAccountRequired } from "../../lib/oauth/index.js";
 import { clearLoadedProjectSettings } from "../../lib/project-settings.js";
 import type { ParsedInputSettingsConfig } from "@cloudflare/config";
 
@@ -45,7 +45,7 @@ describe("context", () => {
 		vi.restoreAllMocks();
 		getOrSelectAccountIdMock.mockReset();
 		requireAuthMock.mockReset();
-		setTemporaryAccountAllowed(false);
+		setTemporaryAccountRequired(false);
 		getActiveAccountIdMock.mockReset();
 		fetchAllAccountsMock.mockReset();
 		fetchAllAccountsMock.mockResolvedValue([]);
@@ -79,7 +79,7 @@ describe("context", () => {
 
 		it("uses a temporary account instead of configured accounts", async () => {
 			writeProjectSettings({ accountId: "settings-acct" });
-			setTemporaryAccountAllowed(true);
+			setTemporaryAccountRequired(true);
 			requireAuthMock.mockResolvedValue("temporary-account");
 
 			await expect(resolveAccountIdSilent()).resolves.toBeUndefined();

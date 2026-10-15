@@ -668,9 +668,9 @@ export function buildCli(rawArgs: string[], options: BuildCliOptions = {}) {
 			// Local mode bypasses profile credentials, so resolving and displaying
 			// an active profile would be misleading.
 			if (!argv.local) {
-				const { resolveProfile, setTemporaryAccountAllowed } =
+				const { resolveProfile, setTemporaryAccountRequired } =
 					await import("./lib/oauth/index.js");
-				setTemporaryAccountAllowed(
+				setTemporaryAccountRequired(
 					temporaryAccount,
 					eventCode === undefined ? undefined : { eventCode }
 				);

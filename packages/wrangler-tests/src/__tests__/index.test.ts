@@ -32,8 +32,9 @@ describe("wrangler", () => {
 	});
 
 	describe("--temporary", () => {
-		// cf accepts --temporary-account on every command and lets the API
-		// report operations the temporary account's token cannot perform.
+		// Preserve this upstream test identity as an intentional divergence:
+		// cf registers --temporary-account globally rather than requiring each
+		// API command to opt in. `auth whoami` rejects the flag separately.
 		it.skip("is rejected on commands that don't opt in");
 	});
 

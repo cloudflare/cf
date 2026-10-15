@@ -200,7 +200,7 @@ describe("build output", () => {
 		it("rejects a Build Output account with a temporary account", () => {
 			expect(() => validateBuildOutputAccount("account-id", true)).toThrowError(
 				new BuildOutputConfigError(
-					'The Build Output targets account "account-id", so `--temporary-account` can\'t be used. Remove `--temporary-account` to deploy to that account, or remove its account ID and rebuild.'
+					'Temporary accounts can\'t be used when a specific account ID ("account-id") is set in your config file. Remove `--temporary-account` to use that account, or remove `accountId` from your config file and rebuild to use a temporary account.'
 				)
 			);
 		});

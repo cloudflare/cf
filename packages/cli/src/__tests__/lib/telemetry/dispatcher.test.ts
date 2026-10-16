@@ -155,7 +155,15 @@ describe("telemetry dispatcher", () => {
 		beforeEach(() => {
 			vi.stubEnv("CF_DELEGATION", undefined);
 			vi.stubEnv("CF_DELEGATING_CLI_VERSION", undefined);
+			vi.stubEnv("CF_DELEGATION_PID", undefined);
 		});
+
+		// What a global cf that passes its version sets on its direct child.
+		function stubDirectDelegation(version: string) {
+			vi.stubEnv("CF_DELEGATION", "1");
+			vi.stubEnv("CF_DELEGATING_CLI_VERSION", version);
+			vi.stubEnv("CF_DELEGATION_PID", String(process.ppid));
+		}
 
 		async function sendAndReadProperties(
 			send: (dispatcher: TelemetryDispatcher) => void
@@ -186,8 +194,7 @@ describe("telemetry dispatcher", () => {
 			});
 
 		it("keeps the executing cf as cliVersion and adds the global version", async () => {
-			vi.stubEnv("CF_DELEGATION", "1");
-			vi.stubEnv("CF_DELEGATING_CLI_VERSION", "0.9.0");
+			stubDirectDelegation("0.9.0");
 			const { VERSION } = await import("../../../version.js");
 
 			const { properties } = await sendAndReadProperties(sendCommand);
@@ -200,8 +207,7 @@ describe("telemetry dispatcher", () => {
 		});
 
 		it("accepts a prerelease global version", async () => {
-			vi.stubEnv("CF_DELEGATION", "1");
-			vi.stubEnv("CF_DELEGATING_CLI_VERSION", "1.0.0-beta.17");
+			stubDirectDelegation("1.0.0-beta.17");
 
 			const { properties } = await sendAndReadProperties(sendCommand);
 
@@ -236,8 +242,7 @@ describe("telemetry dispatcher", () => {
 			"user@example.com",
 			`1.2.3-${"a".repeat(100)}`,
 		])("drops the invalid global version %j and still sends", async (value) => {
-			vi.stubEnv("CF_DELEGATION", "1");
-			vi.stubEnv("CF_DELEGATING_CLI_VERSION", value);
+			stubDirectDelegation(value);
 
 			const { properties, raw } = await sendAndReadProperties(sendCommand);
 
@@ -250,9 +255,18 @@ describe("telemetry dispatcher", () => {
 			}
 		});
 
+		it("does not attribute a cf spawned below the delegated child", async () => {
+			stubDirectDelegation("0.9.0");
+			vi.stubEnv("CF_DELEGATION_PID", String(process.ppid + 1));
+
+			const { properties } = await sendAndReadProperties(sendCommand);
+
+			expect(properties.delegated).toBe(false);
+			expect(properties).not.toHaveProperty("globalCliVersion");
+		});
+
 		it("adds the global version to help and adhoc events", async () => {
-			vi.stubEnv("CF_DELEGATION", "1");
-			vi.stubEnv("CF_DELEGATING_CLI_VERSION", "0.9.0");
+			stubDirectDelegation("0.9.0");
 
 			const help = await sendAndReadProperties((dispatcher) =>
 				dispatcher.sendAdhocEvent("cf help shown", { command: "zones" })

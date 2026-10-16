@@ -2,7 +2,6 @@ import { createHash } from "node:crypto";
 import { isInteractive } from "@cloudflare/cli-shared-helpers/interactive";
 import { VERSION } from "../../version.js";
 import { detectAgentContext } from "../agent-context.js";
-import { DELEGATION_SENTINEL } from "../delegate.js";
 import { isCI } from "../interactive.js";
 import { detectCLIMode } from "../request-headers.js";
 import { getDeviceId, isFirstUsage, resolveTelemetry } from "./config.js";
@@ -13,6 +12,7 @@ import {
 	getOSVersion,
 	getPackageManager,
 	getPlatform,
+	isDirectlyDelegated,
 } from "./environment.js";
 import {
 	__resetTelemetryLifecycleForTests,
@@ -85,6 +85,7 @@ export function getTelemetryDispatcher(): TelemetryDispatcher {
 	const agentContext = detectAgentContext();
 	const agent = agentContext.harness?.id ?? null;
 	const sessionMatch = agentContext.matches.find((match) => match.sessionId);
+	const delegated = isDirectlyDelegated();
 	const globalCliVersion = getGlobalCliVersion();
 
 	function common(): CommonEventProperties {
@@ -119,7 +120,7 @@ export function getTelemetryDispatcher(): TelemetryDispatcher {
 			isInteractive: isInteractive(),
 			cliMode: detectCLIMode(),
 			agent,
-			delegated: Boolean(process.env[DELEGATION_SENTINEL]),
+			delegated,
 			...(globalCliVersion ? { globalCliVersion } : {}),
 		};
 	}

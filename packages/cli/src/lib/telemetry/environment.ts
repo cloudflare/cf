@@ -1,5 +1,9 @@
 import os from "node:os";
-import { DELEGATING_VERSION_ENV, DELEGATION_SENTINEL } from "../delegate.js";
+import {
+	DELEGATING_PID_ENV,
+	DELEGATING_VERSION_ENV,
+	DELEGATION_SENTINEL,
+} from "../delegate.js";
 
 // Plain semver with optional prerelease and build segments. Anything else,
 // such as a path, an email address or a control character, is dropped
@@ -56,14 +60,34 @@ export function getPackageManager():
 }
 
 /**
+ * Whether a global cf handed this run directly to this process. The
+ * sentinel is inherited by every process a delegated child spawns, so a
+ * global cf that passes its process ID is trusted only when that is this
+ * process's parent. A global cf released before the ID was passed sets the
+ * sentinel alone, which is still reported as delegated.
+ */
+export function isDirectlyDelegated(
+	env: NodeJS.ProcessEnv = process.env,
+	parentPid: number = process.ppid
+): boolean {
+	if (!env[DELEGATION_SENTINEL]) {
+		return false;
+	}
+	const delegatingPid = env[DELEGATING_PID_ENV];
+	return delegatingPid === undefined || delegatingPid === String(parentPid);
+}
+
+/**
  * The version of the global cf that delegated this run to a project-local
- * cf, or undefined when the run was not delegated, the global cf predates
- * passing its version, or the value is not a plain semver string.
+ * cf, or undefined when the run was not delegated to this process
+ * directly, the global cf predates passing its version and process ID, or
+ * the value is not a plain semver string.
  */
 export function getGlobalCliVersion(
-	env: NodeJS.ProcessEnv = process.env
+	env: NodeJS.ProcessEnv = process.env,
+	parentPid: number = process.ppid
 ): string | undefined {
-	if (!env[DELEGATION_SENTINEL]) {
+	if (!env[DELEGATING_PID_ENV] || !isDirectlyDelegated(env, parentPid)) {
 		return undefined;
 	}
 	const value = env[DELEGATING_VERSION_ENV];

@@ -57,6 +57,11 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			type: "string",
 			description:
 				'Optional JSON string of key-value pairs (e.g., \'{"key1":"value1"}\')',
+		})
+		.option("source", {
+			type: "string",
+			description:
+				"Path to a file to upload as the `source` form field. The file to upload (can also use 'file')",
 		});
 }
 
@@ -92,6 +97,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 							file: argv["file"],
 							description: argv["description"],
 							metadata: argv["metadata"],
+							source: argv["source"],
 						},
 					});
 					return;
@@ -104,7 +110,8 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					argv.file !== undefined ||
 					argv.body !== undefined ||
 					argv["description"] !== undefined ||
-					argv["metadata"] !== undefined
+					argv["metadata"] !== undefined ||
+					argv["source"] !== undefined
 				) {
 					const formData = new FormData();
 					if (argv.file) {
@@ -139,6 +146,14 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 								) ?? ""
 							)
 						);
+					if (argv["source"] !== undefined) {
+						const filePath = String(argv["source"]);
+						formData.append(
+							"source",
+							new Blob([readFileForFlag(filePath)]),
+							filePath.split(/[\\/]/).filter(Boolean).pop()
+						);
+					}
 					const result = await withProgress(`Creating`, async () =>
 						requestApi<unknown>(
 							client,

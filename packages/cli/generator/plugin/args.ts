@@ -115,6 +115,17 @@ export interface Derived {
 	hasFileUpload: boolean;
 	multipart?: MultipartInfo;
 	multipartFlagFields: MultipartField[];
+	multipartFileFields: MultipartFileField[];
+}
+
+/** A binary field besides the payload, with its own path-valued flag. */
+export interface MultipartFileField {
+	field: MultipartField;
+	flag: string;
+}
+
+export function multipartFileFlagDescription(field: MultipartField): string {
+	return `Path to a file to upload as the \`${field.name}\` form field. ${field.description}`;
 }
 
 export const positionals = (d: Derived): Arg[] =>
@@ -222,6 +233,15 @@ function flagName(name: string): string {
 function cliFlagName(name: string): string | undefined {
 	const flag = flagName(name);
 	return flag.toLowerCase() === "mode" ? undefined : flag;
+}
+
+function multipartFileFlagName(name: string): string | undefined {
+	const flag = cliFlagName(name.replace(/^[_.]+/, ""));
+	if (flag === undefined) {
+		return undefined;
+	}
+	const normalized = kebab(flag);
+	return /^[a-z0-9][a-z0-9-]*$/.test(normalized) ? normalized : undefined;
 }
 
 function parameterFlagName(
@@ -356,6 +376,39 @@ export function derive(
 					cliFlagName(f.name) !== undefined
 			)
 		: [];
+	// File flags must not shadow live globals, generated flags, or aliases.
+	const takenFlags = new Set<string>([
+		...CLI_ONLY_OPTIONS,
+		"force",
+		"quiet",
+		"zone",
+		"profile",
+		"mode",
+		"help",
+		"version",
+		"text",
+		"f",
+		"q",
+		"z",
+		"m",
+		"h",
+		"v",
+		...(args.some((a) => a.isWorkerName) ? ["script-name"] : []),
+		...args.map((a) => kebab(a.name)),
+		...multipartFlagFields.map((f) => kebab(f.name)),
+	]);
+	const multipartFileFields: MultipartFileField[] = [];
+	for (const field of multipart?.fields ?? []) {
+		if (!field.isBinary || field.name === multipart?.payloadField) {
+			continue;
+		}
+		const flag = multipartFileFlagName(field.name);
+		if (flag === undefined || takenFlags.has(flag)) {
+			continue;
+		}
+		takenFlags.add(flag);
+		multipartFileFields.push({ field, flag });
+	}
 	return {
 		args,
 		optionalParentGroups,
@@ -366,6 +419,7 @@ export function derive(
 		hasFileUpload,
 		multipart,
 		multipartFlagFields,
+		multipartFileFields,
 	};
 }
 

@@ -75,6 +75,31 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			type: "string",
 			description:
 				"Hash of the Wrangler configuration file used for this deployment.",
+		})
+		.option("redirects", {
+			type: "string",
+			description:
+				"Path to a file to upload as the `_redirects` form field. Redirects configuration file for the deployment.",
+		})
+		.option("routes-json", {
+			type: "string",
+			description:
+				"Path to a file to upload as the `_routes.json` form field. Routes configuration file defining routing rules.",
+		})
+		.option("worker-bundle", {
+			type: "string",
+			description:
+				"Path to a file to upload as the `_worker.bundle` form field. Worker bundle file in multipart/form-data format. Mutually exclusive with `_worker.js`.\nCannot specify both `_worker.js` and `_worker.bundle` in the same request.\nMaximum size: 25 MiB.\n",
+		})
+		.option("worker-js", {
+			type: "string",
+			description:
+				"Path to a file to upload as the `_worker.js` form field. Worker JavaScript file. Mutually exclusive with `_worker.bundle`.\nCannot specify both `_worker.js` and `_worker.bundle` in the same request.\n",
+		})
+		.option("functions-filepath-routing-config-json", {
+			type: "string",
+			description:
+				"Path to a file to upload as the `functions-filepath-routing-config.json` form field. Functions routing configuration file.",
 		});
 }
 
@@ -112,6 +137,12 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 							manifest: argv["manifest"],
 							"pages-build-output-dir": argv["pages-build-output-dir"],
 							"wrangler-config-hash": argv["wrangler-config-hash"],
+							redirects: argv["redirects"],
+							"routes-json": argv["routes-json"],
+							"worker-bundle": argv["worker-bundle"],
+							"worker-js": argv["worker-js"],
+							"functions-filepath-routing-config-json":
+								argv["functions-filepath-routing-config-json"],
 						},
 					});
 					return;
@@ -129,7 +160,12 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					argv["commit-message"] !== undefined ||
 					argv["manifest"] !== undefined ||
 					argv["pages-build-output-dir"] !== undefined ||
-					argv["wrangler-config-hash"] !== undefined
+					argv["wrangler-config-hash"] !== undefined ||
+					argv["redirects"] !== undefined ||
+					argv["routes-json"] !== undefined ||
+					argv["worker-bundle"] !== undefined ||
+					argv["worker-js"] !== undefined ||
+					argv["functions-filepath-routing-config-json"] !== undefined
 				) {
 					const formData = new FormData();
 					if (argv.file) {
@@ -219,6 +255,48 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 								) ?? ""
 							)
 						);
+					if (argv["redirects"] !== undefined) {
+						const filePath = String(argv["redirects"]);
+						formData.append(
+							"_redirects",
+							new Blob([readFileForFlag(filePath)]),
+							filePath.split(/[\\/]/).filter(Boolean).pop()
+						);
+					}
+					if (argv["routes-json"] !== undefined) {
+						const filePath = String(argv["routes-json"]);
+						formData.append(
+							"_routes.json",
+							new Blob([readFileForFlag(filePath)]),
+							filePath.split(/[\\/]/).filter(Boolean).pop()
+						);
+					}
+					if (argv["worker-bundle"] !== undefined) {
+						const filePath = String(argv["worker-bundle"]);
+						formData.append(
+							"_worker.bundle",
+							new Blob([readFileForFlag(filePath)]),
+							filePath.split(/[\\/]/).filter(Boolean).pop()
+						);
+					}
+					if (argv["worker-js"] !== undefined) {
+						const filePath = String(argv["worker-js"]);
+						formData.append(
+							"_worker.js",
+							new Blob([readFileForFlag(filePath)]),
+							filePath.split(/[\\/]/).filter(Boolean).pop()
+						);
+					}
+					if (argv["functions-filepath-routing-config-json"] !== undefined) {
+						const filePath = String(
+							argv["functions-filepath-routing-config-json"]
+						);
+						formData.append(
+							"functions-filepath-routing-config.json",
+							new Blob([readFileForFlag(filePath)]),
+							filePath.split(/[\\/]/).filter(Boolean).pop()
+						);
+					}
 					const result = await withProgress(`Creating`, async () =>
 						requestApi<unknown>(
 							client,

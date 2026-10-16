@@ -12,6 +12,7 @@ import {
 	resolveAccountIdSilent,
 } from "#lib/auth.js";
 import { compactBody, parseBody } from "#lib/body-parser.js";
+import { validateBodyUnions } from "#lib/body-unions.js";
 import { formatDryRun } from "#lib/dry-run.js";
 import { resolveFileToken } from "#lib/input-validation.js";
 import { LOCAL_ACCOUNT_ID } from "#lib/local.js";
@@ -79,6 +80,35 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 }
 
 type Args = InferArgs<typeof builder>;
+const bodyUnions: Parameters<typeof validateBodyUnions>[1] = [
+	{
+		path: ["scope"],
+		selector: "type",
+		variants: [
+			{
+				values: ["account"],
+				schema: {
+					type: "object",
+					properties: { type: { enum: ["account"] } },
+					required: ["type"],
+					additionalProperties: false,
+				},
+			},
+			{
+				values: ["sending_domain"],
+				schema: {
+					type: "object",
+					properties: {
+						type: { enum: ["sending_domain"] },
+						value: { type: "string" },
+					},
+					required: ["type", "value"],
+					additionalProperties: false,
+				},
+			},
+		],
+	},
+];
 
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "create",
@@ -105,31 +135,34 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						body:
 							argv.body !== undefined
 								? parseBody(argv.body)
-								: compactBody({
-										email: resolveFileToken(
-											argv["email"] as string | undefined,
-											"email",
-											"text"
-										),
-										expires_at: resolveFileToken(
-											argv["expires-at"] as string | undefined,
-											"expires-at",
-											"text"
-										),
-										note: resolveFileToken(
-											argv["note"] as string | undefined,
-											"note",
-											"text"
-										),
-										scope: {
-											type: argv["scope-type"],
-											value: resolveFileToken(
-												argv["scope-value"] as string | undefined,
-												"scope-value",
+								: validateBodyUnions(
+										compactBody({
+											email: resolveFileToken(
+												argv["email"] as string | undefined,
+												"email",
 												"text"
 											),
-										},
-									}),
+											expires_at: resolveFileToken(
+												argv["expires-at"] as string | undefined,
+												"expires-at",
+												"text"
+											),
+											note: resolveFileToken(
+												argv["note"] as string | undefined,
+												"note",
+												"text"
+											),
+											scope: {
+												type: argv["scope-type"],
+												value: resolveFileToken(
+													argv["scope-value"] as string | undefined,
+													"scope-value",
+													"text"
+												),
+											},
+										}),
+										bodyUnions
+									),
 					});
 					return;
 				}
@@ -178,6 +211,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						),
 					},
 				});
+				validateBodyUnions(bodyData, bodyUnions);
 				const result = await withProgress(`Creating`, async () =>
 					client.send(operation, { body: bodyData, account_id: accountId })
 				);

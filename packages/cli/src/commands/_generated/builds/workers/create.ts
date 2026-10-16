@@ -12,6 +12,7 @@ import {
 	resolveAccountIdSilent,
 } from "#lib/auth.js";
 import { compactBody, parseBody, parseJsonMap } from "#lib/body-parser.js";
+import { validateBodyUnions } from "#lib/body-unions.js";
 import { formatDryRun } from "#lib/dry-run.js";
 import { resolveFileToken } from "#lib/input-validation.js";
 import { LOCAL_ACCOUNT_ID } from "#lib/local.js";
@@ -161,6 +162,62 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 }
 
 type Args = InferArgs<typeof builder>;
+const bodyUnions: Parameters<typeof validateBodyUnions>[1] = [
+	{
+		path: ["git_repository"],
+		selector: "provider_type",
+		variants: [
+			{
+				values: ["github", "gitlab"],
+				schema: {
+					type: "object",
+					properties: {
+						branch: { type: "string" },
+						provider_account_id: { type: "string" },
+						provider_account_name: { type: "string" },
+						provider_type: { enum: ["github", "gitlab"] },
+						repo_id: { type: "string" },
+						repo_name: { type: "string" },
+					},
+					required: [
+						"branch",
+						"provider_account_id",
+						"provider_account_name",
+						"provider_type",
+						"repo_id",
+						"repo_name",
+					],
+					additionalProperties: false,
+				},
+			},
+			{
+				values: ["gitlab_internal", "origin"],
+				schema: {
+					type: "object",
+					properties: {
+						branch: { type: "string" },
+						grant_id: { type: "string" },
+						provider_account_id: { type: "string" },
+						provider_account_name: { type: "string" },
+						provider_type: { enum: ["gitlab_internal", "origin"] },
+						repo_id: { type: "string" },
+						repo_name: { type: "string" },
+					},
+					required: [
+						"branch",
+						"grant_id",
+						"provider_account_id",
+						"provider_account_name",
+						"provider_type",
+						"repo_id",
+						"repo_name",
+					],
+					additionalProperties: false,
+				},
+			},
+		],
+	},
+];
 
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "create",
@@ -193,138 +250,145 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						body:
 							argv.body !== undefined
 								? parseBody(argv.body)
-								: compactBody(
-										{
-											git_repository: {
-												branch: resolveFileToken(
-													argv["git-repository-branch"] as string | undefined,
-													"git-repository-branch",
-													"text"
-												),
-												provider_account_id: resolveFileToken(
-													argv["git-repository-provider-account-id"] as
-														| string
-														| undefined,
-													"git-repository-provider-account-id",
-													"text"
-												),
-												provider_account_name: resolveFileToken(
-													argv["git-repository-provider-account-name"] as
-														| string
-														| undefined,
-													"git-repository-provider-account-name",
-													"text"
-												),
-												provider_type: argv["git-repository-provider-type"],
-												repo_id: resolveFileToken(
-													argv["git-repository-repo-id"] as string | undefined,
-													"git-repository-repo-id",
-													"text"
-												),
-												repo_name: resolveFileToken(
-													argv["git-repository-repo-name"] as
-														| string
-														| undefined,
-													"git-repository-repo-name",
-													"text"
-												),
-												grant_id: resolveFileToken(
-													argv["git-repository-grant-id"] as string | undefined,
-													"git-repository-grant-id",
+								: validateBodyUnions(
+										compactBody(
+											{
+												git_repository: {
+													branch: resolveFileToken(
+														argv["git-repository-branch"] as string | undefined,
+														"git-repository-branch",
+														"text"
+													),
+													provider_account_id: resolveFileToken(
+														argv["git-repository-provider-account-id"] as
+															| string
+															| undefined,
+														"git-repository-provider-account-id",
+														"text"
+													),
+													provider_account_name: resolveFileToken(
+														argv["git-repository-provider-account-name"] as
+															| string
+															| undefined,
+														"git-repository-provider-account-name",
+														"text"
+													),
+													provider_type: argv["git-repository-provider-type"],
+													repo_id: resolveFileToken(
+														argv["git-repository-repo-id"] as
+															| string
+															| undefined,
+														"git-repository-repo-id",
+														"text"
+													),
+													repo_name: resolveFileToken(
+														argv["git-repository-repo-name"] as
+															| string
+															| undefined,
+														"git-repository-repo-name",
+														"text"
+													),
+													grant_id: resolveFileToken(
+														argv["git-repository-grant-id"] as
+															| string
+															| undefined,
+														"git-repository-grant-id",
+														"text"
+													),
+												},
+												previews_base_config: {
+													build_caching_enabled:
+														argv["previews-base-config-build-caching-enabled"],
+													build_command: resolveFileToken(
+														argv["previews-base-config-build-command"] as
+															| string
+															| undefined,
+														"previews-base-config-build-command",
+														"text"
+													),
+													build_token_uuid: resolveFileToken(
+														argv["previews-base-config-build-token-uuid"] as
+															| string
+															| undefined,
+														"previews-base-config-build-token-uuid",
+														"text"
+													),
+													deploy_command: resolveFileToken(
+														argv["previews-base-config-deploy-command"] as
+															| string
+															| undefined,
+														"previews-base-config-deploy-command",
+														"text"
+													),
+													environment_variables: parseJsonMap(
+														argv["previews-base-config-environment-variables"],
+														"previews-base-config-environment-variables"
+													),
+													path_excludes:
+														argv["previews-base-config-path-excludes"],
+													path_includes:
+														argv["previews-base-config-path-includes"],
+													root_directory: resolveFileToken(
+														argv["previews-base-config-root-directory"] as
+															| string
+															| undefined,
+														"previews-base-config-root-directory",
+														"text"
+													),
+												},
+												previews_enabled: argv["previews-enabled"],
+												production_settings: {
+													build_caching_enabled:
+														argv["production-settings-build-caching-enabled"],
+													build_command: resolveFileToken(
+														argv["production-settings-build-command"] as
+															| string
+															| undefined,
+														"production-settings-build-command",
+														"text"
+													),
+													build_token_uuid: resolveFileToken(
+														argv["production-settings-build-token-uuid"] as
+															| string
+															| undefined,
+														"production-settings-build-token-uuid",
+														"text"
+													),
+													deploy_command: resolveFileToken(
+														argv["production-settings-deploy-command"] as
+															| string
+															| undefined,
+														"production-settings-deploy-command",
+														"text"
+													),
+													environment_variables: parseJsonMap(
+														argv["production-settings-environment-variables"],
+														"production-settings-environment-variables"
+													),
+													path_excludes:
+														argv["production-settings-path-excludes"],
+													path_includes:
+														argv["production-settings-path-includes"],
+													root_directory: resolveFileToken(
+														argv["production-settings-root-directory"] as
+															| string
+															| undefined,
+														"production-settings-root-directory",
+														"text"
+													),
+												},
+												script_tag: resolveFileToken(
+													argv["script-tag"] as string | undefined,
+													"script-tag",
 													"text"
 												),
 											},
-											previews_base_config: {
-												build_caching_enabled:
-													argv["previews-base-config-build-caching-enabled"],
-												build_command: resolveFileToken(
-													argv["previews-base-config-build-command"] as
-														| string
-														| undefined,
-													"previews-base-config-build-command",
-													"text"
-												),
-												build_token_uuid: resolveFileToken(
-													argv["previews-base-config-build-token-uuid"] as
-														| string
-														| undefined,
-													"previews-base-config-build-token-uuid",
-													"text"
-												),
-												deploy_command: resolveFileToken(
-													argv["previews-base-config-deploy-command"] as
-														| string
-														| undefined,
-													"previews-base-config-deploy-command",
-													"text"
-												),
-												environment_variables: parseJsonMap(
-													argv["previews-base-config-environment-variables"],
-													"previews-base-config-environment-variables"
-												),
-												path_excludes:
-													argv["previews-base-config-path-excludes"],
-												path_includes:
-													argv["previews-base-config-path-includes"],
-												root_directory: resolveFileToken(
-													argv["previews-base-config-root-directory"] as
-														| string
-														| undefined,
-													"previews-base-config-root-directory",
-													"text"
-												),
-											},
-											previews_enabled: argv["previews-enabled"],
-											production_settings: {
-												build_caching_enabled:
-													argv["production-settings-build-caching-enabled"],
-												build_command: resolveFileToken(
-													argv["production-settings-build-command"] as
-														| string
-														| undefined,
-													"production-settings-build-command",
-													"text"
-												),
-												build_token_uuid: resolveFileToken(
-													argv["production-settings-build-token-uuid"] as
-														| string
-														| undefined,
-													"production-settings-build-token-uuid",
-													"text"
-												),
-												deploy_command: resolveFileToken(
-													argv["production-settings-deploy-command"] as
-														| string
-														| undefined,
-													"production-settings-deploy-command",
-													"text"
-												),
-												environment_variables: parseJsonMap(
-													argv["production-settings-environment-variables"],
-													"production-settings-environment-variables"
-												),
-												path_excludes:
-													argv["production-settings-path-excludes"],
-												path_includes:
-													argv["production-settings-path-includes"],
-												root_directory: resolveFileToken(
-													argv["production-settings-root-directory"] as
-														| string
-														| undefined,
-													"production-settings-root-directory",
-													"text"
-												),
-											},
-											script_tag: resolveFileToken(
-												argv["script-tag"] as string | undefined,
-												"script-tag",
-												"text"
-											),
-										},
-										[
-											["previews_base_config", "environment_variables"],
-											["production_settings", "environment_variables"],
-										]
+											[
+												["previews_base_config", "environment_variables"],
+												["production_settings", "environment_variables"],
+											]
+										),
+										bodyUnions
 									),
 					});
 					return;
@@ -561,6 +625,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						["production_settings", "environment_variables"],
 					]
 				);
+				validateBodyUnions(bodyData, bodyUnions);
 				const result = await withProgress(`Creating`, async () =>
 					client.send(operation, { body: bodyData, account_id: accountId })
 				);

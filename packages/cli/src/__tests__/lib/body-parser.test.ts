@@ -4,8 +4,8 @@ import {
 	compactBody,
 	parseBody,
 	parseJsonMap,
-	parseObjectArray,
 	parseNestedArray,
+	parseObjectArray,
 	parseScalarValue,
 	setNestedValue,
 } from "../../lib/body-parser.js";
@@ -133,6 +133,50 @@ describe("parseScalarValue", () => {
 			);
 			expect(() => parseScalarValue("@missing", "fallback")).toThrow(
 				"--fallback: cannot read file at 'missing'"
+			);
+		});
+	});
+});
+
+describe("parseNestedArray", () => {
+	it("retains nested arrays and their JSON values intact", () => {
+		const value = [
+			[{ field: "tags", value: ["example"], extra: null }],
+			[],
+			[[], [false, 0]],
+		];
+		expect(parseNestedArray(JSON.stringify(value), "branches")).toEqual(value);
+		expect(parseNestedArray("[]", "branches")).toEqual([]);
+		expect(parseNestedArray(undefined, "branches")).toBeUndefined();
+	});
+
+	it.each(["{}", "null", "1", "[null]", "[{}]", '["example"]'])(
+		"rejects inputs that are not arrays of arrays: %s",
+		(input) => {
+			expect(() => parseNestedArray(input, "branches")).toThrow(
+				"--branches must be a JSON array of arrays."
+			);
+		}
+	);
+
+	it("reports invalid JSON and repeated flags", () => {
+		expect(() => parseNestedArray("[[", "branches")).toThrow(
+			"Invalid JSON in --branches"
+		);
+		expect(() => parseNestedArray(["[]", "[]"], "branches")).toThrow(
+			"--branches must be provided once as a JSON array of arrays."
+		);
+	});
+
+	describe("@file ingestion", () => {
+		runInTempDir();
+		it("reads paths with spaces and Unicode", async () => {
+			await seed({ "branches ü.json": '[[{"value":"example"}]]' });
+			expect(parseNestedArray("@branches ü.json", "branches")).toEqual([
+				[{ value: "example" }],
+			]);
+			expect(() => parseNestedArray("@missing.json", "branches")).toThrow(
+				"--branches: cannot read file at 'missing.json'"
 			);
 		});
 	});

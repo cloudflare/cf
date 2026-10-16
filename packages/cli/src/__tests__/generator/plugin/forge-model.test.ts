@@ -1065,6 +1065,76 @@ describe("the forge model", () => {
 	});
 });
 
+describe("nested JSON array body flags", () => {
+	it.each([
+		[
+			"objects",
+			{ type: "object", properties: { value: { type: "string" } } },
+			"parseObjectArray",
+		],
+		[
+			"arrays",
+			{
+				type: "array",
+				items: { type: "object", properties: { value: { type: "string" } } },
+			},
+			"parseNestedArray",
+		],
+	])(
+		"retains required arrays of %s in an optional parent",
+		(_name, items, parser) => {
+			const d = create(
+				{
+					type: "object",
+					properties: {
+						settings: {
+							allOf: [{ $ref: "#/components/schemas/Settings" }],
+						},
+					},
+				},
+				{
+					Settings: {
+						type: "object",
+						required: ["entries", "labels"],
+						properties: {
+							entries: { type: "array", items },
+							labels: { type: "array", items: { type: "string" } },
+							version: { type: "integer" },
+						},
+					},
+				}
+			);
+			const files = generateFiles(d);
+			const code = files.get("things/create.ts") ?? "";
+			expect(code).toContain(
+				`${parser}(argv["settings-entries"], "settings-entries")`
+			);
+			expect(code).toContain(
+				"const missing = ['settings-entries', 'settings-labels']"
+			);
+			const commands = JSON.parse(
+				files.get("_meta/commands.json") ?? "{}"
+			) as CommandsFile;
+			const options = commands.commands.find(
+				(c) => c["command"] === "cf things create"
+			)?.["options"];
+			expect(options).toEqual(
+				expect.arrayContaining([
+					expect.objectContaining({
+						name: "settings-entries",
+						type: "string",
+						required: false,
+					}),
+				])
+			);
+			const schemas = JSON.parse(files.get("_meta/schemas.json") ?? "{}");
+			expect(schemas.schemas["things create"].requestBodyFields).toContainEqual(
+				expect.objectContaining({ name: "settings-entries", type: "string" })
+			);
+		}
+	);
+});
+
 describe("JSON map body flags", () => {
 	it("emits lossless map flags through references, allOf, and nested objects", () => {
 		const d = create(

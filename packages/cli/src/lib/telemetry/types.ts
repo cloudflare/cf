@@ -22,7 +22,14 @@ export interface CommonEventProperties {
 	isInteractive: boolean;
 	cliMode: CLIMode;
 	agent: string | null;
+	/** Whether a global cf handed this run to a project-local cf. */
 	delegated: boolean;
+	/**
+	 * The delegating global cf's version. Present only on delegated runs
+	 * whose global cf passes a valid version; `cliVersion` remains the
+	 * version of the cf that runs the command.
+	 */
+	globalCliVersion?: string;
 }
 
 export type CommandEventName = "cf command started" | "cf command finished";

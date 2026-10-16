@@ -178,7 +178,7 @@ describe("wrangler", () => {
 
 		describe("commands", () => {
 			describe("help", () => {
-				// cf's `mtls-certificates --help` text differs from
+				// cf's `ssl mtls-certificates --help` text differs from
 				// wrangler's `mtls-certificate --help` (different command
 				// shape, different flags, different prose); the snapshot
 				// is purely wrangler-specific.
@@ -193,7 +193,7 @@ describe("wrangler", () => {
 					const mock = mockPostMTlsCertificate();
 
 					await runWrangler(
-						"mtls-certificates create --ca true --certificates @cert.pem --private-key @key.pem"
+						"ssl mtls-certificates create --ca true --certificates @cert.pem --private-key @key.pem"
 					);
 
 					expect(mock.calls).toEqual(1);
@@ -217,7 +217,7 @@ describe("wrangler", () => {
 					const mock = mockPostMTlsCertificate();
 
 					await runWrangler(
-						"mtls-certificates create --ca true --certificates @cert.pem --private-key @key.pem --name my-cert"
+						"ssl mtls-certificates create --ca true --certificates @cert.pem --private-key @key.pem --name my-cert"
 					);
 
 					expect(mock.calls).toEqual(1);
@@ -237,7 +237,7 @@ describe("wrangler", () => {
 				it("should list certificates", async ({ expect }) => {
 					mockGetMTlsCertificates();
 
-					await runWrangler("mtls-certificates list");
+					await runWrangler("ssl mtls-certificates list");
 
 					expect(std.err).toMatchInlineSnapshot(`""`);
 					expect(JSON.parse(std.out)).toEqual([
@@ -278,7 +278,7 @@ describe("wrangler", () => {
 						result: true,
 					});
 
-					await runWrangler("mtls-certificates delete 1234");
+					await runWrangler("ssl mtls-certificates delete 1234");
 
 					expect(deleteMock.calls).toEqual(1);
 					expect(std.err).toMatchInlineSnapshot(`""`);
@@ -302,7 +302,7 @@ describe("wrangler", () => {
 						result: false,
 					});
 
-					await runWrangler("mtls-certificates delete 1234");
+					await runWrangler("ssl mtls-certificates delete 1234");
 
 					expect(deleteMock.calls).toEqual(0);
 					expect(std.err).toMatchInlineSnapshot(`""`);

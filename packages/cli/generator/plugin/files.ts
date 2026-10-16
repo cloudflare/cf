@@ -11,6 +11,7 @@ import {
 	downgradeOptionalParents,
 	isBody,
 	isWorkerName,
+	optionDefaults,
 	options as optionArgs,
 	positionals,
 	scalar,
@@ -231,6 +232,7 @@ class Walk {
 		downgradeOptionalParents(derived);
 		const positional = positionals(derived);
 		const options = optionArgs(derived);
+		const defaults = optionDefaults(derived, op);
 		if (resource === "workers") {
 			for (const p of op.pathParams) {
 				if (!isWorkerName(p.name.replaceAll("_", "-"))) {
@@ -292,8 +294,9 @@ class Walk {
 			m["type"] = scalar(a.type);
 			m["required"] = a.required;
 			m["description"] = a.description;
-			if (a.default !== undefined) {
-				m["default"] = a.default;
+			const dflt = defaults.get(a.name);
+			if (dflt !== undefined) {
+				m["default"] = dflt;
 			}
 			if (a.choices !== undefined && a.choices.length > 0) {
 				m["enum"] = a.choices;

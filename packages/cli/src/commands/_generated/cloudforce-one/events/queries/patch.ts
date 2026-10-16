@@ -31,11 +31,13 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		})
 		.option("alert-enabled", {
 			type: "boolean",
-			description: "Enable alerts for this query",
+			description:
+				"Deprecated and ignored: saved-query alerting and rules were removed.",
 		})
 		.option("alert-rollup-enabled", {
 			type: "boolean",
-			description: "Enable alert rollup for this query",
+			description:
+				"Deprecated and ignored: saved-query alerting and rules were removed.",
 		})
 		.option("name", {
 			type: "string",
@@ -47,9 +49,14 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		})
 		.option("rule-enabled", {
 			type: "boolean",
-			description: "Enable rule for this query",
+			description:
+				"Deprecated and ignored: saved-query alerting and rules were removed.",
 		})
-		.option("rule-scope", { type: "string", description: "Scope for the rule" })
+		.option("rule-scope", {
+			type: "string",
+			description:
+				"Deprecated and ignored: saved-query alerting and rules were removed.",
+		})
 		.option("dry-run", {
 			type: "boolean",
 			description: "Validate and show what would happen without executing",

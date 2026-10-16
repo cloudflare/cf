@@ -21,7 +21,7 @@ import { runWithTelemetry } from "#lib/telemetry/index.js";
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
 		.usage(
-			"$0 ai-search delete <instance-id>\n\nPermanently delete an AI Search instance and all its indexed data."
+			"$0 ai-search delete <instance-id>\n\nDeletes an AI Search instance and all its indexed data permanently."
 		)
 		.positional("instance-id", {
 			type: "string",

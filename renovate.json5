@@ -71,7 +71,7 @@
 			groupSlug: "pnpm",
 		},
 		{
-			description: "Update the Forge build, then regenerate the commands from the pinned OpenAPI release (scripts/update-forge.ts moves that pin)",
+			description: "Update the Forge build, then regenerate the commands from the pinned OpenAPI release (scripts/update-openapi.ts moves that pin)",
 			matchManagers: ["custom.regex"],
 			matchDepNames: ["@cloudflare/forge"],
 			groupName: "Forge",

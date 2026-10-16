@@ -24,8 +24,8 @@ import type {
 
 /**
  * The kind of value an argument takes: an `enum` is a string from a fixed
- * list, an `array` repeated scalar values, and an `objectArray` one
- * JSON-valued flag holding an array of objects.
+ * list, an `array` repeated scalar values, and `objectArray` and `objectMap` take
+ * JSON-valued flags holding an array of objects or a map.
  */
 export type ArgType =
 	| "string"
@@ -33,7 +33,8 @@ export type ArgType =
 	| "boolean"
 	| "enum"
 	| "array"
-	| "objectArray";
+	| "objectArray"
+	| "objectMap";
 
 /** The type yargs is told, and that the metadata lists: enums and arrays are strings. */
 export function scalar(type: ArgType): "number" | "boolean" | "string" {
@@ -126,6 +127,43 @@ export const queryArgs = (d: Derived): Arg[] =>
 	d.args.filter((a) => a.origin.in === "query");
 export const headerArgs = (d: Derived): Arg[] =>
 	d.args.filter((a) => a.origin.in === "header");
+
+/** Defaults applied by yargs and advertised to metadata consumers. */
+export function optionDefaults(
+	d: Derived,
+	op: OperationInfo
+): Map<string, Value> {
+	const conflictFlags = new Set<string>();
+	for (const a of d.args) {
+		if (a.conflicts !== undefined && a.conflicts.length > 0) {
+			conflictFlags.add(kebab(a.name));
+			for (const name of a.conflicts) {
+				conflictFlags.add(kebab(name));
+			}
+		}
+	}
+	const partialUpdate = op.method === "patch" || op.method === "put";
+	const defaults = new Map<string, Value>();
+	for (const a of options(d)) {
+		const discriminator =
+			op.bodyDiscriminator !== undefined &&
+			a.origin.in === "body" &&
+			a.origin.path.length === 1 &&
+			a.origin.path[0] === op.bodyDiscriminator.field;
+		if (
+			a.default === undefined ||
+			a.type === "array" ||
+			a.type === "objectArray" ||
+			a.type === "objectMap" ||
+			conflictFlags.has(kebab(a.name)) ||
+			(isBody(a) && partialUpdate && !discriminator)
+		) {
+			continue;
+		}
+		defaults.set(a.name, a.default);
+	}
+	return defaults;
+}
 
 /** Options that only the CLI uses, which never become body flags. */
 export const CLI_ONLY_OPTIONS: readonly string[] = [
@@ -260,6 +298,8 @@ function bodyArgType(type: string, itemType: string | undefined): ArgType {
 			return "boolean";
 		case "array":
 			return itemType === "object" ? "objectArray" : "array";
+		case "object":
+			return "objectMap";
 		default:
 			return "string";
 	}
@@ -647,6 +687,7 @@ function bodyParams(
 			o.get("positional") === true &&
 			single &&
 			bp.type !== "boolean" &&
+			bp.type !== "object" &&
 			bp.itemType !== "object"
 		) {
 			const description =
@@ -703,16 +744,23 @@ function bodyParams(
 		const dflt = nestedUnderOptional ? undefined : effectiveDefault;
 		const bodyType = bodyArgType(effectiveType, bp.itemType);
 		const type: ArgType =
-			bodyType === "objectArray"
+			bodyType === "objectArray" || bodyType === "objectMap"
 				? bodyType
 				: enumValues !== undefined
 					? "enum"
 					: bodyType;
-		const base = bp.description ?? `The ${joined} field`;
+		const base =
+			new Override(byPath).string("description") ??
+			bp.description ??
+			`The ${joined} field`;
 		let description = base;
 		if (type === "objectArray") {
 			const separator = /[.!?]$/.test(base) ? " " : ". ";
 			description = `${base}${separator}Provide as a JSON array of objects or @path/to/file.json.`;
+		}
+		if (type === "objectMap") {
+			const separator = /[.!?]\s*$/.test(base) ? " " : ". ";
+			description = `${base.trimEnd()}${separator}Provide as a JSON object or @path/to/file.json.`;
 		}
 		const a = arg(
 			name,

@@ -11,7 +11,12 @@ import {
 	requestApi,
 	resolveAccountIdSilent,
 } from "#lib/auth.js";
-import { compactBody, parseBody, setNestedValue } from "#lib/body-parser.js";
+import {
+	compactBody,
+	parseBody,
+	parseJsonMap,
+	setNestedValue,
+} from "#lib/body-parser.js";
 import { formatDryRun } from "#lib/dry-run.js";
 import { resolveFileToken } from "#lib/input-validation.js";
 import { LOCAL_ACCOUNT_ID } from "#lib/local.js";
@@ -44,6 +49,11 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description:
 				"Enable or disable automatic renewal after transfer. Defaults to `false` if omitted.\n",
 			default: false,
+		})
+		.option("contact-extensions", {
+			type: "string",
+			description:
+				"Registry-specific contact extension values for the registrant.\n`GET /accounts/{account_id}/registrar/extensions/{extension}` documents the\nrequired keys and allowed values for each extension in the\n`transfer_schema.properties.contact_extensions` object.\n\nExamples include `.us` nexus fields, `.uk` registrant type fields,\nand `.ca` legal type fields. Include this object only when the extension's\ntransfer schema defines `contact_extensions`. Provide as a JSON object or @path/to/file.json.",
 		})
 		.option("contacts-administrator-email", {
 			type: "string",
@@ -241,163 +251,178 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						body:
 							argv.body !== undefined
 								? parseBody(argv.body)
-								: compactBody({
-										auth_code: resolveFileToken(
-											argv["auth-code"] as string | undefined,
-											"auth-code",
-											"text"
-										),
-										auto_renew: argv["auto-renew"],
-										contacts: {
-											administrator: {
-												email: resolveFileToken(
-													argv["contacts-administrator-email"] as
-														| string
-														| undefined,
-													"contacts-administrator-email",
-													"text"
-												),
-												fax: resolveFileToken(
-													argv["contacts-administrator-fax"] as
-														| string
-														| undefined,
-													"contacts-administrator-fax",
-													"text"
-												),
-												phone: resolveFileToken(
-													argv["contacts-administrator-phone"] as
-														| string
-														| undefined,
-													"contacts-administrator-phone",
-													"text"
-												),
-												postal_info: {
-													name: resolveFileToken(
-														argv["contacts-administrator-postal-info-name"] as
+								: compactBody(
+										{
+											auth_code: resolveFileToken(
+												argv["auth-code"] as string | undefined,
+												"auth-code",
+												"text"
+											),
+											auto_renew: argv["auto-renew"],
+											contact_extensions: parseJsonMap(
+												argv["contact-extensions"],
+												"contact-extensions"
+											),
+											contacts: {
+												administrator: {
+													email: resolveFileToken(
+														argv["contacts-administrator-email"] as
 															| string
 															| undefined,
-														"contacts-administrator-postal-info-name",
+														"contacts-administrator-email",
 														"text"
 													),
-													organization: resolveFileToken(
-														argv[
-															"contacts-administrator-postal-info-organization"
-														] as string | undefined,
-														"contacts-administrator-postal-info-organization",
-														"text"
-													),
-												},
-											},
-											billing: {
-												email: resolveFileToken(
-													argv["contacts-billing-email"] as string | undefined,
-													"contacts-billing-email",
-													"text"
-												),
-												fax: resolveFileToken(
-													argv["contacts-billing-fax"] as string | undefined,
-													"contacts-billing-fax",
-													"text"
-												),
-												phone: resolveFileToken(
-													argv["contacts-billing-phone"] as string | undefined,
-													"contacts-billing-phone",
-													"text"
-												),
-												postal_info: {
-													name: resolveFileToken(
-														argv["contacts-billing-postal-info-name"] as
+													fax: resolveFileToken(
+														argv["contacts-administrator-fax"] as
 															| string
 															| undefined,
-														"contacts-billing-postal-info-name",
+														"contacts-administrator-fax",
 														"text"
 													),
-													organization: resolveFileToken(
-														argv[
-															"contacts-billing-postal-info-organization"
-														] as string | undefined,
-														"contacts-billing-postal-info-organization",
-														"text"
-													),
-												},
-											},
-											registrant: {
-												email: resolveFileToken(
-													argv["contacts-registrant-email"] as
-														| string
-														| undefined,
-													"contacts-registrant-email",
-													"text"
-												),
-												fax: resolveFileToken(
-													argv["contacts-registrant-fax"] as string | undefined,
-													"contacts-registrant-fax",
-													"text"
-												),
-												phone: resolveFileToken(
-													argv["contacts-registrant-phone"] as
-														| string
-														| undefined,
-													"contacts-registrant-phone",
-													"text"
-												),
-												postal_info: {
-													name: resolveFileToken(
-														argv["contacts-registrant-postal-info-name"] as
+													phone: resolveFileToken(
+														argv["contacts-administrator-phone"] as
 															| string
 															| undefined,
-														"contacts-registrant-postal-info-name",
+														"contacts-administrator-phone",
 														"text"
 													),
-													organization: resolveFileToken(
-														argv[
-															"contacts-registrant-postal-info-organization"
-														] as string | undefined,
-														"contacts-registrant-postal-info-organization",
-														"text"
-													),
+													postal_info: {
+														name: resolveFileToken(
+															argv[
+																"contacts-administrator-postal-info-name"
+															] as string | undefined,
+															"contacts-administrator-postal-info-name",
+															"text"
+														),
+														organization: resolveFileToken(
+															argv[
+																"contacts-administrator-postal-info-organization"
+															] as string | undefined,
+															"contacts-administrator-postal-info-organization",
+															"text"
+														),
+													},
 												},
-											},
-											technical: {
-												email: resolveFileToken(
-													argv["contacts-technical-email"] as
-														| string
-														| undefined,
-													"contacts-technical-email",
-													"text"
-												),
-												fax: resolveFileToken(
-													argv["contacts-technical-fax"] as string | undefined,
-													"contacts-technical-fax",
-													"text"
-												),
-												phone: resolveFileToken(
-													argv["contacts-technical-phone"] as
-														| string
-														| undefined,
-													"contacts-technical-phone",
-													"text"
-												),
-												postal_info: {
-													name: resolveFileToken(
-														argv["contacts-technical-postal-info-name"] as
+												billing: {
+													email: resolveFileToken(
+														argv["contacts-billing-email"] as
 															| string
 															| undefined,
-														"contacts-technical-postal-info-name",
+														"contacts-billing-email",
 														"text"
 													),
-													organization: resolveFileToken(
-														argv[
-															"contacts-technical-postal-info-organization"
-														] as string | undefined,
-														"contacts-technical-postal-info-organization",
+													fax: resolveFileToken(
+														argv["contacts-billing-fax"] as string | undefined,
+														"contacts-billing-fax",
 														"text"
 													),
+													phone: resolveFileToken(
+														argv["contacts-billing-phone"] as
+															| string
+															| undefined,
+														"contacts-billing-phone",
+														"text"
+													),
+													postal_info: {
+														name: resolveFileToken(
+															argv["contacts-billing-postal-info-name"] as
+																| string
+																| undefined,
+															"contacts-billing-postal-info-name",
+															"text"
+														),
+														organization: resolveFileToken(
+															argv[
+																"contacts-billing-postal-info-organization"
+															] as string | undefined,
+															"contacts-billing-postal-info-organization",
+															"text"
+														),
+													},
+												},
+												registrant: {
+													email: resolveFileToken(
+														argv["contacts-registrant-email"] as
+															| string
+															| undefined,
+														"contacts-registrant-email",
+														"text"
+													),
+													fax: resolveFileToken(
+														argv["contacts-registrant-fax"] as
+															| string
+															| undefined,
+														"contacts-registrant-fax",
+														"text"
+													),
+													phone: resolveFileToken(
+														argv["contacts-registrant-phone"] as
+															| string
+															| undefined,
+														"contacts-registrant-phone",
+														"text"
+													),
+													postal_info: {
+														name: resolveFileToken(
+															argv["contacts-registrant-postal-info-name"] as
+																| string
+																| undefined,
+															"contacts-registrant-postal-info-name",
+															"text"
+														),
+														organization: resolveFileToken(
+															argv[
+																"contacts-registrant-postal-info-organization"
+															] as string | undefined,
+															"contacts-registrant-postal-info-organization",
+															"text"
+														),
+													},
+												},
+												technical: {
+													email: resolveFileToken(
+														argv["contacts-technical-email"] as
+															| string
+															| undefined,
+														"contacts-technical-email",
+														"text"
+													),
+													fax: resolveFileToken(
+														argv["contacts-technical-fax"] as
+															| string
+															| undefined,
+														"contacts-technical-fax",
+														"text"
+													),
+													phone: resolveFileToken(
+														argv["contacts-technical-phone"] as
+															| string
+															| undefined,
+														"contacts-technical-phone",
+														"text"
+													),
+													postal_info: {
+														name: resolveFileToken(
+															argv["contacts-technical-postal-info-name"] as
+																| string
+																| undefined,
+															"contacts-technical-postal-info-name",
+															"text"
+														),
+														organization: resolveFileToken(
+															argv[
+																"contacts-technical-postal-info-organization"
+															] as string | undefined,
+															"contacts-technical-postal-info-organization",
+															"text"
+														),
+													},
 												},
 											},
+											privacy_mode: argv["privacy-mode"],
 										},
-										privacy_mode: argv["privacy-mode"],
-									}),
+										[["contact_extensions"]]
+									),
 					});
 					return;
 				}
@@ -436,6 +461,12 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					);
 				if (argv["auto-renew"] !== undefined)
 					setNestedValue(bodyData, ["auto_renew"], argv["auto-renew"]);
+				if (argv["contact-extensions"] !== undefined)
+					setNestedValue(
+						bodyData,
+						["contact_extensions"],
+						parseJsonMap(argv["contact-extensions"], "contact-extensions")
+					);
 				if (argv["contacts-administrator-email"] !== undefined)
 					setNestedValue(
 						bodyData,

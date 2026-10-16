@@ -23,7 +23,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.usage(
 			"$0 firewall access-rules list\n\nFetches IP Access rules of an account or zone. These rules apply to all the zones in the account or zone. You can filter the results using several optional parameters."
 		)
-		.option("action", {
+		.option("access-rule-mode", {
 			type: "string",
 			description: "The action to apply to a matched request.",
 			choices: [
@@ -93,7 +93,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				command: "firewall access-rules list",
 				classification: {
 					safeFlags: [
-						"action",
+						"access-rule-mode",
 						"configuration-target",
 						"match",
 						"order",
@@ -105,7 +105,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			argv as Record<string, unknown>,
 			async () => {
 				const queryParams: Record<string, unknown> = {
-					mode: argv["action"],
+					mode: argv["access-rule-mode"],
 					"configuration.target": argv["configuration-target"],
 					"configuration.value": argv["configuration-value"],
 					notes: argv["notes"],

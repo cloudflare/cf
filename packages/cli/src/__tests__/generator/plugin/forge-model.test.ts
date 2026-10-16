@@ -403,7 +403,7 @@ describe("the forge model", () => {
 				{
 					type: "object",
 					properties: {
-						settings: { type: "object", additionalProperties: true },
+						settings: { type: "array", items: { type: "boolean" } },
 					},
 				},
 				{},
@@ -421,7 +421,7 @@ describe("the forge model", () => {
 			create({
 				type: "object",
 				properties: {
-					settings: { type: "object", additionalProperties: true },
+					settings: { type: "array", items: { type: "boolean" } },
 				},
 			}),
 			"things/create.ts"
@@ -893,5 +893,48 @@ describe("the forge model", () => {
 		const versions = command.options.find((o) => o["name"] === "versions");
 		expect(versions?.["type"]).toBe("string");
 		expect(versions?.["required"]).toBe(true);
+	});
+});
+
+describe("JSON map body flags", () => {
+	it("emits lossless map flags through references, allOf, and nested objects", () => {
+		const d = create(
+			{
+				type: "object",
+				properties: {
+					tags: {
+						allOf: [{ $ref: "#/components/schemas/Tags" }],
+						"x-fern-property-name": "labels",
+					},
+					settings: {
+						type: "object",
+						properties: { labels: { $ref: "#/components/schemas/Tags" } },
+					},
+				},
+				required: ["tags"],
+			},
+			{ Tags: { type: "object", additionalProperties: { type: "string" } } }
+		);
+		const code = file(d, "things/create.ts");
+		expect(code).toContain('parseJsonMap(argv["labels"], "labels", true)');
+		expect(code).toContain(
+			'parseJsonMap(argv["settings-labels"], "settings-labels")'
+		);
+		expect(code).toContain('[["tags"],["settings","labels"]]');
+		const options = meta(d, "cf things create")["options"] as Json[];
+		expect(options).toContainEqual(
+			expect.objectContaining({
+				name: "labels",
+				type: "string",
+				required: true,
+			})
+		);
+		expect(options).toContainEqual(
+			expect.objectContaining({
+				name: "settings-labels",
+				type: "string",
+				required: false,
+			})
+		);
 	});
 });

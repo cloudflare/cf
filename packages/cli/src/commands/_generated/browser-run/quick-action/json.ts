@@ -11,7 +11,12 @@ import {
 	getAccountId,
 	resolveAccountIdSilent,
 } from "#lib/auth.js";
-import { compactBody, parseBody, parseObjectArray } from "#lib/body-parser.js";
+import {
+	compactBody,
+	parseBody,
+	parseJsonMap,
+	parseObjectArray,
+} from "#lib/body-parser.js";
 import { formatDryRun } from "#lib/dry-run.js";
 import { resolveFileToken } from "#lib/input-validation.js";
 import { LOCAL_ACCOUNT_ID } from "#lib/local.js";
@@ -117,9 +122,19 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description:
 				"Block undesired requests that match the provided resource types, eg. 'image' or 'script'.",
 		})
+		.option("response-format-json-schema", {
+			type: "string",
+			description:
+				"Schema for the response format. More information here: https://developers.cloudflare.com/workers-ai/json-mode/. Provide as a JSON object or @path/to/file.json.",
+		})
 		.option("response-format-type", {
 			type: "string",
 			description: "The response_format.type field",
+		})
+		.option("set-extra-httpheaders", {
+			type: "string",
+			description:
+				"The setExtraHTTPHeaders field. Provide as a JSON object or @path/to/file.json.",
 		})
 		.option("set-java-script-enabled", {
 			type: "boolean",
@@ -206,9 +221,10 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			return true;
 		})
 		.check((argv) => {
-			const groupSet = ["response-format-type"].some(
-				(k) => argv[k] !== undefined
-			);
+			const groupSet = [
+				"response-format-json-schema",
+				"response-format-type",
+			].some((k) => argv[k] !== undefined);
 			if (groupSet) {
 				const missing = ["response-format-type"].filter(
 					(k) => argv[k] === undefined
@@ -305,105 +321,122 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						body:
 							argv.body !== undefined
 								? parseBody(argv.body)
-								: compactBody({
-										actionTimeout: argv["action-timeout"],
-										addScriptTag: parseObjectArray(
-											argv["add-script-tag"],
-											"add-script-tag"
-										),
-										addStyleTag: parseObjectArray(
-											argv["add-style-tag"],
-											"add-style-tag"
-										),
-										allowRequestPattern: argv["allow-request-pattern"],
-										allowResourceTypes: argv["allow-resource-types"],
-										authenticate: {
-											password: resolveFileToken(
-												argv["authenticate-password"] as string | undefined,
-												"authenticate-password",
+								: compactBody(
+										{
+											actionTimeout: argv["action-timeout"],
+											addScriptTag: parseObjectArray(
+												argv["add-script-tag"],
+												"add-script-tag"
+											),
+											addStyleTag: parseObjectArray(
+												argv["add-style-tag"],
+												"add-style-tag"
+											),
+											allowRequestPattern: argv["allow-request-pattern"],
+											allowResourceTypes: argv["allow-resource-types"],
+											authenticate: {
+												password: resolveFileToken(
+													argv["authenticate-password"] as string | undefined,
+													"authenticate-password",
+													"text"
+												),
+												username: resolveFileToken(
+													argv["authenticate-username"] as string | undefined,
+													"authenticate-username",
+													"text"
+												),
+											},
+											bestAttempt: argv["best-attempt"],
+											cookies: parseObjectArray(argv["cookies"], "cookies"),
+											custom_ai: parseObjectArray(
+												argv["custom-ai"],
+												"custom-ai"
+											),
+											emulateMediaType: resolveFileToken(
+												argv["emulate-media-type"] as string | undefined,
+												"emulate-media-type",
 												"text"
 											),
-											username: resolveFileToken(
-												argv["authenticate-username"] as string | undefined,
-												"authenticate-username",
+											gotoOptions: {
+												referer: resolveFileToken(
+													argv["goto-options-referer"] as string | undefined,
+													"goto-options-referer",
+													"text"
+												),
+												referrerPolicy: resolveFileToken(
+													argv["goto-options-referrer-policy"] as
+														| string
+														| undefined,
+													"goto-options-referrer-policy",
+													"text"
+												),
+												timeout: argv["goto-options-timeout"],
+											},
+											html: resolveFileToken(
+												argv["html"] as string | undefined,
+												"html",
 												"text"
 											),
+											prompt: resolveFileToken(
+												argv["prompt"] as string | undefined,
+												"prompt",
+												"text"
+											),
+											rejectRequestPattern: argv["reject-request-pattern"],
+											rejectResourceTypes: argv["reject-resource-types"],
+											response_format: {
+												json_schema: parseJsonMap(
+													argv["response-format-json-schema"],
+													"response-format-json-schema"
+												),
+												type: resolveFileToken(
+													argv["response-format-type"] as string | undefined,
+													"response-format-type",
+													"text"
+												),
+											},
+											setExtraHTTPHeaders: parseJsonMap(
+												argv["set-extra-httpheaders"],
+												"set-extra-httpheaders"
+											),
+											setJavaScriptEnabled: argv["set-java-script-enabled"],
+											url: resolveFileToken(
+												argv["url"] as string | undefined,
+												"url",
+												"text"
+											),
+											userAgent: resolveFileToken(
+												argv["user-agent"] as string | undefined,
+												"user-agent",
+												"text"
+											),
+											viewport: {
+												deviceScaleFactor: argv["viewport-device-scale-factor"],
+												hasTouch: argv["viewport-has-touch"],
+												height: argv["viewport-height"],
+												isLandscape: argv["viewport-is-landscape"],
+												isMobile: argv["viewport-is-mobile"],
+												width: argv["viewport-width"],
+											},
+											waitForSelector: {
+												hidden: argv["wait-for-selector-hidden"],
+												selector: resolveFileToken(
+													argv["wait-for-selector-selector"] as
+														| string
+														| undefined,
+													"wait-for-selector-selector",
+													"text"
+												),
+												timeout: argv["wait-for-selector-timeout"],
+												visible: argv["wait-for-selector-visible"],
+											},
+											waitForTimeout: argv["wait-for-timeout"],
 										},
-										bestAttempt: argv["best-attempt"],
-										cookies: parseObjectArray(argv["cookies"], "cookies"),
-										custom_ai: parseObjectArray(argv["custom-ai"], "custom-ai"),
-										emulateMediaType: resolveFileToken(
-											argv["emulate-media-type"] as string | undefined,
-											"emulate-media-type",
-											"text"
-										),
-										gotoOptions: {
-											referer: resolveFileToken(
-												argv["goto-options-referer"] as string | undefined,
-												"goto-options-referer",
-												"text"
-											),
-											referrerPolicy: resolveFileToken(
-												argv["goto-options-referrer-policy"] as
-													| string
-													| undefined,
-												"goto-options-referrer-policy",
-												"text"
-											),
-											timeout: argv["goto-options-timeout"],
-										},
-										html: resolveFileToken(
-											argv["html"] as string | undefined,
-											"html",
-											"text"
-										),
-										prompt: resolveFileToken(
-											argv["prompt"] as string | undefined,
-											"prompt",
-											"text"
-										),
-										rejectRequestPattern: argv["reject-request-pattern"],
-										rejectResourceTypes: argv["reject-resource-types"],
-										response_format: {
-											type: resolveFileToken(
-												argv["response-format-type"] as string | undefined,
-												"response-format-type",
-												"text"
-											),
-										},
-										setJavaScriptEnabled: argv["set-java-script-enabled"],
-										url: resolveFileToken(
-											argv["url"] as string | undefined,
-											"url",
-											"text"
-										),
-										userAgent: resolveFileToken(
-											argv["user-agent"] as string | undefined,
-											"user-agent",
-											"text"
-										),
-										viewport: {
-											deviceScaleFactor: argv["viewport-device-scale-factor"],
-											hasTouch: argv["viewport-has-touch"],
-											height: argv["viewport-height"],
-											isLandscape: argv["viewport-is-landscape"],
-											isMobile: argv["viewport-is-mobile"],
-											width: argv["viewport-width"],
-										},
-										waitForSelector: {
-											hidden: argv["wait-for-selector-hidden"],
-											selector: resolveFileToken(
-												argv["wait-for-selector-selector"] as
-													| string
-													| undefined,
-												"wait-for-selector-selector",
-												"text"
-											),
-											timeout: argv["wait-for-selector-timeout"],
-											visible: argv["wait-for-selector-visible"],
-										},
-										waitForTimeout: argv["wait-for-timeout"],
-									}),
+										[
+											["response_format", "json_schema"],
+											["setExtraHTTPHeaders"],
+										]
+									),
 						sensitiveBodyPaths: [["authenticate", "password"]],
 					});
 					return;
@@ -431,98 +464,112 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				}
 
 				// Assemble request body from individual flags
-				const bodyData = compactBody({
-					actionTimeout: argv["action-timeout"],
-					addScriptTag: parseObjectArray(
-						argv["add-script-tag"],
-						"add-script-tag"
-					),
-					addStyleTag: parseObjectArray(argv["add-style-tag"], "add-style-tag"),
-					allowRequestPattern: argv["allow-request-pattern"],
-					allowResourceTypes: argv["allow-resource-types"],
-					authenticate: {
-						password: resolveFileToken(
-							argv["authenticate-password"] as string | undefined,
-							"authenticate-password",
+				const bodyData = compactBody(
+					{
+						actionTimeout: argv["action-timeout"],
+						addScriptTag: parseObjectArray(
+							argv["add-script-tag"],
+							"add-script-tag"
+						),
+						addStyleTag: parseObjectArray(
+							argv["add-style-tag"],
+							"add-style-tag"
+						),
+						allowRequestPattern: argv["allow-request-pattern"],
+						allowResourceTypes: argv["allow-resource-types"],
+						authenticate: {
+							password: resolveFileToken(
+								argv["authenticate-password"] as string | undefined,
+								"authenticate-password",
+								"text"
+							),
+							username: resolveFileToken(
+								argv["authenticate-username"] as string | undefined,
+								"authenticate-username",
+								"text"
+							),
+						},
+						bestAttempt: argv["best-attempt"],
+						cookies: parseObjectArray(argv["cookies"], "cookies"),
+						custom_ai: parseObjectArray(argv["custom-ai"], "custom-ai"),
+						emulateMediaType: resolveFileToken(
+							argv["emulate-media-type"] as string | undefined,
+							"emulate-media-type",
 							"text"
 						),
-						username: resolveFileToken(
-							argv["authenticate-username"] as string | undefined,
-							"authenticate-username",
+						gotoOptions: {
+							referer: resolveFileToken(
+								argv["goto-options-referer"] as string | undefined,
+								"goto-options-referer",
+								"text"
+							),
+							referrerPolicy: resolveFileToken(
+								argv["goto-options-referrer-policy"] as string | undefined,
+								"goto-options-referrer-policy",
+								"text"
+							),
+							timeout: argv["goto-options-timeout"],
+						},
+						html: resolveFileToken(
+							argv["html"] as string | undefined,
+							"html",
 							"text"
 						),
+						prompt: resolveFileToken(
+							argv["prompt"] as string | undefined,
+							"prompt",
+							"text"
+						),
+						rejectRequestPattern: argv["reject-request-pattern"],
+						rejectResourceTypes: argv["reject-resource-types"],
+						response_format: {
+							json_schema: parseJsonMap(
+								argv["response-format-json-schema"],
+								"response-format-json-schema"
+							),
+							type: resolveFileToken(
+								argv["response-format-type"] as string | undefined,
+								"response-format-type",
+								"text"
+							),
+						},
+						setExtraHTTPHeaders: parseJsonMap(
+							argv["set-extra-httpheaders"],
+							"set-extra-httpheaders"
+						),
+						setJavaScriptEnabled: argv["set-java-script-enabled"],
+						url: resolveFileToken(
+							argv["url"] as string | undefined,
+							"url",
+							"text"
+						),
+						userAgent: resolveFileToken(
+							argv["user-agent"] as string | undefined,
+							"user-agent",
+							"text"
+						),
+						viewport: {
+							deviceScaleFactor: argv["viewport-device-scale-factor"],
+							hasTouch: argv["viewport-has-touch"],
+							height: argv["viewport-height"],
+							isLandscape: argv["viewport-is-landscape"],
+							isMobile: argv["viewport-is-mobile"],
+							width: argv["viewport-width"],
+						},
+						waitForSelector: {
+							hidden: argv["wait-for-selector-hidden"],
+							selector: resolveFileToken(
+								argv["wait-for-selector-selector"] as string | undefined,
+								"wait-for-selector-selector",
+								"text"
+							),
+							timeout: argv["wait-for-selector-timeout"],
+							visible: argv["wait-for-selector-visible"],
+						},
+						waitForTimeout: argv["wait-for-timeout"],
 					},
-					bestAttempt: argv["best-attempt"],
-					cookies: parseObjectArray(argv["cookies"], "cookies"),
-					custom_ai: parseObjectArray(argv["custom-ai"], "custom-ai"),
-					emulateMediaType: resolveFileToken(
-						argv["emulate-media-type"] as string | undefined,
-						"emulate-media-type",
-						"text"
-					),
-					gotoOptions: {
-						referer: resolveFileToken(
-							argv["goto-options-referer"] as string | undefined,
-							"goto-options-referer",
-							"text"
-						),
-						referrerPolicy: resolveFileToken(
-							argv["goto-options-referrer-policy"] as string | undefined,
-							"goto-options-referrer-policy",
-							"text"
-						),
-						timeout: argv["goto-options-timeout"],
-					},
-					html: resolveFileToken(
-						argv["html"] as string | undefined,
-						"html",
-						"text"
-					),
-					prompt: resolveFileToken(
-						argv["prompt"] as string | undefined,
-						"prompt",
-						"text"
-					),
-					rejectRequestPattern: argv["reject-request-pattern"],
-					rejectResourceTypes: argv["reject-resource-types"],
-					response_format: {
-						type: resolveFileToken(
-							argv["response-format-type"] as string | undefined,
-							"response-format-type",
-							"text"
-						),
-					},
-					setJavaScriptEnabled: argv["set-java-script-enabled"],
-					url: resolveFileToken(
-						argv["url"] as string | undefined,
-						"url",
-						"text"
-					),
-					userAgent: resolveFileToken(
-						argv["user-agent"] as string | undefined,
-						"user-agent",
-						"text"
-					),
-					viewport: {
-						deviceScaleFactor: argv["viewport-device-scale-factor"],
-						hasTouch: argv["viewport-has-touch"],
-						height: argv["viewport-height"],
-						isLandscape: argv["viewport-is-landscape"],
-						isMobile: argv["viewport-is-mobile"],
-						width: argv["viewport-width"],
-					},
-					waitForSelector: {
-						hidden: argv["wait-for-selector-hidden"],
-						selector: resolveFileToken(
-							argv["wait-for-selector-selector"] as string | undefined,
-							"wait-for-selector-selector",
-							"text"
-						),
-						timeout: argv["wait-for-selector-timeout"],
-						visible: argv["wait-for-selector-visible"],
-					},
-					waitForTimeout: argv["wait-for-timeout"],
-				});
+					[["response_format", "json_schema"], ["setExtraHTTPHeaders"]]
+				);
 				const qs = new URLSearchParams(
 					Object.entries(queryParams)
 						.filter(([, v]) => v !== undefined)

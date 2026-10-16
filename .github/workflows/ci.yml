@@ -67,7 +67,7 @@ jobs:
         uses: ./.github/actions/install-dependencies
 
       - name: Test automation scripts
-        run: node --test scripts/update-forge.test.ts
+        run: node --test scripts/update-openapi.test.ts
 
       - name: Run cli tests
         run: pnpm --filter cf test

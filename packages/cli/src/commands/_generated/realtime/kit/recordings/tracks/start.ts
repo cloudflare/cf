@@ -11,7 +11,7 @@ import {
 	getAccountId,
 	resolveAccountIdSilent,
 } from "#lib/auth.js";
-import { compactBody, parseBody } from "#lib/body-parser.js";
+import { compactBody, parseBody, parseJsonMap } from "#lib/body-parser.js";
 import { formatDryRun } from "#lib/dry-run.js";
 import { resolveFileToken } from "#lib/input-validation.js";
 import { LOCAL_ACCOUNT_ID } from "#lib/local.js";
@@ -29,6 +29,11 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			type: "string",
 			description: "The app identifier tag.",
 			demandOption: true,
+		})
+		.option("layers", {
+			type: "string",
+			description:
+				"Optional audio layer configuration. If omitted, RealtimeKit records all participant audio using the default file name prefix. Provide as a JSON object or @path/to/file.json.",
 		})
 		.option("meeting-id", {
 			type: "string",
@@ -79,14 +84,18 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						body:
 							argv.body !== undefined
 								? parseBody(argv.body)
-								: compactBody({
-										meeting_id: resolveFileToken(
-											argv["meeting-id"] as string | undefined,
-											"meeting-id",
-											"text"
-										),
-										user_ids: argv["user-ids"],
-									}),
+								: compactBody(
+										{
+											layers: parseJsonMap(argv["layers"], "layers"),
+											meeting_id: resolveFileToken(
+												argv["meeting-id"] as string | undefined,
+												"meeting-id",
+												"text"
+											),
+											user_ids: argv["user-ids"],
+										},
+										[["layers"]]
+									),
 					});
 					return;
 				}
@@ -114,14 +123,18 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				}
 
 				// Assemble request body from individual flags
-				const bodyData = compactBody({
-					meeting_id: resolveFileToken(
-						argv["meeting-id"] as string | undefined,
-						"meeting-id",
-						"text"
-					),
-					user_ids: argv["user-ids"],
-				});
+				const bodyData = compactBody(
+					{
+						layers: parseJsonMap(argv["layers"], "layers"),
+						meeting_id: resolveFileToken(
+							argv["meeting-id"] as string | undefined,
+							"meeting-id",
+							"text"
+						),
+						user_ids: argv["user-ids"],
+					},
+					[["layers"]]
+				);
 				const result = await withProgress(`Creating`, async () =>
 					client.send(operation, {
 						body: bodyData,

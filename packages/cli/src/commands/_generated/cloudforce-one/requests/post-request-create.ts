@@ -11,7 +11,7 @@ import {
 	getAccountId,
 	resolveAccountIdSilent,
 } from "#lib/auth.js";
-import { compactBody, parseBody } from "#lib/body-parser.js";
+import { compactBody, parseBody, parseJsonMap } from "#lib/body-parser.js";
 import { formatDryRun } from "#lib/dry-run.js";
 import { resolveFileToken } from "#lib/input-validation.js";
 import { LOCAL_ACCOUNT_ID } from "#lib/local.js";
@@ -37,6 +37,11 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("event-id", {
 			type: "string",
 			description: "Optional related event ID",
+		})
+		.option("metadata", {
+			type: "string",
+			description:
+				"Optional metadata fields specific to the RFI type. Provide as a JSON object or @path/to/file.json.",
 		})
 		.option("priority", {
 			type: "string",
@@ -120,35 +125,39 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						body:
 							argv.body !== undefined
 								? parseBody(argv.body)
-								: compactBody({
-										description: resolveFileToken(
-											argv["description"] as string | undefined,
-											"description",
-											"text"
-										),
-										eventId: resolveFileToken(
-											argv["event-id"] as string | undefined,
-											"event-id",
-											"text"
-										),
-										priority: argv["priority"],
-										request_type: resolveFileToken(
-											argv["request-type"] as string | undefined,
-											"request-type",
-											"text"
-										),
-										subtypeId: resolveFileToken(
-											argv["subtype-id"] as string | undefined,
-											"subtype-id",
-											"text"
-										),
-										title: resolveFileToken(
-											argv["title"] as string | undefined,
-											"title",
-											"text"
-										),
-										tlp: argv["tlp"],
-									}),
+								: compactBody(
+										{
+											description: resolveFileToken(
+												argv["description"] as string | undefined,
+												"description",
+												"text"
+											),
+											eventId: resolveFileToken(
+												argv["event-id"] as string | undefined,
+												"event-id",
+												"text"
+											),
+											metadata: parseJsonMap(argv["metadata"], "metadata"),
+											priority: argv["priority"],
+											request_type: resolveFileToken(
+												argv["request-type"] as string | undefined,
+												"request-type",
+												"text"
+											),
+											subtypeId: resolveFileToken(
+												argv["subtype-id"] as string | undefined,
+												"subtype-id",
+												"text"
+											),
+											title: resolveFileToken(
+												argv["title"] as string | undefined,
+												"title",
+												"text"
+											),
+											tlp: argv["tlp"],
+										},
+										[["metadata"]]
+									),
 					});
 					return;
 				}
@@ -170,35 +179,39 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				}
 
 				// Assemble request body from individual flags
-				const bodyData = compactBody({
-					description: resolveFileToken(
-						argv["description"] as string | undefined,
-						"description",
-						"text"
-					),
-					eventId: resolveFileToken(
-						argv["event-id"] as string | undefined,
-						"event-id",
-						"text"
-					),
-					priority: argv["priority"],
-					request_type: resolveFileToken(
-						argv["request-type"] as string | undefined,
-						"request-type",
-						"text"
-					),
-					subtypeId: resolveFileToken(
-						argv["subtype-id"] as string | undefined,
-						"subtype-id",
-						"text"
-					),
-					title: resolveFileToken(
-						argv["title"] as string | undefined,
-						"title",
-						"text"
-					),
-					tlp: argv["tlp"],
-				});
+				const bodyData = compactBody(
+					{
+						description: resolveFileToken(
+							argv["description"] as string | undefined,
+							"description",
+							"text"
+						),
+						eventId: resolveFileToken(
+							argv["event-id"] as string | undefined,
+							"event-id",
+							"text"
+						),
+						metadata: parseJsonMap(argv["metadata"], "metadata"),
+						priority: argv["priority"],
+						request_type: resolveFileToken(
+							argv["request-type"] as string | undefined,
+							"request-type",
+							"text"
+						),
+						subtypeId: resolveFileToken(
+							argv["subtype-id"] as string | undefined,
+							"subtype-id",
+							"text"
+						),
+						title: resolveFileToken(
+							argv["title"] as string | undefined,
+							"title",
+							"text"
+						),
+						tlp: argv["tlp"],
+					},
+					[["metadata"]]
+				);
 				const result = await withProgress(`Creating`, async () =>
 					client.send(operation, {
 						body: bodyData,

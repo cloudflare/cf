@@ -891,10 +891,10 @@ describe("wrangler pipelines", () => {
 		// `--schema-format-type` when another `--schema-*` sibling is set,
 		// so an R2 sink creates without any `--schema-*` flag. cf's
 		// `config` group-implies check requires the R2 credential leaves
-		// (`--config-account-id`, `--config-bucket`,
-		// `--config-credentials-access-key-id`,
-		// `--config-credentials-secret-access-key`) together when any
-		// `--config-*` flag is set, so all four are passed here.
+		// (`--sink-config-account-id`, `--sink-config-bucket`,
+		// `--sink-config-credentials-access-key-id`,
+		// `--sink-config-credentials-secret-access-key`) together when any
+		// `--sink-config-*` flag is set, so all four are passed here.
 		it("should create R2 sink with explicit credentials", async ({
 			expect,
 		}) => {
@@ -931,7 +931,7 @@ describe("wrangler pipelines", () => {
 			);
 
 			await runWrangler(
-				"pipelines sinks create --name my_sink --type r2 --config-account-id some-account-id --config-bucket my-bucket --config-credentials-access-key-id mykey --config-credentials-secret-access-key mysecret"
+				"pipelines sinks create --name my_sink --type r2 --sink-config-account-id some-account-id --sink-config-bucket my-bucket --sink-config-credentials-access-key-id mykey --sink-config-credentials-secret-access-key mysecret"
 			);
 
 			expect(capturedBody).toEqual({
@@ -960,10 +960,10 @@ describe("wrangler pipelines", () => {
 		// variant-aware: a required leaf that `.conflicts()` with a flag
 		// the user set belongs to a different `oneOf` variant and is not
 		// demanded. So the R2-credentials leaves are skipped when the
-		// catalog leaves (`--config-namespace`, `--config-table-name`,
-		// `--config-token`) are supplied, and the data-catalog variant is
-		// now expressible via the per-field `--config-*` form. The shared
-		// required leaves (`--config-account-id`, `--config-bucket`) are
+		// catalog leaves (`--sink-config-namespace`, `--sink-config-table-name`,
+		// `--sink-config-token`) are supplied, and the data-catalog variant is
+		// now expressible via the per-field `--sink-config-*` form. The shared
+		// required leaves (`--sink-config-account-id`, `--sink-config-bucket`) are
 		// still demanded — they are required in BOTH variants.
 		it("should create R2 Data Catalog sink", async ({ expect }) => {
 			let capturedBody: Record<string, unknown> | undefined;
@@ -999,7 +999,7 @@ describe("wrangler pipelines", () => {
 			);
 
 			await runWrangler(
-				"pipelines sinks create --name my_sink --type r2_data_catalog --config-account-id some-account-id --config-bucket catalog-bucket --config-namespace default --config-table-name my-table --config-token token123"
+				"pipelines sinks create --name my_sink --type r2_data_catalog --sink-config-account-id some-account-id --sink-config-bucket catalog-bucket --sink-config-namespace default --sink-config-table-name my-table --sink-config-token token123"
 			);
 
 			expect(capturedBody).toEqual({
@@ -1022,7 +1022,7 @@ describe("wrangler pipelines", () => {
 		});
 
 		// cf should reject a data-catalog sink missing its required config,
-		// but the generated nested `--config-*` flags currently allow an
+		// but the generated nested `--sink-config-*` flags currently allow an
 		// incomplete request through to the API.
 		it.todo("should error when r2-data-catalog missing required fields");
 	});

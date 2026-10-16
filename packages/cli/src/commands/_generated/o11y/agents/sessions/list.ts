@@ -20,36 +20,42 @@ import { runWithTelemetry } from "#lib/telemetry/index.js";
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
 		.usage(
-			"$0 o11y agents sessions list\n\nList the Sessions of one Agent in one Worker service observed in the window, most recently active first. A Session groups the Traces containing an invocation of the Agent with the same gen_ai.conversation.id. Results describe observed activity in the window, not complete history."
+			"$0 o11y agents sessions list\n\nLists sessions in which the specified agent participated, ordered by most recent activity. A session is identified by gen_ai.conversation.id and includes authorized activity from every agent in that conversation during the requested time range. Agent invocation and chat spans without a conversation ID are attributed only when their trace is associated with exactly one observed conversation."
 		)
 		.option("service", {
 			type: "string",
-			description: "Worker service that emitted the Agent invocations.",
+			description:
+				"Worker service name associated with the participating agent.",
 			demandOption: true,
 		})
 		.option("agent", {
 			type: "string",
 			description:
-				"Agent name reported by the invocations (gen_ai.agent.name).",
+				"Agent name reported in gen_ai.agent.name. The request is limited to conversations in which this service and agent participated.",
 			demandOption: true,
 		})
 		.option("from", {
 			type: "number",
 			description:
-				"Start of the window, as Unix epoch milliseconds. Clamped to the 7-day retention period.",
+				"Start of the requested time range, as Unix epoch milliseconds. Values earlier than the 7-day retention boundary are clamped.",
 			demandOption: true,
 		})
 		.option("to", {
 			type: "number",
 			description:
-				"End of the window, as Unix epoch milliseconds. Must be later than from.",
+				"End of the requested time range, as Unix epoch milliseconds. Must be later than from.",
 			demandOption: true,
 		})
 		.option("cursor", {
 			type: "string",
-			description: "Opaque cursor returned in result_info.cursors.after.",
+			description:
+				"Opaque cursor from result_info.cursors.after in the previous response.",
 		})
-		.option("per-page", { type: "number", description: "Per page" })
+		.option("per-page", {
+			type: "number",
+			description:
+				"Maximum number of items to return. Defaults to 20 and cannot exceed 100.",
+		})
 		.option("dry-run", {
 			type: "boolean",
 			description: "Validate and show what would happen without executing",

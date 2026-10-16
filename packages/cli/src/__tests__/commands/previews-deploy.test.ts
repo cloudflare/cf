@@ -1,4 +1,24 @@
-import { beforeEach, describe, expect, it, vi } from "vite-plus/test";
+import {
+	existsSync,
+	mkdirSync,
+	readFileSync,
+	readdirSync,
+	writeFileSync,
+} from "node:fs";
+import { dirname, resolve } from "node:path";
+import { clearOutputFilePath } from "@cloudflare/workers-utils";
+import {
+	mockConsoleMethods,
+	runInTempDir,
+} from "@cloudflare/workers-utils/test-helpers";
+import {
+	afterEach,
+	beforeEach,
+	describe,
+	expect,
+	it,
+	vi,
+} from "vite-plus/test";
 import {
 	createPreviewDeployOutput,
 	runPreviewDeploy,
@@ -76,7 +96,6 @@ const previewResult = {
 		name: "feature",
 		slug: "feature",
 		urls: ["https://feature.example.workers.dev"],
-		worker_name: "preview-worker",
 		created_on: "2026-01-01T00:00:00Z",
 		updated_on: "2026-01-01T00:00:00Z",
 	},
@@ -91,7 +110,11 @@ const previewResult = {
 };
 
 describe("cf previews deploy", () => {
+	afterEach(() => clearOutputFilePath());
 	beforeEach(() => {
+		clearOutputFilePath();
+		vi.stubEnv("WRANGLER_OUTPUT_FILE_DIRECTORY", undefined);
+		vi.stubEnv("WRANGLER_OUTPUT_FILE_PATH", undefined);
 		vi.clearAllMocks();
 		mocks.parseWorkerConfig.mockImplementation((worker) => ({
 			wranglerConfig: worker.config,
@@ -466,6 +489,139 @@ describe("cf previews deploy", () => {
 			expect.any(Object),
 			expect.any(Object)
 		);
+	});
+
+	describe("Workers Builds output", () => {
+		runInTempDir();
+		const std = mockConsoleMethods();
+
+		beforeEach(() => {
+			mocks.readBuildOutput.mockResolvedValue({
+				rootConfig: {
+					accountId: "account-id",
+					buildContext: { isPreview: true },
+				},
+				workers: {
+					default: {
+						config: { type: "worker", name: "preview-worker" },
+						bundleDir: "/project/bundle",
+					},
+					api: {
+						config: { type: "worker", name: "api" },
+						bundleDir: "/project/api",
+					},
+				},
+			});
+			mocks.assembleBuildResult.mockReturnValue({ content: "worker code" });
+			mocks.getAuthToken.mockResolvedValue("token");
+			mocks.createDeployContext.mockReturnValue({
+				logger: { log: vi.fn(), info: vi.fn() },
+			});
+			mocks.previewBuildOutput.mockResolvedValue(previewResult);
+		});
+
+		it.each([
+			{ quiet: false, worker: undefined, workerName: "preview-worker" },
+			{ quiet: true, worker: undefined, workerName: "preview-worker" },
+			{ quiet: true, worker: "api", workerName: "api" },
+		])(
+			"writes the selected Worker $workerName to an output directory with quiet=$quiet",
+			async ({ quiet, worker, workerName }) => {
+				const directory = resolve("build output with spaces", "nested");
+				vi.stubEnv("WRANGLER_OUTPUT_FILE_DIRECTORY", directory);
+
+				await expect(
+					runCf([
+						"previews",
+						"deploy",
+						"feature",
+						"--prebuilt",
+						...(quiet ? ["--quiet"] : []),
+						...(worker ? ["--worker", worker] : []),
+					])
+				).resolves.toEqual({ exitCode: 0 });
+
+				const files = readdirSync(directory);
+				expect(files).toHaveLength(1);
+				const filename = files[0];
+				if (filename === undefined) {
+					throw new Error("Expected a Preview output file.");
+				}
+				expect(filename).toMatch(/^wrangler-output-.*\.json$/);
+				const entry = JSON.parse(
+					readFileSync(resolve(directory, filename), "utf8")
+				);
+				expect(entry).toEqual({
+					...createPreviewDeployOutput(previewResult),
+					worker_name: workerName,
+					timestamp: expect.any(String),
+				});
+				expect(new Date(entry.timestamp).toISOString()).toBe(entry.timestamp);
+				if (quiet) {
+					expect(std.out).toBe("");
+				} else {
+					expect(JSON.parse(std.out)).toEqual(
+						createPreviewDeployOutput(previewResult)
+					);
+				}
+			}
+		);
+
+		it("appends to an explicit output file in preference to the directory", async () => {
+			const file = resolve("explicit output", "entries.jsonl");
+			const ignoredDirectory = resolve("ignored directory");
+			mkdirSync(dirname(file), { recursive: true });
+			writeFileSync(file, '{"existing":true}\n');
+			vi.stubEnv("WRANGLER_OUTPUT_FILE_PATH", file);
+			vi.stubEnv("WRANGLER_OUTPUT_FILE_DIRECTORY", ignoredDirectory);
+
+			for (let i = 0; i < 2; i++) {
+				await runPreviewDeploy({
+					"preview-name": "feature",
+					prebuilt: true,
+				} as Parameters<typeof runPreviewDeploy>[0]);
+			}
+
+			const entries = readFileSync(file, "utf8")
+				.trim()
+				.split("\n")
+				.map((line) => JSON.parse(line));
+			expect(entries).toHaveLength(3);
+			expect(entries[0]).toEqual({ existing: true });
+			for (const entry of entries.slice(1)) {
+				expect(entry).toEqual({
+					...createPreviewDeployOutput(previewResult),
+					worker_name: "preview-worker",
+					timestamp: expect.any(String),
+				});
+			}
+			expect(existsSync(ignoredDirectory)).toBe(false);
+		});
+
+		it("does not create an output file when neither output variable is set", async () => {
+			const filesBefore = readdirSync(process.cwd());
+			await runPreviewDeploy({
+				"preview-name": "feature",
+				prebuilt: true,
+			} as Parameters<typeof runPreviewDeploy>[0]);
+			expect(readdirSync(process.cwd())).toEqual(filesBefore);
+		});
+
+		it("does not record a failed Preview deployment", async () => {
+			const directory = resolve("failed output");
+			vi.stubEnv("WRANGLER_OUTPUT_FILE_DIRECTORY", directory);
+			mocks.previewBuildOutput.mockRejectedValueOnce(
+				new Error("Preview upload failed")
+			);
+
+			await expect(
+				runPreviewDeploy({
+					"preview-name": "feature",
+					prebuilt: true,
+				} as Parameters<typeof runPreviewDeploy>[0])
+			).rejects.toThrow("Preview upload failed");
+			expect(existsSync(directory)).toBe(false);
+		});
 	});
 
 	it("returns the Preview deployment as JSON", () => {

@@ -37,7 +37,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		})
 		.option("destination-namespace", {
 			type: "string",
-			description: "Target namespace to move the instance into.",
+			description: "Namespace to move the instance into.",
 		})
 		.option("dry-run", {
 			type: "boolean",
@@ -110,7 +110,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				if (argv["destination-namespace"] === undefined) {
 					argv["destination-namespace"] = await promptForRequiredField(
 						"destination-namespace",
-						"Target namespace to move the instance into."
+						"Namespace to move the instance into."
 					);
 				}
 

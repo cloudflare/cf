@@ -12,6 +12,7 @@ import { formatDryRun } from "#lib/dry-run.js";
 import { resolveFileToken } from "#lib/input-validation.js";
 import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
+import { promptForRequiredEnumField } from "#lib/prompt.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
 function builder(yargs: Argv<CommonYargsOptions>) {
@@ -43,6 +44,20 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description:
 				"An informative summary of the rule. This value is sanitized and any tags will be removed.",
 		})
+		.option("access-rule-mode", {
+			type: "string",
+			description: "The action to apply to a matched request.",
+			choices: [
+				"block",
+				"challenge",
+				"whitelist",
+				"js_challenge",
+				"managed_challenge",
+			],
+		})
+		.coerce("access-rule-mode", (value) =>
+			resolveFileToken(value, "access-rule-mode", "text")
+		)
 		.option("paused", {
 			type: "boolean",
 			description: "When true, indicates that the rule is currently paused.",
@@ -69,7 +84,12 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			{
 				command: "firewall ua-rules update",
 				classification: {
-					safeFlags: ["configuration-target", "paused", "dry-run"],
+					safeFlags: [
+						"configuration-target",
+						"access-rule-mode",
+						"paused",
+						"dry-run",
+					],
 				} satisfies ArgClassification<Args>,
 			},
 			argv as Record<string, unknown>,
@@ -101,6 +121,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 											"description",
 											"text"
 										),
+										mode: argv["access-rule-mode"],
 										paused: argv["paused"],
 									}),
 					});
@@ -124,6 +145,19 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					formatOutput(result, { successLabel: `Updated` });
 					return;
 				}
+				if (argv["access-rule-mode"] === undefined) {
+					argv["access-rule-mode"] = await promptForRequiredEnumField(
+						"access-rule-mode",
+						"The action to apply to a matched request.",
+						[
+							"block",
+							"challenge",
+							"whitelist",
+							"js_challenge",
+							"managed_challenge",
+						] as const
+					);
+				}
 
 				// Assemble request body from individual flags
 				const bodyData = compactBody({
@@ -140,6 +174,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						"description",
 						"text"
 					),
+					mode: argv["access-rule-mode"],
 					paused: argv["paused"],
 				});
 				const result = await withProgress(`Updating`, async () =>

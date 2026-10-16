@@ -50,6 +50,16 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("name", { type: "string", description: "The name field" })
 		.option("physport", { type: "number", description: "The physport field" })
 		.option("priority", { type: "number", description: "The priority field" })
+		.option("provisioned-download-kbps", {
+			type: "number",
+			description:
+				"Provisioned download rate of the WAN circuit in kilobits per second. Set to null to remove it.",
+		})
+		.option("provisioned-upload-kbps", {
+			type: "number",
+			description:
+				"Provisioned upload rate of the WAN circuit in kilobits per second. Set to null to remove it.",
+		})
 		.option("static-addressing-address", {
 			type: "string",
 			description: "A valid CIDR notation representing an IP range.",
@@ -61,6 +71,11 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("static-addressing-secondary-address", {
 			type: "string",
 			description: "A valid CIDR notation representing an IP range.",
+		})
+		.option("static-addressing-secondary-gateway-address", {
+			type: "string",
+			description:
+				"Gateway address for the secondary connector of a high availability site. Set to null to remove it.",
 		})
 		.option("vlan-tag", {
 			type: "number",
@@ -74,25 +89,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("body", {
 			type: "string",
 			description: "Raw JSON request body (bypasses individual flags)",
-		})
-		.check((argv) => {
-			const groupSet = [
-				"static-addressing-address",
-				"static-addressing-gateway-address",
-				"static-addressing-secondary-address",
-			].some((k) => argv[k] !== undefined);
-			if (groupSet) {
-				const missing = [
-					"static-addressing-address",
-					"static-addressing-gateway-address",
-				].filter((k) => argv[k] === undefined);
-				if (missing.length > 0) {
-					throw new Error(
-						`${missing.map((m) => "--" + m).join(", ")} ${missing.length === 1 ? "is" : "are"} required when any --static_addressing-* flag is set`
-					);
-				}
-			}
-			return true;
 		});
 }
 
@@ -140,6 +136,9 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 										),
 										physport: argv["physport"],
 										priority: argv["priority"],
+										provisioned_download_kbps:
+											argv["provisioned-download-kbps"],
+										provisioned_upload_kbps: argv["provisioned-upload-kbps"],
 										static_addressing: {
 											address: resolveFileToken(
 												argv["static-addressing-address"] as string | undefined,
@@ -158,6 +157,13 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 													| string
 													| undefined,
 												"static-addressing-secondary-address",
+												"text"
+											),
+											secondary_gateway_address: resolveFileToken(
+												argv["static-addressing-secondary-gateway-address"] as
+													| string
+													| undefined,
+												"static-addressing-secondary-gateway-address",
 												"text"
 											),
 										},
@@ -195,6 +201,8 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					),
 					physport: argv["physport"],
 					priority: argv["priority"],
+					provisioned_download_kbps: argv["provisioned-download-kbps"],
+					provisioned_upload_kbps: argv["provisioned-upload-kbps"],
 					static_addressing: {
 						address: resolveFileToken(
 							argv["static-addressing-address"] as string | undefined,
@@ -209,6 +217,13 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						secondary_address: resolveFileToken(
 							argv["static-addressing-secondary-address"] as string | undefined,
 							"static-addressing-secondary-address",
+							"text"
+						),
+						secondary_gateway_address: resolveFileToken(
+							argv["static-addressing-secondary-gateway-address"] as
+								| string
+								| undefined,
+							"static-addressing-secondary-gateway-address",
 							"text"
 						),
 					},

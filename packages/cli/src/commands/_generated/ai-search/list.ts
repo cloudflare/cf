@@ -1,3 +1,4 @@
+import operation from "../_operations/ai-search/list.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
@@ -8,7 +9,6 @@ import type { Argv, CommandModule } from "yargs";
 import {
 	createCommandClient,
 	getAccountId,
-	requestApi,
 	resolveAccountIdSilent,
 } from "#lib/auth.js";
 import { formatDryRun } from "#lib/dry-run.js";
@@ -19,7 +19,7 @@ import { runWithTelemetry } from "#lib/telemetry/index.js";
 
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
-		.usage("$0 ai-search list\n\nList all AI Search instances in the account.")
+		.usage("$0 ai-search list\n\nLists all AI Search instances in the account.")
 		.option("namespace", {
 			type: "string",
 			description: "Namespace to use for this operation.",
@@ -38,7 +38,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("hostname", {
 			type: "string",
 			description:
-				"Filter by exact Search for Agents hostname (case-insensitive).",
+				"Return only instances with this exact Search for Agents hostname (case-insensitive).",
 		})
 		.option("order-by", {
 			type: "string",
@@ -98,12 +98,11 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.accountId = accountId;
 
 				const result = await withProgress(`Loading`, async () =>
-					requestApi<unknown>(
-						client,
-						"GET",
-						`/accounts/${accountId}/ai-search/namespaces/${encodeURIComponent(String(argv["namespace"]))}/instances`,
-						{ query: queryParams }
-					)
+					client.send(operation, {
+						account_id: accountId,
+						namespace: argv["namespace"],
+						...queryParams,
+					})
 				);
 				formatOutput(result, { successLabel: `Loaded` });
 			}

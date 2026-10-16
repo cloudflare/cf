@@ -1,4 +1,8 @@
+import $accountresources from "./account-resources/index.js";
+import $keys from "./keys/index.js";
 import $resources from "./resources/index.js";
+import $summary from "./summary/index.js";
+import $values from "./values/index.js";
 import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * tags command
@@ -12,7 +16,11 @@ const command: CommandModule<CommonYargsOptions> = {
 
 	builder: (yargs) => {
 		return yargs
+			.command($accountresources)
+			.command($keys)
 			.command($resources)
+			.command($summary)
+			.command($values)
 			.demandCommand(1, "Please specify a subcommand");
 	},
 

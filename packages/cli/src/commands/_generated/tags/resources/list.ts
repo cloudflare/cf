@@ -22,6 +22,11 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.usage(
 			"$0 tags resources list\n\nLists all tagged resources for an account."
 		)
+		.option("include-navigation", {
+			type: "boolean",
+			description:
+				"Resolve current namespace Worker navigation by immutable child tag. Optional read-only navigation is omitted for deleted or unresolved children. Lookups are limited to this page, at most five concurrently, with a shared two-second budget. Tag identity, ETag, filters and pagination are unchanged; name filtering still uses the stored resource name. Defaults to false.",
+		})
 		.option("type", {
 			type: "string",
 			description:
@@ -66,12 +71,13 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			{
 				command: "tags resources list",
 				classification: {
-					safeFlags: ["case-insensitive", "dry-run"],
+					safeFlags: ["include-navigation", "case-insensitive", "dry-run"],
 				} satisfies ArgClassification<Args>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
 				const queryParams: Record<string, unknown> = {
+					include_navigation: argv["include-navigation"],
 					type: argv["type"],
 					name: argv["name"],
 					id: argv["id"],

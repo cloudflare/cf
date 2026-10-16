@@ -7,7 +7,7 @@ import type { ArgClassification } from "#lib/telemetry/index.js";
  */
 import type { Argv, CommandModule } from "yargs";
 import { createCommandClient } from "#lib/auth.js";
-import { compactBody, parseBody } from "#lib/body-parser.js";
+import { compactBody, parseBody, parseJsonMap } from "#lib/body-parser.js";
 import { formatDryRun } from "#lib/dry-run.js";
 import { resolveFileToken } from "#lib/input-validation.js";
 import { formatOutput } from "#lib/output.js";
@@ -39,6 +39,11 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.coerce("language-locale", (value) =>
 			resolveFileToken(value, "language-locale", "text")
 		)
+		.option("preferences", {
+			type: "string",
+			description:
+				"Preference keys mapped to subscription states to update. Only the preferences in this map change; others remain unchanged. Provide as a JSON object or @path/to/file.json.",
+		})
 		.option("dry-run", {
 			type: "boolean",
 			description: "Validate and show what would happen without executing",
@@ -77,9 +82,16 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						body:
 							argv.body !== undefined
 								? parseBody(argv.body)
-								: compactBody({
-										"language-locale": argv["language-locale"],
-									}),
+								: compactBody(
+										{
+											"language-locale": argv["language-locale"],
+											preferences: parseJsonMap(
+												argv["preferences"],
+												"preferences"
+											),
+										},
+										[["preferences"]]
+									),
 					});
 					return;
 				}
@@ -95,9 +107,13 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				}
 
 				// Assemble request body from individual flags
-				const bodyData = compactBody({
-					"language-locale": argv["language-locale"],
-				});
+				const bodyData = compactBody(
+					{
+						"language-locale": argv["language-locale"],
+						preferences: parseJsonMap(argv["preferences"], "preferences"),
+					},
+					[["preferences"]]
+				);
 				const result = await withProgress(`Updating`, async () =>
 					client.send(operation, { body: bodyData })
 				);

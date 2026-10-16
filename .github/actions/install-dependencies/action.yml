@@ -41,7 +41,7 @@ runs:
     # https://nodejs.org/docs/latest/api/module.html#module-compile-cache
     - name: Enable Node compile cache
       shell: bash
-      run: echo "NODE_COMPILE_CACHE=$HOME/.node_compile_cache" >> $GITHUB_ENV
+      run: echo "NODE_COMPILE_CACHE=$HOME/.node_compile_cache" >> "$GITHUB_ENV" # zizmor: ignore[github-env] HOME is runner-controlled
 
     - name: pnpm install (frozen lockfile)
       shell: bash

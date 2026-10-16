@@ -58,8 +58,10 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 20
     steps:
-      - name: Checkout Repo
-        uses: actions/checkout@v4
+      - name: Checkout Repo # zizmor: ignore[artipacked] Changesets needs git push credentials
+        # Changesets' default git-cli commit mode needs the persisted credential
+        # to push the version-packages branch.
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
         with:
           # See https://github.com/changesets/action/issues/187
           token: ${{ secrets.GH_ACCESS_TOKEN }}
@@ -73,7 +75,7 @@ jobs:
         # token. `disable-cache: "true"` skips the pnpm store cache —
         # release builds resolve every dep from the registry rather
         # than restoring from a (potentially poisoned) cache.
-        uses: ./.github/actions/install-dependencies
+        uses: $/.github/actions/install-dependencies
         with:
           node-version: "24"
           registry-url: "https://registry.npmjs.org"

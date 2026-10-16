@@ -11,7 +11,12 @@ import {
 	getAccountId,
 	resolveAccountIdSilent,
 } from "#lib/auth.js";
-import { compactBody, parseBody, parseObjectArray } from "#lib/body-parser.js";
+import {
+	compactBody,
+	parseBody,
+	parseNestedArray,
+	parseObjectArray,
+} from "#lib/body-parser.js";
 import { formatDryRun } from "#lib/dry-run.js";
 import { resolveFileToken } from "#lib/input-validation.js";
 import { LOCAL_ACCOUNT_ID } from "#lib/local.js";
@@ -61,6 +66,11 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			type: "string",
 			description:
 				"Structured search as a JSON array of {field, op, value} objects. Use the 'in' operator with an array value to bulk-check up to 100 values. Multiple conditions are AND'd together. Max 10 conditions per request. Provide as a JSON array of objects or @path/to/file.json.",
+		})
+		.option("search-branches", {
+			type: "string",
+			description:
+				"OR branches of structured search filters. Filters within a branch are AND'd, branches are OR'd, and the result is AND'd with `search`: `AND(search) AND OR(AND(branch 1), ...)`. Max 8 branches of 1-10 conditions each. Not supported for analytics datasets, and `indicator` filters are not yet supported inside branches. Cursor pages carry the original branches, so do not resend them with `cursor`. Provide as a JSON array of arrays or @path/to/file.json.",
 		})
 		.option("dry-run", {
 			type: "boolean",
@@ -122,6 +132,10 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 										page: argv["page"],
 										pageSize: argv["page-size"],
 										search: parseObjectArray(argv["search"], "search"),
+										searchBranches: parseNestedArray(
+											argv["search-branches"],
+											"search-branches"
+										),
 									}),
 					});
 					return;
@@ -165,6 +179,10 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					page: argv["page"],
 					pageSize: argv["page-size"],
 					search: parseObjectArray(argv["search"], "search"),
+					searchBranches: parseNestedArray(
+						argv["search-branches"],
+						"search-branches"
+					),
 				});
 				const qs = new URLSearchParams(
 					Object.entries(queryParams)

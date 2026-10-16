@@ -227,6 +227,11 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			type: "string",
 			description: "The reranking_model field",
 		})
+		.option("retrieval-options-boost-by", {
+			type: "string",
+			description:
+				"Metadata fields to boost search results by. Each entry specifies a metadata field and an optional direction. Direction defaults to 'asc' for numeric/datetime fields and 'exists' for text/boolean fields. Fields must match 'timestamp' or a defined custom_metadata field. Provide as a JSON array of objects or @path/to/file.json.",
+		})
 		.option("retrieval-options-keyword-match-mode", {
 			type: "string",
 			description:
@@ -313,6 +318,11 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"text"
 			)
 		)
+		.option("source-params-web-crawler-parse-options-content-selector", {
+			type: "string",
+			description:
+				"List of path-to-selector mappings for extracting specific content from crawled pages. Each entry pairs a URL glob pattern with a CSS selector. The first matching path wins. The crawler stores and indexes only the matched HTML fragment. Omit the field to disable content selection; the API rejects empty arrays. Provide as a JSON array of objects or @path/to/file.json.",
+		})
 		.option("source-params-web-crawler-parse-options-include-headers", {
 			type: "string",
 			description:
@@ -564,6 +574,10 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 												"text"
 											),
 											retrieval_options: {
+												boost_by: parseObjectArray(
+													argv["retrieval-options-boost-by"],
+													"retrieval-options-boost-by"
+												),
 												keyword_match_mode:
 													argv["retrieval-options-keyword-match-mode"],
 											},
@@ -622,6 +636,12 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 															],
 													},
 													parse_options: {
+														content_selector: parseObjectArray(
+															argv[
+																"source-params-web-crawler-parse-options-content-selector"
+															],
+															"source-params-web-crawler-parse-options-content-selector"
+														),
 														include_headers: parseJsonMap(
 															argv[
 																"source-params-web-crawler-parse-options-include-headers"
@@ -780,6 +800,10 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 							"text"
 						),
 						retrieval_options: {
+							boost_by: parseObjectArray(
+								argv["retrieval-options-boost-by"],
+								"retrieval-options-boost-by"
+							),
 							keyword_match_mode: argv["retrieval-options-keyword-match-mode"],
 						},
 						rewrite_model: resolveFileToken(
@@ -827,6 +851,12 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 										argv["source-params-web-crawler-discover-options-source"],
 								},
 								parse_options: {
+									content_selector: parseObjectArray(
+										argv[
+											"source-params-web-crawler-parse-options-content-selector"
+										],
+										"source-params-web-crawler-parse-options-content-selector"
+									),
 									include_headers: parseJsonMap(
 										argv[
 											"source-params-web-crawler-parse-options-include-headers"

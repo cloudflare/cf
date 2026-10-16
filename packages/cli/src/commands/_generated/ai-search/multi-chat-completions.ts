@@ -88,6 +88,11 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			type: "string",
 			description: "The ai_search_options.reranking.model field",
 		})
+		.option("ai-search-options-retrieval-boost-by", {
+			type: "string",
+			description:
+				"Metadata fields to boost search results by. Overrides the instance-level boost_by config. Direction defaults to 'asc' for numeric/datetime fields, 'exists' for text/boolean fields. Fields must match 'timestamp' or a defined custom_metadata field. Provide as a JSON array of objects or @path/to/file.json.",
+		})
 		.option("ai-search-options-retrieval-context-expansion", {
 			type: "number",
 			description: "The ai_search_options.retrieval.context_expansion field",
@@ -254,6 +259,10 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 													),
 												},
 												retrieval: {
+													boost_by: parseObjectArray(
+														argv["ai-search-options-retrieval-boost-by"],
+														"ai-search-options-retrieval-boost-by"
+													),
 													context_expansion:
 														argv[
 															"ai-search-options-retrieval-context-expansion"
@@ -405,6 +414,15 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 							argv["ai-search-options-reranking-model"] as string | undefined,
 							"ai-search-options-reranking-model",
 							"text"
+						)
+					);
+				if (argv["ai-search-options-retrieval-boost-by"] !== undefined)
+					setNestedValue(
+						bodyData,
+						["ai_search_options", "retrieval", "boost_by"],
+						parseObjectArray(
+							argv["ai-search-options-retrieval-boost-by"],
+							"ai-search-options-retrieval-boost-by"
 						)
 					);
 				if (argv["ai-search-options-retrieval-context-expansion"] !== undefined)

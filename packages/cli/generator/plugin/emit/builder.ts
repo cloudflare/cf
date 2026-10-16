@@ -49,7 +49,10 @@ export function builderLines(ctx: Ctx): string[] {
 	for (const arg of options) {
 		const name = kebab(arg.name);
 		const scalarArray = arg.type === "array";
-		const json = arg.type === "objectArray" || arg.type === "objectMap";
+		const json =
+			arg.type === "objectArray" ||
+			arg.type === "nestedArray" ||
+			arg.type === "objectMap";
 		const skipDemand = isBody(arg) && d.hasBody;
 		const type =
 			scalarArray || json

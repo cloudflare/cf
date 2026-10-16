@@ -29,6 +29,11 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "The unique identifier for the rule.",
 			demandOption: true,
 		})
+		.option("condition-conditions", {
+			type: "string",
+			description:
+				"The condition.conditions field. Provide as a JSON array of objects or @path/to/file.json.",
+		})
 		.option("condition-operator", {
 			type: "string",
 			description: "The condition.operator field",
@@ -78,13 +83,17 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "Raw JSON request body (bypasses individual flags)",
 		})
 		.check((argv) => {
-			const groupSet = ["condition-operator", "condition-type"].some(
-				(k) => argv[k] !== undefined
-			);
+			const groupSet = [
+				"condition-conditions",
+				"condition-operator",
+				"condition-type",
+			].some((k) => argv[k] !== undefined);
 			if (groupSet) {
-				const missing = ["condition-operator", "condition-type"].filter(
-					(k) => argv[k] === undefined
-				);
+				const missing = [
+					"condition-conditions",
+					"condition-operator",
+					"condition-type",
+				].filter((k) => argv[k] === undefined);
 				if (missing.length > 0) {
 					throw new Error(
 						`${missing.map((m) => "--" + m).join(", ")} ${missing.length === 1 ? "is" : "are"} required when any --condition-* flag is set`
@@ -130,6 +139,10 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 								? parseBody(argv.body)
 								: compactBody({
 										condition: {
+											conditions: parseObjectArray(
+												argv["condition-conditions"],
+												"condition-conditions"
+											),
 											operator: argv["condition-operator"],
 											type: argv["condition-type"],
 										},
@@ -171,6 +184,10 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				// Assemble request body from individual flags
 				const bodyData = compactBody({
 					condition: {
+						conditions: parseObjectArray(
+							argv["condition-conditions"],
+							"condition-conditions"
+						),
 						operator: argv["condition-operator"],
 						type: argv["condition-type"],
 					},

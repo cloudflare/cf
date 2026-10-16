@@ -11,7 +11,7 @@ import {
 	getAccountId,
 	resolveAccountIdSilent,
 } from "#lib/auth.js";
-import { compactBody, parseBody } from "#lib/body-parser.js";
+import { compactBody, parseBody, parseObjectArray } from "#lib/body-parser.js";
 import { formatDryRun } from "#lib/dry-run.js";
 import { resolveFileToken } from "#lib/input-validation.js";
 import { LOCAL_ACCOUNT_ID } from "#lib/local.js";
@@ -28,6 +28,11 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("name", {
 			type: "string",
 			description: "Name of the resource group",
+		})
+		.option("scope-objects", {
+			type: "string",
+			description:
+				"A list of scope objects for additional context. The number of Scope objects should not be zero. Provide as a JSON array of objects or @path/to/file.json.",
 		})
 		.option("dry-run", {
 			type: "boolean",
@@ -73,6 +78,12 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 											"name",
 											"text"
 										),
+										scope: {
+											objects: parseObjectArray(
+												argv["scope-objects"],
+												"scope-objects"
+											),
+										},
 									}),
 					});
 					return;
@@ -95,6 +106,11 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						"Name of the resource group"
 					);
 				}
+				if (argv["scope-objects"] === undefined) {
+					throw new Error(
+						"--scope-objects is required (or pass --body with this field set)."
+					);
+				}
 
 				// Assemble request body from individual flags
 				const bodyData = compactBody({
@@ -103,6 +119,9 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						"name",
 						"text"
 					),
+					scope: {
+						objects: parseObjectArray(argv["scope-objects"], "scope-objects"),
+					},
 				});
 				const result = await withProgress(`Creating`, async () =>
 					client.send(operation, { body: bodyData, account_id: accountId })

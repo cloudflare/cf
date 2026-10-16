@@ -293,76 +293,40 @@ export async function getLatestOpenApiRelease(): Promise<{
 	tag: string;
 	version: string;
 }> {
-	let latest:
-		| {
-				tag: string;
-				version: string;
-				publishedAt: number;
-				hasAsset: boolean;
-		  }
-		| undefined;
-	// Releases can share a target commit, so list order need not match publication order.
-	for (let page = 1; ; page++) {
-		const query = new URLSearchParams({ per_page: "100", page: String(page) });
-		const releases = await githubRequest(
-			`/repos/${FORGE_REPOSITORY}/releases?${query}`,
-			{},
-			undefined,
-			"application/vnd.github+json",
-			readJson
-		);
-		if (!Array.isArray(releases)) {
-			throw new Error("Forge releases response was not an array");
-		}
-		for (const release of releases) {
-			if (
-				!isObject(release) ||
-				release.draft ||
-				release.prerelease ||
-				typeof release.tag_name !== "string"
-			) {
-				continue;
-			}
-			const match = release.tag_name.match(/^openapi@([0-9a-f]{40})$/);
-			if (!match?.[1]) {
-				continue;
-			}
-			const publishedAt =
-				typeof release.published_at === "string"
-					? Date.parse(release.published_at)
-					: Number.NaN;
-			if (!Number.isFinite(publishedAt)) {
-				throw new Error(
-					`Forge release ${release.tag_name} has an invalid published_at timestamp`
-				);
-			}
-			if (latest === undefined || publishedAt > latest.publishedAt) {
-				latest = {
-					tag: release.tag_name,
-					version: match[1],
-					publishedAt,
-					hasAsset:
-						Array.isArray(release.assets) &&
-						release.assets.some(
-							(item) => isObject(item) && item.name === OPENAPI_ASSET
-						),
-				};
-			}
-		}
-		if (releases.length < 100) {
-			break;
-		}
+	// Forge must keep its latest release marker on the current OpenAPI spec.
+	const release = await githubRequest(
+		`/repos/${FORGE_REPOSITORY}/releases/latest`,
+		{},
+		undefined,
+		"application/vnd.github+json",
+		readJson
+	);
+	if (
+		!isObject(release) ||
+		release.draft ||
+		release.prerelease ||
+		typeof release.tag_name !== "string"
+	) {
+		throw new Error("Latest Forge release is not a published OpenAPI release");
 	}
-	if (latest === undefined) {
-		throw new Error("No published Forge OpenAPI release found");
+	const match = release.tag_name.match(/^openapi@([0-9a-f]{40})$/);
+	if (!match?.[1]) {
+		throw new Error(
+			`Latest Forge release ${release.tag_name} does not have a valid OpenAPI tag`
+		);
 	}
 	// generate.ts downloads this asset, so never pin a release without it.
-	if (!latest.hasAsset) {
+	const hasAsset =
+		Array.isArray(release.assets) &&
+		release.assets.some(
+			(item) => isObject(item) && item.name === OPENAPI_ASSET
+		);
+	if (!hasAsset) {
 		throw new Error(
-			`Forge release ${latest.tag} has no ${OPENAPI_ASSET} asset`
+			`Forge release ${release.tag_name} has no ${OPENAPI_ASSET} asset`
 		);
 	}
-	return { tag: latest.tag, version: latest.version };
+	return { tag: release.tag_name, version: match[1] };
 }
 
 /**

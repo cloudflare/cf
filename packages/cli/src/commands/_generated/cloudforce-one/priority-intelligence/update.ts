@@ -12,6 +12,7 @@ import {
 	resolveAccountIdSilent,
 } from "#lib/auth.js";
 import { compactBody, parseBody } from "#lib/body-parser.js";
+import { validateBodyUnions } from "#lib/body-unions.js";
 import { formatDryRun } from "#lib/dry-run.js";
 import { resolveFileToken } from "#lib/input-validation.js";
 import { LOCAL_ACCOUNT_ID } from "#lib/local.js";
@@ -149,6 +150,39 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 }
 
 type Args = InferArgs<typeof builder>;
+const bodyUnions: Parameters<typeof validateBodyUnions>[1] = [
+	{
+		path: ["dataset_scope"],
+		selector: "type",
+		variants: [
+			{
+				values: ["default"],
+				schema: {
+					type: "object",
+					properties: { type: { enum: ["default"] } },
+					required: ["type"],
+					additionalProperties: false,
+				},
+			},
+			{
+				values: ["datasets"],
+				schema: {
+					type: "object",
+					properties: {
+						dataset_ids: {
+							type: "array",
+							items: { type: "string" },
+							maxItems: 50,
+						},
+						type: { enum: ["datasets"] },
+					},
+					required: ["dataset_ids", "type"],
+					additionalProperties: false,
+				},
+			},
+		],
+	},
+];
 
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "update <priority-id>",
@@ -182,46 +216,49 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						body:
 							argv.body !== undefined
 								? parseBody(argv.body)
-								: compactBody({
-										confirm_query: argv["confirm-query"],
-										dataset_scope: {
-											type: argv["dataset-scope-type"],
-											dataset_ids: argv["dataset-scope-dataset-ids"],
-										},
-										digest_interval_hours: argv["digest-interval-hours"],
-										intent: {
-											indicators: argv["intent-indicators"],
-											unsupported_terms: argv["intent-unsupported-terms"],
-										},
-										labels: argv["labels"],
-										model: resolveFileToken(
-											argv["model"] as string | undefined,
-											"model",
-											"text"
-										),
-										notification_mode: argv["notification-mode"],
-										priority: argv["priority"],
-										query: {
-											version: argv["query-version"],
-										},
-										query_source: argv["query-source"],
-										requirement: resolveFileToken(
-											argv["requirement"] as string | undefined,
-											"requirement",
-											"text"
-										),
-										status: argv["status"],
-										title: resolveFileToken(
-											argv["title"] as string | undefined,
-											"title",
-											"text"
-										),
-										tlp: resolveFileToken(
-											argv["tlp"] as string | undefined,
-											"tlp",
-											"text"
-										),
-									}),
+								: validateBodyUnions(
+										compactBody({
+											confirm_query: argv["confirm-query"],
+											dataset_scope: {
+												type: argv["dataset-scope-type"],
+												dataset_ids: argv["dataset-scope-dataset-ids"],
+											},
+											digest_interval_hours: argv["digest-interval-hours"],
+											intent: {
+												indicators: argv["intent-indicators"],
+												unsupported_terms: argv["intent-unsupported-terms"],
+											},
+											labels: argv["labels"],
+											model: resolveFileToken(
+												argv["model"] as string | undefined,
+												"model",
+												"text"
+											),
+											notification_mode: argv["notification-mode"],
+											priority: argv["priority"],
+											query: {
+												version: argv["query-version"],
+											},
+											query_source: argv["query-source"],
+											requirement: resolveFileToken(
+												argv["requirement"] as string | undefined,
+												"requirement",
+												"text"
+											),
+											status: argv["status"],
+											title: resolveFileToken(
+												argv["title"] as string | undefined,
+												"title",
+												"text"
+											),
+											tlp: resolveFileToken(
+												argv["tlp"] as string | undefined,
+												"tlp",
+												"text"
+											),
+										}),
+										bodyUnions
+									),
 					});
 					return;
 				}
@@ -283,6 +320,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						"text"
 					),
 				});
+				validateBodyUnions(bodyData, bodyUnions);
 				const result = await withProgress(`Updating`, async () =>
 					client.send(operation, {
 						body: bodyData,

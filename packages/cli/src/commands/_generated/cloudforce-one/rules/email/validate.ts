@@ -155,10 +155,10 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 
 				if (argv.body) {
 					const bodyData = parseBody(argv.body);
-					const result = await withProgress(`Creating`, async () =>
+					const result = await withProgress(`Validating`, async () =>
 						client.send(operation, { body: bodyData, account_id: accountId })
 					);
-					formatOutput(result, { successLabel: `Created` });
+					formatOutput(result, { successLabel: `Validated` });
 					return;
 				}
 				if (argv["condition-operator"] === undefined) {
@@ -205,10 +205,10 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					status: argv["status"],
 					strings: parseObjectArray(argv["strings"], "strings"),
 				});
-				const result = await withProgress(`Creating`, async () =>
+				const result = await withProgress(`Validating`, async () =>
 					client.send(operation, { body: bodyData, account_id: accountId })
 				);
-				formatOutput(result, { successLabel: `Created` });
+				formatOutput(result, { successLabel: `Validated` });
 			}
 		),
 };

@@ -685,6 +685,9 @@ function bodyFieldArgs(ctx: Ctx): [string, string][] {
 
 /** `emitBodyArgValue`. */
 function bodyArgValue(arg: Arg, read: string): string {
+	if (arg.type === "scalarUnion") {
+		return `parseScalarValue(${read}, ${quote(arg.name)})`;
+	}
 	if (arg.type === "objectArray") {
 		return `parseObjectArray(${read}, ${quote(arg.name)})`;
 	}
@@ -1087,6 +1090,9 @@ export function imports(ctx: Ctx): Imports {
 		}
 		if (bodyFlags.some((a) => a.type === "objectArray")) {
 			names.push("parseObjectArray");
+		}
+		if (bodyFlags.some((a) => a.type === "scalarUnion")) {
+			names.push("parseScalarValue");
 		}
 		if (d.hasBodyParams && !sdk.canEmitTypedBodyCall(ctx)) {
 			names.push("setNestedValue");

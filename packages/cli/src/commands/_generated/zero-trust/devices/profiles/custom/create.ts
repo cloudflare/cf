@@ -71,6 +71,10 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"Whether the policy is the account default. WARP group profiles cannot set this field.",
 			default: false,
 		})
+		.option("description", {
+			type: "string",
+			description: "A description of the policy.",
+		})
 		.option("disable-auto-fallback", {
 			type: "boolean",
 			description:
@@ -344,6 +348,11 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 										},
 										captive_portal: argv["captive-portal"],
 										default: argv["default"],
+										description: resolveFileToken(
+											argv["description"] as string | undefined,
+											"description",
+											"text"
+										),
 										disable_auto_fallback: argv["disable-auto-fallback"],
 										dns_search_suffixes: parseObjectArray(
 											argv["dns-search-suffixes"],
@@ -443,6 +452,11 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					},
 					captive_portal: argv["captive-portal"],
 					default: argv["default"],
+					description: resolveFileToken(
+						argv["description"] as string | undefined,
+						"description",
+						"text"
+					),
 					disable_auto_fallback: argv["disable-auto-fallback"],
 					dns_search_suffixes: parseObjectArray(
 						argv["dns-search-suffixes"],

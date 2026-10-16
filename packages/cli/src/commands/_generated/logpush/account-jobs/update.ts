@@ -68,6 +68,21 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description:
 				"This field is deprecated. Use `output_options` instead. Configuration string. It specifies things like requested fields and timestamp formats. If migrating from the logpull api, copy the url (full url or just the query string) of your call here, and logpush will keep on making this call for you, setting start and end times appropriately.",
 		})
+		.option("max-upload-bytes", {
+			type: "number",
+			description:
+				"The maximum uncompressed file size of a batch of logs. This setting value must be between `5 MB` and `1 GB`, or `0` to disable it. Note that you cannot set a minimum file size; this means that log files may be much smaller than this batch size.",
+		})
+		.option("max-upload-interval-seconds", {
+			type: "number",
+			description:
+				"The maximum interval in seconds for log batches. This setting must be between 30 and 300 seconds (5 minutes), or `0` to disable it. Note that you cannot specify a minimum interval for log batches; this means that log files may be sent in shorter intervals than this.",
+		})
+		.option("max-upload-records", {
+			type: "number",
+			description:
+				"The maximum number of log lines per batch. This setting must be between 1000 and 1,000,000 lines, or `0` to disable it. Note that you cannot specify a minimum number of log lines per batch; this means that log files may contain many fewer lines than this.",
+		})
 		.option("name", {
 			type: "string",
 			description:
@@ -224,6 +239,10 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 											"logpull-options",
 											"text"
 										),
+										max_upload_bytes: argv["max-upload-bytes"],
+										max_upload_interval_seconds:
+											argv["max-upload-interval-seconds"],
+										max_upload_records: argv["max-upload-records"],
 										name: resolveFileToken(
 											argv["name"] as string | undefined,
 											"name",
@@ -348,6 +367,9 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						"logpull-options",
 						"text"
 					),
+					max_upload_bytes: argv["max-upload-bytes"],
+					max_upload_interval_seconds: argv["max-upload-interval-seconds"],
+					max_upload_records: argv["max-upload-records"],
 					name: resolveFileToken(
 						argv["name"] as string | undefined,
 						"name",

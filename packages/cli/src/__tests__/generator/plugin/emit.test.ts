@@ -30,6 +30,28 @@ import type { Method } from "../../../../generator/plugin/commands.js";
 import type { OperationInfo } from "../../../../generator/plugin/operation.js";
 
 describe("descriptions", () => {
+	it("labels POST validation without claiming to create a resource", () => {
+		const ctx = context(
+			method("validate", "things-validate"),
+			"things",
+			operation("post", "/things/validate")
+		);
+		expect(ctx.progressLabel).toBe("Validating");
+		expect(ctx.successLabel).toBe("Validated");
+	});
+
+	it("retains destructive confirmation labels for validation operations", () => {
+		const ctx = context(
+			method("validate", "things-validate", {
+				requireConfirmation: "This operation deletes data.",
+			}),
+			"things",
+			operation("post", "/things/validate")
+		);
+		expect(ctx.progressLabel).toBe("Deleting");
+		expect(ctx.successLabel).toBe("Deleted");
+	});
+
 	const description = "Full first line.\nFull second line.";
 	const list = (s: string | undefined, d: string) =>
 		method("list", "test-list", { summary: s, description: d });

@@ -23536,10 +23536,40 @@
 					"description": "HTML template for the print header."
 				},
 				{
+					"name": "pdf-options-height",
+					"type": "string",
+					"required": false,
+					"description": "Sets the height of paper. Can be a number or string with unit. Accepts a JSON scalar or plain string, or @path/to/file."
+				},
+				{
 					"name": "pdf-options-landscape",
 					"type": "boolean",
 					"required": false,
 					"description": "Whether to print in landscape orientation."
+				},
+				{
+					"name": "pdf-options-margin-bottom",
+					"type": "string",
+					"required": false,
+					"description": "The pdfOptions.margin.bottom field. Accepts a JSON scalar or plain string, or @path/to/file."
+				},
+				{
+					"name": "pdf-options-margin-left",
+					"type": "string",
+					"required": false,
+					"description": "The pdfOptions.margin.left field. Accepts a JSON scalar or plain string, or @path/to/file."
+				},
+				{
+					"name": "pdf-options-margin-right",
+					"type": "string",
+					"required": false,
+					"description": "The pdfOptions.margin.right field. Accepts a JSON scalar or plain string, or @path/to/file."
+				},
+				{
+					"name": "pdf-options-margin-top",
+					"type": "string",
+					"required": false,
+					"description": "The pdfOptions.margin.top field. Accepts a JSON scalar or plain string, or @path/to/file."
 				},
 				{
 					"name": "pdf-options-omit-background",
@@ -23588,6 +23618,12 @@
 					"type": "number",
 					"required": false,
 					"description": "Timeout in milliseconds."
+				},
+				{
+					"name": "pdf-options-width",
+					"type": "string",
+					"required": false,
+					"description": "Sets the width of paper. Can be a number or string with unit. Accepts a JSON scalar or plain string, or @path/to/file."
 				},
 				{
 					"name": "reject-request-pattern",
@@ -63129,6 +63165,24 @@
 					"description": "This field is deprecated. Use `output_options` instead. Configuration string. It specifies things like requested fields and timestamp formats. If migrating from the logpull api, copy the url (full url or just the query string) of your call here, and logpush will keep on making this call for you, setting start and end times appropriately."
 				},
 				{
+					"name": "max-upload-bytes",
+					"type": "number",
+					"required": false,
+					"description": "The maximum uncompressed file size of a batch of logs. This setting value must be between `5 MB` and `1 GB`, or `0` to disable it. Note that you cannot set a minimum file size; this means that log files may be much smaller than this batch size."
+				},
+				{
+					"name": "max-upload-interval-seconds",
+					"type": "number",
+					"required": false,
+					"description": "The maximum interval in seconds for log batches. This setting must be between 30 and 300 seconds (5 minutes), or `0` to disable it. Note that you cannot specify a minimum interval for log batches; this means that log files may be sent in shorter intervals than this."
+				},
+				{
+					"name": "max-upload-records",
+					"type": "number",
+					"required": false,
+					"description": "The maximum number of log lines per batch. This setting must be between 1000 and 1,000,000 lines, or `0` to disable it. Note that you cannot specify a minimum number of log lines per batch; this means that log files may contain many fewer lines than this."
+				},
+				{
 					"name": "name",
 					"type": "string",
 					"required": false,
@@ -63389,6 +63443,24 @@
 					"type": "string",
 					"required": false,
 					"description": "This field is deprecated. Use `output_options` instead. Configuration string. It specifies things like requested fields and timestamp formats. If migrating from the logpull api, copy the url (full url or just the query string) of your call here, and logpush will keep on making this call for you, setting start and end times appropriately."
+				},
+				{
+					"name": "max-upload-bytes",
+					"type": "number",
+					"required": false,
+					"description": "The maximum uncompressed file size of a batch of logs. This setting value must be between `5 MB` and `1 GB`, or `0` to disable it. Note that you cannot set a minimum file size; this means that log files may be much smaller than this batch size."
+				},
+				{
+					"name": "max-upload-interval-seconds",
+					"type": "number",
+					"required": false,
+					"description": "The maximum interval in seconds for log batches. This setting must be between 30 and 300 seconds (5 minutes), or `0` to disable it. Note that you cannot specify a minimum interval for log batches; this means that log files may be sent in shorter intervals than this."
+				},
+				{
+					"name": "max-upload-records",
+					"type": "number",
+					"required": false,
+					"description": "The maximum number of log lines per batch. This setting must be between 1000 and 1,000,000 lines, or `0` to disable it. Note that you cannot specify a minimum number of log lines per batch; this means that log files may contain many fewer lines than this."
 				},
 				{
 					"name": "name",
@@ -85634,6 +85706,12 @@
 					"description": "Specifies the R2 Bucket to store files."
 				},
 				{
+					"name": "destination-path-filename",
+					"type": "string",
+					"required": false,
+					"description": "Specifies the name pattern to for individual data files."
+				},
+				{
 					"name": "destination-path-filepath",
 					"type": "string",
 					"required": false,
@@ -85863,6 +85941,12 @@
 					"type": "string",
 					"required": true,
 					"description": "Specifies the R2 Bucket to store files."
+				},
+				{
+					"name": "destination-path-filename",
+					"type": "string",
+					"required": false,
+					"description": "Specifies the name pattern to for individual data files."
 				},
 				{
 					"name": "destination-path-filepath",
@@ -113418,6 +113502,12 @@
 					"default": ""
 				},
 				{
+					"name": "id",
+					"type": "string",
+					"required": true,
+					"description": "The unique ID of the ruleset."
+				},
+				{
 					"name": "name",
 					"type": "string",
 					"required": false,
@@ -113587,6 +113677,12 @@
 					"type": "string",
 					"required": false,
 					"description": "An informative description of the ruleset."
+				},
+				{
+					"name": "id",
+					"type": "string",
+					"required": true,
+					"description": "The unique ID of the ruleset."
 				},
 				{
 					"name": "name",
@@ -113959,6 +114055,12 @@
 					"type": "string",
 					"required": false,
 					"description": "An informative description of the ruleset."
+				},
+				{
+					"name": "id",
+					"type": "string",
+					"required": true,
+					"description": "The unique ID of the ruleset."
 				},
 				{
 					"name": "name",
@@ -118184,6 +118286,12 @@
 					"enum": ["A", "AAAA", "SRV"]
 				},
 				{
+					"name": "origin-port",
+					"type": "string",
+					"required": false,
+					"description": "The destination port at the origin. Only specified in conjunction with origin_dns. May use an integer to specify a single origin port, for example `1000`, or a string to specify a range of origin ports, for example `\"1000-2000\"`.\nNotes: If specifying a port range, the number of ports in the range must match the number of ports specified in the \"protocol\" field. Accepts a JSON scalar or plain string, or @path/to/file."
+				},
+				{
 					"name": "origin-worker-id",
 					"type": "string",
 					"required": false,
@@ -118448,6 +118556,12 @@
 					"enum": ["A", "AAAA", "SRV"]
 				},
 				{
+					"name": "origin-port",
+					"type": "string",
+					"required": false,
+					"description": "The destination port at the origin. Only specified in conjunction with origin_dns. May use an integer to specify a single origin port, for example `1000`, or a string to specify a range of origin ports, for example `\"1000-2000\"`.\nNotes: If specifying a port range, the number of ports in the range must match the number of ports specified in the \"protocol\" field. Accepts a JSON scalar or plain string, or @path/to/file."
+				},
+				{
 					"name": "origin-worker-id",
 					"type": "string",
 					"required": false,
@@ -118585,7 +118699,7 @@
 			"fullPath": ["speed", "pages", "tests", "create"],
 			"description": "Starts a test for a specific webpage, in a specific region.",
 			"summary": "Start page test",
-			"usage": "cf speed pages tests create <url>",
+			"usage": "cf speed pages tests create <url> [options]",
 			"arguments": [
 				{
 					"name": "url",
@@ -118596,6 +118710,35 @@
 				}
 			],
 			"options": [
+				{
+					"name": "region",
+					"type": "string",
+					"required": false,
+					"description": "A test region.",
+					"enum": [
+						"asia-east1",
+						"asia-northeast1",
+						"asia-northeast2",
+						"asia-south1",
+						"asia-southeast1",
+						"australia-southeast1",
+						"europe-north1",
+						"europe-southwest1",
+						"europe-west1",
+						"europe-west2",
+						"europe-west3",
+						"europe-west4",
+						"europe-west8",
+						"europe-west9",
+						"me-west1",
+						"southamerica-east1",
+						"us-central1",
+						"us-east1",
+						"us-east4",
+						"us-south1",
+						"us-west1"
+					]
+				},
 				{
 					"name": "dry-run",
 					"type": "boolean",
@@ -136387,6 +136530,18 @@
 					"description": "The system reserves IDs that consist of the `cf_` prefix and exactly 64 lowercase hexadecimal characters."
 				},
 				{
+					"name": "instance-retention-error",
+					"type": "string",
+					"required": false,
+					"description": "Specifies the duration in milliseconds or as a string like '5 minutes'. Accepts a JSON scalar or plain string, or @path/to/file."
+				},
+				{
+					"name": "instance-retention-success",
+					"type": "string",
+					"required": false,
+					"description": "Specifies the duration in milliseconds or as a string like '5 minutes'. Accepts a JSON scalar or plain string, or @path/to/file."
+				},
+				{
 					"name": "location-hint",
 					"type": "string",
 					"required": false,
@@ -137059,9 +137214,21 @@
 			"fullPath": ["workflows", "settings", "edit"],
 			"description": "Updates only the account-level Workflows settings fields present in the request body.",
 			"summary": "Update account settings",
-			"usage": "cf workflows settings edit",
+			"usage": "cf workflows settings edit [options]",
 			"arguments": [],
 			"options": [
+				{
+					"name": "default-retention-error-retention",
+					"type": "string",
+					"required": false,
+					"description": "Specifies the duration in milliseconds or as a string like '5 minutes'. Accepts a JSON scalar or plain string, or @path/to/file."
+				},
+				{
+					"name": "default-retention-success-retention",
+					"type": "string",
+					"required": false,
+					"description": "Specifies the duration in milliseconds or as a string like '5 minutes'. Accepts a JSON scalar or plain string, or @path/to/file."
+				},
 				{
 					"name": "dry-run",
 					"type": "boolean",
@@ -138453,6 +138620,12 @@
 					"description": "Contract version of the page's Liquid template. Present (>= 1) marks a sanitized template; absent or 0 marks a legacy page served verbatim."
 				},
 				{
+					"name": "created-at",
+					"type": "string",
+					"required": false,
+					"description": "The created_at field"
+				},
+				{
 					"name": "custom-html",
 					"type": "string",
 					"required": true,
@@ -138476,6 +138649,12 @@
 					"type": "string",
 					"required": false,
 					"description": "UUID."
+				},
+				{
+					"name": "updated-at",
+					"type": "string",
+					"required": false,
+					"description": "The updated_at field"
 				},
 				{
 					"name": "dry-run",
@@ -138628,6 +138807,12 @@
 					"description": "Contract version of the page's Liquid template. Present (>= 1) marks a sanitized template; absent or 0 marks a legacy page served verbatim."
 				},
 				{
+					"name": "created-at",
+					"type": "string",
+					"required": false,
+					"description": "The created_at field"
+				},
+				{
 					"name": "custom-html",
 					"type": "string",
 					"required": true,
@@ -138651,6 +138836,12 @@
 					"type": "string",
 					"required": false,
 					"description": "UUID."
+				},
+				{
+					"name": "updated-at",
+					"type": "string",
+					"required": false,
+					"description": "The updated_at field"
 				},
 				{
 					"name": "dry-run",
@@ -140882,10 +141073,22 @@
 			],
 			"options": [
 				{
+					"name": "created-at",
+					"type": "string",
+					"required": false,
+					"description": "The created_at field"
+				},
+				{
 					"name": "name",
 					"type": "string",
 					"required": true,
 					"description": "The name of the tag"
+				},
+				{
+					"name": "updated-at",
+					"type": "string",
+					"required": false,
+					"description": "The updated_at field"
 				},
 				{
 					"name": "dry-run",
@@ -149959,6 +150162,12 @@
 					"default": false
 				},
 				{
+					"name": "description",
+					"type": "string",
+					"required": false,
+					"description": "A description of the policy."
+				},
+				{
 					"name": "disable-auto-fallback",
 					"type": "boolean",
 					"required": false,
@@ -158061,6 +158270,12 @@
 					"description": "Defines the default duration a policy active in minutes. Must set in order to use the `reset_expiration` endpoint on this rule."
 				},
 				{
+					"name": "expiration-expires-at",
+					"type": "string",
+					"required": false,
+					"description": "The expiration.expires_at field"
+				},
+				{
 					"name": "filters",
 					"type": "string",
 					"required": false,
@@ -158698,6 +158913,12 @@
 					"type": "number",
 					"required": false,
 					"description": "Defines the default duration a policy active in minutes. Must set in order to use the `reset_expiration` endpoint on this rule."
+				},
+				{
+					"name": "expiration-expires-at",
+					"type": "string",
+					"required": false,
+					"description": "The expiration.expires_at field"
 				},
 				{
 					"name": "filters",

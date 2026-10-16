@@ -149,6 +149,49 @@ function isJsonObject(value: unknown): value is Record<string, unknown> {
 	return value !== null && typeof value === "object" && !Array.isArray(value);
 }
 
+/** Keep JSON primitive types when a body flag accepts more than one scalar type. */
+export function parseScalarValue(
+	input: unknown,
+	flagName: string
+): string | number | boolean | undefined {
+	if (input === undefined) {
+		return undefined;
+	}
+	const flag = flagName.startsWith("--") ? flagName : `--${flagName}`;
+	if (typeof input !== "string") {
+		throw new Error(`${flag} must be provided once as a scalar value.`);
+	}
+	let text = input;
+	if (input.startsWith("@")) {
+		const path = input.slice(1);
+		if (path.length === 0) {
+			throw new Error(
+				`${flag} '@' must be followed by a file path (got empty path)`
+			);
+		}
+		try {
+			text = readFileSync(resolvePath(path), "utf-8");
+		} catch (err) {
+			const reason = err instanceof Error ? err.message : "unknown read error";
+			throw new Error(`${flag}: cannot read file at '${path}': ${reason}`);
+		}
+	}
+	let value: unknown;
+	try {
+		value = JSON.parse(text);
+	} catch {
+		return text;
+	}
+	if (
+		typeof value !== "string" &&
+		typeof value !== "number" &&
+		typeof value !== "boolean"
+	) {
+		throw new Error(`${flag} must be a JSON scalar or plain string.`);
+	}
+	return value;
+}
+
 /** Parse a map as one JSON object, retaining its keys and values verbatim. */
 export function parseJsonMap(
 	input: unknown,

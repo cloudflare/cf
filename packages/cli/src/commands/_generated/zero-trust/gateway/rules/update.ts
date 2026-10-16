@@ -75,6 +75,10 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description:
 				"Defines the default duration a policy active in minutes. Must set in order to use the `reset_expiration` endpoint on this rule.",
 		})
+		.option("expiration-expires-at", {
+			type: "string",
+			description: "The expiration.expires_at field",
+		})
 		.option("filters", {
 			type: "string",
 			array: true,
@@ -443,6 +447,22 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "Raw JSON request body (bypasses individual flags)",
 		})
 		.check((argv) => {
+			const groupSet = ["expiration-duration", "expiration-expires-at"].some(
+				(k) => argv[k] !== undefined
+			);
+			if (groupSet) {
+				const missing = ["expiration-expires-at"].filter(
+					(k) => argv[k] === undefined
+				);
+				if (missing.length > 0) {
+					throw new Error(
+						`${missing.map((m) => "--" + m).join(", ")} ${missing.length === 1 ? "is" : "are"} required when any --expiration-* flag is set`
+					);
+				}
+			}
+			return true;
+		})
+		.check((argv) => {
 			const groupSet = [
 				"rule-settings-add-headers",
 				"rule-settings-allow-child-bypass",
@@ -586,6 +606,11 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 											enabled: argv["enabled"],
 											expiration: {
 												duration: argv["expiration-duration"],
+												expires_at: resolveFileToken(
+													argv["expiration-expires-at"] as string | undefined,
+													"expiration-expires-at",
+													"text"
+												),
 											},
 											filters: argv["filters"],
 											identity: resolveFileToken(
@@ -906,6 +931,11 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						enabled: argv["enabled"],
 						expiration: {
 							duration: argv["expiration-duration"],
+							expires_at: resolveFileToken(
+								argv["expiration-expires-at"] as string | undefined,
+								"expiration-expires-at",
+								"text"
+							),
 						},
 						filters: argv["filters"],
 						identity: resolveFileToken(

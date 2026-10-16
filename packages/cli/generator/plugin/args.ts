@@ -33,6 +33,7 @@ export type ArgType =
 	| "boolean"
 	| "enum"
 	| "array"
+	| "scalarUnion"
 	| "objectArray"
 	| "objectMap";
 
@@ -155,6 +156,7 @@ export function optionDefaults(
 			a.type === "array" ||
 			a.type === "objectArray" ||
 			a.type === "objectMap" ||
+			a.type === "scalarUnion" ||
 			conflictFlags.has(kebab(a.name)) ||
 			(isBody(a) && partialUpdate && !discriminator)
 		) {
@@ -292,6 +294,8 @@ function descriptionFromName(name: string): string {
 
 function bodyArgType(type: string, itemType: string | undefined): ArgType {
 	switch (type) {
+		case "scalarUnion":
+			return "scalarUnion";
 		case "number":
 			return "number";
 		case "boolean":
@@ -761,6 +765,10 @@ function bodyParams(
 		if (type === "objectMap") {
 			const separator = /[.!?]\s*$/.test(base) ? " " : ". ";
 			description = `${base.trimEnd()}${separator}Provide as a JSON object or @path/to/file.json.`;
+		}
+		if (type === "scalarUnion") {
+			const separator = /[.!?]\s*$/.test(base) ? " " : ". ";
+			description = `${base.trimEnd()}${separator}Accepts a JSON scalar or plain string, or @path/to/file.`;
 		}
 		const a = arg(
 			name,

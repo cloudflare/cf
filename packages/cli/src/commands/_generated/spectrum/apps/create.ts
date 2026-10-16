@@ -7,7 +7,7 @@ import type { ArgClassification } from "#lib/telemetry/index.js";
  */
 import type { Argv, CommandModule } from "yargs";
 import { createCommandClient, getZoneId } from "#lib/auth.js";
-import { compactBody, parseBody } from "#lib/body-parser.js";
+import { compactBody, parseBody, parseScalarValue } from "#lib/body-parser.js";
 import { formatDryRun } from "#lib/dry-run.js";
 import { resolveFileToken } from "#lib/input-validation.js";
 import { formatOutput } from "#lib/output.js";
@@ -90,6 +90,11 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.coerce("origin-dns-type", (value) =>
 			resolveFileToken(value, "origin-dns-type", "text")
 		)
+		.option("origin-port", {
+			type: "string",
+			description:
+				'The destination port at the origin. Only specified in conjunction with origin_dns. May use an integer to specify a single origin port, for example `1000`, or a string to specify a range of origin ports, for example `"1000-2000"`.\nNotes: If specifying a port range, the number of ports in the range must match the number of ports specified in the "protocol" field. Accepts a JSON scalar or plain string, or @path/to/file.',
+		})
 		.option("origin-worker-id", {
 			type: "string",
 			description:
@@ -211,6 +216,10 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 											ttl: argv["origin-dns-ttl"],
 											type: argv["origin-dns-type"],
 										},
+										origin_port: parseScalarValue(
+											argv["origin-port"],
+											"origin-port"
+										),
 										origin_worker_id: resolveFileToken(
 											argv["origin-worker-id"] as string | undefined,
 											"origin-worker-id",
@@ -281,6 +290,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						ttl: argv["origin-dns-ttl"],
 						type: argv["origin-dns-type"],
 					},
+					origin_port: parseScalarValue(argv["origin-port"], "origin-port"),
 					origin_worker_id: resolveFileToken(
 						argv["origin-worker-id"] as string | undefined,
 						"origin-worker-id",

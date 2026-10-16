@@ -28,7 +28,15 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "The name of the tag",
 			demandOption: true,
 		})
+		.option("created-at", {
+			type: "string",
+			description: "The created_at field",
+		})
 		.option("name", { type: "string", description: "The name of the tag" })
+		.option("updated-at", {
+			type: "string",
+			description: "The updated_at field",
+		})
 		.option("dry-run", {
 			type: "boolean",
 			description: "Validate and show what would happen without executing",
@@ -68,9 +76,19 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 							argv.body !== undefined
 								? parseBody(argv.body)
 								: compactBody({
+										created_at: resolveFileToken(
+											argv["created-at"] as string | undefined,
+											"created-at",
+											"text"
+										),
 										name: resolveFileToken(
 											argv["name"] as string | undefined,
 											"name",
+											"text"
+										),
+										updated_at: resolveFileToken(
+											argv["updated-at"] as string | undefined,
+											"updated-at",
 											"text"
 										),
 									}),
@@ -102,9 +120,19 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 
 				// Assemble request body from individual flags
 				const bodyData = compactBody({
+					created_at: resolveFileToken(
+						argv["created-at"] as string | undefined,
+						"created-at",
+						"text"
+					),
 					name: resolveFileToken(
 						argv["name"] as string | undefined,
 						"name",
+						"text"
+					),
+					updated_at: resolveFileToken(
+						argv["updated-at"] as string | undefined,
+						"updated-at",
 						"text"
 					),
 				});

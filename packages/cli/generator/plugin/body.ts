@@ -192,6 +192,81 @@ function isObjectKind(schema: Schema): boolean {
 	return schema.kind === "object" || schema.properties !== undefined;
 }
 
+/** Preserve scalar constraints when an intersection adds metadata to an enum. */
+function scalarSchema(schema: Schema, depth = 0): Schema | undefined {
+	if (depth > 20) {
+		return undefined;
+	}
+	const resolved = resolve(schema);
+	if (resolved.allOf !== undefined) {
+		const members = resolved.allOf.map((s) => scalarSchema(s, depth + 1));
+		const first = members[0];
+		if (
+			first === undefined ||
+			members.some((s) => s === undefined || s.kind !== first.kind)
+		) {
+			return undefined;
+		}
+		let values: Schema["values"];
+		for (const member of members) {
+			if (member?.values !== undefined) {
+				values =
+					values === undefined
+						? member.values
+						: values.filter((value) => member.values?.includes(value));
+			}
+		}
+		return { kind: first.kind, values, required: [] };
+	}
+	return resolved.kind === "string" ||
+		resolved.kind === "number" ||
+		resolved.kind === "boolean"
+		? resolved
+		: undefined;
+}
+
+/** Extract scalar flags before traversing object compositions. */
+function scalarProperty(
+	schema: Schema,
+	prop: Prop,
+	flag: string,
+	path: string[],
+	required: boolean
+): BodyParamInfo | undefined {
+	const scalar = scalarSchema(schema);
+	if (scalar !== undefined)
+		return scalarBodyParam(scalar, prop, flag, path, required);
+	const variants = schema.oneOf ?? schema.anyOf;
+	if (variants === undefined || variants.length === 0) return undefined;
+	const members = variants.map((variant) => scalarSchema(variant));
+	if (!members.every((member): member is Schema => member !== undefined))
+		return undefined;
+	const first = members[0];
+	if (
+		first !== undefined &&
+		members.every((member) => member.kind === first.kind)
+	) {
+		const values = members.every((member) => member.values !== undefined)
+			? dedup(members.flatMap((member) => member.values ?? []))
+			: undefined;
+		return scalarBodyParam(
+			{ kind: first.kind, values, required: [] },
+			prop,
+			flag,
+			path,
+			required
+		);
+	}
+	return {
+		name: flag,
+		required,
+		type: "scalarUnion",
+		apiFieldPath: path,
+		description: prop.description,
+		sensitive: prop.sensitive,
+	};
+}
+
 /** `flattenAllOf`: merges the properties and requirements of `schemas`. */
 function flattenAllOf(schemas: readonly Schema[]): Schema {
 	const properties: Prop[] = [];
@@ -374,6 +449,11 @@ function propertiesFromSchema(
 		const flag = prefix === "" ? segment : `${prefix}-${segment}`;
 		const current = [...path, name];
 		const isRequired = required.includes(name);
+		const scalar = scalarProperty(resolved, prop, flag, current, isRequired);
+		if (scalar !== undefined) {
+			results.push(scalar);
+			continue;
+		}
 		if (resolved.oneOf !== undefined) {
 			results.push(
 				...oneOfConstraints(resolved.oneOf, flag, current, depth + 1)
@@ -651,6 +731,11 @@ export function bodyProperties(type: Type): BodyParamInfo[] {
 		const prefix = flagSegment(raw);
 		const path = [raw.name];
 		const isRequired = required.includes(raw.name);
+		const scalar = scalarProperty(prop, raw, prefix, path, isRequired);
+		if (scalar !== undefined) {
+			results.push(scalar);
+			continue;
+		}
 		if (prop.oneOf !== undefined) {
 			results.push(...oneOfConstraints(prop.oneOf, prefix, path, 1));
 			continue;

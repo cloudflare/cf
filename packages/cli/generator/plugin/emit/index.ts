@@ -254,6 +254,9 @@ const READ_SHAPED = [
 
 /** `buildLabels`. */
 function labels(httpMethod: string, method: string): [string, string] {
+	if (method === "validate" && httpMethod.toUpperCase() !== "DELETE") {
+		return ["Validating", "Validated"];
+	}
 	if (READ_SHAPED.includes(method)) {
 		return ["Loading", "Loaded"];
 	}

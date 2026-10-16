@@ -15,6 +15,7 @@ import {
 	parseBody,
 	parseJsonMap,
 	parseObjectArray,
+	parseScalarValue,
 	setNestedValue,
 } from "#lib/body-parser.js";
 import { formatDryRun } from "#lib/dry-run.js";
@@ -137,9 +138,34 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			type: "string",
 			description: "HTML template for the print header.",
 		})
+		.option("pdf-options-height", {
+			type: "string",
+			description:
+				"Sets the height of paper. Can be a number or string with unit. Accepts a JSON scalar or plain string, or @path/to/file.",
+		})
 		.option("pdf-options-landscape", {
 			type: "boolean",
 			description: "Whether to print in landscape orientation.",
+		})
+		.option("pdf-options-margin-bottom", {
+			type: "string",
+			description:
+				"The pdfOptions.margin.bottom field. Accepts a JSON scalar or plain string, or @path/to/file.",
+		})
+		.option("pdf-options-margin-left", {
+			type: "string",
+			description:
+				"The pdfOptions.margin.left field. Accepts a JSON scalar or plain string, or @path/to/file.",
+		})
+		.option("pdf-options-margin-right", {
+			type: "string",
+			description:
+				"The pdfOptions.margin.right field. Accepts a JSON scalar or plain string, or @path/to/file.",
+		})
+		.option("pdf-options-margin-top", {
+			type: "string",
+			description:
+				"The pdfOptions.margin.top field. Accepts a JSON scalar or plain string, or @path/to/file.",
 		})
 		.option("pdf-options-omit-background", {
 			type: "boolean",
@@ -174,6 +200,11 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("pdf-options-timeout", {
 			type: "number",
 			description: "Timeout in milliseconds.",
+		})
+		.option("pdf-options-width", {
+			type: "string",
+			description:
+				"Sets the width of paper. Can be a number or string with unit. Accepts a JSON scalar or plain string, or @path/to/file.",
 		})
 		.option("reject-request-pattern", {
 			type: "string",
@@ -445,7 +476,29 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 													"pdf-options-header-template",
 													"text"
 												),
+												height: parseScalarValue(
+													argv["pdf-options-height"],
+													"pdf-options-height"
+												),
 												landscape: argv["pdf-options-landscape"],
+												margin: {
+													bottom: parseScalarValue(
+														argv["pdf-options-margin-bottom"],
+														"pdf-options-margin-bottom"
+													),
+													left: parseScalarValue(
+														argv["pdf-options-margin-left"],
+														"pdf-options-margin-left"
+													),
+													right: parseScalarValue(
+														argv["pdf-options-margin-right"],
+														"pdf-options-margin-right"
+													),
+													top: parseScalarValue(
+														argv["pdf-options-margin-top"],
+														"pdf-options-margin-top"
+													),
+												},
 												omitBackground: argv["pdf-options-omit-background"],
 												outline: argv["pdf-options-outline"],
 												pageRanges: resolveFileToken(
@@ -459,6 +512,10 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 												scale: argv["pdf-options-scale"],
 												tagged: argv["pdf-options-tagged"],
 												timeout: argv["pdf-options-timeout"],
+												width: parseScalarValue(
+													argv["pdf-options-width"],
+													"pdf-options-width"
+												),
 											},
 											rejectRequestPattern: argv["reject-request-pattern"],
 											rejectResourceTypes: argv["reject-resource-types"],
@@ -664,11 +721,53 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 							"text"
 						)
 					);
+				if (argv["pdf-options-height"] !== undefined)
+					setNestedValue(
+						bodyData,
+						["pdfOptions", "height"],
+						parseScalarValue(argv["pdf-options-height"], "pdf-options-height")
+					);
 				if (argv["pdf-options-landscape"] !== undefined)
 					setNestedValue(
 						bodyData,
 						["pdfOptions", "landscape"],
 						argv["pdf-options-landscape"]
+					);
+				if (argv["pdf-options-margin-bottom"] !== undefined)
+					setNestedValue(
+						bodyData,
+						["pdfOptions", "margin", "bottom"],
+						parseScalarValue(
+							argv["pdf-options-margin-bottom"],
+							"pdf-options-margin-bottom"
+						)
+					);
+				if (argv["pdf-options-margin-left"] !== undefined)
+					setNestedValue(
+						bodyData,
+						["pdfOptions", "margin", "left"],
+						parseScalarValue(
+							argv["pdf-options-margin-left"],
+							"pdf-options-margin-left"
+						)
+					);
+				if (argv["pdf-options-margin-right"] !== undefined)
+					setNestedValue(
+						bodyData,
+						["pdfOptions", "margin", "right"],
+						parseScalarValue(
+							argv["pdf-options-margin-right"],
+							"pdf-options-margin-right"
+						)
+					);
+				if (argv["pdf-options-margin-top"] !== undefined)
+					setNestedValue(
+						bodyData,
+						["pdfOptions", "margin", "top"],
+						parseScalarValue(
+							argv["pdf-options-margin-top"],
+							"pdf-options-margin-top"
+						)
 					);
 				if (argv["pdf-options-omit-background"] !== undefined)
 					setNestedValue(
@@ -721,6 +820,12 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						bodyData,
 						["pdfOptions", "timeout"],
 						argv["pdf-options-timeout"]
+					);
+				if (argv["pdf-options-width"] !== undefined)
+					setNestedValue(
+						bodyData,
+						["pdfOptions", "width"],
+						parseScalarValue(argv["pdf-options-width"], "pdf-options-width")
 					);
 				if (argv["reject-request-pattern"] !== undefined)
 					setNestedValue(

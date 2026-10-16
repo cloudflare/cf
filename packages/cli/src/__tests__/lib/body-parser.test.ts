@@ -5,6 +5,7 @@ import {
 	parseBody,
 	parseJsonMap,
 	parseObjectArray,
+	parseScalarValue,
 	setNestedValue,
 } from "../../lib/body-parser.js";
 
@@ -83,6 +84,54 @@ describe("parseBody", () => {
 			await seed({ "bad.json": "{nope" });
 			expect(() => parseBody("@bad.json")).toThrow(
 				"Invalid JSON in --body. Expected valid JSON."
+			);
+		});
+	});
+});
+
+describe("parseScalarValue", () => {
+	it.each([
+		["0", 0],
+		["0.5", 0.5],
+		["-1", -1],
+		["veto", "veto"],
+		['"0.5"', "0.5"],
+		["true", true],
+		["false", false],
+		["", ""],
+	])("retains the scalar type of %s", (input, expected) => {
+		expect(parseScalarValue(input, "fallback")).toBe(expected);
+	});
+
+	it("leaves an omitted scalar unset", () => {
+		expect(parseScalarValue(undefined, "fallback")).toBeUndefined();
+	});
+
+	it.each(["null", "{}", "[]"])("rejects non-scalar JSON %s", (input) => {
+		expect(() => parseScalarValue(input, "fallback")).toThrow(
+			"--fallback must be a JSON scalar or plain string."
+		);
+	});
+
+	it("rejects repeated flags", () => {
+		expect(() => parseScalarValue(["0", "veto"], "fallback")).toThrow(
+			"--fallback must be provided once as a scalar value."
+		);
+	});
+
+	describe("@file ingestion", () => {
+		runInTempDir();
+		it("reads numbers and strings from paths with spaces and Unicode", async () => {
+			await seed({ "fallback ü.json": "0.5", "fallback.txt": "veto" });
+			expect(parseScalarValue("@fallback ü.json", "fallback")).toBe(0.5);
+			expect(parseScalarValue("@fallback.txt", "fallback")).toBe("veto");
+		});
+		it("reports empty and missing paths", () => {
+			expect(() => parseScalarValue("@", "fallback")).toThrow(
+				"--fallback '@' must be followed by a file path"
+			);
+			expect(() => parseScalarValue("@missing", "fallback")).toThrow(
+				"--fallback: cannot read file at 'missing'"
 			);
 		});
 	});

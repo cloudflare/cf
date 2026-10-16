@@ -35,6 +35,10 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description:
 				"Contract version of the page's Liquid template. Present (>= 1) marks a sanitized template; absent or 0 marks a legacy page served verbatim.",
 		})
+		.option("created-at", {
+			type: "string",
+			description: "The created_at field",
+		})
 		.option("custom-html", { type: "string", description: "Custom page HTML." })
 		.option("name", { type: "string", description: "Custom page name." })
 		.option("type", {
@@ -44,6 +48,10 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		})
 		.coerce("type", (value) => resolveFileToken(value, "type", "text"))
 		.option("uid", { type: "string", description: "UUID." })
+		.option("updated-at", {
+			type: "string",
+			description: "The updated_at field",
+		})
 		.option("dry-run", {
 			type: "boolean",
 			description: "Validate and show what would happen without executing",
@@ -85,6 +93,11 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 								: compactBody({
 										app_count: argv["app-count"],
 										contract_version: argv["contract-version"],
+										created_at: resolveFileToken(
+											argv["created-at"] as string | undefined,
+											"created-at",
+											"text"
+										),
 										custom_html: resolveFileToken(
 											argv["custom-html"] as string | undefined,
 											"custom-html",
@@ -99,6 +112,11 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 										uid: resolveFileToken(
 											argv["uid"] as string | undefined,
 											"uid",
+											"text"
+										),
+										updated_at: resolveFileToken(
+											argv["updated-at"] as string | undefined,
+											"updated-at",
 											"text"
 										),
 									}),
@@ -141,6 +159,11 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				const bodyData = compactBody({
 					app_count: argv["app-count"],
 					contract_version: argv["contract-version"],
+					created_at: resolveFileToken(
+						argv["created-at"] as string | undefined,
+						"created-at",
+						"text"
+					),
 					custom_html: resolveFileToken(
 						argv["custom-html"] as string | undefined,
 						"custom-html",
@@ -155,6 +178,11 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					uid: resolveFileToken(
 						argv["uid"] as string | undefined,
 						"uid",
+						"text"
+					),
+					updated_at: resolveFileToken(
+						argv["updated-at"] as string | undefined,
+						"updated-at",
 						"text"
 					),
 				});

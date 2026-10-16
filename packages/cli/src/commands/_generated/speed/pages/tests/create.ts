@@ -7,8 +7,9 @@ import type { ArgClassification } from "#lib/telemetry/index.js";
  */
 import type { Argv, CommandModule } from "yargs";
 import { createCommandClient, getZoneId } from "#lib/auth.js";
-import { parseBody } from "#lib/body-parser.js";
+import { compactBody, parseBody } from "#lib/body-parser.js";
 import { formatDryRun } from "#lib/dry-run.js";
+import { resolveFileToken } from "#lib/input-validation.js";
 import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
@@ -23,6 +24,34 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "A URL.",
 			demandOption: true,
 		})
+		.option("region", {
+			type: "string",
+			description: "A test region.",
+			choices: [
+				"asia-east1",
+				"asia-northeast1",
+				"asia-northeast2",
+				"asia-south1",
+				"asia-southeast1",
+				"australia-southeast1",
+				"europe-north1",
+				"europe-southwest1",
+				"europe-west1",
+				"europe-west2",
+				"europe-west3",
+				"europe-west4",
+				"europe-west8",
+				"europe-west9",
+				"me-west1",
+				"southamerica-east1",
+				"us-central1",
+				"us-east1",
+				"us-east4",
+				"us-south1",
+				"us-west1",
+			],
+		})
+		.coerce("region", (value) => resolveFileToken(value, "region", "text"))
 		.option("dry-run", {
 			type: "boolean",
 			description: "Validate and show what would happen without executing",
@@ -45,7 +74,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			{
 				command: "speed pages tests create",
 				classification: {
-					safeFlags: ["dry-run"],
+					safeFlags: ["region", "dry-run"],
 				} satisfies ArgClassification<Args>,
 			},
 			argv as Record<string, unknown>,
@@ -60,7 +89,12 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 							url: String(argv["url"] ?? ""),
 						},
 						bodyKind: "json",
-						body: argv.body !== undefined ? parseBody(argv.body) : undefined,
+						body:
+							argv.body !== undefined
+								? parseBody(argv.body)
+								: compactBody({
+										region: argv["region"],
+									}),
 					});
 					return;
 				}
@@ -83,9 +117,13 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					return;
 				}
 
+				// Assemble request body from individual flags
+				const bodyData = compactBody({
+					region: argv["region"],
+				});
 				const result = await withProgress(`Creating`, async () =>
 					client.send(operation, {
-						body: {},
+						body: bodyData,
 						zone_id: zoneId,
 						url: argv["url"],
 					})

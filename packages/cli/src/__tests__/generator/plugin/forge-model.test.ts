@@ -110,6 +110,117 @@ function listing(schema: Json) {
 }
 
 describe("the forge model", () => {
+	it("retains required and optional scalar intersections and their enum constraints", () => {
+		const d = create(
+			{
+				type: "object",
+				required: ["vendor"],
+				properties: {
+					vendor: {
+						type: "string",
+						allOf: [
+							{ $ref: "#/components/schemas/Vendor" },
+							{ type: "string", description: "Asset vendor." },
+						],
+					},
+					severity: {
+						allOf: [
+							{ $ref: "#/components/schemas/Severity" },
+							{ type: "string", enum: ["High", "Low"] },
+						],
+					},
+				},
+			},
+			{
+				Vendor: { type: "string", enum: ["GITHUB", "SLACK"] },
+				Severity: {
+					type: "string",
+					enum: ["Critical", "High", "Medium", "Low"],
+				},
+			}
+		);
+		const files = generateFiles(d);
+		const code = files.get("things/create.ts") ?? "";
+		expect(code).toContain(".option('vendor'");
+		expect(code).toContain('"choices":["GITHUB","SLACK"]');
+		expect(code).toContain('"choices":["High","Low"]');
+		expect(code).toContain("promptForRequiredEnumField('vendor'");
+		expect(code).not.toContain("promptForRequiredEnumField('severity'");
+		expect(code).toContain('vendor: argv["vendor"]');
+		expect(code).toContain('severity: argv["severity"]');
+		const metadata = JSON.parse(files.get("_meta/commands.json") ?? "{}");
+		expect(metadata.commands[0].options).toEqual(
+			expect.arrayContaining([
+				expect.objectContaining({
+					name: "vendor",
+					required: true,
+					enum: ["GITHUB", "SLACK"],
+				}),
+				expect.objectContaining({
+					name: "severity",
+					required: false,
+					enum: ["High", "Low"],
+				}),
+			])
+		);
+	});
+
+	it("keeps same-kind scalar unions as enum flags", () => {
+		const files = generateFiles(
+			create({
+				type: "object",
+				properties: {
+					selection: {
+						oneOf: [
+							{ type: "string", enum: ["first"] },
+							{ type: "string", enum: ["second"] },
+						],
+					},
+				},
+			})
+		);
+		const code = files.get("things/create.ts") ?? "";
+		expect(code).toContain('"choices":["first","second"]');
+		expect(code).toContain('selection: argv["selection"]');
+		expect(code).not.toContain("parseScalarValue");
+	});
+
+	it.each(["oneOf", "anyOf"])(
+		"emits referenced scalar %s properties as typed scalar flags",
+		(union) => {
+			const files = generateFiles(
+				create(
+					{
+						type: "object",
+						properties: { fallback: { $ref: "#/components/schemas/Fallback" } },
+					},
+					{
+						Fallback: {
+							[union]: [{ type: "number" }, { type: "string", enum: ["veto"] }],
+						},
+					}
+				)
+			);
+			const code = files.get("things/create.ts") ?? "";
+			expect(code).toContain(".option('fallback'");
+			expect(code).toContain("parseScalarValue");
+			expect(code).toContain(
+				'fallback: parseScalarValue(argv["fallback"], "fallback")'
+			);
+			expect(code).not.toContain('"choices":["veto"]');
+			const metadata = JSON.parse(files.get("_meta/commands.json") ?? "{}");
+			expect(metadata.commands[0].options).toEqual(
+				expect.arrayContaining([
+					expect.objectContaining({
+						name: "fallback",
+						type: "string",
+						required: false,
+					}),
+				])
+			);
+		}
+	);
+
 	it("names commands in kebab-case, and joins the names into ids", () => {
 		const d = doc({
 			"/accounts/{account_id}/billing/setup": {

@@ -9,7 +9,6 @@ export default {
 		"filter",
 		"limit",
 		"offset",
-		"cursor",
 		"order_by",
 		"search",
 		"lookup",

@@ -5,8 +5,5 @@ export default {
 	method: "GET",
 	path: (request: Record<string, unknown>) =>
 		path`/accounts/${request.account_id}/resource-library/categories`,
-	query: ["limit", "offset", "cursor"],
-	errors: {
-		503: "ServiceUnavailableError",
-	},
+	query: ["limit", "offset"],
 } as const;

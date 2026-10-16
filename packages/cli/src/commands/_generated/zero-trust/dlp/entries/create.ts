@@ -45,12 +45,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			type: "string",
 			description: "The profile_id field",
 		})
-		.option("validator-ids", {
-			type: "string",
-			array: true,
-			description:
-				"Validators the new entry should reference, by id, at most 10.",
-		})
 		.option("dry-run", {
 			type: "boolean",
 			description: "Validate and show what would happen without executing",
@@ -114,7 +108,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 											"profile-id",
 											"text"
 										),
-										validator_ids: argv["validator-ids"],
 									}),
 					});
 					return;
@@ -172,7 +165,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						"profile-id",
 						"text"
 					),
-					validator_ids: argv["validator-ids"],
 				});
 				const result = await withProgress(`Creating`, async () =>
 					client.send(operation, { body: bodyData, account_id: accountId })

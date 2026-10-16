@@ -14,7 +14,6 @@ import $sensitivitygrouptemplates from "./sensitivity-group-templates/index.js";
 import $sensitivitygroups from "./sensitivity-groups/index.js";
 import $sensitivitylevels from "./sensitivity-levels/index.js";
 import $settings from "./settings/index.js";
-import $validators from "./validators/index.js";
 import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * dlp command group
@@ -44,7 +43,6 @@ const command: CommandModule<CommonYargsOptions> = {
 			.command($sensitivitygroups)
 			.command($sensitivitylevels)
 			.command($settings)
-			.command($validators)
 			.demandCommand(1, "Please specify a subcommand");
 	},
 

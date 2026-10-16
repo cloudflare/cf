@@ -217,7 +217,7 @@ export const generatedCommands: GeneratedCommand[] = [
 			() => import("./brand-protection/index.js"),
 			null
 		),
-		hideCommand: false,
+		hideCommand: true,
 	},
 	{
 		command: lazyCommand<CommonYargsOptions>(

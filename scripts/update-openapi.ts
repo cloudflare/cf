@@ -293,6 +293,15 @@ export async function getLatestOpenApiRelease(): Promise<{
 	tag: string;
 	version: string;
 }> {
+	let latest:
+		| {
+				tag: string;
+				version: string;
+				publishedAt: number;
+				hasAsset: boolean;
+		  }
+		| undefined;
+	// Releases can share a target commit, so list order need not match publication order.
 	for (let page = 1; ; page++) {
 		const query = new URLSearchParams({ per_page: "100", page: String(page) });
 		const releases = await githubRequest(
@@ -318,23 +327,42 @@ export async function getLatestOpenApiRelease(): Promise<{
 			if (!match?.[1]) {
 				continue;
 			}
-			// generate.ts downloads this asset, so never pin a release without it.
-			const hasAsset =
-				Array.isArray(release.assets) &&
-				release.assets.some(
-					(item) => isObject(item) && item.name === OPENAPI_ASSET
-				);
-			if (!hasAsset) {
+			const publishedAt =
+				typeof release.published_at === "string"
+					? Date.parse(release.published_at)
+					: Number.NaN;
+			if (!Number.isFinite(publishedAt)) {
 				throw new Error(
-					`Forge release ${release.tag_name} has no ${OPENAPI_ASSET} asset`
+					`Forge release ${release.tag_name} has an invalid published_at timestamp`
 				);
 			}
-			return { tag: release.tag_name, version: match[1] };
+			if (latest === undefined || publishedAt > latest.publishedAt) {
+				latest = {
+					tag: release.tag_name,
+					version: match[1],
+					publishedAt,
+					hasAsset:
+						Array.isArray(release.assets) &&
+						release.assets.some(
+							(item) => isObject(item) && item.name === OPENAPI_ASSET
+						),
+				};
+			}
 		}
 		if (releases.length < 100) {
-			throw new Error("No published Forge OpenAPI release found");
+			break;
 		}
 	}
+	if (latest === undefined) {
+		throw new Error("No published Forge OpenAPI release found");
+	}
+	// generate.ts downloads this asset, so never pin a release without it.
+	if (!latest.hasAsset) {
+		throw new Error(
+			`Forge release ${latest.tag} has no ${OPENAPI_ASSET} asset`
+		);
+	}
+	return { tag: latest.tag, version: latest.version };
 }
 
 /**

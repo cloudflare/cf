@@ -9,6 +9,7 @@ import {
 	maybeDelegateToLocalInstall,
 	resolveDelegateTarget,
 } from "../../lib/delegate.js";
+import { VERSION } from "../../version.js";
 
 /**
  * Tests for Wrangler-2-style local-install delegation.
@@ -293,6 +294,47 @@ describe("maybeDelegateToLocalInstall", () => {
 		expect(
 			readFileSync(resolve(process.cwd(), "delegation.txt"), "utf-8")
 		).toBe("1");
+	});
+
+	// Telemetry in the child records which global cf handed off. The
+	// sentinel itself stays a plain "1" so its existing readers are unchanged.
+	const recordDelegationEnvScript =
+		`import { writeFileSync } from "node:fs";\n` +
+		`writeFileSync("delegation-env.json", JSON.stringify({\n` +
+		`  sentinel: process.env.CF_DELEGATION ?? null,\n` +
+		`  version: process.env.CF_DELEGATING_CLI_VERSION ?? null,\n` +
+		`}));\n` +
+		`process.exit(0)\n`;
+	const readDelegationEnv = () =>
+		JSON.parse(
+			readFileSync(resolve(process.cwd(), "delegation-env.json"), "utf-8")
+		) as { sentinel: string | null; version: string | null };
+
+	it("passes the delegating cf's version to the child", async () => {
+		await seedLocalCf({ script: recordDelegationEnvScript });
+
+		const result = await maybeDelegateToLocalInstall({
+			cwd: process.cwd(),
+			argv: [],
+			env: process.env,
+			ownPackageJsonPath: OWN_PKG,
+		});
+
+		expect(result.delegated).toBe(true);
+		expect(readDelegationEnv()).toEqual({ sentinel: "1", version: VERSION });
+	});
+
+	it("overwrites an inherited delegating version with its own", async () => {
+		await seedLocalCf({ script: recordDelegationEnvScript });
+
+		await maybeDelegateToLocalInstall({
+			cwd: process.cwd(),
+			argv: [],
+			env: { ...process.env, CF_DELEGATING_CLI_VERSION: "0.0.1" },
+			ownPackageJsonPath: OWN_PKG,
+		});
+
+		expect(readDelegationEnv().version).toBe(VERSION);
 	});
 
 	it("preserves the platform exit status of a self-terminated local cf", async () => {

@@ -27,7 +27,9 @@ Command telemetry uses command-started and command-finished events containing:
 - Command duration and its outcome (`success`, `error`, or `cancelled`).
 - Error class, HTTP status, and numeric Cloudflare API error codes when a
   command fails. Error messages and stack traces are not sent.
-- The `cf` version and prerelease label, when present.
+- The `cf` version and prerelease label, when present. When a global `cf`
+  hands a command to the `cf` version pinned by a project, the version is that
+  of the project's `cf`, and the global `cf` version is also recorded.
 - OS family and version, architecture, Node.js major version, and package
   manager.
 - Whether this is the first recorded use on the machine, and whether the

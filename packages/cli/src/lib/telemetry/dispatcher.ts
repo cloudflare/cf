@@ -8,6 +8,7 @@ import { detectCLIMode } from "../request-headers.js";
 import { getDeviceId, isFirstUsage, resolveTelemetry } from "./config.js";
 import {
 	getArch,
+	getGlobalCliVersion,
 	getNodeVersion,
 	getOSVersion,
 	getPackageManager,
@@ -84,6 +85,7 @@ export function getTelemetryDispatcher(): TelemetryDispatcher {
 	const agentContext = detectAgentContext();
 	const agent = agentContext.harness?.id ?? null;
 	const sessionMatch = agentContext.matches.find((match) => match.sessionId);
+	const globalCliVersion = getGlobalCliVersion();
 
 	function common(): CommonEventProperties {
 		const prereleaseLabel = getPrereleaseLabel();
@@ -118,6 +120,7 @@ export function getTelemetryDispatcher(): TelemetryDispatcher {
 			cliMode: detectCLIMode(),
 			agent,
 			delegated: Boolean(process.env[DELEGATION_SENTINEL]),
+			...(globalCliVersion ? { globalCliVersion } : {}),
 		};
 	}
 

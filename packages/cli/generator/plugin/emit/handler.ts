@@ -659,10 +659,10 @@ export function bodyPrompts(ctx: Ctx): string[] {
 
 /**
  * The non-path positionals and required options that go into the body, as
- * their argv keys and API field names.
+ * their argument definitions and API field names.
  */
-function bodyFieldArgs(ctx: Ctx): [string, string][] {
-	const out: [string, string][] = [];
+function bodyFieldArgs(ctx: Ctx): [Arg, string][] {
+	const out: [Arg, string][] = [];
 	for (const arg of positionals(ctx.derived)) {
 		if (isPath(arg) || arg.isZone || arg.isWorkerName) {
 			continue;
@@ -672,13 +672,13 @@ function bodyFieldArgs(ctx: Ctx): [string, string][] {
 			path !== undefined && path.length === 1
 				? (path[0] as string)
 				: arg.name.replaceAll("-", "_");
-		out.push([arg.name, field]);
+		out.push([arg, field]);
 	}
 	for (const opt of ctx.requiredOptionArgs) {
 		if (isBody(opt)) {
 			continue;
 		}
-		out.push([opt.name, opt.name.replaceAll("-", "_")]);
+		out.push([opt, opt.name.replaceAll("-", "_")]);
 	}
 	return out;
 }
@@ -728,8 +728,8 @@ export function bodyObject(ctx: Ctx, indent: string): string[] {
 		}
 		add(path, bodyArgValue(arg, argvKey(arg.name)));
 	}
-	for (const [key, field] of bodyFieldArgs(ctx)) {
-		add([field], argvKey(key));
+	for (const [arg, field] of bodyFieldArgs(ctx)) {
+		add([field], bodyArgValue(arg, argvKey(arg.name)));
 	}
 	const emit = (tree: Tree, ind: string): string[] => {
 		const lines = ["{"];
@@ -797,10 +797,11 @@ function bodyAssembly(ctx: Ctx): string[] {
 				`      if (${read} !== undefined) setNestedValue(bodyData, [${p}], ${value});`
 			);
 		}
-		for (const [key, field] of bodyFieldArgs(ctx)) {
-			const read = argvKey(key);
+		for (const [arg, field] of bodyFieldArgs(ctx)) {
+			const read = argvKey(arg.name);
+			const value = bodyArgValue(arg, read);
 			lines.push(
-				`      if (${read} !== undefined) bodyData[${quote(field)}] = ${read};`
+				`      if (${read} !== undefined) bodyData[${quote(field)}] = ${value};`
 			);
 		}
 	}
@@ -861,7 +862,8 @@ function plainCall(ctx: Ctx): string[] {
 			const opts: string[] = [];
 			if (d.hasBody) {
 				const fields = bodyFieldArgs(ctx).map(
-					([key, field]) => `'${field}': ${argvKey(key)}`
+					([arg, field]) =>
+						`'${field}': ${bodyArgValue(arg, argvKey(arg.name))}`
 				);
 				if (fields.length > 0) {
 					opts.push(`body: { ${fields.join(", ")} }`);
@@ -1063,7 +1065,8 @@ export function imports(ctx: Ctx): Imports {
 		i.from(`${lib}/raw-fetch.js`, ["fetchRawBytes", "writeRawOutput"]);
 	}
 	const bodyFlags = bodyOptions(d);
-	const flagsNeedToken = bodyFlags.some((a) => a.fromFile !== undefined);
+	const bodyArgs = [...bodyFlags, ...bodyFieldArgs(ctx).map(([arg]) => arg)];
+	const flagsNeedToken = bodyArgs.some((a) => a.fromFile !== undefined);
 	const nonJsonBody = d.hasBody && !acceptsJson(ctx);
 	const needsToken =
 		flagsNeedToken || d.multipartFlagFields.length > 0 || nonJsonBody;
@@ -1085,13 +1088,13 @@ export function imports(ctx: Ctx): Imports {
 		if (d.hasBodyParams) {
 			names.push("compactBody");
 		}
-		if (bodyFlags.some((a) => a.type === "objectMap")) {
+		if (bodyArgs.some((a) => a.type === "objectMap")) {
 			names.push("parseJsonMap");
 		}
-		if (bodyFlags.some((a) => a.type === "objectArray")) {
+		if (bodyArgs.some((a) => a.type === "objectArray")) {
 			names.push("parseObjectArray");
 		}
-		if (bodyFlags.some((a) => a.type === "scalarUnion")) {
+		if (bodyArgs.some((a) => a.type === "scalarUnion")) {
 			names.push("parseScalarValue");
 		}
 		if (d.hasBodyParams && !sdk.canEmitTypedBodyCall(ctx)) {

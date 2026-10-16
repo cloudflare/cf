@@ -7,5 +7,6 @@ export default {
 		path`/accounts/${request.account_id}/ai-search/namespaces/${request.namespace}/instances/${request.id}/purge_cache`,
 	errors: {
 		404: "NotFoundError",
+		503: "ServiceUnavailableError",
 	},
 } as const;

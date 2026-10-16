@@ -28,40 +28,40 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.usage(
 			"$0 zero-trust devices posture integrations create\n\nCreate a new device posture integration."
 		)
-		.option("config-api-url", {
+		.option("integration-config-api-url", {
 			type: "string",
 			description:
 				"The Workspace One API URL provided in the Workspace One Admin Dashboard.",
 		})
-		.option("config-auth-url", {
+		.option("integration-config-auth-url", {
 			type: "string",
 			description:
 				"The Workspace One Authorization URL depending on your region.",
 		})
-		.option("config-client-id", {
+		.option("integration-config-client-id", {
 			type: "string",
 			description:
 				"The Workspace One client ID provided in the Workspace One Admin Dashboard.",
 		})
-		.option("config-client-secret", {
+		.option("integration-config-client-secret", {
 			type: "string",
 			description:
 				"The Workspace One client secret provided in the Workspace One Admin Dashboard.",
 		})
-		.option("config-customer-id", {
+		.option("integration-config-customer-id", {
 			type: "string",
 			description: "The Crowdstrike customer ID.",
 		})
-		.option("config-client-key", {
+		.option("integration-config-client-key", {
 			type: "string",
 			description: "The Uptycs client secret.",
 		})
-		.option("config-access-client-id", {
+		.option("integration-config-access-client-id", {
 			type: "string",
 			description:
 				"If present, this id will be passed in the `CF-Access-Client-ID` header when hitting the `api_url`.",
 		})
-		.option("config-access-client-secret", {
+		.option("integration-config-access-client-secret", {
 			type: "string",
 			description:
 				"If present, this secret will be passed in the `CF-Access-Client-Secret` header when hitting the `api_url`.",
@@ -99,73 +99,73 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			type: "string",
 			description: "Raw JSON request body (bypasses individual flags)",
 		})
-		.conflicts("config-api-url", [
-			"config-customer-id",
-			"config-client-id",
-			"config-client-secret",
+		.conflicts("integration-config-api-url", [
+			"integration-config-customer-id",
+			"integration-config-client-id",
+			"integration-config-client-secret",
 		])
-		.conflicts("config-auth-url", [
-			"config-customer-id",
-			"config-client-key",
-			"config-access-client-id",
-			"config-access-client-secret",
+		.conflicts("integration-config-auth-url", [
+			"integration-config-customer-id",
+			"integration-config-client-key",
+			"integration-config-access-client-id",
+			"integration-config-access-client-secret",
 		])
-		.implies("config-auth-url", [
-			"config-api-url",
-			"config-client-id",
-			"config-client-secret",
+		.implies("integration-config-auth-url", [
+			"integration-config-api-url",
+			"integration-config-client-id",
+			"integration-config-client-secret",
 		])
-		.conflicts("config-client-id", [
-			"config-client-key",
-			"config-customer-id",
-			"config-access-client-id",
-			"config-access-client-secret",
-			"config-api-url",
+		.conflicts("integration-config-client-id", [
+			"integration-config-client-key",
+			"integration-config-customer-id",
+			"integration-config-access-client-id",
+			"integration-config-access-client-secret",
+			"integration-config-api-url",
 		])
-		.conflicts("config-client-secret", [
-			"config-access-client-id",
-			"config-access-client-secret",
-			"config-api-url",
+		.conflicts("integration-config-client-secret", [
+			"integration-config-access-client-id",
+			"integration-config-access-client-secret",
+			"integration-config-api-url",
 		])
-		.conflicts("config-customer-id", [
-			"config-auth-url",
-			"config-client-id",
-			"config-api-url",
-			"config-access-client-id",
-			"config-access-client-secret",
+		.conflicts("integration-config-customer-id", [
+			"integration-config-auth-url",
+			"integration-config-client-id",
+			"integration-config-api-url",
+			"integration-config-access-client-id",
+			"integration-config-access-client-secret",
 		])
-		.conflicts("config-client-key", [
-			"config-auth-url",
-			"config-client-id",
-			"config-access-client-id",
-			"config-access-client-secret",
+		.conflicts("integration-config-client-key", [
+			"integration-config-auth-url",
+			"integration-config-client-id",
+			"integration-config-access-client-id",
+			"integration-config-access-client-secret",
 		])
-		.implies("config-client-key", [
-			"config-api-url",
-			"config-client-secret",
-			"config-customer-id",
+		.implies("integration-config-client-key", [
+			"integration-config-api-url",
+			"integration-config-client-secret",
+			"integration-config-customer-id",
 		])
-		.conflicts("config-access-client-id", [
-			"config-auth-url",
-			"config-client-id",
-			"config-client-secret",
-			"config-customer-id",
-			"config-client-key",
+		.conflicts("integration-config-access-client-id", [
+			"integration-config-auth-url",
+			"integration-config-client-id",
+			"integration-config-client-secret",
+			"integration-config-customer-id",
+			"integration-config-client-key",
 		])
-		.implies("config-access-client-id", [
-			"config-access-client-secret",
-			"config-api-url",
+		.implies("integration-config-access-client-id", [
+			"integration-config-access-client-secret",
+			"integration-config-api-url",
 		])
-		.conflicts("config-access-client-secret", [
-			"config-auth-url",
-			"config-client-id",
-			"config-client-secret",
-			"config-customer-id",
-			"config-client-key",
+		.conflicts("integration-config-access-client-secret", [
+			"integration-config-auth-url",
+			"integration-config-client-id",
+			"integration-config-client-secret",
+			"integration-config-customer-id",
+			"integration-config-client-key",
 		])
-		.implies("config-access-client-secret", [
-			"config-access-client-id",
-			"config-api-url",
+		.implies("integration-config-access-client-secret", [
+			"integration-config-access-client-id",
+			"integration-config-api-url",
 		]);
 }
 
@@ -199,45 +199,59 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 								: compactBody({
 										config: {
 											api_url: resolveFileToken(
-												argv["config-api-url"] as string | undefined,
-												"config-api-url",
+												argv["integration-config-api-url"] as
+													| string
+													| undefined,
+												"integration-config-api-url",
 												"text"
 											),
 											auth_url: resolveFileToken(
-												argv["config-auth-url"] as string | undefined,
-												"config-auth-url",
+												argv["integration-config-auth-url"] as
+													| string
+													| undefined,
+												"integration-config-auth-url",
 												"text"
 											),
 											client_id: resolveFileToken(
-												argv["config-client-id"] as string | undefined,
-												"config-client-id",
+												argv["integration-config-client-id"] as
+													| string
+													| undefined,
+												"integration-config-client-id",
 												"text"
 											),
 											client_secret: resolveFileToken(
-												argv["config-client-secret"] as string | undefined,
-												"config-client-secret",
+												argv["integration-config-client-secret"] as
+													| string
+													| undefined,
+												"integration-config-client-secret",
 												"text"
 											),
 											customer_id: resolveFileToken(
-												argv["config-customer-id"] as string | undefined,
-												"config-customer-id",
+												argv["integration-config-customer-id"] as
+													| string
+													| undefined,
+												"integration-config-customer-id",
 												"text"
 											),
 											client_key: resolveFileToken(
-												argv["config-client-key"] as string | undefined,
-												"config-client-key",
+												argv["integration-config-client-key"] as
+													| string
+													| undefined,
+												"integration-config-client-key",
 												"text"
 											),
 											access_client_id: resolveFileToken(
-												argv["config-access-client-id"] as string | undefined,
-												"config-access-client-id",
+												argv["integration-config-access-client-id"] as
+													| string
+													| undefined,
+												"integration-config-access-client-id",
 												"text"
 											),
 											access_client_secret: resolveFileToken(
-												argv["config-access-client-secret"] as
+												argv["integration-config-access-client-secret"] as
 													| string
 													| undefined,
-												"config-access-client-secret",
+												"integration-config-access-client-secret",
 												"text"
 											),
 										},
@@ -306,43 +320,45 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				const bodyData = compactBody({
 					config: {
 						api_url: resolveFileToken(
-							argv["config-api-url"] as string | undefined,
-							"config-api-url",
+							argv["integration-config-api-url"] as string | undefined,
+							"integration-config-api-url",
 							"text"
 						),
 						auth_url: resolveFileToken(
-							argv["config-auth-url"] as string | undefined,
-							"config-auth-url",
+							argv["integration-config-auth-url"] as string | undefined,
+							"integration-config-auth-url",
 							"text"
 						),
 						client_id: resolveFileToken(
-							argv["config-client-id"] as string | undefined,
-							"config-client-id",
+							argv["integration-config-client-id"] as string | undefined,
+							"integration-config-client-id",
 							"text"
 						),
 						client_secret: resolveFileToken(
-							argv["config-client-secret"] as string | undefined,
-							"config-client-secret",
+							argv["integration-config-client-secret"] as string | undefined,
+							"integration-config-client-secret",
 							"text"
 						),
 						customer_id: resolveFileToken(
-							argv["config-customer-id"] as string | undefined,
-							"config-customer-id",
+							argv["integration-config-customer-id"] as string | undefined,
+							"integration-config-customer-id",
 							"text"
 						),
 						client_key: resolveFileToken(
-							argv["config-client-key"] as string | undefined,
-							"config-client-key",
+							argv["integration-config-client-key"] as string | undefined,
+							"integration-config-client-key",
 							"text"
 						),
 						access_client_id: resolveFileToken(
-							argv["config-access-client-id"] as string | undefined,
-							"config-access-client-id",
+							argv["integration-config-access-client-id"] as string | undefined,
+							"integration-config-access-client-id",
 							"text"
 						),
 						access_client_secret: resolveFileToken(
-							argv["config-access-client-secret"] as string | undefined,
-							"config-access-client-secret",
+							argv["integration-config-access-client-secret"] as
+								| string
+								| undefined,
+							"integration-config-access-client-secret",
 							"text"
 						),
 					},

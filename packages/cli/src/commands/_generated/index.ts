@@ -442,7 +442,7 @@ export const generatedCommands: GeneratedCommand[] = [
 			() => import("./email-auth/index.js"),
 			null
 		),
-		hideCommand: true,
+		hideCommand: false,
 	},
 	{
 		command: lazyCommand<CommonYargsOptions>(

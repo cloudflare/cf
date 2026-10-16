@@ -73,6 +73,11 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			type: "string",
 			description: "Filter by exact pattern value.",
 		})
+		.option("expired", {
+			type: "boolean",
+			description:
+				"Filter to return only expired policies (`true`) or only policies that still apply (`false`). Omit to return both.",
+		})
 		.option("dry-run", {
 			type: "boolean",
 			description: "Validate and show what would happen without executing",
@@ -99,6 +104,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						"is-acceptable-sender",
 						"verify-sender",
 						"pattern-type",
+						"expired",
 						"dry-run",
 					],
 				} satisfies ArgClassification<Args>,
@@ -117,6 +123,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					verify_sender: argv["verify-sender"],
 					pattern_type: argv["pattern-type"],
 					pattern: argv["pattern"],
+					expired: argv["expired"],
 				};
 				if (argv.dryRun) {
 					const __cfDryRunAccountId = await resolveAccountIdSilent();

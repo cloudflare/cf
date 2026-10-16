@@ -10,5 +10,6 @@ export default {
 		400: "BadRequestError",
 		404: "NotFoundError",
 		409: "ConflictError",
+		503: "ServiceUnavailableError",
 	},
 } as const;

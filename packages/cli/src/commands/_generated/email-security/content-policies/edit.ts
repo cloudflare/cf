@@ -33,6 +33,11 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			type: "boolean",
 			description: "Whether the policy is active.",
 		})
+		.option("expires-at", {
+			type: "string",
+			description:
+				"Timestamp at which the policy expires. After this time, Email Security ignores the policy. The value must lie in the future. Send `null` to clear the expiration.",
+		})
 		.option("name", {
 			type: "string",
 			description: "Human-readable name of the policy.",
@@ -90,6 +95,11 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 								? parseBody(argv.body)
 								: compactBody({
 										enabled: argv["enabled"],
+										expires_at: resolveFileToken(
+											argv["expires-at"] as string | undefined,
+											"expires-at",
+											"text"
+										),
 										name: resolveFileToken(
 											argv["name"] as string | undefined,
 											"name",
@@ -130,6 +140,11 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				// Assemble request body from individual flags
 				const bodyData = compactBody({
 					enabled: argv["enabled"],
+					expires_at: resolveFileToken(
+						argv["expires-at"] as string | undefined,
+						"expires-at",
+						"text"
+					),
 					name: resolveFileToken(
 						argv["name"] as string | undefined,
 						"name",

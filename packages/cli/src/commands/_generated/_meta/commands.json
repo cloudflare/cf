@@ -46039,7 +46039,7 @@
 			"httpMethod": "PATCH",
 			"apiPath": "/zones/{zone_id}/email/auth/dmarc-reports",
 			"operationId": "email-auth.dmarc-reports.edit",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf email-auth dmarc-reports get",
@@ -46063,7 +46063,7 @@
 			"httpMethod": "GET",
 			"apiPath": "/zones/{zone_id}/email/auth/dmarc-reports",
 			"operationId": "email-auth.dmarc-reports.get",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf email-auth spf inspect",
@@ -46093,7 +46093,7 @@
 			"httpMethod": "GET",
 			"apiPath": "/zones/{zone_id}/email/auth/spf/inspect",
 			"operationId": "email-auth.spf.inspect",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf email-routing addresses create",
@@ -47021,6 +47021,12 @@
 					"description": "The comments field"
 				},
 				{
+					"name": "expires-at",
+					"type": "string",
+					"required": false,
+					"description": "Timestamp at which the policy expires. After this time, Email Security ignores the policy. The value must lie in the future. Send `null` to clear the expiration."
+				},
+				{
 					"name": "is-acceptable-sender",
 					"type": "boolean",
 					"required": true,
@@ -47156,6 +47162,12 @@
 					"type": "string",
 					"required": false,
 					"description": "The comments field"
+				},
+				{
+					"name": "expires-at",
+					"type": "string",
+					"required": false,
+					"description": "Timestamp at which the policy expires. After this time, Email Security ignores the policy. The value must lie in the future. Send `null` to clear the expiration."
 				},
 				{
 					"name": "is-acceptable-sender",
@@ -47350,6 +47362,12 @@
 					"description": "Filter by exact pattern value."
 				},
 				{
+					"name": "expired",
+					"type": "boolean",
+					"required": false,
+					"description": "Filter to return only expired policies (`true`) or only policies that still apply (`false`). Omit to return both."
+				},
+				{
 					"name": "dry-run",
 					"type": "boolean",
 					"required": false,
@@ -47386,6 +47404,12 @@
 					"type": "string",
 					"required": false,
 					"description": "The comments field"
+				},
+				{
+					"name": "expires-at",
+					"type": "string",
+					"required": false,
+					"description": "Timestamp at which the policy expires. After this time, Email Security ignores the policy. The value must lie in the future. Send `null` to clear the expiration."
 				},
 				{
 					"name": "is-acceptable-sender",
@@ -47563,6 +47587,12 @@
 					"description": "The comments field"
 				},
 				{
+					"name": "expires-at",
+					"type": "string",
+					"required": false,
+					"description": "Timestamp at which the pattern expires. After this time, Email Security ignores the pattern. The value must lie in the future. Send `null` to clear the expiration."
+				},
+				{
 					"name": "is-regex",
 					"type": "boolean",
 					"required": true,
@@ -47656,6 +47686,12 @@
 					"type": "string",
 					"required": false,
 					"description": "The comments field"
+				},
+				{
+					"name": "expires-at",
+					"type": "string",
+					"required": false,
+					"description": "Timestamp at which the pattern expires. After this time, Email Security ignores the pattern. The value must lie in the future. Send `null` to clear the expiration."
 				},
 				{
 					"name": "is-regex",
@@ -47784,6 +47820,12 @@
 					"description": "Filter by pattern value."
 				},
 				{
+					"name": "expired",
+					"type": "boolean",
+					"required": false,
+					"description": "Filter to return only expired patterns (`true`) or only patterns that still apply (`false`). Omit to return both."
+				},
+				{
 					"name": "dry-run",
 					"type": "boolean",
 					"required": false,
@@ -47820,6 +47862,12 @@
 					"type": "string",
 					"required": false,
 					"description": "The comments field"
+				},
+				{
+					"name": "expires-at",
+					"type": "string",
+					"required": false,
+					"description": "Timestamp at which the pattern expires. After this time, Email Security ignores the pattern. The value must lie in the future. Send `null` to clear the expiration."
 				},
 				{
 					"name": "is-regex",
@@ -48348,6 +48396,12 @@
 					"description": "Whether the policy is active."
 				},
 				{
+					"name": "expires-at",
+					"type": "string",
+					"required": false,
+					"description": "Timestamp at which the policy expires. After this time, Email Security ignores the policy. The value must lie in the future. Send `null` to clear the expiration."
+				},
+				{
 					"name": "name",
 					"type": "string",
 					"required": true,
@@ -48446,6 +48500,12 @@
 					"type": "boolean",
 					"required": false,
 					"description": "Whether the policy is active."
+				},
+				{
+					"name": "expires-at",
+					"type": "string",
+					"required": false,
+					"description": "Timestamp at which the policy expires. After this time, Email Security ignores the policy. The value must lie in the future. Send `null` to clear the expiration."
 				},
 				{
 					"name": "name",
@@ -48576,6 +48636,12 @@
 					"type": "string",
 					"required": false,
 					"description": "Filter by exact policy name."
+				},
+				{
+					"name": "expired",
+					"type": "boolean",
+					"required": false,
+					"description": "Filter to return only expired policies (`true`) or only policies that still apply (`false`). Omit to return both."
 				},
 				{
 					"name": "dry-run",
@@ -57542,326 +57608,6 @@
 			"httpMethod": "GET",
 			"apiPath": "/accounts/{account_id}/intel/attack-surface-report/issue-types",
 			"operationId": "intel.attack-surface-report.issue-types.get",
-			"hideCommand": false
-		},
-		{
-			"command": "cf intel attack-surface-report issues class",
-			"name": "class",
-			"fullPath": ["intel", "attack-surface-report", "issues", "class"],
-			"description": "Retrieves Security Center issue counts aggregated by classification class.",
-			"summary": "Retrieves Security Center Issue Counts by Class",
-			"usage": "cf intel attack-surface-report issues class [options]",
-			"arguments": [],
-			"options": [
-				{
-					"name": "dismissed",
-					"type": "boolean",
-					"required": false,
-					"description": "Dismissed"
-				},
-				{
-					"name": "issue-class",
-					"type": "string",
-					"required": false,
-					"description": "Issue class"
-				},
-				{
-					"name": "issue-type",
-					"type": "string",
-					"required": false,
-					"description": "Issue type"
-				},
-				{
-					"name": "product",
-					"type": "string",
-					"required": false,
-					"description": "Product"
-				},
-				{
-					"name": "source",
-					"type": "string",
-					"required": false,
-					"description": "Source"
-				},
-				{
-					"name": "severity",
-					"type": "string",
-					"required": false,
-					"description": "Severity"
-				},
-				{
-					"name": "subject",
-					"type": "string",
-					"required": false,
-					"description": "Subject"
-				},
-				{
-					"name": "dry-run",
-					"type": "boolean",
-					"required": false,
-					"description": "Validate and show what would happen without executing",
-					"default": false
-				}
-			],
-			"category": "action",
-			"hasRequestBody": false,
-			"httpMethod": "GET",
-			"apiPath": "/accounts/{account_id}/intel/attack-surface-report/issues/class",
-			"operationId": "intel.attack-surface-report.issues.class",
-			"hideCommand": false
-		},
-		{
-			"command": "cf intel attack-surface-report issues dismiss",
-			"name": "dismiss",
-			"fullPath": ["intel", "attack-surface-report", "issues", "dismiss"],
-			"description": "Deprecated endpoint for archiving Security Center insights. Use the newer archive-security-center-insight endpoint instead.",
-			"summary": "Archives Security Center Insight",
-			"usage": "cf intel attack-surface-report issues dismiss <issue-id> [options]",
-			"arguments": [
-				{
-					"name": "issue-id",
-					"position": 0,
-					"type": "string",
-					"required": true,
-					"description": "Issue ID"
-				}
-			],
-			"options": [
-				{
-					"name": "dismiss",
-					"type": "boolean",
-					"required": false,
-					"description": "The dismiss field"
-				},
-				{
-					"name": "dry-run",
-					"type": "boolean",
-					"required": false,
-					"description": "Validate and show what would happen without executing",
-					"default": false
-				},
-				{
-					"name": "body",
-					"type": "string",
-					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
-				}
-			],
-			"category": "action",
-			"hasRequestBody": true,
-			"httpMethod": "PUT",
-			"apiPath": "/accounts/{account_id}/intel/attack-surface-report/issues/{issue_id}/dismiss",
-			"operationId": "intel.attack-surface-report.issues.dismiss",
-			"hideCommand": false
-		},
-		{
-			"command": "cf intel attack-surface-report issues list",
-			"name": "list",
-			"fullPath": ["intel", "attack-surface-report", "issues", "list"],
-			"description": "Lists all Security Center issues for the account, showing active security problems requiring attention.",
-			"summary": "Retrieves Security Center Issues",
-			"usage": "cf intel attack-surface-report issues list [options]",
-			"arguments": [],
-			"options": [
-				{
-					"name": "dismissed",
-					"type": "boolean",
-					"required": false,
-					"description": "Dismissed"
-				},
-				{
-					"name": "issue-class",
-					"type": "string",
-					"required": false,
-					"description": "Issue class"
-				},
-				{
-					"name": "issue-type",
-					"type": "string",
-					"required": false,
-					"description": "Issue type"
-				},
-				{
-					"name": "product",
-					"type": "string",
-					"required": false,
-					"description": "Product"
-				},
-				{
-					"name": "source",
-					"type": "string",
-					"required": false,
-					"description": "Source"
-				},
-				{
-					"name": "severity",
-					"type": "string",
-					"required": false,
-					"description": "Severity"
-				},
-				{
-					"name": "subject",
-					"type": "string",
-					"required": false,
-					"description": "Subject"
-				},
-				{
-					"name": "page",
-					"type": "number",
-					"required": false,
-					"description": "Specifies the current page within paginated list of results."
-				},
-				{
-					"name": "per-page",
-					"type": "number",
-					"required": false,
-					"description": "Sets the number of results per page of results."
-				},
-				{
-					"name": "dry-run",
-					"type": "boolean",
-					"required": false,
-					"description": "Validate and show what would happen without executing",
-					"default": false
-				}
-			],
-			"category": "read",
-			"hasRequestBody": false,
-			"httpMethod": "GET",
-			"apiPath": "/accounts/{account_id}/intel/attack-surface-report/issues",
-			"operationId": "intel.attack-surface-report.issues.list",
-			"hideCommand": false
-		},
-		{
-			"command": "cf intel attack-surface-report issues severity",
-			"name": "severity",
-			"fullPath": ["intel", "attack-surface-report", "issues", "severity"],
-			"description": "Retrieves Security Center issue counts aggregated by severity level.",
-			"summary": "Retrieves Security Center Issue Counts by Severity",
-			"usage": "cf intel attack-surface-report issues severity [options]",
-			"arguments": [],
-			"options": [
-				{
-					"name": "dismissed",
-					"type": "boolean",
-					"required": false,
-					"description": "Dismissed"
-				},
-				{
-					"name": "issue-class",
-					"type": "string",
-					"required": false,
-					"description": "Issue class"
-				},
-				{
-					"name": "issue-type",
-					"type": "string",
-					"required": false,
-					"description": "Issue type"
-				},
-				{
-					"name": "product",
-					"type": "string",
-					"required": false,
-					"description": "Product"
-				},
-				{
-					"name": "source",
-					"type": "string",
-					"required": false,
-					"description": "Source"
-				},
-				{
-					"name": "severity",
-					"type": "string",
-					"required": false,
-					"description": "Severity"
-				},
-				{
-					"name": "subject",
-					"type": "string",
-					"required": false,
-					"description": "Subject"
-				},
-				{
-					"name": "dry-run",
-					"type": "boolean",
-					"required": false,
-					"description": "Validate and show what would happen without executing",
-					"default": false
-				}
-			],
-			"category": "action",
-			"hasRequestBody": false,
-			"httpMethod": "GET",
-			"apiPath": "/accounts/{account_id}/intel/attack-surface-report/issues/severity",
-			"operationId": "intel.attack-surface-report.issues.severity",
-			"hideCommand": false
-		},
-		{
-			"command": "cf intel attack-surface-report issues type",
-			"name": "type",
-			"fullPath": ["intel", "attack-surface-report", "issues", "type"],
-			"description": "Retrieves Security Center issue counts aggregated by issue type.",
-			"summary": "Retrieves Security Center Issue Counts by Type",
-			"usage": "cf intel attack-surface-report issues type [options]",
-			"arguments": [],
-			"options": [
-				{
-					"name": "dismissed",
-					"type": "boolean",
-					"required": false,
-					"description": "Dismissed"
-				},
-				{
-					"name": "issue-class",
-					"type": "string",
-					"required": false,
-					"description": "Issue class"
-				},
-				{
-					"name": "issue-type",
-					"type": "string",
-					"required": false,
-					"description": "Issue type"
-				},
-				{
-					"name": "product",
-					"type": "string",
-					"required": false,
-					"description": "Product"
-				},
-				{
-					"name": "source",
-					"type": "string",
-					"required": false,
-					"description": "Source"
-				},
-				{
-					"name": "severity",
-					"type": "string",
-					"required": false,
-					"description": "Severity"
-				},
-				{
-					"name": "subject",
-					"type": "string",
-					"required": false,
-					"description": "Subject"
-				},
-				{
-					"name": "dry-run",
-					"type": "boolean",
-					"required": false,
-					"description": "Validate and show what would happen without executing",
-					"default": false
-				}
-			],
-			"category": "action",
-			"hasRequestBody": false,
-			"httpMethod": "GET",
-			"apiPath": "/accounts/{account_id}/intel/attack-surface-report/issues/type",
-			"operationId": "intel.attack-surface-report.issues.type",
 			"hideCommand": false
 		},
 		{
@@ -113559,6 +113305,7 @@
 						"http_request_transform",
 						"http_response_cache_settings",
 						"http_response_compression",
+						"http_response_firewall_custom",
 						"http_response_firewall_managed",
 						"http_response_headers_transform",
 						"magic_transit",
@@ -114114,6 +113861,7 @@
 						"http_request_transform",
 						"http_response_cache_settings",
 						"http_response_compression",
+						"http_response_firewall_custom",
 						"http_response_firewall_managed",
 						"http_response_headers_transform",
 						"magic_transit",
@@ -116525,7 +116273,7 @@
 			"command": "cf security-insights partners settings get",
 			"name": "get",
 			"fullPath": ["security-insights", "partners", "settings", "get"],
-			"description": "Returns whether the account has enabled the selected partner integration. An integration that has never been configured is returned as disabled.",
+			"description": "Returns whether the account has enabled the selected partner integration and, if enabled, whether the account has been matched with the partner. An integration that has not been configured is returned as disabled.",
 			"summary": "Retrieves Partner Integration Settings",
 			"usage": "cf security-insights partners settings get <partner>",
 			"arguments": [
@@ -134601,7 +134349,7 @@
 					"position": 0,
 					"type": "string",
 					"required": true,
-					"description": "Identifies the version by UUID or UUID prefix with a minimum length of eight characters. Use \"latest\" to select the most recently created version."
+					"description": "Identifies the version by UUID or UUID prefix with a minimum length of eight characters. Use \"latest\" to select the most recently created version, which may not be deployed. Use \"latest-deployed\" to profile a version in the active deployment. Versions are tried in order of traffic share until one has a loaded isolate."
 				}
 			],
 			"options": [
@@ -146537,7 +146285,7 @@
 			"command": "cf zero-trust cws policies create",
 			"name": "create",
 			"fullPath": ["zero-trust", "cws", "policies", "create"],
-			"description": "Creates a policy from inline Rego source and an entrypoint. Omit filter to apply the policy to every request.",
+			"description": "Creates a policy from inline Rego source, an entrypoint, and a filter expression.",
 			"summary": "Create a new policy",
 			"usage": "cf zero-trust cws policies create [options]",
 			"arguments": [],
@@ -146557,8 +146305,8 @@
 				{
 					"name": "filter",
 					"type": "string",
-					"required": false,
-					"description": "Optional filter expression that determines whether this policy applies. Omit or set null to apply the policy to every request. Maximum 4096 UTF-8 bytes."
+					"required": true,
+					"description": "Filter expression that determines whether this policy applies. Maximum 4096 UTF-8 bytes."
 				},
 				{
 					"name": "name",
@@ -146735,7 +146483,7 @@
 			"command": "cf zero-trust cws policies update",
 			"name": "update",
 			"fullPath": ["zero-trust", "cws", "policies", "update"],
-			"description": "Replaces the policy's configuration. Omit filter to apply the policy to every request. Omit tags or use {} to clear them.",
+			"description": "Replaces the policy's configuration. Omit tags or use {} to clear them.",
 			"summary": "Update a policy",
 			"usage": "cf zero-trust cws policies update <policy-id> [options]",
 			"arguments": [
@@ -146763,8 +146511,8 @@
 				{
 					"name": "filter",
 					"type": "string",
-					"required": false,
-					"description": "Optional filter expression that determines whether this policy applies. Omit or set null to apply the policy to every request. Maximum 4096 UTF-8 bytes."
+					"required": true,
+					"description": "Filter expression that determines whether this policy applies. Maximum 4096 UTF-8 bytes."
 				},
 				{
 					"name": "name",
@@ -149113,13 +148861,13 @@
 			"arguments": [],
 			"options": [
 				{
-					"name": "config-sha256",
+					"name": "network-config-sha256",
 					"type": "string",
 					"required": false,
 					"description": "The SHA-256 hash of the TLS certificate presented by the host found at tls_sockaddr. If absent, regular certificate verification (trusted roots, valid timestamp, etc) will be used to validate the certificate."
 				},
 				{
-					"name": "config-tls-sockaddr",
+					"name": "network-config-tls-sockaddr",
 					"type": "string",
 					"required": true,
 					"description": "A network address of the form \"host:port\" that the WARP client will use to detect the presence of a TLS host."
@@ -149264,13 +149012,13 @@
 			],
 			"options": [
 				{
-					"name": "config-sha256",
+					"name": "network-config-sha256",
 					"type": "string",
 					"required": false,
 					"description": "The SHA-256 hash of the TLS certificate presented by the host found at tls_sockaddr. If absent, regular certificate verification (trusted roots, valid timestamp, etc) will be used to validate the certificate."
 				},
 				{
-					"name": "config-tls-sockaddr",
+					"name": "network-config-tls-sockaddr",
 					"type": "string",
 					"required": false,
 					"description": "A network address of the form \"host:port\" that the WARP client will use to detect the presence of a TLS host."
@@ -149381,49 +149129,49 @@
 			"arguments": [],
 			"options": [
 				{
-					"name": "config-api-url",
+					"name": "integration-config-api-url",
 					"type": "string",
 					"required": false,
 					"description": "The Workspace One API URL provided in the Workspace One Admin Dashboard."
 				},
 				{
-					"name": "config-auth-url",
+					"name": "integration-config-auth-url",
 					"type": "string",
 					"required": false,
 					"description": "The Workspace One Authorization URL depending on your region."
 				},
 				{
-					"name": "config-client-id",
+					"name": "integration-config-client-id",
 					"type": "string",
 					"required": false,
 					"description": "The Workspace One client ID provided in the Workspace One Admin Dashboard."
 				},
 				{
-					"name": "config-client-secret",
+					"name": "integration-config-client-secret",
 					"type": "string",
 					"required": false,
 					"description": "The Workspace One client secret provided in the Workspace One Admin Dashboard."
 				},
 				{
-					"name": "config-customer-id",
+					"name": "integration-config-customer-id",
 					"type": "string",
 					"required": false,
 					"description": "The Crowdstrike customer ID."
 				},
 				{
-					"name": "config-client-key",
+					"name": "integration-config-client-key",
 					"type": "string",
 					"required": false,
 					"description": "The Uptycs client secret."
 				},
 				{
-					"name": "config-access-client-id",
+					"name": "integration-config-access-client-id",
 					"type": "string",
 					"required": false,
 					"description": "If present, this id will be passed in the `CF-Access-Client-ID` header when hitting the `api_url`."
 				},
 				{
-					"name": "config-access-client-secret",
+					"name": "integration-config-access-client-secret",
 					"type": "string",
 					"required": false,
 					"description": "If present, this secret will be passed in the `CF-Access-Client-Secret` header when hitting the `api_url`."
@@ -149595,49 +149343,49 @@
 			],
 			"options": [
 				{
-					"name": "config-api-url",
+					"name": "integration-config-api-url",
 					"type": "string",
 					"required": false,
 					"description": "The Workspace One API URL provided in the Workspace One Admin Dashboard."
 				},
 				{
-					"name": "config-auth-url",
+					"name": "integration-config-auth-url",
 					"type": "string",
 					"required": false,
 					"description": "The Workspace One Authorization URL depending on your region."
 				},
 				{
-					"name": "config-client-id",
+					"name": "integration-config-client-id",
 					"type": "string",
 					"required": false,
 					"description": "The Workspace One client ID provided in the Workspace One Admin Dashboard."
 				},
 				{
-					"name": "config-client-secret",
+					"name": "integration-config-client-secret",
 					"type": "string",
 					"required": false,
 					"description": "The Workspace One client secret provided in the Workspace One Admin Dashboard."
 				},
 				{
-					"name": "config-customer-id",
+					"name": "integration-config-customer-id",
 					"type": "string",
 					"required": false,
 					"description": "The Crowdstrike customer ID."
 				},
 				{
-					"name": "config-client-key",
+					"name": "integration-config-client-key",
 					"type": "string",
 					"required": false,
 					"description": "The Uptycs client secret."
 				},
 				{
-					"name": "config-access-client-id",
+					"name": "integration-config-access-client-id",
 					"type": "string",
 					"required": false,
 					"description": "If present, this id will be passed in the `CF-Access-Client-ID` header when hitting the `api_url`."
 				},
 				{
-					"name": "config-access-client-secret",
+					"name": "integration-config-access-client-secret",
 					"type": "string",
 					"required": false,
 					"description": "If present, this secret will be passed in the `CF-Access-Client-Secret` header when hitting the `api_url`."
@@ -164237,7 +163985,6 @@
 		"intel asn subnets": "Operations for asn.subnets",
 		"intel attack-surface-report": "Attack surface intelligence — exposed assets, vulnerabilities, and infrastructure mapping",
 		"intel attack-surface-report issue-types": "Operations for attack-surface-report.issue-types",
-		"intel attack-surface-report issues": "Operations for attack-surface-report.issues",
 		"intel dns": "Passive DNS data showing historical DNS resolution records for domains",
 		"intel domain-history": "Historical domain registration and categorization changes over time",
 		"intel domains": "Domain intelligence — risk scores, categories, and associated infrastructure",

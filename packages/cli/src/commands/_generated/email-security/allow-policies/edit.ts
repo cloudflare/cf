@@ -30,6 +30,11 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			demandOption: true,
 		})
 		.option("comments", { type: "string", description: "The comments field" })
+		.option("expires-at", {
+			type: "string",
+			description:
+				"Timestamp at which the policy expires. After this time, Email Security ignores the policy. The value must lie in the future. Send `null` to clear the expiration.",
+		})
 		.option("is-acceptable-sender", {
 			type: "boolean",
 			description:
@@ -134,6 +139,11 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 											"comments",
 											"text"
 										),
+										expires_at: resolveFileToken(
+											argv["expires-at"] as string | undefined,
+											"expires-at",
+											"text"
+										),
 										is_acceptable_sender: argv["is-acceptable-sender"],
 										is_exempt_recipient: argv["is-exempt-recipient"],
 										is_recipient: argv["is-recipient"],
@@ -174,6 +184,11 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					comments: resolveFileToken(
 						argv["comments"] as string | undefined,
 						"comments",
+						"text"
+					),
+					expires_at: resolveFileToken(
+						argv["expires-at"] as string | undefined,
+						"expires-at",
 						"text"
 					),
 					is_acceptable_sender: argv["is-acceptable-sender"],

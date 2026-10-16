@@ -33009,6 +33009,12 @@
 					"description": "The comments field"
 				},
 				{
+					"name": "expires-at",
+					"type": "string",
+					"required": false,
+					"description": "Timestamp at which the policy expires. After this time, Email Security ignores the policy. The value must lie in the future. Send `null` to clear the expiration."
+				},
+				{
 					"name": "is-acceptable-sender",
 					"type": "boolean",
 					"required": true,
@@ -33114,6 +33120,12 @@
 					"type": "string",
 					"required": false,
 					"description": "The comments field"
+				},
+				{
+					"name": "expires-at",
+					"type": "string",
+					"required": false,
+					"description": "Timestamp at which the policy expires. After this time, Email Security ignores the policy. The value must lie in the future. Send `null` to clear the expiration."
 				},
 				{
 					"name": "is-acceptable-sender",
@@ -33263,6 +33275,11 @@
 					"name": "pattern",
 					"type": "string",
 					"required": false
+				},
+				{
+					"name": "expired",
+					"type": "boolean",
+					"required": false
 				}
 			],
 			"hasRequestBody": false,
@@ -33292,6 +33309,12 @@
 					"type": "string",
 					"required": false,
 					"description": "The comments field"
+				},
+				{
+					"name": "expires-at",
+					"type": "string",
+					"required": false,
+					"description": "Timestamp at which the policy expires. After this time, Email Security ignores the policy. The value must lie in the future. Send `null` to clear the expiration."
 				},
 				{
 					"name": "is-acceptable-sender",
@@ -33431,6 +33454,12 @@
 					"description": "The comments field"
 				},
 				{
+					"name": "expires-at",
+					"type": "string",
+					"required": false,
+					"description": "Timestamp at which the pattern expires. After this time, Email Security ignores the pattern. The value must lie in the future. Send `null` to clear the expiration."
+				},
+				{
 					"name": "is-regex",
 					"type": "boolean",
 					"required": true,
@@ -33494,6 +33523,12 @@
 					"type": "string",
 					"required": false,
 					"description": "The comments field"
+				},
+				{
+					"name": "expires-at",
+					"type": "string",
+					"required": false,
+					"description": "Timestamp at which the pattern expires. After this time, Email Security ignores the pattern. The value must lie in the future. Send `null` to clear the expiration."
 				},
 				{
 					"name": "is-regex",
@@ -33581,6 +33616,11 @@
 					"name": "pattern",
 					"type": "string",
 					"required": false
+				},
+				{
+					"name": "expired",
+					"type": "boolean",
+					"required": false
 				}
 			],
 			"hasRequestBody": false,
@@ -33610,6 +33650,12 @@
 					"type": "string",
 					"required": false,
 					"description": "The comments field"
+				},
+				{
+					"name": "expires-at",
+					"type": "string",
+					"required": false,
+					"description": "Timestamp at which the pattern expires. After this time, Email Security ignores the pattern. The value must lie in the future. Send `null` to clear the expiration."
 				},
 				{
 					"name": "is-regex",
@@ -33972,6 +34018,12 @@
 					"description": "Whether the policy is active."
 				},
 				{
+					"name": "expires-at",
+					"type": "string",
+					"required": false,
+					"description": "Timestamp at which the policy expires. After this time, Email Security ignores the policy. The value must lie in the future. Send `null` to clear the expiration."
+				},
+				{
 					"name": "name",
 					"type": "string",
 					"required": true,
@@ -34041,6 +34093,12 @@
 					"type": "boolean",
 					"required": false,
 					"description": "Whether the policy is active."
+				},
+				{
+					"name": "expires-at",
+					"type": "string",
+					"required": false,
+					"description": "Timestamp at which the policy expires. After this time, Email Security ignores the policy. The value must lie in the future. Send `null` to clear the expiration."
 				},
 				{
 					"name": "name",
@@ -34133,6 +34191,11 @@
 				{
 					"name": "name",
 					"type": "string",
+					"required": false
+				},
+				{
+					"name": "expired",
+					"type": "boolean",
 					"required": false
 				}
 			],
@@ -40397,347 +40460,6 @@
 				}
 			],
 			"queryParams": [],
-			"hasRequestBody": false,
-			"requestBodyFields": []
-		},
-		"intel attack-surface-report issues class": {
-			"operationId": "intel.attack-surface-report.issues.class",
-			"httpMethod": "GET",
-			"path": "/accounts/{account_id}/intel/attack-surface-report/issues/class",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [
-				{
-					"name": "dismissed",
-					"type": "boolean",
-					"required": false
-				},
-				{
-					"name": "issue_class",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "issue_type",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "product",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "source",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "severity",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "subject",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "issue_class~neq",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "issue_type~neq",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "product~neq",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "severity~neq",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "subject~neq",
-					"type": "array",
-					"required": false
-				}
-			],
-			"hasRequestBody": false,
-			"requestBodyFields": []
-		},
-		"intel attack-surface-report issues dismiss": {
-			"operationId": "intel.attack-surface-report.issues.dismiss",
-			"httpMethod": "PUT",
-			"path": "/accounts/{account_id}/intel/attack-surface-report/issues/{issue_id}/dismiss",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "issue_id",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": true,
-			"requestBodyFields": [
-				{
-					"name": "dismiss",
-					"type": "boolean",
-					"required": false,
-					"description": "The dismiss field"
-				}
-			]
-		},
-		"intel attack-surface-report issues list": {
-			"operationId": "intel.attack-surface-report.issues.list",
-			"httpMethod": "GET",
-			"path": "/accounts/{account_id}/intel/attack-surface-report/issues",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [
-				{
-					"name": "dismissed",
-					"type": "boolean",
-					"required": false
-				},
-				{
-					"name": "issue_class",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "issue_type",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "product",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "source",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "severity",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "subject",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "issue_class~neq",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "issue_type~neq",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "product~neq",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "severity~neq",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "subject~neq",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "page",
-					"type": "number",
-					"required": false
-				},
-				{
-					"name": "per_page",
-					"type": "number",
-					"required": false
-				}
-			],
-			"hasRequestBody": false,
-			"requestBodyFields": []
-		},
-		"intel attack-surface-report issues severity": {
-			"operationId": "intel.attack-surface-report.issues.severity",
-			"httpMethod": "GET",
-			"path": "/accounts/{account_id}/intel/attack-surface-report/issues/severity",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [
-				{
-					"name": "dismissed",
-					"type": "boolean",
-					"required": false
-				},
-				{
-					"name": "issue_class",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "issue_type",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "product",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "source",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "severity",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "subject",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "issue_class~neq",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "issue_type~neq",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "product~neq",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "severity~neq",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "subject~neq",
-					"type": "array",
-					"required": false
-				}
-			],
-			"hasRequestBody": false,
-			"requestBodyFields": []
-		},
-		"intel attack-surface-report issues type": {
-			"operationId": "intel.attack-surface-report.issues.type",
-			"httpMethod": "GET",
-			"path": "/accounts/{account_id}/intel/attack-surface-report/issues/type",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [
-				{
-					"name": "dismissed",
-					"type": "boolean",
-					"required": false
-				},
-				{
-					"name": "issue_class",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "issue_type",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "product",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "source",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "severity",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "subject",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "issue_class~neq",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "issue_type~neq",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "product~neq",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "severity~neq",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "subject~neq",
-					"type": "array",
-					"required": false
-				}
-			],
 			"hasRequestBody": false,
 			"requestBodyFields": []
 		},
@@ -102213,8 +101935,8 @@
 				{
 					"name": "filter",
 					"type": "string",
-					"required": false,
-					"description": "Optional filter expression that determines whether this policy applies. Omit or set null to apply the policy to every request. Maximum 4096 UTF-8 bytes."
+					"required": true,
+					"description": "Filter expression that determines whether this policy applies. Maximum 4096 UTF-8 bytes."
 				},
 				{
 					"name": "name",
@@ -102361,8 +102083,8 @@
 				{
 					"name": "filter",
 					"type": "string",
-					"required": false,
-					"description": "Optional filter expression that determines whether this policy applies. Omit or set null to apply the policy to every request. Maximum 4096 UTF-8 bytes."
+					"required": true,
+					"description": "Filter expression that determines whether this policy applies. Maximum 4096 UTF-8 bytes."
 				},
 				{
 					"name": "name",
@@ -104003,13 +103725,13 @@
 			"hasRequestBody": true,
 			"requestBodyFields": [
 				{
-					"name": "config-sha256",
+					"name": "network-config-sha256",
 					"type": "string",
 					"required": false,
 					"description": "The SHA-256 hash of the TLS certificate presented by the host found at tls_sockaddr. If absent, regular certificate verification (trusted roots, valid timestamp, etc) will be used to validate the certificate."
 				},
 				{
-					"name": "config-tls-sockaddr",
+					"name": "network-config-tls-sockaddr",
 					"type": "string",
 					"required": true,
 					"description": "A network address of the form \"host:port\" that the WARP client will use to detect the presence of a TLS host."
@@ -104103,13 +103825,13 @@
 			"hasRequestBody": true,
 			"requestBodyFields": [
 				{
-					"name": "config-sha256",
+					"name": "network-config-sha256",
 					"type": "string",
 					"required": false,
 					"description": "The SHA-256 hash of the TLS certificate presented by the host found at tls_sockaddr. If absent, regular certificate verification (trusted roots, valid timestamp, etc) will be used to validate the certificate."
 				},
 				{
-					"name": "config-tls-sockaddr",
+					"name": "network-config-tls-sockaddr",
 					"type": "string",
 					"required": false,
 					"description": "A network address of the form \"host:port\" that the WARP client will use to detect the presence of a TLS host."
@@ -104183,49 +103905,49 @@
 			"hasRequestBody": true,
 			"requestBodyFields": [
 				{
-					"name": "config-api-url",
+					"name": "integration-config-api-url",
 					"type": "string",
 					"required": false,
 					"description": "The Workspace One API URL provided in the Workspace One Admin Dashboard."
 				},
 				{
-					"name": "config-auth-url",
+					"name": "integration-config-auth-url",
 					"type": "string",
 					"required": false,
 					"description": "The Workspace One Authorization URL depending on your region."
 				},
 				{
-					"name": "config-client-id",
+					"name": "integration-config-client-id",
 					"type": "string",
 					"required": false,
 					"description": "The Workspace One client ID provided in the Workspace One Admin Dashboard."
 				},
 				{
-					"name": "config-client-secret",
+					"name": "integration-config-client-secret",
 					"type": "string",
 					"required": false,
 					"description": "The Workspace One client secret provided in the Workspace One Admin Dashboard."
 				},
 				{
-					"name": "config-customer-id",
+					"name": "integration-config-customer-id",
 					"type": "string",
 					"required": false,
 					"description": "The Crowdstrike customer ID."
 				},
 				{
-					"name": "config-client-key",
+					"name": "integration-config-client-key",
 					"type": "string",
 					"required": false,
 					"description": "The Uptycs client secret."
 				},
 				{
-					"name": "config-access-client-id",
+					"name": "integration-config-access-client-id",
 					"type": "string",
 					"required": false,
 					"description": "If present, this id will be passed in the `CF-Access-Client-ID` header when hitting the `api_url`."
 				},
 				{
-					"name": "config-access-client-secret",
+					"name": "integration-config-access-client-secret",
 					"type": "string",
 					"required": false,
 					"description": "If present, this secret will be passed in the `CF-Access-Client-Secret` header when hitting the `api_url`."
@@ -104325,49 +104047,49 @@
 			"hasRequestBody": true,
 			"requestBodyFields": [
 				{
-					"name": "config-api-url",
+					"name": "integration-config-api-url",
 					"type": "string",
 					"required": false,
 					"description": "The Workspace One API URL provided in the Workspace One Admin Dashboard."
 				},
 				{
-					"name": "config-auth-url",
+					"name": "integration-config-auth-url",
 					"type": "string",
 					"required": false,
 					"description": "The Workspace One Authorization URL depending on your region."
 				},
 				{
-					"name": "config-client-id",
+					"name": "integration-config-client-id",
 					"type": "string",
 					"required": false,
 					"description": "The Workspace One client ID provided in the Workspace One Admin Dashboard."
 				},
 				{
-					"name": "config-client-secret",
+					"name": "integration-config-client-secret",
 					"type": "string",
 					"required": false,
 					"description": "The Workspace One client secret provided in the Workspace One Admin Dashboard."
 				},
 				{
-					"name": "config-customer-id",
+					"name": "integration-config-customer-id",
 					"type": "string",
 					"required": false,
 					"description": "The Crowdstrike customer ID."
 				},
 				{
-					"name": "config-client-key",
+					"name": "integration-config-client-key",
 					"type": "string",
 					"required": false,
 					"description": "The Uptycs client secret."
 				},
 				{
-					"name": "config-access-client-id",
+					"name": "integration-config-access-client-id",
 					"type": "string",
 					"required": false,
 					"description": "If present, this id will be passed in the `CF-Access-Client-ID` header when hitting the `api_url`."
 				},
 				{
-					"name": "config-access-client-secret",
+					"name": "integration-config-access-client-secret",
 					"type": "string",
 					"required": false,
 					"description": "If present, this secret will be passed in the `CF-Access-Client-Secret` header when hitting the `api_url`."

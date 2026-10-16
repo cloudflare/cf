@@ -8,6 +8,7 @@ export default {
 	query: ["slot", "tunnel_id", "cursor", "limit"],
 	errors: {
 		400: "BadRequestError",
+		404: "NotFoundError",
 		500: "InternalServerError",
 	},
 } as const;

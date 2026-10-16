@@ -23,7 +23,7 @@ import { runWithTelemetry } from "#lib/telemetry/index.js";
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
 		.usage(
-			"$0 zero-trust cws policies create\n\nCreates a policy from inline Rego source and an entrypoint. Omit filter to apply the policy to every request."
+			"$0 zero-trust cws policies create\n\nCreates a policy from inline Rego source, an entrypoint, and a filter expression."
 		)
 		.option("description", {
 			type: "string",
@@ -37,7 +37,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("filter", {
 			type: "string",
 			description:
-				"Optional filter expression that determines whether this policy applies. Omit or set null to apply the policy to every request. Maximum 4096 UTF-8 bytes.",
+				"Filter expression that determines whether this policy applies. Maximum 4096 UTF-8 bytes.",
 		})
 		.option("name", { type: "string", description: "Name of the policy" })
 		.option("rego-source", {
@@ -138,6 +138,12 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					argv["entrypoint"] = await promptForRequiredField(
 						"entrypoint",
 						"Non-function rule declared in rego_source. Evaluation uses data.<package_path>.<entrypoint>."
+					);
+				}
+				if (argv["filter"] === undefined) {
+					argv["filter"] = await promptForRequiredField(
+						"filter",
+						"Filter expression that determines whether this policy applies. Maximum 4096 UTF-8 bytes."
 					);
 				}
 				if (argv["name"] === undefined) {

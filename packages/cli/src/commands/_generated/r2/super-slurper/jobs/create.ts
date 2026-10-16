@@ -12,6 +12,7 @@ import {
 	resolveAccountIdSilent,
 } from "#lib/auth.js";
 import { compactBody, parseBody } from "#lib/body-parser.js";
+import { validateBodyUnions } from "#lib/body-unions.js";
 import { formatDryRun } from "#lib/dry-run.js";
 import { resolveFileToken } from "#lib/input-validation.js";
 import { LOCAL_ACCOUNT_ID } from "#lib/local.js";
@@ -209,6 +210,101 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 }
 
 type Args = InferArgs<typeof builder>;
+const bodyUnions: Parameters<typeof validateBodyUnions>[1] = [
+	{
+		path: ["source"],
+		selector: "vendor",
+		variants: [
+			{
+				values: ["s3"],
+				schema: {
+					type: "object",
+					properties: {
+						bucket: { type: "string" },
+						endpoint: { anyOf: [{ type: "string" }, { type: "null" }] },
+						keys: {
+							anyOf: [
+								{ type: "array", items: { type: "string" }, maxItems: 10000 },
+								{ type: "null" },
+							],
+						},
+						pathPrefix: { anyOf: [{ type: "string" }, { type: "null" }] },
+						region: { anyOf: [{ type: "string" }, { type: "null" }] },
+						secret: {
+							type: "object",
+							properties: {
+								accessKeyId: { type: "string" },
+								secretAccessKey: { type: "string" },
+							},
+							required: ["accessKeyId", "secretAccessKey"],
+							additionalProperties: false,
+						},
+						vendor: { enum: ["s3"] },
+					},
+					required: ["bucket", "secret", "vendor"],
+					additionalProperties: false,
+				},
+			},
+			{
+				values: ["gcs"],
+				schema: {
+					type: "object",
+					properties: {
+						bucket: { type: "string" },
+						keys: {
+							anyOf: [
+								{ type: "array", items: { type: "string" }, maxItems: 10000 },
+								{ type: "null" },
+							],
+						},
+						pathPrefix: { anyOf: [{ type: "string" }, { type: "null" }] },
+						secret: {
+							type: "object",
+							properties: {
+								clientEmail: { type: "string" },
+								privateKey: { type: "string" },
+							},
+							required: ["clientEmail", "privateKey"],
+							additionalProperties: false,
+						},
+						vendor: { enum: ["gcs"] },
+					},
+					required: ["bucket", "secret", "vendor"],
+					additionalProperties: false,
+				},
+			},
+			{
+				values: ["r2"],
+				schema: {
+					type: "object",
+					properties: {
+						bucket: { type: "string" },
+						jurisdiction: { enum: ["default", "eu", "us", "fedramp"] },
+						keys: {
+							anyOf: [
+								{ type: "array", items: { type: "string" }, maxItems: 10000 },
+								{ type: "null" },
+							],
+						},
+						pathPrefix: { anyOf: [{ type: "string" }, { type: "null" }] },
+						secret: {
+							type: "object",
+							properties: {
+								accessKeyId: { type: "string" },
+								secretAccessKey: { type: "string" },
+							},
+							required: ["accessKeyId", "secretAccessKey"],
+							additionalProperties: false,
+						},
+						vendor: { enum: ["r2"] },
+					},
+					required: ["bucket", "secret", "vendor"],
+					additionalProperties: false,
+				},
+			},
+		],
+	},
+];
 
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "create",
@@ -242,89 +338,92 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						body:
 							argv.body !== undefined
 								? parseBody(argv.body)
-								: compactBody({
-										overwrite: argv["overwrite"],
-										source: {
-											bucket: resolveFileToken(
-												argv["source-bucket"] as string | undefined,
-												"source-bucket",
-												"text"
-											),
-											endpoint: resolveFileToken(
-												argv["source-endpoint"] as string | undefined,
-												"source-endpoint",
-												"text"
-											),
-											keys: argv["source-keys"],
-											pathPrefix: resolveFileToken(
-												argv["source-path-prefix"] as string | undefined,
-												"source-path-prefix",
-												"text"
-											),
-											region: resolveFileToken(
-												argv["source-region"] as string | undefined,
-												"source-region",
-												"text"
-											),
-											secret: {
-												accessKeyId: resolveFileToken(
-													argv["source-secret-access-key-id"] as
-														| string
-														| undefined,
-													"source-secret-access-key-id",
+								: validateBodyUnions(
+										compactBody({
+											overwrite: argv["overwrite"],
+											source: {
+												bucket: resolveFileToken(
+													argv["source-bucket"] as string | undefined,
+													"source-bucket",
 													"text"
 												),
-												secretAccessKey: resolveFileToken(
-													argv["source-secret-secret-access-key"] as
-														| string
-														| undefined,
-													"source-secret-secret-access-key",
+												endpoint: resolveFileToken(
+													argv["source-endpoint"] as string | undefined,
+													"source-endpoint",
 													"text"
 												),
-												clientEmail: resolveFileToken(
-													argv["source-secret-client-email"] as
-														| string
-														| undefined,
-													"source-secret-client-email",
+												keys: argv["source-keys"],
+												pathPrefix: resolveFileToken(
+													argv["source-path-prefix"] as string | undefined,
+													"source-path-prefix",
 													"text"
 												),
-												privateKey: resolveFileToken(
-													argv["source-secret-private-key"] as
-														| string
-														| undefined,
-													"source-secret-private-key",
+												region: resolveFileToken(
+													argv["source-region"] as string | undefined,
+													"source-region",
 													"text"
 												),
+												secret: {
+													accessKeyId: resolveFileToken(
+														argv["source-secret-access-key-id"] as
+															| string
+															| undefined,
+														"source-secret-access-key-id",
+														"text"
+													),
+													secretAccessKey: resolveFileToken(
+														argv["source-secret-secret-access-key"] as
+															| string
+															| undefined,
+														"source-secret-secret-access-key",
+														"text"
+													),
+													clientEmail: resolveFileToken(
+														argv["source-secret-client-email"] as
+															| string
+															| undefined,
+														"source-secret-client-email",
+														"text"
+													),
+													privateKey: resolveFileToken(
+														argv["source-secret-private-key"] as
+															| string
+															| undefined,
+														"source-secret-private-key",
+														"text"
+													),
+												},
+												vendor: argv["source-vendor"],
+												jurisdiction: argv["source-jurisdiction"],
 											},
-											vendor: argv["source-vendor"],
-											jurisdiction: argv["source-jurisdiction"],
-										},
-										target: {
-											bucket: resolveFileToken(
-												argv["target-bucket"] as string | undefined,
-												"target-bucket",
-												"text"
-											),
-											jurisdiction: argv["target-jurisdiction"],
-											secret: {
-												accessKeyId: resolveFileToken(
-													argv["target-secret-access-key-id"] as
-														| string
-														| undefined,
-													"target-secret-access-key-id",
+											target: {
+												bucket: resolveFileToken(
+													argv["target-bucket"] as string | undefined,
+													"target-bucket",
 													"text"
 												),
-												secretAccessKey: resolveFileToken(
-													argv["target-secret-secret-access-key"] as
-														| string
-														| undefined,
-													"target-secret-secret-access-key",
-													"text"
-												),
+												jurisdiction: argv["target-jurisdiction"],
+												secret: {
+													accessKeyId: resolveFileToken(
+														argv["target-secret-access-key-id"] as
+															| string
+															| undefined,
+														"target-secret-access-key-id",
+														"text"
+													),
+													secretAccessKey: resolveFileToken(
+														argv["target-secret-secret-access-key"] as
+															| string
+															| undefined,
+														"target-secret-secret-access-key",
+														"text"
+													),
+												},
+												vendor: argv["target-vendor"],
 											},
-											vendor: argv["target-vendor"],
-										},
-									}),
+										}),
+										bodyUnions
+									),
 						sensitiveBodyPaths: [
 							["source", "secret", "secretAccessKey"],
 							["source", "secret", "privateKey"],
@@ -418,6 +517,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						vendor: argv["target-vendor"],
 					},
 				});
+				validateBodyUnions(bodyData, bodyUnions);
 				const result = await withProgress(`Creating`, async () =>
 					client.send(operation, { body: bodyData, account_id: accountId })
 				);

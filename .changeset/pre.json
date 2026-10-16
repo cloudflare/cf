@@ -20,6 +20,7 @@
     "cli-command-search",
     "cli-do-not-track",
     "cli-telemetry-namespace",
+    "command-metadata-defaults",
     "cuddly-rivers-shine",
     "dependencies-instrumentation-env",
     "deploy-disable-provisioning",
@@ -34,6 +35,7 @@
     "forge-wasm-plugin",
     "global-boolean-values",
     "handwritten-dry-run",
+    "json-map-flags",
     "json-string-escapes",
     "large-upload-timeouts",
     "live-docs-search",
@@ -58,6 +60,8 @@
     "reduce-cli-import-graphs",
     "refresh-project-after-setup",
     "registrar-domain-check",
+    "renovate-workers-sdk-1b53b55dda14",
+    "renovate-workers-sdk-2a564b65b09b",
     "search-telemetry",
     "thin-api-client",
     "tunnel-diag",
@@ -74,13 +78,16 @@
     "update-forge-6b00f157496c",
     "update-forge-995446172c0e",
     "update-forge-af1cbe5ccd4d",
+    "update-forge-e9f3700b7760",
     "update-forge-f20240cf7d68",
     "update-forge",
+    "update-openapi-f816e2612cac",
     "update-setup-migration-deps",
     "update-workers-auth",
     "vinext-vite-commands",
     "vite-plugin-v2-beta",
     "windows-node-delegates",
-    "workers-secrets-cli"
+    "workers-secrets-cli",
+    "write-preview-builds-output"
   ]
 }

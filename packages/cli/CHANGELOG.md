@@ -1,5 +1,51 @@
 # cf
 
+## 1.0.0-beta.18
+
+### Minor Changes
+
+- ce05416: Add JSON map flags for API request fields.
+
+  Supply map fields as inline JSON objects or `@path/to/file.json`, preserving
+  empty maps and nested values. Required map fields must also be present when
+  using `--body`.
+
+- df8271c: Update the generated command surface for Forge OpenAPI release
+  `e9f3700b7760dcc75e0301e262015ccd516d78d3`.
+- b08875a: Update the generated command surface for Forge OpenAPI release
+  `f816e2612cac2b5489403d1011e8ff0d362d8cf0`.
+
+### Patch Changes
+
+- 6808c0f: Align command metadata defaults with CLI behavior
+
+  Only advertise defaults that generated commands actually apply, so `cf tools`
+  does not imply that omitted PATCH or PUT body flags reset existing settings.
+  Preserve discriminator defaults and omit defaults for conflicting, repeated,
+  and JSON-valued flags consistently with the command builder.
+
+- 00b7d2a: Update dependencies published from the Workers SDK repository:
+
+  - `@cloudflare/containers-shared`: `0.21.7` → `0.22.0`
+  - `@cloudflare/deploy-helpers`: `0.20.3` → `0.20.4`
+
+- 15af676: Update dependencies published from the Workers SDK repository:
+
+  - `@cloudflare/autoconfig`: `0.7.9` → `0.7.10`
+  - `@cloudflare/build-output-utils`: `0.9.2` → `0.9.3`
+  - `@cloudflare/config`: `0.26.0` → `0.27.0`
+  - `@cloudflare/containers-shared`: `0.22.0` → `0.22.1`
+  - `@cloudflare/deploy-helpers`: `0.20.4` → `0.21.0`
+  - `@cloudflare/runtime-types`: `0.1.11` → `0.1.12`
+  - `miniflare`: `5.20261012.0-beta` → `5.20261012.1-beta`
+
+- a54e630: Write Preview deployment results for Workers Builds
+
+  Append successful `cf previews deploy` results to the output file configured by
+  `WRANGLER_OUTPUT_FILE_DIRECTORY` or `WRANGLER_OUTPUT_FILE_PATH`, including the
+  selected Worker name and timestamp. This lets Workers Builds display Preview
+  and deployment URLs, including when the command uses `--quiet`.
+
 ## 1.0.0-beta.17
 
 ### Patch Changes

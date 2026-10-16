@@ -33,6 +33,10 @@ import { renderPromptIntro } from "./lib/ui/banner.js";
 import { theme } from "./lib/ui/index.js";
 import { VERSION as version } from "./version.js";
 import type * as TelemetryModule from "./lib/telemetry/index.js";
+import type {
+	CommandResolutionFailure,
+	CommandResolutionFailureKind,
+} from "./lib/telemetry/types.js";
 import type { UpdateNotice } from "./lib/update-check.js";
 import type { Options } from "yargs";
 
@@ -265,8 +269,76 @@ async function flushTelemetry(): Promise<void> {
 	}
 }
 
+// yargs words this singularly or plurally depending on the token count.
+const UNKNOWN_COMMAND_MESSAGE = /^Unknown commands?: /;
+const SUGGESTED_COMMAND_MESSAGE = /^Did you mean (.+)\?$/;
+const MISSING_COMMAND_MESSAGE = "You need to specify a command";
+
 function isUnknownCommandError(error: unknown): boolean {
-	return error instanceof Error && error.message.startsWith("Unknown command:");
+	return error instanceof Error && UNKNOWN_COMMAND_MESSAGE.test(error.message);
+}
+
+interface YargsResolutionState {
+	parsed?: false | { argv?: { _?: unknown } };
+	getInternalMethods(): {
+		getContext(): { commands: unknown };
+		getCommandInstance(): { getCommands(): unknown };
+	};
+}
+
+/**
+ * Capture where command resolution stopped, read while yargs still holds the
+ * failing level's context (it resets after parsing). Returns the raw tokens;
+ * telemetry sanitises them before sending.
+ */
+function commandResolutionFailure(
+	yargsInstance: unknown,
+	message: string
+): CommandResolutionFailure | undefined {
+	const suggestedCommand = SUGGESTED_COMMAND_MESSAGE.exec(message)?.[1];
+	let kind: CommandResolutionFailureKind;
+	if (suggestedCommand !== undefined) {
+		kind = "suggested-command";
+	} else if (UNKNOWN_COMMAND_MESSAGE.test(message)) {
+		kind = "unknown-subcommand";
+	} else if (message === MISSING_COMMAND_MESSAGE) {
+		kind = "missing-command";
+	} else {
+		return undefined;
+	}
+
+	try {
+		const state = yargsInstance as YargsResolutionState;
+		const internals = state.getInternalMethods();
+		const knownCommand = internals.getContext().commands;
+		const subcommands = internals.getCommandInstance().getCommands();
+		const positionals = state.parsed ? state.parsed.argv?._ : undefined;
+		if (
+			!Array.isArray(knownCommand) ||
+			!knownCommand.every((command) => typeof command === "string") ||
+			!Array.isArray(subcommands)
+		) {
+			return undefined;
+		}
+		// A leaf has no subcommands, so yargs' strict-commands check reports any
+		// positional the leaf did not consume as an unknown command.
+		const knownCommandIsLeaf =
+			knownCommand.length > 0 && subcommands.length === 0;
+		return {
+			kind:
+				kind === "unknown-subcommand" && knownCommandIsLeaf
+					? "surplus-positional"
+					: kind,
+			knownCommand,
+			knownCommandIsLeaf,
+			unknownTokens: Array.isArray(positionals)
+				? positionals.slice(knownCommand.length).map(String)
+				: [],
+			...(suggestedCommand === undefined ? {} : { suggestedCommand }),
+		};
+	} catch {
+		return undefined;
+	}
 }
 
 function resolvedCommandName(yargsInstance: unknown): string | undefined {
@@ -300,15 +372,23 @@ function excludesTelemetry(command: string): boolean {
 
 async function reportParseErrorIfUnreported(
 	error: unknown,
-	resolvedCommand: string | undefined
+	resolvedCommand: string | undefined,
+	resolutionFailure?: CommandResolutionFailure
 ): Promise<void> {
 	if (wasCommandReported() || error instanceof CliExit) {
 		return;
 	}
-	const command = isUnknownCommandError(error) ? undefined : resolvedCommand;
+	// A typo suggestion inside a group keeps the group's name, as before, so
+	// existing per-command data stays comparable.
+	const isUnknownCommand = resolutionFailure
+		? resolutionFailure.kind !== "suggested-command" ||
+			resolutionFailure.knownCommand.length === 0
+		: isUnknownCommandError(error);
+	const command = isUnknownCommand ? undefined : resolvedCommand;
 	if (
-		(command === undefined && !isUnknownCommandError(error)) ||
-		excludesTelemetry(command ?? commandPath().join(" "))
+		(command === undefined && !isUnknownCommand) ||
+		excludesTelemetry(command ?? commandPath().join(" ")) ||
+		excludesTelemetry(resolutionFailure?.knownCommand.join(" ") ?? "")
 	) {
 		return;
 	}
@@ -319,12 +399,17 @@ async function reportParseErrorIfUnreported(
 		const { sanitizeError } =
 			await import("./lib/telemetry/error-sanitization.js");
 		const dispatcher = getTelemetryDispatcher();
+		if (!dispatcher.enabled) {
+			return;
+		}
+		const resolution = resolutionFailure
+			? await describeResolutionFailure(resolutionFailure)
+			: { argsUsed: [], argsCombination: "" };
 		const telemetryEventName = command ?? UNKNOWN_COMMAND_EVENT;
 		const base = {
 			command: telemetryEventName,
 			sanitizedArgs: {},
-			argsUsed: [],
-			argsCombination: "",
+			...resolution,
 		};
 		dispatcher.sendCommandEvent("cf command started", base);
 		dispatcher.sendCommandEvent("cf command finished", {
@@ -336,6 +421,16 @@ async function reportParseErrorIfUnreported(
 	} catch {
 		// Telemetry must not interfere with error reporting.
 	}
+}
+
+async function describeResolutionFailure(failure: CommandResolutionFailure) {
+	const { loadCommandVocabulary, sanitizeCommandResolution } =
+		await import("./lib/telemetry/command-resolution.js");
+	return sanitizeCommandResolution(
+		failure,
+		hideBin(process.argv),
+		loadCommandVocabulary(Object.keys(GLOBAL_OPTIONS))
+	);
 }
 
 async function reportHelpShown(command: string | undefined): Promise<void> {
@@ -432,6 +527,11 @@ interface PreparedUpdateCheck {
 
 interface BuildCliOptions {
 	onCommandResolved?: (command: string) => void;
+	/** Receives the error `.fail` is about to throw for a resolution failure. */
+	onCommandResolutionFailed?: (
+		failure: CommandResolutionFailure,
+		error: Error
+	) => void;
 	onHelpShown?: (command: string) => void;
 	updateCheck?: PreparedUpdateCheck;
 }
@@ -521,7 +621,12 @@ async function prepareUpdateCheck(): Promise<PreparedUpdateCheck | undefined> {
  * list in prose form.
  */
 export function buildCli(rawArgs: string[], options: BuildCliOptions = {}) {
-	const { onCommandResolved, onHelpShown, updateCheck } = options;
+	const {
+		onCommandResolved,
+		onCommandResolutionFailed,
+		onHelpShown,
+		updateCheck,
+	} = options;
 	let restoreCloudflareDotEnv: (() => void) | undefined;
 	const orange = (s: string) => theme.brand(s);
 	const delimiter = rawArgs.indexOf("--");
@@ -661,7 +766,7 @@ export function buildCli(rawArgs: string[], options: BuildCliOptions = {}) {
 			// Its usage list contains only commands visible at the current depth,
 			// so let parsing continue to the normal unknown-command failure when
 			// the recommendation is hidden.
-			const recommendation = /^Did you mean (.+)\?$/.exec(msg)?.[1];
+			const recommendation = SUGGESTED_COMMAND_MESSAGE.exec(msg)?.[1];
 			if (recommendation) {
 				const visibleCommands = (
 					yargsInstance as unknown as {
@@ -696,8 +801,13 @@ export function buildCli(rawArgs: string[], options: BuildCliOptions = {}) {
 			// command's help first so the user sees valid usage, then
 			// throw so the error block renders below it (closer to the
 			// prompt).
+			const error = new Error(msg);
+			const resolutionFailure = commandResolutionFailure(cli, msg);
+			if (resolutionFailure) {
+				onCommandResolutionFailed?.(resolutionFailure, error);
+			}
 			yargsInstance.showHelp("error");
-			throw new Error(msg);
+			throw error;
 		});
 
 	// Every depth can replace `.usage()`, so add the notice at the point
@@ -779,10 +889,16 @@ export async function main(): Promise<void> {
 	}
 
 	let resolvedCommand: string | undefined;
+	let resolutionFailure:
+		| { failure: CommandResolutionFailure; error: Error }
+		| undefined;
 	let helpShown: string | undefined;
 	const { cli, dispose } = buildCli(hideBin(process.argv), {
 		onCommandResolved: (command) => {
 			resolvedCommand = command;
+		},
+		onCommandResolutionFailed: (failure, error) => {
+			resolutionFailure = { failure, error };
 		},
 		onHelpShown: (command) => {
 			helpShown = command;
@@ -834,9 +950,15 @@ export async function main(): Promise<void> {
 				// Completion hints must not affect command behavior.
 			}
 		}
+		// Only use the captured failure for the error `.fail` threw with it.
+		const failure =
+			resolutionFailure !== undefined && resolutionFailure.error === err
+				? resolutionFailure.failure
+				: undefined;
 		await reportParseErrorIfUnreported(
 			err,
-			resolvedCommand ?? resolvedCommandName(cli)
+			resolvedCommand ?? resolvedCommandName(cli),
+			failure
 		);
 		throw handleError(err);
 	} finally {

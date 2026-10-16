@@ -6,14 +6,18 @@ import {
 	it,
 	vi,
 } from "vite-plus/test";
+import { __resetCommandVocabularyForTests } from "../lib/telemetry/command-resolution.js";
 import { captureOutput } from "./helpers/capture-output.js";
 import { runCf } from "./helpers/run-cf.js";
+import type * as MetadataModule from "../lib/metadata.js";
 import type * as TelemetryModule from "../lib/telemetry/index.js";
 import type { TelemetryDispatcher } from "../lib/telemetry/index.js";
 
 const {
+	actualLoadMeta,
 	dispatcher,
 	getTelemetryDispatcher,
+	loadMeta,
 	sendAdhocEvent,
 	sendCommandEvent,
 	updateState,
@@ -27,10 +31,14 @@ const {
 		sendAdhocEvent: mockedSendAdhocEvent,
 	} satisfies TelemetryDispatcher;
 	return {
+		actualLoadMeta: {
+			current: undefined as typeof MetadataModule.loadMeta | undefined,
+		},
 		dispatcher: mockedDispatcher,
 		getTelemetryDispatcher: vi.fn<() => TelemetryDispatcher>(
 			() => mockedDispatcher
 		),
+		loadMeta: vi.fn<typeof MetadataModule.loadMeta>(),
 		sendAdhocEvent: mockedSendAdhocEvent,
 		sendCommandEvent: mockedSendCommandEvent,
 		updateState: vi.fn(),
@@ -43,6 +51,13 @@ vi.mock("../lib/telemetry/index.js", async (importOriginal) => ({
 }));
 
 vi.mock("../lib/telemetry/dispatcher.js", () => ({ getTelemetryDispatcher }));
+
+vi.mock("../lib/metadata.js", async (importOriginal) => {
+	const actual = await importOriginal<typeof MetadataModule>();
+	actualLoadMeta.current = actual.loadMeta;
+	loadMeta.mockImplementation(actual.loadMeta);
+	return { ...actual, loadMeta };
+});
 
 vi.mock("../lib/state.js", () => ({
 	readState: () => ({}),
@@ -62,6 +77,10 @@ describe("telemetry error reporting", () => {
 		sendCommandEvent.mockClear();
 		sendAdhocEvent.mockClear();
 		updateState.mockClear();
+		__resetCommandVocabularyForTests();
+		if (actualLoadMeta.current) {
+			loadMeta.mockImplementation(actualLoadMeta.current);
+		}
 	});
 
 	afterEach(() => {
@@ -80,16 +99,26 @@ describe("telemetry error reporting", () => {
 			"Unknown command: unrecognizable"
 		);
 
+		const resolution = {
+			command: "unknown command",
+			resolutionFailure: "unknown-subcommand",
+			knownCommand: "",
+			knownCommandIsLeaf: false,
+			unknownTokens: ["<word>"],
+			unknownTokenCount: 1,
+			unknownFlagCount: 0,
+			argsUsed: [],
+		};
 		expect(sendCommandEvent).toHaveBeenCalledTimes(2);
 		expect(sendCommandEvent).toHaveBeenNthCalledWith(
 			1,
 			"cf command started",
-			expect.objectContaining({ command: "unknown command" })
+			expect.objectContaining(resolution)
 		);
 		expect(sendCommandEvent).toHaveBeenNthCalledWith(
 			2,
 			"cf command finished",
-			expect.objectContaining({ command: "unknown command", outcome: "error" })
+			expect.objectContaining({ ...resolution, outcome: "error" })
 		);
 	});
 
@@ -102,13 +131,264 @@ describe("telemetry error reporting", () => {
 		expect(sendCommandEvent).toHaveBeenNthCalledWith(
 			1,
 			"cf command started",
-			expect.objectContaining({ command: "unknown command" })
+			expect.objectContaining({
+				command: "unknown command",
+				unknownTokens: ["<word>"],
+				argsUsed: ["zone"],
+			})
 		);
 		expect(sendCommandEvent).toHaveBeenNthCalledWith(
 			2,
 			"cf command finished",
 			expect.objectContaining({ command: "unknown command", outcome: "error" })
 		);
+		expect(JSON.stringify(sendCommandEvent.mock.calls)).not.toContain(
+			"telemetry"
+		);
+	});
+
+	it.each([
+		{
+			args: ["frobnicate", "foo"],
+			error: "Unknown commands: frobnicate, foo",
+			command: "unknown command",
+			resolution: {
+				resolutionFailure: "unknown-subcommand",
+				knownCommand: "",
+				unknownTokens: ["<word>", "<word>"],
+				unknownTokenCount: 2,
+			},
+		},
+		{
+			args: ["tunnel", "run"],
+			error: "Did you mean tunnels?",
+			command: "unknown command",
+			resolution: {
+				resolutionFailure: "suggested-command",
+				knownCommand: "",
+				unknownTokens: ["<word>", "run"],
+				unknownTokenCount: 2,
+				suggestedCommand: "tunnels",
+			},
+		},
+		{
+			args: ["acount"],
+			error: "Did you mean accounts?",
+			command: "unknown command",
+			resolution: {
+				resolutionFailure: "suggested-command",
+				knownCommand: "",
+				unknownTokens: ["<word>"],
+				suggestedCommand: "accounts",
+			},
+		},
+		{
+			args: ["--bogus"],
+			error: "You need to specify a command",
+			command: "unknown command",
+			resolution: {
+				resolutionFailure: "missing-command",
+				knownCommand: "",
+				unknownTokens: [],
+				unknownTokenCount: 0,
+				unknownFlagCount: 1,
+				argsUsed: [],
+			},
+		},
+		{
+			args: ["workers", "deploy"],
+			error: "Unknown command: deploy",
+			command: "unknown command",
+			resolution: {
+				resolutionFailure: "unknown-subcommand",
+				knownCommand: "workers",
+				knownCommandIsLeaf: false,
+				unknownTokens: ["deploy"],
+			},
+		},
+		{
+			args: ["r2", "buckets", "lsit"],
+			error: "Did you mean list?",
+			command: "r2 buckets",
+			resolution: {
+				resolutionFailure: "suggested-command",
+				knownCommand: "r2 buckets",
+				unknownTokens: ["<word>"],
+				suggestedCommand: "list",
+			},
+		},
+		{
+			args: ["zones", "get", "023e105f4ecef8ad9ca31a8372d0c353"],
+			error: "Unknown command: 023e105f4ecef8ad9ca31a8372d0c353",
+			command: "unknown command",
+			resolution: {
+				resolutionFailure: "surplus-positional",
+				knownCommand: "zones get",
+				knownCommandIsLeaf: true,
+				unknownTokens: ["<hex>"],
+			},
+		},
+		{
+			args: ["dns", "records", "list", "example.com"],
+			error: "Unknown command: example.com",
+			command: "unknown command",
+			resolution: {
+				resolutionFailure: "surplus-positional",
+				knownCommand: "dns records list",
+				unknownTokens: ["<domain>"],
+			},
+		},
+		{
+			args: ["zones", "list", "./a/b"],
+			error: "Unknown command: ./a/b",
+			command: "unknown command",
+			resolution: { unknownTokens: ["<path>"] },
+		},
+		{
+			args: ["zones", "list", "C:\\x"],
+			error: "Unknown command: C:\\x",
+			command: "unknown command",
+			resolution: { unknownTokens: ["<path>"] },
+		},
+		{
+			args: ["zones", "get", "abc", "extra"],
+			error: "Unknown commands: abc, extra",
+			command: "unknown command",
+			resolution: {
+				resolutionFailure: "surplus-positional",
+				knownCommand: "zones get",
+				unknownTokenCount: 2,
+			},
+		},
+		{
+			args: ["zones", "list", "user@example.com"],
+			error: "Unknown command: user@example.com",
+			command: "unknown command",
+			resolution: { unknownTokens: ["<email>"] },
+		},
+		{
+			args: ["zones", "list", "123e4567-e89b-12d3-a456-426614174000"],
+			error: "Unknown command: 123e4567-e89b-12d3-a456-426614174000",
+			command: "unknown command",
+			resolution: { unknownTokens: ["<uuid>"] },
+		},
+		{
+			args: ["zones list"],
+			error: "Unknown command: zones list",
+			command: "unknown command",
+			resolution: { unknownTokens: ["<spaced>"] },
+		},
+		{
+			args: ["kv:namespace"],
+			error: "Unknown command: kv:namespace",
+			command: "unknown command",
+			resolution: { unknownTokens: ["kv:namespace"] },
+		},
+		{
+			args: ["kv:frobnicate"],
+			error: "Unknown command: kv:frobnicate",
+			command: "unknown command",
+			resolution: { unknownTokens: ["<colon>"] },
+		},
+	])(
+		"reports resolution detail for $args",
+		async ({ args, error, command, resolution }) => {
+			await expect(runCf(args)).rejects.toThrow(error);
+			expect(sendCommandEvent).toHaveBeenCalledTimes(2);
+			for (const eventName of ["cf command started", "cf command finished"]) {
+				expect(sendCommandEvent).toHaveBeenCalledWith(
+					eventName,
+					expect.objectContaining({
+						command,
+						sanitizedArgs: {},
+						...resolution,
+					})
+				);
+			}
+		}
+	);
+
+	it("never sends an unrecognised resource name", async () => {
+		await expect(runCf(["zones", "list", "my-worker"])).rejects.toThrow(
+			"Unknown command: my-worker"
+		);
+		expect(sendCommandEvent).toHaveBeenCalledWith(
+			"cf command finished",
+			expect.objectContaining({ unknownTokens: ["<word>"] })
+		);
+		expect(JSON.stringify(sendCommandEvent.mock.calls)).not.toContain(
+			"my-worker"
+		);
+	});
+
+	it("caps unknown tokens and ignores tokens after --", async () => {
+		await expect(
+			runCf(["zones", "list", "t1", "t2", "t3", "t4", "t5", "--", "secret"])
+		).rejects.toThrow("Unknown commands: t1, t2, t3, t4, t5");
+		expect(sendCommandEvent).toHaveBeenCalledWith(
+			"cf command finished",
+			expect.objectContaining({
+				unknownTokens: ["<word>", "<word>", "<word>"],
+				unknownTokenCount: 5,
+			})
+		);
+		expect(JSON.stringify(sendCommandEvent.mock.calls)).not.toContain("secret");
+	});
+
+	it("names cf flags but only counts unknown ones", async () => {
+		await expect(
+			runCf([
+				"zones",
+				"list",
+				"extra",
+				"--zone-id",
+				"abc123",
+				"--sk_live_value",
+			])
+		).rejects.toThrow("Unknown command: extra");
+		expect(sendCommandEvent).toHaveBeenCalledWith(
+			"cf command finished",
+			expect.objectContaining({
+				argsUsed: ["zone-id"],
+				argsCombination: "zone-id",
+				unknownFlagCount: 1,
+				sanitizedArgs: {},
+			})
+		);
+		const sent = JSON.stringify(sendCommandEvent.mock.calls);
+		expect(sent).not.toContain("abc123");
+		expect(sent).not.toContain("sk_live");
+	});
+
+	it("sends only shape labels when the catalogue cannot load", async () => {
+		loadMeta.mockImplementation(() => null);
+
+		await expect(runCf(["workers", "deploy"])).rejects.toThrow(
+			"Unknown command: deploy"
+		);
+		expect(sendCommandEvent).toHaveBeenCalledWith(
+			"cf command finished",
+			expect.objectContaining({
+				command: "unknown command",
+				knownCommand: "workers",
+				unknownTokens: ["<word>"],
+			})
+		);
+	});
+
+	it("does not load the catalogue when telemetry is disabled", async () => {
+		getTelemetryDispatcher.mockReturnValue({ ...dispatcher, enabled: false });
+		loadMeta.mockClear();
+
+		await expect(runCf(["workers", "deploy"])).rejects.toThrow(
+			"Unknown command: deploy"
+		);
+		expect(loadMeta).not.toHaveBeenCalledWith(
+			expect.anything(),
+			"commands.json",
+			expect.anything()
+		);
+		expect(sendCommandEvent).not.toHaveBeenCalled();
 	});
 
 	it.each([
@@ -239,6 +519,9 @@ describe("telemetry error reporting", () => {
 				2,
 				"cf command finished",
 				expect.objectContaining({ command, outcome: "error" })
+			);
+			expect(sendCommandEvent.mock.calls[1]?.[1]).not.toHaveProperty(
+				"resolutionFailure"
 			);
 		}
 	);

@@ -36,9 +36,10 @@ function toCamel(flag: string): string {
 	);
 }
 
-function passedFlags(
+/** Flag names passed before `--`, without values; unknown short flags are skipped. */
+export function passedFlags(
 	rawArgv: string[],
-	shortFlagAliases: Record<string, ShortFlagAlias>
+	shortFlagAliases: Record<string, ShortFlagAlias> = GLOBAL_SHORT_FLAG_ALIASES
 ): string[] {
 	const flags: string[] = [];
 	for (const token of rawArgv) {

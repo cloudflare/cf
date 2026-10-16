@@ -103,6 +103,29 @@ describe("sanitizeCommandResolution", () => {
 		});
 	});
 
+	it("labels a surplus positional even when it is a cf command word", () => {
+		const tokens = ["zones", "list"];
+		expect(
+			sanitizeCommandResolution(
+				failure({
+					kind: "surplus-positional",
+					knownCommand: ["workers", "get"],
+					knownCommandIsLeaf: true,
+					unknownTokens: tokens,
+				}),
+				["workers", "get", ...tokens],
+				vocabulary
+			).unknownTokens
+		).toEqual(["<word>", "<word>"]);
+		expect(
+			sanitizeCommandResolution(
+				failure({ knownCommand: ["workers"], unknownTokens: tokens }),
+				["workers", ...tokens],
+				vocabulary
+			).unknownTokens
+		).toEqual(tokens);
+	});
+
 	it("caps the tokens sent but reports the real count", () => {
 		const result = sanitizeCommandResolution(
 			failure({ unknownTokens: ["a", "b", "c", "d", "e"] }),

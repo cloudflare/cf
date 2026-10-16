@@ -23,11 +23,15 @@ Command telemetry uses command-started and command-finished events containing:
   (unknown subcommand, extra positional argument, a typo with a suggested
   command, or no command), the part of the command path it recognised, and
   whether that part is a complete command. Up to three unrecognised words are
-  included only when they are `cf` command names; any other word is replaced
-  by a category such as `<hex>`, `<uuid>`, `<domain>`, `<path>`, `<email>`, or
-  `<word>`. The number of unrecognised words, the suggested command name, and
-  the number of flags that are not `cf` options are also included. Those
-  flags are counted, never named.
+  included only when they are `cf` command names where a command name was
+  expected; any other word, and any extra value after a complete command, is
+  replaced by a category such as `<hex>`, `<uuid>`, `<domain>`, `<path>`,
+  `<email>`, or `<word>`. The number of unrecognised words, the suggested
+  command name, and the number of flags that are not `cf` options are also
+  included. Those flags are counted, never named. The command path recorded
+  for these events is the recognised group or command when there is one, and
+  `unknown command` when nothing at the top level was recognised or a single
+  unrecognised word follows a command.
 - The search query passed to `cf cli search` or `cf docs search`, to help us
   make sure relevant results are being returned. Queries are limited to 1,024
   characters in telemetry and included only in command-finished events.

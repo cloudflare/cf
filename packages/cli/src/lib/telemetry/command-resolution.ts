@@ -11,7 +11,9 @@ import type {
  * Sanitises what yargs could not resolve before it reaches telemetry.
  *
  * Unrecognised tokens are often user data (IDs, domains, resource names), so
- * a token is sent only when it is a word from cf's own command catalogue.
+ * a token is sent only when it is a word from cf's own command catalogue and
+ * appears where a command word was expected (never as a surplus positional
+ * at a leaf).
  * Anything else is replaced by a label describing its shape. A pattern-based
  * allowlist would pass resource names such as `acme-prod-db`, which is why
  * the vocabulary is closed.
@@ -165,6 +167,12 @@ export function sanitizeCommandResolution(
 		(vocabulary.options.has(flag) ? known : unknown).add(flag);
 	}
 	const argsUsed = [...known].sort();
+	// Surplus positionals at a leaf are almost always resource values, so a
+	// value that happens to be a cf word (`test`, `cache`) is still labelled.
+	const commandWords =
+		failure.kind === "surplus-positional"
+			? new Set<string>()
+			: vocabulary.commands;
 	const suggestedCommand =
 		failure.kind === "suggested-command" ? failure.suggestedCommand : undefined;
 
@@ -174,7 +182,7 @@ export function sanitizeCommandResolution(
 		knownCommandIsLeaf: failure.knownCommandIsLeaf,
 		unknownTokens: failure.unknownTokens
 			.slice(0, MAX_UNKNOWN_TOKENS)
-			.map((token) => sanitizeCommandToken(token, vocabulary.commands)),
+			.map((token) => sanitizeCommandToken(token, commandWords)),
 		unknownTokenCount: failure.unknownTokens.length,
 		// yargs only suggests registered names; the pattern is a backstop.
 		...(suggestedCommand !== undefined &&

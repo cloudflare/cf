@@ -274,8 +274,10 @@ const UNKNOWN_COMMAND_MESSAGE = /^Unknown commands?: /;
 const SUGGESTED_COMMAND_MESSAGE = /^Did you mean (.+)\?$/;
 const MISSING_COMMAND_MESSAGE = "You need to specify a command";
 
+// Only the singular form has historically been bucketed as an unknown
+// command; the plural keeps the resolved command name for continuity.
 function isUnknownCommandError(error: unknown): boolean {
-	return error instanceof Error && UNKNOWN_COMMAND_MESSAGE.test(error.message);
+	return error instanceof Error && error.message.startsWith("Unknown command:");
 }
 
 interface YargsResolutionState {
@@ -370,6 +372,23 @@ function excludesTelemetry(command: string): boolean {
 	return root === "complete" || (root === "cli" && subcommand === "telemetry");
 }
 
+/**
+ * The command the user most likely meant: the recognised path, then the
+ * suggestion in place of the mistyped word. A typo such as
+ * `cf clii telemetry disable` still expresses telemetry opt-out intent.
+ */
+function intendedCommand(failure: CommandResolutionFailure): string {
+	const [first, ...rest] = failure.unknownTokens;
+	const next = failure.suggestedCommand ?? first;
+	return [
+		...failure.knownCommand,
+		...(next === undefined ? [] : [next]),
+		...rest,
+	]
+		.join(" ")
+		.toLowerCase();
+}
+
 async function reportParseErrorIfUnreported(
 	error: unknown,
 	resolvedCommand: string | undefined,
@@ -378,17 +397,21 @@ async function reportParseErrorIfUnreported(
 	if (wasCommandReported() || error instanceof CliExit) {
 		return;
 	}
-	// A typo suggestion inside a group keeps the group's name, as before, so
-	// existing per-command data stays comparable.
-	const isUnknownCommand = resolutionFailure
-		? resolutionFailure.kind !== "suggested-command" ||
-			resolutionFailure.knownCommand.length === 0
-		: isUnknownCommandError(error);
+	// Failures below the root keep the bucketing they had before resolution
+	// detail was added, so existing per-command data stays comparable: only
+	// yargs' singular "Unknown command:" becomes an unknown command, while a
+	// suggestion or several unknown words keep the resolved command's name.
+	// Root failures had no command name and were dropped; they are now
+	// reported as unknown commands.
+	const isUnknownCommand =
+		isUnknownCommandError(error) ||
+		resolutionFailure?.knownCommand.length === 0;
 	const command = isUnknownCommand ? undefined : resolvedCommand;
 	if (
 		(command === undefined && !isUnknownCommand) ||
 		excludesTelemetry(command ?? commandPath().join(" ")) ||
-		excludesTelemetry(resolutionFailure?.knownCommand.join(" ") ?? "")
+		(resolutionFailure !== undefined &&
+			excludesTelemetry(intendedCommand(resolutionFailure)))
 	) {
 		return;
 	}

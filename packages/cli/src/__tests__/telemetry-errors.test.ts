@@ -251,13 +251,37 @@ describe("telemetry error reporting", () => {
 			resolution: { unknownTokens: ["<path>"] },
 		},
 		{
+			// The plural message keeps the resolved command's name, as it did
+			// before resolution detail was recorded.
 			args: ["zones", "get", "abc", "extra"],
 			error: "Unknown commands: abc, extra",
-			command: "unknown command",
+			command: "zones get",
 			resolution: {
 				resolutionFailure: "surplus-positional",
 				knownCommand: "zones get",
 				unknownTokenCount: 2,
+			},
+		},
+		{
+			args: ["workers", "deploy", "my-worker"],
+			error: "Unknown commands: deploy, my-worker",
+			command: "workers",
+			resolution: {
+				resolutionFailure: "unknown-subcommand",
+				knownCommand: "workers",
+				knownCommandIsLeaf: false,
+				unknownTokens: ["deploy", "<word>"],
+				unknownTokenCount: 2,
+			},
+		},
+		{
+			args: ["abuse-reports", "get", "RPT123", "test"],
+			error: "Unknown command: test",
+			command: "unknown command",
+			resolution: {
+				resolutionFailure: "surplus-positional",
+				knownCommand: "abuse-reports get",
+				unknownTokens: ["<word>"],
 			},
 		},
 		{
@@ -393,6 +417,11 @@ describe("telemetry error reporting", () => {
 
 	it.each([
 		{ args: ["cli", "telemetry", "typo"], error: "Unknown command: typo" },
+		{ args: ["clii", "telemetry", "disable"], error: "Did you mean cli?" },
+		{
+			args: ["cli", "telemtry", "disable"],
+			error: "Did you mean telemetry?",
+		},
 		{
 			args: ["cli", "telemetry", "status", "--bogus"],
 			error: "Unknown argument: bogus",

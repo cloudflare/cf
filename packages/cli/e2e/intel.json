@@ -16,13 +16,6 @@
       }
     },
     {
-      "command": "cf intel attack-surface-report issues-list",
-      "args": [],
-      "env": {
-        "scope": "account"
-      }
-    },
-    {
       "command": "cf intel dns list",
       "args": [],
       "env": {
@@ -73,27 +66,6 @@
     },
     {
       "command": "cf intel attack-surface-report issue-types-get",
-      "args": [],
-      "env": {
-        "scope": "account"
-      }
-    },
-    {
-      "command": "cf intel attack-surface-report issues-class",
-      "args": [],
-      "env": {
-        "scope": "account"
-      }
-    },
-    {
-      "command": "cf intel attack-surface-report issues-severity",
-      "args": [],
-      "env": {
-        "scope": "account"
-      }
-    },
-    {
-      "command": "cf intel attack-surface-report issues-type",
       "args": [],
       "env": {
         "scope": "account"
@@ -156,13 +128,6 @@
       }
     },
     {
-      "command": "cf intel attack-surface-report issues-dismiss",
-      "args": ["placeholder_issue_id", "--dry-run"],
-      "env": {
-        "scope": "account"
-      }
-    },
-    {
       "command": "cf intel indicator-feeds permissions-create",
       "args": ["--dry-run"],
       "env": {
@@ -191,13 +156,6 @@
       }
     },
     {
-      "command": "cf intel attack-surface-report-issues list",
-      "args": [],
-      "env": {
-        "scope": "account"
-      }
-    },
-    {
       "command": "cf intel indicator-feeds-permissions list",
       "args": [],
       "env": {
@@ -219,36 +177,8 @@
       }
     },
     {
-      "command": "cf intel attack-surface-report-issues class",
-      "args": [],
-      "env": {
-        "scope": "account"
-      }
-    },
-    {
-      "command": "cf intel attack-surface-report-issues severity",
-      "args": [],
-      "env": {
-        "scope": "account"
-      }
-    },
-    {
-      "command": "cf intel attack-surface-report-issues type",
-      "args": [],
-      "env": {
-        "scope": "account"
-      }
-    },
-    {
       "command": "cf intel domains-bulks get",
       "args": [],
-      "env": {
-        "scope": "account"
-      }
-    },
-    {
-      "command": "cf intel attack-surface-report-issues dismiss",
-      "args": ["placeholder_issue_id", "--dry-run"],
       "env": {
         "scope": "account"
       }
@@ -275,13 +205,6 @@
       }
     },
     {
-      "command": "cf intel attack-surface-report issues list",
-      "args": [],
-      "env": {
-        "scope": "account"
-      }
-    },
-    {
       "command": "cf intel indicator-feeds permissions list",
       "args": [],
       "env": {
@@ -303,36 +226,8 @@
       }
     },
     {
-      "command": "cf intel attack-surface-report issues class",
-      "args": [],
-      "env": {
-        "scope": "account"
-      }
-    },
-    {
-      "command": "cf intel attack-surface-report issues severity",
-      "args": [],
-      "env": {
-        "scope": "account"
-      }
-    },
-    {
-      "command": "cf intel attack-surface-report issues type",
-      "args": [],
-      "env": {
-        "scope": "account"
-      }
-    },
-    {
       "command": "cf intel domains bulks get",
       "args": [],
-      "env": {
-        "scope": "account"
-      }
-    },
-    {
-      "command": "cf intel attack-surface-report issues dismiss",
-      "args": ["placeholder_issue_id", "--dry-run"],
       "env": {
         "scope": "account"
       }

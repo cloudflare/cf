@@ -798,6 +798,11 @@
 					"required": false
 				},
 				{
+					"name": "cursor",
+					"type": "string",
+					"required": false
+				},
+				{
 					"name": "order_by",
 					"type": "string",
 					"required": false
@@ -1526,6 +1531,11 @@
 				{
 					"name": "offset",
 					"type": "number",
+					"required": false
+				},
+				{
+					"name": "cursor",
+					"type": "string",
 					"required": false
 				}
 			],
@@ -7302,7 +7312,7 @@
 					"name": "score-threshold",
 					"type": "number",
 					"required": false,
-					"description": "The score_threshold field"
+					"description": "Minimum similarity score a chunk must reach to be returned. Defaults to 0.4."
 				},
 				{
 					"name": "source",
@@ -7404,7 +7414,7 @@
 					"name": "sync-interval",
 					"type": "number",
 					"required": false,
-					"description": "Interval between automatic syncs, in seconds. Allowed values: 900 (15min), 1800 (30min), 3600 (1h), 7200 (2h), 14400 (4h), 21600 (6h), 43200 (12h), 86400 (24h)."
+					"description": "Interval between automatic syncs, in seconds. Allowed values: 900 (15min), 1800 (30min), 3600 (1h), 7200 (2h), 14400 (4h), 21600 (6h), 43200 (12h), 86400 (24h). Defaults to 21600 (6h); instances crawling a domain outside the account may be set to 86400."
 				},
 				{
 					"name": "token-id",
@@ -9238,7 +9248,7 @@
 					"name": "score-threshold",
 					"type": "number",
 					"required": false,
-					"description": "The score_threshold field"
+					"description": "Minimum similarity score a chunk must reach to be returned. Defaults to 0.4."
 				},
 				{
 					"name": "source",
@@ -9352,7 +9362,7 @@
 					"name": "sync-interval",
 					"type": "number",
 					"required": false,
-					"description": "Interval between automatic syncs, in seconds. Allowed values: 900 (15min), 1800 (30min), 3600 (1h), 7200 (2h), 14400 (4h), 21600 (6h), 43200 (12h), 86400 (24h)."
+					"description": "Interval between automatic syncs, in seconds. Allowed values: 900 (15min), 1800 (30min), 3600 (1h), 7200 (2h), 14400 (4h), 21600 (6h), 43200 (12h), 86400 (24h). Defaults to 21600 (6h); instances crawling a domain outside the account may be set to 86400."
 				},
 				{
 					"name": "system-prompt-ai-search",
@@ -20743,39 +20753,6 @@
 				}
 			]
 		},
-		"cloudforce-one events dataset indicator types create create": {
-			"operationId": "cloudforce-one.events.dataset.indicator.types.create.create",
-			"httpMethod": "POST",
-			"path": "/accounts/{account_id}/cloudforce-one/events/dataset/{dataset_id}/indicatorTypes/create",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "dataset_id",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": true,
-			"requestBodyFields": [
-				{
-					"name": "description",
-					"type": "string",
-					"required": false,
-					"description": "Optional description for the indicator type"
-				},
-				{
-					"name": "indicator-type",
-					"type": "string",
-					"required": true,
-					"description": "The indicator type to create (e.g., 'DOMAIN', 'IP', 'URL', 'HASH', 'EMAIL')"
-				}
-			]
-		},
 		"cloudforce-one events dataset indicators bulk create": {
 			"operationId": "cloudforce-one.events.dataset.indicators.bulk.create",
 			"httpMethod": "POST",
@@ -22756,7 +22733,7 @@
 					"name": "status",
 					"type": "string",
 					"required": false,
-					"description": "The status field"
+					"description": "`draft`: not monitored. `active`: monitored, unless `pause_reason` is set. Setting `active` on a PIR with a `pause_reason` resumes it. Moving a PIR back to `draft` and activating it again starts matching afresh with a 30-day backfill."
 				},
 				{
 					"name": "title",
@@ -23152,6 +23129,75 @@
 			"hasRequestBody": false,
 			"requestBodyFields": []
 		},
+		"cloudforce-one priority-intelligence matches list": {
+			"operationId": "cloudforce-one.priority-intelligence.matches.list",
+			"httpMethod": "GET",
+			"path": "/accounts/{account_id}/cloudforce-one/v2/priority-intelligence/{priority_id}/matches",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "priority_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [
+				{
+					"name": "cursor",
+					"type": "string",
+					"required": false
+				},
+				{
+					"name": "per_page",
+					"type": "number",
+					"required": false
+				},
+				{
+					"name": "triage_state",
+					"type": "string",
+					"required": false
+				}
+			],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"cloudforce-one priority-intelligence matches update": {
+			"operationId": "cloudforce-one.priority-intelligence.matches.update",
+			"httpMethod": "PATCH",
+			"path": "/accounts/{account_id}/cloudforce-one/v2/priority-intelligence/{priority_id}/matches",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "priority_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": true,
+			"requestBodyFields": [
+				{
+					"name": "matches",
+					"type": "string",
+					"required": true,
+					"description": "Up to 100 matches to set the triage state on. Provide as a JSON array of objects or @path/to/file.json."
+				},
+				{
+					"name": "triage-state",
+					"type": "string",
+					"required": true,
+					"description": "The triage_state field"
+				}
+			]
+		},
 		"cloudforce-one priority-intelligence quota create": {
 			"operationId": "cloudforce-one.priority-intelligence.quota.create",
 			"httpMethod": "POST",
@@ -23268,7 +23314,7 @@
 					"name": "status",
 					"type": "string",
 					"required": false,
-					"description": "The status field"
+					"description": "`draft`: not monitored. `active`: monitored, unless `pause_reason` is set. Setting `active` on a PIR with a `pause_reason` resumes it. Moving a PIR back to `draft` and activating it again starts matching afresh with a 30-day backfill."
 				},
 				{
 					"name": "title",
@@ -25936,6 +25982,39 @@
 			"hasRequestBody": false,
 			"requestBodyFields": []
 		},
+		"cloudforce-one threat-events indicator-types create": {
+			"operationId": "cloudforce-one.threat-events.indicator-types.create",
+			"httpMethod": "POST",
+			"path": "/accounts/{account_id}/cloudforce-one/events/dataset/{dataset_id}/indicatorTypes/create",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "dataset_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": true,
+			"requestBodyFields": [
+				{
+					"name": "description",
+					"type": "string",
+					"required": false,
+					"description": "Optional description for the indicator type"
+				},
+				{
+					"name": "indicator-type",
+					"type": "string",
+					"required": true,
+					"description": "The indicator type to create (e.g., 'DOMAIN', 'IP', 'URL', 'HASH', 'EMAIL')"
+				}
+			]
+		},
 		"cloudforce-one threat-events indicator-types list": {
 			"operationId": "cloudforce-one.threat-events.indicator-types.list",
 			"httpMethod": "GET",
@@ -26688,54 +26767,6 @@
 			"hasRequestBody": false,
 			"requestBodyFields": []
 		},
-		"cloudforce-one threat-signals curated-feeds list": {
-			"operationId": "cloudforce-one.threat-signals.curated-feeds.list",
-			"httpMethod": "GET",
-			"path": "/accounts/{account_id}/cloudforce-one/v2/threat-signals/curated-feeds",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [
-				{
-					"name": "category",
-					"type": "string",
-					"required": false
-				},
-				{
-					"name": "include_inactive",
-					"type": "boolean",
-					"required": false
-				}
-			],
-			"hasRequestBody": false,
-			"requestBodyFields": []
-		},
-		"cloudforce-one threat-signals curated-feeds opt-out": {
-			"operationId": "cloudforce-one.threat-signals.curated-feeds.opt-out",
-			"httpMethod": "PATCH",
-			"path": "/accounts/{account_id}/cloudforce-one/v2/threat-signals/curated-feeds/opt-out",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": true,
-			"requestBodyFields": [
-				{
-					"name": "opted-out",
-					"type": "boolean",
-					"required": true,
-					"description": "The opted_out field"
-				}
-			]
-		},
 		"cloudforce-one threat-signals feeds create": {
 			"operationId": "cloudforce-one.threat-signals.feeds.create",
 			"httpMethod": "POST",
@@ -27014,21 +27045,6 @@
 					"description": "The title field"
 				}
 			]
-		},
-		"cloudforce-one threat-signals health": {
-			"operationId": "cloudforce-one.threat-signals.health",
-			"httpMethod": "GET",
-			"path": "/accounts/{account_id}/cloudforce-one/v2/threat-signals/health",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": false,
-			"requestBodyFields": []
 		},
 		"cloudforce-one threat-signals indicators list": {
 			"operationId": "cloudforce-one.threat-signals.indicators.list",
@@ -99651,6 +99667,47 @@
 			"hasRequestBody": false,
 			"requestBodyFields": []
 		},
+		"zero-trust casb asset-schemas get": {
+			"operationId": "zero-trust.casb.asset-schemas.get",
+			"httpMethod": "GET",
+			"path": "/accounts/{account_id}/data-security/posture/asset_schemas/{asset_class}",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "asset_class",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"zero-trust casb asset-schemas list": {
+			"operationId": "zero-trust.casb.asset-schemas.list",
+			"httpMethod": "GET",
+			"path": "/accounts/{account_id}/data-security/posture/asset_schemas",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [
+				{
+					"name": "vendor",
+					"type": "string",
+					"required": false
+				}
+			],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
 		"zero-trust casb content export": {
 			"operationId": "zero-trust.casb.content.export",
 			"httpMethod": "POST",
@@ -99832,6 +99889,90 @@
 			"hasRequestBody": false,
 			"requestBodyFields": []
 		},
+		"zero-trust casb finding-types create": {
+			"operationId": "zero-trust.casb.finding-types.create",
+			"httpMethod": "POST",
+			"path": "/accounts/{account_id}/data-security/posture/finding_types",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": true,
+			"requestBodyFields": [
+				{
+					"name": "applies-to-all-integrations",
+					"type": "boolean",
+					"required": true,
+					"description": "When true, this finding type applies to every current and future integration of the vendor."
+				},
+				{
+					"name": "asset-class",
+					"type": "string",
+					"required": true,
+					"description": "Asset class this finding type applies to (PascalCase, e.g. GoogleWorkspaceFile)"
+				},
+				{
+					"name": "asset-vendor",
+					"type": "string",
+					"required": true,
+					"description": "Vendors whose assets a finding type can evaluate."
+				},
+				{
+					"name": "description",
+					"type": "string",
+					"required": true,
+					"description": "Human-readable description of the finding type. Cannot be empty. Maximum 4096 characters."
+				},
+				{
+					"name": "expression",
+					"type": "string",
+					"required": true,
+					"description": "Rego expression body for the policy. `package cloudflare.casb.custom` and `import rego.v1` are added automatically. Do not include package or import declarations. This field cannot be changed after creation. Maximum 4096 characters."
+				},
+				{
+					"name": "integration-ids",
+					"type": "string",
+					"required": false,
+					"description": "Required and non-empty when applies_to_all_integrations is false; omit when it is true."
+				},
+				{
+					"name": "name",
+					"type": "string",
+					"required": true,
+					"description": "Human-readable name for the finding type. Maximum 256 characters."
+				},
+				{
+					"name": "severity",
+					"type": "string",
+					"required": true,
+					"description": "The severity level of a finding."
+				}
+			]
+		},
+		"zero-trust casb finding-types delete": {
+			"operationId": "zero-trust.casb.finding-types.delete",
+			"httpMethod": "DELETE",
+			"path": "/accounts/{account_id}/data-security/posture/finding_types/{finding_type_id}",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "finding_type_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
 		"zero-trust casb finding-types get": {
 			"operationId": "zero-trust.casb.finding-types.get",
 			"httpMethod": "GET",
@@ -99880,7 +100021,47 @@
 					"required": false
 				},
 				{
+					"name": "types",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "origins",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "severities",
+					"type": "array",
+					"required": false
+				},
+				{
 					"name": "search",
+					"type": "string",
+					"required": false
+				},
+				{
+					"name": "quarantined",
+					"type": "boolean",
+					"required": false
+				},
+				{
+					"name": "min_updated_at",
+					"type": "string",
+					"required": false
+				},
+				{
+					"name": "max_updated_at",
+					"type": "string",
+					"required": false
+				},
+				{
+					"name": "order",
+					"type": "string",
+					"required": false
+				},
+				{
+					"name": "direction",
 					"type": "string",
 					"required": false
 				}
@@ -99928,6 +100109,121 @@
 			],
 			"hasRequestBody": false,
 			"requestBodyFields": []
+		},
+		"zero-trust casb finding-types update": {
+			"operationId": "zero-trust.casb.finding-types.update",
+			"httpMethod": "PUT",
+			"path": "/accounts/{account_id}/data-security/posture/finding_types/{finding_type_id}",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "finding_type_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": true,
+			"requestBodyFields": [
+				{
+					"name": "applies-to-all-integrations",
+					"type": "boolean",
+					"required": true,
+					"description": "When true, this finding type applies to every current and future integration of the vendor."
+				},
+				{
+					"name": "description",
+					"type": "string",
+					"required": false,
+					"description": "Optional description of the finding type. Cannot be empty if provided. Maximum 4096 characters."
+				},
+				{
+					"name": "integration-ids",
+					"type": "string",
+					"required": false,
+					"description": "Required and non-empty when applies_to_all_integrations is false; omit when it is true."
+				},
+				{
+					"name": "name",
+					"type": "string",
+					"required": false,
+					"description": "Human-readable name for the finding type. Cannot be empty if provided. Maximum 256 characters."
+				},
+				{
+					"name": "severity",
+					"type": "string",
+					"required": false,
+					"description": "The severity level of a finding."
+				}
+			]
+		},
+		"zero-trust casb finding-types validate": {
+			"operationId": "zero-trust.casb.finding-types.validate",
+			"httpMethod": "POST",
+			"path": "/accounts/{account_id}/data-security/posture/finding_types/validate",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": true,
+			"requestBodyFields": [
+				{
+					"name": "applies-to-all-integrations",
+					"type": "boolean",
+					"required": true,
+					"description": "When true, this finding type applies to every current and future integration of the vendor."
+				},
+				{
+					"name": "asset-class",
+					"type": "string",
+					"required": true,
+					"description": "Asset class this finding type applies to (PascalCase, e.g. GoogleWorkspaceFile)"
+				},
+				{
+					"name": "asset-vendor",
+					"type": "string",
+					"required": true,
+					"description": "Vendors whose assets a finding type can evaluate."
+				},
+				{
+					"name": "description",
+					"type": "string",
+					"required": true,
+					"description": "Human-readable description of the finding type. Cannot be empty. Maximum 4096 characters."
+				},
+				{
+					"name": "expression",
+					"type": "string",
+					"required": true,
+					"description": "Rego expression body for the policy. `package cloudflare.casb.custom` and `import rego.v1` are added automatically. Do not include package or import declarations. This field cannot be changed after creation. Maximum 4096 characters."
+				},
+				{
+					"name": "integration-ids",
+					"type": "string",
+					"required": false,
+					"description": "Required and non-empty when applies_to_all_integrations is false; omit when it is true."
+				},
+				{
+					"name": "name",
+					"type": "string",
+					"required": true,
+					"description": "Human-readable name for the finding type. Maximum 256 characters."
+				},
+				{
+					"name": "severity",
+					"type": "string",
+					"required": true,
+					"description": "The severity level of a finding."
+				}
+			]
 		},
 		"zero-trust casb findings export": {
 			"operationId": "zero-trust.casb.findings.export",
@@ -104869,6 +105165,12 @@
 					"description": "List of DNS search suffixes to apply to clients. Suffixes are evaluated in order. Use an empty array to clear. Provide as a JSON array of objects or @path/to/file.json."
 				},
 				{
+					"name": "enable-device-credential-authentication",
+					"type": "boolean",
+					"required": false,
+					"description": "Determines whether the WARP client can silently reauthenticate the user with device credentials (Microsoft Entra) instead of prompting for browser-based reauthentication."
+				},
+				{
 					"name": "enabled",
 					"type": "boolean",
 					"required": false,
@@ -105167,6 +105469,12 @@
 					"description": "List of DNS search suffixes to apply to clients. Suffixes are evaluated in order. Use an empty array to clear. Provide as a JSON array of objects or @path/to/file.json."
 				},
 				{
+					"name": "enable-device-credential-authentication",
+					"type": "boolean",
+					"required": false,
+					"description": "Determines whether the WARP client can silently reauthenticate the user with device credentials (Microsoft Entra) instead of prompting for browser-based reauthentication."
+				},
+				{
 					"name": "enabled",
 					"type": "boolean",
 					"required": false,
@@ -105382,6 +105690,12 @@
 					"type": "string",
 					"required": false,
 					"description": "List of DNS search suffixes to apply to clients. Suffixes are evaluated in order. Use an empty array to clear. Provide as a JSON array of objects or @path/to/file.json."
+				},
+				{
+					"name": "enable-device-credential-authentication",
+					"type": "boolean",
+					"required": false,
+					"description": "Determines whether the WARP client can silently reauthenticate the user with device credentials (Microsoft Entra) instead of prompting for browser-based reauthentication."
 				},
 				{
 					"name": "exclude",
@@ -108218,6 +108532,12 @@
 					"type": "string",
 					"required": false,
 					"description": "The profile_id field"
+				},
+				{
+					"name": "validator-ids",
+					"type": "string",
+					"required": false,
+					"description": "Validators the new entry should reference, by id, at most 10."
 				}
 			]
 		},
@@ -108318,6 +108638,12 @@
 					"type": "string",
 					"required": false,
 					"description": "The pattern.validation field"
+				},
+				{
+					"name": "validator-ids",
+					"type": "string",
+					"required": false,
+					"description": "Validators this entry should reference, by id, at most 10. Replaces the current set.\n\nOptional, unlike the rest of this body: omitting it leaves the current attachments alone, so a\nclient that predates validators cannot detach them by accident. Send `[]` to detach."
 				},
 				{
 					"name": "type",
@@ -109157,6 +109483,311 @@
 					"type": "string",
 					"required": false,
 					"description": "Base64-encoded public key for encrypting payload logs.\n\n- Set to a non-empty base64 string to enable payload logging with the given key.\n- Set to an empty string to disable payload logging.\n- Omit or set to null to leave unchanged (PATCH) or reset to disabled (PUT)."
+				}
+			]
+		},
+		"zero-trust dlp validators get": {
+			"operationId": "zero-trust.dlp.validators.get",
+			"httpMethod": "GET",
+			"path": "/accounts/{account_id}/dlp/validators/{validator_id}",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "validator_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"zero-trust dlp validators list": {
+			"operationId": "zero-trust.dlp.validators.list",
+			"httpMethod": "GET",
+			"path": "/accounts/{account_id}/dlp/validators",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [
+				{
+					"name": "kind",
+					"type": "string",
+					"required": false
+				}
+			],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"zero-trust dlp validators proximity-words create": {
+			"operationId": "zero-trust.dlp.validators.proximity-words.create",
+			"httpMethod": "POST",
+			"path": "/accounts/{account_id}/dlp/validators/proximity_words",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": true,
+			"requestBodyFields": [
+				{
+					"name": "name",
+					"type": "string",
+					"required": true,
+					"description": "A name for this validator, at most 50 characters."
+				},
+				{
+					"name": "words",
+					"type": "string",
+					"required": true,
+					"description": "The words that raise confidence when found near a match, at most 100 per validator. Matching\nignores case, so the list may not contain the same word twice with different capitalisation.\nWords are stored as sent.\n\nFor example, a validator for medical record numbers might use\n`[{\"word\": \"patient\", \"weight\": \"strong\"}, {\"word\": \"diagnosis\", \"weight\": \"moderate\"},\n{\"word\": \"mrn\", \"weight\": \"weak\"}]`. Provide as a JSON array of objects or @path/to/file.json."
+				}
+			]
+		},
+		"zero-trust dlp validators proximity-words delete": {
+			"operationId": "zero-trust.dlp.validators.proximity-words.delete",
+			"httpMethod": "DELETE",
+			"path": "/accounts/{account_id}/dlp/validators/proximity_words/{validator_id}",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "validator_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"zero-trust dlp validators proximity-words get": {
+			"operationId": "zero-trust.dlp.validators.proximity-words.get",
+			"httpMethod": "GET",
+			"path": "/accounts/{account_id}/dlp/validators/proximity_words/{validator_id}",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "validator_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"zero-trust dlp validators proximity-words list": {
+			"operationId": "zero-trust.dlp.validators.proximity-words.list",
+			"httpMethod": "GET",
+			"path": "/accounts/{account_id}/dlp/validators/proximity_words",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"zero-trust dlp validators proximity-words update": {
+			"operationId": "zero-trust.dlp.validators.proximity-words.update",
+			"httpMethod": "PUT",
+			"path": "/accounts/{account_id}/dlp/validators/proximity_words/{validator_id}",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "validator_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": true,
+			"requestBodyFields": [
+				{
+					"name": "name",
+					"type": "string",
+					"required": true,
+					"description": "A name for this validator, at most 50 characters."
+				},
+				{
+					"name": "words",
+					"type": "string",
+					"required": true,
+					"description": "The words that raise confidence when found near a match, at most 100 per validator. Matching\nignores case, so the list may not contain the same word twice with different capitalisation.\nWords are stored as sent.\n\nFor example, a validator for medical record numbers might use\n`[{\"word\": \"patient\", \"weight\": \"strong\"}, {\"word\": \"diagnosis\", \"weight\": \"moderate\"},\n{\"word\": \"mrn\", \"weight\": \"weak\"}]`. Provide as a JSON array of objects or @path/to/file.json."
+				}
+			]
+		},
+		"zero-trust dlp validators worker create": {
+			"operationId": "zero-trust.dlp.validators.worker.create",
+			"httpMethod": "POST",
+			"path": "/accounts/{account_id}/dlp/validators/worker",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": true,
+			"requestBodyFields": [
+				{
+					"name": "default",
+					"type": "string",
+					"required": false,
+					"description": "The default field. Accepts a JSON scalar or plain string, or @path/to/file."
+				},
+				{
+					"name": "name",
+					"type": "string",
+					"required": true,
+					"description": "A name for this validator, at most 50 characters."
+				},
+				{
+					"name": "script-tag",
+					"type": "string",
+					"required": true,
+					"description": "The public script tag of the customer's Worker that scores matches."
+				}
+			]
+		},
+		"zero-trust dlp validators worker delete": {
+			"operationId": "zero-trust.dlp.validators.worker.delete",
+			"httpMethod": "DELETE",
+			"path": "/accounts/{account_id}/dlp/validators/worker/{validator_id}",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "validator_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"zero-trust dlp validators worker get": {
+			"operationId": "zero-trust.dlp.validators.worker.get",
+			"httpMethod": "GET",
+			"path": "/accounts/{account_id}/dlp/validators/worker/{validator_id}",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "validator_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"zero-trust dlp validators worker list": {
+			"operationId": "zero-trust.dlp.validators.worker.list",
+			"httpMethod": "GET",
+			"path": "/accounts/{account_id}/dlp/validators/worker",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"zero-trust dlp validators worker status get": {
+			"operationId": "zero-trust.dlp.validators.worker.status.get",
+			"httpMethod": "GET",
+			"path": "/accounts/{account_id}/dlp/validators/worker/{validator_id}/status",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "validator_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"zero-trust dlp validators worker update": {
+			"operationId": "zero-trust.dlp.validators.worker.update",
+			"httpMethod": "PUT",
+			"path": "/accounts/{account_id}/dlp/validators/worker/{validator_id}",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "validator_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": true,
+			"requestBodyFields": [
+				{
+					"name": "default",
+					"type": "string",
+					"required": false,
+					"description": "The default field. Accepts a JSON scalar or plain string, or @path/to/file."
+				},
+				{
+					"name": "name",
+					"type": "string",
+					"required": true,
+					"description": "A name for this validator, at most 50 characters."
+				},
+				{
+					"name": "script-tag",
+					"type": "string",
+					"required": true,
+					"description": "The public script tag of the customer's Worker that scores matches."
 				}
 			]
 		},

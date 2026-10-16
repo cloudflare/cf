@@ -20,7 +20,7 @@ import { runWithTelemetry } from "#lib/telemetry/index.js";
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
 		.usage(
-			"$0 cloudforce-one priority-intelligence quota create\n\nReturns the account's PIR quota: the entitlement limit and the number of PIRs the account can still create. Deleting a PIR frees its slot. Anniversary dates are informational."
+			"$0 cloudforce-one priority-intelligence quota create\n\nReturns the account's PIR quota. `quota` and `remaining` count active PIRs against the entitlement limit; moving a PIR to draft or deleting it frees its slot. `total_quota` and `total_remaining` count every PIR, drafts included, against five times the limit. Anniversary dates are informational."
 		)
 		.option("dry-run", {
 			type: "boolean",

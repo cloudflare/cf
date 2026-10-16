@@ -3,7 +3,6 @@ import $create from "./create.js";
 import $delete from "./delete.js";
 import $events from "./events/index.js";
 import $groups from "./groups/index.js";
-import $indicator from "./indicator/index.js";
 import $indicators from "./indicators/index.js";
 import $move from "./move/index.js";
 import $permissions from "./permissions/index.js";
@@ -27,7 +26,6 @@ const command: CommandModule<CommonYargsOptions> = {
 			.command($copy)
 			.command($events)
 			.command($groups)
-			.command($indicator)
 			.command($indicators)
 			.command($move)
 			.command($permissions)

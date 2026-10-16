@@ -47,6 +47,12 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.coerce("pattern-validation", (value) =>
 			resolveFileToken(value, "pattern-validation", "text")
 		)
+		.option("validator-ids", {
+			type: "string",
+			array: true,
+			description:
+				"Validators this entry should reference, by id, at most 10. Replaces the current set.\n\nOptional, unlike the rest of this body: omitting it leaves the current attachments alone, so a\nclient that predates validators cannot detach them by accident. Send `[]` to detach.",
+		})
 		.option("type", {
 			type: "string",
 			description: "The type field",
@@ -125,6 +131,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 											),
 											validation: argv["pattern-validation"],
 										},
+										validator_ids: argv["validator-ids"],
 										type: argv["type"],
 										enabled: argv["enabled"],
 									}),
@@ -180,6 +187,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						),
 						validation: argv["pattern-validation"],
 					},
+					validator_ids: argv["validator-ids"],
 					type: argv["type"],
 					enabled: argv["enabled"],
 				});

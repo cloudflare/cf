@@ -22,7 +22,7 @@ import { runWithTelemetry } from "#lib/telemetry/index.js";
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
 		.usage(
-			"$0 cloudforce-one priority-intelligence update <priority-id>\n\nUpdates a Priority Intelligence Requirement for the authenticated account. Changing the query increments its version; editing the requirement without saving a query marks the query stale."
+			"$0 cloudforce-one priority-intelligence update <priority-id>\n\nUpdates a Priority Intelligence Requirement for the authenticated account. Changing the query increments its version; editing the requirement without saving a query marks the query stale. Activating a draft needs a free slot in the active PIR quota; setting `active` on a PIR the matcher paused resumes it without one."
 		)
 		.positional("priority-id", {
 			type: "string",
@@ -97,8 +97,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		})
 		.option("status", {
 			type: "string",
-			description: "The status field",
-			choices: ["draft", "active", "paused"],
+			description:
+				"`draft`: not monitored. `active`: monitored, unless `pause_reason` is set. Setting `active` on a PIR with a `pause_reason` resumes it. Moving a PIR back to `draft` and activating it again starts matching afresh with a 30-day backfill.",
+			choices: ["draft", "active"],
 		})
 		.coerce("status", (value) => resolveFileToken(value, "status", "text"))
 		.option("title", { type: "string", description: "The title field" })

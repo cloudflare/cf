@@ -230,7 +230,8 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		})
 		.option("score-threshold", {
 			type: "number",
-			description: "The score_threshold field",
+			description:
+				"Minimum similarity score a chunk must reach to be returned. Defaults to 0.4.",
 		})
 		.option("source", {
 			type: "string",
@@ -334,7 +335,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("sync-interval", {
 			type: "number",
 			description:
-				"Interval between automatic syncs, in seconds. Allowed values: 900 (15min), 1800 (30min), 3600 (1h), 7200 (2h), 14400 (4h), 21600 (6h), 43200 (12h), 86400 (24h).",
+				"Interval between automatic syncs, in seconds. Allowed values: 900 (15min), 1800 (30min), 3600 (1h), 7200 (2h), 14400 (4h), 21600 (6h), 43200 (12h), 86400 (24h). Defaults to 21600 (6h); instances crawling a domain outside the account may be set to 86400.",
 		})
 		.option("system-prompt-ai-search", {
 			type: "string",

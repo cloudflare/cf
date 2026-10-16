@@ -20,7 +20,7 @@ import { runWithTelemetry } from "#lib/telemetry/index.js";
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
 		.usage(
-			"$0 accounts categories list\n\nList the categories available for classifying applications. Results are paginated."
+			"$0 accounts categories list\n\nList the categories available for classifying applications, ordered by name. Results are paginated by `offset` or `cursor`."
 		)
 		.option("limit", {
 			type: "number",
@@ -30,7 +30,12 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("offset", {
 			type: "number",
 			description:
-				"Number of results to skip. Defaults to 0; negative values are clamped to 0.",
+				"Number of results to skip. Defaults to 0; negative values are clamped to 0. Ignored when `cursor` is provided.",
+		})
+		.option("cursor", {
+			type: "string",
+			description:
+				"Opaque value from `result_info.cursor` of the previous response. Returns the\ncategories that follow it. `limit` may change between requests. An empty value\nis the same as no cursor. A modified cursor, or one returned by a different list,\nreturns `400`.",
 		})
 		.option("dry-run", {
 			type: "boolean",
@@ -58,6 +63,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				const queryParams: Record<string, unknown> = {
 					limit: argv["limit"],
 					offset: argv["offset"],
+					cursor: argv["cursor"],
 				};
 				if (argv.dryRun) {
 					const __cfDryRunAccountId = await resolveAccountIdSilent();

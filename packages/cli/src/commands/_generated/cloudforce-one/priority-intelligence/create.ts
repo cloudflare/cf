@@ -23,7 +23,7 @@ import { runWithTelemetry } from "#lib/telemetry/index.js";
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
 		.usage(
-			"$0 cloudforce-one priority-intelligence create\n\nCreates a new PIR for the account. The account may hold at most the number of PIRs set by the cfone.priority_intelligence_requirement_limit entitlement. An active PIR requires a query."
+			"$0 cloudforce-one priority-intelligence create\n\nCreates a new PIR for the account. The cfone.priority_intelligence_requirement_limit entitlement sets how many PIRs can be active; drafts do not count, but the account can hold at most five times that many PIRs in total. An active PIR requires a query."
 		)
 		.option("dataset-scope-type", {
 			type: "string",
@@ -94,8 +94,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		})
 		.option("status", {
 			type: "string",
-			description: "The status field",
-			choices: ["draft", "active", "paused"],
+			description:
+				"`draft`: not monitored. `active`: monitored, unless `pause_reason` is set. Setting `active` on a PIR with a `pause_reason` resumes it. Moving a PIR back to `draft` and activating it again starts matching afresh with a 30-day backfill.",
+			choices: ["draft", "active"],
 			default: "draft",
 		})
 		.coerce("status", (value) => resolveFileToken(value, "status", "text"))

@@ -1210,7 +1210,7 @@
 			"command": "cf accounts applications list",
 			"name": "list",
 			"fullPath": ["accounts", "applications", "list"],
-			"description": "List the applications available to an account, both the applications Cloudflare curates and the custom applications the account has defined. Results are paginated. Use `filter` and `search` to narrow the list, `order_by` to sort it, and `fields` to reduce each result to only the properties you need. Use `lookup` to find complete application names mentioned in a rule sentence, ignoring case. Lookup does not correct misspellings. It ranks matches by relevance and uses the same filters, fields, and pagination as listing. `lookup` cannot be combined with `search`. Invalid UTF-8 or a NUL character (U+0000) in any query parameter name or value returns `400`. The authenticated principal must have access to the account identified by `account_id`.",
+			"description": "List the applications available to an account, both the applications Cloudflare curates and the custom applications the account has defined. Results are paginated. Page with `cursor` so that applications added or removed between requests do not make other results repeat or go missing; `offset` paging can repeat or miss results when the list changes between requests. Use `filter` and `search` to narrow the list, `order_by` to sort it, and `fields` to reduce each result to only the properties you need. Use `lookup` to find complete application names mentioned in a rule sentence, ignoring case. Lookup does not correct misspellings. It ranks matches by relevance and uses the same filters, fields, and pagination as listing. `lookup` cannot be combined with `search`. Invalid UTF-8 or a NUL character (U+0000) in any query parameter name or value returns `400`. The authenticated principal must have access to the account identified by `account_id`.",
 			"summary": "List applications",
 			"usage": "cf accounts applications list [options]",
 			"arguments": [],
@@ -1231,7 +1231,13 @@
 					"name": "offset",
 					"type": "number",
 					"required": false,
-					"description": "Number of results to skip. Defaults to 0; negative values are clamped to 0."
+					"description": "Number of results to skip. Defaults to 0; negative values are clamped to 0. Ignored when `cursor` is provided."
+				},
+				{
+					"name": "cursor",
+					"type": "string",
+					"required": false,
+					"description": "Opaque value from `result_info.cursor` of the previous response. Returns the\nresults that follow it. Send the same `filter`, `search`, `lookup`, and\n`order_by` values as the request that returned it; `limit` and `fields` may\nchange. An empty value is the same as no cursor. A modified cursor, or one used\nwith different values, returns `400`."
 				},
 				{
 					"name": "order-by",
@@ -1276,7 +1282,7 @@
 			"command": "cf accounts applications lookup",
 			"name": "lookup",
 			"fullPath": ["accounts", "applications", "lookup"],
-			"description": "Find complete application names mentioned in a rule sentence, ignoring case. Lookup does not correct misspellings. Matches are ranked by relevance. This endpoint takes the rule sentence in the request body, so the text stays out of URLs and request logs. Use it instead of the `lookup` query parameter on the list endpoint when the text may contain sensitive content. `fields`, `limit`, and `filter` work the same way as on the list endpoint and are passed as query parameters. Results are not paged: `offset`, `order_by`, `search`, and `lookup` query parameters return `400`. Unknown request body properties also return `400`. Invalid UTF-8 or a NUL character (U+0000) in any query parameter name or value returns `400`. The authenticated principal must have access to the account identified by `account_id`.",
+			"description": "Find complete application names mentioned in a rule sentence, ignoring case. Lookup does not correct misspellings. Matches are ranked by relevance. This endpoint takes the rule sentence in the request body, so the text stays out of URLs and request logs. Use it instead of the `lookup` query parameter on the list endpoint when the text may contain sensitive content. `fields`, `limit`, and `filter` work the same way as on the list endpoint and are passed as query parameters. Results are not paged: `offset`, `cursor`, `order_by`, `search`, and `lookup` query parameters return `400`. Unknown request body properties also return `400`. Invalid UTF-8 or a NUL character (U+0000) in any query parameter name or value returns `400`. The authenticated principal must have access to the account identified by `account_id`.",
 			"summary": "Look up applications in a rule sentence",
 			"usage": "cf accounts applications lookup [options]",
 			"arguments": [],
@@ -2200,7 +2206,7 @@
 			"command": "cf accounts categories list",
 			"name": "list",
 			"fullPath": ["accounts", "categories", "list"],
-			"description": "List the categories available for classifying applications. Results are paginated.",
+			"description": "List the categories available for classifying applications, ordered by name. Results are paginated by `offset` or `cursor`.",
 			"summary": "List application categories",
 			"usage": "cf accounts categories list [options]",
 			"arguments": [],
@@ -2215,7 +2221,13 @@
 					"name": "offset",
 					"type": "number",
 					"required": false,
-					"description": "Number of results to skip. Defaults to 0; negative values are clamped to 0."
+					"description": "Number of results to skip. Defaults to 0; negative values are clamped to 0. Ignored when `cursor` is provided."
+				},
+				{
+					"name": "cursor",
+					"type": "string",
+					"required": false,
+					"description": "Opaque value from `result_info.cursor` of the previous response. Returns the\ncategories that follow it. `limit` may change between requests. An empty value\nis the same as no cursor. A modified cursor, or one returned by a different list,\nreturns `400`."
 				},
 				{
 					"name": "dry-run",
@@ -10109,8 +10121,7 @@
 					"name": "hybrid-search-enabled",
 					"type": "boolean",
 					"required": false,
-					"description": "Deprecated — use index_method instead. Defaults to true for new instances; set false to create a vector-only instance.",
-					"default": true
+					"description": "Deprecated — use index_method instead. Defaults to true for new instances; set false to create a vector-only instance."
 				},
 				{
 					"name": "index-method-keyword",
@@ -10273,8 +10284,7 @@
 					"name": "score-threshold",
 					"type": "number",
 					"required": false,
-					"description": "The score_threshold field",
-					"default": 0.4
+					"description": "Minimum similarity score a chunk must reach to be returned. Defaults to 0.4."
 				},
 				{
 					"name": "source",
@@ -10378,8 +10388,7 @@
 					"name": "sync-interval",
 					"type": "number",
 					"required": false,
-					"description": "Interval between automatic syncs, in seconds. Allowed values: 900 (15min), 1800 (30min), 3600 (1h), 7200 (2h), 14400 (4h), 21600 (6h), 43200 (12h), 86400 (24h).",
-					"default": 21600
+					"description": "Interval between automatic syncs, in seconds. Allowed values: 900 (15min), 1800 (30min), 3600 (1h), 7200 (2h), 14400 (4h), 21600 (6h), 43200 (12h), 86400 (24h). Defaults to 21600 (6h); instances crawling a domain outside the account may be set to 86400."
 				},
 				{
 					"name": "token-id",
@@ -12799,7 +12808,7 @@
 					"name": "score-threshold",
 					"type": "number",
 					"required": false,
-					"description": "The score_threshold field"
+					"description": "Minimum similarity score a chunk must reach to be returned. Defaults to 0.4."
 				},
 				{
 					"name": "source",
@@ -12915,7 +12924,7 @@
 					"name": "sync-interval",
 					"type": "number",
 					"required": false,
-					"description": "Interval between automatic syncs, in seconds. Allowed values: 900 (15min), 1800 (30min), 3600 (1h), 7200 (2h), 14400 (4h), 21600 (6h), 43200 (12h), 86400 (24h)."
+					"description": "Interval between automatic syncs, in seconds. Allowed values: 900 (15min), 1800 (30min), 3600 (1h), 7200 (2h), 14400 (4h), 21600 (6h), 43200 (12h), 86400 (24h). Defaults to 21600 (6h); instances crawling a domain outside the account may be set to 86400."
 				},
 				{
 					"name": "system-prompt-ai-search",
@@ -21038,7 +21047,7 @@
 			"httpMethod": "GET",
 			"apiPath": "/accounts/{account_id}/cloudforce-one/v2/brand-protection/logo/matches",
 			"operationId": "brand-protection.logo-matches.get",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf brand-protection logos create",
@@ -21093,7 +21102,7 @@
 			"httpMethod": "POST",
 			"apiPath": "/accounts/{account_id}/cloudforce-one/v2/brand-protection/logo/queries",
 			"operationId": "brand-protection.logos.create",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf brand-protection logos delete",
@@ -21125,7 +21134,7 @@
 			"httpMethod": "DELETE",
 			"apiPath": "/accounts/{account_id}/cloudforce-one/v2/brand-protection/logo/queries/{query_id}",
 			"operationId": "brand-protection.logos.delete",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf brand-protection logos get",
@@ -21161,7 +21170,7 @@
 			"httpMethod": "GET",
 			"apiPath": "/accounts/{account_id}/cloudforce-one/v2/brand-protection/logo/queries",
 			"operationId": "brand-protection.logos.get",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf brand-protection matches bulk-dismiss",
@@ -21210,7 +21219,7 @@
 			"httpMethod": "POST",
 			"apiPath": "/accounts/{account_id}/cloudforce-one/v2/brand-protection/domain/matches/bulk-dismiss",
 			"operationId": "brand-protection.matches.bulk-dismiss",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf brand-protection matches get",
@@ -21284,7 +21293,7 @@
 			"httpMethod": "GET",
 			"apiPath": "/accounts/{account_id}/cloudforce-one/v2/brand-protection/domain/matches",
 			"operationId": "brand-protection.matches.get",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf brand-protection queries dismiss",
@@ -21322,7 +21331,7 @@
 			"httpMethod": "POST",
 			"apiPath": "/accounts/{account_id}/cloudforce-one/v2/brand-protection/queries/{query_id}/matches/{domain_id}/dismiss",
 			"operationId": "brand-protection.queries.dismiss",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf brand-protection queries get",
@@ -21364,7 +21373,7 @@
 			"httpMethod": "GET",
 			"apiPath": "/accounts/{account_id}/cloudforce-one/v2/brand-protection/domain/queries",
 			"operationId": "brand-protection.queries.get",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf brand-protection queries undismiss",
@@ -21402,7 +21411,7 @@
 			"httpMethod": "POST",
 			"apiPath": "/accounts/{account_id}/cloudforce-one/v2/brand-protection/queries/{query_id}/matches/{domain_id}/undismiss",
 			"operationId": "brand-protection.queries.undismiss",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf brand-protection submit",
@@ -21464,7 +21473,7 @@
 			"httpMethod": "POST",
 			"apiPath": "/accounts/{account_id}/cloudforce-one/v2/brand-protection/logo/search",
 			"operationId": "brand-protection.submit",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf brand-protection trial create",
@@ -21500,7 +21509,7 @@
 			"httpMethod": "POST",
 			"apiPath": "/accounts/{account_id}/cloudforce-one/v2/brand-protection/domain/trial",
 			"operationId": "brand-protection.trial.create",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf brand-protection url-info",
@@ -21524,7 +21533,7 @@
 			"httpMethod": "GET",
 			"apiPath": "/accounts/{account_id}/cloudforce-one/v2/brand-protection/total-queries",
 			"operationId": "brand-protection.url-info",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf browser-run crawl create",
@@ -28958,64 +28967,6 @@
 			"hideCommand": false
 		},
 		{
-			"command": "cf cloudforce-one events dataset indicator types create create",
-			"name": "create",
-			"fullPath": [
-				"cloudforce-one",
-				"events",
-				"dataset",
-				"indicator",
-				"types",
-				"create",
-				"create"
-			],
-			"description": "Creates a new indicator type and initializes its dedicated Durable Object",
-			"summary": "Create a new indicator type",
-			"usage": "cf cloudforce-one events dataset indicator types create create <dataset-id> [options]",
-			"arguments": [
-				{
-					"name": "dataset-id",
-					"position": 0,
-					"type": "string",
-					"required": true,
-					"description": "Dataset ID."
-				}
-			],
-			"options": [
-				{
-					"name": "description",
-					"type": "string",
-					"required": false,
-					"description": "Optional description for the indicator type"
-				},
-				{
-					"name": "indicator-type",
-					"type": "string",
-					"required": true,
-					"description": "The indicator type to create (e.g., 'DOMAIN', 'IP', 'URL', 'HASH', 'EMAIL')"
-				},
-				{
-					"name": "dry-run",
-					"type": "boolean",
-					"required": false,
-					"description": "Validate and show what would happen without executing",
-					"default": false
-				},
-				{
-					"name": "body",
-					"type": "string",
-					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
-				}
-			],
-			"category": "create",
-			"hasRequestBody": true,
-			"httpMethod": "POST",
-			"apiPath": "/accounts/{account_id}/cloudforce-one/events/dataset/{dataset_id}/indicatorTypes/create",
-			"operationId": "cloudforce-one.events.dataset.indicator.types.create.create",
-			"hideCommand": false
-		},
-		{
 			"command": "cf cloudforce-one events dataset indicators bulk create",
 			"name": "create",
 			"fullPath": [
@@ -31815,7 +31766,7 @@
 			"command": "cf cloudforce-one priority-intelligence create",
 			"name": "create",
 			"fullPath": ["cloudforce-one", "priority-intelligence", "create"],
-			"description": "Creates a new PIR for the account. The account may hold at most the number of PIRs set by the cfone.priority_intelligence_requirement_limit entitlement. An active PIR requires a query.",
+			"description": "Creates a new PIR for the account. The cfone.priority_intelligence_requirement_limit entitlement sets how many PIRs can be active; drafts do not count, but the account can hold at most five times that many PIRs in total. An active PIR requires a query.",
 			"summary": "Create a priority intelligence requirement",
 			"usage": "cf cloudforce-one priority-intelligence create [options]",
 			"arguments": [],
@@ -31902,9 +31853,9 @@
 					"name": "status",
 					"type": "string",
 					"required": false,
-					"description": "The status field",
+					"description": "`draft`: not monitored. `active`: monitored, unless `pause_reason` is set. Setting `active` on a PIR with a `pause_reason` resumes it. Moving a PIR back to `draft` and activating it again starts matching afresh with a 30-day backfill.",
 					"default": "draft",
-					"enum": ["draft", "active", "paused"]
+					"enum": ["draft", "active"]
 				},
 				{
 					"name": "title",
@@ -32540,6 +32491,116 @@
 			"hideCommand": false
 		},
 		{
+			"command": "cf cloudforce-one priority-intelligence matches list",
+			"name": "list",
+			"fullPath": [
+				"cloudforce-one",
+				"priority-intelligence",
+				"matches",
+				"list"
+			],
+			"description": "Returns the events matched by the PIR's query, newest match first. Each item has the Event List event fields plus the match fields. Only datasets the account can read now are included, and deleted events are left out, so a page can hold fewer items than `per_page` while `result_info.cursor` is still set. `backfill` matches came from the 30 days before the PIR was activated or its query changed and are never notified. `delivered` matches were included in a digest that the notification service accepted; who receives it depends on the account's notification policies for the PIR. Requires the Threat Events entitlement.",
+			"summary": "List a priority intelligence requirement's matched events",
+			"usage": "cf cloudforce-one priority-intelligence matches list [options]",
+			"arguments": [],
+			"options": [
+				{
+					"name": "priority-id",
+					"type": "string",
+					"required": true,
+					"description": "Priority ID"
+				},
+				{
+					"name": "cursor",
+					"type": "string",
+					"required": false,
+					"description": "`result_info.cursor` from the previous page. Omit for the newest matches."
+				},
+				{
+					"name": "per-page",
+					"type": "number",
+					"required": false,
+					"description": "Matches per page."
+				},
+				{
+					"name": "triage-state",
+					"type": "string",
+					"required": false,
+					"description": "Only matches in this triage state.",
+					"enum": ["new", "relevant", "not_relevant"]
+				},
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Validate and show what would happen without executing",
+					"default": false
+				}
+			],
+			"category": "read",
+			"hasRequestBody": false,
+			"httpMethod": "GET",
+			"apiPath": "/accounts/{account_id}/cloudforce-one/v2/priority-intelligence/{priority_id}/matches",
+			"operationId": "cloudforce-one.priority-intelligence.matches.list",
+			"hideCommand": false
+		},
+		{
+			"command": "cf cloudforce-one priority-intelligence matches update",
+			"name": "update",
+			"fullPath": [
+				"cloudforce-one",
+				"priority-intelligence",
+				"matches",
+				"update"
+			],
+			"description": "Sets `triage_state` (`new`, `relevant`, or `not_relevant`) on up to 100 matches. Matches that do not exist, or are in datasets the account can no longer read, are returned in `not_found`. Setting `new` clears `triaged_at` and `triaged_by`. Requires the Threat Events entitlement.",
+			"summary": "Triage a priority intelligence requirement's matched events",
+			"usage": "cf cloudforce-one priority-intelligence matches update <priority-id> [options]",
+			"arguments": [
+				{
+					"name": "priority-id",
+					"position": 0,
+					"type": "string",
+					"required": true,
+					"description": "Priority ID"
+				}
+			],
+			"options": [
+				{
+					"name": "matches",
+					"type": "string",
+					"required": true,
+					"description": "Up to 100 matches to set the triage state on. Provide as a JSON array of objects or @path/to/file.json."
+				},
+				{
+					"name": "triage-state",
+					"type": "string",
+					"required": true,
+					"description": "The triage_state field",
+					"enum": ["new", "relevant", "not_relevant"]
+				},
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Validate and show what would happen without executing",
+					"default": false
+				},
+				{
+					"name": "body",
+					"type": "string",
+					"required": false,
+					"description": "Raw JSON request body (bypasses individual flags)"
+				}
+			],
+			"category": "update",
+			"hasRequestBody": true,
+			"httpMethod": "PATCH",
+			"apiPath": "/accounts/{account_id}/cloudforce-one/v2/priority-intelligence/{priority_id}/matches",
+			"operationId": "cloudforce-one.priority-intelligence.matches.update",
+			"hideCommand": false
+		},
+		{
 			"command": "cf cloudforce-one priority-intelligence quota create",
 			"name": "create",
 			"fullPath": [
@@ -32548,7 +32609,7 @@
 				"quota",
 				"create"
 			],
-			"description": "Returns the account's PIR quota: the entitlement limit and the number of PIRs the account can still create. Deleting a PIR frees its slot. Anniversary dates are informational.",
+			"description": "Returns the account's PIR quota. `quota` and `remaining` count active PIRs against the entitlement limit; moving a PIR to draft or deleting it frees its slot. `total_quota` and `total_remaining` count every PIR, drafts included, against five times the limit. Anniversary dates are informational.",
 			"summary": "Get PIR quota for an account",
 			"usage": "cf cloudforce-one priority-intelligence quota create",
 			"arguments": [],
@@ -32572,7 +32633,7 @@
 			"command": "cf cloudforce-one priority-intelligence update",
 			"name": "update",
 			"fullPath": ["cloudforce-one", "priority-intelligence", "update"],
-			"description": "Updates a Priority Intelligence Requirement for the authenticated account. Changing the query increments its version; editing the requirement without saving a query marks the query stale.",
+			"description": "Updates a Priority Intelligence Requirement for the authenticated account. Changing the query increments its version; editing the requirement without saving a query marks the query stale. Activating a draft needs a free slot in the active PIR quota; setting `active` on a PIR the matcher paused resumes it without one.",
 			"summary": "Update a priority intelligence requirement",
 			"usage": "cf cloudforce-one priority-intelligence update <priority-id> [options]",
 			"arguments": [
@@ -32670,8 +32731,8 @@
 					"name": "status",
 					"type": "string",
 					"required": false,
-					"description": "The status field",
-					"enum": ["draft", "active", "paused"]
+					"description": "`draft`: not monitored. `active`: monitored, unless `pause_reason` is set. Setting `active` on a PIR with a `pause_reason` resumes it. Moving a PIR back to `draft` and activating it again starts matching afresh with a 30-day backfill.",
+					"enum": ["draft", "active"]
 				},
 				{
 					"name": "title",
@@ -36426,6 +36487,61 @@
 			"hideCommand": false
 		},
 		{
+			"command": "cf cloudforce-one threat-events indicator-types create",
+			"name": "create",
+			"fullPath": [
+				"cloudforce-one",
+				"threat-events",
+				"indicator-types",
+				"create"
+			],
+			"description": "Creates a new indicator type and initializes its dedicated Durable Object",
+			"summary": "Create a new indicator type",
+			"usage": "cf cloudforce-one threat-events indicator-types create <dataset-id> [options]",
+			"arguments": [
+				{
+					"name": "dataset-id",
+					"position": 0,
+					"type": "string",
+					"required": true,
+					"description": "Dataset ID."
+				}
+			],
+			"options": [
+				{
+					"name": "description",
+					"type": "string",
+					"required": false,
+					"description": "Optional description for the indicator type"
+				},
+				{
+					"name": "indicator-type",
+					"type": "string",
+					"required": true,
+					"description": "The indicator type to create (e.g., 'DOMAIN', 'IP', 'URL', 'HASH', 'EMAIL')"
+				},
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Validate and show what would happen without executing",
+					"default": false
+				},
+				{
+					"name": "body",
+					"type": "string",
+					"required": false,
+					"description": "Raw JSON request body (bypasses individual flags)"
+				}
+			],
+			"category": "create",
+			"hasRequestBody": true,
+			"httpMethod": "POST",
+			"apiPath": "/accounts/{account_id}/cloudforce-one/events/dataset/{dataset_id}/indicatorTypes/create",
+			"operationId": "cloudforce-one.threat-events.indicator-types.create",
+			"hideCommand": false
+		},
+		{
 			"command": "cf cloudforce-one threat-events indicator-types list",
 			"name": "list",
 			"fullPath": [
@@ -37542,83 +37658,6 @@
 			"hideCommand": false
 		},
 		{
-			"command": "cf cloudforce-one threat-signals curated-feeds list",
-			"name": "list",
-			"fullPath": ["cloudforce-one", "threat-signals", "curated-feeds", "list"],
-			"description": "Lists the curated feeds the account can subscribe to.",
-			"summary": "List curated Threat Signals feeds",
-			"usage": "cf cloudforce-one threat-signals curated-feeds list [options]",
-			"arguments": [],
-			"options": [
-				{
-					"name": "category",
-					"type": "string",
-					"required": false,
-					"description": "Category"
-				},
-				{
-					"name": "include-inactive",
-					"type": "boolean",
-					"required": false,
-					"description": "Include inactive"
-				},
-				{
-					"name": "dry-run",
-					"type": "boolean",
-					"required": false,
-					"description": "Validate and show what would happen without executing",
-					"default": false
-				}
-			],
-			"category": "read",
-			"hasRequestBody": false,
-			"httpMethod": "GET",
-			"apiPath": "/accounts/{account_id}/cloudforce-one/v2/threat-signals/curated-feeds",
-			"operationId": "cloudforce-one.threat-signals.curated-feeds.list",
-			"hideCommand": false
-		},
-		{
-			"command": "cf cloudforce-one threat-signals curated-feeds opt-out",
-			"name": "opt-out",
-			"fullPath": [
-				"cloudforce-one",
-				"threat-signals",
-				"curated-feeds",
-				"opt-out"
-			],
-			"description": "Opts the account out of, or back into, the curated feed catalog.",
-			"summary": "Opt out of curated Threat Signals feeds",
-			"usage": "cf cloudforce-one threat-signals curated-feeds opt-out [options]",
-			"arguments": [],
-			"options": [
-				{
-					"name": "opted-out",
-					"type": "boolean",
-					"required": true,
-					"description": "The opted_out field"
-				},
-				{
-					"name": "dry-run",
-					"type": "boolean",
-					"required": false,
-					"description": "Validate and show what would happen without executing",
-					"default": false
-				},
-				{
-					"name": "body",
-					"type": "string",
-					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
-				}
-			],
-			"category": "action",
-			"hasRequestBody": true,
-			"httpMethod": "PATCH",
-			"apiPath": "/accounts/{account_id}/cloudforce-one/v2/threat-signals/curated-feeds/opt-out",
-			"operationId": "cloudforce-one.threat-signals.curated-feeds.opt-out",
-			"hideCommand": false
-		},
-		{
 			"command": "cf cloudforce-one threat-signals feeds create",
 			"name": "create",
 			"fullPath": ["cloudforce-one", "threat-signals", "feeds", "create"],
@@ -38040,30 +38079,6 @@
 			"httpMethod": "PATCH",
 			"apiPath": "/accounts/{account_id}/cloudforce-one/v2/threat-signals/feeds/{feed_id}",
 			"operationId": "cloudforce-one.threat-signals.feeds.update",
-			"hideCommand": false
-		},
-		{
-			"command": "cf cloudforce-one threat-signals health",
-			"name": "health",
-			"fullPath": ["cloudforce-one", "threat-signals", "health"],
-			"description": "Checks that the Threat Signals API is reachable.",
-			"summary": "Check Threat Signals service health",
-			"usage": "cf cloudforce-one threat-signals health",
-			"arguments": [],
-			"options": [
-				{
-					"name": "dry-run",
-					"type": "boolean",
-					"required": false,
-					"description": "Validate and show what would happen without executing",
-					"default": false
-				}
-			],
-			"category": "action",
-			"hasRequestBody": false,
-			"httpMethod": "GET",
-			"apiPath": "/accounts/{account_id}/cloudforce-one/v2/threat-signals/health",
-			"operationId": "cloudforce-one.threat-signals.health",
 			"hideCommand": false
 		},
 		{
@@ -84795,7 +84810,7 @@
 			"arguments": [],
 			"options": [
 				{
-					"name": "remote",
+					"name": "refresh",
 					"type": "boolean",
 					"required": false,
 					"description": "Refresh the signature status from Ironclad."
@@ -142804,6 +142819,87 @@
 			"hideCommand": false
 		},
 		{
+			"command": "cf zero-trust casb asset-schemas get",
+			"name": "get",
+			"fullPath": ["zero-trust", "casb", "asset-schemas", "get"],
+			"description": "Returns the fields and related attributes a custom finding type may reference for the given asset class (JSON Schema). Used by the custom finding types builder.",
+			"summary": "Get asset schema by asset class",
+			"usage": "cf zero-trust casb asset-schemas get <asset-class>",
+			"arguments": [
+				{
+					"name": "asset-class",
+					"position": 0,
+					"type": "string",
+					"required": true,
+					"description": "Asset class identifier (PascalCase), e.g. AnthropicApiKey."
+				}
+			],
+			"options": [
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Validate and show what would happen without executing",
+					"default": false
+				}
+			],
+			"category": "read",
+			"hasRequestBody": false,
+			"httpMethod": "GET",
+			"apiPath": "/accounts/{account_id}/data-security/posture/asset_schemas/{asset_class}",
+			"operationId": "zero-trust.casb.asset-schemas.get",
+			"hideCommand": false
+		},
+		{
+			"command": "cf zero-trust casb asset-schemas list",
+			"name": "list",
+			"fullPath": ["zero-trust", "casb", "asset-schemas", "list"],
+			"description": "Returns the catalog of asset classes available when authoring custom findings, grouped by vendor. Optionally filter to a single vendor with the `vendor` query parameter.",
+			"summary": "List asset schemas",
+			"usage": "cf zero-trust casb asset-schemas list [options]",
+			"arguments": [],
+			"options": [
+				{
+					"name": "vendor",
+					"type": "string",
+					"required": false,
+					"description": "Restrict the result to a single vendor. Unknown values return 400.",
+					"enum": [
+						"ANTHROPIC",
+						"AWS",
+						"BITBUCKET",
+						"BOX",
+						"CONFLUENCE",
+						"DROPBOX",
+						"GITHUB",
+						"GOOGLE_CLOUD_PLATFORM",
+						"GOOGLE_WORKSPACE",
+						"JIRA",
+						"MICROSOFT",
+						"OPENAI",
+						"SALESFORCE",
+						"SERVICENOW",
+						"SLACK",
+						"WORKDAY",
+						"ZOOM"
+					]
+				},
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Validate and show what would happen without executing",
+					"default": false
+				}
+			],
+			"category": "read",
+			"hasRequestBody": false,
+			"httpMethod": "GET",
+			"apiPath": "/accounts/{account_id}/data-security/posture/asset_schemas",
+			"operationId": "zero-trust.casb.asset-schemas.list",
+			"hideCommand": false
+		},
+		{
 			"command": "cf zero-trust casb content export",
 			"name": "export",
 			"fullPath": ["zero-trust", "casb", "content", "export"],
@@ -143073,6 +143169,135 @@
 			"hideCommand": false
 		},
 		{
+			"command": "cf zero-trust casb finding-types create",
+			"name": "create",
+			"fullPath": ["zero-trust", "casb", "finding-types", "create"],
+			"description": "Create a new custom finding type with policy definition.",
+			"summary": "Create a custom finding type",
+			"usage": "cf zero-trust casb finding-types create [options]",
+			"arguments": [],
+			"options": [
+				{
+					"name": "applies-to-all-integrations",
+					"type": "boolean",
+					"required": true,
+					"description": "When true, this finding type applies to every current and future integration of the vendor."
+				},
+				{
+					"name": "asset-class",
+					"type": "string",
+					"required": true,
+					"description": "Asset class this finding type applies to (PascalCase, e.g. GoogleWorkspaceFile)"
+				},
+				{
+					"name": "asset-vendor",
+					"type": "string",
+					"required": true,
+					"description": "Vendors whose assets a finding type can evaluate.",
+					"enum": [
+						"ANTHROPIC",
+						"AWS",
+						"BITBUCKET",
+						"BOX",
+						"CONFLUENCE",
+						"DROPBOX",
+						"GITHUB",
+						"GOOGLE_CLOUD_PLATFORM",
+						"GOOGLE_WORKSPACE",
+						"JIRA",
+						"MICROSOFT",
+						"OPENAI",
+						"SALESFORCE",
+						"SERVICENOW",
+						"SLACK",
+						"ZOOM"
+					]
+				},
+				{
+					"name": "description",
+					"type": "string",
+					"required": true,
+					"description": "Human-readable description of the finding type. Cannot be empty. Maximum 4096 characters."
+				},
+				{
+					"name": "expression",
+					"type": "string",
+					"required": true,
+					"description": "Rego expression body for the policy. `package cloudflare.casb.custom` and `import rego.v1` are added automatically. Do not include package or import declarations. This field cannot be changed after creation. Maximum 4096 characters."
+				},
+				{
+					"name": "integration-ids",
+					"type": "string",
+					"required": false,
+					"description": "Required and non-empty when applies_to_all_integrations is false; omit when it is true."
+				},
+				{
+					"name": "name",
+					"type": "string",
+					"required": true,
+					"description": "Human-readable name for the finding type. Maximum 256 characters."
+				},
+				{
+					"name": "severity",
+					"type": "string",
+					"required": true,
+					"description": "The severity level of a finding.",
+					"enum": ["Critical", "High", "Medium", "Low"]
+				},
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Validate and show what would happen without executing",
+					"default": false
+				},
+				{
+					"name": "body",
+					"type": "string",
+					"required": false,
+					"description": "Raw JSON request body (bypasses individual flags)"
+				}
+			],
+			"category": "create",
+			"hasRequestBody": true,
+			"httpMethod": "POST",
+			"apiPath": "/accounts/{account_id}/data-security/posture/finding_types",
+			"operationId": "zero-trust.casb.finding-types.create",
+			"hideCommand": false
+		},
+		{
+			"command": "cf zero-trust casb finding-types delete",
+			"name": "delete",
+			"fullPath": ["zero-trust", "casb", "finding-types", "delete"],
+			"description": "Delete an existing custom finding type. **Security**: Only custom finding types (not system-managed) can be deleted.",
+			"summary": "Delete a custom finding type",
+			"usage": "cf zero-trust casb finding-types delete <finding-type-id>",
+			"arguments": [
+				{
+					"name": "finding-type-id",
+					"position": 0,
+					"type": "string",
+					"required": true,
+					"description": "A UUID string identifying the finding type."
+				}
+			],
+			"options": [
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Validate and show what would happen without executing",
+					"default": false
+				}
+			],
+			"category": "delete",
+			"hasRequestBody": false,
+			"httpMethod": "DELETE",
+			"apiPath": "/accounts/{account_id}/data-security/posture/finding_types/{finding_type_id}",
+			"operationId": "zero-trust.casb.finding-types.delete",
+			"hideCommand": false
+		},
+		{
 			"command": "cf zero-trust casb finding-types get",
 			"name": "get",
 			"fullPath": ["zero-trust", "casb", "finding-types", "get"],
@@ -143132,10 +143357,69 @@
 					"description": "Filter finding types by vendor. Supports multiple comma-separated values. Each value may be either the vendor enum (GOOGLE_WORKSPACE) or the friendly name returned by the read routes (Google Workspace)."
 				},
 				{
+					"name": "types",
+					"type": "string",
+					"required": false,
+					"description": "Filter finding types by category type. Supports multiple comma-separated, case-insensitive values."
+				},
+				{
+					"name": "origins",
+					"type": "string",
+					"required": false,
+					"description": "Filter finding types by origin. Supports multiple comma-separated, case-insensitive values."
+				},
+				{
+					"name": "severities",
+					"type": "string",
+					"required": false,
+					"description": "Filter finding types by severity. Supports multiple comma-separated, case-insensitive values."
+				},
+				{
 					"name": "search",
 					"type": "string",
 					"required": false,
 					"description": "Filter finding types by name or ID (case-insensitive substring match)."
+				},
+				{
+					"name": "quarantined",
+					"type": "boolean",
+					"required": false,
+					"description": "When true, return only quarantined finding types; when false, return only non-quarantined finding types. Omit to return both."
+				},
+				{
+					"name": "min-updated-at",
+					"type": "string",
+					"required": false,
+					"description": "Return only finding types updated at or after this RFC 3339 timestamp (inclusive)."
+				},
+				{
+					"name": "max-updated-at",
+					"type": "string",
+					"required": false,
+					"description": "Return only finding types updated at or before this RFC 3339 timestamp (inclusive)."
+				},
+				{
+					"name": "order",
+					"type": "string",
+					"required": false,
+					"description": "Field to sort by (case-insensitive). Defaults to 'created'.\nName and vendor sorting is case-insensitive; vendor uses friendly provider names.\nAscending order: type Content then Posture; origin custom then system;\nseverity Low, Medium, High, Critical.",
+					"enum": [
+						"created",
+						"updated",
+						"match_count",
+						"name",
+						"vendor",
+						"type",
+						"origin",
+						"severity"
+					]
+				},
+				{
+					"name": "direction",
+					"type": "string",
+					"required": false,
+					"description": "Sort direction for the primary field. Defaults to 'desc'.\nTies are resolved by case-insensitive name, then ID, both ascending regardless of direction.",
+					"enum": ["asc", "desc"]
 				},
 				{
 					"name": "dry-run",
@@ -143210,6 +143494,172 @@
 			"httpMethod": "GET",
 			"apiPath": "/accounts/{account_id}/data-security/posture/finding_types/{finding_type_id}/remediation_types",
 			"operationId": "zero-trust.casb.finding-types.remediation-types.list",
+			"hideCommand": false
+		},
+		{
+			"command": "cf zero-trust casb finding-types update",
+			"name": "update",
+			"fullPath": ["zero-trust", "casb", "finding-types", "update"],
+			"description": "Update an existing custom finding type. **Immutable fields**: asset_vendor, asset_class, expression, and category cannot be changed after creation. **Security**: Only custom finding types (not system-managed) can be updated.",
+			"summary": "Update a custom finding type",
+			"usage": "cf zero-trust casb finding-types update <finding-type-id> [options]",
+			"arguments": [
+				{
+					"name": "finding-type-id",
+					"position": 0,
+					"type": "string",
+					"required": true,
+					"description": "A UUID string identifying the finding type."
+				}
+			],
+			"options": [
+				{
+					"name": "applies-to-all-integrations",
+					"type": "boolean",
+					"required": true,
+					"description": "When true, this finding type applies to every current and future integration of the vendor."
+				},
+				{
+					"name": "description",
+					"type": "string",
+					"required": false,
+					"description": "Optional description of the finding type. Cannot be empty if provided. Maximum 4096 characters."
+				},
+				{
+					"name": "integration-ids",
+					"type": "string",
+					"required": false,
+					"description": "Required and non-empty when applies_to_all_integrations is false; omit when it is true."
+				},
+				{
+					"name": "name",
+					"type": "string",
+					"required": false,
+					"description": "Human-readable name for the finding type. Cannot be empty if provided. Maximum 256 characters."
+				},
+				{
+					"name": "severity",
+					"type": "string",
+					"required": false,
+					"description": "The severity level of a finding.",
+					"enum": ["Critical", "High", "Medium", "Low"]
+				},
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Validate and show what would happen without executing",
+					"default": false
+				},
+				{
+					"name": "body",
+					"type": "string",
+					"required": false,
+					"description": "Raw JSON request body (bypasses individual flags)"
+				}
+			],
+			"category": "update",
+			"hasRequestBody": true,
+			"httpMethod": "PUT",
+			"apiPath": "/accounts/{account_id}/data-security/posture/finding_types/{finding_type_id}",
+			"operationId": "zero-trust.casb.finding-types.update",
+			"hideCommand": false
+		},
+		{
+			"command": "cf zero-trust casb finding-types validate",
+			"name": "validate",
+			"fullPath": ["zero-trust", "casb", "finding-types", "validate"],
+			"description": "Check a candidate custom finding type without creating it, so problems can be corrected before publishing. The request body is the same shape as `CreateFindingType`, and the candidate is checked against the same rules, so a valid result means the definition itself is sound. It is not a reservation: a create can still be rejected for a reason that does not belong to the definition, such as the account already holding the maximum number of custom finding types. A candidate that fails validation is still a **200** with `result.valid: false` and one entry in `result.errors` per problem — that is the answer this endpoint exists to give. `4xx` is reserved for a request that could not be processed at all, such as a body that will not parse.",
+			"summary": "Validate a custom finding type",
+			"usage": "cf zero-trust casb finding-types validate [options]",
+			"arguments": [],
+			"options": [
+				{
+					"name": "applies-to-all-integrations",
+					"type": "boolean",
+					"required": true,
+					"description": "When true, this finding type applies to every current and future integration of the vendor."
+				},
+				{
+					"name": "asset-class",
+					"type": "string",
+					"required": true,
+					"description": "Asset class this finding type applies to (PascalCase, e.g. GoogleWorkspaceFile)"
+				},
+				{
+					"name": "asset-vendor",
+					"type": "string",
+					"required": true,
+					"description": "Vendors whose assets a finding type can evaluate.",
+					"enum": [
+						"ANTHROPIC",
+						"AWS",
+						"BITBUCKET",
+						"BOX",
+						"CONFLUENCE",
+						"DROPBOX",
+						"GITHUB",
+						"GOOGLE_CLOUD_PLATFORM",
+						"GOOGLE_WORKSPACE",
+						"JIRA",
+						"MICROSOFT",
+						"OPENAI",
+						"SALESFORCE",
+						"SERVICENOW",
+						"SLACK",
+						"ZOOM"
+					]
+				},
+				{
+					"name": "description",
+					"type": "string",
+					"required": true,
+					"description": "Human-readable description of the finding type. Cannot be empty. Maximum 4096 characters."
+				},
+				{
+					"name": "expression",
+					"type": "string",
+					"required": true,
+					"description": "Rego expression body for the policy. `package cloudflare.casb.custom` and `import rego.v1` are added automatically. Do not include package or import declarations. This field cannot be changed after creation. Maximum 4096 characters."
+				},
+				{
+					"name": "integration-ids",
+					"type": "string",
+					"required": false,
+					"description": "Required and non-empty when applies_to_all_integrations is false; omit when it is true."
+				},
+				{
+					"name": "name",
+					"type": "string",
+					"required": true,
+					"description": "Human-readable name for the finding type. Maximum 256 characters."
+				},
+				{
+					"name": "severity",
+					"type": "string",
+					"required": true,
+					"description": "The severity level of a finding.",
+					"enum": ["Critical", "High", "Medium", "Low"]
+				},
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Validate and show what would happen without executing",
+					"default": false
+				},
+				{
+					"name": "body",
+					"type": "string",
+					"required": false,
+					"description": "Raw JSON request body (bypasses individual flags)"
+				}
+			],
+			"category": "action",
+			"hasRequestBody": true,
+			"httpMethod": "POST",
+			"apiPath": "/accounts/{account_id}/data-security/posture/finding_types/validate",
+			"operationId": "zero-trust.casb.finding-types.validate",
 			"hideCommand": false
 		},
 		{
@@ -150181,6 +150631,13 @@
 					"description": "List of DNS search suffixes to apply to clients. Suffixes are evaluated in order. Use an empty array to clear. Provide as a JSON array of objects or @path/to/file.json."
 				},
 				{
+					"name": "enable-device-credential-authentication",
+					"type": "boolean",
+					"required": false,
+					"description": "Determines whether the WARP client can silently reauthenticate the user with device credentials (Microsoft Entra) instead of prompting for browser-based reauthentication.",
+					"default": false
+				},
+				{
 					"name": "enabled",
 					"type": "boolean",
 					"required": false,
@@ -150541,6 +150998,12 @@
 					"description": "List of DNS search suffixes to apply to clients. Suffixes are evaluated in order. Use an empty array to clear. Provide as a JSON array of objects or @path/to/file.json."
 				},
 				{
+					"name": "enable-device-credential-authentication",
+					"type": "boolean",
+					"required": false,
+					"description": "Determines whether the WARP client can silently reauthenticate the user with device credentials (Microsoft Entra) instead of prompting for browser-based reauthentication."
+				},
+				{
 					"name": "enabled",
 					"type": "boolean",
 					"required": false,
@@ -150779,6 +151242,12 @@
 					"type": "string",
 					"required": false,
 					"description": "List of DNS search suffixes to apply to clients. Suffixes are evaluated in order. Use an empty array to clear. Provide as a JSON array of objects or @path/to/file.json."
+				},
+				{
+					"name": "enable-device-credential-authentication",
+					"type": "boolean",
+					"required": false,
+					"description": "Determines whether the WARP client can silently reauthenticate the user with device credentials (Microsoft Entra) instead of prompting for browser-based reauthentication."
 				},
 				{
 					"name": "exclude",
@@ -154833,6 +155302,12 @@
 					"description": "The profile_id field"
 				},
 				{
+					"name": "validator-ids",
+					"type": "string",
+					"required": false,
+					"description": "Validators the new entry should reference, by id, at most 10."
+				},
+				{
 					"name": "dry-run",
 					"type": "boolean",
 					"required": false,
@@ -154982,6 +155457,12 @@
 					"required": false,
 					"description": "The pattern.validation field",
 					"enum": ["luhn"]
+				},
+				{
+					"name": "validator-ids",
+					"type": "string",
+					"required": false,
+					"description": "Validators this entry should reference, by id, at most 10. Replaces the current set.\n\nOptional, unlike the rest of this body: omitting it leaves the current attachments alone, so a\nclient that predates validators cannot detach them by accident. Send `[]` to detach."
 				},
 				{
 					"name": "type",
@@ -156193,6 +156674,504 @@
 			"httpMethod": "PUT",
 			"apiPath": "/accounts/{account_id}/dlp/settings",
 			"operationId": "zero-trust.dlp.settings.update",
+			"hideCommand": false
+		},
+		{
+			"command": "cf zero-trust dlp validators get",
+			"name": "get",
+			"fullPath": ["zero-trust", "dlp", "validators", "get"],
+			"description": "Fetches a validator of any kind by ID.",
+			"summary": "Get a validator",
+			"usage": "cf zero-trust dlp validators get <validator-id>",
+			"arguments": [
+				{
+					"name": "validator-id",
+					"position": 0,
+					"type": "string",
+					"required": true,
+					"description": "Validator ID"
+				}
+			],
+			"options": [
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Validate and show what would happen without executing",
+					"default": false
+				}
+			],
+			"category": "read",
+			"hasRequestBody": false,
+			"httpMethod": "GET",
+			"apiPath": "/accounts/{account_id}/dlp/validators/{validator_id}",
+			"operationId": "zero-trust.dlp.validators.get",
+			"hideCommand": false
+		},
+		{
+			"command": "cf zero-trust dlp validators list",
+			"name": "list",
+			"fullPath": ["zero-trust", "dlp", "validators", "list"],
+			"description": "Lists the validators configured for the account, of every kind.",
+			"summary": "List validators",
+			"usage": "cf zero-trust dlp validators list [options]",
+			"arguments": [],
+			"options": [
+				{
+					"name": "kind",
+					"type": "string",
+					"required": false,
+					"description": "Only return validators of this kind. Omit to return every kind.",
+					"enum": ["proximity_words", "worker"]
+				},
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Validate and show what would happen without executing",
+					"default": false
+				}
+			],
+			"category": "read",
+			"hasRequestBody": false,
+			"httpMethod": "GET",
+			"apiPath": "/accounts/{account_id}/dlp/validators",
+			"operationId": "zero-trust.dlp.validators.list",
+			"hideCommand": false
+		},
+		{
+			"command": "cf zero-trust dlp validators proximity-words create",
+			"name": "create",
+			"fullPath": [
+				"zero-trust",
+				"dlp",
+				"validators",
+				"proximity-words",
+				"create"
+			],
+			"description": "Creates a reusable list of weighted words that detection entries can attach to in order to refine their matches. An account may own at most 100 validators across all kinds.",
+			"summary": "Create a proximity word validator",
+			"usage": "cf zero-trust dlp validators proximity-words create [options]",
+			"arguments": [],
+			"options": [
+				{
+					"name": "name",
+					"type": "string",
+					"required": true,
+					"description": "A name for this validator, at most 50 characters."
+				},
+				{
+					"name": "words",
+					"type": "string",
+					"required": true,
+					"description": "The words that raise confidence when found near a match, at most 100 per validator. Matching\nignores case, so the list may not contain the same word twice with different capitalisation.\nWords are stored as sent.\n\nFor example, a validator for medical record numbers might use\n`[{\"word\": \"patient\", \"weight\": \"strong\"}, {\"word\": \"diagnosis\", \"weight\": \"moderate\"},\n{\"word\": \"mrn\", \"weight\": \"weak\"}]`. Provide as a JSON array of objects or @path/to/file.json."
+				},
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Validate and show what would happen without executing",
+					"default": false
+				},
+				{
+					"name": "body",
+					"type": "string",
+					"required": false,
+					"description": "Raw JSON request body (bypasses individual flags)"
+				}
+			],
+			"category": "create",
+			"hasRequestBody": true,
+			"httpMethod": "POST",
+			"apiPath": "/accounts/{account_id}/dlp/validators/proximity_words",
+			"operationId": "zero-trust.dlp.validators.proximity-words.create",
+			"hideCommand": false
+		},
+		{
+			"command": "cf zero-trust dlp validators proximity-words delete",
+			"name": "delete",
+			"fullPath": [
+				"zero-trust",
+				"dlp",
+				"validators",
+				"proximity-words",
+				"delete"
+			],
+			"description": "Deletes a `proximity_words` validator. Fails with `409` while any detection entry is still attached to it; detach it from those entries first.",
+			"summary": "Delete a proximity word validator",
+			"usage": "cf zero-trust dlp validators proximity-words delete <validator-id>",
+			"arguments": [
+				{
+					"name": "validator-id",
+					"position": 0,
+					"type": "string",
+					"required": true,
+					"description": "Validator ID"
+				}
+			],
+			"options": [
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Validate and show what would happen without executing",
+					"default": false
+				}
+			],
+			"category": "delete",
+			"hasRequestBody": false,
+			"httpMethod": "DELETE",
+			"apiPath": "/accounts/{account_id}/dlp/validators/proximity_words/{validator_id}",
+			"operationId": "zero-trust.dlp.validators.proximity-words.delete",
+			"hideCommand": false
+		},
+		{
+			"command": "cf zero-trust dlp validators proximity-words get",
+			"name": "get",
+			"fullPath": ["zero-trust", "dlp", "validators", "proximity-words", "get"],
+			"description": "Fetches a `proximity_words` validator by ID.",
+			"summary": "Get a proximity word validator",
+			"usage": "cf zero-trust dlp validators proximity-words get <validator-id>",
+			"arguments": [
+				{
+					"name": "validator-id",
+					"position": 0,
+					"type": "string",
+					"required": true,
+					"description": "Validator ID"
+				}
+			],
+			"options": [
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Validate and show what would happen without executing",
+					"default": false
+				}
+			],
+			"category": "read",
+			"hasRequestBody": false,
+			"httpMethod": "GET",
+			"apiPath": "/accounts/{account_id}/dlp/validators/proximity_words/{validator_id}",
+			"operationId": "zero-trust.dlp.validators.proximity-words.get",
+			"hideCommand": false
+		},
+		{
+			"command": "cf zero-trust dlp validators proximity-words list",
+			"name": "list",
+			"fullPath": [
+				"zero-trust",
+				"dlp",
+				"validators",
+				"proximity-words",
+				"list"
+			],
+			"description": "Lists the `proximity_words` validators configured for the account.",
+			"summary": "List proximity word validators",
+			"usage": "cf zero-trust dlp validators proximity-words list",
+			"arguments": [],
+			"options": [
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Validate and show what would happen without executing",
+					"default": false
+				}
+			],
+			"category": "read",
+			"hasRequestBody": false,
+			"httpMethod": "GET",
+			"apiPath": "/accounts/{account_id}/dlp/validators/proximity_words",
+			"operationId": "zero-trust.dlp.validators.proximity-words.list",
+			"hideCommand": false
+		},
+		{
+			"command": "cf zero-trust dlp validators proximity-words update",
+			"name": "update",
+			"fullPath": [
+				"zero-trust",
+				"dlp",
+				"validators",
+				"proximity-words",
+				"update"
+			],
+			"description": "Replaces the name and word list of a `proximity_words` validator. Attachments to detection entries are owned from the entry side and are not affected.",
+			"summary": "Update a proximity word validator",
+			"usage": "cf zero-trust dlp validators proximity-words update <validator-id> [options]",
+			"arguments": [
+				{
+					"name": "validator-id",
+					"position": 0,
+					"type": "string",
+					"required": true,
+					"description": "Validator ID"
+				}
+			],
+			"options": [
+				{
+					"name": "name",
+					"type": "string",
+					"required": true,
+					"description": "A name for this validator, at most 50 characters."
+				},
+				{
+					"name": "words",
+					"type": "string",
+					"required": true,
+					"description": "The words that raise confidence when found near a match, at most 100 per validator. Matching\nignores case, so the list may not contain the same word twice with different capitalisation.\nWords are stored as sent.\n\nFor example, a validator for medical record numbers might use\n`[{\"word\": \"patient\", \"weight\": \"strong\"}, {\"word\": \"diagnosis\", \"weight\": \"moderate\"},\n{\"word\": \"mrn\", \"weight\": \"weak\"}]`. Provide as a JSON array of objects or @path/to/file.json."
+				},
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Validate and show what would happen without executing",
+					"default": false
+				},
+				{
+					"name": "body",
+					"type": "string",
+					"required": false,
+					"description": "Raw JSON request body (bypasses individual flags)"
+				}
+			],
+			"category": "update",
+			"hasRequestBody": true,
+			"httpMethod": "PUT",
+			"apiPath": "/accounts/{account_id}/dlp/validators/proximity_words/{validator_id}",
+			"operationId": "zero-trust.dlp.validators.proximity-words.update",
+			"hideCommand": false
+		},
+		{
+			"command": "cf zero-trust dlp validators worker create",
+			"name": "create",
+			"fullPath": ["zero-trust", "dlp", "validators", "worker", "create"],
+			"description": "Registers a customer Worker as a validator. An account may own at most 100 validators across all kinds.",
+			"summary": "Create a worker validator",
+			"usage": "cf zero-trust dlp validators worker create [options]",
+			"arguments": [],
+			"options": [
+				{
+					"name": "default",
+					"type": "string",
+					"required": false,
+					"description": "The default field. Accepts a JSON scalar or plain string, or @path/to/file."
+				},
+				{
+					"name": "name",
+					"type": "string",
+					"required": true,
+					"description": "A name for this validator, at most 50 characters."
+				},
+				{
+					"name": "script-tag",
+					"type": "string",
+					"required": true,
+					"description": "The public script tag of the customer's Worker that scores matches."
+				},
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Validate and show what would happen without executing",
+					"default": false
+				},
+				{
+					"name": "body",
+					"type": "string",
+					"required": false,
+					"description": "Raw JSON request body (bypasses individual flags)"
+				}
+			],
+			"category": "create",
+			"hasRequestBody": true,
+			"httpMethod": "POST",
+			"apiPath": "/accounts/{account_id}/dlp/validators/worker",
+			"operationId": "zero-trust.dlp.validators.worker.create",
+			"hideCommand": false
+		},
+		{
+			"command": "cf zero-trust dlp validators worker delete",
+			"name": "delete",
+			"fullPath": ["zero-trust", "dlp", "validators", "worker", "delete"],
+			"description": "Deletes a `worker` validator. Fails with `409` while any detection entry is still attached to it; detach it from those entries first.",
+			"summary": "Delete a worker validator",
+			"usage": "cf zero-trust dlp validators worker delete <validator-id>",
+			"arguments": [
+				{
+					"name": "validator-id",
+					"position": 0,
+					"type": "string",
+					"required": true,
+					"description": "Validator ID"
+				}
+			],
+			"options": [
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Validate and show what would happen without executing",
+					"default": false
+				}
+			],
+			"category": "delete",
+			"hasRequestBody": false,
+			"httpMethod": "DELETE",
+			"apiPath": "/accounts/{account_id}/dlp/validators/worker/{validator_id}",
+			"operationId": "zero-trust.dlp.validators.worker.delete",
+			"hideCommand": false
+		},
+		{
+			"command": "cf zero-trust dlp validators worker get",
+			"name": "get",
+			"fullPath": ["zero-trust", "dlp", "validators", "worker", "get"],
+			"description": "Fetches a `worker` validator by ID.",
+			"summary": "Get a worker validator",
+			"usage": "cf zero-trust dlp validators worker get <validator-id>",
+			"arguments": [
+				{
+					"name": "validator-id",
+					"position": 0,
+					"type": "string",
+					"required": true,
+					"description": "Validator ID"
+				}
+			],
+			"options": [
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Validate and show what would happen without executing",
+					"default": false
+				}
+			],
+			"category": "read",
+			"hasRequestBody": false,
+			"httpMethod": "GET",
+			"apiPath": "/accounts/{account_id}/dlp/validators/worker/{validator_id}",
+			"operationId": "zero-trust.dlp.validators.worker.get",
+			"hideCommand": false
+		},
+		{
+			"command": "cf zero-trust dlp validators worker list",
+			"name": "list",
+			"fullPath": ["zero-trust", "dlp", "validators", "worker", "list"],
+			"description": "Lists the `worker` validators configured for the account.",
+			"summary": "List worker validators",
+			"usage": "cf zero-trust dlp validators worker list",
+			"arguments": [],
+			"options": [
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Validate and show what would happen without executing",
+					"default": false
+				}
+			],
+			"category": "read",
+			"hasRequestBody": false,
+			"httpMethod": "GET",
+			"apiPath": "/accounts/{account_id}/dlp/validators/worker",
+			"operationId": "zero-trust.dlp.validators.worker.list",
+			"hideCommand": false
+		},
+		{
+			"command": "cf zero-trust dlp validators worker status get",
+			"name": "get",
+			"fullPath": [
+				"zero-trust",
+				"dlp",
+				"validators",
+				"worker",
+				"status",
+				"get"
+			],
+			"description": "Reports whether the validator's Worker can be used. Returns `worker_not_found` if the Worker cannot be found, and `worker_error` if the Worker does not have a valid validation entrypoint or is returning incorrect responses.",
+			"summary": "Get a worker validator status",
+			"usage": "cf zero-trust dlp validators worker status get <validator-id>",
+			"arguments": [
+				{
+					"name": "validator-id",
+					"position": 0,
+					"type": "string",
+					"required": true,
+					"description": "Validator ID"
+				}
+			],
+			"options": [
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Validate and show what would happen without executing",
+					"default": false
+				}
+			],
+			"category": "read",
+			"hasRequestBody": false,
+			"httpMethod": "GET",
+			"apiPath": "/accounts/{account_id}/dlp/validators/worker/{validator_id}/status",
+			"operationId": "zero-trust.dlp.validators.worker.status.get",
+			"hideCommand": false
+		},
+		{
+			"command": "cf zero-trust dlp validators worker update",
+			"name": "update",
+			"fullPath": ["zero-trust", "dlp", "validators", "worker", "update"],
+			"description": "Replaces the name, script tag and fallback verdict of a `worker` validator. Attachments to detection entries are owned from the entry side and are not affected.",
+			"summary": "Update a worker validator",
+			"usage": "cf zero-trust dlp validators worker update <validator-id> [options]",
+			"arguments": [
+				{
+					"name": "validator-id",
+					"position": 0,
+					"type": "string",
+					"required": true,
+					"description": "Validator ID"
+				}
+			],
+			"options": [
+				{
+					"name": "default",
+					"type": "string",
+					"required": false,
+					"description": "The default field. Accepts a JSON scalar or plain string, or @path/to/file."
+				},
+				{
+					"name": "name",
+					"type": "string",
+					"required": true,
+					"description": "A name for this validator, at most 50 characters."
+				},
+				{
+					"name": "script-tag",
+					"type": "string",
+					"required": true,
+					"description": "The public script tag of the customer's Worker that scores matches."
+				},
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Validate and show what would happen without executing",
+					"default": false
+				},
+				{
+					"name": "body",
+					"type": "string",
+					"required": false,
+					"description": "Raw JSON request body (bypasses individual flags)"
+				}
+			],
+			"category": "update",
+			"hasRequestBody": true,
+			"httpMethod": "PUT",
+			"apiPath": "/accounts/{account_id}/dlp/validators/worker/{validator_id}",
+			"operationId": "zero-trust.dlp.validators.worker.update",
 			"hideCommand": false
 		},
 		{
@@ -163031,9 +164010,6 @@
 		"cloudforce-one events dataset groups": "Operations for events.dataset.groups",
 		"cloudforce-one events dataset groups get": "Operations for events.dataset.groups.get",
 		"cloudforce-one events dataset groups members": "Operations for events.dataset.groups.members",
-		"cloudforce-one events dataset indicator": "Operations for events.dataset.indicator",
-		"cloudforce-one events dataset indicator types": "Operations for events.dataset.indicator.types",
-		"cloudforce-one events dataset indicator types create": "Operations for events.dataset.indicator.types.create",
 		"cloudforce-one events dataset indicators": "Operations for events.dataset.indicators",
 		"cloudforce-one events dataset indicators bulk": "Operations for events.dataset.indicators.bulk",
 		"cloudforce-one events dataset indicators create": "Operations for events.dataset.indicators.create",
@@ -163078,6 +164054,7 @@
 		"cloudforce-one priority-intelligence interests": "Operations for priority-intelligence.interests",
 		"cloudforce-one priority-intelligence interests backtests": "Operations for priority-intelligence.interests.backtests",
 		"cloudforce-one priority-intelligence interests evaluations": "Operations for priority-intelligence.interests.evaluations",
+		"cloudforce-one priority-intelligence matches": "Operations for priority-intelligence.matches",
 		"cloudforce-one priority-intelligence quota": "Operations for priority-intelligence.quota",
 		"cloudforce-one requests": "Additional request operations — priority listing and asset creation",
 		"cloudforce-one requests assets": "Operations for requests.assets",
@@ -163116,7 +164093,6 @@
 		"cloudforce-one threat-signals articles skills": "Operations for threat-signals.articles.skills",
 		"cloudforce-one threat-signals articles tags": "Operations for threat-signals.articles.tags",
 		"cloudforce-one threat-signals categories": "Operations for threat-signals.categories",
-		"cloudforce-one threat-signals curated-feeds": "Operations for threat-signals.curated-feeds",
 		"cloudforce-one threat-signals feeds": "Operations for threat-signals.feeds",
 		"cloudforce-one threat-signals feeds skills": "Operations for threat-signals.feeds.skills",
 		"cloudforce-one threat-signals indicators": "Operations for threat-signals.indicators",
@@ -163901,6 +164877,7 @@
 		"zero-trust casb": "Operations for casb",
 		"zero-trust casb applications": "Operations for casb.applications",
 		"zero-trust casb applications auth-methods": "Operations for casb.applications.auth-methods",
+		"zero-trust casb asset-schemas": "Operations for casb.asset-schemas",
 		"zero-trust casb content": "Operations for casb.content",
 		"zero-trust casb exports": "Operations for casb.exports",
 		"zero-trust casb finding-types": "Operations for casb.finding-types",
@@ -163989,6 +164966,10 @@
 		"zero-trust dlp sensitivity-groups": "Data Loss Prevention - manage sensitivity groups and their level ordering",
 		"zero-trust dlp sensitivity-levels": "Data Loss Prevention - manage sensitivity levels within sensitivity groups",
 		"zero-trust dlp settings": "Data Loss Prevention - manage account-level settings",
+		"zero-trust dlp validators": "Data Loss Prevention - list and retrieve content validators",
+		"zero-trust dlp validators proximity-words": "Data Loss Prevention - manage proximity-word validators",
+		"zero-trust dlp validators worker": "Data Loss Prevention - manage Worker validators",
+		"zero-trust dlp validators worker status": "Data Loss Prevention - retrieve Worker validator status",
 		"zero-trust gateway": "Operations for gateway",
 		"zero-trust gateway app-types": "Operations for gateway.app-types",
 		"zero-trust gateway categories": "Operations for gateway.categories",

@@ -1,3 +1,4 @@
+import $create from "./create.js";
 import $list from "./list.js";
 import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
@@ -11,7 +12,10 @@ const command: CommandModule<CommonYargsOptions> = {
 	describe: "Operations for threat-events.indicator-types",
 
 	builder: (yargs) => {
-		return yargs.command($list).demandCommand(1, "Please specify a subcommand");
+		return yargs
+			.command($create)
+			.command($list)
+			.demandCommand(1, "Please specify a subcommand");
 	},
 
 	handler: () => {},

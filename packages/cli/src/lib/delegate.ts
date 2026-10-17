@@ -16,6 +16,10 @@
  *     (the global exits the moment it spawns the child) and keys off the
  *     `CF_DELEGATION` sentinel it was spawned with to append a dim
  *     "· delegated" tag to its banner.
+ *   - The parent also passes its own version (`CF_DELEGATING_CLI_VERSION`)
+ *     and process ID (`CF_DELEGATION_PID`) so the child's telemetry can
+ *     record which global cf handed off, and only when it handed off to
+ *     that process directly.
  *   - Self-detection compares realpaths (robust to pnpm's symlinked
  *     `node_modules`), and a `CF_DELEGATION` env sentinel hard-stops any
  *     re-delegation loop ("refuse to delegate twice").
@@ -37,6 +41,10 @@ import { createRequire } from "node:module";
 import { constants } from "node:os";
 import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
+// The package's own version, not `VERSION`: that honours the generic
+// `CLI_VERSION` override, which must not reach the child's telemetry. The
+// JSON import also keeps the delegate chunk independent of the command tree.
+import pkg from "../../package.json" with { type: "json" };
 
 /** The npm package name users install both globally and per-project. */
 const PACKAGE_NAME = "cf";
@@ -53,6 +61,24 @@ const PACKAGE_NAME = "cf";
  */
 export const DELEGATION_SENTINEL = "CF_DELEGATION";
 
+/**
+ * Env var carrying the delegating (global) cf's version to the child.
+ * Read only by telemetry, and only alongside `DELEGATION_SENTINEL`. A
+ * global cf released before this variable existed does not set it, so a
+ * child must treat it as optional rather than infer a value.
+ */
+export const DELEGATING_VERSION_ENV = "CF_DELEGATING_CLI_VERSION";
+
+/**
+ * Env var carrying the delegating (global) cf's process ID. The child's
+ * environment, including the sentinel, is inherited by everything it
+ * spawns (dev servers, build tools, their scripts), so a cf further down
+ * that tree also sees the sentinel. Telemetry attributes a run to
+ * delegation only when this matches the reader's parent process ID, which
+ * holds for the direct `process.execPath` spawn below on every platform.
+ */
+export const DELEGATING_PID_ENV = "CF_DELEGATION_PID";
+
 export interface DelegateResult {
 	/** Whether a local cf was spawned. When true, `exitCode` is set. */
 	delegated: boolean;
@@ -66,7 +92,7 @@ interface DelegateTarget {
 	packageJsonPath: string;
 	/** Absolute path to the local install's `cf` bin entry. */
 	binPath: string;
-	/** The local install's version, for the delegation notice. */
+	/** The local install's declared `package.json` version. */
 	version: string;
 }
 
@@ -203,7 +229,8 @@ export async function maybeDelegateToLocalInstall(
 	// We don't print anything here: the child owns the terminal and
 	// renders the banner (the global exits the moment the child is
 	// spawned). The child learns it was delegated to via the
-	// `CF_DELEGATION` sentinel runDelegated sets on it.
+	// `CF_DELEGATION` sentinel runDelegated sets on it, and which global
+	// cf delegated via `CF_DELEGATING_CLI_VERSION` and `CF_DELEGATION_PID`.
 	const exitCode = await runDelegated(target.binPath, argv, env);
 	return { delegated: true, exitCode };
 }
@@ -254,6 +281,9 @@ function runDelegated(
 			env: {
 				...env,
 				[DELEGATION_SENTINEL]: "1",
+				// Both overwrite any value inherited from an outer process.
+				[DELEGATING_VERSION_ENV]: pkg.version,
+				[DELEGATING_PID_ENV]: String(process.pid),
 			},
 		});
 

@@ -7,6 +7,7 @@ import {
 	it,
 	vi,
 } from "vite-plus/test";
+import type { TelemetryDispatcher } from "../../../lib/telemetry/dispatcher.js";
 
 describe("telemetry dispatcher", () => {
 	runInTempDir();
@@ -148,5 +149,134 @@ describe("telemetry dispatcher", () => {
 		getTelemetryDispatcher().sendAdhocEvent("test event");
 		await allTelemetryDispatchesSettled();
 		expect(fetch).not.toHaveBeenCalled();
+	});
+
+	describe("delegation versions", () => {
+		beforeEach(() => {
+			vi.stubEnv("CF_DELEGATION", undefined);
+			vi.stubEnv("CF_DELEGATING_CLI_VERSION", undefined);
+			vi.stubEnv("CF_DELEGATION_PID", undefined);
+		});
+
+		// What a global cf that passes its version sets on its direct child.
+		function stubDirectDelegation(version: string) {
+			vi.stubEnv("CF_DELEGATION", "1");
+			vi.stubEnv("CF_DELEGATING_CLI_VERSION", version);
+			vi.stubEnv("CF_DELEGATION_PID", String(process.ppid));
+		}
+
+		async function sendAndReadProperties(
+			send: (dispatcher: TelemetryDispatcher) => void
+		): Promise<{ properties: Record<string, unknown>; raw: string }> {
+			const { getTelemetryDispatcher } =
+				await import("../../../lib/telemetry/dispatcher.js");
+			const { allTelemetryDispatchesSettled } =
+				await import("../../../lib/telemetry/lifecycle.js");
+			send(getTelemetryDispatcher());
+			await allTelemetryDispatchesSettled();
+			const [, init] = vi.mocked(fetch).mock.calls.at(-1) as [
+				string,
+				RequestInit,
+			];
+			const raw = init.body as string;
+			return {
+				properties: JSON.parse(raw).properties as Record<string, unknown>,
+				raw,
+			};
+		}
+
+		const sendCommand = (dispatcher: TelemetryDispatcher) =>
+			dispatcher.sendCommandEvent("cf command started", {
+				command: "zones list",
+				sanitizedArgs: {},
+				argsUsed: [],
+				argsCombination: "",
+			});
+
+		it("keeps the executing cf as cliVersion and adds the global version", async () => {
+			stubDirectDelegation("0.9.0");
+			const { VERSION } = await import("../../../version.js");
+
+			const { properties } = await sendAndReadProperties(sendCommand);
+
+			expect(properties).toMatchObject({
+				cliVersion: VERSION,
+				delegated: true,
+				globalCliVersion: "0.9.0",
+			});
+		});
+
+		it("accepts a prerelease global version", async () => {
+			stubDirectDelegation("1.0.0-beta.17");
+
+			const { properties } = await sendAndReadProperties(sendCommand);
+
+			expect(properties.globalCliVersion).toBe("1.0.0-beta.17");
+		});
+
+		it("omits the global version when an older global cf did not pass one", async () => {
+			vi.stubEnv("CF_DELEGATION", "1");
+
+			const { properties } = await sendAndReadProperties(sendCommand);
+
+			expect(properties.delegated).toBe(true);
+			expect(properties).not.toHaveProperty("globalCliVersion");
+		});
+
+		it("ignores the version variable when the run was not delegated", async () => {
+			vi.stubEnv("CF_DELEGATING_CLI_VERSION", "0.9.0");
+
+			const { properties } = await sendAndReadProperties(sendCommand);
+
+			expect(properties.delegated).toBe(false);
+			expect(properties).not.toHaveProperty("globalCliVersion");
+		});
+
+		it.each([
+			"",
+			"1",
+			"x.x.x",
+			"1.2",
+			"1.2.3\n",
+			"../../etc/passwd",
+			"user@example.com",
+			`1.2.3-${"a".repeat(100)}`,
+		])("drops the invalid global version %j and still sends", async (value) => {
+			stubDirectDelegation(value);
+
+			const { properties, raw } = await sendAndReadProperties(sendCommand);
+
+			expect(fetch).toHaveBeenCalledOnce();
+			expect(properties.delegated).toBe(true);
+			expect(properties).not.toHaveProperty("globalCliVersion");
+			// Values made only of digits and dots can occur in other fields.
+			if (/[^\d.]/.test(value)) {
+				expect(raw).not.toContain(JSON.stringify(value).slice(1, -1));
+			}
+		});
+
+		it("does not attribute a cf spawned below the delegated child", async () => {
+			stubDirectDelegation("0.9.0");
+			vi.stubEnv("CF_DELEGATION_PID", String(process.ppid + 1));
+
+			const { properties } = await sendAndReadProperties(sendCommand);
+
+			expect(properties.delegated).toBe(false);
+			expect(properties).not.toHaveProperty("globalCliVersion");
+		});
+
+		it("adds the global version to help and adhoc events", async () => {
+			stubDirectDelegation("0.9.0");
+
+			const help = await sendAndReadProperties((dispatcher) =>
+				dispatcher.sendAdhocEvent("cf help shown", { command: "zones" })
+			);
+			const adhoc = await sendAndReadProperties((dispatcher) =>
+				dispatcher.sendAdhocEvent("test event")
+			);
+
+			expect(help.properties.globalCliVersion).toBe("0.9.0");
+			expect(adhoc.properties.globalCliVersion).toBe("0.9.0");
+		});
 	});
 });

@@ -15,14 +15,14 @@ import {
 	getCloudflareComplianceRegion,
 	getDockerPath,
 } from "@cloudflare/workers-utils";
-import { getAuthToken } from "../../lib/auth-token.js";
+import { resolveBuildOutputAuth } from "../../lib/build-output-auth.js";
 import {
 	buildOutputWorkerOption,
 	parseWorkerConfig,
 	selectBuildOutputWorker,
+	validateBuildOutputAccount,
 	validateBuildOutputMode,
 } from "../../lib/build-output.js";
-import { getAccountId } from "../../lib/context.js";
 import { applyDependenciesInstrumentationEnv } from "../../lib/dependencies-instrumentation.js";
 import { createDeployContext } from "../../lib/deploy-context.js";
 import {
@@ -130,6 +130,10 @@ async function uploadBuildOutput(argv: UploadArgs, ctx: UploadCommand) {
 		);
 	}
 	validateBuildOutputMode(argv.mode, rootConfig.buildContext.mode);
+	validateBuildOutputAccount(
+		rootConfig.accountId,
+		argv["temporary-account"] === true
+	);
 	const worker = selectBuildOutputWorker(workers, argv.worker);
 	const parsedWorker = parseWorkerConfig(worker, rootConfig);
 	const wranglerConfig = applyDependenciesInstrumentationEnv(
@@ -137,17 +141,12 @@ async function uploadBuildOutput(argv: UploadArgs, ctx: UploadCommand) {
 	);
 	const buildResult = assembleBuildResult(worker, parsedWorker.builtConfig);
 
-	// Resolve auth + account. Dry runs make no API requests: deploy-helpers
-	// skips its account-scoped checks (such as the latest-deployment lookup)
-	// only when no account is supplied, so leave it unresolved.
-	const authToken = argv["dry-run"] ? "" : await getAuthToken();
-	const accountId = argv["dry-run"]
-		? undefined
-		: (rootConfig.accountId ??
-			(await getAccountId({
-				skipProjectSettings: true,
-				complianceRegion: getCloudflareComplianceRegion(wranglerConfig),
-			})));
+	const complianceRegion = getCloudflareComplianceRegion(wranglerConfig);
+	const { authToken, accountId } = await resolveBuildOutputAuth({
+		accountId: rootConfig.accountId,
+		complianceRegion,
+		dryRun: argv["dry-run"],
+	});
 
 	// Initialize the deploy-helpers context.
 	const deployContext = createDeployContext(authToken);

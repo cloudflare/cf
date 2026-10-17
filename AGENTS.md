@@ -657,24 +657,26 @@ These have stabilised this repo's voice; preserve them.
 
 Live globals (`packages/cli/src/index.ts:buildCli`):
 
-| Flag           | Alias | Purpose                                                         |
-| -------------- | ----- | --------------------------------------------------------------- |
-| `--help`       | `-h`  | Show help                                                       |
-| `--version`    | `-v`  | Show plain version on stdout (branded banner on stderr)         |
-| `--quiet`      | `-q`  | Suppress non-essential output                                   |
-| `--zone`       | `-z`  | Zone ID or domain (overrides `CLOUDFLARE_ZONE_ID`)              |
-| `--profile`    | —     | Use a specific auth profile                                     |
-| `--mode`       | `-m`  | Mode used to evaluate `cloudflare.config.ts`                    |
-| `--local`      | —     | Run against cf's global local Miniflare state                   |
-| `--persist-to` | —     | Override state directory (default `~/.config/cloudflare/state`) |
+| Flag                  | Alias | Purpose                                                         |
+| --------------------- | ----- | --------------------------------------------------------------- |
+| `--help`              | `-h`  | Show help                                                       |
+| `--version`           | `-v`  | Show plain version on stdout (branded banner on stderr)         |
+| `--quiet`             | `-q`  | Suppress non-essential output                                   |
+| `--zone`              | `-z`  | Zone ID or domain (overrides `CLOUDFLARE_ZONE_ID`)              |
+| `--profile`           | —     | Use a specific auth profile                                     |
+| `--mode`              | `-m`  | Mode used to evaluate `cloudflare.config.ts`                    |
+| `--temporary-account` | —     | Use a temporary account when unauthenticated (hidden from help) |
+| `--event-code`        | —     | Event code for a new temporary account (hidden from help)       |
+| `--local`             | —     | Run against cf's global local Miniflare state                   |
+| `--persist-to`        | —     | Override state directory (default `~/.config/cloudflare/state`) |
 
-There is no single global resolution order. Zone uses positional value → `--zone` → `CLOUDFLARE_ZONE_ID`; account uses `CLOUDFLARE_ACCOUNT_ID` → project settings → cached/prompted workers-auth selection; compliance region uses its environment variable → project settings; and the token uses `CLOUDFLARE_API_TOKEN` → stored OAuth credentials. There are no `--account-id`, `--api-token`, or `--compliance-region` flags.
+There is no single global resolution order. Zone uses positional value → `--zone` → `CLOUDFLARE_ZONE_ID`; account uses `--temporary-account` → `CLOUDFLARE_ACCOUNT_ID` → project settings → cached/prompted workers-auth selection; compliance region uses its environment variable → project settings; and the token uses `--temporary-account` → `CLOUDFLARE_API_TOKEN` → stored OAuth credentials. `--temporary-account` is rejected when credentials already exist or with `--local`. Help never provisions a temporary account, and `cf auth whoami` rejects both temporary-account flags. `--event-code` requires `--temporary-account`, is sent only when a new account is created, and is never cached or printed. There are no `--account-id`, `--api-token`, or `--compliance-region` flags.
 
 `--mode` is supplied through the CLI and is available as `ctx.mode` when function-form configuration exports are evaluated.
 
 Generated commands additionally get (per-command, not global): `--dry-run` on every command (mutating and read — reads omit the body preview), `--body` on almost every body-accepting operation, explicit `--file` on eligible upload shapes, and `--force` / `-f` on destructive operations. String-shaped body flags accept the general `@path` ingestion convention unless Forge opts out.
 
-API fields that would emit an exact `--mode` flag are temporarily omitted until their upstream schemas stop using the reserved name. Body fields can still be supplied through `--body`; query, path, and header fields are temporarily unavailable.
+API fields that would emit an exact `--mode`, `--temporary-account`, or `--event-code` flag are omitted to avoid shadowing global flags. Body fields can still be supplied through `--body`; query, path, and header fields are temporarily unavailable.
 
 Structured API output is JSON; generated `binary`/`text` endpoints write their payload verbatim. There is no global output-format `--format`, `--json`, `--ndjson`, or `--fields` switch. Some generated leaves do expose `format` or `fields` as endpoint-specific API parameters. Callers needing ndjson pipe structured output through `jq -c '.[]'`.
 
@@ -693,7 +695,7 @@ Structured API output is JSON; generated `binary`/`text` endpoints write their p
 | `--ndjson`         | —     | Output-format toggle                                                 |
 | `--pretty`         | —     | Output-format toggle                                                 |
 
-`--mode` is registered globally and exact colliding API fields are temporarily omitted. `--remote` exists on a generated Pay Per Crawl command. The other exact names in this table are not registered as root/global options today and are normally rejected outside a leaf that defines them. The in-source design list is the `Reserved (future)` comment in `src/index.ts`; it does not itself register or reject options.
+`--mode`, `--temporary-account`, and `--event-code` are registered globally and exact colliding API fields are omitted. `--remote` exists on a generated Pay Per Crawl command. The other exact names in this table are not registered as root/global options today and are normally rejected outside a leaf that defines them. The in-source design list is the `Reserved (future)` comment in `src/index.ts`; it does not itself register or reject options.
 
 ## Forge package and OpenAPI pin
 

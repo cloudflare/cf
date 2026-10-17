@@ -111,7 +111,7 @@ or alias is added.
 
 ## Global Flags
 
-`--zone` (`-z`), `--profile`, `--mode` (`-m`), `--quiet` (`-q`), `--help` (`-h`), `--version` (`-v`), `--local`, and `--persist-to`. `--mode` is available as `ctx.mode` when function-form exports in `cloudflare.config.ts` are evaluated. `--persist-to` is valid only with `--local`; local mode starts and disposes a Miniflare instance over cf's state without requiring a running dev server. Hand-written root commands reject `--local`, and generated endpoints without an explorer equivalent return a specific error. Every generated command gets `--dry-run` (mutating and read alike — reads show URL/method/path params without a body preview). Almost every body operation gets `--body`; explicit `--file` is limited to eligible binary, multipart, and other non-JSON upload shapes. Destructive commands get `--force` (`-f`) at runtime. API fields that would emit an exact `--mode` flag are temporarily omitted until their upstream schemas stop using the reserved name. Body fields can still be supplied through `--body`; query, path, and header fields are temporarily unavailable.
+`--zone` (`-z`), `--profile`, `--mode` (`-m`), `--temporary-account` (hidden), `--event-code` (hidden), `--quiet` (`-q`), `--help` (`-h`), `--version` (`-v`), `--local`, and `--persist-to`. `--mode` is available as `ctx.mode` when function-form exports in `cloudflare.config.ts` are evaluated. `--temporary-account` creates or reuses a temporary account when no credentials exist, and missing-credential errors recommend it. Help never provisions a temporary account, and `cf auth whoami` rejects both temporary-account flags. `--event-code` requires `--temporary-account` and is sent only when a new account is created; it is never cached, printed, or recorded in telemetry. `--persist-to` is valid only with `--local`; local mode starts and disposes a Miniflare instance over cf's state without requiring a running dev server. Hand-written root commands reject `--local`, and generated endpoints without an explorer equivalent return a specific error. Every generated command gets `--dry-run` (mutating and read alike — reads show URL/method/path params without a body preview). Almost every body operation gets `--body`; explicit `--file` is limited to eligible binary, multipart, and other non-JSON upload shapes. Destructive commands get `--force` (`-f`) at runtime. API fields that would emit an exact `--mode`, `--temporary-account`, or `--event-code` flag are omitted to avoid shadowing global flags. Body fields can still be supplied through `--body`; query, path, and header fields are temporarily unavailable.
 
 Normal structured API results are pretty-printed JSON. Null mutation results leave stdout empty and may print a TTY-only success marker on stderr. Endpoints declared as raw bytes or raw text write their payload directly to stdout, and some raw-byte commands accept `--text` to decode as UTF-8. Callers needing newline-delimited JSON can pipe structured results through `jq -c '.[]'` or similar; there is no global output-format `--format` / `--ndjson` flag, though some leaves use those words for endpoint-specific API parameters.
 
@@ -136,12 +136,12 @@ binding, with the default profile as fallback.
   as a namespace.
 - `--json`, `--ndjson`, `--pretty` — potential output-format toggles. Normal structured results are JSON today, while raw response endpoints remain raw; these names are claimed so future formatting choices do not collide.
 
-`--remote` currently appears on a generated Pay Per Crawl command. Exact API fields named `mode` are temporarily omitted because `--mode` is global. The remaining exact names are not root options and are normally rejected outside a leaf that defines them. See the `Reserved (future)` comment block in `src/index.ts`'s `buildCli` for the design list; the comment does not itself register or reject options.
+`--remote` currently appears on a generated Pay Per Crawl command. Exact API fields named `mode`, `temporary_account`, or `event_code` are omitted because those flags are global. The remaining exact names are not root options and are normally rejected outside a leaf that defines them. See the `Reserved (future)` comment block in `src/index.ts`'s `buildCli` for the design list; the comment does not itself register or reject options.
 
 ## Runtime Value Priority (highest → lowest)
 
-- Account: `CLOUDFLARE_ACCOUNT_ID` → project `cloudflare.config.ts` →
-  workers-auth selection.
+- Account: `--temporary-account` → `CLOUDFLARE_ACCOUNT_ID` → project
+  `cloudflare.config.ts` → workers-auth selection.
 - Compliance region: `CLOUDFLARE_COMPLIANCE_REGION` → project
   `cloudflare.config.ts` → `public`.
 - Zone: positional value → `--zone` → `CLOUDFLARE_ZONE_ID`.

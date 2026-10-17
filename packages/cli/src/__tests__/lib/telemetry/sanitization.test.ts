@@ -69,6 +69,21 @@ describe("sanitizeArgs", () => {
 		});
 	});
 
+	it("records temporary-account use but omits event codes", () => {
+		const eventCode = "ABCD-EFGH-JKMN";
+		const result = sanitizeArgs(
+			{ temporaryAccount: true, eventCode },
+			["deploy", "--temporary-account", "--event-code", eventCode],
+			{ safeFlags: [] }
+		);
+
+		expect(result.sanitizedArgs).toEqual({
+			"temporary-account": true,
+			"event-code": REDACTED,
+		});
+		expect(JSON.stringify(result)).not.toContain(eventCode);
+	});
+
 	it("canonicalizes short flag aliases", () => {
 		const result = sanitizeArgs(
 			{ force: true, quiet: true, zone: "example.com" },

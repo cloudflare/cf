@@ -74,6 +74,32 @@ const GLOBAL_OPTIONS = {
 			return mode;
 		},
 	},
+	"temporary-account": {
+		type: "boolean",
+		description:
+			"Create or reuse a temporary account when no Cloudflare credentials are available",
+		global: true,
+		default: false,
+		hidden: true,
+	},
+	// Errors never include the event code: it is a shared secret for an event.
+	"event-code": {
+		type: "string",
+		description: "Create a temporary account for an event",
+		requiresArg: true,
+		global: true,
+		hidden: true,
+		coerce: (eventCode: string | string[]) => {
+			if (Array.isArray(eventCode)) {
+				throw new Error("--event-code expects a single value.");
+			}
+			const trimmed = eventCode.trim();
+			if (!trimmed) {
+				throw new Error("--event-code cannot be empty.");
+			}
+			return trimmed;
+		},
+	},
 	// `--local` runs the command against cf's on-disk Miniflare state
 	// instead of the production API: cf spawns its own Miniflare over
 	// `--persist-to` (default `~/.config/cloudflare/state/v3`), dispatches to the
@@ -497,6 +523,8 @@ async function prepareUpdateCheck(): Promise<PreparedUpdateCheck | undefined> {
  *   --zone, -z            Zone ID or domain
  *   --profile             Use a specific auth profile
  *   --mode, -m            Mode used to evaluate project configuration
+ *   --temporary-account   Use a temporary preview account (hidden)
+ *   --event-code          Create the temporary account for an event (hidden)
  *   --local               Route via a cf-spawned Miniflare session
  *   --persist-to          Directory holding the local persisted state
  *
@@ -620,6 +648,16 @@ export function buildCli(rawArgs: string[], options: BuildCliOptions = {}) {
 				throw new Error("--persist-to can only be used with --local.");
 			}
 
+			const temporaryAccount = argv["temporary-account"] === true;
+			if (temporaryAccount && argv.local) {
+				throw new Error("--temporary-account cannot be used with --local.");
+			}
+			const eventCode = argv["event-code"];
+			// Never silently ignore an event code when real credentials apply.
+			if (eventCode !== undefined && !temporaryAccount) {
+				throw new Error("--event-code requires --temporary-account.");
+			}
+
 			if (
 				resolvedCommand !== undefined &&
 				shouldApplyCloudflareDotEnv(resolvedCommand, argv.local)
@@ -630,7 +668,12 @@ export function buildCli(rawArgs: string[], options: BuildCliOptions = {}) {
 			// Local mode bypasses profile credentials, so resolving and displaying
 			// an active profile would be misleading.
 			if (!argv.local) {
-				const { resolveProfile } = await import("./lib/oauth/index.js");
+				const { resolveProfile, setTemporaryAccountRequired } =
+					await import("./lib/oauth/index.js");
+				setTemporaryAccountRequired(
+					temporaryAccount,
+					eventCode === undefined ? undefined : { eventCode }
+				);
 				const profile = resolveProfile(argv.profile);
 				printActiveProfileLine(profile);
 			}

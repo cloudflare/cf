@@ -20,6 +20,7 @@ import { getComplianceRegion, type ComplianceRegion } from "../context.js";
 import { isNonInteractiveOrCI } from "../interactive.js";
 import { openSession } from "../session.js";
 import { printAccountConfigHint } from "./account-hint.js";
+import type { TemporaryAccountRequest } from "@cloudflare/workers-auth";
 
 const logger: AuthContext["logger"] = {
 	debug: (...args) => {
@@ -84,6 +85,53 @@ const auth = createCfAuth({
 		error instanceof NonInteractiveSelectionError,
 });
 
+let temporaryAccountRequired = false;
+
+/**
+ * Mark whether this invocation requires a temporary preview account,
+ * optionally for an event.
+ */
+export function setTemporaryAccountRequired(
+	required: boolean,
+	request?: TemporaryAccountRequest
+): void {
+	temporaryAccountRequired = required;
+	auth.setTemporaryAllowed(required, request);
+}
+
+/** Whether authentication requires a temporary preview account. */
+export function isTemporaryAccountRequired(): boolean {
+	return temporaryAccountRequired;
+}
+
+/**
+ * Provision or reuse this invocation's temporary preview account. workers-auth
+ * keeps it active for later calls and rejects it when credentials exist.
+ */
+export async function requireTemporaryAccount(options?: {
+	isPreview?: boolean;
+	complianceRegion?: ComplianceRegion;
+}): Promise<{ accountId: string; apiToken: string }> {
+	try {
+		const accountId = await auth.requireAuth({
+			compliance_region:
+				options?.complianceRegion ?? (await getComplianceRegion(options)),
+		});
+		const { apiToken } = auth.requireApiToken() as { apiToken: string };
+		return { accountId, apiToken };
+	} catch (error) {
+		// workers-auth's shared temporary-account errors name Wrangler's
+		// `--temporary` flag. Keep cf's public spelling in those messages.
+		if (error instanceof Error) {
+			error.message = error.message.replaceAll(
+				/--temporary(?!-account)/g,
+				"--temporary-account"
+			);
+		}
+		throw error;
+	}
+}
+
 /** Resolve a configured, cached, or newly selected account ID. */
 export async function getOrSelectAccountId(
 	accountId?: string,
@@ -142,7 +190,10 @@ export async function login(opts?: {
 	);
 }
 
-/** Revoke the stored refresh token and delete cf's token file. */
+/**
+ * Clear any cached temporary account, then revoke the stored refresh token and
+ * delete cf's token file. Prints workers-auth's shared logout messages.
+ */
 export function logout(profile?: string): Promise<void> {
 	return auth.logout(profile);
 }

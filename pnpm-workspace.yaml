@@ -3,6 +3,7 @@ packages:
   - fixtures/*
 
 patchedDependencies:
+  "@bomb.sh/tab@0.0.22": patches/@bomb.sh__tab@0.0.22.patch
   "@changesets/cli@2.31.0": patches/@changesets__cli@2.31.0.patch
   "@cloudflare/containers-shared@*": patches/@cloudflare__containers-shared@0.21.1.patch
   "@cloudflare/deploy-helpers@*": patches/@cloudflare__deploy-helpers@0.20.1.patch

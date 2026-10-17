@@ -176,6 +176,7 @@ overrides:
   vitest@*: 5.0.3
 
 patchedDependencies:
+  '@bomb.sh/tab@0.0.22': b794937f159e94af4d2cd4d070607a4a83df0fd4db9ccbbf318b1974a6a1d9c1
   '@changesets/cli@2.31.0': 059d085279022eeb7f92871a182f71310e4891b62871cfedccb21b34f4bfcd27
   '@cloudflare/containers-shared@*': ecd632c350c22e92f11dd426d4aec675be6515b0aa7e21f2ff1367e315e3ac59
   '@cloudflare/deploy-helpers@*': 664a40a198d157b2798e2f45cf713cb4d5926bc697603116b32a25c9ab92879d
@@ -271,7 +272,7 @@ importers:
     devDependencies:
       '@bomb.sh/tab':
         specifier: 0.0.22
-        version: 0.0.22(commander@14.0.3)
+        version: 0.0.22(patch_hash=b794937f159e94af4d2cd4d070607a4a83df0fd4db9ccbbf318b1974a6a1d9c1)(commander@14.0.3)
       '@bytecodealliance/jco':
         specifier: 1.37.0
         version: 1.37.0
@@ -4081,7 +4082,7 @@ snapshots:
 
   '@blazediff/core@1.10.0': {}
 
-  '@bomb.sh/tab@0.0.22(commander@14.0.3)':
+  '@bomb.sh/tab@0.0.22(patch_hash=b794937f159e94af4d2cd4d070607a4a83df0fd4db9ccbbf318b1974a6a1d9c1)(commander@14.0.3)':
     optionalDependencies:
       commander: 14.0.3
 

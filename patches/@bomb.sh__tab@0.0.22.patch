@@ -1,0 +1,15 @@
+diff --git a/dist/powershell-C1q3FW2e.mjs b/dist/powershell-C1q3FW2e.mjs
+index bfe3d3da6c336f831129eac39cc60896e3d8bc1e..4e72b13ee22af14ea8901ea22ff62751df2a5fa1 100644
+--- a/dist/powershell-C1q3FW2e.mjs
++++ b/dist/powershell-C1q3FW2e.mjs
+@@ -1,4 +1,10 @@
+ import{ShellCompDirective as e}from"./index.mjs";function t(t,n){return`#compdef ${t}
++
++if (( ! $+functions[compdef] )); then
++  autoload -Uz compinit
++  compinit
++fi
++
+ compdef _${t} ${t}
+ 
+ # zsh completion for ${t} -*- shell-script -*-

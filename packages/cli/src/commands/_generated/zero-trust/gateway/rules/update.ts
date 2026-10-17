@@ -11,7 +11,12 @@ import {
 	getAccountId,
 	resolveAccountIdSilent,
 } from "#lib/auth.js";
-import { compactBody, parseBody, parseJsonMap } from "#lib/body-parser.js";
+import {
+	compactBody,
+	parseBody,
+	parseJsonMap,
+	parseObjectArray,
+} from "#lib/body-parser.js";
 import { formatDryRun } from "#lib/dry-run.js";
 import { resolveFileToken } from "#lib/input-validation.js";
 import { LOCAL_ACCOUNT_ID } from "#lib/local.js";
@@ -258,6 +263,16 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description:
 				"Remove headers from allowed requests by name. A maximum of 20 header operations (add + set + delete) is allowed per policy. Each header name may not exceed 256 bytes. Settable only for `http` rules with the action set to `allow`.",
 		})
+		.option("rule-settings-dns-resolvers-ipv4", {
+			type: "string",
+			description:
+				"The rule_settings.dns_resolvers.ipv4 field. Provide as a JSON array of objects or @path/to/file.json.",
+		})
+		.option("rule-settings-dns-resolvers-ipv6", {
+			type: "string",
+			description:
+				"The rule_settings.dns_resolvers.ipv6 field. Provide as a JSON array of objects or @path/to/file.json.",
+		})
 		.option("rule-settings-egress-ipv4", {
 			type: "string",
 			description: "Specify the IPv4 address to use for egress.",
@@ -487,6 +502,8 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"rule-settings-check-session-duration",
 				"rule-settings-check-session-enforce",
 				"rule-settings-delete-headers",
+				"rule-settings-dns-resolvers-ipv4",
+				"rule-settings-dns-resolvers-ipv6",
 				"rule-settings-egress-ipv4",
 				"rule-settings-egress-ipv4-fallback",
 				"rule-settings-egress-ipv6",
@@ -691,6 +708,16 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 													enforce: argv["rule-settings-check-session-enforce"],
 												},
 												delete_headers: argv["rule-settings-delete-headers"],
+												dns_resolvers: {
+													ipv4: parseObjectArray(
+														argv["rule-settings-dns-resolvers-ipv4"],
+														"rule-settings-dns-resolvers-ipv4"
+													),
+													ipv6: parseObjectArray(
+														argv["rule-settings-dns-resolvers-ipv6"],
+														"rule-settings-dns-resolvers-ipv6"
+													),
+												},
 												egress: {
 													ipv4: resolveFileToken(
 														argv["rule-settings-egress-ipv4"] as
@@ -1005,6 +1032,16 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 								enforce: argv["rule-settings-check-session-enforce"],
 							},
 							delete_headers: argv["rule-settings-delete-headers"],
+							dns_resolvers: {
+								ipv4: parseObjectArray(
+									argv["rule-settings-dns-resolvers-ipv4"],
+									"rule-settings-dns-resolvers-ipv4"
+								),
+								ipv6: parseObjectArray(
+									argv["rule-settings-dns-resolvers-ipv6"],
+									"rule-settings-dns-resolvers-ipv6"
+								),
+							},
 							egress: {
 								ipv4: resolveFileToken(
 									argv["rule-settings-egress-ipv4"] as string | undefined,

@@ -11,7 +11,7 @@ import {
 	getAccountId,
 	resolveAccountIdSilent,
 } from "#lib/auth.js";
-import { compactBody, parseBody } from "#lib/body-parser.js";
+import { compactBody, parseBody, parseObjectArray } from "#lib/body-parser.js";
 import { formatDryRun } from "#lib/dry-run.js";
 import { resolveFileToken } from "#lib/input-validation.js";
 import { LOCAL_ACCOUNT_ID } from "#lib/local.js";
@@ -28,6 +28,11 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			type: "string",
 			description: "UUID of the tunnel.",
 			demandOption: true,
+		})
+		.option("tunnel-config-ingress", {
+			type: "string",
+			description:
+				"List of public hostname definitions. At least one ingress rule needs to be defined for the tunnel. Provide as a JSON array of objects or @path/to/file.json.",
 		})
 		.option("tunnel-config-origin-request-access-aud-tag", {
 			type: "string",
@@ -124,6 +129,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		})
 		.check((argv) => {
 			const groupSet = [
+				"tunnel-config-ingress",
 				"tunnel-config-origin-request-access-aud-tag",
 				"tunnel-config-origin-request-access-required",
 				"tunnel-config-origin-request-access-team-name",
@@ -194,6 +200,10 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 								? parseBody(argv.body)
 								: compactBody({
 										config: {
+											ingress: parseObjectArray(
+												argv["tunnel-config-ingress"],
+												"tunnel-config-ingress"
+											),
 											originRequest: {
 												access: {
 													audTag:
@@ -292,6 +302,10 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				// Assemble request body from individual flags
 				const bodyData = compactBody({
 					config: {
+						ingress: parseObjectArray(
+							argv["tunnel-config-ingress"],
+							"tunnel-config-ingress"
+						),
 						originRequest: {
 							access: {
 								audTag: argv["tunnel-config-origin-request-access-aud-tag"],

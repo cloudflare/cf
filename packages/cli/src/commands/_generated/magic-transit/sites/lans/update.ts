@@ -75,6 +75,11 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			array: true,
 			description: "List of DHCP server IPs.",
 		})
+		.option("static-addressing-dhcp-server-dhcp-options", {
+			type: "string",
+			description:
+				"Optional list of custom DHCP options to include in DHCP responses. Only valid when DHCP server is enabled. Provide as a JSON array of objects or @path/to/file.json.",
+		})
 		.option("static-addressing-dhcp-server-dhcp-pool-end", {
 			type: "string",
 			description: "A valid IPv4 address.",
@@ -122,6 +127,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			const groupSet = [
 				"static-addressing-address",
 				"static-addressing-dhcp-relay-server-addresses",
+				"static-addressing-dhcp-server-dhcp-options",
 				"static-addressing-dhcp-server-dhcp-pool-end",
 				"static-addressing-dhcp-server-dhcp-pool-start",
 				"static-addressing-dhcp-server-dns-server",
@@ -212,6 +218,10 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 														],
 												},
 												dhcp_server: {
+													dhcp_options: parseObjectArray(
+														argv["static-addressing-dhcp-server-dhcp-options"],
+														"static-addressing-dhcp-server-dhcp-options"
+													),
 													dhcp_pool_end: resolveFileToken(
 														argv[
 															"static-addressing-dhcp-server-dhcp-pool-end"
@@ -315,6 +325,10 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 									argv["static-addressing-dhcp-relay-server-addresses"],
 							},
 							dhcp_server: {
+								dhcp_options: parseObjectArray(
+									argv["static-addressing-dhcp-server-dhcp-options"],
+									"static-addressing-dhcp-server-dhcp-options"
+								),
 								dhcp_pool_end: resolveFileToken(
 									argv["static-addressing-dhcp-server-dhcp-pool-end"] as
 										| string

@@ -24,8 +24,8 @@ import type {
 
 /**
  * The kind of value an argument takes: an `enum` is a string from a fixed
- * list, an `array` repeated scalar values, and `objectArray` and `objectMap` take
- * JSON-valued flags holding an array of objects or a map.
+ * list, an `array` repeated scalar values, and `objectArray`, `nestedArray`, and
+ * `objectMap` take JSON-valued flags holding objects, nested arrays, or a map.
  */
 export type ArgType =
 	| "string"
@@ -35,6 +35,7 @@ export type ArgType =
 	| "array"
 	| "scalarUnion"
 	| "objectArray"
+	| "nestedArray"
 	| "objectMap";
 
 /** The type yargs is told, and that the metadata lists: enums and arrays are strings. */
@@ -155,6 +156,7 @@ export function optionDefaults(
 			a.default === undefined ||
 			a.type === "array" ||
 			a.type === "objectArray" ||
+			a.type === "nestedArray" ||
 			a.type === "objectMap" ||
 			a.type === "scalarUnion" ||
 			conflictFlags.has(kebab(a.name)) ||
@@ -301,7 +303,11 @@ function bodyArgType(type: string, itemType: string | undefined): ArgType {
 		case "boolean":
 			return "boolean";
 		case "array":
-			return itemType === "object" ? "objectArray" : "array";
+			return itemType === "object"
+				? "objectArray"
+				: itemType === "array"
+					? "nestedArray"
+					: "array";
 		case "object":
 			return "objectMap";
 		default:
@@ -692,7 +698,8 @@ function bodyParams(
 			single &&
 			bp.type !== "boolean" &&
 			bp.type !== "object" &&
-			bp.itemType !== "object"
+			bp.itemType !== "object" &&
+			bp.itemType !== "array"
 		) {
 			const description =
 				o.string("description") ?? bp.description ?? `The ${path[0]} field`;
@@ -748,7 +755,9 @@ function bodyParams(
 		const dflt = nestedUnderOptional ? undefined : effectiveDefault;
 		const bodyType = bodyArgType(effectiveType, bp.itemType);
 		const type: ArgType =
-			bodyType === "objectArray" || bodyType === "objectMap"
+			bodyType === "objectArray" ||
+			bodyType === "nestedArray" ||
+			bodyType === "objectMap"
 				? bodyType
 				: enumValues !== undefined
 					? "enum"
@@ -761,6 +770,10 @@ function bodyParams(
 		if (type === "objectArray") {
 			const separator = /[.!?]$/.test(base) ? " " : ". ";
 			description = `${base}${separator}Provide as a JSON array of objects or @path/to/file.json.`;
+		}
+		if (type === "nestedArray") {
+			const separator = /[.!?]$/.test(base) ? " " : ". ";
+			description = `${base}${separator}Provide as a JSON array of arrays or @path/to/file.json.`;
 		}
 		if (type === "objectMap") {
 			const separator = /[.!?]\s*$/.test(base) ? " " : ". ";

@@ -338,10 +338,20 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			type: "boolean",
 			description: "The spend_limits.enabled field",
 		})
+		.option("spend-limits-rules", {
+			type: "string",
+			description:
+				"The spend_limits.rules field. Provide as a JSON array of objects or @path/to/file.json.",
+		})
 		.option("store-id", { type: "string", description: "The store_id field" })
 		.option("stripe-authorization", {
 			type: "string",
 			description: "The stripe.authorization field",
+		})
+		.option("stripe-usage-events", {
+			type: "string",
+			description:
+				"The stripe.usage_events field. Provide as a JSON array of objects or @path/to/file.json.",
 		})
 		.option("workers-ai-billing-mode", {
 			type: "string",
@@ -363,11 +373,11 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "Raw JSON request body (bypasses individual flags)",
 		})
 		.check((argv) => {
-			const groupSet = ["stripe-authorization"].some(
+			const groupSet = ["stripe-authorization", "stripe-usage-events"].some(
 				(k) => argv[k] !== undefined
 			);
 			if (groupSet) {
-				const missing = ["stripe-authorization"].filter(
+				const missing = ["stripe-authorization", "stripe-usage-events"].filter(
 					(k) => argv[k] === undefined
 				);
 				if (missing.length > 0) {
@@ -508,6 +518,10 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 										retry_max_attempts: argv["retry-max-attempts"],
 										spend_limits: {
 											enabled: argv["spend-limits-enabled"],
+											rules: parseObjectArray(
+												argv["spend-limits-rules"],
+												"spend-limits-rules"
+											),
 										},
 										store_id: resolveFileToken(
 											argv["store-id"] as string | undefined,
@@ -519,6 +533,10 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 												argv["stripe-authorization"] as string | undefined,
 												"stripe-authorization",
 												"text"
+											),
+											usage_events: parseObjectArray(
+												argv["stripe-usage-events"],
+												"stripe-usage-events"
 											),
 										},
 										workers_ai_billing_mode: argv["workers-ai-billing-mode"],
@@ -820,6 +838,12 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						["spend_limits", "enabled"],
 						argv["spend-limits-enabled"]
 					);
+				if (argv["spend-limits-rules"] !== undefined)
+					setNestedValue(
+						bodyData,
+						["spend_limits", "rules"],
+						parseObjectArray(argv["spend-limits-rules"], "spend-limits-rules")
+					);
 				if (argv["store-id"] !== undefined)
 					setNestedValue(
 						bodyData,
@@ -839,6 +863,12 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 							"stripe-authorization",
 							"text"
 						)
+					);
+				if (argv["stripe-usage-events"] !== undefined)
+					setNestedValue(
+						bodyData,
+						["stripe", "usage_events"],
+						parseObjectArray(argv["stripe-usage-events"], "stripe-usage-events")
 					);
 				if (argv["workers-ai-billing-mode"] !== undefined)
 					setNestedValue(

@@ -11,7 +11,7 @@ import {
 	getAccountId,
 	resolveAccountIdSilent,
 } from "#lib/auth.js";
-import { compactBody, parseBody } from "#lib/body-parser.js";
+import { compactBody, parseBody, parseObjectArray } from "#lib/body-parser.js";
 import { formatDryRun } from "#lib/dry-run.js";
 import { resolveFileToken } from "#lib/input-validation.js";
 import { LOCAL_ACCOUNT_ID } from "#lib/local.js";
@@ -33,6 +33,11 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			type: "string",
 			description: "Name of the resource group",
 		})
+		.option("scope-objects", {
+			type: "string",
+			description:
+				"A list of scope objects for additional context. The number of Scope objects should not be zero. Provide as a JSON array of objects or @path/to/file.json.",
+		})
 		.option("dry-run", {
 			type: "boolean",
 			description: "Validate and show what would happen without executing",
@@ -41,6 +46,18 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("body", {
 			type: "string",
 			description: "Raw JSON request body (bypasses individual flags)",
+		})
+		.check((argv) => {
+			const groupSet = ["scope-objects"].some((k) => argv[k] !== undefined);
+			if (groupSet) {
+				const missing = ["scope-objects"].filter((k) => argv[k] === undefined);
+				if (missing.length > 0) {
+					throw new Error(
+						`${missing.map((m) => "--" + m).join(", ")} ${missing.length === 1 ? "is" : "are"} required when any --scope-* flag is set`
+					);
+				}
+			}
+			return true;
 		});
 }
 
@@ -79,6 +96,12 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 											"name",
 											"text"
 										),
+										scope: {
+											objects: parseObjectArray(
+												argv["scope-objects"],
+												"scope-objects"
+											),
+										},
 									}),
 					});
 					return;
@@ -107,6 +130,9 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						"name",
 						"text"
 					),
+					scope: {
+						objects: parseObjectArray(argv["scope-objects"], "scope-objects"),
+					},
 				});
 				const result = await withProgress(`Updating`, async () =>
 					client.send(operation, {

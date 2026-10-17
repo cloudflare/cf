@@ -11,7 +11,12 @@ import {
 	getAccountId,
 	resolveAccountIdSilent,
 } from "#lib/auth.js";
-import { compactBody, parseBody } from "#lib/body-parser.js";
+import {
+	compactBody,
+	parseBody,
+	parseNestedArray,
+	parseObjectArray,
+} from "#lib/body-parser.js";
 import { formatDryRun } from "#lib/dry-run.js";
 import { resolveFileToken } from "#lib/input-validation.js";
 import { LOCAL_ACCOUNT_ID } from "#lib/local.js";
@@ -44,6 +49,11 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"Hours between digests: 6, 12, or 24. Used only when `notification_mode` is `digest`.",
 			default: 24,
 		})
+		.option("intent-clauses", {
+			type: "string",
+			description:
+				"The intent.clauses field. Provide as a JSON array of objects or @path/to/file.json.",
+		})
 		.option("intent-indicators", {
 			type: "string",
 			array: true,
@@ -74,6 +84,11 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			type: "number",
 			description: "The priority field",
 			default: 0,
+		})
+		.option("query-branches", {
+			type: "string",
+			description:
+				"Event List `searchBranches`: filters within a branch are ANDed, branches are ORed. Provide as a JSON array of arrays or @path/to/file.json.",
 		})
 		.option("query-version", {
 			type: "number",
@@ -132,17 +147,34 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			return true;
 		})
 		.check((argv) => {
-			const groupSet = ["intent-indicators", "intent-unsupported-terms"].some(
-				(k) => argv[k] !== undefined
-			);
+			const groupSet = [
+				"intent-clauses",
+				"intent-indicators",
+				"intent-unsupported-terms",
+			].some((k) => argv[k] !== undefined);
 			if (groupSet) {
 				const missing = [
+					"intent-clauses",
 					"intent-indicators",
 					"intent-unsupported-terms",
 				].filter((k) => argv[k] === undefined);
 				if (missing.length > 0) {
 					throw new Error(
 						`${missing.map((m) => "--" + m).join(", ")} ${missing.length === 1 ? "is" : "are"} required when any --intent-* flag is set`
+					);
+				}
+			}
+			return true;
+		})
+		.check((argv) => {
+			const groupSet = ["query-branches", "query-version"].some(
+				(k) => argv[k] !== undefined
+			);
+			if (groupSet) {
+				const missing = ["query-branches"].filter((k) => argv[k] === undefined);
+				if (missing.length > 0) {
+					throw new Error(
+						`${missing.map((m) => "--" + m).join(", ")} ${missing.length === 1 ? "is" : "are"} required when any --query-* flag is set`
 					);
 				}
 			}
@@ -190,6 +222,10 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 										},
 										digest_interval_hours: argv["digest-interval-hours"],
 										intent: {
+											clauses: parseObjectArray(
+												argv["intent-clauses"],
+												"intent-clauses"
+											),
 											indicators: argv["intent-indicators"],
 											unsupported_terms: argv["intent-unsupported-terms"],
 										},
@@ -202,6 +238,10 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 										notification_mode: argv["notification-mode"],
 										priority: argv["priority"],
 										query: {
+											branches: parseNestedArray(
+												argv["query-branches"],
+												"query-branches"
+											),
 											version: argv["query-version"],
 										},
 										query_source: argv["query-source"],
@@ -252,6 +292,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					},
 					digest_interval_hours: argv["digest-interval-hours"],
 					intent: {
+						clauses: parseObjectArray(argv["intent-clauses"], "intent-clauses"),
 						indicators: argv["intent-indicators"],
 						unsupported_terms: argv["intent-unsupported-terms"],
 					},
@@ -264,6 +305,10 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					notification_mode: argv["notification-mode"],
 					priority: argv["priority"],
 					query: {
+						branches: parseNestedArray(
+							argv["query-branches"],
+							"query-branches"
+						),
 						version: argv["query-version"],
 					},
 					query_source: argv["query-source"],

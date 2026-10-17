@@ -1,0 +1,953 @@
+[
+  {
+    "case": "no-args",
+    "argv": [
+      "zero-trust",
+      "dlp",
+      "profiles",
+      "predefined",
+      "update"
+    ],
+    "exitCode": 1,
+    "error": "Not enough non-option arguments: got 0, need at least 1",
+    "requests": []
+  },
+  {
+    "case": "required",
+    "argv": [
+      "zero-trust",
+      "dlp",
+      "profiles",
+      "predefined",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/dlp/profiles/predefined/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --ai-context-enabled",
+    "argv": [
+      "zero-trust",
+      "dlp",
+      "profiles",
+      "predefined",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--ai-context-enabled=true"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/dlp/profiles/predefined/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "27",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "ai_context_enabled": true
+        }
+      }
+    ]
+  },
+  {
+    "case": "--ai-context-enabled value 1",
+    "argv": [
+      "zero-trust",
+      "dlp",
+      "profiles",
+      "predefined",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--ai-context-enabled=false"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/dlp/profiles/predefined/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "28",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "ai_context_enabled": false
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --allowed-match-count",
+    "argv": [
+      "zero-trust",
+      "dlp",
+      "profiles",
+      "predefined",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--allowed-match-count",
+      "1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/dlp/profiles/predefined/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "25",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "allowed_match_count": 1
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --confidence-threshold",
+    "argv": [
+      "zero-trust",
+      "dlp",
+      "profiles",
+      "predefined",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--confidence-threshold",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/dlp/profiles/predefined/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "50",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "confidence_threshold": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --context-awareness-enabled",
+    "argv": [
+      "zero-trust",
+      "dlp",
+      "profiles",
+      "predefined",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--context-awareness-enabled=true"
+    ],
+    "exitCode": 1,
+    "error": "--context-awareness-skip-files is required when any --context_awareness-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "--context-awareness-enabled value 1",
+    "argv": [
+      "zero-trust",
+      "dlp",
+      "profiles",
+      "predefined",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--context-awareness-enabled=false"
+    ],
+    "exitCode": 1,
+    "error": "--context-awareness-skip-files is required when any --context_awareness-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "only --context-awareness-skip-files",
+    "argv": [
+      "zero-trust",
+      "dlp",
+      "profiles",
+      "predefined",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--context-awareness-skip-files=true"
+    ],
+    "exitCode": 1,
+    "error": "--context-awareness-enabled is required when any --context_awareness-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "--context-awareness-skip-files value 1",
+    "argv": [
+      "zero-trust",
+      "dlp",
+      "profiles",
+      "predefined",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--context-awareness-skip-files=false"
+    ],
+    "exitCode": 1,
+    "error": "--context-awareness-enabled is required when any --context_awareness-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "only --entries",
+    "argv": [
+      "zero-trust",
+      "dlp",
+      "profiles",
+      "predefined",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--entries",
+      "[{\"regression\":\"item\"}]"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/dlp/profiles/predefined/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "35",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "entries": [
+            {
+              "regression": "item"
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --ocr-enabled",
+    "argv": [
+      "zero-trust",
+      "dlp",
+      "profiles",
+      "predefined",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--ocr-enabled=true"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/dlp/profiles/predefined/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "20",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "ocr_enabled": true
+        }
+      }
+    ]
+  },
+  {
+    "case": "--ocr-enabled value 1",
+    "argv": [
+      "zero-trust",
+      "dlp",
+      "profiles",
+      "predefined",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--ocr-enabled=false"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/dlp/profiles/predefined/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "21",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "ocr_enabled": false
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 0",
+    "argv": [
+      "zero-trust",
+      "dlp",
+      "profiles",
+      "predefined",
+      "update",
+      "0123456789abcdef0123456789abcdef"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/dlp/profiles/predefined/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "2",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {}
+      }
+    ]
+  },
+  {
+    "case": "pairwise 1",
+    "argv": [
+      "zero-trust",
+      "dlp",
+      "profiles",
+      "predefined",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--ai-context-enabled=false",
+      "--allowed-match-count",
+      "2",
+      "--confidence-threshold",
+      "second value &/?+ü",
+      "--context-awareness-enabled=false",
+      "--context-awareness-skip-files=false",
+      "--entries",
+      "[{\"regression\":\"item\"}]",
+      "--ocr-enabled=false"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/dlp/profiles/predefined/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "212",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "ai_context_enabled": false,
+          "allowed_match_count": 2,
+          "confidence_threshold": "second value &/?+ü",
+          "context_awareness": {
+            "enabled": false,
+            "skip": {
+              "files": false
+            }
+          },
+          "entries": [
+            {
+              "regression": "item"
+            }
+          ],
+          "ocr_enabled": false
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 2",
+    "argv": [
+      "zero-trust",
+      "dlp",
+      "profiles",
+      "predefined",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--allowed-match-count",
+      "1",
+      "--context-awareness-enabled=true",
+      "--entries",
+      "[{\"regression\":\"item\"}]"
+    ],
+    "exitCode": 1,
+    "error": "--context-awareness-skip-files is required when any --context_awareness-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "pairwise 3",
+    "argv": [
+      "zero-trust",
+      "dlp",
+      "profiles",
+      "predefined",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--ai-context-enabled=false",
+      "--confidence-threshold",
+      "second value &/?+ü",
+      "--context-awareness-skip-files=false",
+      "--ocr-enabled=false"
+    ],
+    "exitCode": 1,
+    "error": "--context-awareness-enabled is required when any --context_awareness-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "pairwise 4",
+    "argv": [
+      "zero-trust",
+      "dlp",
+      "profiles",
+      "predefined",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--confidence-threshold",
+      "regression value &/?+ü",
+      "--context-awareness-enabled=true",
+      "--ocr-enabled=true"
+    ],
+    "exitCode": 1,
+    "error": "--context-awareness-skip-files is required when any --context_awareness-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "pairwise 5",
+    "argv": [
+      "zero-trust",
+      "dlp",
+      "profiles",
+      "predefined",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--ai-context-enabled=false",
+      "--allowed-match-count",
+      "2",
+      "--context-awareness-skip-files=false",
+      "--entries",
+      "[{\"regression\":\"item\"}]"
+    ],
+    "exitCode": 1,
+    "error": "--context-awareness-enabled is required when any --context_awareness-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "pairwise 6",
+    "argv": [
+      "zero-trust",
+      "dlp",
+      "profiles",
+      "predefined",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--context-awareness-skip-files=true",
+      "--entries",
+      "[{\"regression\":\"item\"}]",
+      "--ocr-enabled=true"
+    ],
+    "exitCode": 1,
+    "error": "--context-awareness-enabled is required when any --context_awareness-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "pairwise 7",
+    "argv": [
+      "zero-trust",
+      "dlp",
+      "profiles",
+      "predefined",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--ai-context-enabled=false",
+      "--allowed-match-count",
+      "2",
+      "--confidence-threshold",
+      "second value &/?+ü",
+      "--context-awareness-enabled=false"
+    ],
+    "exitCode": 1,
+    "error": "--context-awareness-skip-files is required when any --context_awareness-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "global quiet",
+    "argv": [
+      "zero-trust",
+      "dlp",
+      "profiles",
+      "predefined",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--quiet"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/dlp/profiles/predefined/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "global zone",
+    "argv": [
+      "zero-trust",
+      "dlp",
+      "profiles",
+      "predefined",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--zone",
+      "abcdef0123456789abcdef0123456789"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/dlp/profiles/predefined/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "global profile and mode",
+    "argv": [
+      "zero-trust",
+      "dlp",
+      "profiles",
+      "predefined",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--profile",
+      "default",
+      "--mode",
+      "regression"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/dlp/profiles/predefined/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "local",
+    "argv": [
+      "zero-trust",
+      "dlp",
+      "profiles",
+      "predefined",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--local"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "http://localhost/cdn-cgi/local/explorer/api/dlp/profiles/predefined/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "gzip, deflate",
+          "accept-language": "*",
+          "connection": "keep-alive",
+          "content-type": "application/json",
+          "host": "localhost",
+          "sec-fetch-mode": "cors",
+          "transfer-encoding": "chunked",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "local with persistence",
+    "argv": [
+      "zero-trust",
+      "dlp",
+      "profiles",
+      "predefined",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--local",
+      "--persist-to",
+      "regression-state"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "http://localhost/cdn-cgi/local/explorer/api/dlp/profiles/predefined/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "gzip, deflate",
+          "accept-language": "*",
+          "connection": "keep-alive",
+          "content-type": "application/json",
+          "host": "localhost",
+          "sec-fetch-mode": "cors",
+          "transfer-encoding": "chunked",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "dry-run",
+    "argv": [
+      "zero-trust",
+      "dlp",
+      "profiles",
+      "predefined",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--dry-run"
+    ],
+    "exitCode": 0,
+    "requests": []
+  },
+  {
+    "case": "body from file",
+    "argv": [
+      "zero-trust",
+      "dlp",
+      "profiles",
+      "predefined",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--body",
+      "@<body.json>"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/dlp/profiles/predefined/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "array body",
+    "argv": [
+      "zero-trust",
+      "dlp",
+      "profiles",
+      "predefined",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--body",
+      "[{\"regression\":\"first\"},{\"regression\":\"second\"}]"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/dlp/profiles/predefined/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "56",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "0": {
+            "regression": "first"
+          },
+          "1": {
+            "regression": "second"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "field flags",
+    "argv": [
+      "zero-trust",
+      "dlp",
+      "profiles",
+      "predefined",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--ai-context-enabled=true",
+      "--allowed-match-count",
+      "1",
+      "--confidence-threshold",
+      "regression value &/?+ü",
+      "--context-awareness-enabled=true",
+      "--context-awareness-skip-files=true",
+      "--entries",
+      "[{\"regression\":\"item\"}]",
+      "--ocr-enabled=true"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/dlp/profiles/predefined/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "212",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "ai_context_enabled": true,
+          "allowed_match_count": 1,
+          "confidence_threshold": "regression value &/?+ü",
+          "context_awareness": {
+            "enabled": true,
+            "skip": {
+              "files": true
+            }
+          },
+          "entries": [
+            {
+              "regression": "item"
+            }
+          ],
+          "ocr_enabled": true
+        }
+      }
+    ]
+  }
+]

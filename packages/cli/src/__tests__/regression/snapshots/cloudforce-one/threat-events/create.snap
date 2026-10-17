@@ -1,0 +1,1909 @@
+[
+  {
+    "case": "no-args",
+    "argv": [
+      "cloudforce-one",
+      "threat-events",
+      "create"
+    ],
+    "exitCode": 1,
+    "error": "Not enough non-option arguments: got 0, need at least 1",
+    "requests": []
+  },
+  {
+    "case": "required",
+    "argv": [
+      "cloudforce-one",
+      "threat-events",
+      "create",
+      "regression value &/?+ü",
+      "--category",
+      "regression value &/?+ü",
+      "--date",
+      "2026-01-02T03:04:05Z",
+      "--event",
+      "regression value &/?+ü",
+      "--tlp",
+      "regression value &/?+ü",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/regression%20value%20%26%2F%3F%2B%C3%BC/cloudforce-one/events/create",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --account-id-body",
+    "argv": [
+      "cloudforce-one",
+      "threat-events",
+      "create",
+      "regression value &/?+ü",
+      "--category",
+      "regression value &/?+ü",
+      "--date",
+      "2026-01-02T03:04:05Z",
+      "--event",
+      "regression value &/?+ü",
+      "--tlp",
+      "regression value &/?+ü",
+      "--account-id-body",
+      "1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/regression%20value%20%26%2F%3F%2B%C3%BC/cloudforce-one/events/create",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "148",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "accountId": 1,
+          "category": "regression value &/?+ü",
+          "date": "2026-01-02T03:04:05Z",
+          "event": "regression value &/?+ü",
+          "tlp": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --attacker",
+    "argv": [
+      "cloudforce-one",
+      "threat-events",
+      "create",
+      "regression value &/?+ü",
+      "--category",
+      "regression value &/?+ü",
+      "--date",
+      "2026-01-02T03:04:05Z",
+      "--event",
+      "regression value &/?+ü",
+      "--tlp",
+      "regression value &/?+ü",
+      "--attacker",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/regression%20value%20%26%2F%3F%2B%C3%BC/cloudforce-one/events/create",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "171",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "attacker": "regression value &/?+ü",
+          "category": "regression value &/?+ü",
+          "date": "2026-01-02T03:04:05Z",
+          "event": "regression value &/?+ü",
+          "tlp": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --attacker-country",
+    "argv": [
+      "cloudforce-one",
+      "threat-events",
+      "create",
+      "regression value &/?+ü",
+      "--category",
+      "regression value &/?+ü",
+      "--date",
+      "2026-01-02T03:04:05Z",
+      "--event",
+      "regression value &/?+ü",
+      "--tlp",
+      "regression value &/?+ü",
+      "--attacker-country",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/regression%20value%20%26%2F%3F%2B%C3%BC/cloudforce-one/events/create",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "178",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "attackerCountry": "regression value &/?+ü",
+          "category": "regression value &/?+ü",
+          "date": "2026-01-02T03:04:05Z",
+          "event": "regression value &/?+ü",
+          "tlp": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --dataset-id",
+    "argv": [
+      "cloudforce-one",
+      "threat-events",
+      "create",
+      "regression value &/?+ü",
+      "--category",
+      "regression value &/?+ü",
+      "--date",
+      "2026-01-02T03:04:05Z",
+      "--event",
+      "regression value &/?+ü",
+      "--tlp",
+      "regression value &/?+ü",
+      "--dataset-id",
+      "0123456789abcdef0123456789abcdef"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/regression%20value%20%26%2F%3F%2B%C3%BC/cloudforce-one/events/create",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "181",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "category": "regression value &/?+ü",
+          "datasetId": "0123456789abcdef0123456789abcdef",
+          "date": "2026-01-02T03:04:05Z",
+          "event": "regression value &/?+ü",
+          "tlp": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --indicator",
+    "argv": [
+      "cloudforce-one",
+      "threat-events",
+      "create",
+      "regression value &/?+ü",
+      "--category",
+      "regression value &/?+ü",
+      "--date",
+      "2026-01-02T03:04:05Z",
+      "--event",
+      "regression value &/?+ü",
+      "--tlp",
+      "regression value &/?+ü",
+      "--indicator",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/regression%20value%20%26%2F%3F%2B%C3%BC/cloudforce-one/events/create",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "172",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "category": "regression value &/?+ü",
+          "date": "2026-01-02T03:04:05Z",
+          "event": "regression value &/?+ü",
+          "indicator": "regression value &/?+ü",
+          "tlp": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --indicator-type",
+    "argv": [
+      "cloudforce-one",
+      "threat-events",
+      "create",
+      "regression value &/?+ü",
+      "--category",
+      "regression value &/?+ü",
+      "--date",
+      "2026-01-02T03:04:05Z",
+      "--event",
+      "regression value &/?+ü",
+      "--tlp",
+      "regression value &/?+ü",
+      "--indicator-type",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/regression%20value%20%26%2F%3F%2B%C3%BC/cloudforce-one/events/create",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "176",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "category": "regression value &/?+ü",
+          "date": "2026-01-02T03:04:05Z",
+          "event": "regression value &/?+ü",
+          "indicatorType": "regression value &/?+ü",
+          "tlp": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --indicators",
+    "argv": [
+      "cloudforce-one",
+      "threat-events",
+      "create",
+      "regression value &/?+ü",
+      "--category",
+      "regression value &/?+ü",
+      "--date",
+      "2026-01-02T03:04:05Z",
+      "--event",
+      "regression value &/?+ü",
+      "--tlp",
+      "regression value &/?+ü",
+      "--indicators",
+      "[{\"regression\":\"item\"}]"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/regression%20value%20%26%2F%3F%2B%C3%BC/cloudforce-one/events/create",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "171",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "category": "regression value &/?+ü",
+          "date": "2026-01-02T03:04:05Z",
+          "event": "regression value &/?+ü",
+          "indicators": [
+            {
+              "regression": "item"
+            }
+          ],
+          "tlp": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --insight",
+    "argv": [
+      "cloudforce-one",
+      "threat-events",
+      "create",
+      "regression value &/?+ü",
+      "--category",
+      "regression value &/?+ü",
+      "--date",
+      "2026-01-02T03:04:05Z",
+      "--event",
+      "regression value &/?+ü",
+      "--tlp",
+      "regression value &/?+ü",
+      "--insight",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/regression%20value%20%26%2F%3F%2B%C3%BC/cloudforce-one/events/create",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "170",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "category": "regression value &/?+ü",
+          "date": "2026-01-02T03:04:05Z",
+          "event": "regression value &/?+ü",
+          "insight": "regression value &/?+ü",
+          "tlp": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --raw-source",
+    "argv": [
+      "cloudforce-one",
+      "threat-events",
+      "create",
+      "regression value &/?+ü",
+      "--category",
+      "regression value &/?+ü",
+      "--date",
+      "2026-01-02T03:04:05Z",
+      "--event",
+      "regression value &/?+ü",
+      "--tlp",
+      "regression value &/?+ü",
+      "--raw-source",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/regression%20value%20%26%2F%3F%2B%C3%BC/cloudforce-one/events/create",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "177",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "category": "regression value &/?+ü",
+          "date": "2026-01-02T03:04:05Z",
+          "event": "regression value &/?+ü",
+          "raw": {
+            "source": "regression value &/?+ü"
+          },
+          "tlp": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --raw-tlp",
+    "argv": [
+      "cloudforce-one",
+      "threat-events",
+      "create",
+      "regression value &/?+ü",
+      "--category",
+      "regression value &/?+ü",
+      "--date",
+      "2026-01-02T03:04:05Z",
+      "--event",
+      "regression value &/?+ü",
+      "--tlp",
+      "regression value &/?+ü",
+      "--raw-tlp",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/regression%20value%20%26%2F%3F%2B%C3%BC/cloudforce-one/events/create",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "174",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "category": "regression value &/?+ü",
+          "date": "2026-01-02T03:04:05Z",
+          "event": "regression value &/?+ü",
+          "raw": {
+            "tlp": "regression value &/?+ü"
+          },
+          "tlp": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --source-resource-id",
+    "argv": [
+      "cloudforce-one",
+      "threat-events",
+      "create",
+      "regression value &/?+ü",
+      "--category",
+      "regression value &/?+ü",
+      "--date",
+      "2026-01-02T03:04:05Z",
+      "--event",
+      "regression value &/?+ü",
+      "--tlp",
+      "regression value &/?+ü",
+      "--source-resource-id",
+      "0123456789abcdef0123456789abcdef"
+    ],
+    "exitCode": 1,
+    "error": "--source-resource-type, --source-system are required when any --source-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "only --source-resource-type",
+    "argv": [
+      "cloudforce-one",
+      "threat-events",
+      "create",
+      "regression value &/?+ü",
+      "--category",
+      "regression value &/?+ü",
+      "--date",
+      "2026-01-02T03:04:05Z",
+      "--event",
+      "regression value &/?+ü",
+      "--tlp",
+      "regression value &/?+ü",
+      "--source-resource-type",
+      "article"
+    ],
+    "exitCode": 1,
+    "error": "--source-resource-id, --source-system are required when any --source-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "only --source-system",
+    "argv": [
+      "cloudforce-one",
+      "threat-events",
+      "create",
+      "regression value &/?+ü",
+      "--category",
+      "regression value &/?+ü",
+      "--date",
+      "2026-01-02T03:04:05Z",
+      "--event",
+      "regression value &/?+ü",
+      "--tlp",
+      "regression value &/?+ü",
+      "--source-system",
+      "threat-signals"
+    ],
+    "exitCode": 1,
+    "error": "--source-resource-id, --source-resource-type are required when any --source-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "only --source-title",
+    "argv": [
+      "cloudforce-one",
+      "threat-events",
+      "create",
+      "regression value &/?+ü",
+      "--category",
+      "regression value &/?+ü",
+      "--date",
+      "2026-01-02T03:04:05Z",
+      "--event",
+      "regression value &/?+ü",
+      "--tlp",
+      "regression value &/?+ü",
+      "--source-title",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 1,
+    "error": "--source-resource-id, --source-resource-type, --source-system are required when any --source-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "only --tags",
+    "argv": [
+      "cloudforce-one",
+      "threat-events",
+      "create",
+      "regression value &/?+ü",
+      "--category",
+      "regression value &/?+ü",
+      "--date",
+      "2026-01-02T03:04:05Z",
+      "--event",
+      "regression value &/?+ü",
+      "--tlp",
+      "regression value &/?+ü",
+      "--tags",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/regression%20value%20%26%2F%3F%2B%C3%BC/cloudforce-one/events/create",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "169",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "category": "regression value &/?+ü",
+          "date": "2026-01-02T03:04:05Z",
+          "event": "regression value &/?+ü",
+          "tags": [
+            "regression value &/?+ü"
+          ],
+          "tlp": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --target-country",
+    "argv": [
+      "cloudforce-one",
+      "threat-events",
+      "create",
+      "regression value &/?+ü",
+      "--category",
+      "regression value &/?+ü",
+      "--date",
+      "2026-01-02T03:04:05Z",
+      "--event",
+      "regression value &/?+ü",
+      "--tlp",
+      "regression value &/?+ü",
+      "--target-country",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/regression%20value%20%26%2F%3F%2B%C3%BC/cloudforce-one/events/create",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "176",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "category": "regression value &/?+ü",
+          "date": "2026-01-02T03:04:05Z",
+          "event": "regression value &/?+ü",
+          "targetCountry": "regression value &/?+ü",
+          "tlp": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --target-industry",
+    "argv": [
+      "cloudforce-one",
+      "threat-events",
+      "create",
+      "regression value &/?+ü",
+      "--category",
+      "regression value &/?+ü",
+      "--date",
+      "2026-01-02T03:04:05Z",
+      "--event",
+      "regression value &/?+ü",
+      "--tlp",
+      "regression value &/?+ü",
+      "--target-industry",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/regression%20value%20%26%2F%3F%2B%C3%BC/cloudforce-one/events/create",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "177",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "category": "regression value &/?+ü",
+          "date": "2026-01-02T03:04:05Z",
+          "event": "regression value &/?+ü",
+          "targetIndustry": "regression value &/?+ü",
+          "tlp": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 0",
+    "argv": [
+      "cloudforce-one",
+      "threat-events",
+      "create",
+      "regression value &/?+ü",
+      "--category",
+      "regression value &/?+ü",
+      "--date",
+      "2026-01-02T03:04:05Z",
+      "--event",
+      "regression value &/?+ü",
+      "--tlp",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/regression%20value%20%26%2F%3F%2B%C3%BC/cloudforce-one/events/create",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "134",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "category": "regression value &/?+ü",
+          "date": "2026-01-02T03:04:05Z",
+          "event": "regression value &/?+ü",
+          "tlp": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 1",
+    "argv": [
+      "cloudforce-one",
+      "threat-events",
+      "create",
+      "regression value &/?+ü",
+      "--category",
+      "regression value &/?+ü",
+      "--date",
+      "2026-01-02T03:04:05Z",
+      "--event",
+      "regression value &/?+ü",
+      "--tlp",
+      "regression value &/?+ü",
+      "--account-id-body",
+      "2",
+      "--attacker",
+      "second value &/?+ü",
+      "--attacker-country",
+      "second value &/?+ü",
+      "--dataset-id",
+      "0123456789abcdef0123456789abcdef",
+      "--indicator",
+      "second value &/?+ü",
+      "--indicator-type",
+      "second value &/?+ü",
+      "--indicators",
+      "[{\"regression\":\"item\"}]",
+      "--insight",
+      "second value &/?+ü",
+      "--raw-source",
+      "second value &/?+ü",
+      "--raw-tlp",
+      "second value &/?+ü",
+      "--source-resource-id",
+      "0123456789abcdef0123456789abcdef",
+      "--source-resource-type",
+      "article",
+      "--source-system",
+      "threat-signals",
+      "--source-title",
+      "second value &/?+ü",
+      "--tags",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--target-country",
+      "second value &/?+ü",
+      "--target-industry",
+      "second value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/regression%20value%20%26%2F%3F%2B%C3%BC/cloudforce-one/events/create",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "746",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "accountId": 2,
+          "attacker": "second value &/?+ü",
+          "attackerCountry": "second value &/?+ü",
+          "category": "regression value &/?+ü",
+          "datasetId": "0123456789abcdef0123456789abcdef",
+          "date": "2026-01-02T03:04:05Z",
+          "event": "regression value &/?+ü",
+          "indicator": "second value &/?+ü",
+          "indicatorType": "second value &/?+ü",
+          "indicators": [
+            {
+              "regression": "item"
+            }
+          ],
+          "insight": "second value &/?+ü",
+          "raw": {
+            "source": "second value &/?+ü",
+            "tlp": "second value &/?+ü"
+          },
+          "source": {
+            "resourceId": "0123456789abcdef0123456789abcdef",
+            "resourceType": "article",
+            "system": "threat-signals",
+            "title": "second value &/?+ü"
+          },
+          "tags": [
+            "second value &/?+ü",
+            "second value &/?+ü"
+          ],
+          "targetCountry": "second value &/?+ü",
+          "targetIndustry": "second value &/?+ü",
+          "tlp": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 2",
+    "argv": [
+      "cloudforce-one",
+      "threat-events",
+      "create",
+      "regression value &/?+ü",
+      "--category",
+      "regression value &/?+ü",
+      "--date",
+      "2026-01-02T03:04:05Z",
+      "--event",
+      "regression value &/?+ü",
+      "--tlp",
+      "regression value &/?+ü",
+      "--attacker",
+      "regression value &/?+ü",
+      "--dataset-id",
+      "0123456789abcdef0123456789abcdef",
+      "--indicator-type",
+      "regression value &/?+ü",
+      "--insight",
+      "regression value &/?+ü",
+      "--raw-tlp",
+      "regression value &/?+ü",
+      "--source-resource-type",
+      "article",
+      "--source-title",
+      "regression value &/?+ü",
+      "--target-country",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 1,
+    "error": "--source-resource-id, --source-system are required when any --source-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "pairwise 3",
+    "argv": [
+      "cloudforce-one",
+      "threat-events",
+      "create",
+      "regression value &/?+ü",
+      "--category",
+      "regression value &/?+ü",
+      "--date",
+      "2026-01-02T03:04:05Z",
+      "--event",
+      "regression value &/?+ü",
+      "--tlp",
+      "regression value &/?+ü",
+      "--account-id-body",
+      "2",
+      "--attacker-country",
+      "second value &/?+ü",
+      "--indicator",
+      "second value &/?+ü",
+      "--indicators",
+      "[{\"regression\":\"item\"}]",
+      "--raw-source",
+      "second value &/?+ü",
+      "--source-resource-id",
+      "0123456789abcdef0123456789abcdef",
+      "--source-system",
+      "threat-signals",
+      "--tags",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--target-industry",
+      "second value &/?+ü"
+    ],
+    "exitCode": 1,
+    "error": "--source-resource-type is required when any --source-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "pairwise 4",
+    "argv": [
+      "cloudforce-one",
+      "threat-events",
+      "create",
+      "regression value &/?+ü",
+      "--category",
+      "regression value &/?+ü",
+      "--date",
+      "2026-01-02T03:04:05Z",
+      "--event",
+      "regression value &/?+ü",
+      "--tlp",
+      "regression value &/?+ü",
+      "--attacker-country",
+      "regression value &/?+ü",
+      "--dataset-id",
+      "0123456789abcdef0123456789abcdef",
+      "--indicators",
+      "[{\"regression\":\"item\"}]",
+      "--insight",
+      "regression value &/?+ü",
+      "--source-resource-id",
+      "0123456789abcdef0123456789abcdef",
+      "--source-resource-type",
+      "article",
+      "--tags",
+      "regression value &/?+ü",
+      "--target-country",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 1,
+    "error": "--source-system is required when any --source-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "pairwise 5",
+    "argv": [
+      "cloudforce-one",
+      "threat-events",
+      "create",
+      "regression value &/?+ü",
+      "--category",
+      "regression value &/?+ü",
+      "--date",
+      "2026-01-02T03:04:05Z",
+      "--event",
+      "regression value &/?+ü",
+      "--tlp",
+      "regression value &/?+ü",
+      "--account-id-body",
+      "2",
+      "--attacker",
+      "second value &/?+ü",
+      "--indicator",
+      "second value &/?+ü",
+      "--indicator-type",
+      "second value &/?+ü",
+      "--raw-source",
+      "second value &/?+ü",
+      "--raw-tlp",
+      "second value &/?+ü",
+      "--source-system",
+      "threat-signals",
+      "--source-title",
+      "second value &/?+ü",
+      "--target-industry",
+      "second value &/?+ü"
+    ],
+    "exitCode": 1,
+    "error": "--source-resource-id, --source-resource-type are required when any --source-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "pairwise 6",
+    "argv": [
+      "cloudforce-one",
+      "threat-events",
+      "create",
+      "regression value &/?+ü",
+      "--category",
+      "regression value &/?+ü",
+      "--date",
+      "2026-01-02T03:04:05Z",
+      "--event",
+      "regression value &/?+ü",
+      "--tlp",
+      "regression value &/?+ü",
+      "--indicator",
+      "regression value &/?+ü",
+      "--indicator-type",
+      "regression value &/?+ü",
+      "--indicators",
+      "[{\"regression\":\"item\"}]",
+      "--insight",
+      "regression value &/?+ü",
+      "--source-system",
+      "threat-signals",
+      "--source-title",
+      "regression value &/?+ü",
+      "--tags",
+      "regression value &/?+ü",
+      "--target-country",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 1,
+    "error": "--source-resource-id, --source-resource-type are required when any --source-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "pairwise 7",
+    "argv": [
+      "cloudforce-one",
+      "threat-events",
+      "create",
+      "regression value &/?+ü",
+      "--category",
+      "regression value &/?+ü",
+      "--date",
+      "2026-01-02T03:04:05Z",
+      "--event",
+      "regression value &/?+ü",
+      "--tlp",
+      "regression value &/?+ü",
+      "--account-id-body",
+      "2",
+      "--attacker",
+      "second value &/?+ü",
+      "--attacker-country",
+      "second value &/?+ü",
+      "--dataset-id",
+      "0123456789abcdef0123456789abcdef",
+      "--raw-source",
+      "second value &/?+ü",
+      "--raw-tlp",
+      "second value &/?+ü",
+      "--source-resource-id",
+      "0123456789abcdef0123456789abcdef",
+      "--source-resource-type",
+      "article",
+      "--target-industry",
+      "second value &/?+ü"
+    ],
+    "exitCode": 1,
+    "error": "--source-system is required when any --source-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "pairwise 8",
+    "argv": [
+      "cloudforce-one",
+      "threat-events",
+      "create",
+      "regression value &/?+ü",
+      "--category",
+      "regression value &/?+ü",
+      "--date",
+      "2026-01-02T03:04:05Z",
+      "--event",
+      "regression value &/?+ü",
+      "--tlp",
+      "regression value &/?+ü",
+      "--raw-source",
+      "regression value &/?+ü",
+      "--raw-tlp",
+      "regression value &/?+ü",
+      "--source-resource-id",
+      "0123456789abcdef0123456789abcdef",
+      "--source-resource-type",
+      "article",
+      "--source-system",
+      "threat-signals",
+      "--source-title",
+      "regression value &/?+ü",
+      "--tags",
+      "regression value &/?+ü",
+      "--target-country",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/regression%20value%20%26%2F%3F%2B%C3%BC/cloudforce-one/events/create",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "430",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "category": "regression value &/?+ü",
+          "date": "2026-01-02T03:04:05Z",
+          "event": "regression value &/?+ü",
+          "raw": {
+            "source": "regression value &/?+ü",
+            "tlp": "regression value &/?+ü"
+          },
+          "source": {
+            "resourceId": "0123456789abcdef0123456789abcdef",
+            "resourceType": "article",
+            "system": "threat-signals",
+            "title": "regression value &/?+ü"
+          },
+          "tags": [
+            "regression value &/?+ü"
+          ],
+          "targetCountry": "regression value &/?+ü",
+          "tlp": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 9",
+    "argv": [
+      "cloudforce-one",
+      "threat-events",
+      "create",
+      "regression value &/?+ü",
+      "--category",
+      "regression value &/?+ü",
+      "--date",
+      "2026-01-02T03:04:05Z",
+      "--event",
+      "regression value &/?+ü",
+      "--tlp",
+      "regression value &/?+ü",
+      "--account-id-body",
+      "2",
+      "--attacker",
+      "second value &/?+ü",
+      "--attacker-country",
+      "second value &/?+ü",
+      "--dataset-id",
+      "0123456789abcdef0123456789abcdef",
+      "--indicator",
+      "second value &/?+ü",
+      "--indicator-type",
+      "second value &/?+ü",
+      "--indicators",
+      "[{\"regression\":\"item\"}]",
+      "--insight",
+      "second value &/?+ü",
+      "--target-industry",
+      "second value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/regression%20value%20%26%2F%3F%2B%C3%BC/cloudforce-one/events/create",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "448",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "accountId": 2,
+          "attacker": "second value &/?+ü",
+          "attackerCountry": "second value &/?+ü",
+          "category": "regression value &/?+ü",
+          "datasetId": "0123456789abcdef0123456789abcdef",
+          "date": "2026-01-02T03:04:05Z",
+          "event": "regression value &/?+ü",
+          "indicator": "second value &/?+ü",
+          "indicatorType": "second value &/?+ü",
+          "indicators": [
+            {
+              "regression": "item"
+            }
+          ],
+          "insight": "second value &/?+ü",
+          "targetIndustry": "second value &/?+ü",
+          "tlp": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 11",
+    "argv": [
+      "cloudforce-one",
+      "threat-events",
+      "create",
+      "regression value &/?+ü",
+      "--category",
+      "regression value &/?+ü",
+      "--date",
+      "2026-01-02T03:04:05Z",
+      "--event",
+      "regression value &/?+ü",
+      "--tlp",
+      "regression value &/?+ü",
+      "--account-id-body",
+      "2",
+      "--attacker",
+      "second value &/?+ü",
+      "--attacker-country",
+      "second value &/?+ü",
+      "--dataset-id",
+      "0123456789abcdef0123456789abcdef",
+      "--indicator",
+      "second value &/?+ü",
+      "--indicator-type",
+      "second value &/?+ü",
+      "--indicators",
+      "[{\"regression\":\"item\"}]",
+      "--insight",
+      "second value &/?+ü",
+      "--raw-source",
+      "second value &/?+ü",
+      "--raw-tlp",
+      "second value &/?+ü",
+      "--source-resource-id",
+      "0123456789abcdef0123456789abcdef",
+      "--source-resource-type",
+      "article",
+      "--source-system",
+      "threat-signals",
+      "--source-title",
+      "second value &/?+ü",
+      "--tags",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--target-country",
+      "second value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/regression%20value%20%26%2F%3F%2B%C3%BC/cloudforce-one/events/create",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "707",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "accountId": 2,
+          "attacker": "second value &/?+ü",
+          "attackerCountry": "second value &/?+ü",
+          "category": "regression value &/?+ü",
+          "datasetId": "0123456789abcdef0123456789abcdef",
+          "date": "2026-01-02T03:04:05Z",
+          "event": "regression value &/?+ü",
+          "indicator": "second value &/?+ü",
+          "indicatorType": "second value &/?+ü",
+          "indicators": [
+            {
+              "regression": "item"
+            }
+          ],
+          "insight": "second value &/?+ü",
+          "raw": {
+            "source": "second value &/?+ü",
+            "tlp": "second value &/?+ü"
+          },
+          "source": {
+            "resourceId": "0123456789abcdef0123456789abcdef",
+            "resourceType": "article",
+            "system": "threat-signals",
+            "title": "second value &/?+ü"
+          },
+          "tags": [
+            "second value &/?+ü",
+            "second value &/?+ü"
+          ],
+          "targetCountry": "second value &/?+ü",
+          "tlp": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "global quiet",
+    "argv": [
+      "cloudforce-one",
+      "threat-events",
+      "create",
+      "regression value &/?+ü",
+      "--category",
+      "regression value &/?+ü",
+      "--date",
+      "2026-01-02T03:04:05Z",
+      "--event",
+      "regression value &/?+ü",
+      "--tlp",
+      "regression value &/?+ü",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--quiet"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/regression%20value%20%26%2F%3F%2B%C3%BC/cloudforce-one/events/create",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "global zone",
+    "argv": [
+      "cloudforce-one",
+      "threat-events",
+      "create",
+      "regression value &/?+ü",
+      "--category",
+      "regression value &/?+ü",
+      "--date",
+      "2026-01-02T03:04:05Z",
+      "--event",
+      "regression value &/?+ü",
+      "--tlp",
+      "regression value &/?+ü",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--zone",
+      "abcdef0123456789abcdef0123456789"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/regression%20value%20%26%2F%3F%2B%C3%BC/cloudforce-one/events/create",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "global profile and mode",
+    "argv": [
+      "cloudforce-one",
+      "threat-events",
+      "create",
+      "regression value &/?+ü",
+      "--category",
+      "regression value &/?+ü",
+      "--date",
+      "2026-01-02T03:04:05Z",
+      "--event",
+      "regression value &/?+ü",
+      "--tlp",
+      "regression value &/?+ü",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--profile",
+      "default",
+      "--mode",
+      "regression"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/regression%20value%20%26%2F%3F%2B%C3%BC/cloudforce-one/events/create",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "local",
+    "argv": [
+      "cloudforce-one",
+      "threat-events",
+      "create",
+      "regression value &/?+ü",
+      "--category",
+      "regression value &/?+ü",
+      "--date",
+      "2026-01-02T03:04:05Z",
+      "--event",
+      "regression value &/?+ü",
+      "--tlp",
+      "regression value &/?+ü",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--local"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "http://localhost/cdn-cgi/local/explorer/api/cloudforce-one/events/create",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "gzip, deflate",
+          "accept-language": "*",
+          "connection": "keep-alive",
+          "content-type": "application/json",
+          "host": "localhost",
+          "sec-fetch-mode": "cors",
+          "transfer-encoding": "chunked",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "local with persistence",
+    "argv": [
+      "cloudforce-one",
+      "threat-events",
+      "create",
+      "regression value &/?+ü",
+      "--category",
+      "regression value &/?+ü",
+      "--date",
+      "2026-01-02T03:04:05Z",
+      "--event",
+      "regression value &/?+ü",
+      "--tlp",
+      "regression value &/?+ü",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--local",
+      "--persist-to",
+      "regression-state"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "http://localhost/cdn-cgi/local/explorer/api/cloudforce-one/events/create",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "gzip, deflate",
+          "accept-language": "*",
+          "connection": "keep-alive",
+          "content-type": "application/json",
+          "host": "localhost",
+          "sec-fetch-mode": "cors",
+          "transfer-encoding": "chunked",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "dry-run",
+    "argv": [
+      "cloudforce-one",
+      "threat-events",
+      "create",
+      "regression value &/?+ü",
+      "--category",
+      "regression value &/?+ü",
+      "--date",
+      "2026-01-02T03:04:05Z",
+      "--event",
+      "regression value &/?+ü",
+      "--tlp",
+      "regression value &/?+ü",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--dry-run"
+    ],
+    "exitCode": 0,
+    "requests": []
+  },
+  {
+    "case": "body from file",
+    "argv": [
+      "cloudforce-one",
+      "threat-events",
+      "create",
+      "regression value &/?+ü",
+      "--category",
+      "regression value &/?+ü",
+      "--date",
+      "2026-01-02T03:04:05Z",
+      "--event",
+      "regression value &/?+ü",
+      "--tlp",
+      "regression value &/?+ü",
+      "--body",
+      "@<body.json>"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/regression%20value%20%26%2F%3F%2B%C3%BC/cloudforce-one/events/create",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "array body",
+    "argv": [
+      "cloudforce-one",
+      "threat-events",
+      "create",
+      "regression value &/?+ü",
+      "--category",
+      "regression value &/?+ü",
+      "--date",
+      "2026-01-02T03:04:05Z",
+      "--event",
+      "regression value &/?+ü",
+      "--tlp",
+      "regression value &/?+ü",
+      "--body",
+      "[{\"regression\":\"first\"},{\"regression\":\"second\"}]"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/regression%20value%20%26%2F%3F%2B%C3%BC/cloudforce-one/events/create",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "56",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "0": {
+            "regression": "first"
+          },
+          "1": {
+            "regression": "second"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "field flags",
+    "argv": [
+      "cloudforce-one",
+      "threat-events",
+      "create",
+      "regression value &/?+ü",
+      "--category",
+      "regression value &/?+ü",
+      "--date",
+      "2026-01-02T03:04:05Z",
+      "--event",
+      "regression value &/?+ü",
+      "--tlp",
+      "regression value &/?+ü",
+      "--account-id-body",
+      "1",
+      "--attacker",
+      "regression value &/?+ü",
+      "--attacker-country",
+      "regression value &/?+ü",
+      "--dataset-id",
+      "0123456789abcdef0123456789abcdef",
+      "--indicator",
+      "regression value &/?+ü",
+      "--indicator-type",
+      "regression value &/?+ü",
+      "--indicators",
+      "[{\"regression\":\"item\"}]",
+      "--insight",
+      "regression value &/?+ü",
+      "--raw-source",
+      "regression value &/?+ü",
+      "--raw-tlp",
+      "regression value &/?+ü",
+      "--source-resource-id",
+      "0123456789abcdef0123456789abcdef",
+      "--source-resource-type",
+      "article",
+      "--source-system",
+      "threat-signals",
+      "--source-title",
+      "regression value &/?+ü",
+      "--tags",
+      "regression value &/?+ü",
+      "--target-country",
+      "regression value &/?+ü",
+      "--target-industry",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/regression%20value%20%26%2F%3F%2B%C3%BC/cloudforce-one/events/create",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "768",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "accountId": 1,
+          "attacker": "regression value &/?+ü",
+          "attackerCountry": "regression value &/?+ü",
+          "category": "regression value &/?+ü",
+          "datasetId": "0123456789abcdef0123456789abcdef",
+          "date": "2026-01-02T03:04:05Z",
+          "event": "regression value &/?+ü",
+          "indicator": "regression value &/?+ü",
+          "indicatorType": "regression value &/?+ü",
+          "indicators": [
+            {
+              "regression": "item"
+            }
+          ],
+          "insight": "regression value &/?+ü",
+          "raw": {
+            "source": "regression value &/?+ü",
+            "tlp": "regression value &/?+ü"
+          },
+          "source": {
+            "resourceId": "0123456789abcdef0123456789abcdef",
+            "resourceType": "article",
+            "system": "threat-signals",
+            "title": "regression value &/?+ü"
+          },
+          "tags": [
+            "regression value &/?+ü"
+          ],
+          "targetCountry": "regression value &/?+ü",
+          "targetIndustry": "regression value &/?+ü",
+          "tlp": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "alternate <account-id-path>",
+    "argv": [
+      "cloudforce-one",
+      "threat-events",
+      "create",
+      "second value &/?+ü",
+      "--category",
+      "regression value &/?+ü",
+      "--date",
+      "2026-01-02T03:04:05Z",
+      "--event",
+      "regression value &/?+ü",
+      "--tlp",
+      "regression value &/?+ü",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/second%20value%20%26%2F%3F%2B%C3%BC/cloudforce-one/events/create",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  }
+]

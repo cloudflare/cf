@@ -1,0 +1,2451 @@
+[
+  {
+    "case": "no-args",
+    "argv": [
+      "healthchecks",
+      "previews",
+      "create"
+    ],
+    "exitCode": 1,
+    "error": "--address is required. Pass --address <value> or run interactively.",
+    "requests": []
+  },
+  {
+    "case": "required",
+    "argv": [
+      "healthchecks",
+      "previews",
+      "create",
+      "--address",
+      "192.0.2.1",
+      "--name",
+      "regression value &/?+ü",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/healthchecks/preview",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --check-regions",
+    "argv": [
+      "healthchecks",
+      "previews",
+      "create",
+      "--address",
+      "192.0.2.1",
+      "--name",
+      "regression value &/?+ü",
+      "--check-regions",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/healthchecks/preview",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "218",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "address": "192.0.2.1",
+          "check_regions": [
+            "regression value &/?+ü"
+          ],
+          "consecutive_fails": 1,
+          "consecutive_successes": 1,
+          "interval": 60,
+          "name": "regression value &/?+ü",
+          "retries": 2,
+          "suspended": false,
+          "timeout": 5,
+          "type": "HTTP"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --consecutive-fails",
+    "argv": [
+      "healthchecks",
+      "previews",
+      "create",
+      "--address",
+      "192.0.2.1",
+      "--name",
+      "regression value &/?+ü",
+      "--consecutive-fails",
+      "1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/healthchecks/preview",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "174",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "address": "192.0.2.1",
+          "consecutive_fails": 1,
+          "consecutive_successes": 1,
+          "interval": 60,
+          "name": "regression value &/?+ü",
+          "retries": 2,
+          "suspended": false,
+          "timeout": 5,
+          "type": "HTTP"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --consecutive-successes",
+    "argv": [
+      "healthchecks",
+      "previews",
+      "create",
+      "--address",
+      "192.0.2.1",
+      "--name",
+      "regression value &/?+ü",
+      "--consecutive-successes",
+      "1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/healthchecks/preview",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "174",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "address": "192.0.2.1",
+          "consecutive_fails": 1,
+          "consecutive_successes": 1,
+          "interval": 60,
+          "name": "regression value &/?+ü",
+          "retries": 2,
+          "suspended": false,
+          "timeout": 5,
+          "type": "HTTP"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --description",
+    "argv": [
+      "healthchecks",
+      "previews",
+      "create",
+      "--address",
+      "192.0.2.1",
+      "--name",
+      "regression value &/?+ü",
+      "--description",
+      "192.0.2.1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/healthchecks/preview",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "200",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "address": "192.0.2.1",
+          "consecutive_fails": 1,
+          "consecutive_successes": 1,
+          "description": "192.0.2.1",
+          "interval": 60,
+          "name": "regression value &/?+ü",
+          "retries": 2,
+          "suspended": false,
+          "timeout": 5,
+          "type": "HTTP"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --http-config-allow-insecure",
+    "argv": [
+      "healthchecks",
+      "previews",
+      "create",
+      "--address",
+      "192.0.2.1",
+      "--name",
+      "regression value &/?+ü",
+      "--http-config-allow-insecure=true"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/healthchecks/preview",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "212",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "address": "192.0.2.1",
+          "consecutive_fails": 1,
+          "consecutive_successes": 1,
+          "http_config": {
+            "allow_insecure": true
+          },
+          "interval": 60,
+          "name": "regression value &/?+ü",
+          "retries": 2,
+          "suspended": false,
+          "timeout": 5,
+          "type": "HTTP"
+        }
+      }
+    ]
+  },
+  {
+    "case": "--http-config-allow-insecure value 1",
+    "argv": [
+      "healthchecks",
+      "previews",
+      "create",
+      "--address",
+      "192.0.2.1",
+      "--name",
+      "regression value &/?+ü",
+      "--http-config-allow-insecure=false"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/healthchecks/preview",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "213",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "address": "192.0.2.1",
+          "consecutive_fails": 1,
+          "consecutive_successes": 1,
+          "http_config": {
+            "allow_insecure": false
+          },
+          "interval": 60,
+          "name": "regression value &/?+ü",
+          "retries": 2,
+          "suspended": false,
+          "timeout": 5,
+          "type": "HTTP"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --http-config-expected-body",
+    "argv": [
+      "healthchecks",
+      "previews",
+      "create",
+      "--address",
+      "192.0.2.1",
+      "--name",
+      "regression value &/?+ü",
+      "--http-config-expected-body",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/healthchecks/preview",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "232",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "address": "192.0.2.1",
+          "consecutive_fails": 1,
+          "consecutive_successes": 1,
+          "http_config": {
+            "expected_body": "regression value &/?+ü"
+          },
+          "interval": 60,
+          "name": "regression value &/?+ü",
+          "retries": 2,
+          "suspended": false,
+          "timeout": 5,
+          "type": "HTTP"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --http-config-expected-codes",
+    "argv": [
+      "healthchecks",
+      "previews",
+      "create",
+      "--address",
+      "192.0.2.1",
+      "--name",
+      "regression value &/?+ü",
+      "--http-config-expected-codes",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/healthchecks/preview",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "235",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "address": "192.0.2.1",
+          "consecutive_fails": 1,
+          "consecutive_successes": 1,
+          "http_config": {
+            "expected_codes": [
+              "regression value &/?+ü"
+            ]
+          },
+          "interval": 60,
+          "name": "regression value &/?+ü",
+          "retries": 2,
+          "suspended": false,
+          "timeout": 5,
+          "type": "HTTP"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --http-config-follow-redirects",
+    "argv": [
+      "healthchecks",
+      "previews",
+      "create",
+      "--address",
+      "192.0.2.1",
+      "--name",
+      "regression value &/?+ü",
+      "--http-config-follow-redirects=true"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/healthchecks/preview",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "214",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "address": "192.0.2.1",
+          "consecutive_fails": 1,
+          "consecutive_successes": 1,
+          "http_config": {
+            "follow_redirects": true
+          },
+          "interval": 60,
+          "name": "regression value &/?+ü",
+          "retries": 2,
+          "suspended": false,
+          "timeout": 5,
+          "type": "HTTP"
+        }
+      }
+    ]
+  },
+  {
+    "case": "--http-config-follow-redirects value 1",
+    "argv": [
+      "healthchecks",
+      "previews",
+      "create",
+      "--address",
+      "192.0.2.1",
+      "--name",
+      "regression value &/?+ü",
+      "--http-config-follow-redirects=false"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/healthchecks/preview",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "215",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "address": "192.0.2.1",
+          "consecutive_fails": 1,
+          "consecutive_successes": 1,
+          "http_config": {
+            "follow_redirects": false
+          },
+          "interval": 60,
+          "name": "regression value &/?+ü",
+          "retries": 2,
+          "suspended": false,
+          "timeout": 5,
+          "type": "HTTP"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --http-config-method",
+    "argv": [
+      "healthchecks",
+      "previews",
+      "create",
+      "--address",
+      "192.0.2.1",
+      "--name",
+      "regression value &/?+ü",
+      "--http-config-method",
+      "GET"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/healthchecks/preview",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "205",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "address": "192.0.2.1",
+          "consecutive_fails": 1,
+          "consecutive_successes": 1,
+          "http_config": {
+            "method": "GET"
+          },
+          "interval": 60,
+          "name": "regression value &/?+ü",
+          "retries": 2,
+          "suspended": false,
+          "timeout": 5,
+          "type": "HTTP"
+        }
+      }
+    ]
+  },
+  {
+    "case": "--http-config-method value 1",
+    "argv": [
+      "healthchecks",
+      "previews",
+      "create",
+      "--address",
+      "192.0.2.1",
+      "--name",
+      "regression value &/?+ü",
+      "--http-config-method",
+      "HEAD"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/healthchecks/preview",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "206",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "address": "192.0.2.1",
+          "consecutive_fails": 1,
+          "consecutive_successes": 1,
+          "http_config": {
+            "method": "HEAD"
+          },
+          "interval": 60,
+          "name": "regression value &/?+ü",
+          "retries": 2,
+          "suspended": false,
+          "timeout": 5,
+          "type": "HTTP"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --http-config-path",
+    "argv": [
+      "healthchecks",
+      "previews",
+      "create",
+      "--address",
+      "192.0.2.1",
+      "--name",
+      "regression value &/?+ü",
+      "--http-config-path",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/healthchecks/preview",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "223",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "address": "192.0.2.1",
+          "consecutive_fails": 1,
+          "consecutive_successes": 1,
+          "http_config": {
+            "path": "regression value &/?+ü"
+          },
+          "interval": 60,
+          "name": "regression value &/?+ü",
+          "retries": 2,
+          "suspended": false,
+          "timeout": 5,
+          "type": "HTTP"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --http-config-port",
+    "argv": [
+      "healthchecks",
+      "previews",
+      "create",
+      "--address",
+      "192.0.2.1",
+      "--name",
+      "regression value &/?+ü",
+      "--http-config-port",
+      "1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/healthchecks/preview",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "199",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "address": "192.0.2.1",
+          "consecutive_fails": 1,
+          "consecutive_successes": 1,
+          "http_config": {
+            "port": 1
+          },
+          "interval": 60,
+          "name": "regression value &/?+ü",
+          "retries": 2,
+          "suspended": false,
+          "timeout": 5,
+          "type": "HTTP"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --interval",
+    "argv": [
+      "healthchecks",
+      "previews",
+      "create",
+      "--address",
+      "192.0.2.1",
+      "--name",
+      "regression value &/?+ü",
+      "--interval",
+      "1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/healthchecks/preview",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "173",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "address": "192.0.2.1",
+          "consecutive_fails": 1,
+          "consecutive_successes": 1,
+          "interval": 1,
+          "name": "regression value &/?+ü",
+          "retries": 2,
+          "suspended": false,
+          "timeout": 5,
+          "type": "HTTP"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --retries",
+    "argv": [
+      "healthchecks",
+      "previews",
+      "create",
+      "--address",
+      "192.0.2.1",
+      "--name",
+      "regression value &/?+ü",
+      "--retries",
+      "1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/healthchecks/preview",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "174",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "address": "192.0.2.1",
+          "consecutive_fails": 1,
+          "consecutive_successes": 1,
+          "interval": 60,
+          "name": "regression value &/?+ü",
+          "retries": 1,
+          "suspended": false,
+          "timeout": 5,
+          "type": "HTTP"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --suspended",
+    "argv": [
+      "healthchecks",
+      "previews",
+      "create",
+      "--address",
+      "192.0.2.1",
+      "--name",
+      "regression value &/?+ü",
+      "--suspended=true"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/healthchecks/preview",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "173",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "address": "192.0.2.1",
+          "consecutive_fails": 1,
+          "consecutive_successes": 1,
+          "interval": 60,
+          "name": "regression value &/?+ü",
+          "retries": 2,
+          "suspended": true,
+          "timeout": 5,
+          "type": "HTTP"
+        }
+      }
+    ]
+  },
+  {
+    "case": "--suspended value 1",
+    "argv": [
+      "healthchecks",
+      "previews",
+      "create",
+      "--address",
+      "192.0.2.1",
+      "--name",
+      "regression value &/?+ü",
+      "--suspended=false"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/healthchecks/preview",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "174",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "address": "192.0.2.1",
+          "consecutive_fails": 1,
+          "consecutive_successes": 1,
+          "interval": 60,
+          "name": "regression value &/?+ü",
+          "retries": 2,
+          "suspended": false,
+          "timeout": 5,
+          "type": "HTTP"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --tcp-config-method",
+    "argv": [
+      "healthchecks",
+      "previews",
+      "create",
+      "--address",
+      "192.0.2.1",
+      "--name",
+      "regression value &/?+ü",
+      "--tcp-config-method",
+      "connection_established"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/healthchecks/preview",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "223",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "address": "192.0.2.1",
+          "consecutive_fails": 1,
+          "consecutive_successes": 1,
+          "interval": 60,
+          "name": "regression value &/?+ü",
+          "retries": 2,
+          "suspended": false,
+          "tcp_config": {
+            "method": "connection_established"
+          },
+          "timeout": 5,
+          "type": "HTTP"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --tcp-config-port",
+    "argv": [
+      "healthchecks",
+      "previews",
+      "create",
+      "--address",
+      "192.0.2.1",
+      "--name",
+      "regression value &/?+ü",
+      "--tcp-config-port",
+      "1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/healthchecks/preview",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "198",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "address": "192.0.2.1",
+          "consecutive_fails": 1,
+          "consecutive_successes": 1,
+          "interval": 60,
+          "name": "regression value &/?+ü",
+          "retries": 2,
+          "suspended": false,
+          "tcp_config": {
+            "port": 1
+          },
+          "timeout": 5,
+          "type": "HTTP"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --timeout",
+    "argv": [
+      "healthchecks",
+      "previews",
+      "create",
+      "--address",
+      "192.0.2.1",
+      "--name",
+      "regression value &/?+ü",
+      "--timeout",
+      "1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/healthchecks/preview",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "174",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "address": "192.0.2.1",
+          "consecutive_fails": 1,
+          "consecutive_successes": 1,
+          "interval": 60,
+          "name": "regression value &/?+ü",
+          "retries": 2,
+          "suspended": false,
+          "timeout": 1,
+          "type": "HTTP"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --type",
+    "argv": [
+      "healthchecks",
+      "previews",
+      "create",
+      "--address",
+      "192.0.2.1",
+      "--name",
+      "regression value &/?+ü",
+      "--type",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/healthchecks/preview",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "193",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "address": "192.0.2.1",
+          "consecutive_fails": 1,
+          "consecutive_successes": 1,
+          "interval": 60,
+          "name": "regression value &/?+ü",
+          "retries": 2,
+          "suspended": false,
+          "timeout": 5,
+          "type": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 0",
+    "argv": [
+      "healthchecks",
+      "previews",
+      "create",
+      "--address",
+      "192.0.2.1",
+      "--name",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/healthchecks/preview",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "174",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "address": "192.0.2.1",
+          "consecutive_fails": 1,
+          "consecutive_successes": 1,
+          "interval": 60,
+          "name": "regression value &/?+ü",
+          "retries": 2,
+          "suspended": false,
+          "timeout": 5,
+          "type": "HTTP"
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 1",
+    "argv": [
+      "healthchecks",
+      "previews",
+      "create",
+      "--address",
+      "192.0.2.1",
+      "--name",
+      "regression value &/?+ü",
+      "--check-regions",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--consecutive-fails",
+      "2",
+      "--consecutive-successes",
+      "2",
+      "--description",
+      "192.0.2.1",
+      "--http-config-allow-insecure=false",
+      "--http-config-expected-body",
+      "second value &/?+ü",
+      "--http-config-expected-codes",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--http-config-follow-redirects=false",
+      "--http-config-method",
+      "HEAD",
+      "--http-config-path",
+      "second value &/?+ü",
+      "--http-config-port",
+      "2",
+      "--interval",
+      "2",
+      "--retries",
+      "2",
+      "--suspended=false",
+      "--tcp-config-method",
+      "connection_established",
+      "--tcp-config-port",
+      "2",
+      "--timeout",
+      "2",
+      "--type",
+      "second value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/healthchecks/preview",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "553",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "address": "192.0.2.1",
+          "check_regions": [
+            "second value &/?+ü",
+            "second value &/?+ü"
+          ],
+          "consecutive_fails": 2,
+          "consecutive_successes": 2,
+          "description": "192.0.2.1",
+          "http_config": {
+            "allow_insecure": false,
+            "expected_body": "second value &/?+ü",
+            "expected_codes": [
+              "second value &/?+ü",
+              "second value &/?+ü"
+            ],
+            "follow_redirects": false,
+            "method": "HEAD",
+            "path": "second value &/?+ü",
+            "port": 2
+          },
+          "interval": 2,
+          "name": "regression value &/?+ü",
+          "retries": 2,
+          "suspended": false,
+          "tcp_config": {
+            "method": "connection_established",
+            "port": 2
+          },
+          "timeout": 2,
+          "type": "second value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 2",
+    "argv": [
+      "healthchecks",
+      "previews",
+      "create",
+      "--address",
+      "192.0.2.1",
+      "--name",
+      "regression value &/?+ü",
+      "--consecutive-fails",
+      "1",
+      "--description",
+      "192.0.2.1",
+      "--http-config-expected-body",
+      "regression value &/?+ü",
+      "--http-config-follow-redirects=true",
+      "--http-config-path",
+      "regression value &/?+ü",
+      "--interval",
+      "1",
+      "--suspended=true",
+      "--tcp-config-port",
+      "1",
+      "--type",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/healthchecks/preview",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "356",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "address": "192.0.2.1",
+          "consecutive_fails": 1,
+          "consecutive_successes": 1,
+          "description": "192.0.2.1",
+          "http_config": {
+            "expected_body": "regression value &/?+ü",
+            "follow_redirects": true,
+            "path": "regression value &/?+ü"
+          },
+          "interval": 1,
+          "name": "regression value &/?+ü",
+          "retries": 2,
+          "suspended": true,
+          "tcp_config": {
+            "port": 1
+          },
+          "timeout": 5,
+          "type": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 3",
+    "argv": [
+      "healthchecks",
+      "previews",
+      "create",
+      "--address",
+      "192.0.2.1",
+      "--name",
+      "regression value &/?+ü",
+      "--check-regions",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--consecutive-successes",
+      "2",
+      "--http-config-allow-insecure=false",
+      "--http-config-expected-codes",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--http-config-method",
+      "HEAD",
+      "--http-config-port",
+      "2",
+      "--retries",
+      "2",
+      "--tcp-config-method",
+      "connection_established",
+      "--timeout",
+      "2"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/healthchecks/preview",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "412",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "address": "192.0.2.1",
+          "check_regions": [
+            "second value &/?+ü",
+            "second value &/?+ü"
+          ],
+          "consecutive_fails": 1,
+          "consecutive_successes": 2,
+          "http_config": {
+            "allow_insecure": false,
+            "expected_codes": [
+              "second value &/?+ü",
+              "second value &/?+ü"
+            ],
+            "method": "HEAD",
+            "port": 2
+          },
+          "interval": 60,
+          "name": "regression value &/?+ü",
+          "retries": 2,
+          "suspended": false,
+          "tcp_config": {
+            "method": "connection_established"
+          },
+          "timeout": 2,
+          "type": "HTTP"
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 4",
+    "argv": [
+      "healthchecks",
+      "previews",
+      "create",
+      "--address",
+      "192.0.2.1",
+      "--name",
+      "regression value &/?+ü",
+      "--consecutive-successes",
+      "1",
+      "--description",
+      "192.0.2.1",
+      "--http-config-expected-codes",
+      "regression value &/?+ü",
+      "--http-config-follow-redirects=true",
+      "--http-config-port",
+      "1",
+      "--interval",
+      "1",
+      "--tcp-config-method",
+      "connection_established",
+      "--tcp-config-port",
+      "1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/healthchecks/preview",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "351",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "address": "192.0.2.1",
+          "consecutive_fails": 1,
+          "consecutive_successes": 1,
+          "description": "192.0.2.1",
+          "http_config": {
+            "expected_codes": [
+              "regression value &/?+ü"
+            ],
+            "follow_redirects": true,
+            "port": 1
+          },
+          "interval": 1,
+          "name": "regression value &/?+ü",
+          "retries": 2,
+          "suspended": false,
+          "tcp_config": {
+            "method": "connection_established",
+            "port": 1
+          },
+          "timeout": 5,
+          "type": "HTTP"
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 5",
+    "argv": [
+      "healthchecks",
+      "previews",
+      "create",
+      "--address",
+      "192.0.2.1",
+      "--name",
+      "regression value &/?+ü",
+      "--check-regions",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--consecutive-fails",
+      "2",
+      "--http-config-allow-insecure=false",
+      "--http-config-expected-body",
+      "second value &/?+ü",
+      "--http-config-method",
+      "HEAD",
+      "--http-config-path",
+      "second value &/?+ü",
+      "--retries",
+      "2",
+      "--suspended=false",
+      "--timeout",
+      "2",
+      "--type",
+      "second value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/healthchecks/preview",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "373",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "address": "192.0.2.1",
+          "check_regions": [
+            "second value &/?+ü",
+            "second value &/?+ü"
+          ],
+          "consecutive_fails": 2,
+          "consecutive_successes": 1,
+          "http_config": {
+            "allow_insecure": false,
+            "expected_body": "second value &/?+ü",
+            "method": "HEAD",
+            "path": "second value &/?+ü"
+          },
+          "interval": 60,
+          "name": "regression value &/?+ü",
+          "retries": 2,
+          "suspended": false,
+          "timeout": 2,
+          "type": "second value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 6",
+    "argv": [
+      "healthchecks",
+      "previews",
+      "create",
+      "--address",
+      "192.0.2.1",
+      "--name",
+      "regression value &/?+ü",
+      "--http-config-allow-insecure=true",
+      "--http-config-expected-body",
+      "regression value &/?+ü",
+      "--http-config-expected-codes",
+      "regression value &/?+ü",
+      "--http-config-follow-redirects=true",
+      "--retries",
+      "1",
+      "--suspended=true",
+      "--tcp-config-method",
+      "connection_established",
+      "--tcp-config-port",
+      "1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/healthchecks/preview",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "380",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "address": "192.0.2.1",
+          "consecutive_fails": 1,
+          "consecutive_successes": 1,
+          "http_config": {
+            "allow_insecure": true,
+            "expected_body": "regression value &/?+ü",
+            "expected_codes": [
+              "regression value &/?+ü"
+            ],
+            "follow_redirects": true
+          },
+          "interval": 60,
+          "name": "regression value &/?+ü",
+          "retries": 1,
+          "suspended": true,
+          "tcp_config": {
+            "method": "connection_established",
+            "port": 1
+          },
+          "timeout": 5,
+          "type": "HTTP"
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 7",
+    "argv": [
+      "healthchecks",
+      "previews",
+      "create",
+      "--address",
+      "192.0.2.1",
+      "--name",
+      "regression value &/?+ü",
+      "--check-regions",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--consecutive-fails",
+      "2",
+      "--consecutive-successes",
+      "2",
+      "--description",
+      "192.0.2.1",
+      "--http-config-method",
+      "HEAD",
+      "--http-config-path",
+      "second value &/?+ü",
+      "--http-config-port",
+      "2",
+      "--interval",
+      "2",
+      "--timeout",
+      "2",
+      "--type",
+      "second value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/healthchecks/preview",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "346",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "address": "192.0.2.1",
+          "check_regions": [
+            "second value &/?+ü",
+            "second value &/?+ü"
+          ],
+          "consecutive_fails": 2,
+          "consecutive_successes": 2,
+          "description": "192.0.2.1",
+          "http_config": {
+            "method": "HEAD",
+            "path": "second value &/?+ü",
+            "port": 2
+          },
+          "interval": 2,
+          "name": "regression value &/?+ü",
+          "retries": 2,
+          "suspended": false,
+          "timeout": 2,
+          "type": "second value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 8",
+    "argv": [
+      "healthchecks",
+      "previews",
+      "create",
+      "--address",
+      "192.0.2.1",
+      "--name",
+      "regression value &/?+ü",
+      "--http-config-method",
+      "GET",
+      "--http-config-path",
+      "regression value &/?+ü",
+      "--http-config-port",
+      "1",
+      "--interval",
+      "1",
+      "--retries",
+      "1",
+      "--suspended=true",
+      "--tcp-config-method",
+      "connection_established",
+      "--tcp-config-port",
+      "1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/healthchecks/preview",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "303",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "address": "192.0.2.1",
+          "consecutive_fails": 1,
+          "consecutive_successes": 1,
+          "http_config": {
+            "method": "GET",
+            "path": "regression value &/?+ü",
+            "port": 1
+          },
+          "interval": 1,
+          "name": "regression value &/?+ü",
+          "retries": 1,
+          "suspended": true,
+          "tcp_config": {
+            "method": "connection_established",
+            "port": 1
+          },
+          "timeout": 5,
+          "type": "HTTP"
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 9",
+    "argv": [
+      "healthchecks",
+      "previews",
+      "create",
+      "--address",
+      "192.0.2.1",
+      "--name",
+      "regression value &/?+ü",
+      "--check-regions",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--consecutive-fails",
+      "2",
+      "--consecutive-successes",
+      "2",
+      "--description",
+      "192.0.2.1",
+      "--http-config-allow-insecure=false",
+      "--http-config-expected-body",
+      "second value &/?+ü",
+      "--http-config-expected-codes",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--http-config-follow-redirects=false",
+      "--timeout",
+      "2",
+      "--type",
+      "second value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/healthchecks/preview",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "442",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "address": "192.0.2.1",
+          "check_regions": [
+            "second value &/?+ü",
+            "second value &/?+ü"
+          ],
+          "consecutive_fails": 2,
+          "consecutive_successes": 2,
+          "description": "192.0.2.1",
+          "http_config": {
+            "allow_insecure": false,
+            "expected_body": "second value &/?+ü",
+            "expected_codes": [
+              "second value &/?+ü",
+              "second value &/?+ü"
+            ],
+            "follow_redirects": false
+          },
+          "interval": 60,
+          "name": "regression value &/?+ü",
+          "retries": 2,
+          "suspended": false,
+          "timeout": 2,
+          "type": "second value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 10",
+    "argv": [
+      "healthchecks",
+      "previews",
+      "create",
+      "--address",
+      "192.0.2.1",
+      "--name",
+      "regression value &/?+ü",
+      "--timeout",
+      "1",
+      "--type",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/healthchecks/preview",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "193",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "address": "192.0.2.1",
+          "consecutive_fails": 1,
+          "consecutive_successes": 1,
+          "interval": 60,
+          "name": "regression value &/?+ü",
+          "retries": 2,
+          "suspended": false,
+          "timeout": 1,
+          "type": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 11",
+    "argv": [
+      "healthchecks",
+      "previews",
+      "create",
+      "--address",
+      "192.0.2.1",
+      "--name",
+      "regression value &/?+ü",
+      "--check-regions",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--consecutive-fails",
+      "2",
+      "--consecutive-successes",
+      "2",
+      "--description",
+      "192.0.2.1",
+      "--http-config-allow-insecure=false",
+      "--http-config-expected-body",
+      "second value &/?+ü",
+      "--http-config-expected-codes",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--http-config-follow-redirects=false",
+      "--http-config-method",
+      "HEAD",
+      "--http-config-path",
+      "second value &/?+ü",
+      "--http-config-port",
+      "2",
+      "--interval",
+      "2",
+      "--retries",
+      "2",
+      "--suspended=false",
+      "--tcp-config-method",
+      "connection_established",
+      "--tcp-config-port",
+      "2"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/healthchecks/preview",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "538",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "address": "192.0.2.1",
+          "check_regions": [
+            "second value &/?+ü",
+            "second value &/?+ü"
+          ],
+          "consecutive_fails": 2,
+          "consecutive_successes": 2,
+          "description": "192.0.2.1",
+          "http_config": {
+            "allow_insecure": false,
+            "expected_body": "second value &/?+ü",
+            "expected_codes": [
+              "second value &/?+ü",
+              "second value &/?+ü"
+            ],
+            "follow_redirects": false,
+            "method": "HEAD",
+            "path": "second value &/?+ü",
+            "port": 2
+          },
+          "interval": 2,
+          "name": "regression value &/?+ü",
+          "retries": 2,
+          "suspended": false,
+          "tcp_config": {
+            "method": "connection_established",
+            "port": 2
+          },
+          "timeout": 5,
+          "type": "HTTP"
+        }
+      }
+    ]
+  },
+  {
+    "case": "global quiet",
+    "argv": [
+      "healthchecks",
+      "previews",
+      "create",
+      "--address",
+      "192.0.2.1",
+      "--name",
+      "regression value &/?+ü",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--quiet"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/healthchecks/preview",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "global zone",
+    "argv": [
+      "healthchecks",
+      "previews",
+      "create",
+      "--address",
+      "192.0.2.1",
+      "--name",
+      "regression value &/?+ü",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--zone",
+      "abcdef0123456789abcdef0123456789"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/healthchecks/preview",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "global profile and mode",
+    "argv": [
+      "healthchecks",
+      "previews",
+      "create",
+      "--address",
+      "192.0.2.1",
+      "--name",
+      "regression value &/?+ü",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--profile",
+      "default",
+      "--mode",
+      "regression"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/healthchecks/preview",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "local",
+    "argv": [
+      "healthchecks",
+      "previews",
+      "create",
+      "--address",
+      "192.0.2.1",
+      "--name",
+      "regression value &/?+ü",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--local"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "http://localhost/cdn-cgi/local/explorer/api/zones/abcdef0123456789abcdef0123456789/healthchecks/preview",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "gzip, deflate",
+          "accept-language": "*",
+          "connection": "keep-alive",
+          "content-type": "application/json",
+          "host": "localhost",
+          "sec-fetch-mode": "cors",
+          "transfer-encoding": "chunked",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "local with persistence",
+    "argv": [
+      "healthchecks",
+      "previews",
+      "create",
+      "--address",
+      "192.0.2.1",
+      "--name",
+      "regression value &/?+ü",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--local",
+      "--persist-to",
+      "regression-state"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "http://localhost/cdn-cgi/local/explorer/api/zones/abcdef0123456789abcdef0123456789/healthchecks/preview",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "gzip, deflate",
+          "accept-language": "*",
+          "connection": "keep-alive",
+          "content-type": "application/json",
+          "host": "localhost",
+          "sec-fetch-mode": "cors",
+          "transfer-encoding": "chunked",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "zone by domain",
+    "argv": [
+      "healthchecks",
+      "previews",
+      "create",
+      "--address",
+      "192.0.2.1",
+      "--name",
+      "regression value &/?+ü",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--zone",
+      "regression-f2248d1774c5.example.com"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/zones?name=regression-f2248d1774c5.example.com&account.id=0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      },
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/healthchecks/preview",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "dry-run",
+    "argv": [
+      "healthchecks",
+      "previews",
+      "create",
+      "--address",
+      "192.0.2.1",
+      "--name",
+      "regression value &/?+ü",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--dry-run"
+    ],
+    "exitCode": 0,
+    "requests": []
+  },
+  {
+    "case": "body from file",
+    "argv": [
+      "healthchecks",
+      "previews",
+      "create",
+      "--address",
+      "192.0.2.1",
+      "--name",
+      "regression value &/?+ü",
+      "--body",
+      "@<body.json>"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/healthchecks/preview",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "array body",
+    "argv": [
+      "healthchecks",
+      "previews",
+      "create",
+      "--address",
+      "192.0.2.1",
+      "--name",
+      "regression value &/?+ü",
+      "--body",
+      "[{\"regression\":\"first\"},{\"regression\":\"second\"}]"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/healthchecks/preview",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "48",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": [
+          {
+            "regression": "first"
+          },
+          {
+            "regression": "second"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "case": "field flags",
+    "argv": [
+      "healthchecks",
+      "previews",
+      "create",
+      "--address",
+      "192.0.2.1",
+      "--name",
+      "regression value &/?+ü",
+      "--check-regions",
+      "regression value &/?+ü",
+      "--consecutive-fails",
+      "1",
+      "--consecutive-successes",
+      "1",
+      "--description",
+      "192.0.2.1",
+      "--http-config-allow-insecure=true",
+      "--http-config-expected-body",
+      "regression value &/?+ü",
+      "--http-config-expected-codes",
+      "regression value &/?+ü",
+      "--http-config-follow-redirects=true",
+      "--http-config-method",
+      "GET",
+      "--http-config-path",
+      "regression value &/?+ü",
+      "--http-config-port",
+      "1",
+      "--interval",
+      "1",
+      "--retries",
+      "1",
+      "--suspended=true",
+      "--tcp-config-method",
+      "connection_established",
+      "--tcp-config-port",
+      "1",
+      "--timeout",
+      "1",
+      "--type",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/healthchecks/preview",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "525",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "address": "192.0.2.1",
+          "check_regions": [
+            "regression value &/?+ü"
+          ],
+          "consecutive_fails": 1,
+          "consecutive_successes": 1,
+          "description": "192.0.2.1",
+          "http_config": {
+            "allow_insecure": true,
+            "expected_body": "regression value &/?+ü",
+            "expected_codes": [
+              "regression value &/?+ü"
+            ],
+            "follow_redirects": true,
+            "method": "GET",
+            "path": "regression value &/?+ü",
+            "port": 1
+          },
+          "interval": 1,
+          "name": "regression value &/?+ü",
+          "retries": 1,
+          "suspended": true,
+          "tcp_config": {
+            "method": "connection_established",
+            "port": 1
+          },
+          "timeout": 1,
+          "type": "regression value &/?+ü"
+        }
+      }
+    ]
+  }
+]

@@ -1,0 +1,297 @@
+[
+  {
+    "case": "no-args",
+    "argv": [
+      "rulesets",
+      "versions",
+      "by-tag",
+      "get"
+    ],
+    "exitCode": 1,
+    "error": "Not enough non-option arguments: got 0, need at least 1",
+    "requests": []
+  },
+  {
+    "case": "required",
+    "argv": [
+      "rulesets",
+      "versions",
+      "by-tag",
+      "get",
+      "regression-image:latest",
+      "--id",
+      "0123456789abcdef0123456789abcdef",
+      "--ruleset-version",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/rulesets/0123456789abcdef0123456789abcdef/versions/regression%20value%20%26%2F%3F%2B%C3%BC/by_tag/regression-image%3Alatest",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "global quiet",
+    "argv": [
+      "rulesets",
+      "versions",
+      "by-tag",
+      "get",
+      "regression-image:latest",
+      "--id",
+      "0123456789abcdef0123456789abcdef",
+      "--ruleset-version",
+      "regression value &/?+ü",
+      "--quiet"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/rulesets/0123456789abcdef0123456789abcdef/versions/regression%20value%20%26%2F%3F%2B%C3%BC/by_tag/regression-image%3Alatest",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "global zone",
+    "argv": [
+      "rulesets",
+      "versions",
+      "by-tag",
+      "get",
+      "regression-image:latest",
+      "--id",
+      "0123456789abcdef0123456789abcdef",
+      "--ruleset-version",
+      "regression value &/?+ü",
+      "--zone",
+      "abcdef0123456789abcdef0123456789"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/rulesets/0123456789abcdef0123456789abcdef/versions/regression%20value%20%26%2F%3F%2B%C3%BC/by_tag/regression-image%3Alatest",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "global profile and mode",
+    "argv": [
+      "rulesets",
+      "versions",
+      "by-tag",
+      "get",
+      "regression-image:latest",
+      "--id",
+      "0123456789abcdef0123456789abcdef",
+      "--ruleset-version",
+      "regression value &/?+ü",
+      "--profile",
+      "default",
+      "--mode",
+      "regression"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/rulesets/0123456789abcdef0123456789abcdef/versions/regression%20value%20%26%2F%3F%2B%C3%BC/by_tag/regression-image%3Alatest",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "local",
+    "argv": [
+      "rulesets",
+      "versions",
+      "by-tag",
+      "get",
+      "regression-image:latest",
+      "--id",
+      "0123456789abcdef0123456789abcdef",
+      "--ruleset-version",
+      "regression value &/?+ü",
+      "--local"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "http://localhost/cdn-cgi/local/explorer/api/rulesets/0123456789abcdef0123456789abcdef/versions/regression%20value%20%26%2F%3F%2B%C3%BC/by_tag/regression-image%3Alatest",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "gzip, deflate",
+          "accept-language": "*",
+          "connection": "keep-alive",
+          "host": "localhost",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "local with persistence",
+    "argv": [
+      "rulesets",
+      "versions",
+      "by-tag",
+      "get",
+      "regression-image:latest",
+      "--id",
+      "0123456789abcdef0123456789abcdef",
+      "--ruleset-version",
+      "regression value &/?+ü",
+      "--local",
+      "--persist-to",
+      "regression-state"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "http://localhost/cdn-cgi/local/explorer/api/rulesets/0123456789abcdef0123456789abcdef/versions/regression%20value%20%26%2F%3F%2B%C3%BC/by_tag/regression-image%3Alatest",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "gzip, deflate",
+          "accept-language": "*",
+          "connection": "keep-alive",
+          "host": "localhost",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "zone by domain",
+    "argv": [
+      "rulesets",
+      "versions",
+      "by-tag",
+      "get",
+      "regression-image:latest",
+      "--id",
+      "0123456789abcdef0123456789abcdef",
+      "--ruleset-version",
+      "regression value &/?+ü",
+      "--zone",
+      "regression-ef7d5102dedd.example.com"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/zones?name=regression-ef7d5102dedd.example.com&account.id=0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      },
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/rulesets/0123456789abcdef0123456789abcdef/versions/regression%20value%20%26%2F%3F%2B%C3%BC/by_tag/regression-image%3Alatest",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "dry-run",
+    "argv": [
+      "rulesets",
+      "versions",
+      "by-tag",
+      "get",
+      "regression-image:latest",
+      "--id",
+      "0123456789abcdef0123456789abcdef",
+      "--ruleset-version",
+      "regression value &/?+ü",
+      "--dry-run"
+    ],
+    "exitCode": 0,
+    "requests": []
+  }
+]

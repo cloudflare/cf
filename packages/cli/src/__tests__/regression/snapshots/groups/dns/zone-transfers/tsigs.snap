@@ -1,0 +1,8 @@
+{
+  "argv": [
+    "dns",
+    "zone-transfers",
+    "tsigs"
+  ],
+  "requests": []
+}

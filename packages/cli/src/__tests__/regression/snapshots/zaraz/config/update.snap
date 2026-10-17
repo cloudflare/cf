@@ -1,0 +1,3280 @@
+[
+  {
+    "case": "no-args",
+    "argv": [
+      "zaraz",
+      "config",
+      "update"
+    ],
+    "exitCode": 1,
+    "error": "--data-layer is required (or pass --body with this field set).",
+    "requests": []
+  },
+  {
+    "case": "required",
+    "argv": [
+      "zaraz",
+      "config",
+      "update",
+      "--data-layer=true",
+      "--debug-key",
+      "regression value &/?+ü",
+      "--settings-auto-inject-script=true",
+      "--settings-context-enricher-escaped-worker-name",
+      "regression value &/?+ü",
+      "--settings-context-enricher-worker-tag",
+      "regression value &/?+ü",
+      "--zaraz-version",
+      "1",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/settings/zaraz/config",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --analytics-default-purpose",
+    "argv": [
+      "zaraz",
+      "config",
+      "update",
+      "--data-layer=true",
+      "--debug-key",
+      "regression value &/?+ü",
+      "--settings-auto-inject-script=true",
+      "--settings-context-enricher-escaped-worker-name",
+      "regression value &/?+ü",
+      "--settings-context-enricher-worker-tag",
+      "regression value &/?+ü",
+      "--zaraz-version",
+      "1",
+      "--analytics-default-purpose",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/settings/zaraz/config",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "270",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "analytics": {
+            "defaultPurpose": "regression value &/?+ü"
+          },
+          "dataLayer": true,
+          "debugKey": "regression value &/?+ü",
+          "settings": {
+            "autoInjectScript": true,
+            "contextEnricher": {
+              "escapedWorkerName": "regression value &/?+ü",
+              "workerTag": "regression value &/?+ü"
+            }
+          },
+          "zarazVersion": 1
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --analytics-enabled",
+    "argv": [
+      "zaraz",
+      "config",
+      "update",
+      "--data-layer=true",
+      "--debug-key",
+      "regression value &/?+ü",
+      "--settings-auto-inject-script=true",
+      "--settings-context-enricher-escaped-worker-name",
+      "regression value &/?+ü",
+      "--settings-context-enricher-worker-tag",
+      "regression value &/?+ü",
+      "--zaraz-version",
+      "1",
+      "--analytics-enabled=true"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/settings/zaraz/config",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "242",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "analytics": {
+            "enabled": true
+          },
+          "dataLayer": true,
+          "debugKey": "regression value &/?+ü",
+          "settings": {
+            "autoInjectScript": true,
+            "contextEnricher": {
+              "escapedWorkerName": "regression value &/?+ü",
+              "workerTag": "regression value &/?+ü"
+            }
+          },
+          "zarazVersion": 1
+        }
+      }
+    ]
+  },
+  {
+    "case": "--analytics-enabled value 1",
+    "argv": [
+      "zaraz",
+      "config",
+      "update",
+      "--data-layer=true",
+      "--debug-key",
+      "regression value &/?+ü",
+      "--settings-auto-inject-script=true",
+      "--settings-context-enricher-escaped-worker-name",
+      "regression value &/?+ü",
+      "--settings-context-enricher-worker-tag",
+      "regression value &/?+ü",
+      "--zaraz-version",
+      "1",
+      "--analytics-enabled=false"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/settings/zaraz/config",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "243",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "analytics": {
+            "enabled": false
+          },
+          "dataLayer": true,
+          "debugKey": "regression value &/?+ü",
+          "settings": {
+            "autoInjectScript": true,
+            "contextEnricher": {
+              "escapedWorkerName": "regression value &/?+ü",
+              "workerTag": "regression value &/?+ü"
+            }
+          },
+          "zarazVersion": 1
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --analytics-session-exp-time",
+    "argv": [
+      "zaraz",
+      "config",
+      "update",
+      "--data-layer=true",
+      "--debug-key",
+      "regression value &/?+ü",
+      "--settings-auto-inject-script=true",
+      "--settings-context-enricher-escaped-worker-name",
+      "regression value &/?+ü",
+      "--settings-context-enricher-worker-tag",
+      "regression value &/?+ü",
+      "--zaraz-version",
+      "1",
+      "--analytics-session-exp-time",
+      "1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/settings/zaraz/config",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "246",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "analytics": {
+            "sessionExpTime": 1
+          },
+          "dataLayer": true,
+          "debugKey": "regression value &/?+ü",
+          "settings": {
+            "autoInjectScript": true,
+            "contextEnricher": {
+              "escapedWorkerName": "regression value &/?+ü",
+              "workerTag": "regression value &/?+ü"
+            }
+          },
+          "zarazVersion": 1
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --consent-company-email",
+    "argv": [
+      "zaraz",
+      "config",
+      "update",
+      "--data-layer=true",
+      "--debug-key",
+      "regression value &/?+ü",
+      "--settings-auto-inject-script=true",
+      "--settings-context-enricher-escaped-worker-name",
+      "regression value &/?+ü",
+      "--settings-context-enricher-worker-tag",
+      "regression value &/?+ü",
+      "--zaraz-version",
+      "1",
+      "--consent-company-email",
+      "regression@example.com"
+    ],
+    "exitCode": 1,
+    "error": "--consent-enabled is required when any --consent-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "only --consent-company-name",
+    "argv": [
+      "zaraz",
+      "config",
+      "update",
+      "--data-layer=true",
+      "--debug-key",
+      "regression value &/?+ü",
+      "--settings-auto-inject-script=true",
+      "--settings-context-enricher-escaped-worker-name",
+      "regression value &/?+ü",
+      "--settings-context-enricher-worker-tag",
+      "regression value &/?+ü",
+      "--zaraz-version",
+      "1",
+      "--consent-company-name",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 1,
+    "error": "--consent-enabled is required when any --consent-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "only --consent-company-street-address",
+    "argv": [
+      "zaraz",
+      "config",
+      "update",
+      "--data-layer=true",
+      "--debug-key",
+      "regression value &/?+ü",
+      "--settings-auto-inject-script=true",
+      "--settings-context-enricher-escaped-worker-name",
+      "regression value &/?+ü",
+      "--settings-context-enricher-worker-tag",
+      "regression value &/?+ü",
+      "--zaraz-version",
+      "1",
+      "--consent-company-street-address",
+      "192.0.2.1"
+    ],
+    "exitCode": 1,
+    "error": "--consent-enabled is required when any --consent-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "only --consent-consent-modal-intro-html",
+    "argv": [
+      "zaraz",
+      "config",
+      "update",
+      "--data-layer=true",
+      "--debug-key",
+      "regression value &/?+ü",
+      "--settings-auto-inject-script=true",
+      "--settings-context-enricher-escaped-worker-name",
+      "regression value &/?+ü",
+      "--settings-context-enricher-worker-tag",
+      "regression value &/?+ü",
+      "--zaraz-version",
+      "1",
+      "--consent-consent-modal-intro-html",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 1,
+    "error": "--consent-enabled is required when any --consent-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "only --consent-cookie-name",
+    "argv": [
+      "zaraz",
+      "config",
+      "update",
+      "--data-layer=true",
+      "--debug-key",
+      "regression value &/?+ü",
+      "--settings-auto-inject-script=true",
+      "--settings-context-enricher-escaped-worker-name",
+      "regression value &/?+ü",
+      "--settings-context-enricher-worker-tag",
+      "regression value &/?+ü",
+      "--zaraz-version",
+      "1",
+      "--consent-cookie-name",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 1,
+    "error": "--consent-enabled is required when any --consent-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "only --consent-custom-css",
+    "argv": [
+      "zaraz",
+      "config",
+      "update",
+      "--data-layer=true",
+      "--debug-key",
+      "regression value &/?+ü",
+      "--settings-auto-inject-script=true",
+      "--settings-context-enricher-escaped-worker-name",
+      "regression value &/?+ü",
+      "--settings-context-enricher-worker-tag",
+      "regression value &/?+ü",
+      "--zaraz-version",
+      "1",
+      "--consent-custom-css",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 1,
+    "error": "--consent-enabled is required when any --consent-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "only --consent-custom-intro-disclaimer-dismissed",
+    "argv": [
+      "zaraz",
+      "config",
+      "update",
+      "--data-layer=true",
+      "--debug-key",
+      "regression value &/?+ü",
+      "--settings-auto-inject-script=true",
+      "--settings-context-enricher-escaped-worker-name",
+      "regression value &/?+ü",
+      "--settings-context-enricher-worker-tag",
+      "regression value &/?+ü",
+      "--zaraz-version",
+      "1",
+      "--consent-custom-intro-disclaimer-dismissed=true"
+    ],
+    "exitCode": 1,
+    "error": "--consent-enabled is required when any --consent-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "--consent-custom-intro-disclaimer-dismissed value 1",
+    "argv": [
+      "zaraz",
+      "config",
+      "update",
+      "--data-layer=true",
+      "--debug-key",
+      "regression value &/?+ü",
+      "--settings-auto-inject-script=true",
+      "--settings-context-enricher-escaped-worker-name",
+      "regression value &/?+ü",
+      "--settings-context-enricher-worker-tag",
+      "regression value &/?+ü",
+      "--zaraz-version",
+      "1",
+      "--consent-custom-intro-disclaimer-dismissed=false"
+    ],
+    "exitCode": 1,
+    "error": "--consent-enabled is required when any --consent-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "only --consent-default-language",
+    "argv": [
+      "zaraz",
+      "config",
+      "update",
+      "--data-layer=true",
+      "--debug-key",
+      "regression value &/?+ü",
+      "--settings-auto-inject-script=true",
+      "--settings-context-enricher-escaped-worker-name",
+      "regression value &/?+ü",
+      "--settings-context-enricher-worker-tag",
+      "regression value &/?+ü",
+      "--zaraz-version",
+      "1",
+      "--consent-default-language",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 1,
+    "error": "--consent-enabled is required when any --consent-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "only --consent-enabled",
+    "argv": [
+      "zaraz",
+      "config",
+      "update",
+      "--data-layer=true",
+      "--debug-key",
+      "regression value &/?+ü",
+      "--settings-auto-inject-script=true",
+      "--settings-context-enricher-escaped-worker-name",
+      "regression value &/?+ü",
+      "--settings-context-enricher-worker-tag",
+      "regression value &/?+ü",
+      "--zaraz-version",
+      "1",
+      "--consent-enabled=true"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/settings/zaraz/config",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "240",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "consent": {
+            "enabled": true
+          },
+          "dataLayer": true,
+          "debugKey": "regression value &/?+ü",
+          "settings": {
+            "autoInjectScript": true,
+            "contextEnricher": {
+              "escapedWorkerName": "regression value &/?+ü",
+              "workerTag": "regression value &/?+ü"
+            }
+          },
+          "zarazVersion": 1
+        }
+      }
+    ]
+  },
+  {
+    "case": "--consent-enabled value 1",
+    "argv": [
+      "zaraz",
+      "config",
+      "update",
+      "--data-layer=true",
+      "--debug-key",
+      "regression value &/?+ü",
+      "--settings-auto-inject-script=true",
+      "--settings-context-enricher-escaped-worker-name",
+      "regression value &/?+ü",
+      "--settings-context-enricher-worker-tag",
+      "regression value &/?+ü",
+      "--zaraz-version",
+      "1",
+      "--consent-enabled=false"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/settings/zaraz/config",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "241",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "consent": {
+            "enabled": false
+          },
+          "dataLayer": true,
+          "debugKey": "regression value &/?+ü",
+          "settings": {
+            "autoInjectScript": true,
+            "contextEnricher": {
+              "escapedWorkerName": "regression value &/?+ü",
+              "workerTag": "regression value &/?+ü"
+            }
+          },
+          "zarazVersion": 1
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --consent-hide-modal",
+    "argv": [
+      "zaraz",
+      "config",
+      "update",
+      "--data-layer=true",
+      "--debug-key",
+      "regression value &/?+ü",
+      "--settings-auto-inject-script=true",
+      "--settings-context-enricher-escaped-worker-name",
+      "regression value &/?+ü",
+      "--settings-context-enricher-worker-tag",
+      "regression value &/?+ü",
+      "--zaraz-version",
+      "1",
+      "--consent-hide-modal=true"
+    ],
+    "exitCode": 1,
+    "error": "--consent-enabled is required when any --consent-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "--consent-hide-modal value 1",
+    "argv": [
+      "zaraz",
+      "config",
+      "update",
+      "--data-layer=true",
+      "--debug-key",
+      "regression value &/?+ü",
+      "--settings-auto-inject-script=true",
+      "--settings-context-enricher-escaped-worker-name",
+      "regression value &/?+ü",
+      "--settings-context-enricher-worker-tag",
+      "regression value &/?+ü",
+      "--zaraz-version",
+      "1",
+      "--consent-hide-modal=false"
+    ],
+    "exitCode": 1,
+    "error": "--consent-enabled is required when any --consent-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "only --consent-tcf-compliant",
+    "argv": [
+      "zaraz",
+      "config",
+      "update",
+      "--data-layer=true",
+      "--debug-key",
+      "regression value &/?+ü",
+      "--settings-auto-inject-script=true",
+      "--settings-context-enricher-escaped-worker-name",
+      "regression value &/?+ü",
+      "--settings-context-enricher-worker-tag",
+      "regression value &/?+ü",
+      "--zaraz-version",
+      "1",
+      "--consent-tcf-compliant=true"
+    ],
+    "exitCode": 1,
+    "error": "--consent-enabled is required when any --consent-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "--consent-tcf-compliant value 1",
+    "argv": [
+      "zaraz",
+      "config",
+      "update",
+      "--data-layer=true",
+      "--debug-key",
+      "regression value &/?+ü",
+      "--settings-auto-inject-script=true",
+      "--settings-context-enricher-escaped-worker-name",
+      "regression value &/?+ü",
+      "--settings-context-enricher-worker-tag",
+      "regression value &/?+ü",
+      "--zaraz-version",
+      "1",
+      "--consent-tcf-compliant=false"
+    ],
+    "exitCode": 1,
+    "error": "--consent-enabled is required when any --consent-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "only --history-change",
+    "argv": [
+      "zaraz",
+      "config",
+      "update",
+      "--data-layer=true",
+      "--debug-key",
+      "regression value &/?+ü",
+      "--settings-auto-inject-script=true",
+      "--settings-context-enricher-escaped-worker-name",
+      "regression value &/?+ü",
+      "--settings-context-enricher-worker-tag",
+      "regression value &/?+ü",
+      "--zaraz-version",
+      "1",
+      "--history-change=true"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/settings/zaraz/config",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "234",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "dataLayer": true,
+          "debugKey": "regression value &/?+ü",
+          "historyChange": true,
+          "settings": {
+            "autoInjectScript": true,
+            "contextEnricher": {
+              "escapedWorkerName": "regression value &/?+ü",
+              "workerTag": "regression value &/?+ü"
+            }
+          },
+          "zarazVersion": 1
+        }
+      }
+    ]
+  },
+  {
+    "case": "--history-change value 1",
+    "argv": [
+      "zaraz",
+      "config",
+      "update",
+      "--data-layer=true",
+      "--debug-key",
+      "regression value &/?+ü",
+      "--settings-auto-inject-script=true",
+      "--settings-context-enricher-escaped-worker-name",
+      "regression value &/?+ü",
+      "--settings-context-enricher-worker-tag",
+      "regression value &/?+ü",
+      "--zaraz-version",
+      "1",
+      "--history-change=false"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/settings/zaraz/config",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "235",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "dataLayer": true,
+          "debugKey": "regression value &/?+ü",
+          "historyChange": false,
+          "settings": {
+            "autoInjectScript": true,
+            "contextEnricher": {
+              "escapedWorkerName": "regression value &/?+ü",
+              "workerTag": "regression value &/?+ü"
+            }
+          },
+          "zarazVersion": 1
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --settings-cookie-domain",
+    "argv": [
+      "zaraz",
+      "config",
+      "update",
+      "--data-layer=true",
+      "--debug-key",
+      "regression value &/?+ü",
+      "--settings-auto-inject-script=true",
+      "--settings-context-enricher-escaped-worker-name",
+      "regression value &/?+ü",
+      "--settings-context-enricher-worker-tag",
+      "regression value &/?+ü",
+      "--zaraz-version",
+      "1",
+      "--settings-cookie-domain",
+      "example.com"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/settings/zaraz/config",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "242",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "dataLayer": true,
+          "debugKey": "regression value &/?+ü",
+          "settings": {
+            "autoInjectScript": true,
+            "contextEnricher": {
+              "escapedWorkerName": "regression value &/?+ü",
+              "workerTag": "regression value &/?+ü"
+            },
+            "cookieDomain": "example.com"
+          },
+          "zarazVersion": 1
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --settings-ecommerce",
+    "argv": [
+      "zaraz",
+      "config",
+      "update",
+      "--data-layer=true",
+      "--debug-key",
+      "regression value &/?+ü",
+      "--settings-auto-inject-script=true",
+      "--settings-context-enricher-escaped-worker-name",
+      "regression value &/?+ü",
+      "--settings-context-enricher-worker-tag",
+      "regression value &/?+ü",
+      "--zaraz-version",
+      "1",
+      "--settings-ecommerce=true"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/settings/zaraz/config",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "230",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "dataLayer": true,
+          "debugKey": "regression value &/?+ü",
+          "settings": {
+            "autoInjectScript": true,
+            "contextEnricher": {
+              "escapedWorkerName": "regression value &/?+ü",
+              "workerTag": "regression value &/?+ü"
+            },
+            "ecommerce": true
+          },
+          "zarazVersion": 1
+        }
+      }
+    ]
+  },
+  {
+    "case": "--settings-ecommerce value 1",
+    "argv": [
+      "zaraz",
+      "config",
+      "update",
+      "--data-layer=true",
+      "--debug-key",
+      "regression value &/?+ü",
+      "--settings-auto-inject-script=true",
+      "--settings-context-enricher-escaped-worker-name",
+      "regression value &/?+ü",
+      "--settings-context-enricher-worker-tag",
+      "regression value &/?+ü",
+      "--zaraz-version",
+      "1",
+      "--settings-ecommerce=false"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/settings/zaraz/config",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "231",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "dataLayer": true,
+          "debugKey": "regression value &/?+ü",
+          "settings": {
+            "autoInjectScript": true,
+            "contextEnricher": {
+              "escapedWorkerName": "regression value &/?+ü",
+              "workerTag": "regression value &/?+ü"
+            },
+            "ecommerce": false
+          },
+          "zarazVersion": 1
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --settings-events-api-path",
+    "argv": [
+      "zaraz",
+      "config",
+      "update",
+      "--data-layer=true",
+      "--debug-key",
+      "regression value &/?+ü",
+      "--settings-auto-inject-script=true",
+      "--settings-context-enricher-escaped-worker-name",
+      "regression value &/?+ü",
+      "--settings-context-enricher-worker-tag",
+      "regression value &/?+ü",
+      "--zaraz-version",
+      "1",
+      "--settings-events-api-path",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/settings/zaraz/config",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "255",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "dataLayer": true,
+          "debugKey": "regression value &/?+ü",
+          "settings": {
+            "autoInjectScript": true,
+            "contextEnricher": {
+              "escapedWorkerName": "regression value &/?+ü",
+              "workerTag": "regression value &/?+ü"
+            },
+            "eventsApiPath": "regression value &/?+ü"
+          },
+          "zarazVersion": 1
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --settings-hide-external-referer",
+    "argv": [
+      "zaraz",
+      "config",
+      "update",
+      "--data-layer=true",
+      "--debug-key",
+      "regression value &/?+ü",
+      "--settings-auto-inject-script=true",
+      "--settings-context-enricher-escaped-worker-name",
+      "regression value &/?+ü",
+      "--settings-context-enricher-worker-tag",
+      "regression value &/?+ü",
+      "--zaraz-version",
+      "1",
+      "--settings-hide-external-referer=true"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/settings/zaraz/config",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "240",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "dataLayer": true,
+          "debugKey": "regression value &/?+ü",
+          "settings": {
+            "autoInjectScript": true,
+            "contextEnricher": {
+              "escapedWorkerName": "regression value &/?+ü",
+              "workerTag": "regression value &/?+ü"
+            },
+            "hideExternalReferer": true
+          },
+          "zarazVersion": 1
+        }
+      }
+    ]
+  },
+  {
+    "case": "--settings-hide-external-referer value 1",
+    "argv": [
+      "zaraz",
+      "config",
+      "update",
+      "--data-layer=true",
+      "--debug-key",
+      "regression value &/?+ü",
+      "--settings-auto-inject-script=true",
+      "--settings-context-enricher-escaped-worker-name",
+      "regression value &/?+ü",
+      "--settings-context-enricher-worker-tag",
+      "regression value &/?+ü",
+      "--zaraz-version",
+      "1",
+      "--settings-hide-external-referer=false"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/settings/zaraz/config",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "241",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "dataLayer": true,
+          "debugKey": "regression value &/?+ü",
+          "settings": {
+            "autoInjectScript": true,
+            "contextEnricher": {
+              "escapedWorkerName": "regression value &/?+ü",
+              "workerTag": "regression value &/?+ü"
+            },
+            "hideExternalReferer": false
+          },
+          "zarazVersion": 1
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --settings-hide-ipaddress",
+    "argv": [
+      "zaraz",
+      "config",
+      "update",
+      "--data-layer=true",
+      "--debug-key",
+      "regression value &/?+ü",
+      "--settings-auto-inject-script=true",
+      "--settings-context-enricher-escaped-worker-name",
+      "regression value &/?+ü",
+      "--settings-context-enricher-worker-tag",
+      "regression value &/?+ü",
+      "--zaraz-version",
+      "1",
+      "--settings-hide-ipaddress=true"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/settings/zaraz/config",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "234",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "dataLayer": true,
+          "debugKey": "regression value &/?+ü",
+          "settings": {
+            "autoInjectScript": true,
+            "contextEnricher": {
+              "escapedWorkerName": "regression value &/?+ü",
+              "workerTag": "regression value &/?+ü"
+            },
+            "hideIPAddress": true
+          },
+          "zarazVersion": 1
+        }
+      }
+    ]
+  },
+  {
+    "case": "--settings-hide-ipaddress value 1",
+    "argv": [
+      "zaraz",
+      "config",
+      "update",
+      "--data-layer=true",
+      "--debug-key",
+      "regression value &/?+ü",
+      "--settings-auto-inject-script=true",
+      "--settings-context-enricher-escaped-worker-name",
+      "regression value &/?+ü",
+      "--settings-context-enricher-worker-tag",
+      "regression value &/?+ü",
+      "--zaraz-version",
+      "1",
+      "--settings-hide-ipaddress=false"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/settings/zaraz/config",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "235",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "dataLayer": true,
+          "debugKey": "regression value &/?+ü",
+          "settings": {
+            "autoInjectScript": true,
+            "contextEnricher": {
+              "escapedWorkerName": "regression value &/?+ü",
+              "workerTag": "regression value &/?+ü"
+            },
+            "hideIPAddress": false
+          },
+          "zarazVersion": 1
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --settings-hide-query-params",
+    "argv": [
+      "zaraz",
+      "config",
+      "update",
+      "--data-layer=true",
+      "--debug-key",
+      "regression value &/?+ü",
+      "--settings-auto-inject-script=true",
+      "--settings-context-enricher-escaped-worker-name",
+      "regression value &/?+ü",
+      "--settings-context-enricher-worker-tag",
+      "regression value &/?+ü",
+      "--zaraz-version",
+      "1",
+      "--settings-hide-query-params=true"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/settings/zaraz/config",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "236",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "dataLayer": true,
+          "debugKey": "regression value &/?+ü",
+          "settings": {
+            "autoInjectScript": true,
+            "contextEnricher": {
+              "escapedWorkerName": "regression value &/?+ü",
+              "workerTag": "regression value &/?+ü"
+            },
+            "hideQueryParams": true
+          },
+          "zarazVersion": 1
+        }
+      }
+    ]
+  },
+  {
+    "case": "--settings-hide-query-params value 1",
+    "argv": [
+      "zaraz",
+      "config",
+      "update",
+      "--data-layer=true",
+      "--debug-key",
+      "regression value &/?+ü",
+      "--settings-auto-inject-script=true",
+      "--settings-context-enricher-escaped-worker-name",
+      "regression value &/?+ü",
+      "--settings-context-enricher-worker-tag",
+      "regression value &/?+ü",
+      "--zaraz-version",
+      "1",
+      "--settings-hide-query-params=false"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/settings/zaraz/config",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "237",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "dataLayer": true,
+          "debugKey": "regression value &/?+ü",
+          "settings": {
+            "autoInjectScript": true,
+            "contextEnricher": {
+              "escapedWorkerName": "regression value &/?+ü",
+              "workerTag": "regression value &/?+ü"
+            },
+            "hideQueryParams": false
+          },
+          "zarazVersion": 1
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --settings-hide-user-agent",
+    "argv": [
+      "zaraz",
+      "config",
+      "update",
+      "--data-layer=true",
+      "--debug-key",
+      "regression value &/?+ü",
+      "--settings-auto-inject-script=true",
+      "--settings-context-enricher-escaped-worker-name",
+      "regression value &/?+ü",
+      "--settings-context-enricher-worker-tag",
+      "regression value &/?+ü",
+      "--zaraz-version",
+      "1",
+      "--settings-hide-user-agent=true"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/settings/zaraz/config",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "234",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "dataLayer": true,
+          "debugKey": "regression value &/?+ü",
+          "settings": {
+            "autoInjectScript": true,
+            "contextEnricher": {
+              "escapedWorkerName": "regression value &/?+ü",
+              "workerTag": "regression value &/?+ü"
+            },
+            "hideUserAgent": true
+          },
+          "zarazVersion": 1
+        }
+      }
+    ]
+  },
+  {
+    "case": "--settings-hide-user-agent value 1",
+    "argv": [
+      "zaraz",
+      "config",
+      "update",
+      "--data-layer=true",
+      "--debug-key",
+      "regression value &/?+ü",
+      "--settings-auto-inject-script=true",
+      "--settings-context-enricher-escaped-worker-name",
+      "regression value &/?+ü",
+      "--settings-context-enricher-worker-tag",
+      "regression value &/?+ü",
+      "--zaraz-version",
+      "1",
+      "--settings-hide-user-agent=false"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/settings/zaraz/config",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "235",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "dataLayer": true,
+          "debugKey": "regression value &/?+ü",
+          "settings": {
+            "autoInjectScript": true,
+            "contextEnricher": {
+              "escapedWorkerName": "regression value &/?+ü",
+              "workerTag": "regression value &/?+ü"
+            },
+            "hideUserAgent": false
+          },
+          "zarazVersion": 1
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --settings-init-path",
+    "argv": [
+      "zaraz",
+      "config",
+      "update",
+      "--data-layer=true",
+      "--debug-key",
+      "regression value &/?+ü",
+      "--settings-auto-inject-script=true",
+      "--settings-context-enricher-escaped-worker-name",
+      "regression value &/?+ü",
+      "--settings-context-enricher-worker-tag",
+      "regression value &/?+ü",
+      "--zaraz-version",
+      "1",
+      "--settings-init-path",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/settings/zaraz/config",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "250",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "dataLayer": true,
+          "debugKey": "regression value &/?+ü",
+          "settings": {
+            "autoInjectScript": true,
+            "contextEnricher": {
+              "escapedWorkerName": "regression value &/?+ü",
+              "workerTag": "regression value &/?+ü"
+            },
+            "initPath": "regression value &/?+ü"
+          },
+          "zarazVersion": 1
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --settings-inject-iframes",
+    "argv": [
+      "zaraz",
+      "config",
+      "update",
+      "--data-layer=true",
+      "--debug-key",
+      "regression value &/?+ü",
+      "--settings-auto-inject-script=true",
+      "--settings-context-enricher-escaped-worker-name",
+      "regression value &/?+ü",
+      "--settings-context-enricher-worker-tag",
+      "regression value &/?+ü",
+      "--zaraz-version",
+      "1",
+      "--settings-inject-iframes=true"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/settings/zaraz/config",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "234",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "dataLayer": true,
+          "debugKey": "regression value &/?+ü",
+          "settings": {
+            "autoInjectScript": true,
+            "contextEnricher": {
+              "escapedWorkerName": "regression value &/?+ü",
+              "workerTag": "regression value &/?+ü"
+            },
+            "injectIframes": true
+          },
+          "zarazVersion": 1
+        }
+      }
+    ]
+  },
+  {
+    "case": "--settings-inject-iframes value 1",
+    "argv": [
+      "zaraz",
+      "config",
+      "update",
+      "--data-layer=true",
+      "--debug-key",
+      "regression value &/?+ü",
+      "--settings-auto-inject-script=true",
+      "--settings-context-enricher-escaped-worker-name",
+      "regression value &/?+ü",
+      "--settings-context-enricher-worker-tag",
+      "regression value &/?+ü",
+      "--zaraz-version",
+      "1",
+      "--settings-inject-iframes=false"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/settings/zaraz/config",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "235",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "dataLayer": true,
+          "debugKey": "regression value &/?+ü",
+          "settings": {
+            "autoInjectScript": true,
+            "contextEnricher": {
+              "escapedWorkerName": "regression value &/?+ü",
+              "workerTag": "regression value &/?+ü"
+            },
+            "injectIframes": false
+          },
+          "zarazVersion": 1
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --settings-mc-root-path",
+    "argv": [
+      "zaraz",
+      "config",
+      "update",
+      "--data-layer=true",
+      "--debug-key",
+      "regression value &/?+ü",
+      "--settings-auto-inject-script=true",
+      "--settings-context-enricher-escaped-worker-name",
+      "regression value &/?+ü",
+      "--settings-context-enricher-worker-tag",
+      "regression value &/?+ü",
+      "--zaraz-version",
+      "1",
+      "--settings-mc-root-path",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/settings/zaraz/config",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "252",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "dataLayer": true,
+          "debugKey": "regression value &/?+ü",
+          "settings": {
+            "autoInjectScript": true,
+            "contextEnricher": {
+              "escapedWorkerName": "regression value &/?+ü",
+              "workerTag": "regression value &/?+ü"
+            },
+            "mcRootPath": "regression value &/?+ü"
+          },
+          "zarazVersion": 1
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --settings-script-path",
+    "argv": [
+      "zaraz",
+      "config",
+      "update",
+      "--data-layer=true",
+      "--debug-key",
+      "regression value &/?+ü",
+      "--settings-auto-inject-script=true",
+      "--settings-context-enricher-escaped-worker-name",
+      "regression value &/?+ü",
+      "--settings-context-enricher-worker-tag",
+      "regression value &/?+ü",
+      "--zaraz-version",
+      "1",
+      "--settings-script-path",
+      "192.0.2.1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/settings/zaraz/config",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "238",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "dataLayer": true,
+          "debugKey": "regression value &/?+ü",
+          "settings": {
+            "autoInjectScript": true,
+            "contextEnricher": {
+              "escapedWorkerName": "regression value &/?+ü",
+              "workerTag": "regression value &/?+ü"
+            },
+            "scriptPath": "192.0.2.1"
+          },
+          "zarazVersion": 1
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --settings-track-path",
+    "argv": [
+      "zaraz",
+      "config",
+      "update",
+      "--data-layer=true",
+      "--debug-key",
+      "regression value &/?+ü",
+      "--settings-auto-inject-script=true",
+      "--settings-context-enricher-escaped-worker-name",
+      "regression value &/?+ü",
+      "--settings-context-enricher-worker-tag",
+      "regression value &/?+ü",
+      "--zaraz-version",
+      "1",
+      "--settings-track-path",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/settings/zaraz/config",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "251",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "dataLayer": true,
+          "debugKey": "regression value &/?+ü",
+          "settings": {
+            "autoInjectScript": true,
+            "contextEnricher": {
+              "escapedWorkerName": "regression value &/?+ü",
+              "workerTag": "regression value &/?+ü"
+            },
+            "trackPath": "regression value &/?+ü"
+          },
+          "zarazVersion": 1
+        }
+      }
+    ]
+  },
+  {
+    "case": "required --data-layer value 1",
+    "argv": [
+      "zaraz",
+      "config",
+      "update",
+      "--debug-key",
+      "regression value &/?+ü",
+      "--settings-auto-inject-script=true",
+      "--settings-context-enricher-escaped-worker-name",
+      "regression value &/?+ü",
+      "--settings-context-enricher-worker-tag",
+      "regression value &/?+ü",
+      "--zaraz-version",
+      "1",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--data-layer=false"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/settings/zaraz/config",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "required --settings-auto-inject-script value 1",
+    "argv": [
+      "zaraz",
+      "config",
+      "update",
+      "--data-layer=true",
+      "--debug-key",
+      "regression value &/?+ü",
+      "--settings-context-enricher-escaped-worker-name",
+      "regression value &/?+ü",
+      "--settings-context-enricher-worker-tag",
+      "regression value &/?+ü",
+      "--zaraz-version",
+      "1",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--settings-auto-inject-script=false"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/settings/zaraz/config",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 0",
+    "argv": [
+      "zaraz",
+      "config",
+      "update",
+      "--data-layer=true",
+      "--debug-key",
+      "regression value &/?+ü",
+      "--settings-auto-inject-script=true",
+      "--settings-context-enricher-escaped-worker-name",
+      "regression value &/?+ü",
+      "--settings-context-enricher-worker-tag",
+      "regression value &/?+ü",
+      "--zaraz-version",
+      "1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/settings/zaraz/config",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "213",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "dataLayer": true,
+          "debugKey": "regression value &/?+ü",
+          "settings": {
+            "autoInjectScript": true,
+            "contextEnricher": {
+              "escapedWorkerName": "regression value &/?+ü",
+              "workerTag": "regression value &/?+ü"
+            }
+          },
+          "zarazVersion": 1
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 1",
+    "argv": [
+      "zaraz",
+      "config",
+      "update",
+      "--data-layer=true",
+      "--debug-key",
+      "regression value &/?+ü",
+      "--settings-auto-inject-script=true",
+      "--settings-context-enricher-escaped-worker-name",
+      "regression value &/?+ü",
+      "--settings-context-enricher-worker-tag",
+      "regression value &/?+ü",
+      "--zaraz-version",
+      "1",
+      "--analytics-default-purpose",
+      "second value &/?+ü",
+      "--analytics-enabled=false",
+      "--analytics-session-exp-time",
+      "2",
+      "--consent-company-email",
+      "regression@example.com",
+      "--consent-company-name",
+      "second value &/?+ü",
+      "--consent-company-street-address",
+      "192.0.2.1",
+      "--consent-consent-modal-intro-html",
+      "second value &/?+ü",
+      "--consent-cookie-name",
+      "second value &/?+ü",
+      "--consent-custom-css",
+      "second value &/?+ü",
+      "--consent-custom-intro-disclaimer-dismissed=false",
+      "--consent-default-language",
+      "second value &/?+ü",
+      "--consent-enabled=false",
+      "--consent-hide-modal=false",
+      "--consent-tcf-compliant=false",
+      "--history-change=false",
+      "--settings-cookie-domain",
+      "example.com",
+      "--settings-ecommerce=false",
+      "--settings-events-api-path",
+      "second value &/?+ü",
+      "--settings-hide-external-referer=false",
+      "--settings-hide-ipaddress=false",
+      "--settings-hide-query-params=false",
+      "--settings-hide-user-agent=false",
+      "--settings-init-path",
+      "second value &/?+ü",
+      "--settings-inject-iframes=false",
+      "--settings-mc-root-path",
+      "second value &/?+ü",
+      "--settings-script-path",
+      "192.0.2.1",
+      "--settings-track-path",
+      "second value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/settings/zaraz/config",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "1025",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "analytics": {
+            "defaultPurpose": "second value &/?+ü",
+            "enabled": false,
+            "sessionExpTime": 2
+          },
+          "consent": {
+            "companyEmail": "regression@example.com",
+            "companyName": "second value &/?+ü",
+            "companyStreetAddress": "192.0.2.1",
+            "consentModalIntroHTML": "second value &/?+ü",
+            "cookieName": "second value &/?+ü",
+            "customCSS": "second value &/?+ü",
+            "customIntroDisclaimerDismissed": false,
+            "defaultLanguage": "second value &/?+ü",
+            "enabled": false,
+            "hideModal": false,
+            "tcfCompliant": false
+          },
+          "dataLayer": true,
+          "debugKey": "regression value &/?+ü",
+          "historyChange": false,
+          "settings": {
+            "autoInjectScript": true,
+            "contextEnricher": {
+              "escapedWorkerName": "regression value &/?+ü",
+              "workerTag": "regression value &/?+ü"
+            },
+            "cookieDomain": "example.com",
+            "ecommerce": false,
+            "eventsApiPath": "second value &/?+ü",
+            "hideExternalReferer": false,
+            "hideIPAddress": false,
+            "hideQueryParams": false,
+            "hideUserAgent": false,
+            "initPath": "second value &/?+ü",
+            "injectIframes": false,
+            "mcRootPath": "second value &/?+ü",
+            "scriptPath": "192.0.2.1",
+            "trackPath": "second value &/?+ü"
+          },
+          "zarazVersion": 1
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 2",
+    "argv": [
+      "zaraz",
+      "config",
+      "update",
+      "--data-layer=true",
+      "--debug-key",
+      "regression value &/?+ü",
+      "--settings-auto-inject-script=true",
+      "--settings-context-enricher-escaped-worker-name",
+      "regression value &/?+ü",
+      "--settings-context-enricher-worker-tag",
+      "regression value &/?+ü",
+      "--zaraz-version",
+      "1",
+      "--analytics-enabled=true",
+      "--consent-company-email",
+      "regression@example.com",
+      "--consent-company-street-address",
+      "192.0.2.1",
+      "--consent-cookie-name",
+      "regression value &/?+ü",
+      "--consent-custom-intro-disclaimer-dismissed=true",
+      "--consent-enabled=true",
+      "--consent-tcf-compliant=true",
+      "--settings-cookie-domain",
+      "example.com",
+      "--settings-events-api-path",
+      "regression value &/?+ü",
+      "--settings-hide-ipaddress=true",
+      "--settings-hide-user-agent=true",
+      "--settings-inject-iframes=true",
+      "--settings-script-path",
+      "192.0.2.1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/settings/zaraz/config",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "600",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "analytics": {
+            "enabled": true
+          },
+          "consent": {
+            "companyEmail": "regression@example.com",
+            "companyStreetAddress": "192.0.2.1",
+            "cookieName": "regression value &/?+ü",
+            "customIntroDisclaimerDismissed": true,
+            "enabled": true,
+            "tcfCompliant": true
+          },
+          "dataLayer": true,
+          "debugKey": "regression value &/?+ü",
+          "settings": {
+            "autoInjectScript": true,
+            "contextEnricher": {
+              "escapedWorkerName": "regression value &/?+ü",
+              "workerTag": "regression value &/?+ü"
+            },
+            "cookieDomain": "example.com",
+            "eventsApiPath": "regression value &/?+ü",
+            "hideIPAddress": true,
+            "hideUserAgent": true,
+            "injectIframes": true,
+            "scriptPath": "192.0.2.1"
+          },
+          "zarazVersion": 1
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 3",
+    "argv": [
+      "zaraz",
+      "config",
+      "update",
+      "--data-layer=true",
+      "--debug-key",
+      "regression value &/?+ü",
+      "--settings-auto-inject-script=true",
+      "--settings-context-enricher-escaped-worker-name",
+      "regression value &/?+ü",
+      "--settings-context-enricher-worker-tag",
+      "regression value &/?+ü",
+      "--zaraz-version",
+      "1",
+      "--analytics-default-purpose",
+      "second value &/?+ü",
+      "--analytics-session-exp-time",
+      "2",
+      "--consent-company-name",
+      "second value &/?+ü",
+      "--consent-consent-modal-intro-html",
+      "second value &/?+ü",
+      "--consent-custom-css",
+      "second value &/?+ü",
+      "--consent-default-language",
+      "second value &/?+ü",
+      "--consent-hide-modal=false",
+      "--history-change=false",
+      "--settings-ecommerce=false",
+      "--settings-hide-external-referer=false",
+      "--settings-hide-query-params=false",
+      "--settings-init-path",
+      "second value &/?+ü",
+      "--settings-mc-root-path",
+      "second value &/?+ü",
+      "--settings-track-path",
+      "second value &/?+ü"
+    ],
+    "exitCode": 1,
+    "error": "--consent-enabled is required when any --consent-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "pairwise 4",
+    "argv": [
+      "zaraz",
+      "config",
+      "update",
+      "--data-layer=true",
+      "--debug-key",
+      "regression value &/?+ü",
+      "--settings-auto-inject-script=true",
+      "--settings-context-enricher-escaped-worker-name",
+      "regression value &/?+ü",
+      "--settings-context-enricher-worker-tag",
+      "regression value &/?+ü",
+      "--zaraz-version",
+      "1",
+      "--analytics-session-exp-time",
+      "1",
+      "--consent-company-email",
+      "regression@example.com",
+      "--consent-consent-modal-intro-html",
+      "regression value &/?+ü",
+      "--consent-cookie-name",
+      "regression value &/?+ü",
+      "--consent-default-language",
+      "regression value &/?+ü",
+      "--consent-enabled=true",
+      "--history-change=true",
+      "--settings-cookie-domain",
+      "example.com",
+      "--settings-hide-external-referer=true",
+      "--settings-hide-ipaddress=true",
+      "--settings-init-path",
+      "regression value &/?+ü",
+      "--settings-inject-iframes=true",
+      "--settings-track-path",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/settings/zaraz/config",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "640",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "analytics": {
+            "sessionExpTime": 1
+          },
+          "consent": {
+            "companyEmail": "regression@example.com",
+            "consentModalIntroHTML": "regression value &/?+ü",
+            "cookieName": "regression value &/?+ü",
+            "defaultLanguage": "regression value &/?+ü",
+            "enabled": true
+          },
+          "dataLayer": true,
+          "debugKey": "regression value &/?+ü",
+          "historyChange": true,
+          "settings": {
+            "autoInjectScript": true,
+            "contextEnricher": {
+              "escapedWorkerName": "regression value &/?+ü",
+              "workerTag": "regression value &/?+ü"
+            },
+            "cookieDomain": "example.com",
+            "hideExternalReferer": true,
+            "hideIPAddress": true,
+            "initPath": "regression value &/?+ü",
+            "injectIframes": true,
+            "trackPath": "regression value &/?+ü"
+          },
+          "zarazVersion": 1
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 5",
+    "argv": [
+      "zaraz",
+      "config",
+      "update",
+      "--data-layer=true",
+      "--debug-key",
+      "regression value &/?+ü",
+      "--settings-auto-inject-script=true",
+      "--settings-context-enricher-escaped-worker-name",
+      "regression value &/?+ü",
+      "--settings-context-enricher-worker-tag",
+      "regression value &/?+ü",
+      "--zaraz-version",
+      "1",
+      "--analytics-default-purpose",
+      "second value &/?+ü",
+      "--analytics-enabled=false",
+      "--consent-company-name",
+      "second value &/?+ü",
+      "--consent-company-street-address",
+      "192.0.2.1",
+      "--consent-custom-css",
+      "second value &/?+ü",
+      "--consent-custom-intro-disclaimer-dismissed=false",
+      "--consent-hide-modal=false",
+      "--consent-tcf-compliant=false",
+      "--settings-ecommerce=false",
+      "--settings-events-api-path",
+      "second value &/?+ü",
+      "--settings-hide-query-params=false",
+      "--settings-hide-user-agent=false",
+      "--settings-mc-root-path",
+      "second value &/?+ü",
+      "--settings-script-path",
+      "192.0.2.1"
+    ],
+    "exitCode": 1,
+    "error": "--consent-enabled is required when any --consent-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "pairwise 6",
+    "argv": [
+      "zaraz",
+      "config",
+      "update",
+      "--data-layer=true",
+      "--debug-key",
+      "regression value &/?+ü",
+      "--settings-auto-inject-script=true",
+      "--settings-context-enricher-escaped-worker-name",
+      "regression value &/?+ü",
+      "--settings-context-enricher-worker-tag",
+      "regression value &/?+ü",
+      "--zaraz-version",
+      "1",
+      "--consent-company-name",
+      "regression value &/?+ü",
+      "--consent-company-street-address",
+      "192.0.2.1",
+      "--consent-consent-modal-intro-html",
+      "regression value &/?+ü",
+      "--consent-cookie-name",
+      "regression value &/?+ü",
+      "--consent-hide-modal=true",
+      "--consent-tcf-compliant=true",
+      "--history-change=true",
+      "--settings-cookie-domain",
+      "example.com",
+      "--settings-hide-query-params=true",
+      "--settings-hide-user-agent=true",
+      "--settings-init-path",
+      "regression value &/?+ü",
+      "--settings-inject-iframes=true"
+    ],
+    "exitCode": 1,
+    "error": "--consent-enabled is required when any --consent-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "pairwise 7",
+    "argv": [
+      "zaraz",
+      "config",
+      "update",
+      "--data-layer=true",
+      "--debug-key",
+      "regression value &/?+ü",
+      "--settings-auto-inject-script=true",
+      "--settings-context-enricher-escaped-worker-name",
+      "regression value &/?+ü",
+      "--settings-context-enricher-worker-tag",
+      "regression value &/?+ü",
+      "--zaraz-version",
+      "1",
+      "--analytics-default-purpose",
+      "second value &/?+ü",
+      "--analytics-enabled=false",
+      "--analytics-session-exp-time",
+      "2",
+      "--consent-company-email",
+      "regression@example.com",
+      "--consent-custom-css",
+      "second value &/?+ü",
+      "--consent-custom-intro-disclaimer-dismissed=false",
+      "--consent-default-language",
+      "second value &/?+ü",
+      "--consent-enabled=false",
+      "--settings-ecommerce=false",
+      "--settings-events-api-path",
+      "second value &/?+ü",
+      "--settings-hide-external-referer=false",
+      "--settings-hide-ipaddress=false",
+      "--settings-mc-root-path",
+      "second value &/?+ü",
+      "--settings-script-path",
+      "192.0.2.1",
+      "--settings-track-path",
+      "second value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/settings/zaraz/config",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "682",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "analytics": {
+            "defaultPurpose": "second value &/?+ü",
+            "enabled": false,
+            "sessionExpTime": 2
+          },
+          "consent": {
+            "companyEmail": "regression@example.com",
+            "customCSS": "second value &/?+ü",
+            "customIntroDisclaimerDismissed": false,
+            "defaultLanguage": "second value &/?+ü",
+            "enabled": false
+          },
+          "dataLayer": true,
+          "debugKey": "regression value &/?+ü",
+          "settings": {
+            "autoInjectScript": true,
+            "contextEnricher": {
+              "escapedWorkerName": "regression value &/?+ü",
+              "workerTag": "regression value &/?+ü"
+            },
+            "ecommerce": false,
+            "eventsApiPath": "second value &/?+ü",
+            "hideExternalReferer": false,
+            "hideIPAddress": false,
+            "mcRootPath": "second value &/?+ü",
+            "scriptPath": "192.0.2.1",
+            "trackPath": "second value &/?+ü"
+          },
+          "zarazVersion": 1
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 8",
+    "argv": [
+      "zaraz",
+      "config",
+      "update",
+      "--data-layer=true",
+      "--debug-key",
+      "regression value &/?+ü",
+      "--settings-auto-inject-script=true",
+      "--settings-context-enricher-escaped-worker-name",
+      "regression value &/?+ü",
+      "--settings-context-enricher-worker-tag",
+      "regression value &/?+ü",
+      "--zaraz-version",
+      "1",
+      "--consent-custom-css",
+      "regression value &/?+ü",
+      "--consent-custom-intro-disclaimer-dismissed=true",
+      "--consent-default-language",
+      "regression value &/?+ü",
+      "--consent-enabled=true",
+      "--consent-hide-modal=true",
+      "--consent-tcf-compliant=true",
+      "--history-change=true",
+      "--settings-cookie-domain",
+      "example.com",
+      "--settings-mc-root-path",
+      "regression value &/?+ü",
+      "--settings-script-path",
+      "192.0.2.1",
+      "--settings-track-path",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/settings/zaraz/config",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "549",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "consent": {
+            "customCSS": "regression value &/?+ü",
+            "customIntroDisclaimerDismissed": true,
+            "defaultLanguage": "regression value &/?+ü",
+            "enabled": true,
+            "hideModal": true,
+            "tcfCompliant": true
+          },
+          "dataLayer": true,
+          "debugKey": "regression value &/?+ü",
+          "historyChange": true,
+          "settings": {
+            "autoInjectScript": true,
+            "contextEnricher": {
+              "escapedWorkerName": "regression value &/?+ü",
+              "workerTag": "regression value &/?+ü"
+            },
+            "cookieDomain": "example.com",
+            "mcRootPath": "regression value &/?+ü",
+            "scriptPath": "192.0.2.1",
+            "trackPath": "regression value &/?+ü"
+          },
+          "zarazVersion": 1
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 9",
+    "argv": [
+      "zaraz",
+      "config",
+      "update",
+      "--data-layer=true",
+      "--debug-key",
+      "regression value &/?+ü",
+      "--settings-auto-inject-script=true",
+      "--settings-context-enricher-escaped-worker-name",
+      "regression value &/?+ü",
+      "--settings-context-enricher-worker-tag",
+      "regression value &/?+ü",
+      "--zaraz-version",
+      "1",
+      "--analytics-default-purpose",
+      "second value &/?+ü",
+      "--analytics-enabled=false",
+      "--analytics-session-exp-time",
+      "2",
+      "--consent-company-email",
+      "regression@example.com",
+      "--consent-company-name",
+      "second value &/?+ü",
+      "--consent-company-street-address",
+      "192.0.2.1",
+      "--consent-consent-modal-intro-html",
+      "second value &/?+ü",
+      "--consent-cookie-name",
+      "second value &/?+ü",
+      "--settings-ecommerce=false",
+      "--settings-events-api-path",
+      "second value &/?+ü",
+      "--settings-hide-external-referer=false",
+      "--settings-hide-ipaddress=false",
+      "--settings-hide-query-params=false",
+      "--settings-hide-user-agent=false",
+      "--settings-init-path",
+      "second value &/?+ü",
+      "--settings-inject-iframes=false"
+    ],
+    "exitCode": 1,
+    "error": "--consent-enabled is required when any --consent-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "pairwise 10",
+    "argv": [
+      "zaraz",
+      "config",
+      "update",
+      "--data-layer=true",
+      "--debug-key",
+      "regression value &/?+ü",
+      "--settings-auto-inject-script=true",
+      "--settings-context-enricher-escaped-worker-name",
+      "regression value &/?+ü",
+      "--settings-context-enricher-worker-tag",
+      "regression value &/?+ü",
+      "--zaraz-version",
+      "1",
+      "--settings-ecommerce=true",
+      "--settings-events-api-path",
+      "regression value &/?+ü",
+      "--settings-hide-external-referer=true",
+      "--settings-hide-ipaddress=true",
+      "--settings-hide-query-params=true",
+      "--settings-hide-user-agent=true",
+      "--settings-init-path",
+      "regression value &/?+ü",
+      "--settings-inject-iframes=true",
+      "--settings-mc-root-path",
+      "regression value &/?+ü",
+      "--settings-script-path",
+      "192.0.2.1",
+      "--settings-track-path",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/settings/zaraz/config",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "524",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "dataLayer": true,
+          "debugKey": "regression value &/?+ü",
+          "settings": {
+            "autoInjectScript": true,
+            "contextEnricher": {
+              "escapedWorkerName": "regression value &/?+ü",
+              "workerTag": "regression value &/?+ü"
+            },
+            "ecommerce": true,
+            "eventsApiPath": "regression value &/?+ü",
+            "hideExternalReferer": true,
+            "hideIPAddress": true,
+            "hideQueryParams": true,
+            "hideUserAgent": true,
+            "initPath": "regression value &/?+ü",
+            "injectIframes": true,
+            "mcRootPath": "regression value &/?+ü",
+            "scriptPath": "192.0.2.1",
+            "trackPath": "regression value &/?+ü"
+          },
+          "zarazVersion": 1
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 11",
+    "argv": [
+      "zaraz",
+      "config",
+      "update",
+      "--data-layer=true",
+      "--debug-key",
+      "regression value &/?+ü",
+      "--settings-auto-inject-script=true",
+      "--settings-context-enricher-escaped-worker-name",
+      "regression value &/?+ü",
+      "--settings-context-enricher-worker-tag",
+      "regression value &/?+ü",
+      "--zaraz-version",
+      "1",
+      "--analytics-default-purpose",
+      "second value &/?+ü",
+      "--analytics-enabled=false",
+      "--analytics-session-exp-time",
+      "2",
+      "--consent-company-email",
+      "regression@example.com",
+      "--consent-company-name",
+      "second value &/?+ü",
+      "--consent-company-street-address",
+      "192.0.2.1",
+      "--consent-consent-modal-intro-html",
+      "second value &/?+ü",
+      "--consent-cookie-name",
+      "second value &/?+ü",
+      "--consent-custom-css",
+      "second value &/?+ü",
+      "--consent-custom-intro-disclaimer-dismissed=false",
+      "--consent-default-language",
+      "second value &/?+ü",
+      "--consent-enabled=false",
+      "--consent-hide-modal=false",
+      "--consent-tcf-compliant=false",
+      "--history-change=false",
+      "--settings-cookie-domain",
+      "example.com"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/settings/zaraz/config",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "724",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "analytics": {
+            "defaultPurpose": "second value &/?+ü",
+            "enabled": false,
+            "sessionExpTime": 2
+          },
+          "consent": {
+            "companyEmail": "regression@example.com",
+            "companyName": "second value &/?+ü",
+            "companyStreetAddress": "192.0.2.1",
+            "consentModalIntroHTML": "second value &/?+ü",
+            "cookieName": "second value &/?+ü",
+            "customCSS": "second value &/?+ü",
+            "customIntroDisclaimerDismissed": false,
+            "defaultLanguage": "second value &/?+ü",
+            "enabled": false,
+            "hideModal": false,
+            "tcfCompliant": false
+          },
+          "dataLayer": true,
+          "debugKey": "regression value &/?+ü",
+          "historyChange": false,
+          "settings": {
+            "autoInjectScript": true,
+            "contextEnricher": {
+              "escapedWorkerName": "regression value &/?+ü",
+              "workerTag": "regression value &/?+ü"
+            },
+            "cookieDomain": "example.com"
+          },
+          "zarazVersion": 1
+        }
+      }
+    ]
+  },
+  {
+    "case": "global quiet",
+    "argv": [
+      "zaraz",
+      "config",
+      "update",
+      "--data-layer=true",
+      "--debug-key",
+      "regression value &/?+ü",
+      "--settings-auto-inject-script=true",
+      "--settings-context-enricher-escaped-worker-name",
+      "regression value &/?+ü",
+      "--settings-context-enricher-worker-tag",
+      "regression value &/?+ü",
+      "--zaraz-version",
+      "1",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--quiet"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/settings/zaraz/config",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "global zone",
+    "argv": [
+      "zaraz",
+      "config",
+      "update",
+      "--data-layer=true",
+      "--debug-key",
+      "regression value &/?+ü",
+      "--settings-auto-inject-script=true",
+      "--settings-context-enricher-escaped-worker-name",
+      "regression value &/?+ü",
+      "--settings-context-enricher-worker-tag",
+      "regression value &/?+ü",
+      "--zaraz-version",
+      "1",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--zone",
+      "abcdef0123456789abcdef0123456789"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/settings/zaraz/config",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "global profile and mode",
+    "argv": [
+      "zaraz",
+      "config",
+      "update",
+      "--data-layer=true",
+      "--debug-key",
+      "regression value &/?+ü",
+      "--settings-auto-inject-script=true",
+      "--settings-context-enricher-escaped-worker-name",
+      "regression value &/?+ü",
+      "--settings-context-enricher-worker-tag",
+      "regression value &/?+ü",
+      "--zaraz-version",
+      "1",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--profile",
+      "default",
+      "--mode",
+      "regression"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/settings/zaraz/config",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "local",
+    "argv": [
+      "zaraz",
+      "config",
+      "update",
+      "--data-layer=true",
+      "--debug-key",
+      "regression value &/?+ü",
+      "--settings-auto-inject-script=true",
+      "--settings-context-enricher-escaped-worker-name",
+      "regression value &/?+ü",
+      "--settings-context-enricher-worker-tag",
+      "regression value &/?+ü",
+      "--zaraz-version",
+      "1",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--local"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "http://localhost/cdn-cgi/local/explorer/api/zones/abcdef0123456789abcdef0123456789/settings/zaraz/config",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "gzip, deflate",
+          "accept-language": "*",
+          "connection": "keep-alive",
+          "content-type": "application/json",
+          "host": "localhost",
+          "sec-fetch-mode": "cors",
+          "transfer-encoding": "chunked",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "local with persistence",
+    "argv": [
+      "zaraz",
+      "config",
+      "update",
+      "--data-layer=true",
+      "--debug-key",
+      "regression value &/?+ü",
+      "--settings-auto-inject-script=true",
+      "--settings-context-enricher-escaped-worker-name",
+      "regression value &/?+ü",
+      "--settings-context-enricher-worker-tag",
+      "regression value &/?+ü",
+      "--zaraz-version",
+      "1",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--local",
+      "--persist-to",
+      "regression-state"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "http://localhost/cdn-cgi/local/explorer/api/zones/abcdef0123456789abcdef0123456789/settings/zaraz/config",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "gzip, deflate",
+          "accept-language": "*",
+          "connection": "keep-alive",
+          "content-type": "application/json",
+          "host": "localhost",
+          "sec-fetch-mode": "cors",
+          "transfer-encoding": "chunked",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "zone by domain",
+    "argv": [
+      "zaraz",
+      "config",
+      "update",
+      "--data-layer=true",
+      "--debug-key",
+      "regression value &/?+ü",
+      "--settings-auto-inject-script=true",
+      "--settings-context-enricher-escaped-worker-name",
+      "regression value &/?+ü",
+      "--settings-context-enricher-worker-tag",
+      "regression value &/?+ü",
+      "--zaraz-version",
+      "1",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--zone",
+      "regression-11b1e22f9d0e.example.com"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/zones?name=regression-11b1e22f9d0e.example.com&account.id=0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      },
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/settings/zaraz/config",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "dry-run",
+    "argv": [
+      "zaraz",
+      "config",
+      "update",
+      "--data-layer=true",
+      "--debug-key",
+      "regression value &/?+ü",
+      "--settings-auto-inject-script=true",
+      "--settings-context-enricher-escaped-worker-name",
+      "regression value &/?+ü",
+      "--settings-context-enricher-worker-tag",
+      "regression value &/?+ü",
+      "--zaraz-version",
+      "1",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--dry-run"
+    ],
+    "exitCode": 0,
+    "requests": []
+  },
+  {
+    "case": "body from file",
+    "argv": [
+      "zaraz",
+      "config",
+      "update",
+      "--data-layer=true",
+      "--debug-key",
+      "regression value &/?+ü",
+      "--settings-auto-inject-script=true",
+      "--settings-context-enricher-escaped-worker-name",
+      "regression value &/?+ü",
+      "--settings-context-enricher-worker-tag",
+      "regression value &/?+ü",
+      "--zaraz-version",
+      "1",
+      "--body",
+      "@<body.json>"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/settings/zaraz/config",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "array body",
+    "argv": [
+      "zaraz",
+      "config",
+      "update",
+      "--data-layer=true",
+      "--debug-key",
+      "regression value &/?+ü",
+      "--settings-auto-inject-script=true",
+      "--settings-context-enricher-escaped-worker-name",
+      "regression value &/?+ü",
+      "--settings-context-enricher-worker-tag",
+      "regression value &/?+ü",
+      "--zaraz-version",
+      "1",
+      "--body",
+      "[{\"regression\":\"first\"},{\"regression\":\"second\"}]"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/settings/zaraz/config",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "56",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "0": {
+            "regression": "first"
+          },
+          "1": {
+            "regression": "second"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "field flags",
+    "argv": [
+      "zaraz",
+      "config",
+      "update",
+      "--data-layer=true",
+      "--debug-key",
+      "regression value &/?+ü",
+      "--settings-auto-inject-script=true",
+      "--settings-context-enricher-escaped-worker-name",
+      "regression value &/?+ü",
+      "--settings-context-enricher-worker-tag",
+      "regression value &/?+ü",
+      "--zaraz-version",
+      "1",
+      "--analytics-default-purpose",
+      "regression value &/?+ü",
+      "--analytics-enabled=true",
+      "--analytics-session-exp-time",
+      "1",
+      "--consent-company-email",
+      "regression@example.com",
+      "--consent-company-name",
+      "regression value &/?+ü",
+      "--consent-company-street-address",
+      "192.0.2.1",
+      "--consent-consent-modal-intro-html",
+      "regression value &/?+ü",
+      "--consent-cookie-name",
+      "regression value &/?+ü",
+      "--consent-custom-css",
+      "regression value &/?+ü",
+      "--consent-custom-intro-disclaimer-dismissed=true",
+      "--consent-default-language",
+      "regression value &/?+ü",
+      "--consent-enabled=true",
+      "--consent-hide-modal=true",
+      "--consent-tcf-compliant=true",
+      "--history-change=true",
+      "--settings-cookie-domain",
+      "example.com",
+      "--settings-ecommerce=true",
+      "--settings-events-api-path",
+      "regression value &/?+ü",
+      "--settings-hide-external-referer=true",
+      "--settings-hide-ipaddress=true",
+      "--settings-hide-query-params=true",
+      "--settings-hide-user-agent=true",
+      "--settings-init-path",
+      "regression value &/?+ü",
+      "--settings-inject-iframes=true",
+      "--settings-mc-root-path",
+      "regression value &/?+ü",
+      "--settings-script-path",
+      "192.0.2.1",
+      "--settings-track-path",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/settings/zaraz/config",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "1053",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "analytics": {
+            "defaultPurpose": "regression value &/?+ü",
+            "enabled": true,
+            "sessionExpTime": 1
+          },
+          "consent": {
+            "companyEmail": "regression@example.com",
+            "companyName": "regression value &/?+ü",
+            "companyStreetAddress": "192.0.2.1",
+            "consentModalIntroHTML": "regression value &/?+ü",
+            "cookieName": "regression value &/?+ü",
+            "customCSS": "regression value &/?+ü",
+            "customIntroDisclaimerDismissed": true,
+            "defaultLanguage": "regression value &/?+ü",
+            "enabled": true,
+            "hideModal": true,
+            "tcfCompliant": true
+          },
+          "dataLayer": true,
+          "debugKey": "regression value &/?+ü",
+          "historyChange": true,
+          "settings": {
+            "autoInjectScript": true,
+            "contextEnricher": {
+              "escapedWorkerName": "regression value &/?+ü",
+              "workerTag": "regression value &/?+ü"
+            },
+            "cookieDomain": "example.com",
+            "ecommerce": true,
+            "eventsApiPath": "regression value &/?+ü",
+            "hideExternalReferer": true,
+            "hideIPAddress": true,
+            "hideQueryParams": true,
+            "hideUserAgent": true,
+            "initPath": "regression value &/?+ü",
+            "injectIframes": true,
+            "mcRootPath": "regression value &/?+ü",
+            "scriptPath": "192.0.2.1",
+            "trackPath": "regression value &/?+ü"
+          },
+          "zarazVersion": 1
+        }
+      }
+    ]
+  }
+]

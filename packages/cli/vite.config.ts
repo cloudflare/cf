@@ -73,6 +73,7 @@ export default defineConfig({
 		pool: "forks",
 		retry: 0,
 		include: ["src/__tests__/**/*.test.ts", "src/__tests__/**/*.test.tsx"],
+		exclude: ["src/__tests__/regression/shards/**"],
 		setupFiles: ["src/__tests__/vitest.setup.ts"],
 		globals: true,
 		unstubEnvs: true,

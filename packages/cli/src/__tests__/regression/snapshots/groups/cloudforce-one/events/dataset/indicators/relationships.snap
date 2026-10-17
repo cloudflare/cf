@@ -1,0 +1,10 @@
+{
+  "argv": [
+    "cloudforce-one",
+    "events",
+    "dataset",
+    "indicators",
+    "relationships"
+  ],
+  "requests": []
+}

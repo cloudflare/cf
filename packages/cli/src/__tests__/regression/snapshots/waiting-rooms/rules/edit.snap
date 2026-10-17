@@ -1,0 +1,1000 @@
+[
+  {
+    "case": "no-args",
+    "argv": [
+      "waiting-rooms",
+      "rules",
+      "edit"
+    ],
+    "exitCode": 1,
+    "error": "Not enough non-option arguments: got 0, need at least 1",
+    "requests": []
+  },
+  {
+    "case": "required",
+    "argv": [
+      "waiting-rooms",
+      "rules",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--waiting-room-id",
+      "0123456789abcdef0123456789abcdef",
+      "--action",
+      "bypass_waiting_room",
+      "--expression",
+      "regression value &/?+ü",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/waiting_rooms/0123456789abcdef0123456789abcdef/rules/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "73",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ],
+          "action": "bypass_waiting_room"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --description",
+    "argv": [
+      "waiting-rooms",
+      "rules",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--waiting-room-id",
+      "0123456789abcdef0123456789abcdef",
+      "--action",
+      "bypass_waiting_room",
+      "--expression",
+      "regression value &/?+ü",
+      "--description",
+      "192.0.2.1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/waiting_rooms/0123456789abcdef0123456789abcdef/rules/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "97",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "action": "bypass_waiting_room",
+          "description": "192.0.2.1",
+          "expression": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --enabled",
+    "argv": [
+      "waiting-rooms",
+      "rules",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--waiting-room-id",
+      "0123456789abcdef0123456789abcdef",
+      "--action",
+      "bypass_waiting_room",
+      "--expression",
+      "regression value &/?+ü",
+      "--enabled=true"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/waiting_rooms/0123456789abcdef0123456789abcdef/rules/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "86",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "action": "bypass_waiting_room",
+          "enabled": true,
+          "expression": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "--enabled value 1",
+    "argv": [
+      "waiting-rooms",
+      "rules",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--waiting-room-id",
+      "0123456789abcdef0123456789abcdef",
+      "--action",
+      "bypass_waiting_room",
+      "--expression",
+      "regression value &/?+ü",
+      "--enabled=false"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/waiting_rooms/0123456789abcdef0123456789abcdef/rules/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "87",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "action": "bypass_waiting_room",
+          "enabled": false,
+          "expression": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --position-index",
+    "argv": [
+      "waiting-rooms",
+      "rules",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--waiting-room-id",
+      "0123456789abcdef0123456789abcdef",
+      "--action",
+      "bypass_waiting_room",
+      "--expression",
+      "regression value &/?+ü",
+      "--position-index",
+      "1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/waiting_rooms/0123456789abcdef0123456789abcdef/rules/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "94",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "action": "bypass_waiting_room",
+          "expression": "regression value &/?+ü",
+          "position": {
+            "index": 1
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --position-before",
+    "argv": [
+      "waiting-rooms",
+      "rules",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--waiting-room-id",
+      "0123456789abcdef0123456789abcdef",
+      "--action",
+      "bypass_waiting_room",
+      "--expression",
+      "regression value &/?+ü",
+      "--position-before",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/waiting_rooms/0123456789abcdef0123456789abcdef/rules/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "119",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "action": "bypass_waiting_room",
+          "expression": "regression value &/?+ü",
+          "position": {
+            "before": "regression value &/?+ü"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --position-after",
+    "argv": [
+      "waiting-rooms",
+      "rules",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--waiting-room-id",
+      "0123456789abcdef0123456789abcdef",
+      "--action",
+      "bypass_waiting_room",
+      "--expression",
+      "regression value &/?+ü",
+      "--position-after",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/waiting_rooms/0123456789abcdef0123456789abcdef/rules/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "118",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "action": "bypass_waiting_room",
+          "expression": "regression value &/?+ü",
+          "position": {
+            "after": "regression value &/?+ü"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 0",
+    "argv": [
+      "waiting-rooms",
+      "rules",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--waiting-room-id",
+      "0123456789abcdef0123456789abcdef",
+      "--action",
+      "bypass_waiting_room",
+      "--expression",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/waiting_rooms/0123456789abcdef0123456789abcdef/rules/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "71",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "action": "bypass_waiting_room",
+          "expression": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 1",
+    "argv": [
+      "waiting-rooms",
+      "rules",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--waiting-room-id",
+      "0123456789abcdef0123456789abcdef",
+      "--action",
+      "bypass_waiting_room",
+      "--expression",
+      "regression value &/?+ü",
+      "--description",
+      "192.0.2.1",
+      "--enabled=false",
+      "--position-index",
+      "2",
+      "--position-before",
+      "second value &/?+ü",
+      "--position-after",
+      "second value &/?+ü"
+    ],
+    "exitCode": 1,
+    "error": "Arguments position-index and position-before are mutually exclusive",
+    "requests": []
+  },
+  {
+    "case": "pairwise 2",
+    "argv": [
+      "waiting-rooms",
+      "rules",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--waiting-room-id",
+      "0123456789abcdef0123456789abcdef",
+      "--action",
+      "bypass_waiting_room",
+      "--expression",
+      "regression value &/?+ü",
+      "--enabled=true",
+      "--position-before",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/waiting_rooms/0123456789abcdef0123456789abcdef/rules/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "134",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "action": "bypass_waiting_room",
+          "enabled": true,
+          "expression": "regression value &/?+ü",
+          "position": {
+            "before": "regression value &/?+ü"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 3",
+    "argv": [
+      "waiting-rooms",
+      "rules",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--waiting-room-id",
+      "0123456789abcdef0123456789abcdef",
+      "--action",
+      "bypass_waiting_room",
+      "--expression",
+      "regression value &/?+ü",
+      "--description",
+      "192.0.2.1",
+      "--position-index",
+      "2",
+      "--position-after",
+      "second value &/?+ü"
+    ],
+    "exitCode": 1,
+    "error": "Arguments position-index and position-after are mutually exclusive",
+    "requests": []
+  },
+  {
+    "case": "pairwise 4",
+    "argv": [
+      "waiting-rooms",
+      "rules",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--waiting-room-id",
+      "0123456789abcdef0123456789abcdef",
+      "--action",
+      "bypass_waiting_room",
+      "--expression",
+      "regression value &/?+ü",
+      "--position-index",
+      "1",
+      "--position-before",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 1,
+    "error": "Arguments position-index and position-before are mutually exclusive",
+    "requests": []
+  },
+  {
+    "case": "pairwise 5",
+    "argv": [
+      "waiting-rooms",
+      "rules",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--waiting-room-id",
+      "0123456789abcdef0123456789abcdef",
+      "--action",
+      "bypass_waiting_room",
+      "--expression",
+      "regression value &/?+ü",
+      "--description",
+      "192.0.2.1",
+      "--enabled=false",
+      "--position-after",
+      "second value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/waiting_rooms/0123456789abcdef0123456789abcdef/rules/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "156",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "action": "bypass_waiting_room",
+          "description": "192.0.2.1",
+          "enabled": false,
+          "expression": "regression value &/?+ü",
+          "position": {
+            "after": "second value &/?+ü"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 7",
+    "argv": [
+      "waiting-rooms",
+      "rules",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--waiting-room-id",
+      "0123456789abcdef0123456789abcdef",
+      "--action",
+      "bypass_waiting_room",
+      "--expression",
+      "regression value &/?+ü",
+      "--description",
+      "192.0.2.1",
+      "--enabled=false",
+      "--position-index",
+      "2",
+      "--position-before",
+      "second value &/?+ü"
+    ],
+    "exitCode": 1,
+    "error": "Arguments position-index and position-before are mutually exclusive",
+    "requests": []
+  },
+  {
+    "case": "global quiet",
+    "argv": [
+      "waiting-rooms",
+      "rules",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--waiting-room-id",
+      "0123456789abcdef0123456789abcdef",
+      "--action",
+      "bypass_waiting_room",
+      "--expression",
+      "regression value &/?+ü",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--quiet"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/waiting_rooms/0123456789abcdef0123456789abcdef/rules/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "73",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ],
+          "action": "bypass_waiting_room"
+        }
+      }
+    ]
+  },
+  {
+    "case": "global zone",
+    "argv": [
+      "waiting-rooms",
+      "rules",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--waiting-room-id",
+      "0123456789abcdef0123456789abcdef",
+      "--action",
+      "bypass_waiting_room",
+      "--expression",
+      "regression value &/?+ü",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--zone",
+      "abcdef0123456789abcdef0123456789"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/waiting_rooms/0123456789abcdef0123456789abcdef/rules/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "73",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ],
+          "action": "bypass_waiting_room"
+        }
+      }
+    ]
+  },
+  {
+    "case": "global profile and mode",
+    "argv": [
+      "waiting-rooms",
+      "rules",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--waiting-room-id",
+      "0123456789abcdef0123456789abcdef",
+      "--action",
+      "bypass_waiting_room",
+      "--expression",
+      "regression value &/?+ü",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--profile",
+      "default",
+      "--mode",
+      "regression"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/waiting_rooms/0123456789abcdef0123456789abcdef/rules/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "73",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ],
+          "action": "bypass_waiting_room"
+        }
+      }
+    ]
+  },
+  {
+    "case": "local",
+    "argv": [
+      "waiting-rooms",
+      "rules",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--waiting-room-id",
+      "0123456789abcdef0123456789abcdef",
+      "--action",
+      "bypass_waiting_room",
+      "--expression",
+      "regression value &/?+ü",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--local"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "http://localhost/cdn-cgi/local/explorer/api/zones/abcdef0123456789abcdef0123456789/waiting_rooms/0123456789abcdef0123456789abcdef/rules/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "gzip, deflate",
+          "accept-language": "*",
+          "connection": "keep-alive",
+          "content-type": "application/json",
+          "host": "localhost",
+          "sec-fetch-mode": "cors",
+          "transfer-encoding": "chunked",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ],
+          "action": "bypass_waiting_room"
+        }
+      }
+    ]
+  },
+  {
+    "case": "local with persistence",
+    "argv": [
+      "waiting-rooms",
+      "rules",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--waiting-room-id",
+      "0123456789abcdef0123456789abcdef",
+      "--action",
+      "bypass_waiting_room",
+      "--expression",
+      "regression value &/?+ü",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--local",
+      "--persist-to",
+      "regression-state"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "http://localhost/cdn-cgi/local/explorer/api/zones/abcdef0123456789abcdef0123456789/waiting_rooms/0123456789abcdef0123456789abcdef/rules/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "gzip, deflate",
+          "accept-language": "*",
+          "connection": "keep-alive",
+          "content-type": "application/json",
+          "host": "localhost",
+          "sec-fetch-mode": "cors",
+          "transfer-encoding": "chunked",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ],
+          "action": "bypass_waiting_room"
+        }
+      }
+    ]
+  },
+  {
+    "case": "zone by domain",
+    "argv": [
+      "waiting-rooms",
+      "rules",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--waiting-room-id",
+      "0123456789abcdef0123456789abcdef",
+      "--action",
+      "bypass_waiting_room",
+      "--expression",
+      "regression value &/?+ü",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--zone",
+      "regression-4be17e45a0e0.example.com"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/zones?name=regression-4be17e45a0e0.example.com&account.id=0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      },
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/waiting_rooms/0123456789abcdef0123456789abcdef/rules/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "73",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ],
+          "action": "bypass_waiting_room"
+        }
+      }
+    ]
+  },
+  {
+    "case": "dry-run",
+    "argv": [
+      "waiting-rooms",
+      "rules",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--waiting-room-id",
+      "0123456789abcdef0123456789abcdef",
+      "--action",
+      "bypass_waiting_room",
+      "--expression",
+      "regression value &/?+ü",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--dry-run"
+    ],
+    "exitCode": 0,
+    "requests": []
+  },
+  {
+    "case": "body from file",
+    "argv": [
+      "waiting-rooms",
+      "rules",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--waiting-room-id",
+      "0123456789abcdef0123456789abcdef",
+      "--action",
+      "bypass_waiting_room",
+      "--expression",
+      "regression value &/?+ü",
+      "--body",
+      "@<body.json>"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/waiting_rooms/0123456789abcdef0123456789abcdef/rules/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "73",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ],
+          "action": "bypass_waiting_room"
+        }
+      }
+    ]
+  },
+  {
+    "case": "array body",
+    "argv": [
+      "waiting-rooms",
+      "rules",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--waiting-room-id",
+      "0123456789abcdef0123456789abcdef",
+      "--action",
+      "bypass_waiting_room",
+      "--expression",
+      "regression value &/?+ü",
+      "--body",
+      "[{\"regression\":\"first\"},{\"regression\":\"second\"}]"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/waiting_rooms/0123456789abcdef0123456789abcdef/rules/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "87",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "0": {
+            "regression": "first"
+          },
+          "1": {
+            "regression": "second"
+          },
+          "action": "bypass_waiting_room"
+        }
+      }
+    ]
+  },
+  {
+    "case": "field flags",
+    "argv": [
+      "waiting-rooms",
+      "rules",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--waiting-room-id",
+      "0123456789abcdef0123456789abcdef",
+      "--action",
+      "bypass_waiting_room",
+      "--expression",
+      "regression value &/?+ü",
+      "--description",
+      "192.0.2.1",
+      "--enabled=true",
+      "--position-index",
+      "1",
+      "--position-before",
+      "regression value &/?+ü",
+      "--position-after",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 1,
+    "error": "Arguments position-index and position-before are mutually exclusive",
+    "requests": []
+  }
+]

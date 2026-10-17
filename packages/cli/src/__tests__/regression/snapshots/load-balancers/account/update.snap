@@ -1,0 +1,3559 @@
+[
+  {
+    "case": "no-args",
+    "argv": [
+      "load-balancers",
+      "account",
+      "update"
+    ],
+    "exitCode": 1,
+    "error": "Not enough non-option arguments: got 0, need at least 1",
+    "requests": []
+  },
+  {
+    "case": "required",
+    "argv": [
+      "load-balancers",
+      "account",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--default-pools",
+      "regression value &/?+ü",
+      "--fallback-pool",
+      "regression value &/?+ü",
+      "--name",
+      "regression value &/?+ü",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/load_balancers/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --adaptive-routing-failover-across-pools",
+    "argv": [
+      "load-balancers",
+      "account",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--default-pools",
+      "regression value &/?+ü",
+      "--fallback-pool",
+      "regression value &/?+ü",
+      "--name",
+      "regression value &/?+ü",
+      "--adaptive-routing-failover-across-pools=true"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/load_balancers/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "170",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "adaptive_routing": {
+            "failover_across_pools": true
+          },
+          "default_pools": [
+            "regression value &/?+ü"
+          ],
+          "fallback_pool": "regression value &/?+ü",
+          "name": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "--adaptive-routing-failover-across-pools value 1",
+    "argv": [
+      "load-balancers",
+      "account",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--default-pools",
+      "regression value &/?+ü",
+      "--fallback-pool",
+      "regression value &/?+ü",
+      "--name",
+      "regression value &/?+ü",
+      "--adaptive-routing-failover-across-pools=false"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/load_balancers/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "171",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "adaptive_routing": {
+            "failover_across_pools": false
+          },
+          "default_pools": [
+            "regression value &/?+ü"
+          ],
+          "fallback_pool": "regression value &/?+ü",
+          "name": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --description",
+    "argv": [
+      "load-balancers",
+      "account",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--default-pools",
+      "regression value &/?+ü",
+      "--fallback-pool",
+      "regression value &/?+ü",
+      "--name",
+      "regression value &/?+ü",
+      "--description",
+      "192.0.2.1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/load_balancers/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "146",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "default_pools": [
+            "regression value &/?+ü"
+          ],
+          "description": "192.0.2.1",
+          "fallback_pool": "regression value &/?+ü",
+          "name": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --enabled",
+    "argv": [
+      "load-balancers",
+      "account",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--default-pools",
+      "regression value &/?+ü",
+      "--fallback-pool",
+      "regression value &/?+ü",
+      "--name",
+      "regression value &/?+ü",
+      "--enabled=true"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/load_balancers/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "135",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "default_pools": [
+            "regression value &/?+ü"
+          ],
+          "enabled": true,
+          "fallback_pool": "regression value &/?+ü",
+          "name": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "--enabled value 1",
+    "argv": [
+      "load-balancers",
+      "account",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--default-pools",
+      "regression value &/?+ü",
+      "--fallback-pool",
+      "regression value &/?+ü",
+      "--name",
+      "regression value &/?+ü",
+      "--enabled=false"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/load_balancers/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "136",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "default_pools": [
+            "regression value &/?+ü"
+          ],
+          "enabled": false,
+          "fallback_pool": "regression value &/?+ü",
+          "name": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --location-strategy-mode",
+    "argv": [
+      "load-balancers",
+      "account",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--default-pools",
+      "regression value &/?+ü",
+      "--fallback-pool",
+      "regression value &/?+ü",
+      "--name",
+      "regression value &/?+ü",
+      "--location-strategy-mode",
+      "pop"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/load_balancers/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "155",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "default_pools": [
+            "regression value &/?+ü"
+          ],
+          "fallback_pool": "regression value &/?+ü",
+          "location_strategy": {
+            "mode": "pop"
+          },
+          "name": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "--location-strategy-mode value 1",
+    "argv": [
+      "load-balancers",
+      "account",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--default-pools",
+      "regression value &/?+ü",
+      "--fallback-pool",
+      "regression value &/?+ü",
+      "--name",
+      "regression value &/?+ü",
+      "--location-strategy-mode",
+      "resolver_ip"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/load_balancers/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "163",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "default_pools": [
+            "regression value &/?+ü"
+          ],
+          "fallback_pool": "regression value &/?+ü",
+          "location_strategy": {
+            "mode": "resolver_ip"
+          },
+          "name": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --location-strategy-prefer-ecs",
+    "argv": [
+      "load-balancers",
+      "account",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--default-pools",
+      "regression value &/?+ü",
+      "--fallback-pool",
+      "regression value &/?+ü",
+      "--name",
+      "regression value &/?+ü",
+      "--location-strategy-prefer-ecs",
+      "always"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/load_balancers/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "164",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "default_pools": [
+            "regression value &/?+ü"
+          ],
+          "fallback_pool": "regression value &/?+ü",
+          "location_strategy": {
+            "prefer_ecs": "always"
+          },
+          "name": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "--location-strategy-prefer-ecs value 1",
+    "argv": [
+      "load-balancers",
+      "account",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--default-pools",
+      "regression value &/?+ü",
+      "--fallback-pool",
+      "regression value &/?+ü",
+      "--name",
+      "regression value &/?+ü",
+      "--location-strategy-prefer-ecs",
+      "never"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/load_balancers/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "163",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "default_pools": [
+            "regression value &/?+ü"
+          ],
+          "fallback_pool": "regression value &/?+ü",
+          "location_strategy": {
+            "prefer_ecs": "never"
+          },
+          "name": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "--location-strategy-prefer-ecs value 2",
+    "argv": [
+      "load-balancers",
+      "account",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--default-pools",
+      "regression value &/?+ü",
+      "--fallback-pool",
+      "regression value &/?+ü",
+      "--name",
+      "regression value &/?+ü",
+      "--location-strategy-prefer-ecs",
+      "proximity"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/load_balancers/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "167",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "default_pools": [
+            "regression value &/?+ü"
+          ],
+          "fallback_pool": "regression value &/?+ü",
+          "location_strategy": {
+            "prefer_ecs": "proximity"
+          },
+          "name": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "--location-strategy-prefer-ecs value 3",
+    "argv": [
+      "load-balancers",
+      "account",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--default-pools",
+      "regression value &/?+ü",
+      "--fallback-pool",
+      "regression value &/?+ü",
+      "--name",
+      "regression value &/?+ü",
+      "--location-strategy-prefer-ecs",
+      "geo"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/load_balancers/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "161",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "default_pools": [
+            "regression value &/?+ü"
+          ],
+          "fallback_pool": "regression value &/?+ü",
+          "location_strategy": {
+            "prefer_ecs": "geo"
+          },
+          "name": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --networks",
+    "argv": [
+      "load-balancers",
+      "account",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--default-pools",
+      "regression value &/?+ü",
+      "--fallback-pool",
+      "regression value &/?+ü",
+      "--name",
+      "regression value &/?+ü",
+      "--networks",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/load_balancers/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "159",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "default_pools": [
+            "regression value &/?+ü"
+          ],
+          "fallback_pool": "regression value &/?+ü",
+          "name": "regression value &/?+ü",
+          "networks": [
+            "regression value &/?+ü"
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --proxied",
+    "argv": [
+      "load-balancers",
+      "account",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--default-pools",
+      "regression value &/?+ü",
+      "--fallback-pool",
+      "regression value &/?+ü",
+      "--name",
+      "regression value &/?+ü",
+      "--proxied=true"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/load_balancers/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "135",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "default_pools": [
+            "regression value &/?+ü"
+          ],
+          "fallback_pool": "regression value &/?+ü",
+          "name": "regression value &/?+ü",
+          "proxied": true
+        }
+      }
+    ]
+  },
+  {
+    "case": "--proxied value 1",
+    "argv": [
+      "load-balancers",
+      "account",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--default-pools",
+      "regression value &/?+ü",
+      "--fallback-pool",
+      "regression value &/?+ü",
+      "--name",
+      "regression value &/?+ü",
+      "--proxied=false"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/load_balancers/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "136",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "default_pools": [
+            "regression value &/?+ü"
+          ],
+          "fallback_pool": "regression value &/?+ü",
+          "name": "regression value &/?+ü",
+          "proxied": false
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --random-steering-default-weight",
+    "argv": [
+      "load-balancers",
+      "account",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--default-pools",
+      "regression value &/?+ü",
+      "--fallback-pool",
+      "regression value &/?+ü",
+      "--name",
+      "regression value &/?+ü",
+      "--random-steering-default-weight",
+      "1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/load_balancers/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "159",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "default_pools": [
+            "regression value &/?+ü"
+          ],
+          "fallback_pool": "regression value &/?+ü",
+          "name": "regression value &/?+ü",
+          "random_steering": {
+            "default_weight": 1
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --rules",
+    "argv": [
+      "load-balancers",
+      "account",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--default-pools",
+      "regression value &/?+ü",
+      "--fallback-pool",
+      "regression value &/?+ü",
+      "--name",
+      "regression value &/?+ü",
+      "--rules",
+      "[{\"regression\":\"item\"}]"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/load_balancers/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "152",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "default_pools": [
+            "regression value &/?+ü"
+          ],
+          "fallback_pool": "regression value &/?+ü",
+          "name": "regression value &/?+ü",
+          "rules": [
+            {
+              "regression": "item"
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --session-affinity",
+    "argv": [
+      "load-balancers",
+      "account",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--default-pools",
+      "regression value &/?+ü",
+      "--fallback-pool",
+      "regression value &/?+ü",
+      "--name",
+      "regression value &/?+ü",
+      "--session-affinity",
+      "none"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/load_balancers/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "146",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "default_pools": [
+            "regression value &/?+ü"
+          ],
+          "fallback_pool": "regression value &/?+ü",
+          "name": "regression value &/?+ü",
+          "session_affinity": "none"
+        }
+      }
+    ]
+  },
+  {
+    "case": "--session-affinity value 1",
+    "argv": [
+      "load-balancers",
+      "account",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--default-pools",
+      "regression value &/?+ü",
+      "--fallback-pool",
+      "regression value &/?+ü",
+      "--name",
+      "regression value &/?+ü",
+      "--session-affinity",
+      "cookie"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/load_balancers/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "148",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "default_pools": [
+            "regression value &/?+ü"
+          ],
+          "fallback_pool": "regression value &/?+ü",
+          "name": "regression value &/?+ü",
+          "session_affinity": "cookie"
+        }
+      }
+    ]
+  },
+  {
+    "case": "--session-affinity value 2",
+    "argv": [
+      "load-balancers",
+      "account",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--default-pools",
+      "regression value &/?+ü",
+      "--fallback-pool",
+      "regression value &/?+ü",
+      "--name",
+      "regression value &/?+ü",
+      "--session-affinity",
+      "ip_cookie"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/load_balancers/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "151",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "default_pools": [
+            "regression value &/?+ü"
+          ],
+          "fallback_pool": "regression value &/?+ü",
+          "name": "regression value &/?+ü",
+          "session_affinity": "ip_cookie"
+        }
+      }
+    ]
+  },
+  {
+    "case": "--session-affinity value 3",
+    "argv": [
+      "load-balancers",
+      "account",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--default-pools",
+      "regression value &/?+ü",
+      "--fallback-pool",
+      "regression value &/?+ü",
+      "--name",
+      "regression value &/?+ü",
+      "--session-affinity",
+      "header"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/load_balancers/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "148",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "default_pools": [
+            "regression value &/?+ü"
+          ],
+          "fallback_pool": "regression value &/?+ü",
+          "name": "regression value &/?+ü",
+          "session_affinity": "header"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --session-affinity-attributes-drain-duration",
+    "argv": [
+      "load-balancers",
+      "account",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--default-pools",
+      "regression value &/?+ü",
+      "--fallback-pool",
+      "regression value &/?+ü",
+      "--name",
+      "regression value &/?+ü",
+      "--session-affinity-attributes-drain-duration",
+      "1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/load_balancers/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "171",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "default_pools": [
+            "regression value &/?+ü"
+          ],
+          "fallback_pool": "regression value &/?+ü",
+          "name": "regression value &/?+ü",
+          "session_affinity_attributes": {
+            "drain_duration": 1
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --session-affinity-attributes-headers",
+    "argv": [
+      "load-balancers",
+      "account",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--default-pools",
+      "regression value &/?+ü",
+      "--fallback-pool",
+      "regression value &/?+ü",
+      "--name",
+      "regression value &/?+ü",
+      "--session-affinity-attributes-headers",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/load_balancers/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "190",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "default_pools": [
+            "regression value &/?+ü"
+          ],
+          "fallback_pool": "regression value &/?+ü",
+          "name": "regression value &/?+ü",
+          "session_affinity_attributes": {
+            "headers": [
+              "regression value &/?+ü"
+            ]
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --session-affinity-attributes-require-all-headers",
+    "argv": [
+      "load-balancers",
+      "account",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--default-pools",
+      "regression value &/?+ü",
+      "--fallback-pool",
+      "regression value &/?+ü",
+      "--name",
+      "regression value &/?+ü",
+      "--session-affinity-attributes-require-all-headers=true"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/load_balancers/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "179",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "default_pools": [
+            "regression value &/?+ü"
+          ],
+          "fallback_pool": "regression value &/?+ü",
+          "name": "regression value &/?+ü",
+          "session_affinity_attributes": {
+            "require_all_headers": true
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "--session-affinity-attributes-require-all-headers value 1",
+    "argv": [
+      "load-balancers",
+      "account",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--default-pools",
+      "regression value &/?+ü",
+      "--fallback-pool",
+      "regression value &/?+ü",
+      "--name",
+      "regression value &/?+ü",
+      "--session-affinity-attributes-require-all-headers=false"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/load_balancers/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "180",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "default_pools": [
+            "regression value &/?+ü"
+          ],
+          "fallback_pool": "regression value &/?+ü",
+          "name": "regression value &/?+ü",
+          "session_affinity_attributes": {
+            "require_all_headers": false
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --session-affinity-attributes-samesite",
+    "argv": [
+      "load-balancers",
+      "account",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--default-pools",
+      "regression value &/?+ü",
+      "--fallback-pool",
+      "regression value &/?+ü",
+      "--name",
+      "regression value &/?+ü",
+      "--session-affinity-attributes-samesite",
+      "Auto"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/load_balancers/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "170",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "default_pools": [
+            "regression value &/?+ü"
+          ],
+          "fallback_pool": "regression value &/?+ü",
+          "name": "regression value &/?+ü",
+          "session_affinity_attributes": {
+            "samesite": "Auto"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "--session-affinity-attributes-samesite value 1",
+    "argv": [
+      "load-balancers",
+      "account",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--default-pools",
+      "regression value &/?+ü",
+      "--fallback-pool",
+      "regression value &/?+ü",
+      "--name",
+      "regression value &/?+ü",
+      "--session-affinity-attributes-samesite",
+      "Lax"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/load_balancers/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "169",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "default_pools": [
+            "regression value &/?+ü"
+          ],
+          "fallback_pool": "regression value &/?+ü",
+          "name": "regression value &/?+ü",
+          "session_affinity_attributes": {
+            "samesite": "Lax"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "--session-affinity-attributes-samesite value 2",
+    "argv": [
+      "load-balancers",
+      "account",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--default-pools",
+      "regression value &/?+ü",
+      "--fallback-pool",
+      "regression value &/?+ü",
+      "--name",
+      "regression value &/?+ü",
+      "--session-affinity-attributes-samesite",
+      "None"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/load_balancers/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "170",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "default_pools": [
+            "regression value &/?+ü"
+          ],
+          "fallback_pool": "regression value &/?+ü",
+          "name": "regression value &/?+ü",
+          "session_affinity_attributes": {
+            "samesite": "None"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "--session-affinity-attributes-samesite value 3",
+    "argv": [
+      "load-balancers",
+      "account",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--default-pools",
+      "regression value &/?+ü",
+      "--fallback-pool",
+      "regression value &/?+ü",
+      "--name",
+      "regression value &/?+ü",
+      "--session-affinity-attributes-samesite",
+      "Strict"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/load_balancers/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "172",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "default_pools": [
+            "regression value &/?+ü"
+          ],
+          "fallback_pool": "regression value &/?+ü",
+          "name": "regression value &/?+ü",
+          "session_affinity_attributes": {
+            "samesite": "Strict"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --session-affinity-attributes-secure",
+    "argv": [
+      "load-balancers",
+      "account",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--default-pools",
+      "regression value &/?+ü",
+      "--fallback-pool",
+      "regression value &/?+ü",
+      "--name",
+      "regression value &/?+ü",
+      "--session-affinity-attributes-secure",
+      "Auto"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/load_balancers/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "168",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "default_pools": [
+            "regression value &/?+ü"
+          ],
+          "fallback_pool": "regression value &/?+ü",
+          "name": "regression value &/?+ü",
+          "session_affinity_attributes": {
+            "secure": "Auto"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "--session-affinity-attributes-secure value 1",
+    "argv": [
+      "load-balancers",
+      "account",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--default-pools",
+      "regression value &/?+ü",
+      "--fallback-pool",
+      "regression value &/?+ü",
+      "--name",
+      "regression value &/?+ü",
+      "--session-affinity-attributes-secure",
+      "Always"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/load_balancers/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "170",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "default_pools": [
+            "regression value &/?+ü"
+          ],
+          "fallback_pool": "regression value &/?+ü",
+          "name": "regression value &/?+ü",
+          "session_affinity_attributes": {
+            "secure": "Always"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "--session-affinity-attributes-secure value 2",
+    "argv": [
+      "load-balancers",
+      "account",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--default-pools",
+      "regression value &/?+ü",
+      "--fallback-pool",
+      "regression value &/?+ü",
+      "--name",
+      "regression value &/?+ü",
+      "--session-affinity-attributes-secure",
+      "Never"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/load_balancers/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "169",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "default_pools": [
+            "regression value &/?+ü"
+          ],
+          "fallback_pool": "regression value &/?+ü",
+          "name": "regression value &/?+ü",
+          "session_affinity_attributes": {
+            "secure": "Never"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --session-affinity-attributes-zero-downtime-failover",
+    "argv": [
+      "load-balancers",
+      "account",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--default-pools",
+      "regression value &/?+ü",
+      "--fallback-pool",
+      "regression value &/?+ü",
+      "--name",
+      "regression value &/?+ü",
+      "--session-affinity-attributes-zero-downtime-failover",
+      "none"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/load_balancers/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "184",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "default_pools": [
+            "regression value &/?+ü"
+          ],
+          "fallback_pool": "regression value &/?+ü",
+          "name": "regression value &/?+ü",
+          "session_affinity_attributes": {
+            "zero_downtime_failover": "none"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "--session-affinity-attributes-zero-downtime-failover value 1",
+    "argv": [
+      "load-balancers",
+      "account",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--default-pools",
+      "regression value &/?+ü",
+      "--fallback-pool",
+      "regression value &/?+ü",
+      "--name",
+      "regression value &/?+ü",
+      "--session-affinity-attributes-zero-downtime-failover",
+      "temporary"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/load_balancers/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "189",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "default_pools": [
+            "regression value &/?+ü"
+          ],
+          "fallback_pool": "regression value &/?+ü",
+          "name": "regression value &/?+ü",
+          "session_affinity_attributes": {
+            "zero_downtime_failover": "temporary"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "--session-affinity-attributes-zero-downtime-failover value 2",
+    "argv": [
+      "load-balancers",
+      "account",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--default-pools",
+      "regression value &/?+ü",
+      "--fallback-pool",
+      "regression value &/?+ü",
+      "--name",
+      "regression value &/?+ü",
+      "--session-affinity-attributes-zero-downtime-failover",
+      "sticky"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/load_balancers/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "186",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "default_pools": [
+            "regression value &/?+ü"
+          ],
+          "fallback_pool": "regression value &/?+ü",
+          "name": "regression value &/?+ü",
+          "session_affinity_attributes": {
+            "zero_downtime_failover": "sticky"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --session-affinity-ttl",
+    "argv": [
+      "load-balancers",
+      "account",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--default-pools",
+      "regression value &/?+ü",
+      "--fallback-pool",
+      "regression value &/?+ü",
+      "--name",
+      "regression value &/?+ü",
+      "--session-affinity-ttl",
+      "1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/load_balancers/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "145",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "default_pools": [
+            "regression value &/?+ü"
+          ],
+          "fallback_pool": "regression value &/?+ü",
+          "name": "regression value &/?+ü",
+          "session_affinity_ttl": 1
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --steering-policy",
+    "argv": [
+      "load-balancers",
+      "account",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--default-pools",
+      "regression value &/?+ü",
+      "--fallback-pool",
+      "regression value &/?+ü",
+      "--name",
+      "regression value &/?+ü",
+      "--steering-policy",
+      "off"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/load_balancers/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "144",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "default_pools": [
+            "regression value &/?+ü"
+          ],
+          "fallback_pool": "regression value &/?+ü",
+          "name": "regression value &/?+ü",
+          "steering_policy": "off"
+        }
+      }
+    ]
+  },
+  {
+    "case": "--steering-policy value 1",
+    "argv": [
+      "load-balancers",
+      "account",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--default-pools",
+      "regression value &/?+ü",
+      "--fallback-pool",
+      "regression value &/?+ü",
+      "--name",
+      "regression value &/?+ü",
+      "--steering-policy",
+      "geo"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/load_balancers/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "144",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "default_pools": [
+            "regression value &/?+ü"
+          ],
+          "fallback_pool": "regression value &/?+ü",
+          "name": "regression value &/?+ü",
+          "steering_policy": "geo"
+        }
+      }
+    ]
+  },
+  {
+    "case": "--steering-policy value 2",
+    "argv": [
+      "load-balancers",
+      "account",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--default-pools",
+      "regression value &/?+ü",
+      "--fallback-pool",
+      "regression value &/?+ü",
+      "--name",
+      "regression value &/?+ü",
+      "--steering-policy",
+      "random"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/load_balancers/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "147",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "default_pools": [
+            "regression value &/?+ü"
+          ],
+          "fallback_pool": "regression value &/?+ü",
+          "name": "regression value &/?+ü",
+          "steering_policy": "random"
+        }
+      }
+    ]
+  },
+  {
+    "case": "--steering-policy value 3",
+    "argv": [
+      "load-balancers",
+      "account",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--default-pools",
+      "regression value &/?+ü",
+      "--fallback-pool",
+      "regression value &/?+ü",
+      "--name",
+      "regression value &/?+ü",
+      "--steering-policy",
+      "dynamic_latency"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/load_balancers/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "156",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "default_pools": [
+            "regression value &/?+ü"
+          ],
+          "fallback_pool": "regression value &/?+ü",
+          "name": "regression value &/?+ü",
+          "steering_policy": "dynamic_latency"
+        }
+      }
+    ]
+  },
+  {
+    "case": "--steering-policy value 4",
+    "argv": [
+      "load-balancers",
+      "account",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--default-pools",
+      "regression value &/?+ü",
+      "--fallback-pool",
+      "regression value &/?+ü",
+      "--name",
+      "regression value &/?+ü",
+      "--steering-policy",
+      "proximity"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/load_balancers/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "150",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "default_pools": [
+            "regression value &/?+ü"
+          ],
+          "fallback_pool": "regression value &/?+ü",
+          "name": "regression value &/?+ü",
+          "steering_policy": "proximity"
+        }
+      }
+    ]
+  },
+  {
+    "case": "--steering-policy value 5",
+    "argv": [
+      "load-balancers",
+      "account",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--default-pools",
+      "regression value &/?+ü",
+      "--fallback-pool",
+      "regression value &/?+ü",
+      "--name",
+      "regression value &/?+ü",
+      "--steering-policy",
+      "least_outstanding_requests"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/load_balancers/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "167",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "default_pools": [
+            "regression value &/?+ü"
+          ],
+          "fallback_pool": "regression value &/?+ü",
+          "name": "regression value &/?+ü",
+          "steering_policy": "least_outstanding_requests"
+        }
+      }
+    ]
+  },
+  {
+    "case": "--steering-policy value 6",
+    "argv": [
+      "load-balancers",
+      "account",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--default-pools",
+      "regression value &/?+ü",
+      "--fallback-pool",
+      "regression value &/?+ü",
+      "--name",
+      "regression value &/?+ü",
+      "--steering-policy",
+      "least_connections"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/load_balancers/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "158",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "default_pools": [
+            "regression value &/?+ü"
+          ],
+          "fallback_pool": "regression value &/?+ü",
+          "name": "regression value &/?+ü",
+          "steering_policy": "least_connections"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --ttl",
+    "argv": [
+      "load-balancers",
+      "account",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--default-pools",
+      "regression value &/?+ü",
+      "--fallback-pool",
+      "regression value &/?+ü",
+      "--name",
+      "regression value &/?+ü",
+      "--ttl",
+      "1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/load_balancers/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "128",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "default_pools": [
+            "regression value &/?+ü"
+          ],
+          "fallback_pool": "regression value &/?+ü",
+          "name": "regression value &/?+ü",
+          "ttl": 1
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 0",
+    "argv": [
+      "load-balancers",
+      "account",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--default-pools",
+      "regression value &/?+ü",
+      "--fallback-pool",
+      "regression value &/?+ü",
+      "--name",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/load_balancers/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "120",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "default_pools": [
+            "regression value &/?+ü"
+          ],
+          "fallback_pool": "regression value &/?+ü",
+          "name": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 1",
+    "argv": [
+      "load-balancers",
+      "account",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--default-pools",
+      "regression value &/?+ü",
+      "--fallback-pool",
+      "regression value &/?+ü",
+      "--name",
+      "regression value &/?+ü",
+      "--adaptive-routing-failover-across-pools=false",
+      "--description",
+      "192.0.2.1",
+      "--enabled=false",
+      "--location-strategy-mode",
+      "resolver_ip",
+      "--location-strategy-prefer-ecs",
+      "never",
+      "--networks",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--proxied=false",
+      "--random-steering-default-weight",
+      "2",
+      "--rules",
+      "[{\"regression\":\"item\"}]",
+      "--session-affinity",
+      "cookie",
+      "--session-affinity-attributes-drain-duration",
+      "2",
+      "--session-affinity-attributes-headers",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--session-affinity-attributes-require-all-headers=false",
+      "--session-affinity-attributes-samesite",
+      "Lax",
+      "--session-affinity-attributes-secure",
+      "Always",
+      "--session-affinity-attributes-zero-downtime-failover",
+      "temporary",
+      "--session-affinity-ttl",
+      "2",
+      "--steering-policy",
+      "geo",
+      "--ttl",
+      "2"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/load_balancers/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "713",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "adaptive_routing": {
+            "failover_across_pools": false
+          },
+          "default_pools": [
+            "regression value &/?+ü"
+          ],
+          "description": "192.0.2.1",
+          "enabled": false,
+          "fallback_pool": "regression value &/?+ü",
+          "location_strategy": {
+            "mode": "resolver_ip",
+            "prefer_ecs": "never"
+          },
+          "name": "regression value &/?+ü",
+          "networks": [
+            "second value &/?+ü",
+            "second value &/?+ü"
+          ],
+          "proxied": false,
+          "random_steering": {
+            "default_weight": 2
+          },
+          "rules": [
+            {
+              "regression": "item"
+            }
+          ],
+          "session_affinity": "cookie",
+          "session_affinity_attributes": {
+            "drain_duration": 2,
+            "headers": [
+              "second value &/?+ü",
+              "second value &/?+ü"
+            ],
+            "require_all_headers": false,
+            "samesite": "Lax",
+            "secure": "Always",
+            "zero_downtime_failover": "temporary"
+          },
+          "session_affinity_ttl": 2,
+          "steering_policy": "geo",
+          "ttl": 2
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 2",
+    "argv": [
+      "load-balancers",
+      "account",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--default-pools",
+      "regression value &/?+ü",
+      "--fallback-pool",
+      "regression value &/?+ü",
+      "--name",
+      "regression value &/?+ü",
+      "--description",
+      "192.0.2.1",
+      "--location-strategy-mode",
+      "pop",
+      "--networks",
+      "regression value &/?+ü",
+      "--random-steering-default-weight",
+      "1",
+      "--session-affinity",
+      "none",
+      "--session-affinity-attributes-headers",
+      "regression value &/?+ü",
+      "--session-affinity-attributes-samesite",
+      "Auto",
+      "--session-affinity-attributes-zero-downtime-failover",
+      "none",
+      "--steering-policy",
+      "off"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/load_balancers/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "429",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "default_pools": [
+            "regression value &/?+ü"
+          ],
+          "description": "192.0.2.1",
+          "fallback_pool": "regression value &/?+ü",
+          "location_strategy": {
+            "mode": "pop"
+          },
+          "name": "regression value &/?+ü",
+          "networks": [
+            "regression value &/?+ü"
+          ],
+          "random_steering": {
+            "default_weight": 1
+          },
+          "session_affinity": "none",
+          "session_affinity_attributes": {
+            "headers": [
+              "regression value &/?+ü"
+            ],
+            "samesite": "Auto",
+            "zero_downtime_failover": "none"
+          },
+          "steering_policy": "off"
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 3",
+    "argv": [
+      "load-balancers",
+      "account",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--default-pools",
+      "regression value &/?+ü",
+      "--fallback-pool",
+      "regression value &/?+ü",
+      "--name",
+      "regression value &/?+ü",
+      "--adaptive-routing-failover-across-pools=false",
+      "--enabled=false",
+      "--location-strategy-prefer-ecs",
+      "never",
+      "--proxied=false",
+      "--rules",
+      "[{\"regression\":\"item\"}]",
+      "--session-affinity-attributes-drain-duration",
+      "2",
+      "--session-affinity-attributes-require-all-headers=false",
+      "--session-affinity-attributes-secure",
+      "Always",
+      "--session-affinity-ttl",
+      "2",
+      "--ttl",
+      "2"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/load_balancers/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "408",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "adaptive_routing": {
+            "failover_across_pools": false
+          },
+          "default_pools": [
+            "regression value &/?+ü"
+          ],
+          "enabled": false,
+          "fallback_pool": "regression value &/?+ü",
+          "location_strategy": {
+            "prefer_ecs": "never"
+          },
+          "name": "regression value &/?+ü",
+          "proxied": false,
+          "rules": [
+            {
+              "regression": "item"
+            }
+          ],
+          "session_affinity_attributes": {
+            "drain_duration": 2,
+            "require_all_headers": false,
+            "secure": "Always"
+          },
+          "session_affinity_ttl": 2,
+          "ttl": 2
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 4",
+    "argv": [
+      "load-balancers",
+      "account",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--default-pools",
+      "regression value &/?+ü",
+      "--fallback-pool",
+      "regression value &/?+ü",
+      "--name",
+      "regression value &/?+ü",
+      "--enabled=true",
+      "--location-strategy-mode",
+      "pop",
+      "--proxied=true",
+      "--random-steering-default-weight",
+      "1",
+      "--session-affinity-attributes-drain-duration",
+      "1",
+      "--session-affinity-attributes-headers",
+      "regression value &/?+ü",
+      "--session-affinity-attributes-secure",
+      "Auto",
+      "--session-affinity-attributes-zero-downtime-failover",
+      "none",
+      "--ttl",
+      "1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/load_balancers/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "369",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "default_pools": [
+            "regression value &/?+ü"
+          ],
+          "enabled": true,
+          "fallback_pool": "regression value &/?+ü",
+          "location_strategy": {
+            "mode": "pop"
+          },
+          "name": "regression value &/?+ü",
+          "proxied": true,
+          "random_steering": {
+            "default_weight": 1
+          },
+          "session_affinity_attributes": {
+            "drain_duration": 1,
+            "headers": [
+              "regression value &/?+ü"
+            ],
+            "secure": "Auto",
+            "zero_downtime_failover": "none"
+          },
+          "ttl": 1
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 5",
+    "argv": [
+      "load-balancers",
+      "account",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--default-pools",
+      "regression value &/?+ü",
+      "--fallback-pool",
+      "regression value &/?+ü",
+      "--name",
+      "regression value &/?+ü",
+      "--adaptive-routing-failover-across-pools=false",
+      "--description",
+      "192.0.2.1",
+      "--location-strategy-prefer-ecs",
+      "never",
+      "--networks",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--rules",
+      "[{\"regression\":\"item\"}]",
+      "--session-affinity",
+      "cookie",
+      "--session-affinity-attributes-require-all-headers=false",
+      "--session-affinity-attributes-samesite",
+      "Lax",
+      "--session-affinity-ttl",
+      "2",
+      "--steering-policy",
+      "geo"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/load_balancers/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "483",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "adaptive_routing": {
+            "failover_across_pools": false
+          },
+          "default_pools": [
+            "regression value &/?+ü"
+          ],
+          "description": "192.0.2.1",
+          "fallback_pool": "regression value &/?+ü",
+          "location_strategy": {
+            "prefer_ecs": "never"
+          },
+          "name": "regression value &/?+ü",
+          "networks": [
+            "second value &/?+ü",
+            "second value &/?+ü"
+          ],
+          "rules": [
+            {
+              "regression": "item"
+            }
+          ],
+          "session_affinity": "cookie",
+          "session_affinity_attributes": {
+            "require_all_headers": false,
+            "samesite": "Lax"
+          },
+          "session_affinity_ttl": 2,
+          "steering_policy": "geo"
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 6",
+    "argv": [
+      "load-balancers",
+      "account",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--default-pools",
+      "regression value &/?+ü",
+      "--fallback-pool",
+      "regression value &/?+ü",
+      "--name",
+      "regression value &/?+ü",
+      "--location-strategy-prefer-ecs",
+      "always",
+      "--networks",
+      "regression value &/?+ü",
+      "--proxied=true",
+      "--random-steering-default-weight",
+      "1",
+      "--session-affinity-attributes-require-all-headers=true",
+      "--session-affinity-attributes-samesite",
+      "Auto",
+      "--session-affinity-attributes-secure",
+      "Auto",
+      "--session-affinity-attributes-zero-downtime-failover",
+      "none"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/load_balancers/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "382",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "default_pools": [
+            "regression value &/?+ü"
+          ],
+          "fallback_pool": "regression value &/?+ü",
+          "location_strategy": {
+            "prefer_ecs": "always"
+          },
+          "name": "regression value &/?+ü",
+          "networks": [
+            "regression value &/?+ü"
+          ],
+          "proxied": true,
+          "random_steering": {
+            "default_weight": 1
+          },
+          "session_affinity_attributes": {
+            "require_all_headers": true,
+            "samesite": "Auto",
+            "secure": "Auto",
+            "zero_downtime_failover": "none"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 7",
+    "argv": [
+      "load-balancers",
+      "account",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--default-pools",
+      "regression value &/?+ü",
+      "--fallback-pool",
+      "regression value &/?+ü",
+      "--name",
+      "regression value &/?+ü",
+      "--adaptive-routing-failover-across-pools=false",
+      "--description",
+      "192.0.2.1",
+      "--enabled=false",
+      "--location-strategy-mode",
+      "resolver_ip",
+      "--rules",
+      "[{\"regression\":\"item\"}]",
+      "--session-affinity",
+      "cookie",
+      "--session-affinity-attributes-drain-duration",
+      "2",
+      "--session-affinity-attributes-headers",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--session-affinity-ttl",
+      "2",
+      "--steering-policy",
+      "geo",
+      "--ttl",
+      "2"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/load_balancers/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "480",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "adaptive_routing": {
+            "failover_across_pools": false
+          },
+          "default_pools": [
+            "regression value &/?+ü"
+          ],
+          "description": "192.0.2.1",
+          "enabled": false,
+          "fallback_pool": "regression value &/?+ü",
+          "location_strategy": {
+            "mode": "resolver_ip"
+          },
+          "name": "regression value &/?+ü",
+          "rules": [
+            {
+              "regression": "item"
+            }
+          ],
+          "session_affinity": "cookie",
+          "session_affinity_attributes": {
+            "drain_duration": 2,
+            "headers": [
+              "second value &/?+ü",
+              "second value &/?+ü"
+            ]
+          },
+          "session_affinity_ttl": 2,
+          "steering_policy": "geo",
+          "ttl": 2
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 8",
+    "argv": [
+      "load-balancers",
+      "account",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--default-pools",
+      "regression value &/?+ü",
+      "--fallback-pool",
+      "regression value &/?+ü",
+      "--name",
+      "regression value &/?+ü",
+      "--rules",
+      "[{\"regression\":\"item\"}]",
+      "--session-affinity",
+      "none",
+      "--session-affinity-attributes-drain-duration",
+      "1",
+      "--session-affinity-attributes-headers",
+      "regression value &/?+ü",
+      "--session-affinity-attributes-require-all-headers=true",
+      "--session-affinity-attributes-samesite",
+      "Auto",
+      "--session-affinity-attributes-secure",
+      "Auto",
+      "--session-affinity-attributes-zero-downtime-failover",
+      "none"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/load_balancers/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "360",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "default_pools": [
+            "regression value &/?+ü"
+          ],
+          "fallback_pool": "regression value &/?+ü",
+          "name": "regression value &/?+ü",
+          "rules": [
+            {
+              "regression": "item"
+            }
+          ],
+          "session_affinity": "none",
+          "session_affinity_attributes": {
+            "drain_duration": 1,
+            "headers": [
+              "regression value &/?+ü"
+            ],
+            "require_all_headers": true,
+            "samesite": "Auto",
+            "secure": "Auto",
+            "zero_downtime_failover": "none"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 9",
+    "argv": [
+      "load-balancers",
+      "account",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--default-pools",
+      "regression value &/?+ü",
+      "--fallback-pool",
+      "regression value &/?+ü",
+      "--name",
+      "regression value &/?+ü",
+      "--adaptive-routing-failover-across-pools=false",
+      "--description",
+      "192.0.2.1",
+      "--enabled=false",
+      "--location-strategy-mode",
+      "resolver_ip",
+      "--location-strategy-prefer-ecs",
+      "never",
+      "--networks",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--proxied=false",
+      "--random-steering-default-weight",
+      "2",
+      "--session-affinity-ttl",
+      "2",
+      "--steering-policy",
+      "geo",
+      "--ttl",
+      "2"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/load_balancers/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "446",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "adaptive_routing": {
+            "failover_across_pools": false
+          },
+          "default_pools": [
+            "regression value &/?+ü"
+          ],
+          "description": "192.0.2.1",
+          "enabled": false,
+          "fallback_pool": "regression value &/?+ü",
+          "location_strategy": {
+            "mode": "resolver_ip",
+            "prefer_ecs": "never"
+          },
+          "name": "regression value &/?+ü",
+          "networks": [
+            "second value &/?+ü",
+            "second value &/?+ü"
+          ],
+          "proxied": false,
+          "random_steering": {
+            "default_weight": 2
+          },
+          "session_affinity_ttl": 2,
+          "steering_policy": "geo",
+          "ttl": 2
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 10",
+    "argv": [
+      "load-balancers",
+      "account",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--default-pools",
+      "regression value &/?+ü",
+      "--fallback-pool",
+      "regression value &/?+ü",
+      "--name",
+      "regression value &/?+ü",
+      "--session-affinity-ttl",
+      "1",
+      "--steering-policy",
+      "off",
+      "--ttl",
+      "1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/load_balancers/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "177",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "default_pools": [
+            "regression value &/?+ü"
+          ],
+          "fallback_pool": "regression value &/?+ü",
+          "name": "regression value &/?+ü",
+          "session_affinity_ttl": 1,
+          "steering_policy": "off",
+          "ttl": 1
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 11",
+    "argv": [
+      "load-balancers",
+      "account",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--default-pools",
+      "regression value &/?+ü",
+      "--fallback-pool",
+      "regression value &/?+ü",
+      "--name",
+      "regression value &/?+ü",
+      "--adaptive-routing-failover-across-pools=false",
+      "--description",
+      "192.0.2.1",
+      "--enabled=false",
+      "--location-strategy-mode",
+      "resolver_ip",
+      "--location-strategy-prefer-ecs",
+      "never",
+      "--networks",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--proxied=false",
+      "--random-steering-default-weight",
+      "2",
+      "--rules",
+      "[{\"regression\":\"item\"}]",
+      "--session-affinity",
+      "cookie",
+      "--session-affinity-attributes-drain-duration",
+      "2",
+      "--session-affinity-attributes-headers",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--session-affinity-attributes-require-all-headers=false",
+      "--session-affinity-attributes-samesite",
+      "Lax",
+      "--session-affinity-attributes-secure",
+      "Always",
+      "--session-affinity-attributes-zero-downtime-failover",
+      "temporary"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/load_balancers/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "656",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "adaptive_routing": {
+            "failover_across_pools": false
+          },
+          "default_pools": [
+            "regression value &/?+ü"
+          ],
+          "description": "192.0.2.1",
+          "enabled": false,
+          "fallback_pool": "regression value &/?+ü",
+          "location_strategy": {
+            "mode": "resolver_ip",
+            "prefer_ecs": "never"
+          },
+          "name": "regression value &/?+ü",
+          "networks": [
+            "second value &/?+ü",
+            "second value &/?+ü"
+          ],
+          "proxied": false,
+          "random_steering": {
+            "default_weight": 2
+          },
+          "rules": [
+            {
+              "regression": "item"
+            }
+          ],
+          "session_affinity": "cookie",
+          "session_affinity_attributes": {
+            "drain_duration": 2,
+            "headers": [
+              "second value &/?+ü",
+              "second value &/?+ü"
+            ],
+            "require_all_headers": false,
+            "samesite": "Lax",
+            "secure": "Always",
+            "zero_downtime_failover": "temporary"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "global quiet",
+    "argv": [
+      "load-balancers",
+      "account",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--default-pools",
+      "regression value &/?+ü",
+      "--fallback-pool",
+      "regression value &/?+ü",
+      "--name",
+      "regression value &/?+ü",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--quiet"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/load_balancers/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "global zone",
+    "argv": [
+      "load-balancers",
+      "account",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--default-pools",
+      "regression value &/?+ü",
+      "--fallback-pool",
+      "regression value &/?+ü",
+      "--name",
+      "regression value &/?+ü",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--zone",
+      "abcdef0123456789abcdef0123456789"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/load_balancers/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "global profile and mode",
+    "argv": [
+      "load-balancers",
+      "account",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--default-pools",
+      "regression value &/?+ü",
+      "--fallback-pool",
+      "regression value &/?+ü",
+      "--name",
+      "regression value &/?+ü",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--profile",
+      "default",
+      "--mode",
+      "regression"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/load_balancers/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "local",
+    "argv": [
+      "load-balancers",
+      "account",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--default-pools",
+      "regression value &/?+ü",
+      "--fallback-pool",
+      "regression value &/?+ü",
+      "--name",
+      "regression value &/?+ü",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--local"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "http://localhost/cdn-cgi/local/explorer/api/load_balancers/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "gzip, deflate",
+          "accept-language": "*",
+          "connection": "keep-alive",
+          "content-type": "application/json",
+          "host": "localhost",
+          "sec-fetch-mode": "cors",
+          "transfer-encoding": "chunked",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "local with persistence",
+    "argv": [
+      "load-balancers",
+      "account",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--default-pools",
+      "regression value &/?+ü",
+      "--fallback-pool",
+      "regression value &/?+ü",
+      "--name",
+      "regression value &/?+ü",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--local",
+      "--persist-to",
+      "regression-state"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "http://localhost/cdn-cgi/local/explorer/api/load_balancers/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "gzip, deflate",
+          "accept-language": "*",
+          "connection": "keep-alive",
+          "content-type": "application/json",
+          "host": "localhost",
+          "sec-fetch-mode": "cors",
+          "transfer-encoding": "chunked",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "zone by domain",
+    "argv": [
+      "load-balancers",
+      "account",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--default-pools",
+      "regression value &/?+ü",
+      "--fallback-pool",
+      "regression value &/?+ü",
+      "--name",
+      "regression value &/?+ü",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--zone",
+      "regression-85e1435e2f1f.example.com"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/zones?name=regression-85e1435e2f1f.example.com&account.id=0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      },
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/load_balancers/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "dry-run",
+    "argv": [
+      "load-balancers",
+      "account",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--default-pools",
+      "regression value &/?+ü",
+      "--fallback-pool",
+      "regression value &/?+ü",
+      "--name",
+      "regression value &/?+ü",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--dry-run"
+    ],
+    "exitCode": 0,
+    "requests": []
+  },
+  {
+    "case": "body from file",
+    "argv": [
+      "load-balancers",
+      "account",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--default-pools",
+      "regression value &/?+ü",
+      "--fallback-pool",
+      "regression value &/?+ü",
+      "--name",
+      "regression value &/?+ü",
+      "--body",
+      "@<body.json>"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/load_balancers/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "array body",
+    "argv": [
+      "load-balancers",
+      "account",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--default-pools",
+      "regression value &/?+ü",
+      "--fallback-pool",
+      "regression value &/?+ü",
+      "--name",
+      "regression value &/?+ü",
+      "--body",
+      "[{\"regression\":\"first\"},{\"regression\":\"second\"}]"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/load_balancers/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "56",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "0": {
+            "regression": "first"
+          },
+          "1": {
+            "regression": "second"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "field flags",
+    "argv": [
+      "load-balancers",
+      "account",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--default-pools",
+      "regression value &/?+ü",
+      "--fallback-pool",
+      "regression value &/?+ü",
+      "--name",
+      "regression value &/?+ü",
+      "--adaptive-routing-failover-across-pools=true",
+      "--description",
+      "192.0.2.1",
+      "--enabled=true",
+      "--location-strategy-mode",
+      "pop",
+      "--location-strategy-prefer-ecs",
+      "always",
+      "--networks",
+      "regression value &/?+ü",
+      "--proxied=true",
+      "--random-steering-default-weight",
+      "1",
+      "--rules",
+      "[{\"regression\":\"item\"}]",
+      "--session-affinity",
+      "none",
+      "--session-affinity-attributes-drain-duration",
+      "1",
+      "--session-affinity-attributes-headers",
+      "regression value &/?+ü",
+      "--session-affinity-attributes-require-all-headers=true",
+      "--session-affinity-attributes-samesite",
+      "Auto",
+      "--session-affinity-attributes-secure",
+      "Auto",
+      "--session-affinity-attributes-zero-downtime-failover",
+      "none",
+      "--session-affinity-ttl",
+      "1",
+      "--steering-policy",
+      "off",
+      "--ttl",
+      "1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/load_balancers/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "658",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "adaptive_routing": {
+            "failover_across_pools": true
+          },
+          "default_pools": [
+            "regression value &/?+ü"
+          ],
+          "description": "192.0.2.1",
+          "enabled": true,
+          "fallback_pool": "regression value &/?+ü",
+          "location_strategy": {
+            "mode": "pop",
+            "prefer_ecs": "always"
+          },
+          "name": "regression value &/?+ü",
+          "networks": [
+            "regression value &/?+ü"
+          ],
+          "proxied": true,
+          "random_steering": {
+            "default_weight": 1
+          },
+          "rules": [
+            {
+              "regression": "item"
+            }
+          ],
+          "session_affinity": "none",
+          "session_affinity_attributes": {
+            "drain_duration": 1,
+            "headers": [
+              "regression value &/?+ü"
+            ],
+            "require_all_headers": true,
+            "samesite": "Auto",
+            "secure": "Auto",
+            "zero_downtime_failover": "none"
+          },
+          "session_affinity_ttl": 1,
+          "steering_policy": "off",
+          "ttl": 1
+        }
+      }
+    ]
+  }
+]

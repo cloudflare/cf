@@ -1,0 +1,8 @@
+{
+  "argv": [
+    "workers-builds",
+    "workers",
+    "previews"
+  ],
+  "requests": []
+}

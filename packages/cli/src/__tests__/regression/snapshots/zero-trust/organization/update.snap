@@ -1,0 +1,3067 @@
+[
+  {
+    "case": "no-args",
+    "argv": [
+      "zero-trust",
+      "organization",
+      "update"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/access/organizations",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "2",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {}
+      }
+    ]
+  },
+  {
+    "case": "required",
+    "argv": [
+      "zero-trust",
+      "organization",
+      "update",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/access/organizations",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --allow-authenticate-via-warp",
+    "argv": [
+      "zero-trust",
+      "organization",
+      "update",
+      "--allow-authenticate-via-warp=true"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/access/organizations",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "36",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "allow_authenticate_via_warp": true
+        }
+      }
+    ]
+  },
+  {
+    "case": "--allow-authenticate-via-warp value 1",
+    "argv": [
+      "zero-trust",
+      "organization",
+      "update",
+      "--allow-authenticate-via-warp=false"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/access/organizations",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "37",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "allow_authenticate_via_warp": false
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --auth-domain",
+    "argv": [
+      "zero-trust",
+      "organization",
+      "update",
+      "--auth-domain",
+      "example.com"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/access/organizations",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "29",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "auth_domain": "example.com"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --auto-redirect-to-identity",
+    "argv": [
+      "zero-trust",
+      "organization",
+      "update",
+      "--auto-redirect-to-identity=true"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/access/organizations",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "34",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "auto_redirect_to_identity": true
+        }
+      }
+    ]
+  },
+  {
+    "case": "--auto-redirect-to-identity value 1",
+    "argv": [
+      "zero-trust",
+      "organization",
+      "update",
+      "--auto-redirect-to-identity=false"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/access/organizations",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "35",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "auto_redirect_to_identity": false
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --custom-pages-forbidden",
+    "argv": [
+      "zero-trust",
+      "organization",
+      "update",
+      "--custom-pages-forbidden",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/access/organizations",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "56",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "custom_pages": {
+            "forbidden": "regression value &/?+ü"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --custom-pages-identity-denied",
+    "argv": [
+      "zero-trust",
+      "organization",
+      "update",
+      "--custom-pages-identity-denied",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/access/organizations",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "62",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "custom_pages": {
+            "identity_denied": "regression value &/?+ü"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --deny-unmatched-requests",
+    "argv": [
+      "zero-trust",
+      "organization",
+      "update",
+      "--deny-unmatched-requests=true"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/access/organizations",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "32",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "deny_unmatched_requests": true
+        }
+      }
+    ]
+  },
+  {
+    "case": "--deny-unmatched-requests value 1",
+    "argv": [
+      "zero-trust",
+      "organization",
+      "update",
+      "--deny-unmatched-requests=false"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/access/organizations",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "33",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "deny_unmatched_requests": false
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --deny-unmatched-requests-exempted-zone-names",
+    "argv": [
+      "zero-trust",
+      "organization",
+      "update",
+      "--deny-unmatched-requests-exempted-zone-names",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/access/organizations",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "75",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "deny_unmatched_requests_exempted_zone_names": [
+            "regression value &/?+ü"
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --is-ui-read-only",
+    "argv": [
+      "zero-trust",
+      "organization",
+      "update",
+      "--is-ui-read-only=true"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/access/organizations",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "24",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "is_ui_read_only": true
+        }
+      }
+    ]
+  },
+  {
+    "case": "--is-ui-read-only value 1",
+    "argv": [
+      "zero-trust",
+      "organization",
+      "update",
+      "--is-ui-read-only=false"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/access/organizations",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "25",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "is_ui_read_only": false
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --login-design-background-color",
+    "argv": [
+      "zero-trust",
+      "organization",
+      "update",
+      "--login-design-background-color",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/access/organizations",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "63",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "login_design": {
+            "background_color": "regression value &/?+ü"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --login-design-footer-text",
+    "argv": [
+      "zero-trust",
+      "organization",
+      "update",
+      "--login-design-footer-text",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/access/organizations",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "58",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "login_design": {
+            "footer_text": "regression value &/?+ü"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --login-design-header-text",
+    "argv": [
+      "zero-trust",
+      "organization",
+      "update",
+      "--login-design-header-text",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/access/organizations",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "58",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "login_design": {
+            "header_text": "regression value &/?+ü"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --login-design-logo-path",
+    "argv": [
+      "zero-trust",
+      "organization",
+      "update",
+      "--login-design-logo-path",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/access/organizations",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "56",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "login_design": {
+            "logo_path": "regression value &/?+ü"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --login-design-text-color",
+    "argv": [
+      "zero-trust",
+      "organization",
+      "update",
+      "--login-design-text-color",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/access/organizations",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "57",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "login_design": {
+            "text_color": "regression value &/?+ü"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --mfa-config-allowed-authenticators",
+    "argv": [
+      "zero-trust",
+      "organization",
+      "update",
+      "--mfa-config-allowed-authenticators",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/access/organizations",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "69",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "mfa_config": {
+            "allowed_authenticators": [
+              "regression value &/?+ü"
+            ]
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --mfa-config-amr-matching-session-duration",
+    "argv": [
+      "zero-trust",
+      "organization",
+      "update",
+      "--mfa-config-amr-matching-session-duration",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/access/organizations",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "74",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "mfa_config": {
+            "amr_matching_session_duration": "regression value &/?+ü"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --mfa-config-required-aaguids",
+    "argv": [
+      "zero-trust",
+      "organization",
+      "update",
+      "--mfa-config-required-aaguids",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/access/organizations",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "61",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "mfa_config": {
+            "required_aaguids": "regression value &/?+ü"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --mfa-config-session-duration",
+    "argv": [
+      "zero-trust",
+      "organization",
+      "update",
+      "--mfa-config-session-duration",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/access/organizations",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "61",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "mfa_config": {
+            "session_duration": "regression value &/?+ü"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --mfa-piv-key-requirements-pin-policy",
+    "argv": [
+      "zero-trust",
+      "organization",
+      "update",
+      "--mfa-piv-key-requirements-pin-policy",
+      "never"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/access/organizations",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "51",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "mfa_piv_key_requirements": {
+            "pin_policy": "never"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "--mfa-piv-key-requirements-pin-policy value 1",
+    "argv": [
+      "zero-trust",
+      "organization",
+      "update",
+      "--mfa-piv-key-requirements-pin-policy",
+      "once"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/access/organizations",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "50",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "mfa_piv_key_requirements": {
+            "pin_policy": "once"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "--mfa-piv-key-requirements-pin-policy value 2",
+    "argv": [
+      "zero-trust",
+      "organization",
+      "update",
+      "--mfa-piv-key-requirements-pin-policy",
+      "always"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/access/organizations",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "52",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "mfa_piv_key_requirements": {
+            "pin_policy": "always"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --mfa-piv-key-requirements-require-fips-device",
+    "argv": [
+      "zero-trust",
+      "organization",
+      "update",
+      "--mfa-piv-key-requirements-require-fips-device=true"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/access/organizations",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "57",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "mfa_piv_key_requirements": {
+            "require_fips_device": true
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "--mfa-piv-key-requirements-require-fips-device value 1",
+    "argv": [
+      "zero-trust",
+      "organization",
+      "update",
+      "--mfa-piv-key-requirements-require-fips-device=false"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/access/organizations",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "58",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "mfa_piv_key_requirements": {
+            "require_fips_device": false
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --mfa-piv-key-requirements-ssh-key-size",
+    "argv": [
+      "zero-trust",
+      "organization",
+      "update",
+      "--mfa-piv-key-requirements-ssh-key-size",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/access/organizations",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "73",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "mfa_piv_key_requirements": {
+            "ssh_key_size": [
+              "regression value &/?+ü"
+            ]
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --mfa-piv-key-requirements-ssh-key-type",
+    "argv": [
+      "zero-trust",
+      "organization",
+      "update",
+      "--mfa-piv-key-requirements-ssh-key-type",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/access/organizations",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "73",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "mfa_piv_key_requirements": {
+            "ssh_key_type": [
+              "regression value &/?+ü"
+            ]
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --mfa-piv-key-requirements-touch-policy",
+    "argv": [
+      "zero-trust",
+      "organization",
+      "update",
+      "--mfa-piv-key-requirements-touch-policy",
+      "never"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/access/organizations",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "53",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "mfa_piv_key_requirements": {
+            "touch_policy": "never"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "--mfa-piv-key-requirements-touch-policy value 1",
+    "argv": [
+      "zero-trust",
+      "organization",
+      "update",
+      "--mfa-piv-key-requirements-touch-policy",
+      "always"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/access/organizations",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "54",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "mfa_piv_key_requirements": {
+            "touch_policy": "always"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "--mfa-piv-key-requirements-touch-policy value 2",
+    "argv": [
+      "zero-trust",
+      "organization",
+      "update",
+      "--mfa-piv-key-requirements-touch-policy",
+      "cached"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/access/organizations",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "54",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "mfa_piv_key_requirements": {
+            "touch_policy": "cached"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --mfa-required-for-all-apps",
+    "argv": [
+      "zero-trust",
+      "organization",
+      "update",
+      "--mfa-required-for-all-apps=true"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/access/organizations",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "34",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "mfa_required_for_all_apps": true
+        }
+      }
+    ]
+  },
+  {
+    "case": "--mfa-required-for-all-apps value 1",
+    "argv": [
+      "zero-trust",
+      "organization",
+      "update",
+      "--mfa-required-for-all-apps=false"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/access/organizations",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "35",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "mfa_required_for_all_apps": false
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --name",
+    "argv": [
+      "zero-trust",
+      "organization",
+      "update",
+      "--name",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/access/organizations",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "34",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "name": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --service-token-inactivity-action",
+    "argv": [
+      "zero-trust",
+      "organization",
+      "update",
+      "--service-token-inactivity-action",
+      "disable"
+    ],
+    "exitCode": 1,
+    "error": "--service-token-inactivity-enabled, --service-token-inactivity-inactivity-threshold-days are required when any --service_token_inactivity-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "--service-token-inactivity-action value 1",
+    "argv": [
+      "zero-trust",
+      "organization",
+      "update",
+      "--service-token-inactivity-action",
+      "delete"
+    ],
+    "exitCode": 1,
+    "error": "--service-token-inactivity-enabled, --service-token-inactivity-inactivity-threshold-days are required when any --service_token_inactivity-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "only --service-token-inactivity-enabled",
+    "argv": [
+      "zero-trust",
+      "organization",
+      "update",
+      "--service-token-inactivity-enabled=true"
+    ],
+    "exitCode": 1,
+    "error": "--service-token-inactivity-action, --service-token-inactivity-inactivity-threshold-days are required when any --service_token_inactivity-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "--service-token-inactivity-enabled value 1",
+    "argv": [
+      "zero-trust",
+      "organization",
+      "update",
+      "--service-token-inactivity-enabled=false"
+    ],
+    "exitCode": 1,
+    "error": "--service-token-inactivity-action, --service-token-inactivity-inactivity-threshold-days are required when any --service_token_inactivity-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "only --service-token-inactivity-inactivity-threshold-days",
+    "argv": [
+      "zero-trust",
+      "organization",
+      "update",
+      "--service-token-inactivity-inactivity-threshold-days",
+      "1"
+    ],
+    "exitCode": 1,
+    "error": "--service-token-inactivity-action, --service-token-inactivity-enabled are required when any --service_token_inactivity-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "only --session-duration",
+    "argv": [
+      "zero-trust",
+      "organization",
+      "update",
+      "--session-duration",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/access/organizations",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "46",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "session_duration": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --strict-service-token-auth",
+    "argv": [
+      "zero-trust",
+      "organization",
+      "update",
+      "--strict-service-token-auth=true"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/access/organizations",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "34",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "strict_service_token_auth": true
+        }
+      }
+    ]
+  },
+  {
+    "case": "--strict-service-token-auth value 1",
+    "argv": [
+      "zero-trust",
+      "organization",
+      "update",
+      "--strict-service-token-auth=false"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/access/organizations",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "35",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "strict_service_token_auth": false
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --ui-read-only-toggle-reason",
+    "argv": [
+      "zero-trust",
+      "organization",
+      "update",
+      "--ui-read-only-toggle-reason",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/access/organizations",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "56",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "ui_read_only_toggle_reason": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --user-seat-expiration-inactive-time",
+    "argv": [
+      "zero-trust",
+      "organization",
+      "update",
+      "--user-seat-expiration-inactive-time",
+      "2026-01-02T03:04:05Z"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/access/organizations",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "61",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "user_seat_expiration_inactive_time": "2026-01-02T03:04:05Z"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --warp-auth-non-browser-401",
+    "argv": [
+      "zero-trust",
+      "organization",
+      "update",
+      "--warp-auth-non-browser-401=true"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/access/organizations",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "34",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "warp_auth_non_browser_401": true
+        }
+      }
+    ]
+  },
+  {
+    "case": "--warp-auth-non-browser-401 value 1",
+    "argv": [
+      "zero-trust",
+      "organization",
+      "update",
+      "--warp-auth-non-browser-401=false"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/access/organizations",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "35",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "warp_auth_non_browser_401": false
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --warp-auth-session-duration",
+    "argv": [
+      "zero-trust",
+      "organization",
+      "update",
+      "--warp-auth-session-duration",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/access/organizations",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "56",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "warp_auth_session_duration": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 1",
+    "argv": [
+      "zero-trust",
+      "organization",
+      "update",
+      "--allow-authenticate-via-warp=false",
+      "--auth-domain",
+      "example.com",
+      "--auto-redirect-to-identity=false",
+      "--custom-pages-forbidden",
+      "second value &/?+ü",
+      "--custom-pages-identity-denied",
+      "second value &/?+ü",
+      "--deny-unmatched-requests=false",
+      "--deny-unmatched-requests-exempted-zone-names",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--is-ui-read-only=false",
+      "--login-design-background-color",
+      "second value &/?+ü",
+      "--login-design-footer-text",
+      "second value &/?+ü",
+      "--login-design-header-text",
+      "second value &/?+ü",
+      "--login-design-logo-path",
+      "second value &/?+ü",
+      "--login-design-text-color",
+      "second value &/?+ü",
+      "--mfa-config-allowed-authenticators",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--mfa-config-amr-matching-session-duration",
+      "second value &/?+ü",
+      "--mfa-config-required-aaguids",
+      "second value &/?+ü",
+      "--mfa-config-session-duration",
+      "second value &/?+ü",
+      "--mfa-piv-key-requirements-pin-policy",
+      "once",
+      "--mfa-piv-key-requirements-require-fips-device=false",
+      "--mfa-piv-key-requirements-ssh-key-size",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--mfa-piv-key-requirements-ssh-key-type",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--mfa-piv-key-requirements-touch-policy",
+      "always",
+      "--mfa-required-for-all-apps=false",
+      "--name",
+      "second value &/?+ü",
+      "--service-token-inactivity-action",
+      "delete",
+      "--service-token-inactivity-enabled=false",
+      "--service-token-inactivity-inactivity-threshold-days",
+      "2",
+      "--session-duration",
+      "second value &/?+ü",
+      "--strict-service-token-auth=false",
+      "--ui-read-only-toggle-reason",
+      "second value &/?+ü",
+      "--user-seat-expiration-inactive-time",
+      "2026-01-02T03:04:05Z",
+      "--warp-auth-non-browser-401=false",
+      "--warp-auth-session-duration",
+      "second value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/access/organizations",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "1409",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "allow_authenticate_via_warp": false,
+          "auth_domain": "example.com",
+          "auto_redirect_to_identity": false,
+          "custom_pages": {
+            "forbidden": "second value &/?+ü",
+            "identity_denied": "second value &/?+ü"
+          },
+          "deny_unmatched_requests": false,
+          "deny_unmatched_requests_exempted_zone_names": [
+            "second value &/?+ü",
+            "second value &/?+ü"
+          ],
+          "is_ui_read_only": false,
+          "login_design": {
+            "background_color": "second value &/?+ü",
+            "footer_text": "second value &/?+ü",
+            "header_text": "second value &/?+ü",
+            "logo_path": "second value &/?+ü",
+            "text_color": "second value &/?+ü"
+          },
+          "mfa_config": {
+            "allowed_authenticators": [
+              "second value &/?+ü",
+              "second value &/?+ü"
+            ],
+            "amr_matching_session_duration": "second value &/?+ü",
+            "required_aaguids": "second value &/?+ü",
+            "session_duration": "second value &/?+ü"
+          },
+          "mfa_piv_key_requirements": {
+            "pin_policy": "once",
+            "require_fips_device": false,
+            "ssh_key_size": [
+              "second value &/?+ü",
+              "second value &/?+ü"
+            ],
+            "ssh_key_type": [
+              "second value &/?+ü",
+              "second value &/?+ü"
+            ],
+            "touch_policy": "always"
+          },
+          "mfa_required_for_all_apps": false,
+          "name": "second value &/?+ü",
+          "service_token_inactivity": {
+            "action": "delete",
+            "enabled": false,
+            "inactivity_threshold_days": 2
+          },
+          "session_duration": "second value &/?+ü",
+          "strict_service_token_auth": false,
+          "ui_read_only_toggle_reason": "second value &/?+ü",
+          "user_seat_expiration_inactive_time": "2026-01-02T03:04:05Z",
+          "warp_auth_non_browser_401": false,
+          "warp_auth_session_duration": "second value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 2",
+    "argv": [
+      "zero-trust",
+      "organization",
+      "update",
+      "--auth-domain",
+      "example.com",
+      "--custom-pages-forbidden",
+      "regression value &/?+ü",
+      "--deny-unmatched-requests=true",
+      "--is-ui-read-only=true",
+      "--login-design-footer-text",
+      "regression value &/?+ü",
+      "--login-design-logo-path",
+      "regression value &/?+ü",
+      "--mfa-config-allowed-authenticators",
+      "regression value &/?+ü",
+      "--mfa-config-required-aaguids",
+      "regression value &/?+ü",
+      "--mfa-piv-key-requirements-pin-policy",
+      "never",
+      "--mfa-piv-key-requirements-ssh-key-size",
+      "regression value &/?+ü",
+      "--mfa-piv-key-requirements-touch-policy",
+      "never",
+      "--name",
+      "regression value &/?+ü",
+      "--service-token-inactivity-enabled=true",
+      "--session-duration",
+      "regression value &/?+ü",
+      "--ui-read-only-toggle-reason",
+      "regression value &/?+ü",
+      "--warp-auth-non-browser-401=true"
+    ],
+    "exitCode": 1,
+    "error": "--service-token-inactivity-action, --service-token-inactivity-inactivity-threshold-days are required when any --service_token_inactivity-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "pairwise 3",
+    "argv": [
+      "zero-trust",
+      "organization",
+      "update",
+      "--allow-authenticate-via-warp=false",
+      "--auto-redirect-to-identity=false",
+      "--custom-pages-identity-denied",
+      "second value &/?+ü",
+      "--deny-unmatched-requests-exempted-zone-names",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--login-design-background-color",
+      "second value &/?+ü",
+      "--login-design-header-text",
+      "second value &/?+ü",
+      "--login-design-text-color",
+      "second value &/?+ü",
+      "--mfa-config-amr-matching-session-duration",
+      "second value &/?+ü",
+      "--mfa-config-session-duration",
+      "second value &/?+ü",
+      "--mfa-piv-key-requirements-require-fips-device=false",
+      "--mfa-piv-key-requirements-ssh-key-type",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--mfa-required-for-all-apps=false",
+      "--service-token-inactivity-action",
+      "delete",
+      "--service-token-inactivity-inactivity-threshold-days",
+      "2",
+      "--strict-service-token-auth=false",
+      "--user-seat-expiration-inactive-time",
+      "2026-01-02T03:04:05Z",
+      "--warp-auth-session-duration",
+      "second value &/?+ü"
+    ],
+    "exitCode": 1,
+    "error": "--service-token-inactivity-enabled is required when any --service_token_inactivity-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "pairwise 4",
+    "argv": [
+      "zero-trust",
+      "organization",
+      "update",
+      "--auto-redirect-to-identity=true",
+      "--custom-pages-forbidden",
+      "regression value &/?+ü",
+      "--deny-unmatched-requests-exempted-zone-names",
+      "regression value &/?+ü",
+      "--is-ui-read-only=true",
+      "--login-design-header-text",
+      "regression value &/?+ü",
+      "--login-design-logo-path",
+      "regression value &/?+ü",
+      "--mfa-config-amr-matching-session-duration",
+      "regression value &/?+ü",
+      "--mfa-config-required-aaguids",
+      "regression value &/?+ü",
+      "--mfa-piv-key-requirements-require-fips-device=true",
+      "--mfa-piv-key-requirements-ssh-key-size",
+      "regression value &/?+ü",
+      "--mfa-required-for-all-apps=true",
+      "--name",
+      "regression value &/?+ü",
+      "--service-token-inactivity-inactivity-threshold-days",
+      "1",
+      "--session-duration",
+      "regression value &/?+ü",
+      "--user-seat-expiration-inactive-time",
+      "2026-01-02T03:04:05Z",
+      "--warp-auth-non-browser-401=true"
+    ],
+    "exitCode": 1,
+    "error": "--service-token-inactivity-action, --service-token-inactivity-enabled are required when any --service_token_inactivity-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "pairwise 5",
+    "argv": [
+      "zero-trust",
+      "organization",
+      "update",
+      "--allow-authenticate-via-warp=false",
+      "--auth-domain",
+      "example.com",
+      "--custom-pages-identity-denied",
+      "second value &/?+ü",
+      "--deny-unmatched-requests=false",
+      "--login-design-background-color",
+      "second value &/?+ü",
+      "--login-design-footer-text",
+      "second value &/?+ü",
+      "--login-design-text-color",
+      "second value &/?+ü",
+      "--mfa-config-allowed-authenticators",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--mfa-config-session-duration",
+      "second value &/?+ü",
+      "--mfa-piv-key-requirements-pin-policy",
+      "once",
+      "--mfa-piv-key-requirements-ssh-key-type",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--mfa-piv-key-requirements-touch-policy",
+      "always",
+      "--service-token-inactivity-action",
+      "delete",
+      "--service-token-inactivity-enabled=false",
+      "--strict-service-token-auth=false",
+      "--ui-read-only-toggle-reason",
+      "second value &/?+ü",
+      "--warp-auth-session-duration",
+      "second value &/?+ü"
+    ],
+    "exitCode": 1,
+    "error": "--service-token-inactivity-inactivity-threshold-days is required when any --service_token_inactivity-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "pairwise 6",
+    "argv": [
+      "zero-trust",
+      "organization",
+      "update",
+      "--custom-pages-identity-denied",
+      "regression value &/?+ü",
+      "--deny-unmatched-requests=true",
+      "--deny-unmatched-requests-exempted-zone-names",
+      "regression value &/?+ü",
+      "--is-ui-read-only=true",
+      "--login-design-text-color",
+      "regression value &/?+ü",
+      "--mfa-config-allowed-authenticators",
+      "regression value &/?+ü",
+      "--mfa-config-amr-matching-session-duration",
+      "regression value &/?+ü",
+      "--mfa-config-required-aaguids",
+      "regression value &/?+ü",
+      "--mfa-piv-key-requirements-ssh-key-type",
+      "regression value &/?+ü",
+      "--mfa-piv-key-requirements-touch-policy",
+      "never",
+      "--mfa-required-for-all-apps=true",
+      "--name",
+      "regression value &/?+ü",
+      "--strict-service-token-auth=true",
+      "--ui-read-only-toggle-reason",
+      "regression value &/?+ü",
+      "--user-seat-expiration-inactive-time",
+      "2026-01-02T03:04:05Z",
+      "--warp-auth-non-browser-401=true"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/access/organizations",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "759",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "custom_pages": {
+            "identity_denied": "regression value &/?+ü"
+          },
+          "deny_unmatched_requests": true,
+          "deny_unmatched_requests_exempted_zone_names": [
+            "regression value &/?+ü"
+          ],
+          "is_ui_read_only": true,
+          "login_design": {
+            "text_color": "regression value &/?+ü"
+          },
+          "mfa_config": {
+            "allowed_authenticators": [
+              "regression value &/?+ü"
+            ],
+            "amr_matching_session_duration": "regression value &/?+ü",
+            "required_aaguids": "regression value &/?+ü"
+          },
+          "mfa_piv_key_requirements": {
+            "ssh_key_type": [
+              "regression value &/?+ü"
+            ],
+            "touch_policy": "never"
+          },
+          "mfa_required_for_all_apps": true,
+          "name": "regression value &/?+ü",
+          "strict_service_token_auth": true,
+          "ui_read_only_toggle_reason": "regression value &/?+ü",
+          "user_seat_expiration_inactive_time": "2026-01-02T03:04:05Z",
+          "warp_auth_non_browser_401": true
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 7",
+    "argv": [
+      "zero-trust",
+      "organization",
+      "update",
+      "--allow-authenticate-via-warp=false",
+      "--auth-domain",
+      "example.com",
+      "--auto-redirect-to-identity=false",
+      "--custom-pages-forbidden",
+      "second value &/?+ü",
+      "--login-design-background-color",
+      "second value &/?+ü",
+      "--login-design-footer-text",
+      "second value &/?+ü",
+      "--login-design-header-text",
+      "second value &/?+ü",
+      "--login-design-logo-path",
+      "second value &/?+ü",
+      "--mfa-config-session-duration",
+      "second value &/?+ü",
+      "--mfa-piv-key-requirements-pin-policy",
+      "once",
+      "--mfa-piv-key-requirements-require-fips-device=false",
+      "--mfa-piv-key-requirements-ssh-key-size",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--service-token-inactivity-action",
+      "delete",
+      "--service-token-inactivity-enabled=false",
+      "--service-token-inactivity-inactivity-threshold-days",
+      "2",
+      "--session-duration",
+      "second value &/?+ü",
+      "--warp-auth-session-duration",
+      "second value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/access/organizations",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "693",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "allow_authenticate_via_warp": false,
+          "auth_domain": "example.com",
+          "auto_redirect_to_identity": false,
+          "custom_pages": {
+            "forbidden": "second value &/?+ü"
+          },
+          "login_design": {
+            "background_color": "second value &/?+ü",
+            "footer_text": "second value &/?+ü",
+            "header_text": "second value &/?+ü",
+            "logo_path": "second value &/?+ü"
+          },
+          "mfa_config": {
+            "session_duration": "second value &/?+ü"
+          },
+          "mfa_piv_key_requirements": {
+            "pin_policy": "once",
+            "require_fips_device": false,
+            "ssh_key_size": [
+              "second value &/?+ü",
+              "second value &/?+ü"
+            ]
+          },
+          "service_token_inactivity": {
+            "action": "delete",
+            "enabled": false,
+            "inactivity_threshold_days": 2
+          },
+          "session_duration": "second value &/?+ü",
+          "warp_auth_session_duration": "second value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 8",
+    "argv": [
+      "zero-trust",
+      "organization",
+      "update",
+      "--login-design-background-color",
+      "regression value &/?+ü",
+      "--login-design-footer-text",
+      "regression value &/?+ü",
+      "--login-design-header-text",
+      "regression value &/?+ü",
+      "--login-design-logo-path",
+      "regression value &/?+ü",
+      "--login-design-text-color",
+      "regression value &/?+ü",
+      "--mfa-config-allowed-authenticators",
+      "regression value &/?+ü",
+      "--mfa-config-amr-matching-session-duration",
+      "regression value &/?+ü",
+      "--mfa-config-required-aaguids",
+      "regression value &/?+ü",
+      "--service-token-inactivity-action",
+      "disable",
+      "--service-token-inactivity-enabled=true",
+      "--service-token-inactivity-inactivity-threshold-days",
+      "1",
+      "--session-duration",
+      "regression value &/?+ü",
+      "--strict-service-token-auth=true",
+      "--ui-read-only-toggle-reason",
+      "regression value &/?+ü",
+      "--user-seat-expiration-inactive-time",
+      "2026-01-02T03:04:05Z",
+      "--warp-auth-non-browser-401=true"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/access/organizations",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "710",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "login_design": {
+            "background_color": "regression value &/?+ü",
+            "footer_text": "regression value &/?+ü",
+            "header_text": "regression value &/?+ü",
+            "logo_path": "regression value &/?+ü",
+            "text_color": "regression value &/?+ü"
+          },
+          "mfa_config": {
+            "allowed_authenticators": [
+              "regression value &/?+ü"
+            ],
+            "amr_matching_session_duration": "regression value &/?+ü",
+            "required_aaguids": "regression value &/?+ü"
+          },
+          "service_token_inactivity": {
+            "action": "disable",
+            "enabled": true,
+            "inactivity_threshold_days": 1
+          },
+          "session_duration": "regression value &/?+ü",
+          "strict_service_token_auth": true,
+          "ui_read_only_toggle_reason": "regression value &/?+ü",
+          "user_seat_expiration_inactive_time": "2026-01-02T03:04:05Z",
+          "warp_auth_non_browser_401": true
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 9",
+    "argv": [
+      "zero-trust",
+      "organization",
+      "update",
+      "--allow-authenticate-via-warp=false",
+      "--auth-domain",
+      "example.com",
+      "--auto-redirect-to-identity=false",
+      "--custom-pages-forbidden",
+      "second value &/?+ü",
+      "--custom-pages-identity-denied",
+      "second value &/?+ü",
+      "--deny-unmatched-requests=false",
+      "--deny-unmatched-requests-exempted-zone-names",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--is-ui-read-only=false",
+      "--mfa-config-session-duration",
+      "second value &/?+ü",
+      "--mfa-piv-key-requirements-pin-policy",
+      "once",
+      "--mfa-piv-key-requirements-require-fips-device=false",
+      "--mfa-piv-key-requirements-ssh-key-size",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--mfa-piv-key-requirements-ssh-key-type",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--mfa-piv-key-requirements-touch-policy",
+      "always",
+      "--mfa-required-for-all-apps=false",
+      "--name",
+      "second value &/?+ü",
+      "--warp-auth-session-duration",
+      "second value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/access/organizations",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "731",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "allow_authenticate_via_warp": false,
+          "auth_domain": "example.com",
+          "auto_redirect_to_identity": false,
+          "custom_pages": {
+            "forbidden": "second value &/?+ü",
+            "identity_denied": "second value &/?+ü"
+          },
+          "deny_unmatched_requests": false,
+          "deny_unmatched_requests_exempted_zone_names": [
+            "second value &/?+ü",
+            "second value &/?+ü"
+          ],
+          "is_ui_read_only": false,
+          "mfa_config": {
+            "session_duration": "second value &/?+ü"
+          },
+          "mfa_piv_key_requirements": {
+            "pin_policy": "once",
+            "require_fips_device": false,
+            "ssh_key_size": [
+              "second value &/?+ü",
+              "second value &/?+ü"
+            ],
+            "ssh_key_type": [
+              "second value &/?+ü",
+              "second value &/?+ü"
+            ],
+            "touch_policy": "always"
+          },
+          "mfa_required_for_all_apps": false,
+          "name": "second value &/?+ü",
+          "warp_auth_session_duration": "second value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 10",
+    "argv": [
+      "zero-trust",
+      "organization",
+      "update",
+      "--mfa-config-session-duration",
+      "regression value &/?+ü",
+      "--mfa-piv-key-requirements-pin-policy",
+      "never",
+      "--mfa-piv-key-requirements-require-fips-device=true",
+      "--mfa-piv-key-requirements-ssh-key-size",
+      "regression value &/?+ü",
+      "--mfa-piv-key-requirements-ssh-key-type",
+      "regression value &/?+ü",
+      "--mfa-piv-key-requirements-touch-policy",
+      "never",
+      "--mfa-required-for-all-apps=true",
+      "--name",
+      "regression value &/?+ü",
+      "--service-token-inactivity-action",
+      "disable",
+      "--service-token-inactivity-enabled=true",
+      "--service-token-inactivity-inactivity-threshold-days",
+      "1",
+      "--session-duration",
+      "regression value &/?+ü",
+      "--strict-service-token-auth=true",
+      "--ui-read-only-toggle-reason",
+      "regression value &/?+ü",
+      "--user-seat-expiration-inactive-time",
+      "2026-01-02T03:04:05Z",
+      "--warp-auth-non-browser-401=true"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/access/organizations",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "632",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "mfa_config": {
+            "session_duration": "regression value &/?+ü"
+          },
+          "mfa_piv_key_requirements": {
+            "pin_policy": "never",
+            "require_fips_device": true,
+            "ssh_key_size": [
+              "regression value &/?+ü"
+            ],
+            "ssh_key_type": [
+              "regression value &/?+ü"
+            ],
+            "touch_policy": "never"
+          },
+          "mfa_required_for_all_apps": true,
+          "name": "regression value &/?+ü",
+          "service_token_inactivity": {
+            "action": "disable",
+            "enabled": true,
+            "inactivity_threshold_days": 1
+          },
+          "session_duration": "regression value &/?+ü",
+          "strict_service_token_auth": true,
+          "ui_read_only_toggle_reason": "regression value &/?+ü",
+          "user_seat_expiration_inactive_time": "2026-01-02T03:04:05Z",
+          "warp_auth_non_browser_401": true
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 11",
+    "argv": [
+      "zero-trust",
+      "organization",
+      "update",
+      "--allow-authenticate-via-warp=false",
+      "--auth-domain",
+      "example.com",
+      "--auto-redirect-to-identity=false",
+      "--custom-pages-forbidden",
+      "second value &/?+ü",
+      "--custom-pages-identity-denied",
+      "second value &/?+ü",
+      "--deny-unmatched-requests=false",
+      "--deny-unmatched-requests-exempted-zone-names",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--is-ui-read-only=false",
+      "--login-design-background-color",
+      "second value &/?+ü",
+      "--login-design-footer-text",
+      "second value &/?+ü",
+      "--login-design-header-text",
+      "second value &/?+ü",
+      "--login-design-logo-path",
+      "second value &/?+ü",
+      "--login-design-text-color",
+      "second value &/?+ü",
+      "--mfa-config-allowed-authenticators",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--mfa-config-amr-matching-session-duration",
+      "second value &/?+ü",
+      "--mfa-config-required-aaguids",
+      "second value &/?+ü",
+      "--warp-auth-session-duration",
+      "second value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/access/organizations",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "769",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "allow_authenticate_via_warp": false,
+          "auth_domain": "example.com",
+          "auto_redirect_to_identity": false,
+          "custom_pages": {
+            "forbidden": "second value &/?+ü",
+            "identity_denied": "second value &/?+ü"
+          },
+          "deny_unmatched_requests": false,
+          "deny_unmatched_requests_exempted_zone_names": [
+            "second value &/?+ü",
+            "second value &/?+ü"
+          ],
+          "is_ui_read_only": false,
+          "login_design": {
+            "background_color": "second value &/?+ü",
+            "footer_text": "second value &/?+ü",
+            "header_text": "second value &/?+ü",
+            "logo_path": "second value &/?+ü",
+            "text_color": "second value &/?+ü"
+          },
+          "mfa_config": {
+            "allowed_authenticators": [
+              "second value &/?+ü",
+              "second value &/?+ü"
+            ],
+            "amr_matching_session_duration": "second value &/?+ü",
+            "required_aaguids": "second value &/?+ü"
+          },
+          "warp_auth_session_duration": "second value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 13",
+    "argv": [
+      "zero-trust",
+      "organization",
+      "update",
+      "--allow-authenticate-via-warp=false",
+      "--auth-domain",
+      "example.com",
+      "--auto-redirect-to-identity=false",
+      "--custom-pages-forbidden",
+      "second value &/?+ü",
+      "--custom-pages-identity-denied",
+      "second value &/?+ü",
+      "--deny-unmatched-requests=false",
+      "--deny-unmatched-requests-exempted-zone-names",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--is-ui-read-only=false",
+      "--login-design-background-color",
+      "second value &/?+ü",
+      "--login-design-footer-text",
+      "second value &/?+ü",
+      "--login-design-header-text",
+      "second value &/?+ü",
+      "--login-design-logo-path",
+      "second value &/?+ü",
+      "--login-design-text-color",
+      "second value &/?+ü",
+      "--mfa-config-allowed-authenticators",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--mfa-config-amr-matching-session-duration",
+      "second value &/?+ü",
+      "--mfa-config-required-aaguids",
+      "second value &/?+ü",
+      "--mfa-config-session-duration",
+      "second value &/?+ü",
+      "--mfa-piv-key-requirements-pin-policy",
+      "once",
+      "--mfa-piv-key-requirements-require-fips-device=false",
+      "--mfa-piv-key-requirements-ssh-key-size",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--mfa-piv-key-requirements-ssh-key-type",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--mfa-piv-key-requirements-touch-policy",
+      "always",
+      "--mfa-required-for-all-apps=false",
+      "--name",
+      "second value &/?+ü",
+      "--service-token-inactivity-action",
+      "delete",
+      "--service-token-inactivity-enabled=false",
+      "--service-token-inactivity-inactivity-threshold-days",
+      "2",
+      "--session-duration",
+      "second value &/?+ü",
+      "--strict-service-token-auth=false",
+      "--ui-read-only-toggle-reason",
+      "second value &/?+ü",
+      "--user-seat-expiration-inactive-time",
+      "2026-01-02T03:04:05Z",
+      "--warp-auth-non-browser-401=false"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/access/organizations",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "1358",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "allow_authenticate_via_warp": false,
+          "auth_domain": "example.com",
+          "auto_redirect_to_identity": false,
+          "custom_pages": {
+            "forbidden": "second value &/?+ü",
+            "identity_denied": "second value &/?+ü"
+          },
+          "deny_unmatched_requests": false,
+          "deny_unmatched_requests_exempted_zone_names": [
+            "second value &/?+ü",
+            "second value &/?+ü"
+          ],
+          "is_ui_read_only": false,
+          "login_design": {
+            "background_color": "second value &/?+ü",
+            "footer_text": "second value &/?+ü",
+            "header_text": "second value &/?+ü",
+            "logo_path": "second value &/?+ü",
+            "text_color": "second value &/?+ü"
+          },
+          "mfa_config": {
+            "allowed_authenticators": [
+              "second value &/?+ü",
+              "second value &/?+ü"
+            ],
+            "amr_matching_session_duration": "second value &/?+ü",
+            "required_aaguids": "second value &/?+ü",
+            "session_duration": "second value &/?+ü"
+          },
+          "mfa_piv_key_requirements": {
+            "pin_policy": "once",
+            "require_fips_device": false,
+            "ssh_key_size": [
+              "second value &/?+ü",
+              "second value &/?+ü"
+            ],
+            "ssh_key_type": [
+              "second value &/?+ü",
+              "second value &/?+ü"
+            ],
+            "touch_policy": "always"
+          },
+          "mfa_required_for_all_apps": false,
+          "name": "second value &/?+ü",
+          "service_token_inactivity": {
+            "action": "delete",
+            "enabled": false,
+            "inactivity_threshold_days": 2
+          },
+          "session_duration": "second value &/?+ü",
+          "strict_service_token_auth": false,
+          "ui_read_only_toggle_reason": "second value &/?+ü",
+          "user_seat_expiration_inactive_time": "2026-01-02T03:04:05Z",
+          "warp_auth_non_browser_401": false
+        }
+      }
+    ]
+  },
+  {
+    "case": "global quiet",
+    "argv": [
+      "zero-trust",
+      "organization",
+      "update",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--quiet"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/access/organizations",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "global zone",
+    "argv": [
+      "zero-trust",
+      "organization",
+      "update",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--zone",
+      "abcdef0123456789abcdef0123456789"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/access/organizations",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "global profile and mode",
+    "argv": [
+      "zero-trust",
+      "organization",
+      "update",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--profile",
+      "default",
+      "--mode",
+      "regression"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/access/organizations",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "local",
+    "argv": [
+      "zero-trust",
+      "organization",
+      "update",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--local"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "http://localhost/cdn-cgi/local/explorer/api/access/organizations",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "gzip, deflate",
+          "accept-language": "*",
+          "connection": "keep-alive",
+          "content-type": "application/json",
+          "host": "localhost",
+          "sec-fetch-mode": "cors",
+          "transfer-encoding": "chunked",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "local with persistence",
+    "argv": [
+      "zero-trust",
+      "organization",
+      "update",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--local",
+      "--persist-to",
+      "regression-state"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "http://localhost/cdn-cgi/local/explorer/api/access/organizations",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "gzip, deflate",
+          "accept-language": "*",
+          "connection": "keep-alive",
+          "content-type": "application/json",
+          "host": "localhost",
+          "sec-fetch-mode": "cors",
+          "transfer-encoding": "chunked",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "zone by domain",
+    "argv": [
+      "zero-trust",
+      "organization",
+      "update",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--zone",
+      "regression-7ccde7869c05.example.com"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/zones?name=regression-7ccde7869c05.example.com&account.id=0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      },
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/access/organizations",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "dry-run",
+    "argv": [
+      "zero-trust",
+      "organization",
+      "update",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--dry-run"
+    ],
+    "exitCode": 0,
+    "requests": []
+  },
+  {
+    "case": "body from file",
+    "argv": [
+      "zero-trust",
+      "organization",
+      "update",
+      "--body",
+      "@<body.json>"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/access/organizations",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "array body",
+    "argv": [
+      "zero-trust",
+      "organization",
+      "update",
+      "--body",
+      "[{\"regression\":\"first\"},{\"regression\":\"second\"}]"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/access/organizations",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "56",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "0": {
+            "regression": "first"
+          },
+          "1": {
+            "regression": "second"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "field flags",
+    "argv": [
+      "zero-trust",
+      "organization",
+      "update",
+      "--allow-authenticate-via-warp=true",
+      "--auth-domain",
+      "example.com",
+      "--auto-redirect-to-identity=true",
+      "--custom-pages-forbidden",
+      "regression value &/?+ü",
+      "--custom-pages-identity-denied",
+      "regression value &/?+ü",
+      "--deny-unmatched-requests=true",
+      "--deny-unmatched-requests-exempted-zone-names",
+      "regression value &/?+ü",
+      "--is-ui-read-only=true",
+      "--login-design-background-color",
+      "regression value &/?+ü",
+      "--login-design-footer-text",
+      "regression value &/?+ü",
+      "--login-design-header-text",
+      "regression value &/?+ü",
+      "--login-design-logo-path",
+      "regression value &/?+ü",
+      "--login-design-text-color",
+      "regression value &/?+ü",
+      "--mfa-config-allowed-authenticators",
+      "regression value &/?+ü",
+      "--mfa-config-amr-matching-session-duration",
+      "regression value &/?+ü",
+      "--mfa-config-required-aaguids",
+      "regression value &/?+ü",
+      "--mfa-config-session-duration",
+      "regression value &/?+ü",
+      "--mfa-piv-key-requirements-pin-policy",
+      "never",
+      "--mfa-piv-key-requirements-require-fips-device=true",
+      "--mfa-piv-key-requirements-ssh-key-size",
+      "regression value &/?+ü",
+      "--mfa-piv-key-requirements-ssh-key-type",
+      "regression value &/?+ü",
+      "--mfa-piv-key-requirements-touch-policy",
+      "never",
+      "--mfa-required-for-all-apps=true",
+      "--name",
+      "regression value &/?+ü",
+      "--service-token-inactivity-action",
+      "disable",
+      "--service-token-inactivity-enabled=true",
+      "--service-token-inactivity-inactivity-threshold-days",
+      "1",
+      "--session-duration",
+      "regression value &/?+ü",
+      "--strict-service-token-auth=true",
+      "--ui-read-only-toggle-reason",
+      "regression value &/?+ü",
+      "--user-seat-expiration-inactive-time",
+      "2026-01-02T03:04:05Z",
+      "--warp-auth-non-browser-401=true",
+      "--warp-auth-session-duration",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/access/organizations",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "1385",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "allow_authenticate_via_warp": true,
+          "auth_domain": "example.com",
+          "auto_redirect_to_identity": true,
+          "custom_pages": {
+            "forbidden": "regression value &/?+ü",
+            "identity_denied": "regression value &/?+ü"
+          },
+          "deny_unmatched_requests": true,
+          "deny_unmatched_requests_exempted_zone_names": [
+            "regression value &/?+ü"
+          ],
+          "is_ui_read_only": true,
+          "login_design": {
+            "background_color": "regression value &/?+ü",
+            "footer_text": "regression value &/?+ü",
+            "header_text": "regression value &/?+ü",
+            "logo_path": "regression value &/?+ü",
+            "text_color": "regression value &/?+ü"
+          },
+          "mfa_config": {
+            "allowed_authenticators": [
+              "regression value &/?+ü"
+            ],
+            "amr_matching_session_duration": "regression value &/?+ü",
+            "required_aaguids": "regression value &/?+ü",
+            "session_duration": "regression value &/?+ü"
+          },
+          "mfa_piv_key_requirements": {
+            "pin_policy": "never",
+            "require_fips_device": true,
+            "ssh_key_size": [
+              "regression value &/?+ü"
+            ],
+            "ssh_key_type": [
+              "regression value &/?+ü"
+            ],
+            "touch_policy": "never"
+          },
+          "mfa_required_for_all_apps": true,
+          "name": "regression value &/?+ü",
+          "service_token_inactivity": {
+            "action": "disable",
+            "enabled": true,
+            "inactivity_threshold_days": 1
+          },
+          "session_duration": "regression value &/?+ü",
+          "strict_service_token_auth": true,
+          "ui_read_only_toggle_reason": "regression value &/?+ü",
+          "user_seat_expiration_inactive_time": "2026-01-02T03:04:05Z",
+          "warp_auth_non_browser_401": true,
+          "warp_auth_session_duration": "regression value &/?+ü"
+        }
+      }
+    ]
+  }
+]

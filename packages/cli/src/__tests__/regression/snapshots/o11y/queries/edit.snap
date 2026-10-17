@@ -1,0 +1,1549 @@
+[
+  {
+    "case": "no-args",
+    "argv": [
+      "o11y",
+      "queries",
+      "edit"
+    ],
+    "exitCode": 1,
+    "error": "Not enough non-option arguments: got 0, need at least 1",
+    "requests": []
+  },
+  {
+    "case": "required",
+    "argv": [
+      "o11y",
+      "queries",
+      "edit",
+      "regression value &/?+ü",
+      "--description",
+      "192.0.2.1",
+      "--name",
+      "regression value &/?+ü",
+      "--parameters-order-by-value",
+      "regression value &/?+ü",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/workers/observability/queries/regression%20value%20%26%2F%3F%2B%C3%BC",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --parameters-datasets",
+    "argv": [
+      "o11y",
+      "queries",
+      "edit",
+      "regression value &/?+ü",
+      "--description",
+      "192.0.2.1",
+      "--name",
+      "regression value &/?+ü",
+      "--parameters-order-by-value",
+      "regression value &/?+ü",
+      "--parameters-datasets",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/workers/observability/queries/regression%20value%20%26%2F%3F%2B%C3%BC",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "160",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "description": "192.0.2.1",
+          "name": "regression value &/?+ü",
+          "parameters": {
+            "datasets": [
+              "regression value &/?+ü"
+            ],
+            "orderBy": {
+              "value": "regression value &/?+ü"
+            }
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --parameters-filter-combination",
+    "argv": [
+      "o11y",
+      "queries",
+      "edit",
+      "regression value &/?+ü",
+      "--description",
+      "192.0.2.1",
+      "--name",
+      "regression value &/?+ü",
+      "--parameters-order-by-value",
+      "regression value &/?+ü",
+      "--parameters-filter-combination",
+      "and"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/workers/observability/queries/regression%20value%20%26%2F%3F%2B%C3%BC",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "147",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "description": "192.0.2.1",
+          "name": "regression value &/?+ü",
+          "parameters": {
+            "filterCombination": "and",
+            "orderBy": {
+              "value": "regression value &/?+ü"
+            }
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "--parameters-filter-combination value 1",
+    "argv": [
+      "o11y",
+      "queries",
+      "edit",
+      "regression value &/?+ü",
+      "--description",
+      "192.0.2.1",
+      "--name",
+      "regression value &/?+ü",
+      "--parameters-order-by-value",
+      "regression value &/?+ü",
+      "--parameters-filter-combination",
+      "or"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/workers/observability/queries/regression%20value%20%26%2F%3F%2B%C3%BC",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "146",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "description": "192.0.2.1",
+          "name": "regression value &/?+ü",
+          "parameters": {
+            "filterCombination": "or",
+            "orderBy": {
+              "value": "regression value &/?+ü"
+            }
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "--parameters-filter-combination value 2",
+    "argv": [
+      "o11y",
+      "queries",
+      "edit",
+      "regression value &/?+ü",
+      "--description",
+      "192.0.2.1",
+      "--name",
+      "regression value &/?+ü",
+      "--parameters-order-by-value",
+      "regression value &/?+ü",
+      "--parameters-filter-combination",
+      "AND"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/workers/observability/queries/regression%20value%20%26%2F%3F%2B%C3%BC",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "147",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "description": "192.0.2.1",
+          "name": "regression value &/?+ü",
+          "parameters": {
+            "filterCombination": "AND",
+            "orderBy": {
+              "value": "regression value &/?+ü"
+            }
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "--parameters-filter-combination value 3",
+    "argv": [
+      "o11y",
+      "queries",
+      "edit",
+      "regression value &/?+ü",
+      "--description",
+      "192.0.2.1",
+      "--name",
+      "regression value &/?+ü",
+      "--parameters-order-by-value",
+      "regression value &/?+ü",
+      "--parameters-filter-combination",
+      "OR"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/workers/observability/queries/regression%20value%20%26%2F%3F%2B%C3%BC",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "146",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "description": "192.0.2.1",
+          "name": "regression value &/?+ü",
+          "parameters": {
+            "filterCombination": "OR",
+            "orderBy": {
+              "value": "regression value &/?+ü"
+            }
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --parameters-limit",
+    "argv": [
+      "o11y",
+      "queries",
+      "edit",
+      "regression value &/?+ü",
+      "--description",
+      "192.0.2.1",
+      "--name",
+      "regression value &/?+ü",
+      "--parameters-order-by-value",
+      "regression value &/?+ü",
+      "--parameters-limit",
+      "1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/workers/observability/queries/regression%20value%20%26%2F%3F%2B%C3%BC",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "131",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "description": "192.0.2.1",
+          "name": "regression value &/?+ü",
+          "parameters": {
+            "limit": 1,
+            "orderBy": {
+              "value": "regression value &/?+ü"
+            }
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --parameters-needle-is-regex",
+    "argv": [
+      "o11y",
+      "queries",
+      "edit",
+      "regression value &/?+ü",
+      "--description",
+      "192.0.2.1",
+      "--name",
+      "regression value &/?+ü",
+      "--parameters-order-by-value",
+      "regression value &/?+ü",
+      "--parameters-needle-is-regex=true"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/workers/observability/queries/regression%20value%20%26%2F%3F%2B%C3%BC",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "147",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "description": "192.0.2.1",
+          "name": "regression value &/?+ü",
+          "parameters": {
+            "needle": {
+              "isRegex": true
+            },
+            "orderBy": {
+              "value": "regression value &/?+ü"
+            }
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "--parameters-needle-is-regex value 1",
+    "argv": [
+      "o11y",
+      "queries",
+      "edit",
+      "regression value &/?+ü",
+      "--description",
+      "192.0.2.1",
+      "--name",
+      "regression value &/?+ü",
+      "--parameters-order-by-value",
+      "regression value &/?+ü",
+      "--parameters-needle-is-regex=false"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/workers/observability/queries/regression%20value%20%26%2F%3F%2B%C3%BC",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "148",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "description": "192.0.2.1",
+          "name": "regression value &/?+ü",
+          "parameters": {
+            "needle": {
+              "isRegex": false
+            },
+            "orderBy": {
+              "value": "regression value &/?+ü"
+            }
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --parameters-needle-match-case",
+    "argv": [
+      "o11y",
+      "queries",
+      "edit",
+      "regression value &/?+ü",
+      "--description",
+      "192.0.2.1",
+      "--name",
+      "regression value &/?+ü",
+      "--parameters-order-by-value",
+      "regression value &/?+ü",
+      "--parameters-needle-match-case=true"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/workers/observability/queries/regression%20value%20%26%2F%3F%2B%C3%BC",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "149",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "description": "192.0.2.1",
+          "name": "regression value &/?+ü",
+          "parameters": {
+            "needle": {
+              "matchCase": true
+            },
+            "orderBy": {
+              "value": "regression value &/?+ü"
+            }
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "--parameters-needle-match-case value 1",
+    "argv": [
+      "o11y",
+      "queries",
+      "edit",
+      "regression value &/?+ü",
+      "--description",
+      "192.0.2.1",
+      "--name",
+      "regression value &/?+ü",
+      "--parameters-order-by-value",
+      "regression value &/?+ü",
+      "--parameters-needle-match-case=false"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/workers/observability/queries/regression%20value%20%26%2F%3F%2B%C3%BC",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "150",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "description": "192.0.2.1",
+          "name": "regression value &/?+ü",
+          "parameters": {
+            "needle": {
+              "matchCase": false
+            },
+            "orderBy": {
+              "value": "regression value &/?+ü"
+            }
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --parameters-order-by-order",
+    "argv": [
+      "o11y",
+      "queries",
+      "edit",
+      "regression value &/?+ü",
+      "--description",
+      "192.0.2.1",
+      "--name",
+      "regression value &/?+ü",
+      "--parameters-order-by-value",
+      "regression value &/?+ü",
+      "--parameters-order-by-order",
+      "asc"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/workers/observability/queries/regression%20value%20%26%2F%3F%2B%C3%BC",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "135",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "description": "192.0.2.1",
+          "name": "regression value &/?+ü",
+          "parameters": {
+            "orderBy": {
+              "order": "asc",
+              "value": "regression value &/?+ü"
+            }
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "--parameters-order-by-order value 1",
+    "argv": [
+      "o11y",
+      "queries",
+      "edit",
+      "regression value &/?+ü",
+      "--description",
+      "192.0.2.1",
+      "--name",
+      "regression value &/?+ü",
+      "--parameters-order-by-value",
+      "regression value &/?+ü",
+      "--parameters-order-by-order",
+      "desc"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/workers/observability/queries/regression%20value%20%26%2F%3F%2B%C3%BC",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "136",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "description": "192.0.2.1",
+          "name": "regression value &/?+ü",
+          "parameters": {
+            "orderBy": {
+              "order": "desc",
+              "value": "regression value &/?+ü"
+            }
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 0",
+    "argv": [
+      "o11y",
+      "queries",
+      "edit",
+      "regression value &/?+ü",
+      "--description",
+      "192.0.2.1",
+      "--name",
+      "regression value &/?+ü",
+      "--parameters-order-by-value",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/workers/observability/queries/regression%20value%20%26%2F%3F%2B%C3%BC",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "121",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "description": "192.0.2.1",
+          "name": "regression value &/?+ü",
+          "parameters": {
+            "orderBy": {
+              "value": "regression value &/?+ü"
+            }
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 1",
+    "argv": [
+      "o11y",
+      "queries",
+      "edit",
+      "regression value &/?+ü",
+      "--description",
+      "192.0.2.1",
+      "--name",
+      "regression value &/?+ü",
+      "--parameters-order-by-value",
+      "regression value &/?+ü",
+      "--parameters-datasets",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--parameters-filter-combination",
+      "or",
+      "--parameters-limit",
+      "2",
+      "--parameters-needle-is-regex=false",
+      "--parameters-needle-match-case=false",
+      "--parameters-order-by-order",
+      "desc"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/workers/observability/queries/regression%20value%20%26%2F%3F%2B%C3%BC",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "273",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "description": "192.0.2.1",
+          "name": "regression value &/?+ü",
+          "parameters": {
+            "datasets": [
+              "second value &/?+ü",
+              "second value &/?+ü"
+            ],
+            "filterCombination": "or",
+            "limit": 2,
+            "needle": {
+              "isRegex": false,
+              "matchCase": false
+            },
+            "orderBy": {
+              "order": "desc",
+              "value": "regression value &/?+ü"
+            }
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 2",
+    "argv": [
+      "o11y",
+      "queries",
+      "edit",
+      "regression value &/?+ü",
+      "--description",
+      "192.0.2.1",
+      "--name",
+      "regression value &/?+ü",
+      "--parameters-order-by-value",
+      "regression value &/?+ü",
+      "--parameters-filter-combination",
+      "and",
+      "--parameters-needle-is-regex=true",
+      "--parameters-order-by-order",
+      "asc"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/workers/observability/queries/regression%20value%20%26%2F%3F%2B%C3%BC",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "187",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "description": "192.0.2.1",
+          "name": "regression value &/?+ü",
+          "parameters": {
+            "filterCombination": "and",
+            "needle": {
+              "isRegex": true
+            },
+            "orderBy": {
+              "order": "asc",
+              "value": "regression value &/?+ü"
+            }
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 3",
+    "argv": [
+      "o11y",
+      "queries",
+      "edit",
+      "regression value &/?+ü",
+      "--description",
+      "192.0.2.1",
+      "--name",
+      "regression value &/?+ü",
+      "--parameters-order-by-value",
+      "regression value &/?+ü",
+      "--parameters-datasets",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--parameters-limit",
+      "2",
+      "--parameters-needle-match-case=false"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/workers/observability/queries/regression%20value%20%26%2F%3F%2B%C3%BC",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "217",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "description": "192.0.2.1",
+          "name": "regression value &/?+ü",
+          "parameters": {
+            "datasets": [
+              "second value &/?+ü",
+              "second value &/?+ü"
+            ],
+            "limit": 2,
+            "needle": {
+              "matchCase": false
+            },
+            "orderBy": {
+              "value": "regression value &/?+ü"
+            }
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 4",
+    "argv": [
+      "o11y",
+      "queries",
+      "edit",
+      "regression value &/?+ü",
+      "--description",
+      "192.0.2.1",
+      "--name",
+      "regression value &/?+ü",
+      "--parameters-order-by-value",
+      "regression value &/?+ü",
+      "--parameters-limit",
+      "1",
+      "--parameters-needle-is-regex=true"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/workers/observability/queries/regression%20value%20%26%2F%3F%2B%C3%BC",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "157",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "description": "192.0.2.1",
+          "name": "regression value &/?+ü",
+          "parameters": {
+            "limit": 1,
+            "needle": {
+              "isRegex": true
+            },
+            "orderBy": {
+              "value": "regression value &/?+ü"
+            }
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 5",
+    "argv": [
+      "o11y",
+      "queries",
+      "edit",
+      "regression value &/?+ü",
+      "--description",
+      "192.0.2.1",
+      "--name",
+      "regression value &/?+ü",
+      "--parameters-order-by-value",
+      "regression value &/?+ü",
+      "--parameters-datasets",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--parameters-filter-combination",
+      "or",
+      "--parameters-needle-match-case=false",
+      "--parameters-order-by-order",
+      "desc"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/workers/observability/queries/regression%20value%20%26%2F%3F%2B%C3%BC",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "247",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "description": "192.0.2.1",
+          "name": "regression value &/?+ü",
+          "parameters": {
+            "datasets": [
+              "second value &/?+ü",
+              "second value &/?+ü"
+            ],
+            "filterCombination": "or",
+            "needle": {
+              "matchCase": false
+            },
+            "orderBy": {
+              "order": "desc",
+              "value": "regression value &/?+ü"
+            }
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 6",
+    "argv": [
+      "o11y",
+      "queries",
+      "edit",
+      "regression value &/?+ü",
+      "--description",
+      "192.0.2.1",
+      "--name",
+      "regression value &/?+ü",
+      "--parameters-order-by-value",
+      "regression value &/?+ü",
+      "--parameters-needle-match-case=true",
+      "--parameters-order-by-order",
+      "asc"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/workers/observability/queries/regression%20value%20%26%2F%3F%2B%C3%BC",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "163",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "description": "192.0.2.1",
+          "name": "regression value &/?+ü",
+          "parameters": {
+            "needle": {
+              "matchCase": true
+            },
+            "orderBy": {
+              "order": "asc",
+              "value": "regression value &/?+ü"
+            }
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 7",
+    "argv": [
+      "o11y",
+      "queries",
+      "edit",
+      "regression value &/?+ü",
+      "--description",
+      "192.0.2.1",
+      "--name",
+      "regression value &/?+ü",
+      "--parameters-order-by-value",
+      "regression value &/?+ü",
+      "--parameters-datasets",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--parameters-filter-combination",
+      "or",
+      "--parameters-limit",
+      "2",
+      "--parameters-needle-is-regex=false"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/workers/observability/queries/regression%20value%20%26%2F%3F%2B%C3%BC",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "240",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "description": "192.0.2.1",
+          "name": "regression value &/?+ü",
+          "parameters": {
+            "datasets": [
+              "second value &/?+ü",
+              "second value &/?+ü"
+            ],
+            "filterCombination": "or",
+            "limit": 2,
+            "needle": {
+              "isRegex": false
+            },
+            "orderBy": {
+              "value": "regression value &/?+ü"
+            }
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "global quiet",
+    "argv": [
+      "o11y",
+      "queries",
+      "edit",
+      "regression value &/?+ü",
+      "--description",
+      "192.0.2.1",
+      "--name",
+      "regression value &/?+ü",
+      "--parameters-order-by-value",
+      "regression value &/?+ü",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--quiet"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/workers/observability/queries/regression%20value%20%26%2F%3F%2B%C3%BC",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "global zone",
+    "argv": [
+      "o11y",
+      "queries",
+      "edit",
+      "regression value &/?+ü",
+      "--description",
+      "192.0.2.1",
+      "--name",
+      "regression value &/?+ü",
+      "--parameters-order-by-value",
+      "regression value &/?+ü",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--zone",
+      "abcdef0123456789abcdef0123456789"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/workers/observability/queries/regression%20value%20%26%2F%3F%2B%C3%BC",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "global profile and mode",
+    "argv": [
+      "o11y",
+      "queries",
+      "edit",
+      "regression value &/?+ü",
+      "--description",
+      "192.0.2.1",
+      "--name",
+      "regression value &/?+ü",
+      "--parameters-order-by-value",
+      "regression value &/?+ü",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--profile",
+      "default",
+      "--mode",
+      "regression"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/workers/observability/queries/regression%20value%20%26%2F%3F%2B%C3%BC",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "local",
+    "argv": [
+      "o11y",
+      "queries",
+      "edit",
+      "regression value &/?+ü",
+      "--description",
+      "192.0.2.1",
+      "--name",
+      "regression value &/?+ü",
+      "--parameters-order-by-value",
+      "regression value &/?+ü",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--local"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "http://localhost/cdn-cgi/local/explorer/api/workers/observability/queries/regression%20value%20%26%2F%3F%2B%C3%BC",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "gzip, deflate",
+          "accept-language": "*",
+          "connection": "keep-alive",
+          "content-type": "application/json",
+          "host": "localhost",
+          "sec-fetch-mode": "cors",
+          "transfer-encoding": "chunked",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "local with persistence",
+    "argv": [
+      "o11y",
+      "queries",
+      "edit",
+      "regression value &/?+ü",
+      "--description",
+      "192.0.2.1",
+      "--name",
+      "regression value &/?+ü",
+      "--parameters-order-by-value",
+      "regression value &/?+ü",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--local",
+      "--persist-to",
+      "regression-state"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "http://localhost/cdn-cgi/local/explorer/api/workers/observability/queries/regression%20value%20%26%2F%3F%2B%C3%BC",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "gzip, deflate",
+          "accept-language": "*",
+          "connection": "keep-alive",
+          "content-type": "application/json",
+          "host": "localhost",
+          "sec-fetch-mode": "cors",
+          "transfer-encoding": "chunked",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "dry-run",
+    "argv": [
+      "o11y",
+      "queries",
+      "edit",
+      "regression value &/?+ü",
+      "--description",
+      "192.0.2.1",
+      "--name",
+      "regression value &/?+ü",
+      "--parameters-order-by-value",
+      "regression value &/?+ü",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--dry-run"
+    ],
+    "exitCode": 0,
+    "requests": []
+  },
+  {
+    "case": "body from file",
+    "argv": [
+      "o11y",
+      "queries",
+      "edit",
+      "regression value &/?+ü",
+      "--description",
+      "192.0.2.1",
+      "--name",
+      "regression value &/?+ü",
+      "--parameters-order-by-value",
+      "regression value &/?+ü",
+      "--body",
+      "@<body.json>"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/workers/observability/queries/regression%20value%20%26%2F%3F%2B%C3%BC",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "array body",
+    "argv": [
+      "o11y",
+      "queries",
+      "edit",
+      "regression value &/?+ü",
+      "--description",
+      "192.0.2.1",
+      "--name",
+      "regression value &/?+ü",
+      "--parameters-order-by-value",
+      "regression value &/?+ü",
+      "--body",
+      "[{\"regression\":\"first\"},{\"regression\":\"second\"}]"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/workers/observability/queries/regression%20value%20%26%2F%3F%2B%C3%BC",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "56",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "0": {
+            "regression": "first"
+          },
+          "1": {
+            "regression": "second"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "field flags",
+    "argv": [
+      "o11y",
+      "queries",
+      "edit",
+      "regression value &/?+ü",
+      "--description",
+      "192.0.2.1",
+      "--name",
+      "regression value &/?+ü",
+      "--parameters-order-by-value",
+      "regression value &/?+ü",
+      "--parameters-datasets",
+      "regression value &/?+ü",
+      "--parameters-filter-combination",
+      "and",
+      "--parameters-limit",
+      "1",
+      "--parameters-needle-is-regex=true",
+      "--parameters-needle-match-case=true",
+      "--parameters-order-by-order",
+      "asc"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/workers/observability/queries/regression%20value%20%26%2F%3F%2B%C3%BC",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "253",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "description": "192.0.2.1",
+          "name": "regression value &/?+ü",
+          "parameters": {
+            "datasets": [
+              "regression value &/?+ü"
+            ],
+            "filterCombination": "and",
+            "limit": 1,
+            "needle": {
+              "isRegex": true,
+              "matchCase": true
+            },
+            "orderBy": {
+              "order": "asc",
+              "value": "regression value &/?+ü"
+            }
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "alternate <queryId>",
+    "argv": [
+      "o11y",
+      "queries",
+      "edit",
+      "second value &/?+ü",
+      "--description",
+      "192.0.2.1",
+      "--name",
+      "regression value &/?+ü",
+      "--parameters-order-by-value",
+      "regression value &/?+ü",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/workers/observability/queries/second%20value%20%26%2F%3F%2B%C3%BC",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  }
+]

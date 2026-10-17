@@ -1,0 +1,9 @@
+{
+  "argv": [
+    "spectrum",
+    "analytics",
+    "events",
+    "summaries"
+  ],
+  "requests": []
+}

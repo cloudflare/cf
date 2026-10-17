@@ -1,0 +1,720 @@
+[
+  {
+    "case": "no-args",
+    "argv": [
+      "vectorize",
+      "create"
+    ],
+    "exitCode": 1,
+    "error": "--name is required. Pass --name <value> or run interactively.",
+    "requests": []
+  },
+  {
+    "case": "required",
+    "argv": [
+      "vectorize",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/vectorize/v2/indexes",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --index-config-dimensions",
+    "argv": [
+      "vectorize",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--index-config-dimensions",
+      "1"
+    ],
+    "exitCode": 1,
+    "error": "Missing dependent arguments:\n index-config-dimensions -> index-config-metric",
+    "requests": []
+  },
+  {
+    "case": "only --index-config-metric",
+    "argv": [
+      "vectorize",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--index-config-metric",
+      "cosine"
+    ],
+    "exitCode": 1,
+    "error": "Missing dependent arguments:\n index-config-metric -> index-config-dimensions",
+    "requests": []
+  },
+  {
+    "case": "--index-config-metric value 1",
+    "argv": [
+      "vectorize",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--index-config-metric",
+      "euclidean"
+    ],
+    "exitCode": 1,
+    "error": "Missing dependent arguments:\n index-config-metric -> index-config-dimensions",
+    "requests": []
+  },
+  {
+    "case": "--index-config-metric value 2",
+    "argv": [
+      "vectorize",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--index-config-metric",
+      "dot-product"
+    ],
+    "exitCode": 1,
+    "error": "Missing dependent arguments:\n index-config-metric -> index-config-dimensions",
+    "requests": []
+  },
+  {
+    "case": "only --index-config-preset",
+    "argv": [
+      "vectorize",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--index-config-preset",
+      "@cf/baai/bge-small-en-v1.5"
+    ],
+    "exitCode": 1,
+    "error": "--index-config-preset: cannot read file at 'cf/baai/bge-small-en-v1.5': ENOENT: no such file or directory, open '<workspace>/cf/baai/bge-small-en-v1.5'",
+    "requests": []
+  },
+  {
+    "case": "--index-config-preset value 1",
+    "argv": [
+      "vectorize",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--index-config-preset",
+      "@cf/baai/bge-base-en-v1.5"
+    ],
+    "exitCode": 1,
+    "error": "--index-config-preset: cannot read file at 'cf/baai/bge-base-en-v1.5': ENOENT: no such file or directory, open '<workspace>/cf/baai/bge-base-en-v1.5'",
+    "requests": []
+  },
+  {
+    "case": "--index-config-preset value 2",
+    "argv": [
+      "vectorize",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--index-config-preset",
+      "@cf/baai/bge-large-en-v1.5"
+    ],
+    "exitCode": 1,
+    "error": "--index-config-preset: cannot read file at 'cf/baai/bge-large-en-v1.5': ENOENT: no such file or directory, open '<workspace>/cf/baai/bge-large-en-v1.5'",
+    "requests": []
+  },
+  {
+    "case": "--index-config-preset value 3",
+    "argv": [
+      "vectorize",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--index-config-preset",
+      "openai/text-embedding-ada-002"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/vectorize/v2/indexes",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "86",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "config": {
+            "preset": "openai/text-embedding-ada-002"
+          },
+          "name": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "--index-config-preset value 4",
+    "argv": [
+      "vectorize",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--index-config-preset",
+      "cohere/embed-multilingual-v2.0"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/vectorize/v2/indexes",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "87",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "config": {
+            "preset": "cohere/embed-multilingual-v2.0"
+          },
+          "name": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --description",
+    "argv": [
+      "vectorize",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--description",
+      "192.0.2.1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/vectorize/v2/indexes",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "60",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "description": "192.0.2.1",
+          "name": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 0",
+    "argv": [
+      "vectorize",
+      "create",
+      "--name",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/vectorize/v2/indexes",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "34",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "name": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 1",
+    "argv": [
+      "vectorize",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--index-config-dimensions",
+      "2",
+      "--index-config-metric",
+      "euclidean",
+      "--index-config-preset",
+      "@cf/baai/bge-base-en-v1.5",
+      "--description",
+      "192.0.2.1"
+    ],
+    "exitCode": 1,
+    "error": "--index-config-preset: cannot read file at 'cf/baai/bge-base-en-v1.5': ENOENT: no such file or directory, open '<workspace>/cf/baai/bge-base-en-v1.5'",
+    "requests": []
+  },
+  {
+    "case": "pairwise 2",
+    "argv": [
+      "vectorize",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--index-config-metric",
+      "cosine",
+      "--description",
+      "192.0.2.1"
+    ],
+    "exitCode": 1,
+    "error": "Missing dependent arguments:\n index-config-metric -> index-config-dimensions",
+    "requests": []
+  },
+  {
+    "case": "pairwise 3",
+    "argv": [
+      "vectorize",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--index-config-dimensions",
+      "2",
+      "--index-config-preset",
+      "@cf/baai/bge-base-en-v1.5"
+    ],
+    "exitCode": 1,
+    "error": "--index-config-preset: cannot read file at 'cf/baai/bge-base-en-v1.5': ENOENT: no such file or directory, open '<workspace>/cf/baai/bge-base-en-v1.5'",
+    "requests": []
+  },
+  {
+    "case": "pairwise 4",
+    "argv": [
+      "vectorize",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--index-config-preset",
+      "@cf/baai/bge-small-en-v1.5",
+      "--description",
+      "192.0.2.1"
+    ],
+    "exitCode": 1,
+    "error": "--index-config-preset: cannot read file at 'cf/baai/bge-small-en-v1.5': ENOENT: no such file or directory, open '<workspace>/cf/baai/bge-small-en-v1.5'",
+    "requests": []
+  },
+  {
+    "case": "pairwise 5",
+    "argv": [
+      "vectorize",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--index-config-dimensions",
+      "2",
+      "--index-config-metric",
+      "euclidean"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/vectorize/v2/indexes",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "81",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "config": {
+            "dimensions": 2,
+            "metric": "euclidean"
+          },
+          "name": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "global quiet",
+    "argv": [
+      "vectorize",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--quiet"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/vectorize/v2/indexes",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "global zone",
+    "argv": [
+      "vectorize",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--zone",
+      "abcdef0123456789abcdef0123456789"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/vectorize/v2/indexes",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "global profile and mode",
+    "argv": [
+      "vectorize",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--profile",
+      "default",
+      "--mode",
+      "regression"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/vectorize/v2/indexes",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "local",
+    "argv": [
+      "vectorize",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--local"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "http://localhost/cdn-cgi/local/explorer/api/vectorize/v2/indexes",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "gzip, deflate",
+          "accept-language": "*",
+          "connection": "keep-alive",
+          "content-type": "application/json",
+          "host": "localhost",
+          "sec-fetch-mode": "cors",
+          "transfer-encoding": "chunked",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "local with persistence",
+    "argv": [
+      "vectorize",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--local",
+      "--persist-to",
+      "regression-state"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "http://localhost/cdn-cgi/local/explorer/api/vectorize/v2/indexes",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "gzip, deflate",
+          "accept-language": "*",
+          "connection": "keep-alive",
+          "content-type": "application/json",
+          "host": "localhost",
+          "sec-fetch-mode": "cors",
+          "transfer-encoding": "chunked",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "dry-run",
+    "argv": [
+      "vectorize",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--dry-run"
+    ],
+    "exitCode": 0,
+    "requests": []
+  },
+  {
+    "case": "body from file",
+    "argv": [
+      "vectorize",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--body",
+      "@<body.json>"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/vectorize/v2/indexes",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "array body",
+    "argv": [
+      "vectorize",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--body",
+      "[{\"regression\":\"first\"},{\"regression\":\"second\"}]"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/vectorize/v2/indexes",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "56",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "0": {
+            "regression": "first"
+          },
+          "1": {
+            "regression": "second"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "field flags",
+    "argv": [
+      "vectorize",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--index-config-dimensions",
+      "1",
+      "--index-config-metric",
+      "cosine",
+      "--index-config-preset",
+      "@cf/baai/bge-small-en-v1.5",
+      "--description",
+      "192.0.2.1"
+    ],
+    "exitCode": 1,
+    "error": "--index-config-preset: cannot read file at 'cf/baai/bge-small-en-v1.5': ENOENT: no such file or directory, open '<workspace>/cf/baai/bge-small-en-v1.5'",
+    "requests": []
+  }
+]

@@ -1,0 +1,9 @@
+{
+  "argv": [
+    "zero-trust",
+    "devices",
+    "posture",
+    "rules"
+  ],
+  "requests": []
+}

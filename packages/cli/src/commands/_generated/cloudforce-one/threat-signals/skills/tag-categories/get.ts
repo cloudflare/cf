@@ -20,11 +20,12 @@ import { runWithTelemetry } from "#lib/telemetry/index.js";
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
 		.usage(
-			"$0 cloudforce-one threat-signals skills tag-categories get <skill-id>\n\nRetrieves the tag categories the default tagging skill may choose tags from."
+			"$0 cloudforce-one threat-signals skills tag-categories get <skill-id>\n\nRetrieves the Tag Categories the managed default tagging skill may select tags from. This configures the managed default tagging skill, not Custom Skills."
 		)
 		.positional("skill-id", {
 			type: "string",
-			description: "Skill ID",
+			description:
+				"Must be default-tagging-skill; configures the managed default tagging skill",
 			demandOption: true,
 		})
 		.option("dry-run", {

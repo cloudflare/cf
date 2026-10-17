@@ -1,12 +1,13 @@
-import operation from "../../../_operations/hostnames/settings/tls-single/get.js";
+import operation from "../../../../_operations/zones/hostnames/settings/tls/update.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
- * get command
- * @generated from apis/overlays/hostnames.ts
+ * update command
+ * @generated from apis/overlays/zones.ts
  */
 import type { Argv, CommandModule } from "yargs";
 import { createCommandClient, getZoneId } from "#lib/auth.js";
+import { parseBody } from "#lib/body-parser.js";
 import { formatDryRun } from "#lib/dry-run.js";
 import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
@@ -15,7 +16,7 @@ import { runWithTelemetry } from "#lib/telemetry/index.js";
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
 		.usage(
-			"$0 hostnames settings tls-single get <hostname>\n\nGet the requested TLS setting for the hostname."
+			"$0 zones hostnames settings tls update <hostname>\n\nUpdate the tls setting value for the hostname."
 		)
 		.positional("hostname", {
 			type: "string",
@@ -32,19 +33,23 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			type: "boolean",
 			description: "Validate and show what would happen without executing",
 			default: false,
+		})
+		.option("body", {
+			type: "string",
+			description: "Raw JSON request body (bypasses individual flags)",
 		});
 }
 
 type Args = InferArgs<typeof builder>;
 
 const command: CommandModule<CommonYargsOptions, Args> = {
-	command: "get <hostname>",
-	describe: "Get TLS setting for hostname",
+	command: "update <hostname>",
+	describe: "Edit TLS setting for hostname",
 	builder,
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
-				command: "hostnames settings tls-single get",
+				command: "zones hostnames settings tls update",
 				classification: {
 					safeFlags: ["dry-run"],
 				} satisfies ArgClassification<Args>,
@@ -53,15 +58,16 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			async () => {
 				if (argv.dryRun) {
 					formatDryRun({
-						command: "cf hostnames settings tls-single get",
-						method: "GET",
+						command: "cf zones hostnames settings tls update",
+						method: "PUT",
 						url: `https://api.cloudflare.com/client/v4/zones/${argv.zone ?? argv.zoneId ?? "<zone>"}/hostnames/settings/${argv["setting-id"] == null ? "<setting-id>" : encodeURIComponent(String(argv["setting-id"]))}/${argv["hostname"] == null ? "<hostname>" : encodeURIComponent(String(argv["hostname"]))}`,
 						pathParams: {
 							"zone-id": String(argv.zone ?? argv["zone-id"] ?? ""),
 							"setting-id": String(argv["setting-id"] ?? ""),
 							hostname: String(argv["hostname"] ?? ""),
 						},
-						bodyKind: "none",
+						bodyKind: "json",
+						body: argv.body !== undefined ? parseBody(argv.body) : undefined,
 					});
 					return;
 				}
@@ -71,14 +77,25 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				});
 				argv.zoneId = zoneId;
 
-				const result = await withProgress(`Loading`, async () =>
-					client.send(operation, {
-						zone_id: zoneId,
-						setting_id: argv["setting-id"],
-						hostname: argv["hostname"],
-					})
-				);
-				formatOutput(result, { successLabel: `Loaded` });
+				if (argv.body) {
+					const bodyData = parseBody(argv.body);
+					const result = await withProgress(`Updating`, async () =>
+						client.send(operation, {
+							body: bodyData,
+							zone_id: zoneId,
+							setting_id: argv["setting-id"],
+							hostname: argv["hostname"],
+						})
+					);
+					formatOutput(result, { successLabel: `Updated` });
+					return;
+				}
+
+				if (argv.body === undefined) {
+					throw new Error(
+						"--body is required for this command. Pass --body '<json>' or --body @path/to/file.json."
+					);
+				}
 			}
 		),
 };

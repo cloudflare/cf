@@ -1,4 +1,4 @@
-/** @generated from hostnames.settings.tls.get */
+/** @generated from zones.hostnames.settings.tls.get */
 import { path } from "#api";
 
 export default {

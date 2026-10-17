@@ -1,14 +1,14 @@
 import $settings from "./settings/index.js";
 import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
- * hostnames command
- * @generated from apis/overlays/hostnames.ts
+ * hostnames command group
+ * @generated from apis/overlays/zones.ts
  */
 import type { CommandModule } from "yargs";
 
 const command: CommandModule<CommonYargsOptions> = {
 	command: "hostnames",
-	describe: "hostnames",
+	describe: "Operations for hostnames",
 
 	builder: (yargs) => {
 		return yargs

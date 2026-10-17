@@ -527,15 +527,6 @@ export const generatedCommands: GeneratedCommand[] = [
 	},
 	{
 		command: lazyCommand<CommonYargsOptions>(
-			"hostnames",
-			"hostnames",
-			() => import("./hostnames/index.js"),
-			null
-		),
-		hideCommand: false,
-	},
-	{
-		command: lazyCommand<CommonYargsOptions>(
 			"hyperdrive",
 			"Accelerate access to existing databases by caching queries and pooling connections at the edge",
 			() => import("./hyperdrive/index.js"),

@@ -20,10 +20,16 @@ import { runWithTelemetry } from "#lib/telemetry/index.js";
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
 		.usage(
-			"$0 cloudforce-one threat-signals skills list\n\nLists the default and custom skills available to the account."
+			"$0 cloudforce-one threat-signals skills list\n\nLists active Managed Default Skills and Custom Skills. Free Threat Signals accounts see active managed defaults only, with custom_skills_available: false."
 		)
-		.option("page", { type: "number", description: "Page" })
-		.option("per-page", { type: "number", description: "Per page" })
+		.option("page", {
+			type: "number",
+			description: "Page number (≥ 1, default 1).",
+		})
+		.option("per-page", {
+			type: "number",
+			description: "Results per page (1–100, default 20).",
+		})
 		.option("dry-run", {
 			type: "boolean",
 			description: "Validate and show what would happen without executing",

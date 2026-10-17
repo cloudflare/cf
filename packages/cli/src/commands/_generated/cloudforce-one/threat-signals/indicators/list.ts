@@ -22,17 +22,41 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.usage(
 			"$0 cloudforce-one threat-signals indicators list\n\nLists indicators of compromise extracted from the account's Threat Signals articles."
 		)
-		.option("feed-id", { type: "string", description: "Feed ID" })
-		.option("article-id", { type: "string", description: "Article ID" })
+		.option("feed-id", {
+			type: "string",
+			description:
+				"Feed UUID filter. Omit to include indicators from every account feed.",
+		})
+		.option("article-id", {
+			type: "string",
+			description:
+				"Article UUID filter. Omit to include indicators from every article.",
+		})
 		.option("search", {
 			type: "string",
 			description:
 				"NFC-normalized and trimmed, case-insensitive literal substring search of indicator values. Requires 3–500 Unicode code points; the upper code-point bound is described here because OpenAPI string length cannot precisely express it without imposing UTF-16 semantics.",
 		})
-		.option("per-page", { type: "number", description: "Per page" })
-		.option("sort", { type: "string", description: "Sort" })
-		.option("include-total", { type: "boolean", description: "Include total" })
-		.option("cursor", { type: "string", description: "Cursor" })
+		.option("per-page", {
+			type: "number",
+			description:
+				"Number of indicators per cursor page, from 1 to 100. Defaults to 20.",
+		})
+		.option("sort", {
+			type: "string",
+			description:
+				"Sort by id. Use id for ascending or -id for descending order; defaults to id.",
+		})
+		.option("include-total", {
+			type: "boolean",
+			description:
+				"When true on the first page, count matching indicators and return an exact total. Defaults to false; cursor pages do not recalculate totals.",
+		})
+		.option("cursor", {
+			type: "string",
+			description:
+				"Opaque cursor from the previous response's `pagination.cursor`. When provided, page size, ordering, and filters come from the cursor. Sending `per_page`, `sort`, `include_total`, `feed_id`, `article_id`, or `search` alongside it returns a 400 `CursorFilterConflictError`.",
+		})
 		.option("dry-run", {
 			type: "boolean",
 			description: "Validate and show what would happen without executing",

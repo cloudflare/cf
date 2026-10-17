@@ -21,11 +21,11 @@ import { runWithTelemetry } from "#lib/telemetry/index.js";
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
 		.usage(
-			"$0 cloudforce-one threat-signals skills delete <skill-id>\n\nDeletes a custom skill. Default skills cannot be deleted."
+			"$0 cloudforce-one threat-signals skills delete <skill-id>\n\nDeletes a Custom Skill. The skill's stored outputs on articles are deleted with it. Managed Default Skills cannot be deleted. Free Threat Signals accounts cannot delete Custom Skills."
 		)
 		.positional("skill-id", {
 			type: "string",
-			description: "Skill ID",
+			description: "Custom Skill UUID or a Managed Default Skill ID",
 			demandOption: true,
 		})
 		.option("dry-run", {
@@ -73,7 +73,12 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				const accountId = argv.local ? LOCAL_ACCOUNT_ID : await getAccountId();
 				argv.accountId = accountId;
 
-				if (!(await confirmDelete({ force: Boolean(argv.force) }))) {
+				if (
+					!(await confirmDelete({
+						force: Boolean(argv.force),
+						message: `This permanently deletes the custom skill, removes it from every feed it is assigned to, and deletes the outputs it stored on articles.`,
+					}))
+				) {
 					process.stderr.write("Aborted.\n");
 					return;
 				}

@@ -27,14 +27,26 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description:
 				"Opaque cursor from a previous response's `next_cursor`. When provided, pagination, ordering, totals, and article filters come from the cursor. Sending `per_page`, `sort`, `include_total`, or any article filter alongside it returns a 400 `CursorFilterConflictError`.",
 		})
-		.option("per-page", { type: "number", description: "Per page" })
-		.option("feed-id", { type: "string", description: "Feed ID" })
+		.option("per-page", {
+			type: "number",
+			description:
+				"Number of articles per cursor page, from 1 to 100. Defaults to 20.",
+		})
+		.option("feed-id", {
+			type: "string",
+			description:
+				"Feed UUID filter. Omit to include articles from every account feed.",
+		})
 		.option("article-id", {
 			type: "string",
 			description:
 				"Repeatable article UUID filter. Returns the union of matching account-owned articles; use this to list every Threat Signals article referenced by an indicator's sources.",
 		})
-		.option("read", { type: "boolean", description: "Read" })
+		.option("read", {
+			type: "boolean",
+			description:
+				"Filter by read state. Accepts true, false, 1, or 0; omit to include read and unread articles.",
+		})
 		.option("tag-id", {
 			type: "string",
 			description:
@@ -55,22 +67,45 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description:
 				"Legacy category-name disambiguator for tag. It has no effect without tag; prefer tag_category_id.",
 		})
-		.option("include-total", { type: "boolean", description: "Include total" })
-		.option("search", { type: "string", description: "Search" })
+		.option("include-total", {
+			type: "boolean",
+			description:
+				"When true on the first page, count matching articles and return an exact total. Defaults to false; cursor pages do not recalculate totals.",
+		})
+		.option("search", {
+			type: "string",
+			description:
+				"NFC-normalized, trimmed literal substring filter on article titles; ASCII case-insensitive, from 1 to 500 characters.",
+		})
 		.option("published-after", {
 			type: "string",
-			description: "Published after",
+			description:
+				"Include articles published at or after this ISO 8601 date-time with Z or a numeric UTC offset; normalized to UTC.",
 		})
 		.option("published-before", {
 			type: "string",
-			description: "Published before",
+			description:
+				"Include articles published at or before this ISO 8601 date-time with Z or a numeric UTC offset; normalized to UTC.",
 		})
-		.option("fetched-after", { type: "string", description: "Fetched after" })
-		.option("fetched-before", { type: "string", description: "Fetched before" })
-		.option("feed-category", { type: "string", description: "Feed category" })
+		.option("fetched-after", {
+			type: "string",
+			description:
+				"Include articles fetched at or after this ISO 8601 date-time with Z or a numeric UTC offset; normalized to UTC.",
+		})
+		.option("fetched-before", {
+			type: "string",
+			description:
+				"Include articles fetched at or before this ISO 8601 date-time with Z or a numeric UTC offset; normalized to UTC.",
+		})
+		.option("feed-category", {
+			type: "string",
+			description:
+				"Exact feed-category filter after trimming. Omit to include every category.",
+		})
 		.option("source-type", {
 			type: "string",
-			description: "Source type",
+			description:
+				"Filter by curated or custom feed source. Omit to include both source types.",
 			choices: ["curated", "custom"],
 		})
 		.option("tag-applied-by", {
@@ -79,7 +114,11 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"Assignment provenance filter. When combined with tag_id or tag_category_id, the matching assignment must have this provenance.",
 			choices: ["ai", "analyst", "system"],
 		})
-		.option("sort", { type: "string", description: "Sort" })
+		.option("sort", {
+			type: "string",
+			description:
+				"Sort by fetched_at, published_at, or title. Prefix the field with - for descending order; defaults to -fetched_at.",
+		})
 		.option("dry-run", {
 			type: "boolean",
 			description: "Validate and show what would happen without executing",

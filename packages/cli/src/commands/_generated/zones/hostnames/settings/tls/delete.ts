@@ -1,9 +1,9 @@
-import operation from "../../../_operations/hostnames/settings/tls/delete.js";
+import operation from "../../../../_operations/zones/hostnames/settings/tls/delete.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * delete command
- * @generated from apis/overlays/hostnames.ts
+ * @generated from apis/overlays/zones.ts
  */
 import type { Argv, CommandModule } from "yargs";
 import { createCommandClient, getZoneId } from "#lib/auth.js";
@@ -16,7 +16,7 @@ import { runWithTelemetry } from "#lib/telemetry/index.js";
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
 		.usage(
-			"$0 hostnames settings tls delete <hostname>\n\nDelete the tls setting value for the hostname."
+			"$0 zones hostnames settings tls delete <hostname>\n\nDelete the tls setting value for the hostname."
 		)
 		.positional("hostname", {
 			type: "string",
@@ -51,7 +51,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
-				command: "hostnames settings tls delete",
+				command: "zones hostnames settings tls delete",
 				classification: {
 					safeFlags: ["dry-run", "force"],
 					shortFlagAliases: { f: { canonical: "force", type: "boolean" } },
@@ -61,7 +61,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			async () => {
 				if (argv.dryRun) {
 					formatDryRun({
-						command: "cf hostnames settings tls delete",
+						command: "cf zones hostnames settings tls delete",
 						method: "DELETE",
 						url: `https://api.cloudflare.com/client/v4/zones/${argv.zone ?? argv.zoneId ?? "<zone>"}/hostnames/settings/${argv["setting-id"] == null ? "<setting-id>" : encodeURIComponent(String(argv["setting-id"]))}/${argv["hostname"] == null ? "<hostname>" : encodeURIComponent(String(argv["hostname"]))}`,
 						pathParams: {

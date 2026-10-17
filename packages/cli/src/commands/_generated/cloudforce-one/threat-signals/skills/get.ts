@@ -20,11 +20,11 @@ import { runWithTelemetry } from "#lib/telemetry/index.js";
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
 		.usage(
-			"$0 cloudforce-one threat-signals skills get <skill-id>\n\nRetrieves a default or custom skill by ID."
+			"$0 cloudforce-one threat-signals skills get <skill-id>\n\nRetrieves a Managed Default Skill or Custom Skill. Managed catalog definitions are readable. Free Threat Signals accounts cannot read Custom Skills."
 		)
 		.positional("skill-id", {
 			type: "string",
-			description: "Skill ID",
+			description: "Custom Skill UUID or a Managed Default Skill ID",
 			demandOption: true,
 		})
 		.option("dry-run", {

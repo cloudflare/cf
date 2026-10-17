@@ -8,6 +8,7 @@ import $fonts from "./fonts/index.js";
 import $get from "./get.js";
 import $h2prioritization from "./h2-prioritization/index.js";
 import $holds from "./holds/index.js";
+import $hostnames from "./hostnames/index.js";
 import $imageresizing from "./image-resizing/index.js";
 import $list from "./list.js";
 import $originh2maxstreams from "./origin-h2-max-streams/index.js";
@@ -47,6 +48,7 @@ const command: CommandModule<CommonYargsOptions> = {
 			.command($fonts)
 			.command($h2prioritization)
 			.command($holds)
+			.command($hostnames)
 			.command($imageresizing)
 			.command($originh2maxstreams)
 			.command($originmaxhttpversion)

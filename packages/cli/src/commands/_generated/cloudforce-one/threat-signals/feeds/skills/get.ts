@@ -20,11 +20,11 @@ import { runWithTelemetry } from "#lib/telemetry/index.js";
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
 		.usage(
-			"$0 cloudforce-one threat-signals feeds skills get <feed-id>\n\nRetrieves the effective skill pipeline for a Threat Signals feed."
+			"$0 cloudforce-one threat-signals feeds skills get <feed-id>\n\nRetrieves active non-IOC-context Managed Default Skills followed by active Custom Skills assigned to the feed, with each entry's source. Free Threat Signals accounts receive only those Managed Default Skills."
 		)
 		.positional("feed-id", {
 			type: "string",
-			description: "Feed ID",
+			description: "UUID of the Threat Signals feed",
 			demandOption: true,
 		})
 		.option("dry-run", {

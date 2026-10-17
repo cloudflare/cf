@@ -1,8 +1,8 @@
-/** @generated from hostnames.settings.tls-single.get */
+/** @generated from zones.hostnames.settings.tls.delete */
 import { path } from "#api";
 
 export default {
-	method: "GET",
+	method: "DELETE",
 	path: (request: Record<string, unknown>) =>
 		path`/zones/${request.zone_id}/hostnames/settings/${request.setting_id}/${request.hostname}`,
 } as const;

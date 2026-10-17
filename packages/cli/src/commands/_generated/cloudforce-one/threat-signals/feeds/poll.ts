@@ -22,7 +22,11 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.usage(
 			"$0 cloudforce-one threat-signals feeds poll\n\nStarts an immediate poll of one or all Threat Signals feeds."
 		)
-		.option("feed-id", { type: "string", description: "Feed ID" })
+		.option("feed-id", {
+			type: "string",
+			description:
+				'UUID of a specific feed to poll, or "all" to poll all feeds. Omit or pass "all" for all feeds.',
+		})
 		.option("dry-run", {
 			type: "boolean",
 			description: "Validate and show what would happen without executing",

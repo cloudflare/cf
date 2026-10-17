@@ -3,13 +3,13 @@ import $tls from "./tls/index.js";
 import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * settings command group
- * @generated from apis/overlays/hostnames.ts
+ * @generated from apis/overlays/zones.ts
  */
 import type { CommandModule } from "yargs";
 
 const command: CommandModule<CommonYargsOptions> = {
 	command: "settings",
-	describe: "Operations for settings",
+	describe: "Operations for hostnames.settings",
 
 	builder: (yargs) => {
 		return yargs

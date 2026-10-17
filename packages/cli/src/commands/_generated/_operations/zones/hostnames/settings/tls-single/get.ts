@@ -1,9 +1,8 @@
-/** @generated from hostnames.settings.tls.update */
+/** @generated from zones.hostnames.settings.tls-single.get */
 import { path } from "#api";
 
 export default {
-	method: "PUT",
+	method: "GET",
 	path: (request: Record<string, unknown>) =>
 		path`/zones/${request.zone_id}/hostnames/settings/${request.setting_id}/${request.hostname}`,
-	body: "json",
 } as const;

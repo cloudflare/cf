@@ -4,13 +4,13 @@ import $update from "./update.js";
 import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * tls command group
- * @generated from apis/overlays/hostnames.ts
+ * @generated from apis/overlays/zones.ts
  */
 import type { CommandModule } from "yargs";
 
 const command: CommandModule<CommonYargsOptions> = {
 	command: "tls",
-	describe: "Operations for settings.tls",
+	describe: "Operations for hostnames.settings.tls",
 
 	builder: (yargs) => {
 		return yargs

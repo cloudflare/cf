@@ -26416,13 +26416,13 @@
 					"name": "article-ids",
 					"type": "string",
 					"required": true,
-					"description": "The article_ids field"
+					"description": "Array of article UUIDs to mark (1-50)."
 				},
 				{
 					"name": "read",
 					"type": "boolean",
 					"required": true,
-					"description": "The read field"
+					"description": "True to mark read, false to mark unread."
 				}
 			]
 		},
@@ -26606,7 +26606,7 @@
 					"name": "read",
 					"type": "boolean",
 					"required": true,
-					"description": "The read field"
+					"description": "True to mark the article read, false to mark unread."
 				}
 			]
 		},
@@ -26703,7 +26703,7 @@
 					"name": "tag-id",
 					"type": "string",
 					"required": true,
-					"description": "The tag_id field"
+					"description": "UUID of a tag from the account's catalog to apply to the article."
 				}
 			]
 		},
@@ -26791,37 +26791,37 @@
 					"name": "curated-feed-id",
 					"type": "string",
 					"required": false,
-					"description": "The curated_feed_id field"
+					"description": "UUID of a curated feed to subscribe to. Provide exactly one of url or curated_feed_id. The account must have feed creation entitlement and not exceed feed allowance."
 				},
 				{
 					"name": "display-name",
 					"type": "string",
 					"required": false,
-					"description": "The display_name field"
+					"description": "Override the feed's display name. Null clears it; omit to keep existing or derived value."
 				},
 				{
 					"name": "enabled",
 					"type": "boolean",
 					"required": false,
-					"description": "The enabled field"
+					"description": "Whether to actively poll the feed. Default true."
 				},
 				{
 					"name": "poll-interval-s",
 					"type": "number",
 					"required": false,
-					"description": "The poll_interval_s field"
+					"description": "Polling interval in seconds (60-86400). Default 300s (5 minutes)."
 				},
 				{
 					"name": "title",
 					"type": "string",
 					"required": false,
-					"description": "The title field"
+					"description": "Override the feed's title. Null clears it; omit to keep existing or derived value."
 				},
 				{
 					"name": "url",
 					"type": "string",
 					"required": false,
-					"description": "The url field"
+					"description": "HTTPS RSS feed URL. Provide exactly one of url or curated_feed_id. The account must have feed creation entitlement and not exceed feed allowance."
 				}
 			]
 		},
@@ -26991,7 +26991,7 @@
 					"name": "skill-ids",
 					"type": "string",
 					"required": true,
-					"description": "The skill_ids field"
+					"description": "Ordered array of Custom Skill UUIDs (max 20). Replaces the feed's custom skill assignments. Free accounts cannot assign custom skills. Managed default skills are unaffected."
 				}
 			]
 		},
@@ -27024,25 +27024,25 @@
 					"name": "display-name",
 					"type": "string",
 					"required": false,
-					"description": "The display_name field"
+					"description": "Override the feed's display name. Null clears it; omit to keep existing or derived value."
 				},
 				{
 					"name": "enabled",
 					"type": "boolean",
 					"required": false,
-					"description": "The enabled field"
+					"description": "Whether to actively poll the feed. Omit to keep current value."
 				},
 				{
 					"name": "poll-interval-s",
 					"type": "number",
 					"required": false,
-					"description": "The poll_interval_s field"
+					"description": "New polling interval in seconds (60-86400). Omit to keep current value."
 				},
 				{
 					"name": "title",
 					"type": "string",
 					"required": false,
-					"description": "The title field"
+					"description": "Override the feed's title. Null clears it; omit to keep existing or derived value."
 				}
 			]
 		},
@@ -27146,19 +27146,19 @@
 					"name": "name",
 					"type": "string",
 					"required": true,
-					"description": "The name field"
+					"description": "Custom Skill name (1–100 characters)."
 				},
 				{
 					"name": "output-schema",
 					"type": "string",
 					"required": true,
-					"description": "The output_schema field"
+					"description": "JSON Schema serialized as a string (max 4096 characters)."
 				},
 				{
 					"name": "prompt",
 					"type": "string",
 					"required": true,
-					"description": "The prompt field"
+					"description": "AI prompt (1–4000 characters) defining the skill's instructions."
 				},
 				{
 					"name": "type",
@@ -27277,7 +27277,7 @@
 					"name": "category-uuids",
 					"type": "string",
 					"required": true,
-					"description": "The category_uuids field"
+					"description": "Up to 100 unique tag category UUIDs that the managed default tagging skill may select tags from."
 				}
 			]
 		},
@@ -27304,31 +27304,31 @@
 					"name": "skill-config",
 					"type": "string",
 					"required": false,
-					"description": "The config field"
+					"description": "Optional skill configuration (stored but not currently interpreted)."
 				},
 				{
 					"name": "is-active",
 					"type": "boolean",
 					"required": false,
-					"description": "The is_active field"
+					"description": "Whether the skill is active and eligible for feed assignment."
 				},
 				{
 					"name": "name",
 					"type": "string",
 					"required": false,
-					"description": "The name field"
+					"description": "Custom Skill name (1–100 characters)."
 				},
 				{
 					"name": "output-schema",
 					"type": "string",
 					"required": false,
-					"description": "The output_schema field"
+					"description": "JSON Schema serialized as a string (max 4096 characters)."
 				},
 				{
 					"name": "prompt",
 					"type": "string",
 					"required": false,
-					"description": "The prompt field"
+					"description": "AI prompt (1–4000 characters) defining the skill's instructions."
 				}
 			]
 		},
@@ -38427,101 +38427,6 @@
 					"description": "The protocol to use for the health check. Currently supported protocols are 'HTTP', 'HTTPS' and 'TCP'."
 				}
 			]
-		},
-		"hostnames settings tls delete": {
-			"operationId": "hostnames.settings.tls.delete",
-			"httpMethod": "DELETE",
-			"path": "/zones/{zone_id}/hostnames/settings/{setting_id}/{hostname}",
-			"pathParams": [
-				{
-					"name": "zone_id",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "setting_id",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "hostname",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": false,
-			"requestBodyFields": []
-		},
-		"hostnames settings tls get": {
-			"operationId": "hostnames.settings.tls.get",
-			"httpMethod": "GET",
-			"path": "/zones/{zone_id}/hostnames/settings/{setting_id}",
-			"pathParams": [
-				{
-					"name": "zone_id",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "setting_id",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": false,
-			"requestBodyFields": []
-		},
-		"hostnames settings tls update": {
-			"operationId": "hostnames.settings.tls.update",
-			"httpMethod": "PUT",
-			"path": "/zones/{zone_id}/hostnames/settings/{setting_id}/{hostname}",
-			"pathParams": [
-				{
-					"name": "zone_id",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "setting_id",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "hostname",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": true,
-			"requestBodyFields": []
-		},
-		"hostnames settings tls-single get": {
-			"operationId": "hostnames.settings.tls-single.get",
-			"httpMethod": "GET",
-			"path": "/zones/{zone_id}/hostnames/settings/{setting_id}/{hostname}",
-			"pathParams": [
-				{
-					"name": "zone_id",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "setting_id",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "hostname",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": false,
-			"requestBodyFields": []
 		},
 		"hyperdrive create": {
 			"operationId": "hyperdrive.create",
@@ -113631,6 +113536,101 @@
 			"pathParams": [
 				{
 					"name": "zone_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"zones hostnames settings tls delete": {
+			"operationId": "zones.hostnames.settings.tls.delete",
+			"httpMethod": "DELETE",
+			"path": "/zones/{zone_id}/hostnames/settings/{setting_id}/{hostname}",
+			"pathParams": [
+				{
+					"name": "zone_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "setting_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "hostname",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"zones hostnames settings tls get": {
+			"operationId": "zones.hostnames.settings.tls.get",
+			"httpMethod": "GET",
+			"path": "/zones/{zone_id}/hostnames/settings/{setting_id}",
+			"pathParams": [
+				{
+					"name": "zone_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "setting_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"zones hostnames settings tls update": {
+			"operationId": "zones.hostnames.settings.tls.update",
+			"httpMethod": "PUT",
+			"path": "/zones/{zone_id}/hostnames/settings/{setting_id}/{hostname}",
+			"pathParams": [
+				{
+					"name": "zone_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "setting_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "hostname",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": true,
+			"requestBodyFields": []
+		},
+		"zones hostnames settings tls-single get": {
+			"operationId": "zones.hostnames.settings.tls-single.get",
+			"httpMethod": "GET",
+			"path": "/zones/{zone_id}/hostnames/settings/{setting_id}/{hostname}",
+			"pathParams": [
+				{
+					"name": "zone_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "setting_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "hostname",
 					"type": "string",
 					"required": true
 				}

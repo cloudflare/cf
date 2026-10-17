@@ -37082,13 +37082,13 @@
 					"name": "article-ids",
 					"type": "string",
 					"required": true,
-					"description": "The article_ids field"
+					"description": "Array of article UUIDs to mark (1-50)."
 				},
 				{
 					"name": "read",
 					"type": "boolean",
 					"required": true,
-					"description": "The read field"
+					"description": "True to mark read, false to mark unread."
 				},
 				{
 					"name": "dry-run",
@@ -37124,7 +37124,7 @@
 					"position": 0,
 					"type": "string",
 					"required": true,
-					"description": "Article ID"
+					"description": "Threat Signals article UUID"
 				}
 			],
 			"options": [
@@ -37152,7 +37152,7 @@
 				"articles",
 				"get-content"
 			],
-			"description": "Retrieves the stored body of a Threat Signals article as plain text or HTML.",
+			"description": "Retrieves the stored content of a Threat Signals article, unchanged. Depending on how the article was captured from its source, the content is HTML, Markdown, or plain text. The format parameter sets only the response Content-Type; it does not convert the content.",
 			"summary": "Get Threat Signals article content",
 			"usage": "cf cloudforce-one threat-signals articles get-content <article-id> [options]",
 			"arguments": [
@@ -37161,7 +37161,7 @@
 					"position": 0,
 					"type": "string",
 					"required": true,
-					"description": "Article ID"
+					"description": "Threat Signals article UUID"
 				}
 			],
 			"options": [
@@ -37169,7 +37169,7 @@
 					"name": "format",
 					"type": "string",
 					"required": false,
-					"description": "Format",
+					"description": "Response Content-Type: text (the default) for text/plain or html for text/html. Neither value converts the content. html is deprecated; use text.",
 					"enum": ["text", "html"]
 				},
 				{
@@ -37206,13 +37206,13 @@
 					"name": "per-page",
 					"type": "number",
 					"required": false,
-					"description": "Per page"
+					"description": "Number of articles per cursor page, from 1 to 100. Defaults to 20."
 				},
 				{
 					"name": "feed-id",
 					"type": "string",
 					"required": false,
-					"description": "Feed ID"
+					"description": "Feed UUID filter. Omit to include articles from every account feed."
 				},
 				{
 					"name": "article-id",
@@ -37224,7 +37224,7 @@
 					"name": "read",
 					"type": "boolean",
 					"required": false,
-					"description": "Read"
+					"description": "Filter by read state. Accepts true, false, 1, or 0; omit to include read and unread articles."
 				},
 				{
 					"name": "tag-id",
@@ -37254,49 +37254,49 @@
 					"name": "include-total",
 					"type": "boolean",
 					"required": false,
-					"description": "Include total"
+					"description": "When true on the first page, count matching articles and return an exact total. Defaults to false; cursor pages do not recalculate totals."
 				},
 				{
 					"name": "search",
 					"type": "string",
 					"required": false,
-					"description": "Search"
+					"description": "NFC-normalized, trimmed literal substring filter on article titles; ASCII case-insensitive, from 1 to 500 characters."
 				},
 				{
 					"name": "published-after",
 					"type": "string",
 					"required": false,
-					"description": "Published after"
+					"description": "Include articles published at or after this ISO 8601 date-time with Z or a numeric UTC offset; normalized to UTC."
 				},
 				{
 					"name": "published-before",
 					"type": "string",
 					"required": false,
-					"description": "Published before"
+					"description": "Include articles published at or before this ISO 8601 date-time with Z or a numeric UTC offset; normalized to UTC."
 				},
 				{
 					"name": "fetched-after",
 					"type": "string",
 					"required": false,
-					"description": "Fetched after"
+					"description": "Include articles fetched at or after this ISO 8601 date-time with Z or a numeric UTC offset; normalized to UTC."
 				},
 				{
 					"name": "fetched-before",
 					"type": "string",
 					"required": false,
-					"description": "Fetched before"
+					"description": "Include articles fetched at or before this ISO 8601 date-time with Z or a numeric UTC offset; normalized to UTC."
 				},
 				{
 					"name": "feed-category",
 					"type": "string",
 					"required": false,
-					"description": "Feed category"
+					"description": "Exact feed-category filter after trimming. Omit to include every category."
 				},
 				{
 					"name": "source-type",
 					"type": "string",
 					"required": false,
-					"description": "Source type",
+					"description": "Filter by curated or custom feed source. Omit to include both source types.",
 					"enum": ["curated", "custom"]
 				},
 				{
@@ -37310,7 +37310,7 @@
 					"name": "sort",
 					"type": "string",
 					"required": false,
-					"description": "Sort"
+					"description": "Sort by fetched_at, published_at, or title. Prefix the field with - for descending order; defaults to -fetched_at."
 				},
 				{
 					"name": "dry-run",
@@ -37340,7 +37340,7 @@
 					"position": 0,
 					"type": "string",
 					"required": true,
-					"description": "Article ID"
+					"description": "Threat Signals article UUID"
 				}
 			],
 			"options": [
@@ -37348,7 +37348,7 @@
 					"name": "read",
 					"type": "boolean",
 					"required": true,
-					"description": "The read field"
+					"description": "True to mark the article read, false to mark unread."
 				},
 				{
 					"name": "dry-run",
@@ -37381,7 +37381,7 @@
 				"skills",
 				"get-output"
 			],
-			"description": "Retrieves the stored output of a skill for a Threat Signals article.",
+			"description": "Retrieves the stored output of a skill for a Threat Signals article. The custom_output field is parsed JSON when the stored output is valid JSON, otherwise the raw string.",
 			"summary": "Get Threat Signals article skill output",
 			"usage": "cf cloudforce-one threat-signals articles skills get-output <skill-id> [options]",
 			"arguments": [
@@ -37390,7 +37390,7 @@
 					"position": 0,
 					"type": "string",
 					"required": true,
-					"description": "Skill ID"
+					"description": "Custom Skill UUID or a Managed Default Skill ID (IOC-context: default-ioc-context-skill)"
 				}
 			],
 			"options": [
@@ -37398,7 +37398,7 @@
 					"name": "article-id",
 					"type": "string",
 					"required": true,
-					"description": "Article ID"
+					"description": "Threat Signals article UUID"
 				},
 				{
 					"name": "dry-run",
@@ -37425,7 +37425,7 @@
 				"skills",
 				"list"
 			],
-			"description": "Lists active custom skills currently assigned to the article's feed and whether each has a stored output. Output content and skill configuration are retrieved separately.",
+			"description": "Lists active custom skills currently assigned to the article's feed and whether each has a stored output. Output content and skill configuration are retrieved separately. Free Threat Signals accounts cannot read Custom Skills.",
 			"summary": "List Threat Signals article custom skills",
 			"usage": "cf cloudforce-one threat-signals articles skills list [options]",
 			"arguments": [],
@@ -37434,7 +37434,7 @@
 					"name": "article-id",
 					"type": "string",
 					"required": true,
-					"description": "Article ID"
+					"description": "Threat Signals article UUID"
 				},
 				{
 					"name": "dry-run",
@@ -37461,8 +37461,8 @@
 				"skills",
 				"run"
 			],
-			"description": "Paid customer operation that always persists a managed default skill or an assigned active custom skill result without exposing diagnostic model data.",
-			"summary": "Run and persist a Threat Signals article skill",
+			"description": "Run an active Custom Skill assigned to the article's feed, or run a managed default skill. Requires a paid Threat Signals subscription and the Cloudforce One Write permission. Always persists output; rerunning overwrites the previous result. Does not expose diagnostic model data or accept server-preview inputs.",
+			"summary": "Run and persist skill output for a Threat Signals article",
 			"usage": "cf cloudforce-one threat-signals articles skills run <skill-id> [options]",
 			"arguments": [
 				{
@@ -37470,7 +37470,7 @@
 					"position": 0,
 					"type": "string",
 					"required": true,
-					"description": "Skill ID"
+					"description": "UUID of an active Custom Skill that is assigned to the article's feed, or a managed default skill ID. Requires a paid Threat Signals subscription and the Cloudforce One Write permission. Always persists output; rerunning overwrites the previous result. No diagnostic or server-preview inputs."
 				}
 			],
 			"options": [
@@ -37478,7 +37478,7 @@
 					"name": "article-id",
 					"type": "string",
 					"required": true,
-					"description": "Article ID"
+					"description": "Threat Signals article UUID"
 				},
 				{
 					"name": "dry-run",
@@ -37520,7 +37520,7 @@
 					"position": 0,
 					"type": "string",
 					"required": true,
-					"description": "Article ID"
+					"description": "Threat Signals article UUID"
 				}
 			],
 			"options": [
@@ -37528,7 +37528,7 @@
 					"name": "tag-id",
 					"type": "string",
 					"required": true,
-					"description": "The tag_id field"
+					"description": "UUID of a tag from the account's catalog to apply to the article."
 				},
 				{
 					"name": "dry-run",
@@ -37570,7 +37570,7 @@
 					"position": 0,
 					"type": "string",
 					"required": true,
-					"description": "Article ID"
+					"description": "Threat Signals article UUID"
 				}
 			],
 			"options": [
@@ -37608,7 +37608,7 @@
 					"position": 0,
 					"type": "string",
 					"required": true,
-					"description": "Tag ID"
+					"description": "UUID of a tag from the account's catalog"
 				}
 			],
 			"options": [
@@ -37616,7 +37616,7 @@
 					"name": "article-id",
 					"type": "string",
 					"required": true,
-					"description": "Article ID"
+					"description": "Threat Signals article UUID"
 				},
 				{
 					"name": "dry-run",
@@ -37661,7 +37661,7 @@
 			"command": "cf cloudforce-one threat-signals feeds create",
 			"name": "create",
 			"fullPath": ["cloudforce-one", "threat-signals", "feeds", "create"],
-			"description": "Subscribes the account to a custom or curated Threat Signals feed.",
+			"description": "Subscribes the account to a custom or curated Threat Signals feed. Adding a custom feed when the account is at its custom-feed limit returns 403 with `errors[0].reason` `threat_signals_feed_limit`, and `errors[0].custom_feed_limit` and `errors[0].custom_feed_count` give the limit and current count. Curated feeds are not subject to this limit.",
 			"summary": "Create Threat Signals feed",
 			"usage": "cf cloudforce-one threat-signals feeds create [options]",
 			"arguments": [],
@@ -37686,39 +37686,39 @@
 					"name": "curated-feed-id",
 					"type": "string",
 					"required": false,
-					"description": "The curated_feed_id field"
+					"description": "UUID of a curated feed to subscribe to. Provide exactly one of url or curated_feed_id. The account must have feed creation entitlement and not exceed feed allowance."
 				},
 				{
 					"name": "display-name",
 					"type": "string",
 					"required": false,
-					"description": "The display_name field"
+					"description": "Override the feed's display name. Null clears it; omit to keep existing or derived value."
 				},
 				{
 					"name": "enabled",
 					"type": "boolean",
 					"required": false,
-					"description": "The enabled field",
+					"description": "Whether to actively poll the feed. Default true.",
 					"default": true
 				},
 				{
 					"name": "poll-interval-s",
 					"type": "number",
 					"required": false,
-					"description": "The poll_interval_s field",
+					"description": "Polling interval in seconds (60-86400). Default 300s (5 minutes).",
 					"default": 300
 				},
 				{
 					"name": "title",
 					"type": "string",
 					"required": false,
-					"description": "The title field"
+					"description": "Override the feed's title. Null clears it; omit to keep existing or derived value."
 				},
 				{
 					"name": "url",
 					"type": "string",
 					"required": false,
-					"description": "The url field"
+					"description": "HTTPS RSS feed URL. Provide exactly one of url or curated_feed_id. The account must have feed creation entitlement and not exceed feed allowance."
 				},
 				{
 					"name": "dry-run",
@@ -37754,7 +37754,7 @@
 					"position": 0,
 					"type": "string",
 					"required": true,
-					"description": "Feed ID"
+					"description": "UUID of the Threat Signals feed"
 				}
 			],
 			"options": [
@@ -37777,7 +37777,7 @@
 			"command": "cf cloudforce-one threat-signals feeds get-raw",
 			"name": "get-raw",
 			"fullPath": ["cloudforce-one", "threat-signals", "feeds", "get-raw"],
-			"description": "Retrieves the feed document fetched by the most recent poll.",
+			"description": "Retrieves the feed document fetched by the most recent poll as text/plain by default or application/xml when format is xml.",
 			"summary": "Get Threat Signals feed XML",
 			"usage": "cf cloudforce-one threat-signals feeds get-raw <feed-id> [options]",
 			"arguments": [
@@ -37786,7 +37786,7 @@
 					"position": 0,
 					"type": "string",
 					"required": true,
-					"description": "Feed ID"
+					"description": "UUID of the Threat Signals feed"
 				}
 			],
 			"options": [
@@ -37794,7 +37794,7 @@
 					"name": "format",
 					"type": "string",
 					"required": false,
-					"description": "Format",
+					"description": "Response format. Use xml for application/xml; omit it for the default text/plain response.",
 					"enum": ["xml"]
 				},
 				{
@@ -37825,50 +37825,50 @@
 					"name": "page",
 					"type": "number",
 					"required": false,
-					"description": "Page"
+					"description": "1-based page number. Minimum 1; defaults to 1."
 				},
 				{
 					"name": "per-page",
 					"type": "number",
 					"required": false,
-					"description": "Per page"
+					"description": "Number of feeds per page, from 1 to 100. Defaults to 20."
 				},
 				{
 					"name": "limit",
 					"type": "number",
 					"required": false,
-					"description": "Limit"
+					"description": "Optional 1–100 alias for per_page. When provided, limit takes precedence."
 				},
 				{
 					"name": "sort",
 					"type": "string",
 					"required": false,
-					"description": "Sort"
+					"description": "Sort by created_at, title, category, or url. Prefix the field with - for descending order; defaults to -created_at."
 				},
 				{
 					"name": "category",
 					"type": "string",
 					"required": false,
-					"description": "Category"
+					"description": "Exact feed-category filter, up to 100 characters. Omit to include all categories."
 				},
 				{
 					"name": "source-type",
 					"type": "string",
 					"required": false,
-					"description": "Source type",
+					"description": "Filter by curated or custom feed source. Omit to include both source types.",
 					"enum": ["curated", "custom"]
 				},
 				{
 					"name": "enabled",
 					"type": "boolean",
 					"required": false,
-					"description": "Enabled"
+					"description": "Filter by enabled state. Accepts true, false, 1, or 0; omit to include enabled and disabled feeds."
 				},
 				{
 					"name": "status",
 					"type": "string",
 					"required": false,
-					"description": "Status"
+					"description": "Exact stored polling-status filter, such as active or error. Omit to include every status."
 				},
 				{
 					"name": "dry-run",
@@ -37898,7 +37898,7 @@
 					"name": "feed-id",
 					"type": "string",
 					"required": false,
-					"description": "Feed ID"
+					"description": "UUID of a specific feed to poll, or \"all\" to poll all feeds. Omit or pass \"all\" for all feeds."
 				},
 				{
 					"name": "dry-run",
@@ -37925,7 +37925,7 @@
 				"skills",
 				"get"
 			],
-			"description": "Retrieves the effective skill pipeline for a Threat Signals feed.",
+			"description": "Retrieves active non-IOC-context Managed Default Skills followed by active Custom Skills assigned to the feed, with each entry's source. Free Threat Signals accounts receive only those Managed Default Skills.",
 			"summary": "Get Threat Signals feed skills",
 			"usage": "cf cloudforce-one threat-signals feeds skills get <feed-id>",
 			"arguments": [
@@ -37934,7 +37934,7 @@
 					"position": 0,
 					"type": "string",
 					"required": true,
-					"description": "Feed ID"
+					"description": "UUID of the Threat Signals feed"
 				}
 			],
 			"options": [
@@ -37963,7 +37963,7 @@
 				"skills",
 				"update"
 			],
-			"description": "Replaces the ordered custom skills assigned to a Threat Signals feed.",
+			"description": "Replaces the ordered custom skills assigned to a Threat Signals feed. Requires a paid Threat Signals subscription.",
 			"summary": "Set Threat Signals feed skills",
 			"usage": "cf cloudforce-one threat-signals feeds skills update <feed-id> [options]",
 			"arguments": [
@@ -37972,7 +37972,7 @@
 					"position": 0,
 					"type": "string",
 					"required": true,
-					"description": "Feed ID"
+					"description": "UUID of the Threat Signals feed"
 				}
 			],
 			"options": [
@@ -37980,7 +37980,7 @@
 					"name": "skill-ids",
 					"type": "string",
 					"required": true,
-					"description": "The skill_ids field"
+					"description": "Ordered array of Custom Skill UUIDs (max 20). Replaces the feed's custom skill assignments. Free accounts cannot assign custom skills. Managed default skills are unaffected."
 				},
 				{
 					"name": "dry-run",
@@ -38016,7 +38016,7 @@
 					"position": 0,
 					"type": "string",
 					"required": true,
-					"description": "Feed ID"
+					"description": "UUID of the Threat Signals feed"
 				}
 			],
 			"options": [
@@ -38040,25 +38040,25 @@
 					"name": "display-name",
 					"type": "string",
 					"required": false,
-					"description": "The display_name field"
+					"description": "Override the feed's display name. Null clears it; omit to keep existing or derived value."
 				},
 				{
 					"name": "enabled",
 					"type": "boolean",
 					"required": false,
-					"description": "The enabled field"
+					"description": "Whether to actively poll the feed. Omit to keep current value."
 				},
 				{
 					"name": "poll-interval-s",
 					"type": "number",
 					"required": false,
-					"description": "The poll_interval_s field"
+					"description": "New polling interval in seconds (60-86400). Omit to keep current value."
 				},
 				{
 					"name": "title",
 					"type": "string",
 					"required": false,
-					"description": "The title field"
+					"description": "Override the feed's title. Null clears it; omit to keep existing or derived value."
 				},
 				{
 					"name": "dry-run",
@@ -38094,13 +38094,13 @@
 					"name": "feed-id",
 					"type": "string",
 					"required": false,
-					"description": "Feed ID"
+					"description": "Feed UUID filter. Omit to include indicators from every account feed."
 				},
 				{
 					"name": "article-id",
 					"type": "string",
 					"required": false,
-					"description": "Article ID"
+					"description": "Article UUID filter. Omit to include indicators from every article."
 				},
 				{
 					"name": "search",
@@ -38112,25 +38112,25 @@
 					"name": "per-page",
 					"type": "number",
 					"required": false,
-					"description": "Per page"
+					"description": "Number of indicators per cursor page, from 1 to 100. Defaults to 20."
 				},
 				{
 					"name": "sort",
 					"type": "string",
 					"required": false,
-					"description": "Sort"
+					"description": "Sort by id. Use id for ascending or -id for descending order; defaults to id."
 				},
 				{
 					"name": "include-total",
 					"type": "boolean",
 					"required": false,
-					"description": "Include total"
+					"description": "When true on the first page, count matching indicators and return an exact total. Defaults to false; cursor pages do not recalculate totals."
 				},
 				{
 					"name": "cursor",
 					"type": "string",
 					"required": false,
-					"description": "Cursor"
+					"description": "Opaque cursor from the previous response's `pagination.cursor`. When provided, page size, ordering, and filters come from the cursor. Sending `per_page`, `sort`, `include_total`, `feed_id`, `article_id`, or `search` alongside it returns a 400 `CursorFilterConflictError`."
 				},
 				{
 					"name": "dry-run",
@@ -38160,19 +38160,19 @@
 					"name": "query",
 					"type": "string",
 					"required": true,
-					"description": "Query"
+					"description": "Keyword and semantic article-search text, from 1 to 1000 characters."
 				},
 				{
 					"name": "max-results",
 					"type": "string",
 					"required": false,
-					"description": "Max results"
+					"description": "Maximum search matches to request, an integer from 1 to 50. Defaults to 20 when omitted or empty; multiple matches from one article can produce fewer returned articles."
 				},
 				{
 					"name": "feed-id",
 					"type": "string",
 					"required": false,
-					"description": "Feed ID"
+					"description": "Optional feed UUID that restricts results to articles from that feed."
 				},
 				{
 					"name": "dry-run",
@@ -38193,7 +38193,7 @@
 			"command": "cf cloudforce-one threat-signals skills create",
 			"name": "create",
 			"fullPath": ["cloudforce-one", "threat-signals", "skills", "create"],
-			"description": "Creates a custom AI skill for the account.",
+			"description": "Creates a Custom Skill for the account. Free Threat Signals accounts cannot create Custom Skills.",
 			"summary": "Create Threat Signals skill",
 			"usage": "cf cloudforce-one threat-signals skills create [options]",
 			"arguments": [],
@@ -38202,19 +38202,19 @@
 					"name": "name",
 					"type": "string",
 					"required": true,
-					"description": "The name field"
+					"description": "Custom Skill name (1–100 characters)."
 				},
 				{
 					"name": "output-schema",
 					"type": "string",
 					"required": true,
-					"description": "The output_schema field"
+					"description": "JSON Schema serialized as a string (max 4096 characters)."
 				},
 				{
 					"name": "prompt",
 					"type": "string",
 					"required": true,
-					"description": "The prompt field"
+					"description": "AI prompt (1–4000 characters) defining the skill's instructions."
 				},
 				{
 					"name": "type",
@@ -38249,7 +38249,7 @@
 			"command": "cf cloudforce-one threat-signals skills delete",
 			"name": "delete",
 			"fullPath": ["cloudforce-one", "threat-signals", "skills", "delete"],
-			"description": "Deletes a custom skill. Default skills cannot be deleted.",
+			"description": "Deletes a Custom Skill. The skill's stored outputs on articles are deleted with it. Managed Default Skills cannot be deleted. Free Threat Signals accounts cannot delete Custom Skills.",
 			"summary": "Delete Threat Signals skill",
 			"usage": "cf cloudforce-one threat-signals skills delete <skill-id>",
 			"arguments": [
@@ -38258,7 +38258,7 @@
 					"position": 0,
 					"type": "string",
 					"required": true,
-					"description": "Skill ID"
+					"description": "Custom Skill UUID or a Managed Default Skill ID"
 				}
 			],
 			"options": [
@@ -38281,7 +38281,7 @@
 			"command": "cf cloudforce-one threat-signals skills get",
 			"name": "get",
 			"fullPath": ["cloudforce-one", "threat-signals", "skills", "get"],
-			"description": "Retrieves a default or custom skill by ID.",
+			"description": "Retrieves a Managed Default Skill or Custom Skill. Managed catalog definitions are readable. Free Threat Signals accounts cannot read Custom Skills.",
 			"summary": "Get Threat Signals skill",
 			"usage": "cf cloudforce-one threat-signals skills get <skill-id>",
 			"arguments": [
@@ -38290,7 +38290,7 @@
 					"position": 0,
 					"type": "string",
 					"required": true,
-					"description": "Skill ID"
+					"description": "Custom Skill UUID or a Managed Default Skill ID"
 				}
 			],
 			"options": [
@@ -38313,7 +38313,7 @@
 			"command": "cf cloudforce-one threat-signals skills list",
 			"name": "list",
 			"fullPath": ["cloudforce-one", "threat-signals", "skills", "list"],
-			"description": "Lists the default and custom skills available to the account.",
+			"description": "Lists active Managed Default Skills and Custom Skills. Free Threat Signals accounts see active managed defaults only, with custom_skills_available: false.",
 			"summary": "List Threat Signals skills",
 			"usage": "cf cloudforce-one threat-signals skills list [options]",
 			"arguments": [],
@@ -38322,13 +38322,13 @@
 					"name": "page",
 					"type": "number",
 					"required": false,
-					"description": "Page"
+					"description": "Page number (≥ 1, default 1)."
 				},
 				{
 					"name": "per-page",
 					"type": "number",
 					"required": false,
-					"description": "Per page"
+					"description": "Results per page (1–100, default 20)."
 				},
 				{
 					"name": "dry-run",
@@ -38355,7 +38355,7 @@
 				"tag-categories",
 				"get"
 			],
-			"description": "Retrieves the tag categories the default tagging skill may choose tags from.",
+			"description": "Retrieves the Tag Categories the managed default tagging skill may select tags from. This configures the managed default tagging skill, not Custom Skills.",
 			"summary": "Get Threat Signals skill tag categories",
 			"usage": "cf cloudforce-one threat-signals skills tag-categories get <skill-id>",
 			"arguments": [
@@ -38364,7 +38364,7 @@
 					"position": 0,
 					"type": "string",
 					"required": true,
-					"description": "Skill ID"
+					"description": "Must be default-tagging-skill; configures the managed default tagging skill"
 				}
 			],
 			"options": [
@@ -38393,7 +38393,7 @@
 				"tag-categories",
 				"update"
 			],
-			"description": "Replaces the tag categories the default tagging skill may choose tags from.",
+			"description": "Replaces the Tag Categories the managed default tagging skill may select tags from. This configures the managed default tagging skill, not Custom Skills.",
 			"summary": "Replace Threat Signals skill tag categories",
 			"usage": "cf cloudforce-one threat-signals skills tag-categories update <skill-id> [options]",
 			"arguments": [
@@ -38402,7 +38402,7 @@
 					"position": 0,
 					"type": "string",
 					"required": true,
-					"description": "Skill ID"
+					"description": "Must be default-tagging-skill; configures the managed default tagging skill"
 				}
 			],
 			"options": [
@@ -38410,7 +38410,7 @@
 					"name": "category-uuids",
 					"type": "string",
 					"required": true,
-					"description": "The category_uuids field"
+					"description": "Up to 100 unique tag category UUIDs that the managed default tagging skill may select tags from."
 				},
 				{
 					"name": "dry-run",
@@ -38437,7 +38437,7 @@
 			"command": "cf cloudforce-one threat-signals skills update",
 			"name": "update",
 			"fullPath": ["cloudforce-one", "threat-signals", "skills", "update"],
-			"description": "Updates a custom skill. Default skills are read-only.",
+			"description": "Updates a Custom Skill. Managed Default Skills cannot be updated. Free Threat Signals accounts cannot update Custom Skills.",
 			"summary": "Update Threat Signals skill",
 			"usage": "cf cloudforce-one threat-signals skills update <skill-id> [options]",
 			"arguments": [
@@ -38446,7 +38446,7 @@
 					"position": 0,
 					"type": "string",
 					"required": true,
-					"description": "Skill ID"
+					"description": "Custom Skill UUID or a Managed Default Skill ID"
 				}
 			],
 			"options": [
@@ -38454,31 +38454,31 @@
 					"name": "skill-config",
 					"type": "string",
 					"required": false,
-					"description": "The config field"
+					"description": "Optional skill configuration (stored but not currently interpreted)."
 				},
 				{
 					"name": "is-active",
 					"type": "boolean",
 					"required": false,
-					"description": "The is_active field"
+					"description": "Whether the skill is active and eligible for feed assignment."
 				},
 				{
 					"name": "name",
 					"type": "string",
 					"required": false,
-					"description": "The name field"
+					"description": "Custom Skill name (1–100 characters)."
 				},
 				{
 					"name": "output-schema",
 					"type": "string",
 					"required": false,
-					"description": "The output_schema field"
+					"description": "JSON Schema serialized as a string (max 4096 characters)."
 				},
 				{
 					"name": "prompt",
 					"type": "string",
 					"required": false,
-					"description": "The prompt field"
+					"description": "AI prompt (1–4000 characters) defining the skill's instructions."
 				},
 				{
 					"name": "dry-run",
@@ -54529,158 +54529,6 @@
 			"apiPath": "/zones/{zone_id}/healthchecks/{healthcheck_id}",
 			"operationId": "healthchecks.update",
 			"hideCommand": true
-		},
-		{
-			"command": "cf hostnames settings tls delete",
-			"name": "delete",
-			"fullPath": ["hostnames", "settings", "tls", "delete"],
-			"description": "Delete the tls setting value for the hostname.",
-			"summary": "Delete TLS setting for hostname",
-			"usage": "cf hostnames settings tls delete <hostname> [options]",
-			"arguments": [
-				{
-					"name": "hostname",
-					"position": 0,
-					"type": "string",
-					"required": true,
-					"description": "The hostname for which the tls settings are set."
-				}
-			],
-			"options": [
-				{
-					"name": "setting-id",
-					"type": "string",
-					"required": true,
-					"description": "The TLS Setting name.\nThe value type depends on the setting:\n- `ciphers`: value is an array of cipher suite strings (e.g., `[\"ECDHE-RSA-AES128-GCM-SHA256\", \"AES128-GCM-SHA256\"]`).\n- `min_tls_version`: value is a TLS version string (`\"1.0\"`, `\"1.1\"`, `\"1.2\"`, or `\"1.3\"`).\n- `http2`: value is `\"on\"` or `\"off\"`."
-				},
-				{
-					"name": "dry-run",
-					"type": "boolean",
-					"required": false,
-					"description": "Validate and show what would happen without executing",
-					"default": false
-				}
-			],
-			"category": "delete",
-			"hasRequestBody": false,
-			"httpMethod": "DELETE",
-			"apiPath": "/zones/{zone_id}/hostnames/settings/{setting_id}/{hostname}",
-			"operationId": "hostnames.settings.tls.delete",
-			"hideCommand": false
-		},
-		{
-			"command": "cf hostnames settings tls get",
-			"name": "get",
-			"fullPath": ["hostnames", "settings", "tls", "get"],
-			"description": "List the requested TLS setting for the hostnames under this zone.",
-			"summary": "List TLS setting for hostnames",
-			"usage": "cf hostnames settings tls get <setting-id>",
-			"arguments": [
-				{
-					"name": "setting-id",
-					"position": 0,
-					"type": "string",
-					"required": true,
-					"description": "The TLS Setting name.\nThe value type depends on the setting:\n- `ciphers`: value is an array of cipher suite strings (e.g., `[\"ECDHE-RSA-AES128-GCM-SHA256\", \"AES128-GCM-SHA256\"]`).\n- `min_tls_version`: value is a TLS version string (`\"1.0\"`, `\"1.1\"`, `\"1.2\"`, or `\"1.3\"`).\n- `http2`: value is `\"on\"` or `\"off\"`."
-				}
-			],
-			"options": [
-				{
-					"name": "dry-run",
-					"type": "boolean",
-					"required": false,
-					"description": "Validate and show what would happen without executing",
-					"default": false
-				}
-			],
-			"category": "read",
-			"hasRequestBody": false,
-			"httpMethod": "GET",
-			"apiPath": "/zones/{zone_id}/hostnames/settings/{setting_id}",
-			"operationId": "hostnames.settings.tls.get",
-			"hideCommand": false
-		},
-		{
-			"command": "cf hostnames settings tls update",
-			"name": "update",
-			"fullPath": ["hostnames", "settings", "tls", "update"],
-			"description": "Update the tls setting value for the hostname.",
-			"summary": "Edit TLS setting for hostname",
-			"usage": "cf hostnames settings tls update <hostname> [options]",
-			"arguments": [
-				{
-					"name": "hostname",
-					"position": 0,
-					"type": "string",
-					"required": true,
-					"description": "The hostname for which the tls settings are set."
-				}
-			],
-			"options": [
-				{
-					"name": "setting-id",
-					"type": "string",
-					"required": true,
-					"description": "The TLS Setting name.\nThe value type depends on the setting:\n- `ciphers`: value is an array of cipher suite strings (e.g., `[\"ECDHE-RSA-AES128-GCM-SHA256\", \"AES128-GCM-SHA256\"]`).\n- `min_tls_version`: value is a TLS version string (`\"1.0\"`, `\"1.1\"`, `\"1.2\"`, or `\"1.3\"`).\n- `http2`: value is `\"on\"` or `\"off\"`."
-				},
-				{
-					"name": "dry-run",
-					"type": "boolean",
-					"required": false,
-					"description": "Validate and show what would happen without executing",
-					"default": false
-				},
-				{
-					"name": "body",
-					"type": "string",
-					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
-				}
-			],
-			"category": "update",
-			"hasRequestBody": true,
-			"httpMethod": "PUT",
-			"apiPath": "/zones/{zone_id}/hostnames/settings/{setting_id}/{hostname}",
-			"operationId": "hostnames.settings.tls.update",
-			"hideCommand": false
-		},
-		{
-			"command": "cf hostnames settings tls-single get",
-			"name": "get",
-			"fullPath": ["hostnames", "settings", "tls-single", "get"],
-			"description": "Get the requested TLS setting for the hostname.",
-			"summary": "Get TLS setting for hostname",
-			"usage": "cf hostnames settings tls-single get <hostname> [options]",
-			"arguments": [
-				{
-					"name": "hostname",
-					"position": 0,
-					"type": "string",
-					"required": true,
-					"description": "The hostname for which the tls settings are set."
-				}
-			],
-			"options": [
-				{
-					"name": "setting-id",
-					"type": "string",
-					"required": true,
-					"description": "The TLS Setting name.\nThe value type depends on the setting:\n- `ciphers`: value is an array of cipher suite strings (e.g., `[\"ECDHE-RSA-AES128-GCM-SHA256\", \"AES128-GCM-SHA256\"]`).\n- `min_tls_version`: value is a TLS version string (`\"1.0\"`, `\"1.1\"`, `\"1.2\"`, or `\"1.3\"`).\n- `http2`: value is `\"on\"` or `\"off\"`."
-				},
-				{
-					"name": "dry-run",
-					"type": "boolean",
-					"required": false,
-					"description": "Validate and show what would happen without executing",
-					"default": false
-				}
-			],
-			"category": "read",
-			"hasRequestBody": false,
-			"httpMethod": "GET",
-			"apiPath": "/zones/{zone_id}/hostnames/settings/{setting_id}/{hostname}",
-			"operationId": "hostnames.settings.tls-single.get",
-			"hideCommand": false
 		},
 		{
 			"command": "cf hyperdrive create",
@@ -162398,6 +162246,158 @@
 			"hideCommand": false
 		},
 		{
+			"command": "cf zones hostnames settings tls delete",
+			"name": "delete",
+			"fullPath": ["zones", "hostnames", "settings", "tls", "delete"],
+			"description": "Delete the tls setting value for the hostname.",
+			"summary": "Delete TLS setting for hostname",
+			"usage": "cf zones hostnames settings tls delete <hostname> [options]",
+			"arguments": [
+				{
+					"name": "hostname",
+					"position": 0,
+					"type": "string",
+					"required": true,
+					"description": "The hostname for which the tls settings are set."
+				}
+			],
+			"options": [
+				{
+					"name": "setting-id",
+					"type": "string",
+					"required": true,
+					"description": "The TLS Setting name.\nThe value type depends on the setting:\n- `ciphers`: value is an array of cipher suite strings (e.g., `[\"ECDHE-RSA-AES128-GCM-SHA256\", \"AES128-GCM-SHA256\"]`).\n- `min_tls_version`: value is a TLS version string (`\"1.0\"`, `\"1.1\"`, `\"1.2\"`, or `\"1.3\"`).\n- `http2`: value is `\"on\"` or `\"off\"`."
+				},
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Validate and show what would happen without executing",
+					"default": false
+				}
+			],
+			"category": "delete",
+			"hasRequestBody": false,
+			"httpMethod": "DELETE",
+			"apiPath": "/zones/{zone_id}/hostnames/settings/{setting_id}/{hostname}",
+			"operationId": "zones.hostnames.settings.tls.delete",
+			"hideCommand": false
+		},
+		{
+			"command": "cf zones hostnames settings tls get",
+			"name": "get",
+			"fullPath": ["zones", "hostnames", "settings", "tls", "get"],
+			"description": "List the requested TLS setting for the hostnames under this zone.",
+			"summary": "List TLS setting for hostnames",
+			"usage": "cf zones hostnames settings tls get <setting-id>",
+			"arguments": [
+				{
+					"name": "setting-id",
+					"position": 0,
+					"type": "string",
+					"required": true,
+					"description": "The TLS Setting name.\nThe value type depends on the setting:\n- `ciphers`: value is an array of cipher suite strings (e.g., `[\"ECDHE-RSA-AES128-GCM-SHA256\", \"AES128-GCM-SHA256\"]`).\n- `min_tls_version`: value is a TLS version string (`\"1.0\"`, `\"1.1\"`, `\"1.2\"`, or `\"1.3\"`).\n- `http2`: value is `\"on\"` or `\"off\"`."
+				}
+			],
+			"options": [
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Validate and show what would happen without executing",
+					"default": false
+				}
+			],
+			"category": "read",
+			"hasRequestBody": false,
+			"httpMethod": "GET",
+			"apiPath": "/zones/{zone_id}/hostnames/settings/{setting_id}",
+			"operationId": "zones.hostnames.settings.tls.get",
+			"hideCommand": false
+		},
+		{
+			"command": "cf zones hostnames settings tls update",
+			"name": "update",
+			"fullPath": ["zones", "hostnames", "settings", "tls", "update"],
+			"description": "Update the tls setting value for the hostname.",
+			"summary": "Edit TLS setting for hostname",
+			"usage": "cf zones hostnames settings tls update <hostname> [options]",
+			"arguments": [
+				{
+					"name": "hostname",
+					"position": 0,
+					"type": "string",
+					"required": true,
+					"description": "The hostname for which the tls settings are set."
+				}
+			],
+			"options": [
+				{
+					"name": "setting-id",
+					"type": "string",
+					"required": true,
+					"description": "The TLS Setting name.\nThe value type depends on the setting:\n- `ciphers`: value is an array of cipher suite strings (e.g., `[\"ECDHE-RSA-AES128-GCM-SHA256\", \"AES128-GCM-SHA256\"]`).\n- `min_tls_version`: value is a TLS version string (`\"1.0\"`, `\"1.1\"`, `\"1.2\"`, or `\"1.3\"`).\n- `http2`: value is `\"on\"` or `\"off\"`."
+				},
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Validate and show what would happen without executing",
+					"default": false
+				},
+				{
+					"name": "body",
+					"type": "string",
+					"required": false,
+					"description": "Raw JSON request body (bypasses individual flags)"
+				}
+			],
+			"category": "update",
+			"hasRequestBody": true,
+			"httpMethod": "PUT",
+			"apiPath": "/zones/{zone_id}/hostnames/settings/{setting_id}/{hostname}",
+			"operationId": "zones.hostnames.settings.tls.update",
+			"hideCommand": false
+		},
+		{
+			"command": "cf zones hostnames settings tls-single get",
+			"name": "get",
+			"fullPath": ["zones", "hostnames", "settings", "tls-single", "get"],
+			"description": "Get the requested TLS setting for the hostname.",
+			"summary": "Get TLS setting for hostname",
+			"usage": "cf zones hostnames settings tls-single get <hostname> [options]",
+			"arguments": [
+				{
+					"name": "hostname",
+					"position": 0,
+					"type": "string",
+					"required": true,
+					"description": "The hostname for which the tls settings are set."
+				}
+			],
+			"options": [
+				{
+					"name": "setting-id",
+					"type": "string",
+					"required": true,
+					"description": "The TLS Setting name.\nThe value type depends on the setting:\n- `ciphers`: value is an array of cipher suite strings (e.g., `[\"ECDHE-RSA-AES128-GCM-SHA256\", \"AES128-GCM-SHA256\"]`).\n- `min_tls_version`: value is a TLS version string (`\"1.0\"`, `\"1.1\"`, `\"1.2\"`, or `\"1.3\"`).\n- `http2`: value is `\"on\"` or `\"off\"`."
+				},
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Validate and show what would happen without executing",
+					"default": false
+				}
+			],
+			"category": "read",
+			"hasRequestBody": false,
+			"httpMethod": "GET",
+			"apiPath": "/zones/{zone_id}/hostnames/settings/{setting_id}/{hostname}",
+			"operationId": "zones.hostnames.settings.tls-single.get",
+			"hideCommand": false
+		},
+		{
 			"command": "cf zones image-resizing edit",
 			"name": "edit",
 			"fullPath": ["zones", "image-resizing", "edit"],
@@ -163961,10 +163961,6 @@
 		"google-tag-gateway config": "Google Tag Gateway config operations",
 		"healthchecks": "Standalone health checks that monitor origin server availability from Cloudflare's edge",
 		"healthchecks previews": "Test a health check configuration before deploying it to production",
-		"hostnames": "hostnames",
-		"hostnames settings": "Operations for settings",
-		"hostnames settings tls": "Operations for settings.tls",
-		"hostnames settings tls-single": "Operations for settings.tls-single",
 		"hyperdrive": "Accelerate access to existing databases by caching queries and pooling connections at the edge",
 		"hyperdrive integration": "Operations for integration",
 		"hyperdrive integration planetscale": "Operations for integration.planetscale",
@@ -164756,6 +164752,10 @@
 		"zones fonts": "Fonts operations",
 		"zones h2-prioritization": "Operations for h2-prioritization",
 		"zones holds": "Operations for holds",
+		"zones hostnames": "Operations for hostnames",
+		"zones hostnames settings": "Operations for hostnames.settings",
+		"zones hostnames settings tls": "Operations for hostnames.settings.tls",
+		"zones hostnames settings tls-single": "Operations for hostnames.settings.tls-single",
 		"zones image-resizing": "Operations for image-resizing",
 		"zones origin-h2-max-streams": "Origin H2 Max Streams operations",
 		"zones origin-max-http-version": "Origin Max Http Version operations",

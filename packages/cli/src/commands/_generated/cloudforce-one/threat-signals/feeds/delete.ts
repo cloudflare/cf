@@ -25,7 +25,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		)
 		.positional("feed-id", {
 			type: "string",
-			description: "Feed ID",
+			description: "UUID of the Threat Signals feed",
 			demandOption: true,
 		})
 		.option("dry-run", {
@@ -73,7 +73,12 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				const accountId = argv.local ? LOCAL_ACCOUNT_ID : await getAccountId();
 				argv.accountId = accountId;
 
-				if (!(await confirmDelete({ force: Boolean(argv.force) }))) {
+				if (
+					!(await confirmDelete({
+						force: Boolean(argv.force),
+						message: `This unsubscribes the account from the feed and permanently deletes its stored articles, including their extracted indicators, tags, and skill outputs.`,
+					}))
+				) {
 					process.stderr.write("Aborted.\n");
 					return;
 				}

@@ -26,7 +26,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		)
 		.positional("feed-id", {
 			type: "string",
-			description: "Feed ID",
+			description: "UUID of the Threat Signals feed",
 			demandOption: true,
 		})
 		.option("category-id", {
@@ -49,14 +49,24 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		)
 		.option("display-name", {
 			type: "string",
-			description: "The display_name field",
+			description:
+				"Override the feed's display name. Null clears it; omit to keep existing or derived value.",
 		})
-		.option("enabled", { type: "boolean", description: "The enabled field" })
+		.option("enabled", {
+			type: "boolean",
+			description:
+				"Whether to actively poll the feed. Omit to keep current value.",
+		})
 		.option("poll-interval-s", {
 			type: "number",
-			description: "The poll_interval_s field",
+			description:
+				"New polling interval in seconds (60-86400). Omit to keep current value.",
 		})
-		.option("title", { type: "string", description: "The title field" })
+		.option("title", {
+			type: "string",
+			description:
+				"Override the feed's title. Null clears it; omit to keep existing or derived value.",
+		})
 		.option("dry-run", {
 			type: "boolean",
 			description: "Validate and show what would happen without executing",

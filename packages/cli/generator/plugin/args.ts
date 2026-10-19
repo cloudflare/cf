@@ -670,12 +670,9 @@ function bodyParams(
 			continue;
 		}
 		const joined = path.join(".");
-		const first = path[0] ?? "";
-		const byPath = get(overrides, joined);
-		const o =
-			byPath !== undefined && byPath !== null
-				? new Override(byPath)
-				: new Override(get(overrides, first));
+		// Field overrides target the exact wire path; parent objects do not
+		// supply types, validation, file handling, or defaults to their children.
+		const o = Override.of(overrides, joined);
 		const rawChoices = o.get("choices");
 		const overrideChoices = Array.isArray(rawChoices)
 			? (rawChoices as readonly Value[]).map(stringOf)
@@ -719,11 +716,7 @@ function bodyParams(
 		const effectiveType = o.get("array") === true ? "array" : bp.type;
 		const r = o.nullish("required");
 		const required = r === undefined ? bp.required : truthy(r);
-		let fromFileOverride = o.nullish("fromFile");
-		if (fromFileOverride === undefined && single) {
-			const v = get(get(overrides, first), "fromFile");
-			fromFileOverride = v === null ? undefined : v;
-		}
+		const fromFileOverride = o.nullish("fromFile");
 		let fromFile: Arg["fromFile"];
 		if (effectiveType !== "string" || fromFileOverride === false) {
 			fromFile = undefined;
@@ -754,9 +747,7 @@ function bodyParams(
 					? "enum"
 					: bodyType;
 		const base =
-			new Override(byPath).string("description") ??
-			bp.description ??
-			`The ${joined} field`;
+			o.string("description") ?? bp.description ?? `The ${joined} field`;
 		let description = base;
 		if (type === "objectArray") {
 			const separator = /[.!?]$/.test(base) ? " " : ". ";

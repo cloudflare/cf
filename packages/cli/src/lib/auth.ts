@@ -425,7 +425,7 @@ export async function createCommandClient(
 ): Promise<Cloudflare> {
 	if (args.dryRun && isTemporaryAccountRequired()) {
 		throw new Error(
-			"Temporary accounts cannot make API requests during --dry-run. Remove --temporary-account and sign in to fetch the schema."
+			"Temporary accounts cannot make API requests during --dry-run. Remove --temporary-account and sign in to continue."
 		);
 	}
 

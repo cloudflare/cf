@@ -1,10 +1,15 @@
 import { beforeEach, describe, expect, it, vi } from "vite-plus/test";
 import { getAuthToken } from "../../lib/auth-token.js";
 import { CliExit } from "../../lib/cli-exit.js";
+import { MissingCredentialsError } from "../../lib/errors.js";
 
-const { getOAuthToken } = vi.hoisted(() => ({ getOAuthToken: vi.fn() }));
+const { getOAuthToken, isOAuthLoggedIn } = vi.hoisted(() => ({
+	getOAuthToken: vi.fn(),
+	isOAuthLoggedIn: vi.fn(),
+}));
 vi.mock("../../lib/oauth/index.js", () => ({
 	getValidToken: getOAuthToken,
+	isOAuthLoggedIn,
 	isTemporaryAccountRequired: () => false,
 }));
 
@@ -18,6 +23,7 @@ beforeEach(() => {
 		vi.stubEnv(key, undefined);
 	}
 	getOAuthToken.mockReset();
+	isOAuthLoggedIn.mockReset().mockReturnValue(false);
 });
 
 describe("getAuthToken", () => {
@@ -42,6 +48,18 @@ describe("getAuthToken", () => {
 
 	it("explains how to authenticate when no token exists", async () => {
 		getOAuthToken.mockResolvedValue(undefined);
+		await expect(getAuthToken()).rejects.toBeInstanceOf(
+			MissingCredentialsError
+		);
+		await expect(getAuthToken()).rejects.toThrow("cf auth login");
+	});
+
+	it("does not classify a failed OAuth refresh as missing credentials", async () => {
+		getOAuthToken.mockResolvedValue(undefined);
+		isOAuthLoggedIn.mockReturnValue(true);
+		await expect(getAuthToken()).rejects.not.toBeInstanceOf(
+			MissingCredentialsError
+		);
 		await expect(getAuthToken()).rejects.toThrow("cf auth login");
 	});
 

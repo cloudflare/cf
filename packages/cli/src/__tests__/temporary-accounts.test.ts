@@ -6,13 +6,19 @@ import {
 	writeFileSync,
 } from "node:fs";
 import { join } from "node:path";
-import { getCfConfigPath } from "@cloudflare/workers-auth/cf";
+import {
+	getCfConfigPath,
+	writeAuthConfigFile,
+} from "@cloudflare/workers-auth/cf";
 import { runInTempDir, seed } from "@cloudflare/workers-utils/test-helpers";
 import { http, HttpResponse } from "msw";
 import { beforeEach, describe, expect, it, vi } from "vite-plus/test";
 import * as agentContext from "../lib/agent-context.js";
 import { getAccountId, getAuthToken } from "../lib/auth.js";
-import { setTemporaryAccountRequired } from "../lib/oauth/index.js";
+import {
+	readAuthCredentials,
+	setTemporaryAccountRequired,
+} from "../lib/oauth/index.js";
 import { server, setupMsw, TEST_BASE_URL } from "./helpers/msw.js";
 import { runCf } from "./helpers/run-cf.js";
 
@@ -304,6 +310,37 @@ describe("--temporary-account", () => {
 		).rejects.toThrow("No authentication token found");
 		expect(stderr()).toContain("rerun this command with `--temporary-account`");
 	});
+
+	it.each([undefined, "configured-account-id"])(
+		"recommends login after a rejected OAuth refresh (account ID: %s)",
+		async (configuredAccountId) => {
+			const stderr = captureStderr();
+			const provisioningRequests = captureProvisioningRequests();
+			const credentials = {
+				oauth_token: "expired-token",
+				refresh_token: "expired-refresh-token",
+				expiration_time: "2000-01-01T00:00:00.000Z",
+			};
+			writeAuthConfigFile(credentials);
+			server.use(
+				http.post("https://dash.cloudflare.com/oauth2/token", () =>
+					HttpResponse.json({ error: "invalid_grant" }, { status: 400 })
+				)
+			);
+
+			await expect(
+				runCf(["kv", "namespaces", "list"], {
+					...env,
+					CI: "true",
+					CLOUDFLARE_ACCOUNT_ID: configuredAccountId,
+				})
+			).rejects.toThrow("cf auth login");
+
+			expect(stderr()).not.toContain("--temporary-account");
+			expect(provisioningRequests).toEqual([]);
+			expect(readAuthCredentials()).toMatchObject(credentials);
+		}
+	);
 
 	it("creates an event account without persisting or printing the code", async () => {
 		const stderr = captureStderr();

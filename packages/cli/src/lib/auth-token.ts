@@ -2,6 +2,7 @@ import { getAuthFromEnv } from "@cloudflare/workers-auth";
 import { MissingCredentialsError } from "./errors.js";
 import {
 	getValidToken as getOAuthToken,
+	isOAuthLoggedIn,
 	isTemporaryAccountRequired,
 	requireTemporaryAccount,
 } from "./oauth/index.js";
@@ -35,6 +36,11 @@ export async function getAuthToken(
 	const cfToken = await getOAuthToken();
 	if (cfToken) {
 		return cfToken;
+	}
+	if (isOAuthLoggedIn()) {
+		throw new Error(
+			"Could not refresh your stored OAuth token. Check your connection and retry, or run 'cf auth login' to authenticate again."
+		);
 	}
 
 	throw new MissingCredentialsError(`No authentication token found.

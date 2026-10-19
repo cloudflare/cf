@@ -54,7 +54,7 @@ describe("handleError", () => {
 		expect(handleError(err)).toBe(err);
 	});
 
-	it("recommends a temporary account when non-interactive auth fails", () => {
+	it("recommends a temporary account when credentials are missing", () => {
 		handleError(new MissingCredentialsError("No authentication token found."));
 		expect(stderr()).toContain("--temporary-account");
 
@@ -66,16 +66,21 @@ describe("handleError", () => {
 			)
 		);
 		expect(stderr()).toContain("--temporary-account");
+	});
 
+	it("does not recommend a temporary account when OAuth credentials expire", () => {
 		errSpy.mockClear();
 		handleError(
 			new UserError(
-				"Not logged in. Your auth token has expired and could not be refreshed, and the environment is non-interactive.",
+				"Not logged in. Your auth token has expired and could not be refreshed, and the environment is non-interactive. Run `cf auth login` in an interactive terminal or set a CLOUDFLARE_API_TOKEN.",
 				{ telemetryMessage: "cfetch auth login required" }
 			)
 		);
-		expect(stderr()).toContain("--temporary-account");
+		expect(stderr()).toContain("cf auth login");
+		expect(stderr()).not.toContain("--temporary-account");
+	});
 
+	it("does not recommend a temporary account for network or unrelated errors", () => {
 		errSpy.mockClear();
 		handleError(
 			new UserError(

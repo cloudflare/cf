@@ -10,8 +10,8 @@ import { ApiError } from "#api";
 export class MissingCredentialsError extends Error {}
 
 /**
- * Whether to suggest a temporary account. Like Wrangler, this covers missing or
- * expired credentials in a non-interactive environment.
+ * Only suggest a temporary account when credentials are missing. Stored OAuth
+ * credentials, even expired ones, prevent temporary-account creation.
  */
 function isMissingCredentialsError(error: Error): boolean {
 	if (error instanceof MissingCredentialsError) {
@@ -22,6 +22,7 @@ function isMissingCredentialsError(error: Error): boolean {
 	return (
 		"telemetryMessage" in error &&
 		error.telemetryMessage === "cfetch auth login required" &&
+		error.message.includes("no credentials were found") &&
 		error.message.includes("the environment is non-interactive")
 	);
 }

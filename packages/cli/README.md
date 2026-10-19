@@ -41,7 +41,8 @@ named profiles. `cf auth login` and `cf auth logout` manage the default profile.
 
 Use `cf auth login --use-keyring` to encrypt OAuth credentials with a key stored
 in your OS keychain. The choice is saved across invocations and applies to all
-profiles. Use `cf auth login --no-use-keyring` to disable it; this removes saved
+profiles. Use `cf auth login --no-use-keyring` to save a preference for plaintext
+storage. Unless `CLOUDFLARE_AUTH_USE_KEYRING=true` is set, this also removes saved
 encrypted credentials, so affected profiles must authenticate again.
 `CLOUDFLARE_AUTH_USE_KEYRING=true` or `false` overrides the saved preference.
 

@@ -87,11 +87,18 @@ describe("whoami", () => {
 		expect,
 	}) => {
 		vi.stubEnv("CLOUDFLARE_API_TOKEN", undefined);
+		vi.stubEnv("CLAUDECODE", "1");
 		await runWrangler("auth whoami");
 		expect(JSON.parse(std.out)).toMatchObject({ authenticated: false });
-		// The suggestion goes to stderr so stdout stays parseable JSON.
+		// cf gives agents instructions on stderr so stdout stays parseable JSON.
 		expect(std.err).toContain(
-			"To deploy without logging in, run a command like `cf deploy --temporary-account` to use a temporary preview account."
+			'Ask the user: "I can put this online for 60 minutes without you signing in. To keep it, complete the temporary-account claim before it expires. Would you like me to deploy it that way?"'
+		);
+		expect(std.err).toContain(
+			"https://developers.cloudflare.com/workers/platform/claim-deployments/"
+		);
+		expect(std.err).toContain(
+			"If they agree, run `cf deploy --temporary-account`"
 		);
 	});
 

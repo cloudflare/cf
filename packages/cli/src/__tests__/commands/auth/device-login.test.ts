@@ -1,9 +1,7 @@
 import { writeFile } from "node:fs/promises";
-import {
-	mockConsoleMethods,
-	runInTempDir,
-} from "@cloudflare/workers-utils/test-helpers";
+import { runInTempDir } from "@cloudflare/workers-utils/test-helpers";
 import { beforeEach, describe, expect, it, vi } from "vite-plus/test";
+import { mockOutputStreams } from "../../helpers/capture-output.js";
 import { runCf } from "../../helpers/run-cf.js";
 
 const sharedAuth = vi.hoisted(() => ({
@@ -40,7 +38,7 @@ vi.mock("../../../lib/telemetry/dispatcher.js", () => ({
 
 describe("cf auth device login", () => {
 	runInTempDir();
-	const std = mockConsoleMethods();
+	const std = mockOutputStreams();
 
 	beforeEach(() => {
 		sharedAuth.activeProfile = "default";
@@ -99,15 +97,14 @@ describe("cf auth device login", () => {
 
 	it("loads file-sourced Cloudflare variables for login", async () => {
 		await writeFile(".env", "CLOUDFLARE_API_TOKEN=file-token");
-		let observedToken: string | undefined;
-		sharedAuth.login.mockImplementationOnce(async () => {
-			observedToken = process.env.CLOUDFLARE_API_TOKEN;
-			return false;
-		});
 
 		await runCf(["auth", "login", "--no-browser"]);
 
-		expect(observedToken).toBe("file-token");
+		expect(sharedAuth.login).not.toHaveBeenCalled();
+		expect(std.out).toBe("");
+		expect(std.err).toMatchInlineSnapshot(
+			`"▲  CLOUDFLARE_API_TOKEN is set and takes precedence. Unset it to log in via OAuth."`
+		);
 		expect(process.env.CLOUDFLARE_API_TOKEN).toBeUndefined();
 	});
 
@@ -213,8 +210,9 @@ describe("cf auth device login", () => {
 
 		await runCf(["auth", "login", "--no-browser"]);
 
-		expect(std.out).toContain("Scopes: one, two, three, four, five");
-		expect(std.out).not.toContain("cf auth whoami");
+		expect(std.out).toBe("");
+		expect(std.err).toContain("Scopes: one, two, three, four, five");
+		expect(std.err).not.toContain("cf auth whoami");
 	});
 
 	it("summarizes more than five selected scopes after login", async () => {
@@ -224,8 +222,11 @@ describe("cf auth device login", () => {
 
 		await runCf(["auth", "login", "--no-browser"]);
 
-		expect(std.out).toContain("Scopes: 6 selected");
-		expect(std.out).toContain("Run cf auth whoami to see the full list.");
-		expect(std.out).not.toContain("one, two, three, four, five, six");
+		expect(std.out).toBe("");
+		expect(std.err).toMatchInlineSnapshot(`
+			"●  Starting OAuth login flow...
+			●  Config file: /test/auth.json
+			│  Scopes: 6 selected. Run cf auth whoami to see the full list."
+		`);
 	});
 });

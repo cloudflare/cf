@@ -269,7 +269,8 @@ the complete generated and hand-written `_meta/commands.json` catalogue (see
 | `ui/blocks.ts`        | `errorBlock(...)` left-gutter / clack-style block rendering (replaced the old boxen-based `ui/box.ts`); `wrapPlain` per-line wrap                                                                                                                                                                                                                         |
 | `ui/banner.ts`        | slim `renderPromptIntro(version)` headline and `formatCommand`; the old gradient/ASCII splash is removed                                                                                                                                                                                                                                                  |
 | `ui/theme.ts`         | background-neutral semantic colour palette and Chalk wrapper                                                                                                                                                                                                                                                                                              |
-| `ui/format.ts`        | one-line `success`, `warning`, `info`, and `hint` helpers                                                                                                                                                                                                                                                                                                 |
+| `ui/format.ts`        | one-line `success`, `warning`, and `hint` helpers                                                                                                                                                                                                                                                                                                         |
+| `ui/log.ts`           | stderr messages: clack `log.info` / `log.warn`, `printSuccess` (`✓` line), `printCommands` (copyable next steps)                                                                                                                                                                                                                                          |
 | `input-validation.ts` | yargs-time arg coercion + `resolveFileToken(value, fieldName, format)` for `@<path>` ingestion; runtime body/path validation                                                                                                                                                                                                                              |
 | `resolve.ts`          | URL templating (path-param substitution), `isId`, `isValidDomainName`                                                                                                                                                                                                                                                                                     |
 
@@ -651,6 +652,9 @@ These have stabilised this repo's voice; preserve them.
 - **Secret prompt:** clack.password (masks input).
 - **Success line:** `✓ <successLabel>` on stderr; null/undefined API
   results suppress stdout output entirely.
+- **Messages:** stdout carries only command output. Hand-written commands
+  print notices, warnings and success lines to stderr through `lib/ui/log.ts`,
+  with a command to run next on its own line (`printCommands`).
 - **Splash screen:** bare `cf` prints the headline, a short getting-started list, and the docs link. Yargs owns root, group, and command help rendering.
 
 ## Global Flags

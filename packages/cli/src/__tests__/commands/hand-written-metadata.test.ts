@@ -87,6 +87,18 @@ describe("hand-written command metadata", () => {
 		).toBe(false);
 	});
 
+	it("publishes the keyring login option without overriding saved preferences", () => {
+		const option = commands
+			.get("cf auth login")
+			?.options?.find((entry) => entry.name === "use-keyring");
+
+		expect(option).toMatchObject({
+			type: "boolean",
+			required: false,
+		});
+		expect(option).not.toHaveProperty("default");
+	});
+
 	it("includes descriptions for root hand-written command groups", () => {
 		expect(metadata.descriptions?.auth).toBe(
 			"Manage authentication and profiles"

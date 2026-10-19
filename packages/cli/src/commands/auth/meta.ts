@@ -40,6 +40,13 @@ export default [
 				description: "The set of OAuth scopes to request",
 			},
 			{
+				name: "use-keyring",
+				type: "boolean",
+				required: false,
+				description:
+					"Encrypt OAuth credentials using the OS keychain (persisted across invocations; use --no-use-keyring to disable)",
+			},
+			{
 				name: "dry-run",
 				type: "boolean",
 				required: false,

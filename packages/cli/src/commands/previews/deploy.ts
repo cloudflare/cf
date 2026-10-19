@@ -190,6 +190,8 @@ async function deployPreviewBuildOutput(
 			assets: worker.assetsDir ? { directory: worker.assetsDir } : undefined,
 		},
 		{
+			deployCommand: "cf deploy",
+			previewCommand: "cf previews deploy",
 			...createPreviewContainerCallbacks(containerDeployConfig),
 			verifyContainersScope: async () => {
 				await ApplicationsService.listApplications();

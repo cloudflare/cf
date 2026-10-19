@@ -1,7 +1,7 @@
 diff --git a/dist/index.mjs b/dist/index.mjs
 --- a/dist/index.mjs
 +++ b/dist/index.mjs
-@@ -7235,13 +7235,8 @@ async function pushOrResolveImage(config2, container, imageName, imageConfig, bu
+@@ -7305,13 +7305,8 @@
        targetTag: builtImage.localTag,
        accountId,
        complianceConfig: config2,

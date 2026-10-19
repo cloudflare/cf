@@ -1,6 +1,6 @@
 import { format } from "node:util";
 import { normalizeString } from "@cloudflare/workers-utils/test-helpers";
-import { afterEach, beforeEach, onTestFinished, vi } from "vite-plus/test";
+import { afterEach, beforeEach, vi } from "vite-plus/test";
 
 /**
  * Capture a command's output streams.
@@ -37,16 +37,27 @@ export function captureOutput(): {
  * raw payloads) share one buffer per stream, so a test can assert that
  * stdout holds only the command's output. Call at `describe` level; output
  * is normalized the same way as `mockConsoleMethods`.
+ *
+ * stderr is not a terminal unless a test calls `setStderrTTY(true)`, so
+ * terminal-only output does not depend on how the suite was launched.
  */
 export function mockOutputStreams(): {
 	readonly out: string;
 	readonly err: string;
 	getAndClearOut: () => string;
 	getAndClearErr: () => string;
+	setStderrTTY: (isTTY: boolean) => void;
 } {
 	let out = "";
 	let err = "";
 	let spies: { mockRestore: () => void }[] = [];
+	let originalStderrTTY: PropertyDescriptor | undefined;
+	const setStderrTTY = (isTTY: boolean) => {
+		Object.defineProperty(process.stderr, "isTTY", {
+			configurable: true,
+			value: isTTY,
+		});
+	};
 	const toOut = (...args: unknown[]) => {
 		out += `${format(...args)}\n`;
 	};
@@ -57,6 +68,11 @@ export function mockOutputStreams(): {
 	beforeEach(() => {
 		out = "";
 		err = "";
+		originalStderrTTY = Object.getOwnPropertyDescriptor(
+			process.stderr,
+			"isTTY"
+		);
+		setStderrTTY(false);
 		spies = [
 			vi.spyOn(console, "log").mockImplementation(toOut),
 			vi.spyOn(console, "info").mockImplementation(toOut),
@@ -76,6 +92,11 @@ export function mockOutputStreams(): {
 	afterEach(() => {
 		for (const spy of spies) {
 			spy.mockRestore();
+		}
+		if (originalStderrTTY) {
+			Object.defineProperty(process.stderr, "isTTY", originalStderrTTY);
+		} else {
+			Reflect.deleteProperty(process.stderr, "isTTY");
 		}
 	});
 
@@ -97,21 +118,6 @@ export function mockOutputStreams(): {
 			err = "";
 			return value;
 		},
+		setStderrTTY,
 	};
-}
-
-/** Treat stderr as a terminal for the rest of the test. */
-export function stubStderrTTY(): void {
-	const original = Object.getOwnPropertyDescriptor(process.stderr, "isTTY");
-	Object.defineProperty(process.stderr, "isTTY", {
-		configurable: true,
-		value: true,
-	});
-	onTestFinished(() => {
-		if (original) {
-			Object.defineProperty(process.stderr, "isTTY", original);
-		} else {
-			Reflect.deleteProperty(process.stderr, "isTTY");
-		}
-	});
 }

@@ -1,5 +1,4 @@
 import { isNonInteractiveOrCI } from "./interactive.js";
-import { printSuccess } from "./ui/log.js";
 import { supportsColor, theme } from "./ui/theme.js";
 
 /** Maximum JSON size (in characters) for syntax highlighting - prevents performance issues */
@@ -22,6 +21,16 @@ function outputPayload(data: unknown): unknown {
 		return data.result;
 	}
 	return data;
+}
+
+/**
+ * The `✓` line confirming that a command finished. It prints only when
+ * stderr is a terminal; scripts read the exit code instead.
+ */
+export function printSuccess(message: string): void {
+	if (process.stderr.isTTY) {
+		process.stderr.write(`${theme.success("✓")} ${message}\n`);
+	}
 }
 
 /**

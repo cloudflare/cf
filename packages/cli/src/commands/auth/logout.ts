@@ -5,8 +5,9 @@ import {
 	logout,
 	setProfile,
 } from "../../lib/oauth/index.js";
+import { printSuccess } from "../../lib/output.js";
 import { theme } from "../../lib/ui/index.js";
-import { log, printCommands, printSuccess } from "../../lib/ui/log.js";
+import { log, printCommands } from "../../lib/ui/log.js";
 import { assertNoProfileFlag } from "./profiles.js";
 import type { CommonYargsOptions } from "../../lib/cli-types.js";
 import type { CommandModule } from "yargs";

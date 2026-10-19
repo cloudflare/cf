@@ -2,8 +2,12 @@
  * Messages for people.
  *
  * stdout carries only a command's output (JSON or a raw payload), so every
- * message goes to stderr: clack log lines for notices and warnings, the `✓`
- * success line, and commands for the user to run next.
+ * message goes to stderr: clack log lines for notices and warnings, and
+ * commands for the user to run next. The `✓` success line is `printSuccess`
+ * in `../output.ts`.
+ *
+ * Not re-exported from `./index.ts`: the entry point imports that barrel, and
+ * loading clack there would slow every invocation.
  */
 
 import * as clack from "@clack/prompts";
@@ -24,16 +28,6 @@ export const log = {
 	warn: (message: string, options?: LogMessageOptions) =>
 		clack.log.warn(message, toStderr(options)),
 };
-
-/**
- * The `✓` line confirming that a command finished. It prints only when
- * stderr is a terminal; scripts read the exit code instead.
- */
-export function printSuccess(message: string): void {
-	if (process.stderr.isTTY) {
-		process.stderr.write(`${theme.success("✓")} ${message}\n`);
-	}
-}
 
 /**
  * Commands for the user to run next, each on its own line. They are indented

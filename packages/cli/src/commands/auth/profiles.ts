@@ -1,9 +1,9 @@
 import path from "node:path";
 import { getAuthFromEnv, validateProfileName } from "@cloudflare/workers-auth";
 import { getProfileStore, login, logout } from "../../lib/oauth/index.js";
-import { formatOutput } from "../../lib/output.js";
+import { formatOutput, printSuccess } from "../../lib/output.js";
 import { theme } from "../../lib/ui/index.js";
-import { log, printCommands, printSuccess } from "../../lib/ui/log.js";
+import { log, printCommands } from "../../lib/ui/log.js";
 import type { CommonYargsOptions } from "../../lib/cli-types.js";
 import type { ArgumentsCamelCase, Argv, CommandModule } from "yargs";
 

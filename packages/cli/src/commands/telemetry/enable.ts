@@ -1,10 +1,11 @@
+import { printSuccess } from "../../lib/output.js";
 import {
 	getTelemetrySourceLabel,
 	resolveTelemetry,
 	setTelemetryPermission,
 } from "../../lib/telemetry/config.js";
 import { theme } from "../../lib/ui/index.js";
-import { log, printSuccess } from "../../lib/ui/log.js";
+import { log } from "../../lib/ui/log.js";
 import type { CommandModule } from "yargs";
 
 const command: CommandModule = {

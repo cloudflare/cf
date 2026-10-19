@@ -155,6 +155,18 @@ describe("cf auth device login", () => {
 		);
 	});
 
+	it("confirms a new named profile and shows how to activate it", async () => {
+		std.setStderrTTY(true);
+
+		await runCf(["auth", "create", "work", "--no-browser"]);
+
+		expect(std.out).toBe("");
+		expect(std.err).toContain('✓ Profile "work" created.');
+		expect(std.err).toContain(
+			"●  To use this profile in a directory, run:\n\n   cf auth activate work"
+		);
+	});
+
 	it("can use the localhost callback flow for named profiles", async () => {
 		await runCf([
 			"auth",

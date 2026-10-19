@@ -6,10 +6,7 @@ import {
 import { runInTempDir } from "@cloudflare/workers-utils/test-helpers";
 import { http, HttpResponse } from "msw/http";
 import { beforeEach, describe, expect, it, vi } from "vite-plus/test";
-import {
-	mockOutputStreams,
-	stubStderrTTY,
-} from "../../helpers/capture-output.js";
+import { mockOutputStreams } from "../../helpers/capture-output.js";
 import { server, setupMsw, TEST_BASE_URL } from "../../helpers/msw.js";
 import { runCf } from "../../helpers/run-cf.js";
 
@@ -47,7 +44,7 @@ describe("cf auth profiles", () => {
 		const cwd = process.cwd();
 
 		createProfile("work");
-		stubStderrTTY();
+		std.setStderrTTY(true);
 
 		await runCf(["auth", "activate", "work"]);
 		expect(store.bindings.getProfileForDirectory(cwd)).toBe("work");

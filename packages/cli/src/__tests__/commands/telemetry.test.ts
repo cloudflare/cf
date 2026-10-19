@@ -1,6 +1,6 @@
 import { runInTempDir } from "@cloudflare/workers-utils/test-helpers";
 import { describe, expect, it } from "vite-plus/test";
-import { mockOutputStreams, stubStderrTTY } from "../helpers/capture-output.js";
+import { mockOutputStreams } from "../helpers/capture-output.js";
 import { runCf } from "../helpers/run-cf.js";
 
 describe("cf cli telemetry", () => {
@@ -21,7 +21,7 @@ describe("cf cli telemetry", () => {
 	});
 
 	it("confirms each change on stderr and keeps stdout empty", async () => {
-		stubStderrTTY();
+		std.setStderrTTY(true);
 
 		await runCf(["cli", "telemetry", "disable"]);
 		expect(std.out).toBe("");

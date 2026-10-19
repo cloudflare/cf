@@ -112,6 +112,10 @@ export async function requireTemporaryAccount(options?: {
 	isPreview?: boolean;
 	complianceRegion?: ComplianceRegion;
 }): Promise<{ accountId: string; apiToken: string }> {
+	if (!isTemporaryAccountRequired()) {
+		throw new Error("Temporary accounts require --temporary-account.");
+	}
+
 	try {
 		const accountId = await auth.requireAuth({
 			compliance_region:

@@ -17,6 +17,7 @@ import * as agentContext from "../lib/agent-context.js";
 import { getAccountId, getAuthToken } from "../lib/auth.js";
 import {
 	readAuthCredentials,
+	requireTemporaryAccount,
 	setTemporaryAccountRequired,
 } from "../lib/oauth/index.js";
 import { server, setupMsw, TEST_BASE_URL } from "./helpers/msw.js";
@@ -181,6 +182,16 @@ describe("--temporary-account", () => {
 
 		expect(result.exitCode).toBe(0);
 		expect(authorization).toBe(`Bearer ${apiToken}`);
+	});
+
+	it("rejects direct temporary-account requests when the mode is disabled", async () => {
+		vi.stubEnv("CLOUDFLARE_ACCOUNT_ID", "existing-account-id");
+		vi.stubEnv("CLOUDFLARE_API_TOKEN", "existing-token");
+		setTemporaryAccountRequired(false);
+
+		await expect(requireTemporaryAccount()).rejects.toThrow(
+			"Temporary accounts require --temporary-account."
+		);
 	});
 
 	it("activates the account when the token is requested first", async () => {

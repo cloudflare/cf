@@ -5,6 +5,7 @@ import {
 	isOAuthLoggedIn,
 	login,
 	readAuthCredentials,
+	setKeyringPreference,
 	setProfile,
 } from "../../lib/oauth/index.js";
 import { hint, info, theme, warning } from "../../lib/ui/index.js";
@@ -18,12 +19,13 @@ interface LoginArgs extends CommonYargsOptions {
 	browser?: boolean;
 	device?: boolean;
 	scopes?: string[];
+	"use-keyring"?: boolean;
 }
 
 const MAX_INLINE_SCOPES = 5;
 
 export const loginTelemetryClassification: ArgClassification<LoginArgs> = {
-	safeFlags: ["force", "browser", "device"],
+	safeFlags: ["force", "browser", "device", "use-keyring", "useKeyring"],
 	shortFlagAliases: {
 		f: { canonical: "force", type: "boolean" },
 	},
@@ -57,6 +59,11 @@ const loginCommand: CommandModule<object, LoginArgs> = {
 				type: "string",
 				array: true,
 				description: "The set of OAuth scopes to request",
+			})
+			.option("use-keyring", {
+				type: "boolean",
+				description:
+					"Encrypt OAuth credentials using the OS keychain (persisted across invocations; use --no-use-keyring to disable)",
 			}) as Argv<LoginArgs>;
 	},
 
@@ -79,6 +86,12 @@ const loginCommand: CommandModule<object, LoginArgs> = {
 		}
 
 		setProfile("default");
+
+		// Apply the preference before any credential reads, including the
+		// already-logged-in check, so opting out can bypass an unavailable backend.
+		if (argv.useKeyring !== undefined) {
+			setKeyringPreference(argv.useKeyring);
+		}
 
 		if (!argv.force && isOAuthLoggedIn()) {
 			// Verify the stored tokens actually work, refreshing if needed.

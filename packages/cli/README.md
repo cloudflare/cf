@@ -39,6 +39,13 @@ cf resolves credentials in this order:
 Use `cf auth create`, `delete`, `activate`, `deactivate`, and `list` to manage
 named profiles. `cf auth login` and `cf auth logout` manage the default profile.
 
+Use `cf auth login --use-keyring` to encrypt OAuth credentials with a key stored
+in your OS keychain. The choice is saved across invocations and applies to all
+profiles. Use `cf auth login --no-use-keyring` to save a preference for plaintext
+storage. Unless `CLOUDFLARE_AUTH_USE_KEYRING=true` is set, this also removes saved
+encrypted credentials, so affected profiles must authenticate again.
+`CLOUDFLARE_AUTH_USE_KEYRING=true` or `false` overrides the saved preference.
+
 ## Projects
 
 `cf init [directory]` starts a project. If you leave out the directory, cf asks for one (use `cf init .` for the current directory in scripts). In a new or empty directory (only `.git` is allowed), it creates a hello-world Worker with `cloudflare.config.ts`, `vite.config.ts`, `src/index.ts`, `tsconfig.json`, `package.json`, and `.gitignore`, then installs dependencies with the package manager you choose (`--package-manager`, or `--no-install` to skip) and, once they are installed, generates Worker types in `.cloudflare/types/index.d.ts`. With `--no-install`, the types are generated later by `cf dev` or the project's `typecheck` script, which runs `cf workers types` and then `tsc`. In a directory that already contains files, it configures the existing project with autoconfig instead. Either way, it finishes with the next steps to run. `cf init workers [directory]` is the default initializer and currently does the same thing.

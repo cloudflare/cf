@@ -148,6 +148,23 @@ describe("cf auth login keyring preference", () => {
 		});
 	});
 
+	it.each([
+		["--use-keyring", "use-keyring", true],
+		["--no-use-keyring", "use-keyring", false],
+		["--useKeyring", "useKeyring", true],
+		["--no-useKeyring", "useKeyring", false],
+	] as const)("records %s as boolean telemetry", async (flag, key, enabled) => {
+		await runCf(["auth", "login", flag]);
+
+		expect(telemetryEvents[0]).toMatchObject({
+			name: "cf command started",
+			properties: {
+				command: "auth login",
+				sanitizedArgs: { [key]: enabled },
+			},
+		});
+	});
+
 	it.each(["--help", "--dry-run"])(
 		"does not change the preference with %s",
 		async (flag) => {

@@ -25,7 +25,7 @@ interface LoginArgs extends CommonYargsOptions {
 const MAX_INLINE_SCOPES = 5;
 
 export const loginTelemetryClassification: ArgClassification<LoginArgs> = {
-	safeFlags: ["force", "browser", "device", "use-keyring"],
+	safeFlags: ["force", "browser", "device", "use-keyring", "useKeyring"],
 	shortFlagAliases: {
 		f: { canonical: "force", type: "boolean" },
 	},

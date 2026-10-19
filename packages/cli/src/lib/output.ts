@@ -1,4 +1,5 @@
 import { isNonInteractiveOrCI } from "./interactive.js";
+import { printSuccess } from "./ui/log.js";
 import { supportsColor, theme } from "./ui/theme.js";
 
 /** Maximum JSON size (in characters) for syntax highlighting - prevents performance issues */
@@ -46,8 +47,8 @@ export function formatOutput(data: unknown, options: OutputOptions = {}): void {
 	// the literal string 'null'), and — on TTYs only — write a brief ✓
 	// line to stderr so humans know it worked.
 	if (data === null || data === undefined) {
-		if (options.successLabel && process.stderr.isTTY) {
-			process.stderr.write(`${theme.success("✓")} ${options.successLabel}\n`);
+		if (options.successLabel) {
+			printSuccess(options.successLabel);
 		}
 		return;
 	}

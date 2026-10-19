@@ -231,8 +231,7 @@ async function uploadBuildOutput(argv: UploadArgs, ctx: UploadCommand) {
 			d1DeleteCommand: "cf d1 delete <database-id>",
 			queueCreateCommand: (queueName) =>
 				`cf queues create --queue-name ${queueName}`,
-			versionsSecretPutCommand:
-				"cf workers secrets update --worker <worker-name> --type secret_text",
+			versionsSecretPutCommand: "wrangler versions secret put",
 			analyseBundle: undefined,
 		}));
 	}

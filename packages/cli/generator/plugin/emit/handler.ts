@@ -854,7 +854,8 @@ function plainCall(ctx: Ctx): string[] {
 			lines.push(`      const qs = ${QS_FROM_PARAMS};`);
 			url = `\`${ctx.resolvedRequestPath}\${qs ? '?' + qs : ''}\``;
 		}
-		lines.push(...emitRawTail(ctx, "      ", url, []));
+		const parts = ctx.hasHeaders ? [`headers: ${HEADERS_GUARDED}`] : [];
+		lines.push(...emitRawTail(ctx, "      ", url, parts));
 	}
 	if (!ctx.isRawOutput && !unsatisfiable) {
 		const url = `\`${ctx.resolvedRequestPath}\``;

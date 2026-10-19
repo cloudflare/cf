@@ -11,6 +11,6 @@ piped stdout holds only command output, as with generated commands. The auth
 and telemetry commands use clack's log lines and the `✓` success line, which,
 as with generated commands, appears only when stderr is a terminal. A command
 to run next is printed on its own line so it copies cleanly. `cf auth login`
-with `CLOUDFLARE_API_TOKEN` set now prints a single warning, and `cf auth
-logout` no longer reports removing OAuth tokens that it keeps while
-`CLOUDFLARE_API_TOKEN` is set.
+with `CLOUDFLARE_API_TOKEN` set now warns once that the token takes
+precedence, and `cf auth logout` no longer reports removing OAuth tokens that
+it keeps while `CLOUDFLARE_API_TOKEN` is set.

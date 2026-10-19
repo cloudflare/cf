@@ -80,6 +80,15 @@ const loginCommand: CommandModule<object, LoginArgs> = {
 
 		setProfile("default");
 
+		// Env credentials take precedence over OAuth, and the OAuth flow refuses
+		// to start while they are set.
+		if (getAuthFromEnv({ allowGlobalAuthKey: false }) !== undefined) {
+			log.warn(
+				`${theme.code("CLOUDFLARE_API_TOKEN")} is set and takes precedence. Unset it to log in via OAuth.`
+			);
+			return;
+		}
+
 		if (!argv.force && isOAuthLoggedIn()) {
 			// Verify the stored tokens actually work, refreshing if needed.
 			const validToken = await getValidToken();
@@ -109,15 +118,6 @@ const loginCommand: CommandModule<object, LoginArgs> = {
 			);
 		} else if (argv.force && isOAuthLoggedIn()) {
 			log.info("Re-authenticating...");
-		}
-
-		// The OAuth flow refuses to start while env credentials are present,
-		// so say so once instead of starting it.
-		if (getAuthFromEnv({ allowGlobalAuthKey: false }) !== undefined) {
-			log.warn(
-				`${theme.code("CLOUDFLARE_API_TOKEN")} is set and takes precedence. Unset it to log in via OAuth.`
-			);
-			return;
 		}
 
 		log.info("Starting OAuth login flow...");

@@ -5,6 +5,6 @@
 	"type": "module",
 	"dependencies": {
 		"cf": "workspace:*",
-		"wrangler": "4.151.1"
+		"wrangler": "4.151.2"
 	}
 }

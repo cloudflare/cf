@@ -53,6 +53,11 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description:
 				"Indicate whether the DOH endpoint is enabled for this location.",
 		})
+		.option("endpoints-doh-networks", {
+			type: "string",
+			description:
+				"Specify the list of allowed source IP network ranges for this endpoint. When the list is empty, the endpoint allows all source IPs. The list takes effect only if the endpoint is enabled for this location. Provide as a JSON array of objects or @path/to/file.json.",
+		})
 		.option("endpoints-doh-require-token", {
 			type: "boolean",
 			description:
@@ -63,6 +68,11 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description:
 				"Indicate whether the DOT endpoint is enabled for this location.",
 		})
+		.option("endpoints-dot-networks", {
+			type: "string",
+			description:
+				"Specify the list of allowed source IP network ranges for this endpoint. When the list is empty, the endpoint allows all source IPs. The list takes effect only if the endpoint is enabled for this location. Provide as a JSON array of objects or @path/to/file.json.",
+		})
 		.option("endpoints-ipv4-enabled", {
 			type: "boolean",
 			description:
@@ -72,6 +82,11 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			type: "boolean",
 			description:
 				"Indicate whether the IPV6 endpoint is enabled for this location.",
+		})
+		.option("endpoints-ipv6-networks", {
+			type: "string",
+			description:
+				"Specify the list of allowed source IPv6 network ranges for this endpoint. When the list is empty, the endpoint allows all source IPs. The list takes effect only if the endpoint is enabled for this location. Provide as a JSON array of objects or @path/to/file.json.",
 		})
 		.option("max-ttl-mode", {
 			type: "string",
@@ -171,16 +186,28 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 										endpoints: {
 											doh: {
 												enabled: argv["endpoints-doh-enabled"],
+												networks: parseObjectArray(
+													argv["endpoints-doh-networks"],
+													"endpoints-doh-networks"
+												),
 												require_token: argv["endpoints-doh-require-token"],
 											},
 											dot: {
 												enabled: argv["endpoints-dot-enabled"],
+												networks: parseObjectArray(
+													argv["endpoints-dot-networks"],
+													"endpoints-dot-networks"
+												),
 											},
 											ipv4: {
 												enabled: argv["endpoints-ipv4-enabled"],
 											},
 											ipv6: {
 												enabled: argv["endpoints-ipv6-enabled"],
+												networks: parseObjectArray(
+													argv["endpoints-ipv6-networks"],
+													"endpoints-ipv6-networks"
+												),
 											},
 										},
 										max_ttl: {
@@ -233,16 +260,28 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					endpoints: {
 						doh: {
 							enabled: argv["endpoints-doh-enabled"],
+							networks: parseObjectArray(
+								argv["endpoints-doh-networks"],
+								"endpoints-doh-networks"
+							),
 							require_token: argv["endpoints-doh-require-token"],
 						},
 						dot: {
 							enabled: argv["endpoints-dot-enabled"],
+							networks: parseObjectArray(
+								argv["endpoints-dot-networks"],
+								"endpoints-dot-networks"
+							),
 						},
 						ipv4: {
 							enabled: argv["endpoints-ipv4-enabled"],
 						},
 						ipv6: {
 							enabled: argv["endpoints-ipv6-enabled"],
+							networks: parseObjectArray(
+								argv["endpoints-ipv6-networks"],
+								"endpoints-ipv6-networks"
+							),
 						},
 					},
 					max_ttl: {

@@ -5,6 +5,7 @@ import {
 	parseBody,
 	parseJsonMap,
 	parseObjectArray,
+	parseNestedArray,
 	parseScalarValue,
 	setNestedValue,
 } from "../../lib/body-parser.js";
@@ -340,5 +341,39 @@ describe("JSON maps", () => {
 				"--body must include a JSON object at settings.tags"
 			);
 		}
+	});
+});
+
+describe("parseNestedArray", () => {
+	runInTempDir();
+
+	it("preserves nested JSON values and explicit empty arrays", async () => {
+		const value = [[{ field: "x", values: [1, false, null] }], []];
+		await seed({ "nested arrays.json": JSON.stringify(value) });
+		expect(parseNestedArray(JSON.stringify(value), "groups")).toEqual(value);
+		expect(parseNestedArray("@nested arrays.json", "groups")).toEqual(value);
+		expect(parseNestedArray("[]", "groups")).toEqual([]);
+		expect(parseNestedArray(undefined, "groups")).toBeUndefined();
+	});
+
+	it.each(["null", "{}", "[null]", "[1]", "[{}]"])(
+		"rejects non-array items in %s",
+		(input) => {
+			expect(() => parseNestedArray(input, "groups")).toThrow(
+				"--groups must be a JSON array of arrays."
+			);
+		}
+	);
+
+	it("names the flag in malformed JSON and repeated-flag errors", () => {
+		expect(() => parseNestedArray("[[", "groups")).toThrow(
+			"Invalid JSON in --groups."
+		);
+		expect(() => parseNestedArray(["[]", "[]"], "groups")).toThrow(
+			"--groups must be provided once as a JSON array of arrays."
+		);
+		expect(() => parseNestedArray("@missing.json", "groups")).toThrow(
+			"--groups: cannot read file"
+		);
 	});
 });

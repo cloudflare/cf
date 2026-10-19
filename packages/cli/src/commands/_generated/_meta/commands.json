@@ -8577,6 +8577,12 @@
 					"description": "The spend_limits.enabled field"
 				},
 				{
+					"name": "spend-limits-rules",
+					"type": "string",
+					"required": false,
+					"description": "The spend_limits.rules field. Provide as a JSON array of objects or @path/to/file.json."
+				},
+				{
 					"name": "store-id",
 					"type": "string",
 					"required": false,
@@ -8587,6 +8593,12 @@
 					"type": "string",
 					"required": false,
 					"description": "The stripe.authorization field"
+				},
+				{
+					"name": "stripe-usage-events",
+					"type": "string",
+					"required": false,
+					"description": "The stripe.usage_events field. Provide as a JSON array of objects or @path/to/file.json."
 				},
 				{
 					"name": "workers-ai-billing-mode",
@@ -9341,6 +9353,12 @@
 					"description": "The spend_limits.enabled field"
 				},
 				{
+					"name": "spend-limits-rules",
+					"type": "string",
+					"required": false,
+					"description": "The spend_limits.rules field. Provide as a JSON array of objects or @path/to/file.json."
+				},
+				{
 					"name": "store-id",
 					"type": "string",
 					"required": false,
@@ -9351,6 +9369,12 @@
 					"type": "string",
 					"required": false,
 					"description": "The stripe.authorization field"
+				},
+				{
+					"name": "stripe-usage-events",
+					"type": "string",
+					"required": false,
+					"description": "The stripe.usage_events field. Provide as a JSON array of objects or @path/to/file.json."
 				},
 				{
 					"name": "workers-ai-billing-mode",
@@ -9925,6 +9949,12 @@
 					"description": "The ai_search_options.reranking.model field"
 				},
 				{
+					"name": "ai-search-options-retrieval-boost-by",
+					"type": "string",
+					"required": false,
+					"description": "Metadata fields to boost search results by. Overrides the instance-level boost_by config. Direction defaults to 'asc' for numeric/datetime fields, 'exists' for text/boolean fields. Fields must match 'timestamp' or a defined custom_metadata field. Provide as a JSON array of objects or @path/to/file.json."
+				},
+				{
 					"name": "ai-search-options-retrieval-context-expansion",
 					"type": "number",
 					"required": false,
@@ -10261,6 +10291,12 @@
 					"description": "The reranking_model field"
 				},
 				{
+					"name": "retrieval-options-boost-by",
+					"type": "string",
+					"required": false,
+					"description": "Metadata fields to boost search results by. Each entry specifies a metadata field and an optional direction. Direction defaults to 'asc' for numeric/datetime fields and 'exists' for text/boolean fields. Fields must match 'timestamp' or a defined custom_metadata field. Provide as a JSON array of objects or @path/to/file.json."
+				},
+				{
 					"name": "retrieval-options-keyword-match-mode",
 					"type": "string",
 					"required": false,
@@ -10352,6 +10388,12 @@
 					"required": false,
 					"description": "Where the crawler looks for URLs: 'sitemaps' reads sitemap XML only, 'links' follows page links only, 'all' does both.",
 					"enum": ["all", "sitemaps", "links"]
+				},
+				{
+					"name": "source-params-web-crawler-parse-options-content-selector",
+					"type": "string",
+					"required": false,
+					"description": "List of path-to-selector mappings for extracting specific content from crawled pages. Each entry pairs a URL glob pattern with a CSS selector. The first matching path wins. The crawler stores and indexes only the matched HTML fragment. Omit the field to disable content selection; the API rejects empty arrays. Provide as a JSON array of objects or @path/to/file.json."
 				},
 				{
 					"name": "source-params-web-crawler-parse-options-include-headers",
@@ -11477,6 +11519,12 @@
 					"description": "The ai_search_options.reranking.model field"
 				},
 				{
+					"name": "ai-search-options-retrieval-boost-by",
+					"type": "string",
+					"required": false,
+					"description": "Metadata fields to boost search results by. Overrides the instance-level boost_by config. Direction defaults to 'asc' for numeric/datetime fields, 'exists' for text/boolean fields. Fields must match 'timestamp' or a defined custom_metadata field. Provide as a JSON array of objects or @path/to/file.json."
+				},
+				{
 					"name": "ai-search-options-retrieval-context-expansion",
 					"type": "number",
 					"required": false,
@@ -11658,6 +11706,12 @@
 					"type": "string",
 					"required": false,
 					"description": "The ai_search_options.reranking.model field"
+				},
+				{
+					"name": "ai-search-options-retrieval-boost-by",
+					"type": "string",
+					"required": false,
+					"description": "Metadata fields to boost search results by. Overrides the instance-level boost_by config. Direction defaults to 'asc' for numeric/datetime fields, 'exists' for text/boolean fields. Fields must match 'timestamp' or a defined custom_metadata field. Provide as a JSON array of objects or @path/to/file.json."
 				},
 				{
 					"name": "ai-search-options-retrieval-context-expansion",
@@ -12206,6 +12260,12 @@
 					"type": "string",
 					"required": false,
 					"description": "The ai_search_options.reranking.model field"
+				},
+				{
+					"name": "ai-search-options-retrieval-boost-by",
+					"type": "string",
+					"required": false,
+					"description": "Metadata fields to boost search results by. Overrides the instance-level boost_by config. Direction defaults to 'asc' for numeric/datetime fields, 'exists' for text/boolean fields. Fields must match 'timestamp' or a defined custom_metadata field. Provide as a JSON array of objects or @path/to/file.json."
 				},
 				{
 					"name": "ai-search-options-retrieval-context-expansion",
@@ -12786,6 +12846,12 @@
 					"description": "The reranking_model field"
 				},
 				{
+					"name": "retrieval-options-boost-by",
+					"type": "string",
+					"required": false,
+					"description": "Metadata fields to boost search results by. Each entry specifies a metadata field and an optional direction. Direction defaults to 'asc' for numeric/datetime fields and 'exists' for text/boolean fields. Fields must match 'timestamp' or a defined custom_metadata field. Provide as a JSON array of objects or @path/to/file.json."
+				},
+				{
 					"name": "retrieval-options-keyword-match-mode",
 					"type": "string",
 					"required": false,
@@ -12876,6 +12942,12 @@
 					"required": false,
 					"description": "Where the crawler looks for URLs: 'sitemaps' reads sitemap XML only, 'links' follows page links only, 'all' does both.",
 					"enum": ["all", "sitemaps", "links"]
+				},
+				{
+					"name": "source-params-web-crawler-parse-options-content-selector",
+					"type": "string",
+					"required": false,
+					"description": "List of path-to-selector mappings for extracting specific content from crawled pages. Each entry pairs a URL glob pattern with a CSS selector. The first matching path wins. The crawler stores and indexes only the matched HTML fragment. Omit the field to disable content selection; the API rejects empty arrays. Provide as a JSON array of objects or @path/to/file.json."
 				},
 				{
 					"name": "source-params-web-crawler-parse-options-include-headers",
@@ -13853,6 +13925,24 @@
 					"description": "Usage depends on specific alert type"
 				},
 				{
+					"name": "mechanisms-email",
+					"type": "string",
+					"required": false,
+					"description": "The mechanisms.email field. Provide as a JSON array of objects or @path/to/file.json."
+				},
+				{
+					"name": "mechanisms-pagerduty",
+					"type": "string",
+					"required": false,
+					"description": "The mechanisms.pagerduty field. Provide as a JSON array of objects or @path/to/file.json."
+				},
+				{
+					"name": "mechanisms-webhooks",
+					"type": "string",
+					"required": false,
+					"description": "The mechanisms.webhooks field. Provide as a JSON array of objects or @path/to/file.json."
+				},
+				{
 					"name": "name",
 					"type": "string",
 					"required": true,
@@ -14492,6 +14582,24 @@
 					"type": "string",
 					"required": false,
 					"description": "Usage depends on specific alert type"
+				},
+				{
+					"name": "mechanisms-email",
+					"type": "string",
+					"required": false,
+					"description": "The mechanisms.email field. Provide as a JSON array of objects or @path/to/file.json."
+				},
+				{
+					"name": "mechanisms-pagerduty",
+					"type": "string",
+					"required": false,
+					"description": "The mechanisms.pagerduty field. Provide as a JSON array of objects or @path/to/file.json."
+				},
+				{
+					"name": "mechanisms-webhooks",
+					"type": "string",
+					"required": false,
+					"description": "The mechanisms.webhooks field. Provide as a JSON array of objects or @path/to/file.json."
 				},
 				{
 					"name": "name",
@@ -15895,6 +16003,12 @@
 			"arguments": [],
 			"options": [
 				{
+					"name": "credentials-keys",
+					"type": "string",
+					"required": true,
+					"description": "The credentials.keys field. Provide as a JSON array of objects or @path/to/file.json."
+				},
+				{
 					"name": "description",
 					"type": "string",
 					"required": true,
@@ -16294,6 +16408,18 @@
 					"description": "Rule expression. Requests that fail to match this expression will be subject to `action`.\n\nFor details on expressions, see the [Cloudflare Docs](https://developers.cloudflare.com/api-shield/security/jwt-validation/).\n"
 				},
 				{
+					"name": "selector-exclude",
+					"type": "string",
+					"required": false,
+					"description": "Ignore operations that were otherwise included by `include`. Provide as a JSON array of objects or @path/to/file.json."
+				},
+				{
+					"name": "selector-include",
+					"type": "string",
+					"required": false,
+					"description": "Select all matching operations. Provide as a JSON array of objects or @path/to/file.json."
+				},
+				{
 					"name": "title",
 					"type": "string",
 					"required": true,
@@ -16393,6 +16519,18 @@
 					"type": "string",
 					"required": false,
 					"description": "Rule expression. Requests that fail to match this expression will be subject to `action`.\n\nFor details on expressions, see the [Cloudflare Docs](https://developers.cloudflare.com/api-shield/security/jwt-validation/).\n"
+				},
+				{
+					"name": "selector-exclude",
+					"type": "string",
+					"required": false,
+					"description": "Ignore operations that were otherwise included by `include`. Provide as a JSON array of objects or @path/to/file.json."
+				},
+				{
+					"name": "selector-include",
+					"type": "string",
+					"required": false,
+					"description": "Select all matching operations. Provide as a JSON array of objects or @path/to/file.json."
 				},
 				{
 					"name": "title",
@@ -20466,6 +20604,12 @@
 					"type": "string",
 					"required": false,
 					"description": "Restrict results to billable metrics belonging to these product families. Values must be unique UUIDs."
+				},
+				{
+					"name": "filter-by-tags",
+					"type": "string",
+					"required": false,
+					"description": "Restrict results by resource tags. Filters for different keys are combined with AND, while values within one filter are combined with OR. Keys must be unique and are case-sensitive. Provide as a JSON array of objects or @path/to/file.json."
 				},
 				{
 					"name": "group-by",
@@ -24785,6 +24929,12 @@
 					"type": "string",
 					"required": false,
 					"description": "Repository branch to seed."
+				},
+				{
+					"name": "seed-repo-files",
+					"type": "string",
+					"required": false,
+					"description": "Files to add or replace for this build. Maximum 2. Provide as a JSON array of objects or @path/to/file.json."
 				},
 				{
 					"name": "seed-repo-owner",
@@ -31792,6 +31942,12 @@
 					"default": 24
 				},
 				{
+					"name": "intent-clauses",
+					"type": "string",
+					"required": false,
+					"description": "The intent.clauses field. Provide as a JSON array of objects or @path/to/file.json."
+				},
+				{
 					"name": "intent-indicators",
 					"type": "string",
 					"required": false,
@@ -31829,6 +31985,12 @@
 					"required": false,
 					"description": "The priority field",
 					"default": 0
+				},
+				{
+					"name": "query-branches",
+					"type": "string",
+					"required": false,
+					"description": "Event List `searchBranches`: filters within a branch are ANDed, branches are ORed. Provide as a JSON array of arrays or @path/to/file.json."
 				},
 				{
 					"name": "query-version",
@@ -32672,6 +32834,12 @@
 					"description": "Hours between digests: 6, 12, or 24. Used only when `notification_mode` is `digest`."
 				},
 				{
+					"name": "intent-clauses",
+					"type": "string",
+					"required": false,
+					"description": "The intent.clauses field. Provide as a JSON array of objects or @path/to/file.json."
+				},
+				{
 					"name": "intent-indicators",
 					"type": "string",
 					"required": false,
@@ -32707,6 +32875,12 @@
 					"type": "number",
 					"required": false,
 					"description": "The priority field"
+				},
+				{
+					"name": "query-branches",
+					"type": "string",
+					"required": false,
+					"description": "Event List `searchBranches`: filters within a branch are ANDed, branches are ORed. Provide as a JSON array of arrays or @path/to/file.json."
 				},
 				{
 					"name": "query-version",
@@ -34131,6 +34305,12 @@
 					"enum": ["eml"]
 				},
 				{
+					"name": "condition-conditions",
+					"type": "string",
+					"required": true,
+					"description": "The condition.conditions field. Provide as a JSON array of objects or @path/to/file.json."
+				},
+				{
 					"name": "condition-operator",
 					"type": "string",
 					"required": true,
@@ -34213,6 +34393,12 @@
 			"usage": "cf cloudforce-one rules email create [options]",
 			"arguments": [],
 			"options": [
+				{
+					"name": "condition-conditions",
+					"type": "string",
+					"required": true,
+					"description": "The condition.conditions field. Provide as a JSON array of objects or @path/to/file.json."
+				},
 				{
 					"name": "condition-operator",
 					"type": "string",
@@ -34479,6 +34665,12 @@
 			],
 			"options": [
 				{
+					"name": "condition-conditions",
+					"type": "string",
+					"required": false,
+					"description": "The condition.conditions field. Provide as a JSON array of objects or @path/to/file.json."
+				},
+				{
 					"name": "condition-operator",
 					"type": "string",
 					"required": false,
@@ -34580,6 +34772,12 @@
 					"enum": ["eml"]
 				},
 				{
+					"name": "condition-conditions",
+					"type": "string",
+					"required": true,
+					"description": "The condition.conditions field. Provide as a JSON array of objects or @path/to/file.json."
+				},
+				{
 					"name": "condition-operator",
 					"type": "string",
 					"required": true,
@@ -34660,6 +34858,12 @@
 			"usage": "cf cloudforce-one rules email validate [options]",
 			"arguments": [],
 			"options": [
+				{
+					"name": "condition-conditions",
+					"type": "string",
+					"required": true,
+					"description": "The condition.conditions field. Provide as a JSON array of objects or @path/to/file.json."
+				},
 				{
 					"name": "condition-operator",
 					"type": "string",
@@ -36878,6 +37082,12 @@
 					"type": "string",
 					"required": false,
 					"description": "Structured search as a JSON array of {field, op, value} objects. Use the 'in' operator with an array value to bulk-check up to 100 values. Multiple conditions are AND'd together. Max 10 conditions per request. Provide as a JSON array of objects or @path/to/file.json."
+				},
+				{
+					"name": "search-branches",
+					"type": "string",
+					"required": false,
+					"description": "OR branches of structured search filters. Filters within a branch are AND'd, branches are OR'd, and the result is AND'd with `search`: `AND(search) AND OR(AND(branch 1), ...)`. Max 8 branches of 1-10 conditions each. Not supported for analytics datasets, and `indicator` filters are not yet supported inside branches. Cursor pages carry the original branches, so do not resend them with `cursor`. Provide as a JSON array of arrays or @path/to/file.json."
 				},
 				{
 					"name": "dry-run",
@@ -39177,6 +39387,12 @@
 			"arguments": [],
 			"options": [
 				{
+					"name": "configuration-authorized-keys",
+					"type": "string",
+					"required": false,
+					"description": "The configuration.authorized_keys field. Provide as a JSON array of objects or @path/to/file.json."
+				},
+				{
 					"name": "configuration-command",
 					"type": "string",
 					"required": false,
@@ -39187,6 +39403,12 @@
 					"type": "string",
 					"required": false,
 					"description": "The entry point for the container, specifying the executable to run when the container starts.\nYou can override this at run-time. If you do, the default command from the image is ignored.\nSpecify both entrypoint and command at run-time to completely replace the image defaults.\n"
+				},
+				{
+					"name": "configuration-environment-variables",
+					"type": "string",
+					"required": false,
+					"description": "Container environment variables. Provide as a JSON array of objects or @path/to/file.json."
 				},
 				{
 					"name": "configuration-image",
@@ -39363,6 +39585,12 @@
 				}
 			],
 			"options": [
+				{
+					"name": "configuration-authorized-keys",
+					"type": "string",
+					"required": false,
+					"description": "The configuration.authorized_keys field. Provide as a JSON array of objects or @path/to/file.json."
+				},
 				{
 					"name": "configuration-wrangler-ssh-enabled",
 					"type": "boolean",
@@ -39656,6 +39884,12 @@
 					"enum": ["rolling", "new_instances"]
 				},
 				{
+					"name": "target-configuration-authorized-keys",
+					"type": "string",
+					"required": false,
+					"description": "The target_configuration.authorized_keys field. Provide as a JSON array of objects or @path/to/file.json."
+				},
+				{
 					"name": "target-configuration-command",
 					"type": "string",
 					"required": false,
@@ -39666,6 +39900,12 @@
 					"type": "string",
 					"required": false,
 					"description": "The entry point for the container, specifying the executable to run when the container starts.\nYou can override this at run-time. If you do, the default command from the image is ignored.\nSpecify both entrypoint and command at run-time to completely replace the image defaults.\n"
+				},
+				{
+					"name": "target-configuration-environment-variables",
+					"type": "string",
+					"required": false,
+					"description": "Container environment variables. Provide as a JSON array of objects or @path/to/file.json."
 				},
 				{
 					"name": "target-configuration-image",
@@ -40857,6 +41097,12 @@
 					"description": "Whether or not to add Cloudflare Branding for the order.  This will add a subdomain of sni.cloudflaressl.com as the Common Name if set to true."
 				},
 				{
+					"name": "ssl-custom-cert-bundle",
+					"type": "string",
+					"required": false,
+					"description": "Array of custom certificate and key pairs (1 or 2 pairs allowed). Provide as a JSON array of objects or @path/to/file.json."
+				},
+				{
 					"name": "ssl-custom-certificate",
 					"type": "string",
 					"required": false,
@@ -41035,6 +41281,12 @@
 					"type": "boolean",
 					"required": false,
 					"description": "Whether or not to add Cloudflare Branding for the order.  This will add a subdomain of sni.cloudflaressl.com as the Common Name if set to true."
+				},
+				{
+					"name": "ssl-custom-cert-bundle",
+					"type": "string",
+					"required": false,
+					"description": "Array of custom certificate and key pairs (1 or 2 pairs allowed). Provide as a JSON array of objects or @path/to/file.json."
 				},
 				{
 					"name": "ssl-custom-certificate",
@@ -55192,6 +55444,12 @@
 					"description": "Name of the resource group"
 				},
 				{
+					"name": "scope-objects",
+					"type": "string",
+					"required": true,
+					"description": "A list of scope objects for additional context. The number of Scope objects should not be zero. Provide as a JSON array of objects or @path/to/file.json."
+				},
+				{
 					"name": "dry-run",
 					"type": "boolean",
 					"required": false,
@@ -55334,6 +55592,12 @@
 					"type": "string",
 					"required": false,
 					"description": "Name of the resource group"
+				},
+				{
+					"name": "scope-objects",
+					"type": "string",
+					"required": false,
+					"description": "A list of scope objects for additional context. The number of Scope objects should not be zero. Provide as a JSON array of objects or @path/to/file.json."
 				},
 				{
 					"name": "dry-run",
@@ -72612,6 +72876,12 @@
 					"description": "List of DHCP server IPs."
 				},
 				{
+					"name": "static-addressing-dhcp-server-dhcp-options",
+					"type": "string",
+					"required": false,
+					"description": "Optional list of custom DHCP options to include in DHCP responses. Only valid when DHCP server is enabled. Provide as a JSON array of objects or @path/to/file.json."
+				},
+				{
 					"name": "static-addressing-dhcp-server-dhcp-pool-end",
 					"type": "string",
 					"required": false,
@@ -72800,6 +73070,12 @@
 					"type": "string",
 					"required": false,
 					"description": "List of DHCP server IPs."
+				},
+				{
+					"name": "static-addressing-dhcp-server-dhcp-options",
+					"type": "string",
+					"required": false,
+					"description": "Optional list of custom DHCP options to include in DHCP responses. Only valid when DHCP server is enabled. Provide as a JSON array of objects or @path/to/file.json."
 				},
 				{
 					"name": "static-addressing-dhcp-server-dhcp-pool-end",
@@ -73020,6 +73296,12 @@
 					"type": "string",
 					"required": false,
 					"description": "List of DHCP server IPs."
+				},
+				{
+					"name": "static-addressing-dhcp-server-dhcp-options",
+					"type": "string",
+					"required": false,
+					"description": "Optional list of custom DHCP options to include in DHCP responses. Only valid when DHCP server is enabled. Provide as a JSON array of objects or @path/to/file.json."
 				},
 				{
 					"name": "static-addressing-dhcp-server-dhcp-pool-end",
@@ -75328,6 +75610,18 @@
 					"type": "string",
 					"required": false,
 					"description": "Floating Network Resource ID — the secondary ENI that is moved between nodes on failover."
+				},
+				{
+					"name": "mesh-config-vips",
+					"type": "string",
+					"required": false,
+					"description": "VIPs to assign on the CloudflareWARP interface. Provide as a JSON array of objects or @path/to/file.json."
+				},
+				{
+					"name": "mesh-config-vips-previous",
+					"type": "string",
+					"required": false,
+					"description": "VIPs to clean up on demotion or version drift. Provide as a JSON array of objects or @path/to/file.json."
 				},
 				{
 					"name": "ha-mode",
@@ -79197,6 +79491,12 @@
 					"description": "Query name"
 				},
 				{
+					"name": "parameters-calculations",
+					"type": "string",
+					"required": false,
+					"description": "Create Calculations to compute as part of the query. Provide as a JSON array of objects or @path/to/file.json."
+				},
+				{
 					"name": "parameters-datasets",
 					"type": "string",
 					"required": false,
@@ -79208,6 +79508,24 @@
 					"required": false,
 					"description": "Set a Flag to describe how to combine the filters on the query.",
 					"enum": ["and", "or", "AND", "OR"]
+				},
+				{
+					"name": "parameters-filters",
+					"type": "string",
+					"required": false,
+					"description": "Configure the Filters to apply to the query. Supports nested groups via kind: 'group'. Provide as a JSON array of objects or @path/to/file.json."
+				},
+				{
+					"name": "parameters-group-bys",
+					"type": "string",
+					"required": false,
+					"description": "Define how to group the results of the query. Provide as a JSON array of objects or @path/to/file.json."
+				},
+				{
+					"name": "parameters-havings",
+					"type": "string",
+					"required": false,
+					"description": "Configure the Having clauses that filter on calculations in the query result. Provide as a JSON array of objects or @path/to/file.json."
 				},
 				{
 					"name": "parameters-limit",
@@ -79323,6 +79641,12 @@
 					"description": "Query name"
 				},
 				{
+					"name": "parameters-calculations",
+					"type": "string",
+					"required": false,
+					"description": "Create Calculations to compute as part of the query. Provide as a JSON array of objects or @path/to/file.json."
+				},
+				{
 					"name": "parameters-datasets",
 					"type": "string",
 					"required": false,
@@ -79334,6 +79658,24 @@
 					"required": false,
 					"description": "Set a Flag to describe how to combine the filters on the query.",
 					"enum": ["and", "or", "AND", "OR"]
+				},
+				{
+					"name": "parameters-filters",
+					"type": "string",
+					"required": false,
+					"description": "Configure the Filters to apply to the query. Supports nested groups via kind: 'group'. Provide as a JSON array of objects or @path/to/file.json."
+				},
+				{
+					"name": "parameters-group-bys",
+					"type": "string",
+					"required": false,
+					"description": "Define how to group the results of the query. Provide as a JSON array of objects or @path/to/file.json."
+				},
+				{
+					"name": "parameters-havings",
+					"type": "string",
+					"required": false,
+					"description": "Configure the Having clauses that filter on calculations in the query result. Provide as a JSON array of objects or @path/to/file.json."
 				},
 				{
 					"name": "parameters-limit",
@@ -79548,6 +79890,12 @@
 					"description": "Pagination direction: 'next' for forward, 'prev' for backward."
 				},
 				{
+					"name": "parameters-calculations",
+					"type": "string",
+					"required": false,
+					"description": "Aggregation calculations to compute (e.g. count, avg, p99). Each calculation produces aggregate values and optional time-series data. Provide as a JSON array of objects or @path/to/file.json."
+				},
+				{
 					"name": "parameters-datasets",
 					"type": "string",
 					"required": false,
@@ -79559,6 +79907,24 @@
 					"required": false,
 					"description": "Logical operator for combining top-level filters: 'and' (all must match) or 'or' (any must match). Defaults to 'and'.",
 					"enum": ["and", "or", "AND", "OR"]
+				},
+				{
+					"name": "parameters-filters",
+					"type": "string",
+					"required": false,
+					"description": "Filters to narrow query results. Use the keys and values endpoints to discover available fields before building filters. Supports nested groups via kind: 'group'. Maximum nesting depth is 4. Provide as a JSON array of objects or @path/to/file.json."
+				},
+				{
+					"name": "parameters-group-bys",
+					"type": "string",
+					"required": false,
+					"description": "Fields to group calculation results by. Only applicable when the query view is 'calculations'. Produces per-group aggregate values. Provide as a JSON array of objects or @path/to/file.json."
+				},
+				{
+					"name": "parameters-havings",
+					"type": "string",
+					"required": false,
+					"description": "Post-aggregation filters applied to calculation results. Use to filter groups after aggregation (e.g. only groups where count > 100). Provide as a JSON array of objects or @path/to/file.json."
 				},
 				{
 					"name": "parameters-limit",
@@ -79933,6 +80299,12 @@
 					"description": "Pagination direction: 'next' for forward, 'prev' for backward."
 				},
 				{
+					"name": "parameters-calculations",
+					"type": "string",
+					"required": false,
+					"description": "Aggregation calculations to compute (e.g. count, avg, p99). Each calculation produces aggregate values and optional time-series data. Provide as a JSON array of objects or @path/to/file.json."
+				},
+				{
 					"name": "parameters-datasets",
 					"type": "string",
 					"required": false,
@@ -79944,6 +80316,24 @@
 					"required": false,
 					"description": "Logical operator for combining top-level filters: 'and' (all must match) or 'or' (any must match). Defaults to 'and'.",
 					"enum": ["and", "or", "AND", "OR"]
+				},
+				{
+					"name": "parameters-filters",
+					"type": "string",
+					"required": false,
+					"description": "Filters to narrow query results. Use the keys and values endpoints to discover available fields before building filters. Supports nested groups via kind: 'group'. Maximum nesting depth is 4. Provide as a JSON array of objects or @path/to/file.json."
+				},
+				{
+					"name": "parameters-group-bys",
+					"type": "string",
+					"required": false,
+					"description": "Fields to group calculation results by. Only applicable when the query view is 'calculations'. Produces per-group aggregate values. Provide as a JSON array of objects or @path/to/file.json."
+				},
+				{
+					"name": "parameters-havings",
+					"type": "string",
+					"required": false,
+					"description": "Post-aggregation filters applied to calculation results. Use to filter groups after aggregation (e.g. only groups where count > 100). Provide as a JSON array of objects or @path/to/file.json."
 				},
 				{
 					"name": "parameters-limit",
@@ -85804,6 +86194,12 @@
 					"description": "Defines the name of the Sink."
 				},
 				{
+					"name": "schema-fields",
+					"type": "string",
+					"required": false,
+					"description": "The schema.fields field. Provide as a JSON array of objects or @path/to/file.json."
+				},
+				{
 					"name": "schema-inferred",
 					"type": "boolean",
 					"required": false,
@@ -86021,6 +86417,12 @@
 					"type": "string",
 					"required": true,
 					"description": "Specifies the name of the Stream."
+				},
+				{
+					"name": "schema-fields",
+					"type": "string",
+					"required": false,
+					"description": "The schema.fields field. Provide as a JSON array of objects or @path/to/file.json."
 				},
 				{
 					"name": "schema-inferred",
@@ -109649,6 +110051,12 @@
 					"description": "The config.upstreams.enabled field"
 				},
 				{
+					"name": "relay-config-upstreams-upstreams",
+					"type": "string",
+					"required": false,
+					"description": "Ordered list of upstream MOQT server publishers. Each entry is an\nobject (not a bare string) so per-upstream configuration can be\nadded in the future without another breaking change.\n. Provide as a JSON array of objects or @path/to/file.json."
+				},
+				{
 					"name": "name",
 					"type": "string",
 					"required": false,
@@ -124254,6 +124662,12 @@
 			],
 			"options": [
 				{
+					"name": "tunnel-config-ingress",
+					"type": "string",
+					"required": false,
+					"description": "List of public hostname definitions. At least one ingress rule needs to be defined for the tunnel. Provide as a JSON array of objects or @path/to/file.json."
+				},
+				{
 					"name": "tunnel-config-origin-request-access-aud-tag",
 					"type": "string",
 					"required": false,
@@ -134340,6 +134754,12 @@
 					"description": "Repository branch to seed."
 				},
 				{
+					"name": "seed-repo-files",
+					"type": "string",
+					"required": false,
+					"description": "Files to add or replace for this build. Maximum 2. Provide as a JSON array of objects or @path/to/file.json."
+				},
+				{
 					"name": "seed-repo-owner",
 					"type": "string",
 					"required": false,
@@ -144354,6 +144774,18 @@
 			"arguments": [],
 			"options": [
 				{
+					"name": "actions-remediation-types",
+					"type": "string",
+					"required": false,
+					"description": "Remediation actions to execute (at most one). Provide as a JSON array of objects or @path/to/file.json."
+				},
+				{
+					"name": "actions-webhook-configs",
+					"type": "string",
+					"required": false,
+					"description": "Webhook actions to execute. Provide as a JSON array of objects or @path/to/file.json."
+				},
+				{
 					"name": "applies-to-all-integrations",
 					"type": "boolean",
 					"required": true,
@@ -144521,6 +144953,18 @@
 				}
 			],
 			"options": [
+				{
+					"name": "actions-remediation-types",
+					"type": "string",
+					"required": false,
+					"description": "Remediation actions to execute (at most one). Provide as a JSON array of objects or @path/to/file.json."
+				},
+				{
+					"name": "actions-webhook-configs",
+					"type": "string",
+					"required": false,
+					"description": "Webhook actions to execute. Provide as a JSON array of objects or @path/to/file.json."
+				},
 				{
 					"name": "applies-to-all-integrations",
 					"type": "boolean",
@@ -157977,6 +158421,12 @@
 					"description": "Indicate whether the DOH endpoint is enabled for this location."
 				},
 				{
+					"name": "endpoints-doh-networks",
+					"type": "string",
+					"required": false,
+					"description": "Specify the list of allowed source IP network ranges for this endpoint. When the list is empty, the endpoint allows all source IPs. The list takes effect only if the endpoint is enabled for this location. Provide as a JSON array of objects or @path/to/file.json."
+				},
+				{
 					"name": "endpoints-doh-require-token",
 					"type": "boolean",
 					"required": false,
@@ -157989,6 +158439,12 @@
 					"description": "Indicate whether the DOT endpoint is enabled for this location."
 				},
 				{
+					"name": "endpoints-dot-networks",
+					"type": "string",
+					"required": false,
+					"description": "Specify the list of allowed source IP network ranges for this endpoint. When the list is empty, the endpoint allows all source IPs. The list takes effect only if the endpoint is enabled for this location. Provide as a JSON array of objects or @path/to/file.json."
+				},
+				{
 					"name": "endpoints-ipv4-enabled",
 					"type": "boolean",
 					"required": false,
@@ -157999,6 +158455,12 @@
 					"type": "boolean",
 					"required": false,
 					"description": "Indicate whether the IPV6 endpoint is enabled for this location."
+				},
+				{
+					"name": "endpoints-ipv6-networks",
+					"type": "string",
+					"required": false,
+					"description": "Specify the list of allowed source IPv6 network ranges for this endpoint. When the list is empty, the endpoint allows all source IPs. The list takes effect only if the endpoint is enabled for this location. Provide as a JSON array of objects or @path/to/file.json."
 				},
 				{
 					"name": "max-ttl-mode",
@@ -158208,6 +158670,12 @@
 					"description": "Indicate whether the DOH endpoint is enabled for this location."
 				},
 				{
+					"name": "endpoints-doh-networks",
+					"type": "string",
+					"required": false,
+					"description": "Specify the list of allowed source IP network ranges for this endpoint. When the list is empty, the endpoint allows all source IPs. The list takes effect only if the endpoint is enabled for this location. Provide as a JSON array of objects or @path/to/file.json."
+				},
+				{
 					"name": "endpoints-doh-require-token",
 					"type": "boolean",
 					"required": false,
@@ -158220,6 +158688,12 @@
 					"description": "Indicate whether the DOT endpoint is enabled for this location."
 				},
 				{
+					"name": "endpoints-dot-networks",
+					"type": "string",
+					"required": false,
+					"description": "Specify the list of allowed source IP network ranges for this endpoint. When the list is empty, the endpoint allows all source IPs. The list takes effect only if the endpoint is enabled for this location. Provide as a JSON array of objects or @path/to/file.json."
+				},
+				{
 					"name": "endpoints-ipv4-enabled",
 					"type": "boolean",
 					"required": false,
@@ -158230,6 +158704,12 @@
 					"type": "boolean",
 					"required": false,
 					"description": "Indicate whether the IPV6 endpoint is enabled for this location."
+				},
+				{
+					"name": "endpoints-ipv6-networks",
+					"type": "string",
+					"required": false,
+					"description": "Specify the list of allowed source IPv6 network ranges for this endpoint. When the list is empty, the endpoint allows all source IPs. The list takes effect only if the endpoint is enabled for this location. Provide as a JSON array of objects or @path/to/file.json."
 				},
 				{
 					"name": "max-ttl-mode",
@@ -159021,6 +159501,18 @@
 					"description": "Remove headers from allowed requests by name. A maximum of 20 header operations (add + set + delete) is allowed per policy. Each header name may not exceed 256 bytes. Settable only for `http` rules with the action set to `allow`."
 				},
 				{
+					"name": "rule-settings-dns-resolvers-ipv4",
+					"type": "string",
+					"required": false,
+					"description": "The rule_settings.dns_resolvers.ipv4 field. Provide as a JSON array of objects or @path/to/file.json."
+				},
+				{
+					"name": "rule-settings-dns-resolvers-ipv6",
+					"type": "string",
+					"required": false,
+					"description": "The rule_settings.dns_resolvers.ipv6 field. Provide as a JSON array of objects or @path/to/file.json."
+				},
+				{
 					"name": "rule-settings-egress-ipv4",
 					"type": "string",
 					"required": false,
@@ -159663,6 +160155,18 @@
 					"type": "string",
 					"required": false,
 					"description": "Remove headers from allowed requests by name. A maximum of 20 header operations (add + set + delete) is allowed per policy. Each header name may not exceed 256 bytes. Settable only for `http` rules with the action set to `allow`."
+				},
+				{
+					"name": "rule-settings-dns-resolvers-ipv4",
+					"type": "string",
+					"required": false,
+					"description": "The rule_settings.dns_resolvers.ipv4 field. Provide as a JSON array of objects or @path/to/file.json."
+				},
+				{
+					"name": "rule-settings-dns-resolvers-ipv6",
+					"type": "string",
+					"required": false,
+					"description": "The rule_settings.dns_resolvers.ipv6 field. Provide as a JSON array of objects or @path/to/file.json."
 				},
 				{
 					"name": "rule-settings-egress-ipv4",

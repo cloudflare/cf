@@ -348,8 +348,9 @@ function arrayBodyParam(
 	const resolvedItems = resolve(items);
 	const scalar =
 		resolvedItems.kind === "string" || resolvedItems.kind === "number";
-	const objects = path.length === 1 && isObjectValued(items, []);
-	if (!scalar && !objects) {
+	const objects = isObjectValued(items, []);
+	const nested = resolvedItems.kind === "array";
+	if (!scalar && !objects && !nested) {
 		return undefined;
 	}
 	const info: BodyParamInfo = {
@@ -361,6 +362,8 @@ function arrayBodyParam(
 	};
 	if (objects) {
 		info.itemType = "object";
+	} else if (nested) {
+		info.itemType = "array";
 	}
 	info.description = prop.description;
 	info.sensitive = prop.sensitive;

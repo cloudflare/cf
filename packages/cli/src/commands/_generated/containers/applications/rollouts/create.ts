@@ -68,6 +68,11 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			choices: ["rolling", "new_instances"],
 		})
 		.coerce("strategy", (value) => resolveFileToken(value, "strategy", "text"))
+		.option("target-configuration-authorized-keys", {
+			type: "string",
+			description:
+				"The target_configuration.authorized_keys field. Provide as a JSON array of objects or @path/to/file.json.",
+		})
 		.option("target-configuration-command", {
 			type: "string",
 			array: true,
@@ -79,6 +84,11 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			array: true,
 			description:
 				"The entry point for the container, specifying the executable to run when the container starts.\nYou can override this at run-time. If you do, the default command from the image is ignored.\nSpecify both entrypoint and command at run-time to completely replace the image defaults.\n",
+		})
+		.option("target-configuration-environment-variables", {
+			type: "string",
+			description:
+				"Container environment variables. Provide as a JSON array of objects or @path/to/file.json.",
 		})
 		.option("target-configuration-image", {
 			type: "string",
@@ -165,8 +175,16 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 										steps: parseObjectArray(argv["steps"], "steps"),
 										strategy: argv["strategy"],
 										target_configuration: {
+											authorized_keys: parseObjectArray(
+												argv["target-configuration-authorized-keys"],
+												"target-configuration-authorized-keys"
+											),
 											command: argv["target-configuration-command"],
 											entrypoint: argv["target-configuration-entrypoint"],
+											environment_variables: parseObjectArray(
+												argv["target-configuration-environment-variables"],
+												"target-configuration-environment-variables"
+											),
 											image: resolveFileToken(
 												argv["target-configuration-image"] as
 													| string
@@ -231,8 +249,16 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					steps: parseObjectArray(argv["steps"], "steps"),
 					strategy: argv["strategy"],
 					target_configuration: {
+						authorized_keys: parseObjectArray(
+							argv["target-configuration-authorized-keys"],
+							"target-configuration-authorized-keys"
+						),
 						command: argv["target-configuration-command"],
 						entrypoint: argv["target-configuration-entrypoint"],
+						environment_variables: parseObjectArray(
+							argv["target-configuration-environment-variables"],
+							"target-configuration-environment-variables"
+						),
 						image: resolveFileToken(
 							argv["target-configuration-image"] as string | undefined,
 							"target-configuration-image",

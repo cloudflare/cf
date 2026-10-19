@@ -28,6 +28,11 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.usage(
 			"$0 cloudforce-one rules email validate\n\nValidates structured email rule syntax and metadata."
 		)
+		.option("condition-conditions", {
+			type: "string",
+			description:
+				"The condition.conditions field. Provide as a JSON array of objects or @path/to/file.json.",
+		})
 		.option("condition-operator", {
 			type: "string",
 			description: "The condition.operator field",
@@ -123,6 +128,10 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 								? parseBody(argv.body)
 								: compactBody({
 										condition: {
+											conditions: parseObjectArray(
+												argv["condition-conditions"],
+												"condition-conditions"
+											),
 											operator: argv["condition-operator"],
 											type: argv["condition-type"],
 										},
@@ -161,6 +170,11 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					formatOutput(result, { successLabel: `Validated` });
 					return;
 				}
+				if (argv["condition-conditions"] === undefined) {
+					throw new Error(
+						"--condition-conditions is required (or pass --body with this field set)."
+					);
+				}
 				if (argv["condition-operator"] === undefined) {
 					argv["condition-operator"] = await promptForRequiredEnumField(
 						"condition-operator",
@@ -182,6 +196,10 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				// Assemble request body from individual flags
 				const bodyData = compactBody({
 					condition: {
+						conditions: parseObjectArray(
+							argv["condition-conditions"],
+							"condition-conditions"
+						),
 						operator: argv["condition-operator"],
 						type: argv["condition-type"],
 					},

@@ -11,7 +11,7 @@ import {
 	getAccountId,
 	resolveAccountIdSilent,
 } from "#lib/auth.js";
-import { compactBody, parseBody } from "#lib/body-parser.js";
+import { compactBody, parseBody, parseObjectArray } from "#lib/body-parser.js";
 import { formatDryRun } from "#lib/dry-run.js";
 import { resolveFileToken } from "#lib/input-validation.js";
 import { LOCAL_ACCOUNT_ID } from "#lib/local.js";
@@ -28,6 +28,11 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.usage(
 			'$0 containers applications create\n\nCreate a Containers application. Use `scheduling_policy: "default"` for a scheduler-backed application. The Containers scheduler maintains the requested instance count and manages deployment configuration, placement, scaling, versions, and rollouts. Use `scheduling_policy: "durable_object"` for a Durable Object-managed application. Each Durable Object creates and manages the lifecycle of its container instance. Supply `name`, `scheduling_policy`, and `durable_objects`, with optional `configuration` and optional top-level `observability` settings. Deployment configuration, scaling, constraints, versions, and rollouts do not apply.'
 		)
+		.option("configuration-authorized-keys", {
+			type: "string",
+			description:
+				"The configuration.authorized_keys field. Provide as a JSON array of objects or @path/to/file.json.",
+		})
 		.option("configuration-command", {
 			type: "string",
 			array: true,
@@ -39,6 +44,11 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			array: true,
 			description:
 				"The entry point for the container, specifying the executable to run when the container starts.\nYou can override this at run-time. If you do, the default command from the image is ignored.\nSpecify both entrypoint and command at run-time to completely replace the image defaults.\n",
+		})
+		.option("configuration-environment-variables", {
+			type: "string",
+			description:
+				"Container environment variables. Provide as a JSON array of objects or @path/to/file.json.",
 		})
 		.option("configuration-image", {
 			type: "string",
@@ -138,6 +148,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		})
 		.conflicts("configuration-command", ["configuration-wrangler-ssh-port"])
 		.conflicts("configuration-entrypoint", ["configuration-wrangler-ssh-port"])
+		.conflicts("configuration-environment-variables", [
+			"configuration-wrangler-ssh-port",
+		])
 		.conflicts("configuration-image", ["configuration-wrangler-ssh-port"])
 		.conflicts("configuration-instance-type", [
 			"configuration-wrangler-ssh-port",
@@ -145,6 +158,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.conflicts("configuration-wrangler-ssh-port", [
 			"configuration-command",
 			"configuration-entrypoint",
+			"configuration-environment-variables",
 			"configuration-image",
 			"configuration-instance-type",
 			"constraints-jurisdiction",
@@ -208,8 +222,16 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 								? parseBody(argv.body)
 								: compactBody({
 										configuration: {
+											authorized_keys: parseObjectArray(
+												argv["configuration-authorized-keys"],
+												"configuration-authorized-keys"
+											),
 											command: argv["configuration-command"],
 											entrypoint: argv["configuration-entrypoint"],
+											environment_variables: parseObjectArray(
+												argv["configuration-environment-variables"],
+												"configuration-environment-variables"
+											),
 											image: resolveFileToken(
 												argv["configuration-image"] as string | undefined,
 												"configuration-image",
@@ -306,8 +328,16 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				// Assemble request body from individual flags
 				const bodyData = compactBody({
 					configuration: {
+						authorized_keys: parseObjectArray(
+							argv["configuration-authorized-keys"],
+							"configuration-authorized-keys"
+						),
 						command: argv["configuration-command"],
 						entrypoint: argv["configuration-entrypoint"],
+						environment_variables: parseObjectArray(
+							argv["configuration-environment-variables"],
+							"configuration-environment-variables"
+						),
 						image: resolveFileToken(
 							argv["configuration-image"] as string | undefined,
 							"configuration-image",

@@ -36,6 +36,11 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description:
 				"Restrict results to billable metrics belonging to these product families. Values must be unique UUIDs.",
 		})
+		.option("filter-by-tags", {
+			type: "string",
+			description:
+				"Restrict results by resource tags. Filters for different keys are combined with AND, while values within one filter are combined with OR. Keys must be unique and are case-sensitive. Provide as a JSON array of objects or @path/to/file.json.",
+		})
 		.option("group-by", {
 			type: "string",
 			description:
@@ -101,6 +106,10 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 										FilterBy: {
 											BillableMetricIds: argv["filter-by-billable-metric-ids"],
 											ProductFamilyIds: argv["filter-by-product-family-ids"],
+											Tags: parseObjectArray(
+												argv["filter-by-tags"],
+												"filter-by-tags"
+											),
 										},
 										GroupBy: parseObjectArray(argv["group-by"], "group-by"),
 										Metric: argv["metric"],
@@ -138,6 +147,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					FilterBy: {
 						BillableMetricIds: argv["filter-by-billable-metric-ids"],
 						ProductFamilyIds: argv["filter-by-product-family-ids"],
+						Tags: parseObjectArray(argv["filter-by-tags"], "filter-by-tags"),
 					},
 					GroupBy: parseObjectArray(argv["group-by"], "group-by"),
 					Metric: argv["metric"],

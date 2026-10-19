@@ -55,7 +55,11 @@
 		},
 		{
 			description: "Update workers-sdk dependencies used only by tests and fixtures together",
-			matchPackageNames: ["@cloudflare/vite-plugin", "wrangler"],
+			matchPackageNames: [
+				"@cloudflare/vite-plugin",
+				"@cloudflare/workers-types",
+				"wrangler",
+			],
 			groupName: "workers-sdk derived test and fixture dependencies",
 			groupSlug: "workers-sdk-test-fixtures",
 			minimumReleaseAge: "0 minutes",

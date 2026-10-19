@@ -1,3 +1,4 @@
+import { getAuthFromEnv } from "@cloudflare/workers-auth";
 import {
 	getActiveProfile,
 	getConfigPath,
@@ -35,7 +36,8 @@ const logoutCommand: CommandModule<object, CommonYargsOptions> = {
 		setProfile("default");
 
 		const hasOAuthTokens = isOAuthLoggedIn();
-		const hasEnvToken = !!process.env.CLOUDFLARE_API_TOKEN;
+		const hasEnvToken =
+			getAuthFromEnv({ allowGlobalAuthKey: false }) !== undefined;
 
 		if (!hasOAuthTokens) {
 			if (hasEnvToken) {
@@ -51,13 +53,13 @@ const logoutCommand: CommandModule<object, CommonYargsOptions> = {
 
 		await logout("default");
 
-		printSuccess(`Removed OAuth tokens from ${theme.muted(getConfigPath())}`);
-
+		// workers-auth keeps the stored tokens, and says why, while env
+		// credentials are set.
 		if (hasEnvToken) {
-			log.warn(
-				`${theme.code("CLOUDFLARE_API_TOKEN")} is still set, so you remain authenticated. Unset it to log out.`
-			);
+			return;
 		}
+
+		printSuccess(`Removed OAuth tokens from ${theme.muted(getConfigPath())}`);
 	},
 };
 

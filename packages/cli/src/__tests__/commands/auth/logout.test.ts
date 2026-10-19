@@ -1,4 +1,7 @@
-import { writeAuthConfigFile } from "@cloudflare/workers-auth/cf";
+import {
+	readAuthConfigFile,
+	writeAuthConfigFile,
+} from "@cloudflare/workers-auth/cf";
 import { runInTempDir } from "@cloudflare/workers-utils/test-helpers";
 import { http, HttpResponse } from "msw/http";
 import { beforeEach, describe, expect, it } from "vite-plus/test";
@@ -59,14 +62,17 @@ describe("cf auth logout", () => {
 		);
 	});
 
-	it("warns that the environment token still authenticates after logout", async () => {
+	it("keeps the OAuth tokens while the environment token is set", async () => {
 		createDefaultProfile();
+		std.setStderrTTY(true);
 
 		await runCf(["auth", "logout"], { CLOUDFLARE_API_TOKEN: "env-token" });
 
+		expect(readAuthConfigFile("default")?.oauth_token).toBe("token");
 		expect(std.out).toBe("");
 		expect(std.err).toContain(
-			"▲  CLOUDFLARE_API_TOKEN is still set, so you remain authenticated. Unset it to log out."
+			"Unset the CLOUDFLARE_API_TOKEN in the environment to log out."
 		);
+		expect(std.err).not.toContain("✓");
 	});
 });

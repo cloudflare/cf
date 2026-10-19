@@ -3,6 +3,7 @@ import { dirname, join } from "node:path";
 import { getGlobalConfigPath } from "@cloudflare/workers-utils";
 import { http, HttpResponse } from "msw/http";
 import { describe, it } from "vite-plus/test";
+import { mockClackStderrLog } from "./helpers/mock-clack-log";
 import { mockConsoleMethods } from "./helpers/mock-console";
 import { msw } from "./helpers/msw";
 import { runInTempDir } from "./helpers/run-in-tmp";
@@ -27,6 +28,7 @@ function cfAuthFilePath(): string {
 describe("logout", () => {
 	runInTempDir();
 	const std = mockConsoleMethods();
+	mockClackStderrLog();
 
 	// cf's `loadTokens()` / `loadApiToken()` now resolve their paths via
 	// `homedir()` at call time, so `runInTempDir()`'s HOME stub correctly
@@ -35,8 +37,8 @@ describe("logout", () => {
 		expect,
 	}) => {
 		await runWrangler("auth logout", { CLOUDFLARE_API_TOKEN: undefined });
-		// cf prints the hint on stderr through clack, which this suite mocks.
 		expect(std.out).toBe("");
+		expect(std.err).toContain("You are not currently logged in.");
 	});
 
 	// Env `CLOUDFLARE_API_TOKEN` set with no on-disk credentials in the
@@ -46,6 +48,9 @@ describe("logout", () => {
 	}) => {
 		await runWrangler("auth logout", { CLOUDFLARE_API_TOKEN: "DUMMY_TOKEN" });
 		expect(std.out).toBe("");
+		expect(std.err).toContain(
+			"No cf OAuth credentials found, but CLOUDFLARE_API_TOKEN is set. Unset it to log out."
+		);
 	});
 
 	// Ported now that token paths resolve via `homedir()` at call time
@@ -86,8 +91,8 @@ describe("logout", () => {
 
 		await runWrangler("auth logout", { CLOUDFLARE_API_TOKEN: undefined });
 
-		// cf confirms the removal on stderr, and only in a terminal.
 		expect(std.out).toBe("");
+		expect(std.err).toContain("Successfully logged out.");
 		// The refresh token was sent to the revocation endpoint.
 		expect(revoked).toBe(true);
 		// And the on-disk token file was removed.

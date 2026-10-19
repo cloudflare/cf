@@ -54,7 +54,8 @@ const logoutCommand: CommandModule<object, CommonYargsOptions> = {
 		await logout("default");
 
 		// workers-auth keeps the stored tokens, and says why, while env
-		// credentials are set.
+		// credentials are set. See `logout()` in
+		// https://github.com/cloudflare/workers-sdk/blob/%40cloudflare/workers-auth%400.14.0/packages/workers-auth/src/flow.ts
 		if (hasEnvToken) {
 			return;
 		}

@@ -656,6 +656,8 @@ These have stabilised this repo's voice; preserve them.
   stderr. Use `lib/ui/log.ts` for notices and warnings and `printSuccess`
   for success lines. A next step or fix goes on its own line
   (`printCommands`); other commands in a message are styled as code.
+  Prompts, spinners and the init, build and deploy flows still write to
+  stdout until they move.
 - **Splash screen:** bare `cf` prints the headline, a short getting-started list, and the docs link. Yargs owns root, group, and command help rendering.
 
 ## Global Flags

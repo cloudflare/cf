@@ -19,7 +19,7 @@ Each upstream case has exactly one outcome:
 
 [MANIFEST.md](./MANIFEST.md) records every canonical upstream identity, including full `describe()` ancestry where leaf names repeat. It currently contains 5,476 cases: 624 passing, 1,498 todo, and 3,354 skip.
 
-The package has 109 test files: 97 ported/adapted files and 12 generated fallback shards under `src/__tests__/upstream/`. File count and canonical-case count are different units.
+The package has 110 test files: 98 ported/adapted files and 12 generated fallback shards under `src/__tests__/upstream/`. File count and canonical-case count are different units.
 
 ## Running the suite
 

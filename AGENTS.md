@@ -652,9 +652,9 @@ These have stabilised this repo's voice; preserve them.
 - **Secret prompt:** clack.password (masks input).
 - **Success line:** `✓ <successLabel>` on stderr; null/undefined API
   results suppress stdout output entirely.
-- **Messages:** stdout carries only command output. Hand-written commands
-  print notices and warnings to stderr through `lib/ui/log.ts` and success
-  lines through `printSuccess`. A next step or fix goes on its own line
+- **Messages:** stdout carries only command output; every message goes to
+  stderr. Use `lib/ui/log.ts` for notices and warnings and `printSuccess`
+  for success lines. A next step or fix goes on its own line
   (`printCommands`); other commands in a message are styled as code.
 - **Splash screen:** bare `cf` prints the headline, a short getting-started list, and the docs link. Yargs owns root, group, and command help rendering.
 

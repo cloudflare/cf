@@ -260,9 +260,7 @@ function flagName(name: string): string {
 
 function cliFlagName(name: string): string | undefined {
 	const flag = flagName(name);
-	return ["mode", "temporary-account", "event-code"].includes(
-		flag.toLowerCase()
-	)
+	return ["mode", "temporary-account", "event-code"].includes(kebab(flag))
 		? undefined
 		: flag;
 }

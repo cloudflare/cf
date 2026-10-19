@@ -367,6 +367,7 @@ export async function resolveAccountIdForHelp(
  * regardless; the index signature reflects that.
  */
 export interface CommandClientArgs {
+	dryRun?: boolean;
 	/** When true, route through the local-explorer instead of the API. */
 	local?: boolean;
 	/** `--persist-to` value, if the user supplied one. */
@@ -422,6 +423,12 @@ const LOCAL_MODE_PLACEHOLDER_TOKEN = "cf-local-mode-no-auth";
 export async function createCommandClient(
 	args: CommandClientArgs
 ): Promise<Cloudflare> {
+	if (args.dryRun && isTemporaryAccountRequired()) {
+		throw new Error(
+			"Temporary accounts cannot make API requests during --dry-run. Remove --temporary-account and sign in to fetch the schema."
+		);
+	}
+
 	const baseURL = getCloudflareApiBaseUrl({
 		compliance_region: await getComplianceRegion(),
 	});

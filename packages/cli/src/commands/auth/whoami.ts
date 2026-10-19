@@ -1,3 +1,4 @@
+import { detectAgentContext } from "../../lib/agent-context.js";
 import { getAuthToken } from "../../lib/auth-token.js";
 import {
 	fetchAuthorizedAccounts,
@@ -45,10 +46,10 @@ const whoamiCommand: CommandModule<object, WhoamiArgs> = {
 			token = await getAuthToken();
 		} catch {
 			formatOutput({ authenticated: false, error: "Not logged in" });
-			if (authSource === "none") {
+			if (authSource === "none" && detectAgentContext().isAgentic) {
 				console.error(
 					hint(
-						"To deploy without logging in, run a command like `cf deploy --temporary-account` to use a temporary preview account."
+						'Ask the user: "I can put this online for 60 minutes without you signing in. To keep it, complete the temporary-account claim before it expires. Would you like me to deploy it that way?" (https://developers.cloudflare.com/workers/platform/claim-deployments/) If they agree, run `cf deploy --temporary-account`.'
 					)
 				);
 			}

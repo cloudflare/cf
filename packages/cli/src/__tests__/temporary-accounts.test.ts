@@ -10,6 +10,7 @@ import { getCfConfigPath } from "@cloudflare/workers-auth/cf";
 import { runInTempDir, seed } from "@cloudflare/workers-utils/test-helpers";
 import { http, HttpResponse } from "msw";
 import { beforeEach, describe, expect, it, vi } from "vite-plus/test";
+import * as agentContext from "../lib/agent-context.js";
 import { getAccountId, getAuthToken } from "../lib/auth.js";
 import { setTemporaryAccountRequired } from "../lib/oauth/index.js";
 import { server, setupMsw, TEST_BASE_URL } from "./helpers/msw.js";
@@ -224,6 +225,59 @@ describe("--temporary-account", () => {
 		);
 	});
 
+	describe.each([
+		{ command: ["ai", "run", "@cf/test/model"] },
+		{ command: ["registrar", "registrations", "create", "example.com"] },
+	])("schema-backed dry runs for $command", ({ command }) => {
+		it.each([true, false])(
+			"never activates or provisions an account (cached: %s)",
+			async (cached) => {
+				const stderr = captureStderr();
+				if (!cached) {
+					rmSync(cachePath());
+				}
+				const requests = captureProvisioningRequests();
+
+				await expect(
+					runCf([...command, "--dry-run", "--temporary-account"], env)
+				).rejects.toThrow(
+					"Temporary accounts cannot make API requests during --dry-run."
+				);
+
+				expect(requests).toEqual([]);
+				expect(stderr()).not.toContain("Temporary account ready:");
+				expect(existsSync(cachePath())).toBe(cached);
+			}
+		);
+	});
+
+	it("previews an AI request body without provisioning a temporary account", async () => {
+		captureStderr();
+		rmSync(cachePath());
+		const requests = captureProvisioningRequests();
+		const stdout = vi.spyOn(console, "log").mockImplementation(() => {});
+		stdout.mockClear();
+
+		await expect(
+			runCf(
+				[
+					"ai",
+					"run",
+					"@cf/test/model",
+					"--dry-run",
+					"--temporary-account",
+					"--body",
+					'{"prompt":"hello"}',
+				],
+				env
+			)
+		).resolves.toEqual({ exitCode: 0 });
+
+		expect(stdout.mock.calls.flat().join("\n")).toContain('"prompt": "hello"');
+		expect(requests).toEqual([]);
+		expect(existsSync(cachePath())).toBe(false);
+	});
+
 	it("rejects existing credentials using cf's flag name", async () => {
 		captureStderr();
 		await expect(
@@ -354,15 +408,44 @@ describe("--temporary-account", () => {
 		expect(stderr()).toContain("Cleared temporary preview account.");
 	});
 
-	it("suggests a temporary account from whoami when unauthenticated", async () => {
-		const stderr = captureStderr();
-		vi.spyOn(process.stdout, "write").mockImplementation(() => true);
-		vi.spyOn(console, "log").mockImplementation(() => {});
+	it.each([true, false])(
+		"suggests a temporary account from whoami only for agents (agent: %s)",
+		async (isAgentic) => {
+			const stderr = captureStderr();
+			vi.spyOn(process.stdout, "write").mockImplementation(() => true);
+			vi.spyOn(console, "log").mockImplementation(() => {});
+			const context = agentContext.detectAgentContext({});
+			const detection = vi
+				.spyOn(agentContext, "detectAgentContext")
+				.mockReturnValue({
+					...context,
+					isAgentic,
+				});
 
-		await runCf(["auth", "whoami"], env);
+			try {
+				await runCf(["auth", "whoami"], env);
 
-		expect(stderr()).toContain("cf deploy --temporary-account");
-	});
+				if (isAgentic) {
+					expect(stderr()).toContain(
+						'Ask the user: "I can put this online for 60 minutes'
+					);
+					expect(stderr()).toContain(
+						"complete the temporary-account claim before it expires"
+					);
+					expect(stderr()).toContain(
+						"https://developers.cloudflare.com/workers/platform/claim-deployments/"
+					);
+					expect(stderr()).toContain(
+						"If they agree, run `cf deploy --temporary-account`"
+					);
+				} else {
+					expect(stderr()).not.toContain("cf deploy --temporary-account");
+				}
+			} finally {
+				detection.mockRestore();
+			}
+		}
+	);
 
 	it.each([true, false])(
 		"rejects temporary-account flags from whoami without provisioning (cached: %s)",

@@ -374,6 +374,7 @@ function simpleType(type: Type): string | undefined {
 				case "boolean":
 					return "boolean";
 				case "string":
+				case "uuid":
 				case "date":
 				case "date-time":
 				case "bytes":

@@ -106,6 +106,7 @@ function makeView(type: Type): Schema {
 			let kind: Kind | undefined;
 			switch (type.scalar) {
 				case "string":
+				case "uuid":
 				case "date":
 				case "date-time":
 				case "bytes":

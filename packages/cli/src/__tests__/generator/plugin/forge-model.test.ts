@@ -110,6 +110,64 @@ function listing(schema: Json) {
 }
 
 describe("the forge model", () => {
+	it("keeps UUID body fields and referenced UUID arrays as string flags", () => {
+		const files = generateFiles(
+			create(
+				{
+					type: "object",
+					required: ["id"],
+					properties: {
+						id: { type: "string", format: "uuid" },
+						parent_id: { type: "string", format: "uuid", nullable: true },
+						dataset_ids: {
+							type: "array",
+							minItems: 1,
+							maxItems: 50,
+							items: { $ref: "#/components/schemas/ID" },
+						},
+					},
+				},
+				{ ID: { type: "string", format: "uuid" } }
+			)
+		);
+		const code = files.get("things/create.ts") ?? "";
+		expect(code).toContain('.option(\'id\', {"type":"string"');
+		expect(code).toContain('.option(\'parent-id\', {"type":"string"');
+		expect(code).toContain(
+			'.option(\'dataset-ids\', {"type":"string","array":true'
+		);
+		expect(code).toContain("promptForRequiredField('id'");
+		expect(code).toContain('id: resolveFileToken(argv["id"]');
+		expect(code).toContain('parent_id: resolveFileToken(argv["parent-id"]');
+		expect(code).toContain('dataset_ids: argv["dataset-ids"]');
+		const metadata = JSON.parse(files.get("_meta/commands.json") ?? "{}");
+		expect(metadata.commands[0].options).toEqual(
+			expect.arrayContaining([
+				expect.objectContaining({ name: "id", type: "string", required: true }),
+				expect.objectContaining({ name: "parent-id", type: "string" }),
+				expect.objectContaining({ name: "dataset-ids", type: "string" }),
+			])
+		);
+	});
+
+	it.each([
+		{ type: "string", format: "uuid" },
+		{ type: "string", format: "uuid", nullable: true },
+		{
+			anyOf: [
+				{ type: "string", format: "uuid" },
+				{ type: "array", items: { type: "string", format: "uuid" } },
+			],
+		},
+	])("keeps UUID query parameters as strings: %j", (schema) => {
+		const files = generateFiles(listing(schema));
+		const schemas = JSON.parse(files.get("_meta/schemas.json") ?? "{}");
+		expect(schemas.schemas["things list"].queryParams[0].type).toBe("string");
+		expect(files.get("things/list.ts")).toContain(
+			'.option(\'status\', {"type":"string"'
+		);
+	});
+
 	it("retains required and optional scalar intersections and their enum constraints", () => {
 		const d = create(
 			{

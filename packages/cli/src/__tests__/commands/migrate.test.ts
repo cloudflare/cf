@@ -1,14 +1,11 @@
 import path from "node:path";
-import {
-	mockConsoleMethods,
-	runInTempDir,
-	seed,
-} from "@cloudflare/workers-utils/test-helpers";
+import { runInTempDir, seed } from "@cloudflare/workers-utils/test-helpers";
 import { beforeEach, describe, expect, it, vi } from "vite-plus/test";
 import {
 	findWranglerConfig,
 	maybeMigrateWranglerProject,
 } from "../../lib/wrangler-migration.js";
+import { mockOutputStreams } from "../helpers/capture-output.js";
 import { runCf } from "../helpers/run-cf.js";
 
 const { migrateWranglerToCf } = vi.hoisted(() => ({
@@ -22,7 +19,7 @@ vi.mock("@cloudflare/codemods", () => ({
 describe("cf migrate", () => {
 	runInTempDir();
 
-	const std = mockConsoleMethods();
+	const std = mockOutputStreams();
 
 	beforeEach(() => {
 		migrateWranglerToCf.mockReset();
@@ -141,6 +138,7 @@ describe("cf migrate", () => {
 				installDependencies: false,
 			}
 		);
+		expect(std.out).toBe("");
 		expect(std.err).toContain(
 			"Would update 2 file(s):\n├─ config/cloudflare.config.ts\n└─ config/package.json"
 		);
@@ -299,6 +297,7 @@ describe("cf migrate", () => {
 		const result = await runCf(["migrate"]);
 
 		expect(result.exitCode).toBe(1);
+		expect(std.out).toBe("");
 		expect(std.err).toContain(
 			"Follow-up work:\n└─ [required] durable_objects.migrations: Migrate this setting manually.\n   └─ https://developers.cloudflare.com/workers/"
 		);

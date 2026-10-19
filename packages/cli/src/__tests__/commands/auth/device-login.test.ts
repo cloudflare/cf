@@ -6,7 +6,9 @@ import { runCf } from "../../helpers/run-cf.js";
 
 const sharedAuth = vi.hoisted(() => ({
 	activeProfile: "default",
-	credentials: undefined as { scopes: string[] } | undefined,
+	credentials: undefined as
+		| { oauth_token?: string; scopes: string[] }
+		| undefined,
 	login: vi.fn(),
 }));
 
@@ -23,6 +25,8 @@ vi.mock("@cloudflare/workers-auth/cf", async (importOriginal) => ({
 		getActiveProfile: () => sharedAuth.activeProfile,
 		getCredentialStore: () => ({ path: () => "/test/auth.json" }),
 		readAuthCredentials: () => sharedAuth.credentials,
+		// Stored tokens never refresh, so they read as invalid or expired.
+		getOAuthTokenFromLocalState: async () => undefined,
 		login: sharedAuth.login,
 	}),
 }));
@@ -239,6 +243,36 @@ describe("cf auth device login", () => {
 			"●  Starting OAuth login flow...
 			●  Config file: /test/auth.json
 			│  Scopes: 6 selected. Run cf auth whoami to see the full list."
+		`);
+	});
+
+	it("starts a fresh login when the stored tokens are invalid", async () => {
+		sharedAuth.credentials = { oauth_token: "expired", scopes: ["one"] };
+
+		await runCf(["auth", "login", "--no-browser"]);
+
+		expect(sharedAuth.login).toHaveBeenCalledOnce();
+		expect(std.out).toBe("");
+		expect(std.err).toMatchInlineSnapshot(`
+			"▲  Existing tokens are invalid or expired. Starting fresh login...
+			●  Starting OAuth login flow...
+			●  Config file: /test/auth.json
+			│  Scopes: one"
+		`);
+	});
+
+	it("re-authenticates with --force when already logged in", async () => {
+		sharedAuth.credentials = { oauth_token: "token", scopes: ["one"] };
+
+		await runCf(["auth", "login", "--force", "--no-browser"]);
+
+		expect(sharedAuth.login).toHaveBeenCalledOnce();
+		expect(std.out).toBe("");
+		expect(std.err).toMatchInlineSnapshot(`
+			"●  Re-authenticating...
+			●  Starting OAuth login flow...
+			●  Config file: /test/auth.json
+			│  Scopes: one"
 		`);
 	});
 });

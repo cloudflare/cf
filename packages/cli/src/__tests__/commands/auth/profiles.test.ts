@@ -133,6 +133,37 @@ describe("cf auth profiles", () => {
 		`);
 	});
 
+	it("keeps the directory's active profile when deleting another", async () => {
+		createProfile("work");
+		createProfile("other");
+		store.bindings.activate("work", process.cwd());
+
+		await runCf(["auth", "delete", "other"]);
+
+		expect(store.configs.exists("other")).toBe(false);
+		expect(std.out).toBe("");
+		expect(std.err).toMatchInlineSnapshot(`
+			"Successfully logged out.
+			●  Active profile for this directory: work."
+		`);
+	});
+
+	it("falls back to the default profile after deactivating", async () => {
+		createProfile("default");
+		createProfile("work");
+		store.bindings.activate("work", process.cwd());
+
+		await runCf(["auth", "deactivate"]);
+
+		expect(
+			store.bindings.getProfileForDirectory(process.cwd())
+		).toBeUndefined();
+		expect(std.out).toBe("");
+		expect(std.err).toMatchInlineSnapshot(
+			`"●  This directory now uses the default profile."`
+		);
+	});
+
 	it("does not duplicate the active profile in whoami output", async () => {
 		await runCf(["auth", "whoami", "--profile", "work"]);
 

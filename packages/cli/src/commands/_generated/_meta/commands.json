@@ -137485,7 +137485,7 @@
 			"httpMethod": "GET",
 			"apiPath": "/zones/{zone_id}/settings/zaraz/config",
 			"operationId": "zaraz.config.get",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf zaraz config update",
@@ -137767,7 +137767,7 @@
 			"httpMethod": "PUT",
 			"apiPath": "/zones/{zone_id}/settings/zaraz/config",
 			"operationId": "zaraz.config.update",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf zaraz default get",
@@ -137791,7 +137791,7 @@
 			"httpMethod": "GET",
 			"apiPath": "/zones/{zone_id}/settings/zaraz/default",
 			"operationId": "zaraz.default.get",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf zaraz export get",
@@ -137815,7 +137815,7 @@
 			"httpMethod": "GET",
 			"apiPath": "/zones/{zone_id}/settings/zaraz/export",
 			"operationId": "zaraz.export.get",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf zaraz history configs get",
@@ -137845,7 +137845,7 @@
 			"httpMethod": "GET",
 			"apiPath": "/zones/{zone_id}/settings/zaraz/history/configs",
 			"operationId": "zaraz.history.configs.get",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf zaraz history list",
@@ -137895,7 +137895,7 @@
 			"httpMethod": "GET",
 			"apiPath": "/zones/{zone_id}/settings/zaraz/history",
 			"operationId": "zaraz.history.list",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf zaraz history update",
@@ -137925,7 +137925,7 @@
 			"httpMethod": "PUT",
 			"apiPath": "/zones/{zone_id}/settings/zaraz/history",
 			"operationId": "zaraz.history.update",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf zaraz publish create",
@@ -137955,7 +137955,7 @@
 			"httpMethod": "POST",
 			"apiPath": "/zones/{zone_id}/settings/zaraz/publish",
 			"operationId": "zaraz.publish.create",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf zaraz workflow get",
@@ -137979,7 +137979,7 @@
 			"httpMethod": "GET",
 			"apiPath": "/zones/{zone_id}/settings/zaraz/workflow",
 			"operationId": "zaraz.workflow.get",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf zaraz workflow update",
@@ -138009,7 +138009,7 @@
 			"httpMethod": "PUT",
 			"apiPath": "/zones/{zone_id}/settings/zaraz/workflow",
 			"operationId": "zaraz.workflow.update",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf zero-trust access applications create",

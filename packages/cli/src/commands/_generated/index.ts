@@ -1252,7 +1252,7 @@ export const generatedCommands: GeneratedCommand[] = [
 			() => import("./zaraz/index.js"),
 			null
 		),
-		hideCommand: true,
+		hideCommand: false,
 	},
 	{
 		command: lazyCommand<CommonYargsOptions>(

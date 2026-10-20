@@ -7,20 +7,13 @@ import {
 } from "../../lib/oauth/index.js";
 import { formatOutput } from "../../lib/output.js";
 import { hint } from "../../lib/ui/index.js";
-import type { CommonYargsOptions } from "../../lib/cli-types.js";
-import type { ArgumentsCamelCase, Argv, CommandModule } from "yargs";
+import type { CommandModule } from "yargs";
 
-type WhoamiArgs = Pick<CommonYargsOptions, "temporary-account" | "event-code">;
-
-const whoamiCommand: CommandModule<object, WhoamiArgs> = {
+const whoamiCommand: CommandModule = {
 	command: "whoami",
 	describe: "Show current user and authentication status",
 
-	builder: (yargs: Argv): Argv<WhoamiArgs> => {
-		return yargs as Argv<WhoamiArgs>;
-	},
-
-	handler: async (argv: ArgumentsCamelCase<WhoamiArgs>): Promise<void> => {
+	handler: async (argv): Promise<void> => {
 		if (argv["temporary-account"] || argv["event-code"] !== undefined) {
 			throw new Error(
 				"--temporary-account and --event-code are not supported by cf auth whoami."

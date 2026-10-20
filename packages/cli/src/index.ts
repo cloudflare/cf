@@ -85,7 +85,8 @@ const GLOBAL_OPTIONS = {
 	// Errors never include the event code: it is a shared secret for an event.
 	"event-code": {
 		type: "string",
-		description: "Create a temporary account for an event",
+		description:
+			"Specify the event code to use when creating a temporary account for an event",
 		requiresArg: true,
 		global: true,
 		hidden: true,
@@ -648,13 +649,12 @@ export function buildCli(rawArgs: string[], options: BuildCliOptions = {}) {
 				throw new Error("--persist-to can only be used with --local.");
 			}
 
-			const temporaryAccount = argv["temporary-account"] === true;
-			if (temporaryAccount && argv.local) {
+			if (argv["temporary-account"] && argv.local) {
 				throw new Error("--temporary-account cannot be used with --local.");
 			}
 			const eventCode = argv["event-code"];
 			// Never silently ignore an event code when real credentials apply.
-			if (eventCode !== undefined && !temporaryAccount) {
+			if (eventCode !== undefined && !argv["temporary-account"]) {
 				throw new Error("--event-code requires --temporary-account.");
 			}
 
@@ -668,10 +668,10 @@ export function buildCli(rawArgs: string[], options: BuildCliOptions = {}) {
 			// Local mode bypasses profile credentials, so resolving and displaying
 			// an active profile would be misleading.
 			if (!argv.local) {
-				const { resolveProfile, setTemporaryAccountRequired } =
+				const { resolveProfile, setTemporaryAccountRequested } =
 					await import("./lib/oauth/index.js");
-				setTemporaryAccountRequired(
-					temporaryAccount,
+				setTemporaryAccountRequested(
+					argv["temporary-account"],
 					eventCode === undefined ? undefined : { eventCode }
 				);
 				const profile = resolveProfile(argv.profile);

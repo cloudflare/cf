@@ -17,13 +17,12 @@ function isMissingCredentialsError(error: Error): boolean {
 	if (error instanceof MissingCredentialsError) {
 		return true;
 	}
-	// workers-auth's account lookup error. Its package may resolve a separate
-	// workers-utils copy, so compare its telemetry identity instead of class.
+	// Structural matching also works when the shared package is bundled separately.
 	return (
 		"telemetryMessage" in error &&
 		error.telemetryMessage === "cfetch auth login required" &&
-		error.message.includes("no credentials were found") &&
-		error.message.includes("the environment is non-interactive")
+		"reason" in error &&
+		error.reason === "no-credentials-non-interactive"
 	);
 }
 

@@ -3,7 +3,7 @@ import { MissingCredentialsError } from "./errors.js";
 import {
 	getValidToken as getOAuthToken,
 	isOAuthLoggedIn,
-	isTemporaryAccountRequired,
+	isTemporaryAccountRequested,
 	requireTemporaryAccount,
 } from "./oauth/index.js";
 
@@ -22,7 +22,7 @@ import {
 export async function getAuthToken(
 	options?: Parameters<typeof requireTemporaryAccount>[0]
 ): Promise<string> {
-	if (isTemporaryAccountRequired()) {
+	if (isTemporaryAccountRequested()) {
 		return (await requireTemporaryAccount(options)).apiToken;
 	}
 

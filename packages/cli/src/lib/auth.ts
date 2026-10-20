@@ -3,7 +3,7 @@ import { API_TIMEOUT_MS } from "./api-constants.js";
 import { isUploadBody } from "./api-upload.js";
 import { getAuthToken } from "./auth-token.js";
 import { getComplianceRegion, resolveAccountIdSilent } from "./context.js";
-import { isTemporaryAccountRequired } from "./oauth/index.js";
+import { isTemporaryAccountRequested } from "./oauth/index.js";
 import { getDefaultHeaders } from "./request-headers.js";
 import { ApiError, Client, type ClientOptions } from "#api";
 import listAccounts from "#operations/accounts/list.js";
@@ -286,7 +286,7 @@ export function createCloudflareClientWithToken(
 export async function resolveAccountIdForHelp(
 	deadline: number
 ): Promise<string | undefined> {
-	if (isTemporaryAccountRequired()) {
+	if (isTemporaryAccountRequested()) {
 		return undefined;
 	}
 
@@ -423,9 +423,9 @@ const LOCAL_MODE_PLACEHOLDER_TOKEN = "cf-local-mode-no-auth";
 export async function createCommandClient(
 	args: CommandClientArgs
 ): Promise<Cloudflare> {
-	if (args.dryRun && isTemporaryAccountRequired()) {
+	if (args.dryRun && isTemporaryAccountRequested()) {
 		throw new Error(
-			"Temporary accounts cannot make API requests during --dry-run. Remove --temporary-account and sign in to continue."
+			"This command's dry run cannot be used with --temporary-account. Remove --dry-run to run the command for real."
 		);
 	}
 

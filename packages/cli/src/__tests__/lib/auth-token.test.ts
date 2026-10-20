@@ -10,7 +10,7 @@ const { getOAuthToken, isOAuthLoggedIn } = vi.hoisted(() => ({
 vi.mock("../../lib/oauth/index.js", () => ({
 	getValidToken: getOAuthToken,
 	isOAuthLoggedIn,
-	isTemporaryAccountRequired: () => false,
+	isTemporaryAccountRequested: () => false,
 }));
 
 beforeEach(() => {

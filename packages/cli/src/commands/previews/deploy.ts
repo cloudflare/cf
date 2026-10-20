@@ -104,7 +104,7 @@ async function deployPreviewBuildOutput(
 	validateBuildOutputMode(argv.mode, output.rootConfig.buildContext.mode);
 	validateBuildOutputAccount(
 		output.rootConfig.accountId,
-		argv["temporary-account"] === true
+		argv["temporary-account"]
 	);
 	const worker = selectBuildOutputWorker(output.workers, argv.worker);
 	const { wranglerConfig, builtConfig } = parseWorkerConfig(

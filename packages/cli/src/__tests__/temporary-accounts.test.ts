@@ -18,7 +18,7 @@ import { getAccountId, getAuthToken } from "../lib/auth.js";
 import {
 	readAuthCredentials,
 	requireTemporaryAccount,
-	setTemporaryAccountRequired,
+	setTemporaryAccountRequested,
 } from "../lib/oauth/index.js";
 import { server, setupMsw, TEST_BASE_URL } from "./helpers/msw.js";
 import { runCf } from "./helpers/run-cf.js";
@@ -127,6 +127,16 @@ describe("--temporary-account", () => {
 		return requests;
 	}
 
+	it("does not activate a cached temporary account without the flag", async () => {
+		const provisioningRequests = captureProvisioningRequests();
+		captureStderr();
+		await expect(runCf(["kv", "namespaces", "list"], env)).rejects.toThrow(
+			"No authentication token found"
+		);
+		expect(existsSync(cachePath())).toBe(true);
+		expect(provisioningRequests).toEqual([]);
+	});
+
 	it("uses the temporary account ID and token for generated commands", async () => {
 		const stderr = captureStderr();
 		let authorization: string | null = null;
@@ -187,7 +197,7 @@ describe("--temporary-account", () => {
 	it("rejects direct temporary-account requests when the mode is disabled", async () => {
 		vi.stubEnv("CLOUDFLARE_ACCOUNT_ID", "existing-account-id");
 		vi.stubEnv("CLOUDFLARE_API_TOKEN", "existing-token");
-		setTemporaryAccountRequired(false);
+		setTemporaryAccountRequested(false);
 
 		await expect(requireTemporaryAccount()).rejects.toThrow(
 			"Temporary accounts require --temporary-account."
@@ -198,12 +208,12 @@ describe("--temporary-account", () => {
 		captureStderr();
 		vi.stubEnv("CLOUDFLARE_ACCOUNT_ID", "configured-account-id");
 		vi.stubEnv("CLOUDFLARE_API_TOKEN", undefined);
-		setTemporaryAccountRequired(true);
+		setTemporaryAccountRequested(true);
 		try {
 			await expect(getAuthToken()).resolves.toBe(apiToken);
 			await expect(getAccountId()).resolves.toBe(accountId);
 		} finally {
-			setTemporaryAccountRequired(false);
+			setTemporaryAccountRequested(false);
 		}
 	});
 
@@ -258,7 +268,7 @@ describe("--temporary-account", () => {
 				await expect(
 					runCf([...command, "--dry-run", "--temporary-account"], env)
 				).rejects.toThrow(
-					"Temporary accounts cannot make API requests during --dry-run."
+					"This command's dry run cannot be used with --temporary-account. Remove --dry-run to run the command for real."
 				);
 
 				expect(requests).toEqual([]);

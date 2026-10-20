@@ -85,11 +85,11 @@ async function resolveAccountId(
  */
 export async function resolveAccountIdSilent(): Promise<string | undefined> {
 	// Lazily imported for the same dependency-cycle reason as getAccountId.
-	const { getActiveAccountId, isTemporaryAccountRequired } =
+	const { getActiveAccountId, isTemporaryAccountRequested } =
 		await import("./oauth/index.js");
 	// Configured accounts don't apply to a temporary account, and provisioning
 	// one is not silent.
-	if (isTemporaryAccountRequired()) {
+	if (isTemporaryAccountRequested()) {
 		return undefined;
 	}
 	const result = await resolveAccountId();
@@ -120,10 +120,10 @@ export async function getAccountId(options?: {
 	// module has initialised to avoid a static context ↔ OAuth dependency cycle.
 	const {
 		getOrSelectAccountId,
-		isTemporaryAccountRequired,
+		isTemporaryAccountRequested,
 		requireTemporaryAccount,
 	} = await import("./oauth/index.js");
-	if (isTemporaryAccountRequired()) {
+	if (isTemporaryAccountRequested()) {
 		return (await requireTemporaryAccount(options)).accountId;
 	}
 

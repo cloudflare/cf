@@ -18,9 +18,6 @@ export const TEMPORARY_TERMS_PROMPT = `You must accept Cloudflare's Terms of Ser
 /**
  * cf's temporary-account cache. Computed lazily so `runInTempDir()`'s HOME and
  * XDG_CONFIG_HOME stubs are honoured.
- *
- * @param environment The Cloudflare API environment the cache belongs to.
- * @returns The absolute cache path.
  */
 export function temporaryAccountCachePath(environment = "production"): string {
 	return join(
@@ -37,8 +34,6 @@ export function temporaryAccountCachePath(environment = "production"): string {
 
 /**
  * Write raw contents to cf's temporary-account cache.
- *
- * @param contents The cache file contents.
  */
 export function writeTemporaryAccountCache(contents: unknown): void {
 	const path = temporaryAccountCachePath();
@@ -68,8 +63,7 @@ export function mockTemporaryPreviewChallenge(): void {
  * Mocks the temporary preview-account challenge and creation endpoints. The
  * created account is `preview-account-id` with token `preview-account-token`,
  * and event codes are acknowledged.
- *
- * @returns The creation request bodies and headers, appended as requests arrive.
+ * Records creation request bodies and headers as requests arrive.
  */
 export function mockTemporaryPreviewAccount(): Array<{
 	body: { eventCode?: string };

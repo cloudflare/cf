@@ -17,6 +17,7 @@ import { USER_AGENT, VERSION } from "../../version.js";
 import { hasQuietFlag } from "../args.js";
 import { CliExit } from "../cli-exit.js";
 import { getComplianceRegion, type ComplianceRegion } from "../context.js";
+import { MissingCredentialsError } from "../errors.js";
 import { isNonInteractiveOrCI } from "../interactive.js";
 import { openSession } from "../session.js";
 import { printAccountConfigHint } from "./account-hint.js";
@@ -85,34 +86,35 @@ const auth = createCfAuth({
 		error instanceof NonInteractiveSelectionError,
 });
 
-let temporaryAccountRequired = false;
+let temporaryAccountRequested = false;
 
 /**
- * Mark whether this invocation requires a temporary preview account,
- * optionally for an event.
+ * Record whether the user requested --temporary-account for this invocation.
+ * An event code applies only when creating a new account, not reusing one.
  */
-export function setTemporaryAccountRequired(
-	required: boolean,
+export function setTemporaryAccountRequested(
+	requested: boolean,
 	request?: TemporaryAccountRequest
 ): void {
-	temporaryAccountRequired = required;
-	auth.setTemporaryAllowed(required, request);
+	temporaryAccountRequested = requested;
+	auth.setTemporaryAllowed(requested, request);
 }
 
-/** Whether authentication requires a temporary preview account. */
-export function isTemporaryAccountRequired(): boolean {
-	return temporaryAccountRequired;
+/** Whether the user requested --temporary-account for this invocation. */
+export function isTemporaryAccountRequested(): boolean {
+	return temporaryAccountRequested;
 }
 
 /**
  * Provision or reuse this invocation's temporary preview account. workers-auth
  * keeps it active for later calls and rejects it when credentials exist.
+ * Every invocation must opt in, even when an account is already cached.
  */
 export async function requireTemporaryAccount(options?: {
 	isPreview?: boolean;
 	complianceRegion?: ComplianceRegion;
 }): Promise<{ accountId: string; apiToken: string }> {
-	if (!isTemporaryAccountRequired()) {
+	if (!isTemporaryAccountRequested()) {
 		throw new Error("Temporary accounts require --temporary-account.");
 	}
 
@@ -141,11 +143,27 @@ export async function getOrSelectAccountId(
 	accountId?: string,
 	options?: { isPreview?: boolean; complianceRegion?: ComplianceRegion }
 ): Promise<string> {
-	return auth.getOrSelectAccountId({
-		account_id: accountId,
-		compliance_region:
-			options?.complianceRegion ?? (await getComplianceRegion(options)),
-	});
+	try {
+		return await auth.getOrSelectAccountId({
+			account_id: accountId,
+			compliance_region:
+				options?.complianceRegion ?? (await getComplianceRegion(options)),
+		});
+	} catch (error) {
+		// Older workers-auth releases omit the structured failure reason. Use
+		// credential state at this boundary rather than parsing their message.
+		if (
+			error instanceof Error &&
+			!("reason" in error) &&
+			"telemetryMessage" in error &&
+			error.telemetryMessage === "cfetch auth login required" &&
+			isNonInteractiveOrCI() &&
+			auth.getAPIToken() === undefined
+		) {
+			throw new MissingCredentialsError(error.message, { cause: error });
+		}
+		throw error;
+	}
 }
 
 /**

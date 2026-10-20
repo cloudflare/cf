@@ -9,7 +9,8 @@ import {
 	getZoneId,
 	resolveAccountIdSilent,
 } from "../../lib/context.js";
-import { setTemporaryAccountRequired } from "../../lib/oauth/index.js";
+import { MissingCredentialsError } from "../../lib/errors.js";
+import { setTemporaryAccountRequested } from "../../lib/oauth/index.js";
 import { clearLoadedProjectSettings } from "../../lib/project-settings.js";
 import type { ParsedInputSettingsConfig } from "@cloudflare/config";
 
@@ -17,6 +18,7 @@ const getOrSelectAccountIdMock = vi.hoisted(() => vi.fn());
 const requireAuthMock = vi.hoisted(() => vi.fn());
 const getActiveAccountIdMock = vi.hoisted(() => vi.fn());
 const fetchAllAccountsMock = vi.hoisted(() => vi.fn());
+const getAPITokenMock = vi.hoisted(() => vi.fn());
 
 vi.mock("@cloudflare/workers-auth/cf", () => ({
 	createCfAuth: () => ({
@@ -26,6 +28,7 @@ vi.mock("@cloudflare/workers-auth/cf", () => ({
 		requireApiToken: () => ({ apiToken: "temporary-token" }),
 		getActiveAccountId: getActiveAccountIdMock,
 		fetchAllAccounts: fetchAllAccountsMock,
+		getAPIToken: getAPITokenMock,
 	}),
 	createCfProfileStore: vi.fn(),
 	validateScopeKeys: vi.fn(),
@@ -45,10 +48,11 @@ describe("context", () => {
 		vi.restoreAllMocks();
 		getOrSelectAccountIdMock.mockReset();
 		requireAuthMock.mockReset();
-		setTemporaryAccountRequired(false);
+		setTemporaryAccountRequested(false);
 		getActiveAccountIdMock.mockReset();
 		fetchAllAccountsMock.mockReset();
 		fetchAllAccountsMock.mockResolvedValue([]);
+		getAPITokenMock.mockReset();
 		clearLoadedProjectSettings();
 		vi.stubEnv("CLOUDFLARE_ACCOUNT_ID", undefined);
 		vi.stubEnv("CLOUDFLARE_ZONE_ID", undefined);
@@ -56,6 +60,25 @@ describe("context", () => {
 	});
 
 	describe("getAccountId", () => {
+		it.each([undefined, { apiToken: "expired-stored-token" }])(
+			"classifies legacy auth errors by credential state (%j)",
+			async (credentials) => {
+				vi.stubEnv("CI", "true");
+				getAPITokenMock.mockReturnValue(credentials);
+				const error = Object.assign(new Error("Auth wording changed"), {
+					telemetryMessage: "cfetch auth login required",
+				});
+				getOrSelectAccountIdMock.mockRejectedValue(error);
+				if (credentials) {
+					await expect(getAccountId()).rejects.toBe(error);
+				} else {
+					await expect(getAccountId()).rejects.toBeInstanceOf(
+						MissingCredentialsError
+					);
+				}
+			}
+		);
+
 		it("loads account id from cloudflare.config.ts settings", async () => {
 			writeProjectSettings({ accountId: "settings-acct" });
 			getOrSelectAccountIdMock.mockResolvedValue("settings-acct");
@@ -79,7 +102,7 @@ describe("context", () => {
 
 		it("uses a temporary account instead of configured accounts", async () => {
 			writeProjectSettings({ accountId: "settings-acct" });
-			setTemporaryAccountRequired(true);
+			setTemporaryAccountRequested(true);
 			requireAuthMock.mockResolvedValue("temporary-account");
 
 			await expect(resolveAccountIdSilent()).resolves.toBeUndefined();

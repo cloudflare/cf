@@ -108,7 +108,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						message: `This operation may permanently delete protection for the selected email domains. Emails for those domains will no longer be processed by Email Security.`,
 					}))
 				) {
-					process.stderr.write("Aborted.\n");
 					return;
 				}
 

@@ -78,7 +78,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						message: `Are you sure you want to delete this Origin Cloud Region configuration?`,
 					}))
 				) {
-					process.stderr.write("Aborted.\n");
 					return;
 				}
 

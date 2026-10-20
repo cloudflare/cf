@@ -110,7 +110,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						message: `This permanently deletes every stored log entry on the gateway that matches the filters. Deleted logs cannot be recovered.`,
 					}))
 				) {
-					process.stderr.write("Aborted.\n");
 					return;
 				}
 

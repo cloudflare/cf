@@ -78,7 +78,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						message: `This operation deletes a Leaked Credential Checks custom detection location.`,
 					}))
 				) {
-					process.stderr.write("Aborted.\n");
 					return;
 				}
 

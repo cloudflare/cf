@@ -111,7 +111,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						message: `This operation cancels the running indexing job.`,
 					}))
 				) {
-					process.stderr.write("Aborted.\n");
 					return;
 				}
 

@@ -82,7 +82,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						message: `This operation permanently deletes the application and stops its containers.`,
 					}))
 				) {
-					process.stderr.write("Aborted.\n");
 					return;
 				}
 

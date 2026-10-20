@@ -79,7 +79,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						message: `This operation turns off the data catalog for the bucket. Existing namespace or table state remains, but writes stop.`,
 					}))
 				) {
-					process.stderr.write("Aborted.\n");
 					return;
 				}
 

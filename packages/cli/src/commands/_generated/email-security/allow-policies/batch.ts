@@ -108,7 +108,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						message: `This operation may delete the selected allow policies and restore normal security scanning and disposition actions for matching emails.`,
 					}))
 				) {
-					process.stderr.write("Aborted.\n");
 					return;
 				}
 

@@ -17,6 +17,7 @@ import {
 } from "../../lib/prompt.js";
 
 vi.mock("@clack/prompts", () => ({
+	cancel: vi.fn(),
 	confirm: vi.fn(),
 	password: vi.fn(),
 	select: vi.fn(),
@@ -394,6 +395,9 @@ describe("prompt", () => {
 		expect(clack.confirm).toHaveBeenCalledWith({
 			message: "This permanently deletes the resource. Continue?",
 			initialValue: false,
+			output: process.stderr,
+		});
+		expect(clack.cancel).toHaveBeenCalledWith("Aborted.", {
 			output: process.stderr,
 		});
 	});

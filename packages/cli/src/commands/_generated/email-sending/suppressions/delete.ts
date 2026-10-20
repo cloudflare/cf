@@ -81,7 +81,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						message: `This operation removes an Email Sending suppression and may allow email delivery to resume for the address.`,
 					}))
 				) {
-					process.stderr.write("Aborted.\n");
 					return;
 				}
 

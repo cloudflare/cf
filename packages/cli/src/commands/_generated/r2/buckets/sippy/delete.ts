@@ -87,7 +87,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						message: `This disables Sippy on-demand migration for the R2 bucket. Objects already copied to R2 remain in the bucket.`,
 					}))
 				) {
-					process.stderr.write("Aborted.\n");
 					return;
 				}
 

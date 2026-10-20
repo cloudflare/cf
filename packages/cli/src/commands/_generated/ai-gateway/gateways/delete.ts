@@ -79,7 +79,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						message: `This permanently deletes the gateway, its configuration, and its stored logs. Requests sent to this gateway will fail. This action cannot be undone.`,
 					}))
 				) {
-					process.stderr.write("Aborted.\n");
 					return;
 				}
 

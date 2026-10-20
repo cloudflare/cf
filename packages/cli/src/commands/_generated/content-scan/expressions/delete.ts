@@ -79,7 +79,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						message: `This operation deletes a Content Scanning custom expression.`,
 					}))
 				) {
-					process.stderr.write("Aborted.\n");
 					return;
 				}
 

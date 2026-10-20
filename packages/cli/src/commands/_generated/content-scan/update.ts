@@ -90,7 +90,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						message: `This operation toggles Content Scanning for a zone.`,
 					}))
 				) {
-					process.stderr.write("Aborted.\n");
 					return;
 				}
 

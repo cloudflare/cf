@@ -78,7 +78,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						message: `This operation deletes the user-defined label and removes it from associated web and API operations.`,
 					}))
 				) {
-					process.stderr.write("Aborted.\n");
 					return;
 				}
 

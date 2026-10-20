@@ -79,7 +79,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						message: `Remove this watermark profile? New upload requests referencing this profile will fail.`,
 					}))
 				) {
-					process.stderr.write("Aborted.\n");
 					return;
 				}
 

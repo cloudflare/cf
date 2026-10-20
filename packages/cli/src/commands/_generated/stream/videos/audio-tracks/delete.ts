@@ -87,7 +87,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						message: `Permanently delete this audio track?`,
 					}))
 				) {
-					process.stderr.write("Aborted.\n");
 					return;
 				}
 

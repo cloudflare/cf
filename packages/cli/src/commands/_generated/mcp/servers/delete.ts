@@ -79,7 +79,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						message: `This operation permanently deletes the MCP server, removes it from every portal, and deletes its stored OAuth secrets.`,
 					}))
 				) {
-					process.stderr.write("Aborted.\n");
 					return;
 				}
 

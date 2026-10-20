@@ -89,7 +89,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						message: `This operation rolls back the production deployment to an earlier deployment.`,
 					}))
 				) {
-					process.stderr.write("Aborted.\n");
 					return;
 				}
 

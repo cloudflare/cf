@@ -79,7 +79,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						message: `This operation deletes the operation-specific schema validation setting and restores the zone default.`,
 					}))
 				) {
-					process.stderr.write("Aborted.\n");
 					return;
 				}
 

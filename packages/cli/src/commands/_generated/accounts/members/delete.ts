@@ -79,7 +79,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						message: `Are you sure you want to remove this user from the account?`,
 					}))
 				) {
-					process.stderr.write("Aborted.\n");
 					return;
 				}
 

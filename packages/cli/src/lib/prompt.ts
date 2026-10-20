@@ -302,7 +302,8 @@ export async function confirm(
  *   3. Interactive TTY → show a clack.confirm prompt with the resource
  *      type and id. Default answer is "no" (safe default for deletes).
  *
- * An interactive decline returns `false`; callers should skip the API call.
+ * An interactive decline closes the flow with `└ Aborted.` and returns
+ * `false`; callers should skip the API call.
  */
 export async function confirmDelete(
 	opts: { force?: boolean; message?: string } = {}
@@ -340,5 +341,9 @@ export async function confirmDelete(
 		// User hit ctrl+c. Treat like wrangler: exit non-zero.
 		throw new CliExit(130, { cancelled: true });
 	}
-	return result === true;
+	if (result !== true) {
+		clack.cancel("Aborted.", { output: process.stderr });
+		return false;
+	}
+	return true;
 }

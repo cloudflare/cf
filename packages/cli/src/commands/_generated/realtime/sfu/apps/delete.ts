@@ -79,7 +79,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						message: `This operation permanently deletes the SFU app.`,
 					}))
 				) {
-					process.stderr.write("Aborted.\n");
 					return;
 				}
 

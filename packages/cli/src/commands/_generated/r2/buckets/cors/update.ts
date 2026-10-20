@@ -108,7 +108,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						message: `This replaces the R2 bucket's CORS policy. Browser requests that relied on the previous rules may fail.`,
 					}))
 				) {
-					process.stderr.write("Aborted.\n");
 					return;
 				}
 

@@ -78,7 +78,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						message: `This operation deletes the token validation configuration. The request is rejected if rules, operations, or JWT authentication identifiers still reference it.`,
 					}))
 				) {
-					process.stderr.write("Aborted.\n");
 					return;
 				}
 

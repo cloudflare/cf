@@ -72,7 +72,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						message: `This operation permanently clears Cache Reserve for this zone and cannot be undone.`,
 					}))
 				) {
-					process.stderr.write("Aborted.\n");
 					return;
 				}
 

@@ -79,7 +79,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						message: `Permanently delete this video?`,
 					}))
 				) {
-					process.stderr.write("Aborted.\n");
 					return;
 				}
 

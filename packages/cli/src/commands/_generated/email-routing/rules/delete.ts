@@ -78,7 +78,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						message: `This operation permanently deletes an Email Routing rule.`,
 					}))
 				) {
-					process.stderr.write("Aborted.\n");
 					return;
 				}
 

@@ -155,7 +155,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						message: `This starts a background job that either permanently deletes every object under the given prefix (every object in the bucket for an empty prefix) or migrates every object in the bucket between storage classes.`,
 					}))
 				) {
-					process.stderr.write("Aborted.\n");
 					return;
 				}
 

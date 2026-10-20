@@ -108,7 +108,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						message: `This replaces the R2 bucket's object lifecycle rules and can schedule object deletion or abort multipart uploads.`,
 					}))
 				) {
-					process.stderr.write("Aborted.\n");
 					return;
 				}
 

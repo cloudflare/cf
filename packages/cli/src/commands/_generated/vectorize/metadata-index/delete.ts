@@ -100,7 +100,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						message: `This operation deletes a metadata index destructively.`,
 					}))
 				) {
-					process.stderr.write("Aborted.\n");
 					return;
 				}
 

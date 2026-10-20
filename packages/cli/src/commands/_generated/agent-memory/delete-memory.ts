@@ -93,7 +93,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						message: `This operation deletes the memory and any source messages linked to it.`,
 					}))
 				) {
-					process.stderr.write("Aborted.\n");
 					return;
 				}
 

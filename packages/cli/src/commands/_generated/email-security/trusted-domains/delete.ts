@@ -81,7 +81,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						message: `This operation deletes the trusted domain pattern and restores normal recent domain and similarity checks for matching emails.`,
 					}))
 				) {
-					process.stderr.write("Aborted.\n");
 					return;
 				}
 

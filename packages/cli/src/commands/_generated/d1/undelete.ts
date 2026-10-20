@@ -100,7 +100,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						message: `After undeleting, Time Travel cannot restore the D1 database to a point in time at or before the undeletion.`,
 					}))
 				) {
-					process.stderr.write("Aborted.\n");
 					return;
 				}
 

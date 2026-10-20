@@ -79,7 +79,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						message: `This permanently deletes the custom skill, removes it from every feed it is assigned to, and deletes the outputs it stored on articles.`,
 					}))
 				) {
-					process.stderr.write("Aborted.\n");
 					return;
 				}
 

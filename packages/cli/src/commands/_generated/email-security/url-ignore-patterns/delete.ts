@@ -79,7 +79,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						message: `This operation deletes the URL rewrite ignore pattern and causes matching URLs to be rewritten again.`,
 					}))
 				) {
-					process.stderr.write("Aborted.\n");
 					return;
 				}
 

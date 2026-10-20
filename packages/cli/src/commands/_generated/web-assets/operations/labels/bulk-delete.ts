@@ -98,7 +98,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						message: `This operation removes the selected labels from the selected web and API operations.`,
 					}))
 				) {
-					process.stderr.write("Aborted.\n");
 					return;
 				}
 

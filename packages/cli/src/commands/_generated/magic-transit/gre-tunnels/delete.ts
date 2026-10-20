@@ -86,7 +86,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.accountId = accountId;
 
 				if (!(await confirmDelete({ force: Boolean(argv.force) }))) {
-					process.stderr.write("Aborted.\n");
 					return;
 				}
 

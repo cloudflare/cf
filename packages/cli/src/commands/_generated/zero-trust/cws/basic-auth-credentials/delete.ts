@@ -81,7 +81,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						message: `Delete this basic-auth credential?`,
 					}))
 				) {
-					process.stderr.write("Aborted.\n");
 					return;
 				}
 

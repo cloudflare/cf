@@ -18,6 +18,7 @@ import { USER_AGENT, VERSION } from "../../version.js";
 import { hasQuietFlag } from "../args.js";
 import { CliExit } from "../cli-exit.js";
 import { getComplianceRegion, type ComplianceRegion } from "../context.js";
+import { wrapPromptMessage } from "../dialog.js";
 import { MissingCredentialsError } from "../errors.js";
 import { isNonInteractiveOrCI } from "../interactive.js";
 import { openSession } from "../session.js";
@@ -43,7 +44,10 @@ async function prompt(question: string): Promise<string> {
 		throw new NonInteractiveSelectionError();
 	}
 	openSession(VERSION);
-	const result = await clack.text({ message: question });
+	const result = await clack.text({
+		message: wrapPromptMessage(question),
+		output: process.stderr,
+	});
 	if (isCancel(result) || typeof result !== "string") {
 		throw new CliExit(130, { cancelled: true });
 	}
@@ -60,6 +64,7 @@ async function select(
 	openSession(VERSION);
 	const result = await clack.select({
 		message: text,
+		output: process.stderr,
 		options: options.choices.map(({ title, value }) => ({
 			label: title,
 			value,

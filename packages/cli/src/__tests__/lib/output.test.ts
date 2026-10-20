@@ -150,6 +150,19 @@ describe("formatOutput", () => {
 		});
 	});
 
+	it("keeps JSON plain when stdin can't be opened", () => {
+		setStdoutTTY(true);
+		const stdin = vi.spyOn(process, "stdin", "get").mockImplementation(() => {
+			throw new Error("TTY initialization failed");
+		});
+		try {
+			withForcedColor(() => formatOutput({ name: "db" }));
+		} finally {
+			stdin.mockRestore();
+		}
+		expect(logSpy).toHaveBeenCalledWith('{\n  "name": "db"\n}');
+	});
+
 	it("highlights JSON on an interactive TTY when FORCE_COLOR is set", () => {
 		setStdinTTY(true);
 		setStdoutTTY(true);

@@ -1,16 +1,15 @@
-import { isInteractive } from "@cloudflare/cli-shared-helpers/interactive";
 import ci from "ci-info";
 
 /**
  * Returns whether the process should not prompt the user.
  *
- * Returns `true` when the process is non-interactive (no TTY) **or** running
- * in any CI environment (detected via `ci-info`).
+ * Prompts read stdin and render on stderr, so both must be terminals, and
+ * nothing prompts in CI (detected via `ci-info`). stdout does not matter:
+ * `cf kv namespaces create > ns.json` can still ask for the title.
  *
  * Use this for anything that should be suppressed or adapted in CI:
  * - User prompts (confirmations, text input, select dialogs)
  * - OAuth login flows
- * - Output format decisions (JSON in CI, pretty when interactive)
  * - Banner / decoration display
  * - Writing config changes back to disk
  *
@@ -19,7 +18,12 @@ import ci from "ci-info";
  * strict-TTY-only flavour (hotkeys, spinners, typed-name confirmation).
  */
 export function isNonInteractiveOrCI(): boolean {
-	return !isInteractive() || ci.isCI;
+	try {
+		return !(process.stdin.isTTY && process.stderr.isTTY) || ci.isCI;
+	} catch {
+		// Reading `process.stdin` throws when Node can't open its terminal.
+		return true;
+	}
 }
 
 /**

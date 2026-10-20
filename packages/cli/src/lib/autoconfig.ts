@@ -265,7 +265,6 @@ function createAutoConfigContext(
 		output === "silent" ? () => {} : outputConsole.log.bind(outputConsole);
 	const info =
 		output === "silent" ? () => {} : outputConsole.info.bind(outputConsole);
-	const dialogOutput = output === "stdout" ? undefined : process.stderr;
 	return {
 		logger: {
 			log,
@@ -284,7 +283,6 @@ function createAutoConfigContext(
 					defaultValue: options?.defaultValue ?? true,
 					fallbackValue:
 						options?.fallbackValue ?? options?.defaultValue ?? true,
-					output: dialogOutput,
 				}),
 			prompt: (text, options) =>
 				prompt(text, {
@@ -293,7 +291,6 @@ function createAutoConfigContext(
 					fallbackError:
 						"This command cannot be run in a non-interactive context",
 					validate: options?.validate,
-					output: dialogOutput,
 				}),
 			select: (text, options) =>
 				select(text, {
@@ -301,7 +298,6 @@ function createAutoConfigContext(
 					defaultOption: options.defaultOption,
 					fallbackError:
 						"This command cannot be run in a non-interactive context",
-					output: dialogOutput,
 				}),
 		},
 		runCommand: async (command, cwd, label) => {

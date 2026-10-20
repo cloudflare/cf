@@ -1,4 +1,5 @@
-import { isNonInteractiveOrCI } from "./interactive.js";
+import { isInteractive } from "@cloudflare/cli-shared-helpers/interactive";
+import ci from "ci-info";
 import { supportsColor, theme } from "./ui/theme.js";
 
 /** Maximum JSON size (in characters) for syntax highlighting - prevents performance issues */
@@ -75,7 +76,8 @@ function formatJson(data: unknown): string {
 
 	// Non-interactive output must remain parseable even when FORCE_COLOR is set.
 	if (
-		isNonInteractiveOrCI() ||
+		!isInteractive() ||
+		ci.isCI ||
 		!supportsColor() ||
 		json.length > MAX_HIGHLIGHTED_JSON_SIZE
 	) {

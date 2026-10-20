@@ -1,5 +1,44 @@
 # cf
 
+## 1.0.0-beta.19
+
+### Minor Changes
+
+- 029b091: Add persisted keyring storage options to `cf auth login`
+
+  Use `--use-keyring` and `--no-use-keyring` to persist the OAuth credential-storage preference. Apply the preference before reading credentials so users can disable an unavailable keyring backend, and expose the option in help, completions, and tools.
+
+- 6fdb573: Update the generated command surface for Forge OpenAPI release
+  `15656f084dd7a0ada54f8f659c749a7248254b9f`.
+- e290be1: Update the generated command surface for Forge OpenAPI release
+  `843eae2fbf4fe774ef9c91021dd34017ac9c970a`.
+- b191479: Update the generated command surface for Forge OpenAPI release
+  `dfab495170fee6a8af2746ed4d624db8f9fe688a`.
+- a602697: Update the generated command surface for Forge OpenAPI release
+  `e91e65be9898b6bc400231f36ce77e8e7d5a02ab`.
+- c6fdafc: Update the generated command surface for Forge OpenAPI release
+  `ec19e9f82e219137a547ca40f48babe71c69e481`.
+
+### Patch Changes
+
+- 30de18f: Fix generated flags for composed scalar request fields.
+
+  Preserve enum fields expressed through `allOf` and expose scalar unions without
+  turning numeric or boolean values into strings, including when a field is supplied
+  as a positional argument. Report validation operations as
+  validating rather than creating resources.
+
+- ac222af: Accept nested object arrays and arrays of arrays as JSON body flags, including `--intent-clauses` and `--query-branches` for priority-intelligence create and update. Require these fields when sibling flags activate their optional parent object.
+- 6c67821: Apply body-field argument overrides only to their exact API field path, preventing parent object overrides from changing flattened child flags.
+- 526debf: Send header flags on bodyless raw-response commands, including the jurisdiction and conditional headers for `cf r2 objects get`.
+- 768a01d: Update dependencies published from the Workers SDK repository:
+
+  - `@cloudflare/codemods`: `0.5.0` → `0.5.1`
+  - `@cloudflare/containers-shared`: `0.22.1` → `0.23.0`
+  - `@cloudflare/deploy-helpers`: `0.21.0` → `0.22.0`
+  - `@cloudflare/runtime-types`: `0.1.12` → `0.1.13`
+  - `miniflare`: `5.20261012.1-beta` → `5.20261019.0-beta`
+
 ## 1.0.0-beta.18
 
 ### Minor Changes

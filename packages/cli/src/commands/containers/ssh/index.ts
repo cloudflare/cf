@@ -7,6 +7,7 @@ import {
 	sshCommand,
 } from "@cloudflare/containers-shared";
 import { getCloudflareApiBaseUrl } from "@cloudflare/workers-utils";
+import { USER_AGENT } from "../../../version.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { Argv, CommandModule } from "yargs";
 import { getAuthToken } from "#lib/auth-token.js";
@@ -66,14 +67,17 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			authToken,
 			getCloudflareApiBaseUrl(complianceConfig)
 		);
-		await sshCommand({
-			...argv,
-			id: argv.id,
-			command: [
-				...(argv["ssh-command"] ?? []),
-				...(Array.isArray(argv["--"]) ? argv["--"].map(String) : []),
-			],
-		});
+		await sshCommand(
+			{
+				...argv,
+				id: argv.id,
+				command: [
+					...(argv["ssh-command"] ?? []),
+					...(Array.isArray(argv["--"]) ? argv["--"].map(String) : []),
+				],
+			},
+			USER_AGENT
+		);
 	},
 };
 

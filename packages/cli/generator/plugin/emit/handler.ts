@@ -691,6 +691,9 @@ function bodyArgValue(arg: Arg, read: string): string {
 	if (arg.type === "objectArray") {
 		return `parseObjectArray(${read}, ${quote(arg.name)})`;
 	}
+	if (arg.type === "nestedArray") {
+		return `parseNestedArray(${read}, ${quote(arg.name)})`;
+	}
 	if (arg.type === "objectMap") {
 		return `parseJsonMap(${read}, ${quote(arg.name)}${arg.required ? ", true" : ""})`;
 	}
@@ -854,7 +857,8 @@ function plainCall(ctx: Ctx): string[] {
 			lines.push(`      const qs = ${QS_FROM_PARAMS};`);
 			url = `\`${ctx.resolvedRequestPath}\${qs ? '?' + qs : ''}\``;
 		}
-		lines.push(...emitRawTail(ctx, "      ", url, []));
+		const parts = ctx.hasHeaders ? [`headers: ${HEADERS_GUARDED}`] : [];
+		lines.push(...emitRawTail(ctx, "      ", url, parts));
 	}
 	if (!ctx.isRawOutput && !unsatisfiable) {
 		const url = `\`${ctx.resolvedRequestPath}\``;
@@ -1093,6 +1097,9 @@ export function imports(ctx: Ctx): Imports {
 		}
 		if (bodyArgs.some((a) => a.type === "objectArray")) {
 			names.push("parseObjectArray");
+		}
+		if (bodyArgs.some((a) => a.type === "nestedArray")) {
+			names.push("parseNestedArray");
 		}
 		if (bodyArgs.some((a) => a.type === "scalarUnion")) {
 			names.push("parseScalarValue");

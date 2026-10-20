@@ -7,7 +7,7 @@ import type { ArgClassification } from "#lib/telemetry/index.js";
  */
 import type { Argv, CommandModule } from "yargs";
 import { createCommandClient, getZoneId } from "#lib/auth.js";
-import { compactBody, parseBody } from "#lib/body-parser.js";
+import { compactBody, parseBody, parseObjectArray } from "#lib/body-parser.js";
 import { formatDryRun } from "#lib/dry-run.js";
 import { resolveFileToken } from "#lib/input-validation.js";
 import { formatOutput } from "#lib/output.js";
@@ -23,6 +23,11 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.usage(
 			"$0 api-security token-validation configurations create\n\nCreates a JWT validation configuration for the zone."
 		)
+		.option("credentials-keys", {
+			type: "string",
+			description:
+				"The credentials.keys field. Provide as a JSON array of objects or @path/to/file.json.",
+		})
 		.option("description", {
 			type: "string",
 			description: "The description field",
@@ -76,6 +81,12 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 							argv.body !== undefined
 								? parseBody(argv.body)
 								: compactBody({
+										credentials: {
+											keys: parseObjectArray(
+												argv["credentials-keys"],
+												"credentials-keys"
+											),
+										},
 										description: resolveFileToken(
 											argv["description"] as string | undefined,
 											"description",
@@ -105,6 +116,11 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					formatOutput(result, { successLabel: `Created` });
 					return;
 				}
+				if (argv["credentials-keys"] === undefined) {
+					throw new Error(
+						"--credentials-keys is required (or pass --body with this field set)."
+					);
+				}
 				if (argv["description"] === undefined) {
 					argv["description"] = await promptForRequiredField(
 						"description",
@@ -127,6 +143,12 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 
 				// Assemble request body from individual flags
 				const bodyData = compactBody({
+					credentials: {
+						keys: parseObjectArray(
+							argv["credentials-keys"],
+							"credentials-keys"
+						),
+					},
 					description: resolveFileToken(
 						argv["description"] as string | undefined,
 						"description",

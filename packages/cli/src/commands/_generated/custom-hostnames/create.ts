@@ -7,7 +7,12 @@ import type { ArgClassification } from "#lib/telemetry/index.js";
  */
 import type { Argv, CommandModule } from "yargs";
 import { createCommandClient, getZoneId } from "#lib/auth.js";
-import { compactBody, parseBody, parseJsonMap } from "#lib/body-parser.js";
+import {
+	compactBody,
+	parseBody,
+	parseJsonMap,
+	parseObjectArray,
+} from "#lib/body-parser.js";
 import { formatDryRun } from "#lib/dry-run.js";
 import { resolveFileToken } from "#lib/input-validation.js";
 import { formatOutput } from "#lib/output.js";
@@ -61,6 +66,11 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			type: "boolean",
 			description:
 				"Whether or not to add Cloudflare Branding for the order.  This will add a subdomain of sni.cloudflaressl.com as the Common Name if set to true.",
+		})
+		.option("ssl-custom-cert-bundle", {
+			type: "string",
+			description:
+				"Array of custom certificate and key pairs (1 or 2 pairs allowed). Provide as a JSON array of objects or @path/to/file.json.",
 		})
 		.option("ssl-custom-certificate", {
 			type: "string",
@@ -209,6 +219,10 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 												certificate_authority:
 													argv["ssl-certificate-authority"],
 												cloudflare_branding: argv["ssl-cloudflare-branding"],
+												custom_cert_bundle: parseObjectArray(
+													argv["ssl-custom-cert-bundle"],
+													"ssl-custom-cert-bundle"
+												),
 												custom_certificate: resolveFileToken(
 													argv["ssl-custom-certificate"] as string | undefined,
 													"ssl-custom-certificate",
@@ -289,6 +303,10 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 							bundle_method: argv["ssl-bundle-method"],
 							certificate_authority: argv["ssl-certificate-authority"],
 							cloudflare_branding: argv["ssl-cloudflare-branding"],
+							custom_cert_bundle: parseObjectArray(
+								argv["ssl-custom-cert-bundle"],
+								"ssl-custom-cert-bundle"
+							),
 							custom_certificate: resolveFileToken(
 								argv["ssl-custom-certificate"] as string | undefined,
 								"ssl-custom-certificate",

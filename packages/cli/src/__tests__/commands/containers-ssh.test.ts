@@ -169,7 +169,8 @@ describe("cf containers ssh", () => {
 		);
 		expect(initContainersSharedContext).toHaveBeenCalledOnce();
 		expect(sshCommand).toHaveBeenCalledWith(
-			expect.objectContaining({ id: "instance-id", command: [] })
+			expect.objectContaining({ id: "instance-id", command: [] }),
+			USER_AGENT
 		);
 	});
 	it("forwards stdio mode and arguments after -- literally", async () => {
@@ -190,7 +191,8 @@ describe("cf containers ssh", () => {
 				id: "instance-id",
 				stdio: true,
 				command: ["printf", "%s", "001", "--help", "--version"],
-			})
+			}),
+			USER_AGENT
 		);
 	});
 	it.each(["--version", "-v", "--quiet", "--stdio"])(
@@ -201,7 +203,8 @@ describe("cf containers ssh", () => {
 				quiet: false,
 			});
 			expect(sshCommand).toHaveBeenCalledWith(
-				expect.objectContaining({ command: ["printf", flag] })
+				expect.objectContaining({ command: ["printf", flag] }),
+				USER_AGENT
 			);
 			await vi.waitFor(() =>
 				expect(updateState).toHaveBeenCalledWith({
@@ -232,7 +235,8 @@ describe("cf containers ssh", () => {
 				configFile: "/tmp/config",
 				option: ["A=yes", "B=no"],
 				command: ["uname", "-a"],
-			})
+			}),
+			USER_AGENT
 		);
 	});
 	it("rejects local mode before authentication or SSH", async () => {

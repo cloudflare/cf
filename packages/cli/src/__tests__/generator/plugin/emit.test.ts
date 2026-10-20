@@ -132,6 +132,29 @@ describe("dry run with mixed content", () => {
 	});
 });
 
+describe("bodyless raw response emission", () => {
+	it.each(["application/octet-stream", "text/plain"])(
+		"forwards header flags for %s responses",
+		(contentType) => {
+			const ctx = context(
+				method("get", "things-get"),
+				"things",
+				operation("get", "/things", {
+					headerParams: [
+						param("If-None-Match", undefined, { required: false }),
+					],
+					responses: [["200", { content: [contentType] }]],
+				})
+			);
+			const output = handler(ctx).join("\n");
+			expect(output).toContain("fetchRawBytes(");
+			expect(output).toContain(
+				"headers: Object.keys(headers).length > 0 ? headers : undefined"
+			);
+		}
+	);
+});
+
 describe("protobuf response emission", () => {
 	it("writes profile bytes directly while sending the JSON request body", () => {
 		const op = operation(

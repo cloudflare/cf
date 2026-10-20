@@ -10,7 +10,8 @@ This is a beta preview. To learn more, see the [announcement blog post](https://
 npm install -g cf
 ```
 
-Requires Node.js 22 or newer.
+cf supports the latest minor release of each supported Node.js major version.
+See [package.json](package.json) for the supported versions.
 
 ## Quick start
 

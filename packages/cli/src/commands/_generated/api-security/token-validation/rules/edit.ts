@@ -7,7 +7,7 @@ import type { ArgClassification } from "#lib/telemetry/index.js";
  */
 import type { Argv, CommandModule } from "yargs";
 import { createCommandClient, getZoneId } from "#lib/auth.js";
-import { compactBody, parseBody } from "#lib/body-parser.js";
+import { compactBody, parseBody, parseObjectArray } from "#lib/body-parser.js";
 import { formatDryRun } from "#lib/dry-run.js";
 import { resolveFileToken } from "#lib/input-validation.js";
 import { formatOutput } from "#lib/output.js";
@@ -44,6 +44,16 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			type: "string",
 			description:
 				"Rule expression. Requests that fail to match this expression will be subject to `action`.\n\nFor details on expressions, see the [Cloudflare Docs](https://developers.cloudflare.com/api-shield/security/jwt-validation/).\n",
+		})
+		.option("selector-exclude", {
+			type: "string",
+			description:
+				"Ignore operations that were otherwise included by `include`. Provide as a JSON array of objects or @path/to/file.json.",
+		})
+		.option("selector-include", {
+			type: "string",
+			description:
+				"Select all matching operations. Provide as a JSON array of objects or @path/to/file.json.",
 		})
 		.option("title", {
 			type: "string",
@@ -117,6 +127,16 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 											"expression",
 											"text"
 										),
+										selector: {
+											exclude: parseObjectArray(
+												argv["selector-exclude"],
+												"selector-exclude"
+											),
+											include: parseObjectArray(
+												argv["selector-include"],
+												"selector-include"
+											),
+										},
 										title: resolveFileToken(
 											argv["title"] as string | undefined,
 											"title",
@@ -172,6 +192,16 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						"expression",
 						"text"
 					),
+					selector: {
+						exclude: parseObjectArray(
+							argv["selector-exclude"],
+							"selector-exclude"
+						),
+						include: parseObjectArray(
+							argv["selector-include"],
+							"selector-include"
+						),
+					},
 					title: resolveFileToken(
 						argv["title"] as string | undefined,
 						"title",

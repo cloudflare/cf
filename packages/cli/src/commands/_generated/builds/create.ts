@@ -11,7 +11,7 @@ import {
 	getAccountId,
 	resolveAccountIdSilent,
 } from "#lib/auth.js";
-import { compactBody, parseBody } from "#lib/body-parser.js";
+import { compactBody, parseBody, parseObjectArray } from "#lib/body-parser.js";
 import { formatDryRun } from "#lib/dry-run.js";
 import { resolveFileToken } from "#lib/input-validation.js";
 import { LOCAL_ACCOUNT_ID } from "#lib/local.js";
@@ -40,6 +40,11 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("seed-repo-branch", {
 			type: "string",
 			description: "Repository branch to seed.",
+		})
+		.option("seed-repo-files", {
+			type: "string",
+			description:
+				"Files to add or replace for this build. Maximum 2. Provide as a JSON array of objects or @path/to/file.json.",
 		})
 		.option("seed-repo-owner", {
 			type: "string",
@@ -73,6 +78,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.check((argv) => {
 			const groupSet = [
 				"seed-repo-branch",
+				"seed-repo-files",
 				"seed-repo-owner",
 				"seed-repo-path",
 				"seed-repo-provider",
@@ -138,6 +144,10 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 												"seed-repo-branch",
 												"text"
 											),
+											files: parseObjectArray(
+												argv["seed-repo-files"],
+												"seed-repo-files"
+											),
 											owner: resolveFileToken(
 												argv["seed-repo-owner"] as string | undefined,
 												"seed-repo-owner",
@@ -194,6 +204,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 							"seed-repo-branch",
 							"text"
 						),
+						files: parseObjectArray(argv["seed-repo-files"], "seed-repo-files"),
 						owner: resolveFileToken(
 							argv["seed-repo-owner"] as string | undefined,
 							"seed-repo-owner",

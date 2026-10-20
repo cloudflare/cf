@@ -5,6 +5,8 @@
 	ignoreDeps: [
 		// This dependency is patched locally, so updates require a manual patch review.
 		"@changesets/cli",
+		// Keep this pinned to the known-compatible version.
+		"blake3-wasm",
 		// Keep the supported Node range broad instead of raising its minimum version.
 		"node",
 		// This must match the Vitest version bundled with Vite+.
@@ -55,7 +57,11 @@
 		},
 		{
 			description: "Update workers-sdk dependencies used only by tests and fixtures together",
-			matchPackageNames: ["@cloudflare/vite-plugin", "wrangler"],
+			matchPackageNames: [
+				"@cloudflare/vite-plugin",
+				"@cloudflare/workers-types",
+				"wrangler",
+			],
 			groupName: "workers-sdk derived test and fixture dependencies",
 			groupSlug: "workers-sdk-test-fixtures",
 			minimumReleaseAge: "0 minutes",

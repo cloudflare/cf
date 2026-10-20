@@ -11,7 +11,7 @@ import {
 	getAccountId,
 	resolveAccountIdSilent,
 } from "#lib/auth.js";
-import { compactBody, parseBody } from "#lib/body-parser.js";
+import { compactBody, parseBody, parseObjectArray } from "#lib/body-parser.js";
 import { formatDryRun } from "#lib/dry-run.js";
 import { resolveFileToken } from "#lib/input-validation.js";
 import { LOCAL_ACCOUNT_ID } from "#lib/local.js";
@@ -140,6 +140,11 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("name", {
 			type: "string",
 			description: "Defines the name of the Sink.",
+		})
+		.option("schema-fields", {
+			type: "string",
+			description:
+				"The schema.fields field. Provide as a JSON array of objects or @path/to/file.json.",
 		})
 		.option("schema-inferred", {
 			type: "boolean",
@@ -450,6 +455,10 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 											"text"
 										),
 										schema: {
+											fields: parseObjectArray(
+												argv["schema-fields"],
+												"schema-fields"
+											),
 											inferred: argv["schema-inferred"],
 										},
 										type: argv["type"],
@@ -586,6 +595,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						"text"
 					),
 					schema: {
+						fields: parseObjectArray(argv["schema-fields"], "schema-fields"),
 						inferred: argv["schema-inferred"],
 					},
 					type: argv["type"],

@@ -12,3 +12,6 @@ Install the open beta today globally and run it from anywhere:
 ```
 npm i -g cf
 ```
+
+cf supports the latest minor release of each supported Node.js major version.
+See [package.json](package.json) for the supported versions.

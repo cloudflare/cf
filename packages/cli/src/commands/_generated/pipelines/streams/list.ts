@@ -28,6 +28,16 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			type: "string",
 			description: "Filters streams by name (case-insensitive substring).",
 		})
+		.option("order-by", {
+			type: "string",
+			description: "Sorts streams by this field. Defaults to `created_at`.",
+			choices: ["name", "created_at"],
+		})
+		.option("direction", {
+			type: "string",
+			description: "Sort direction.",
+			choices: ["asc", "desc"],
+		})
 		.option("page", { type: "number", description: "Page" })
 		.option("per-page", { type: "number", description: "Per page" })
 		.option("dry-run", {
@@ -48,7 +58,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			{
 				command: "pipelines streams list",
 				classification: {
-					safeFlags: ["dry-run"],
+					safeFlags: ["order-by", "direction", "dry-run"],
 				} satisfies ArgClassification<Args>,
 			},
 			argv as Record<string, unknown>,
@@ -56,6 +66,8 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				const queryParams: Record<string, unknown> = {
 					pipeline_id: argv["pipeline-id"],
 					name: argv["name"],
+					order_by: argv["order-by"],
+					direction: argv["direction"],
 					page: argv["page"],
 					per_page: argv["per-page"],
 				};

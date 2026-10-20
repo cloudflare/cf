@@ -10,6 +10,7 @@ export default {
 		400: "BadRequestError",
 		401: "UnauthorizedError",
 		404: "NotFoundError",
+		409: "ConflictError",
 		500: "InternalServerError",
 	},
 } as const;

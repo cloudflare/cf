@@ -78681,20 +78681,26 @@
 				{
 					"name": "configuration-headers",
 					"type": "string",
-					"required": true,
+					"required": false,
 					"description": "The configuration.headers field. Provide as a JSON object or @path/to/file.json."
+				},
+				{
+					"name": "configuration-replace-headers",
+					"type": "boolean",
+					"required": false,
+					"description": "The configuration.replaceHeaders field"
 				},
 				{
 					"name": "configuration-type",
 					"type": "string",
-					"required": true,
+					"required": false,
 					"description": "The configuration.type field",
 					"enum": ["logpush"]
 				},
 				{
 					"name": "configuration-url",
 					"type": "string",
-					"required": true,
+					"required": false,
 					"description": "The configuration.url field"
 				},
 				{
@@ -86325,6 +86331,20 @@
 					"description": "Filters sinks by name (case-insensitive substring)."
 				},
 				{
+					"name": "order-by",
+					"type": "string",
+					"required": false,
+					"description": "Sorts sinks by this field. Defaults to `created_at`.",
+					"enum": ["name", "created_at"]
+				},
+				{
+					"name": "direction",
+					"type": "string",
+					"required": false,
+					"description": "Sort direction.",
+					"enum": ["asc", "desc"]
+				},
+				{
 					"name": "page",
 					"type": "number",
 					"required": false,
@@ -86547,6 +86567,20 @@
 					"type": "string",
 					"required": false,
 					"description": "Filters streams by name (case-insensitive substring)."
+				},
+				{
+					"name": "order-by",
+					"type": "string",
+					"required": false,
+					"description": "Sorts streams by this field. Defaults to `created_at`.",
+					"enum": ["name", "created_at"]
+				},
+				{
+					"name": "direction",
+					"type": "string",
+					"required": false,
+					"description": "Sort direction.",
+					"enum": ["asc", "desc"]
 				},
 				{
 					"name": "page",

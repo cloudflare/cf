@@ -55399,19 +55399,25 @@
 				{
 					"name": "configuration-headers",
 					"type": "string",
-					"required": true,
+					"required": false,
 					"description": "The configuration.headers field. Provide as a JSON object or @path/to/file.json."
+				},
+				{
+					"name": "configuration-replace-headers",
+					"type": "boolean",
+					"required": false,
+					"description": "The configuration.replaceHeaders field"
 				},
 				{
 					"name": "configuration-type",
 					"type": "string",
-					"required": true,
+					"required": false,
 					"description": "The configuration.type field"
 				},
 				{
 					"name": "configuration-url",
 					"type": "string",
-					"required": true,
+					"required": false,
 					"description": "The configuration.url field"
 				},
 				{
@@ -61004,6 +61010,16 @@
 					"required": false
 				},
 				{
+					"name": "order_by",
+					"type": "string",
+					"required": false
+				},
+				{
+					"name": "direction",
+					"type": "string",
+					"required": false
+				},
+				{
 					"name": "page",
 					"type": "number",
 					"required": false
@@ -61170,6 +61186,16 @@
 				},
 				{
 					"name": "name",
+					"type": "string",
+					"required": false
+				},
+				{
+					"name": "order_by",
+					"type": "string",
+					"required": false
+				},
+				{
+					"name": "direction",
 					"type": "string",
 					"required": false
 				},

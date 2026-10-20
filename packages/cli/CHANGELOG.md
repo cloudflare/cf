@@ -1,5 +1,54 @@
 # cf
 
+## 1.0.0-beta.20
+
+### Minor Changes
+
+- 0050a39: Write hand-written command messages to stderr
+
+  Breaking change during the beta: `cf auth login`, `cf auth logout`, the auth
+  profile commands, `cf cli telemetry enable` / `disable` and `cf migrate` now
+  print their notices, warnings and success messages on stderr, so redirected or
+  piped stdout holds only command output, as with generated commands. The auth
+  and telemetry commands use clack's log lines and the `✓` success line, which,
+  as with generated commands, appears only when stderr is a terminal. A command
+  to run next is printed on its own line so it copies cleanly. `cf auth login`
+  with `CLOUDFLARE_API_TOKEN` set now warns once that the token takes
+  precedence, and `cf auth logout` no longer reports removing OAuth tokens that
+  it keeps while `CLOUDFLARE_API_TOKEN` is set.
+
+- 1dc3664: Require the latest minor releases of supported Node.js majors
+
+  Require Node.js 22.23.0, 24.22.0, or 26.12.0 and allow later releases within
+  each major. This is a breaking change during the 1.0 beta: earlier minor
+  releases and unlisted Node.js majors are no longer supported.
+
+- 116bcf4: Support temporary accounts with `--temporary-account`
+
+  Create or reuse a short-lived Cloudflare account without signing in. cf prints
+  a claim URL; use `--event-code` to redeem an event code during account creation.
+
+  Help, authentication checks, and dry runs never create accounts. `cf auth logout`
+  clears cached temporary accounts.
+
+- 38091b1: Update the generated command surface for Forge OpenAPI release
+  `59bd82aa6c349b9097e34621bd15c4ddf46d6dd1`.
+- be5d271: Update the generated command surface for Forge OpenAPI release
+  `939a69bb5ebb7cbe7a03260caf326a1838bfb9d6`.
+
+### Patch Changes
+
+- 02663da: Update dependencies published from the Workers SDK repository:
+
+  - `@cloudflare/autoconfig`: `0.7.10` → `0.7.11`
+  - `@cloudflare/cli-shared-helpers`: `0.2.6` → `0.2.7`
+  - `@cloudflare/containers-shared`: `0.23.0` → `0.23.1`
+  - `@cloudflare/deploy-helpers`: `0.22.0` → `0.22.1`
+  - `@cloudflare/runtime-types`: `0.1.13` → `0.1.14`
+  - `@cloudflare/workers-auth`: `0.14.0` → `0.14.1`
+  - `@cloudflare/workers-utils`: `0.47.2` → `0.47.3`
+  - `miniflare`: `5.20261019.0-beta` → `5.20261019.1-beta`
+
 ## 1.0.0-beta.19
 
 ### Minor Changes

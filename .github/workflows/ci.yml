@@ -2,7 +2,7 @@ name: CI
 
 # Three jobs on every PR, merge-queue candidate, and push to main:
 #
-#   check — `pnpm check` (generation, dependency builds, lint/format + tsgo) over
+#   check — `pnpm check` (generation, dependency builds, lint/format + tsrs) over
 #           the whole repo.
 #   cli   — the cf CLI's in-package vitest suite (packages/cli) on
 #           Linux, macOS, and Windows.
@@ -66,8 +66,8 @@ jobs:
       - name: Install dependencies
         uses: $/.github/actions/install-dependencies
 
-      - name: Test automation scripts
-        run: node --test scripts/update-openapi.test.ts
+      - name: Test repository scripts
+        run: node --test scripts/update-openapi.test.ts scripts/typecheck.test.mjs
 
       - name: Run cli tests
         run: pnpm --filter cf test

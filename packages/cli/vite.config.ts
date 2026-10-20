@@ -40,7 +40,8 @@ export default defineConfig({
 				cache: false,
 			},
 			"task:check:type": {
-				command: "tsgo --noEmit && tsgo --noEmit -p generator/plugin",
+				command:
+					"node ../../scripts/typecheck.mjs --noEmit && node ../../scripts/typecheck.mjs --noEmit -p generator/plugin",
 				dependsOn: [
 					"task:generate",
 					{ task: "task:build", from: ["dependencies", "devDependencies"] },

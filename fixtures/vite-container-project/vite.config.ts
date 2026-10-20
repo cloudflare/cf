@@ -4,7 +4,7 @@ export default {
 	run: {
 		tasks: {
 			"task:check:type": {
-				command: "tsgo --noEmit",
+				command: "node ../../scripts/typecheck.mjs --noEmit",
 				dependsOn: [
 					{ task: "task:build", from: ["dependencies", "devDependencies"] },
 				],

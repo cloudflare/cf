@@ -93,7 +93,9 @@ Based on `workers-sdk` but using vite+ rather than turborepo:
   and Pack bundling. Package `run.tasks` declare prerequisites; pnpm scripts
   invoke them through `vp run`. Task caching is disabled while inputs and
   outputs are audited; uncached tasks inherit the calling environment.
-- **tsgo** (`@typescript/native-preview`) — type checking, no `tsc`.
+- **tsrs** — type checking through `scripts/typecheck.mjs`, with `tsgo`
+  (`@typescript/native-preview`) on platforms without a published tsrs binary
+  (including Windows and Intel macOS). No `tsc`.
 - **pnpm 12** with `blockExoticSubdeps` +
   `allowBuilds: { esbuild: true, workerd: true }`.
 - **Vite+ Pack** — Rolldown-based ESM bundler. Outputs chunked `dist/*.mjs`
@@ -121,7 +123,7 @@ Test infrastructure is split across two packages:
 
 - The forge-side type system + the OpenAPI spec (every emitted command
   and its `Operation` is type-checked against `#api`).
-- `pnpm check:type` (tsgo) across workspace packages, including the full
+- `pnpm check:type` (tsrs, or the platform fallback) across workspace packages, including the full
   generated CLI tree and the container fixture. Dependency builds run first
   so the fixture can resolve `cf/config` declarations.
 - `packages/cli/e2e/` — JSON fixtures driving a generated bash runner
@@ -806,7 +808,7 @@ Names discussed in planning documents such as `paramOverride.derive`, `x-forge-j
 - Never infer HTTP verbs from command names. Use the finalized OpenAPI operation resolved by Forge (`opInfo.method`).
 - Never hard-code API product names in generic/cross-cutting `packages/cli/src/` code. Keep the documented AI, Registrar, D1, and Workers workflow exceptions contained in their command directories, and keep the universal zone-name resolver confined to `context.ts` and `resolve.ts`.
 - Never edit `_generated/` files — overwritten on `pnpm generate`.
-- Never reintroduce `tsc`. Type checking uses `tsgo`.
+- Never reintroduce `tsc`. Type checking uses `scripts/typecheck.mjs` (tsrs with a platform fallback).
 - Never reintroduce `tsup` — Vite+ Pack produces chunked output that
   cooperates with lazy-command dynamic imports.
 - Never eagerly import `_generated/index.ts` from anywhere besides
@@ -852,9 +854,9 @@ CI). See `.changeset/README.md` for the full format and rules.
 pnpm install           # forge comes from its pinned pkg.pr.new build
 pnpm build             # pinned public OpenAPI → CLI and dist/
 pnpm dev               # tsx packages/cli/src/dev.ts
-pnpm check             # generation + dependency builds + workspace tsgo + lint/format
+pnpm check             # generation + dependency builds + workspace type checks + lint/format
 pnpm check:lint        # Vite+ lint --type-aware
-pnpm check:type        # workspace tsgo, after generation and dependency builds
+pnpm check:type        # workspace type checks, after generation and dependency builds
 pnpm check:format      # Vite+ format check
 pnpm fix               # Vite+ lint fix + format
 ```

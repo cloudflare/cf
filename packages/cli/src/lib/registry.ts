@@ -3,14 +3,17 @@ import { getCfConfigPath } from "@cloudflare/workers-auth/cf";
 
 export const CLOUDFLARE_REGISTRY_PATH = "CLOUDFLARE_REGISTRY_PATH";
 
-/** Resolve the dev registry shared by cf and dev servers spawned by cf. */
+/** Keep cf's default unless a registry path is explicitly configured. */
 export function getCloudflareRegistryPath(
 	env: NodeJS.ProcessEnv = process.env
 ): string {
-	const configured = env[CLOUDFLARE_REGISTRY_PATH];
-	return configured === undefined || configured === ""
-		? resolve(getCfConfigPath(), "registry")
-		: resolve(configured);
+	const configured =
+		env[CLOUDFLARE_REGISTRY_PATH] ||
+		env.WRANGLER_REGISTRY_PATH ||
+		env.MINIFLARE_REGISTRY_PATH;
+	return configured
+		? resolve(configured)
+		: resolve(getCfConfigPath(), "registry");
 }
 
 /** Environment variables understood by cf, Wrangler, and Miniflare peers. */

@@ -1,4 +1,5 @@
-import { readFileSync } from "node:fs";
+import { mkdirSync, readFileSync } from "node:fs";
+import os from "node:os";
 import { resolve } from "node:path";
 import * as clack from "@clack/prompts";
 import {
@@ -361,6 +362,51 @@ describe("cf dev", () => {
 					.split("\n")
 			).toEqual(["true", registryPath, registryPath, registryPath]);
 		});
+
+		it.each([undefined, "WRANGLER_REGISTRY_PATH", "MINIFLARE_REGISTRY_PATH"])(
+			"uses an explicit %s or cf's default for the detected Vite dev server",
+			async (variable) => {
+				const home = resolve("test home");
+				const xdg = resolve("xdg config");
+				const registry = variable
+					? resolve("shared registry")
+					: resolve(xdg, "cloudflare", "registry");
+				mkdirSync(resolve(home, ".wrangler", "registry"), { recursive: true });
+				vi.spyOn(os, "homedir").mockReturnValue(home);
+				vi.stubEnv("XDG_CONFIG_HOME", xdg);
+				vi.stubEnv("CLOUDFLARE_REGISTRY_PATH", undefined);
+				vi.stubEnv("WRANGLER_REGISTRY_PATH", undefined);
+				vi.stubEnv("MINIFLARE_REGISTRY_PATH", undefined);
+				if (variable) {
+					vi.stubEnv(variable, registry);
+				}
+				await seed({
+					"cloudflare.config.ts": "export default {};",
+					"package.json": JSON.stringify({
+						name: "vite-project",
+						dependencies: { vite: "^7.0.0" },
+					}),
+					"package-lock.json": "{}",
+					"node_modules/vite/package.json": JSON.stringify({
+						name: "vite",
+						version: "7.0.0",
+					}),
+					"node_modules/.bin/vite": nodeScript(
+						'require("node:fs").writeFileSync("registry-env.json", JSON.stringify([process.env.CLOUDFLARE_REGISTRY_PATH, process.env.WRANGLER_REGISTRY_PATH, process.env.MINIFLARE_REGISTRY_PATH]));'
+					),
+				});
+				makeExecutable("node_modules/.bin/vite", { npmBin: true });
+
+				const result = await runCf(["dev"]);
+
+				expect(result.exitCode).toBe(0);
+				expect(JSON.parse(readFileSync("registry-env.json", "utf8"))).toEqual([
+					registry,
+					registry,
+					registry,
+				]);
+			}
+		);
 
 		it("formats delegation without environment overrides", async () => {
 			const logMessage = vi

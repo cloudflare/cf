@@ -1,4 +1,6 @@
-import { mkdirSync, writeFileSync } from "node:fs";
+import { existsSync, mkdirSync, writeFileSync } from "node:fs";
+import { resolve } from "node:path";
+import { getCfConfigPath } from "@cloudflare/workers-auth/cf";
 import { runInTempDir } from "@cloudflare/workers-utils/test-helpers";
 import {
 	afterEach,
@@ -109,6 +111,34 @@ describe("cf --local end to end", () => {
 			)
 		).toEqual([]);
 	}, 60_000);
+
+	it.each(["WRANGLER_REGISTRY_PATH", "MINIFLARE_REGISTRY_PATH"])(
+		"uses an explicitly exported %s for the real local runtime",
+		async (variable) => {
+			const registry = resolve("shared registry");
+			const result = await runCf(
+				[
+					"kv",
+					"keys",
+					"list",
+					"--namespace-id",
+					"explicit-registry",
+					"--local",
+				],
+				{
+					CLOUDFLARE_API_TOKEN: undefined,
+					CLOUDFLARE_REGISTRY_PATH: undefined,
+					WRANGLER_REGISTRY_PATH: undefined,
+					MINIFLARE_REGISTRY_PATH: undefined,
+					[variable]: registry,
+				}
+			);
+			expect(result.exitCode).toBe(0);
+			expect(existsSync(registry)).toBe(true);
+			expect(existsSync(resolve(getCfConfigPath(), "registry"))).toBe(false);
+		},
+		60_000
+	);
 
 	it("explains how to retry commands without a local implementation", async () => {
 		await expect(

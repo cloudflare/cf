@@ -9,32 +9,94 @@ import {
 import { terminalProgress } from "../../lib/osc-progress.js";
 import { withProgress } from "../../lib/progress.js";
 
-vi.mock("@clack/prompts", () => ({
-	spinner: () => ({
+const spinner = vi.hoisted(() =>
+	vi.fn(() => ({
 		error: vi.fn(),
 		start: vi.fn(),
 		stop: vi.fn(),
-	}),
-}));
+	}))
+);
+vi.mock("@clack/prompts", () => ({ spinner }));
 
 describe("withProgress", () => {
 	const originalStdoutIsTTY = process.stdout.isTTY;
+	const originalStderrIsTTY = process.stderr.isTTY;
+	const setTTY = (stream: NodeJS.WriteStream, value: boolean | undefined) =>
+		Object.defineProperty(stream, "isTTY", { configurable: true, value });
 
 	beforeEach(() => {
 		vi.stubEnv("NO_COLOR", undefined);
-		Object.defineProperty(process.stdout, "isTTY", {
-			configurable: true,
-			value: true,
-		});
+		vi.stubEnv("FORCE_COLOR", undefined);
+		setTTY(process.stderr, true);
 	});
 
 	afterEach(() => {
 		vi.restoreAllMocks();
 		vi.unstubAllEnvs();
-		Object.defineProperty(process.stdout, "isTTY", {
-			configurable: true,
-			value: originalStdoutIsTTY,
-		});
+		spinner.mockClear();
+		setTTY(process.stdout, originalStdoutIsTTY);
+		setTTY(process.stderr, originalStderrIsTTY);
+	});
+
+	it("draws on stderr while stdout is redirected", async () => {
+		setTTY(process.stdout, false);
+		vi.spyOn(terminalProgress, "setIndeterminate").mockImplementation(() => {});
+		vi.spyOn(terminalProgress, "clear").mockImplementation(() => {});
+
+		await expect(withProgress("Loading", async () => "ok")).resolves.toBe("ok");
+
+		expect(spinner).toHaveBeenCalledWith(
+			expect.objectContaining({ output: process.stderr })
+		);
+	});
+
+	it("does not draw when stderr is not a terminal", async () => {
+		setTTY(process.stdout, true);
+		setTTY(process.stderr, false);
+
+		await expect(withProgress("Loading", async () => "ok")).resolves.toBe("ok");
+
+		expect(spinner).not.toHaveBeenCalled();
+	});
+
+	it("exits as SIGINT and SIGTERM would while drawing", async () => {
+		vi.spyOn(terminalProgress, "setIndeterminate").mockImplementation(() => {});
+		vi.spyOn(terminalProgress, "clear").mockImplementation(() => {});
+		const exit = vi
+			.spyOn(process, "exit")
+			.mockImplementation(() => undefined as never);
+		let finish = () => {};
+		const running = withProgress(
+			"Loading",
+			() => new Promise<void>((resolve) => (finish = resolve))
+		);
+
+		process.emit("SIGINT", "SIGINT");
+		process.emit("SIGTERM", "SIGTERM");
+		finish();
+		await running;
+		process.emit("SIGINT", "SIGINT");
+
+		expect(exit.mock.calls).toEqual([[130], [143]]);
+	});
+
+	it("exits 130 when Ctrl+C ends the process while drawing", async () => {
+		vi.spyOn(terminalProgress, "setIndeterminate").mockImplementation(() => {});
+		vi.spyOn(terminalProgress, "clear").mockImplementation(() => {});
+		let finish = () => {};
+		const running = withProgress(
+			"Loading",
+			() => new Promise<void>((resolve) => (finish = resolve))
+		);
+
+		// clack's spinner exits 0 when it reads Ctrl+C as a keypress.
+		process.emit("exit", 0);
+		const exitCode = process.exitCode;
+		process.exitCode = undefined;
+		finish();
+		await running;
+
+		expect(exitCode).toBe(130);
 	});
 
 	it("does not set OSC progress when animation is disabled", async () => {

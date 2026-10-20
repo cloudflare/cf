@@ -83,7 +83,7 @@ export function errorBlock(
 
 	// Content area is (terminal width) - (gutter "│ " = 2 cols). Floor
 	// at 20 cols so very narrow terminals still produce readable lines.
-	const innerWidth = Math.max(20, (process.stdout.columns || 80) - 2);
+	const innerWidth = Math.max(20, (process.stderr.columns || 80) - 2);
 
 	const lines: string[] = [];
 

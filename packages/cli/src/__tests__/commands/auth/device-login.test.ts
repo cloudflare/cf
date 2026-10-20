@@ -219,13 +219,22 @@ describe("cf auth device login", () => {
 
 	it("summarizes more than five selected scopes after login", async () => {
 		sharedAuth.credentials = {
-			scopes: ["one", "two", "three", "four", "five", "six"],
+			scopes: [
+				"openid",
+				"offline_access",
+				"d1:write",
+				"d1.read",
+				"dns.read",
+				"zone.read",
+			],
 		};
 
 		await runCf(["auth", "login", "--no-browser"]);
 
-		expect(std.out).toContain("Scopes: 6 selected");
-		expect(std.out).toContain("Run cf auth whoami to see the full list.");
-		expect(std.out).not.toContain("one, two, three, four, five, six");
+		expect(std.out).toContain("Scopes: 6 across 2 products");
+		expect(std.out).toContain(
+			"Run cf auth whoami --product to view permissions."
+		);
+		expect(std.out).not.toContain("d1:write");
 	});
 });

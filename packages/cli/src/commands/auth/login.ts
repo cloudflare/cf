@@ -10,6 +10,7 @@ import {
 } from "../../lib/oauth/index.js";
 import { hint, info, theme, warning } from "../../lib/ui/index.js";
 import { assertNoProfileFlag } from "./profiles.js";
+import { groupScopes } from "./scope-groups.js";
 import type { CommonYargsOptions } from "../../lib/cli-types.js";
 import type { ArgClassification } from "../../lib/telemetry/index.js";
 import type { ArgumentsCamelCase, Argv, CommandModule } from "yargs";
@@ -151,9 +152,13 @@ const loginCommand: CommandModule<object, LoginArgs> = {
 		);
 		if (state?.scopes) {
 			if (state.scopes.length > MAX_INLINE_SCOPES) {
-				console.log(`${theme.info("Scopes:")} ${state.scopes.length} selected`);
 				console.log(
-					hint(`Run ${theme.code("cf auth whoami")} to see the full list.`)
+					`${theme.info("Scopes:")} ${state.scopes.length} across ${groupScopes(state.scopes).size} products`
+				);
+				console.log(
+					hint(
+						`Run ${theme.code("cf auth whoami --product")} to view permissions.`
+					)
 				);
 			} else {
 				console.log(`${theme.info("Scopes:")} ${state.scopes.join(", ")}`);

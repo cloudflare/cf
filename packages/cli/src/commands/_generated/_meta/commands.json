@@ -19172,9 +19172,21 @@
 			"fullPath": ["auth", "whoami"],
 			"category": "read",
 			"description": "Show current user and authentication status",
-			"usage": "cf auth whoami",
+			"usage": "cf auth whoami [options]",
 			"arguments": [],
 			"options": [
+				{
+					"name": "product",
+					"type": "string",
+					"required": false,
+					"description": "Show granted OAuth scopes grouped by product, optionally only the products matching a search term"
+				},
+				{
+					"name": "filter",
+					"type": "string",
+					"required": false,
+					"description": "Show granted OAuth scopes grouped by product, only those whose name contains a search term"
+				},
 				{
 					"name": "dry-run",
 					"type": "boolean",

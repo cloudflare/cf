@@ -3,7 +3,7 @@ import { getAuthFromEnv, validateProfileName } from "@cloudflare/workers-auth";
 import { getProfileStore, login, logout } from "../../lib/oauth/index.js";
 import { formatOutput, printSuccess } from "../../lib/output.js";
 import { theme } from "../../lib/ui/index.js";
-import { log, printCommands } from "../../lib/ui/log.js";
+import { log } from "../../lib/ui/log.js";
 import type { CommonYargsOptions } from "../../lib/cli-types.js";
 import type { ArgumentsCamelCase, Argv, CommandModule } from "yargs";
 
@@ -104,8 +104,10 @@ export const createCommand: CommandModule<object, CreateArgs> = {
 				? `Profile "${argv.name}" re-authenticated.`
 				: `Profile "${argv.name}" created.`
 		);
-		log.info("To use this profile in a directory, run:");
-		printCommands(`cf auth activate ${argv.name}`);
+		log.info(
+			"To use this profile in a directory, run:",
+			`cf auth activate ${argv.name}`
+		);
 	},
 };
 

@@ -233,4 +233,19 @@ describe("cf auth profiles", () => {
 			Successfully logged out."
 		`);
 	});
+
+	it("keeps warnings and their fixes under --quiet but hides notices", async () => {
+		createProfile("default");
+		createProfile("work");
+		store.bindings.activate("work", process.cwd());
+
+		await runCf(["auth", "login", "--quiet"]);
+
+		expect(std.out).toBe("");
+		expect(std.err).toMatchInlineSnapshot(`
+			"▲  This directory has profile "work" active. cf auth login updates the default profile, not "work". To re-authenticate "work", run:
+
+			   cf auth create work"
+		`);
+	});
 });

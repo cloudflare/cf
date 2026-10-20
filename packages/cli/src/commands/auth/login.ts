@@ -10,7 +10,7 @@ import {
 	setProfile,
 } from "../../lib/oauth/index.js";
 import { theme } from "../../lib/ui/index.js";
-import { log, printCommands } from "../../lib/ui/log.js";
+import { log } from "../../lib/ui/log.js";
 import { assertNoProfileFlag } from "./profiles.js";
 import type { CommonYargsOptions } from "../../lib/cli-types.js";
 import type { ArgClassification } from "../../lib/telemetry/index.js";
@@ -80,9 +80,9 @@ const loginCommand: CommandModule<object, LoginArgs> = {
 
 		if (activeProfile !== "default") {
 			log.warn(
-				`This directory has profile "${activeProfile}" active. ${theme.code("cf auth login")} updates the default profile, not "${activeProfile}". To re-authenticate "${activeProfile}", run:`
+				`This directory has profile "${activeProfile}" active. ${theme.code("cf auth login")} updates the default profile, not "${activeProfile}". To re-authenticate "${activeProfile}", run:`,
+				`cf auth create ${activeProfile}`
 			);
-			printCommands(`cf auth create ${activeProfile}`);
 		}
 
 		setProfile("default");

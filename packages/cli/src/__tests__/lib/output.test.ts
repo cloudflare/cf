@@ -280,6 +280,25 @@ describe("formatOutput", () => {
 		expect(err).toContain("Deleted namespace");
 	});
 
+	it("hides the ✓ line under --quiet", () => {
+		setStderrTTY(true);
+		const argv = process.argv;
+		process.argv = [
+			argv[0] ?? "node",
+			"cf",
+			"kv",
+			"namespaces",
+			"delete",
+			"--quiet",
+		];
+		try {
+			formatOutput(null, { successLabel: "Deleted namespace" });
+		} finally {
+			process.argv = argv;
+		}
+		expect(stderrWrite.join("")).toBe("");
+	});
+
 	it("treats undefined like null", () => {
 		setStderrTTY(true);
 		formatOutput(undefined, { successLabel: "Done" });

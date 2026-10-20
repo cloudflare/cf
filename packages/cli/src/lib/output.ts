@@ -1,5 +1,6 @@
 import { isInteractive } from "@cloudflare/cli-shared-helpers/interactive";
 import ci from "ci-info";
+import { hasQuietFlag } from "./args.js";
 import { supportsColor, theme } from "./ui/theme.js";
 
 /** Maximum JSON size (in characters) for syntax highlighting - prevents performance issues */
@@ -26,10 +27,11 @@ function outputPayload(data: unknown): unknown {
 
 /**
  * The `✓` line confirming that a command finished. It prints only when
- * stderr is a terminal; scripts read the exit code instead.
+ * stderr is a terminal and `--quiet` is off; scripts read the exit code
+ * instead.
  */
 export function printSuccess(message: string): void {
-	if (process.stderr.isTTY) {
+	if (process.stderr.isTTY && !hasQuietFlag()) {
 		process.stderr.write(`${theme.success("✓")} ${message}\n`);
 	}
 }

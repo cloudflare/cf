@@ -81,22 +81,49 @@ export default [
 		fullPath: ["auth", "whoami"],
 		category: "read",
 		description: "Show current user and authentication status",
-		usage: "cf auth whoami [options]",
+		usage: "cf auth whoami",
 		arguments: [],
 		options: [
 			{
-				name: "product",
-				type: "string",
+				name: "dry-run",
+				type: "boolean",
 				required: false,
 				description:
-					"Show granted OAuth scopes grouped by product, optionally only the products matching a search term",
+					"Parse arguments and show the command without executing it",
+				default: false,
+			},
+		],
+	},
+	{
+		command: "cf auth scopes",
+		name: "scopes",
+		fullPath: ["auth", "scopes"],
+		category: "read",
+		description:
+			"Show the OAuth scopes granted to the current login, by product",
+		usage: "cf auth scopes [product] [options]",
+		arguments: [
+			{
+				name: "product",
+				position: 0,
+				type: "string",
+				required: false,
+				description: "Show the permissions of the products matching this name",
+			},
+		],
+		options: [
+			{
+				name: "all",
+				type: "boolean",
+				required: false,
+				description: "Show the permissions of every product",
+				default: false,
 			},
 			{
 				name: "filter",
 				type: "string",
 				required: false,
-				description:
-					"Show granted OAuth scopes grouped by product, only those whose name contains a search term",
+				description: "Show only the permissions whose scope contains this term",
 			},
 			{
 				name: "dry-run",

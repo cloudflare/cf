@@ -4,4 +4,4 @@
 
 Group OAuth scopes by product
 
-`cf auth login` now summarizes granted scopes by product, and `cf auth whoami --product [search]` and `--filter <term>` list them grouped by product area with write access highlighted and non-default scopes marked as custom. `cf auth whoami` keeps its JSON output, including the raw scope list.
+`cf auth login` now summarizes granted scopes instead of hinting at the full list, and the new `cf auth scopes` command shows them in the product categories of Cloudflare's OAuth consent screen. Pass a product name, `--all`, or `--filter <term>` to list the permissions, with non-read access highlighted and non-default scopes marked as custom. `cf auth whoami` is unchanged.

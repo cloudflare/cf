@@ -38,6 +38,7 @@ describe("hand-written command metadata", () => {
 				"cf auth list",
 				"cf auth login",
 				"cf auth logout",
+				"cf auth scopes",
 				"cf auth whoami",
 				"cf build",
 				"cf cli search",
@@ -179,7 +180,7 @@ describe("hand-written-only command metadata", () => {
 	);
 
 	it("contains only hand-written commands", () => {
-		expect(commands.size).toBe(50);
+		expect(commands.size).toBe(51);
 		expect(commands.has("cf pages deploy")).toBe(true);
 		expect(commands.has("cf tunnels diag")).toBe(true);
 		expect(commands.has("cf tunnels login")).toBe(true);

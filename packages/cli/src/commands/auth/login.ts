@@ -156,9 +156,7 @@ const loginCommand: CommandModule<object, LoginArgs> = {
 					`${theme.info("Scopes:")} ${state.scopes.length} across ${groupScopes(state.scopes).size} products`
 				);
 				console.log(
-					hint(
-						`Run ${theme.code("cf auth whoami --product")} to view permissions.`
-					)
+					hint(`Run ${theme.code("cf auth scopes")} to view permissions.`)
 				);
 			} else {
 				console.log(`${theme.info("Scopes:")} ${state.scopes.join(", ")}`);

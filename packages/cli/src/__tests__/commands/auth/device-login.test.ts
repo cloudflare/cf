@@ -232,9 +232,7 @@ describe("cf auth device login", () => {
 		await runCf(["auth", "login", "--no-browser"]);
 
 		expect(std.out).toContain("Scopes: 6 across 2 products");
-		expect(std.out).toContain(
-			"Run cf auth whoami --product to view permissions."
-		);
+		expect(std.out).toContain("Run cf auth scopes to view permissions.");
 		expect(std.out).not.toContain("d1:write");
 	});
 });

@@ -248,6 +248,27 @@ export function groupScopes(
 	return groups;
 }
 
+type ScopeGroups = ReturnType<typeof groupScopes>;
+
+function countLabel(area: string, granted: ScopeGroups, defaults: ScopeGroups) {
+	const count = granted.get(area)?.length ?? 0;
+	return `${count}/${defaults.get(area)?.length ?? count}`;
+}
+
+/** One line per product area that has granted scopes, with its counts. */
+export function formatScopeSummary(scopes: readonly string[]): string {
+	const granted = groupScopes(scopes);
+	const defaults = groupScopes(DefaultScopeKeys);
+	const areas = AREA_NAMES.filter((area) => granted.has(area));
+	const width = Math.max(...areas.map((area) => area.length));
+	return areas
+		.map(
+			(area) =>
+				`${theme.bold(theme.info(area.padEnd(width)))}  ${theme.muted(countLabel(area, granted, defaults))}`
+		)
+		.join("\n");
+}
+
 // Leading-space, lower-case words, so a search matches only from a word start:
 // "ai" finds "AI & Machine Learning" but not "Email & Messaging".
 const words = (text: string) =>
@@ -277,9 +298,8 @@ export function formatScopeGroups(
 		if (shown.length === 0) {
 			continue;
 		}
-		const total = defaults.get(area)?.length ?? entries.length;
 		const lines = [
-			`${theme.bold(theme.info(area))} ${theme.muted(`(${entries.length}/${total})`)}`,
+			`${theme.bold(theme.info(area))} ${theme.muted(`(${countLabel(area, granted, defaults)})`)}`,
 		];
 
 		const resources = new Map<string, Set<string>>();

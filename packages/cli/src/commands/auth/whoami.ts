@@ -5,34 +5,19 @@ import {
 	readAuthCredentials,
 } from "../../lib/oauth/index.js";
 import { formatOutput } from "../../lib/output.js";
-import { theme } from "../../lib/ui/index.js";
-import { formatScopeGroups } from "./scope-groups.js";
 import type { ArgumentsCamelCase, Argv, CommandModule } from "yargs";
 
-interface WhoamiArgs {
-	product?: string;
-	filter?: string;
-}
+interface WhoamiArgs {}
 
 const whoamiCommand: CommandModule<object, WhoamiArgs> = {
 	command: "whoami",
 	describe: "Show current user and authentication status",
 
 	builder: (yargs: Argv): Argv<WhoamiArgs> => {
-		return yargs
-			.option("product", {
-				type: "string",
-				description:
-					"Show granted OAuth scopes grouped by product, optionally only the products matching a search term",
-			})
-			.option("filter", {
-				type: "string",
-				description:
-					"Show granted OAuth scopes grouped by product, only those whose name contains a search term",
-			}) as Argv<WhoamiArgs>;
+		return yargs as Argv<WhoamiArgs>;
 	},
 
-	handler: async (argv: ArgumentsCamelCase<WhoamiArgs>): Promise<void> => {
+	handler: async (_argv: ArgumentsCamelCase<WhoamiArgs>): Promise<void> => {
 		// Determine the authentication source.
 		const envToken = process.env.CLOUDFLARE_API_TOKEN;
 		const stored = readAuthCredentials();
@@ -98,46 +83,8 @@ const whoamiCommand: CommandModule<object, WhoamiArgs> = {
 			output.expiresAt = stored.expiration_time;
 		}
 
-		if (argv.product === undefined && argv.filter === undefined) {
-			formatOutput(output);
-			return;
-		}
-
-		printScopes(
-			{ product: argv.product, filter: argv.filter },
-			userEmail,
-			accounts,
-			envToken ? undefined : stored?.scopes
-		);
+		formatOutput(output);
 	},
 };
-
-function printScopes(
-	search: { product?: string; filter?: string },
-	email: string | undefined,
-	accounts: Array<{ name: string }>,
-	scopes: string[] | undefined
-): void {
-	if (email) {
-		console.log(`${theme.info("Email:")} ${email}`);
-	}
-	for (const account of accounts) {
-		console.log(`${theme.info("Account:")} ${account.name}`);
-	}
-	console.log("");
-
-	if (!scopes) {
-		console.log(
-			theme.muted(
-				"No OAuth scopes: CLOUDFLARE_API_TOKEN permissions are set on the token."
-			)
-		);
-		return;
-	}
-
-	console.log(
-		formatScopeGroups(scopes, search) || theme.muted("No granted scopes match.")
-	);
-}
 
 export default whoamiCommand;

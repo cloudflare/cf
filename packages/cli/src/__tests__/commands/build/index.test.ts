@@ -23,9 +23,13 @@ describe("cf build", () => {
 		const result = await runCf(["build"]);
 
 		expect(result.exitCode).toBe(1);
-		expect(std.err).toMatch(/No Cloudflare dev-server is installed/);
+		expect(std.err).toMatch(/No Cloudflare dev server is installed/);
 		expect(std.err).toMatch(/@cloudflare\/vite-plugin/);
 		expect(std.err).toMatch(/wrangler/);
+		// Each install command sits on its own line, outside the error frame.
+		expect(std.err).toContain(
+			"\n   pip install cloudflare-py-dev-server\n   uv add --dev cloudflare-py-dev-server"
+		);
 	});
 
 	it("surfaces the wrangler minimum version when the delegate is missing", async () => {
@@ -43,7 +47,7 @@ describe("cf build", () => {
 
 		expect(result.exitCode).toBe(1);
 		expect(std.err).toMatch(/wrangler@4\.136\.0 or newer/);
-		expect(std.err).not.toMatch(/wrangler .* is not installed/);
+		expect(unframe(std.err)).not.toMatch(/wrangler .* is not installed/);
 	});
 
 	it("uses the vite delegate when vite and wrangler are both declared", async () => {
@@ -371,4 +375,9 @@ function chmod(path: string, npmBin = false): void {
 
 function readArgv(path: string): string[] {
 	return readFileSync(resolve(process.cwd(), path), "utf-8").trim().split("\n");
+}
+
+/** Join the lines an error frame wrapped, so a long path can't split a phrase. */
+function unframe(text: string): string {
+	return text.replaceAll("\n│ ", " ");
 }

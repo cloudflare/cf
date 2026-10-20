@@ -131,7 +131,7 @@ describe("spawnImpl", () => {
 			description: "Test fixture",
 			manifest: "package.json",
 			binary: () => null,
-			installHint: "(test)",
+			installCommands: ["(test)"],
 		};
 		const broken: DiscoveredImpl = {
 			impl,

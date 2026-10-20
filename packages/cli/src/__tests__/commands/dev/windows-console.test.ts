@@ -74,7 +74,7 @@ const sigtermListeners = process.listenerCount("SIGTERM");
 const execution = ${
 					launcher === "implementation"
 						? `spawnImpl({
-  impl: { ecosystem: "npm", pkg: "test", installHint: "test" },
+  impl: { ecosystem: "npm", pkg: "test", installCommands: ["test"] },
   binary: ${JSON.stringify(delegate)},
   manifestPath: "test"
 }, "dev", [], { output: ${JSON.stringify(output)} })`

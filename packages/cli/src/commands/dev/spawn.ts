@@ -84,7 +84,7 @@ export async function spawnImpl(
 		// re-deriving the precondition.
 		throw new Error(
 			`Cannot spawn ${discovered.impl.pkg}: binary not found.\n` +
-				`Try: ${discovered.impl.installHint}`
+				`Try: ${discovered.impl.installCommands.join(" or ")}`
 		);
 	}
 

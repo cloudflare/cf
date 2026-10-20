@@ -44,7 +44,7 @@ describe("cf dev", () => {
 			const result = await runCf(["dev"]);
 
 			expect(result.exitCode).toBe(1);
-			expect(std.err).toMatch(/No Cloudflare dev-server is installed/);
+			expect(std.err).toMatch(/No Cloudflare dev server is installed/);
 			// Should list every known impl as an install option.
 			expect(std.err).toMatch(/@cloudflare\/vite-plugin/);
 			expect(std.err).toMatch(/wrangler/);
@@ -65,7 +65,7 @@ describe("cf dev", () => {
 
 			const result = await runCf(["dev"]);
 			expect(result.exitCode).toBe(1);
-			expect(std.err).toMatch(/No Cloudflare dev-server is installed/);
+			expect(std.err).toMatch(/No Cloudflare dev server is installed/);
 		});
 	});
 
@@ -106,7 +106,9 @@ describe("cf dev", () => {
 			const result = await runCf(["dev"]);
 			expect(result.exitCode).toBe(1);
 			expect(std.err).not.toMatch(/Multiple Cloudflare dev-server/);
-			expect(std.err).toMatch(/@cloudflare\/vite-plugin .* is not installed/);
+			expect(unframe(std.err)).toMatch(
+				/@cloudflare\/vite-plugin .* is not installed/
+			);
 		});
 	});
 
@@ -121,7 +123,9 @@ describe("cf dev", () => {
 
 			const result = await runCf(["dev"]);
 			expect(result.exitCode).toBe(1);
-			expect(std.err).toMatch(/@cloudflare\/vite-plugin .* is not installed/);
+			expect(unframe(std.err)).toMatch(
+				/@cloudflare\/vite-plugin .* is not installed/
+			);
 			expect(std.err).toMatch(
 				/npm install --save-dev @cloudflare\/vite-plugin@beta/
 			);
@@ -140,13 +144,13 @@ describe("cf dev", () => {
 
 			const result = await runCf(["dev"]);
 			expect(result.exitCode).toBe(1);
-			expect(std.err).toMatch(/does not include the cf delegate/);
+			expect(unframe(std.err)).toMatch(/does not include the cf delegate/);
 			expect(std.err).toMatch(/@cloudflare\/vite-plugin v2 beta/);
 			expect(std.err).toContain("cf dev");
 			expect(std.err).toContain("cf build");
 			expect(std.err).toContain("cf deploy");
-			expect(std.err).toContain("cf previews deploy");
-			expect(std.err).not.toMatch(
+			expect(unframe(std.err)).toContain("cf previews deploy");
+			expect(unframe(std.err)).not.toMatch(
 				/@cloudflare\/vite-plugin .* is not installed/
 			);
 		});
@@ -164,9 +168,9 @@ describe("cf dev", () => {
 
 			const result = await runCf(["dev"]);
 			expect(result.exitCode).toBe(1);
-			expect(std.err).toMatch(/does not include the cf delegate/);
+			expect(unframe(std.err)).toMatch(/does not include the cf delegate/);
 			expect(std.err).toMatch(/wrangler@4\.136\.0 or newer/);
-			expect(std.err).not.toMatch(/wrangler .* is not installed/);
+			expect(unframe(std.err)).not.toMatch(/wrangler .* is not installed/);
 		});
 
 		it("surfaces the cargo hint when the rust impl is declared but missing", async () => {
@@ -183,7 +187,9 @@ describe("cf dev", () => {
 
 			const result = await runCf(["dev"]);
 			expect(result.exitCode).toBe(1);
-			expect(std.err).toMatch(/cloudflare-rs-dev-server .* is not installed/);
+			expect(unframe(std.err)).toMatch(
+				/cloudflare-rs-dev-server .* is not installed/
+			);
 			expect(std.err).toMatch(/cargo install cloudflare-rs-dev-server/);
 		});
 	});
@@ -211,7 +217,7 @@ describe("cf dev", () => {
 			expect(std.err).toContain("cf dev");
 			expect(std.err).toContain("cf build");
 			expect(std.err).toContain("cf deploy");
-			expect(std.err).toContain("cf previews deploy");
+			expect(unframe(std.err)).toContain("cf previews deploy");
 		});
 
 		it("runs the detected framework dev command", async () => {
@@ -653,3 +659,8 @@ describe("cf dev", () => {
 		});
 	});
 });
+
+/** Join the lines an error frame wrapped, so a long path can't split a phrase. */
+function unframe(text: string): string {
+	return text.replaceAll("\n│ ", " ");
+}

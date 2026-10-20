@@ -1,9 +1,9 @@
 # Type checking
 
 `typecheck.mjs` runs the pinned tsrs compiler on Linux x64/ARM64 (GNU or musl)
-and Apple Silicon macOS. It uses `@typescript/native-preview` (tsgo) on other
-platforms, including Windows and Intel macOS, until tsrs publishes binaries
-for them. It forwards compiler arguments and preserves the working directory,
+and Apple Silicon macOS. It uses `@typescript/native-preview` (tsgo) on Windows
+until tsrs publishes Windows binaries. Intel macOS is unsupported for repository
+type checking. It forwards compiler arguments and preserves the working directory,
 exit status, and launcher signal handling. A tsrs failure never retries with tsgo.
 
 The CLI, generator plugin, and container fixture type-check tasks all use this

@@ -7,22 +7,11 @@ import { test } from "node:test";
 import { fileURLToPath } from "node:url";
 import { getTypechecker } from "./typecheck.mjs";
 
-await test("selects tsrs only where the pinned release provides binaries", () => {
-	for (const [platform, arch] of [
-		["darwin", "arm64"],
-		["linux", "x64"],
-		["linux", "arm64"],
-	]) {
-		assert.equal(getTypechecker(platform, arch), "tsrs");
+await test("uses tsrs with a fallback only on Windows", () => {
+	for (const platform of ["darwin", "linux"]) {
+		assert.equal(getTypechecker(platform), "tsrs");
 	}
-	for (const [platform, arch] of [
-		["win32", "x64"],
-		["win32", "arm64"],
-		["darwin", "x64"],
-		["linux", "arm"],
-	]) {
-		assert.equal(getTypechecker(platform, arch), "@typescript/native-preview");
-	}
+	assert.equal(getTypechecker("win32"), "@typescript/native-preview");
 });
 
 for (const valid of [true, false]) {

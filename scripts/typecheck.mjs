@@ -1,17 +1,8 @@
 import { pathToFileURL } from "node:url";
 
-export function getTypechecker(
-	platform = process.platform,
-	arch = process.arch
-) {
-	// This tsrs release has no Windows or Intel macOS binaries.
-	if (
-		(platform === "darwin" && arch === "arm64") ||
-		(platform === "linux" && (arch === "x64" || arch === "arm64"))
-	) {
-		return "tsrs";
-	}
-	return "@typescript/native-preview";
+export function getTypechecker(platform = process.platform) {
+	// This tsrs release has no Windows binaries.
+	return platform === "win32" ? "@typescript/native-preview" : "tsrs";
 }
 
 if (

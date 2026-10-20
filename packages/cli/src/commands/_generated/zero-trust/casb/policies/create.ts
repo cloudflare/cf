@@ -11,7 +11,7 @@ import {
 	getAccountId,
 	resolveAccountIdSilent,
 } from "#lib/auth.js";
-import { compactBody, parseBody } from "#lib/body-parser.js";
+import { compactBody, parseBody, parseObjectArray } from "#lib/body-parser.js";
 import { formatDryRun } from "#lib/dry-run.js";
 import { resolveFileToken } from "#lib/input-validation.js";
 import { LOCAL_ACCOUNT_ID } from "#lib/local.js";
@@ -25,6 +25,16 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.usage(
 			"$0 zero-trust casb policies create\n\nCreates a new policy configuration that defines automated actions to be executed when security findings are detected. A policy can include multiple remediation and/or webhook actions that will be triggered automatically."
 		)
+		.option("actions-remediation-types", {
+			type: "string",
+			description:
+				"Remediation actions to execute (at most one). Provide as a JSON array of objects or @path/to/file.json.",
+		})
+		.option("actions-webhook-configs", {
+			type: "string",
+			description:
+				"Webhook actions to execute. Provide as a JSON array of objects or @path/to/file.json.",
+		})
 		.option("applies-to-all-integrations", {
 			type: "boolean",
 			description:
@@ -92,6 +102,16 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 							argv.body !== undefined
 								? parseBody(argv.body)
 								: compactBody({
+										actions: {
+											remediation_types: parseObjectArray(
+												argv["actions-remediation-types"],
+												"actions-remediation-types"
+											),
+											webhook_configs: parseObjectArray(
+												argv["actions-webhook-configs"],
+												"actions-webhook-configs"
+											),
+										},
 										applies_to_all_integrations:
 											argv["applies-to-all-integrations"],
 										description: resolveFileToken(
@@ -152,6 +172,16 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 
 				// Assemble request body from individual flags
 				const bodyData = compactBody({
+					actions: {
+						remediation_types: parseObjectArray(
+							argv["actions-remediation-types"],
+							"actions-remediation-types"
+						),
+						webhook_configs: parseObjectArray(
+							argv["actions-webhook-configs"],
+							"actions-webhook-configs"
+						),
+					},
 					applies_to_all_integrations: argv["applies-to-all-integrations"],
 					description: resolveFileToken(
 						argv["description"] as string | undefined,

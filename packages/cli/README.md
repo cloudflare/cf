@@ -10,7 +10,8 @@ This is a beta preview. To learn more, see the [announcement blog post](https://
 npm install -g cf
 ```
 
-Requires Node.js 22 or newer.
+cf supports the latest minor release of each supported Node.js major version.
+See [package.json](package.json) for the supported versions.
 
 ## Quick start
 
@@ -38,6 +39,13 @@ cf resolves credentials in this order:
 
 Use `cf auth create`, `delete`, `activate`, `deactivate`, and `list` to manage
 named profiles. `cf auth login` and `cf auth logout` manage the default profile.
+
+Use `cf auth login --use-keyring` to encrypt OAuth credentials with a key stored
+in your OS keychain. The choice is saved across invocations and applies to all
+profiles. Use `cf auth login --no-use-keyring` to save a preference for plaintext
+storage. Unless `CLOUDFLARE_AUTH_USE_KEYRING=true` is set, this also removes saved
+encrypted credentials, so affected profiles must authenticate again.
+`CLOUDFLARE_AUTH_USE_KEYRING=true` or `false` overrides the saved preference.
 
 ## Projects
 

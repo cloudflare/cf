@@ -5,6 +5,8 @@
 	ignoreDeps: [
 		// This dependency is patched locally, so updates require a manual patch review.
 		"@changesets/cli",
+		// Keep this pinned to the known-compatible version.
+		"blake3-wasm",
 		// Keep the supported Node range broad instead of raising its minimum version.
 		"node",
 		// This must match the Vitest version bundled with Vite+.

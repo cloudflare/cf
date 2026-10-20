@@ -220,7 +220,7 @@ export function parseJsonMap(
 /**
  * Parse one JSON-valued object-array body flag.
  *
- * Forge keeps direct request-body arrays of objects intact instead of
+ * Forge keeps request-body arrays of objects intact instead of
  * flattening their item properties. The generated command therefore accepts
  * the whole array as one JSON string (or `@file`) and validates only the shape
  * Forge promises: an array whose every item is a non-null JSON object. The API
@@ -230,6 +230,26 @@ export function parseObjectArray(
 	input: unknown,
 	flagName: string
 ): Record<string, unknown>[] | undefined {
+	return parseStructuredArray(input, flagName, "objects") as
+		| Record<string, unknown>[]
+		| undefined;
+}
+
+/** Parse an array of arrays without flattening its nested JSON values. */
+export function parseNestedArray(
+	input: unknown,
+	flagName: string
+): unknown[][] | undefined {
+	return parseStructuredArray(input, flagName, "arrays") as
+		| unknown[][]
+		| undefined;
+}
+
+function parseStructuredArray(
+	input: unknown,
+	flagName: string,
+	items: "objects" | "arrays"
+): unknown[] | undefined {
 	if (input === undefined) {
 		return undefined;
 	}
@@ -237,17 +257,17 @@ export function parseObjectArray(
 	const flag = flagName.startsWith("--") ? flagName : `--${flagName}`;
 	if (typeof input !== "string") {
 		throw new Error(
-			`${flag} must be provided once as a JSON array of objects.`
+			`${flag} must be provided once as a JSON array of ${items}.`
 		);
 	}
 	const value = parseJson<unknown>(input, flagName);
 	if (
 		!Array.isArray(value) ||
-		value.some(
-			(item) => item === null || typeof item !== "object" || Array.isArray(item)
+		value.some((item) =>
+			items === "arrays" ? !Array.isArray(item) : !isJsonObject(item)
 		)
 	) {
-		throw new Error(`${flag} must be a JSON array of objects.`);
+		throw new Error(`${flag} must be a JSON array of ${items}.`);
 	}
-	return value as Record<string, unknown>[];
+	return value;
 }

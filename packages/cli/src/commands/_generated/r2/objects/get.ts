@@ -109,6 +109,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 							method: "GET",
 							local: argv.local === true,
 							persistTo: argv.persistTo as string | undefined,
+							headers: Object.keys(headers).length > 0 ? headers : undefined,
 						}
 					)
 				);

@@ -2,7 +2,7 @@
  * cf's OAuth wiring.
  *
  * The shared package owns cf's identity, scopes, callback handling, credential
- * storage, refresh, and future keyring support. This module only supplies cf's
+ * storage, refresh, and keyring support. This module only supplies cf's
  * logger and prompt primitives, then preserves the façade consumed by commands.
  */
 import { isCancel } from "@clack/core";
@@ -10,6 +10,7 @@ import * as clack from "@clack/prompts";
 import {
 	createCfAuth,
 	createCfProfileStore,
+	setKeyringPreference as setSharedKeyringPreference,
 	validateScopeKeys,
 	type AuthContext,
 } from "@cloudflare/workers-auth/cf";
@@ -150,6 +151,14 @@ export function logout(profile?: string): Promise<void> {
 /** Set the auth profile used by subsequent credential lookups. */
 export function setProfile(profile: string): void {
 	auth.setProfile(profile);
+}
+
+/** Apply cf's global credential-storage preference through the shared auth layer. */
+export function setKeyringPreference(enabled: boolean): void {
+	setSharedKeyringPreference(enabled, {
+		logger,
+		getCredentialStore: () => auth.getCredentialStore(),
+	});
 }
 
 /** Return the auth profile selected for the current invocation. */

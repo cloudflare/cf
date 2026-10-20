@@ -189,6 +189,22 @@ async function uploadBuildOutput(argv: UploadArgs, ctx: UploadCommand) {
 			spacing: 0,
 		});
 		({ versionId } = await deploy(props, wranglerConfig, buildResult, {
+			deployCommand: "cf deploy",
+			versionsDeployCommand:
+				"cf workers deployments create --worker <worker-name> --strategy percentage --versions <versions-json>",
+			d1ListCommand: "cf d1 list",
+			d1DeleteCommand: "cf d1 delete <database-id>",
+			queueCreateCommand: (queueName) =>
+				`cf queues create --queue-name ${queueName}`,
+			secretPutCommand:
+				"cf workers secrets update --worker <worker-name> --type secret_text",
+			workersDevConfigFieldName: "workersDev",
+			workersDevConfigAssignment: (value) => `workersDev: ${value}`,
+			previewUrlsConfigFieldName: "previewUrls",
+			previewUrlsConfigAssignment: (value) => `previewUrls: ${value}`,
+			configFileName: "cloudflare.config.ts",
+			observabilityTargetPercentageField: "targetInstancePercentage",
+			observabilityTargetCountField: "targetInstanceCount",
 			syncWorkersSite: undefined,
 			analyseBundle: undefined,
 		}));
@@ -206,6 +222,16 @@ async function uploadBuildOutput(argv: UploadArgs, ctx: UploadCommand) {
 			spacing: 0,
 		});
 		({ versionId } = await versionsUpload(props, wranglerConfig, buildResult, {
+			deployCommand: "cf deploy",
+			versionsUploadCommand: "cf workers versions create",
+			versionsDeployCommand:
+				"cf workers deployments create --worker <worker-name> --strategy percentage --versions <versions-json>",
+			triggersDeployCommand: "cf workers triggers deploy",
+			d1ListCommand: "cf d1 list",
+			d1DeleteCommand: "cf d1 delete <database-id>",
+			queueCreateCommand: (queueName) =>
+				`cf queues create --queue-name ${queueName}`,
+			versionsSecretPutCommand: "wrangler versions secret put",
 			analyseBundle: undefined,
 		}));
 	}

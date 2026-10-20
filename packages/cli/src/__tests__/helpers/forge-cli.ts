@@ -52,7 +52,7 @@ function plugin(): string {
 			entry,
 			[
 				`import { definePlugin } from ${specifier(require.resolve("@cloudflare/forge/plugin"))};`,
-				'import { info } from "forge:plugin/forge@0.2.0";',
+				'import { info } from "forge:plugin/forge@0.3.0";',
 				`import { generateCli, generateCliGroup } from ${specifier(fileURLToPath(new URL("../../../generator/plugin/index.ts", import.meta.url)))};`,
 				"",
 				"const config = () => JSON.parse(info().version);",

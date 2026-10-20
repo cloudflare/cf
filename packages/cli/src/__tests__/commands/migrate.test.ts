@@ -1,14 +1,11 @@
 import path from "node:path";
-import {
-	mockConsoleMethods,
-	runInTempDir,
-	seed,
-} from "@cloudflare/workers-utils/test-helpers";
+import { runInTempDir, seed } from "@cloudflare/workers-utils/test-helpers";
 import { beforeEach, describe, expect, it, vi } from "vite-plus/test";
 import {
 	findWranglerConfig,
 	maybeMigrateWranglerProject,
 } from "../../lib/wrangler-migration.js";
+import { mockOutputStreams } from "../helpers/capture-output.js";
 import { runCf } from "../helpers/run-cf.js";
 
 const { migrateWranglerToCf } = vi.hoisted(() => ({
@@ -22,7 +19,7 @@ vi.mock("@cloudflare/codemods", () => ({
 describe("cf migrate", () => {
 	runInTempDir();
 
-	const std = mockConsoleMethods();
+	const std = mockOutputStreams();
 
 	beforeEach(() => {
 		migrateWranglerToCf.mockReset();
@@ -43,6 +40,7 @@ describe("cf migrate", () => {
 		const result = await runCf(["migrate"]);
 
 		expect(result.exitCode).toBe(0);
+		expect(std.out).toBe("");
 		expect(migrateWranglerToCf).toHaveBeenCalledWith(
 			path.join(process.cwd(), configFile),
 			{
@@ -52,12 +50,12 @@ describe("cf migrate", () => {
 				installDependencies: true,
 			}
 		);
-		expect(std.out).toContain(
+		expect(std.err).toContain(
 			"Using the Wrangler bundler because @cloudflare/vite-plugin is not declared."
 		);
-		expect(std.out).toContain("Updated 1 file(s):");
-		expect(std.out).toContain("cloudflare.config.ts");
-		expect(std.out).toContain("Migration complete.");
+		expect(std.err).toContain("Updated 1 file(s):");
+		expect(std.err).toContain("cloudflare.config.ts");
+		expect(std.err).toContain("Migration complete.");
 	});
 
 	it.each(["dependencies", "devDependencies"])(
@@ -76,7 +74,7 @@ describe("cf migrate", () => {
 				path.join(process.cwd(), "wrangler.jsonc"),
 				expect.objectContaining({ bundler: "vite" })
 			);
-			expect(std.out).toContain(
+			expect(std.err).toContain(
 				"Using the Vite bundler because @cloudflare/vite-plugin is declared."
 			);
 		}
@@ -96,7 +94,7 @@ describe("cf migrate", () => {
 			path.join(process.cwd(), "config/wrangler.toml"),
 			expect.objectContaining({ bundler: "vite" })
 		);
-		expect(std.out).toContain(
+		expect(std.err).toContain(
 			"Using the Vite bundler because @cloudflare/vite-plugin is declared."
 		);
 	});
@@ -110,7 +108,7 @@ describe("cf migrate", () => {
 			path.join(process.cwd(), "wrangler.json"),
 			expect.objectContaining({ bundler: "vite" })
 		);
-		expect(std.out).not.toContain("Using the");
+		expect(std.err).not.toContain("Using the");
 	});
 
 	it("accepts an explicit config path and migration options", async () => {
@@ -140,10 +138,11 @@ describe("cf migrate", () => {
 				installDependencies: false,
 			}
 		);
-		expect(std.out).toContain(
+		expect(std.out).toBe("");
+		expect(std.err).toContain(
 			"Would update 2 file(s):\n├─ config/cloudflare.config.ts\n└─ config/package.json"
 		);
-		expect(std.out).toContain("Migration preview complete.");
+		expect(std.err).toContain("Migration preview complete.");
 	});
 
 	it("requires an explicit path when no Wrangler config is found", async () => {
@@ -298,9 +297,10 @@ describe("cf migrate", () => {
 		const result = await runCf(["migrate"]);
 
 		expect(result.exitCode).toBe(1);
-		expect(std.out).toContain(
+		expect(std.out).toBe("");
+		expect(std.err).toContain(
 			"Follow-up work:\n└─ [required] durable_objects.migrations: Migrate this setting manually.\n   └─ https://developers.cloudflare.com/workers/"
 		);
-		expect(std.out).toContain("Migration requires follow-up work.");
+		expect(std.err).toContain("Migration requires follow-up work.");
 	});
 });

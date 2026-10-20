@@ -1,5 +1,6 @@
 import { getActiveProfile, logout } from "../../lib/oauth/index.js";
-import { warning } from "../../lib/ui/index.js";
+import { theme } from "../../lib/ui/index.js";
+import { log, printCommands } from "../../lib/ui/log.js";
 import { assertNoProfileFlag } from "./profiles.js";
 import type { CommonYargsOptions } from "../../lib/cli-types.js";
 import type { CommandModule } from "yargs";
@@ -18,12 +19,10 @@ const logoutCommand: CommandModule<object, CommonYargsOptions> = {
 		const activeProfile = getActiveProfile();
 
 		if (activeProfile !== "default") {
-			console.log(
-				warning(
-					`This directory has profile "${activeProfile}" active. \`cf auth logout\` removes the default profile's token, not "${activeProfile}".\n` +
-						`To delete "${activeProfile}", run \`cf auth delete ${activeProfile}\`.`
-				)
+			log.warn(
+				`This directory has profile "${activeProfile}" active. ${theme.code("cf auth logout")} removes the default profile's token, not "${activeProfile}". To delete "${activeProfile}", run:`
 			);
+			printCommands(`cf auth delete ${activeProfile}`);
 		}
 
 		await logout("default");

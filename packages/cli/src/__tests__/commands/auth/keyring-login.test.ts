@@ -2,11 +2,9 @@ import {
 	readUserPreferences,
 	updateUserPreferences,
 } from "@cloudflare/workers-auth/cf";
-import {
-	mockConsoleMethods,
-	runInTempDir,
-} from "@cloudflare/workers-utils/test-helpers";
+import { runInTempDir } from "@cloudflare/workers-utils/test-helpers";
 import { beforeEach, describe, expect, it, vi } from "vite-plus/test";
+import { mockOutputStreams } from "../../helpers/capture-output.js";
 import { runCf } from "../../helpers/run-cf.js";
 
 const sharedAuth = vi.hoisted(() => ({
@@ -47,7 +45,7 @@ vi.mock("../../../lib/telemetry/dispatcher.js", () => ({
 
 describe("cf auth login keyring preference", () => {
 	runInTempDir();
-	const std = mockConsoleMethods();
+	const std = mockOutputStreams();
 	const credentials = { oauth_token: "test-token" };
 	const encryptedStore = { kind: "encrypted-file", path: () => "auth.enc" };
 
@@ -81,7 +79,8 @@ describe("cf auth login keyring preference", () => {
 
 			expect(readUserPreferences().keyring_enabled).toBe(true);
 			expect(sharedAuth.login).not.toHaveBeenCalled();
-			expect(std.out).toContain("You are already logged in.");
+			expect(std.out).toBe("");
+			expect(std.err).toContain("You are already logged in.");
 		}
 	);
 

@@ -24,6 +24,16 @@ function outputPayload(data: unknown): unknown {
 }
 
 /**
+ * The `✓` line confirming that a command finished. It prints only when
+ * stderr is a terminal; scripts read the exit code instead.
+ */
+export function printSuccess(message: string): void {
+	if (process.stderr.isTTY) {
+		process.stderr.write(`${theme.success("✓")} ${message}\n`);
+	}
+}
+
+/**
  * Format and output data as JSON.
  *
  * - If options.quiet is true, outputs nothing
@@ -46,8 +56,8 @@ export function formatOutput(data: unknown, options: OutputOptions = {}): void {
 	// the literal string 'null'), and — on TTYs only — write a brief ✓
 	// line to stderr so humans know it worked.
 	if (data === null || data === undefined) {
-		if (options.successLabel && process.stderr.isTTY) {
-			process.stderr.write(`${theme.success("✓")} ${options.successLabel}\n`);
+		if (options.successLabel) {
+			printSuccess(options.successLabel);
 		}
 		return;
 	}

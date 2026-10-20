@@ -1,5 +1,6 @@
 import { withTelemetry } from "../../lib/telemetry/index.js";
-import { info, theme } from "../../lib/ui/index.js";
+import { theme } from "../../lib/ui/index.js";
+import { log } from "../../lib/ui/log.js";
 import loginCommand, { loginTelemetryClassification } from "../auth/login.js";
 
 /**
@@ -11,10 +12,8 @@ const loginAliasCommand: typeof loginCommand = {
 	describe: false,
 	handler: async (argv) => {
 		if (!argv.quiet) {
-			console.error(
-				info(
-					`${theme.code("cf login")} is an alias for ${theme.code("cf auth login")}. Authentication commands are under ${theme.code("cf auth")}.`
-				)
+			log.info(
+				`${theme.code("cf login")} is an alias for ${theme.code("cf auth login")}. Authentication commands are under ${theme.code("cf auth")}.`
 			);
 		}
 		await loginCommand.handler(argv);

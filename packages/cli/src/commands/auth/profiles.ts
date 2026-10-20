@@ -1,8 +1,9 @@
 import path from "node:path";
 import { getAuthFromEnv, validateProfileName } from "@cloudflare/workers-auth";
 import { getProfileStore, login, logout } from "../../lib/oauth/index.js";
-import { formatOutput } from "../../lib/output.js";
-import { hint, info, theme } from "../../lib/ui/index.js";
+import { formatOutput, printSuccess } from "../../lib/output.js";
+import { theme } from "../../lib/ui/index.js";
+import { log, printCommands } from "../../lib/ui/log.js";
 import type { CommonYargsOptions } from "../../lib/cli-types.js";
 import type { ArgumentsCamelCase, Argv, CommandModule } from "yargs";
 
@@ -98,18 +99,13 @@ export const createCommand: CommandModule<object, CreateArgs> = {
 			profile: argv.name,
 		});
 
-		console.log(
-			info(
-				isUpdate
-					? `Profile "${argv.name}" re-authenticated.`
-					: `Profile "${argv.name}" created.`
-			)
+		printSuccess(
+			isUpdate
+				? `Profile "${argv.name}" re-authenticated.`
+				: `Profile "${argv.name}" created.`
 		);
-		console.log(
-			hint(
-				`Run ${theme.code(`cf auth activate ${argv.name}`)} to use this profile in a directory.`
-			)
-		);
+		log.info("To use this profile in a directory, run:");
+		printCommands(`cf auth activate ${argv.name}`);
 	},
 };
 
@@ -140,30 +136,28 @@ export const deleteCommand: CommandModule<object, NamedProfileArgs> = {
 			argv.name
 		);
 		if (removedBindings.length > 0) {
-			console.log(info("Removed directory bindings:"));
-			for (const dir of removedBindings) {
-				console.log(`  ${dir}`);
-			}
+			log.info(
+				[
+					"Removed directory bindings:",
+					...removedBindings.map((dir) => `  ${dir}`),
+				].join("\n")
+			);
 		}
 
 		await logout(argv.name);
 		profiles.configs.delete(argv.name);
-		console.log(info(`Profile "${argv.name}" deleted.`));
+		printSuccess(`Profile "${argv.name}" deleted.`);
 
 		const currentProfile = profiles.bindings.getProfileForDirectory(
 			process.cwd()
 		);
 		if (currentProfile) {
-			console.log(
-				info(`Active profile for this directory: ${currentProfile}.`)
-			);
+			log.info(`Active profile for this directory: ${currentProfile}.`);
 		} else if (profiles.configs.exists("default")) {
-			console.log(info("This directory now uses the default profile."));
+			log.info("This directory now uses the default profile.");
 		} else {
-			console.log(
-				hint(
-					`No active profile for this directory. Run ${theme.code("cf auth login")} to set up the default profile, or ${theme.code("cf auth create <name>")} to create a named profile.`
-				)
+			log.info(
+				`No active profile for this directory. Run ${theme.code("cf auth login")} to set up the default profile, or ${theme.code("cf auth create <name>")} to create a named profile.`
 			);
 		}
 	},
@@ -204,8 +198,8 @@ export const activateCommand: CommandModule<object, ActivateArgs> = {
 
 		const targetDir = argv.dir ?? process.cwd();
 		profiles.bindings.activate(argv.name, targetDir);
-		console.log(
-			info(`Profile "${argv.name}" activated for "${path.resolve(targetDir)}".`)
+		printSuccess(
+			`Profile "${argv.name}" activated for "${path.resolve(targetDir)}".`
 		);
 	},
 };
@@ -230,22 +224,18 @@ export const deactivateCommand: CommandModule<object, DeactivateArgs> = {
 		const { removedProfile, newResolution } =
 			profiles.bindings.deactivate(targetDir);
 
-		console.log(
-			info(
-				`Profile "${removedProfile}" deactivated from "${path.resolve(targetDir)}".`
-			)
+		printSuccess(
+			`Profile "${removedProfile}" deactivated from "${path.resolve(targetDir)}".`
 		);
 		if (newResolution.profile === undefined) {
-			console.log(
-				hint(
-					`Run ${theme.code("cf auth login")} to set up the default profile, or ${theme.code("cf auth create <name>")} to create a named profile.`
-				)
+			log.info(
+				`Run ${theme.code("cf auth login")} to set up the default profile, or ${theme.code("cf auth create <name>")} to create a named profile.`
 			);
 		} else if (newResolution.profile === "default") {
-			console.log(info("This directory now uses the default profile."));
+			log.info("This directory now uses the default profile.");
 		} else {
-			console.log(
-				info(`Now using: ${newResolution.profile} (${newResolution.source}).`)
+			log.info(
+				`Now using: ${newResolution.profile} (${newResolution.source}).`
 			);
 		}
 	},

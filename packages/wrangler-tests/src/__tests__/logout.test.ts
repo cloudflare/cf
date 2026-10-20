@@ -38,6 +38,7 @@ describe("logout", () => {
 		expect,
 	}) => {
 		await runWrangler("auth logout", { CLOUDFLARE_API_TOKEN: undefined });
+		expect(std.out).toBe("");
 		expect(std.err).toContain("Not logged in, exiting...");
 	});
 
@@ -48,6 +49,7 @@ describe("logout", () => {
 
 		await runWrangler("auth logout", { CLOUDFLARE_API_TOKEN: undefined });
 
+		expect(std.out).toBe("");
 		expect(std.err).toContain("Cleared temporary preview account.");
 		expect(std.err).not.toContain("Not logged in, exiting...");
 		expect(existsSync(temporaryAccountCachePath())).toBe(false);
@@ -57,6 +59,7 @@ describe("logout", () => {
 		expect,
 	}) => {
 		await runWrangler("auth logout", { CLOUDFLARE_API_TOKEN: "DUMMY_TOKEN" });
+		expect(std.out).toBe("");
 		expect(std.err).toContain(
 			"You are logged in with an API Token. Unset the CLOUDFLARE_API_TOKEN in the environment to log out."
 		);
@@ -103,6 +106,7 @@ describe("logout", () => {
 
 		await runWrangler("auth logout", { CLOUDFLARE_API_TOKEN: undefined });
 
+		expect(std.out).toBe("");
 		expect(std.err).toContain("Successfully logged out.");
 		// The refresh token was sent to the revocation endpoint.
 		expect(revoked).toBe(true);

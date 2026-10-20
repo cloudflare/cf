@@ -213,10 +213,9 @@ async function maybeShowCompletionsHint(quiet = false): Promise<void> {
 	if (readState().completions?.prompted) {
 		return;
 	}
-	process.stderr.write(
-		theme.muted(
-			"Tip: run `cf complete <bash|zsh|fish>` to install shell completions.\n"
-		)
+	const { log } = await import("./lib/ui/log.js");
+	log.info(
+		`Tip: run ${theme.code("cf complete <bash|zsh|fish|powershell>")} to install shell completions.`
 	);
 	updateState({ completions: { prompted: true } });
 }
@@ -273,10 +272,9 @@ async function maybeShowTelemetryNotice(quiet = false): Promise<void> {
 		return;
 	}
 
-	process.stderr.write(
-		theme.muted(
-			"Cloudflare collects anonymous cf usage telemetry. Run `cf cli telemetry disable` to opt out.\n"
-		)
+	const { log } = await import("./lib/ui/log.js");
+	log.info(
+		`Cloudflare collects anonymous cf usage telemetry. Run ${theme.code("cf cli telemetry disable")} to opt out.`
 	);
 	setBannerLastShown(version);
 }

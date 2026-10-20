@@ -165,6 +165,22 @@ describe("telemetry error reporting", () => {
 		}
 	);
 
+	it("shows the first-run notices as info lines naming every shell", async () => {
+		Object.defineProperty(process.stderr, "isTTY", {
+			value: true,
+			configurable: true,
+		});
+
+		await runCf(["unrecognizable"]).catch(() => {});
+
+		expect(output.stderr()).toContain(
+			"●  Cloudflare collects anonymous cf usage telemetry. Run cf cli telemetry disable to opt out.\n"
+		);
+		expect(output.stderr()).toContain(
+			"●  Tip: run cf complete <bash|zsh|fish|powershell> to install shell completions.\n"
+		);
+	});
+
 	it("does not emit an unknown-command event for validation errors", async () => {
 		await expect(runCf(["--profile"])).rejects.toThrow(
 			"Not enough arguments following: profile"

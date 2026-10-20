@@ -66,8 +66,8 @@ jobs:
       - name: Install dependencies
         uses: $/.github/actions/install-dependencies
 
-      - name: Test repository scripts
-        run: node --test scripts/update-openapi.test.ts scripts/typecheck.test.mjs
+      - name: Test automation scripts
+        run: node --test scripts/update-openapi.test.ts
 
       - name: Run cli tests
         run: pnpm --filter cf test

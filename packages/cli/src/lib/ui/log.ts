@@ -27,6 +27,17 @@ export const log = {
 		clack.log.info(message, toStderr(options)),
 	warn: (message: string, options?: LogMessageOptions) =>
 		clack.log.warn(message, toStderr(options)),
+	success: (message: string) => clack.log.success(message, toStderr()),
+	error: (message: string) => clack.log.error(message, toStderr()),
+	message: (message: string) => clack.log.message(message, toStderr()),
+	/** A bold `├` heading that starts a stage of a flow, such as Build. */
+	section: (title: string) =>
+		clack.log.message(
+			theme.bold(title),
+			toStderr({ symbol: theme.muted("├") })
+		),
+	/** `└` closes the flow above it. */
+	end: (message: string) => clack.outro(message, { output: process.stderr }),
 };
 
 /**

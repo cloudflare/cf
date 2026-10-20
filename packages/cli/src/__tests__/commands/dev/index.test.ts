@@ -6,6 +6,7 @@ import {
 	runInTempDir,
 	seed,
 } from "@cloudflare/workers-utils/test-helpers";
+import { x } from "tinyexec";
 import { afterEach, describe, expect, it, vi } from "vite-plus/test";
 import {
 	normalizeProjectCommandExit,
@@ -14,6 +15,8 @@ import {
 } from "../../../lib/autoconfig.js";
 import { makeExecutable, nodeScript } from "../../helpers/executable.js";
 import { runCf } from "../../helpers/run-cf.js";
+
+vi.mock("tinyexec", { spy: true });
 
 /**
  * Integration tests for `cf dev`. We drive the command through
@@ -237,6 +240,12 @@ describe("cf dev", () => {
 					.trim()
 					.split("\n")
 			).toEqual(["dev", "--mode", "staging"]);
+			// The dev server owns the terminal, stdout included.
+			expect(vi.mocked(x).mock.lastCall?.[2]?.nodeOptions?.stdio).toEqual([
+				"inherit",
+				"inherit",
+				"inherit",
+			]);
 		});
 
 		it("runs Vite for a Next.js project with vinext installed", async () => {
@@ -353,6 +362,7 @@ describe("cf dev", () => {
 
 			expect(result.exitCode).toBe(0);
 			expect(logMessage).toHaveBeenCalledWith("Delegating to npx vite", {
+				output: process.stderr,
 				spacing: 0,
 			});
 			expect(
@@ -371,6 +381,7 @@ describe("cf dev", () => {
 				exitCode: 0,
 			});
 			expect(logMessage).toHaveBeenCalledWith('Delegating to node -e ""', {
+				output: process.stderr,
 				spacing: 0,
 			});
 		});
@@ -444,6 +455,7 @@ describe("cf dev", () => {
 				})
 			).toEqual({ exitCode: 0 });
 			expect(logMessage).toHaveBeenCalledWith('Delegating to node -e ""', {
+				output: process.stderr,
 				spacing: 0,
 			});
 		});
@@ -465,7 +477,7 @@ describe("cf dev", () => {
 					"  FOO=bar",
 					"  BAZ=qux",
 				].join("\n"),
-				{ spacing: 0 }
+				{ output: process.stderr, spacing: 0 }
 			);
 		});
 
@@ -485,7 +497,7 @@ describe("cf dev", () => {
 					'Delegating to node -e "" with environment override:',
 					"  FOO=bar",
 				].join("\n"),
-				{ spacing: 0 }
+				{ output: process.stderr, spacing: 0 }
 			);
 		});
 
@@ -547,6 +559,12 @@ describe("cf dev", () => {
 
 			const result = await runCf(["dev"]);
 			expect(result.exitCode).toBe(0);
+			// The dev server owns the terminal, stdout included.
+			expect(vi.mocked(x).mock.lastCall?.[2]?.nodeOptions?.stdio).toEqual([
+				"inherit",
+				"inherit",
+				"inherit",
+			]);
 		});
 
 		it("rejects future Vite plugin major versions", async () => {

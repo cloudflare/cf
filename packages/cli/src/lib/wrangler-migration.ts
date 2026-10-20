@@ -15,7 +15,7 @@ const DEFAULT_CONFIG_FILES = [
 	"wrangler.toml",
 ] as const satisfies string[];
 
-type MigrationOutput = "stdout" | "stderr" | "silent";
+type MigrationOutput = "stderr" | "silent";
 type MigrationBundler = NonNullable<WranglerToCfMigrationOptions["bundler"]>;
 
 interface RunWranglerMigrationOptions extends WranglerToCfMigrationOptions {
@@ -107,7 +107,7 @@ function createLogger(output: MigrationOutput): (message: string) => void {
 	if (output === "silent") {
 		return () => {};
 	}
-	return output === "stderr" ? console.error : console.log;
+	return console.error;
 }
 
 function printFollowUps(
@@ -185,7 +185,7 @@ export async function runWranglerMigration(
 		result,
 		dryRun,
 		path.dirname(configPath),
-		createLogger(options.output ?? "stdout")
+		createLogger(options.output ?? "stderr")
 	);
 	if (result.status === "needs-intervention") {
 		throw new CliExit(1);
@@ -200,7 +200,7 @@ export async function runWranglerMigration(
 export async function maybeMigrateWranglerProject(
 	projectPath: string,
 	confirmMigration: ConfirmMigration,
-	output: MigrationOutput = "stdout",
+	output: MigrationOutput = "stderr",
 	dryRun = false
 ): Promise<boolean> {
 	const configPath = await findWranglerConfig(projectPath, {

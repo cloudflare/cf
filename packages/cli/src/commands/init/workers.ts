@@ -7,7 +7,6 @@ import {
 	relative,
 	resolve,
 } from "node:path";
-import * as clack from "@clack/prompts";
 import {
 	DEFAULT_COMPAT_DATE,
 	toValidWorkerName,
@@ -23,6 +22,7 @@ import { prompt, select } from "../../lib/dialog.js";
 import { withProgress } from "../../lib/progress.js";
 import { CLOUDFLARE_CONFIG_FILENAME } from "../../lib/project-settings.js";
 import { theme } from "../../lib/ui/index.js";
+import { GUIDE_WIDTH, log } from "../../lib/ui/log.js";
 import { VERSION } from "../../version.js";
 import { renderWorkerTemplate } from "./template.js";
 import type { CommonYargsOptions, InferArgs } from "../../lib/cli-types.js";
@@ -142,9 +142,7 @@ async function createWorkerProject(
 	target: string,
 	options: InitWorkersOptions
 ): Promise<void> {
-	clack.log.info(`Creating a new Worker in ${theme.bold(target)}`, {
-		spacing: 0,
-	});
+	log.info(`Creating a new Worker in ${theme.bold(target)}`);
 	const packageManager = await resolvePackageManager(options);
 	const name = toValidWorkerName(
 		basename(target).toLowerCase().replace(/\s+/g, "-")
@@ -161,18 +159,16 @@ async function createWorkerProject(
 		await mkdir(dirname(filePath), { recursive: true });
 		await writeFile(filePath, contents, { flag: "wx" });
 	}
-	clack.log.success(
-		`Created the ${theme.bold(name)} Worker in ${describeTarget(target)}`,
-		{ spacing: 0 }
+	log.success(
+		`Created the ${theme.bold(name)} Worker in ${describeTarget(target)}`
 	);
 
 	if (options.install) {
 		const installCommand = `${packageManager} install`;
 		const result = await runProjectCommand(installCommand, target);
 		if (result.exitCode !== 0 || result.signal) {
-			clack.log.error(
-				`Dependency installation failed. Run ${theme.code(installCommand)} in ${describeTarget(target)} to try again.`,
-				{ spacing: 0 }
+			log.error(
+				`Dependency installation failed. Run ${theme.code(installCommand)} in ${describeTarget(target)} to try again.`
 			);
 			throw new CliExit(result.exitCode, { signal: result.signal });
 		}
@@ -209,15 +205,12 @@ async function generateProjectTypes(
 				includeRuntime: true,
 			})
 		);
-		clack.log.success(`Generated types in ${describeTarget(outputPath)}`, {
-			spacing: 0,
-		});
+		log.success(`Generated types in ${describeTarget(outputPath)}`);
 	} catch (error) {
 		// The project is usable without types, and `cf dev` regenerates them.
 		const reason = error instanceof Error ? error.message : String(error);
-		clack.log.warn(
-			`Could not generate types: ${reason}\nRun ${theme.code(`${cfInvocation()} workers types`)} in ${describeTarget(target)} to try again.`,
-			{ spacing: 0 }
+		log.warn(
+			`Could not generate types: ${reason}\nRun ${theme.code(`${cfInvocation()} workers types`)} in ${describeTarget(target)} to try again.`
 		);
 	}
 }
@@ -246,13 +239,10 @@ async function setUpExistingProject(
 	options: InitWorkersOptions
 ): Promise<void> {
 	const description = describeTarget(target);
-	clack.log.info(`Setting up the existing project in ${theme.bold(target)}`, {
-		spacing: 0,
-	});
+	log.info(`Setting up the existing project in ${theme.bold(target)}`);
 	if (!options.install || options.packageManager) {
-		clack.log.warn(
-			`${theme.code("--no-install")} and ${theme.code("--package-manager")} only apply when creating a new project. Setting up an existing project uses its own package manager.`,
-			{ spacing: 0 }
+		log.warn(
+			`${theme.code("--no-install")} and ${theme.code("--package-manager")} only apply when creating a new project. Setting up an existing project uses its own package manager.`
 		);
 	}
 
@@ -276,14 +266,9 @@ async function setUpExistingProject(
 	}
 
 	if (alreadyConfigured) {
-		clack.log.info(
-			`Found an existing Cloudflare configuration in ${description}.`,
-			{ spacing: 0 }
-		);
+		log.info(`Found an existing Cloudflare configuration in ${description}.`);
 	} else {
-		clack.log.success(`Set up ${description} for Cloudflare.`, {
-			spacing: 0,
-		});
+		log.success(`Set up ${description} for Cloudflare.`);
 	}
 	logNextSteps(target, projectSteps());
 }
@@ -313,14 +298,15 @@ function logNextSteps(target: string, steps: NextStep[]): void {
 			.filter((step) => step.description)
 			.map((step) => step.command.length)
 	);
+	// The steps sit outside the guide, so copying one yields only the command.
+	const indent = " ".repeat(GUIDE_WIDTH);
 	const lines = allSteps.map(({ command, description }) =>
 		description
-			? `  ${theme.code(command)}${" ".repeat(width - command.length + 2)}${theme.muted(description)}`
-			: `  ${theme.code(command)}`
+			? `${indent}${theme.code(command)}${" ".repeat(width - command.length + 2)}${theme.muted(description)}`
+			: `${indent}${theme.code(command)}`
 	);
-	clack.log.message([theme.bold("Next steps"), ...lines].join("\n"), {
-		symbol: theme.muted("├"),
-	});
+	log.end(theme.bold("Next steps"));
+	process.stderr.write(`${lines.join("\n")}\n\n`);
 }
 
 function changeDirectoryStep(target: string): string[] {

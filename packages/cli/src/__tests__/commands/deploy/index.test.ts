@@ -1231,7 +1231,7 @@ describe("cf deploy", () => {
 			expect(existsSync("public/.assetsignore")).toBe(false);
 			expect(buildDelegateWasCalled()).toBe(false);
 			expect(requests).toEqual([]);
-			expect(std.out).toContain("Autoconfig process run in dry-run mode");
+			expect(std.err).toContain("Autoconfig process run in dry-run mode");
 		});
 
 		it("does not upload the worker", async () => {

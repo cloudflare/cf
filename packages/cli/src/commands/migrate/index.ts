@@ -63,7 +63,6 @@ const migrateCommand: CommandModule<CommonYargsOptions, MigrateArgs> = {
 			dryRun: args["dry-run"],
 			force: args.force,
 			installDependencies: args.install,
-			output: "stderr",
 		});
 	},
 };

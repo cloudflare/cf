@@ -1,4 +1,3 @@
-import * as clack from "@clack/prompts";
 import { readBuildOutput } from "@cloudflare/build-output-utils";
 import {
 	initDeployHelpersContext,
@@ -16,7 +15,7 @@ import {
 import { createDeployContext } from "../../../lib/deploy-context.js";
 import { createTriggerProps } from "../../../lib/deploy-input.js";
 import { withCloudflareDotEnv } from "../../../lib/dotenv.js";
-import { theme } from "../../../lib/ui/index.js";
+import { log } from "../../../lib/ui/log.js";
 import { runBuild } from "../../build/index.js";
 import type { CommonYargsOptions, InferArgs } from "../../../lib/cli-types.js";
 import type { Argv, CommandModule } from "yargs";
@@ -62,10 +61,10 @@ const triggersDeployCommand: CommandModule<
 				dryRun: argv["dry-run"],
 			});
 			if (build === "setup-needed") {
-				clack.log.success("--dry-run: exiting now.");
+				log.success("--dry-run: exiting now.");
 				return;
 			}
-			clack.log.message("", { spacing: 0 });
+			log.message("");
 		}
 
 		await withCloudflareDotEnv(argv, () => deployTriggers(argv));
@@ -103,10 +102,7 @@ async function deployTriggers(argv: TriggersDeployArgs): Promise<void> {
 
 	initDeployHelpersContext(createDeployContext(authToken));
 
-	clack.log.message(theme.bold("Deploy triggers"), {
-		symbol: theme.muted("\u251C"),
-		spacing: 0,
-	});
+	log.section("Deploy triggers");
 	await triggersDeploy({
 		...createTriggerProps(worker, wranglerConfig, accountId, argv),
 		queueCreateCommand: (queueName) =>
@@ -117,7 +113,7 @@ async function deployTriggers(argv: TriggersDeployArgs): Promise<void> {
 		previewUrlsConfigAssignment: (value) => `previewUrls: ${value}`,
 	});
 	if (!argv["dry-run"]) {
-		clack.log.success("Trigger deploy complete");
+		log.success("Trigger deploy complete");
 	}
 }
 

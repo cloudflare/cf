@@ -198,7 +198,7 @@ describe("cf migrate", () => {
 			maybeMigrateWranglerProject(
 				process.cwd(),
 				confirmMigration,
-				"stdout",
+				"stderr",
 				true
 			)
 		).resolves.toBe(true);

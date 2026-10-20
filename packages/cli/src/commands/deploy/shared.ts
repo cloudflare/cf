@@ -1,4 +1,3 @@
-import * as clack from "@clack/prompts";
 import { readBuildOutput } from "@cloudflare/build-output-utils";
 import {
 	cleanupBuiltImages,
@@ -31,7 +30,7 @@ import {
 	createVersionsUploadProps,
 } from "../../lib/deploy-input.js";
 import { withCloudflareDotEnv } from "../../lib/dotenv.js";
-import { theme } from "../../lib/ui/index.js";
+import { log } from "../../lib/ui/log.js";
 import { runBuild } from "../build/index.js";
 import { createContainerDeployConfig } from "./containers.js";
 import type { CommonYargsOptions, InferArgs } from "../../lib/cli-types.js";
@@ -101,10 +100,10 @@ export async function runUpload(argv: UploadArgs, ctx: UploadCommand) {
 			dryRun: argv["dry-run"],
 		});
 		if (build === "setup-needed") {
-			clack.log.success("--dry-run: exiting now.");
+			log.success("--dry-run: exiting now.");
 			return;
 		}
-		clack.log.message("", { spacing: 0 });
+		log.message("");
 	}
 
 	return withCloudflareDotEnv(argv, () => uploadBuildOutput(argv, ctx));
@@ -183,10 +182,7 @@ async function uploadBuildOutput(argv: UploadArgs, ctx: UploadCommand) {
 			containerDeployConfig
 		);
 
-		clack.log.message(theme.bold("Deploy"), {
-			symbol: theme.muted("\u251C"),
-			spacing: 0,
-		});
+		log.section("Deploy");
 		({ versionId } = await deploy(props, wranglerConfig, buildResult, {
 			deployCommand: "cf deploy",
 			versionsDeployCommand:
@@ -216,10 +212,7 @@ async function uploadBuildOutput(argv: UploadArgs, ctx: UploadCommand) {
 			containerDeployConfig
 		);
 
-		clack.log.message(theme.bold("Upload"), {
-			symbol: theme.muted("\u251C"),
-			spacing: 0,
-		});
+		log.section("Upload");
 		({ versionId } = await versionsUpload(props, wranglerConfig, buildResult, {
 			deployCommand: "cf deploy",
 			versionsUploadCommand: "cf workers versions create",
@@ -252,6 +245,6 @@ async function uploadBuildOutput(argv: UploadArgs, ctx: UploadCommand) {
 	}
 
 	if (!argv["dry-run"]) {
-		clack.log.success(`${ctx.command} complete`);
+		log.success(`${ctx.command} complete`);
 	}
 }

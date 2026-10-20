@@ -5,12 +5,15 @@ import {
 	runInTempDir,
 	seed,
 } from "@cloudflare/workers-utils/test-helpers";
-import { describe, expect, it } from "vite-plus/test";
+import { x } from "tinyexec";
+import { describe, expect, it, onTestFinished, vi } from "vite-plus/test";
 import { runBuild } from "../../../commands/build/index.js";
 import { BuildOutputError } from "../../../lib/build-output.js";
 import { makeExecutable, nodeScript } from "../../helpers/executable.js";
 import { runCf } from "../../helpers/run-cf.js";
 import { buildOutputRootConfig, workerConfig } from "../deploy/helpers.js";
+
+vi.mock("tinyexec", { spy: true });
 
 describe("cf build", () => {
 	runInTempDir();
@@ -94,6 +97,43 @@ describe("cf build", () => {
 		expect(readArgv("argv.out")).toEqual(["build"]);
 	});
 
+	it("keeps stdout for output, sending its messages and the delegate's output to stderr", async () => {
+		await seed({
+			"package.json": JSON.stringify({
+				devDependencies: { wrangler: "^4.0.0" },
+			}),
+			"node_modules/wrangler/package.json": JSON.stringify({
+				name: "wrangler",
+				version: "4.136.0",
+			}),
+			"node_modules/wrangler/bin/cf-wrangler.js":
+				buildScript("wrangler-worker"),
+		});
+		chmod("node_modules/wrangler/bin/cf-wrangler.js");
+		const stdout = vi
+			.spyOn(process.stdout, "write")
+			.mockImplementation(() => true);
+		const stderr = vi
+			.spyOn(process.stderr, "write")
+			.mockImplementation(() => true);
+		onTestFinished(() => {
+			stdout.mockRestore();
+			stderr.mockRestore();
+		});
+
+		const result = await runCf(["build"]);
+
+		expect(result.exitCode).toBe(0);
+		expect(std.out).toBe("");
+		expect(stdout).not.toHaveBeenCalled();
+		expect(
+			stderr.mock.calls.map(([chunk]) => String(chunk)).join("")
+		).toContain("Build complete");
+		expect(vi.mocked(x).mock.lastCall?.[2]?.nodeOptions?.stdio?.[1]).toBe(
+			process.stderr
+		);
+	});
+
 	it("forwards --mode to the delegate", async () => {
 		await seed({
 			"package.json": JSON.stringify({
@@ -155,6 +195,9 @@ describe("cf build", () => {
 
 		expect(result.exitCode).toBe(0);
 		expect(readArgv("argv.out")).toEqual(["build", "--mode", "staging"]);
+		expect(vi.mocked(x).mock.lastCall?.[2]?.nodeOptions?.stdio?.[1]).toBe(
+			process.stderr
+		);
 	});
 
 	it("runs Vite for a Next.js project with vinext installed", async () => {

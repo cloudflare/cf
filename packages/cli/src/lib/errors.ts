@@ -46,6 +46,31 @@ function shortenUrl(url: string): string {
 	}
 }
 
+interface ApiMessage {
+	code?: number;
+	message?: string;
+}
+
+function apiMessages(value: unknown): ApiMessage[] {
+	if (!Array.isArray(value)) {
+		return [];
+	}
+	return value.flatMap<ApiMessage>((entry: unknown) => {
+		if (typeof entry === "string") {
+			return [{ message: entry }];
+		}
+		if (entry === null || typeof entry !== "object") {
+			return [];
+		}
+		const data = entry as Record<string, unknown>;
+		const code = typeof data.code === "number" ? data.code : undefined;
+		const message = typeof data.message === "string" ? data.message : undefined;
+		return code !== undefined || message !== undefined
+			? [{ code, message }]
+			: [];
+	});
+}
+
 /**
  * Render an error to stderr and return the value the caller should
  * throw.
@@ -89,16 +114,16 @@ export function handleError(error: unknown): unknown {
 		const statusText =
 			status === undefined ? "Envelope Error" : getStatusText(status);
 
-		// Extract per-error {code, message} entries from the raw API
-		// response envelope: {success:false, errors:[{code, message}, ...]}
-		type ApiErr = { code?: number; message?: string };
-		let apiErrs: ApiErr[] = [];
-		if (errorBody) {
-			const data = errorBody as Record<string, unknown>;
-			if (Array.isArray(data.errors)) {
-				apiErrs = data.errors as ApiErr[];
-			}
-		}
+		// Failed responses can put actionable details in the sibling messages
+		// array. Keep those after the errors, in the same stderr report.
+		const data =
+			errorBody !== null && typeof errorBody === "object"
+				? (errorBody as Record<string, unknown>)
+				: undefined;
+		const apiErrs = [
+			...apiMessages(data?.errors),
+			...apiMessages(data?.messages),
+		];
 
 		// Path-only form keeps the box narrow; cf only talks to a
 		// fixed set of Cloudflare API hosts so the host adds no info.

@@ -1,6 +1,8 @@
 // How requests are built, sent and read. These follow the client cf used
 // before, which the commands' requests must keep matching byte for byte.
 
+import { ApiError, rawResponse } from "./error.js";
+
 function trimSlashes(s: string): string {
 	if (!s) {
 		return s;
@@ -161,11 +163,11 @@ export interface NonJsonBody {
  * to the result, or to `{ result, result_info }` for a list. An envelope
  * that reports a failure throws.
  */
-export function unwrapEnvelope(body: unknown): unknown {
+export function unwrapEnvelope(body: unknown, response?: Response): unknown {
 	if (body === null || typeof body !== "object" || Array.isArray(body)) {
 		return body;
 	}
-	if (!("success" in body) || !("result" in body)) {
+	if (!("success" in body)) {
 		return body;
 	}
 	const get = (key: string): unknown => Reflect.get(body, key);
@@ -189,10 +191,17 @@ export function unwrapEnvelope(body: unknown): unknown {
 						typeof value === "string" && value.length > 0
 				)
 				.join(", ") || "Cloudflare API request failed";
-		const error = new Error(message);
+		const error = new ApiError({
+			message,
+			statusCode: response?.ok === false ? response.status : undefined,
+			body,
+			rawResponse: response ? rawResponse(response) : undefined,
+		});
 		error.name = "ApiEnvelopeError";
-		Object.assign(error, { body });
 		throw error;
+	}
+	if (!("result" in body)) {
+		return body;
 	}
 	const result = get("result");
 	return Array.isArray(result)
@@ -258,7 +267,7 @@ export async function responseBody(
 			error: { reason: "non-json", statusCode: response.status, rawBody: text },
 		} satisfies NonJsonBody;
 	}
-	return unwrapEnvelope(body);
+	return unwrapEnvelope(body, response);
 }
 
 const JSON_ERRORS = new Set([

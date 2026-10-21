@@ -1,0 +1,43 @@
+packages/cli/src/__tests__/commands/containers-ssh.test.ts
+  s_4440dc89fe58d2::t_03aad223f59a61 172-173,194-195,206-207,238-239
+packages/cli/src/commands/containers/ssh/index.ts
+  s_4440dc89fe58d2::t_3799c138ed8439 10,70-80
+packages/cli/src/commands/deploy/shared.ts
+  s_4440dc89fe58d2::t_e3f45055a5e408 192-207,225-235
+packages/cli/src/commands/previews/containers.ts
+  s_4440dc89fe58d2::t_4682790e6fc513 16,22-25,83-89
+packages/cli/src/commands/previews/deploy.ts
+  s_4440dc89fe58d2::t_6407956ebce6c2 193-194
+packages/cli/src/commands/workers/triggers/deploy.ts
+  s_4440dc89fe58d2::t_b57c3ca6249d46 108-116
+packages/cli/src/lib/deploy-input.ts
+  s_4440dc89fe58d2::t_62b197400a00d3 145-152
+patches/@cloudflare__deploy-helpers@0.20.1.patch
+  s_4440dc89fe58d2::t_fea6abe225b7c3 4
+pnpm-lock.yaml
+  s_e2e4d6e6dcf6a3::t_7ef210a46f571f 181,298,4414
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.10",
+  "base_commit_sha": "0b40e43cef8a39daba7e6bb5261b3cf26ef70f11",
+  "prompts": {},
+  "sessions": {
+    "s_4440dc89fe58d2": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a15448-b0ce-75d2-a137-cd8856a958da",
+        "model": "unknown"
+      },
+      "human_author": "Edmund Hung <edmund@cloudflare.com>"
+    },
+    "s_e2e4d6e6dcf6a3": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a15430-17da-7f81-ac59-68a41dab91e8",
+        "model": "unknown"
+      },
+      "human_author": "Edmund Hung <edmund@cloudflare.com>"
+    }
+  }
+}

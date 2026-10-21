@@ -1,0 +1,31 @@
+packages/cli/src/commands/deploy/shared.ts
+  s_e2e4d6e6dcf6a3::t_4c739189321b19 230-231
+packages/cli/src/commands/workers/versions/create/index.ts
+  s_b99c4569acddab::t_aa814222261719 1,35-53
+pnpm-lock.yaml
+  s_e2e4d6e6dcf6a3::t_62cced54feeddf 181,298,4414
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.10",
+  "base_commit_sha": "0afb0cd1c0a77e4ee3cbf97d962b9fc45085f7b3",
+  "prompts": {},
+  "sessions": {
+    "s_b99c4569acddab": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a15486-bb01-7722-b958-8ef5de5f8e9c",
+        "model": "unknown"
+      },
+      "human_author": "Edmund Hung <edmund@cloudflare.com>"
+    },
+    "s_e2e4d6e6dcf6a3": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a15430-17da-7f81-ac59-68a41dab91e8",
+        "model": "unknown"
+      },
+      "human_author": "Edmund Hung <edmund@cloudflare.com>"
+    }
+  }
+}

@@ -658,7 +658,7 @@ export const generatedCommands: GeneratedCommand[] = [
 			() => import("./magic-network-monitoring/index.js"),
 			null
 		),
-		hideCommand: false,
+		hideCommand: true,
 	},
 	{
 		command: lazyCommand<CommonYargsOptions>(

@@ -161,13 +161,11 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			"configuration-environment-variables",
 			"configuration-image",
 			"configuration-instance-type",
-			"constraints-jurisdiction",
 			"constraints-regions",
 			"instances",
 			"max-instances",
 			"rollout-active-grace-period",
 		])
-		.conflicts("constraints-jurisdiction", ["configuration-wrangler-ssh-port"])
 		.conflicts("constraints-regions", ["configuration-wrangler-ssh-port"])
 		.conflicts("durable-objects-namespace-id", [
 			"durable-objects-class-name",

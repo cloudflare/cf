@@ -343,7 +343,11 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description:
 				"The spend_limits.rules field. Provide as a JSON array of objects or @path/to/file.json.",
 		})
-		.option("store-id", { type: "string", description: "The store_id field" })
+		.option("store-id", {
+			type: "string",
+			description:
+				"Secrets Store used by this gateway. Omit on update to keep the current store. Cannot be cleared while stored keys or secret references depend on it.",
+		})
 		.option("stripe-authorization", {
 			type: "string",
 			description: "The stripe.authorization field",

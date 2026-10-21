@@ -5985,7 +5985,7 @@
 					"name": "store-id",
 					"type": "string",
 					"required": false,
-					"description": "The store_id field"
+					"description": "Secrets Store used by this gateway. Omit on update to keep the current store. Cannot be cleared while stored keys or secret references depend on it."
 				},
 				{
 					"name": "stripe-authorization",
@@ -6590,7 +6590,7 @@
 					"name": "store-id",
 					"type": "string",
 					"required": false,
-					"description": "The store_id field"
+					"description": "Secrets Store used by this gateway. Omit on update to keep the current store. Cannot be cleared while stored keys or secret references depend on it."
 				},
 				{
 					"name": "stripe-authorization",
@@ -30669,6 +30669,109 @@
 			"hasRequestBody": false,
 			"requestBodyFields": []
 		},
+		"dns domainconnect get-domain-settings": {
+			"operationId": "dns.domainconnect.get-domain-settings",
+			"httpMethod": "GET",
+			"path": "/v2/{domain}/settings",
+			"pathParams": [
+				{
+					"name": "domain",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"dns domainconnect get-heartbeat": {
+			"operationId": "dns.domainconnect.get-heartbeat",
+			"httpMethod": "GET",
+			"path": "/_heartbeat",
+			"pathParams": [],
+			"queryParams": [],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"dns domainconnect get-provider-configuration": {
+			"operationId": "dns.domainconnect.get-provider-configuration",
+			"httpMethod": "GET",
+			"path": "/v2/provconf/{provider}/{service}/{account}",
+			"pathParams": [
+				{
+					"name": "provider",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "service",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "account",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"dns domainconnect get-provider-template": {
+			"operationId": "dns.domainconnect.get-provider-template",
+			"httpMethod": "GET",
+			"path": "/v2/domainTemplates/providers/{provider}/services/{service}",
+			"pathParams": [
+				{
+					"name": "provider",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "service",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [
+				{
+					"name": "dump",
+					"type": "string",
+					"required": false
+				}
+			],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"dns domainconnect post-verify": {
+			"operationId": "dns.domainconnect.post-verify",
+			"httpMethod": "POST",
+			"path": "/v1/verify",
+			"pathParams": [],
+			"queryParams": [],
+			"hasRequestBody": true,
+			"requestBodyFields": [
+				{
+					"name": "domain",
+					"type": "string",
+					"required": false,
+					"description": "The domain field"
+				},
+				{
+					"name": "hash",
+					"type": "string",
+					"required": false,
+					"description": "The hash field"
+				},
+				{
+					"name": "sig",
+					"type": "string",
+					"required": false,
+					"description": "The sig field"
+				}
+			]
+		},
 		"dns records batch": {
 			"operationId": "dns.records.batch",
 			"httpMethod": "POST",
@@ -48974,7 +49077,7 @@
 					"name": "bgp-extra-prefixes",
 					"type": "string",
 					"required": false,
-					"description": "Prefixes in this list will be advertised to the customer device, in addition to the routes in the Magic routing table."
+					"description": "IPv4 prefixes in this list will be advertised to the customer device, in addition to the routes in the Magic\nrouting table. Each entry must be a network address in CIDR notation with no host bits set (for example\n`192.0.2.0/24`, not `192.0.2.1/24`) and must not repeat another entry.\n"
 				},
 				{
 					"name": "bgp-import-filter-id",
@@ -49324,7 +49427,7 @@
 					"name": "bgp-extra-prefixes",
 					"type": "string",
 					"required": false,
-					"description": "Prefixes in this list will be advertised to the customer device, in addition to the routes in the Magic routing table."
+					"description": "Prefixes in this list will be advertised to the customer device, in addition to the routes in the Magic routing table.\nEach entry must be a network address in CIDR notation with no host bits set (for example `192.0.2.0/24`, not\n`192.0.2.1/24`) and must not repeat another entry. IPv6 prefixes are accepted only when the tunnel has an\n`interface_address6`.\n"
 				},
 				{
 					"name": "bgp-import-filter-id",
@@ -49629,7 +49732,7 @@
 					"name": "bgp-extra-prefixes",
 					"type": "string",
 					"required": false,
-					"description": "Prefixes in this list will be advertised to the customer device, in addition to the routes in the Magic routing table."
+					"description": "Prefixes in this list will be advertised to the customer device, in addition to the routes in the Magic routing table.\nEach entry must be a network address in CIDR notation with no host bits set (for example `192.0.2.0/24`, not\n`192.0.2.1/24`) and must not repeat another entry. IPv6 prefixes are accepted only when the tunnel has an\n`interface_address6`.\n"
 				},
 				{
 					"name": "bgp-import-filter-id",
@@ -49873,7 +49976,7 @@
 					"name": "bgp-extra-prefixes",
 					"type": "string",
 					"required": false,
-					"description": "Prefixes in this list will be advertised to the customer device, in addition to the routes in the Magic routing table."
+					"description": "Prefixes in this list will be advertised to the customer device, in addition to the routes in the Magic routing table.\nEach entry must be a network address in CIDR notation with no host bits set (for example `192.0.2.0/24`, not\n`192.0.2.1/24`) and must not repeat another entry. IPv6 prefixes are accepted only when the tunnel has an\n`interface_address6`.\n"
 				},
 				{
 					"name": "bgp-import-filter-id",
@@ -52348,6 +52451,26 @@
 				}
 			]
 		},
+		"managed-defense vulnerability-discovery repositories create-token": {
+			"operationId": "managed-defense.vulnerability-discovery.repositories.create-token",
+			"httpMethod": "POST",
+			"path": "/accounts/{account_id}/managed-defense/vulnerability-discovery/repos/{repo_id}/token",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "repo_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
 		"managed-defense vulnerability-discovery repositories get": {
 			"operationId": "managed-defense.vulnerability-discovery.repositories.get",
 			"httpMethod": "GET",
@@ -52420,16 +52543,10 @@
 			"hasRequestBody": true,
 			"requestBodyFields": [
 				{
-					"name": "repo-hosts",
-					"type": "string",
-					"required": false,
-					"description": "Explicit hostname scopes. Every hostname must be authorized for its repository before review admission; rejected scopes return 422 and do not persist a scan request. Provide as a JSON object or @path/to/file.json."
-				},
-				{
 					"name": "repos",
 					"type": "string",
 					"required": true,
-					"description": "The repos field"
+					"description": "Repository names must be unique within a request. Provide as a JSON array of objects or @path/to/file.json."
 				},
 				{
 					"name": "telemetry-window-end",
@@ -108712,42 +108829,6 @@
 			"queryParams": [],
 			"hasRequestBody": true,
 			"requestBodyFields": [
-				{
-					"name": "description",
-					"type": "string",
-					"required": false,
-					"description": "The description field"
-				},
-				{
-					"name": "name",
-					"type": "string",
-					"required": false,
-					"description": "The name field"
-				},
-				{
-					"name": "pattern-regex",
-					"type": "string",
-					"required": false,
-					"description": "The pattern.regex field"
-				},
-				{
-					"name": "pattern-validation",
-					"type": "string",
-					"required": false,
-					"description": "The pattern.validation field"
-				},
-				{
-					"name": "validator-ids",
-					"type": "string",
-					"required": false,
-					"description": "Validators this entry should reference, by id, at most 10. Replaces the current set.\n\nOptional, unlike the rest of this body: omitting it leaves the current attachments alone, so a\nclient that predates validators cannot detach them by accident. Send `[]` to detach."
-				},
-				{
-					"name": "type",
-					"type": "string",
-					"required": true,
-					"description": "The type field"
-				},
 				{
 					"name": "enabled",
 					"type": "boolean",

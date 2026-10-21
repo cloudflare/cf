@@ -38,6 +38,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"account",
 				"account_ruleset",
 				"ai_gateway",
+				"ai_search_instance",
 				"alerting_policy",
 				"alerting_webhook",
 				"cloudflared_tunnel",

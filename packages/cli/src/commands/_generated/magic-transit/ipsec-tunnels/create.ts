@@ -49,7 +49,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			type: "string",
 			array: true,
 			description:
-				"Prefixes in this list will be advertised to the customer device, in addition to the routes in the Magic routing table.",
+				"Prefixes in this list will be advertised to the customer device, in addition to the routes in the Magic routing table.\nEach entry must be a network address in CIDR notation with no host bits set (for example `192.0.2.0/24`, not\n`192.0.2.1/24`) and must not repeat another entry. IPv6 prefixes are accepted only when the tunnel has an\n`interface_address6`.\n",
 		})
 		.option("bgp-import-filter-id", {
 			type: "string",

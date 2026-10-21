@@ -1,5 +1,6 @@
 import { afterEach, describe, expect, it, vi } from "vite-plus/test";
 import {
+	type CommandVocabulary,
 	__resetCommandVocabularyForTests,
 	loadCommandVocabulary,
 	MAX_UNKNOWN_TOKENS,
@@ -23,11 +24,23 @@ vi.mock("../../../lib/metadata.js", async (importOriginal) => {
 	return { ...actual, loadMeta };
 });
 
-const commands = new Set(["zones", "list", "kv", "namespaces", "workers"]);
+const commands = new Set([
+	"zones",
+	"list",
+	"kv",
+	"namespaces",
+	"workers",
+	"dev",
+]);
 const vocabulary = {
 	commands,
-	options: new Set(["zone", "zone-id", "dry-run", "help"]),
-};
+	options: new Set(["zone", "zone-id", "dry-run", "force", "quiet", "help"]),
+	shortFlagAliases: {
+		f: { canonical: "force", type: "boolean" },
+		q: { canonical: "quiet", type: "boolean" },
+		z: { canonical: "zone", type: "value" },
+	},
+} satisfies CommandVocabulary;
 
 function failure(
 	overrides: Partial<CommandResolutionFailure> = {}
@@ -123,7 +136,31 @@ describe("sanitizeCommandResolution", () => {
 				["workers", ...tokens],
 				vocabulary
 			).unknownTokens
-		).toEqual(tokens);
+		).toEqual(["zones", "<word>"]);
+	});
+
+	it("labels every token after the first unresolved one", () => {
+		expect(
+			sanitizeCommandResolution(
+				failure({
+					knownCommand: ["workers"],
+					unknownTokens: ["deploy", "dev", "kv:namespaces"],
+				}),
+				["workers", "deploy", "dev", "kv:namespaces"],
+				vocabulary
+			).unknownTokens
+		).toEqual(["<word>", "<word>", "<colon>"]);
+		expect(
+			sanitizeCommandResolution(
+				failure({
+					kind: "suggested-command",
+					unknownTokens: ["wokers", "list"],
+					suggestedCommand: "workers",
+				}),
+				["wokers", "list"],
+				vocabulary
+			).unknownTokens
+		).toEqual(["<word>", "<word>"]);
 	});
 
 	it("caps the tokens sent but reports the real count", () => {
@@ -166,6 +203,33 @@ describe("sanitizeCommandResolution", () => {
 		]) {
 			expect(serialised).not.toContain(value);
 		}
+	});
+
+	it("names known short flags and only counts unknown ones", () => {
+		const rawArgv = [
+			"zones",
+			"-x",
+			"-x",
+			"--x",
+			"-fy",
+			"-zexample.com",
+			"-q=true",
+			"-1",
+			"--",
+			"-w",
+		];
+		const result = sanitizeCommandResolution(
+			failure({ knownCommand: ["zones"], unknownTokens: [] }),
+			rawArgv,
+			vocabulary
+		);
+		expect(result.argsUsed).toEqual(["force", "quiet", "zone"]);
+		// `-x` (twice), `--x` and `-y`; digits, `=` and values are not flags.
+		expect(result.unknownFlagCount).toBe(3);
+		const serialised = JSON.stringify(result);
+		expect(serialised).not.toContain("example.com");
+		expect(serialised).not.toContain('"x"');
+		expect(serialised).not.toContain('"-x"');
 	});
 
 	it("includes a suggestion only for suggested-command failures", () => {
@@ -221,12 +285,55 @@ describe("loadCommandVocabulary", () => {
 			expect(loaded.options.has(option)).toBe(true);
 		}
 		expect(loaded.commands.has("my-worker")).toBe(false);
+		expect(loaded.shortFlagAliases).toMatchObject({
+			f: { canonical: "force", type: "boolean" },
+			q: { canonical: "quiet", type: "boolean" },
+		});
+	});
+
+	it("leaves out a short alias that names different options", () => {
+		const option = (name: string, alias: string) => ({
+			name,
+			alias,
+			type: "boolean" as const,
+			required: false,
+			description: "",
+		});
+		const command = (name: string, options: ReturnType<typeof option>[]) => ({
+			command: `cf ${name}`,
+			name,
+			fullPath: [name],
+			description: "",
+			usage: "",
+			arguments: [],
+			options,
+		});
+		loadMeta.mockImplementation(
+			<T>() =>
+				({
+					commands: [
+						command("a", [option("force", "f"), option("tail", "t")]),
+						command("b", [option("follow", "f"), option("tail", "t")]),
+					],
+				}) as T
+		);
+		const loaded = loadCommandVocabulary([]);
+		expect(loaded.shortFlagAliases).not.toHaveProperty("f");
+		expect(loaded.shortFlagAliases.t).toEqual({
+			canonical: "tail",
+			type: "boolean",
+		});
+		expect(
+			sanitizeCommandResolution(failure(), ["-f"], loaded).unknownFlagCount
+		).toBe(1);
 	});
 
 	it("falls back to global options when the catalogue cannot load", () => {
 		loadMeta.mockImplementation(() => null);
 		const loaded = loadCommandVocabulary(["quiet", "zone"]);
 		expect(loaded.commands.size).toBe(0);
+		expect(loaded.shortFlagAliases).not.toHaveProperty("f");
+		expect(loaded.shortFlagAliases).toHaveProperty("q");
 		expect([...loaded.options].sort()).toEqual([
 			"help",
 			"quiet",

@@ -166,7 +166,7 @@ describe("telemetry error reporting", () => {
 			resolution: {
 				resolutionFailure: "suggested-command",
 				knownCommand: "",
-				unknownTokens: ["<word>", "run"],
+				unknownTokens: ["<word>", "<word>"],
 				unknownTokenCount: 2,
 				suggestedCommand: "tunnels",
 			},
@@ -191,6 +191,16 @@ describe("telemetry error reporting", () => {
 				knownCommand: "",
 				unknownTokens: [],
 				unknownTokenCount: 0,
+				unknownFlagCount: 1,
+				argsUsed: [],
+			},
+		},
+		{
+			args: ["-x"],
+			error: "You need to specify a command",
+			command: "unknown command",
+			resolution: {
+				resolutionFailure: "missing-command",
 				unknownFlagCount: 1,
 				argsUsed: [],
 			},
@@ -270,6 +280,19 @@ describe("telemetry error reporting", () => {
 				resolutionFailure: "unknown-subcommand",
 				knownCommand: "workers",
 				knownCommandIsLeaf: false,
+				unknownTokens: ["deploy", "<word>"],
+				unknownTokenCount: 2,
+			},
+		},
+		{
+			// Only the first unresolved token can be a command word; `dev` may
+			// be a value for the intended command.
+			args: ["workers", "deploy", "dev"],
+			error: "Unknown commands: deploy, dev",
+			command: "workers",
+			resolution: {
+				resolutionFailure: "unknown-subcommand",
+				knownCommand: "workers",
 				unknownTokens: ["deploy", "<word>"],
 				unknownTokenCount: 2,
 			},
@@ -382,6 +405,21 @@ describe("telemetry error reporting", () => {
 		const sent = JSON.stringify(sendCommandEvent.mock.calls);
 		expect(sent).not.toContain("abc123");
 		expect(sent).not.toContain("sk_live");
+	});
+
+	it("names a command-specific short flag", async () => {
+		await expect(
+			runCf(["smart-shield", "health-checks", "delete", "abc", "extra", "-f"])
+		).rejects.toThrow("Unknown command: extra");
+		expect(sendCommandEvent).toHaveBeenCalledWith(
+			"cf command finished",
+			expect.objectContaining({
+				resolutionFailure: "surplus-positional",
+				knownCommand: "smart-shield health-checks delete",
+				argsUsed: ["force"],
+				unknownFlagCount: 0,
+			})
+		);
 	});
 
 	it("sends only shape labels when the catalogue cannot load", async () => {

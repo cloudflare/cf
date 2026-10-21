@@ -23,15 +23,18 @@ Command telemetry uses command-started and command-finished events containing:
   (unknown subcommand, extra positional argument, a typo with a suggested
   command, or no command), the part of the command path it recognised, and
   whether that part is a complete command. Up to three unrecognised words are
-  included only when they are `cf` command names where a command name was
-  expected; any other word, and any extra value after a complete command, is
-  replaced by a category such as `<hex>`, `<uuid>`, `<domain>`, `<path>`,
-  `<email>`, or `<word>`. The number of unrecognised words, the suggested
-  command name, and the number of flags that are not `cf` options are also
-  included. Those flags are counted, never named. The command path recorded
-  for these events is the recognised group or command when there is one, and
-  `unknown command` when nothing at the top level was recognised or a single
-  unrecognised word follows a command.
+  included. Only the first can be included as written, and only when it is a
+  `cf` command name where a command name was expected; every later word, any
+  other first word, and any extra value after a complete command are replaced
+  by a category such as `<hex>`, `<uuid>`, `<domain>`, `<path>`, `<email>`, or
+  `<word>`. The number of unrecognised words, the suggested command name, and
+  the number of flags that are not `cf` options are also included. Those
+  flags, including unrecognised short flags such as `-x`, are counted, never
+  named. In a group of short flags such as `-xf`, reading stops at the first
+  unrecognised letter, because the rest may be its value. The command path
+  recorded for these events is the recognised group or command when there is
+  one, and `unknown command` when nothing at the top level was recognised or a
+  single unrecognised word follows a command.
 - The search query passed to `cf cli search` or `cf docs search`, to help us
   make sure relevant results are being returned. Queries are limited to 1,024
   characters in telemetry and included only in command-finished events.

@@ -1,7 +1,8 @@
 import { dirname, join } from "node:path";
 import { fileURLToPath, pathToFileURL } from "node:url";
 import { isCommandsMetadata, loadMeta } from "../metadata.js";
-import { passedFlags } from "./sanitization.js";
+import { GLOBAL_SHORT_FLAG_ALIASES, readPassedFlags } from "./sanitization.js";
+import type { ShortFlagAlias } from "./sanitization.js";
 import type {
 	CommandResolutionFailure,
 	CommandResolutionProperties,
@@ -12,8 +13,9 @@ import type {
  *
  * Unrecognised tokens are often user data (IDs, domains, resource names), so
  * a token is sent only when it is a word from cf's own command catalogue and
- * appears where a command word was expected (never as a surplus positional
- * at a leaf).
+ * is the first unresolved token where a command word was expected. Later
+ * tokens, and surplus positionals at a leaf, may be values for the intended
+ * command.
  * Anything else is replaced by a label describing its shape. A pattern-based
  * allowlist would pass resource names such as `acme-prod-db`, which is why
  * the vocabulary is closed.
@@ -29,6 +31,8 @@ const BUILT_IN_OPTIONS = ["help", "version"];
 export interface CommandVocabulary {
 	commands: ReadonlySet<string>;
 	options: ReadonlySet<string>;
+	/** Single-character option aliases, used to name short flags. */
+	shortFlagAliases: Readonly<Record<string, ShortFlagAlias>>;
 }
 
 let cachedCatalogue: CommandVocabulary | null | undefined;
@@ -48,6 +52,9 @@ function loadCatalogueVocabulary(): CommandVocabulary | null {
 
 	const commands = new Set<string>();
 	const options = new Set<string>();
+	// `null` marks a letter that names different options in different
+	// commands; it is left out, so such a flag is counted rather than named.
+	const shortFlags = new Map<string, ShortFlagAlias | null>();
 	const addCommandWords = (words: string[]) => {
 		for (const word of words) {
 			if (word) {
@@ -62,23 +69,45 @@ function loadCatalogueVocabulary(): CommandVocabulary | null {
 			options.add(option.name);
 			const aliases = option.alias === undefined ? [] : [option.alias].flat();
 			for (const alias of aliases) {
-				// Single-character aliases are handled as short flags.
 				if (alias.length > 1) {
 					options.add(alias);
+					continue;
 				}
+				const short: ShortFlagAlias = {
+					canonical: option.name,
+					type: option.type === "boolean" ? "boolean" : "value",
+				};
+				const existing = shortFlags.get(alias);
+				const conflicts =
+					existing === null ||
+					(existing !== undefined &&
+						(existing.canonical !== short.canonical ||
+							existing.type !== short.type));
+				shortFlags.set(alias, conflicts ? null : short);
 			}
 		}
 	}
 	for (const group of Object.keys(metadata.descriptions ?? {})) {
 		addCommandWords(group.split(" "));
 	}
-	return { commands, options };
+	const shortFlagAliases: Record<string, ShortFlagAlias> = {};
+	for (const [alias, short] of shortFlags) {
+		if (short) {
+			shortFlagAliases[alias] = short;
+		}
+	}
+	return { commands, options, shortFlagAliases };
 }
 
 /**
  * The command words and option names cf recognises. Loading the catalogue
  * costs a few milliseconds, so it happens only on this error path. If it
  * cannot be loaded every unknown token is reduced to a shape label.
+ *
+ * Short-flag aliases, like option names, come from the whole catalogue
+ * rather than the resolved command: the catalogue does not list the
+ * generated `--force` (`-f`) of each delete command, so only the
+ * catalogue-wide set recognises it there.
  */
 export function loadCommandVocabulary(
 	globalOptions: readonly string[]
@@ -92,11 +121,19 @@ export function loadCommandVocabulary(
 	}
 	const options = new Set([...globalOptions, ...BUILT_IN_OPTIONS]);
 	if (!cachedCatalogue) {
-		return { commands: new Set(), options };
+		return {
+			commands: new Set(),
+			options,
+			shortFlagAliases: GLOBAL_SHORT_FLAG_ALIASES,
+		};
 	}
 	return {
 		commands: new Set([...cachedCatalogue.commands, ...BUILT_IN_COMMANDS]),
 		options: new Set([...cachedCatalogue.options, ...options]),
+		shortFlagAliases: {
+			...cachedCatalogue.shortFlagAliases,
+			...GLOBAL_SHORT_FLAG_ALIASES,
+		},
 	};
 }
 
@@ -154,7 +191,8 @@ export interface SanitizedCommandResolution extends CommandResolutionProperties 
 
 /**
  * Build telemetry properties for a resolution failure. Flag names are kept
- * only when they are cf options; their values are never read.
+ * only when they are cf options; their values are never read. Other flags,
+ * including unrecognised short flags, are counted.
  */
 export function sanitizeCommandResolution(
 	failure: CommandResolutionFailure,
@@ -163,16 +201,24 @@ export function sanitizeCommandResolution(
 ): SanitizedCommandResolution {
 	const known = new Set<string>();
 	const unknown = new Set<string>();
-	for (const flag of passedFlags(rawArgv)) {
+	const { flags, unknownShortFlags } = readPassedFlags(
+		rawArgv,
+		vocabulary.shortFlagAliases
+	);
+	for (const flag of flags) {
 		(vocabulary.options.has(flag) ? known : unknown).add(flag);
 	}
+	// Prefixed so `-x` and `--x` count separately; only the size is sent.
+	for (const character of unknownShortFlags) {
+		unknown.add(`-${character}`);
+	}
 	const argsUsed = [...known].sort();
-	// Surplus positionals at a leaf are almost always resource values, so a
-	// value that happens to be a cf word (`test`, `cache`) is still labelled.
-	const commandWords =
-		failure.kind === "surplus-positional"
-			? new Set<string>()
-			: vocabulary.commands;
+	// Only the first unresolved token is known to be in a command position.
+	// Any later token, and a surplus positional at a leaf, may be a value, so
+	// one that happens to be a cf word (`test`, `dev`) is still labelled.
+	const noWords = new Set<string>();
+	const firstTokenWords =
+		failure.kind === "surplus-positional" ? noWords : vocabulary.commands;
 	const suggestedCommand =
 		failure.kind === "suggested-command" ? failure.suggestedCommand : undefined;
 
@@ -182,7 +228,9 @@ export function sanitizeCommandResolution(
 		knownCommandIsLeaf: failure.knownCommandIsLeaf,
 		unknownTokens: failure.unknownTokens
 			.slice(0, MAX_UNKNOWN_TOKENS)
-			.map((token) => sanitizeCommandToken(token, commandWords)),
+			.map((token, index) =>
+				sanitizeCommandToken(token, index === 0 ? firstTokenWords : noWords)
+			),
 		unknownTokenCount: failure.unknownTokens.length,
 		// yargs only suggests registered names; the pattern is a backstop.
 		...(suggestedCommand !== undefined &&

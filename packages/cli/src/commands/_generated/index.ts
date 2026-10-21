@@ -208,7 +208,7 @@ export const generatedCommands: GeneratedCommand[] = [
 			() => import("./botnet-feed/index.js"),
 			null
 		),
-		hideCommand: true,
+		hideCommand: false,
 	},
 	{
 		command: lazyCommand<CommonYargsOptions>(

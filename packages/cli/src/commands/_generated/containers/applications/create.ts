@@ -130,7 +130,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("scheduling-policy", {
 			type: "string",
 			description:
-				"Selects a scheduler-backed application. Use `default` when the Containers\nscheduler should maintain the requested number of instances and manage deployment\nconfiguration, placement, scaling, versions, and rollouts.\n",
+				"Selects a scheduler-backed application. Use `default` when the Containers\nscheduler should maintain the requested number of instances and manage deployment\nconfiguration, placement, scaling, versions, and rollouts.",
 			choices: ["default", "durable_object"],
 		})
 		.coerce("scheduling-policy", (value) =>
@@ -318,7 +318,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				if (argv["scheduling-policy"] === undefined) {
 					argv["scheduling-policy"] = await promptForRequiredEnumField(
 						"scheduling-policy",
-						"Selects a scheduler-backed application. Use \`default\` when the Containers scheduler should maintain the requested number of instances and manage deployment configuration, placement, scaling, versions, and rollouts. ",
+						"Selects a scheduler-backed application. Use \`default\` when the Containers scheduler should maintain the requested number of instances and manage deployment configuration, placement, scaling, versions, and rollouts.",
 						["default", "durable_object"] as const
 					);
 				}

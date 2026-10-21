@@ -21047,7 +21047,7 @@
 			"httpMethod": "GET",
 			"apiPath": "/accounts/{account_id}/botnet_feed/asn/{asn_id}/day_report",
 			"operationId": "botnet-feed.asn.day-report",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf botnet-feed asn full-report",
@@ -21079,7 +21079,7 @@
 			"httpMethod": "GET",
 			"apiPath": "/accounts/{account_id}/botnet_feed/asn/{asn_id}/full_report",
 			"operationId": "botnet-feed.asn.full-report",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf botnet-feed configs asn delete",
@@ -21111,7 +21111,7 @@
 			"httpMethod": "DELETE",
 			"apiPath": "/accounts/{account_id}/botnet_feed/configs/asn/{asn_id}",
 			"operationId": "botnet-feed.configs.asn.delete",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf botnet-feed configs asn get",
@@ -21135,7 +21135,7 @@
 			"httpMethod": "GET",
 			"apiPath": "/accounts/{account_id}/botnet_feed/configs/asn",
 			"operationId": "botnet-feed.configs.asn.get",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf brand-protection logo-matches get",
@@ -39518,7 +39518,7 @@
 					"name": "scheduling-policy",
 					"type": "string",
 					"required": true,
-					"description": "Selects a scheduler-backed application. Use `default` when the Containers\nscheduler should maintain the requested number of instances and manage deployment\nconfiguration, placement, scaling, versions, and rollouts.\n",
+					"description": "Selects a scheduler-backed application. Use `default` when the Containers\nscheduler should maintain the requested number of instances and manage deployment\nconfiguration, placement, scaling, versions, and rollouts.",
 					"enum": ["default", "durable_object"]
 				},
 				{

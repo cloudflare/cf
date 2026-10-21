@@ -302,7 +302,7 @@ describe("send", () => {
 			c.send({ method: "GET", path: () => "/a" }),
 			(error: unknown) => {
 				assert.ok(error instanceof ApiError);
-				assert.ok(error.message.startsWith("a, b\n"));
+				assert.equal(error.message, "a, b");
 				assert.equal(error.statusCode, undefined);
 				assert.deepEqual(error.body, body);
 				assert.equal(error.rawResponse?.status, 200);

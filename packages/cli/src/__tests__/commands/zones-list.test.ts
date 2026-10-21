@@ -255,6 +255,28 @@ describe("cf zones list (network)", () => {
 		}
 	);
 
+	it.each([
+		{ errors: [], messages: [] },
+		{ errors: [null, {}], messages: [{ message: false }], result: null },
+	])(
+		"prints a concise fallback when an envelope has no usable details (%j)",
+		async (details) => {
+			server.use(
+				http.get(`${TEST_BASE_URL}/zones`, () =>
+					HttpResponse.json({ success: false, ...details })
+				)
+			);
+
+			await expect(runCf(["zones", "list"], ENV)).rejects.toThrow(
+				"Cloudflare API request failed"
+			);
+			expect(stdout()).toBe("");
+			expect(stderr()).toContain("Cloudflare API request failed");
+			expect(stderr()).not.toContain("Body:");
+			expect(stderr()).not.toContain('"success"');
+		}
+	);
+
 	it("propagates a success:false envelope on 2xx", async () => {
 		server.use(
 			http.get(`${TEST_BASE_URL}/zones`, () =>

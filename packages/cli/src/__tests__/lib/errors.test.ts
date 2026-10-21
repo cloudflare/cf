@@ -168,6 +168,26 @@ describe("handleError", () => {
 			expect(out.match(/400 Bad Request/g)).toHaveLength(1);
 		});
 
+		it("renders supplementary text without labelling it as another error", () => {
+			handleError(
+				new ApiError({
+					statusCode: 400,
+					body: {
+						errors: [{ message: "Request failed" }],
+						messages: [
+							"Missing parameter 'destination_url'",
+							{ message: "Use an HTTPS destination" },
+						],
+					},
+				})
+			);
+			const out = stderr();
+			expect(out).toContain("[error] Request failed");
+			expect(out).toContain("Missing parameter 'destination_url'");
+			expect(out).toContain("Use an HTTPS destination");
+			expect(out.match(/\[error\]/g)).toHaveLength(1);
+		});
+
 		it("renders messages when the response has no errors array", () => {
 			handleError(
 				new ApiError({

@@ -120,9 +120,15 @@ export function handleError(error: unknown): unknown {
 			errorBody !== null && typeof errorBody === "object"
 				? (errorBody as Record<string, unknown>)
 				: undefined;
-		const apiErrs = [
-			...apiMessages(data?.errors),
-			...apiMessages(data?.messages),
+		const apiEntries = [
+			...apiMessages(data?.errors).map((entry) => ({
+				...entry,
+				isError: true,
+			})),
+			...apiMessages(data?.messages).map((entry) => ({
+				...entry,
+				isError: false,
+			})),
 		];
 
 		// Path-only form keeps the box narrow; cf only talks to a
@@ -142,7 +148,7 @@ export function handleError(error: unknown): unknown {
 			status === undefined ? statusText : `${status} ${statusText}`;
 		const tailLine = reqLine ? `${statusBlurb} · ${reqLine}` : statusBlurb;
 
-		// Render each API error as:
+		// Render each API entry as:
 		//   [CODE]  message                              ← bold + error color
 		//           HTTP 404 Not Found · HTTP /path      ← dim, subordinated
 		// When colors are off, chalk's no-op proxy strips the styling
@@ -150,22 +156,23 @@ export function handleError(error: unknown): unknown {
 		// just plainer.
 		const tail = theme.muted(tailLine);
 		let content = "";
-		if (apiErrs.length > 0) {
-			content = apiErrs
+		if (apiEntries.length > 0) {
+			content = apiEntries
 				.map((err, idx) => {
 					const code =
 						typeof err.code === "number"
 							? theme.error(theme.bold(`[${err.code}]`))
-							: theme.error(theme.bold("[error]"));
+							: err.isError
+								? theme.error(theme.bold("[error]"))
+								: undefined;
 					const msg = theme.bold(err.message ?? "");
-					// Show the tail once, after the last error entry.
-					return idx === apiErrs.length - 1
-						? `${code} ${msg}\n${tail}`
-						: `${code} ${msg}`;
+					const line = code ? `${code} ${msg}` : msg;
+					// Show the tail once, after the last entry.
+					return idx === apiEntries.length - 1 ? `${line}\n${tail}` : line;
 				})
 				.join("\n\n");
 		} else {
-			// No structured errors — surface the client's own message, falling
+			// No structured details — surface the client's own message, falling
 			// back to the tail line, then subordinate the tail beneath it.
 			content = theme.error(theme.bold(error.message || tailLine));
 			if (error.message && tailLine) {

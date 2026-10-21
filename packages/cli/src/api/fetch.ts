@@ -159,9 +159,10 @@ export interface NonJsonBody {
 }
 
 /**
- * Unwraps Cloudflare's `{ success, errors, messages, result }` envelope:
- * to the result, or to `{ result, result_info }` for a list. An envelope
- * that reports a failure throws.
+ * Unwraps a successful Cloudflare envelope to its result, or to
+ * `{ result, result_info }` for a list. Successful envelopes without
+ * `result` are returned unchanged. An envelope with `success: false`
+ * throws whether or not it has `result`.
  */
 export function unwrapEnvelope(body: unknown, response?: Response): unknown {
 	if (body === null || typeof body !== "object" || Array.isArray(body)) {
@@ -198,6 +199,8 @@ export function unwrapEnvelope(body: unknown, response?: Response): unknown {
 			rawResponse: response ? rawResponse(response) : undefined,
 		});
 		error.name = "ApiEnvelopeError";
+		// Keep the fallback concise; the full envelope is available in `body`.
+		error.message = message;
 		throw error;
 	}
 	if (!("result" in body)) {

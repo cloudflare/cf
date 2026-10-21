@@ -29,7 +29,8 @@ Command telemetry uses command-started and command-finished events containing:
   command fails. Error messages and stack traces are not sent.
 - The `cf` version and prerelease label, when present. When a global `cf`
   hands a command to the `cf` version pinned by a project, the version is that
-  of the project's `cf`, and the global `cf` version is also recorded.
+  of the project's `cf`, and the global `cf` version is also recorded when the
+  project's `cf` supports it.
 - OS family and version, architecture, Node.js major version, and package
   manager.
 - Whether this is the first recorded use on the machine, and whether the

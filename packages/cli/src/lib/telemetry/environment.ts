@@ -5,9 +5,9 @@ import {
 	DELEGATION_SENTINEL,
 } from "../delegate.js";
 
-// Plain semver with optional prerelease and build segments. Anything else,
-// such as a path, an email address or a control character, is dropped
-// rather than sent.
+// A semver-shaped string with optional prerelease and build segments. It is
+// a loose bound, not a strict semver check. Anything else, such as a path,
+// an email address or a control character, is dropped rather than sent.
 const SEMVER_PATTERN =
 	/^\d{1,5}\.\d{1,5}\.\d{1,5}(?:-[0-9A-Za-z.-]{1,40})?(?:\+[0-9A-Za-z.-]{1,40})?$/;
 const MAX_VERSION_LENGTH = 64;
@@ -81,7 +81,7 @@ export function isDirectlyDelegated(
  * The version of the global cf that delegated this run to a project-local
  * cf, or undefined when the run was not delegated to this process
  * directly, the global cf predates passing its version and process ID, or
- * the value is not a plain semver string.
+ * the value is not a semver-shaped string.
  */
 export function getGlobalCliVersion(
 	env: NodeJS.ProcessEnv = process.env,

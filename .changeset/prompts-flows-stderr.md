@@ -7,7 +7,9 @@ Move prompts, progress and workflow messages to stderr
 Breaking change during the beta: prompts, confirmations and the progress
 spinner now render on stderr, so they keep working while stdout is redirected,
 as in `cf kv namespaces create > ns.json`, and a confirmation that used to fail
-there now waits for an answer. Prompts need stdin and stderr to be terminals
+there now waits for an answer. Some confirmations in `cf deploy` and
+`cf workers triggers deploy` still ask only when stdout is a terminal, and go
+ahead without asking otherwise. Prompts need stdin and stderr to be terminals
 outside CI, the spinner needs a stderr terminal, and Ctrl+C during the spinner
 now exits with status 130 instead of 0. `cf init`, `cf build`, `cf deploy`,
 `cf workers versions create` and `cf workers triggers deploy` print their

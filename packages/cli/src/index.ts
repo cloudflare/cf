@@ -198,10 +198,11 @@ function decorateHelp(help: string, command: string | undefined): string {
 /**
  * Print a one-line hint about shell completions on the first TTY run.
  *
- * Persists `completions.prompted: true` in cf's global state so
- * subsequent runs stay silent. Suppressed when stderr isn't a TTY,
- * `--quiet` is set, the user is running `cf complete`, or they've
- * already been hinted. Modelled after `gh` / `git`.
+ * Persists `completions.prompted: true` in cf's global state before
+ * printing, so a state file cf cannot write suppresses the hint rather
+ * than repeating it on every run. Suppressed when stderr isn't a TTY,
+ * in CI, when `--quiet` is set, the user is running `cf complete`, or
+ * they've already been hinted. Modelled after `gh` / `git`.
  */
 async function maybeShowCompletionsHint(quiet = false): Promise<void> {
 	if (!process.stderr.isTTY) {
@@ -213,15 +214,19 @@ async function maybeShowCompletionsHint(quiet = false): Promise<void> {
 	if (commandName() === "complete") {
 		return;
 	}
+	const { isCI } = await import("./lib/interactive.js");
+	if (isCI) {
+		return;
+	}
 	const { readState, updateState } = await import("./lib/state.js");
 	if (readState().completions?.prompted) {
 		return;
 	}
+	updateState({ completions: { prompted: true } });
 	const { log } = await import("./lib/ui/log.js");
 	log.info(
 		`Tip: run ${theme.code("cf complete <bash|zsh|fish|powershell>")} to install shell completions.`
 	);
-	updateState({ completions: { prompted: true } });
 }
 
 let telemetryModulePromise: Promise<typeof TelemetryModule> | undefined;

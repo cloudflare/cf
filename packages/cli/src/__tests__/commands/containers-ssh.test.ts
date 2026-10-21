@@ -27,6 +27,7 @@ import {
 } from "../helpers/forge-cli.js";
 import { server, setupMsw, TEST_BASE_URL } from "../helpers/msw.js";
 import { runCf } from "../helpers/run-cf.js";
+import type * as InteractiveModule from "../../lib/interactive.js";
 import type * as ContainersShared from "@cloudflare/containers-shared";
 
 vi.mock("../../lib/session.js", async (importOriginal) => ({
@@ -37,6 +38,16 @@ vi.mock("../../lib/session.js", async (importOriginal) => ({
 vi.mock("../../lib/state.js", () => ({
 	readState: vi.fn(() => ({})),
 	updateState: vi.fn(),
+}));
+
+vi.mock("../../lib/interactive.js", async (importOriginal) => ({
+	...(await importOriginal<typeof InteractiveModule>()),
+	isCI: false,
+}));
+
+vi.mock("../../lib/update-check.js", () => ({
+	getUpdateNotice: vi.fn(),
+	maybeStartBackgroundUpdateCheck: vi.fn(),
 }));
 
 vi.mock("../../lib/agent-context.js", () => ({

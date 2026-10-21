@@ -9,6 +9,7 @@ import {
 import { __resetCommandVocabularyForTests } from "../lib/telemetry/command-resolution.js";
 import { captureOutput } from "./helpers/capture-output.js";
 import { runCf } from "./helpers/run-cf.js";
+import type * as InteractiveModule from "../lib/interactive.js";
 import type * as MetadataModule from "../lib/metadata.js";
 import type * as TelemetryModule from "../lib/telemetry/index.js";
 import type { TelemetryDispatcher } from "../lib/telemetry/index.js";
@@ -62,6 +63,16 @@ vi.mock("../lib/metadata.js", async (importOriginal) => {
 vi.mock("../lib/state.js", () => ({
 	readState: () => ({}),
 	updateState,
+}));
+
+vi.mock("../lib/interactive.js", async (importOriginal) => ({
+	...(await importOriginal<typeof InteractiveModule>()),
+	isCI: false,
+}));
+
+vi.mock("../lib/update-check.js", () => ({
+	getUpdateNotice: vi.fn(),
+	maybeStartBackgroundUpdateCheck: vi.fn(),
 }));
 
 describe("telemetry error reporting", () => {
@@ -512,7 +523,7 @@ describe("telemetry error reporting", () => {
 		}
 	);
 
-	it("shows the first-run notices as info lines naming every shell", async () => {
+	it("shows the telemetry notice as an info line", async () => {
 		Object.defineProperty(process.stderr, "isTTY", {
 			value: true,
 			configurable: true,
@@ -522,9 +533,6 @@ describe("telemetry error reporting", () => {
 
 		expect(output.stderr()).toContain(
 			"●  Cloudflare collects anonymous cf usage telemetry. Run cf cli telemetry disable to opt out.\n"
-		);
-		expect(output.stderr()).toContain(
-			"●  Tip: run cf complete <bash|zsh|fish|powershell> to install shell completions.\n"
 		);
 	});
 

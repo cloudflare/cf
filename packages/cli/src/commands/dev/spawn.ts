@@ -82,9 +82,12 @@ export async function spawnImpl(
 		// Caller (commands/dev/index.ts) checks this before calling, but
 		// we keep the guard here so the function is safe to call without
 		// re-deriving the precondition.
+		const commands = discovered.impl.installCommands.map(
+			(command) => `\`${command}\``
+		);
 		throw new Error(
 			`Cannot spawn ${discovered.impl.pkg}: binary not found.\n` +
-				`Try: ${discovered.impl.installCommands.join(" or ")}`
+				`Try: ${new Intl.ListFormat("en", { type: "disjunction" }).format(commands)}`
 		);
 	}
 

@@ -166,6 +166,7 @@ describe("formatOutput", () => {
 
 	it("highlights JSON on an interactive TTY when FORCE_COLOR is set", () => {
 		setStdinTTY(true);
+		setStderrTTY(false);
 		setStdoutTTY(true);
 		withForcedColor(() => {
 			formatOutput({ name: "db" });

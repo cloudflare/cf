@@ -105,7 +105,7 @@ describe("withProgress", () => {
 		expect(exit.mock.calls).toEqual([[130], [143]]);
 	});
 
-	it("exits 130 when Ctrl+C ends the process while drawing", async () => {
+	it("exits 130 when Ctrl+C or Esc ends the process while drawing", async () => {
 		vi.spyOn(terminalProgress, "setIndeterminate").mockImplementation(() => {});
 		vi.spyOn(terminalProgress, "clear").mockImplementation(() => {});
 		let finish = () => {};
@@ -114,7 +114,7 @@ describe("withProgress", () => {
 			() => new Promise<void>((resolve) => (finish = resolve))
 		);
 
-		// clack's spinner exits 0 when it reads Ctrl+C as a keypress.
+		// clack's spinner exits 0 when it reads Ctrl+C or Esc as a keypress.
 		process.emit("exit", 0);
 		const exitCode = process.exitCode;
 		process.exitCode = undefined;

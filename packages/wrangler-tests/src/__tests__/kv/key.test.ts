@@ -338,9 +338,6 @@ describe("kv", () => {
 					.filter((arg): arg is string => typeof arg === "string");
 				writeSpy.mockRestore();
 				expect(proc.write).not.toEqual(Buffer.from("my-value"));
-				// `withProgress` spinner also writes strings to stdout
-				// (ANSI control codes); the payload write is the only one
-				// that contains the decoded value verbatim.
 				expect(stringWrites).toContain("my-value");
 				expect(std.err).toMatchInlineSnapshot(`""`);
 			});

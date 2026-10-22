@@ -11,7 +11,7 @@ there now waits for an answer. Some confirmations in `cf deploy` and
 `cf workers triggers deploy` still ask only when stdout is a terminal, and go
 ahead without asking otherwise. Prompts and the spinner need stdin and stderr
 to be terminals outside CI, so the spinner no longer swallows piped input, and
-Ctrl+C during the spinner now exits with status 130 instead of 0.
+Ctrl+C or Esc during the spinner now exits with status 130 instead of 0.
 `cf init`, `cf build`, `cf deploy`, `cf workers versions create` and
 `cf workers triggers deploy` print their messages on stderr too, together
 with the output of the build and install commands cf runs, so scripts that

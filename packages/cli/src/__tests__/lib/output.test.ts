@@ -124,6 +124,7 @@ describe("formatOutput", () => {
 
 	it("keeps piped JSON plain when FORCE_COLOR is set", () => {
 		setStdinTTY(true);
+		setStderrTTY(true);
 		setStdoutTTY(false);
 		withForcedColor(() => {
 			formatOutput({ name: "db" });

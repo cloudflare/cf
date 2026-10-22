@@ -1,15 +1,19 @@
 import ci from "ci-info";
 
 /**
- * Returns whether the process should not prompt the user.
+ * Returns whether the process should not prompt the user or decorate
+ * `output`.
  *
- * Prompts read stdin and render on stderr, so both must be terminals, and
- * nothing prompts in CI (detected via `ci-info`). stdout does not matter:
- * `cf kv namespaces create > ns.json` can still ask for the title.
+ * Someone must be at the keyboard and watching `output`, so stdin and
+ * `output` must both be terminals, and nothing is interactive in CI (detected
+ * via `ci-info`). Prompts render on stderr, the default, so
+ * `cf kv namespaces create > ns.json` can still ask for the title. JSON goes
+ * to stdout, so its highlighting passes `process.stdout`.
  *
  * Use this for anything that should be suppressed or adapted in CI:
  * - User prompts (confirmations, text input, select dialogs)
  * - OAuth login flows
+ * - Output format decisions (JSON in CI, pretty when interactive)
  * - Banner / decoration display
  * - Writing config changes back to disk
  *
@@ -17,9 +21,11 @@ import ci from "ci-info";
  * `isInteractive()` wrapper only when a caller actually needs the
  * strict-TTY-only flavour (hotkeys, spinners, typed-name confirmation).
  */
-export function isNonInteractiveOrCI(): boolean {
+export function isNonInteractiveOrCI(
+	output: NodeJS.WriteStream = process.stderr
+): boolean {
 	try {
-		return !(process.stdin.isTTY && process.stderr.isTTY) || ci.isCI;
+		return !(process.stdin.isTTY && output.isTTY) || ci.isCI;
 	} catch {
 		// Reading `process.stdin` throws when Node can't open its terminal.
 		return true;

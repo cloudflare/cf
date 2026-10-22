@@ -1,4 +1,4 @@
-/** @generated from cache.origin-cloud-regions.supported-regions */
+/** @generated from cache.origin-cloud-regions.regions.list-supported */
 import { path } from "#api";
 
 export default {

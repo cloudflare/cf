@@ -26535,12 +26535,12 @@
 			"hideCommand": false
 		},
 		{
-			"command": "cf cache origin-cloud-regions bulk-delete",
-			"name": "bulk-delete",
-			"fullPath": ["cache", "origin-cloud-regions", "bulk-delete"],
+			"command": "cf cache origin-cloud-regions bulk delete",
+			"name": "delete",
+			"fullPath": ["cache", "origin-cloud-regions", "bulk", "delete"],
 			"description": "Removes up to 100 IP-to-cloud-region mappings in a single request. Each IP is validated independently — successfully deleted items are returned in the `succeeded` array and IPs that could not be found or are invalid are returned in the `failed` array.",
 			"summary": "Batch delete origin cloud region mappings",
-			"usage": "cf cache origin-cloud-regions bulk-delete",
+			"usage": "cf cache origin-cloud-regions bulk delete",
 			"arguments": [],
 			"options": [
 				{
@@ -26557,20 +26557,20 @@
 					"description": "Raw JSON request body (bypasses individual flags)"
 				}
 			],
-			"category": "action",
+			"category": "delete",
 			"hasRequestBody": true,
 			"httpMethod": "DELETE",
 			"apiPath": "/zones/{zone_id}/origin/cloud_regions/batch",
-			"operationId": "cache.origin-cloud-regions.bulk-delete",
+			"operationId": "cache.origin-cloud-regions.bulk.delete",
 			"hideCommand": false
 		},
 		{
-			"command": "cf cache origin-cloud-regions bulk-update",
-			"name": "bulk-update",
-			"fullPath": ["cache", "origin-cloud-regions", "bulk-update"],
+			"command": "cf cache origin-cloud-regions bulk update",
+			"name": "update",
+			"fullPath": ["cache", "origin-cloud-regions", "bulk", "update"],
 			"description": "Upserts up to 100 IP-to-cloud-region mappings in a single request. Items in the request body are created or replaced; mappings not included in the request body are preserved unchanged (this is a merge operation, not a full collection replacement). Each item is validated independently — valid items are applied and invalid items are returned in the `failed` array. The vendor and region for every item are validated against the list from `GET /zones/{zone_id}/origin/cloud_regions/supported_regions`.",
 			"summary": "Batch create or replace origin cloud region mappings",
-			"usage": "cf cache origin-cloud-regions bulk-update",
+			"usage": "cf cache origin-cloud-regions bulk update",
 			"arguments": [],
 			"options": [
 				{
@@ -26587,11 +26587,11 @@
 					"description": "Raw JSON request body (bypasses individual flags)"
 				}
 			],
-			"category": "action",
+			"category": "update",
 			"hasRequestBody": true,
 			"httpMethod": "PUT",
 			"apiPath": "/zones/{zone_id}/origin/cloud_regions/batch",
-			"operationId": "cache.origin-cloud-regions.bulk-update",
+			"operationId": "cache.origin-cloud-regions.bulk.update",
 			"hideCommand": false
 		},
 		{
@@ -26695,12 +26695,17 @@
 			"hideCommand": false
 		},
 		{
-			"command": "cf cache origin-cloud-regions supported-regions",
-			"name": "supported-regions",
-			"fullPath": ["cache", "origin-cloud-regions", "supported-regions"],
+			"command": "cf cache origin-cloud-regions regions list-supported",
+			"name": "list-supported",
+			"fullPath": [
+				"cache",
+				"origin-cloud-regions",
+				"regions",
+				"list-supported"
+			],
 			"description": "Returns the cloud vendors and regions that are valid values for origin cloud region mappings. Each region includes the Tiered Cache upper-tier colocation codes that will be used for cache routing when a mapping targeting that region is active. Requires the zone to have Tiered Cache enabled.",
 			"summary": "List supported cloud vendors and regions",
-			"usage": "cf cache origin-cloud-regions supported-regions",
+			"usage": "cf cache origin-cloud-regions regions list-supported",
 			"arguments": [],
 			"options": [
 				{
@@ -26715,7 +26720,7 @@
 			"hasRequestBody": false,
 			"httpMethod": "GET",
 			"apiPath": "/zones/{zone_id}/origin/cloud_regions/supported_regions",
-			"operationId": "cache.origin-cloud-regions.supported-regions",
+			"operationId": "cache.origin-cloud-regions.regions.list-supported",
 			"hideCommand": false
 		},
 		{
@@ -54092,7 +54097,7 @@
 			"httpMethod": "GET",
 			"apiPath": "/zones/{zone_id}/settings/google-tag-gateway/config",
 			"operationId": "google-tag-gateway.config.get",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf google-tag-gateway config update",
@@ -54152,7 +54157,7 @@
 			"httpMethod": "PUT",
 			"apiPath": "/zones/{zone_id}/settings/google-tag-gateway/config",
 			"operationId": "google-tag-gateway.config.update",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf healthchecks create",
@@ -82710,7 +82715,7 @@
 			"httpMethod": "GET",
 			"apiPath": "/zones/{zone_id}/cache/origin_post_quantum_encryption",
 			"operationId": "origin-post-quantum-encryption.get",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf origin-post-quantum-encryption update",
@@ -82747,7 +82752,7 @@
 			"httpMethod": "PUT",
 			"apiPath": "/zones/{zone_id}/cache/origin_post_quantum_encryption",
 			"operationId": "origin-post-quantum-encryption.update",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf page-rules create",
@@ -117289,7 +117294,7 @@
 			"httpMethod": "POST",
 			"apiPath": "/zones/{zone_id}/smart_shield/cache_reserve_clear",
 			"operationId": "smart-shield.cache-reserve-clear.clear",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf smart-shield cache-reserve-clear status",
@@ -117313,7 +117318,7 @@
 			"httpMethod": "GET",
 			"apiPath": "/zones/{zone_id}/smart_shield/cache_reserve_clear",
 			"operationId": "smart-shield.cache-reserve-clear.status",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf smart-shield get",
@@ -117337,7 +117342,7 @@
 			"httpMethod": "GET",
 			"apiPath": "/zones/{zone_id}/smart_shield",
 			"operationId": "smart-shield.get",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf smart-shield health-checks create",
@@ -117502,7 +117507,7 @@
 			"httpMethod": "POST",
 			"apiPath": "/zones/{zone_id}/smart_shield/healthchecks",
 			"operationId": "smart-shield.health-checks.create",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf smart-shield health-checks delete",
@@ -117534,7 +117539,7 @@
 			"httpMethod": "DELETE",
 			"apiPath": "/zones/{zone_id}/smart_shield/healthchecks/{healthcheck_id}",
 			"operationId": "smart-shield.health-checks.delete",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf smart-shield health-checks edit",
@@ -117700,7 +117705,7 @@
 			"httpMethod": "PATCH",
 			"apiPath": "/zones/{zone_id}/smart_shield/healthchecks/{healthcheck_id}",
 			"operationId": "smart-shield.health-checks.edit",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf smart-shield health-checks get",
@@ -117732,7 +117737,7 @@
 			"httpMethod": "GET",
 			"apiPath": "/zones/{zone_id}/smart_shield/healthchecks/{healthcheck_id}",
 			"operationId": "smart-shield.health-checks.get",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf smart-shield health-checks list",
@@ -117768,7 +117773,7 @@
 			"httpMethod": "GET",
 			"apiPath": "/zones/{zone_id}/smart_shield/healthchecks",
 			"operationId": "smart-shield.health-checks.list",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf smart-shield health-checks update",
@@ -117952,7 +117957,7 @@
 			"httpMethod": "PUT",
 			"apiPath": "/zones/{zone_id}/smart_shield/healthchecks/{healthcheck_id}",
 			"operationId": "smart-shield.health-checks.update",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf smart-shield update",
@@ -118010,7 +118015,7 @@
 			"httpMethod": "PATCH",
 			"apiPath": "/zones/{zone_id}/smart_shield",
 			"operationId": "smart-shield.update",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf snippets content get",
@@ -164463,6 +164468,8 @@
 		"builds workers": "Manage repository-backed build configuration for Workers.",
 		"cache": "Purge cached content and configure Cache Reserve, tiered caching, and variant serving",
 		"cache origin-cloud-regions": "Manage Origin Cloud Regions routing and failover configurations",
+		"cache origin-cloud-regions bulk": "Operations for origin-cloud-regions.bulk",
+		"cache origin-cloud-regions regions": "Operations for origin-cloud-regions.regions",
 		"cache settings": "Configure Cache Reserve, tiered caching, and variant serving",
 		"cache settings regional-tiered-cache": "Restrict tiered cache topology to data centers within a specific geographic region",
 		"cache settings reserve": "Persistent storage tier that keeps cached assets even after eviction from edge caches",

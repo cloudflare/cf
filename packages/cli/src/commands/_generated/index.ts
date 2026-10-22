@@ -514,7 +514,7 @@ export const generatedCommands: GeneratedCommand[] = [
 			() => import("./google-tag-gateway/index.js"),
 			null
 		),
-		hideCommand: true,
+		hideCommand: false,
 	},
 	{
 		command: lazyCommand<CommonYargsOptions>(
@@ -793,7 +793,7 @@ export const generatedCommands: GeneratedCommand[] = [
 			() => import("./origin-post-quantum-encryption/index.js"),
 			null
 		),
-		hideCommand: true,
+		hideCommand: false,
 	},
 	{
 		command: lazyCommand<CommonYargsOptions>(
@@ -1018,7 +1018,7 @@ export const generatedCommands: GeneratedCommand[] = [
 			() => import("./smart-shield/index.js"),
 			null
 		),
-		hideCommand: true,
+		hideCommand: false,
 	},
 	{
 		command: lazyCommand<CommonYargsOptions>(

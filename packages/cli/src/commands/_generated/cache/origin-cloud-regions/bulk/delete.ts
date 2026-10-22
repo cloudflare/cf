@@ -1,7 +1,7 @@
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
- * bulk-delete command
+ * delete command
  * @generated from apis/overlays/cache.ts
  */
 import type { Argv, CommandModule } from "yargs";
@@ -16,7 +16,7 @@ import { runWithTelemetry } from "#lib/telemetry/index.js";
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
 		.usage(
-			"$0 cache origin-cloud-regions bulk-delete\n\nRemoves up to 100 IP-to-cloud-region mappings in a single request. Each IP is validated independently — successfully deleted items are returned in the `succeeded` array and IPs that could not be found or are invalid are returned in the `failed` array."
+			"$0 cache origin-cloud-regions bulk delete\n\nRemoves up to 100 IP-to-cloud-region mappings in a single request. Each IP is validated independently — successfully deleted items are returned in the `succeeded` array and IPs that could not be found or are invalid are returned in the `failed` array."
 		)
 		.option("dry-run", {
 			type: "boolean",
@@ -38,13 +38,13 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 type Args = InferArgs<typeof builder>;
 
 const command: CommandModule<CommonYargsOptions, Args> = {
-	command: "bulk-delete",
+	command: "delete",
 	describe: "Batch delete origin cloud region mappings",
 	builder,
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
-				command: "cache origin-cloud-regions bulk-delete",
+				command: "cache origin-cloud-regions bulk delete",
 				classification: {
 					safeFlags: ["dry-run", "force"],
 					shortFlagAliases: { f: { canonical: "force", type: "boolean" } },
@@ -54,7 +54,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			async () => {
 				if (argv.dryRun) {
 					formatDryRun({
-						command: "cf cache origin-cloud-regions bulk-delete",
+						command: "cf cache origin-cloud-regions bulk delete",
 						method: "DELETE",
 						url: `https://api.cloudflare.com/client/v4/zones/${argv.zone ?? argv.zoneId ?? "<zone>"}/origin/cloud_regions/batch`,
 						pathParams: {

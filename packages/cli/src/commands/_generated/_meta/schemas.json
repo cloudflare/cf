@@ -19227,8 +19227,8 @@
 			"hasRequestBody": true,
 			"requestBodyFields": []
 		},
-		"cache origin-cloud-regions bulk-delete": {
-			"operationId": "cache.origin-cloud-regions.bulk-delete",
+		"cache origin-cloud-regions bulk delete": {
+			"operationId": "cache.origin-cloud-regions.bulk.delete",
 			"httpMethod": "DELETE",
 			"path": "/zones/{zone_id}/origin/cloud_regions/batch",
 			"pathParams": [
@@ -19242,8 +19242,8 @@
 			"hasRequestBody": true,
 			"requestBodyFields": []
 		},
-		"cache origin-cloud-regions bulk-update": {
-			"operationId": "cache.origin-cloud-regions.bulk-update",
+		"cache origin-cloud-regions bulk update": {
+			"operationId": "cache.origin-cloud-regions.bulk.update",
 			"httpMethod": "PUT",
 			"path": "/zones/{zone_id}/origin/cloud_regions/batch",
 			"pathParams": [
@@ -19323,8 +19323,8 @@
 			"hasRequestBody": false,
 			"requestBodyFields": []
 		},
-		"cache origin-cloud-regions supported-regions": {
-			"operationId": "cache.origin-cloud-regions.supported-regions",
+		"cache origin-cloud-regions regions list-supported": {
+			"operationId": "cache.origin-cloud-regions.regions.list-supported",
 			"httpMethod": "GET",
 			"path": "/zones/{zone_id}/origin/cloud_regions/supported_regions",
 			"pathParams": [

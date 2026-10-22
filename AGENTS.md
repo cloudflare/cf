@@ -40,6 +40,7 @@ cf/
 │   │   │   ├── deploy/         # hand-written: `cf deploy` (Build Output → upload)
 │   │   │   ├── migrate/        # hand-written: Wrangler-to-cf config migration
 │   │   │   ├── previews/       # hand-written: `cf previews deploy`
+│   │   │   ├── speedtest/      # hand-written: `cf speedtest` (speed.cloudflare.com)
 │   │   │   ├── init/           # hand-written: `cf init` / `cf init workers`
 │   │   │   │                   # (hello-world scaffold or autoconfig setup)
 │   │   │   ├── containers/     # hand-written: local image build/push leaves
@@ -491,6 +492,13 @@ shape.
 website's public AI Search endpoint, outside the platform API/SDK. It needs no
 Cloudflare credentials and returns ranked JSON page metadata. Agents fetch
 returned URLs with `Accept: text/markdown` to read complete pages.
+
+`cf speedtest` (alias `cf speed-test`) is a hand-written root workflow that
+times requests to speed.cloudflare.com's public download and upload endpoints,
+outside the platform API/SDK. It follows `@cloudflare/speedtest`'s method
+without the WebRTC packet-loss test, which Node cannot run, needs no Cloudflare
+credentials, and returns JSON. A root's `aliases` in `hand-written.ts` are
+registered with yargs and must also be listed in its `meta.ts`.
 
 **Leaf override** (`kind: "leafOverride"`) — the spec _does_ describe the
 operation, but not well enough for a generated command to be useful. The

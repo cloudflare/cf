@@ -53,9 +53,14 @@ describe("hand-written command metadata", () => {
 				"cf migrate",
 				"cf previews deploy",
 				"cf schema",
+				"cf speedtest",
 				"cf tools",
 			])
 		);
+	});
+
+	it("publishes root command aliases", () => {
+		expect(commands.get("cf speedtest")?.aliases).toEqual(["speed-test"]);
 	});
 
 	it("keeps root hand-written commands free of API identity fields", () => {
@@ -65,6 +70,7 @@ describe("hand-written command metadata", () => {
 			"cf dev",
 			"cf docs search",
 			"cf schema",
+			"cf speedtest",
 			"cf tools",
 		]) {
 			const command = commands.get(commandName);
@@ -179,7 +185,7 @@ describe("hand-written-only command metadata", () => {
 	);
 
 	it("contains only hand-written commands", () => {
-		expect(commands.size).toBe(50);
+		expect(commands.size).toBe(51);
 		expect(commands.has("cf pages deploy")).toBe(true);
 		expect(commands.has("cf tunnels diag")).toBe(true);
 		expect(commands.has("cf tunnels login")).toBe(true);

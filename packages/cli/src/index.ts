@@ -156,18 +156,24 @@ function globalFlagTakesValue(arg: string, nextArg?: string): boolean {
  */
 const handWrittenRoots = loadableRootCommands().map((command) =>
 	withHandWrittenDryRun(
-		lazyCommand(
-			command.command,
-			command.describe,
-			command.load as LazyCommandImporter,
-			command.telemetry
-		),
+		{
+			...lazyCommand(
+				command.command,
+				command.describe,
+				command.load as LazyCommandImporter,
+				command.telemetry
+			),
+			aliases: command.aliases,
+		},
 		command.dryRun
 	)
 );
 
 const HAND_WRITTEN_ROOTS = new Set(
-	rootHandWrittenCommands().map(rootCommandName)
+	rootHandWrittenCommands().flatMap((command) => [
+		rootCommandName(command),
+		...(command.aliases ?? []),
+	])
 );
 
 const AGENT_DISCOVERY_HELP = [

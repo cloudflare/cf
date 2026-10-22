@@ -119500,6 +119500,26 @@
 			"hideCommand": false
 		},
 		{
+			"command": "cf speedtest",
+			"name": "speedtest",
+			"fullPath": ["speedtest"],
+			"aliases": ["speed-test"],
+			"category": "read",
+			"description": "Measure download and upload speed, latency, and jitter between this machine and Cloudflare's network using speed.cloudflare.com. Returns JSON with speeds in Mbps, latency and jitter in milliseconds, and the IATA code of the Cloudflare data center that served the test. No Cloudflare login is required.",
+			"summary": "Measure your connection's speed to Cloudflare",
+			"usage": "cf speedtest",
+			"arguments": [],
+			"options": [
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Parse arguments and show the command without executing it",
+					"default": false
+				}
+			]
+		},
+		{
 			"command": "cf sql datasets",
 			"name": "datasets",
 			"fullPath": ["sql", "datasets"],
@@ -165519,6 +165539,7 @@
 		"docs": "Search live Cloudflare documentation",
 		"init": "Create a new Cloudflare project or set up an existing one",
 		"migrate": "Migrate a Wrangler project to cf",
+		"speedtest": "Measure your connection's speed to Cloudflare",
 		"cli": "Discover commands and configure the cf CLI",
 		"schema": "Show API schema details for a command",
 		"tools": ""

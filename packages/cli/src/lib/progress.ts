@@ -61,13 +61,16 @@ function canAnimate(): boolean {
  * Run `task()` with a live spinner and elapsed timer. Always resolves
  * with the task's return value. On error, stops the spinner, clears terminal
  * progress, and re-throws so the central error handler can render the failure.
+ *
+ * The task can `update` the message to report live progress; the last update
+ * stays on screen when the task succeeds.
  */
 export async function withProgress<T>(
 	message: string,
-	task: () => Promise<T>
+	task: (update: (message: string) => void) => Promise<T>
 ): Promise<T> {
 	if (!canAnimate()) {
-		return task();
+		return task(() => {});
 	}
 
 	// Defensive: make sure the clack session is open so the spinner's
@@ -104,10 +107,14 @@ export async function withProgress<T>(
 	process.on("SIGINT", interrupted);
 	process.on("SIGTERM", interrupted);
 	process.on("exit", exiting);
+	let latest = message;
 	try {
-		const result = await task();
+		const result = await task((next) => {
+			latest = next;
+			s.message(next);
+		});
 		terminalProgress.clear();
-		s.stop(message);
+		s.stop(latest);
 		return result;
 	} catch (err) {
 		terminalProgress.clear();

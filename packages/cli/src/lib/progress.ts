@@ -90,8 +90,8 @@ export async function withProgress<T>(
 	terminalProgress.setIndeterminate();
 	s.start(message);
 	// clack's spinner swallows SIGINT and SIGTERM, and reads a terminal's
-	// Ctrl+C as a keypress that exits 0. Exit as the signal would have, so
-	// a pipeline or `&&` chain stops.
+	// Ctrl+C or Esc as a cancel keypress that exits 0. Exit as an interrupted
+	// process would, so a pipeline or `&&` chain stops.
 	const interrupted = (signal: NodeJS.Signals) =>
 		process.exit(signal === "SIGTERM" ? 143 : 130);
 	const exiting = (code: number) => {

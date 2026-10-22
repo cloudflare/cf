@@ -43138,7 +43138,7 @@
 			"command": "cf dls regional-services prefix-bindings create",
 			"name": "create",
 			"fullPath": ["dls", "regional-services", "prefix-bindings", "create"],
-			"description": "Create a DLS prefix binding",
+			"description": "Bind a CIDR from a BYOIP prefix to a region. This requires the **IP Prefixes Write** permission in addition to **DLS Write**, because the binding is created against a BYOIP prefix in Addressing.",
 			"summary": "Create a DLS prefix binding",
 			"usage": "cf dls regional-services prefix-bindings create [options]",
 			"arguments": [],
@@ -43180,13 +43180,13 @@
 			"httpMethod": "POST",
 			"apiPath": "/accounts/{account_id}/dls/regional_services/prefix_bindings",
 			"operationId": "dls.regional-services.prefix-bindings.create",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf dls regional-services prefix-bindings delete",
 			"name": "delete",
 			"fullPath": ["dls", "regional-services", "prefix-bindings", "delete"],
-			"description": "Delete a DLS prefix binding",
+			"description": "Delete a BYOIP prefix binding. Like creating a binding, this requires **IP Prefixes Write** in addition to **DLS Write**.",
 			"summary": "Delete a DLS prefix binding",
 			"usage": "cf dls regional-services prefix-bindings delete <binding-id>",
 			"arguments": [
@@ -43212,13 +43212,13 @@
 			"httpMethod": "DELETE",
 			"apiPath": "/accounts/{account_id}/dls/regional_services/prefix_bindings/{binding_id}",
 			"operationId": "dls.regional-services.prefix-bindings.delete",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf dls regional-services prefix-bindings edit",
 			"name": "edit",
 			"fullPath": ["dls", "regional-services", "prefix-bindings", "edit"],
-			"description": "Update a DLS prefix binding",
+			"description": "Update the region of an existing BYOIP prefix binding. Like creating a binding, this requires **IP Prefixes Write** in addition to **DLS Write**.",
 			"summary": "Update a DLS prefix binding",
 			"usage": "cf dls regional-services prefix-bindings edit <binding-id> [options]",
 			"arguments": [
@@ -43256,13 +43256,13 @@
 			"httpMethod": "PATCH",
 			"apiPath": "/accounts/{account_id}/dls/regional_services/prefix_bindings/{binding_id}",
 			"operationId": "dls.regional-services.prefix-bindings.edit",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf dls regional-services prefix-bindings get",
 			"name": "get",
 			"fullPath": ["dls", "regional-services", "prefix-bindings", "get"],
-			"description": "Get a DLS prefix binding",
+			"description": "Retrieve a single BYOIP prefix binding by ID.",
 			"summary": "Get a DLS prefix binding",
 			"usage": "cf dls regional-services prefix-bindings get <binding-id>",
 			"arguments": [
@@ -43288,13 +43288,13 @@
 			"httpMethod": "GET",
 			"apiPath": "/accounts/{account_id}/dls/regional_services/prefix_bindings/{binding_id}",
 			"operationId": "dls.regional-services.prefix-bindings.get",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf dls regional-services prefix-bindings list",
 			"name": "list",
 			"fullPath": ["dls", "regional-services", "prefix-bindings", "list"],
-			"description": "List DLS prefix bindings for an account",
+			"description": "List the BYOIP prefix bindings configured for an account.",
 			"summary": "List DLS prefix bindings for an account",
 			"usage": "cf dls regional-services prefix-bindings list [options]",
 			"arguments": [],
@@ -43324,13 +43324,13 @@
 			"httpMethod": "GET",
 			"apiPath": "/accounts/{account_id}/dls/regional_services/prefix_bindings",
 			"operationId": "dls.regional-services.prefix-bindings.list",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf dls regions get",
 			"name": "get",
 			"fullPath": ["dls", "regions", "get"],
-			"description": "Get a DLS region",
+			"description": "Retrieve a single DLS region (managed or custom) by ID or region key.",
 			"summary": "Get a DLS region",
 			"usage": "cf dls regions get <region-id>",
 			"arguments": [
@@ -43356,13 +43356,13 @@
 			"httpMethod": "GET",
 			"apiPath": "/accounts/{account_id}/dls/regions/{region_id}",
 			"operationId": "dls.regions.get",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf dls regions list",
 			"name": "list",
 			"fullPath": ["dls", "regions", "list"],
-			"description": "List DLS regions for an account",
+			"description": "List the DLS regions (managed and custom) available to an account.",
 			"summary": "List DLS regions for an account",
 			"usage": "cf dls regions list [options]",
 			"arguments": [],
@@ -43399,7 +43399,7 @@
 			"httpMethod": "GET",
 			"apiPath": "/accounts/{account_id}/dls/regions",
 			"operationId": "dls.regions.list",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf dns dnssec delete",
@@ -164736,7 +164736,7 @@
 		"intel miscategorizations": "Report and track domain miscategorization corrections",
 		"intel sinkholes": "Operations for sinkholes",
 		"intel sinkholes ingresses": "Operations for sinkholes.ingresses",
-		"intel urls": "Operations for urls",
+		"intel urls": "URL intelligence operations",
 		"intel whois": "WHOIS registration data for domains including registrant, registrar, and nameservers",
 		"ips": "ips",
 		"k2": "Durable, ordered event streams that you produce records to and consume from with subscriptions",

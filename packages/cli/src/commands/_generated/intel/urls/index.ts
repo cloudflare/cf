@@ -8,7 +8,7 @@ import type { CommandModule } from "yargs";
 
 const command: CommandModule<CommonYargsOptions> = {
 	command: "urls",
-	describe: "Operations for urls",
+	describe: "URL intelligence operations",
 
 	builder: (yargs) => {
 		return yargs.command($get).demandCommand(1, "Please specify a subcommand");

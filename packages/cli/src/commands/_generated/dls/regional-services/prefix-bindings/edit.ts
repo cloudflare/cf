@@ -23,7 +23,7 @@ import { runWithTelemetry } from "#lib/telemetry/index.js";
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
 		.usage(
-			"$0 dls regional-services prefix-bindings edit <binding-id>\n\nUpdate a DLS prefix binding"
+			"$0 dls regional-services prefix-bindings edit <binding-id>\n\nUpdate the region of an existing BYOIP prefix binding. Like creating a binding, this requires **IP Prefixes Write** in addition to **DLS Write**."
 		)
 		.positional("binding-id", {
 			type: "string",

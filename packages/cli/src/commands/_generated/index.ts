@@ -406,7 +406,7 @@ export const generatedCommands: GeneratedCommand[] = [
 			() => import("./dls/index.js"),
 			null
 		),
-		hideCommand: true,
+		hideCommand: false,
 	},
 	{
 		command: lazyCommand<CommonYargsOptions>(

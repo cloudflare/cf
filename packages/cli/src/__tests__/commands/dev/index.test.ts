@@ -239,6 +239,61 @@ describe("cf dev", () => {
 			).toEqual(["dev", "--mode", "staging"]);
 		});
 
+		it.each([
+			{
+				label: "port and host",
+				args: ["--port", "8787", "--host", "127.0.0.1"],
+				expected: ["--port", "8787", "--host", "127.0.0.1"],
+			},
+			{
+				label: "equals-form options",
+				args: ["--port=8788", "--host=::1"],
+				expected: ["--port=8788", "--host=::1"],
+			},
+			{
+				label: "host without an address",
+				args: ["--host"],
+				expected: ["--host"],
+			},
+			{
+				label: "arguments after the separator",
+				args: ["--", "--port", "8789", "--config", "vite config & extra.ts"],
+				expected: ["--port", "8789", "--config", "vite config & extra.ts"],
+			},
+		])(
+			"forwards $label to the detected Vite command",
+			async ({ args, expected }) => {
+				await seed({
+					"cloudflare.config.ts": "export default {};",
+					"package.json": JSON.stringify({
+						name: "vite-project",
+						devDependencies: {
+							vite: "^7.0.0",
+							"@cloudflare/vite-plugin": "beta",
+						},
+					}),
+					"package-lock.json": "{}",
+					"node_modules/vite/package.json": JSON.stringify({
+						name: "vite",
+						version: "7.0.0",
+					}),
+					"node_modules/.bin/vite": nodeScript(
+						'require("node:fs").writeFileSync("vite-argv.json", JSON.stringify(process.argv.slice(2)));'
+					),
+				});
+				makeExecutable("node_modules/.bin/vite", { npmBin: true });
+
+				const result = await runCf(["dev", "--mode", "staging", ...args]);
+
+				expect(result.exitCode).toBe(0);
+				expect(JSON.parse(readFileSync("vite-argv.json", "utf8"))).toEqual([
+					"--mode",
+					"staging",
+					...expected,
+				]);
+			}
+		);
+
 		it("runs Vite for a Next.js project with vinext installed", async () => {
 			await seed({
 				"package.json": JSON.stringify({
@@ -263,14 +318,31 @@ describe("cf dev", () => {
 			});
 			makeExecutable("node_modules/.bin/vite", { npmBin: true });
 
-			const result = await runCf(["dev", "--mode", "staging"]);
+			const result = await runCf([
+				"dev",
+				"--mode",
+				"staging",
+				"--port",
+				"8790",
+				"--host",
+				"127.0.0.1",
+			]);
 
 			expect(result.exitCode).toBe(0);
 			expect(
 				readFileSync(resolve(process.cwd(), "vite-argv.out"), "utf8")
 					.trim()
 					.split("\n")
-			).toEqual(["dev", "--mode", "staging", "true"]);
+			).toEqual([
+				"dev",
+				"--mode",
+				"staging",
+				"--port",
+				"8790",
+				"--host",
+				"127.0.0.1",
+				"true",
+			]);
 		});
 
 		it("does not treat an undeclared vinext installation (installed but not present in the project's manifest) as a vinext project", async () => {
@@ -511,7 +583,7 @@ describe("cf dev", () => {
 			expect(shouldRelayProjectCommandSignal("SIGINT", "linux")).toBe(true);
 		});
 
-		it("rejects arguments for a detected framework command", async () => {
+		it("forwards arguments to a detected framework command", async () => {
 			await seed({
 				"cloudflare.config.ts": "export default {};",
 				"package.json": JSON.stringify({
@@ -523,11 +595,21 @@ describe("cf dev", () => {
 					name: "astro",
 					version: "5.0.0",
 				}),
+				"node_modules/.bin/astro": nodeScript(
+					'require("node:fs").writeFileSync("astro-argv.json", JSON.stringify(process.argv.slice(2)));'
+				),
 			});
 
-			await expect(runCf(["dev", "--port", "3000"])).rejects.toThrow(
-				"Arguments cannot currently be forwarded to the detected dev command `npx astro dev`"
-			);
+			makeExecutable("node_modules/.bin/astro", { npmBin: true });
+
+			const result = await runCf(["dev", "--port", "3000"]);
+
+			expect(result.exitCode).toBe(0);
+			expect(JSON.parse(readFileSync("astro-argv.json", "utf8"))).toEqual([
+				"dev",
+				"--port",
+				"3000",
+			]);
 		});
 
 		it("spawns the impl and propagates its exit code", async () => {
@@ -589,49 +671,53 @@ describe("cf dev", () => {
 			expect(result.exitCode).toBe(17);
 		});
 
-		it("forwards unknown flags to the impl", async () => {
-			// The delegate inherits stdout, so write argv to a file for inspection.
-			await seed({
-				"package.json": JSON.stringify({
-					devDependencies: { "@cloudflare/vite-plugin": "beta" },
-				}),
-				"node_modules/@cloudflare/vite-plugin/package.json": JSON.stringify({
-					name: "@cloudflare/vite-plugin",
-					version: "2.0.0-beta.sha-805ec1ff3",
-				}),
-				"node_modules/@cloudflare/vite-plugin/bin/cf-vite": nodeScript(
-					'require("node:fs").writeFileSync("argv.out", process.argv.slice(2).join("\\n") + "\\n");'
-				),
-			});
-			makeExecutable("node_modules/@cloudflare/vite-plugin/bin/cf-vite");
+		it.each([{ separator: [] }, { separator: ["--"] }])(
+			"forwards unknown flags to the impl with separator $separator",
+			async ({ separator }) => {
+				// The delegate inherits stdout, so write argv to a file for inspection.
+				await seed({
+					"package.json": JSON.stringify({
+						devDependencies: { "@cloudflare/vite-plugin": "beta" },
+					}),
+					"node_modules/@cloudflare/vite-plugin/package.json": JSON.stringify({
+						name: "@cloudflare/vite-plugin",
+						version: "2.0.0-beta.sha-805ec1ff3",
+					}),
+					"node_modules/@cloudflare/vite-plugin/bin/cf-vite": nodeScript(
+						'require("node:fs").writeFileSync("argv.out", process.argv.slice(2).join("\\n") + "\\n");'
+					),
+				});
+				makeExecutable("node_modules/@cloudflare/vite-plugin/bin/cf-vite");
 
-			const result = await runCf([
-				"dev",
-				"--mode",
-				"staging",
-				"--port",
-				"3000",
-				"--my-vite-flag",
-				"some-positional",
-			]);
-			expect(result.exitCode).toBe(0);
+				const result = await runCf([
+					"dev",
+					"--mode",
+					"staging",
+					...separator,
+					"--port",
+					"3000",
+					"--my-vite-flag",
+					"some-positional",
+				]);
+				expect(result.exitCode).toBe(0);
 
-			const argv = readFileSync(resolve(process.cwd(), "argv.out"), "utf-8")
-				.trim()
-				.split("\n");
-			// First arg is always `dev` (the subcommand cf inserts);
-			// the rest are forwarded verbatim. Note unknown flags pass
-			// through because of `unknown-options-as-args` in the dev
-			// command's parserConfiguration.
-			expect(argv).toEqual([
-				"dev",
-				"--mode",
-				"staging",
-				"--port",
-				"3000",
-				"--my-vite-flag",
-				"some-positional",
-			]);
-		});
+				const argv = readFileSync(resolve(process.cwd(), "argv.out"), "utf-8")
+					.trim()
+					.split("\n");
+				// First arg is always `dev` (the subcommand cf inserts);
+				// the rest are forwarded verbatim. Note unknown flags pass
+				// through because of `unknown-options-as-args` in the dev
+				// command's parserConfiguration.
+				expect(argv).toEqual([
+					"dev",
+					"--mode",
+					"staging",
+					"--port",
+					"3000",
+					"--my-vite-flag",
+					"some-positional",
+				]);
+			}
+		);
 	});
 });

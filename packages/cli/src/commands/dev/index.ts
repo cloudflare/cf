@@ -24,6 +24,7 @@ interface DevArgs extends CommonYargsOptions {
 	 * impl. cf does not parse impl-specific flags.
 	 */
 	implArgs?: (string | number)[];
+	"--"?: string[];
 }
 
 const devCommand: CommandModule<CommonYargsOptions, DevArgs> = {
@@ -36,7 +37,7 @@ const devCommand: CommandModule<CommonYargsOptions, DevArgs> = {
 				.positional("implArgs", {
 					type: "string",
 					array: true,
-					describe: "Arguments forwarded to the dev-server implementation",
+					describe: "Arguments forwarded to the selected development server",
 				})
 				// Forward unknown flags to the impl. Without this, yargs'
 				// global `.strict()` (set in src/index.ts) would reject any
@@ -44,6 +45,7 @@ const devCommand: CommandModule<CommonYargsOptions, DevArgs> = {
 				// "everything after `cf dev` goes to the impl" contract.
 				.parserConfiguration({
 					"unknown-options-as-args": true,
+					"populate--": true,
 					// Don't camelCase forwarded args — the impl is responsible
 					// for its own flag parsing and we shouldn't double-translate.
 					"camel-case-expansion": false,
@@ -51,8 +53,9 @@ const devCommand: CommandModule<CommonYargsOptions, DevArgs> = {
 				.epilogue(
 					`cf dev starts the appropriate development server for your project. ` +
 						`It runs your framework's dev command when available, falling back to an installed Cloudflare dev server.\n\n` +
-						`Only ${theme.brand("--mode")} is forwarded to supported framework development servers. ` +
-						`Other arguments are forwarded only to Cloudflare dev-server implementations.`
+						`Arguments are forwarded to the selected development server. ` +
+						`Use ${theme.brand("--")} to separate server arguments from cf options. ` +
+						`${theme.brand("--mode")} is forwarded when the selected framework supports it.`
 				) as Argv<DevArgs>
 		);
 	},
@@ -67,14 +70,11 @@ const devCommand: CommandModule<CommonYargsOptions, DevArgs> = {
 		// the parser turns `--port` into a positional pair); we
 		// stringify on the way through because the impl expects argv
 		// to be strings.
-		const implArgs = (argv.implArgs ?? []).map(String);
+		const implArgs = [...(argv.implArgs ?? []), ...(argv["--"] ?? [])].map(
+			String
+		);
 		const modeArgs = argv.mode ? ["--mode", argv.mode] : [];
 		if (details?.devCommand) {
-			if (implArgs.length > 0) {
-				throw new Error(
-					`Arguments cannot currently be forwarded to the detected dev command \`${details.devCommand}\`. Run that command directly with the required arguments.`
-				);
-			}
 			if (argv.mode && !details.framework?.supportsMode) {
 				throw new Error(
 					`The detected command \`${details.devCommand}\` does not currently support \`--mode\`.`
@@ -85,7 +85,7 @@ const devCommand: CommandModule<CommonYargsOptions, DevArgs> = {
 					...details.env,
 					...getCloudflareRegistryEnvironment(),
 				},
-				args: modeArgs,
+				args: [...modeArgs, ...implArgs],
 			});
 			throw new CliExit(result.exitCode, { signal: result.signal });
 		}

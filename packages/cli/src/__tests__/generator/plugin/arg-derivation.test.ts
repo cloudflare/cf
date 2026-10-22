@@ -3,6 +3,7 @@ import {
 	accountOrZoneLocal,
 	type Derived,
 	derive,
+	options,
 } from "../../../../generator/plugin/args.js";
 import {
 	bodyParam,
@@ -160,6 +161,54 @@ describe("deriveArgsFromOp path params", () => {
 		["queue_id", "queue"],
 		["consumer_id", "consumer"],
 	];
+
+	it.each(["worker_id", "workerId", "script_name", "scriptName"])(
+		"normalizes the Workers path parameter %s without changing its wire name",
+		(name) => {
+			const d = derived(
+				method(undefined, "list"),
+				"workers",
+				pathOperation(`/accounts/{account_id}/workers/{${name}}/versions`, [
+					[name, undefined],
+				])
+			);
+			expect(d.args).toMatchObject([
+				{
+					name: "worker",
+					isWorkerName: true,
+					positional: false,
+					origin: { in: "path", name },
+				},
+			]);
+		}
+	);
+
+	it("keeps the legacy Worker positional available as a flag", () => {
+		const d = derived(
+			method(undefined, "get"),
+			"workers",
+			pathOperation("/accounts/{account_id}/workers/workers/{worker_id}", [
+				["worker_id", undefined],
+			])
+		);
+		expect(d.args).toMatchObject([
+			{ name: "worker", isWorkerName: true, positional: true },
+		]);
+		expect(options(d)).toEqual(d.args);
+	});
+
+	it("leaves Worker identifiers outside the Workers root unchanged", () => {
+		const d = derived(
+			method(undefined, "get"),
+			"example",
+			pathOperation("/accounts/{account_id}/example/{worker_id}", [
+				["worker_id", undefined],
+			])
+		);
+		expect(d.args).toMatchObject([
+			{ name: "worker-id", isWorkerName: false, positional: true },
+		]);
+	});
 
 	it("keeps a defaulted path parameter optional beside a body positional", () => {
 		const op = pathOperation(
@@ -350,6 +399,23 @@ describe("deriveArgsFromOp path params", () => {
 });
 
 describe("deriveArgsFromOp body flags", () => {
+	it("does not treat Worker-ID body fields as the Worker path selector", () => {
+		const d = derived(
+			method(undefined, "create"),
+			"workers",
+			operation("post", "/accounts/{account_id}/workers", {
+				bodyParams: [
+					bodyParam("worker_id", "string", ["worker_id"], { required: true }),
+				],
+				hasRequestBody: true,
+				requestContentTypes: ["application/json"],
+			})
+		);
+		expect(d.args).toMatchObject([
+			{ name: "worker-id", required: true, isWorkerName: false },
+		]);
+	});
+
 	it.each(["temporaryAccount", "eventCode"])(
 		"omits the reserved camelCase body field %s",
 		(name) => {

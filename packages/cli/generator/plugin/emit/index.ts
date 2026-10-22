@@ -18,6 +18,7 @@ import {
 	headerArgs,
 	isBody,
 	isPath,
+	isWorkerName,
 	options,
 	pathParamReadKey,
 	positionals,
@@ -214,10 +215,7 @@ export function substitutePath(path: string, ctx: PathTemplate): string {
 		if (ACCOUNT_PATH_PARAMS.includes(name)) {
 			return ctx.accountId;
 		}
-		if (
-			ctx.needsWorkerName &&
-			(name === "script_name" || name === "scriptName")
-		) {
+		if (ctx.needsWorkerName && isWorkerName(name)) {
 			return ctx.scriptName;
 		}
 		if (ZONE_PATH_PARAMS.includes(name)) {
@@ -285,7 +283,6 @@ export function context(
 	root: string
 ): [Ctx, string] {
 	const kind = outputKind(op);
-	const workers = resource === "workers";
 	const path = op.path;
 	const combined = hasAccountOrZoneScope(path);
 	const pathNeedsAccount =
@@ -304,9 +301,7 @@ export function context(
 	const positional = positionals(derived);
 	const firstPositionalIsZone = positional[0]?.isZone === true;
 	const needsZoneId = firstPositionalIsZone || pathNeedsZone || combined;
-	const pathNeedsWorker =
-		workers &&
-		(path.includes("{script_name}") || path.includes("{scriptName}"));
+	const pathNeedsWorker = derived.args.some((a) => isPath(a) && a.isWorkerName);
 	const firstPositionalIsWorkerName = positional[0]?.isWorkerName === true;
 	const needsWorkerName = firstPositionalIsWorkerName || pathNeedsWorker;
 
@@ -359,7 +354,7 @@ export function context(
 		positional,
 		firstPositionalIsZone,
 		accountId: "${accountId}",
-		scriptName: "${scriptName}",
+		scriptName: "${encodeURIComponent(scriptName)}",
 		zone: "${argv.zoneId}",
 		param,
 	});

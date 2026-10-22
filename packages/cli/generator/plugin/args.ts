@@ -122,7 +122,7 @@ export interface Derived {
 export const positionals = (d: Derived): Arg[] =>
 	d.args.filter((a) => a.positional);
 export const options = (d: Derived): Arg[] =>
-	d.args.filter((a) => !a.positional);
+	d.args.filter((a) => !a.positional || (isPath(a) && a.isWorkerName));
 export const bodyOptions = (d: Derived): Arg[] =>
 	d.args.filter((a) => isBody(a) && !a.positional);
 export const queryArgs = (d: Derived): Arg[] =>
@@ -207,8 +207,10 @@ const WORKER_NAME_ARGS: readonly string[] = [
 	"script_name",
 ];
 
+export const WORKER_ALIASES = ["script-name", "worker-id"];
+
 export function isWorkerName(name: string): boolean {
-	return WORKER_NAME_ARGS.includes(name);
+	return WORKER_NAME_ARGS.includes(name) || kebab(name) === "worker-id";
 }
 
 const PAIR = "{account_or_zone}/{account_or_zone_id}";
@@ -251,7 +253,7 @@ export function accountOrZoneLocal(
 /** The argv key that holds the value of the `{wire}` placeholder. */
 export function pathParamReadKey(args: readonly Arg[], wire: string): string {
 	const arg = args.find(
-		(a) => a.origin.in === "path" && a.origin.name === wire && !a.isWorkerName
+		(a) => a.origin.in === "path" && a.origin.name === wire
 	);
 	return kebab(arg ? arg.name : wire);
 }
@@ -322,10 +324,16 @@ interface Classification {
 	isWorkerName: boolean;
 }
 
-function classify(name: string, workers: boolean): Classification {
+function classify(
+	name: string,
+	workers: boolean,
+	pathParam = false
+): Classification {
 	return {
 		isZone: ZONE_ARG_NAMES.includes(name),
-		isWorkerName: workers && isWorkerName(name),
+		isWorkerName:
+			workers &&
+			(pathParam ? isWorkerName(name) : WORKER_NAME_ARGS.includes(name)),
 	};
 }
 
@@ -530,15 +538,16 @@ function pathParams(
 			continue;
 		}
 		const parameter = op.pathParams.find((a) => a.name === p);
-		const cls = classify(flagName(p), workers);
+		const cls = classify(flagName(p), workers, true);
 		if (cls.isZone) {
 			continue;
 		}
 		const defaultValue = o.nullish("default");
 		const subjectPositional = p === subject;
+		// Keep the legacy Worker-ID positional alongside the canonical --worker.
 		// Defaults fill URL segments without consuming a positional slot.
 		const positional =
-			!cls.isWorkerName &&
+			(!cls.isWorkerName || kebab(p) === "worker-id") &&
 			defaultValue === undefined &&
 			truthy(o.nullish("positional") ?? subjectPositional);
 		const emitted = cls.isWorkerName

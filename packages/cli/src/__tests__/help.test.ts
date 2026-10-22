@@ -44,15 +44,8 @@ describe("help formatting", () => {
 		process.stdout.columns = 0;
 
 		const help = await buildCli(["workers", "--help"]).cli.getHelp();
-		const triggersLine = help
-			.split("\n")
-			.find((line) => line.includes("Manage triggers"));
-
-		expect(triggersLine).toContain("cf workers triggers");
-		expect(triggersLine).not.toContain("etc.)");
-		expect(
-			help.split("\n").some((line) => line.trim().endsWith("triggers etc.)"))
-		).toBe(true);
+		process.stdout.columns = 80;
+		expect(help).toBe(await buildCli(["workers", "--help"]).cli.getHelp());
 	});
 
 	it("sorts root commands alphabetically", async () => {

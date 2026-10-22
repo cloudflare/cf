@@ -134020,17 +134020,24 @@
 			"fullPath": ["workers", "delete"],
 			"description": "Delete a Worker and all its associated resources (versions, deployments, etc.).",
 			"summary": "Delete Worker",
-			"usage": "cf workers delete <worker-id> [options]",
+			"usage": "cf workers delete [worker] [options]",
 			"arguments": [
 				{
-					"name": "worker-id",
+					"name": "worker",
 					"position": 0,
 					"type": "string",
-					"required": true,
+					"required": false,
 					"description": "Identifier for the Worker, which can be ID or name."
 				}
 			],
 			"options": [
+				{
+					"name": "worker",
+					"type": "string",
+					"required": true,
+					"description": "Identifier for the Worker, which can be ID or name.",
+					"alias": ["script-name", "worker-id"]
+				},
 				{
 					"name": "delete-with-references",
 					"type": "boolean",
@@ -134065,7 +134072,8 @@
 					"name": "worker",
 					"type": "string",
 					"required": true,
-					"description": "Name of the script."
+					"description": "Name of the script.",
+					"alias": ["script-name", "worker-id"]
 				},
 				{
 					"name": "bypass-deployment-checks",
@@ -134128,7 +134136,8 @@
 					"name": "worker",
 					"type": "string",
 					"required": true,
-					"description": "Name of the script."
+					"description": "Name of the script.",
+					"alias": ["script-name", "worker-id"]
 				},
 				{
 					"name": "dry-run",
@@ -134166,7 +134175,8 @@
 					"name": "worker",
 					"type": "string",
 					"required": true,
-					"description": "Name of the script."
+					"description": "Name of the script.",
+					"alias": ["script-name", "worker-id"]
 				},
 				{
 					"name": "dry-run",
@@ -134196,7 +134206,8 @@
 					"name": "worker",
 					"type": "string",
 					"required": true,
-					"description": "Name of the script."
+					"description": "Name of the script.",
+					"alias": ["script-name", "worker-id"]
 				},
 				{
 					"name": "since",
@@ -134243,17 +134254,24 @@
 			"fullPath": ["workers", "get"],
 			"description": "Get details about a specific Worker.",
 			"summary": "Get Worker",
-			"usage": "cf workers get <worker-id>",
+			"usage": "cf workers get [worker] [options]",
 			"arguments": [
 				{
-					"name": "worker-id",
+					"name": "worker",
 					"position": 0,
 					"type": "string",
-					"required": true,
+					"required": false,
 					"description": "Identifier for the Worker, which can be ID or name."
 				}
 			],
 			"options": [
+				{
+					"name": "worker",
+					"type": "string",
+					"required": true,
+					"description": "Identifier for the Worker, which can be ID or name.",
+					"alias": ["script-name", "worker-id"]
+				},
 				{
 					"name": "dry-run",
 					"type": "boolean",
@@ -134387,7 +134405,8 @@
 					"name": "worker",
 					"type": "string",
 					"required": true,
-					"description": "Name of the script."
+					"description": "Name of the script.",
+					"alias": ["script-name", "worker-id"]
 				},
 				{
 					"name": "secrets",
@@ -134449,7 +134468,8 @@
 					"name": "worker",
 					"type": "string",
 					"required": true,
-					"description": "Name of the script."
+					"description": "Name of the script.",
+					"alias": ["script-name", "worker-id"]
 				},
 				{
 					"name": "url-encoded",
@@ -134493,7 +134513,8 @@
 					"name": "worker",
 					"type": "string",
 					"required": true,
-					"description": "Name of the script."
+					"description": "Name of the script.",
+					"alias": ["script-name", "worker-id"]
 				},
 				{
 					"name": "url-encoded",
@@ -134529,7 +134550,8 @@
 					"name": "worker",
 					"type": "string",
 					"required": true,
-					"description": "Name of the script."
+					"description": "Name of the script.",
+					"alias": ["script-name", "worker-id"]
 				},
 				{
 					"name": "dry-run",
@@ -134567,7 +134589,8 @@
 					"name": "worker",
 					"type": "string",
 					"required": true,
-					"description": "Name of the script."
+					"description": "Name of the script.",
+					"alias": ["script-name", "worker-id"]
 				},
 				{
 					"name": "text",
@@ -134763,10 +134786,11 @@
 			],
 			"options": [
 				{
-					"name": "worker-id",
+					"name": "worker",
 					"type": "string",
 					"required": true,
-					"description": "Identifier for the Worker, which can be ID or name."
+					"description": "Identifier for the Worker, which can be ID or name.",
+					"alias": ["script-name", "worker-id"]
 				},
 				{
 					"name": "dry-run",
@@ -134801,10 +134825,11 @@
 			],
 			"options": [
 				{
-					"name": "worker-id",
+					"name": "worker",
 					"type": "string",
 					"required": true,
-					"description": "Identifier for the Worker, which can be ID or name."
+					"description": "Identifier for the Worker, which can be ID or name.",
+					"alias": ["script-name", "worker-id"]
 				},
 				{
 					"name": "include",
@@ -134838,10 +134863,11 @@
 			"arguments": [],
 			"options": [
 				{
-					"name": "worker-id",
+					"name": "worker",
 					"type": "string",
 					"required": true,
-					"description": "Identifier for the Worker, which can be ID or name."
+					"description": "Identifier for the Worker, which can be ID or name.",
+					"alias": ["script-name", "worker-id"]
 				},
 				{
 					"name": "page",
@@ -134888,10 +134914,11 @@
 			],
 			"options": [
 				{
-					"name": "worker-id",
+					"name": "worker",
 					"type": "string",
 					"required": true,
-					"description": "Identifies the Worker by ID or name."
+					"description": "Identifies the Worker by ID or name.",
+					"alias": ["script-name", "worker-id"]
 				},
 				{
 					"name": "actor-id",

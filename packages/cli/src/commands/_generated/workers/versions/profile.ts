@@ -8,6 +8,7 @@ import type { Argv, CommandModule } from "yargs";
 import {
 	createCommandClient,
 	getAccountId,
+	getWorkerName,
 	resolveAccountIdSilent,
 } from "#lib/auth.js";
 import { compactBody, parseBody, setNestedValue } from "#lib/body-parser.js";
@@ -30,10 +31,10 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				'Identifies the version by UUID or UUID prefix with a minimum length of eight characters. Use "latest" to select the most recently created version, which may not be deployed. Use "latest-deployed" to profile a version in the active deployment. Versions are tried in order of traffic share until one has a loaded isolate.',
 			demandOption: true,
 		})
-		.option("worker-id", {
+		.option("worker", {
 			type: "string",
+			alias: ["script-name", "worker-id"],
 			description: "Identifies the Worker by ID or name.",
-			demandOption: true,
 		})
 		.option("actor-id", {
 			type: "string",
@@ -96,9 +97,9 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					formatDryRun({
 						command: "cf workers versions profile",
 						method: "POST",
-						url: `https://api.cloudflare.com/client/v4/accounts/${__cfDryRunAccountId ?? "<account-id>"}/workers/workers/${argv["worker-id"] == null ? "<worker-id>" : encodeURIComponent(String(argv["worker-id"]))}/versions/${argv["version-id"] == null ? "<version-id>" : encodeURIComponent(String(argv["version-id"]))}/profile`,
+						url: `https://api.cloudflare.com/client/v4/accounts/${__cfDryRunAccountId ?? "<account-id>"}/workers/workers/${argv["worker"] == null ? "<worker>" : encodeURIComponent(String(argv["worker"]))}/versions/${argv["version-id"] == null ? "<version-id>" : encodeURIComponent(String(argv["version-id"]))}/profile`,
 						pathParams: {
-							"worker-id": String(argv["worker-id"] ?? ""),
+							worker: String(argv["worker"] ?? ""),
 							"version-id": String(argv["version-id"] ?? ""),
 						},
 						bodyKind: "json",
@@ -125,12 +126,14 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				const client = await createCommandClient(argv);
 				const accountId = argv.local ? LOCAL_ACCOUNT_ID : await getAccountId();
 				argv.accountId = accountId;
+				const scriptName = getWorkerName({ scriptName: argv["worker"] });
+				argv["worker"] = scriptName;
 
 				if (argv.body) {
 					const bodyData = parseBody(argv.body);
 					const __cfRawBytes = await withProgress(`Creating`, async () =>
 						fetchRawBytes(
-							`/accounts/${accountId}/workers/workers/${encodeURIComponent(String(argv["worker-id"]))}/versions/${encodeURIComponent(String(argv["version-id"]))}/profile`,
+							`/accounts/${accountId}/workers/workers/${encodeURIComponent(scriptName)}/versions/${encodeURIComponent(String(argv["version-id"]))}/profile`,
 							{
 								method: "POST",
 								local: argv.local === true,
@@ -179,7 +182,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					setNestedValue(bodyData, ["profile_type"], argv["profile-type"]);
 				const __cfRawBytes = await withProgress(`Creating`, async () =>
 					fetchRawBytes(
-						`/accounts/${accountId}/workers/workers/${encodeURIComponent(String(argv["worker-id"]))}/versions/${encodeURIComponent(String(argv["version-id"]))}/profile`,
+						`/accounts/${accountId}/workers/workers/${encodeURIComponent(scriptName)}/versions/${encodeURIComponent(String(argv["version-id"]))}/profile`,
 						{
 							method: "POST",
 							local: argv.local === true,

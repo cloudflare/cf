@@ -12,6 +12,7 @@ import {
 	ACCOUNT_PATH_PARAMS,
 	accountOrZoneLocal,
 	isBody,
+	isWorkerName,
 	pathParamReadKey,
 	queryArgs,
 	ZONE_PATH_PARAMS,
@@ -43,10 +44,7 @@ function pathValue(ctx: Ctx, name: string): string {
 	if (ZONE_PATH_PARAMS.includes(name)) {
 		return ctx.firstPositionalIsZone ? "zone_id" : "zoneId";
 	}
-	if (
-		ctx.needsWorkerName &&
-		(name === "script_name" || name === "scriptName")
-	) {
+	if (ctx.needsWorkerName && isWorkerName(name)) {
 		return "scriptName";
 	}
 	return argvKey(pathParamReadKey(ctx.derived.args, name));

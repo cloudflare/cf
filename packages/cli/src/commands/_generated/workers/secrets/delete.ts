@@ -31,7 +31,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		})
 		.option("worker", {
 			type: "string",
-			alias: "script-name",
+			alias: ["script-name", "worker-id"],
 			description: "Name of the script.",
 		})
 		.option("url-encoded", {
@@ -77,9 +77,9 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					formatDryRun({
 						command: "cf workers secrets delete",
 						method: "DELETE",
-						url: `https://api.cloudflare.com/client/v4/accounts/${__cfDryRunAccountId ?? "<account-id>"}/workers/scripts/${argv["worker"] ?? "<worker>"}/secrets/${argv["secret-name"] == null ? "<secret-name>" : encodeURIComponent(String(argv["secret-name"]))}`,
+						url: `https://api.cloudflare.com/client/v4/accounts/${__cfDryRunAccountId ?? "<account-id>"}/workers/scripts/${argv["worker"] == null ? "<worker>" : encodeURIComponent(String(argv["worker"]))}/secrets/${argv["secret-name"] == null ? "<secret-name>" : encodeURIComponent(String(argv["secret-name"]))}`,
 						pathParams: {
-							"script-name": String(argv["script-name"] ?? ""),
+							worker: String(argv["worker"] ?? ""),
 							"secret-name": String(argv["secret-name"] ?? ""),
 						},
 						query: queryParams,

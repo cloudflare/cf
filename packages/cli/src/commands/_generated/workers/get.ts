@@ -9,6 +9,7 @@ import type { Argv, CommandModule } from "yargs";
 import {
 	createCommandClient,
 	getAccountId,
+	getWorkerName,
 	resolveAccountIdSilent,
 } from "#lib/auth.js";
 import { formatDryRun } from "#lib/dry-run.js";
@@ -19,11 +20,16 @@ import { runWithTelemetry } from "#lib/telemetry/index.js";
 
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
-		.usage("$0 workers get <worker-id>\n\nGet details about a specific Worker.")
-		.positional("worker-id", {
+		.usage("$0 workers get [worker]\n\nGet details about a specific Worker.")
+		.positional("worker", {
 			type: "string",
 			description: "Identifier for the Worker, which can be ID or name.",
-			demandOption: true,
+		})
+		.option("worker", {
+			type: "string",
+			alias: ["script-name", "worker-id"],
+			group: "Options:",
+			description: "Identifier for the Worker, which can be ID or name.",
 		})
 		.option("dry-run", {
 			type: "boolean",
@@ -35,7 +41,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 type Args = InferArgs<typeof builder>;
 
 const command: CommandModule<CommonYargsOptions, Args> = {
-	command: "get <worker-id>",
+	command: "get [worker]",
 	describe: "Get Worker",
 	builder,
 	handler: async (argv): Promise<void> =>
@@ -53,8 +59,8 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					formatDryRun({
 						command: "cf workers get",
 						method: "GET",
-						url: `https://api.cloudflare.com/client/v4/accounts/${__cfDryRunAccountId ?? "<account-id>"}/workers/workers/${argv["worker-id"] == null ? "<worker-id>" : encodeURIComponent(String(argv["worker-id"]))}`,
-						pathParams: { "worker-id": String(argv["worker-id"] ?? "") },
+						url: `https://api.cloudflare.com/client/v4/accounts/${__cfDryRunAccountId ?? "<account-id>"}/workers/workers/${argv["worker"] == null ? "<worker>" : encodeURIComponent(String(argv["worker"]))}`,
+						pathParams: { worker: String(argv["worker"] ?? "") },
 						bodyKind: "none",
 					});
 					return;
@@ -62,11 +68,13 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				const client = await createCommandClient(argv);
 				const accountId = argv.local ? LOCAL_ACCOUNT_ID : await getAccountId();
 				argv.accountId = accountId;
+				const scriptName = getWorkerName({ scriptName: argv["worker"] });
+				argv["worker"] = scriptName;
 
 				const result = await withProgress(`Loading`, async () =>
 					client.send(operation, {
 						account_id: accountId,
-						worker_id: argv["worker-id"],
+						worker_id: scriptName,
 					})
 				);
 				formatOutput(result, { successLabel: `Loaded` });

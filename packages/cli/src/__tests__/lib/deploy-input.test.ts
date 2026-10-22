@@ -47,7 +47,7 @@ describe("transforms Build Output Specification into deploy input", () => {
 		expect(result.bundleType).toBe("esm");
 		expect(result.content).toBe("export default {}");
 		expect(result.modules).toHaveLength(1);
-		expect(result.modules[0]?.name).toBe("./helper.wasm");
+		expect(result.modules[0]?.name).toBe("helper.wasm");
 		expect(result.modules[0]?.type).toBe("compiled-wasm");
 		expect(Object.keys(result.dependencies)).toHaveLength(2);
 	});
@@ -83,9 +83,9 @@ describe("transforms Build Output Specification into deploy input", () => {
 		expect(builtConfig.manifest?.type).toBe("complete");
 		expect(result.modules).toEqual(
 			expect.arrayContaining([
-				expect.objectContaining({ name: "./chunk.mjs", type: "esm" }),
+				expect.objectContaining({ name: "chunk.mjs", type: "esm" }),
 				expect.objectContaining({
-					name: "./helper.wasm",
+					name: "helper.wasm",
 					type: "compiled-wasm",
 				}),
 			])
@@ -266,11 +266,55 @@ describe("transforms Build Output Specification into deploy input", () => {
 		const typeMap = Object.fromEntries(
 			result.modules.map((m) => [m.name, m.type])
 		);
-		expect(typeMap["./lib.cjs"]).toBe("commonjs");
-		expect(typeMap["./app.py"]).toBe("python");
-		expect(typeMap["./dep.txt"]).toBe("text");
-		expect(typeMap["./blob.bin"]).toBe("buffer");
-		expect(typeMap["./config.json"]).toBe("text");
+		expect(typeMap["lib.cjs"]).toBe("commonjs");
+		expect(typeMap["app.py"]).toBe("python");
+		expect(typeMap["dep.txt"]).toBe("text");
+		expect(typeMap["blob.bin"]).toBe("buffer");
+		expect(typeMap["config.json"]).toBe("text");
+	});
+
+	it("keeps Python vendored module paths exactly as in the manifest", async () => {
+		// The runtime only installs vendored packages whose module names start
+		// with `python_modules/`; a `./` prefix makes `import workers` fail.
+		await seed({
+			".cloudflare/output/v0/config.json": buildOutputRootConfig(),
+			".cloudflare/output/v0/workers/default/worker.config.json": workerConfig({
+				name: "my-worker",
+				compatibilityFlags: ["python_workers"],
+				mainModule: "entry.py",
+				modules: {
+					"entry.py": { type: "python" },
+					"helpers.py": { type: "python" },
+					"python_modules/workers/__init__.py": { type: "data" },
+					"python_modules/_workers_sdk_patch_loader.pth": { type: "data" },
+					"python_modules/workers/workflows.js": { type: "esm" },
+				},
+			}),
+			".cloudflare/output/v0/workers/default/bundle/entry.py":
+				"from workers import WorkerEntrypoint",
+			".cloudflare/output/v0/workers/default/bundle/helpers.py": "pass",
+			".cloudflare/output/v0/workers/default/bundle/python_modules/workers/__init__.py":
+				"",
+			".cloudflare/output/v0/workers/default/bundle/python_modules/_workers_sdk_patch_loader.pth":
+				"",
+			".cloudflare/output/v0/workers/default/bundle/python_modules/workers/workflows.js":
+				"export {}",
+		});
+
+		const {
+			rootConfig,
+			workers: { default: worker },
+		} = await readBuildOutput(process.cwd());
+		const { builtConfig } = parseWorkerConfig(worker, rootConfig);
+		const result = assembleBuildResult(worker, builtConfig);
+
+		expect(result.bundleType).toBe("python");
+		expect(result.modules.map((m) => m.name).sort()).toEqual([
+			"helpers.py",
+			"python_modules/_workers_sdk_patch_loader.pth",
+			"python_modules/workers/__init__.py",
+			"python_modules/workers/workflows.js",
+		]);
 	});
 
 	it("throws when run_worker_first is set without a user Worker", async () => {

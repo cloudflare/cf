@@ -10,12 +10,13 @@
  *
  * Frames + elapsed-timer style preserved from cf's previous renderer
  * by passing braille frames + `indicator: "timer"` to clack. It draws on
- * stderr, and only when stderr is a terminal and `CF_QUIET=1` is unset,
- * so stdout stays clean for scripts piping to jq.
+ * stderr, and only when stdin and stderr are terminals outside CI and
+ * `CF_QUIET=1` is unset, so stdout stays clean for scripts piping to jq.
  */
 
 import { spinner as clackSpinner } from "@clack/prompts";
 import { VERSION } from "../version.js";
+import { isNonInteractiveOrCI } from "./interactive.js";
 import { terminalProgress } from "./osc-progress.js";
 import { openSession } from "./session.js";
 import { supportsColor } from "./ui/theme.js";
@@ -38,7 +39,8 @@ const BRAILLE_FRAMES = [
  * Should we render an animated spinner right now?
  *
  * False when:
- *   - stderr isn't a TTY (piping, CI, redirects)
+ *   - stdin or stderr isn't a TTY, or we're in CI. clack's spinner reads
+ *     stdin as keypresses, so it would swallow input piped into cf.
  *   - colors are disabled (NO_COLOR, dumb terminal)
  *   - CF_QUIET is set (honored by higher-level output helpers)
  */
@@ -46,7 +48,7 @@ function canAnimate(): boolean {
 	if (!supportsColor(process.env, process.stderr.isTTY === true)) {
 		return false;
 	}
-	if (!process.stderr.isTTY) {
+	if (isNonInteractiveOrCI()) {
 		return false;
 	}
 	if (process.env.CF_QUIET === "1") {

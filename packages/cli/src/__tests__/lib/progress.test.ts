@@ -18,15 +18,22 @@ const spinner = vi.hoisted(() =>
 );
 vi.mock("@clack/prompts", () => ({ spinner }));
 
+const ciInfo = vi.hoisted(() => ({ isCI: false }));
+vi.mock("ci-info", () => ({ default: ciInfo }));
+
 describe("withProgress", () => {
+	const originalStdinIsTTY = process.stdin.isTTY;
 	const originalStdoutIsTTY = process.stdout.isTTY;
 	const originalStderrIsTTY = process.stderr.isTTY;
-	const setTTY = (stream: NodeJS.WriteStream, value: boolean | undefined) =>
-		Object.defineProperty(stream, "isTTY", { configurable: true, value });
+	const setTTY = (
+		stream: NodeJS.ReadStream | NodeJS.WriteStream,
+		value: boolean | undefined
+	) => Object.defineProperty(stream, "isTTY", { configurable: true, value });
 
 	beforeEach(() => {
 		vi.stubEnv("NO_COLOR", undefined);
 		vi.stubEnv("FORCE_COLOR", undefined);
+		setTTY(process.stdin, true);
 		setTTY(process.stderr, true);
 	});
 
@@ -34,6 +41,8 @@ describe("withProgress", () => {
 		vi.restoreAllMocks();
 		vi.unstubAllEnvs();
 		spinner.mockClear();
+		ciInfo.isCI = false;
+		setTTY(process.stdin, originalStdinIsTTY);
 		setTTY(process.stdout, originalStdoutIsTTY);
 		setTTY(process.stderr, originalStderrIsTTY);
 	});
@@ -53,6 +62,22 @@ describe("withProgress", () => {
 	it("does not draw when stderr is not a terminal", async () => {
 		setTTY(process.stdout, true);
 		setTTY(process.stderr, false);
+
+		await expect(withProgress("Loading", async () => "ok")).resolves.toBe("ok");
+
+		expect(spinner).not.toHaveBeenCalled();
+	});
+
+	it("does not draw when stdin is piped", async () => {
+		setTTY(process.stdin, false);
+
+		await expect(withProgress("Loading", async () => "ok")).resolves.toBe("ok");
+
+		expect(spinner).not.toHaveBeenCalled();
+	});
+
+	it("does not draw in CI", async () => {
+		ciInfo.isCI = true;
 
 		await expect(withProgress("Loading", async () => "ok")).resolves.toBe("ok");
 

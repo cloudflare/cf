@@ -14,12 +14,12 @@ import ci from "ci-info";
  * - User prompts (confirmations, text input, select dialogs)
  * - OAuth login flows
  * - Output format decisions (JSON in CI, pretty when interactive)
- * - Banner / decoration display
+ * - Banner / spinner / decoration display
  * - Writing config changes back to disk
  *
  * This is currently the only interactivity helper cf exposes; add an
  * `isInteractive()` wrapper only when a caller actually needs the
- * strict-TTY-only flavour (hotkeys, spinners, typed-name confirmation).
+ * strict-TTY-only flavour (hotkeys, typed-name confirmation).
  */
 export function isNonInteractiveOrCI(
 	output: NodeJS.WriteStream = process.stderr

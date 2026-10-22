@@ -241,7 +241,7 @@ transformer are removed — forge stays formatter-agnostic.
 - Never hard-code HTTP verbs — derive from finalized OpenAPI `opInfo.method`
 - Never use `new Date()` in generated metadata — use `"build-time"` for
   deterministic output
-- Never reintroduce `tsc`. Type checking uses `tsgo`.
+- Never reintroduce `tsc`. Type checking uses `tsrs`.
 - Never reintroduce `tsup` — Vite+ Pack emits chunked ESM that cooperates
   with `lazy-command` dynamic imports.
 

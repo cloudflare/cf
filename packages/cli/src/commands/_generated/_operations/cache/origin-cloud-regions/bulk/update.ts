@@ -1,8 +1,8 @@
-/** @generated from cache.origin-cloud-regions.bulk-delete */
+/** @generated from cache.origin-cloud-regions.bulk.update */
 import { path } from "#api";
 
 export default {
-	method: "DELETE",
+	method: "PUT",
 	path: (request: Record<string, unknown>) =>
 		path`/zones/${request.zone_id}/origin/cloud_regions/batch`,
 	body: "json",

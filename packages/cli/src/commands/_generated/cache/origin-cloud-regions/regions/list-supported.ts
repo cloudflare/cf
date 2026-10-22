@@ -1,8 +1,8 @@
-import operation from "../../_operations/cache/origin-cloud-regions/supported-regions.js";
+import operation from "../../../_operations/cache/origin-cloud-regions/regions/list-supported.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
- * supported-regions command
+ * list-supported command
  * @generated from apis/overlays/cache.ts
  */
 import type { Argv, CommandModule } from "yargs";
@@ -15,7 +15,7 @@ import { runWithTelemetry } from "#lib/telemetry/index.js";
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
 		.usage(
-			"$0 cache origin-cloud-regions supported-regions\n\nReturns the cloud vendors and regions that are valid values for origin cloud region mappings. Each region includes the Tiered Cache upper-tier colocation codes that will be used for cache routing when a mapping targeting that region is active. Requires the zone to have Tiered Cache enabled."
+			"$0 cache origin-cloud-regions regions list-supported\n\nReturns the cloud vendors and regions that are valid values for origin cloud region mappings. Each region includes the Tiered Cache upper-tier colocation codes that will be used for cache routing when a mapping targeting that region is active. Requires the zone to have Tiered Cache enabled."
 		)
 		.option("dry-run", {
 			type: "boolean",
@@ -27,13 +27,13 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 type Args = InferArgs<typeof builder>;
 
 const command: CommandModule<CommonYargsOptions, Args> = {
-	command: "supported-regions",
+	command: "list-supported",
 	describe: "List supported cloud vendors and regions",
 	builder,
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
-				command: "cache origin-cloud-regions supported-regions",
+				command: "cache origin-cloud-regions regions list-supported",
 				classification: {
 					safeFlags: ["dry-run"],
 				} satisfies ArgClassification<Args>,
@@ -42,7 +42,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			async () => {
 				if (argv.dryRun) {
 					formatDryRun({
-						command: "cf cache origin-cloud-regions supported-regions",
+						command: "cf cache origin-cloud-regions regions list-supported",
 						method: "GET",
 						url: `https://api.cloudflare.com/client/v4/zones/${argv.zone ?? argv.zoneId ?? "<zone>"}/origin/cloud_regions/supported_regions`,
 						pathParams: {

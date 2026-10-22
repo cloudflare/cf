@@ -8586,7 +8586,7 @@
 					"name": "store-id",
 					"type": "string",
 					"required": false,
-					"description": "The store_id field"
+					"description": "Secrets Store used by this gateway. Omit on update to keep the current store. Cannot be cleared while stored keys or secret references depend on it."
 				},
 				{
 					"name": "stripe-authorization",
@@ -9362,7 +9362,7 @@
 					"name": "store-id",
 					"type": "string",
 					"required": false,
-					"description": "The store_id field"
+					"description": "Secrets Store used by this gateway. Omit on update to keep the current store. Cannot be cleared while stored keys or secret references depend on it."
 				},
 				{
 					"name": "stripe-authorization",
@@ -21047,7 +21047,7 @@
 			"httpMethod": "GET",
 			"apiPath": "/accounts/{account_id}/botnet_feed/asn/{asn_id}/day_report",
 			"operationId": "botnet-feed.asn.day-report",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf botnet-feed asn full-report",
@@ -21079,7 +21079,7 @@
 			"httpMethod": "GET",
 			"apiPath": "/accounts/{account_id}/botnet_feed/asn/{asn_id}/full_report",
 			"operationId": "botnet-feed.asn.full-report",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf botnet-feed configs asn delete",
@@ -21111,7 +21111,7 @@
 			"httpMethod": "DELETE",
 			"apiPath": "/accounts/{account_id}/botnet_feed/configs/asn/{asn_id}",
 			"operationId": "botnet-feed.configs.asn.delete",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf botnet-feed configs asn get",
@@ -21135,7 +21135,7 @@
 			"httpMethod": "GET",
 			"apiPath": "/accounts/{account_id}/botnet_feed/configs/asn",
 			"operationId": "botnet-feed.configs.asn.get",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf brand-protection logo-matches get",
@@ -26535,12 +26535,12 @@
 			"hideCommand": false
 		},
 		{
-			"command": "cf cache origin-cloud-regions bulk-delete",
-			"name": "bulk-delete",
-			"fullPath": ["cache", "origin-cloud-regions", "bulk-delete"],
+			"command": "cf cache origin-cloud-regions bulk delete",
+			"name": "delete",
+			"fullPath": ["cache", "origin-cloud-regions", "bulk", "delete"],
 			"description": "Removes up to 100 IP-to-cloud-region mappings in a single request. Each IP is validated independently — successfully deleted items are returned in the `succeeded` array and IPs that could not be found or are invalid are returned in the `failed` array.",
 			"summary": "Batch delete origin cloud region mappings",
-			"usage": "cf cache origin-cloud-regions bulk-delete",
+			"usage": "cf cache origin-cloud-regions bulk delete",
 			"arguments": [],
 			"options": [
 				{
@@ -26557,20 +26557,20 @@
 					"description": "Raw JSON request body (bypasses individual flags)"
 				}
 			],
-			"category": "action",
+			"category": "delete",
 			"hasRequestBody": true,
 			"httpMethod": "DELETE",
 			"apiPath": "/zones/{zone_id}/origin/cloud_regions/batch",
-			"operationId": "cache.origin-cloud-regions.bulk-delete",
+			"operationId": "cache.origin-cloud-regions.bulk.delete",
 			"hideCommand": false
 		},
 		{
-			"command": "cf cache origin-cloud-regions bulk-update",
-			"name": "bulk-update",
-			"fullPath": ["cache", "origin-cloud-regions", "bulk-update"],
+			"command": "cf cache origin-cloud-regions bulk update",
+			"name": "update",
+			"fullPath": ["cache", "origin-cloud-regions", "bulk", "update"],
 			"description": "Upserts up to 100 IP-to-cloud-region mappings in a single request. Items in the request body are created or replaced; mappings not included in the request body are preserved unchanged (this is a merge operation, not a full collection replacement). Each item is validated independently — valid items are applied and invalid items are returned in the `failed` array. The vendor and region for every item are validated against the list from `GET /zones/{zone_id}/origin/cloud_regions/supported_regions`.",
 			"summary": "Batch create or replace origin cloud region mappings",
-			"usage": "cf cache origin-cloud-regions bulk-update",
+			"usage": "cf cache origin-cloud-regions bulk update",
 			"arguments": [],
 			"options": [
 				{
@@ -26587,11 +26587,11 @@
 					"description": "Raw JSON request body (bypasses individual flags)"
 				}
 			],
-			"category": "action",
+			"category": "update",
 			"hasRequestBody": true,
 			"httpMethod": "PUT",
 			"apiPath": "/zones/{zone_id}/origin/cloud_regions/batch",
-			"operationId": "cache.origin-cloud-regions.bulk-update",
+			"operationId": "cache.origin-cloud-regions.bulk.update",
 			"hideCommand": false
 		},
 		{
@@ -26695,12 +26695,17 @@
 			"hideCommand": false
 		},
 		{
-			"command": "cf cache origin-cloud-regions supported-regions",
-			"name": "supported-regions",
-			"fullPath": ["cache", "origin-cloud-regions", "supported-regions"],
+			"command": "cf cache origin-cloud-regions regions list-supported",
+			"name": "list-supported",
+			"fullPath": [
+				"cache",
+				"origin-cloud-regions",
+				"regions",
+				"list-supported"
+			],
 			"description": "Returns the cloud vendors and regions that are valid values for origin cloud region mappings. Each region includes the Tiered Cache upper-tier colocation codes that will be used for cache routing when a mapping targeting that region is active. Requires the zone to have Tiered Cache enabled.",
 			"summary": "List supported cloud vendors and regions",
-			"usage": "cf cache origin-cloud-regions supported-regions",
+			"usage": "cf cache origin-cloud-regions regions list-supported",
 			"arguments": [],
 			"options": [
 				{
@@ -26715,7 +26720,7 @@
 			"hasRequestBody": false,
 			"httpMethod": "GET",
 			"apiPath": "/zones/{zone_id}/origin/cloud_regions/supported_regions",
-			"operationId": "cache.origin-cloud-regions.supported-regions",
+			"operationId": "cache.origin-cloud-regions.regions.list-supported",
 			"hideCommand": false
 		},
 		{
@@ -39518,7 +39523,7 @@
 					"name": "scheduling-policy",
 					"type": "string",
 					"required": true,
-					"description": "Selects a scheduler-backed application. Use `default` when the Containers\nscheduler should maintain the requested number of instances and manage deployment\nconfiguration, placement, scaling, versions, and rollouts.\n",
+					"description": "Selects a scheduler-backed application. Use `default` when the Containers\nscheduler should maintain the requested number of instances and manage deployment\nconfiguration, placement, scaling, versions, and rollouts.",
 					"enum": ["default", "durable_object"]
 				},
 				{
@@ -43521,6 +43526,198 @@
 			"httpMethod": "GET",
 			"apiPath": "/zones/{zone_id}/dnssec/zsk",
 			"operationId": "dns.dnssec.list.zsks",
+			"hideCommand": false
+		},
+		{
+			"command": "cf dns domainconnect get-domain-settings",
+			"name": "get-domain-settings",
+			"fullPath": ["dns", "domainconnect", "get-domain-settings"],
+			"description": "Checks whether a domain is in Quicksilver and returns its settings.",
+			"summary": "Provide settings if domain is served by Cloudflare",
+			"usage": "cf dns domainconnect get-domain-settings <domain>",
+			"arguments": [
+				{
+					"name": "domain",
+					"position": 0,
+					"type": "string",
+					"required": true,
+					"description": "Domain name."
+				}
+			],
+			"options": [
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Validate and show what would happen without executing",
+					"default": false
+				}
+			],
+			"category": "action",
+			"hasRequestBody": false,
+			"httpMethod": "GET",
+			"apiPath": "/v2/{domain}/settings",
+			"operationId": "dns.domainconnect.get-domain-settings",
+			"hideCommand": false
+		},
+		{
+			"command": "cf dns domainconnect get-heartbeat",
+			"name": "get-heartbeat",
+			"fullPath": ["dns", "domainconnect", "get-heartbeat"],
+			"description": "Used by Kubernetes readiness and liveness probes, and CI builder by executing test/staging.sh.",
+			"summary": "Heartbeat response",
+			"usage": "cf dns domainconnect get-heartbeat",
+			"arguments": [],
+			"options": [
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Validate and show what would happen without executing",
+					"default": false
+				}
+			],
+			"category": "action",
+			"hasRequestBody": false,
+			"httpMethod": "GET",
+			"apiPath": "/_heartbeat",
+			"operationId": "dns.domainconnect.get-heartbeat",
+			"hideCommand": false
+		},
+		{
+			"command": "cf dns domainconnect get-provider-configuration",
+			"name": "get-provider-configuration",
+			"fullPath": ["dns", "domainconnect", "get-provider-configuration"],
+			"description": "Provides Stratus with extra information about domain connect provider(s).",
+			"summary": "Serve a provider configuration",
+			"usage": "cf dns domainconnect get-provider-configuration <account> [options]",
+			"arguments": [
+				{
+					"name": "account",
+					"position": 0,
+					"type": "string",
+					"required": true,
+					"description": "Account ID."
+				}
+			],
+			"options": [
+				{
+					"name": "provider",
+					"type": "string",
+					"required": true,
+					"description": "Provider ID."
+				},
+				{
+					"name": "service",
+					"type": "string",
+					"required": true,
+					"description": "Service ID."
+				},
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Validate and show what would happen without executing",
+					"default": false
+				}
+			],
+			"category": "action",
+			"hasRequestBody": false,
+			"httpMethod": "GET",
+			"apiPath": "/v2/provconf/{provider}/{service}/{account}",
+			"operationId": "dns.domainconnect.get-provider-configuration",
+			"hideCommand": false
+		},
+		{
+			"command": "cf dns domainconnect get-provider-template",
+			"name": "get-provider-template",
+			"fullPath": ["dns", "domainconnect", "get-provider-template"],
+			"description": "Providers are the external parties that are configured to interact with Cloudflare.",
+			"summary": "Serve a provider template",
+			"usage": "cf dns domainconnect get-provider-template <service> [options]",
+			"arguments": [
+				{
+					"name": "service",
+					"position": 0,
+					"type": "string",
+					"required": true,
+					"description": "Service name."
+				}
+			],
+			"options": [
+				{
+					"name": "provider",
+					"type": "string",
+					"required": true,
+					"description": "Provider name."
+				},
+				{
+					"name": "dump",
+					"type": "string",
+					"required": false,
+					"description": "Dump raw template."
+				},
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Validate and show what would happen without executing",
+					"default": false
+				}
+			],
+			"category": "action",
+			"hasRequestBody": false,
+			"httpMethod": "GET",
+			"apiPath": "/v2/domainTemplates/providers/{provider}/services/{service}",
+			"operationId": "dns.domainconnect.get-provider-template",
+			"hideCommand": false
+		},
+		{
+			"command": "cf dns domainconnect post-verify",
+			"name": "post-verify",
+			"fullPath": ["dns", "domainconnect", "post-verify"],
+			"description": "Validates a Domain Connect signed request using DNS TXT public keys.",
+			"summary": "Request domain connect validation",
+			"usage": "cf dns domainconnect post-verify [options]",
+			"arguments": [],
+			"options": [
+				{
+					"name": "domain",
+					"type": "string",
+					"required": false,
+					"description": "The domain field"
+				},
+				{
+					"name": "hash",
+					"type": "string",
+					"required": false,
+					"description": "The hash field"
+				},
+				{
+					"name": "sig",
+					"type": "string",
+					"required": false,
+					"description": "The sig field"
+				},
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Validate and show what would happen without executing",
+					"default": false
+				},
+				{
+					"name": "body",
+					"type": "string",
+					"required": false,
+					"description": "Raw JSON request body (bypasses individual flags)"
+				}
+			],
+			"category": "action",
+			"hasRequestBody": true,
+			"httpMethod": "POST",
+			"apiPath": "/v1/verify",
+			"operationId": "dns.domainconnect.post-verify",
 			"hideCommand": false
 		},
 		{
@@ -53900,7 +54097,7 @@
 			"httpMethod": "GET",
 			"apiPath": "/zones/{zone_id}/settings/google-tag-gateway/config",
 			"operationId": "google-tag-gateway.config.get",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf google-tag-gateway config update",
@@ -53960,7 +54157,7 @@
 			"httpMethod": "PUT",
 			"apiPath": "/zones/{zone_id}/settings/google-tag-gateway/config",
 			"operationId": "google-tag-gateway.config.update",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf healthchecks create",
@@ -66323,7 +66520,7 @@
 			"httpMethod": "POST",
 			"apiPath": "/accounts/{account_id}/mnm/config",
 			"operationId": "magic-network-monitoring.configs.create",
-			"hideCommand": false
+			"hideCommand": true
 		},
 		{
 			"command": "cf magic-network-monitoring configs delete",
@@ -66347,7 +66544,7 @@
 			"httpMethod": "DELETE",
 			"apiPath": "/accounts/{account_id}/mnm/config",
 			"operationId": "magic-network-monitoring.configs.delete",
-			"hideCommand": false
+			"hideCommand": true
 		},
 		{
 			"command": "cf magic-network-monitoring configs edit",
@@ -66401,7 +66598,7 @@
 			"httpMethod": "PATCH",
 			"apiPath": "/accounts/{account_id}/mnm/config",
 			"operationId": "magic-network-monitoring.configs.edit",
-			"hideCommand": false
+			"hideCommand": true
 		},
 		{
 			"command": "cf magic-network-monitoring configs full get",
@@ -66425,7 +66622,7 @@
 			"httpMethod": "GET",
 			"apiPath": "/accounts/{account_id}/mnm/config/full",
 			"operationId": "magic-network-monitoring.configs.full.get",
-			"hideCommand": false
+			"hideCommand": true
 		},
 		{
 			"command": "cf magic-network-monitoring configs get",
@@ -66449,7 +66646,7 @@
 			"httpMethod": "GET",
 			"apiPath": "/accounts/{account_id}/mnm/config",
 			"operationId": "magic-network-monitoring.configs.get",
-			"hideCommand": false
+			"hideCommand": true
 		},
 		{
 			"command": "cf magic-network-monitoring configs update",
@@ -66503,7 +66700,7 @@
 			"httpMethod": "PUT",
 			"apiPath": "/accounts/{account_id}/mnm/config",
 			"operationId": "magic-network-monitoring.configs.update",
-			"hideCommand": false
+			"hideCommand": true
 		},
 		{
 			"command": "cf magic-network-monitoring rules advertisements edit",
@@ -66540,7 +66737,7 @@
 			"httpMethod": "PATCH",
 			"apiPath": "/accounts/{account_id}/mnm/rules/{rule_id}/advertisement",
 			"operationId": "magic-network-monitoring.rules.advertisements.edit",
-			"hideCommand": false
+			"hideCommand": true
 		},
 		{
 			"command": "cf magic-network-monitoring rules bulk create",
@@ -66570,7 +66767,7 @@
 			"httpMethod": "POST",
 			"apiPath": "/accounts/{account_id}/mnm/rules/bulk",
 			"operationId": "magic-network-monitoring.rules.bulk.create",
-			"hideCommand": false
+			"hideCommand": true
 		},
 		{
 			"command": "cf magic-network-monitoring rules bulk update",
@@ -66600,7 +66797,7 @@
 			"httpMethod": "PUT",
 			"apiPath": "/accounts/{account_id}/mnm/rules/bulk",
 			"operationId": "magic-network-monitoring.rules.bulk.update",
-			"hideCommand": false
+			"hideCommand": true
 		},
 		{
 			"command": "cf magic-network-monitoring rules create",
@@ -66696,7 +66893,7 @@
 			"httpMethod": "POST",
 			"apiPath": "/accounts/{account_id}/mnm/rules",
 			"operationId": "magic-network-monitoring.rules.create",
-			"hideCommand": false
+			"hideCommand": true
 		},
 		{
 			"command": "cf magic-network-monitoring rules delete",
@@ -66728,7 +66925,7 @@
 			"httpMethod": "DELETE",
 			"apiPath": "/accounts/{account_id}/mnm/rules/{rule_id}",
 			"operationId": "magic-network-monitoring.rules.delete",
-			"hideCommand": false
+			"hideCommand": true
 		},
 		{
 			"command": "cf magic-network-monitoring rules edit",
@@ -66831,7 +67028,7 @@
 			"httpMethod": "PATCH",
 			"apiPath": "/accounts/{account_id}/mnm/rules/{rule_id}",
 			"operationId": "magic-network-monitoring.rules.edit",
-			"hideCommand": false
+			"hideCommand": true
 		},
 		{
 			"command": "cf magic-network-monitoring rules get",
@@ -66863,7 +67060,7 @@
 			"httpMethod": "GET",
 			"apiPath": "/accounts/{account_id}/mnm/rules/{rule_id}",
 			"operationId": "magic-network-monitoring.rules.get",
-			"hideCommand": false
+			"hideCommand": true
 		},
 		{
 			"command": "cf magic-network-monitoring rules list",
@@ -66887,7 +67084,7 @@
 			"httpMethod": "GET",
 			"apiPath": "/accounts/{account_id}/mnm/rules",
 			"operationId": "magic-network-monitoring.rules.list",
-			"hideCommand": false
+			"hideCommand": true
 		},
 		{
 			"command": "cf magic-network-monitoring rules update",
@@ -66982,7 +67179,7 @@
 			"httpMethod": "PUT",
 			"apiPath": "/accounts/{account_id}/mnm/rules",
 			"operationId": "magic-network-monitoring.rules.update",
-			"hideCommand": false
+			"hideCommand": true
 		},
 		{
 			"command": "cf magic-network-monitoring vpc-flows tokens create",
@@ -67006,7 +67203,7 @@
 			"httpMethod": "POST",
 			"apiPath": "/accounts/{account_id}/mnm/vpc-flows/token",
 			"operationId": "magic-network-monitoring.vpc-flows.tokens.create",
-			"hideCommand": false
+			"hideCommand": true
 		},
 		{
 			"command": "cf magic-transit advanced-dns-protection configs dns protection rules bulk-delete",
@@ -69716,7 +69913,7 @@
 					"name": "bgp-extra-prefixes",
 					"type": "string",
 					"required": false,
-					"description": "Prefixes in this list will be advertised to the customer device, in addition to the routes in the Magic routing table."
+					"description": "IPv4 prefixes in this list will be advertised to the customer device, in addition to the routes in the Magic\nrouting table. Each entry must be a network address in CIDR notation with no host bits set (for example\n`192.0.2.0/24`, not `192.0.2.1/24`) and must not repeat another entry.\n"
 				},
 				{
 					"name": "bgp-import-filter-id",
@@ -70230,7 +70427,7 @@
 					"name": "bgp-extra-prefixes",
 					"type": "string",
 					"required": false,
-					"description": "Prefixes in this list will be advertised to the customer device, in addition to the routes in the Magic routing table."
+					"description": "Prefixes in this list will be advertised to the customer device, in addition to the routes in the Magic routing table.\nEach entry must be a network address in CIDR notation with no host bits set (for example `192.0.2.0/24`, not\n`192.0.2.1/24`) and must not repeat another entry. IPv6 prefixes are accepted only when the tunnel has an\n`interface_address6`.\n"
 				},
 				{
 					"name": "bgp-import-filter-id",
@@ -70659,7 +70856,7 @@
 					"name": "bgp-extra-prefixes",
 					"type": "string",
 					"required": false,
-					"description": "Prefixes in this list will be advertised to the customer device, in addition to the routes in the Magic routing table."
+					"description": "Prefixes in this list will be advertised to the customer device, in addition to the routes in the Magic routing table.\nEach entry must be a network address in CIDR notation with no host bits set (for example `192.0.2.0/24`, not\n`192.0.2.1/24`) and must not repeat another entry. IPv6 prefixes are accepted only when the tunnel has an\n`interface_address6`.\n"
 				},
 				{
 					"name": "bgp-import-filter-id",
@@ -71007,7 +71204,7 @@
 					"name": "bgp-extra-prefixes",
 					"type": "string",
 					"required": false,
-					"description": "Prefixes in this list will be advertised to the customer device, in addition to the routes in the Magic routing table."
+					"description": "Prefixes in this list will be advertised to the customer device, in addition to the routes in the Magic routing table.\nEach entry must be a network address in CIDR notation with no host bits set (for example `192.0.2.0/24`, not\n`192.0.2.1/24`) and must not repeat another entry. IPv6 prefixes are accepted only when the tunnel has an\n`interface_address6`.\n"
 				},
 				{
 					"name": "bgp-import-filter-id",
@@ -74261,7 +74458,7 @@
 				"repositories",
 				"create"
 			],
-			"description": "Creates an upload repository or reserves an asynchronous deployed Worker import by name. Worker imports require Idempotency-Key.",
+			"description": "Creates an upload repository or reserves an asynchronous deployed Worker import by name. Worker imports require Idempotency-Key. Push upload source to `main` or specify the `branch` to scan in the scan request.",
 			"summary": "Create repository",
 			"usage": "cf managed-defense vulnerability-discovery repositories create [options]",
 			"arguments": [],
@@ -74303,6 +74500,43 @@
 			"httpMethod": "POST",
 			"apiPath": "/accounts/{account_id}/managed-defense/vulnerability-discovery/repos",
 			"operationId": "managed-defense.vulnerability-discovery.repositories.create",
+			"hideCommand": false
+		},
+		{
+			"command": "cf managed-defense vulnerability-discovery repositories create-token",
+			"name": "create-token",
+			"fullPath": [
+				"managed-defense",
+				"vulnerability-discovery",
+				"repositories",
+				"create-token"
+			],
+			"description": "Creates a one-hour write token for an existing upload repository. Worker-imported repositories are system-managed and cannot receive upload tokens.",
+			"summary": "Create upload token",
+			"usage": "cf managed-defense vulnerability-discovery repositories create-token <repo-id>",
+			"arguments": [
+				{
+					"name": "repo-id",
+					"position": 0,
+					"type": "string",
+					"required": true,
+					"description": "Repo ID"
+				}
+			],
+			"options": [
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Validate and show what would happen without executing",
+					"default": false
+				}
+			],
+			"category": "action",
+			"hasRequestBody": false,
+			"httpMethod": "POST",
+			"apiPath": "/accounts/{account_id}/managed-defense/vulnerability-discovery/repos/{repo_id}/token",
+			"operationId": "managed-defense.vulnerability-discovery.repositories.create-token",
 			"hideCommand": false
 		},
 		{
@@ -74404,7 +74638,7 @@
 				"scans",
 				"create"
 			],
-			"description": "Submits repository intent for operator review. This endpoint does not immediately start execution. Worker-imported repositories must be ready; explicit `repo_hosts` must be authorized before the request is persisted.",
+			"description": "Submits repository intent for operator review. This endpoint does not immediately start execution. Worker-imported repositories must be ready; explicit repository host scopes must be authorized and explicit branch selections must exist before the request is persisted.",
 			"summary": "Create scan",
 			"usage": "cf managed-defense vulnerability-discovery scans create [options]",
 			"arguments": [],
@@ -74416,16 +74650,10 @@
 					"description": "Optional. Supply this header to safely retry a request. Required when `worker_script_name` is supplied."
 				},
 				{
-					"name": "repo-hosts",
-					"type": "string",
-					"required": false,
-					"description": "Explicit hostname scopes. Every hostname must be authorized for its repository before review admission; rejected scopes return 422 and do not persist a scan request. Provide as a JSON object or @path/to/file.json."
-				},
-				{
 					"name": "repos",
 					"type": "string",
 					"required": true,
-					"description": "The repos field"
+					"description": "Repository names must be unique within a request. Provide as a JSON array of objects or @path/to/file.json."
 				},
 				{
 					"name": "telemetry-window-end",
@@ -82487,7 +82715,7 @@
 			"httpMethod": "GET",
 			"apiPath": "/zones/{zone_id}/cache/origin_post_quantum_encryption",
 			"operationId": "origin-post-quantum-encryption.get",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf origin-post-quantum-encryption update",
@@ -82524,7 +82752,7 @@
 			"httpMethod": "PUT",
 			"apiPath": "/zones/{zone_id}/cache/origin_post_quantum_encryption",
 			"operationId": "origin-post-quantum-encryption.update",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf page-rules create",
@@ -117066,7 +117294,7 @@
 			"httpMethod": "POST",
 			"apiPath": "/zones/{zone_id}/smart_shield/cache_reserve_clear",
 			"operationId": "smart-shield.cache-reserve-clear.clear",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf smart-shield cache-reserve-clear status",
@@ -117090,7 +117318,7 @@
 			"httpMethod": "GET",
 			"apiPath": "/zones/{zone_id}/smart_shield/cache_reserve_clear",
 			"operationId": "smart-shield.cache-reserve-clear.status",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf smart-shield get",
@@ -117114,7 +117342,7 @@
 			"httpMethod": "GET",
 			"apiPath": "/zones/{zone_id}/smart_shield",
 			"operationId": "smart-shield.get",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf smart-shield health-checks create",
@@ -117279,7 +117507,7 @@
 			"httpMethod": "POST",
 			"apiPath": "/zones/{zone_id}/smart_shield/healthchecks",
 			"operationId": "smart-shield.health-checks.create",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf smart-shield health-checks delete",
@@ -117311,7 +117539,7 @@
 			"httpMethod": "DELETE",
 			"apiPath": "/zones/{zone_id}/smart_shield/healthchecks/{healthcheck_id}",
 			"operationId": "smart-shield.health-checks.delete",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf smart-shield health-checks edit",
@@ -117477,7 +117705,7 @@
 			"httpMethod": "PATCH",
 			"apiPath": "/zones/{zone_id}/smart_shield/healthchecks/{healthcheck_id}",
 			"operationId": "smart-shield.health-checks.edit",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf smart-shield health-checks get",
@@ -117509,7 +117737,7 @@
 			"httpMethod": "GET",
 			"apiPath": "/zones/{zone_id}/smart_shield/healthchecks/{healthcheck_id}",
 			"operationId": "smart-shield.health-checks.get",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf smart-shield health-checks list",
@@ -117545,7 +117773,7 @@
 			"httpMethod": "GET",
 			"apiPath": "/zones/{zone_id}/smart_shield/healthchecks",
 			"operationId": "smart-shield.health-checks.list",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf smart-shield health-checks update",
@@ -117729,7 +117957,7 @@
 			"httpMethod": "PUT",
 			"apiPath": "/zones/{zone_id}/smart_shield/healthchecks/{healthcheck_id}",
 			"operationId": "smart-shield.health-checks.update",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf smart-shield update",
@@ -117787,7 +118015,7 @@
 			"httpMethod": "PATCH",
 			"apiPath": "/zones/{zone_id}/smart_shield",
 			"operationId": "smart-shield.update",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf snippets content get",
@@ -123955,6 +124183,7 @@
 						"account",
 						"account_ruleset",
 						"ai_gateway",
+						"ai_search_instance",
 						"alerting_policy",
 						"alerting_webhook",
 						"cloudflared_tunnel",
@@ -124037,6 +124266,7 @@
 						"account",
 						"account_ruleset",
 						"ai_gateway",
+						"ai_search_instance",
 						"alerting_policy",
 						"alerting_webhook",
 						"cloudflared_tunnel",
@@ -124121,6 +124351,7 @@
 						"account",
 						"account_ruleset",
 						"ai_gateway",
+						"ai_search_instance",
 						"alerting_policy",
 						"alerting_webhook",
 						"cloudflared_tunnel",
@@ -124330,6 +124561,7 @@
 						"account",
 						"account_ruleset",
 						"ai_gateway",
+						"ai_search_instance",
 						"alerting_policy",
 						"alerting_webhook",
 						"api_gateway_operation",
@@ -154721,10 +154953,10 @@
 			"fullPath": ["zero-trust", "dlp", "datasets", "upload"],
 			"description": "This is used for single-column EDMv1 and Custom Word Lists. The EDM format can only be created in the Cloudflare dashboard. For other clients, this operation can only be used for non-secret Custom Word Lists. The body must be a UTF-8 encoded, newline (NL or CRNL) separated list of words to be matched.",
 			"summary": "Upload a new version of a dataset",
-			"usage": "cf zero-trust dlp datasets upload <version> [options]",
+			"usage": "cf zero-trust dlp datasets upload <dataset-version> [options]",
 			"arguments": [
 				{
-					"name": "version",
+					"name": "dataset-version",
 					"position": 0,
 					"type": "string",
 					"required": true,
@@ -155513,44 +155745,6 @@
 				}
 			],
 			"options": [
-				{
-					"name": "description",
-					"type": "string",
-					"required": false,
-					"description": "The description field"
-				},
-				{
-					"name": "name",
-					"type": "string",
-					"required": false,
-					"description": "The name field"
-				},
-				{
-					"name": "pattern-regex",
-					"type": "string",
-					"required": false,
-					"description": "The pattern.regex field"
-				},
-				{
-					"name": "pattern-validation",
-					"type": "string",
-					"required": false,
-					"description": "The pattern.validation field",
-					"enum": ["luhn"]
-				},
-				{
-					"name": "validator-ids",
-					"type": "string",
-					"required": false,
-					"description": "Validators this entry should reference, by id, at most 10. Replaces the current set.\n\nOptional, unlike the rest of this body: omitting it leaves the current attachments alone, so a\nclient that predates validators cannot detach them by accident. Send `[]` to detach."
-				},
-				{
-					"name": "type",
-					"type": "string",
-					"required": true,
-					"description": "The type field",
-					"enum": ["custom", "predefined", "integration"]
-				},
 				{
 					"name": "enabled",
 					"type": "boolean",
@@ -164274,6 +164468,8 @@
 		"builds workers": "Manage repository-backed build configuration for Workers.",
 		"cache": "Purge cached content and configure Cache Reserve, tiered caching, and variant serving",
 		"cache origin-cloud-regions": "Manage Origin Cloud Regions routing and failover configurations",
+		"cache origin-cloud-regions bulk": "Operations for origin-cloud-regions.bulk",
+		"cache origin-cloud-regions regions": "Operations for origin-cloud-regions.regions",
 		"cache settings": "Configure Cache Reserve, tiered caching, and variant serving",
 		"cache settings regional-tiered-cache": "Restrict tiered cache topology to data centers within a specific geographic region",
 		"cache settings reserve": "Persistent storage tier that keeps cached assets even after eviction from edge caches",
@@ -164430,6 +164626,7 @@
 		"dns": "dns",
 		"dns dnssec": "Operations for dnssec",
 		"dns dnssec list": "Operations for dnssec.list",
+		"dns domainconnect": "Operations for domainconnect",
 		"dns records": "Operations for records",
 		"dns settings": "Operations for settings",
 		"dns settings account": "Operations for settings.account",

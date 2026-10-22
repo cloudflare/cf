@@ -22,7 +22,7 @@ interface GlobalShortFlagArgs extends CommonYargsOptions {
 	version: boolean;
 }
 
-const GLOBAL_SHORT_FLAG_ALIASES = {
+export const GLOBAL_SHORT_FLAG_ALIASES = {
 	q: { canonical: "quiet", type: "boolean" },
 	z: { canonical: "zone", type: "value" },
 	m: { canonical: "mode", type: "value" },
@@ -36,11 +36,24 @@ function toCamel(flag: string): string {
 	);
 }
 
-function passedFlags(
+export interface PassedFlags {
+	/** Canonical names of long flags and recognised short flags. */
+	flags: string[];
+	/** Unrecognised short-flag letters. Only ever counted, never sent. */
+	unknownShortFlags: string[];
+}
+
+/**
+ * Flags passed before `--`, without values. A short-flag cluster is read
+ * until a flag that takes a value or the first unrecognised character: the
+ * rest of the cluster may be that flag's value.
+ */
+export function readPassedFlags(
 	rawArgv: string[],
-	shortFlagAliases: Record<string, ShortFlagAlias>
-): string[] {
+	shortFlagAliases: Readonly<Record<string, ShortFlagAlias>>
+): PassedFlags {
 	const flags: string[] = [];
+	const unknownShortFlags: string[] = [];
 	for (const token of rawArgv) {
 		if (token === "--") {
 			break;
@@ -61,6 +74,10 @@ function passedFlags(
 		for (const character of shorthand) {
 			const alias = shortFlagAliases[character];
 			if (!alias) {
+				// Digits and `=` start a value (`-1`, `-q=true`), not a flag.
+				if (/[a-z]/i.test(character)) {
+					unknownShortFlags.push(character);
+				}
 				break;
 			}
 			flags.push(alias.canonical);
@@ -69,7 +86,7 @@ function passedFlags(
 			}
 		}
 	}
-	return flags;
+	return { flags, unknownShortFlags };
 }
 
 export interface SanitizedArgs {
@@ -96,7 +113,7 @@ export function sanitizeArgs<Args extends Record<string, unknown>>(
 	const used = new Set<string>();
 	const sanitizedArgs: Record<string, unknown> = {};
 
-	for (const flag of passedFlags(rawArgv, shortFlagAliases)) {
+	for (const flag of readPassedFlags(rawArgv, shortFlagAliases).flags) {
 		used.add(flag);
 		const value = argv[flag] ?? argv[toCamel(flag)];
 		sanitizedArgs[flag] = safe.has(flag) ? value : REDACTED;

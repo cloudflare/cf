@@ -1,4 +1,5 @@
 import $dnssec from "./dnssec/index.js";
+import $domainconnect from "./domainconnect/index.js";
 import $records from "./records/index.js";
 import $settings from "./settings/index.js";
 import $usage from "./usage/index.js";
@@ -17,6 +18,7 @@ const command: CommandModule<CommonYargsOptions> = {
 	builder: (yargs) => {
 		return yargs
 			.command($dnssec)
+			.command($domainconnect)
 			.command($records)
 			.command($settings)
 			.command($usage)

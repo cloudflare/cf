@@ -1,7 +1,7 @@
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
- * bulk-update command
+ * delete command
  * @generated from apis/overlays/cache.ts
  */
 import type { Argv, CommandModule } from "yargs";
@@ -10,16 +10,23 @@ import { parseBody } from "#lib/body-parser.js";
 import { formatDryRun } from "#lib/dry-run.js";
 import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
+import { confirmDelete } from "#lib/prompt.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
 		.usage(
-			"$0 cache origin-cloud-regions bulk-update\n\nUpserts up to 100 IP-to-cloud-region mappings in a single request. Items in the request body are created or replaced; mappings not included in the request body are preserved unchanged (this is a merge operation, not a full collection replacement). Each item is validated independently — valid items are applied and invalid items are returned in the `failed` array. The vendor and region for every item are validated against the list from `GET /zones/{zone_id}/origin/cloud_regions/supported_regions`."
+			"$0 cache origin-cloud-regions bulk delete\n\nRemoves up to 100 IP-to-cloud-region mappings in a single request. Each IP is validated independently — successfully deleted items are returned in the `succeeded` array and IPs that could not be found or are invalid are returned in the `failed` array."
 		)
 		.option("dry-run", {
 			type: "boolean",
 			description: "Validate and show what would happen without executing",
+			default: false,
+		})
+		.option("force", {
+			type: "boolean",
+			alias: "f",
+			description: "Skip confirmation (useful in scripts and CI)",
 			default: false,
 		})
 		.option("body", {
@@ -31,23 +38,24 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 type Args = InferArgs<typeof builder>;
 
 const command: CommandModule<CommonYargsOptions, Args> = {
-	command: "bulk-update",
-	describe: "Batch create or replace origin cloud region mappings",
+	command: "delete",
+	describe: "Batch delete origin cloud region mappings",
 	builder,
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
-				command: "cache origin-cloud-regions bulk-update",
+				command: "cache origin-cloud-regions bulk delete",
 				classification: {
-					safeFlags: ["dry-run"],
+					safeFlags: ["dry-run", "force"],
+					shortFlagAliases: { f: { canonical: "force", type: "boolean" } },
 				} satisfies ArgClassification<Args>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
 				if (argv.dryRun) {
 					formatDryRun({
-						command: "cf cache origin-cloud-regions bulk-update",
-						method: "PUT",
+						command: "cf cache origin-cloud-regions bulk delete",
+						method: "DELETE",
 						url: `https://api.cloudflare.com/client/v4/zones/${argv.zone ?? argv.zoneId ?? "<zone>"}/origin/cloud_regions/batch`,
 						pathParams: {
 							"zone-id": String(argv.zone ?? argv["zone-id"] ?? ""),
@@ -63,6 +71,15 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				});
 				argv.zoneId = zoneId;
 
+				if (
+					!(await confirmDelete({
+						force: Boolean(argv.force),
+						message: `Are you sure you want to delete these Origin Cloud Region configurations?`,
+					}))
+				) {
+					return;
+				}
+
 				if (argv.body) {
 					const bodyData = parseBody(argv.body);
 					if (Array.isArray(bodyData) && bodyData.length > 100) {
@@ -72,28 +89,28 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 							const batch = bodyData.slice(i, i + 100);
 							const batchNum = Math.floor(i / 100) + 1;
 							result = await withProgress(
-								`Updating: batch ${batchNum}/${total}`,
+								`Deleting: batch ${batchNum}/${total}`,
 								async () =>
 									requestApi<unknown>(
 										client,
-										"PUT",
+										"DELETE",
 										`/zones/${argv.zoneId}/origin/cloud_regions/batch`,
 										{ body: batch }
 									)
 							);
 						}
-						formatOutput(result, { successLabel: `Updated` });
+						formatOutput(result, { successLabel: `Deleted` });
 						return;
 					}
-					const result = await withProgress(`Updating`, async () =>
+					const result = await withProgress(`Deleting`, async () =>
 						requestApi<unknown>(
 							client,
-							"PUT",
+							"DELETE",
 							`/zones/${argv.zoneId}/origin/cloud_regions/batch`,
 							{ body: bodyData }
 						)
 					);
-					formatOutput(result, { successLabel: `Updated` });
+					formatOutput(result, { successLabel: `Deleted` });
 					return;
 				}
 

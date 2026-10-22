@@ -141,7 +141,7 @@ Use triage mode when you are asked to investigate rather than change code.
 
 **Formatting and linting:**
 
-- Formatter is `oxfmt`; linter is `oxlint` (type-aware). Type-checker is `tsgo`.
+- Formatter is `oxfmt`; linter is `oxlint` (type-aware). Type-checker is `tsrs`.
 - Run `pnpm fix` for auto-fixes; run `pnpm check` (lint + type + format) before handoff.
 - Do not flag formatting issues in review — the formatter handles them.
 

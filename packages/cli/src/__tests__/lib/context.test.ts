@@ -199,25 +199,13 @@ describe("context", () => {
 			await expect(getComplianceRegion()).resolves.toBe("fedramp_high");
 		});
 
-		it("prioritises the legacy env representation", async () => {
+		it("reads the environment before loading project settings", async () => {
+			writeFileSync(
+				join(process.cwd(), "cloudflare.config.ts"),
+				`throw new Error("project config should not be loaded");`
+			);
 			vi.stubEnv("CLOUDFLARE_COMPLIANCE_REGION", "fedramp_high");
 			await expect(getComplianceRegion()).resolves.toBe("fedramp_high");
-		});
-
-		it("warns when the environment overrides project settings", async () => {
-			const warn = vi
-				.spyOn(console, "warn")
-				.mockImplementation(() => undefined);
-			vi.stubEnv("CLOUDFLARE_COMPLIANCE_REGION", "public");
-			writeProjectSettings({ complianceRegion: "fedramp-high" });
-
-			await expect(getComplianceRegion()).resolves.toBe("public");
-			await expect(getComplianceRegion()).resolves.toBe("public");
-
-			expect(warn).toHaveBeenCalledOnce();
-			expect(warn).toHaveBeenCalledWith(
-				'The compliance region was resolved to "public" from the `CLOUDFLARE_COMPLIANCE_REGION` environment variable, which takes precedence over the configured value "fedramp-high" in `cloudflare.config.ts`.'
-			);
 		});
 
 		it("throws on an invalid value", async () => {

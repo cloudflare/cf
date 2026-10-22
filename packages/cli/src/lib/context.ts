@@ -218,8 +218,6 @@ const VALID_COMPLIANCE_REGIONS = ["public", "fedramp_high"] as const;
 
 export type ComplianceRegion = (typeof VALID_COMPLIANCE_REGIONS)[number];
 
-let complianceRegionConflictsReported = false;
-
 /**
  * Resolve the compliance region in the representation consumed by
  * workers-auth/workers-utils. cloudflare.config.ts uses `fedramp-high`, which
@@ -228,38 +226,23 @@ let complianceRegionConflictsReported = false;
 async function resolveComplianceRegion(
 	options: { isPreview?: boolean } = {}
 ): Promise<ComplianceRegion | undefined> {
+	const envRegion = normalizeComplianceRegion(
+		process.env.CLOUDFLARE_COMPLIANCE_REGION,
+		"CLOUDFLARE_COMPLIANCE_REGION"
+	);
+	if (envRegion) {
+		return envRegion;
+	}
+
 	const preloadedProjectSettings = getLoadedProjectSettings(undefined, options);
 	const projectSettings =
 		preloadedProjectSettings === undefined
 			? await loadProjectSettings(undefined, options)
 			: preloadedProjectSettings;
-	const configuredValue = projectSettings?.settings?.complianceRegion;
-	const configureRegion = normalizeComplianceRegion(
-		configuredValue,
+	return normalizeComplianceRegion(
+		projectSettings?.settings?.complianceRegion,
 		"cloudflare.config.ts"
 	);
-	const envValue = process.env.CLOUDFLARE_COMPLIANCE_REGION;
-	const envRegion = normalizeComplianceRegion(
-		envValue,
-		"CLOUDFLARE_COMPLIANCE_REGION"
-	);
-
-	if (!envRegion) {
-		return configureRegion;
-	}
-
-	if (
-		configureRegion &&
-		configureRegion !== envRegion &&
-		!complianceRegionConflictsReported
-	) {
-		complianceRegionConflictsReported = true;
-		console.warn(
-			`The compliance region was resolved to "${envValue}" from the \`CLOUDFLARE_COMPLIANCE_REGION\` environment variable, which takes precedence over the configured value "${configuredValue}" in \`cloudflare.config.ts\`.`
-		);
-	}
-
-	return envRegion;
 }
 
 /** Get the compliance region, defaulting to public. */

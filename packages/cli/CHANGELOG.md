@@ -1,5 +1,33 @@
 # cf
 
+## 1.0.0-beta.22
+
+### Minor Changes
+
+- 7993e1d: Update the generated command surface for Forge OpenAPI release
+  `67c5887b849fdde3ac07438146fa92a0010e2f53`.
+- f08f693: Update the generated command surface for Forge OpenAPI release
+  `cd7e523512a1ee2fb6b5b041daa68661e61c9119`.
+- 54b5920: Update the generated command surface for Forge OpenAPI release
+  `e2386f5f515cf598f7ebdf682f2eeb60f43d9088`.
+
+### Patch Changes
+
+- 947d0c9: Show the shell completions tip at most once, and never in CI
+
+  cf now saves that it has shown the tip before it prints it. If cf cannot write
+  its state file, the tip no longer appears on every run. CI runners that attach
+  a terminal no longer see the tip.
+
+- 068bde2: Fix `cf deploy` for Python Workers with vendored packages
+
+  Upload Build Output modules under their manifest paths in `cf deploy`,
+  `cf workers versions create` and `cf previews deploy` instead of prefixing them
+  with `./`. Python Workers use module names as file paths without normalising
+  them, and import vendored packages from the `python_modules/` directory. With
+  the prefix, the vendored `workers` SDK was not on the import path, so
+  `from workers import ...` failed with `No module named 'workers'` (10021).
+
 ## 1.0.0-beta.21
 
 ### Minor Changes

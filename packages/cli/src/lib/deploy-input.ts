@@ -274,9 +274,10 @@ export function assembleBuildResult(
 					? readFileSync(filePath)
 					: readFileSync(filePath, "utf8");
 
-			// Use the manifest path as-is, as Wrangler does. The runtime matches
-			// some names exactly: Python Workers only install vendored packages
-			// named `python_modules/...`, so a `./` prefix breaks them.
+			// Use the manifest key unchanged. The runtime normalises `./` in
+			// JavaScript module names, but Python Workers use module names as file
+			// paths without normalising them, so a `./python_modules/...` package
+			// is not on `sys.path`.
 			cfModules.push({
 				name,
 				filePath,

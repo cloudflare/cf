@@ -274,8 +274,8 @@ describe("transforms Build Output Specification into deploy input", () => {
 	});
 
 	it("keeps Python vendored module paths exactly as in the manifest", async () => {
-		// The runtime only installs vendored packages whose module names start
-		// with `python_modules/`; a `./` prefix makes `import workers` fail.
+		// Python Workers import vendored packages from `python_modules/` and use
+		// module names as file paths, so a `./` prefix makes `import workers` fail.
 		await seed({
 			".cloudflare/output/v0/config.json": buildOutputRootConfig(),
 			".cloudflare/output/v0/workers/default/worker.config.json": workerConfig({

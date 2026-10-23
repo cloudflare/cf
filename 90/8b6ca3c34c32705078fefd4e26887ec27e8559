@@ -1,0 +1,29 @@
+.changeset/unknown-command-telemetry.md
+  s_16d941d8f4eaf2::t_47bbac7c6349ae 9-14
+packages/cli/src/__tests__/lib/telemetry/command-resolution.test.ts
+  s_16d941d8f4eaf2::t_aa045061877b6d 3,27-34,37-43,139-163,208-234,288-328,335-336
+packages/cli/src/__tests__/telemetry-errors.test.ts
+  s_16d941d8f4eaf2::t_29331c7d43b3d1 169,198-207,287-299,410-424
+packages/cli/src/lib/telemetry/command-resolution.ts
+  s_16d941d8f4eaf2::t_27eac44e121ab7 4-5,16-18,34-35,55-57,74,76-86,93-99,106-110,124-128,133-136,194-195,204-208,211-214,216-221,231-233
+packages/cli/src/lib/telemetry/sanitization.ts
+  s_16d941d8f4eaf2::t_c2d6e89decc383 25,39-51,53-54,56,77-80,89,116
+packages/cli/telemetry.md
+  s_16d941d8f4eaf2::t_9ed572ee489d94 26-37
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.10",
+  "base_commit_sha": "908b6ca3c34c32705078fefd4e26887ec27e8559",
+  "prompts": {},
+  "sessions": {
+    "s_16d941d8f4eaf2": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "dcaa6a8b-1109-4304-81ce-0e4ec9b06c68",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "Matt TK Taylor <matttaylor@cloudflare.com>"
+    }
+  }
+}

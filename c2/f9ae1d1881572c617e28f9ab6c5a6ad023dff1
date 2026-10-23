@@ -1,0 +1,33 @@
+.changeset/unknown-command-telemetry.md
+  s_2b88d96693e8d7::t_c2e67bb60829a6 1-13
+packages/cli/src/__tests__/lib/telemetry/command-resolution.test.ts
+  s_2b88d96693e8d7::t_bcbeea0b76479b 1-221
+packages/cli/src/__tests__/telemetry-errors.test.ts
+  s_2b88d96693e8d7::t_febb9026bee6cd 9,12,17,20,34-36,41,55-61,80-83,102-111,116,121,134-138,145-391,523-525
+packages/cli/src/index.ts
+  s_2b88d96693e8d7::t_aff451b4d629eb 36-39,299-303,305-368,402-403,408-414,416-418,429-434,439,453-462,557-561,653-658,812,847-851,853,935-937,943-945,996-1000,1003-1004
+packages/cli/src/lib/telemetry/command-resolution.ts
+  s_2b88d96693e8d7::t_73dac9dadf40e8 1-192
+packages/cli/src/lib/telemetry/sanitization.ts
+  s_2b88d96693e8d7::t_9dcf2aeb00c373 39-40,42
+packages/cli/src/lib/telemetry/types.ts
+  s_2b88d96693e8d7::t_34f05626da542d 33-70,77-78
+packages/cli/telemetry.md
+  s_2b88d96693e8d7::t_fc6f299ad15920 22-30,72-75
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.10",
+  "base_commit_sha": "c2f9ae1d1881572c617e28f9ab6c5a6ad023dff1",
+  "prompts": {},
+  "sessions": {
+    "s_2b88d96693e8d7": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "f476ee64-b956-412c-9a1d-ea0261c04f01",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "Matt TK Taylor <matttaylor@cloudflare.com>"
+    }
+  }
+}

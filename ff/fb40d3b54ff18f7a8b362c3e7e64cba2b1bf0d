@@ -1,0 +1,23 @@
+AGENTS.md
+  s_16d941d8f4eaf2::t_f9b79680aa5d36 240-274
+packages/cli/src/lib/telemetry/environment.ts
+  s_16d941d8f4eaf2::t_9ad6e119fe6b3e 8-10,84
+packages/cli/telemetry.md
+  s_16d941d8f4eaf2::t_e6894bffc685fe 32-33
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.10",
+  "base_commit_sha": "fffb40d3b54ff18f7a8b362c3e7e64cba2b1bf0d",
+  "prompts": {},
+  "sessions": {
+    "s_16d941d8f4eaf2": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "dcaa6a8b-1109-4304-81ce-0e4ec9b06c68",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "Matt TK Taylor <matttaylor@cloudflare.com>"
+    }
+  }
+}

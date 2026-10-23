@@ -523,7 +523,7 @@ describe("telemetry error reporting", () => {
 		}
 	);
 
-	it("shows the telemetry notice as an info line", async () => {
+	it("shows the first-run notices as info lines naming every shell", async () => {
 		Object.defineProperty(process.stderr, "isTTY", {
 			value: true,
 			configurable: true,
@@ -533,6 +533,9 @@ describe("telemetry error reporting", () => {
 
 		expect(output.stderr()).toContain(
 			"●  Cloudflare collects anonymous cf usage telemetry. Run cf cli telemetry disable to opt out.\n"
+		);
+		expect(output.stderr()).toContain(
+			"●  Tip: run cf complete <bash|zsh|fish|powershell> to install shell completions.\n"
 		);
 	});
 

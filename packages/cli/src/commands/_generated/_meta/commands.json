@@ -1571,42 +1571,6 @@
 			"hideCommand": false
 		},
 		{
-			"command": "cf accounts billing pay-bad-debt",
-			"name": "pay-bad-debt",
-			"fullPath": ["accounts", "billing", "pay-bad-debt"],
-			"description": "Pays outstanding bad debt for an account. Discovers all debt automatically and handles invoice deduplication.",
-			"summary": "Pay Bad Debt",
-			"usage": "cf accounts billing pay-bad-debt [options]",
-			"arguments": [],
-			"options": [
-				{
-					"name": "payment-method-id",
-					"type": "string",
-					"required": false,
-					"description": "The payment method to use. If omitted, the default payment method is used."
-				},
-				{
-					"name": "dry-run",
-					"type": "boolean",
-					"required": false,
-					"description": "Validate and show what would happen without executing",
-					"default": false
-				},
-				{
-					"name": "body",
-					"type": "string",
-					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
-				}
-			],
-			"category": "action",
-			"hasRequestBody": true,
-			"httpMethod": "POST",
-			"apiPath": "/accounts/{account_id}/pay-bad-debt",
-			"operationId": "accounts.billing.pay-bad-debt",
-			"hideCommand": false
-		},
-		{
 			"command": "cf accounts billing pay-invoice",
 			"name": "pay-invoice",
 			"fullPath": ["accounts", "billing", "pay-invoice"],

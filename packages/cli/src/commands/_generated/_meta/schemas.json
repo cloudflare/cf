@@ -1026,28 +1026,6 @@
 			"hasRequestBody": false,
 			"requestBodyFields": []
 		},
-		"accounts billing pay-bad-debt": {
-			"operationId": "accounts.billing.pay-bad-debt",
-			"httpMethod": "POST",
-			"path": "/accounts/{account_id}/pay-bad-debt",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": true,
-			"requestBodyFields": [
-				{
-					"name": "payment-method-id",
-					"type": "string",
-					"required": false,
-					"description": "The payment method to use. If omitted, the default payment method is used."
-				}
-			]
-		},
 		"accounts billing pay-invoice": {
 			"operationId": "accounts.billing.pay-invoice",
 			"httpMethod": "POST",

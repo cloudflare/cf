@@ -4,7 +4,6 @@ import $getcredits from "./get-credits.js";
 import $getreceiptpdf from "./get-receipt-pdf.js";
 import $getunpaidinvoices from "./get-unpaid-invoices.js";
 import $history from "./history/index.js";
-import $paybaddebt from "./pay-bad-debt.js";
 import $payinvoice from "./pay-invoice.js";
 import $paymentmethods from "./payment-methods/index.js";
 import $togglepdfinvoices from "./toggle-pdf-invoices.js";
@@ -26,7 +25,6 @@ const command: CommandModule<CommonYargsOptions> = {
 			.command($getcredits)
 			.command($getreceiptpdf)
 			.command($getunpaidinvoices)
-			.command($paybaddebt)
 			.command($payinvoice)
 			.command($togglepdfinvoices)
 			.command($history)

@@ -20369,2415 +20369,6 @@
 			"hasRequestBody": false,
 			"requestBodyFields": []
 		},
-		"cloudforce-one events aggregate get": {
-			"operationId": "cloudforce-one.events.aggregate.get",
-			"httpMethod": "GET",
-			"path": "/accounts/{account_id}/cloudforce-one/events/aggregate",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [
-				{
-					"name": "aggregateBy",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "datasetId",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "startDate",
-					"type": "string",
-					"required": false
-				},
-				{
-					"name": "endDate",
-					"type": "string",
-					"required": false
-				},
-				{
-					"name": "groupByDate",
-					"type": "boolean",
-					"required": false
-				},
-				{
-					"name": "limit",
-					"type": "number",
-					"required": false
-				}
-			],
-			"hasRequestBody": false,
-			"requestBodyFields": []
-		},
-		"cloudforce-one events categories catalog get": {
-			"operationId": "cloudforce-one.events.categories.catalog.get",
-			"httpMethod": "GET",
-			"path": "/accounts/{account_id}/cloudforce-one/events/categories/catalog",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": false,
-			"requestBodyFields": []
-		},
-		"cloudforce-one events categories create": {
-			"operationId": "cloudforce-one.events.categories.create",
-			"httpMethod": "POST",
-			"path": "/accounts/{account_id}/cloudforce-one/events/event-categories/by-id/{category_id}",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "category_id",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": true,
-			"requestBodyFields": [
-				{
-					"name": "kill-chain",
-					"type": "number",
-					"required": false,
-					"description": "The killChain field"
-				},
-				{
-					"name": "mitre-attack",
-					"type": "string",
-					"required": false,
-					"description": "The mitreAttack field"
-				},
-				{
-					"name": "mitre-capec",
-					"type": "string",
-					"required": false,
-					"description": "The mitreCapec field"
-				},
-				{
-					"name": "name",
-					"type": "string",
-					"required": false,
-					"description": "The name field"
-				},
-				{
-					"name": "shortname",
-					"type": "string",
-					"required": false,
-					"description": "The shortname field"
-				}
-			]
-		},
-		"cloudforce-one events create": {
-			"operationId": "cloudforce-one.events.create",
-			"httpMethod": "POST",
-			"path": "/accounts/{account_id}/cloudforce-one/events/{event_id}",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "event_id",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": true,
-			"requestBodyFields": [
-				{
-					"name": "attacker",
-					"type": "string",
-					"required": false,
-					"description": "The attacker field"
-				},
-				{
-					"name": "attacker-country",
-					"type": "string",
-					"required": false,
-					"description": "The attackerCountry field"
-				},
-				{
-					"name": "category",
-					"type": "string",
-					"required": false,
-					"description": "The category field"
-				},
-				{
-					"name": "created-at",
-					"type": "string",
-					"required": false,
-					"description": "The createdAt field"
-				},
-				{
-					"name": "dataset-id",
-					"type": "string",
-					"required": true,
-					"description": "Dataset ID containing the event to update."
-				},
-				{
-					"name": "date",
-					"type": "string",
-					"required": false,
-					"description": "The date field"
-				},
-				{
-					"name": "event",
-					"type": "string",
-					"required": false,
-					"description": "The event field"
-				},
-				{
-					"name": "indicator",
-					"type": "string",
-					"required": false,
-					"description": "The indicator field"
-				},
-				{
-					"name": "indicator-type",
-					"type": "string",
-					"required": false,
-					"description": "The indicatorType field"
-				},
-				{
-					"name": "insight",
-					"type": "string",
-					"required": false,
-					"description": "The insight field"
-				},
-				{
-					"name": "raw-data",
-					"type": "string",
-					"required": false,
-					"description": "The raw.data field. Provide as a JSON object or @path/to/file.json."
-				},
-				{
-					"name": "raw-source",
-					"type": "string",
-					"required": false,
-					"description": "The raw.source field"
-				},
-				{
-					"name": "raw-tlp",
-					"type": "string",
-					"required": false,
-					"description": "The raw.tlp field"
-				},
-				{
-					"name": "target-country",
-					"type": "string",
-					"required": false,
-					"description": "The targetCountry field"
-				},
-				{
-					"name": "target-industry",
-					"type": "string",
-					"required": false,
-					"description": "The targetIndustry field"
-				},
-				{
-					"name": "tlp",
-					"type": "string",
-					"required": false,
-					"description": "The tlp field"
-				}
-			]
-		},
-		"cloudforce-one events dataset copy create": {
-			"operationId": "cloudforce-one.events.dataset.copy.create",
-			"httpMethod": "POST",
-			"path": "/accounts/{account_id}/cloudforce-one/events/dataset/{dataset_id}/copy",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "dataset_id",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [
-				{
-					"name": "keepRawData",
-					"type": "boolean",
-					"required": false
-				}
-			],
-			"hasRequestBody": true,
-			"requestBodyFields": [
-				{
-					"name": "dest-dataset-id",
-					"type": "string",
-					"required": true,
-					"description": "The destDatasetId field"
-				},
-				{
-					"name": "event-ids",
-					"type": "string",
-					"required": true,
-					"description": "The eventIds field"
-				}
-			]
-		},
-		"cloudforce-one events dataset create": {
-			"operationId": "cloudforce-one.events.dataset.create",
-			"httpMethod": "POST",
-			"path": "/accounts/{account_id}/cloudforce-one/events/dataset/{dataset_id}",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "dataset_id",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": true,
-			"requestBodyFields": [
-				{
-					"name": "is-public",
-					"type": "boolean",
-					"required": true,
-					"description": "If true, then anyone can search the dataset. If false, then its limited to the account."
-				},
-				{
-					"name": "name",
-					"type": "string",
-					"required": true,
-					"description": "Used to describe the dataset within the account context."
-				}
-			]
-		},
-		"cloudforce-one events dataset delete": {
-			"operationId": "cloudforce-one.events.dataset.delete",
-			"httpMethod": "DELETE",
-			"path": "/accounts/{account_id}/cloudforce-one/events/dataset/{dataset_id}",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "dataset_id",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": false,
-			"requestBodyFields": []
-		},
-		"cloudforce-one events dataset events get": {
-			"operationId": "cloudforce-one.events.dataset.events.get",
-			"httpMethod": "GET",
-			"path": "/accounts/{account_id}/cloudforce-one/events/dataset/{dataset_id}/events/{event_id}",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "dataset_id",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "event_id",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": false,
-			"requestBodyFields": []
-		},
-		"cloudforce-one events dataset groups create": {
-			"operationId": "cloudforce-one.events.dataset.groups.create",
-			"httpMethod": "POST",
-			"path": "/accounts/{account_id}/cloudforce-one/events/dataset/-/groups",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": true,
-			"requestBodyFields": [
-				{
-					"name": "description",
-					"type": "string",
-					"required": true,
-					"description": "The description field"
-				},
-				{
-					"name": "name",
-					"type": "string",
-					"required": true,
-					"description": "The name field"
-				}
-			]
-		},
-		"cloudforce-one events dataset groups delete": {
-			"operationId": "cloudforce-one.events.dataset.groups.delete",
-			"httpMethod": "DELETE",
-			"path": "/accounts/{account_id}/cloudforce-one/events/dataset/-/groups/{group_id}",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "group_id",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": false,
-			"requestBodyFields": []
-		},
-		"cloudforce-one events dataset groups get group": {
-			"operationId": "cloudforce-one.events.dataset.groups.get.group",
-			"httpMethod": "GET",
-			"path": "/accounts/{account_id}/cloudforce-one/events/dataset/-/groups",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": false,
-			"requestBodyFields": []
-		},
-		"cloudforce-one events dataset groups get v2": {
-			"operationId": "cloudforce-one.events.dataset.groups.get.v2",
-			"httpMethod": "GET",
-			"path": "/accounts/{account_id}/cloudforce-one/events/dataset/-/groups/{group_id}",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "group_id",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": false,
-			"requestBodyFields": []
-		},
-		"cloudforce-one events dataset groups members create": {
-			"operationId": "cloudforce-one.events.dataset.groups.members.create",
-			"httpMethod": "POST",
-			"path": "/accounts/{account_id}/cloudforce-one/events/dataset/-/groups/{group_id}/members",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "group_id",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": true,
-			"requestBodyFields": [
-				{
-					"name": "account-tag",
-					"type": "string",
-					"required": false,
-					"description": "The accountTag field"
-				}
-			]
-		},
-		"cloudforce-one events dataset groups members delete": {
-			"operationId": "cloudforce-one.events.dataset.groups.members.delete",
-			"httpMethod": "DELETE",
-			"path": "/accounts/{account_id}/cloudforce-one/events/dataset/-/groups/{group_id}/members/{member_id}",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "group_id",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "member_id",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": false,
-			"requestBodyFields": []
-		},
-		"cloudforce-one events dataset groups members get": {
-			"operationId": "cloudforce-one.events.dataset.groups.members.get",
-			"httpMethod": "GET",
-			"path": "/accounts/{account_id}/cloudforce-one/events/dataset/-/groups/{group_id}/members",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "group_id",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": false,
-			"requestBodyFields": []
-		},
-		"cloudforce-one events dataset groups update": {
-			"operationId": "cloudforce-one.events.dataset.groups.update",
-			"httpMethod": "PUT",
-			"path": "/accounts/{account_id}/cloudforce-one/events/dataset/-/groups/{group_id}",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "group_id",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": true,
-			"requestBodyFields": [
-				{
-					"name": "description",
-					"type": "string",
-					"required": true,
-					"description": "The description field"
-				},
-				{
-					"name": "name",
-					"type": "string",
-					"required": true,
-					"description": "The name field"
-				}
-			]
-		},
-		"cloudforce-one events dataset indicators bulk create": {
-			"operationId": "cloudforce-one.events.dataset.indicators.bulk.create",
-			"httpMethod": "POST",
-			"path": "/accounts/{account_id}/cloudforce-one/events/dataset/{dataset_id}/indicators/bulk",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "dataset_id",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": true,
-			"requestBodyFields": [
-				{
-					"name": "auto-create-type",
-					"type": "boolean",
-					"required": false,
-					"description": "Global flag to automatically create indicator types if they don't exist. Individual indicators can override this with their own autoCreateType flag."
-				},
-				{
-					"name": "indicators",
-					"type": "string",
-					"required": true,
-					"description": "The indicators field. Provide as a JSON array of objects or @path/to/file.json."
-				}
-			]
-		},
-		"cloudforce-one events dataset indicators create create": {
-			"operationId": "cloudforce-one.events.dataset.indicators.create.create",
-			"httpMethod": "POST",
-			"path": "/accounts/{account_id}/cloudforce-one/events/dataset/{dataset_id}/indicators/create",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "dataset_id",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": true,
-			"requestBodyFields": [
-				{
-					"name": "auto-create-type",
-					"type": "boolean",
-					"required": false,
-					"description": "If true, automatically create the indicator type if it doesn't exist. If false (default), throw an error when the indicator type doesn't exist."
-				},
-				{
-					"name": "indicator-type",
-					"type": "string",
-					"required": true,
-					"description": "The indicatorType field"
-				},
-				{
-					"name": "related-events",
-					"type": "string",
-					"required": false,
-					"description": "The relatedEvents field. Provide as a JSON array of objects or @path/to/file.json."
-				},
-				{
-					"name": "tlp",
-					"type": "string",
-					"required": false,
-					"description": "Traffic Light Protocol designation. Case-insensitive on input, stored and returned as UPPERCASE. Allowed values: clear, green, amber, amber-strict, red, purple."
-				},
-				{
-					"name": "value",
-					"type": "string",
-					"required": true,
-					"description": "The value field"
-				}
-			]
-		},
-		"cloudforce-one events dataset indicators delete": {
-			"operationId": "cloudforce-one.events.dataset.indicators.delete",
-			"httpMethod": "DELETE",
-			"path": "/accounts/{account_id}/cloudforce-one/events/dataset/{dataset_id}/indicators/{indicator_id}",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "dataset_id",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "indicator_id",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": false,
-			"requestBodyFields": []
-		},
-		"cloudforce-one events dataset indicators get indicator": {
-			"operationId": "cloudforce-one.events.dataset.indicators.get.indicator",
-			"httpMethod": "GET",
-			"path": "/accounts/{account_id}/cloudforce-one/events/dataset/{dataset_id}/indicators/{indicator_id}",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "dataset_id",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "indicator_id",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": false,
-			"requestBodyFields": []
-		},
-		"cloudforce-one events dataset indicators patch": {
-			"operationId": "cloudforce-one.events.dataset.indicators.patch",
-			"httpMethod": "PATCH",
-			"path": "/accounts/{account_id}/cloudforce-one/events/dataset/{dataset_id}/indicators/{indicator_id}",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "dataset_id",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "indicator_id",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": true,
-			"requestBodyFields": [
-				{
-					"name": "indicator-type",
-					"type": "string",
-					"required": false,
-					"description": "The indicatorType field"
-				},
-				{
-					"name": "related-events",
-					"type": "string",
-					"required": false,
-					"description": "The relatedEvents field. Provide as a JSON array of objects or @path/to/file.json."
-				},
-				{
-					"name": "tlp",
-					"type": "string",
-					"required": false,
-					"description": "Traffic Light Protocol designation. Case-insensitive on input, stored and returned as UPPERCASE. Allowed values: clear, green, amber, amber-strict, red, purple."
-				},
-				{
-					"name": "value",
-					"type": "string",
-					"required": false,
-					"description": "The value field"
-				}
-			]
-		},
-		"cloudforce-one events dataset indicators relationships create": {
-			"operationId": "cloudforce-one.events.dataset.indicators.relationships.create",
-			"httpMethod": "POST",
-			"path": "/accounts/{account_id}/cloudforce-one/events/dataset/{dataset_id}/indicators/{indicator_id}/relationships",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "dataset_id",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "indicator_id",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": true,
-			"requestBodyFields": [
-				{
-					"name": "confidence",
-					"type": "number",
-					"required": false,
-					"description": "Confidence score 0–100."
-				},
-				{
-					"name": "metadata",
-					"type": "string",
-					"required": false,
-					"description": "Arbitrary JSON metadata. Provide as a JSON object or @path/to/file.json."
-				},
-				{
-					"name": "target-id",
-					"type": "string",
-					"required": true,
-					"description": "UUID of the target entity."
-				},
-				{
-					"name": "target-type",
-					"type": "string",
-					"required": true,
-					"description": "Target type. \"indicator\" is not allowed (indicator↔indicator relationships are not supported)."
-				},
-				{
-					"name": "type",
-					"type": "string",
-					"required": true,
-					"description": "Relationship type."
-				}
-			]
-		},
-		"cloudforce-one events dataset indicators relationships delete": {
-			"operationId": "cloudforce-one.events.dataset.indicators.relationships.delete",
-			"httpMethod": "DELETE",
-			"path": "/accounts/{account_id}/cloudforce-one/events/dataset/{dataset_id}/indicators/{indicator_id}/relationships/{rel_uuid}",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "dataset_id",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "indicator_id",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "rel_uuid",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": false,
-			"requestBodyFields": []
-		},
-		"cloudforce-one events dataset indicators relationships list": {
-			"operationId": "cloudforce-one.events.dataset.indicators.relationships.list",
-			"httpMethod": "GET",
-			"path": "/accounts/{account_id}/cloudforce-one/events/dataset/{dataset_id}/indicators/{indicator_id}/relationships",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "dataset_id",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "indicator_id",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [
-				{
-					"name": "search",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "expand",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "cursor",
-					"type": "string",
-					"required": false
-				},
-				{
-					"name": "pageSize",
-					"type": "number",
-					"required": false
-				}
-			],
-			"hasRequestBody": false,
-			"requestBodyFields": []
-		},
-		"cloudforce-one events dataset indicators relationships update": {
-			"operationId": "cloudforce-one.events.dataset.indicators.relationships.update",
-			"httpMethod": "PATCH",
-			"path": "/accounts/{account_id}/cloudforce-one/events/dataset/{dataset_id}/indicators/{indicator_id}/relationships/{rel_uuid}",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "dataset_id",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "indicator_id",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "rel_uuid",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": true,
-			"requestBodyFields": [
-				{
-					"name": "confidence",
-					"type": "number",
-					"required": false,
-					"description": "Updated confidence. null clears it."
-				},
-				{
-					"name": "metadata",
-					"type": "string",
-					"required": false,
-					"description": "Updated metadata. null clears it. Provide as a JSON object or @path/to/file.json."
-				},
-				{
-					"name": "type",
-					"type": "string",
-					"required": false,
-					"description": "Updated relationship type."
-				}
-			]
-		},
-		"cloudforce-one events dataset indicators tags get": {
-			"operationId": "cloudforce-one.events.dataset.indicators.tags.get",
-			"httpMethod": "GET",
-			"path": "/accounts/{account_id}/cloudforce-one/events/dataset/{dataset_id}/indicators/tags",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "dataset_id",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": false,
-			"requestBodyFields": []
-		},
-		"cloudforce-one events dataset move create": {
-			"operationId": "cloudforce-one.events.dataset.move.create",
-			"httpMethod": "POST",
-			"path": "/accounts/{account_id}/cloudforce-one/events/dataset/{dataset_id}/move",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "dataset_id",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [
-				{
-					"name": "keepRawData",
-					"type": "boolean",
-					"required": false
-				}
-			],
-			"hasRequestBody": true,
-			"requestBodyFields": [
-				{
-					"name": "dest-dataset-id",
-					"type": "string",
-					"required": true,
-					"description": "The destDatasetId field"
-				},
-				{
-					"name": "event-ids",
-					"type": "string",
-					"required": true,
-					"description": "The eventIds field"
-				}
-			]
-		},
-		"cloudforce-one events dataset permissions create": {
-			"operationId": "cloudforce-one.events.dataset.permissions.create",
-			"httpMethod": "POST",
-			"path": "/accounts/{account_id}/cloudforce-one/events/dataset/{dataset_id}/permissions",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "dataset_id",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": true,
-			"requestBodyFields": [
-				{
-					"name": "role",
-					"type": "string",
-					"required": true,
-					"description": "The role field"
-				},
-				{
-					"name": "subject-id",
-					"type": "string",
-					"required": true,
-					"description": "The subjectId field"
-				},
-				{
-					"name": "subject-type",
-					"type": "string",
-					"required": true,
-					"description": "The subjectType field"
-				}
-			]
-		},
-		"cloudforce-one events dataset permissions delete": {
-			"operationId": "cloudforce-one.events.dataset.permissions.delete",
-			"httpMethod": "DELETE",
-			"path": "/accounts/{account_id}/cloudforce-one/events/dataset/{dataset_id}/permissions/{grant_id}",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "dataset_id",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "grant_id",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": false,
-			"requestBodyFields": []
-		},
-		"cloudforce-one events dataset permissions get": {
-			"operationId": "cloudforce-one.events.dataset.permissions.get",
-			"httpMethod": "GET",
-			"path": "/accounts/{account_id}/cloudforce-one/events/dataset/{dataset_id}/permissions",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "dataset_id",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": false,
-			"requestBodyFields": []
-		},
-		"cloudforce-one events dataset permissions update": {
-			"operationId": "cloudforce-one.events.dataset.permissions.update",
-			"httpMethod": "PUT",
-			"path": "/accounts/{account_id}/cloudforce-one/events/dataset/{dataset_id}/permissions/{grant_id}",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "dataset_id",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "grant_id",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": true,
-			"requestBodyFields": [
-				{
-					"name": "role",
-					"type": "string",
-					"required": true,
-					"description": "The role field"
-				}
-			]
-		},
-		"cloudforce-one events dataset tags indicators get": {
-			"operationId": "cloudforce-one.events.dataset.tags.indicators.get",
-			"httpMethod": "GET",
-			"path": "/accounts/{account_id}/cloudforce-one/events/tags/{tag_uuid}/indicators",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "tag_uuid",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [
-				{
-					"name": "datasetIds",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "page",
-					"type": "number",
-					"required": false
-				},
-				{
-					"name": "pageSize",
-					"type": "number",
-					"required": false
-				},
-				{
-					"name": "indicatorType",
-					"type": "string",
-					"required": false
-				},
-				{
-					"name": "relatedEvent",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "search",
-					"type": "array",
-					"required": false
-				}
-			],
-			"hasRequestBody": false,
-			"requestBodyFields": []
-		},
-		"cloudforce-one events dataset target industries get": {
-			"operationId": "cloudforce-one.events.dataset.target.industries.get",
-			"httpMethod": "GET",
-			"path": "/accounts/{account_id}/cloudforce-one/events/dataset/{dataset_id}/targetIndustries",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "dataset_id",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": false,
-			"requestBodyFields": []
-		},
-		"cloudforce-one events datasets populate create": {
-			"operationId": "cloudforce-one.events.datasets.populate.create",
-			"httpMethod": "POST",
-			"path": "/accounts/{account_id}/cloudforce-one/events/datasets/populate",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": false,
-			"requestBodyFields": []
-		},
-		"cloudforce-one events delete delete": {
-			"operationId": "cloudforce-one.events.delete.delete",
-			"httpMethod": "DELETE",
-			"path": "/accounts/{account_id}/cloudforce-one/events/datasets/{dataset_id}/events",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "dataset_id",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [
-				{
-					"name": "eventIds",
-					"type": "array",
-					"required": true
-				}
-			],
-			"hasRequestBody": false,
-			"requestBodyFields": []
-		},
-		"cloudforce-one events graphql create graph ql": {
-			"operationId": "cloudforce-one.events.graphql.create.graph.ql",
-			"httpMethod": "POST",
-			"path": "/accounts/{account_id}/cloudforce-one/events/graphql",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": false,
-			"requestBodyFields": []
-		},
-		"cloudforce-one events graphql create graph qlv2": {
-			"operationId": "cloudforce-one.events.graphql.create.graph.qlv2",
-			"httpMethod": "POST",
-			"path": "/accounts/{account_id}/cloudforce-one/v2/events/graphql",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": false,
-			"requestBodyFields": []
-		},
-		"cloudforce-one events indicator types get": {
-			"operationId": "cloudforce-one.events.indicator.types.get",
-			"httpMethod": "GET",
-			"path": "/accounts/{account_id}/cloudforce-one/events/indicator-types",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [
-				{
-					"name": "datasetIds",
-					"type": "array",
-					"required": false
-				}
-			],
-			"hasRequestBody": false,
-			"requestBodyFields": []
-		},
-		"cloudforce-one events indicators get": {
-			"operationId": "cloudforce-one.events.indicators.get",
-			"httpMethod": "GET",
-			"path": "/accounts/{account_id}/cloudforce-one/events/indicators",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [
-				{
-					"name": "datasetIds",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "page",
-					"type": "number",
-					"required": false
-				},
-				{
-					"name": "pageSize",
-					"type": "number",
-					"required": false
-				},
-				{
-					"name": "search",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "name",
-					"type": "string",
-					"required": false
-				},
-				{
-					"name": "indicatorType",
-					"type": "string",
-					"required": false
-				},
-				{
-					"name": "relatedEvents",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "tags",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "tagSearch",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "createdAfter",
-					"type": "string",
-					"required": false
-				},
-				{
-					"name": "createdBefore",
-					"type": "string",
-					"required": false
-				},
-				{
-					"name": "relatedEventsLimit",
-					"type": "number",
-					"required": false
-				},
-				{
-					"name": "includeTags",
-					"type": "boolean",
-					"required": false
-				},
-				{
-					"name": "includeTotalCount",
-					"type": "boolean",
-					"required": false
-				},
-				{
-					"name": "format",
-					"type": "string",
-					"required": false
-				},
-				{
-					"name": "cache",
-					"type": "string",
-					"required": false
-				},
-				{
-					"name": "cursor",
-					"type": "string",
-					"required": false
-				}
-			],
-			"hasRequestBody": false,
-			"requestBodyFields": []
-		},
-		"cloudforce-one events queries create": {
-			"operationId": "cloudforce-one.events.queries.create",
-			"httpMethod": "POST",
-			"path": "/accounts/{account_id}/cloudforce-one/events/queries/{query_id}",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "query_id",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": true,
-			"requestBodyFields": [
-				{
-					"name": "alert-enabled",
-					"type": "boolean",
-					"required": false,
-					"description": "Deprecated and ignored: saved-query alerting and rules were removed."
-				},
-				{
-					"name": "alert-rollup-enabled",
-					"type": "boolean",
-					"required": false,
-					"description": "Deprecated and ignored: saved-query alerting and rules were removed."
-				},
-				{
-					"name": "name",
-					"type": "string",
-					"required": false,
-					"description": "Unique name for the saved query"
-				},
-				{
-					"name": "query-json",
-					"type": "string",
-					"required": false,
-					"description": "JSON string containing the query parameters"
-				},
-				{
-					"name": "rule-enabled",
-					"type": "boolean",
-					"required": false,
-					"description": "Deprecated and ignored: saved-query alerting and rules were removed."
-				},
-				{
-					"name": "rule-scope",
-					"type": "string",
-					"required": false,
-					"description": "Deprecated and ignored: saved-query alerting and rules were removed."
-				}
-			]
-		},
-		"cloudforce-one events queries create-create": {
-			"operationId": "cloudforce-one.events.queries.create-create",
-			"httpMethod": "POST",
-			"path": "/accounts/{account_id}/cloudforce-one/events/queries/create",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": true,
-			"requestBodyFields": [
-				{
-					"name": "alert-enabled",
-					"type": "boolean",
-					"required": false,
-					"description": "Deprecated and ignored: saved-query alerting and rules were removed."
-				},
-				{
-					"name": "alert-rollup-enabled",
-					"type": "boolean",
-					"required": false,
-					"description": "Deprecated and ignored: saved-query alerting and rules were removed."
-				},
-				{
-					"name": "name",
-					"type": "string",
-					"required": true,
-					"description": "Unique name for the saved query"
-				},
-				{
-					"name": "query-json",
-					"type": "string",
-					"required": true,
-					"description": "JSON string containing the query parameters"
-				},
-				{
-					"name": "rule-enabled",
-					"type": "boolean",
-					"required": false,
-					"description": "Deprecated and ignored: saved-query alerting and rules were removed."
-				},
-				{
-					"name": "rule-scope",
-					"type": "string",
-					"required": false,
-					"description": "Deprecated and ignored: saved-query alerting and rules were removed."
-				}
-			]
-		},
-		"cloudforce-one events queries delete": {
-			"operationId": "cloudforce-one.events.queries.delete",
-			"httpMethod": "DELETE",
-			"path": "/accounts/{account_id}/cloudforce-one/events/queries/{query_id}",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "query_id",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": false,
-			"requestBodyFields": []
-		},
-		"cloudforce-one events queries get event": {
-			"operationId": "cloudforce-one.events.queries.get.event",
-			"httpMethod": "GET",
-			"path": "/accounts/{account_id}/cloudforce-one/events/queries",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": false,
-			"requestBodyFields": []
-		},
-		"cloudforce-one events queries get v2": {
-			"operationId": "cloudforce-one.events.queries.get.v2",
-			"httpMethod": "GET",
-			"path": "/accounts/{account_id}/cloudforce-one/events/queries/{query_id}",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "query_id",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": false,
-			"requestBodyFields": []
-		},
-		"cloudforce-one events queries patch": {
-			"operationId": "cloudforce-one.events.queries.patch",
-			"httpMethod": "PATCH",
-			"path": "/accounts/{account_id}/cloudforce-one/events/queries/{query_id}",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "query_id",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": true,
-			"requestBodyFields": [
-				{
-					"name": "alert-enabled",
-					"type": "boolean",
-					"required": false,
-					"description": "Deprecated and ignored: saved-query alerting and rules were removed."
-				},
-				{
-					"name": "alert-rollup-enabled",
-					"type": "boolean",
-					"required": false,
-					"description": "Deprecated and ignored: saved-query alerting and rules were removed."
-				},
-				{
-					"name": "name",
-					"type": "string",
-					"required": false,
-					"description": "Unique name for the saved query"
-				},
-				{
-					"name": "query-json",
-					"type": "string",
-					"required": false,
-					"description": "JSON string containing the query parameters"
-				},
-				{
-					"name": "rule-enabled",
-					"type": "boolean",
-					"required": false,
-					"description": "Deprecated and ignored: saved-query alerting and rules were removed."
-				},
-				{
-					"name": "rule-scope",
-					"type": "string",
-					"required": false,
-					"description": "Deprecated and ignored: saved-query alerting and rules were removed."
-				}
-			]
-		},
-		"cloudforce-one events raw create": {
-			"operationId": "cloudforce-one.events.raw.create",
-			"httpMethod": "POST",
-			"path": "/accounts/{account_id}/cloudforce-one/events/{event_id}/raw/{raw_id}",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "event_id",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "raw_id",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": true,
-			"requestBodyFields": [
-				{
-					"name": "data",
-					"type": "string",
-					"required": false,
-					"description": "The data field. Provide as a JSON object or @path/to/file.json."
-				},
-				{
-					"name": "source",
-					"type": "string",
-					"required": false,
-					"description": "The source field"
-				},
-				{
-					"name": "tlp",
-					"type": "string",
-					"required": false,
-					"description": "The tlp field"
-				}
-			]
-		},
-		"cloudforce-one events relate create create": {
-			"operationId": "cloudforce-one.events.relate.create.create",
-			"httpMethod": "POST",
-			"path": "/accounts/{account_id}/cloudforce-one/events/relate/{event_id}/create",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "event_id",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": true,
-			"requestBodyFields": [
-				{
-					"name": "events",
-					"type": "string",
-					"required": true,
-					"description": "The events field"
-				}
-			]
-		},
-		"cloudforce-one events relationships create create": {
-			"operationId": "cloudforce-one.events.relationships.create.create",
-			"httpMethod": "POST",
-			"path": "/accounts/{account_id}/cloudforce-one/events/relationships/create",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": true,
-			"requestBodyFields": [
-				{
-					"name": "child-ids",
-					"type": "string",
-					"required": true,
-					"description": "Array of UUIDs for child events. Single child = 1:1 relationship, multiple = 1:many relationships"
-				},
-				{
-					"name": "dataset-id",
-					"type": "string",
-					"required": true,
-					"description": "Dataset identifier where the events are stored"
-				},
-				{
-					"name": "parent-id",
-					"type": "string",
-					"required": true,
-					"description": "UUID of the parent event that will be the source of the relationship"
-				},
-				{
-					"name": "relationship-type",
-					"type": "string",
-					"required": true,
-					"description": "Type of relationship to create between parent and child events"
-				}
-			]
-		},
-		"cloudforce-one events relationships get": {
-			"operationId": "cloudforce-one.events.relationships.get",
-			"httpMethod": "GET",
-			"path": "/accounts/{account_id}/cloudforce-one/events/by-id/{event_id}/relationships",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "event_id",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [
-				{
-					"name": "direction",
-					"type": "string",
-					"required": false
-				},
-				{
-					"name": "maxDepth",
-					"type": "number",
-					"required": false
-				},
-				{
-					"name": "relationshipTypes",
-					"type": "string",
-					"required": false
-				},
-				{
-					"name": "indicatorTypeIds",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "datasetId",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "includeParent",
-					"type": "boolean",
-					"required": false
-				},
-				{
-					"name": "page",
-					"type": "number",
-					"required": false
-				},
-				{
-					"name": "pageSize",
-					"type": "number",
-					"required": false
-				}
-			],
-			"hasRequestBody": false,
-			"requestBodyFields": []
-		},
-		"cloudforce-one events tags categories actors list": {
-			"operationId": "cloudforce-one.events.tags.categories.actors.list",
-			"httpMethod": "GET",
-			"path": "/accounts/{account_id}/cloudforce-one/events/tags/categories/actors",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [
-				{
-					"name": "page",
-					"type": "number",
-					"required": false
-				},
-				{
-					"name": "pageSize",
-					"type": "number",
-					"required": false
-				},
-				{
-					"name": "value",
-					"type": "string",
-					"required": false
-				},
-				{
-					"name": "filters",
-					"type": "array",
-					"required": false
-				}
-			],
-			"hasRequestBody": false,
-			"requestBodyFields": []
-		},
-		"cloudforce-one events tags categories create create": {
-			"operationId": "cloudforce-one.events.tags.categories.create.create",
-			"httpMethod": "POST",
-			"path": "/accounts/{account_id}/cloudforce-one/events/tags/categories/create",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": true,
-			"requestBodyFields": [
-				{
-					"name": "description",
-					"type": "string",
-					"required": false,
-					"description": "The description field"
-				},
-				{
-					"name": "name",
-					"type": "string",
-					"required": true,
-					"description": "The name field"
-				},
-				{
-					"name": "schema",
-					"type": "string",
-					"required": false,
-					"description": "Optional array of FieldDefinition objects defining custom fields for tags in this category. Persisted as JSON; returned as a parsed array. Provide as a JSON array of objects or @path/to/file.json."
-				}
-			]
-		},
-		"cloudforce-one events tags categories delete": {
-			"operationId": "cloudforce-one.events.tags.categories.delete",
-			"httpMethod": "DELETE",
-			"path": "/accounts/{account_id}/cloudforce-one/events/tag-categories/{category_uuid}",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "category_uuid",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": false,
-			"requestBodyFields": []
-		},
-		"cloudforce-one events tags categories get": {
-			"operationId": "cloudforce-one.events.tags.categories.get",
-			"httpMethod": "GET",
-			"path": "/accounts/{account_id}/cloudforce-one/events/tags/categories",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [
-				{
-					"name": "search",
-					"type": "string",
-					"required": false
-				}
-			],
-			"hasRequestBody": false,
-			"requestBodyFields": []
-		},
-		"cloudforce-one events tags categories get-by-id": {
-			"operationId": "cloudforce-one.events.tags.categories.get-by-id",
-			"httpMethod": "GET",
-			"path": "/accounts/{account_id}/cloudforce-one/events/tag-categories/{category_uuid}",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "category_uuid",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": false,
-			"requestBodyFields": []
-		},
-		"cloudforce-one events tags categories patch": {
-			"operationId": "cloudforce-one.events.tags.categories.patch",
-			"httpMethod": "PATCH",
-			"path": "/accounts/{account_id}/cloudforce-one/events/tag-categories/{category_uuid}",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "category_uuid",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": true,
-			"requestBodyFields": [
-				{
-					"name": "description",
-					"type": "string",
-					"required": false,
-					"description": "The description field"
-				},
-				{
-					"name": "name",
-					"type": "string",
-					"required": false,
-					"description": "The name field"
-				},
-				{
-					"name": "schema",
-					"type": "string",
-					"required": false,
-					"description": "Optional array of FieldDefinition objects. When provided, replaces the existing field schema. When omitted, the existing schema is preserved. Provide as a JSON array of objects or @path/to/file.json."
-				}
-			]
-		},
-		"cloudforce-one events tags delete": {
-			"operationId": "cloudforce-one.events.tags.delete",
-			"httpMethod": "DELETE",
-			"path": "/accounts/{account_id}/cloudforce-one/events/tags/{tag_uuid}",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "tag_uuid",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": false,
-			"requestBodyFields": []
-		},
-		"cloudforce-one events tags get": {
-			"operationId": "cloudforce-one.events.tags.get",
-			"httpMethod": "GET",
-			"path": "/accounts/{account_id}/cloudforce-one/events/tags",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [
-				{
-					"name": "page",
-					"type": "number",
-					"required": false
-				},
-				{
-					"name": "pageSize",
-					"type": "number",
-					"required": false
-				},
-				{
-					"name": "search",
-					"type": "string",
-					"required": false
-				},
-				{
-					"name": "categoryUuid",
-					"type": "string",
-					"required": false
-				},
-				{
-					"name": "filters",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "cache",
-					"type": "string",
-					"required": false
-				}
-			],
-			"hasRequestBody": false,
-			"requestBodyFields": []
-		},
-		"cloudforce-one events tags get-by-id": {
-			"operationId": "cloudforce-one.events.tags.get-by-id",
-			"httpMethod": "GET",
-			"path": "/accounts/{account_id}/cloudforce-one/events/tags/{tag_uuid}",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "tag_uuid",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": false,
-			"requestBodyFields": []
-		},
-		"cloudforce-one events tags patch": {
-			"operationId": "cloudforce-one.events.tags.patch",
-			"httpMethod": "PATCH",
-			"path": "/accounts/{account_id}/cloudforce-one/events/tags/{tag_uuid}",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "tag_uuid",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": true,
-			"requestBodyFields": [
-				{
-					"name": "alias-group-names",
-					"type": "string",
-					"required": false,
-					"description": "The aliasGroupNames field"
-				},
-				{
-					"name": "alias-group-names-internal",
-					"type": "string",
-					"required": false,
-					"description": "The aliasGroupNamesInternal field"
-				},
-				{
-					"name": "aliases",
-					"type": "string",
-					"required": false,
-					"description": "Structured aliases ({ value, confidence 1-10, tlp }). Public: returned to all accounts with per-entry TLP filtering (entries with tlp: purple are removed for non-CFONE accounts). Provide as a JSON array of objects or @path/to/file.json."
-				},
-				{
-					"name": "category-uuid",
-					"type": "string",
-					"required": false,
-					"description": "Tag type (category) UUID. When changed, existing `properties` are re-validated against the new category's schema (400 on mismatch). Set to null to unlink (typeless; properties stop being validated)."
-				},
-				{
-					"name": "confidence",
-					"type": "number",
-					"required": false,
-					"description": "Overall tag confidence (1-10). Omit to preserve existing."
-				},
-				{
-					"name": "date-of-discovery",
-					"type": "string",
-					"required": false,
-					"description": "Date of discovery (ISO YYYY-MM-DD). Omit to preserve existing."
-				},
-				{
-					"name": "description",
-					"type": "string",
-					"required": false,
-					"description": "The description field"
-				},
-				{
-					"name": "external-reference-links",
-					"type": "string",
-					"required": false,
-					"description": "The externalReferenceLinks field"
-				},
-				{
-					"name": "external-references",
-					"type": "string",
-					"required": false,
-					"description": "Structured external references ({ url, description }). Public: returned to all accounts. Provide as a JSON array of objects or @path/to/file.json."
-				},
-				{
-					"name": "internal-aliases",
-					"type": "string",
-					"required": false,
-					"description": "Owner-private structured aliases ({ value, confidence 1-10, tlp }). Returned to the owning account and omitted from shared-catalog non-owner responses. Provide as a JSON array of objects or @path/to/file.json."
-				},
-				{
-					"name": "internal-description",
-					"type": "string",
-					"required": false,
-					"description": "The internalDescription field"
-				},
-				{
-					"name": "last-seen",
-					"type": "string",
-					"required": false,
-					"description": "The lastSeen field"
-				},
-				{
-					"name": "properties",
-					"type": "string",
-					"required": false,
-					"description": "Custom field values blob. When omitted, the existing value is preserved. When provided, performs a shallow per-key merge over the stored value (unmentioned keys are retained). Setting an individual key to null deletes that key. Validation runs against the merged result, so a partial update may omit a schema-required key if the stored value supplies it. Provide as a JSON object or @path/to/file.json."
-				},
-				{
-					"name": "tlp",
-					"type": "string",
-					"required": false,
-					"description": "Tag-level TLP marking. Omit to preserve existing. Cannot be cleared to null."
-				},
-				{
-					"name": "value",
-					"type": "string",
-					"required": false,
-					"description": "The value field"
-				}
-			]
-		},
-		"cloudforce-one events tags relationships create": {
-			"operationId": "cloudforce-one.events.tags.relationships.create",
-			"httpMethod": "POST",
-			"path": "/accounts/{account_id}/cloudforce-one/events/tags/{tag_uuid}/relationships",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "tag_uuid",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": true,
-			"requestBodyFields": [
-				{
-					"name": "confidence",
-					"type": "number",
-					"required": false,
-					"description": "Confidence score 0–100."
-				},
-				{
-					"name": "dataset-id",
-					"type": "string",
-					"required": true,
-					"description": "Dataset UUID where the relationship row will be stored (locates the Indicators DO)."
-				},
-				{
-					"name": "metadata",
-					"type": "string",
-					"required": false,
-					"description": "Arbitrary JSON metadata. Provide as a JSON object or @path/to/file.json."
-				},
-				{
-					"name": "target-id",
-					"type": "string",
-					"required": true,
-					"description": "UUID of the target entity."
-				},
-				{
-					"name": "target-type",
-					"type": "string",
-					"required": true,
-					"description": "Target type. \"tag\" is not allowed (tag↔tag relationships are not supported)."
-				},
-				{
-					"name": "type",
-					"type": "string",
-					"required": true,
-					"description": "Relationship type."
-				}
-			]
-		},
-		"cloudforce-one events tags relationships delete": {
-			"operationId": "cloudforce-one.events.tags.relationships.delete",
-			"httpMethod": "DELETE",
-			"path": "/accounts/{account_id}/cloudforce-one/events/tags/{tag_uuid}/relationships/{rel_uuid}",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "tag_uuid",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "rel_uuid",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [
-				{
-					"name": "datasetId",
-					"type": "string",
-					"required": true
-				}
-			],
-			"hasRequestBody": false,
-			"requestBodyFields": []
-		},
-		"cloudforce-one events tags relationships list": {
-			"operationId": "cloudforce-one.events.tags.relationships.list",
-			"httpMethod": "GET",
-			"path": "/accounts/{account_id}/cloudforce-one/events/tags/{tag_uuid}/relationships",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "tag_uuid",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [
-				{
-					"name": "datasets",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "search",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "expand",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "cursor",
-					"type": "string",
-					"required": false
-				},
-				{
-					"name": "pageSize",
-					"type": "number",
-					"required": false
-				}
-			],
-			"hasRequestBody": false,
-			"requestBodyFields": []
-		},
-		"cloudforce-one events tags relationships update": {
-			"operationId": "cloudforce-one.events.tags.relationships.update",
-			"httpMethod": "PATCH",
-			"path": "/accounts/{account_id}/cloudforce-one/events/tags/{tag_uuid}/relationships/{rel_uuid}",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "tag_uuid",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "rel_uuid",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [
-				{
-					"name": "datasetId",
-					"type": "string",
-					"required": true
-				}
-			],
-			"hasRequestBody": true,
-			"requestBodyFields": [
-				{
-					"name": "confidence",
-					"type": "number",
-					"required": false,
-					"description": "Updated confidence. null clears it."
-				},
-				{
-					"name": "metadata",
-					"type": "string",
-					"required": false,
-					"description": "Updated metadata. null clears it. Provide as a JSON object or @path/to/file.json."
-				},
-				{
-					"name": "type",
-					"type": "string",
-					"required": false,
-					"description": "Updated relationship type."
-				}
-			]
-		},
-		"cloudforce-one events target industries catalog get": {
-			"operationId": "cloudforce-one.events.target.industries.catalog.get",
-			"httpMethod": "GET",
-			"path": "/accounts/{account_id}/cloudforce-one/events/targetIndustries/catalog",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": false,
-			"requestBodyFields": []
-		},
-		"cloudforce-one events update bulk patch": {
-			"operationId": "cloudforce-one.events.update.bulk.patch",
-			"httpMethod": "PATCH",
-			"path": "/accounts/{account_id}/cloudforce-one/events/update/bulk",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": true,
-			"requestBodyFields": [
-				{
-					"name": "dataset-id",
-					"type": "string",
-					"required": true,
-					"description": "Dataset ID containing the events to update. Required to prevent cross-account modifications."
-				},
-				{
-					"name": "event-ids",
-					"type": "string",
-					"required": true,
-					"description": "List of event UUIDs to update (1-100)"
-				},
-				{
-					"name": "updates-attacker",
-					"type": "string",
-					"required": false,
-					"description": "The updates.attacker field"
-				},
-				{
-					"name": "updates-attacker-country",
-					"type": "string",
-					"required": false,
-					"description": "The updates.attackerCountry field"
-				},
-				{
-					"name": "updates-category",
-					"type": "string",
-					"required": false,
-					"description": "The updates.category field"
-				},
-				{
-					"name": "updates-created-at",
-					"type": "string",
-					"required": false,
-					"description": "The updates.createdAt field"
-				},
-				{
-					"name": "updates-event",
-					"type": "string",
-					"required": false,
-					"description": "The updates.event field"
-				},
-				{
-					"name": "updates-indicator",
-					"type": "string",
-					"required": false,
-					"description": "The updates.indicator field"
-				},
-				{
-					"name": "updates-indicator-type",
-					"type": "string",
-					"required": false,
-					"description": "The updates.indicatorType field"
-				},
-				{
-					"name": "updates-insight",
-					"type": "string",
-					"required": false,
-					"description": "The updates.insight field"
-				},
-				{
-					"name": "updates-raw-data",
-					"type": "string",
-					"required": false,
-					"description": "The updates.raw.data field. Provide as a JSON object or @path/to/file.json."
-				},
-				{
-					"name": "updates-raw-source",
-					"type": "string",
-					"required": false,
-					"description": "The updates.raw.source field"
-				},
-				{
-					"name": "updates-raw-tlp",
-					"type": "string",
-					"required": false,
-					"description": "The updates.raw.tlp field"
-				},
-				{
-					"name": "updates-target-country",
-					"type": "string",
-					"required": false,
-					"description": "The updates.targetCountry field"
-				},
-				{
-					"name": "updates-target-industry",
-					"type": "string",
-					"required": false,
-					"description": "The updates.targetIndustry field"
-				},
-				{
-					"name": "updates-tlp",
-					"type": "string",
-					"required": false,
-					"description": "The updates.tlp field"
-				}
-			]
-		},
 		"cloudforce-one priority-intelligence constants get": {
 			"operationId": "cloudforce-one.priority-intelligence.constants.get",
 			"httpMethod": "GET",
@@ -23291,6 +20882,93 @@
 			"hasRequestBody": false,
 			"requestBodyFields": []
 		},
+		"cloudforce-one priority-intelligence matches aggregate": {
+			"operationId": "cloudforce-one.priority-intelligence.matches.aggregate",
+			"httpMethod": "GET",
+			"path": "/accounts/{account_id}/cloudforce-one/v2/priority-intelligence/{priority_id}/matches/aggregate",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "priority_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [
+				{
+					"name": "aggregate_by",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "limit",
+					"type": "number",
+					"required": false
+				},
+				{
+					"name": "since",
+					"type": "string",
+					"required": false
+				},
+				{
+					"name": "triage_state",
+					"type": "string",
+					"required": false
+				},
+				{
+					"name": "include_backfill",
+					"type": "string",
+					"required": false
+				}
+			],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"cloudforce-one priority-intelligence matches aggregate-all": {
+			"operationId": "cloudforce-one.priority-intelligence.matches.aggregate-all",
+			"httpMethod": "GET",
+			"path": "/accounts/{account_id}/cloudforce-one/v2/priority-intelligence/matches/aggregate",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [
+				{
+					"name": "aggregate_by",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "limit",
+					"type": "number",
+					"required": false
+				},
+				{
+					"name": "since",
+					"type": "string",
+					"required": false
+				},
+				{
+					"name": "triage_state",
+					"type": "string",
+					"required": false
+				},
+				{
+					"name": "include_backfill",
+					"type": "string",
+					"required": false
+				}
+			],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
 		"cloudforce-one priority-intelligence matches list": {
 			"operationId": "cloudforce-one.priority-intelligence.matches.list",
 			"httpMethod": "GET",
@@ -23320,6 +20998,47 @@
 				},
 				{
 					"name": "triage_state",
+					"type": "string",
+					"required": false
+				}
+			],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"cloudforce-one priority-intelligence matches series": {
+			"operationId": "cloudforce-one.priority-intelligence.matches.series",
+			"httpMethod": "GET",
+			"path": "/accounts/{account_id}/cloudforce-one/v2/priority-intelligence/{priority_id}/matches/series",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "priority_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [
+				{
+					"name": "since",
+					"type": "string",
+					"required": false
+				},
+				{
+					"name": "until",
+					"type": "string",
+					"required": false
+				},
+				{
+					"name": "triage_state",
+					"type": "string",
+					"required": false
+				},
+				{
+					"name": "include_backfill",
 					"type": "string",
 					"required": false
 				}
@@ -23357,6 +21076,58 @@
 					"type": "string",
 					"required": true,
 					"description": "The triage_state field"
+				}
+			]
+		},
+		"cloudforce-one priority-intelligence profile delete": {
+			"operationId": "cloudforce-one.priority-intelligence.profile.delete",
+			"httpMethod": "DELETE",
+			"path": "/accounts/{account_id}/cloudforce-one/v2/priority-intelligence/profile",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"cloudforce-one priority-intelligence profile get": {
+			"operationId": "cloudforce-one.priority-intelligence.profile.get",
+			"httpMethod": "GET",
+			"path": "/accounts/{account_id}/cloudforce-one/v2/priority-intelligence/profile",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"cloudforce-one priority-intelligence profile update": {
+			"operationId": "cloudforce-one.priority-intelligence.profile.update",
+			"httpMethod": "PUT",
+			"path": "/accounts/{account_id}/cloudforce-one/v2/priority-intelligence/profile",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": true,
+			"requestBodyFields": [
+				{
+					"name": "profile",
+					"type": "string",
+					"required": true,
+					"description": "Who the organization is: its name, brands, domains, sector, regions, key systems and suppliers. Shared by all of the account's PIRs to judge how relevant intelligence is to the organization."
 				}
 			]
 		},
@@ -25492,8 +23263,495 @@
 			"hasRequestBody": false,
 			"requestBodyFields": []
 		},
-		"cloudforce-one threat-events attackers list": {
-			"operationId": "cloudforce-one.threat-events.attackers.list",
+		"cloudforce-one threat-intel datasets access groups create": {
+			"operationId": "cloudforce-one.threat-intel.datasets.access.groups.create",
+			"httpMethod": "POST",
+			"path": "/accounts/{account_id}/cloudforce-one/events/dataset/-/groups",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": true,
+			"requestBodyFields": [
+				{
+					"name": "description",
+					"type": "string",
+					"required": true,
+					"description": "The description field"
+				},
+				{
+					"name": "name",
+					"type": "string",
+					"required": true,
+					"description": "The name field"
+				}
+			]
+		},
+		"cloudforce-one threat-intel datasets access groups delete": {
+			"operationId": "cloudforce-one.threat-intel.datasets.access.groups.delete",
+			"httpMethod": "DELETE",
+			"path": "/accounts/{account_id}/cloudforce-one/events/dataset/-/groups/{group_id}",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "group_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"cloudforce-one threat-intel datasets access groups get": {
+			"operationId": "cloudforce-one.threat-intel.datasets.access.groups.get",
+			"httpMethod": "GET",
+			"path": "/accounts/{account_id}/cloudforce-one/events/dataset/-/groups/{group_id}",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "group_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"cloudforce-one threat-intel datasets access groups list": {
+			"operationId": "cloudforce-one.threat-intel.datasets.access.groups.list",
+			"httpMethod": "GET",
+			"path": "/accounts/{account_id}/cloudforce-one/events/dataset/-/groups",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"cloudforce-one threat-intel datasets access groups members create": {
+			"operationId": "cloudforce-one.threat-intel.datasets.access.groups.members.create",
+			"httpMethod": "POST",
+			"path": "/accounts/{account_id}/cloudforce-one/events/dataset/-/groups/{group_id}/members",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "group_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": true,
+			"requestBodyFields": [
+				{
+					"name": "account-tag",
+					"type": "string",
+					"required": false,
+					"description": "The accountTag field"
+				}
+			]
+		},
+		"cloudforce-one threat-intel datasets access groups members delete": {
+			"operationId": "cloudforce-one.threat-intel.datasets.access.groups.members.delete",
+			"httpMethod": "DELETE",
+			"path": "/accounts/{account_id}/cloudforce-one/events/dataset/-/groups/{group_id}/members/{member_id}",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "group_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "member_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"cloudforce-one threat-intel datasets access groups members list": {
+			"operationId": "cloudforce-one.threat-intel.datasets.access.groups.members.list",
+			"httpMethod": "GET",
+			"path": "/accounts/{account_id}/cloudforce-one/events/dataset/-/groups/{group_id}/members",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "group_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"cloudforce-one threat-intel datasets access groups update": {
+			"operationId": "cloudforce-one.threat-intel.datasets.access.groups.update",
+			"httpMethod": "PUT",
+			"path": "/accounts/{account_id}/cloudforce-one/events/dataset/-/groups/{group_id}",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "group_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": true,
+			"requestBodyFields": [
+				{
+					"name": "description",
+					"type": "string",
+					"required": true,
+					"description": "The description field"
+				},
+				{
+					"name": "name",
+					"type": "string",
+					"required": true,
+					"description": "The name field"
+				}
+			]
+		},
+		"cloudforce-one threat-intel datasets access permissions create": {
+			"operationId": "cloudforce-one.threat-intel.datasets.access.permissions.create",
+			"httpMethod": "POST",
+			"path": "/accounts/{account_id}/cloudforce-one/events/dataset/{dataset_id}/permissions",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "dataset_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": true,
+			"requestBodyFields": [
+				{
+					"name": "role",
+					"type": "string",
+					"required": true,
+					"description": "The role field"
+				},
+				{
+					"name": "subject-id",
+					"type": "string",
+					"required": true,
+					"description": "The subjectId field"
+				},
+				{
+					"name": "subject-type",
+					"type": "string",
+					"required": true,
+					"description": "The subjectType field"
+				}
+			]
+		},
+		"cloudforce-one threat-intel datasets access permissions delete": {
+			"operationId": "cloudforce-one.threat-intel.datasets.access.permissions.delete",
+			"httpMethod": "DELETE",
+			"path": "/accounts/{account_id}/cloudforce-one/events/dataset/{dataset_id}/permissions/{grant_id}",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "dataset_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "grant_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"cloudforce-one threat-intel datasets access permissions list": {
+			"operationId": "cloudforce-one.threat-intel.datasets.access.permissions.list",
+			"httpMethod": "GET",
+			"path": "/accounts/{account_id}/cloudforce-one/events/dataset/{dataset_id}/permissions",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "dataset_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"cloudforce-one threat-intel datasets access permissions update": {
+			"operationId": "cloudforce-one.threat-intel.datasets.access.permissions.update",
+			"httpMethod": "PUT",
+			"path": "/accounts/{account_id}/cloudforce-one/events/dataset/{dataset_id}/permissions/{grant_id}",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "dataset_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "grant_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": true,
+			"requestBodyFields": [
+				{
+					"name": "role",
+					"type": "string",
+					"required": true,
+					"description": "The role field"
+				}
+			]
+		},
+		"cloudforce-one threat-intel datasets create": {
+			"operationId": "cloudforce-one.threat-intel.datasets.create",
+			"httpMethod": "POST",
+			"path": "/accounts/{account_id}/cloudforce-one/events/dataset/create",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": true,
+			"requestBodyFields": [
+				{
+					"name": "is-public",
+					"type": "boolean",
+					"required": true,
+					"description": "If true, then anyone can search the dataset. If false, then its limited to the account."
+				},
+				{
+					"name": "name",
+					"type": "string",
+					"required": true,
+					"description": "Used to describe the dataset within the account context."
+				}
+			]
+		},
+		"cloudforce-one threat-intel datasets delete": {
+			"operationId": "cloudforce-one.threat-intel.datasets.delete",
+			"httpMethod": "DELETE",
+			"path": "/accounts/{account_id}/cloudforce-one/events/dataset/{dataset_id}",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "dataset_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"cloudforce-one threat-intel datasets get": {
+			"operationId": "cloudforce-one.threat-intel.datasets.get",
+			"httpMethod": "GET",
+			"path": "/accounts/{account_id}/cloudforce-one/events/dataset/{dataset_id}",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "dataset_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"cloudforce-one threat-intel datasets list": {
+			"operationId": "cloudforce-one.threat-intel.datasets.list",
+			"httpMethod": "GET",
+			"path": "/accounts/{account_id}/cloudforce-one/events/dataset",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [
+				{
+					"name": "includeDeleted",
+					"type": "boolean",
+					"required": false
+				}
+			],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"cloudforce-one threat-intel datasets populate": {
+			"operationId": "cloudforce-one.threat-intel.datasets.populate",
+			"httpMethod": "POST",
+			"path": "/accounts/{account_id}/cloudforce-one/events/datasets/populate",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"cloudforce-one threat-intel datasets update": {
+			"operationId": "cloudforce-one.threat-intel.datasets.update",
+			"httpMethod": "PATCH",
+			"path": "/accounts/{account_id}/cloudforce-one/events/dataset/{dataset_id}",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "dataset_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": true,
+			"requestBodyFields": [
+				{
+					"name": "is-public",
+					"type": "boolean",
+					"required": true,
+					"description": "If true, then anyone can search the dataset. If false, then its limited to the account."
+				},
+				{
+					"name": "name",
+					"type": "string",
+					"required": true,
+					"description": "Used to describe the dataset within the account context."
+				}
+			]
+		},
+		"cloudforce-one threat-intel events aggregate": {
+			"operationId": "cloudforce-one.threat-intel.events.aggregate",
+			"httpMethod": "GET",
+			"path": "/accounts/{account_id}/cloudforce-one/events/aggregate",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [
+				{
+					"name": "aggregateBy",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "datasetId",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "startDate",
+					"type": "string",
+					"required": false
+				},
+				{
+					"name": "endDate",
+					"type": "string",
+					"required": false
+				},
+				{
+					"name": "groupByDate",
+					"type": "boolean",
+					"required": false
+				},
+				{
+					"name": "limit",
+					"type": "number",
+					"required": false
+				}
+			],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"cloudforce-one threat-intel events attackers list": {
+			"operationId": "cloudforce-one.threat-intel.events.attackers.list",
 			"httpMethod": "GET",
 			"path": "/accounts/{account_id}/cloudforce-one/events/attackers",
 			"pathParams": [
@@ -25513,8 +23771,8 @@
 			"hasRequestBody": false,
 			"requestBodyFields": []
 		},
-		"cloudforce-one threat-events bulk-create": {
-			"operationId": "cloudforce-one.threat-events.bulk-create",
+		"cloudforce-one threat-intel events bulk-create": {
+			"operationId": "cloudforce-one.threat-intel.events.bulk-create",
 			"httpMethod": "POST",
 			"path": "/accounts/{account_id}/cloudforce-one/events/create/bulk",
 			"pathParams": [
@@ -25547,8 +23805,135 @@
 				}
 			]
 		},
-		"cloudforce-one threat-events categories create": {
-			"operationId": "cloudforce-one.threat-events.categories.create",
+		"cloudforce-one threat-intel events bulk-update": {
+			"operationId": "cloudforce-one.threat-intel.events.bulk-update",
+			"httpMethod": "PATCH",
+			"path": "/accounts/{account_id}/cloudforce-one/events/update/bulk",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": true,
+			"requestBodyFields": [
+				{
+					"name": "dataset-id",
+					"type": "string",
+					"required": true,
+					"description": "Dataset ID containing the events to update. Required to prevent cross-account modifications."
+				},
+				{
+					"name": "event-ids",
+					"type": "string",
+					"required": true,
+					"description": "List of event UUIDs to update (1-100)"
+				},
+				{
+					"name": "updates-attacker",
+					"type": "string",
+					"required": false,
+					"description": "The updates.attacker field"
+				},
+				{
+					"name": "updates-attacker-country",
+					"type": "string",
+					"required": false,
+					"description": "The updates.attackerCountry field"
+				},
+				{
+					"name": "updates-category",
+					"type": "string",
+					"required": false,
+					"description": "The updates.category field"
+				},
+				{
+					"name": "updates-created-at",
+					"type": "string",
+					"required": false,
+					"description": "The updates.createdAt field"
+				},
+				{
+					"name": "updates-event",
+					"type": "string",
+					"required": false,
+					"description": "The updates.event field"
+				},
+				{
+					"name": "updates-indicator",
+					"type": "string",
+					"required": false,
+					"description": "The updates.indicator field"
+				},
+				{
+					"name": "updates-indicator-type",
+					"type": "string",
+					"required": false,
+					"description": "The updates.indicatorType field"
+				},
+				{
+					"name": "updates-insight",
+					"type": "string",
+					"required": false,
+					"description": "The updates.insight field"
+				},
+				{
+					"name": "updates-raw-data",
+					"type": "string",
+					"required": false,
+					"description": "The updates.raw.data field. Provide as a JSON object or @path/to/file.json."
+				},
+				{
+					"name": "updates-raw-source",
+					"type": "string",
+					"required": false,
+					"description": "The updates.raw.source field"
+				},
+				{
+					"name": "updates-raw-tlp",
+					"type": "string",
+					"required": false,
+					"description": "The updates.raw.tlp field"
+				},
+				{
+					"name": "updates-target-country",
+					"type": "string",
+					"required": false,
+					"description": "The updates.targetCountry field"
+				},
+				{
+					"name": "updates-target-industry",
+					"type": "string",
+					"required": false,
+					"description": "The updates.targetIndustry field"
+				},
+				{
+					"name": "updates-tlp",
+					"type": "string",
+					"required": false,
+					"description": "The updates.tlp field"
+				}
+			]
+		},
+		"cloudforce-one threat-intel events categories catalog list": {
+			"operationId": "cloudforce-one.threat-intel.events.categories.catalog.list",
+			"httpMethod": "GET",
+			"path": "/accounts/{account_id}/cloudforce-one/events/categories/catalog",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"cloudforce-one threat-intel events categories create": {
+			"operationId": "cloudforce-one.threat-intel.events.categories.create",
 			"httpMethod": "POST",
 			"path": "/accounts/{account_id}/cloudforce-one/events/categories/create",
 			"pathParams": [
@@ -25593,8 +23978,8 @@
 				}
 			]
 		},
-		"cloudforce-one threat-events categories delete": {
-			"operationId": "cloudforce-one.threat-events.categories.delete",
+		"cloudforce-one threat-intel events categories delete": {
+			"operationId": "cloudforce-one.threat-intel.events.categories.delete",
 			"httpMethod": "DELETE",
 			"path": "/accounts/{account_id}/cloudforce-one/events/event-categories/by-id/{category_id}",
 			"pathParams": [
@@ -25613,8 +23998,49 @@
 			"hasRequestBody": false,
 			"requestBodyFields": []
 		},
-		"cloudforce-one threat-events categories edit": {
-			"operationId": "cloudforce-one.threat-events.categories.edit",
+		"cloudforce-one threat-intel events categories get": {
+			"operationId": "cloudforce-one.threat-intel.events.categories.get",
+			"httpMethod": "GET",
+			"path": "/accounts/{account_id}/cloudforce-one/events/event-categories/by-id/{category_id}",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "category_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"cloudforce-one threat-intel events categories list": {
+			"operationId": "cloudforce-one.threat-intel.events.categories.list",
+			"httpMethod": "GET",
+			"path": "/accounts/{account_id}/cloudforce-one/events/categories",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [
+				{
+					"name": "datasetIds",
+					"type": "array",
+					"required": false
+				}
+			],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"cloudforce-one threat-intel events categories update": {
+			"operationId": "cloudforce-one.threat-intel.events.categories.update",
 			"httpMethod": "PATCH",
 			"path": "/accounts/{account_id}/cloudforce-one/events/event-categories/by-id/{category_id}",
 			"pathParams": [
@@ -25664,10 +24090,10 @@
 				}
 			]
 		},
-		"cloudforce-one threat-events categories get": {
-			"operationId": "cloudforce-one.threat-events.categories.get",
-			"httpMethod": "GET",
-			"path": "/accounts/{account_id}/cloudforce-one/events/event-categories/by-id/{category_id}",
+		"cloudforce-one threat-intel events copy": {
+			"operationId": "cloudforce-one.threat-intel.events.copy",
+			"httpMethod": "POST",
+			"path": "/accounts/{account_id}/cloudforce-one/events/dataset/{dataset_id}/copy",
 			"pathParams": [
 				{
 					"name": "account_id",
@@ -25675,38 +24101,36 @@
 					"required": true
 				},
 				{
-					"name": "category_id",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": false,
-			"requestBodyFields": []
-		},
-		"cloudforce-one threat-events categories list": {
-			"operationId": "cloudforce-one.threat-events.categories.list",
-			"httpMethod": "GET",
-			"path": "/accounts/{account_id}/cloudforce-one/events/categories",
-			"pathParams": [
-				{
-					"name": "account_id",
+					"name": "dataset_id",
 					"type": "string",
 					"required": true
 				}
 			],
 			"queryParams": [
 				{
-					"name": "datasetIds",
-					"type": "array",
+					"name": "keepRawData",
+					"type": "boolean",
 					"required": false
 				}
 			],
-			"hasRequestBody": false,
-			"requestBodyFields": []
+			"hasRequestBody": true,
+			"requestBodyFields": [
+				{
+					"name": "dest-dataset-id",
+					"type": "string",
+					"required": true,
+					"description": "The destDatasetId field"
+				},
+				{
+					"name": "event-ids",
+					"type": "string",
+					"required": true,
+					"description": "The eventIds field"
+				}
+			]
 		},
-		"cloudforce-one threat-events countries list": {
-			"operationId": "cloudforce-one.threat-events.countries.list",
+		"cloudforce-one threat-intel events countries list": {
+			"operationId": "cloudforce-one.threat-intel.events.countries.list",
 			"httpMethod": "GET",
 			"path": "/accounts/{account_id}/cloudforce-one/events/countries",
 			"pathParams": [
@@ -25720,8 +24144,8 @@
 			"hasRequestBody": false,
 			"requestBodyFields": []
 		},
-		"cloudforce-one threat-events create": {
-			"operationId": "cloudforce-one.threat-events.create",
+		"cloudforce-one threat-intel events create": {
+			"operationId": "cloudforce-one.threat-intel.events.create",
 			"httpMethod": "POST",
 			"path": "/accounts/{account_id_path}/cloudforce-one/events/create",
 			"pathParams": [
@@ -25868,38 +24292,10 @@
 				}
 			]
 		},
-		"cloudforce-one threat-events datasets create": {
-			"operationId": "cloudforce-one.threat-events.datasets.create",
-			"httpMethod": "POST",
-			"path": "/accounts/{account_id}/cloudforce-one/events/dataset/create",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": true,
-			"requestBodyFields": [
-				{
-					"name": "is-public",
-					"type": "boolean",
-					"required": true,
-					"description": "If true, then anyone can search the dataset. If false, then its limited to the account."
-				},
-				{
-					"name": "name",
-					"type": "string",
-					"required": true,
-					"description": "Used to describe the dataset within the account context."
-				}
-			]
-		},
-		"cloudforce-one threat-events datasets edit": {
-			"operationId": "cloudforce-one.threat-events.datasets.edit",
-			"httpMethod": "PATCH",
-			"path": "/accounts/{account_id}/cloudforce-one/events/dataset/{dataset_id}",
+		"cloudforce-one threat-intel events delete": {
+			"operationId": "cloudforce-one.threat-intel.events.delete",
+			"httpMethod": "DELETE",
+			"path": "/accounts/{account_id}/cloudforce-one/events/datasets/{dataset_id}/events",
 			"pathParams": [
 				{
 					"name": "account_id",
@@ -25912,27 +24308,20 @@
 					"required": true
 				}
 			],
-			"queryParams": [],
-			"hasRequestBody": true,
-			"requestBodyFields": [
+			"queryParams": [
 				{
-					"name": "is-public",
-					"type": "boolean",
-					"required": true,
-					"description": "If true, then anyone can search the dataset. If false, then its limited to the account."
-				},
-				{
-					"name": "name",
-					"type": "string",
-					"required": true,
-					"description": "Used to describe the dataset within the account context."
+					"name": "eventIds",
+					"type": "array",
+					"required": true
 				}
-			]
+			],
+			"hasRequestBody": false,
+			"requestBodyFields": []
 		},
-		"cloudforce-one threat-events datasets get": {
-			"operationId": "cloudforce-one.threat-events.datasets.get",
+		"cloudforce-one threat-intel events get": {
+			"operationId": "cloudforce-one.threat-intel.events.get",
 			"httpMethod": "GET",
-			"path": "/accounts/{account_id}/cloudforce-one/events/dataset/{dataset_id}",
+			"path": "/accounts/{account_id}/cloudforce-one/events/dataset/{dataset_id}/events/{event_id}",
 			"pathParams": [
 				{
 					"name": "account_id",
@@ -25941,6 +24330,11 @@
 				},
 				{
 					"name": "dataset_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "event_id",
 					"type": "string",
 					"required": true
 				}
@@ -25949,10 +24343,237 @@
 			"hasRequestBody": false,
 			"requestBodyFields": []
 		},
-		"cloudforce-one threat-events datasets list": {
-			"operationId": "cloudforce-one.threat-events.datasets.list",
+		"cloudforce-one threat-intel events graphql": {
+			"operationId": "cloudforce-one.threat-intel.events.graphql",
+			"httpMethod": "POST",
+			"path": "/accounts/{account_id}/cloudforce-one/events/graphql",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"cloudforce-one threat-intel events legacy get": {
+			"operationId": "cloudforce-one.threat-intel.events.legacy.get",
 			"httpMethod": "GET",
-			"path": "/accounts/{account_id}/cloudforce-one/events/dataset",
+			"path": "/accounts/{account_id}/cloudforce-one/events/{event_id}",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "event_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"cloudforce-one threat-intel events legacy graphql": {
+			"operationId": "cloudforce-one.threat-intel.events.legacy.graphql",
+			"httpMethod": "POST",
+			"path": "/accounts/{account_id}/cloudforce-one/v2/events/graphql",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"cloudforce-one threat-intel events legacy raw get": {
+			"operationId": "cloudforce-one.threat-intel.events.legacy.raw.get",
+			"httpMethod": "GET",
+			"path": "/accounts/{account_id}/cloudforce-one/events/{event_id}/raw/{raw_id}",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "event_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "raw_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"cloudforce-one threat-intel events legacy raw update": {
+			"operationId": "cloudforce-one.threat-intel.events.legacy.raw.update",
+			"httpMethod": "PATCH",
+			"path": "/accounts/{account_id}/cloudforce-one/events/{event_id}/raw/{raw_id}",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "event_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "raw_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": true,
+			"requestBodyFields": [
+				{
+					"name": "data",
+					"type": "string",
+					"required": false,
+					"description": "The data field. Provide as a JSON object or @path/to/file.json."
+				},
+				{
+					"name": "source",
+					"type": "string",
+					"required": false,
+					"description": "The source field"
+				},
+				{
+					"name": "tlp",
+					"type": "string",
+					"required": false,
+					"description": "The tlp field"
+				}
+			]
+		},
+		"cloudforce-one threat-intel events legacy references create": {
+			"operationId": "cloudforce-one.threat-intel.events.legacy.references.create",
+			"httpMethod": "POST",
+			"path": "/accounts/{account_id}/cloudforce-one/events/relate/{event_id}/create",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "event_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": true,
+			"requestBodyFields": [
+				{
+					"name": "events",
+					"type": "string",
+					"required": true,
+					"description": "The events field"
+				}
+			]
+		},
+		"cloudforce-one threat-intel events legacy references delete": {
+			"operationId": "cloudforce-one.threat-intel.events.legacy.references.delete",
+			"httpMethod": "DELETE",
+			"path": "/accounts/{account_id}/cloudforce-one/events/relate/{event_id}",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "event_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": true,
+			"requestBodyFields": [
+				{
+					"name": "events",
+					"type": "string",
+					"required": true,
+					"description": "The events field"
+				}
+			]
+		},
+		"cloudforce-one threat-intel events legacy tags create": {
+			"operationId": "cloudforce-one.threat-intel.events.legacy.tags.create",
+			"httpMethod": "POST",
+			"path": "/accounts/{account_id}/cloudforce-one/events/event_tag/{event_id}/create",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "event_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": true,
+			"requestBodyFields": [
+				{
+					"name": "tags",
+					"type": "string",
+					"required": true,
+					"description": "The tags field"
+				}
+			]
+		},
+		"cloudforce-one threat-intel events legacy tags delete": {
+			"operationId": "cloudforce-one.threat-intel.events.legacy.tags.delete",
+			"httpMethod": "DELETE",
+			"path": "/accounts/{account_id}/cloudforce-one/events/event_tag/{event_id}",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "event_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": true,
+			"requestBodyFields": [
+				{
+					"name": "tags",
+					"type": "string",
+					"required": true,
+					"description": "The tags field"
+				}
+			]
+		},
+		"cloudforce-one threat-intel events list": {
+			"operationId": "cloudforce-one.threat-intel.events.list",
+			"httpMethod": "GET",
+			"path": "/accounts/{account_id}/cloudforce-one/events",
 			"pathParams": [
 				{
 					"name": "account_id",
@@ -25962,16 +24583,269 @@
 			],
 			"queryParams": [
 				{
-					"name": "includeDeleted",
+					"name": "cursor",
+					"type": "string",
+					"required": false
+				},
+				{
+					"name": "search",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "searchBranches",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "page",
+					"type": "number",
+					"required": false
+				},
+				{
+					"name": "pageSize",
+					"type": "number",
+					"required": false
+				},
+				{
+					"name": "orderBy",
+					"type": "string",
+					"required": false
+				},
+				{
+					"name": "order",
+					"type": "string",
+					"required": false
+				},
+				{
+					"name": "datasetId",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "forceRefresh",
 					"type": "boolean",
+					"required": false
+				},
+				{
+					"name": "format",
+					"type": "string",
+					"required": false
+				},
+				{
+					"name": "cache",
+					"type": "string",
 					"required": false
 				}
 			],
 			"hasRequestBody": false,
 			"requestBodyFields": []
 		},
-		"cloudforce-one threat-events datasets raw": {
-			"operationId": "cloudforce-one.threat-events.datasets.raw",
+		"cloudforce-one threat-intel events move": {
+			"operationId": "cloudforce-one.threat-intel.events.move",
+			"httpMethod": "POST",
+			"path": "/accounts/{account_id}/cloudforce-one/events/dataset/{dataset_id}/move",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "dataset_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [
+				{
+					"name": "keepRawData",
+					"type": "boolean",
+					"required": false
+				}
+			],
+			"hasRequestBody": true,
+			"requestBodyFields": [
+				{
+					"name": "dest-dataset-id",
+					"type": "string",
+					"required": true,
+					"description": "The destDatasetId field"
+				},
+				{
+					"name": "event-ids",
+					"type": "string",
+					"required": true,
+					"description": "The eventIds field"
+				}
+			]
+		},
+		"cloudforce-one threat-intel events queries create": {
+			"operationId": "cloudforce-one.threat-intel.events.queries.create",
+			"httpMethod": "POST",
+			"path": "/accounts/{account_id}/cloudforce-one/events/queries/create",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": true,
+			"requestBodyFields": [
+				{
+					"name": "alert-enabled",
+					"type": "boolean",
+					"required": false,
+					"description": "Deprecated and ignored: saved-query alerting and rules were removed."
+				},
+				{
+					"name": "alert-rollup-enabled",
+					"type": "boolean",
+					"required": false,
+					"description": "Deprecated and ignored: saved-query alerting and rules were removed."
+				},
+				{
+					"name": "name",
+					"type": "string",
+					"required": true,
+					"description": "Unique name for the saved query"
+				},
+				{
+					"name": "query-json",
+					"type": "string",
+					"required": true,
+					"description": "JSON string containing the query parameters"
+				},
+				{
+					"name": "rule-enabled",
+					"type": "boolean",
+					"required": false,
+					"description": "Deprecated and ignored: saved-query alerting and rules were removed."
+				},
+				{
+					"name": "rule-scope",
+					"type": "string",
+					"required": false,
+					"description": "Deprecated and ignored: saved-query alerting and rules were removed."
+				}
+			]
+		},
+		"cloudforce-one threat-intel events queries delete": {
+			"operationId": "cloudforce-one.threat-intel.events.queries.delete",
+			"httpMethod": "DELETE",
+			"path": "/accounts/{account_id}/cloudforce-one/events/queries/{query_id}",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "query_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"cloudforce-one threat-intel events queries get": {
+			"operationId": "cloudforce-one.threat-intel.events.queries.get",
+			"httpMethod": "GET",
+			"path": "/accounts/{account_id}/cloudforce-one/events/queries/{query_id}",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "query_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"cloudforce-one threat-intel events queries list": {
+			"operationId": "cloudforce-one.threat-intel.events.queries.list",
+			"httpMethod": "GET",
+			"path": "/accounts/{account_id}/cloudforce-one/events/queries",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"cloudforce-one threat-intel events queries update": {
+			"operationId": "cloudforce-one.threat-intel.events.queries.update",
+			"httpMethod": "PATCH",
+			"path": "/accounts/{account_id}/cloudforce-one/events/queries/{query_id}",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "query_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": true,
+			"requestBodyFields": [
+				{
+					"name": "alert-enabled",
+					"type": "boolean",
+					"required": false,
+					"description": "Deprecated and ignored: saved-query alerting and rules were removed."
+				},
+				{
+					"name": "alert-rollup-enabled",
+					"type": "boolean",
+					"required": false,
+					"description": "Deprecated and ignored: saved-query alerting and rules were removed."
+				},
+				{
+					"name": "name",
+					"type": "string",
+					"required": false,
+					"description": "Unique name for the saved query"
+				},
+				{
+					"name": "query-json",
+					"type": "string",
+					"required": false,
+					"description": "JSON string containing the query parameters"
+				},
+				{
+					"name": "rule-enabled",
+					"type": "boolean",
+					"required": false,
+					"description": "Deprecated and ignored: saved-query alerting and rules were removed."
+				},
+				{
+					"name": "rule-scope",
+					"type": "string",
+					"required": false,
+					"description": "Deprecated and ignored: saved-query alerting and rules were removed."
+				}
+			]
+		},
+		"cloudforce-one threat-intel events raw get": {
+			"operationId": "cloudforce-one.threat-intel.events.raw.get",
 			"httpMethod": "GET",
 			"path": "/accounts/{account_id}/cloudforce-one/events/datasets/{dataset_id}/events/{event_id}/raw",
 			"pathParams": [
@@ -25995,8 +24869,225 @@
 			"hasRequestBody": false,
 			"requestBodyFields": []
 		},
-		"cloudforce-one threat-events edit": {
-			"operationId": "cloudforce-one.threat-events.edit",
+		"cloudforce-one threat-intel events relationships create": {
+			"operationId": "cloudforce-one.threat-intel.events.relationships.create",
+			"httpMethod": "POST",
+			"path": "/accounts/{account_id}/cloudforce-one/events/relationships/create",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": true,
+			"requestBodyFields": [
+				{
+					"name": "child-ids",
+					"type": "string",
+					"required": true,
+					"description": "Array of UUIDs for child events. Single child = 1:1 relationship, multiple = 1:many relationships"
+				},
+				{
+					"name": "dataset-id",
+					"type": "string",
+					"required": true,
+					"description": "Dataset identifier where the events are stored"
+				},
+				{
+					"name": "parent-id",
+					"type": "string",
+					"required": true,
+					"description": "UUID of the parent event that will be the source of the relationship"
+				},
+				{
+					"name": "relationship-type",
+					"type": "string",
+					"required": true,
+					"description": "Type of relationship to create between parent and child events"
+				}
+			]
+		},
+		"cloudforce-one threat-intel events relationships list": {
+			"operationId": "cloudforce-one.threat-intel.events.relationships.list",
+			"httpMethod": "GET",
+			"path": "/accounts/{account_id}/cloudforce-one/events/by-id/{event_id}/relationships",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "event_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [
+				{
+					"name": "direction",
+					"type": "string",
+					"required": false
+				},
+				{
+					"name": "maxDepth",
+					"type": "number",
+					"required": false
+				},
+				{
+					"name": "relationshipTypes",
+					"type": "string",
+					"required": false
+				},
+				{
+					"name": "indicatorTypeIds",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "datasetId",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "includeParent",
+					"type": "boolean",
+					"required": false
+				},
+				{
+					"name": "page",
+					"type": "number",
+					"required": false
+				},
+				{
+					"name": "pageSize",
+					"type": "number",
+					"required": false
+				}
+			],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"cloudforce-one threat-intel events search": {
+			"operationId": "cloudforce-one.threat-intel.events.search",
+			"httpMethod": "POST",
+			"path": "/accounts/{account_id}/cloudforce-one/events",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [
+				{
+					"name": "forceRefresh",
+					"type": "boolean",
+					"required": false
+				},
+				{
+					"name": "format",
+					"type": "string",
+					"required": false
+				},
+				{
+					"name": "cache",
+					"type": "string",
+					"required": false
+				}
+			],
+			"hasRequestBody": true,
+			"requestBodyFields": [
+				{
+					"name": "cursor",
+					"type": "string",
+					"required": false,
+					"description": "Cursor for pagination. When provided, filters are embedded in the cursor so you only need to pass cursor and pageSize."
+				},
+				{
+					"name": "dataset-id",
+					"type": "string",
+					"required": false,
+					"description": "Dataset UUIDs to query, or one standalone scope value: 'all'/'*' or 'operational' for readable intelligence datasets (isAnalytics=false), or 'analytics' for readable analytics datasets (isAnalytics=true). Scope values query at most 50 datasets. If not provided, uses the default dataset."
+				},
+				{
+					"name": "order",
+					"type": "string",
+					"required": false,
+					"description": "The order field"
+				},
+				{
+					"name": "order-by",
+					"type": "string",
+					"required": false,
+					"description": "The orderBy field"
+				},
+				{
+					"name": "page",
+					"type": "number",
+					"required": false,
+					"description": "The page field"
+				},
+				{
+					"name": "page-size",
+					"type": "number",
+					"required": false,
+					"description": "The pageSize field"
+				},
+				{
+					"name": "search",
+					"type": "string",
+					"required": false,
+					"description": "Structured search as a JSON array of {field, op, value} objects. Use the 'in' operator with an array value to bulk-check up to 100 values. Multiple conditions are AND'd together. Max 10 conditions per request. Provide as a JSON array of objects or @path/to/file.json."
+				},
+				{
+					"name": "search-branches",
+					"type": "string",
+					"required": false,
+					"description": "OR branches of structured search filters. Filters within a branch are AND'd, branches are OR'd, and the result is AND'd with `search`: `AND(search) AND OR(AND(branch 1), ...)`. Max 8 branches of 1-10 conditions each. Not supported for analytics datasets, and `indicator` filters are not yet supported inside branches. Cursor pages carry the original branches, so do not resend them with `cursor`. Provide as a JSON array of arrays or @path/to/file.json."
+				}
+			]
+		},
+		"cloudforce-one threat-intel events target-industries catalog list": {
+			"operationId": "cloudforce-one.threat-intel.events.target-industries.catalog.list",
+			"httpMethod": "GET",
+			"path": "/accounts/{account_id}/cloudforce-one/events/targetIndustries/catalog",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"cloudforce-one threat-intel events target-industries list": {
+			"operationId": "cloudforce-one.threat-intel.events.target-industries.list",
+			"httpMethod": "GET",
+			"path": "/accounts/{account_id}/cloudforce-one/events/targetIndustries",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [
+				{
+					"name": "datasetIds",
+					"type": "array",
+					"required": false
+				}
+			],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"cloudforce-one threat-intel events update": {
+			"operationId": "cloudforce-one.threat-intel.events.update",
 			"httpMethod": "PATCH",
 			"path": "/accounts/{account_id}/cloudforce-one/events/{event_id}",
 			"pathParams": [
@@ -26112,10 +25203,10 @@
 				}
 			]
 		},
-		"cloudforce-one threat-events event-tags create": {
-			"operationId": "cloudforce-one.threat-events.event-tags.create",
+		"cloudforce-one threat-intel indicators bulk-create": {
+			"operationId": "cloudforce-one.threat-intel.indicators.bulk-create",
 			"httpMethod": "POST",
-			"path": "/accounts/{account_id}/cloudforce-one/events/event_tag/{event_id}/create",
+			"path": "/accounts/{account_id}/cloudforce-one/events/dataset/{dataset_id}/indicators/bulk",
 			"pathParams": [
 				{
 					"name": "account_id",
@@ -26123,7 +25214,7 @@
 					"required": true
 				},
 				{
-					"name": "event_id",
+					"name": "dataset_id",
 					"type": "string",
 					"required": true
 				}
@@ -26132,17 +25223,74 @@
 			"hasRequestBody": true,
 			"requestBodyFields": [
 				{
-					"name": "tags",
+					"name": "auto-create-type",
+					"type": "boolean",
+					"required": false,
+					"description": "Global flag to automatically create indicator types if they don't exist. Individual indicators can override this with their own autoCreateType flag."
+				},
+				{
+					"name": "indicators",
 					"type": "string",
 					"required": true,
-					"description": "The tags field"
+					"description": "The indicators field. Provide as a JSON array of objects or @path/to/file.json."
 				}
 			]
 		},
-		"cloudforce-one threat-events event-tags delete": {
-			"operationId": "cloudforce-one.threat-events.event-tags.delete",
+		"cloudforce-one threat-intel indicators create": {
+			"operationId": "cloudforce-one.threat-intel.indicators.create",
+			"httpMethod": "POST",
+			"path": "/accounts/{account_id}/cloudforce-one/events/dataset/{dataset_id}/indicators/create",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "dataset_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": true,
+			"requestBodyFields": [
+				{
+					"name": "auto-create-type",
+					"type": "boolean",
+					"required": false,
+					"description": "If true, automatically create the indicator type if it doesn't exist. If false (default), throw an error when the indicator type doesn't exist."
+				},
+				{
+					"name": "indicator-type",
+					"type": "string",
+					"required": true,
+					"description": "The indicatorType field"
+				},
+				{
+					"name": "related-events",
+					"type": "string",
+					"required": false,
+					"description": "The relatedEvents field. Provide as a JSON array of objects or @path/to/file.json."
+				},
+				{
+					"name": "tlp",
+					"type": "string",
+					"required": false,
+					"description": "Traffic Light Protocol designation. Case-insensitive on input, stored and returned as UPPERCASE. Allowed values: clear, green, amber, amber-strict, red, purple."
+				},
+				{
+					"name": "value",
+					"type": "string",
+					"required": true,
+					"description": "The value field"
+				}
+			]
+		},
+		"cloudforce-one threat-intel indicators delete": {
+			"operationId": "cloudforce-one.threat-intel.indicators.delete",
 			"httpMethod": "DELETE",
-			"path": "/accounts/{account_id}/cloudforce-one/events/event_tag/{event_id}",
+			"path": "/accounts/{account_id}/cloudforce-one/events/dataset/{dataset_id}/indicators/{indicator_id}",
 			"pathParams": [
 				{
 					"name": "account_id",
@@ -26150,34 +25298,12 @@
 					"required": true
 				},
 				{
-					"name": "event_id",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": true,
-			"requestBodyFields": [
-				{
-					"name": "tags",
-					"type": "string",
-					"required": true,
-					"description": "The tags field"
-				}
-			]
-		},
-		"cloudforce-one threat-events get": {
-			"operationId": "cloudforce-one.threat-events.get",
-			"httpMethod": "GET",
-			"path": "/accounts/{account_id}/cloudforce-one/events/{event_id}",
-			"pathParams": [
-				{
-					"name": "account_id",
+					"name": "dataset_id",
 					"type": "string",
 					"required": true
 				},
 				{
-					"name": "event_id",
+					"name": "indicator_id",
 					"type": "string",
 					"required": true
 				}
@@ -26186,8 +25312,335 @@
 			"hasRequestBody": false,
 			"requestBodyFields": []
 		},
-		"cloudforce-one threat-events indicator-types create": {
-			"operationId": "cloudforce-one.threat-events.indicator-types.create",
+		"cloudforce-one threat-intel indicators get": {
+			"operationId": "cloudforce-one.threat-intel.indicators.get",
+			"httpMethod": "GET",
+			"path": "/accounts/{account_id}/cloudforce-one/events/dataset/{dataset_id}/indicators/{indicator_id}",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "dataset_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "indicator_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"cloudforce-one threat-intel indicators list": {
+			"operationId": "cloudforce-one.threat-intel.indicators.list",
+			"httpMethod": "GET",
+			"path": "/accounts/{account_id}/cloudforce-one/events/indicators",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [
+				{
+					"name": "datasetIds",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "page",
+					"type": "number",
+					"required": false
+				},
+				{
+					"name": "pageSize",
+					"type": "number",
+					"required": false
+				},
+				{
+					"name": "search",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "name",
+					"type": "string",
+					"required": false
+				},
+				{
+					"name": "indicatorType",
+					"type": "string",
+					"required": false
+				},
+				{
+					"name": "relatedEvents",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "tags",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "tagSearch",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "createdAfter",
+					"type": "string",
+					"required": false
+				},
+				{
+					"name": "createdBefore",
+					"type": "string",
+					"required": false
+				},
+				{
+					"name": "relatedEventsLimit",
+					"type": "number",
+					"required": false
+				},
+				{
+					"name": "includeTags",
+					"type": "boolean",
+					"required": false
+				},
+				{
+					"name": "includeTotalCount",
+					"type": "boolean",
+					"required": false
+				},
+				{
+					"name": "format",
+					"type": "string",
+					"required": false
+				},
+				{
+					"name": "cache",
+					"type": "string",
+					"required": false
+				},
+				{
+					"name": "cursor",
+					"type": "string",
+					"required": false
+				}
+			],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"cloudforce-one threat-intel indicators relationships create": {
+			"operationId": "cloudforce-one.threat-intel.indicators.relationships.create",
+			"httpMethod": "POST",
+			"path": "/accounts/{account_id}/cloudforce-one/events/dataset/{dataset_id}/indicators/{indicator_id}/relationships",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "dataset_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "indicator_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": true,
+			"requestBodyFields": [
+				{
+					"name": "confidence",
+					"type": "number",
+					"required": false,
+					"description": "Confidence score 0–100."
+				},
+				{
+					"name": "metadata",
+					"type": "string",
+					"required": false,
+					"description": "Arbitrary JSON metadata. Provide as a JSON object or @path/to/file.json."
+				},
+				{
+					"name": "target-id",
+					"type": "string",
+					"required": true,
+					"description": "UUID of the target entity."
+				},
+				{
+					"name": "target-type",
+					"type": "string",
+					"required": true,
+					"description": "Target type. \"indicator\" is not allowed (indicator↔indicator relationships are not supported)."
+				},
+				{
+					"name": "type",
+					"type": "string",
+					"required": true,
+					"description": "Relationship type."
+				}
+			]
+		},
+		"cloudforce-one threat-intel indicators relationships delete": {
+			"operationId": "cloudforce-one.threat-intel.indicators.relationships.delete",
+			"httpMethod": "DELETE",
+			"path": "/accounts/{account_id}/cloudforce-one/events/dataset/{dataset_id}/indicators/{indicator_id}/relationships/{rel_uuid}",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "dataset_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "indicator_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "rel_uuid",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"cloudforce-one threat-intel indicators relationships list": {
+			"operationId": "cloudforce-one.threat-intel.indicators.relationships.list",
+			"httpMethod": "GET",
+			"path": "/accounts/{account_id}/cloudforce-one/events/dataset/{dataset_id}/indicators/{indicator_id}/relationships",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "dataset_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "indicator_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [
+				{
+					"name": "search",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "expand",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "cursor",
+					"type": "string",
+					"required": false
+				},
+				{
+					"name": "pageSize",
+					"type": "number",
+					"required": false
+				}
+			],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"cloudforce-one threat-intel indicators relationships update": {
+			"operationId": "cloudforce-one.threat-intel.indicators.relationships.update",
+			"httpMethod": "PATCH",
+			"path": "/accounts/{account_id}/cloudforce-one/events/dataset/{dataset_id}/indicators/{indicator_id}/relationships/{rel_uuid}",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "dataset_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "indicator_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "rel_uuid",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": true,
+			"requestBodyFields": [
+				{
+					"name": "confidence",
+					"type": "number",
+					"required": false,
+					"description": "Updated confidence. null clears it."
+				},
+				{
+					"name": "metadata",
+					"type": "string",
+					"required": false,
+					"description": "Updated metadata. null clears it. Provide as a JSON object or @path/to/file.json."
+				},
+				{
+					"name": "type",
+					"type": "string",
+					"required": false,
+					"description": "Updated relationship type."
+				}
+			]
+		},
+		"cloudforce-one threat-intel indicators tags list": {
+			"operationId": "cloudforce-one.threat-intel.indicators.tags.list",
+			"httpMethod": "GET",
+			"path": "/accounts/{account_id}/cloudforce-one/events/dataset/{dataset_id}/indicators/tags",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "dataset_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"cloudforce-one threat-intel indicators types create": {
+			"operationId": "cloudforce-one.threat-intel.indicators.types.create",
 			"httpMethod": "POST",
 			"path": "/accounts/{account_id}/cloudforce-one/events/dataset/{dataset_id}/indicatorTypes/create",
 			"pathParams": [
@@ -26219,25 +25672,10 @@
 				}
 			]
 		},
-		"cloudforce-one threat-events indicator-types list": {
-			"operationId": "cloudforce-one.threat-events.indicator-types.list",
+		"cloudforce-one threat-intel indicators types list": {
+			"operationId": "cloudforce-one.threat-intel.indicators.types.list",
 			"httpMethod": "GET",
-			"path": "/accounts/{account_id}/cloudforce-one/events/indicatorTypes",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": false,
-			"requestBodyFields": []
-		},
-		"cloudforce-one threat-events list": {
-			"operationId": "cloudforce-one.threat-events.list",
-			"httpMethod": "GET",
-			"path": "/accounts/{account_id}/cloudforce-one/events",
+			"path": "/accounts/{account_id}/cloudforce-one/events/indicator-types",
 			"pathParams": [
 				{
 					"name": "account_id",
@@ -26247,20 +25685,116 @@
 			],
 			"queryParams": [
 				{
-					"name": "cursor",
+					"name": "datasetIds",
+					"type": "array",
+					"required": false
+				}
+			],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"cloudforce-one threat-intel indicators update": {
+			"operationId": "cloudforce-one.threat-intel.indicators.update",
+			"httpMethod": "PATCH",
+			"path": "/accounts/{account_id}/cloudforce-one/events/dataset/{dataset_id}/indicators/{indicator_id}",
+			"pathParams": [
+				{
+					"name": "account_id",
 					"type": "string",
-					"required": false
+					"required": true
 				},
 				{
-					"name": "search",
-					"type": "array",
-					"required": false
+					"name": "dataset_id",
+					"type": "string",
+					"required": true
 				},
 				{
-					"name": "searchBranches",
-					"type": "array",
-					"required": false
+					"name": "indicator_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": true,
+			"requestBodyFields": [
+				{
+					"name": "indicator-type",
+					"type": "string",
+					"required": false,
+					"description": "The indicatorType field"
 				},
+				{
+					"name": "related-events",
+					"type": "string",
+					"required": false,
+					"description": "The relatedEvents field. Provide as a JSON array of objects or @path/to/file.json."
+				},
+				{
+					"name": "tlp",
+					"type": "string",
+					"required": false,
+					"description": "Traffic Light Protocol designation. Case-insensitive on input, stored and returned as UPPERCASE. Allowed values: clear, green, amber, amber-strict, red, purple."
+				},
+				{
+					"name": "value",
+					"type": "string",
+					"required": false,
+					"description": "The value field"
+				}
+			]
+		},
+		"cloudforce-one threat-intel search": {
+			"operationId": "cloudforce-one.threat-intel.search",
+			"httpMethod": "POST",
+			"path": "/accounts/{account_id}/cloudforce-one/v2/search",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": true,
+			"requestBodyFields": [
+				{
+					"name": "entity-types",
+					"type": "string",
+					"required": false,
+					"description": "Entity types to search. Omit to search articles, actors, tags, events, and indicators."
+				},
+				{
+					"name": "include-analytics-datasets",
+					"type": "boolean",
+					"required": false,
+					"description": "Whether to include Event and Indicator matches from analytics datasets. Defaults to false because these datasets can take longer to search. When omitted or false, those matches are intentionally excluded and source completeness covers only the backends that were queried."
+				},
+				{
+					"name": "limit",
+					"type": "number",
+					"required": false,
+					"description": "Maximum number of results to return. Defaults to 20."
+				},
+				{
+					"name": "query",
+					"type": "string",
+					"required": true,
+					"description": "Search text, from 1 to 1000 characters after trimming."
+				}
+			]
+		},
+		"cloudforce-one threat-intel tags actors list": {
+			"operationId": "cloudforce-one.threat-intel.tags.actors.list",
+			"httpMethod": "GET",
+			"path": "/accounts/{account_id}/cloudforce-one/events/tags/categories/actors",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [
 				{
 					"name": "page",
 					"type": "number",
@@ -26272,56 +25806,26 @@
 					"required": false
 				},
 				{
-					"name": "orderBy",
+					"name": "value",
 					"type": "string",
 					"required": false
 				},
 				{
-					"name": "order",
-					"type": "string",
-					"required": false
-				},
-				{
-					"name": "datasetId",
+					"name": "filters",
 					"type": "array",
 					"required": false
-				},
-				{
-					"name": "forceRefresh",
-					"type": "boolean",
-					"required": false
-				},
-				{
-					"name": "format",
-					"type": "string",
-					"required": false
-				},
-				{
-					"name": "cache",
-					"type": "string",
-					"required": false
 				}
 			],
 			"hasRequestBody": false,
 			"requestBodyFields": []
 		},
-		"cloudforce-one threat-events raw edit": {
-			"operationId": "cloudforce-one.threat-events.raw.edit",
-			"httpMethod": "PATCH",
-			"path": "/accounts/{account_id}/cloudforce-one/events/{event_id}/raw/{raw_id}",
+		"cloudforce-one threat-intel tags categories create": {
+			"operationId": "cloudforce-one.threat-intel.tags.categories.create",
+			"httpMethod": "POST",
+			"path": "/accounts/{account_id}/cloudforce-one/events/tags/categories/create",
 			"pathParams": [
 				{
 					"name": "account_id",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "event_id",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "raw_id",
 					"type": "string",
 					"required": true
 				}
@@ -26330,81 +25834,69 @@
 			"hasRequestBody": true,
 			"requestBodyFields": [
 				{
-					"name": "data",
+					"name": "description",
 					"type": "string",
 					"required": false,
-					"description": "The data field. Provide as a JSON object or @path/to/file.json."
+					"description": "The description field"
 				},
 				{
-					"name": "source",
-					"type": "string",
-					"required": false,
-					"description": "The source field"
-				},
-				{
-					"name": "tlp",
-					"type": "string",
-					"required": false,
-					"description": "The tlp field"
-				}
-			]
-		},
-		"cloudforce-one threat-events raw get": {
-			"operationId": "cloudforce-one.threat-events.raw.get",
-			"httpMethod": "GET",
-			"path": "/accounts/{account_id}/cloudforce-one/events/{event_id}/raw/{raw_id}",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "event_id",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "raw_id",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": false,
-			"requestBodyFields": []
-		},
-		"cloudforce-one threat-events relate delete": {
-			"operationId": "cloudforce-one.threat-events.relate.delete",
-			"httpMethod": "DELETE",
-			"path": "/accounts/{account_id}/cloudforce-one/events/relate/{event_id}",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "event_id",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": true,
-			"requestBodyFields": [
-				{
-					"name": "events",
+					"name": "name",
 					"type": "string",
 					"required": true,
-					"description": "The events field"
+					"description": "The name field"
+				},
+				{
+					"name": "schema",
+					"type": "string",
+					"required": false,
+					"description": "Optional array of FieldDefinition objects defining custom fields for tags in this category. Persisted as JSON; returned as a parsed array. Provide as a JSON array of objects or @path/to/file.json."
 				}
 			]
 		},
-		"cloudforce-one threat-events search": {
-			"operationId": "cloudforce-one.threat-events.search",
-			"httpMethod": "POST",
-			"path": "/accounts/{account_id}/cloudforce-one/events",
+		"cloudforce-one threat-intel tags categories delete": {
+			"operationId": "cloudforce-one.threat-intel.tags.categories.delete",
+			"httpMethod": "DELETE",
+			"path": "/accounts/{account_id}/cloudforce-one/events/tag-categories/{category_uuid}",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "category_uuid",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"cloudforce-one threat-intel tags categories get": {
+			"operationId": "cloudforce-one.threat-intel.tags.categories.get",
+			"httpMethod": "GET",
+			"path": "/accounts/{account_id}/cloudforce-one/events/tag-categories/{category_uuid}",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "category_uuid",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"cloudforce-one threat-intel tags categories list": {
+			"operationId": "cloudforce-one.threat-intel.tags.categories.list",
+			"httpMethod": "GET",
+			"path": "/accounts/{account_id}/cloudforce-one/events/tags/categories",
 			"pathParams": [
 				{
 					"name": "account_id",
@@ -26414,75 +25906,55 @@
 			],
 			"queryParams": [
 				{
-					"name": "forceRefresh",
-					"type": "boolean",
-					"required": false
-				},
-				{
-					"name": "format",
-					"type": "string",
-					"required": false
-				},
-				{
-					"name": "cache",
+					"name": "search",
 					"type": "string",
 					"required": false
 				}
 			],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"cloudforce-one threat-intel tags categories update": {
+			"operationId": "cloudforce-one.threat-intel.tags.categories.update",
+			"httpMethod": "PATCH",
+			"path": "/accounts/{account_id}/cloudforce-one/events/tag-categories/{category_uuid}",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "category_uuid",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
 			"hasRequestBody": true,
 			"requestBodyFields": [
 				{
-					"name": "cursor",
+					"name": "description",
 					"type": "string",
 					"required": false,
-					"description": "Cursor for pagination. When provided, filters are embedded in the cursor so you only need to pass cursor and pageSize."
+					"description": "The description field"
 				},
 				{
-					"name": "dataset-id",
+					"name": "name",
 					"type": "string",
 					"required": false,
-					"description": "Dataset UUIDs to query, or one standalone scope value: 'all'/'*' or 'operational' for readable intelligence datasets (isAnalytics=false), or 'analytics' for readable analytics datasets (isAnalytics=true). Scope values query at most 50 datasets. If not provided, uses the default dataset."
+					"description": "The name field"
 				},
 				{
-					"name": "order",
+					"name": "schema",
 					"type": "string",
 					"required": false,
-					"description": "The order field"
-				},
-				{
-					"name": "order-by",
-					"type": "string",
-					"required": false,
-					"description": "The orderBy field"
-				},
-				{
-					"name": "page",
-					"type": "number",
-					"required": false,
-					"description": "The page field"
-				},
-				{
-					"name": "page-size",
-					"type": "number",
-					"required": false,
-					"description": "The pageSize field"
-				},
-				{
-					"name": "search",
-					"type": "string",
-					"required": false,
-					"description": "Structured search as a JSON array of {field, op, value} objects. Use the 'in' operator with an array value to bulk-check up to 100 values. Multiple conditions are AND'd together. Max 10 conditions per request. Provide as a JSON array of objects or @path/to/file.json."
-				},
-				{
-					"name": "search-branches",
-					"type": "string",
-					"required": false,
-					"description": "OR branches of structured search filters. Filters within a branch are AND'd, branches are OR'd, and the result is AND'd with `search`: `AND(search) AND OR(AND(branch 1), ...)`. Max 8 branches of 1-10 conditions each. Not supported for analytics datasets, and `indicator` filters are not yet supported inside branches. Cursor pages carry the original branches, so do not resend them with `cursor`. Provide as a JSON array of arrays or @path/to/file.json."
+					"description": "Optional array of FieldDefinition objects. When provided, replaces the existing field schema. When omitted, the existing schema is preserved. Provide as a JSON array of objects or @path/to/file.json."
 				}
 			]
 		},
-		"cloudforce-one threat-events tags create": {
-			"operationId": "cloudforce-one.threat-events.tags.create",
+		"cloudforce-one threat-intel tags create": {
+			"operationId": "cloudforce-one.threat-intel.tags.create",
 			"httpMethod": "POST",
 			"path": "/accounts/{account_id}/cloudforce-one/events/tags/create",
 			"pathParams": [
@@ -26587,10 +26059,101 @@
 				}
 			]
 		},
-		"cloudforce-one threat-events target-industries list": {
-			"operationId": "cloudforce-one.threat-events.target-industries.list",
+		"cloudforce-one threat-intel tags delete": {
+			"operationId": "cloudforce-one.threat-intel.tags.delete",
+			"httpMethod": "DELETE",
+			"path": "/accounts/{account_id}/cloudforce-one/events/tags/{tag_uuid}",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "tag_uuid",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"cloudforce-one threat-intel tags get": {
+			"operationId": "cloudforce-one.threat-intel.tags.get",
 			"httpMethod": "GET",
-			"path": "/accounts/{account_id}/cloudforce-one/events/targetIndustries",
+			"path": "/accounts/{account_id}/cloudforce-one/events/tags/{tag_uuid}",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "tag_uuid",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"cloudforce-one threat-intel tags indicators list": {
+			"operationId": "cloudforce-one.threat-intel.tags.indicators.list",
+			"httpMethod": "GET",
+			"path": "/accounts/{account_id}/cloudforce-one/events/tags/{tag_uuid}/indicators",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "tag_uuid",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [
+				{
+					"name": "datasetIds",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "page",
+					"type": "number",
+					"required": false
+				},
+				{
+					"name": "pageSize",
+					"type": "number",
+					"required": false
+				},
+				{
+					"name": "indicatorType",
+					"type": "string",
+					"required": false
+				},
+				{
+					"name": "relatedEvent",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "search",
+					"type": "array",
+					"required": false
+				}
+			],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"cloudforce-one threat-intel tags list": {
+			"operationId": "cloudforce-one.threat-intel.tags.list",
+			"httpMethod": "GET",
+			"path": "/accounts/{account_id}/cloudforce-one/events/tags",
 			"pathParams": [
 				{
 					"name": "account_id",
@@ -26600,8 +26163,354 @@
 			],
 			"queryParams": [
 				{
-					"name": "datasetIds",
+					"name": "page",
+					"type": "number",
+					"required": false
+				},
+				{
+					"name": "pageSize",
+					"type": "number",
+					"required": false
+				},
+				{
+					"name": "search",
+					"type": "string",
+					"required": false
+				},
+				{
+					"name": "categoryUuid",
+					"type": "string",
+					"required": false
+				},
+				{
+					"name": "filters",
 					"type": "array",
+					"required": false
+				},
+				{
+					"name": "cache",
+					"type": "string",
+					"required": false
+				}
+			],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"cloudforce-one threat-intel tags relationships create": {
+			"operationId": "cloudforce-one.threat-intel.tags.relationships.create",
+			"httpMethod": "POST",
+			"path": "/accounts/{account_id}/cloudforce-one/events/tags/{tag_uuid}/relationships",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "tag_uuid",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": true,
+			"requestBodyFields": [
+				{
+					"name": "confidence",
+					"type": "number",
+					"required": false,
+					"description": "Confidence score 0–100."
+				},
+				{
+					"name": "dataset-id",
+					"type": "string",
+					"required": true,
+					"description": "Dataset UUID where the relationship row will be stored (locates the Indicators DO)."
+				},
+				{
+					"name": "metadata",
+					"type": "string",
+					"required": false,
+					"description": "Arbitrary JSON metadata. Provide as a JSON object or @path/to/file.json."
+				},
+				{
+					"name": "target-id",
+					"type": "string",
+					"required": true,
+					"description": "UUID of the target entity."
+				},
+				{
+					"name": "target-type",
+					"type": "string",
+					"required": true,
+					"description": "Target type. \"tag\" is not allowed (tag↔tag relationships are not supported)."
+				},
+				{
+					"name": "type",
+					"type": "string",
+					"required": true,
+					"description": "Relationship type."
+				}
+			]
+		},
+		"cloudforce-one threat-intel tags relationships delete": {
+			"operationId": "cloudforce-one.threat-intel.tags.relationships.delete",
+			"httpMethod": "DELETE",
+			"path": "/accounts/{account_id}/cloudforce-one/events/tags/{tag_uuid}/relationships/{rel_uuid}",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "tag_uuid",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "rel_uuid",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [
+				{
+					"name": "datasetId",
+					"type": "string",
+					"required": true
+				}
+			],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"cloudforce-one threat-intel tags relationships list": {
+			"operationId": "cloudforce-one.threat-intel.tags.relationships.list",
+			"httpMethod": "GET",
+			"path": "/accounts/{account_id}/cloudforce-one/events/tags/{tag_uuid}/relationships",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "tag_uuid",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [
+				{
+					"name": "datasets",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "search",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "expand",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "cursor",
+					"type": "string",
+					"required": false
+				},
+				{
+					"name": "pageSize",
+					"type": "number",
+					"required": false
+				}
+			],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"cloudforce-one threat-intel tags relationships update": {
+			"operationId": "cloudforce-one.threat-intel.tags.relationships.update",
+			"httpMethod": "PATCH",
+			"path": "/accounts/{account_id}/cloudforce-one/events/tags/{tag_uuid}/relationships/{rel_uuid}",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "tag_uuid",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "rel_uuid",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [
+				{
+					"name": "datasetId",
+					"type": "string",
+					"required": true
+				}
+			],
+			"hasRequestBody": true,
+			"requestBodyFields": [
+				{
+					"name": "confidence",
+					"type": "number",
+					"required": false,
+					"description": "Updated confidence. null clears it."
+				},
+				{
+					"name": "metadata",
+					"type": "string",
+					"required": false,
+					"description": "Updated metadata. null clears it. Provide as a JSON object or @path/to/file.json."
+				},
+				{
+					"name": "type",
+					"type": "string",
+					"required": false,
+					"description": "Updated relationship type."
+				}
+			]
+		},
+		"cloudforce-one threat-intel tags update": {
+			"operationId": "cloudforce-one.threat-intel.tags.update",
+			"httpMethod": "PATCH",
+			"path": "/accounts/{account_id}/cloudforce-one/events/tags/{tag_uuid}",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "tag_uuid",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": true,
+			"requestBodyFields": [
+				{
+					"name": "alias-group-names",
+					"type": "string",
+					"required": false,
+					"description": "The aliasGroupNames field"
+				},
+				{
+					"name": "alias-group-names-internal",
+					"type": "string",
+					"required": false,
+					"description": "The aliasGroupNamesInternal field"
+				},
+				{
+					"name": "aliases",
+					"type": "string",
+					"required": false,
+					"description": "Structured aliases ({ value, confidence 1-10, tlp }). Public: returned to all accounts with per-entry TLP filtering (entries with tlp: purple are removed for non-CFONE accounts). Provide as a JSON array of objects or @path/to/file.json."
+				},
+				{
+					"name": "category-uuid",
+					"type": "string",
+					"required": false,
+					"description": "Tag type (category) UUID. When changed, existing `properties` are re-validated against the new category's schema (400 on mismatch). Set to null to unlink (typeless; properties stop being validated)."
+				},
+				{
+					"name": "confidence",
+					"type": "number",
+					"required": false,
+					"description": "Overall tag confidence (1-10). Omit to preserve existing."
+				},
+				{
+					"name": "date-of-discovery",
+					"type": "string",
+					"required": false,
+					"description": "Date of discovery (ISO YYYY-MM-DD). Omit to preserve existing."
+				},
+				{
+					"name": "description",
+					"type": "string",
+					"required": false,
+					"description": "The description field"
+				},
+				{
+					"name": "external-reference-links",
+					"type": "string",
+					"required": false,
+					"description": "The externalReferenceLinks field"
+				},
+				{
+					"name": "external-references",
+					"type": "string",
+					"required": false,
+					"description": "Structured external references ({ url, description }). Public: returned to all accounts. Provide as a JSON array of objects or @path/to/file.json."
+				},
+				{
+					"name": "internal-aliases",
+					"type": "string",
+					"required": false,
+					"description": "Owner-private structured aliases ({ value, confidence 1-10, tlp }). Returned to the owning account and omitted from shared-catalog non-owner responses. Provide as a JSON array of objects or @path/to/file.json."
+				},
+				{
+					"name": "internal-description",
+					"type": "string",
+					"required": false,
+					"description": "The internalDescription field"
+				},
+				{
+					"name": "last-seen",
+					"type": "string",
+					"required": false,
+					"description": "The lastSeen field"
+				},
+				{
+					"name": "properties",
+					"type": "string",
+					"required": false,
+					"description": "Custom field values blob. When omitted, the existing value is preserved. When provided, performs a shallow per-key merge over the stored value (unmentioned keys are retained). Setting an individual key to null deletes that key. Validation runs against the merged result, so a partial update may omit a schema-required key if the stored value supplies it. Provide as a JSON object or @path/to/file.json."
+				},
+				{
+					"name": "tlp",
+					"type": "string",
+					"required": false,
+					"description": "Tag-level TLP marking. Omit to preserve existing. Cannot be cleared to null."
+				},
+				{
+					"name": "value",
+					"type": "string",
+					"required": false,
+					"description": "The value field"
+				}
+			]
+		},
+		"cloudforce-one threat-signals articles aggregate-relevance": {
+			"operationId": "cloudforce-one.threat-signals.articles.aggregate-relevance",
+			"httpMethod": "GET",
+			"path": "/accounts/{account_id}/cloudforce-one/v2/threat-signals/articles/relevance/aggregate",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [
+				{
+					"name": "published_after",
+					"type": "string",
+					"required": false
+				},
+				{
+					"name": "published_before",
+					"type": "string",
 					"required": false
 				}
 			],
@@ -26781,6 +26690,16 @@
 				},
 				{
 					"name": "tag_applied_by",
+					"type": "string",
+					"required": false
+				},
+				{
+					"name": "pir_id",
+					"type": "string",
+					"required": false
+				},
+				{
+					"name": "min_relevance",
 					"type": "string",
 					"required": false
 				},
@@ -81623,8 +81542,8 @@
 				{
 					"name": "scopes",
 					"type": "string",
-					"required": true,
-					"description": "The list of services that can use this secret."
+					"required": false,
+					"description": "The list of services that can use this secret. Omit it on create or duplicate to inherit the store's scopes. An empty list lets no service use the secret."
 				}
 			]
 		},
@@ -81662,7 +81581,7 @@
 					"name": "scopes",
 					"type": "string",
 					"required": false,
-					"description": "The list of services that can use this secret."
+					"description": "The list of services that can use this secret, or null when the secret inherits its store's scopes. Set it to null in a patch to inherit again. An empty list lets no service use the secret."
 				},
 				{
 					"name": "value",

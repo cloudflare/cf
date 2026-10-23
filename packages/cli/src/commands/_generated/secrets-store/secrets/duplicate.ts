@@ -43,7 +43,8 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("scopes", {
 			type: "string",
 			array: true,
-			description: "The list of services that can use this secret.",
+			description:
+				"The list of services that can use this secret. Omit it on create or duplicate to inherit the store's scopes. An empty list lets no service use the secret.",
 		})
 		.option("dry-run", {
 			type: "boolean",
@@ -123,11 +124,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					argv["name"] = await promptForRequiredField(
 						"name",
 						"The name of the secret."
-					);
-				}
-				if (argv["scopes"] === undefined) {
-					throw new Error(
-						"--scopes is required (or pass --body with this field set)."
 					);
 				}
 

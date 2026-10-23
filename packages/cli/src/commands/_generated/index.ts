@@ -739,7 +739,7 @@ export const generatedCommands: GeneratedCommand[] = [
 			() => import("./network-interconnects/index.js"),
 			null
 		),
-		hideCommand: true,
+		hideCommand: false,
 	},
 	{
 		command: lazyCommand<CommonYargsOptions>(

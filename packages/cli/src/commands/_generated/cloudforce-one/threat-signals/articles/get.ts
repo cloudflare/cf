@@ -20,7 +20,7 @@ import { runWithTelemetry } from "#lib/telemetry/index.js";
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
 		.usage(
-			"$0 cloudforce-one threat-signals articles get <article-id>\n\nRetrieves a Threat Signals article with its summary, tags and indicator status."
+			"$0 cloudforce-one threat-signals articles get <article-id>\n\nRetrieves a Threat Signals article with its summary, tags, indicator status and relevance to the account's Priority Intelligence Requirements."
 		)
 		.positional("article-id", {
 			type: "string",

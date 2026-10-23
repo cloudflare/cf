@@ -23,7 +23,7 @@ import { runWithTelemetry } from "#lib/telemetry/index.js";
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
 		.usage(
-			"$0 d1 undelete <database-id>\n\nRestore a deleted D1 database. The database is restored with the name it had when it was deleted, unless `new_name` is provided. The restored database counts against the account's limits. Undeleting a database that is not deleted succeeds without changes, unless `new_name` differs from its current name which errors. Once a database is undeleted, Time Travel (point-in-time recovery) cannot restore it to a bookmark or timestamp at or before the undeletion. Only states after the undeletion can be restored."
+			"$0 d1 undelete <database-id>\n\nRestore a deleted D1 database. The database is restored with the name it had when it was deleted, unless `new_name` is provided. The restored database counts against the account's limits. Undeleting a database that is not deleted succeeds without changes, unless `new_name` differs from its current name which errors. A database can only be undeleted within 7 days (7 * 24 hours) of its deletion. Once a database is undeleted, Time Travel (point-in-time recovery) cannot restore it to a bookmark or timestamp at or before the undeletion. Only states after the undeletion can be restored."
 		)
 		.positional("database-id", {
 			type: "string",

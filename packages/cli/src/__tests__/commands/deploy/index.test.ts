@@ -44,6 +44,61 @@ describe("cf deploy", () => {
 	});
 
 	describe("simple worker", () => {
+		it("uploads OIDC binding requests without provisioning identity grants", async () => {
+			const requests = recordRequests();
+			const upload = mockWorkerUpload();
+			await seed({
+				".cloudflare/output/v0/config.json": buildOutputRootConfig(),
+				".cloudflare/output/v0/workers/default/worker.config.json":
+					workerConfig({
+						compatibilityFlags: ["workers_oidc"],
+						env: {
+							ORDERS: {
+								type: "oidc",
+								identity_id: "orders",
+								audience: "urn:orders",
+								allowed_audiences: ["urn:orders", "urn:reports"],
+							},
+							REPORTS: {
+								type: "oidc",
+								identity_id: "reports",
+								audience: "recipient",
+							},
+						},
+					}),
+				".cloudflare/output/v0/workers/default/bundle/index.js":
+					"export default {fetch() {return new Response('ok')}}",
+			});
+			const { exitCode } = await runCf([
+				"deploy",
+				"--prebuilt",
+				"--no-provision",
+			]);
+			expect(exitCode).toBe(0);
+			expect(upload.metadata?.bindings).toEqual(
+				expect.arrayContaining([
+					{
+						name: "ORDERS",
+						type: "oidc",
+						identity_id: "orders",
+						audience: "urn:orders",
+						allowed_audiences: ["urn:orders", "urn:reports"],
+					},
+					{
+						name: "REPORTS",
+						type: "oidc",
+						identity_id: "reports",
+						audience: "recipient",
+					},
+				])
+			);
+			expect(
+				requests.some((request) =>
+					/\/oidc\/(identities|assignments|development_sessions)/.test(request)
+				)
+			).toBe(false);
+		});
+
 		it.each([
 			["D1", { type: "d1", name: "my-database" }, "database_id"],
 			["R2", { type: "r2" }, "bucket_name"],

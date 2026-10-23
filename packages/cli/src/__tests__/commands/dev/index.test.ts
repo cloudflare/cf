@@ -71,7 +71,7 @@ describe("cf dev", () => {
 					? "node_modules/.bin/astro"
 					: `node_modules/${packageName}/bin/${implementation === "vite" ? "cf-vite" : "cf-wrangler.js"}`;
 			await seed({
-				"cloudflare.config.ts": "export default {};",
+				"cloudflare.config.ts": `export default {worker: {name: "linked-worker", compatibilityFlags: ["workers_oidc"], env: {IDENTITY: {type: "oidc", identity_id: "orders", audience: "recipient"}}}};`,
 				"package.json": JSON.stringify({
 					dependencies: { [packageName]: version },
 				}),

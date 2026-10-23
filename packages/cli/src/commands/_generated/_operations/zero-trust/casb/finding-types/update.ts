@@ -13,6 +13,7 @@ export default {
 		404: "NotFoundError",
 		409: "ConflictError",
 		422: "UnprocessableEntityError",
+		429: "TooManyRequestsError",
 		500: "InternalServerError",
 	},
 } as const;

@@ -49,6 +49,12 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description:
 				"Which fields to use when ordering the findings. Provide as a JSON array of objects or @path/to/file.json.",
 		})
+		.option("product", {
+			type: "string",
+			description: "Filter by finding's category product.",
+			choices: ["SaaS", "Cloud"],
+		})
+		.coerce("product", (value) => resolveFileToken(value, "product", "text"))
 		.option("search", { type: "string", description: "A search term." })
 		.option("severities", {
 			type: "string",
@@ -82,7 +88,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			{
 				command: "zero-trust casb findings export",
 				classification: {
-					safeFlags: ["ignored", "dry-run"],
+					safeFlags: ["ignored", "product", "dry-run"],
 				} satisfies ArgClassification<Args>,
 			},
 			argv as Record<string, unknown>,
@@ -112,6 +118,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 											"text"
 										),
 										orders: parseObjectArray(argv["orders"], "orders"),
+										product: argv["product"],
 										search: resolveFileToken(
 											argv["search"] as string | undefined,
 											"search",
@@ -151,6 +158,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						"text"
 					),
 					orders: parseObjectArray(argv["orders"], "orders"),
+					product: argv["product"],
 					search: resolveFileToken(
 						argv["search"] as string | undefined,
 						"search",

@@ -11,6 +11,7 @@ export default {
 		401: "UnauthorizedError",
 		403: "ForbiddenError",
 		409: "ConflictError",
+		429: "TooManyRequestsError",
 		500: "InternalServerError",
 	},
 } as const;

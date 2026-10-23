@@ -12,6 +12,7 @@ import { withProgress } from "../../lib/progress.js";
 const spinner = vi.hoisted(() =>
 	vi.fn(() => ({
 		error: vi.fn(),
+		message: vi.fn(),
 		start: vi.fn(),
 		stop: vi.fn(),
 	}))
@@ -80,6 +81,37 @@ describe("withProgress", () => {
 		ciInfo.isCI = true;
 
 		await expect(withProgress("Loading", async () => "ok")).resolves.toBe("ok");
+
+		expect(spinner).not.toHaveBeenCalled();
+	});
+
+	it("shows live updates and keeps the last one on success", async () => {
+		vi.spyOn(terminalProgress, "setIndeterminate").mockImplementation(() => {});
+		vi.spyOn(terminalProgress, "clear").mockImplementation(() => {});
+
+		await withProgress("Loading", async (update) => {
+			update("Loading 1/2");
+			update("Loaded 2/2");
+		});
+
+		const drawn = spinner.mock.results[0]?.value;
+		expect(drawn?.start).toHaveBeenCalledWith("Loading");
+		expect(drawn?.message.mock.calls).toEqual([
+			["Loading 1/2"],
+			["Loaded 2/2"],
+		]);
+		expect(drawn?.stop).toHaveBeenCalledWith("Loaded 2/2");
+	});
+
+	it("ignores updates when not drawing", async () => {
+		ciInfo.isCI = true;
+
+		await expect(
+			withProgress("Loading", async (update) => {
+				update("Loaded");
+				return "ok";
+			})
+		).resolves.toBe("ok");
 
 		expect(spinner).not.toHaveBeenCalled();
 	});

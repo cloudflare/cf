@@ -63,6 +63,10 @@ const runtime = {
 		load: () => import("./docs/index.js"),
 		telemetry: { command: "docs", recordArgs: false },
 	},
+	speedtest: {
+		load: () => import("./speedtest/index.js"),
+		telemetry: { command: "speedtest", classification: { safeFlags: [] } },
+	},
 	cli: {
 		load: () => import("./cli/index.js"),
 		telemetry: { command: "cli", recordArgs: false },

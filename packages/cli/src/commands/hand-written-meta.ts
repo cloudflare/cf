@@ -33,6 +33,7 @@ import pagesDeployMeta from "./pages/deploy/meta.js";
 import previewsDeployMeta from "./previews/deploy/meta.js";
 import registrarRegistrationsCreateMeta from "./registrar/registrations/create/meta.js";
 import schemaMeta from "./schema/meta.js";
+import speedtestMeta from "./speedtest/meta.js";
 import toolsMeta from "./tools/meta.js";
 import tunnelsDiagMeta from "./tunnels/diag/meta.js";
 import tunnelsLoginMeta from "./tunnels/login/meta.js";
@@ -62,6 +63,7 @@ export const handWrittenMeta = {
 		docs: docsMeta,
 		init: initMeta,
 		migrate: migrateMeta,
+		speedtest: speedtestMeta,
 		cli: cliMeta,
 		schema: schemaMeta,
 		tools: toolsMeta,

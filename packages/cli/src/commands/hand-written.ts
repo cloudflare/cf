@@ -27,6 +27,8 @@ export interface RootHandWrittenCommand {
 	/** Every executable command must choose a {@link HandWrittenDryRunStrategy}. */
 	dryRun: HandWrittenDryRunStrategy;
 	command: string;
+	/** Other names yargs accepts; list them in the `meta.ts` sidecar too. */
+	aliases?: readonly string[];
 	describe: string | false;
 	dir: string;
 }
@@ -137,6 +139,14 @@ const registry = [
 		command: "migrate [path]",
 		describe: "Migrate a Wrangler project to cf",
 		dir: "migrate",
+	},
+	{
+		kind: "root",
+		dryRun: "preview",
+		command: "speedtest",
+		aliases: ["speed-test"],
+		describe: "Measure your connection's speed to Cloudflare",
+		dir: "speedtest",
 	},
 	{
 		kind: "root",

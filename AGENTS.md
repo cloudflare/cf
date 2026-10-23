@@ -415,6 +415,15 @@ derives resource identity from the request URL and sends the request to a
 cf-spawned Miniflare local-explorer instance over shared persisted state. It
 does not read the project's binding declarations.
 
+### Module Workers only
+
+cf supports only ES module Workers. The service-worker format
+(`addEventListener("fetch", …)`, no default export) is deprecated
+(see [Migrate to module Workers](https://developers.cloudflare.com/workers/reference/migrate-to-module-workers/))
+and unsupported. Do not design for it or flag service-worker regressions in
+review; for example, module upload names do not need to match the
+`__<sanitised name>` globals Wrangler's service-worker bundles expect.
+
 ## Generator Conventions
 
 How the generator turns forge methods into yargs commands. Important

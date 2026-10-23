@@ -26495,6 +26495,37 @@
 			"hasRequestBody": false,
 			"requestBodyFields": []
 		},
+		"cloudforce-one threat-signals articles aggregate-severity": {
+			"operationId": "cloudforce-one.threat-signals.articles.aggregate-severity",
+			"httpMethod": "GET",
+			"path": "/accounts/{account_id}/cloudforce-one/v2/threat-signals/articles/severity/aggregate",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [
+				{
+					"name": "published_after",
+					"type": "string",
+					"required": false
+				},
+				{
+					"name": "published_before",
+					"type": "string",
+					"required": false
+				},
+				{
+					"name": "min_relevance",
+					"type": "string",
+					"required": false
+				}
+			],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
 		"cloudforce-one threat-signals articles bulk-mark-read": {
 			"operationId": "cloudforce-one.threat-signals.articles.bulk-mark-read",
 			"httpMethod": "PATCH",
@@ -93888,7 +93919,7 @@
 					"name": "actor-id",
 					"type": "string",
 					"required": false,
-					"description": "Identifies the exact Durable Object actor to profile. Must be specified together with namespace_id. The actor must currently be active and running the requested Worker version."
+					"description": "Identifies the exact Durable Object actor to profile. Must be specified together with namespace_id. The actor must currently be active and running the requested version."
 				},
 				{
 					"name": "duration-ms",
@@ -100278,6 +100309,12 @@
 					"type": "string",
 					"required": false,
 					"description": "Which fields to use when ordering the findings. Provide as a JSON array of objects or @path/to/file.json."
+				},
+				{
+					"name": "product",
+					"type": "string",
+					"required": false,
+					"description": "Filter by finding's category product."
 				},
 				{
 					"name": "search",

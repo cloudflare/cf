@@ -8,5 +8,6 @@ export default {
 	body: "json",
 	errors: {
 		400: "BadRequestError",
+		429: "TooManyRequestsError",
 	},
 } as const;

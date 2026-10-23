@@ -37303,6 +37303,54 @@
 			"hideCommand": false
 		},
 		{
+			"command": "cf cloudforce-one threat-signals articles aggregate-severity",
+			"name": "aggregate-severity",
+			"fullPath": [
+				"cloudforce-one",
+				"threat-signals",
+				"articles",
+				"aggregate-severity"
+			],
+			"description": "Beta. Counts the account's Threat Signals articles in each intrinsic severity band. An article's band is the severity level nearest its severity, from informational to critical. Articles without a severity are not counted. min_relevance counts only articles at or above a relevance band for any active Priority Intelligence Requirement. Like the article severity field, severity is reported only while the account has an active Priority Intelligence Requirement, including one the matcher paused; otherwise every count is zero. All counts are read together and are exact.",
+			"summary": "Count Threat Signals articles by severity band",
+			"usage": "cf cloudforce-one threat-signals articles aggregate-severity [options]",
+			"arguments": [],
+			"options": [
+				{
+					"name": "published-after",
+					"type": "string",
+					"required": false,
+					"description": "Include articles published at or after this ISO 8601 date-time with Z or a numeric UTC offset; normalized to UTC."
+				},
+				{
+					"name": "published-before",
+					"type": "string",
+					"required": false,
+					"description": "Include articles published at or before this ISO 8601 date-time with Z or a numeric UTC offset; normalized to UTC."
+				},
+				{
+					"name": "min-relevance",
+					"type": "string",
+					"required": false,
+					"description": "Beta. Count only articles at or above this relevance band for any active Priority Intelligence Requirement, as the article list's min_relevance does without pir_id. Excludes articles that have not been scored against an active PIR.",
+					"enum": ["low", "medium", "high"]
+				},
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Validate and show what would happen without executing",
+					"default": false
+				}
+			],
+			"category": "action",
+			"hasRequestBody": false,
+			"httpMethod": "GET",
+			"apiPath": "/accounts/{account_id}/cloudforce-one/v2/threat-signals/articles/severity/aggregate",
+			"operationId": "cloudforce-one.threat-signals.articles.aggregate-severity",
+			"hideCommand": false
+		},
+		{
 			"command": "cf cloudforce-one threat-signals articles bulk-mark-read",
 			"name": "bulk-mark-read",
 			"fullPath": [
@@ -54619,7 +54667,7 @@
 			"httpMethod": "POST",
 			"apiPath": "/zones/{zone_id}/healthchecks",
 			"operationId": "healthchecks.create",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf healthchecks delete",
@@ -54651,7 +54699,7 @@
 			"httpMethod": "DELETE",
 			"apiPath": "/zones/{zone_id}/healthchecks/{healthcheck_id}",
 			"operationId": "healthchecks.delete",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf healthchecks edit",
@@ -54817,7 +54865,7 @@
 			"httpMethod": "PATCH",
 			"apiPath": "/zones/{zone_id}/healthchecks/{healthcheck_id}",
 			"operationId": "healthchecks.edit",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf healthchecks get",
@@ -54849,7 +54897,7 @@
 			"httpMethod": "GET",
 			"apiPath": "/zones/{zone_id}/healthchecks/{healthcheck_id}",
 			"operationId": "healthchecks.get",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf healthchecks list",
@@ -54885,7 +54933,7 @@
 			"httpMethod": "GET",
 			"apiPath": "/zones/{zone_id}/healthchecks",
 			"operationId": "healthchecks.list",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf healthchecks previews create",
@@ -55050,7 +55098,7 @@
 			"httpMethod": "POST",
 			"apiPath": "/zones/{zone_id}/healthchecks/preview",
 			"operationId": "healthchecks.previews.create",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf healthchecks previews delete",
@@ -55082,7 +55130,7 @@
 			"httpMethod": "DELETE",
 			"apiPath": "/zones/{zone_id}/healthchecks/preview/{healthcheck_id}",
 			"operationId": "healthchecks.previews.delete",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf healthchecks previews get",
@@ -55114,7 +55162,7 @@
 			"httpMethod": "GET",
 			"apiPath": "/zones/{zone_id}/healthchecks/preview/{healthcheck_id}",
 			"operationId": "healthchecks.previews.get",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf healthchecks update",
@@ -55280,7 +55328,7 @@
 			"httpMethod": "PUT",
 			"apiPath": "/zones/{zone_id}/healthchecks/{healthcheck_id}",
 			"operationId": "healthchecks.update",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf hyperdrive create",
@@ -134868,7 +134916,7 @@
 					"name": "actor-id",
 					"type": "string",
 					"required": false,
-					"description": "Identifies the exact Durable Object actor to profile. Must be specified together with namespace_id. The actor must currently be active and running the requested Worker version."
+					"description": "Identifies the exact Durable Object actor to profile. Must be specified together with namespace_id. The actor must currently be active and running the requested version."
 				},
 				{
 					"name": "duration-ms",
@@ -143959,6 +144007,13 @@
 					"type": "string",
 					"required": false,
 					"description": "Which fields to use when ordering the findings. Provide as a JSON array of objects or @path/to/file.json."
+				},
+				{
+					"name": "product",
+					"type": "string",
+					"required": false,
+					"description": "Filter by finding's category product.",
+					"enum": ["SaaS", "Cloud"]
 				},
 				{
 					"name": "search",

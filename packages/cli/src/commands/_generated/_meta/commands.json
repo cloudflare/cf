@@ -46067,7 +46067,7 @@
 			"httpMethod": "POST",
 			"apiPath": "/accounts/{account_id}/dns_firewall",
 			"operationId": "dns-firewall.create",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf dns-firewall delete",
@@ -46099,7 +46099,7 @@
 			"httpMethod": "DELETE",
 			"apiPath": "/accounts/{account_id}/dns_firewall/{dns_firewall_id}",
 			"operationId": "dns-firewall.delete",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf dns-firewall edit",
@@ -46203,7 +46203,7 @@
 			"httpMethod": "PATCH",
 			"apiPath": "/accounts/{account_id}/dns_firewall/{dns_firewall_id}",
 			"operationId": "dns-firewall.edit",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf dns-firewall get",
@@ -46235,7 +46235,7 @@
 			"httpMethod": "GET",
 			"apiPath": "/accounts/{account_id}/dns_firewall/{dns_firewall_id}",
 			"operationId": "dns-firewall.get",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf dns-firewall list",
@@ -46271,7 +46271,7 @@
 			"httpMethod": "GET",
 			"apiPath": "/accounts/{account_id}/dns_firewall",
 			"operationId": "dns-firewall.list",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf dns-firewall reverse-dns edit",
@@ -46315,7 +46315,7 @@
 			"httpMethod": "PATCH",
 			"apiPath": "/accounts/{account_id}/dns_firewall/{dns_firewall_id}/reverse_dns",
 			"operationId": "dns-firewall.reverse-dns.edit",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf dns-firewall reverse-dns get",
@@ -46347,7 +46347,7 @@
 			"httpMethod": "GET",
 			"apiPath": "/accounts/{account_id}/dns_firewall/{dns_firewall_id}/reverse_dns",
 			"operationId": "dns-firewall.reverse-dns.get",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf docs search",
@@ -46549,6 +46549,193 @@
 			"apiPath": "/zones/{zone_id}/email/auth/spf/inspect",
 			"operationId": "email-auth.spf.inspect",
 			"hideCommand": false
+		},
+		{
+			"command": "cf email-domains create",
+			"name": "create",
+			"fullPath": ["email-domains", "create"],
+			"description": "Creates a candidate and four DNS instructions. Rejects hostnames whose assigned Return-Path exceeds 201 ASCII characters. Creation follows read-only checks of the saved provider bundle and published exclusion. Hostnames inside an active full Cloudflare DNS zone return the generic hostname conflict error 2083. No per-domain provider DNS writes occur. Customer DNS observations remain pending and mail remains inactive. Unverified candidates may share a hostname. Supply an account-unique client_reference to retry the same enrollment safely; reuse with a different hostname returns error 2083. Final public-DNS, namespace protection and runtime readiness are separate gates. Available only to the configured OpenAI pilot account behind a default-off gate. Authentication failures may use the gateway error envelope.",
+			"summary": "Create an Email Domain",
+			"usage": "cf email-domains create [options]",
+			"arguments": [],
+			"options": [
+				{
+					"name": "client-reference",
+					"type": "string",
+					"required": false,
+					"description": "Opaque reference for one customer enrollment. Reuse it with the same hostname to retry Create safely. Distinct references can enroll the same unverified hostname; a hostname alone never identifies a customer."
+				},
+				{
+					"name": "hostname",
+					"type": "string",
+					"required": true,
+					"description": "Exact external hostname to enroll. After ASCII conversion, the assigned Return-Path hostname must be at most 201 characters (191 for the current cf-bounce. prefix). Wildcards, provider-zone names, and hostnames inside an existing Cloudflare-managed DNS zone are rejected."
+				},
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Validate and show what would happen without executing",
+					"default": false
+				},
+				{
+					"name": "body",
+					"type": "string",
+					"required": false,
+					"description": "Raw JSON request body (bypasses individual flags)"
+				}
+			],
+			"category": "create",
+			"hasRequestBody": true,
+			"httpMethod": "POST",
+			"apiPath": "/accounts/{account_id}/email/domains",
+			"operationId": "email-domains.create",
+			"hideCommand": true
+		},
+		{
+			"command": "cf email-domains delete",
+			"name": "delete",
+			"fullPath": ["email-domains", "delete"],
+			"description": "Requires an empty body. Unclaimed unpublished candidates are purged immediately. Claimed domains persist deleting state and retain claims until the deletion worker acknowledges safe revocation and token retirement. Repeated requests while deleting are idempotent. Available only to the configured OpenAI pilot account behind a default-off gate. Authentication failures may use the gateway error envelope.",
+			"summary": "Delete an Email Domain",
+			"usage": "cf email-domains delete <email-domain-id>",
+			"arguments": [
+				{
+					"name": "email-domain-id",
+					"position": 0,
+					"type": "string",
+					"required": true,
+					"description": "Email domain ID"
+				}
+			],
+			"options": [
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Validate and show what would happen without executing",
+					"default": false
+				}
+			],
+			"category": "delete",
+			"hasRequestBody": false,
+			"httpMethod": "DELETE",
+			"apiPath": "/accounts/{account_id}/email/domains/{email_domain_id}",
+			"operationId": "email-domains.delete",
+			"hideCommand": true
+		},
+		{
+			"command": "cf email-domains get",
+			"name": "get",
+			"fullPath": ["email-domains", "get"],
+			"description": "Returns domain status and its four assigned DNS records. Shared provider health is reported by the capability states rather than duplicated on each DNS record. Expired unclaimed candidates and completed deletions return 404. Available only to the configured OpenAI pilot account behind a default-off gate. Authentication failures may use the gateway error envelope.",
+			"summary": "Get an Email Domain",
+			"usage": "cf email-domains get <email-domain-id>",
+			"arguments": [
+				{
+					"name": "email-domain-id",
+					"position": 0,
+					"type": "string",
+					"required": true,
+					"description": "Email domain ID"
+				}
+			],
+			"options": [
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Validate and show what would happen without executing",
+					"default": false
+				}
+			],
+			"category": "read",
+			"hasRequestBody": false,
+			"httpMethod": "GET",
+			"apiPath": "/accounts/{account_id}/email/domains/{email_domain_id}",
+			"operationId": "email-domains.get",
+			"hideCommand": true
+		},
+		{
+			"command": "cf email-domains list",
+			"name": "list",
+			"fullPath": ["email-domains", "list"],
+			"description": "Returns account-scoped domain status. DNS records are omitted unless requested; exact hostname filtering may return several candidates; retain the EmailDomain ID for each enrollment. Available only to the configured OpenAI pilot account behind a default-off gate. Authentication failures may use the gateway error envelope.",
+			"summary": "List Email Domains",
+			"usage": "cf email-domains list [options]",
+			"arguments": [],
+			"options": [
+				{
+					"name": "per-page",
+					"type": "number",
+					"required": false,
+					"description": "Per page"
+				},
+				{
+					"name": "cursor",
+					"type": "string",
+					"required": false,
+					"description": "Opaque cursor returned by the previous page. Omit it for the first page."
+				},
+				{
+					"name": "hostname",
+					"type": "string",
+					"required": false,
+					"description": "Exact hostname filter for recovering an ambiguous create response."
+				},
+				{
+					"name": "include",
+					"type": "string",
+					"required": false,
+					"description": "Include DNS instructions on each list result.",
+					"enum": ["dns_records"]
+				},
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Validate and show what would happen without executing",
+					"default": false
+				}
+			],
+			"category": "read",
+			"hasRequestBody": false,
+			"httpMethod": "GET",
+			"apiPath": "/accounts/{account_id}/email/domains",
+			"operationId": "email-domains.list",
+			"hideCommand": true
+		},
+		{
+			"command": "cf email-domains verify",
+			"name": "verify",
+			"fullPath": ["email-domains", "verify"],
+			"description": "Requires an empty body. Schedules an expedited check and coalesces queued or leased work. It does not accept verification results, bypass activation gates, or perform customer DNS checks synchronously. Follow the Location header after Retry-After seconds until verification.observed_at appears or advances beyond the value in this 202 response; status may remain unchanged. Candidate expiry returns 404. Available only to the configured OpenAI pilot account behind a default-off gate. Authentication failures may use the gateway error envelope.",
+			"summary": "Verify an Email Domain",
+			"usage": "cf email-domains verify <email-domain-id>",
+			"arguments": [
+				{
+					"name": "email-domain-id",
+					"position": 0,
+					"type": "string",
+					"required": true,
+					"description": "Email domain ID"
+				}
+			],
+			"options": [
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Validate and show what would happen without executing",
+					"default": false
+				}
+			],
+			"category": "action",
+			"hasRequestBody": false,
+			"httpMethod": "POST",
+			"apiPath": "/accounts/{account_id}/email/domains/{email_domain_id}/verify",
+			"operationId": "email-domains.verify",
+			"hideCommand": true
 		},
 		{
 			"command": "cf email-routing addresses create",
@@ -53550,7 +53737,7 @@
 			"command": "cf flagship apps flags create",
 			"name": "create",
 			"fullPath": ["flagship", "apps", "flags", "create"],
-			"description": "Creates a flag. Returns 409 if the key already exists. `type` is always inferred from variation values; legacy request-side values are ignored.",
+			"description": "Creates a flag. Returns 409 if the key already exists. `type` is always inferred from variation values; legacy request-side values are ignored. Optional `metadata` can be attached at creation.",
 			"summary": "Create flag",
 			"usage": "cf flagship apps flags create <app-id> [options]",
 			"arguments": [
@@ -53586,6 +53773,12 @@
 					"type": "string",
 					"required": true,
 					"description": "Unique identifier for the flag within an app. Used in all evaluation and SDK calls."
+				},
+				{
+					"name": "metadata",
+					"type": "string",
+					"required": false,
+					"description": "Key-value metadata associated with the flag. `null` or an empty object clears existing metadata; omission semantics depend on the endpoint (PUT clears it, PATCH preserves it). Provide as a JSON object or @path/to/file.json."
 				},
 				{
 					"name": "rules",
@@ -53686,7 +53879,7 @@
 					"name": "context",
 					"type": "string",
 					"required": false,
-					"description": "Evaluation attributes keyed by name. Values may be any JSON value; the context supports up to 100 entries and 32 KB. Provide as a JSON object or @path/to/file.json."
+					"description": "Evaluation attributes keyed by name. Values may be any JSON value; the context supports up to 100 entries, nesting depth of 10, 10,000 values, and 32 KB. Provide as a JSON object or @path/to/file.json."
 				},
 				{
 					"name": "flag-key",
@@ -53719,7 +53912,7 @@
 			"command": "cf flagship apps flags get",
 			"name": "get",
 			"fullPath": ["flagship", "apps", "flags", "get"],
-			"description": "Returns the full flag definition including rules, variations, and audit fields.",
+			"description": "Returns the full flag definition including rules, variations, metadata, and audit fields.",
 			"summary": "Get flag",
 			"usage": "cf flagship apps flags get <flag-key> [options]",
 			"arguments": [
@@ -53796,10 +53989,78 @@
 			"hideCommand": false
 		},
 		{
+			"command": "cf flagship apps flags patch",
+			"name": "patch",
+			"fullPath": ["flagship", "apps", "flags", "patch"],
+			"description": "Applies a partial update to lightweight flag fields: `enabled`, `description`, `metadata`, and `default_variation`. Only fields present in the request body are modified; omitted fields are preserved. `metadata: null` or an empty object clears metadata. `default_variation` must exist in the current `variations`. Structural changes to `variations` and `rules` use PUT. A changelog entry is appended when the flag content actually changes.",
+			"summary": "Partially update flag",
+			"usage": "cf flagship apps flags patch <flag-key> [options]",
+			"arguments": [
+				{
+					"name": "flag-key",
+					"position": 0,
+					"type": "string",
+					"required": true,
+					"description": "Case-sensitive key identifying the flag within the app."
+				}
+			],
+			"options": [
+				{
+					"name": "app-id",
+					"type": "string",
+					"required": true,
+					"description": "Flagship app ID returned when the app was created."
+				},
+				{
+					"name": "default-variation",
+					"type": "string",
+					"required": false,
+					"description": "Variation the API serves when the flag is off, or when it's on but no rule matches the context. Must be a key in `variations`."
+				},
+				{
+					"name": "description",
+					"type": "string",
+					"required": false,
+					"description": "Optional operator-facing description. It does not affect flag evaluation."
+				},
+				{
+					"name": "enabled",
+					"type": "boolean",
+					"required": false,
+					"description": "When false, the flag bypasses all rules and always serves `default_variation`."
+				},
+				{
+					"name": "metadata",
+					"type": "string",
+					"required": false,
+					"description": "Key-value metadata associated with the flag. `null` or an empty object clears existing metadata; omission semantics depend on the endpoint (PUT clears it, PATCH preserves it). Provide as a JSON object or @path/to/file.json."
+				},
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Validate and show what would happen without executing",
+					"default": false
+				},
+				{
+					"name": "body",
+					"type": "string",
+					"required": false,
+					"description": "Raw JSON request body (bypasses individual flags)"
+				}
+			],
+			"category": "update",
+			"hasRequestBody": true,
+			"httpMethod": "PATCH",
+			"apiPath": "/accounts/{account_id}/flagship/apps/{app_id}/flags/{flag_key}",
+			"operationId": "flagship.apps.flags.patch",
+			"hideCommand": false
+		},
+		{
 			"command": "cf flagship apps flags update",
 			"name": "update",
 			"fullPath": ["flagship", "apps", "flags", "update"],
-			"description": "Replaces the entire flag definition. Omitted fields are dropped, not preserved — read before writing. The path key identifies the flag and cannot be renamed by changing the body `key`. Each update appends a changelog entry.",
+			"description": "Replaces the entire flag definition. Omitted fields are cleared, not preserved — read before writing. The path key identifies the flag and cannot be renamed by changing the body `key`. A changelog entry is appended when the flag content actually changes; identical updates are no-ops.",
 			"summary": "Update flag",
 			"usage": "cf flagship apps flags update <flag-key> [options]",
 			"arguments": [
@@ -53841,6 +54102,12 @@
 					"type": "string",
 					"required": true,
 					"description": "Unique identifier for the flag within an app. Used in all evaluation and SDK calls."
+				},
+				{
+					"name": "metadata",
+					"type": "string",
+					"required": false,
+					"description": "Key-value metadata associated with the flag. `null` or an empty object clears existing metadata; omission semantics depend on the endpoint (PUT clears it, PATCH preserves it). Provide as a JSON object or @path/to/file.json."
 				},
 				{
 					"name": "rules",
@@ -58375,7 +58642,7 @@
 			],
 			"options": [
 				{
-					"name": "account-id",
+					"name": "account-id-body",
 					"type": "number",
 					"required": true,
 					"description": "The numeric account ID to create the provider for. Distinct from the\npath `account_id` parameter, which carries the account identifier\nstring used for routing.\n"
@@ -58523,6 +58790,44 @@
 			"httpMethod": "PUT",
 			"apiPath": "/accounts/{account_id}/intel/indicator-feeds/{feed_id}",
 			"operationId": "intel.indicator-feeds.update",
+			"hideCommand": false
+		},
+		{
+			"command": "cf intel indicator-feeds uploads get",
+			"name": "get",
+			"fullPath": ["intel", "indicator-feeds", "uploads", "get"],
+			"description": "Polls an asynchronously accepted upload. Continue polling after the recommended `poll_after_seconds` delay until status is `Unified` or `Error`. `Unified` is returned only after the durable loader finishes.",
+			"summary": "Get indicator feed upload status",
+			"usage": "cf intel indicator-feeds uploads get <upload-id> [options]",
+			"arguments": [
+				{
+					"name": "upload-id",
+					"position": 0,
+					"type": "string",
+					"required": true,
+					"description": "Upload ID"
+				}
+			],
+			"options": [
+				{
+					"name": "feed-id",
+					"type": "string",
+					"required": true,
+					"description": "Indicator feed ID"
+				},
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Validate and show what would happen without executing",
+					"default": false
+				}
+			],
+			"category": "read",
+			"hasRequestBody": false,
+			"httpMethod": "GET",
+			"apiPath": "/accounts/{account_id}/intel/indicator-feeds/{feed_id}/uploads/{upload_id}",
+			"operationId": "intel.indicator-feeds.uploads.get",
 			"hideCommand": false
 		},
 		{
@@ -59121,6 +59426,30 @@
 			"apiPath": "/accounts/{account_id}/intel/whois",
 			"operationId": "intel.whois.get",
 			"hideCommand": false
+		},
+		{
+			"command": "cf internal submit create",
+			"name": "create",
+			"fullPath": ["internal", "submit", "create"],
+			"description": "Internal route for testing URL submissions.",
+			"summary": "Internal route for testing URL submissions",
+			"usage": "cf internal submit create",
+			"arguments": [],
+			"options": [
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Validate and show what would happen without executing",
+					"default": false
+				}
+			],
+			"category": "create",
+			"hasRequestBody": false,
+			"httpMethod": "POST",
+			"apiPath": "/internal/submit",
+			"operationId": "internal.submit.create",
+			"hideCommand": true
 		},
 		{
 			"command": "cf ips list",
@@ -60241,6 +60570,30 @@
 			"apiPath": "/zones/{zone_id}/leaked-credential-checks",
 			"operationId": "leaked-credential-checks.update",
 			"hideCommand": false
+		},
+		{
+			"command": "cf live get",
+			"name": "get",
+			"fullPath": ["live", "get"],
+			"description": "Return a success message after running liveness checks.",
+			"summary": "Run liveness checks",
+			"usage": "cf live get",
+			"arguments": [],
+			"options": [
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Validate and show what would happen without executing",
+					"default": false
+				}
+			],
+			"category": "read",
+			"hasRequestBody": false,
+			"httpMethod": "GET",
+			"apiPath": "/live",
+			"operationId": "live.get",
+			"hideCommand": true
 		},
 		{
 			"command": "cf load-balancers account create",
@@ -62902,176 +63255,6 @@
 			"apiPath": "/accounts/{account_id}/load_balancers/search",
 			"operationId": "load-balancers.searches.list",
 			"hideCommand": false
-		},
-		{
-			"command": "cf logo-matches download get",
-			"name": "get",
-			"fullPath": ["logo-matches", "download", "get"],
-			"description": "Return matches as CSV for logo queries based on ID",
-			"summary": "Download matches for logo queries by ID",
-			"usage": "cf logo-matches download get [options]",
-			"arguments": [],
-			"options": [
-				{
-					"name": "logo-id",
-					"type": "string",
-					"required": false,
-					"description": "Logo ID"
-				},
-				{
-					"name": "offset",
-					"type": "string",
-					"required": false,
-					"description": "Offset"
-				},
-				{
-					"name": "limit",
-					"type": "string",
-					"required": false,
-					"description": "Limit"
-				},
-				{
-					"name": "dry-run",
-					"type": "boolean",
-					"required": false,
-					"description": "Validate and show what would happen without executing",
-					"default": false
-				}
-			],
-			"category": "read",
-			"hasRequestBody": false,
-			"httpMethod": "GET",
-			"apiPath": "/accounts/{account_id}/brand-protection/logo-matches/download",
-			"operationId": "logo-matches.download.get",
-			"hideCommand": true
-		},
-		{
-			"command": "cf logo-matches get",
-			"name": "get",
-			"fullPath": ["logo-matches", "get"],
-			"description": "Return matches for logo queries based on ID",
-			"summary": "Read matches for logo queries by ID",
-			"usage": "cf logo-matches get [options]",
-			"arguments": [],
-			"options": [
-				{
-					"name": "logo-id",
-					"type": "string",
-					"required": false,
-					"description": "Logo ID"
-				},
-				{
-					"name": "offset",
-					"type": "string",
-					"required": false,
-					"description": "Offset"
-				},
-				{
-					"name": "limit",
-					"type": "string",
-					"required": false,
-					"description": "Limit"
-				},
-				{
-					"name": "dry-run",
-					"type": "boolean",
-					"required": false,
-					"description": "Validate and show what would happen without executing",
-					"default": false
-				}
-			],
-			"category": "read",
-			"hasRequestBody": false,
-			"httpMethod": "GET",
-			"apiPath": "/accounts/{account_id}/brand-protection/logo-matches",
-			"operationId": "logo-matches.get",
-			"hideCommand": true
-		},
-		{
-			"command": "cf logos create",
-			"name": "create",
-			"fullPath": ["logos", "create"],
-			"description": "Return new saved logo queries created from image files",
-			"summary": "Create new saved logo queries from image files",
-			"usage": "cf logos create [options]",
-			"arguments": [],
-			"options": [
-				{
-					"name": "tag",
-					"type": "string",
-					"required": false,
-					"description": "Tag"
-				},
-				{
-					"name": "match-type",
-					"type": "string",
-					"required": false,
-					"description": "Match type"
-				},
-				{
-					"name": "threshold",
-					"type": "number",
-					"required": false,
-					"description": "Threshold"
-				},
-				{
-					"name": "dry-run",
-					"type": "boolean",
-					"required": false,
-					"description": "Validate and show what would happen without executing",
-					"default": false
-				},
-				{
-					"name": "body",
-					"type": "string",
-					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
-				},
-				{
-					"name": "file",
-					"type": "string",
-					"required": false,
-					"description": "Path to a file to upload as the request body"
-				}
-			],
-			"category": "create",
-			"hasRequestBody": true,
-			"httpMethod": "POST",
-			"apiPath": "/accounts/{account_id}/brand-protection/logos",
-			"operationId": "logos.create",
-			"hideCommand": true
-		},
-		{
-			"command": "cf logos delete",
-			"name": "delete",
-			"fullPath": ["logos", "delete"],
-			"description": "Return a success message after deleting saved logo queries by ID",
-			"summary": "Delete saved logo queries by ID",
-			"usage": "cf logos delete <logo-id>",
-			"arguments": [
-				{
-					"name": "logo-id",
-					"position": 0,
-					"type": "string",
-					"required": true,
-					"description": "Logo ID"
-				}
-			],
-			"options": [
-				{
-					"name": "dry-run",
-					"type": "boolean",
-					"required": false,
-					"description": "Validate and show what would happen without executing",
-					"default": false
-				}
-			],
-			"category": "delete",
-			"hasRequestBody": false,
-			"httpMethod": "DELETE",
-			"apiPath": "/accounts/{account_id}/brand-protection/logos/{logo_id}",
-			"operationId": "logos.delete",
-			"hideCommand": true
 		},
 		{
 			"command": "cf logpush account-datasets fields get",
@@ -74903,114 +75086,6 @@
 			"httpMethod": "PATCH",
 			"apiPath": "/zones/{zone_id}/managed_headers",
 			"operationId": "managed-transforms.update",
-			"hideCommand": true
-		},
-		{
-			"command": "cf matches download get",
-			"name": "get",
-			"fullPath": ["matches", "download", "get"],
-			"description": "Return matches as CSV for string queries based on ID",
-			"summary": "Download matches for string queries by ID",
-			"usage": "cf matches download get [options]",
-			"arguments": [],
-			"options": [
-				{
-					"name": "id",
-					"type": "string",
-					"required": false,
-					"description": "ID"
-				},
-				{
-					"name": "offset",
-					"type": "number",
-					"required": false,
-					"description": "Offset"
-				},
-				{
-					"name": "limit",
-					"type": "number",
-					"required": false,
-					"description": "Limit"
-				},
-				{
-					"name": "include-domain-id",
-					"type": "boolean",
-					"required": false,
-					"description": "Include domain ID"
-				},
-				{
-					"name": "include-dismissed",
-					"type": "boolean",
-					"required": false,
-					"description": "Include dismissed"
-				},
-				{
-					"name": "dry-run",
-					"type": "boolean",
-					"required": false,
-					"description": "Validate and show what would happen without executing",
-					"default": false
-				}
-			],
-			"category": "read",
-			"hasRequestBody": false,
-			"httpMethod": "GET",
-			"apiPath": "/accounts/{account_id}/brand-protection/matches/download",
-			"operationId": "matches.download.get",
-			"hideCommand": true
-		},
-		{
-			"command": "cf matches get",
-			"name": "get",
-			"fullPath": ["matches", "get"],
-			"description": "Return matches for string queries based on ID",
-			"summary": "Read matches for string queries by ID",
-			"usage": "cf matches get [options]",
-			"arguments": [],
-			"options": [
-				{
-					"name": "id",
-					"type": "string",
-					"required": false,
-					"description": "ID"
-				},
-				{
-					"name": "offset",
-					"type": "number",
-					"required": false,
-					"description": "Offset"
-				},
-				{
-					"name": "limit",
-					"type": "number",
-					"required": false,
-					"description": "Limit"
-				},
-				{
-					"name": "include-domain-id",
-					"type": "boolean",
-					"required": false,
-					"description": "Include domain ID"
-				},
-				{
-					"name": "include-dismissed",
-					"type": "boolean",
-					"required": false,
-					"description": "Include dismissed"
-				},
-				{
-					"name": "dry-run",
-					"type": "boolean",
-					"required": false,
-					"description": "Validate and show what would happen without executing",
-					"default": false
-				}
-			],
-			"category": "read",
-			"hasRequestBody": false,
-			"httpMethod": "GET",
-			"apiPath": "/accounts/{account_id}/brand-protection/matches",
-			"operationId": "matches.get",
 			"hideCommand": true
 		},
 		{
@@ -87095,144 +87170,6 @@
 					"default": false
 				}
 			]
-		},
-		{
-			"command": "cf queries bulk create",
-			"name": "create",
-			"fullPath": ["queries", "bulk", "create"],
-			"description": "Return a success message after creating new saved string queries in bulk",
-			"summary": "Create new saved string queries in bulk",
-			"usage": "cf queries bulk create [options]",
-			"arguments": [],
-			"options": [
-				{
-					"name": "queries",
-					"type": "string",
-					"required": false,
-					"description": "The queries field. Provide as a JSON array of objects or @path/to/file.json."
-				},
-				{
-					"name": "dry-run",
-					"type": "boolean",
-					"required": false,
-					"description": "Validate and show what would happen without executing",
-					"default": false
-				},
-				{
-					"name": "body",
-					"type": "string",
-					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
-				}
-			],
-			"category": "create",
-			"hasRequestBody": true,
-			"httpMethod": "POST",
-			"apiPath": "/accounts/{account_id}/brand-protection/queries/bulk",
-			"operationId": "queries.bulk.create",
-			"hideCommand": true
-		},
-		{
-			"command": "cf queries create",
-			"name": "create",
-			"fullPath": ["queries", "create"],
-			"description": "Return a success message after creating new saved string queries",
-			"summary": "Create new saved string queries",
-			"usage": "cf queries create [options]",
-			"arguments": [],
-			"options": [
-				{
-					"name": "id",
-					"type": "string",
-					"required": false,
-					"description": "ID"
-				},
-				{
-					"name": "max-time",
-					"type": "string",
-					"required": false,
-					"description": "The max_time field"
-				},
-				{
-					"name": "min-time",
-					"type": "string",
-					"required": false,
-					"description": "The min_time field"
-				},
-				{
-					"name": "scan",
-					"type": "boolean",
-					"required": false,
-					"description": "The scan field"
-				},
-				{
-					"name": "tag",
-					"type": "string",
-					"required": false,
-					"description": "The tag field"
-				},
-				{
-					"name": "dry-run",
-					"type": "boolean",
-					"required": false,
-					"description": "Validate and show what would happen without executing",
-					"default": false
-				},
-				{
-					"name": "body",
-					"type": "string",
-					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
-				}
-			],
-			"category": "create",
-			"hasRequestBody": true,
-			"httpMethod": "POST",
-			"apiPath": "/accounts/{account_id}/brand-protection/queries",
-			"operationId": "queries.create",
-			"hideCommand": true
-		},
-		{
-			"command": "cf queries delete",
-			"name": "delete",
-			"fullPath": ["queries", "delete"],
-			"description": "Return a success message after deleting saved string queries by ID",
-			"summary": "Delete saved string queries by ID",
-			"usage": "cf queries delete [options]",
-			"arguments": [],
-			"options": [
-				{
-					"name": "id",
-					"type": "string",
-					"required": false,
-					"description": "ID"
-				},
-				{
-					"name": "tag",
-					"type": "string",
-					"required": false,
-					"description": "Tag"
-				},
-				{
-					"name": "scan",
-					"type": "boolean",
-					"required": false,
-					"description": "Scan"
-				},
-				{
-					"name": "dry-run",
-					"type": "boolean",
-					"required": false,
-					"description": "Validate and show what would happen without executing",
-					"default": false
-				}
-			],
-			"category": "delete",
-			"hasRequestBody": false,
-			"httpMethod": "DELETE",
-			"apiPath": "/accounts/{account_id}/brand-protection/queries",
-			"operationId": "queries.delete",
-			"hideCommand": true
 		},
 		{
 			"command": "cf queues consumers create",
@@ -105038,6 +104975,30 @@
 			"hideCommand": false
 		},
 		{
+			"command": "cf ready get",
+			"name": "get",
+			"fullPath": ["ready", "get"],
+			"description": "Return a success message after running readiness checks.",
+			"summary": "Run readiness checks",
+			"usage": "cf ready get",
+			"arguments": [],
+			"options": [
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Validate and show what would happen without executing",
+					"default": false
+				}
+			],
+			"category": "read",
+			"hasRequestBody": false,
+			"httpMethod": "GET",
+			"apiPath": "/ready",
+			"operationId": "ready.get",
+			"hideCommand": true
+		},
+		{
 			"command": "cf realtime kit analytics livestreams daily get",
 			"name": "get",
 			"fullPath": [
@@ -117273,6 +117234,30 @@
 			"hideCommand": false
 		},
 		{
+			"command": "cf signed-url get",
+			"name": "get",
+			"fullPath": ["signed-url", "get"],
+			"description": "Internal route for testing signed URLs.",
+			"summary": "Internal route for testing signed URLs",
+			"usage": "cf signed-url get",
+			"arguments": [],
+			"options": [
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Validate and show what would happen without executing",
+					"default": false
+				}
+			],
+			"category": "read",
+			"hasRequestBody": false,
+			"httpMethod": "GET",
+			"apiPath": "/signed-url",
+			"operationId": "signed-url.get",
+			"hideCommand": true
+		},
+		{
 			"command": "cf smart-shield cache-reserve-clear clear",
 			"name": "clear",
 			"fullPath": ["smart-shield", "cache-reserve-clear", "clear"],
@@ -124126,30 +124111,6 @@
 			"hideCommand": false
 		},
 		{
-			"command": "cf submit create",
-			"name": "create",
-			"fullPath": ["submit", "create"],
-			"description": "Return new URL submissions",
-			"summary": "Create new URL submissions",
-			"usage": "cf submit create",
-			"arguments": [],
-			"options": [
-				{
-					"name": "dry-run",
-					"type": "boolean",
-					"required": false,
-					"description": "Validate and show what would happen without executing",
-					"default": false
-				}
-			],
-			"category": "create",
-			"hasRequestBody": false,
-			"httpMethod": "POST",
-			"apiPath": "/accounts/{account_id}/brand-protection/submit",
-			"operationId": "submit.create",
-			"hideCommand": true
-		},
-		{
 			"command": "cf tags account-resources delete",
 			"name": "delete",
 			"fullPath": ["tags", "account-resources", "delete"],
@@ -124184,6 +124145,7 @@
 						"account_ruleset",
 						"ai_gateway",
 						"ai_search_instance",
+						"ai_search_namespace",
 						"alerting_policy",
 						"alerting_webhook",
 						"cloudflared_tunnel",
@@ -124267,6 +124229,7 @@
 						"account_ruleset",
 						"ai_gateway",
 						"ai_search_instance",
+						"ai_search_namespace",
 						"alerting_policy",
 						"alerting_webhook",
 						"cloudflared_tunnel",
@@ -124352,6 +124315,7 @@
 						"account_ruleset",
 						"ai_gateway",
 						"ai_search_instance",
+						"ai_search_namespace",
 						"alerting_policy",
 						"alerting_webhook",
 						"cloudflared_tunnel",
@@ -124562,6 +124526,7 @@
 						"account_ruleset",
 						"ai_gateway",
 						"ai_search_instance",
+						"ai_search_namespace",
 						"alerting_policy",
 						"alerting_webhook",
 						"api_gateway_operation",
@@ -126130,30 +126095,6 @@
 			"apiPath": "/accounts/{account_id}/challenges/widgets/{sitekey}",
 			"operationId": "turnstile.widgets.update",
 			"hideCommand": false
-		},
-		{
-			"command": "cf url-info get",
-			"name": "get",
-			"fullPath": ["url-info", "get"],
-			"description": "Return submitted URLs based on ID",
-			"summary": "Read submitted URLs by ID",
-			"usage": "cf url-info get",
-			"arguments": [],
-			"options": [
-				{
-					"name": "dry-run",
-					"type": "boolean",
-					"required": false,
-					"description": "Validate and show what would happen without executing",
-					"default": false
-				}
-			],
-			"category": "read",
-			"hasRequestBody": false,
-			"httpMethod": "GET",
-			"apiPath": "/accounts/{account_id}/brand-protection/url-info",
-			"operationId": "url-info.get",
-			"hideCommand": true
 		},
 		{
 			"command": "cf url-normalization delete",
@@ -162360,6 +162301,30 @@
 			"hideCommand": false
 		},
 		{
+			"command": "cf zones aegis delete",
+			"name": "delete",
+			"fullPath": ["zones", "aegis", "delete"],
+			"description": "Aegis provides dedicated egress IPs (from Cloudflare to your origin) for your layer 7 WAF and CDN services. The egress IPs are reserved exclusively for your account so that you can increase your origin security by only allowing traffic from a small list of IP addresses.",
+			"summary": "Delete aegis setting",
+			"usage": "cf zones aegis delete",
+			"arguments": [],
+			"options": [
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Validate and show what would happen without executing",
+					"default": false
+				}
+			],
+			"category": "delete",
+			"hasRequestBody": false,
+			"httpMethod": "DELETE",
+			"apiPath": "/zones/{zone_id}/settings/aegis",
+			"operationId": "zones.aegis.delete",
+			"hideCommand": false
+		},
+		{
 			"command": "cf zones aegis edit",
 			"name": "edit",
 			"fullPath": ["zones", "aegis", "edit"],
@@ -164650,6 +164615,7 @@
 		"email-auth": "email-auth",
 		"email-auth dmarc-reports": "Operations for dmarc-reports",
 		"email-auth spf": "Operations for spf",
+		"email-domains": "email-domains",
 		"email-routing": "Route incoming email to verified destination addresses or Workers with routing rules, catch-all behavior, and managed DNS records",
 		"email-routing addresses": "Verified destination email addresses that can receive forwarded mail",
 		"email-routing dns": "Inspect or unlock the DNS records required by Email Routing",
@@ -164731,6 +164697,7 @@
 		"intel indicator-feeds permissions": "Operations for indicator-feeds.permissions",
 		"intel indicator-feeds providers": "Operations for indicator-feeds.providers",
 		"intel indicator-feeds snapshots": "Operations for indicator-feeds.snapshots",
+		"intel indicator-feeds uploads": "Operations for indicator-feeds.uploads",
 		"intel ip-lists": "Curated IP lists used for threat detection and policy enforcement",
 		"intel ips": "IP address intelligence — geolocation, risk assessment, and hosting provider details",
 		"intel miscategorizations": "Report and track domain miscategorization corrections",
@@ -164738,6 +164705,8 @@
 		"intel sinkholes ingresses": "Operations for sinkholes.ingresses",
 		"intel urls": "URL intelligence operations",
 		"intel whois": "WHOIS registration data for domains including registrant, registrar, and nameservers",
+		"internal": "internal",
+		"internal submit": "Operations for submit",
 		"ips": "ips",
 		"k2": "Durable, ordered event streams that you produce records to and consume from with subscriptions",
 		"k2 streams": "K2 streams, their retention, and the HTTP and Workers binding inputs used to produce records",
@@ -164749,6 +164718,7 @@
 		"kv namespaces": "Operations for namespaces",
 		"leaked-credential-checks": "Detect compromised credentials in login requests by checking against known breach databases",
 		"leaked-credential-checks detections": "Custom detection locations that tell the WAF where to find usernames and passwords in requests",
+		"live": "live",
 		"load-balancers": "Distribute traffic across origin pools with health monitoring, geo-steering, and failover",
 		"load-balancers account": "Account-scoped load balancers that distribute traffic without requiring a DNS hostname",
 		"load-balancers account usage": "Current load balancer resource usage counts for an account",
@@ -164763,9 +164733,6 @@
 		"load-balancers previews": "Preview the result of a health check monitor configuration before applying it",
 		"load-balancers regions": "Geographic regions used for regional pool steering and traffic policies",
 		"load-balancers searches": "Search across all load balancer resources (pools, monitors, load balancers) by name or reference",
-		"logo-matches": "logo-matches",
-		"logo-matches download": "Operations for download",
-		"logos": "logos",
 		"logpush": "logpush",
 		"logpush account-datasets": "Operations for account-datasets",
 		"logpush account-datasets fields": "Operations for account-datasets.fields",
@@ -164850,8 +164817,6 @@
 		"managed-defense vulnerability-discovery repositories": "Operations for vulnerability-discovery.repositories",
 		"managed-defense vulnerability-discovery scans": "Operations for vulnerability-discovery.scans",
 		"managed-transforms": "managed-transforms",
-		"matches": "matches",
-		"matches download": "Operations for download",
 		"mcp": "Manage MCP portals and upstream MCP servers for Cloudflare Access AI controls",
 		"mcp portals": "Manage MCP portals, attached servers, and Code Mode settings",
 		"mcp servers": "Manage upstream MCP servers, credentials, capabilities, and sync state",
@@ -164937,8 +164902,6 @@
 		"pipelines streams": "Inbound data streams that feed events into a pipeline for processing",
 		"precursor": "Precursor settings for a zone",
 		"previews": "Manage Worker Previews",
-		"queries": "queries",
-		"queries bulk": "Operations for bulk",
 		"queues": "Reliable message queuing between Workers — produce, consume, and batch-process messages at scale",
 		"queues consumers": "Workers that automatically receive and process messages from a queue",
 		"queues messages": "Push messages to a queue and pull or acknowledge them from consumers",
@@ -165060,6 +165023,7 @@
 		"radar tlds performance": "Operations for tlds.performance",
 		"radar traffic-anomalies": "Detected traffic anomalies and unusual patterns in Internet traffic flows",
 		"radar traffic-anomalies locations": "Operations for traffic-anomalies.locations",
+		"ready": "ready",
 		"realtime": "Real-time audio, video, and data services on Cloudflare's global network",
 		"realtime kit": "SDK-backed meetings, participants, recordings, livestreams, and webhooks",
 		"realtime kit analytics": "Usage and livestream analytics for RealtimeKit applications",
@@ -165146,6 +165110,7 @@
 		"security-insights scans": "Operations for scans",
 		"security-insights state": "Operations for state",
 		"security-txt": "Manage the /.well-known/security.txt file that tells security researchers how to report vulnerabilities",
+		"signed-url": "signed-url",
 		"smart-shield": "Smart Shield settings, health checks, and cache reserve management",
 		"smart-shield cache-reserve-clear": "Cache Reserve Clear operations",
 		"smart-shield health-checks": "Health checks operations",
@@ -165210,7 +165175,6 @@
 		"stream videos token": "Operations for videos.token",
 		"stream watermarks": "Watermark profiles that overlay an image on every video in the account",
 		"stream webhooks": "Webhook notifications for video lifecycle events (ready, error, etc.)",
-		"submit": "submit",
 		"tags": "tags",
 		"tags account-resources": "Operations for account-resources",
 		"tags keys": "Operations for keys",
@@ -165230,7 +165194,6 @@
 		"tunnels token": "Operations for token",
 		"turnstile": "CAPTCHA-free bot verification widgets that protect forms and APIs without degrading user experience",
 		"turnstile widgets": "Turnstile widget configurations — site keys, secret rotation, and challenge mode settings",
-		"url-info": "url-info",
 		"url-normalization": "url-normalization",
 		"url-scanner": "Scan URLs for phishing, malware, and other threats — submit scans and retrieve detailed results",
 		"url-scanner responses": "Raw HTTP response data captured during URL scans",

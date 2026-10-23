@@ -32710,6 +32710,130 @@
 			"hasRequestBody": false,
 			"requestBodyFields": []
 		},
+		"email-domains create": {
+			"operationId": "email-domains.create",
+			"httpMethod": "POST",
+			"path": "/accounts/{account_id}/email/domains",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": true,
+			"requestBodyFields": [
+				{
+					"name": "client-reference",
+					"type": "string",
+					"required": false,
+					"description": "Opaque reference for one customer enrollment. Reuse it with the same hostname to retry Create safely. Distinct references can enroll the same unverified hostname; a hostname alone never identifies a customer."
+				},
+				{
+					"name": "hostname",
+					"type": "string",
+					"required": true,
+					"description": "Exact external hostname to enroll. After ASCII conversion, the assigned Return-Path hostname must be at most 201 characters (191 for the current cf-bounce. prefix). Wildcards, provider-zone names, and hostnames inside an existing Cloudflare-managed DNS zone are rejected."
+				}
+			]
+		},
+		"email-domains delete": {
+			"operationId": "email-domains.delete",
+			"httpMethod": "DELETE",
+			"path": "/accounts/{account_id}/email/domains/{email_domain_id}",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "email_domain_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"email-domains get": {
+			"operationId": "email-domains.get",
+			"httpMethod": "GET",
+			"path": "/accounts/{account_id}/email/domains/{email_domain_id}",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "email_domain_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"email-domains list": {
+			"operationId": "email-domains.list",
+			"httpMethod": "GET",
+			"path": "/accounts/{account_id}/email/domains",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [
+				{
+					"name": "per_page",
+					"type": "number",
+					"required": false
+				},
+				{
+					"name": "cursor",
+					"type": "string",
+					"required": false
+				},
+				{
+					"name": "hostname",
+					"type": "string",
+					"required": false
+				},
+				{
+					"name": "include",
+					"type": "string",
+					"required": false
+				}
+			],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"email-domains verify": {
+			"operationId": "email-domains.verify",
+			"httpMethod": "POST",
+			"path": "/accounts/{account_id}/email/domains/{email_domain_id}/verify",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "email_domain_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
 		"email-routing addresses create": {
 			"operationId": "email-routing.addresses.create",
 			"httpMethod": "POST",
@@ -37708,6 +37832,12 @@
 					"description": "Unique identifier for the flag within an app. Used in all evaluation and SDK calls."
 				},
 				{
+					"name": "metadata",
+					"type": "string",
+					"required": false,
+					"description": "Key-value metadata associated with the flag. `null` or an empty object clears existing metadata; omission semantics depend on the endpoint (PUT clears it, PATCH preserves it). Provide as a JSON object or @path/to/file.json."
+				},
+				{
 					"name": "rules",
 					"type": "string",
 					"required": true,
@@ -37775,7 +37905,7 @@
 					"name": "context",
 					"type": "string",
 					"required": false,
-					"description": "Evaluation attributes keyed by name. Values may be any JSON value; the context supports up to 100 entries and 32 KB. Provide as a JSON object or @path/to/file.json."
+					"description": "Evaluation attributes keyed by name. Values may be any JSON value; the context supports up to 100 entries, nesting depth of 10, 10,000 values, and 32 KB. Provide as a JSON object or @path/to/file.json."
 				},
 				{
 					"name": "flag-key",
@@ -37841,6 +37971,56 @@
 			"hasRequestBody": false,
 			"requestBodyFields": []
 		},
+		"flagship apps flags patch": {
+			"operationId": "flagship.apps.flags.patch",
+			"httpMethod": "PATCH",
+			"path": "/accounts/{account_id}/flagship/apps/{app_id}/flags/{flag_key}",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "app_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "flag_key",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": true,
+			"requestBodyFields": [
+				{
+					"name": "default-variation",
+					"type": "string",
+					"required": false,
+					"description": "Variation the API serves when the flag is off, or when it's on but no rule matches the context. Must be a key in `variations`."
+				},
+				{
+					"name": "description",
+					"type": "string",
+					"required": false,
+					"description": "Optional operator-facing description. It does not affect flag evaluation."
+				},
+				{
+					"name": "enabled",
+					"type": "boolean",
+					"required": false,
+					"description": "When false, the flag bypasses all rules and always serves `default_variation`."
+				},
+				{
+					"name": "metadata",
+					"type": "string",
+					"required": false,
+					"description": "Key-value metadata associated with the flag. `null` or an empty object clears existing metadata; omission semantics depend on the endpoint (PUT clears it, PATCH preserves it). Provide as a JSON object or @path/to/file.json."
+				}
+			]
+		},
 		"flagship apps flags update": {
 			"operationId": "flagship.apps.flags.update",
 			"httpMethod": "PUT",
@@ -37888,6 +38068,12 @@
 					"type": "string",
 					"required": true,
 					"description": "Unique identifier for the flag within an app. Used in all evaluation and SDK calls."
+				},
+				{
+					"name": "metadata",
+					"type": "string",
+					"required": false,
+					"description": "Key-value metadata associated with the flag. `null` or an empty object clears existing metadata; omission semantics depend on the endpoint (PUT clears it, PATCH preserves it). Provide as a JSON object or @path/to/file.json."
 				},
 				{
 					"name": "rules",
@@ -41043,7 +41229,7 @@
 			"hasRequestBody": true,
 			"requestBodyFields": [
 				{
-					"name": "account-id",
+					"name": "account-id-body",
 					"type": "number",
 					"required": true,
 					"description": "The numeric account ID to create the provider for. Distinct from the\npath `account_id` parameter, which carries the account identifier\nstring used for routing.\n"
@@ -41126,6 +41312,31 @@
 					"description": "The new name of the feed"
 				}
 			]
+		},
+		"intel indicator-feeds uploads get": {
+			"operationId": "intel.indicator-feeds.uploads.get",
+			"httpMethod": "GET",
+			"path": "/accounts/{account_id}/intel/indicator-feeds/{feed_id}/uploads/{upload_id}",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "feed_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "upload_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": false,
+			"requestBodyFields": []
 		},
 		"intel ip-lists get": {
 			"operationId": "intel.ip-lists.get",
@@ -41539,6 +41750,15 @@
 					"required": false
 				}
 			],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"internal submit create": {
+			"operationId": "internal.submit.create",
+			"httpMethod": "POST",
+			"path": "/internal/submit",
+			"pathParams": [],
+			"queryParams": [],
 			"hasRequestBody": false,
 			"requestBodyFields": []
 		},
@@ -42278,6 +42498,15 @@
 					"description": "Determines whether or not Leaked Credential Checks are enabled."
 				}
 			]
+		},
+		"live get": {
+			"operationId": "live.get",
+			"httpMethod": "GET",
+			"path": "/live",
+			"pathParams": [],
+			"queryParams": [],
+			"hasRequestBody": false,
+			"requestBodyFields": []
 		},
 		"load-balancers account create": {
 			"operationId": "load-balancers.account.create",
@@ -44380,119 +44609,6 @@
 					"required": false
 				}
 			],
-			"hasRequestBody": false,
-			"requestBodyFields": []
-		},
-		"logo-matches download get": {
-			"operationId": "logo-matches.download.get",
-			"httpMethod": "GET",
-			"path": "/accounts/{account_id}/brand-protection/logo-matches/download",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [
-				{
-					"name": "logo_id",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "offset",
-					"type": "string",
-					"required": false
-				},
-				{
-					"name": "limit",
-					"type": "string",
-					"required": false
-				}
-			],
-			"hasRequestBody": false,
-			"requestBodyFields": []
-		},
-		"logo-matches get": {
-			"operationId": "logo-matches.get",
-			"httpMethod": "GET",
-			"path": "/accounts/{account_id}/brand-protection/logo-matches",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [
-				{
-					"name": "logo_id",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "offset",
-					"type": "string",
-					"required": false
-				},
-				{
-					"name": "limit",
-					"type": "string",
-					"required": false
-				}
-			],
-			"hasRequestBody": false,
-			"requestBodyFields": []
-		},
-		"logos create": {
-			"operationId": "logos.create",
-			"httpMethod": "POST",
-			"path": "/accounts/{account_id}/brand-protection/logos",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [
-				{
-					"name": "tag",
-					"type": "string",
-					"required": false
-				},
-				{
-					"name": "match_type",
-					"type": "string",
-					"required": false
-				},
-				{
-					"name": "threshold",
-					"type": "number",
-					"required": false
-				}
-			],
-			"hasRequestBody": true,
-			"requestBodyFields": []
-		},
-		"logos delete": {
-			"operationId": "logos.delete",
-			"httpMethod": "DELETE",
-			"path": "/accounts/{account_id}/brand-protection/logos/{logo_id}",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "logo_id",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
 			"hasRequestBody": false,
 			"requestBodyFields": []
 		},
@@ -52695,88 +52811,6 @@
 					"description": "The list of Managed Response Transforms. Provide as a JSON array of objects or @path/to/file.json."
 				}
 			]
-		},
-		"matches download get": {
-			"operationId": "matches.download.get",
-			"httpMethod": "GET",
-			"path": "/accounts/{account_id}/brand-protection/matches/download",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [
-				{
-					"name": "id",
-					"type": "string",
-					"required": false
-				},
-				{
-					"name": "offset",
-					"type": "number",
-					"required": false
-				},
-				{
-					"name": "limit",
-					"type": "number",
-					"required": false
-				},
-				{
-					"name": "include_domain_id",
-					"type": "boolean",
-					"required": false
-				},
-				{
-					"name": "include_dismissed",
-					"type": "boolean",
-					"required": false
-				}
-			],
-			"hasRequestBody": false,
-			"requestBodyFields": []
-		},
-		"matches get": {
-			"operationId": "matches.get",
-			"httpMethod": "GET",
-			"path": "/accounts/{account_id}/brand-protection/matches",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [
-				{
-					"name": "id",
-					"type": "string",
-					"required": false
-				},
-				{
-					"name": "offset",
-					"type": "number",
-					"required": false
-				},
-				{
-					"name": "limit",
-					"type": "number",
-					"required": false
-				},
-				{
-					"name": "include_domain_id",
-					"type": "boolean",
-					"required": false
-				},
-				{
-					"name": "include_dismissed",
-					"type": "boolean",
-					"required": false
-				}
-			],
-			"hasRequestBody": false,
-			"requestBodyFields": []
 		},
 		"mcp portals account-tool-call-analytics": {
 			"operationId": "mcp.portals.account-tool-call-analytics",
@@ -61464,105 +61498,6 @@
 			"queryParams": [
 				{
 					"name": "force",
-					"type": "boolean",
-					"required": false
-				}
-			],
-			"hasRequestBody": false,
-			"requestBodyFields": []
-		},
-		"queries bulk create": {
-			"operationId": "queries.bulk.create",
-			"httpMethod": "POST",
-			"path": "/accounts/{account_id}/brand-protection/queries/bulk",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": true,
-			"requestBodyFields": [
-				{
-					"name": "queries",
-					"type": "string",
-					"required": false,
-					"description": "The queries field. Provide as a JSON array of objects or @path/to/file.json."
-				}
-			]
-		},
-		"queries create": {
-			"operationId": "queries.create",
-			"httpMethod": "POST",
-			"path": "/accounts/{account_id}/brand-protection/queries",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [
-				{
-					"name": "id",
-					"type": "string",
-					"required": false
-				}
-			],
-			"hasRequestBody": true,
-			"requestBodyFields": [
-				{
-					"name": "max-time",
-					"type": "string",
-					"required": false,
-					"description": "The max_time field"
-				},
-				{
-					"name": "min-time",
-					"type": "string",
-					"required": false,
-					"description": "The min_time field"
-				},
-				{
-					"name": "scan",
-					"type": "boolean",
-					"required": false,
-					"description": "The scan field"
-				},
-				{
-					"name": "tag",
-					"type": "string",
-					"required": false,
-					"description": "The tag field"
-				}
-			]
-		},
-		"queries delete": {
-			"operationId": "queries.delete",
-			"httpMethod": "DELETE",
-			"path": "/accounts/{account_id}/brand-protection/queries",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [
-				{
-					"name": "id",
-					"type": "string",
-					"required": false
-				},
-				{
-					"name": "tag",
-					"type": "string",
-					"required": false
-				},
-				{
-					"name": "scan",
 					"type": "boolean",
 					"required": false
 				}
@@ -73709,6 +73644,15 @@
 			"hasRequestBody": false,
 			"requestBodyFields": []
 		},
+		"ready get": {
+			"operationId": "ready.get",
+			"httpMethod": "GET",
+			"path": "/ready",
+			"pathParams": [],
+			"queryParams": [],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
 		"realtime kit analytics livestreams daily get": {
 			"operationId": "realtime.kit.analytics.livestreams.daily.get",
 			"httpMethod": "GET",
@@ -82762,6 +82706,15 @@
 				}
 			]
 		},
+		"signed-url get": {
+			"operationId": "signed-url.get",
+			"httpMethod": "GET",
+			"path": "/signed-url",
+			"pathParams": [],
+			"queryParams": [],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
 		"smart-shield cache-reserve-clear clear": {
 			"operationId": "smart-shield.cache-reserve-clear.clear",
 			"httpMethod": "POST",
@@ -87375,21 +87328,6 @@
 				}
 			]
 		},
-		"submit create": {
-			"operationId": "submit.create",
-			"httpMethod": "POST",
-			"path": "/accounts/{account_id}/brand-protection/submit",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": false,
-			"requestBodyFields": []
-		},
 		"tags account-resources delete": {
 			"operationId": "tags.account-resources.delete",
 			"httpMethod": "DELETE",
@@ -88467,21 +88405,6 @@
 					"description": "Region where this widget can be used. This cannot be changed after creation.\n"
 				}
 			]
-		},
-		"url-info get": {
-			"operationId": "url-info.get",
-			"httpMethod": "GET",
-			"path": "/accounts/{account_id}/brand-protection/url-info",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": false,
-			"requestBodyFields": []
 		},
 		"url-normalization delete": {
 			"operationId": "url-normalization.delete",
@@ -113734,6 +113657,21 @@
 			"operationId": "zone.activate",
 			"httpMethod": "PUT",
 			"path": "/zones/{zone_id}/activation_check",
+			"pathParams": [
+				{
+					"name": "zone_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"zones aegis delete": {
+			"operationId": "zones.aegis.delete",
+			"httpMethod": "DELETE",
+			"path": "/zones/{zone_id}/settings/aegis",
 			"pathParams": [
 				{
 					"name": "zone_id",

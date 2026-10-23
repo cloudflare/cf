@@ -39,6 +39,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"account_ruleset",
 				"ai_gateway",
 				"ai_search_instance",
+				"ai_search_namespace",
 				"alerting_policy",
 				"alerting_webhook",
 				"api_gateway_operation",

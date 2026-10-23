@@ -20,7 +20,7 @@ import { runWithTelemetry } from "#lib/telemetry/index.js";
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
 		.usage(
-			"$0 flagship apps flags get <flag-key>\n\nReturns the full flag definition including rules, variations, and audit fields."
+			"$0 flagship apps flags get <flag-key>\n\nReturns the full flag definition including rules, variations, metadata, and audit fields."
 		)
 		.positional("flag-key", {
 			type: "string",

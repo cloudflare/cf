@@ -32,7 +32,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		)
 		.option("worker", {
 			type: "string",
-			alias: "script-name",
+			alias: ["script-name", "worker-id"],
 			description: "Name of the script.",
 		})
 		.option("secrets", {
@@ -92,8 +92,8 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					formatDryRun({
 						command: "cf workers secrets bulk",
 						method: "PATCH",
-						url: `https://api.cloudflare.com/client/v4/accounts/${__cfDryRunAccountId ?? "<account-id>"}/workers/scripts/${argv["worker"] ?? "<worker>"}/secrets-bulk`,
-						pathParams: { "script-name": String(argv["script-name"] ?? "") },
+						url: `https://api.cloudflare.com/client/v4/accounts/${__cfDryRunAccountId ?? "<account-id>"}/workers/scripts/${argv["worker"] == null ? "<worker>" : encodeURIComponent(String(argv["worker"]))}/secrets-bulk`,
+						pathParams: { worker: String(argv["worker"] ?? "") },
 						bodyKind: argv.file !== undefined ? "octet-stream" : "json",
 						body:
 							argv.file !== undefined
@@ -125,7 +125,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						requestApi<unknown>(
 							client,
 							"PATCH",
-							`/accounts/${accountId}/workers/scripts/${scriptName}/secrets-bulk`,
+							`/accounts/${accountId}/workers/scripts/${encodeURIComponent(scriptName)}/secrets-bulk`,
 							{
 								body: fileContent,
 								headers: { "Content-Type": "application/merge-patch+json" },
@@ -142,7 +142,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						requestApi<unknown>(
 							client,
 							"PATCH",
-							`/accounts/${accountId}/workers/scripts/${scriptName}/secrets-bulk`,
+							`/accounts/${accountId}/workers/scripts/${encodeURIComponent(scriptName)}/secrets-bulk`,
 							{ body: bodyData }
 						)
 					);
@@ -168,7 +168,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					requestApi<unknown>(
 						client,
 						"PATCH",
-						`/accounts/${accountId}/workers/scripts/${scriptName}/secrets-bulk`,
+						`/accounts/${accountId}/workers/scripts/${encodeURIComponent(scriptName)}/secrets-bulk`,
 						{ body: bodyData }
 					)
 				);

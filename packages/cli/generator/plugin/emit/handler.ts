@@ -161,7 +161,8 @@ export function dryRun(ctx: Ctx): string[] {
 		positional,
 		firstPositionalIsZone: false,
 		accountId: "${__cfDryRunAccountId ?? '<account-id>'}",
-		scriptName: "${argv[\"worker\"] ?? '<worker>'}",
+		scriptName:
+			'${argv["worker"] == null ? \'<worker>\' : encodeURIComponent(String(argv["worker"]))}',
 		zone: "${argv.zone ?? argv.zoneId ?? '<zone>'}",
 		param,
 	});

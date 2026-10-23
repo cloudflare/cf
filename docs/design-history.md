@@ -1,7 +1,6 @@
 # Design history and planning notes
 
-Product rationale, distribution proposals, and follow-ups moved from the root
-`AGENTS.md`. These notes preserve development context, including superseded
+These notes preserve product rationale, distribution proposals, related follow-ups, development context, including superseded
 ideas and unshipped proposals. Dates, estimates, release ambitions, and
 follow-up status are not a current roadmap or promises of shipped behavior.
 Check the implementation and tests for current status and remaining GA work.

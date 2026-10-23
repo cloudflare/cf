@@ -1,6 +1,6 @@
 # Architecture and development reference
 
-Detailed reference moved from the root `AGENTS.md`. Read the sections relevant
+Read the sections relevant
 to your task; repository-wide working rules remain in [AGENTS.md](../AGENTS.md).
 Paths below are relative to the repository root unless a section uses the
 `packages/cli/` layout. Implementation and tests are the source of truth.

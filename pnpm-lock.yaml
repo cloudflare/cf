@@ -209,8 +209,8 @@ importers:
         specifier: 2.0.0-beta.v.4
         version: 2.0.0-beta.v.4(@types/node@25.9.9)(@voidzero-dev/vite-plus-core@1.3.0(@types/node@25.9.9)(esbuild@0.28.2)(tsx@4.21.0)(typescript@6.0.3)(unrun@0.2.39)(yaml@2.9.0))(workerd@1.20261019.1)
       '@cloudflare/workers-types':
-        specifier: 5.20261023.1
-        version: 5.20261023.1
+        specifier: 5.20261024.1
+        version: 5.20261024.1
       cf:
         specifier: workspace:*
         version: link:../../packages/cli
@@ -219,7 +219,7 @@ importers:
         version: '@voidzero-dev/vite-plus-core@1.3.0(@types/node@25.9.9)(esbuild@0.28.2)(tsx@4.21.0)(typescript@6.0.3)(unrun@0.2.39)(yaml@2.9.0)'
       wrangler:
         specifier: 4.152.0
-        version: 4.152.0(@cloudflare/workers-types@5.20261023.1)(@types/node@25.9.9)
+        version: 4.152.0(@cloudflare/workers-types@5.20261024.1)(@types/node@25.9.9)
 
   fixtures/vite-plugin-project:
     devDependencies:
@@ -227,8 +227,8 @@ importers:
         specifier: 2.0.0-beta.v.4
         version: 2.0.0-beta.v.4(@types/node@25.9.9)(@voidzero-dev/vite-plus-core@1.3.0(@types/node@25.9.9)(esbuild@0.28.2)(tsx@4.21.0)(typescript@6.0.3)(unrun@0.2.39)(yaml@2.9.0))(workerd@1.20261019.1)
       '@cloudflare/workers-types':
-        specifier: 5.20261023.1
-        version: 5.20261023.1
+        specifier: 5.20261024.1
+        version: 5.20261024.1
       cf:
         specifier: workspace:*
         version: link:../../packages/cli
@@ -237,7 +237,7 @@ importers:
         version: '@voidzero-dev/vite-plus-core@1.3.0(@types/node@25.9.9)(esbuild@0.28.2)(tsx@4.21.0)(typescript@6.0.3)(unrun@0.2.39)(yaml@2.9.0)'
       wrangler:
         specifier: 4.152.0
-        version: 4.152.0(@cloudflare/workers-types@5.20261023.1)(@types/node@25.9.9)
+        version: 4.152.0(@cloudflare/workers-types@5.20261024.1)(@types/node@25.9.9)
 
   fixtures/wrangler-bundler-project:
     dependencies:
@@ -246,7 +246,7 @@ importers:
         version: link:../../packages/cli
       wrangler:
         specifier: 4.152.0
-        version: 4.152.0(@cloudflare/workers-types@5.20261023.1)(@types/node@25.9.9)
+        version: 4.152.0(@cloudflare/workers-types@5.20261024.1)(@types/node@25.9.9)
 
   packages/cli:
     dependencies:
@@ -700,9 +700,6 @@ packages:
   '@cloudflare/autoconfig@0.8.0':
     resolution: {integrity: sha512-2JzUf5vhZhf0SPHvLyN17Ei5fFg7jI/h6zngpqmJQRb8lZqom/a/EiBwUjut7vNF+vPKhi1W7W2/UI4KnVzIqg==}
 
-  '@cloudflare/build-output-utils@0.9.3':
-    resolution: {integrity: sha512-0MgvIq6UxbRWLwB2QJU7qjLqpPkfygOebN3UiENhdp+z6zpRKrNnwkms2ynadmxCOh3sL2v+SI0/pNXxgXdteA==}
-
   '@cloudflare/build-output-utils@0.9.4':
     resolution: {integrity: sha512-5rVdn81HEP2Uugs/wSfXu5XbadaZQkgKZl1xwkKb3kgatSOpTH2vszBXWTRh4IlE1vHnc3LwHcnc2O4TcXVbuQ==}
 
@@ -712,9 +709,6 @@ packages:
   '@cloudflare/codemods@0.6.0':
     resolution: {integrity: sha512-lFhIUfg8qDaERIRm8x4f88DM3twjn2IkTIGNnhALxZUd12/rN3VbEB0pgtJDxxGgs1P2WXCfZUOyqsxO+OMKwQ==}
     hasBin: true
-
-  '@cloudflare/config@0.27.0':
-    resolution: {integrity: sha512-wNnL0z4lj5Gm2fze5qXTOvRPbUOi4jlMmwPk7ArCUakI5oVxgjfl3Rhnfd/Mmzo3g86x/ofH75yPIhsa5msqdQ==}
 
   '@cloudflare/config@0.28.0':
     resolution: {integrity: sha512-2SaZn5rzNSxAR5VQYIlMm8+zHj2EGfLbaN+abYiPXDI42IFRCHSENpDxjAQpLj2NZnUVszHY4h6T1XljwHk5eQ==}
@@ -740,9 +734,6 @@ packages:
   '@cloudflare/kv-asset-handler@0.5.0':
     resolution: {integrity: sha512-jxQYkj8dSIzc0cD6cMMNdOc1UVjqSqu8BZdor5s8cGjW2I8BjODt/kWPVdY+u9zj3ms75Q5qaZgnxUad83+eAg==}
     engines: {node: '>=22.0.0'}
-
-  '@cloudflare/runtime-types@0.1.14':
-    resolution: {integrity: sha512-Hx4/RGjTNKPTB0z6q9MRv6GzvnL496EBvvBaUpANilSLfQJFXVkmClrbiMkzTFjzVRTgMsOhO8exwwkZu3OM8w==}
 
   '@cloudflare/runtime-types@0.1.15':
     resolution: {integrity: sha512-E8WCMGir4IRp/ksqodMWGpxHJvgtfgW9lbVM5mNAdWrnonMNOtGocyxVt6hG8/RGW9sjFWR7F7Cp3SCF1Cz6zg==}
@@ -803,8 +794,8 @@ packages:
       vitest:
         optional: true
 
-  '@cloudflare/workers-types@5.20261023.1':
-    resolution: {integrity: sha512-jRaMsWUF/08dd0dWnX3zPGPOjakkkA2JPnK5vLsCQFmYC40kbMPZ02fvOPO8kqjqgljoMZrKsRiXpR1u1Lp0Qg==}
+  '@cloudflare/workers-types@5.20261024.1':
+    resolution: {integrity: sha512-sNhbgBsuVvmumSurgCcIrXShqACPfRt/XlYFstBeANu5BHEJhXW+e7PmHxDNYRXxKYZV57toUfkLwFp8/0SZKA==}
 
   '@cloudflare/workers-utils@0.48.0':
     resolution: {integrity: sha512-FiBoW5vcrLp63VNcA8qZdx9c7D45+90DbpzY1xmzv4L+HvLlb2dPu3qlsh7HE4ClYID6h0VrnEhBXRPsj2STgQ==}
@@ -3209,10 +3200,6 @@ packages:
     resolution: {integrity: sha512-OqbOk5oEQeAZ8WXWydlu9HJjz9WVdEIvamMCcXmuqUYjTknH/sqsWvhQ3vgwKFRR1HpjvNBKQ37nbJgYzGqGcg==}
     engines: {node: '>=6'}
 
-  miniflare@5.20261019.1-beta:
-    resolution: {integrity: sha512-1n7MN2UqZnPniyYAqNuV1YEAaja66ozKGVCc5ZTmYQhTubnoAwGLccwb+ZWYLOajuw3pOaJ70u//bZMuURlRew==}
-    engines: {node: '>=22.0.0'}
-
   miniflare@5.20261019.2-beta:
     resolution: {integrity: sha512-QNgCA/axizZ7kv7RV3nwbRoz+w4watBlwIsyXjwgYHw4eSw5BrR1F2152s3Kz+Bzy/YxjKFHrZl3LzBRbPgYoQ==}
     engines: {node: '>=22.0.0'}
@@ -4240,10 +4227,6 @@ snapshots:
     transitivePeerDependencies:
       - vitest
 
-  '@cloudflare/build-output-utils@0.9.3':
-    dependencies:
-      '@cloudflare/config': 0.27.0
-
   '@cloudflare/build-output-utils@0.9.4':
     dependencies:
       '@cloudflare/config': 0.28.0
@@ -4260,10 +4243,6 @@ snapshots:
       - vitest
 
   '@cloudflare/codemods@0.6.0': {}
-
-  '@cloudflare/config@0.27.0':
-    dependencies:
-      zod: 4.6.5
 
   '@cloudflare/config@0.28.0':
     dependencies:
@@ -4305,15 +4284,6 @@ snapshots:
       '@bytecodealliance/jco': 1.39.0
 
   '@cloudflare/kv-asset-handler@0.5.0': {}
-
-  '@cloudflare/runtime-types@0.1.14(@types/node@25.9.9)':
-    dependencies:
-      miniflare: 5.20261019.1-beta(@types/node@25.9.9)
-      workerd: 1.20261019.1
-    transitivePeerDependencies:
-      - '@types/node'
-      - bufferutil
-      - utf-8-validate
 
   '@cloudflare/runtime-types@0.1.15(@types/node@25.9.9)':
     dependencies:
@@ -4369,7 +4339,7 @@ snapshots:
       msw: 3.0.3(@types/node@25.9.9)(@voidzero-dev/vite-plus-core@1.3.0(@types/node@25.9.9)(esbuild@0.28.2)(tsx@4.21.0)(typescript@6.0.3)(unrun@0.2.39)(yaml@2.9.0))(graphql@16.14.2)(supports-color@10.2.2)(typescript@6.0.3)
       vitest: 5.0.5(@types/node@25.9.9)(@vitest/browser-preview@5.0.5)(@vitest/ui@5.0.5)(@voidzero-dev/vite-plus-core@1.3.0(@types/node@25.9.9)(esbuild@0.28.2)(tsx@4.21.0)(typescript@6.0.3)(unrun@0.2.39)(yaml@2.9.0))(esbuild@0.28.2)(msw@3.0.3(@types/node@25.9.9)(@voidzero-dev/vite-plus-core@1.3.0(@types/node@25.9.9)(esbuild@0.28.2)(tsx@4.21.0)(typescript@6.0.3)(unrun@0.2.39)(yaml@2.9.0))(graphql@16.14.2)(supports-color@10.2.2)(typescript@6.0.3))(tsx@4.21.0)(typescript@6.0.3)(unrun@0.2.39)(yaml@2.9.0)
 
-  '@cloudflare/workers-types@5.20261023.1': {}
+  '@cloudflare/workers-types@5.20261024.1': {}
 
   '@cloudflare/workers-utils@0.48.0(vitest@5.0.5)':
     dependencies:
@@ -6056,19 +6026,6 @@ snapshots:
 
   mimic-fn@2.1.0: {}
 
-  miniflare@5.20261019.1-beta(@types/node@25.9.9):
-    dependencies:
-      '@cspotcode/source-map-support': 0.8.1
-      sharp: 0.35.5(@types/node@25.9.9)
-      undici: 7.29.1
-      workerd: 1.20261019.1
-      ws: 8.21.0
-      youch: 4.1.0-beta.10
-    transitivePeerDependencies:
-      - '@types/node'
-      - bufferutil
-      - utf-8-validate
-
   miniflare@5.20261019.2-beta(@types/node@25.9.9):
     dependencies:
       '@cspotcode/source-map-support': 0.8.1
@@ -6778,7 +6735,7 @@ snapshots:
       '@cloudflare/workerd-linux-arm64': 1.20261019.1
       '@cloudflare/workerd-windows-64': 1.20261019.1
 
-  wrangler@4.152.0(@cloudflare/workers-types@5.20261023.1)(@types/node@25.9.9):
+  wrangler@4.152.0(@cloudflare/workers-types@5.20261024.1)(@types/node@25.9.9):
     dependencies:
       '@cloudflare/kv-asset-handler': 0.5.0
       '@cloudflare/unenv-preset': 2.16.2(unenv@2.0.0-rc.24)(workerd@1.20261019.1)
@@ -6789,7 +6746,7 @@ snapshots:
       unenv: 2.0.0-rc.24
       workerd: 1.20261019.1
     optionalDependencies:
-      '@cloudflare/workers-types': 5.20261023.1
+      '@cloudflare/workers-types': 5.20261024.1
       fsevents: 2.3.3
     transitivePeerDependencies:
       - '@types/node'

@@ -1,0 +1,1103 @@
+[
+  {
+    "case": "no-args",
+    "argv": [
+      "pages",
+      "source",
+      "connect"
+    ],
+    "exitCode": 1,
+    "error": "Not enough non-option arguments: got 0, need at least 1",
+    "requests": []
+  },
+  {
+    "case": "required",
+    "argv": [
+      "pages",
+      "source",
+      "connect",
+      "regression value &/?+ü",
+      "--source-config-deployments-enabled=true",
+      "--source-config-owner",
+      "regression value &/?+ü",
+      "--source-config-owner-id",
+      "0123456789abcdef0123456789abcdef",
+      "--source-config-path-excludes",
+      "regression value &/?+ü",
+      "--source-config-path-includes",
+      "regression value &/?+ü",
+      "--source-config-pr-comments-enabled=true",
+      "--source-config-preview-branch-excludes",
+      "regression value &/?+ü",
+      "--source-config-preview-branch-includes",
+      "regression value &/?+ü",
+      "--source-config-preview-deployment-setting",
+      "all",
+      "--source-config-production-branch",
+      "regression value &/?+ü",
+      "--source-config-production-deployments-enabled=true",
+      "--source-config-repo-id",
+      "0123456789abcdef0123456789abcdef",
+      "--source-config-repo-name",
+      "regression value &/?+ü",
+      "--type",
+      "github",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/pages/projects/regression%20value%20%26%2F%3F%2B%C3%BC/source",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "required --source-config-deployments-enabled value 1",
+    "argv": [
+      "pages",
+      "source",
+      "connect",
+      "regression value &/?+ü",
+      "--source-config-owner",
+      "regression value &/?+ü",
+      "--source-config-owner-id",
+      "0123456789abcdef0123456789abcdef",
+      "--source-config-path-excludes",
+      "regression value &/?+ü",
+      "--source-config-path-includes",
+      "regression value &/?+ü",
+      "--source-config-pr-comments-enabled=true",
+      "--source-config-preview-branch-excludes",
+      "regression value &/?+ü",
+      "--source-config-preview-branch-includes",
+      "regression value &/?+ü",
+      "--source-config-preview-deployment-setting",
+      "all",
+      "--source-config-production-branch",
+      "regression value &/?+ü",
+      "--source-config-production-deployments-enabled=true",
+      "--source-config-repo-id",
+      "0123456789abcdef0123456789abcdef",
+      "--source-config-repo-name",
+      "regression value &/?+ü",
+      "--type",
+      "github",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--source-config-deployments-enabled=false"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/pages/projects/regression%20value%20%26%2F%3F%2B%C3%BC/source",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "required --source-config-pr-comments-enabled value 1",
+    "argv": [
+      "pages",
+      "source",
+      "connect",
+      "regression value &/?+ü",
+      "--source-config-deployments-enabled=true",
+      "--source-config-owner",
+      "regression value &/?+ü",
+      "--source-config-owner-id",
+      "0123456789abcdef0123456789abcdef",
+      "--source-config-path-excludes",
+      "regression value &/?+ü",
+      "--source-config-path-includes",
+      "regression value &/?+ü",
+      "--source-config-preview-branch-excludes",
+      "regression value &/?+ü",
+      "--source-config-preview-branch-includes",
+      "regression value &/?+ü",
+      "--source-config-preview-deployment-setting",
+      "all",
+      "--source-config-production-branch",
+      "regression value &/?+ü",
+      "--source-config-production-deployments-enabled=true",
+      "--source-config-repo-id",
+      "0123456789abcdef0123456789abcdef",
+      "--source-config-repo-name",
+      "regression value &/?+ü",
+      "--type",
+      "github",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--source-config-pr-comments-enabled=false"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/pages/projects/regression%20value%20%26%2F%3F%2B%C3%BC/source",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "required --source-config-preview-deployment-setting value 1",
+    "argv": [
+      "pages",
+      "source",
+      "connect",
+      "regression value &/?+ü",
+      "--source-config-deployments-enabled=true",
+      "--source-config-owner",
+      "regression value &/?+ü",
+      "--source-config-owner-id",
+      "0123456789abcdef0123456789abcdef",
+      "--source-config-path-excludes",
+      "regression value &/?+ü",
+      "--source-config-path-includes",
+      "regression value &/?+ü",
+      "--source-config-pr-comments-enabled=true",
+      "--source-config-preview-branch-excludes",
+      "regression value &/?+ü",
+      "--source-config-preview-branch-includes",
+      "regression value &/?+ü",
+      "--source-config-production-branch",
+      "regression value &/?+ü",
+      "--source-config-production-deployments-enabled=true",
+      "--source-config-repo-id",
+      "0123456789abcdef0123456789abcdef",
+      "--source-config-repo-name",
+      "regression value &/?+ü",
+      "--type",
+      "github",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--source-config-preview-deployment-setting",
+      "none"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/pages/projects/regression%20value%20%26%2F%3F%2B%C3%BC/source",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "required --source-config-preview-deployment-setting value 2",
+    "argv": [
+      "pages",
+      "source",
+      "connect",
+      "regression value &/?+ü",
+      "--source-config-deployments-enabled=true",
+      "--source-config-owner",
+      "regression value &/?+ü",
+      "--source-config-owner-id",
+      "0123456789abcdef0123456789abcdef",
+      "--source-config-path-excludes",
+      "regression value &/?+ü",
+      "--source-config-path-includes",
+      "regression value &/?+ü",
+      "--source-config-pr-comments-enabled=true",
+      "--source-config-preview-branch-excludes",
+      "regression value &/?+ü",
+      "--source-config-preview-branch-includes",
+      "regression value &/?+ü",
+      "--source-config-production-branch",
+      "regression value &/?+ü",
+      "--source-config-production-deployments-enabled=true",
+      "--source-config-repo-id",
+      "0123456789abcdef0123456789abcdef",
+      "--source-config-repo-name",
+      "regression value &/?+ü",
+      "--type",
+      "github",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--source-config-preview-deployment-setting",
+      "custom"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/pages/projects/regression%20value%20%26%2F%3F%2B%C3%BC/source",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "required --source-config-production-deployments-enabled value 1",
+    "argv": [
+      "pages",
+      "source",
+      "connect",
+      "regression value &/?+ü",
+      "--source-config-deployments-enabled=true",
+      "--source-config-owner",
+      "regression value &/?+ü",
+      "--source-config-owner-id",
+      "0123456789abcdef0123456789abcdef",
+      "--source-config-path-excludes",
+      "regression value &/?+ü",
+      "--source-config-path-includes",
+      "regression value &/?+ü",
+      "--source-config-pr-comments-enabled=true",
+      "--source-config-preview-branch-excludes",
+      "regression value &/?+ü",
+      "--source-config-preview-branch-includes",
+      "regression value &/?+ü",
+      "--source-config-preview-deployment-setting",
+      "all",
+      "--source-config-production-branch",
+      "regression value &/?+ü",
+      "--source-config-repo-id",
+      "0123456789abcdef0123456789abcdef",
+      "--source-config-repo-name",
+      "regression value &/?+ü",
+      "--type",
+      "github",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--source-config-production-deployments-enabled=false"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/pages/projects/regression%20value%20%26%2F%3F%2B%C3%BC/source",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "required --type value 1",
+    "argv": [
+      "pages",
+      "source",
+      "connect",
+      "regression value &/?+ü",
+      "--source-config-deployments-enabled=true",
+      "--source-config-owner",
+      "regression value &/?+ü",
+      "--source-config-owner-id",
+      "0123456789abcdef0123456789abcdef",
+      "--source-config-path-excludes",
+      "regression value &/?+ü",
+      "--source-config-path-includes",
+      "regression value &/?+ü",
+      "--source-config-pr-comments-enabled=true",
+      "--source-config-preview-branch-excludes",
+      "regression value &/?+ü",
+      "--source-config-preview-branch-includes",
+      "regression value &/?+ü",
+      "--source-config-preview-deployment-setting",
+      "all",
+      "--source-config-production-branch",
+      "regression value &/?+ü",
+      "--source-config-production-deployments-enabled=true",
+      "--source-config-repo-id",
+      "0123456789abcdef0123456789abcdef",
+      "--source-config-repo-name",
+      "regression value &/?+ü",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--type",
+      "gitlab"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/pages/projects/regression%20value%20%26%2F%3F%2B%C3%BC/source",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 0",
+    "argv": [
+      "pages",
+      "source",
+      "connect",
+      "regression value &/?+ü",
+      "--source-config-deployments-enabled=true",
+      "--source-config-owner",
+      "regression value &/?+ü",
+      "--source-config-owner-id",
+      "0123456789abcdef0123456789abcdef",
+      "--source-config-path-excludes",
+      "regression value &/?+ü",
+      "--source-config-path-includes",
+      "regression value &/?+ü",
+      "--source-config-pr-comments-enabled=true",
+      "--source-config-preview-branch-excludes",
+      "regression value &/?+ü",
+      "--source-config-preview-branch-includes",
+      "regression value &/?+ü",
+      "--source-config-preview-deployment-setting",
+      "all",
+      "--source-config-production-branch",
+      "regression value &/?+ü",
+      "--source-config-production-deployments-enabled=true",
+      "--source-config-repo-id",
+      "0123456789abcdef0123456789abcdef",
+      "--source-config-repo-name",
+      "regression value &/?+ü",
+      "--type",
+      "github"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/pages/projects/regression%20value%20%26%2F%3F%2B%C3%BC/source",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "560",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "config": {
+            "deployments_enabled": true,
+            "owner": "regression value &/?+ü",
+            "owner_id": "0123456789abcdef0123456789abcdef",
+            "path_excludes": [
+              "regression value &/?+ü"
+            ],
+            "path_includes": [
+              "regression value &/?+ü"
+            ],
+            "pr_comments_enabled": true,
+            "preview_branch_excludes": [
+              "regression value &/?+ü"
+            ],
+            "preview_branch_includes": [
+              "regression value &/?+ü"
+            ],
+            "preview_deployment_setting": "all",
+            "production_branch": "regression value &/?+ü",
+            "production_deployments_enabled": true,
+            "repo_id": "0123456789abcdef0123456789abcdef",
+            "repo_name": "regression value &/?+ü"
+          },
+          "type": "github"
+        }
+      }
+    ]
+  },
+  {
+    "case": "global quiet",
+    "argv": [
+      "pages",
+      "source",
+      "connect",
+      "regression value &/?+ü",
+      "--source-config-deployments-enabled=true",
+      "--source-config-owner",
+      "regression value &/?+ü",
+      "--source-config-owner-id",
+      "0123456789abcdef0123456789abcdef",
+      "--source-config-path-excludes",
+      "regression value &/?+ü",
+      "--source-config-path-includes",
+      "regression value &/?+ü",
+      "--source-config-pr-comments-enabled=true",
+      "--source-config-preview-branch-excludes",
+      "regression value &/?+ü",
+      "--source-config-preview-branch-includes",
+      "regression value &/?+ü",
+      "--source-config-preview-deployment-setting",
+      "all",
+      "--source-config-production-branch",
+      "regression value &/?+ü",
+      "--source-config-production-deployments-enabled=true",
+      "--source-config-repo-id",
+      "0123456789abcdef0123456789abcdef",
+      "--source-config-repo-name",
+      "regression value &/?+ü",
+      "--type",
+      "github",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--quiet"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/pages/projects/regression%20value%20%26%2F%3F%2B%C3%BC/source",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "global zone",
+    "argv": [
+      "pages",
+      "source",
+      "connect",
+      "regression value &/?+ü",
+      "--source-config-deployments-enabled=true",
+      "--source-config-owner",
+      "regression value &/?+ü",
+      "--source-config-owner-id",
+      "0123456789abcdef0123456789abcdef",
+      "--source-config-path-excludes",
+      "regression value &/?+ü",
+      "--source-config-path-includes",
+      "regression value &/?+ü",
+      "--source-config-pr-comments-enabled=true",
+      "--source-config-preview-branch-excludes",
+      "regression value &/?+ü",
+      "--source-config-preview-branch-includes",
+      "regression value &/?+ü",
+      "--source-config-preview-deployment-setting",
+      "all",
+      "--source-config-production-branch",
+      "regression value &/?+ü",
+      "--source-config-production-deployments-enabled=true",
+      "--source-config-repo-id",
+      "0123456789abcdef0123456789abcdef",
+      "--source-config-repo-name",
+      "regression value &/?+ü",
+      "--type",
+      "github",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--zone",
+      "abcdef0123456789abcdef0123456789"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/pages/projects/regression%20value%20%26%2F%3F%2B%C3%BC/source",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "global profile and mode",
+    "argv": [
+      "pages",
+      "source",
+      "connect",
+      "regression value &/?+ü",
+      "--source-config-deployments-enabled=true",
+      "--source-config-owner",
+      "regression value &/?+ü",
+      "--source-config-owner-id",
+      "0123456789abcdef0123456789abcdef",
+      "--source-config-path-excludes",
+      "regression value &/?+ü",
+      "--source-config-path-includes",
+      "regression value &/?+ü",
+      "--source-config-pr-comments-enabled=true",
+      "--source-config-preview-branch-excludes",
+      "regression value &/?+ü",
+      "--source-config-preview-branch-includes",
+      "regression value &/?+ü",
+      "--source-config-preview-deployment-setting",
+      "all",
+      "--source-config-production-branch",
+      "regression value &/?+ü",
+      "--source-config-production-deployments-enabled=true",
+      "--source-config-repo-id",
+      "0123456789abcdef0123456789abcdef",
+      "--source-config-repo-name",
+      "regression value &/?+ü",
+      "--type",
+      "github",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--profile",
+      "default",
+      "--mode",
+      "regression"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/pages/projects/regression%20value%20%26%2F%3F%2B%C3%BC/source",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "local",
+    "argv": [
+      "pages",
+      "source",
+      "connect",
+      "regression value &/?+ü",
+      "--source-config-deployments-enabled=true",
+      "--source-config-owner",
+      "regression value &/?+ü",
+      "--source-config-owner-id",
+      "0123456789abcdef0123456789abcdef",
+      "--source-config-path-excludes",
+      "regression value &/?+ü",
+      "--source-config-path-includes",
+      "regression value &/?+ü",
+      "--source-config-pr-comments-enabled=true",
+      "--source-config-preview-branch-excludes",
+      "regression value &/?+ü",
+      "--source-config-preview-branch-includes",
+      "regression value &/?+ü",
+      "--source-config-preview-deployment-setting",
+      "all",
+      "--source-config-production-branch",
+      "regression value &/?+ü",
+      "--source-config-production-deployments-enabled=true",
+      "--source-config-repo-id",
+      "0123456789abcdef0123456789abcdef",
+      "--source-config-repo-name",
+      "regression value &/?+ü",
+      "--type",
+      "github",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--local"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "http://localhost/cdn-cgi/local/explorer/api/pages/projects/regression%20value%20%26%2F%3F%2B%C3%BC/source",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "gzip, deflate",
+          "accept-language": "*",
+          "connection": "keep-alive",
+          "content-type": "application/json",
+          "host": "localhost",
+          "sec-fetch-mode": "cors",
+          "transfer-encoding": "chunked",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "local with persistence",
+    "argv": [
+      "pages",
+      "source",
+      "connect",
+      "regression value &/?+ü",
+      "--source-config-deployments-enabled=true",
+      "--source-config-owner",
+      "regression value &/?+ü",
+      "--source-config-owner-id",
+      "0123456789abcdef0123456789abcdef",
+      "--source-config-path-excludes",
+      "regression value &/?+ü",
+      "--source-config-path-includes",
+      "regression value &/?+ü",
+      "--source-config-pr-comments-enabled=true",
+      "--source-config-preview-branch-excludes",
+      "regression value &/?+ü",
+      "--source-config-preview-branch-includes",
+      "regression value &/?+ü",
+      "--source-config-preview-deployment-setting",
+      "all",
+      "--source-config-production-branch",
+      "regression value &/?+ü",
+      "--source-config-production-deployments-enabled=true",
+      "--source-config-repo-id",
+      "0123456789abcdef0123456789abcdef",
+      "--source-config-repo-name",
+      "regression value &/?+ü",
+      "--type",
+      "github",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--local",
+      "--persist-to",
+      "regression-state"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "http://localhost/cdn-cgi/local/explorer/api/pages/projects/regression%20value%20%26%2F%3F%2B%C3%BC/source",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "gzip, deflate",
+          "accept-language": "*",
+          "connection": "keep-alive",
+          "content-type": "application/json",
+          "host": "localhost",
+          "sec-fetch-mode": "cors",
+          "transfer-encoding": "chunked",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "dry-run",
+    "argv": [
+      "pages",
+      "source",
+      "connect",
+      "regression value &/?+ü",
+      "--source-config-deployments-enabled=true",
+      "--source-config-owner",
+      "regression value &/?+ü",
+      "--source-config-owner-id",
+      "0123456789abcdef0123456789abcdef",
+      "--source-config-path-excludes",
+      "regression value &/?+ü",
+      "--source-config-path-includes",
+      "regression value &/?+ü",
+      "--source-config-pr-comments-enabled=true",
+      "--source-config-preview-branch-excludes",
+      "regression value &/?+ü",
+      "--source-config-preview-branch-includes",
+      "regression value &/?+ü",
+      "--source-config-preview-deployment-setting",
+      "all",
+      "--source-config-production-branch",
+      "regression value &/?+ü",
+      "--source-config-production-deployments-enabled=true",
+      "--source-config-repo-id",
+      "0123456789abcdef0123456789abcdef",
+      "--source-config-repo-name",
+      "regression value &/?+ü",
+      "--type",
+      "github",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--dry-run"
+    ],
+    "exitCode": 0,
+    "requests": []
+  },
+  {
+    "case": "body from file",
+    "argv": [
+      "pages",
+      "source",
+      "connect",
+      "regression value &/?+ü",
+      "--source-config-deployments-enabled=true",
+      "--source-config-owner",
+      "regression value &/?+ü",
+      "--source-config-owner-id",
+      "0123456789abcdef0123456789abcdef",
+      "--source-config-path-excludes",
+      "regression value &/?+ü",
+      "--source-config-path-includes",
+      "regression value &/?+ü",
+      "--source-config-pr-comments-enabled=true",
+      "--source-config-preview-branch-excludes",
+      "regression value &/?+ü",
+      "--source-config-preview-branch-includes",
+      "regression value &/?+ü",
+      "--source-config-preview-deployment-setting",
+      "all",
+      "--source-config-production-branch",
+      "regression value &/?+ü",
+      "--source-config-production-deployments-enabled=true",
+      "--source-config-repo-id",
+      "0123456789abcdef0123456789abcdef",
+      "--source-config-repo-name",
+      "regression value &/?+ü",
+      "--type",
+      "github",
+      "--body",
+      "@<body.json>"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/pages/projects/regression%20value%20%26%2F%3F%2B%C3%BC/source",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "array body",
+    "argv": [
+      "pages",
+      "source",
+      "connect",
+      "regression value &/?+ü",
+      "--source-config-deployments-enabled=true",
+      "--source-config-owner",
+      "regression value &/?+ü",
+      "--source-config-owner-id",
+      "0123456789abcdef0123456789abcdef",
+      "--source-config-path-excludes",
+      "regression value &/?+ü",
+      "--source-config-path-includes",
+      "regression value &/?+ü",
+      "--source-config-pr-comments-enabled=true",
+      "--source-config-preview-branch-excludes",
+      "regression value &/?+ü",
+      "--source-config-preview-branch-includes",
+      "regression value &/?+ü",
+      "--source-config-preview-deployment-setting",
+      "all",
+      "--source-config-production-branch",
+      "regression value &/?+ü",
+      "--source-config-production-deployments-enabled=true",
+      "--source-config-repo-id",
+      "0123456789abcdef0123456789abcdef",
+      "--source-config-repo-name",
+      "regression value &/?+ü",
+      "--type",
+      "github",
+      "--body",
+      "[{\"regression\":\"first\"},{\"regression\":\"second\"}]"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/pages/projects/regression%20value%20%26%2F%3F%2B%C3%BC/source",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "56",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "0": {
+            "regression": "first"
+          },
+          "1": {
+            "regression": "second"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "alternate <project-name>",
+    "argv": [
+      "pages",
+      "source",
+      "connect",
+      "second value &/?+ü",
+      "--source-config-deployments-enabled=true",
+      "--source-config-owner",
+      "regression value &/?+ü",
+      "--source-config-owner-id",
+      "0123456789abcdef0123456789abcdef",
+      "--source-config-path-excludes",
+      "regression value &/?+ü",
+      "--source-config-path-includes",
+      "regression value &/?+ü",
+      "--source-config-pr-comments-enabled=true",
+      "--source-config-preview-branch-excludes",
+      "regression value &/?+ü",
+      "--source-config-preview-branch-includes",
+      "regression value &/?+ü",
+      "--source-config-preview-deployment-setting",
+      "all",
+      "--source-config-production-branch",
+      "regression value &/?+ü",
+      "--source-config-production-deployments-enabled=true",
+      "--source-config-repo-id",
+      "0123456789abcdef0123456789abcdef",
+      "--source-config-repo-name",
+      "regression value &/?+ü",
+      "--type",
+      "github",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/pages/projects/second%20value%20%26%2F%3F%2B%C3%BC/source",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  }
+]

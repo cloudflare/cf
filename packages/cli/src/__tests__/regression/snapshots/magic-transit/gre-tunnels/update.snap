@@ -1,0 +1,1938 @@
+[
+  {
+    "case": "no-args",
+    "argv": [
+      "magic-transit",
+      "gre-tunnels",
+      "update"
+    ],
+    "exitCode": 1,
+    "error": "Not enough non-option arguments: got 0, need at least 1",
+    "requests": []
+  },
+  {
+    "case": "required",
+    "argv": [
+      "magic-transit",
+      "gre-tunnels",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--cloudflare-gre-endpoint",
+      "https://example.com/a?x=1&y=two",
+      "--customer-gre-endpoint",
+      "https://example.com/a?x=1&y=two",
+      "--interface-address",
+      "192.0.2.1",
+      "--name",
+      "regression value &/?+ü",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/magic/gre_tunnels/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --x-magic-new-hc-target",
+    "argv": [
+      "magic-transit",
+      "gre-tunnels",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--cloudflare-gre-endpoint",
+      "https://example.com/a?x=1&y=two",
+      "--customer-gre-endpoint",
+      "https://example.com/a?x=1&y=two",
+      "--interface-address",
+      "192.0.2.1",
+      "--name",
+      "regression value &/?+ü",
+      "--x-magic-new-hc-target",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/magic/gre_tunnels/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "184",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-magic-new-hc-target": "regression value &/?+ü"
+        },
+        "body": {
+          "cloudflare_gre_endpoint": "https://example.com/a?x=1&y=two",
+          "customer_gre_endpoint": "https://example.com/a?x=1&y=two",
+          "interface_address": "192.0.2.1",
+          "name": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --automatic-return-routing",
+    "argv": [
+      "magic-transit",
+      "gre-tunnels",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--cloudflare-gre-endpoint",
+      "https://example.com/a?x=1&y=two",
+      "--customer-gre-endpoint",
+      "https://example.com/a?x=1&y=two",
+      "--interface-address",
+      "192.0.2.1",
+      "--name",
+      "regression value &/?+ü",
+      "--automatic-return-routing=true"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/magic/gre_tunnels/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "216",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "automatic_return_routing": true,
+          "cloudflare_gre_endpoint": "https://example.com/a?x=1&y=two",
+          "customer_gre_endpoint": "https://example.com/a?x=1&y=two",
+          "interface_address": "192.0.2.1",
+          "name": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "--automatic-return-routing value 1",
+    "argv": [
+      "magic-transit",
+      "gre-tunnels",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--cloudflare-gre-endpoint",
+      "https://example.com/a?x=1&y=two",
+      "--customer-gre-endpoint",
+      "https://example.com/a?x=1&y=two",
+      "--interface-address",
+      "192.0.2.1",
+      "--name",
+      "regression value &/?+ü",
+      "--automatic-return-routing=false"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/magic/gre_tunnels/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "217",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "automatic_return_routing": false,
+          "cloudflare_gre_endpoint": "https://example.com/a?x=1&y=two",
+          "customer_gre_endpoint": "https://example.com/a?x=1&y=two",
+          "interface_address": "192.0.2.1",
+          "name": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --description",
+    "argv": [
+      "magic-transit",
+      "gre-tunnels",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--cloudflare-gre-endpoint",
+      "https://example.com/a?x=1&y=two",
+      "--customer-gre-endpoint",
+      "https://example.com/a?x=1&y=two",
+      "--interface-address",
+      "192.0.2.1",
+      "--name",
+      "regression value &/?+ü",
+      "--description",
+      "192.0.2.1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/magic/gre_tunnels/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "210",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "cloudflare_gre_endpoint": "https://example.com/a?x=1&y=two",
+          "customer_gre_endpoint": "https://example.com/a?x=1&y=two",
+          "description": "192.0.2.1",
+          "interface_address": "192.0.2.1",
+          "name": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --health-check-enabled",
+    "argv": [
+      "magic-transit",
+      "gre-tunnels",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--cloudflare-gre-endpoint",
+      "https://example.com/a?x=1&y=two",
+      "--customer-gre-endpoint",
+      "https://example.com/a?x=1&y=two",
+      "--interface-address",
+      "192.0.2.1",
+      "--name",
+      "regression value &/?+ü",
+      "--health-check-enabled=true"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/magic/gre_tunnels/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "216",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "cloudflare_gre_endpoint": "https://example.com/a?x=1&y=two",
+          "customer_gre_endpoint": "https://example.com/a?x=1&y=two",
+          "health_check": {
+            "enabled": true
+          },
+          "interface_address": "192.0.2.1",
+          "name": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "--health-check-enabled value 1",
+    "argv": [
+      "magic-transit",
+      "gre-tunnels",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--cloudflare-gre-endpoint",
+      "https://example.com/a?x=1&y=two",
+      "--customer-gre-endpoint",
+      "https://example.com/a?x=1&y=two",
+      "--interface-address",
+      "192.0.2.1",
+      "--name",
+      "regression value &/?+ü",
+      "--health-check-enabled=false"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/magic/gre_tunnels/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "217",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "cloudflare_gre_endpoint": "https://example.com/a?x=1&y=two",
+          "customer_gre_endpoint": "https://example.com/a?x=1&y=two",
+          "health_check": {
+            "enabled": false
+          },
+          "interface_address": "192.0.2.1",
+          "name": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --health-check-rate",
+    "argv": [
+      "magic-transit",
+      "gre-tunnels",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--cloudflare-gre-endpoint",
+      "https://example.com/a?x=1&y=two",
+      "--customer-gre-endpoint",
+      "https://example.com/a?x=1&y=two",
+      "--interface-address",
+      "192.0.2.1",
+      "--name",
+      "regression value &/?+ü",
+      "--health-check-rate",
+      "low"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/magic/gre_tunnels/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "214",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "cloudflare_gre_endpoint": "https://example.com/a?x=1&y=two",
+          "customer_gre_endpoint": "https://example.com/a?x=1&y=two",
+          "health_check": {
+            "rate": "low"
+          },
+          "interface_address": "192.0.2.1",
+          "name": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "--health-check-rate value 1",
+    "argv": [
+      "magic-transit",
+      "gre-tunnels",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--cloudflare-gre-endpoint",
+      "https://example.com/a?x=1&y=two",
+      "--customer-gre-endpoint",
+      "https://example.com/a?x=1&y=two",
+      "--interface-address",
+      "192.0.2.1",
+      "--name",
+      "regression value &/?+ü",
+      "--health-check-rate",
+      "mid"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/magic/gre_tunnels/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "214",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "cloudflare_gre_endpoint": "https://example.com/a?x=1&y=two",
+          "customer_gre_endpoint": "https://example.com/a?x=1&y=two",
+          "health_check": {
+            "rate": "mid"
+          },
+          "interface_address": "192.0.2.1",
+          "name": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "--health-check-rate value 2",
+    "argv": [
+      "magic-transit",
+      "gre-tunnels",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--cloudflare-gre-endpoint",
+      "https://example.com/a?x=1&y=two",
+      "--customer-gre-endpoint",
+      "https://example.com/a?x=1&y=two",
+      "--interface-address",
+      "192.0.2.1",
+      "--name",
+      "regression value &/?+ü",
+      "--health-check-rate",
+      "high"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/magic/gre_tunnels/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "215",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "cloudflare_gre_endpoint": "https://example.com/a?x=1&y=two",
+          "customer_gre_endpoint": "https://example.com/a?x=1&y=two",
+          "health_check": {
+            "rate": "high"
+          },
+          "interface_address": "192.0.2.1",
+          "name": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --health-check-target-saved",
+    "argv": [
+      "magic-transit",
+      "gre-tunnels",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--cloudflare-gre-endpoint",
+      "https://example.com/a?x=1&y=two",
+      "--customer-gre-endpoint",
+      "https://example.com/a?x=1&y=two",
+      "--interface-address",
+      "192.0.2.1",
+      "--name",
+      "regression value &/?+ü",
+      "--health-check-target-saved",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/magic/gre_tunnels/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "246",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "cloudflare_gre_endpoint": "https://example.com/a?x=1&y=two",
+          "customer_gre_endpoint": "https://example.com/a?x=1&y=two",
+          "health_check": {
+            "target": {
+              "saved": "regression value &/?+ü"
+            }
+          },
+          "interface_address": "192.0.2.1",
+          "name": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --health-check-type",
+    "argv": [
+      "magic-transit",
+      "gre-tunnels",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--cloudflare-gre-endpoint",
+      "https://example.com/a?x=1&y=two",
+      "--customer-gre-endpoint",
+      "https://example.com/a?x=1&y=two",
+      "--interface-address",
+      "192.0.2.1",
+      "--name",
+      "regression value &/?+ü",
+      "--health-check-type",
+      "reply"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/magic/gre_tunnels/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "216",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "cloudflare_gre_endpoint": "https://example.com/a?x=1&y=two",
+          "customer_gre_endpoint": "https://example.com/a?x=1&y=two",
+          "health_check": {
+            "type": "reply"
+          },
+          "interface_address": "192.0.2.1",
+          "name": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "--health-check-type value 1",
+    "argv": [
+      "magic-transit",
+      "gre-tunnels",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--cloudflare-gre-endpoint",
+      "https://example.com/a?x=1&y=two",
+      "--customer-gre-endpoint",
+      "https://example.com/a?x=1&y=two",
+      "--interface-address",
+      "192.0.2.1",
+      "--name",
+      "regression value &/?+ü",
+      "--health-check-type",
+      "request"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/magic/gre_tunnels/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "218",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "cloudflare_gre_endpoint": "https://example.com/a?x=1&y=two",
+          "customer_gre_endpoint": "https://example.com/a?x=1&y=two",
+          "health_check": {
+            "type": "request"
+          },
+          "interface_address": "192.0.2.1",
+          "name": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --health-check-direction",
+    "argv": [
+      "magic-transit",
+      "gre-tunnels",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--cloudflare-gre-endpoint",
+      "https://example.com/a?x=1&y=two",
+      "--customer-gre-endpoint",
+      "https://example.com/a?x=1&y=two",
+      "--interface-address",
+      "192.0.2.1",
+      "--name",
+      "regression value &/?+ü",
+      "--health-check-direction",
+      "unidirectional"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/magic/gre_tunnels/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "230",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "cloudflare_gre_endpoint": "https://example.com/a?x=1&y=two",
+          "customer_gre_endpoint": "https://example.com/a?x=1&y=two",
+          "health_check": {
+            "direction": "unidirectional"
+          },
+          "interface_address": "192.0.2.1",
+          "name": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "--health-check-direction value 1",
+    "argv": [
+      "magic-transit",
+      "gre-tunnels",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--cloudflare-gre-endpoint",
+      "https://example.com/a?x=1&y=two",
+      "--customer-gre-endpoint",
+      "https://example.com/a?x=1&y=two",
+      "--interface-address",
+      "192.0.2.1",
+      "--name",
+      "regression value &/?+ü",
+      "--health-check-direction",
+      "bidirectional"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/magic/gre_tunnels/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "229",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "cloudflare_gre_endpoint": "https://example.com/a?x=1&y=two",
+          "customer_gre_endpoint": "https://example.com/a?x=1&y=two",
+          "health_check": {
+            "direction": "bidirectional"
+          },
+          "interface_address": "192.0.2.1",
+          "name": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --interface-address6",
+    "argv": [
+      "magic-transit",
+      "gre-tunnels",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--cloudflare-gre-endpoint",
+      "https://example.com/a?x=1&y=two",
+      "--customer-gre-endpoint",
+      "https://example.com/a?x=1&y=two",
+      "--interface-address",
+      "192.0.2.1",
+      "--name",
+      "regression value &/?+ü",
+      "--interface-address6",
+      "192.0.2.1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/magic/gre_tunnels/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "217",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "cloudflare_gre_endpoint": "https://example.com/a?x=1&y=two",
+          "customer_gre_endpoint": "https://example.com/a?x=1&y=two",
+          "interface_address": "192.0.2.1",
+          "interface_address6": "192.0.2.1",
+          "name": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --mtu",
+    "argv": [
+      "magic-transit",
+      "gre-tunnels",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--cloudflare-gre-endpoint",
+      "https://example.com/a?x=1&y=two",
+      "--customer-gre-endpoint",
+      "https://example.com/a?x=1&y=two",
+      "--interface-address",
+      "192.0.2.1",
+      "--name",
+      "regression value &/?+ü",
+      "--mtu",
+      "1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/magic/gre_tunnels/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "192",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "cloudflare_gre_endpoint": "https://example.com/a?x=1&y=two",
+          "customer_gre_endpoint": "https://example.com/a?x=1&y=two",
+          "interface_address": "192.0.2.1",
+          "mtu": 1,
+          "name": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --ttl",
+    "argv": [
+      "magic-transit",
+      "gre-tunnels",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--cloudflare-gre-endpoint",
+      "https://example.com/a?x=1&y=two",
+      "--customer-gre-endpoint",
+      "https://example.com/a?x=1&y=two",
+      "--interface-address",
+      "192.0.2.1",
+      "--name",
+      "regression value &/?+ü",
+      "--ttl",
+      "1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/magic/gre_tunnels/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "192",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "cloudflare_gre_endpoint": "https://example.com/a?x=1&y=two",
+          "customer_gre_endpoint": "https://example.com/a?x=1&y=two",
+          "interface_address": "192.0.2.1",
+          "name": "regression value &/?+ü",
+          "ttl": 1
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 0",
+    "argv": [
+      "magic-transit",
+      "gre-tunnels",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--cloudflare-gre-endpoint",
+      "https://example.com/a?x=1&y=two",
+      "--customer-gre-endpoint",
+      "https://example.com/a?x=1&y=two",
+      "--interface-address",
+      "192.0.2.1",
+      "--name",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/magic/gre_tunnels/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "184",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "cloudflare_gre_endpoint": "https://example.com/a?x=1&y=two",
+          "customer_gre_endpoint": "https://example.com/a?x=1&y=two",
+          "interface_address": "192.0.2.1",
+          "name": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 1",
+    "argv": [
+      "magic-transit",
+      "gre-tunnels",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--cloudflare-gre-endpoint",
+      "https://example.com/a?x=1&y=two",
+      "--customer-gre-endpoint",
+      "https://example.com/a?x=1&y=two",
+      "--interface-address",
+      "192.0.2.1",
+      "--name",
+      "regression value &/?+ü",
+      "--x-magic-new-hc-target",
+      "second value &/?+ü",
+      "--automatic-return-routing=false",
+      "--description",
+      "192.0.2.1",
+      "--health-check-enabled=false",
+      "--health-check-rate",
+      "mid",
+      "--health-check-target-saved",
+      "second value &/?+ü",
+      "--health-check-type",
+      "request",
+      "--health-check-direction",
+      "bidirectional",
+      "--interface-address6",
+      "192.0.2.1",
+      "--mtu",
+      "2",
+      "--ttl",
+      "2"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/magic/gre_tunnels/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "424",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-magic-new-hc-target": "second value &/?+ü"
+        },
+        "body": {
+          "automatic_return_routing": false,
+          "cloudflare_gre_endpoint": "https://example.com/a?x=1&y=two",
+          "customer_gre_endpoint": "https://example.com/a?x=1&y=two",
+          "description": "192.0.2.1",
+          "health_check": {
+            "enabled": false,
+            "rate": "mid",
+            "target": {
+              "saved": "second value &/?+ü"
+            },
+            "type": "request",
+            "direction": "bidirectional"
+          },
+          "interface_address": "192.0.2.1",
+          "interface_address6": "192.0.2.1",
+          "mtu": 2,
+          "name": "regression value &/?+ü",
+          "ttl": 2
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 2",
+    "argv": [
+      "magic-transit",
+      "gre-tunnels",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--cloudflare-gre-endpoint",
+      "https://example.com/a?x=1&y=two",
+      "--customer-gre-endpoint",
+      "https://example.com/a?x=1&y=two",
+      "--interface-address",
+      "192.0.2.1",
+      "--name",
+      "regression value &/?+ü",
+      "--automatic-return-routing=true",
+      "--health-check-enabled=true",
+      "--health-check-target-saved",
+      "regression value &/?+ü",
+      "--health-check-direction",
+      "unidirectional",
+      "--mtu",
+      "1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/magic/gre_tunnels/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "330",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "automatic_return_routing": true,
+          "cloudflare_gre_endpoint": "https://example.com/a?x=1&y=two",
+          "customer_gre_endpoint": "https://example.com/a?x=1&y=two",
+          "health_check": {
+            "enabled": true,
+            "target": {
+              "saved": "regression value &/?+ü"
+            },
+            "direction": "unidirectional"
+          },
+          "interface_address": "192.0.2.1",
+          "mtu": 1,
+          "name": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 3",
+    "argv": [
+      "magic-transit",
+      "gre-tunnels",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--cloudflare-gre-endpoint",
+      "https://example.com/a?x=1&y=two",
+      "--customer-gre-endpoint",
+      "https://example.com/a?x=1&y=two",
+      "--interface-address",
+      "192.0.2.1",
+      "--name",
+      "regression value &/?+ü",
+      "--x-magic-new-hc-target",
+      "second value &/?+ü",
+      "--description",
+      "192.0.2.1",
+      "--health-check-rate",
+      "mid",
+      "--health-check-type",
+      "request",
+      "--interface-address6",
+      "192.0.2.1",
+      "--ttl",
+      "2"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/magic/gre_tunnels/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "298",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-magic-new-hc-target": "second value &/?+ü"
+        },
+        "body": {
+          "cloudflare_gre_endpoint": "https://example.com/a?x=1&y=two",
+          "customer_gre_endpoint": "https://example.com/a?x=1&y=two",
+          "description": "192.0.2.1",
+          "health_check": {
+            "rate": "mid",
+            "type": "request"
+          },
+          "interface_address": "192.0.2.1",
+          "interface_address6": "192.0.2.1",
+          "name": "regression value &/?+ü",
+          "ttl": 2
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 4",
+    "argv": [
+      "magic-transit",
+      "gre-tunnels",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--cloudflare-gre-endpoint",
+      "https://example.com/a?x=1&y=two",
+      "--customer-gre-endpoint",
+      "https://example.com/a?x=1&y=two",
+      "--interface-address",
+      "192.0.2.1",
+      "--name",
+      "regression value &/?+ü",
+      "--description",
+      "192.0.2.1",
+      "--health-check-enabled=true",
+      "--health-check-type",
+      "reply",
+      "--health-check-direction",
+      "unidirectional",
+      "--ttl",
+      "1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/magic/gre_tunnels/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "294",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "cloudflare_gre_endpoint": "https://example.com/a?x=1&y=two",
+          "customer_gre_endpoint": "https://example.com/a?x=1&y=two",
+          "description": "192.0.2.1",
+          "health_check": {
+            "enabled": true,
+            "type": "reply",
+            "direction": "unidirectional"
+          },
+          "interface_address": "192.0.2.1",
+          "name": "regression value &/?+ü",
+          "ttl": 1
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 5",
+    "argv": [
+      "magic-transit",
+      "gre-tunnels",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--cloudflare-gre-endpoint",
+      "https://example.com/a?x=1&y=two",
+      "--customer-gre-endpoint",
+      "https://example.com/a?x=1&y=two",
+      "--interface-address",
+      "192.0.2.1",
+      "--name",
+      "regression value &/?+ü",
+      "--x-magic-new-hc-target",
+      "second value &/?+ü",
+      "--automatic-return-routing=false",
+      "--health-check-rate",
+      "mid",
+      "--health-check-target-saved",
+      "second value &/?+ü",
+      "--interface-address6",
+      "192.0.2.1",
+      "--mtu",
+      "2"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/magic/gre_tunnels/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "329",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-magic-new-hc-target": "second value &/?+ü"
+        },
+        "body": {
+          "automatic_return_routing": false,
+          "cloudflare_gre_endpoint": "https://example.com/a?x=1&y=two",
+          "customer_gre_endpoint": "https://example.com/a?x=1&y=two",
+          "health_check": {
+            "rate": "mid",
+            "target": {
+              "saved": "second value &/?+ü"
+            }
+          },
+          "interface_address": "192.0.2.1",
+          "interface_address6": "192.0.2.1",
+          "mtu": 2,
+          "name": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 6",
+    "argv": [
+      "magic-transit",
+      "gre-tunnels",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--cloudflare-gre-endpoint",
+      "https://example.com/a?x=1&y=two",
+      "--customer-gre-endpoint",
+      "https://example.com/a?x=1&y=two",
+      "--interface-address",
+      "192.0.2.1",
+      "--name",
+      "regression value &/?+ü",
+      "--health-check-rate",
+      "low",
+      "--health-check-target-saved",
+      "regression value &/?+ü",
+      "--health-check-type",
+      "reply",
+      "--health-check-direction",
+      "unidirectional"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/magic/gre_tunnels/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "303",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "cloudflare_gre_endpoint": "https://example.com/a?x=1&y=two",
+          "customer_gre_endpoint": "https://example.com/a?x=1&y=two",
+          "health_check": {
+            "rate": "low",
+            "target": {
+              "saved": "regression value &/?+ü"
+            },
+            "type": "reply",
+            "direction": "unidirectional"
+          },
+          "interface_address": "192.0.2.1",
+          "name": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 7",
+    "argv": [
+      "magic-transit",
+      "gre-tunnels",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--cloudflare-gre-endpoint",
+      "https://example.com/a?x=1&y=two",
+      "--customer-gre-endpoint",
+      "https://example.com/a?x=1&y=two",
+      "--interface-address",
+      "192.0.2.1",
+      "--name",
+      "regression value &/?+ü",
+      "--x-magic-new-hc-target",
+      "second value &/?+ü",
+      "--automatic-return-routing=false",
+      "--description",
+      "192.0.2.1",
+      "--health-check-enabled=false",
+      "--interface-address6",
+      "192.0.2.1",
+      "--mtu",
+      "2",
+      "--ttl",
+      "2"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/magic/gre_tunnels/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "325",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-magic-new-hc-target": "second value &/?+ü"
+        },
+        "body": {
+          "automatic_return_routing": false,
+          "cloudflare_gre_endpoint": "https://example.com/a?x=1&y=two",
+          "customer_gre_endpoint": "https://example.com/a?x=1&y=two",
+          "description": "192.0.2.1",
+          "health_check": {
+            "enabled": false
+          },
+          "interface_address": "192.0.2.1",
+          "interface_address6": "192.0.2.1",
+          "mtu": 2,
+          "name": "regression value &/?+ü",
+          "ttl": 2
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 8",
+    "argv": [
+      "magic-transit",
+      "gre-tunnels",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--cloudflare-gre-endpoint",
+      "https://example.com/a?x=1&y=two",
+      "--customer-gre-endpoint",
+      "https://example.com/a?x=1&y=two",
+      "--interface-address",
+      "192.0.2.1",
+      "--name",
+      "regression value &/?+ü",
+      "--interface-address6",
+      "192.0.2.1",
+      "--mtu",
+      "1",
+      "--ttl",
+      "1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/magic/gre_tunnels/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "233",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "cloudflare_gre_endpoint": "https://example.com/a?x=1&y=two",
+          "customer_gre_endpoint": "https://example.com/a?x=1&y=two",
+          "interface_address": "192.0.2.1",
+          "interface_address6": "192.0.2.1",
+          "mtu": 1,
+          "name": "regression value &/?+ü",
+          "ttl": 1
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 9",
+    "argv": [
+      "magic-transit",
+      "gre-tunnels",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--cloudflare-gre-endpoint",
+      "https://example.com/a?x=1&y=two",
+      "--customer-gre-endpoint",
+      "https://example.com/a?x=1&y=two",
+      "--interface-address",
+      "192.0.2.1",
+      "--name",
+      "regression value &/?+ü",
+      "--x-magic-new-hc-target",
+      "second value &/?+ü",
+      "--automatic-return-routing=false",
+      "--description",
+      "192.0.2.1",
+      "--health-check-enabled=false",
+      "--health-check-rate",
+      "mid",
+      "--health-check-target-saved",
+      "second value &/?+ü",
+      "--health-check-type",
+      "request",
+      "--health-check-direction",
+      "bidirectional"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/magic/gre_tunnels/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "375",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-magic-new-hc-target": "second value &/?+ü"
+        },
+        "body": {
+          "automatic_return_routing": false,
+          "cloudflare_gre_endpoint": "https://example.com/a?x=1&y=two",
+          "customer_gre_endpoint": "https://example.com/a?x=1&y=two",
+          "description": "192.0.2.1",
+          "health_check": {
+            "enabled": false,
+            "rate": "mid",
+            "target": {
+              "saved": "second value &/?+ü"
+            },
+            "type": "request",
+            "direction": "bidirectional"
+          },
+          "interface_address": "192.0.2.1",
+          "name": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "global quiet",
+    "argv": [
+      "magic-transit",
+      "gre-tunnels",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--cloudflare-gre-endpoint",
+      "https://example.com/a?x=1&y=two",
+      "--customer-gre-endpoint",
+      "https://example.com/a?x=1&y=two",
+      "--interface-address",
+      "192.0.2.1",
+      "--name",
+      "regression value &/?+ü",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--quiet"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/magic/gre_tunnels/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "global zone",
+    "argv": [
+      "magic-transit",
+      "gre-tunnels",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--cloudflare-gre-endpoint",
+      "https://example.com/a?x=1&y=two",
+      "--customer-gre-endpoint",
+      "https://example.com/a?x=1&y=two",
+      "--interface-address",
+      "192.0.2.1",
+      "--name",
+      "regression value &/?+ü",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--zone",
+      "abcdef0123456789abcdef0123456789"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/magic/gre_tunnels/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "global profile and mode",
+    "argv": [
+      "magic-transit",
+      "gre-tunnels",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--cloudflare-gre-endpoint",
+      "https://example.com/a?x=1&y=two",
+      "--customer-gre-endpoint",
+      "https://example.com/a?x=1&y=two",
+      "--interface-address",
+      "192.0.2.1",
+      "--name",
+      "regression value &/?+ü",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--profile",
+      "default",
+      "--mode",
+      "regression"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/magic/gre_tunnels/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "local",
+    "argv": [
+      "magic-transit",
+      "gre-tunnels",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--cloudflare-gre-endpoint",
+      "https://example.com/a?x=1&y=two",
+      "--customer-gre-endpoint",
+      "https://example.com/a?x=1&y=two",
+      "--interface-address",
+      "192.0.2.1",
+      "--name",
+      "regression value &/?+ü",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--local"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "http://localhost/cdn-cgi/local/explorer/api/magic/gre_tunnels/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "gzip, deflate",
+          "accept-language": "*",
+          "connection": "keep-alive",
+          "content-type": "application/json",
+          "host": "localhost",
+          "sec-fetch-mode": "cors",
+          "transfer-encoding": "chunked",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "local with persistence",
+    "argv": [
+      "magic-transit",
+      "gre-tunnels",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--cloudflare-gre-endpoint",
+      "https://example.com/a?x=1&y=two",
+      "--customer-gre-endpoint",
+      "https://example.com/a?x=1&y=two",
+      "--interface-address",
+      "192.0.2.1",
+      "--name",
+      "regression value &/?+ü",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--local",
+      "--persist-to",
+      "regression-state"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "http://localhost/cdn-cgi/local/explorer/api/magic/gre_tunnels/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "gzip, deflate",
+          "accept-language": "*",
+          "connection": "keep-alive",
+          "content-type": "application/json",
+          "host": "localhost",
+          "sec-fetch-mode": "cors",
+          "transfer-encoding": "chunked",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "dry-run",
+    "argv": [
+      "magic-transit",
+      "gre-tunnels",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--cloudflare-gre-endpoint",
+      "https://example.com/a?x=1&y=two",
+      "--customer-gre-endpoint",
+      "https://example.com/a?x=1&y=two",
+      "--interface-address",
+      "192.0.2.1",
+      "--name",
+      "regression value &/?+ü",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--dry-run"
+    ],
+    "exitCode": 0,
+    "requests": []
+  },
+  {
+    "case": "body from file",
+    "argv": [
+      "magic-transit",
+      "gre-tunnels",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--cloudflare-gre-endpoint",
+      "https://example.com/a?x=1&y=two",
+      "--customer-gre-endpoint",
+      "https://example.com/a?x=1&y=two",
+      "--interface-address",
+      "192.0.2.1",
+      "--name",
+      "regression value &/?+ü",
+      "--body",
+      "@<body.json>"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/magic/gre_tunnels/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "array body",
+    "argv": [
+      "magic-transit",
+      "gre-tunnels",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--cloudflare-gre-endpoint",
+      "https://example.com/a?x=1&y=two",
+      "--customer-gre-endpoint",
+      "https://example.com/a?x=1&y=two",
+      "--interface-address",
+      "192.0.2.1",
+      "--name",
+      "regression value &/?+ü",
+      "--body",
+      "[{\"regression\":\"first\"},{\"regression\":\"second\"}]"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/magic/gre_tunnels/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "48",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": [
+          {
+            "regression": "first"
+          },
+          {
+            "regression": "second"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "case": "field flags",
+    "argv": [
+      "magic-transit",
+      "gre-tunnels",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--cloudflare-gre-endpoint",
+      "https://example.com/a?x=1&y=two",
+      "--customer-gre-endpoint",
+      "https://example.com/a?x=1&y=two",
+      "--interface-address",
+      "192.0.2.1",
+      "--name",
+      "regression value &/?+ü",
+      "--x-magic-new-hc-target",
+      "regression value &/?+ü",
+      "--automatic-return-routing=true",
+      "--description",
+      "192.0.2.1",
+      "--health-check-enabled=true",
+      "--health-check-rate",
+      "low",
+      "--health-check-target-saved",
+      "regression value &/?+ü",
+      "--health-check-type",
+      "reply",
+      "--health-check-direction",
+      "unidirectional",
+      "--interface-address6",
+      "192.0.2.1",
+      "--mtu",
+      "1",
+      "--ttl",
+      "1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/magic/gre_tunnels/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "425",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci",
+          "x-magic-new-hc-target": "regression value &/?+ü"
+        },
+        "body": {
+          "automatic_return_routing": true,
+          "cloudflare_gre_endpoint": "https://example.com/a?x=1&y=two",
+          "customer_gre_endpoint": "https://example.com/a?x=1&y=two",
+          "description": "192.0.2.1",
+          "health_check": {
+            "enabled": true,
+            "rate": "low",
+            "target": {
+              "saved": "regression value &/?+ü"
+            },
+            "type": "reply",
+            "direction": "unidirectional"
+          },
+          "interface_address": "192.0.2.1",
+          "interface_address6": "192.0.2.1",
+          "mtu": 1,
+          "name": "regression value &/?+ü",
+          "ttl": 1
+        }
+      }
+    ]
+  }
+]

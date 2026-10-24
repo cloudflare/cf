@@ -1,0 +1,756 @@
+[
+  {
+    "case": "no-args",
+    "argv": [
+      "network-interconnects",
+      "cnis",
+      "create"
+    ],
+    "exitCode": 1,
+    "error": "--account is required. Pass --account <value> or run interactively.",
+    "requests": []
+  },
+  {
+    "case": "required",
+    "argv": [
+      "network-interconnects",
+      "cnis",
+      "create",
+      "--account",
+      "regression value &/?+ü",
+      "--interconnect",
+      "regression value &/?+ü",
+      "--magic-conduit-name",
+      "regression value &/?+ü",
+      "--magic-description",
+      "192.0.2.1",
+      "--magic-mtu",
+      "1",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/cni/cnis",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --bgp-customer-asn",
+    "argv": [
+      "network-interconnects",
+      "cnis",
+      "create",
+      "--account",
+      "regression value &/?+ü",
+      "--interconnect",
+      "regression value &/?+ü",
+      "--magic-conduit-name",
+      "regression value &/?+ü",
+      "--magic-description",
+      "192.0.2.1",
+      "--magic-mtu",
+      "1",
+      "--bgp-customer-asn",
+      "1"
+    ],
+    "exitCode": 1,
+    "error": "--bgp-extra-prefixes is required when any --bgp-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "only --bgp-extra-prefixes",
+    "argv": [
+      "network-interconnects",
+      "cnis",
+      "create",
+      "--account",
+      "regression value &/?+ü",
+      "--interconnect",
+      "regression value &/?+ü",
+      "--magic-conduit-name",
+      "regression value &/?+ü",
+      "--magic-description",
+      "192.0.2.1",
+      "--magic-mtu",
+      "1",
+      "--bgp-extra-prefixes",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 1,
+    "error": "--bgp-customer-asn is required when any --bgp-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "only --bgp-md5-key",
+    "argv": [
+      "network-interconnects",
+      "cnis",
+      "create",
+      "--account",
+      "regression value &/?+ü",
+      "--interconnect",
+      "regression value &/?+ü",
+      "--magic-conduit-name",
+      "regression value &/?+ü",
+      "--magic-description",
+      "192.0.2.1",
+      "--magic-mtu",
+      "1",
+      "--bgp-md5-key",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 1,
+    "error": "--bgp-customer-asn, --bgp-extra-prefixes are required when any --bgp-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "pairwise 0",
+    "argv": [
+      "network-interconnects",
+      "cnis",
+      "create",
+      "--account",
+      "regression value &/?+ü",
+      "--interconnect",
+      "regression value &/?+ü",
+      "--magic-conduit-name",
+      "regression value &/?+ü",
+      "--magic-description",
+      "192.0.2.1",
+      "--magic-mtu",
+      "1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/cni/cnis",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "163",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "account": "regression value &/?+ü",
+          "interconnect": "regression value &/?+ü",
+          "magic": {
+            "conduit_name": "regression value &/?+ü",
+            "description": "192.0.2.1",
+            "mtu": 1
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 1",
+    "argv": [
+      "network-interconnects",
+      "cnis",
+      "create",
+      "--account",
+      "regression value &/?+ü",
+      "--interconnect",
+      "regression value &/?+ü",
+      "--magic-conduit-name",
+      "regression value &/?+ü",
+      "--magic-description",
+      "192.0.2.1",
+      "--magic-mtu",
+      "1",
+      "--bgp-customer-asn",
+      "2",
+      "--bgp-extra-prefixes",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--bgp-md5-key",
+      "second value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/cni/cnis",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "283",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "account": "regression value &/?+ü",
+          "bgp": {
+            "customer_asn": 2,
+            "extra_prefixes": [
+              "second value &/?+ü",
+              "second value &/?+ü"
+            ],
+            "md5_key": "second value &/?+ü"
+          },
+          "interconnect": "regression value &/?+ü",
+          "magic": {
+            "conduit_name": "regression value &/?+ü",
+            "description": "192.0.2.1",
+            "mtu": 1
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 3",
+    "argv": [
+      "network-interconnects",
+      "cnis",
+      "create",
+      "--account",
+      "regression value &/?+ü",
+      "--interconnect",
+      "regression value &/?+ü",
+      "--magic-conduit-name",
+      "regression value &/?+ü",
+      "--magic-description",
+      "192.0.2.1",
+      "--magic-mtu",
+      "1",
+      "--bgp-customer-asn",
+      "2",
+      "--bgp-md5-key",
+      "second value &/?+ü"
+    ],
+    "exitCode": 1,
+    "error": "--bgp-extra-prefixes is required when any --bgp-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "pairwise 5",
+    "argv": [
+      "network-interconnects",
+      "cnis",
+      "create",
+      "--account",
+      "regression value &/?+ü",
+      "--interconnect",
+      "regression value &/?+ü",
+      "--magic-conduit-name",
+      "regression value &/?+ü",
+      "--magic-description",
+      "192.0.2.1",
+      "--magic-mtu",
+      "1",
+      "--bgp-customer-asn",
+      "2",
+      "--bgp-extra-prefixes",
+      "second value &/?+ü",
+      "second value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/cni/cnis",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "251",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "account": "regression value &/?+ü",
+          "bgp": {
+            "customer_asn": 2,
+            "extra_prefixes": [
+              "second value &/?+ü",
+              "second value &/?+ü"
+            ]
+          },
+          "interconnect": "regression value &/?+ü",
+          "magic": {
+            "conduit_name": "regression value &/?+ü",
+            "description": "192.0.2.1",
+            "mtu": 1
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "global quiet",
+    "argv": [
+      "network-interconnects",
+      "cnis",
+      "create",
+      "--account",
+      "regression value &/?+ü",
+      "--interconnect",
+      "regression value &/?+ü",
+      "--magic-conduit-name",
+      "regression value &/?+ü",
+      "--magic-description",
+      "192.0.2.1",
+      "--magic-mtu",
+      "1",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--quiet"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/cni/cnis",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "global zone",
+    "argv": [
+      "network-interconnects",
+      "cnis",
+      "create",
+      "--account",
+      "regression value &/?+ü",
+      "--interconnect",
+      "regression value &/?+ü",
+      "--magic-conduit-name",
+      "regression value &/?+ü",
+      "--magic-description",
+      "192.0.2.1",
+      "--magic-mtu",
+      "1",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--zone",
+      "abcdef0123456789abcdef0123456789"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/cni/cnis",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "global profile and mode",
+    "argv": [
+      "network-interconnects",
+      "cnis",
+      "create",
+      "--account",
+      "regression value &/?+ü",
+      "--interconnect",
+      "regression value &/?+ü",
+      "--magic-conduit-name",
+      "regression value &/?+ü",
+      "--magic-description",
+      "192.0.2.1",
+      "--magic-mtu",
+      "1",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--profile",
+      "default",
+      "--mode",
+      "regression"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/cni/cnis",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "local",
+    "argv": [
+      "network-interconnects",
+      "cnis",
+      "create",
+      "--account",
+      "regression value &/?+ü",
+      "--interconnect",
+      "regression value &/?+ü",
+      "--magic-conduit-name",
+      "regression value &/?+ü",
+      "--magic-description",
+      "192.0.2.1",
+      "--magic-mtu",
+      "1",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--local"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "http://localhost/cdn-cgi/local/explorer/api/cni/cnis",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "gzip, deflate",
+          "accept-language": "*",
+          "connection": "keep-alive",
+          "content-type": "application/json",
+          "host": "localhost",
+          "sec-fetch-mode": "cors",
+          "transfer-encoding": "chunked",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "local with persistence",
+    "argv": [
+      "network-interconnects",
+      "cnis",
+      "create",
+      "--account",
+      "regression value &/?+ü",
+      "--interconnect",
+      "regression value &/?+ü",
+      "--magic-conduit-name",
+      "regression value &/?+ü",
+      "--magic-description",
+      "192.0.2.1",
+      "--magic-mtu",
+      "1",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--local",
+      "--persist-to",
+      "regression-state"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "http://localhost/cdn-cgi/local/explorer/api/cni/cnis",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "gzip, deflate",
+          "accept-language": "*",
+          "connection": "keep-alive",
+          "content-type": "application/json",
+          "host": "localhost",
+          "sec-fetch-mode": "cors",
+          "transfer-encoding": "chunked",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "dry-run",
+    "argv": [
+      "network-interconnects",
+      "cnis",
+      "create",
+      "--account",
+      "regression value &/?+ü",
+      "--interconnect",
+      "regression value &/?+ü",
+      "--magic-conduit-name",
+      "regression value &/?+ü",
+      "--magic-description",
+      "192.0.2.1",
+      "--magic-mtu",
+      "1",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--dry-run"
+    ],
+    "exitCode": 0,
+    "requests": []
+  },
+  {
+    "case": "body from file",
+    "argv": [
+      "network-interconnects",
+      "cnis",
+      "create",
+      "--account",
+      "regression value &/?+ü",
+      "--interconnect",
+      "regression value &/?+ü",
+      "--magic-conduit-name",
+      "regression value &/?+ü",
+      "--magic-description",
+      "192.0.2.1",
+      "--magic-mtu",
+      "1",
+      "--body",
+      "@<body.json>"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/cni/cnis",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "array body",
+    "argv": [
+      "network-interconnects",
+      "cnis",
+      "create",
+      "--account",
+      "regression value &/?+ü",
+      "--interconnect",
+      "regression value &/?+ü",
+      "--magic-conduit-name",
+      "regression value &/?+ü",
+      "--magic-description",
+      "192.0.2.1",
+      "--magic-mtu",
+      "1",
+      "--body",
+      "[{\"regression\":\"first\"},{\"regression\":\"second\"}]"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/cni/cnis",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "56",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "0": {
+            "regression": "first"
+          },
+          "1": {
+            "regression": "second"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "field flags",
+    "argv": [
+      "network-interconnects",
+      "cnis",
+      "create",
+      "--account",
+      "regression value &/?+ü",
+      "--interconnect",
+      "regression value &/?+ü",
+      "--magic-conduit-name",
+      "regression value &/?+ü",
+      "--magic-description",
+      "192.0.2.1",
+      "--magic-mtu",
+      "1",
+      "--bgp-customer-asn",
+      "1",
+      "--bgp-extra-prefixes",
+      "regression value &/?+ü",
+      "--bgp-md5-key",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/cni/cnis",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "269",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "account": "regression value &/?+ü",
+          "bgp": {
+            "customer_asn": 1,
+            "extra_prefixes": [
+              "regression value &/?+ü"
+            ],
+            "md5_key": "regression value &/?+ü"
+          },
+          "interconnect": "regression value &/?+ü",
+          "magic": {
+            "conduit_name": "regression value &/?+ü",
+            "description": "192.0.2.1",
+            "mtu": 1
+          }
+        }
+      }
+    ]
+  }
+]

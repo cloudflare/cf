@@ -1,0 +1,1776 @@
+[
+  {
+    "case": "no-args",
+    "argv": [
+      "billing",
+      "profiles",
+      "update"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/billing/profile",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "2",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {}
+      }
+    ]
+  },
+  {
+    "case": "required",
+    "argv": [
+      "billing",
+      "profiles",
+      "update",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/billing/profile",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --address",
+    "argv": [
+      "billing",
+      "profiles",
+      "update",
+      "--address",
+      "192.0.2.1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/billing/profile",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "23",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "address": "192.0.2.1"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --address2",
+    "argv": [
+      "billing",
+      "profiles",
+      "update",
+      "--address2",
+      "192.0.2.1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/billing/profile",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "24",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "address2": "192.0.2.1"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --billing-email",
+    "argv": [
+      "billing",
+      "profiles",
+      "update",
+      "--billing-email",
+      "regression@example.com"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/billing/profile",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "billing_email": "regression@example.com"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --buying-rate-plan",
+    "argv": [
+      "billing",
+      "profiles",
+      "update",
+      "--buying-rate-plan",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/billing/profile",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "46",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "buying_rate_plan": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --captcha-challenge-jwt",
+    "argv": [
+      "billing",
+      "profiles",
+      "update",
+      "--captcha-challenge-jwt",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/billing/profile",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "51",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "captcha_challenge_jwt": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --cf-turnstile-response",
+    "argv": [
+      "billing",
+      "profiles",
+      "update",
+      "--cf-turnstile-response",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/billing/profile",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "51",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "cf_turnstile_response": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --city",
+    "argv": [
+      "billing",
+      "profiles",
+      "update",
+      "--city",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/billing/profile",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "34",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "city": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --company",
+    "argv": [
+      "billing",
+      "profiles",
+      "update",
+      "--company",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/billing/profile",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "37",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "company": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --country",
+    "argv": [
+      "billing",
+      "profiles",
+      "update",
+      "--country",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/billing/profile",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "37",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "country": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --first-name",
+    "argv": [
+      "billing",
+      "profiles",
+      "update",
+      "--first-name",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/billing/profile",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "40",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "first_name": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --h-captcha-response",
+    "argv": [
+      "billing",
+      "profiles",
+      "update",
+      "--h-captcha-response",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/billing/profile",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "48",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "h_captcha_response": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --last-name",
+    "argv": [
+      "billing",
+      "profiles",
+      "update",
+      "--last-name",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/billing/profile",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "39",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "last_name": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --preferred-locale",
+    "argv": [
+      "billing",
+      "profiles",
+      "update",
+      "--preferred-locale",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/billing/profile",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "46",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "preferred_locale": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --secondary-billing-email",
+    "argv": [
+      "billing",
+      "profiles",
+      "update",
+      "--secondary-billing-email",
+      "regression@example.com"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/billing/profile",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "52",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "secondary_billing_email": "regression@example.com"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --state",
+    "argv": [
+      "billing",
+      "profiles",
+      "update",
+      "--state",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/billing/profile",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "35",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "state": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --tax-id-type",
+    "argv": [
+      "billing",
+      "profiles",
+      "update",
+      "--tax-id-type",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/billing/profile",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "41",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "tax_id_type": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --telephone",
+    "argv": [
+      "billing",
+      "profiles",
+      "update",
+      "--telephone",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/billing/profile",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "39",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "telephone": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --vat",
+    "argv": [
+      "billing",
+      "profiles",
+      "update",
+      "--vat",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/billing/profile",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "33",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "vat": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --zipcode",
+    "argv": [
+      "billing",
+      "profiles",
+      "update",
+      "--zipcode",
+      "192.0.2.1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/billing/profile",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "23",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "zipcode": "192.0.2.1"
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 1",
+    "argv": [
+      "billing",
+      "profiles",
+      "update",
+      "--address",
+      "192.0.2.1",
+      "--address2",
+      "192.0.2.1",
+      "--billing-email",
+      "regression@example.com",
+      "--buying-rate-plan",
+      "second value &/?+ü",
+      "--captcha-challenge-jwt",
+      "second value &/?+ü",
+      "--cf-turnstile-response",
+      "second value &/?+ü",
+      "--city",
+      "second value &/?+ü",
+      "--company",
+      "second value &/?+ü",
+      "--country",
+      "second value &/?+ü",
+      "--first-name",
+      "second value &/?+ü",
+      "--h-captcha-response",
+      "second value &/?+ü",
+      "--last-name",
+      "second value &/?+ü",
+      "--preferred-locale",
+      "second value &/?+ü",
+      "--secondary-billing-email",
+      "regression@example.com",
+      "--state",
+      "second value &/?+ü",
+      "--tax-id-type",
+      "second value &/?+ü",
+      "--telephone",
+      "second value &/?+ü",
+      "--vat",
+      "second value &/?+ü",
+      "--zipcode",
+      "192.0.2.1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/billing/profile",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "667",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "address": "192.0.2.1",
+          "address2": "192.0.2.1",
+          "billing_email": "regression@example.com",
+          "buying_rate_plan": "second value &/?+ü",
+          "captcha_challenge_jwt": "second value &/?+ü",
+          "cf_turnstile_response": "second value &/?+ü",
+          "city": "second value &/?+ü",
+          "company": "second value &/?+ü",
+          "country": "second value &/?+ü",
+          "first_name": "second value &/?+ü",
+          "h_captcha_response": "second value &/?+ü",
+          "last_name": "second value &/?+ü",
+          "preferred_locale": "second value &/?+ü",
+          "secondary_billing_email": "regression@example.com",
+          "state": "second value &/?+ü",
+          "tax_id_type": "second value &/?+ü",
+          "telephone": "second value &/?+ü",
+          "vat": "second value &/?+ü",
+          "zipcode": "192.0.2.1"
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 2",
+    "argv": [
+      "billing",
+      "profiles",
+      "update",
+      "--address2",
+      "192.0.2.1",
+      "--buying-rate-plan",
+      "regression value &/?+ü",
+      "--cf-turnstile-response",
+      "regression value &/?+ü",
+      "--company",
+      "regression value &/?+ü",
+      "--first-name",
+      "regression value &/?+ü",
+      "--last-name",
+      "regression value &/?+ü",
+      "--secondary-billing-email",
+      "regression@example.com",
+      "--tax-id-type",
+      "regression value &/?+ü",
+      "--vat",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/billing/profile",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "355",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "address2": "192.0.2.1",
+          "buying_rate_plan": "regression value &/?+ü",
+          "cf_turnstile_response": "regression value &/?+ü",
+          "company": "regression value &/?+ü",
+          "first_name": "regression value &/?+ü",
+          "last_name": "regression value &/?+ü",
+          "secondary_billing_email": "regression@example.com",
+          "tax_id_type": "regression value &/?+ü",
+          "vat": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 3",
+    "argv": [
+      "billing",
+      "profiles",
+      "update",
+      "--address",
+      "192.0.2.1",
+      "--billing-email",
+      "regression@example.com",
+      "--captcha-challenge-jwt",
+      "second value &/?+ü",
+      "--city",
+      "second value &/?+ü",
+      "--country",
+      "second value &/?+ü",
+      "--h-captcha-response",
+      "second value &/?+ü",
+      "--preferred-locale",
+      "second value &/?+ü",
+      "--state",
+      "second value &/?+ü",
+      "--telephone",
+      "second value &/?+ü",
+      "--zipcode",
+      "192.0.2.1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/billing/profile",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "341",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "address": "192.0.2.1",
+          "billing_email": "regression@example.com",
+          "captcha_challenge_jwt": "second value &/?+ü",
+          "city": "second value &/?+ü",
+          "country": "second value &/?+ü",
+          "h_captcha_response": "second value &/?+ü",
+          "preferred_locale": "second value &/?+ü",
+          "state": "second value &/?+ü",
+          "telephone": "second value &/?+ü",
+          "zipcode": "192.0.2.1"
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 4",
+    "argv": [
+      "billing",
+      "profiles",
+      "update",
+      "--billing-email",
+      "regression@example.com",
+      "--buying-rate-plan",
+      "regression value &/?+ü",
+      "--city",
+      "regression value &/?+ü",
+      "--company",
+      "regression value &/?+ü",
+      "--h-captcha-response",
+      "regression value &/?+ü",
+      "--last-name",
+      "regression value &/?+ü",
+      "--state",
+      "regression value &/?+ü",
+      "--tax-id-type",
+      "regression value &/?+ü",
+      "--zipcode",
+      "192.0.2.1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/billing/profile",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "337",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "billing_email": "regression@example.com",
+          "buying_rate_plan": "regression value &/?+ü",
+          "city": "regression value &/?+ü",
+          "company": "regression value &/?+ü",
+          "h_captcha_response": "regression value &/?+ü",
+          "last_name": "regression value &/?+ü",
+          "state": "regression value &/?+ü",
+          "tax_id_type": "regression value &/?+ü",
+          "zipcode": "192.0.2.1"
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 5",
+    "argv": [
+      "billing",
+      "profiles",
+      "update",
+      "--address",
+      "192.0.2.1",
+      "--address2",
+      "192.0.2.1",
+      "--captcha-challenge-jwt",
+      "second value &/?+ü",
+      "--cf-turnstile-response",
+      "second value &/?+ü",
+      "--country",
+      "second value &/?+ü",
+      "--first-name",
+      "second value &/?+ü",
+      "--preferred-locale",
+      "second value &/?+ü",
+      "--secondary-billing-email",
+      "regression@example.com",
+      "--telephone",
+      "second value &/?+ü",
+      "--vat",
+      "second value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/billing/profile",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "359",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "address": "192.0.2.1",
+          "address2": "192.0.2.1",
+          "captcha_challenge_jwt": "second value &/?+ü",
+          "cf_turnstile_response": "second value &/?+ü",
+          "country": "second value &/?+ü",
+          "first_name": "second value &/?+ü",
+          "preferred_locale": "second value &/?+ü",
+          "secondary_billing_email": "regression@example.com",
+          "telephone": "second value &/?+ü",
+          "vat": "second value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 6",
+    "argv": [
+      "billing",
+      "profiles",
+      "update",
+      "--captcha-challenge-jwt",
+      "regression value &/?+ü",
+      "--cf-turnstile-response",
+      "regression value &/?+ü",
+      "--city",
+      "regression value &/?+ü",
+      "--company",
+      "regression value &/?+ü",
+      "--preferred-locale",
+      "regression value &/?+ü",
+      "--secondary-billing-email",
+      "regression@example.com",
+      "--state",
+      "regression value &/?+ü",
+      "--tax-id-type",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/billing/profile",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "340",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "captcha_challenge_jwt": "regression value &/?+ü",
+          "cf_turnstile_response": "regression value &/?+ü",
+          "city": "regression value &/?+ü",
+          "company": "regression value &/?+ü",
+          "preferred_locale": "regression value &/?+ü",
+          "secondary_billing_email": "regression@example.com",
+          "state": "regression value &/?+ü",
+          "tax_id_type": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 7",
+    "argv": [
+      "billing",
+      "profiles",
+      "update",
+      "--address",
+      "192.0.2.1",
+      "--address2",
+      "192.0.2.1",
+      "--billing-email",
+      "regression@example.com",
+      "--buying-rate-plan",
+      "second value &/?+ü",
+      "--country",
+      "second value &/?+ü",
+      "--first-name",
+      "second value &/?+ü",
+      "--h-captcha-response",
+      "second value &/?+ü",
+      "--last-name",
+      "second value &/?+ü",
+      "--telephone",
+      "second value &/?+ü",
+      "--vat",
+      "second value &/?+ü",
+      "--zipcode",
+      "192.0.2.1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/billing/profile",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "356",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "address": "192.0.2.1",
+          "address2": "192.0.2.1",
+          "billing_email": "regression@example.com",
+          "buying_rate_plan": "second value &/?+ü",
+          "country": "second value &/?+ü",
+          "first_name": "second value &/?+ü",
+          "h_captcha_response": "second value &/?+ü",
+          "last_name": "second value &/?+ü",
+          "telephone": "second value &/?+ü",
+          "vat": "second value &/?+ü",
+          "zipcode": "192.0.2.1"
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 8",
+    "argv": [
+      "billing",
+      "profiles",
+      "update",
+      "--country",
+      "regression value &/?+ü",
+      "--first-name",
+      "regression value &/?+ü",
+      "--h-captcha-response",
+      "regression value &/?+ü",
+      "--last-name",
+      "regression value &/?+ü",
+      "--preferred-locale",
+      "regression value &/?+ü",
+      "--secondary-billing-email",
+      "regression@example.com",
+      "--state",
+      "regression value &/?+ü",
+      "--tax-id-type",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/billing/profile",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "331",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "country": "regression value &/?+ü",
+          "first_name": "regression value &/?+ü",
+          "h_captcha_response": "regression value &/?+ü",
+          "last_name": "regression value &/?+ü",
+          "preferred_locale": "regression value &/?+ü",
+          "secondary_billing_email": "regression@example.com",
+          "state": "regression value &/?+ü",
+          "tax_id_type": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 9",
+    "argv": [
+      "billing",
+      "profiles",
+      "update",
+      "--address",
+      "192.0.2.1",
+      "--address2",
+      "192.0.2.1",
+      "--billing-email",
+      "regression@example.com",
+      "--buying-rate-plan",
+      "second value &/?+ü",
+      "--captcha-challenge-jwt",
+      "second value &/?+ü",
+      "--cf-turnstile-response",
+      "second value &/?+ü",
+      "--city",
+      "second value &/?+ü",
+      "--company",
+      "second value &/?+ü",
+      "--telephone",
+      "second value &/?+ü",
+      "--vat",
+      "second value &/?+ü",
+      "--zipcode",
+      "192.0.2.1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/billing/profile",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "365",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "address": "192.0.2.1",
+          "address2": "192.0.2.1",
+          "billing_email": "regression@example.com",
+          "buying_rate_plan": "second value &/?+ü",
+          "captcha_challenge_jwt": "second value &/?+ü",
+          "cf_turnstile_response": "second value &/?+ü",
+          "city": "second value &/?+ü",
+          "company": "second value &/?+ü",
+          "telephone": "second value &/?+ü",
+          "vat": "second value &/?+ü",
+          "zipcode": "192.0.2.1"
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 10",
+    "argv": [
+      "billing",
+      "profiles",
+      "update",
+      "--telephone",
+      "regression value &/?+ü",
+      "--vat",
+      "regression value &/?+ü",
+      "--zipcode",
+      "192.0.2.1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/billing/profile",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "93",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "telephone": "regression value &/?+ü",
+          "vat": "regression value &/?+ü",
+          "zipcode": "192.0.2.1"
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 11",
+    "argv": [
+      "billing",
+      "profiles",
+      "update",
+      "--address",
+      "192.0.2.1",
+      "--address2",
+      "192.0.2.1",
+      "--billing-email",
+      "regression@example.com",
+      "--buying-rate-plan",
+      "second value &/?+ü",
+      "--captcha-challenge-jwt",
+      "second value &/?+ü",
+      "--cf-turnstile-response",
+      "second value &/?+ü",
+      "--city",
+      "second value &/?+ü",
+      "--company",
+      "second value &/?+ü",
+      "--country",
+      "second value &/?+ü",
+      "--first-name",
+      "second value &/?+ü",
+      "--h-captcha-response",
+      "second value &/?+ü",
+      "--last-name",
+      "second value &/?+ü",
+      "--preferred-locale",
+      "second value &/?+ü",
+      "--secondary-billing-email",
+      "regression@example.com",
+      "--state",
+      "second value &/?+ü",
+      "--tax-id-type",
+      "second value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/billing/profile",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "583",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "address": "192.0.2.1",
+          "address2": "192.0.2.1",
+          "billing_email": "regression@example.com",
+          "buying_rate_plan": "second value &/?+ü",
+          "captcha_challenge_jwt": "second value &/?+ü",
+          "cf_turnstile_response": "second value &/?+ü",
+          "city": "second value &/?+ü",
+          "company": "second value &/?+ü",
+          "country": "second value &/?+ü",
+          "first_name": "second value &/?+ü",
+          "h_captcha_response": "second value &/?+ü",
+          "last_name": "second value &/?+ü",
+          "preferred_locale": "second value &/?+ü",
+          "secondary_billing_email": "regression@example.com",
+          "state": "second value &/?+ü",
+          "tax_id_type": "second value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "global quiet",
+    "argv": [
+      "billing",
+      "profiles",
+      "update",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--quiet"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/billing/profile",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "global zone",
+    "argv": [
+      "billing",
+      "profiles",
+      "update",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--zone",
+      "abcdef0123456789abcdef0123456789"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/billing/profile",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "global profile and mode",
+    "argv": [
+      "billing",
+      "profiles",
+      "update",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--profile",
+      "default",
+      "--mode",
+      "regression"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/billing/profile",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "local",
+    "argv": [
+      "billing",
+      "profiles",
+      "update",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--local"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "http://localhost/cdn-cgi/local/explorer/api/billing/profile",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "gzip, deflate",
+          "accept-language": "*",
+          "connection": "keep-alive",
+          "content-type": "application/json",
+          "host": "localhost",
+          "sec-fetch-mode": "cors",
+          "transfer-encoding": "chunked",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "local with persistence",
+    "argv": [
+      "billing",
+      "profiles",
+      "update",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--local",
+      "--persist-to",
+      "regression-state"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "http://localhost/cdn-cgi/local/explorer/api/billing/profile",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "gzip, deflate",
+          "accept-language": "*",
+          "connection": "keep-alive",
+          "content-type": "application/json",
+          "host": "localhost",
+          "sec-fetch-mode": "cors",
+          "transfer-encoding": "chunked",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "dry-run",
+    "argv": [
+      "billing",
+      "profiles",
+      "update",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--dry-run"
+    ],
+    "exitCode": 0,
+    "requests": []
+  },
+  {
+    "case": "body from file",
+    "argv": [
+      "billing",
+      "profiles",
+      "update",
+      "--body",
+      "@<body.json>"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/billing/profile",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "array body",
+    "argv": [
+      "billing",
+      "profiles",
+      "update",
+      "--body",
+      "[{\"regression\":\"first\"},{\"regression\":\"second\"}]"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/billing/profile",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "48",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": [
+          {
+            "regression": "first"
+          },
+          {
+            "regression": "second"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "case": "field flags",
+    "argv": [
+      "billing",
+      "profiles",
+      "update",
+      "--address",
+      "192.0.2.1",
+      "--address2",
+      "192.0.2.1",
+      "--billing-email",
+      "regression@example.com",
+      "--buying-rate-plan",
+      "regression value &/?+ü",
+      "--captcha-challenge-jwt",
+      "regression value &/?+ü",
+      "--cf-turnstile-response",
+      "regression value &/?+ü",
+      "--city",
+      "regression value &/?+ü",
+      "--company",
+      "regression value &/?+ü",
+      "--country",
+      "regression value &/?+ü",
+      "--first-name",
+      "regression value &/?+ü",
+      "--h-captcha-response",
+      "regression value &/?+ü",
+      "--last-name",
+      "regression value &/?+ü",
+      "--preferred-locale",
+      "regression value &/?+ü",
+      "--secondary-billing-email",
+      "regression@example.com",
+      "--state",
+      "regression value &/?+ü",
+      "--tax-id-type",
+      "regression value &/?+ü",
+      "--telephone",
+      "regression value &/?+ü",
+      "--vat",
+      "regression value &/?+ü",
+      "--zipcode",
+      "192.0.2.1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/billing/profile",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "723",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "address": "192.0.2.1",
+          "address2": "192.0.2.1",
+          "billing_email": "regression@example.com",
+          "buying_rate_plan": "regression value &/?+ü",
+          "captcha_challenge_jwt": "regression value &/?+ü",
+          "cf_turnstile_response": "regression value &/?+ü",
+          "city": "regression value &/?+ü",
+          "company": "regression value &/?+ü",
+          "country": "regression value &/?+ü",
+          "first_name": "regression value &/?+ü",
+          "h_captcha_response": "regression value &/?+ü",
+          "last_name": "regression value &/?+ü",
+          "preferred_locale": "regression value &/?+ü",
+          "secondary_billing_email": "regression@example.com",
+          "state": "regression value &/?+ü",
+          "tax_id_type": "regression value &/?+ü",
+          "telephone": "regression value &/?+ü",
+          "vat": "regression value &/?+ü",
+          "zipcode": "192.0.2.1"
+        }
+      }
+    ]
+  }
+]

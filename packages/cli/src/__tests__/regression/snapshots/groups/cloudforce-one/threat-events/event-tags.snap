@@ -1,0 +1,8 @@
+{
+  "argv": [
+    "cloudforce-one",
+    "threat-events",
+    "event-tags"
+  ],
+  "requests": []
+}

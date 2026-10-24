@@ -1,0 +1,2041 @@
+[
+  {
+    "case": "no-args",
+    "argv": [
+      "browser-run",
+      "quick-action",
+      "links"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/browser-rendering/links",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "181",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "excludeExternalLinks": false,
+          "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36",
+          "visibleLinksOnly": false
+        }
+      }
+    ]
+  },
+  {
+    "case": "required",
+    "argv": [
+      "browser-run",
+      "quick-action",
+      "links",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/browser-rendering/links",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --cacheTTL",
+    "argv": [
+      "browser-run",
+      "quick-action",
+      "links",
+      "--cacheTTL",
+      "1"
+    ],
+    "exitCode": 1,
+    "error": "Unknown argument: cacheTTL",
+    "requests": []
+  },
+  {
+    "case": "only --browser",
+    "argv": [
+      "browser-run",
+      "quick-action",
+      "links",
+      "--browser",
+      "kitesurf"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/browser-rendering/links?browser=kitesurf",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "181",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "excludeExternalLinks": false,
+          "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36",
+          "visibleLinksOnly": false
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --action-timeout",
+    "argv": [
+      "browser-run",
+      "quick-action",
+      "links",
+      "--action-timeout",
+      "1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/browser-rendering/links",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "199",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "actionTimeout": 1,
+          "excludeExternalLinks": false,
+          "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36",
+          "visibleLinksOnly": false
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --add-script-tag",
+    "argv": [
+      "browser-run",
+      "quick-action",
+      "links",
+      "--add-script-tag",
+      "[{\"regression\":\"item\"}]"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/browser-rendering/links",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "220",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "addScriptTag": [
+            {
+              "regression": "item"
+            }
+          ],
+          "excludeExternalLinks": false,
+          "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36",
+          "visibleLinksOnly": false
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --add-style-tag",
+    "argv": [
+      "browser-run",
+      "quick-action",
+      "links",
+      "--add-style-tag",
+      "[{\"regression\":\"item\"}]"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/browser-rendering/links",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "219",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "addStyleTag": [
+            {
+              "regression": "item"
+            }
+          ],
+          "excludeExternalLinks": false,
+          "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36",
+          "visibleLinksOnly": false
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --allow-request-pattern",
+    "argv": [
+      "browser-run",
+      "quick-action",
+      "links",
+      "--allow-request-pattern",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/browser-rendering/links",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "231",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "allowRequestPattern": [
+            "regression value &/?+ü"
+          ],
+          "excludeExternalLinks": false,
+          "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36",
+          "visibleLinksOnly": false
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --authenticate-password",
+    "argv": [
+      "browser-run",
+      "quick-action",
+      "links",
+      "--authenticate-password",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 1,
+    "error": "--authenticate-username is required when any --authenticate-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "only --authenticate-username",
+    "argv": [
+      "browser-run",
+      "quick-action",
+      "links",
+      "--authenticate-username",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 1,
+    "error": "--authenticate-password is required when any --authenticate-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "only --best-attempt",
+    "argv": [
+      "browser-run",
+      "quick-action",
+      "links",
+      "--best-attempt=true"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/browser-rendering/links",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "200",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "bestAttempt": true,
+          "excludeExternalLinks": false,
+          "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36",
+          "visibleLinksOnly": false
+        }
+      }
+    ]
+  },
+  {
+    "case": "--best-attempt value 1",
+    "argv": [
+      "browser-run",
+      "quick-action",
+      "links",
+      "--best-attempt=false"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/browser-rendering/links",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "201",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "bestAttempt": false,
+          "excludeExternalLinks": false,
+          "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36",
+          "visibleLinksOnly": false
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --cookies",
+    "argv": [
+      "browser-run",
+      "quick-action",
+      "links",
+      "--cookies",
+      "[{\"regression\":\"item\"}]"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/browser-rendering/links",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "215",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "cookies": [
+            {
+              "regression": "item"
+            }
+          ],
+          "excludeExternalLinks": false,
+          "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36",
+          "visibleLinksOnly": false
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --emulate-media-type",
+    "argv": [
+      "browser-run",
+      "quick-action",
+      "links",
+      "--emulate-media-type",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/browser-rendering/links",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "226",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "emulateMediaType": "regression value &/?+ü",
+          "excludeExternalLinks": false,
+          "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36",
+          "visibleLinksOnly": false
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --exclude-external-links",
+    "argv": [
+      "browser-run",
+      "quick-action",
+      "links",
+      "--exclude-external-links=true"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/browser-rendering/links",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "180",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "excludeExternalLinks": true,
+          "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36",
+          "visibleLinksOnly": false
+        }
+      }
+    ]
+  },
+  {
+    "case": "--exclude-external-links value 1",
+    "argv": [
+      "browser-run",
+      "quick-action",
+      "links",
+      "--exclude-external-links=false"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/browser-rendering/links",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "181",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "excludeExternalLinks": false,
+          "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36",
+          "visibleLinksOnly": false
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --goto-options-referer",
+    "argv": [
+      "browser-run",
+      "quick-action",
+      "links",
+      "--goto-options-referer",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/browser-rendering/links",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "233",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "excludeExternalLinks": false,
+          "gotoOptions": {
+            "referer": "regression value &/?+ü"
+          },
+          "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36",
+          "visibleLinksOnly": false
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --goto-options-referrer-policy",
+    "argv": [
+      "browser-run",
+      "quick-action",
+      "links",
+      "--goto-options-referrer-policy",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/browser-rendering/links",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "240",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "excludeExternalLinks": false,
+          "gotoOptions": {
+            "referrerPolicy": "regression value &/?+ü"
+          },
+          "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36",
+          "visibleLinksOnly": false
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --goto-options-timeout",
+    "argv": [
+      "browser-run",
+      "quick-action",
+      "links",
+      "--goto-options-timeout",
+      "1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/browser-rendering/links",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "209",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "excludeExternalLinks": false,
+          "gotoOptions": {
+            "timeout": 1
+          },
+          "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36",
+          "visibleLinksOnly": false
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --html",
+    "argv": [
+      "browser-run",
+      "quick-action",
+      "links",
+      "--html",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/browser-rendering/links",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "214",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "excludeExternalLinks": false,
+          "html": "regression value &/?+ü",
+          "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36",
+          "visibleLinksOnly": false
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --reject-request-pattern",
+    "argv": [
+      "browser-run",
+      "quick-action",
+      "links",
+      "--reject-request-pattern",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/browser-rendering/links",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "232",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "excludeExternalLinks": false,
+          "rejectRequestPattern": [
+            "regression value &/?+ü"
+          ],
+          "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36",
+          "visibleLinksOnly": false
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --set-java-script-enabled",
+    "argv": [
+      "browser-run",
+      "quick-action",
+      "links",
+      "--set-java-script-enabled=true"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/browser-rendering/links",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "209",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "excludeExternalLinks": false,
+          "setJavaScriptEnabled": true,
+          "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36",
+          "visibleLinksOnly": false
+        }
+      }
+    ]
+  },
+  {
+    "case": "--set-java-script-enabled value 1",
+    "argv": [
+      "browser-run",
+      "quick-action",
+      "links",
+      "--set-java-script-enabled=false"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/browser-rendering/links",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "210",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "excludeExternalLinks": false,
+          "setJavaScriptEnabled": false,
+          "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36",
+          "visibleLinksOnly": false
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --url",
+    "argv": [
+      "browser-run",
+      "quick-action",
+      "links",
+      "--url",
+      "https://example.com/a?x=1&y=two"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/browser-rendering/links",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "221",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "excludeExternalLinks": false,
+          "url": "https://example.com/a?x=1&y=two",
+          "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36",
+          "visibleLinksOnly": false
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --user-agent",
+    "argv": [
+      "browser-run",
+      "quick-action",
+      "links",
+      "--user-agent",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/browser-rendering/links",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "93",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "excludeExternalLinks": false,
+          "userAgent": "regression value &/?+ü",
+          "visibleLinksOnly": false
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --viewport-device-scale-factor",
+    "argv": [
+      "browser-run",
+      "quick-action",
+      "links",
+      "--viewport-device-scale-factor",
+      "1"
+    ],
+    "exitCode": 1,
+    "error": "--viewport-height, --viewport-width are required when any --viewport-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "only --viewport-has-touch",
+    "argv": [
+      "browser-run",
+      "quick-action",
+      "links",
+      "--viewport-has-touch=true"
+    ],
+    "exitCode": 1,
+    "error": "--viewport-height, --viewport-width are required when any --viewport-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "--viewport-has-touch value 1",
+    "argv": [
+      "browser-run",
+      "quick-action",
+      "links",
+      "--viewport-has-touch=false"
+    ],
+    "exitCode": 1,
+    "error": "--viewport-height, --viewport-width are required when any --viewport-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "only --viewport-height",
+    "argv": [
+      "browser-run",
+      "quick-action",
+      "links",
+      "--viewport-height",
+      "1"
+    ],
+    "exitCode": 1,
+    "error": "--viewport-width is required when any --viewport-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "only --viewport-is-landscape",
+    "argv": [
+      "browser-run",
+      "quick-action",
+      "links",
+      "--viewport-is-landscape=true"
+    ],
+    "exitCode": 1,
+    "error": "--viewport-height, --viewport-width are required when any --viewport-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "--viewport-is-landscape value 1",
+    "argv": [
+      "browser-run",
+      "quick-action",
+      "links",
+      "--viewport-is-landscape=false"
+    ],
+    "exitCode": 1,
+    "error": "--viewport-height, --viewport-width are required when any --viewport-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "only --viewport-is-mobile",
+    "argv": [
+      "browser-run",
+      "quick-action",
+      "links",
+      "--viewport-is-mobile=true"
+    ],
+    "exitCode": 1,
+    "error": "--viewport-height, --viewport-width are required when any --viewport-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "--viewport-is-mobile value 1",
+    "argv": [
+      "browser-run",
+      "quick-action",
+      "links",
+      "--viewport-is-mobile=false"
+    ],
+    "exitCode": 1,
+    "error": "--viewport-height, --viewport-width are required when any --viewport-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "only --viewport-width",
+    "argv": [
+      "browser-run",
+      "quick-action",
+      "links",
+      "--viewport-width",
+      "1"
+    ],
+    "exitCode": 1,
+    "error": "--viewport-height is required when any --viewport-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "only --visible-links-only",
+    "argv": [
+      "browser-run",
+      "quick-action",
+      "links",
+      "--visible-links-only=true"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/browser-rendering/links",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "180",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "excludeExternalLinks": false,
+          "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36",
+          "visibleLinksOnly": true
+        }
+      }
+    ]
+  },
+  {
+    "case": "--visible-links-only value 1",
+    "argv": [
+      "browser-run",
+      "quick-action",
+      "links",
+      "--visible-links-only=false"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/browser-rendering/links",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "181",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "excludeExternalLinks": false,
+          "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36",
+          "visibleLinksOnly": false
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --wait-for-selector-hidden",
+    "argv": [
+      "browser-run",
+      "quick-action",
+      "links",
+      "--wait-for-selector-hidden=true"
+    ],
+    "exitCode": 1,
+    "error": "--wait-for-selector-selector is required when any --waitForSelector-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "--wait-for-selector-hidden value 1",
+    "argv": [
+      "browser-run",
+      "quick-action",
+      "links",
+      "--wait-for-selector-hidden=false"
+    ],
+    "exitCode": 1,
+    "error": "--wait-for-selector-selector is required when any --waitForSelector-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "only --wait-for-selector-selector",
+    "argv": [
+      "browser-run",
+      "quick-action",
+      "links",
+      "--wait-for-selector-selector",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/browser-rendering/links",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "238",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "excludeExternalLinks": false,
+          "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36",
+          "visibleLinksOnly": false,
+          "waitForSelector": {
+            "selector": "regression value &/?+ü"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --wait-for-selector-timeout",
+    "argv": [
+      "browser-run",
+      "quick-action",
+      "links",
+      "--wait-for-selector-timeout",
+      "1"
+    ],
+    "exitCode": 1,
+    "error": "--wait-for-selector-selector is required when any --waitForSelector-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "only --wait-for-selector-visible",
+    "argv": [
+      "browser-run",
+      "quick-action",
+      "links",
+      "--wait-for-selector-visible=true"
+    ],
+    "exitCode": 1,
+    "error": "--wait-for-selector-selector is required when any --waitForSelector-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "--wait-for-selector-visible value 1",
+    "argv": [
+      "browser-run",
+      "quick-action",
+      "links",
+      "--wait-for-selector-visible=false"
+    ],
+    "exitCode": 1,
+    "error": "--wait-for-selector-selector is required when any --waitForSelector-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "only --wait-for-timeout",
+    "argv": [
+      "browser-run",
+      "quick-action",
+      "links",
+      "--wait-for-timeout",
+      "1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/browser-rendering/links",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "200",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "excludeExternalLinks": false,
+          "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36",
+          "visibleLinksOnly": false,
+          "waitForTimeout": 1
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 1",
+    "argv": [
+      "browser-run",
+      "quick-action",
+      "links",
+      "--cacheTTL",
+      "2",
+      "--browser",
+      "kitesurf",
+      "--action-timeout",
+      "2",
+      "--add-script-tag",
+      "[{\"regression\":\"item\"}]",
+      "--add-style-tag",
+      "[{\"regression\":\"item\"}]",
+      "--allow-request-pattern",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--authenticate-password",
+      "second value &/?+ü",
+      "--authenticate-username",
+      "second value &/?+ü",
+      "--best-attempt=false",
+      "--cookies",
+      "[{\"regression\":\"item\"}]",
+      "--emulate-media-type",
+      "second value &/?+ü",
+      "--exclude-external-links=false",
+      "--goto-options-referer",
+      "second value &/?+ü",
+      "--goto-options-referrer-policy",
+      "second value &/?+ü",
+      "--goto-options-timeout",
+      "2",
+      "--html",
+      "second value &/?+ü",
+      "--reject-request-pattern",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--set-java-script-enabled=false",
+      "--url",
+      "https://example.com/a?x=1&y=two",
+      "--user-agent",
+      "second value &/?+ü",
+      "--viewport-device-scale-factor",
+      "2",
+      "--viewport-has-touch=false",
+      "--viewport-height",
+      "2",
+      "--viewport-is-landscape=false",
+      "--viewport-is-mobile=false",
+      "--viewport-width",
+      "2",
+      "--visible-links-only=false",
+      "--wait-for-selector-hidden=false",
+      "--wait-for-selector-selector",
+      "second value &/?+ü",
+      "--wait-for-selector-timeout",
+      "2",
+      "--wait-for-selector-visible=false",
+      "--wait-for-timeout",
+      "2"
+    ],
+    "exitCode": 1,
+    "error": "Unknown argument: cacheTTL",
+    "requests": []
+  },
+  {
+    "case": "pairwise 2",
+    "argv": [
+      "browser-run",
+      "quick-action",
+      "links",
+      "--browser",
+      "kitesurf",
+      "--add-script-tag",
+      "[{\"regression\":\"item\"}]",
+      "--allow-request-pattern",
+      "regression value &/?+ü",
+      "--authenticate-username",
+      "regression value &/?+ü",
+      "--cookies",
+      "[{\"regression\":\"item\"}]",
+      "--exclude-external-links=true",
+      "--goto-options-referrer-policy",
+      "regression value &/?+ü",
+      "--html",
+      "regression value &/?+ü",
+      "--set-java-script-enabled=true",
+      "--user-agent",
+      "regression value &/?+ü",
+      "--viewport-has-touch=true",
+      "--viewport-is-landscape=true",
+      "--viewport-width",
+      "1",
+      "--wait-for-selector-hidden=true",
+      "--wait-for-selector-timeout",
+      "1",
+      "--wait-for-timeout",
+      "1"
+    ],
+    "exitCode": 1,
+    "error": "--authenticate-password is required when any --authenticate-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "pairwise 3",
+    "argv": [
+      "browser-run",
+      "quick-action",
+      "links",
+      "--cacheTTL",
+      "2",
+      "--action-timeout",
+      "2",
+      "--add-style-tag",
+      "[{\"regression\":\"item\"}]",
+      "--authenticate-password",
+      "second value &/?+ü",
+      "--best-attempt=false",
+      "--emulate-media-type",
+      "second value &/?+ü",
+      "--goto-options-referer",
+      "second value &/?+ü",
+      "--goto-options-timeout",
+      "2",
+      "--reject-request-pattern",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--url",
+      "https://example.com/a?x=1&y=two",
+      "--viewport-device-scale-factor",
+      "2",
+      "--viewport-height",
+      "2",
+      "--viewport-is-mobile=false",
+      "--visible-links-only=false",
+      "--wait-for-selector-selector",
+      "second value &/?+ü",
+      "--wait-for-selector-visible=false"
+    ],
+    "exitCode": 1,
+    "error": "Unknown argument: cacheTTL",
+    "requests": []
+  },
+  {
+    "case": "pairwise 4",
+    "argv": [
+      "browser-run",
+      "quick-action",
+      "links",
+      "--action-timeout",
+      "1",
+      "--add-script-tag",
+      "[{\"regression\":\"item\"}]",
+      "--authenticate-password",
+      "regression value &/?+ü",
+      "--authenticate-username",
+      "regression value &/?+ü",
+      "--emulate-media-type",
+      "regression value &/?+ü",
+      "--exclude-external-links=true",
+      "--goto-options-timeout",
+      "1",
+      "--html",
+      "regression value &/?+ü",
+      "--url",
+      "https://example.com/a?x=1&y=two",
+      "--user-agent",
+      "regression value &/?+ü",
+      "--viewport-height",
+      "1",
+      "--viewport-is-landscape=true",
+      "--visible-links-only=true",
+      "--wait-for-selector-hidden=true",
+      "--wait-for-selector-visible=true",
+      "--wait-for-timeout",
+      "1"
+    ],
+    "exitCode": 1,
+    "error": "--viewport-width is required when any --viewport-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "pairwise 5",
+    "argv": [
+      "browser-run",
+      "quick-action",
+      "links",
+      "--cacheTTL",
+      "2",
+      "--browser",
+      "kitesurf",
+      "--add-style-tag",
+      "[{\"regression\":\"item\"}]",
+      "--allow-request-pattern",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--best-attempt=false",
+      "--cookies",
+      "[{\"regression\":\"item\"}]",
+      "--goto-options-referer",
+      "second value &/?+ü",
+      "--goto-options-referrer-policy",
+      "second value &/?+ü",
+      "--reject-request-pattern",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--set-java-script-enabled=false",
+      "--viewport-device-scale-factor",
+      "2",
+      "--viewport-has-touch=false",
+      "--viewport-is-mobile=false",
+      "--viewport-width",
+      "2",
+      "--wait-for-selector-selector",
+      "second value &/?+ü",
+      "--wait-for-selector-timeout",
+      "2"
+    ],
+    "exitCode": 1,
+    "error": "Unknown argument: cacheTTL",
+    "requests": []
+  },
+  {
+    "case": "pairwise 6",
+    "argv": [
+      "browser-run",
+      "quick-action",
+      "links",
+      "--add-style-tag",
+      "[{\"regression\":\"item\"}]",
+      "--allow-request-pattern",
+      "regression value &/?+ü",
+      "--authenticate-password",
+      "regression value &/?+ü",
+      "--authenticate-username",
+      "regression value &/?+ü",
+      "--goto-options-referer",
+      "regression value &/?+ü",
+      "--goto-options-referrer-policy",
+      "regression value &/?+ü",
+      "--goto-options-timeout",
+      "1",
+      "--html",
+      "regression value &/?+ü",
+      "--viewport-device-scale-factor",
+      "1",
+      "--viewport-has-touch=true",
+      "--viewport-height",
+      "1",
+      "--viewport-is-landscape=true",
+      "--wait-for-selector-selector",
+      "regression value &/?+ü",
+      "--wait-for-selector-timeout",
+      "1",
+      "--wait-for-selector-visible=true",
+      "--wait-for-timeout",
+      "1"
+    ],
+    "exitCode": 1,
+    "error": "--viewport-width is required when any --viewport-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "pairwise 7",
+    "argv": [
+      "browser-run",
+      "quick-action",
+      "links",
+      "--cacheTTL",
+      "2",
+      "--browser",
+      "kitesurf",
+      "--action-timeout",
+      "2",
+      "--add-script-tag",
+      "[{\"regression\":\"item\"}]",
+      "--best-attempt=false",
+      "--cookies",
+      "[{\"regression\":\"item\"}]",
+      "--emulate-media-type",
+      "second value &/?+ü",
+      "--exclude-external-links=false",
+      "--reject-request-pattern",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--set-java-script-enabled=false",
+      "--url",
+      "https://example.com/a?x=1&y=two",
+      "--user-agent",
+      "second value &/?+ü",
+      "--viewport-is-mobile=false",
+      "--viewport-width",
+      "2",
+      "--visible-links-only=false",
+      "--wait-for-selector-hidden=false"
+    ],
+    "exitCode": 1,
+    "error": "Unknown argument: cacheTTL",
+    "requests": []
+  },
+  {
+    "case": "pairwise 8",
+    "argv": [
+      "browser-run",
+      "quick-action",
+      "links",
+      "--best-attempt=true",
+      "--cookies",
+      "[{\"regression\":\"item\"}]",
+      "--emulate-media-type",
+      "regression value &/?+ü",
+      "--exclude-external-links=true",
+      "--goto-options-referer",
+      "regression value &/?+ü",
+      "--goto-options-referrer-policy",
+      "regression value &/?+ü",
+      "--goto-options-timeout",
+      "1",
+      "--html",
+      "regression value &/?+ü",
+      "--viewport-is-mobile=true",
+      "--viewport-width",
+      "1",
+      "--visible-links-only=true",
+      "--wait-for-selector-hidden=true",
+      "--wait-for-selector-selector",
+      "regression value &/?+ü",
+      "--wait-for-selector-timeout",
+      "1",
+      "--wait-for-selector-visible=true",
+      "--wait-for-timeout",
+      "1"
+    ],
+    "exitCode": 1,
+    "error": "--viewport-height is required when any --viewport-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "pairwise 9",
+    "argv": [
+      "browser-run",
+      "quick-action",
+      "links",
+      "--cacheTTL",
+      "2",
+      "--browser",
+      "kitesurf",
+      "--action-timeout",
+      "2",
+      "--add-script-tag",
+      "[{\"regression\":\"item\"}]",
+      "--add-style-tag",
+      "[{\"regression\":\"item\"}]",
+      "--allow-request-pattern",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--authenticate-password",
+      "second value &/?+ü",
+      "--authenticate-username",
+      "second value &/?+ü",
+      "--reject-request-pattern",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--set-java-script-enabled=false",
+      "--url",
+      "https://example.com/a?x=1&y=two",
+      "--user-agent",
+      "second value &/?+ü",
+      "--viewport-device-scale-factor",
+      "2",
+      "--viewport-has-touch=false",
+      "--viewport-height",
+      "2",
+      "--viewport-is-landscape=false"
+    ],
+    "exitCode": 1,
+    "error": "Unknown argument: cacheTTL",
+    "requests": []
+  },
+  {
+    "case": "pairwise 10",
+    "argv": [
+      "browser-run",
+      "quick-action",
+      "links",
+      "--reject-request-pattern",
+      "regression value &/?+ü",
+      "--set-java-script-enabled=true",
+      "--url",
+      "https://example.com/a?x=1&y=two",
+      "--user-agent",
+      "regression value &/?+ü",
+      "--viewport-device-scale-factor",
+      "1",
+      "--viewport-has-touch=true",
+      "--viewport-height",
+      "1",
+      "--viewport-is-landscape=true",
+      "--viewport-is-mobile=true",
+      "--viewport-width",
+      "1",
+      "--visible-links-only=true",
+      "--wait-for-selector-hidden=true",
+      "--wait-for-selector-selector",
+      "regression value &/?+ü",
+      "--wait-for-selector-timeout",
+      "1",
+      "--wait-for-selector-visible=true",
+      "--wait-for-timeout",
+      "1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/browser-rendering/links",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "435",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "excludeExternalLinks": false,
+          "rejectRequestPattern": [
+            "regression value &/?+ü"
+          ],
+          "setJavaScriptEnabled": true,
+          "url": "https://example.com/a?x=1&y=two",
+          "userAgent": "regression value &/?+ü",
+          "viewport": {
+            "deviceScaleFactor": 1,
+            "hasTouch": true,
+            "height": 1,
+            "isLandscape": true,
+            "isMobile": true,
+            "width": 1
+          },
+          "visibleLinksOnly": true,
+          "waitForSelector": {
+            "hidden": true,
+            "selector": "regression value &/?+ü",
+            "timeout": 1,
+            "visible": true
+          },
+          "waitForTimeout": 1
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 11",
+    "argv": [
+      "browser-run",
+      "quick-action",
+      "links",
+      "--cacheTTL",
+      "2",
+      "--browser",
+      "kitesurf",
+      "--action-timeout",
+      "2",
+      "--add-script-tag",
+      "[{\"regression\":\"item\"}]",
+      "--add-style-tag",
+      "[{\"regression\":\"item\"}]",
+      "--allow-request-pattern",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--authenticate-password",
+      "second value &/?+ü",
+      "--authenticate-username",
+      "second value &/?+ü",
+      "--best-attempt=false",
+      "--cookies",
+      "[{\"regression\":\"item\"}]",
+      "--emulate-media-type",
+      "second value &/?+ü",
+      "--exclude-external-links=false",
+      "--goto-options-referer",
+      "second value &/?+ü",
+      "--goto-options-referrer-policy",
+      "second value &/?+ü",
+      "--goto-options-timeout",
+      "2",
+      "--html",
+      "second value &/?+ü"
+    ],
+    "exitCode": 1,
+    "error": "Unknown argument: cacheTTL",
+    "requests": []
+  },
+  {
+    "case": "global quiet",
+    "argv": [
+      "browser-run",
+      "quick-action",
+      "links",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--quiet"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/browser-rendering/links",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "global zone",
+    "argv": [
+      "browser-run",
+      "quick-action",
+      "links",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--zone",
+      "abcdef0123456789abcdef0123456789"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/browser-rendering/links",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "global profile and mode",
+    "argv": [
+      "browser-run",
+      "quick-action",
+      "links",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--profile",
+      "default",
+      "--mode",
+      "regression"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/browser-rendering/links",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "local",
+    "argv": [
+      "browser-run",
+      "quick-action",
+      "links",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--local"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "http://localhost/cdn-cgi/local/explorer/api/browser-rendering/links",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "gzip, deflate",
+          "accept-language": "*",
+          "connection": "keep-alive",
+          "content-type": "application/json",
+          "host": "localhost",
+          "sec-fetch-mode": "cors",
+          "transfer-encoding": "chunked",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "local with persistence",
+    "argv": [
+      "browser-run",
+      "quick-action",
+      "links",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--local",
+      "--persist-to",
+      "regression-state"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "http://localhost/cdn-cgi/local/explorer/api/browser-rendering/links",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "gzip, deflate",
+          "accept-language": "*",
+          "connection": "keep-alive",
+          "content-type": "application/json",
+          "host": "localhost",
+          "sec-fetch-mode": "cors",
+          "transfer-encoding": "chunked",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "dry-run",
+    "argv": [
+      "browser-run",
+      "quick-action",
+      "links",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--dry-run"
+    ],
+    "exitCode": 0,
+    "requests": []
+  },
+  {
+    "case": "body from file",
+    "argv": [
+      "browser-run",
+      "quick-action",
+      "links",
+      "--body",
+      "@<body.json>"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/browser-rendering/links",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "array body",
+    "argv": [
+      "browser-run",
+      "quick-action",
+      "links",
+      "--body",
+      "[{\"regression\":\"first\"},{\"regression\":\"second\"}]"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/browser-rendering/links",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "48",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": [
+          {
+            "regression": "first"
+          },
+          {
+            "regression": "second"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "case": "field flags",
+    "argv": [
+      "browser-run",
+      "quick-action",
+      "links",
+      "--cacheTTL",
+      "1",
+      "--browser",
+      "kitesurf",
+      "--action-timeout",
+      "1",
+      "--add-script-tag",
+      "[{\"regression\":\"item\"}]",
+      "--add-style-tag",
+      "[{\"regression\":\"item\"}]",
+      "--allow-request-pattern",
+      "regression value &/?+ü",
+      "--authenticate-password",
+      "regression value &/?+ü",
+      "--authenticate-username",
+      "regression value &/?+ü",
+      "--best-attempt=true",
+      "--cookies",
+      "[{\"regression\":\"item\"}]",
+      "--emulate-media-type",
+      "regression value &/?+ü",
+      "--exclude-external-links=true",
+      "--goto-options-referer",
+      "regression value &/?+ü",
+      "--goto-options-referrer-policy",
+      "regression value &/?+ü",
+      "--goto-options-timeout",
+      "1",
+      "--html",
+      "regression value &/?+ü",
+      "--reject-request-pattern",
+      "regression value &/?+ü",
+      "--set-java-script-enabled=true",
+      "--url",
+      "https://example.com/a?x=1&y=two",
+      "--user-agent",
+      "regression value &/?+ü",
+      "--viewport-device-scale-factor",
+      "1",
+      "--viewport-has-touch=true",
+      "--viewport-height",
+      "1",
+      "--viewport-is-landscape=true",
+      "--viewport-is-mobile=true",
+      "--viewport-width",
+      "1",
+      "--visible-links-only=true",
+      "--wait-for-selector-hidden=true",
+      "--wait-for-selector-selector",
+      "regression value &/?+ü",
+      "--wait-for-selector-timeout",
+      "1",
+      "--wait-for-selector-visible=true",
+      "--wait-for-timeout",
+      "1"
+    ],
+    "exitCode": 1,
+    "error": "Unknown argument: cacheTTL",
+    "requests": []
+  }
+]

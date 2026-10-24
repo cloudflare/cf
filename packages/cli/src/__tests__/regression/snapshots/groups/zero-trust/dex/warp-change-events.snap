@@ -1,0 +1,8 @@
+{
+  "argv": [
+    "zero-trust",
+    "dex",
+    "warp-change-events"
+  ],
+  "requests": []
+}

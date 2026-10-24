@@ -1,0 +1,1212 @@
+[
+  {
+    "case": "no-args",
+    "argv": [
+      "zero-trust",
+      "dex",
+      "devices",
+      "list"
+    ],
+    "exitCode": 1,
+    "error": "Missing required arguments: to, from, page, per-page",
+    "requests": []
+  },
+  {
+    "case": "required",
+    "argv": [
+      "zero-trust",
+      "dex",
+      "devices",
+      "list",
+      "--to",
+      "regression value &/?+ü",
+      "--from",
+      "regression value &/?+ü",
+      "--page",
+      "1",
+      "--per-page",
+      "1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/dex/fleet-status/devices?to=regression%20value%20%26%2F%3F%2B%C3%BC&from=regression%20value%20%26%2F%3F%2B%C3%BC&page=1&per_page=1",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "only --sort-by",
+    "argv": [
+      "zero-trust",
+      "dex",
+      "devices",
+      "list",
+      "--to",
+      "regression value &/?+ü",
+      "--from",
+      "regression value &/?+ü",
+      "--page",
+      "1",
+      "--per-page",
+      "1",
+      "--sort-by",
+      "colo"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/dex/fleet-status/devices?to=regression%20value%20%26%2F%3F%2B%C3%BC&from=regression%20value%20%26%2F%3F%2B%C3%BC&page=1&per_page=1&sort_by=colo",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "--sort-by value 1",
+    "argv": [
+      "zero-trust",
+      "dex",
+      "devices",
+      "list",
+      "--to",
+      "regression value &/?+ü",
+      "--from",
+      "regression value &/?+ü",
+      "--page",
+      "1",
+      "--per-page",
+      "1",
+      "--sort-by",
+      "device_id"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/dex/fleet-status/devices?to=regression%20value%20%26%2F%3F%2B%C3%BC&from=regression%20value%20%26%2F%3F%2B%C3%BC&page=1&per_page=1&sort_by=device_id",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "--sort-by value 2",
+    "argv": [
+      "zero-trust",
+      "dex",
+      "devices",
+      "list",
+      "--to",
+      "regression value &/?+ü",
+      "--from",
+      "regression value &/?+ü",
+      "--page",
+      "1",
+      "--per-page",
+      "1",
+      "--sort-by",
+      "mode"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/dex/fleet-status/devices?to=regression%20value%20%26%2F%3F%2B%C3%BC&from=regression%20value%20%26%2F%3F%2B%C3%BC&page=1&per_page=1&sort_by=mode",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "--sort-by value 3",
+    "argv": [
+      "zero-trust",
+      "dex",
+      "devices",
+      "list",
+      "--to",
+      "regression value &/?+ü",
+      "--from",
+      "regression value &/?+ü",
+      "--page",
+      "1",
+      "--per-page",
+      "1",
+      "--sort-by",
+      "platform"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/dex/fleet-status/devices?to=regression%20value%20%26%2F%3F%2B%C3%BC&from=regression%20value%20%26%2F%3F%2B%C3%BC&page=1&per_page=1&sort_by=platform",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "--sort-by value 4",
+    "argv": [
+      "zero-trust",
+      "dex",
+      "devices",
+      "list",
+      "--to",
+      "regression value &/?+ü",
+      "--from",
+      "regression value &/?+ü",
+      "--page",
+      "1",
+      "--per-page",
+      "1",
+      "--sort-by",
+      "status"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/dex/fleet-status/devices?to=regression%20value%20%26%2F%3F%2B%C3%BC&from=regression%20value%20%26%2F%3F%2B%C3%BC&page=1&per_page=1&sort_by=status",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "--sort-by value 5",
+    "argv": [
+      "zero-trust",
+      "dex",
+      "devices",
+      "list",
+      "--to",
+      "regression value &/?+ü",
+      "--from",
+      "regression value &/?+ü",
+      "--page",
+      "1",
+      "--per-page",
+      "1",
+      "--sort-by",
+      "timestamp"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/dex/fleet-status/devices?to=regression%20value%20%26%2F%3F%2B%C3%BC&from=regression%20value%20%26%2F%3F%2B%C3%BC&page=1&per_page=1&sort_by=timestamp",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "--sort-by value 6",
+    "argv": [
+      "zero-trust",
+      "dex",
+      "devices",
+      "list",
+      "--to",
+      "regression value &/?+ü",
+      "--from",
+      "regression value &/?+ü",
+      "--page",
+      "1",
+      "--per-page",
+      "1",
+      "--sort-by",
+      "version"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/dex/fleet-status/devices?to=regression%20value%20%26%2F%3F%2B%C3%BC&from=regression%20value%20%26%2F%3F%2B%C3%BC&page=1&per_page=1&sort_by=version",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "only --colo",
+    "argv": [
+      "zero-trust",
+      "dex",
+      "devices",
+      "list",
+      "--to",
+      "regression value &/?+ü",
+      "--from",
+      "regression value &/?+ü",
+      "--page",
+      "1",
+      "--per-page",
+      "1",
+      "--colo",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/dex/fleet-status/devices?to=regression%20value%20%26%2F%3F%2B%C3%BC&from=regression%20value%20%26%2F%3F%2B%C3%BC&page=1&per_page=1&colo=regression%20value%20%26%2F%3F%2B%C3%BC",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "only --device-id",
+    "argv": [
+      "zero-trust",
+      "dex",
+      "devices",
+      "list",
+      "--to",
+      "regression value &/?+ü",
+      "--from",
+      "regression value &/?+ü",
+      "--page",
+      "1",
+      "--per-page",
+      "1",
+      "--device-id",
+      "0123456789abcdef0123456789abcdef"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/dex/fleet-status/devices?to=regression%20value%20%26%2F%3F%2B%C3%BC&from=regression%20value%20%26%2F%3F%2B%C3%BC&page=1&per_page=1&device_id=0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "only --device-mode",
+    "argv": [
+      "zero-trust",
+      "dex",
+      "devices",
+      "list",
+      "--to",
+      "regression value &/?+ü",
+      "--from",
+      "regression value &/?+ü",
+      "--page",
+      "1",
+      "--per-page",
+      "1",
+      "--device-mode",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/dex/fleet-status/devices?to=regression%20value%20%26%2F%3F%2B%C3%BC&from=regression%20value%20%26%2F%3F%2B%C3%BC&page=1&per_page=1&mode=regression%20value%20%26%2F%3F%2B%C3%BC",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "only --status",
+    "argv": [
+      "zero-trust",
+      "dex",
+      "devices",
+      "list",
+      "--to",
+      "regression value &/?+ü",
+      "--from",
+      "regression value &/?+ü",
+      "--page",
+      "1",
+      "--per-page",
+      "1",
+      "--status",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/dex/fleet-status/devices?to=regression%20value%20%26%2F%3F%2B%C3%BC&from=regression%20value%20%26%2F%3F%2B%C3%BC&page=1&per_page=1&status=regression%20value%20%26%2F%3F%2B%C3%BC",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "only --platform",
+    "argv": [
+      "zero-trust",
+      "dex",
+      "devices",
+      "list",
+      "--to",
+      "regression value &/?+ü",
+      "--from",
+      "regression value &/?+ü",
+      "--page",
+      "1",
+      "--per-page",
+      "1",
+      "--platform",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/dex/fleet-status/devices?to=regression%20value%20%26%2F%3F%2B%C3%BC&from=regression%20value%20%26%2F%3F%2B%C3%BC&page=1&per_page=1&platform=regression%20value%20%26%2F%3F%2B%C3%BC",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "only --warp-version",
+    "argv": [
+      "zero-trust",
+      "dex",
+      "devices",
+      "list",
+      "--to",
+      "regression value &/?+ü",
+      "--from",
+      "regression value &/?+ü",
+      "--page",
+      "1",
+      "--per-page",
+      "1",
+      "--warp-version",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/dex/fleet-status/devices?to=regression%20value%20%26%2F%3F%2B%C3%BC&from=regression%20value%20%26%2F%3F%2B%C3%BC&page=1&per_page=1&version=regression%20value%20%26%2F%3F%2B%C3%BC",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "only --source",
+    "argv": [
+      "zero-trust",
+      "dex",
+      "devices",
+      "list",
+      "--to",
+      "regression value &/?+ü",
+      "--from",
+      "regression value &/?+ü",
+      "--page",
+      "1",
+      "--per-page",
+      "1",
+      "--source",
+      "last_seen"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/dex/fleet-status/devices?to=regression%20value%20%26%2F%3F%2B%C3%BC&from=regression%20value%20%26%2F%3F%2B%C3%BC&page=1&per_page=1&source=last_seen",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "--source value 1",
+    "argv": [
+      "zero-trust",
+      "dex",
+      "devices",
+      "list",
+      "--to",
+      "regression value &/?+ü",
+      "--from",
+      "regression value &/?+ü",
+      "--page",
+      "1",
+      "--per-page",
+      "1",
+      "--source",
+      "hourly"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/dex/fleet-status/devices?to=regression%20value%20%26%2F%3F%2B%C3%BC&from=regression%20value%20%26%2F%3F%2B%C3%BC&page=1&per_page=1&source=hourly",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "--source value 2",
+    "argv": [
+      "zero-trust",
+      "dex",
+      "devices",
+      "list",
+      "--to",
+      "regression value &/?+ü",
+      "--from",
+      "regression value &/?+ü",
+      "--page",
+      "1",
+      "--per-page",
+      "1",
+      "--source",
+      "raw"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/dex/fleet-status/devices?to=regression%20value%20%26%2F%3F%2B%C3%BC&from=regression%20value%20%26%2F%3F%2B%C3%BC&page=1&per_page=1&source=raw",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "pairwise 1",
+    "argv": [
+      "zero-trust",
+      "dex",
+      "devices",
+      "list",
+      "--to",
+      "regression value &/?+ü",
+      "--from",
+      "regression value &/?+ü",
+      "--page",
+      "1",
+      "--per-page",
+      "1",
+      "--sort-by",
+      "device_id",
+      "--colo",
+      "second value &/?+ü",
+      "--device-id",
+      "0123456789abcdef0123456789abcdef",
+      "--device-mode",
+      "second value &/?+ü",
+      "--status",
+      "second value &/?+ü",
+      "--platform",
+      "second value &/?+ü",
+      "--warp-version",
+      "second value &/?+ü",
+      "--source",
+      "hourly"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/dex/fleet-status/devices?to=regression%20value%20%26%2F%3F%2B%C3%BC&from=regression%20value%20%26%2F%3F%2B%C3%BC&page=1&per_page=1&sort_by=device_id&colo=second%20value%20%26%2F%3F%2B%C3%BC&device_id=0123456789abcdef0123456789abcdef&mode=second%20value%20%26%2F%3F%2B%C3%BC&status=second%20value%20%26%2F%3F%2B%C3%BC&platform=second%20value%20%26%2F%3F%2B%C3%BC&version=second%20value%20%26%2F%3F%2B%C3%BC&source=hourly",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "pairwise 2",
+    "argv": [
+      "zero-trust",
+      "dex",
+      "devices",
+      "list",
+      "--to",
+      "regression value &/?+ü",
+      "--from",
+      "regression value &/?+ü",
+      "--page",
+      "1",
+      "--per-page",
+      "1",
+      "--colo",
+      "regression value &/?+ü",
+      "--device-mode",
+      "regression value &/?+ü",
+      "--platform",
+      "regression value &/?+ü",
+      "--source",
+      "last_seen"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/dex/fleet-status/devices?to=regression%20value%20%26%2F%3F%2B%C3%BC&from=regression%20value%20%26%2F%3F%2B%C3%BC&page=1&per_page=1&colo=regression%20value%20%26%2F%3F%2B%C3%BC&mode=regression%20value%20%26%2F%3F%2B%C3%BC&platform=regression%20value%20%26%2F%3F%2B%C3%BC&source=last_seen",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "pairwise 3",
+    "argv": [
+      "zero-trust",
+      "dex",
+      "devices",
+      "list",
+      "--to",
+      "regression value &/?+ü",
+      "--from",
+      "regression value &/?+ü",
+      "--page",
+      "1",
+      "--per-page",
+      "1",
+      "--sort-by",
+      "device_id",
+      "--device-id",
+      "0123456789abcdef0123456789abcdef",
+      "--status",
+      "second value &/?+ü",
+      "--warp-version",
+      "second value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/dex/fleet-status/devices?to=regression%20value%20%26%2F%3F%2B%C3%BC&from=regression%20value%20%26%2F%3F%2B%C3%BC&page=1&per_page=1&sort_by=device_id&device_id=0123456789abcdef0123456789abcdef&status=second%20value%20%26%2F%3F%2B%C3%BC&version=second%20value%20%26%2F%3F%2B%C3%BC",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "pairwise 4",
+    "argv": [
+      "zero-trust",
+      "dex",
+      "devices",
+      "list",
+      "--to",
+      "regression value &/?+ü",
+      "--from",
+      "regression value &/?+ü",
+      "--page",
+      "1",
+      "--per-page",
+      "1",
+      "--device-id",
+      "0123456789abcdef0123456789abcdef",
+      "--device-mode",
+      "regression value &/?+ü",
+      "--warp-version",
+      "regression value &/?+ü",
+      "--source",
+      "last_seen"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/dex/fleet-status/devices?to=regression%20value%20%26%2F%3F%2B%C3%BC&from=regression%20value%20%26%2F%3F%2B%C3%BC&page=1&per_page=1&device_id=0123456789abcdef0123456789abcdef&mode=regression%20value%20%26%2F%3F%2B%C3%BC&version=regression%20value%20%26%2F%3F%2B%C3%BC&source=last_seen",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "pairwise 5",
+    "argv": [
+      "zero-trust",
+      "dex",
+      "devices",
+      "list",
+      "--to",
+      "regression value &/?+ü",
+      "--from",
+      "regression value &/?+ü",
+      "--page",
+      "1",
+      "--per-page",
+      "1",
+      "--sort-by",
+      "device_id",
+      "--colo",
+      "second value &/?+ü",
+      "--status",
+      "second value &/?+ü",
+      "--platform",
+      "second value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/dex/fleet-status/devices?to=regression%20value%20%26%2F%3F%2B%C3%BC&from=regression%20value%20%26%2F%3F%2B%C3%BC&page=1&per_page=1&sort_by=device_id&colo=second%20value%20%26%2F%3F%2B%C3%BC&status=second%20value%20%26%2F%3F%2B%C3%BC&platform=second%20value%20%26%2F%3F%2B%C3%BC",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "pairwise 6",
+    "argv": [
+      "zero-trust",
+      "dex",
+      "devices",
+      "list",
+      "--to",
+      "regression value &/?+ü",
+      "--from",
+      "regression value &/?+ü",
+      "--page",
+      "1",
+      "--per-page",
+      "1",
+      "--status",
+      "regression value &/?+ü",
+      "--platform",
+      "regression value &/?+ü",
+      "--warp-version",
+      "regression value &/?+ü",
+      "--source",
+      "last_seen"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/dex/fleet-status/devices?to=regression%20value%20%26%2F%3F%2B%C3%BC&from=regression%20value%20%26%2F%3F%2B%C3%BC&page=1&per_page=1&status=regression%20value%20%26%2F%3F%2B%C3%BC&platform=regression%20value%20%26%2F%3F%2B%C3%BC&version=regression%20value%20%26%2F%3F%2B%C3%BC&source=last_seen",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "pairwise 7",
+    "argv": [
+      "zero-trust",
+      "dex",
+      "devices",
+      "list",
+      "--to",
+      "regression value &/?+ü",
+      "--from",
+      "regression value &/?+ü",
+      "--page",
+      "1",
+      "--per-page",
+      "1",
+      "--sort-by",
+      "device_id",
+      "--colo",
+      "second value &/?+ü",
+      "--device-id",
+      "0123456789abcdef0123456789abcdef",
+      "--device-mode",
+      "second value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/dex/fleet-status/devices?to=regression%20value%20%26%2F%3F%2B%C3%BC&from=regression%20value%20%26%2F%3F%2B%C3%BC&page=1&per_page=1&sort_by=device_id&colo=second%20value%20%26%2F%3F%2B%C3%BC&device_id=0123456789abcdef0123456789abcdef&mode=second%20value%20%26%2F%3F%2B%C3%BC",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "global quiet",
+    "argv": [
+      "zero-trust",
+      "dex",
+      "devices",
+      "list",
+      "--to",
+      "regression value &/?+ü",
+      "--from",
+      "regression value &/?+ü",
+      "--page",
+      "1",
+      "--per-page",
+      "1",
+      "--quiet"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/dex/fleet-status/devices?to=regression%20value%20%26%2F%3F%2B%C3%BC&from=regression%20value%20%26%2F%3F%2B%C3%BC&page=1&per_page=1",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "global zone",
+    "argv": [
+      "zero-trust",
+      "dex",
+      "devices",
+      "list",
+      "--to",
+      "regression value &/?+ü",
+      "--from",
+      "regression value &/?+ü",
+      "--page",
+      "1",
+      "--per-page",
+      "1",
+      "--zone",
+      "abcdef0123456789abcdef0123456789"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/dex/fleet-status/devices?to=regression%20value%20%26%2F%3F%2B%C3%BC&from=regression%20value%20%26%2F%3F%2B%C3%BC&page=1&per_page=1",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "global profile and mode",
+    "argv": [
+      "zero-trust",
+      "dex",
+      "devices",
+      "list",
+      "--to",
+      "regression value &/?+ü",
+      "--from",
+      "regression value &/?+ü",
+      "--page",
+      "1",
+      "--per-page",
+      "1",
+      "--profile",
+      "default",
+      "--mode",
+      "regression"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/dex/fleet-status/devices?to=regression%20value%20%26%2F%3F%2B%C3%BC&from=regression%20value%20%26%2F%3F%2B%C3%BC&page=1&per_page=1",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "local",
+    "argv": [
+      "zero-trust",
+      "dex",
+      "devices",
+      "list",
+      "--to",
+      "regression value &/?+ü",
+      "--from",
+      "regression value &/?+ü",
+      "--page",
+      "1",
+      "--per-page",
+      "1",
+      "--local"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "http://localhost/cdn-cgi/local/explorer/api/dex/fleet-status/devices?to=regression%20value%20%26%2F%3F%2B%C3%BC&from=regression%20value%20%26%2F%3F%2B%C3%BC&page=1&per_page=1",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "gzip, deflate",
+          "accept-language": "*",
+          "connection": "keep-alive",
+          "host": "localhost",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "local with persistence",
+    "argv": [
+      "zero-trust",
+      "dex",
+      "devices",
+      "list",
+      "--to",
+      "regression value &/?+ü",
+      "--from",
+      "regression value &/?+ü",
+      "--page",
+      "1",
+      "--per-page",
+      "1",
+      "--local",
+      "--persist-to",
+      "regression-state"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "http://localhost/cdn-cgi/local/explorer/api/dex/fleet-status/devices?to=regression%20value%20%26%2F%3F%2B%C3%BC&from=regression%20value%20%26%2F%3F%2B%C3%BC&page=1&per_page=1",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "gzip, deflate",
+          "accept-language": "*",
+          "connection": "keep-alive",
+          "host": "localhost",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "dry-run",
+    "argv": [
+      "zero-trust",
+      "dex",
+      "devices",
+      "list",
+      "--to",
+      "regression value &/?+ü",
+      "--from",
+      "regression value &/?+ü",
+      "--page",
+      "1",
+      "--per-page",
+      "1",
+      "--dry-run"
+    ],
+    "exitCode": 0,
+    "requests": []
+  }
+]

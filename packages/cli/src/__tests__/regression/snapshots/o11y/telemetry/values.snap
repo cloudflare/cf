@@ -1,0 +1,1276 @@
+[
+  {
+    "case": "no-args",
+    "argv": [
+      "o11y",
+      "telemetry",
+      "values"
+    ],
+    "exitCode": 1,
+    "error": "--datasets is required (or pass --body with this field set).",
+    "requests": []
+  },
+  {
+    "case": "required",
+    "argv": [
+      "o11y",
+      "telemetry",
+      "values",
+      "--datasets",
+      "regression value &/?+ü",
+      "--key",
+      "regression value &/?+ü",
+      "--timeframe-from",
+      "1",
+      "--timeframe-to",
+      "1",
+      "--type",
+      "string",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/workers/observability/telemetry/values",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --filters",
+    "argv": [
+      "o11y",
+      "telemetry",
+      "values",
+      "--datasets",
+      "regression value &/?+ü",
+      "--key",
+      "regression value &/?+ü",
+      "--timeframe-from",
+      "1",
+      "--timeframe-to",
+      "1",
+      "--type",
+      "string",
+      "--filters",
+      "[{\"regression\":\"item\"}]"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/workers/observability/telemetry/values",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "163",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "datasets": [
+            "regression value &/?+ü"
+          ],
+          "filters": [
+            {
+              "regression": "item"
+            }
+          ],
+          "key": "regression value &/?+ü",
+          "limit": 50,
+          "timeframe": {
+            "from": 1,
+            "to": 1
+          },
+          "type": "string"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --limit",
+    "argv": [
+      "o11y",
+      "telemetry",
+      "values",
+      "--datasets",
+      "regression value &/?+ü",
+      "--key",
+      "regression value &/?+ü",
+      "--timeframe-from",
+      "1",
+      "--timeframe-to",
+      "1",
+      "--type",
+      "string",
+      "--limit",
+      "1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/workers/observability/telemetry/values",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "128",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "datasets": [
+            "regression value &/?+ü"
+          ],
+          "key": "regression value &/?+ü",
+          "limit": 1,
+          "timeframe": {
+            "from": 1,
+            "to": 1
+          },
+          "type": "string"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --needle-is-regex",
+    "argv": [
+      "o11y",
+      "telemetry",
+      "values",
+      "--datasets",
+      "regression value &/?+ü",
+      "--key",
+      "regression value &/?+ü",
+      "--timeframe-from",
+      "1",
+      "--timeframe-to",
+      "1",
+      "--type",
+      "string",
+      "--needle-is-regex=true"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/workers/observability/telemetry/values",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "155",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "datasets": [
+            "regression value &/?+ü"
+          ],
+          "key": "regression value &/?+ü",
+          "limit": 50,
+          "needle": {
+            "isRegex": true
+          },
+          "timeframe": {
+            "from": 1,
+            "to": 1
+          },
+          "type": "string"
+        }
+      }
+    ]
+  },
+  {
+    "case": "--needle-is-regex value 1",
+    "argv": [
+      "o11y",
+      "telemetry",
+      "values",
+      "--datasets",
+      "regression value &/?+ü",
+      "--key",
+      "regression value &/?+ü",
+      "--timeframe-from",
+      "1",
+      "--timeframe-to",
+      "1",
+      "--type",
+      "string",
+      "--needle-is-regex=false"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/workers/observability/telemetry/values",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "156",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "datasets": [
+            "regression value &/?+ü"
+          ],
+          "key": "regression value &/?+ü",
+          "limit": 50,
+          "needle": {
+            "isRegex": false
+          },
+          "timeframe": {
+            "from": 1,
+            "to": 1
+          },
+          "type": "string"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --needle-match-case",
+    "argv": [
+      "o11y",
+      "telemetry",
+      "values",
+      "--datasets",
+      "regression value &/?+ü",
+      "--key",
+      "regression value &/?+ü",
+      "--timeframe-from",
+      "1",
+      "--timeframe-to",
+      "1",
+      "--type",
+      "string",
+      "--needle-match-case=true"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/workers/observability/telemetry/values",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "157",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "datasets": [
+            "regression value &/?+ü"
+          ],
+          "key": "regression value &/?+ü",
+          "limit": 50,
+          "needle": {
+            "matchCase": true
+          },
+          "timeframe": {
+            "from": 1,
+            "to": 1
+          },
+          "type": "string"
+        }
+      }
+    ]
+  },
+  {
+    "case": "--needle-match-case value 1",
+    "argv": [
+      "o11y",
+      "telemetry",
+      "values",
+      "--datasets",
+      "regression value &/?+ü",
+      "--key",
+      "regression value &/?+ü",
+      "--timeframe-from",
+      "1",
+      "--timeframe-to",
+      "1",
+      "--type",
+      "string",
+      "--needle-match-case=false"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/workers/observability/telemetry/values",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "158",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "datasets": [
+            "regression value &/?+ü"
+          ],
+          "key": "regression value &/?+ü",
+          "limit": 50,
+          "needle": {
+            "matchCase": false
+          },
+          "timeframe": {
+            "from": 1,
+            "to": 1
+          },
+          "type": "string"
+        }
+      }
+    ]
+  },
+  {
+    "case": "required --type value 1",
+    "argv": [
+      "o11y",
+      "telemetry",
+      "values",
+      "--datasets",
+      "regression value &/?+ü",
+      "--key",
+      "regression value &/?+ü",
+      "--timeframe-from",
+      "1",
+      "--timeframe-to",
+      "1",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--type",
+      "boolean"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/workers/observability/telemetry/values",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "required --type value 2",
+    "argv": [
+      "o11y",
+      "telemetry",
+      "values",
+      "--datasets",
+      "regression value &/?+ü",
+      "--key",
+      "regression value &/?+ü",
+      "--timeframe-from",
+      "1",
+      "--timeframe-to",
+      "1",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--type",
+      "number"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/workers/observability/telemetry/values",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 0",
+    "argv": [
+      "o11y",
+      "telemetry",
+      "values",
+      "--datasets",
+      "regression value &/?+ü",
+      "--key",
+      "regression value &/?+ü",
+      "--timeframe-from",
+      "1",
+      "--timeframe-to",
+      "1",
+      "--type",
+      "string"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/workers/observability/telemetry/values",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "129",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "datasets": [
+            "regression value &/?+ü"
+          ],
+          "key": "regression value &/?+ü",
+          "limit": 50,
+          "timeframe": {
+            "from": 1,
+            "to": 1
+          },
+          "type": "string"
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 1",
+    "argv": [
+      "o11y",
+      "telemetry",
+      "values",
+      "--datasets",
+      "regression value &/?+ü",
+      "--key",
+      "regression value &/?+ü",
+      "--timeframe-from",
+      "1",
+      "--timeframe-to",
+      "1",
+      "--type",
+      "string",
+      "--filters",
+      "[{\"regression\":\"item\"}]",
+      "--limit",
+      "2",
+      "--needle-is-regex=false",
+      "--needle-match-case=false"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/workers/observability/telemetry/values",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "207",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "datasets": [
+            "regression value &/?+ü"
+          ],
+          "filters": [
+            {
+              "regression": "item"
+            }
+          ],
+          "key": "regression value &/?+ü",
+          "limit": 2,
+          "needle": {
+            "isRegex": false,
+            "matchCase": false
+          },
+          "timeframe": {
+            "from": 1,
+            "to": 1
+          },
+          "type": "string"
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 2",
+    "argv": [
+      "o11y",
+      "telemetry",
+      "values",
+      "--datasets",
+      "regression value &/?+ü",
+      "--key",
+      "regression value &/?+ü",
+      "--timeframe-from",
+      "1",
+      "--timeframe-to",
+      "1",
+      "--type",
+      "string",
+      "--limit",
+      "1",
+      "--needle-match-case=true"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/workers/observability/telemetry/values",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "156",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "datasets": [
+            "regression value &/?+ü"
+          ],
+          "key": "regression value &/?+ü",
+          "limit": 1,
+          "needle": {
+            "matchCase": true
+          },
+          "timeframe": {
+            "from": 1,
+            "to": 1
+          },
+          "type": "string"
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 3",
+    "argv": [
+      "o11y",
+      "telemetry",
+      "values",
+      "--datasets",
+      "regression value &/?+ü",
+      "--key",
+      "regression value &/?+ü",
+      "--timeframe-from",
+      "1",
+      "--timeframe-to",
+      "1",
+      "--type",
+      "string",
+      "--filters",
+      "[{\"regression\":\"item\"}]",
+      "--needle-is-regex=false"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/workers/observability/telemetry/values",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "190",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "datasets": [
+            "regression value &/?+ü"
+          ],
+          "filters": [
+            {
+              "regression": "item"
+            }
+          ],
+          "key": "regression value &/?+ü",
+          "limit": 50,
+          "needle": {
+            "isRegex": false
+          },
+          "timeframe": {
+            "from": 1,
+            "to": 1
+          },
+          "type": "string"
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 4",
+    "argv": [
+      "o11y",
+      "telemetry",
+      "values",
+      "--datasets",
+      "regression value &/?+ü",
+      "--key",
+      "regression value &/?+ü",
+      "--timeframe-from",
+      "1",
+      "--timeframe-to",
+      "1",
+      "--type",
+      "string",
+      "--needle-is-regex=true",
+      "--needle-match-case=true"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/workers/observability/telemetry/values",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "172",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "datasets": [
+            "regression value &/?+ü"
+          ],
+          "key": "regression value &/?+ü",
+          "limit": 50,
+          "needle": {
+            "isRegex": true,
+            "matchCase": true
+          },
+          "timeframe": {
+            "from": 1,
+            "to": 1
+          },
+          "type": "string"
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 5",
+    "argv": [
+      "o11y",
+      "telemetry",
+      "values",
+      "--datasets",
+      "regression value &/?+ü",
+      "--key",
+      "regression value &/?+ü",
+      "--timeframe-from",
+      "1",
+      "--timeframe-to",
+      "1",
+      "--type",
+      "string",
+      "--filters",
+      "[{\"regression\":\"item\"}]",
+      "--limit",
+      "2"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/workers/observability/telemetry/values",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "162",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "datasets": [
+            "regression value &/?+ü"
+          ],
+          "filters": [
+            {
+              "regression": "item"
+            }
+          ],
+          "key": "regression value &/?+ü",
+          "limit": 2,
+          "timeframe": {
+            "from": 1,
+            "to": 1
+          },
+          "type": "string"
+        }
+      }
+    ]
+  },
+  {
+    "case": "global quiet",
+    "argv": [
+      "o11y",
+      "telemetry",
+      "values",
+      "--datasets",
+      "regression value &/?+ü",
+      "--key",
+      "regression value &/?+ü",
+      "--timeframe-from",
+      "1",
+      "--timeframe-to",
+      "1",
+      "--type",
+      "string",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--quiet"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/workers/observability/telemetry/values",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "global zone",
+    "argv": [
+      "o11y",
+      "telemetry",
+      "values",
+      "--datasets",
+      "regression value &/?+ü",
+      "--key",
+      "regression value &/?+ü",
+      "--timeframe-from",
+      "1",
+      "--timeframe-to",
+      "1",
+      "--type",
+      "string",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--zone",
+      "abcdef0123456789abcdef0123456789"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/workers/observability/telemetry/values",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "global profile and mode",
+    "argv": [
+      "o11y",
+      "telemetry",
+      "values",
+      "--datasets",
+      "regression value &/?+ü",
+      "--key",
+      "regression value &/?+ü",
+      "--timeframe-from",
+      "1",
+      "--timeframe-to",
+      "1",
+      "--type",
+      "string",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--profile",
+      "default",
+      "--mode",
+      "regression"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/workers/observability/telemetry/values",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "local",
+    "argv": [
+      "o11y",
+      "telemetry",
+      "values",
+      "--datasets",
+      "regression value &/?+ü",
+      "--key",
+      "regression value &/?+ü",
+      "--timeframe-from",
+      "1",
+      "--timeframe-to",
+      "1",
+      "--type",
+      "string",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--local"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "http://localhost/cdn-cgi/local/explorer/api/workers/observability/telemetry/values",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "gzip, deflate",
+          "accept-language": "*",
+          "connection": "keep-alive",
+          "content-type": "application/json",
+          "host": "localhost",
+          "sec-fetch-mode": "cors",
+          "transfer-encoding": "chunked",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "local with persistence",
+    "argv": [
+      "o11y",
+      "telemetry",
+      "values",
+      "--datasets",
+      "regression value &/?+ü",
+      "--key",
+      "regression value &/?+ü",
+      "--timeframe-from",
+      "1",
+      "--timeframe-to",
+      "1",
+      "--type",
+      "string",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--local",
+      "--persist-to",
+      "regression-state"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "http://localhost/cdn-cgi/local/explorer/api/workers/observability/telemetry/values",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "gzip, deflate",
+          "accept-language": "*",
+          "connection": "keep-alive",
+          "content-type": "application/json",
+          "host": "localhost",
+          "sec-fetch-mode": "cors",
+          "transfer-encoding": "chunked",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "dry-run",
+    "argv": [
+      "o11y",
+      "telemetry",
+      "values",
+      "--datasets",
+      "regression value &/?+ü",
+      "--key",
+      "regression value &/?+ü",
+      "--timeframe-from",
+      "1",
+      "--timeframe-to",
+      "1",
+      "--type",
+      "string",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--dry-run"
+    ],
+    "exitCode": 0,
+    "requests": []
+  },
+  {
+    "case": "body from file",
+    "argv": [
+      "o11y",
+      "telemetry",
+      "values",
+      "--datasets",
+      "regression value &/?+ü",
+      "--key",
+      "regression value &/?+ü",
+      "--timeframe-from",
+      "1",
+      "--timeframe-to",
+      "1",
+      "--type",
+      "string",
+      "--body",
+      "@<body.json>"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/workers/observability/telemetry/values",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "array body",
+    "argv": [
+      "o11y",
+      "telemetry",
+      "values",
+      "--datasets",
+      "regression value &/?+ü",
+      "--key",
+      "regression value &/?+ü",
+      "--timeframe-from",
+      "1",
+      "--timeframe-to",
+      "1",
+      "--type",
+      "string",
+      "--body",
+      "[{\"regression\":\"first\"},{\"regression\":\"second\"}]"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/workers/observability/telemetry/values",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "56",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "0": {
+            "regression": "first"
+          },
+          "1": {
+            "regression": "second"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "field flags",
+    "argv": [
+      "o11y",
+      "telemetry",
+      "values",
+      "--datasets",
+      "regression value &/?+ü",
+      "--key",
+      "regression value &/?+ü",
+      "--timeframe-from",
+      "1",
+      "--timeframe-to",
+      "1",
+      "--type",
+      "string",
+      "--filters",
+      "[{\"regression\":\"item\"}]",
+      "--limit",
+      "1",
+      "--needle-is-regex=true",
+      "--needle-match-case=true"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/workers/observability/telemetry/values",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "205",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "datasets": [
+            "regression value &/?+ü"
+          ],
+          "filters": [
+            {
+              "regression": "item"
+            }
+          ],
+          "key": "regression value &/?+ü",
+          "limit": 1,
+          "needle": {
+            "isRegex": true,
+            "matchCase": true
+          },
+          "timeframe": {
+            "from": 1,
+            "to": 1
+          },
+          "type": "string"
+        }
+      }
+    ]
+  }
+]

@@ -1,0 +1,9 @@
+{
+  "argv": [
+    "spectrum",
+    "analytics",
+    "aggregates",
+    "currents"
+  ],
+  "requests": []
+}

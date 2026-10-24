@@ -1,0 +1,1472 @@
+[
+  {
+    "case": "no-args",
+    "argv": [
+      "cloudforce-one",
+      "threat-signals",
+      "articles",
+      "list"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/cloudforce-one/v2/threat-signals/articles",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "only --cursor",
+    "argv": [
+      "cloudforce-one",
+      "threat-signals",
+      "articles",
+      "list",
+      "--cursor",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/cloudforce-one/v2/threat-signals/articles?cursor=regression%20value%20%26%2F%3F%2B%C3%BC",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "only --per-page",
+    "argv": [
+      "cloudforce-one",
+      "threat-signals",
+      "articles",
+      "list",
+      "--per-page",
+      "1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/cloudforce-one/v2/threat-signals/articles?per_page=1",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "only --feed-id",
+    "argv": [
+      "cloudforce-one",
+      "threat-signals",
+      "articles",
+      "list",
+      "--feed-id",
+      "0123456789abcdef0123456789abcdef"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/cloudforce-one/v2/threat-signals/articles?feed_id=0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "only --article-id",
+    "argv": [
+      "cloudforce-one",
+      "threat-signals",
+      "articles",
+      "list",
+      "--article-id",
+      "0123456789abcdef0123456789abcdef"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/cloudforce-one/v2/threat-signals/articles?article_id=0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "only --read",
+    "argv": [
+      "cloudforce-one",
+      "threat-signals",
+      "articles",
+      "list",
+      "--read=true"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/cloudforce-one/v2/threat-signals/articles?read=true",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "--read value 1",
+    "argv": [
+      "cloudforce-one",
+      "threat-signals",
+      "articles",
+      "list",
+      "--read=false"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/cloudforce-one/v2/threat-signals/articles?read=false",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "only --tag-id",
+    "argv": [
+      "cloudforce-one",
+      "threat-signals",
+      "articles",
+      "list",
+      "--tag-id",
+      "0123456789abcdef0123456789abcdef"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/cloudforce-one/v2/threat-signals/articles?tag_id=0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "only --tag-category-id",
+    "argv": [
+      "cloudforce-one",
+      "threat-signals",
+      "articles",
+      "list",
+      "--tag-category-id",
+      "0123456789abcdef0123456789abcdef"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/cloudforce-one/v2/threat-signals/articles?tag_category_id=0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "only --tag",
+    "argv": [
+      "cloudforce-one",
+      "threat-signals",
+      "articles",
+      "list",
+      "--tag",
+      "regression-image:latest"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/cloudforce-one/v2/threat-signals/articles?tag=regression-image%3Alatest",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "only --tag-category",
+    "argv": [
+      "cloudforce-one",
+      "threat-signals",
+      "articles",
+      "list",
+      "--tag-category",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/cloudforce-one/v2/threat-signals/articles?tag_category=regression%20value%20%26%2F%3F%2B%C3%BC",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "only --include-total",
+    "argv": [
+      "cloudforce-one",
+      "threat-signals",
+      "articles",
+      "list",
+      "--include-total=true"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/cloudforce-one/v2/threat-signals/articles?include_total=true",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "--include-total value 1",
+    "argv": [
+      "cloudforce-one",
+      "threat-signals",
+      "articles",
+      "list",
+      "--include-total=false"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/cloudforce-one/v2/threat-signals/articles?include_total=false",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "only --search",
+    "argv": [
+      "cloudforce-one",
+      "threat-signals",
+      "articles",
+      "list",
+      "--search",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/cloudforce-one/v2/threat-signals/articles?search=regression%20value%20%26%2F%3F%2B%C3%BC",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "only --published-after",
+    "argv": [
+      "cloudforce-one",
+      "threat-signals",
+      "articles",
+      "list",
+      "--published-after",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/cloudforce-one/v2/threat-signals/articles?published_after=regression%20value%20%26%2F%3F%2B%C3%BC",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "only --published-before",
+    "argv": [
+      "cloudforce-one",
+      "threat-signals",
+      "articles",
+      "list",
+      "--published-before",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/cloudforce-one/v2/threat-signals/articles?published_before=regression%20value%20%26%2F%3F%2B%C3%BC",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "only --fetched-after",
+    "argv": [
+      "cloudforce-one",
+      "threat-signals",
+      "articles",
+      "list",
+      "--fetched-after",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/cloudforce-one/v2/threat-signals/articles?fetched_after=regression%20value%20%26%2F%3F%2B%C3%BC",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "only --fetched-before",
+    "argv": [
+      "cloudforce-one",
+      "threat-signals",
+      "articles",
+      "list",
+      "--fetched-before",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/cloudforce-one/v2/threat-signals/articles?fetched_before=regression%20value%20%26%2F%3F%2B%C3%BC",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "only --feed-category",
+    "argv": [
+      "cloudforce-one",
+      "threat-signals",
+      "articles",
+      "list",
+      "--feed-category",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/cloudforce-one/v2/threat-signals/articles?feed_category=regression%20value%20%26%2F%3F%2B%C3%BC",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "only --source-type",
+    "argv": [
+      "cloudforce-one",
+      "threat-signals",
+      "articles",
+      "list",
+      "--source-type",
+      "curated"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/cloudforce-one/v2/threat-signals/articles?source_type=curated",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "--source-type value 1",
+    "argv": [
+      "cloudforce-one",
+      "threat-signals",
+      "articles",
+      "list",
+      "--source-type",
+      "custom"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/cloudforce-one/v2/threat-signals/articles?source_type=custom",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "only --tag-applied-by",
+    "argv": [
+      "cloudforce-one",
+      "threat-signals",
+      "articles",
+      "list",
+      "--tag-applied-by",
+      "ai"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/cloudforce-one/v2/threat-signals/articles?tag_applied_by=ai",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "--tag-applied-by value 1",
+    "argv": [
+      "cloudforce-one",
+      "threat-signals",
+      "articles",
+      "list",
+      "--tag-applied-by",
+      "analyst"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/cloudforce-one/v2/threat-signals/articles?tag_applied_by=analyst",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "--tag-applied-by value 2",
+    "argv": [
+      "cloudforce-one",
+      "threat-signals",
+      "articles",
+      "list",
+      "--tag-applied-by",
+      "system"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/cloudforce-one/v2/threat-signals/articles?tag_applied_by=system",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "only --sort",
+    "argv": [
+      "cloudforce-one",
+      "threat-signals",
+      "articles",
+      "list",
+      "--sort",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/cloudforce-one/v2/threat-signals/articles?sort=regression%20value%20%26%2F%3F%2B%C3%BC",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "pairwise 1",
+    "argv": [
+      "cloudforce-one",
+      "threat-signals",
+      "articles",
+      "list",
+      "--cursor",
+      "second value &/?+ü",
+      "--per-page",
+      "2",
+      "--feed-id",
+      "0123456789abcdef0123456789abcdef",
+      "--article-id",
+      "0123456789abcdef0123456789abcdef",
+      "--read=false",
+      "--tag-id",
+      "0123456789abcdef0123456789abcdef",
+      "--tag-category-id",
+      "0123456789abcdef0123456789abcdef",
+      "--tag",
+      "regression-image:latest",
+      "--tag-category",
+      "second value &/?+ü",
+      "--include-total=false",
+      "--search",
+      "second value &/?+ü",
+      "--published-after",
+      "second value &/?+ü",
+      "--published-before",
+      "second value &/?+ü",
+      "--fetched-after",
+      "second value &/?+ü",
+      "--fetched-before",
+      "second value &/?+ü",
+      "--feed-category",
+      "second value &/?+ü",
+      "--source-type",
+      "custom",
+      "--tag-applied-by",
+      "analyst",
+      "--sort",
+      "second value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/cloudforce-one/v2/threat-signals/articles?cursor=second%20value%20%26%2F%3F%2B%C3%BC&per_page=2&feed_id=0123456789abcdef0123456789abcdef&article_id=0123456789abcdef0123456789abcdef&read=false&tag_id=0123456789abcdef0123456789abcdef&tag_category_id=0123456789abcdef0123456789abcdef&tag=regression-image%3Alatest&tag_category=second%20value%20%26%2F%3F%2B%C3%BC&include_total=false&search=second%20value%20%26%2F%3F%2B%C3%BC&published_after=second%20value%20%26%2F%3F%2B%C3%BC&published_before=second%20value%20%26%2F%3F%2B%C3%BC&fetched_after=second%20value%20%26%2F%3F%2B%C3%BC&fetched_before=second%20value%20%26%2F%3F%2B%C3%BC&feed_category=second%20value%20%26%2F%3F%2B%C3%BC&source_type=custom&tag_applied_by=analyst&sort=second%20value%20%26%2F%3F%2B%C3%BC",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "pairwise 2",
+    "argv": [
+      "cloudforce-one",
+      "threat-signals",
+      "articles",
+      "list",
+      "--per-page",
+      "1",
+      "--article-id",
+      "0123456789abcdef0123456789abcdef",
+      "--tag-id",
+      "0123456789abcdef0123456789abcdef",
+      "--tag",
+      "regression-image:latest",
+      "--include-total=true",
+      "--published-after",
+      "regression value &/?+ü",
+      "--fetched-after",
+      "regression value &/?+ü",
+      "--feed-category",
+      "regression value &/?+ü",
+      "--tag-applied-by",
+      "ai"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/cloudforce-one/v2/threat-signals/articles?per_page=1&article_id=0123456789abcdef0123456789abcdef&tag_id=0123456789abcdef0123456789abcdef&tag=regression-image%3Alatest&include_total=true&published_after=regression%20value%20%26%2F%3F%2B%C3%BC&fetched_after=regression%20value%20%26%2F%3F%2B%C3%BC&feed_category=regression%20value%20%26%2F%3F%2B%C3%BC&tag_applied_by=ai",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "pairwise 3",
+    "argv": [
+      "cloudforce-one",
+      "threat-signals",
+      "articles",
+      "list",
+      "--cursor",
+      "second value &/?+ü",
+      "--feed-id",
+      "0123456789abcdef0123456789abcdef",
+      "--read=false",
+      "--tag-category-id",
+      "0123456789abcdef0123456789abcdef",
+      "--tag-category",
+      "second value &/?+ü",
+      "--search",
+      "second value &/?+ü",
+      "--published-before",
+      "second value &/?+ü",
+      "--fetched-before",
+      "second value &/?+ü",
+      "--source-type",
+      "custom",
+      "--sort",
+      "second value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/cloudforce-one/v2/threat-signals/articles?cursor=second%20value%20%26%2F%3F%2B%C3%BC&feed_id=0123456789abcdef0123456789abcdef&read=false&tag_category_id=0123456789abcdef0123456789abcdef&tag_category=second%20value%20%26%2F%3F%2B%C3%BC&search=second%20value%20%26%2F%3F%2B%C3%BC&published_before=second%20value%20%26%2F%3F%2B%C3%BC&fetched_before=second%20value%20%26%2F%3F%2B%C3%BC&source_type=custom&sort=second%20value%20%26%2F%3F%2B%C3%BC",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "pairwise 4",
+    "argv": [
+      "cloudforce-one",
+      "threat-signals",
+      "articles",
+      "list",
+      "--feed-id",
+      "0123456789abcdef0123456789abcdef",
+      "--article-id",
+      "0123456789abcdef0123456789abcdef",
+      "--tag-category-id",
+      "0123456789abcdef0123456789abcdef",
+      "--tag",
+      "regression-image:latest",
+      "--search",
+      "regression value &/?+ü",
+      "--published-after",
+      "regression value &/?+ü",
+      "--fetched-before",
+      "regression value &/?+ü",
+      "--feed-category",
+      "regression value &/?+ü",
+      "--sort",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/cloudforce-one/v2/threat-signals/articles?feed_id=0123456789abcdef0123456789abcdef&article_id=0123456789abcdef0123456789abcdef&tag_category_id=0123456789abcdef0123456789abcdef&tag=regression-image%3Alatest&search=regression%20value%20%26%2F%3F%2B%C3%BC&published_after=regression%20value%20%26%2F%3F%2B%C3%BC&fetched_before=regression%20value%20%26%2F%3F%2B%C3%BC&feed_category=regression%20value%20%26%2F%3F%2B%C3%BC&sort=regression%20value%20%26%2F%3F%2B%C3%BC",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "pairwise 5",
+    "argv": [
+      "cloudforce-one",
+      "threat-signals",
+      "articles",
+      "list",
+      "--cursor",
+      "second value &/?+ü",
+      "--per-page",
+      "2",
+      "--read=false",
+      "--tag-id",
+      "0123456789abcdef0123456789abcdef",
+      "--tag-category",
+      "second value &/?+ü",
+      "--include-total=false",
+      "--published-before",
+      "second value &/?+ü",
+      "--fetched-after",
+      "second value &/?+ü",
+      "--source-type",
+      "custom",
+      "--tag-applied-by",
+      "analyst"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/cloudforce-one/v2/threat-signals/articles?cursor=second%20value%20%26%2F%3F%2B%C3%BC&per_page=2&read=false&tag_id=0123456789abcdef0123456789abcdef&tag_category=second%20value%20%26%2F%3F%2B%C3%BC&include_total=false&published_before=second%20value%20%26%2F%3F%2B%C3%BC&fetched_after=second%20value%20%26%2F%3F%2B%C3%BC&source_type=custom&tag_applied_by=analyst",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "pairwise 6",
+    "argv": [
+      "cloudforce-one",
+      "threat-signals",
+      "articles",
+      "list",
+      "--read=true",
+      "--tag-id",
+      "0123456789abcdef0123456789abcdef",
+      "--tag-category-id",
+      "0123456789abcdef0123456789abcdef",
+      "--tag",
+      "regression-image:latest",
+      "--published-before",
+      "regression value &/?+ü",
+      "--fetched-after",
+      "regression value &/?+ü",
+      "--fetched-before",
+      "regression value &/?+ü",
+      "--feed-category",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/cloudforce-one/v2/threat-signals/articles?read=true&tag_id=0123456789abcdef0123456789abcdef&tag_category_id=0123456789abcdef0123456789abcdef&tag=regression-image%3Alatest&published_before=regression%20value%20%26%2F%3F%2B%C3%BC&fetched_after=regression%20value%20%26%2F%3F%2B%C3%BC&fetched_before=regression%20value%20%26%2F%3F%2B%C3%BC&feed_category=regression%20value%20%26%2F%3F%2B%C3%BC",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "pairwise 7",
+    "argv": [
+      "cloudforce-one",
+      "threat-signals",
+      "articles",
+      "list",
+      "--cursor",
+      "second value &/?+ü",
+      "--per-page",
+      "2",
+      "--feed-id",
+      "0123456789abcdef0123456789abcdef",
+      "--article-id",
+      "0123456789abcdef0123456789abcdef",
+      "--tag-category",
+      "second value &/?+ü",
+      "--include-total=false",
+      "--search",
+      "second value &/?+ü",
+      "--published-after",
+      "second value &/?+ü",
+      "--source-type",
+      "custom",
+      "--tag-applied-by",
+      "analyst",
+      "--sort",
+      "second value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/cloudforce-one/v2/threat-signals/articles?cursor=second%20value%20%26%2F%3F%2B%C3%BC&per_page=2&feed_id=0123456789abcdef0123456789abcdef&article_id=0123456789abcdef0123456789abcdef&tag_category=second%20value%20%26%2F%3F%2B%C3%BC&include_total=false&search=second%20value%20%26%2F%3F%2B%C3%BC&published_after=second%20value%20%26%2F%3F%2B%C3%BC&source_type=custom&tag_applied_by=analyst&sort=second%20value%20%26%2F%3F%2B%C3%BC",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "pairwise 8",
+    "argv": [
+      "cloudforce-one",
+      "threat-signals",
+      "articles",
+      "list",
+      "--tag-category",
+      "regression value &/?+ü",
+      "--include-total=true",
+      "--search",
+      "regression value &/?+ü",
+      "--published-after",
+      "regression value &/?+ü",
+      "--published-before",
+      "regression value &/?+ü",
+      "--fetched-after",
+      "regression value &/?+ü",
+      "--fetched-before",
+      "regression value &/?+ü",
+      "--feed-category",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/cloudforce-one/v2/threat-signals/articles?tag_category=regression%20value%20%26%2F%3F%2B%C3%BC&include_total=true&search=regression%20value%20%26%2F%3F%2B%C3%BC&published_after=regression%20value%20%26%2F%3F%2B%C3%BC&published_before=regression%20value%20%26%2F%3F%2B%C3%BC&fetched_after=regression%20value%20%26%2F%3F%2B%C3%BC&fetched_before=regression%20value%20%26%2F%3F%2B%C3%BC&feed_category=regression%20value%20%26%2F%3F%2B%C3%BC",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "pairwise 9",
+    "argv": [
+      "cloudforce-one",
+      "threat-signals",
+      "articles",
+      "list",
+      "--cursor",
+      "second value &/?+ü",
+      "--per-page",
+      "2",
+      "--feed-id",
+      "0123456789abcdef0123456789abcdef",
+      "--article-id",
+      "0123456789abcdef0123456789abcdef",
+      "--read=false",
+      "--tag-id",
+      "0123456789abcdef0123456789abcdef",
+      "--tag-category-id",
+      "0123456789abcdef0123456789abcdef",
+      "--tag",
+      "regression-image:latest",
+      "--source-type",
+      "custom",
+      "--tag-applied-by",
+      "analyst",
+      "--sort",
+      "second value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/cloudforce-one/v2/threat-signals/articles?cursor=second%20value%20%26%2F%3F%2B%C3%BC&per_page=2&feed_id=0123456789abcdef0123456789abcdef&article_id=0123456789abcdef0123456789abcdef&read=false&tag_id=0123456789abcdef0123456789abcdef&tag_category_id=0123456789abcdef0123456789abcdef&tag=regression-image%3Alatest&source_type=custom&tag_applied_by=analyst&sort=second%20value%20%26%2F%3F%2B%C3%BC",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "pairwise 10",
+    "argv": [
+      "cloudforce-one",
+      "threat-signals",
+      "articles",
+      "list",
+      "--source-type",
+      "curated",
+      "--tag-applied-by",
+      "ai",
+      "--sort",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/cloudforce-one/v2/threat-signals/articles?source_type=curated&tag_applied_by=ai&sort=regression%20value%20%26%2F%3F%2B%C3%BC",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "pairwise 11",
+    "argv": [
+      "cloudforce-one",
+      "threat-signals",
+      "articles",
+      "list",
+      "--cursor",
+      "second value &/?+ü",
+      "--per-page",
+      "2",
+      "--feed-id",
+      "0123456789abcdef0123456789abcdef",
+      "--article-id",
+      "0123456789abcdef0123456789abcdef",
+      "--read=false",
+      "--tag-id",
+      "0123456789abcdef0123456789abcdef",
+      "--tag-category-id",
+      "0123456789abcdef0123456789abcdef",
+      "--tag",
+      "regression-image:latest",
+      "--tag-category",
+      "second value &/?+ü",
+      "--include-total=false",
+      "--search",
+      "second value &/?+ü",
+      "--published-after",
+      "second value &/?+ü",
+      "--published-before",
+      "second value &/?+ü",
+      "--fetched-after",
+      "second value &/?+ü",
+      "--fetched-before",
+      "second value &/?+ü",
+      "--feed-category",
+      "second value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/cloudforce-one/v2/threat-signals/articles?cursor=second%20value%20%26%2F%3F%2B%C3%BC&per_page=2&feed_id=0123456789abcdef0123456789abcdef&article_id=0123456789abcdef0123456789abcdef&read=false&tag_id=0123456789abcdef0123456789abcdef&tag_category_id=0123456789abcdef0123456789abcdef&tag=regression-image%3Alatest&tag_category=second%20value%20%26%2F%3F%2B%C3%BC&include_total=false&search=second%20value%20%26%2F%3F%2B%C3%BC&published_after=second%20value%20%26%2F%3F%2B%C3%BC&published_before=second%20value%20%26%2F%3F%2B%C3%BC&fetched_after=second%20value%20%26%2F%3F%2B%C3%BC&fetched_before=second%20value%20%26%2F%3F%2B%C3%BC&feed_category=second%20value%20%26%2F%3F%2B%C3%BC",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "global quiet",
+    "argv": [
+      "cloudforce-one",
+      "threat-signals",
+      "articles",
+      "list",
+      "--quiet"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/cloudforce-one/v2/threat-signals/articles",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "global zone",
+    "argv": [
+      "cloudforce-one",
+      "threat-signals",
+      "articles",
+      "list",
+      "--zone",
+      "abcdef0123456789abcdef0123456789"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/cloudforce-one/v2/threat-signals/articles",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "global profile and mode",
+    "argv": [
+      "cloudforce-one",
+      "threat-signals",
+      "articles",
+      "list",
+      "--profile",
+      "default",
+      "--mode",
+      "regression"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/cloudforce-one/v2/threat-signals/articles",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "local",
+    "argv": [
+      "cloudforce-one",
+      "threat-signals",
+      "articles",
+      "list",
+      "--local"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "http://localhost/cdn-cgi/local/explorer/api/cloudforce-one/v2/threat-signals/articles",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "gzip, deflate",
+          "accept-language": "*",
+          "connection": "keep-alive",
+          "host": "localhost",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "local with persistence",
+    "argv": [
+      "cloudforce-one",
+      "threat-signals",
+      "articles",
+      "list",
+      "--local",
+      "--persist-to",
+      "regression-state"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "http://localhost/cdn-cgi/local/explorer/api/cloudforce-one/v2/threat-signals/articles",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "gzip, deflate",
+          "accept-language": "*",
+          "connection": "keep-alive",
+          "host": "localhost",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      }
+    ]
+  },
+  {
+    "case": "dry-run",
+    "argv": [
+      "cloudforce-one",
+      "threat-signals",
+      "articles",
+      "list",
+      "--dry-run"
+    ],
+    "exitCode": 0,
+    "requests": []
+  }
+]

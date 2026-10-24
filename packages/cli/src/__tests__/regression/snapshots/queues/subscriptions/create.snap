@@ -1,0 +1,1216 @@
+[
+  {
+    "case": "no-args",
+    "argv": [
+      "queues",
+      "subscriptions",
+      "create"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/event_subscriptions/subscriptions",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "2",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {}
+      }
+    ]
+  },
+  {
+    "case": "required",
+    "argv": [
+      "queues",
+      "subscriptions",
+      "create",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/event_subscriptions/subscriptions",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --destination-queue-id",
+    "argv": [
+      "queues",
+      "subscriptions",
+      "create",
+      "--destination-queue-id",
+      "0123456789abcdef0123456789abcdef"
+    ],
+    "exitCode": 1,
+    "error": "--destination-type is required when any --destination-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "only --destination-type",
+    "argv": [
+      "queues",
+      "subscriptions",
+      "create",
+      "--destination-type",
+      "queues.queue"
+    ],
+    "exitCode": 1,
+    "error": "--destination-queue-id is required when any --destination-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "only --enabled",
+    "argv": [
+      "queues",
+      "subscriptions",
+      "create",
+      "--enabled=true"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/event_subscriptions/subscriptions",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "16",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "enabled": true
+        }
+      }
+    ]
+  },
+  {
+    "case": "--enabled value 1",
+    "argv": [
+      "queues",
+      "subscriptions",
+      "create",
+      "--enabled=false"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/event_subscriptions/subscriptions",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "17",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "enabled": false
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --events",
+    "argv": [
+      "queues",
+      "subscriptions",
+      "create",
+      "--events",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/event_subscriptions/subscriptions",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "38",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "events": [
+            "regression value &/?+ü"
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --name",
+    "argv": [
+      "queues",
+      "subscriptions",
+      "create",
+      "--name",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/event_subscriptions/subscriptions",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "34",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "name": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --source-type",
+    "argv": [
+      "queues",
+      "subscriptions",
+      "create",
+      "--source-type",
+      "images"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/event_subscriptions/subscriptions",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "28",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "source": {
+            "type": "images"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "--source-type value 1",
+    "argv": [
+      "queues",
+      "subscriptions",
+      "create",
+      "--source-type",
+      "kv"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/event_subscriptions/subscriptions",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "24",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "source": {
+            "type": "kv"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "--source-type value 2",
+    "argv": [
+      "queues",
+      "subscriptions",
+      "create",
+      "--source-type",
+      "r2"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/event_subscriptions/subscriptions",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "24",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "source": {
+            "type": "r2"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "--source-type value 3",
+    "argv": [
+      "queues",
+      "subscriptions",
+      "create",
+      "--source-type",
+      "superSlurper"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/event_subscriptions/subscriptions",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "34",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "source": {
+            "type": "superSlurper"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "--source-type value 4",
+    "argv": [
+      "queues",
+      "subscriptions",
+      "create",
+      "--source-type",
+      "vectorize"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/event_subscriptions/subscriptions",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "31",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "source": {
+            "type": "vectorize"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "--source-type value 5",
+    "argv": [
+      "queues",
+      "subscriptions",
+      "create",
+      "--source-type",
+      "workersAi.model"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/event_subscriptions/subscriptions",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "37",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "source": {
+            "type": "workersAi.model"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "--source-type value 6",
+    "argv": [
+      "queues",
+      "subscriptions",
+      "create",
+      "--source-type",
+      "workersBuilds.worker"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/event_subscriptions/subscriptions",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "source": {
+            "type": "workersBuilds.worker"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "--source-type value 7",
+    "argv": [
+      "queues",
+      "subscriptions",
+      "create",
+      "--source-type",
+      "workers.script"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/event_subscriptions/subscriptions",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "36",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "source": {
+            "type": "workers.script"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "--source-type value 8",
+    "argv": [
+      "queues",
+      "subscriptions",
+      "create",
+      "--source-type",
+      "workflows.workflow"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/event_subscriptions/subscriptions",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "40",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "source": {
+            "type": "workflows.workflow"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --source-model-name",
+    "argv": [
+      "queues",
+      "subscriptions",
+      "create",
+      "--source-model-name",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/event_subscriptions/subscriptions",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "51",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "source": {
+            "model_name": "regression value &/?+ü"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --source-worker-name",
+    "argv": [
+      "queues",
+      "subscriptions",
+      "create",
+      "--source-worker-name",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/event_subscriptions/subscriptions",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "52",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "source": {
+            "worker_name": "regression value &/?+ü"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --source-script-tag",
+    "argv": [
+      "queues",
+      "subscriptions",
+      "create",
+      "--source-script-tag",
+      "192.0.2.1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/event_subscriptions/subscriptions",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "37",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "source": {
+            "script_tag": "192.0.2.1"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --source-workflow-name",
+    "argv": [
+      "queues",
+      "subscriptions",
+      "create",
+      "--source-workflow-name",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/event_subscriptions/subscriptions",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "54",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "source": {
+            "workflow_name": "regression value &/?+ü"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 1",
+    "argv": [
+      "queues",
+      "subscriptions",
+      "create",
+      "--destination-queue-id",
+      "0123456789abcdef0123456789abcdef",
+      "--destination-type",
+      "queues.queue",
+      "--enabled=false",
+      "--events",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--name",
+      "second value &/?+ü",
+      "--source-type",
+      "kv",
+      "--source-model-name",
+      "second value &/?+ü",
+      "--source-worker-name",
+      "second value &/?+ü",
+      "--source-script-tag",
+      "192.0.2.1",
+      "--source-workflow-name",
+      "second value &/?+ü"
+    ],
+    "exitCode": 1,
+    "error": "Arguments source-model-name and source-worker-name are mutually exclusive",
+    "requests": []
+  },
+  {
+    "case": "pairwise 2",
+    "argv": [
+      "queues",
+      "subscriptions",
+      "create",
+      "--destination-type",
+      "queues.queue",
+      "--events",
+      "regression value &/?+ü",
+      "--source-type",
+      "images",
+      "--source-worker-name",
+      "regression value &/?+ü",
+      "--source-workflow-name",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 1,
+    "error": "Arguments source-worker-name and source-workflow-name are mutually exclusive",
+    "requests": []
+  },
+  {
+    "case": "pairwise 3",
+    "argv": [
+      "queues",
+      "subscriptions",
+      "create",
+      "--destination-queue-id",
+      "0123456789abcdef0123456789abcdef",
+      "--enabled=false",
+      "--name",
+      "second value &/?+ü",
+      "--source-model-name",
+      "second value &/?+ü",
+      "--source-script-tag",
+      "192.0.2.1"
+    ],
+    "exitCode": 1,
+    "error": "Arguments source-model-name and source-script-tag are mutually exclusive",
+    "requests": []
+  },
+  {
+    "case": "pairwise 4",
+    "argv": [
+      "queues",
+      "subscriptions",
+      "create",
+      "--enabled=true",
+      "--events",
+      "regression value &/?+ü",
+      "--source-model-name",
+      "regression value &/?+ü",
+      "--source-worker-name",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 1,
+    "error": "Arguments source-model-name and source-worker-name are mutually exclusive",
+    "requests": []
+  },
+  {
+    "case": "pairwise 5",
+    "argv": [
+      "queues",
+      "subscriptions",
+      "create",
+      "--destination-queue-id",
+      "0123456789abcdef0123456789abcdef",
+      "--destination-type",
+      "queues.queue",
+      "--name",
+      "second value &/?+ü",
+      "--source-type",
+      "kv",
+      "--source-script-tag",
+      "192.0.2.1",
+      "--source-workflow-name",
+      "second value &/?+ü"
+    ],
+    "exitCode": 1,
+    "error": "Arguments source-script-tag and source-workflow-name are mutually exclusive",
+    "requests": []
+  },
+  {
+    "case": "pairwise 6",
+    "argv": [
+      "queues",
+      "subscriptions",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--source-type",
+      "images",
+      "--source-model-name",
+      "regression value &/?+ü",
+      "--source-worker-name",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 1,
+    "error": "Arguments source-model-name and source-worker-name are mutually exclusive",
+    "requests": []
+  },
+  {
+    "case": "pairwise 7",
+    "argv": [
+      "queues",
+      "subscriptions",
+      "create",
+      "--destination-queue-id",
+      "0123456789abcdef0123456789abcdef",
+      "--destination-type",
+      "queues.queue",
+      "--enabled=false",
+      "--events",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--source-script-tag",
+      "192.0.2.1",
+      "--source-workflow-name",
+      "second value &/?+ü"
+    ],
+    "exitCode": 1,
+    "error": "Arguments source-script-tag and source-workflow-name are mutually exclusive",
+    "requests": []
+  },
+  {
+    "case": "pairwise 8",
+    "argv": [
+      "queues",
+      "subscriptions",
+      "create",
+      "--source-script-tag",
+      "192.0.2.1",
+      "--source-workflow-name",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 1,
+    "error": "Arguments source-script-tag and source-workflow-name are mutually exclusive",
+    "requests": []
+  },
+  {
+    "case": "pairwise 9",
+    "argv": [
+      "queues",
+      "subscriptions",
+      "create",
+      "--destination-queue-id",
+      "0123456789abcdef0123456789abcdef",
+      "--destination-type",
+      "queues.queue",
+      "--enabled=false",
+      "--events",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--name",
+      "second value &/?+ü",
+      "--source-type",
+      "kv",
+      "--source-model-name",
+      "second value &/?+ü",
+      "--source-worker-name",
+      "second value &/?+ü"
+    ],
+    "exitCode": 1,
+    "error": "Arguments source-model-name and source-worker-name are mutually exclusive",
+    "requests": []
+  },
+  {
+    "case": "global quiet",
+    "argv": [
+      "queues",
+      "subscriptions",
+      "create",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--quiet"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/event_subscriptions/subscriptions",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "global zone",
+    "argv": [
+      "queues",
+      "subscriptions",
+      "create",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--zone",
+      "abcdef0123456789abcdef0123456789"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/event_subscriptions/subscriptions",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "global profile and mode",
+    "argv": [
+      "queues",
+      "subscriptions",
+      "create",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--profile",
+      "default",
+      "--mode",
+      "regression"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/event_subscriptions/subscriptions",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "local",
+    "argv": [
+      "queues",
+      "subscriptions",
+      "create",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--local"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "http://localhost/cdn-cgi/local/explorer/api/event_subscriptions/subscriptions",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "gzip, deflate",
+          "accept-language": "*",
+          "connection": "keep-alive",
+          "content-type": "application/json",
+          "host": "localhost",
+          "sec-fetch-mode": "cors",
+          "transfer-encoding": "chunked",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "local with persistence",
+    "argv": [
+      "queues",
+      "subscriptions",
+      "create",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--local",
+      "--persist-to",
+      "regression-state"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "http://localhost/cdn-cgi/local/explorer/api/event_subscriptions/subscriptions",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "gzip, deflate",
+          "accept-language": "*",
+          "connection": "keep-alive",
+          "content-type": "application/json",
+          "host": "localhost",
+          "sec-fetch-mode": "cors",
+          "transfer-encoding": "chunked",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "dry-run",
+    "argv": [
+      "queues",
+      "subscriptions",
+      "create",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--dry-run"
+    ],
+    "exitCode": 0,
+    "requests": []
+  },
+  {
+    "case": "body from file",
+    "argv": [
+      "queues",
+      "subscriptions",
+      "create",
+      "--body",
+      "@<body.json>"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/event_subscriptions/subscriptions",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "array body",
+    "argv": [
+      "queues",
+      "subscriptions",
+      "create",
+      "--body",
+      "[{\"regression\":\"first\"},{\"regression\":\"second\"}]"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/event_subscriptions/subscriptions",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "56",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "0": {
+            "regression": "first"
+          },
+          "1": {
+            "regression": "second"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "field flags",
+    "argv": [
+      "queues",
+      "subscriptions",
+      "create",
+      "--destination-queue-id",
+      "0123456789abcdef0123456789abcdef",
+      "--destination-type",
+      "queues.queue",
+      "--enabled=true",
+      "--events",
+      "regression value &/?+ü",
+      "--name",
+      "regression value &/?+ü",
+      "--source-type",
+      "images",
+      "--source-model-name",
+      "regression value &/?+ü",
+      "--source-worker-name",
+      "regression value &/?+ü",
+      "--source-script-tag",
+      "192.0.2.1",
+      "--source-workflow-name",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 1,
+    "error": "Arguments source-model-name and source-worker-name are mutually exclusive",
+    "requests": []
+  }
+]

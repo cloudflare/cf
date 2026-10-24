@@ -1,0 +1,10 @@
+{
+  "argv": [
+    "web3",
+    "hostnames",
+    "ipfs-universal-paths",
+    "content-lists",
+    "entries"
+  ],
+  "requests": []
+}

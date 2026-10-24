@@ -1,0 +1,1085 @@
+[
+  {
+    "case": "no-args",
+    "argv": [
+      "workers-vpc",
+      "services",
+      "create"
+    ],
+    "exitCode": 1,
+    "error": "--name is required. Pass --name <value> or run interactively.",
+    "requests": []
+  },
+  {
+    "case": "required",
+    "argv": [
+      "workers-vpc",
+      "services",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--type",
+      "tcp",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/connectivity/directory/services",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --host-ipv4",
+    "argv": [
+      "workers-vpc",
+      "services",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--type",
+      "tcp",
+      "--host-ipv4",
+      "192.0.2.1"
+    ],
+    "exitCode": 1,
+    "error": "--host-network-tunnel-id, --host-resolver-network-tunnel-id are required when any --host-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "only --host-network-tunnel-id",
+    "argv": [
+      "workers-vpc",
+      "services",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--type",
+      "tcp",
+      "--host-network-tunnel-id",
+      "0123456789abcdef0123456789abcdef"
+    ],
+    "exitCode": 1,
+    "error": "--host-resolver-network-tunnel-id is required when any --host-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "only --host-ipv6",
+    "argv": [
+      "workers-vpc",
+      "services",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--type",
+      "tcp",
+      "--host-ipv6",
+      "192.0.2.1"
+    ],
+    "exitCode": 1,
+    "error": "--host-network-tunnel-id, --host-resolver-network-tunnel-id are required when any --host-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "only --host-hostname",
+    "argv": [
+      "workers-vpc",
+      "services",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--type",
+      "tcp",
+      "--host-hostname",
+      "example.com"
+    ],
+    "exitCode": 1,
+    "error": "--host-network-tunnel-id, --host-resolver-network-tunnel-id are required when any --host-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "only --host-resolver-network-resolver-ips",
+    "argv": [
+      "workers-vpc",
+      "services",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--type",
+      "tcp",
+      "--host-resolver-network-resolver-ips",
+      "192.0.2.1"
+    ],
+    "exitCode": 1,
+    "error": "--host-network-tunnel-id, --host-resolver-network-tunnel-id are required when any --host-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "only --host-resolver-network-tunnel-id",
+    "argv": [
+      "workers-vpc",
+      "services",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--type",
+      "tcp",
+      "--host-resolver-network-tunnel-id",
+      "0123456789abcdef0123456789abcdef"
+    ],
+    "exitCode": 1,
+    "error": "--host-network-tunnel-id is required when any --host-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "only --tls-settings-cert-verification-mode",
+    "argv": [
+      "workers-vpc",
+      "services",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--type",
+      "tcp",
+      "--tls-settings-cert-verification-mode",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/connectivity/directory/services",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "115",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "name": "regression value &/?+ü",
+          "tls_settings": {
+            "cert_verification_mode": "regression value &/?+ü"
+          },
+          "type": "tcp"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --http-port",
+    "argv": [
+      "workers-vpc",
+      "services",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--type",
+      "tcp",
+      "--http-port",
+      "1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/connectivity/directory/services",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "61",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "name": "regression value &/?+ü",
+          "type": "tcp",
+          "http_port": 1
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --https-port",
+    "argv": [
+      "workers-vpc",
+      "services",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--type",
+      "tcp",
+      "--https-port",
+      "1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/connectivity/directory/services",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "62",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "name": "regression value &/?+ü",
+          "type": "tcp",
+          "https_port": 1
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --app-protocol",
+    "argv": [
+      "workers-vpc",
+      "services",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--type",
+      "tcp",
+      "--app-protocol",
+      "postgresql"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/connectivity/directory/services",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "75",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "name": "regression value &/?+ü",
+          "type": "tcp",
+          "app_protocol": "postgresql"
+        }
+      }
+    ]
+  },
+  {
+    "case": "--app-protocol value 1",
+    "argv": [
+      "workers-vpc",
+      "services",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--type",
+      "tcp",
+      "--app-protocol",
+      "mysql"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/connectivity/directory/services",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "70",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "name": "regression value &/?+ü",
+          "type": "tcp",
+          "app_protocol": "mysql"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --tcp-port",
+    "argv": [
+      "workers-vpc",
+      "services",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--type",
+      "tcp",
+      "--tcp-port",
+      "1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/connectivity/directory/services",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "60",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "name": "regression value &/?+ü",
+          "type": "tcp",
+          "tcp_port": 1
+        }
+      }
+    ]
+  },
+  {
+    "case": "required --type value 1",
+    "argv": [
+      "workers-vpc",
+      "services",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--type",
+      "http"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/connectivity/directory/services",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 0",
+    "argv": [
+      "workers-vpc",
+      "services",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--type",
+      "tcp"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/connectivity/directory/services",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "47",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "name": "regression value &/?+ü",
+          "type": "tcp"
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 1",
+    "argv": [
+      "workers-vpc",
+      "services",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--type",
+      "tcp",
+      "--host-ipv4",
+      "192.0.2.1",
+      "--host-network-tunnel-id",
+      "0123456789abcdef0123456789abcdef",
+      "--host-ipv6",
+      "192.0.2.1",
+      "--host-hostname",
+      "example.com",
+      "--host-resolver-network-resolver-ips",
+      "192.0.2.1",
+      "192.0.2.1",
+      "--host-resolver-network-tunnel-id",
+      "0123456789abcdef0123456789abcdef",
+      "--tls-settings-cert-verification-mode",
+      "second value &/?+ü",
+      "--http-port",
+      "2",
+      "--https-port",
+      "2",
+      "--app-protocol",
+      "mysql",
+      "--tcp-port",
+      "2"
+    ],
+    "exitCode": 1,
+    "error": "Arguments host-ipv4 and host-ipv6 are mutually exclusive",
+    "requests": []
+  },
+  {
+    "case": "pairwise 2",
+    "argv": [
+      "workers-vpc",
+      "services",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--type",
+      "tcp",
+      "--host-network-tunnel-id",
+      "0123456789abcdef0123456789abcdef",
+      "--host-hostname",
+      "example.com",
+      "--host-resolver-network-tunnel-id",
+      "0123456789abcdef0123456789abcdef",
+      "--http-port",
+      "1",
+      "--app-protocol",
+      "postgresql"
+    ],
+    "exitCode": 1,
+    "error": "Arguments http-port and app-protocol are mutually exclusive",
+    "requests": []
+  },
+  {
+    "case": "pairwise 3",
+    "argv": [
+      "workers-vpc",
+      "services",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--type",
+      "tcp",
+      "--host-ipv4",
+      "192.0.2.1",
+      "--host-ipv6",
+      "192.0.2.1",
+      "--host-resolver-network-resolver-ips",
+      "192.0.2.1",
+      "192.0.2.1",
+      "--tls-settings-cert-verification-mode",
+      "second value &/?+ü",
+      "--https-port",
+      "2",
+      "--tcp-port",
+      "2"
+    ],
+    "exitCode": 1,
+    "error": "Arguments host-ipv4 and host-ipv6 are mutually exclusive",
+    "requests": []
+  },
+  {
+    "case": "pairwise 4",
+    "argv": [
+      "workers-vpc",
+      "services",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--type",
+      "tcp",
+      "--host-ipv6",
+      "192.0.2.1",
+      "--host-hostname",
+      "example.com",
+      "--tls-settings-cert-verification-mode",
+      "regression value &/?+ü",
+      "--http-port",
+      "1",
+      "--tcp-port",
+      "1"
+    ],
+    "exitCode": 1,
+    "error": "Arguments host-ipv6 and host-hostname are mutually exclusive",
+    "requests": []
+  },
+  {
+    "case": "pairwise 5",
+    "argv": [
+      "workers-vpc",
+      "services",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--type",
+      "tcp",
+      "--host-ipv4",
+      "192.0.2.1",
+      "--host-network-tunnel-id",
+      "0123456789abcdef0123456789abcdef",
+      "--host-resolver-network-resolver-ips",
+      "192.0.2.1",
+      "192.0.2.1",
+      "--host-resolver-network-tunnel-id",
+      "0123456789abcdef0123456789abcdef",
+      "--https-port",
+      "2",
+      "--app-protocol",
+      "mysql"
+    ],
+    "exitCode": 1,
+    "error": "Arguments host-ipv4 and host-resolver-network-resolver-ips are mutually exclusive",
+    "requests": []
+  },
+  {
+    "case": "pairwise 6",
+    "argv": [
+      "workers-vpc",
+      "services",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--type",
+      "tcp",
+      "--host-resolver-network-resolver-ips",
+      "192.0.2.1",
+      "--host-resolver-network-tunnel-id",
+      "0123456789abcdef0123456789abcdef",
+      "--tls-settings-cert-verification-mode",
+      "regression value &/?+ü",
+      "--http-port",
+      "1"
+    ],
+    "exitCode": 1,
+    "error": "--host-network-tunnel-id is required when any --host-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "pairwise 7",
+    "argv": [
+      "workers-vpc",
+      "services",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--type",
+      "tcp",
+      "--host-ipv4",
+      "192.0.2.1",
+      "--host-network-tunnel-id",
+      "0123456789abcdef0123456789abcdef",
+      "--host-ipv6",
+      "192.0.2.1",
+      "--host-hostname",
+      "example.com",
+      "--https-port",
+      "2",
+      "--app-protocol",
+      "mysql",
+      "--tcp-port",
+      "2"
+    ],
+    "exitCode": 1,
+    "error": "Arguments host-ipv4 and host-ipv6 are mutually exclusive",
+    "requests": []
+  },
+  {
+    "case": "pairwise 8",
+    "argv": [
+      "workers-vpc",
+      "services",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--type",
+      "tcp",
+      "--https-port",
+      "1",
+      "--app-protocol",
+      "postgresql",
+      "--tcp-port",
+      "1"
+    ],
+    "exitCode": 1,
+    "error": "Arguments https-port and app-protocol are mutually exclusive",
+    "requests": []
+  },
+  {
+    "case": "pairwise 9",
+    "argv": [
+      "workers-vpc",
+      "services",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--type",
+      "tcp",
+      "--host-ipv4",
+      "192.0.2.1",
+      "--host-network-tunnel-id",
+      "0123456789abcdef0123456789abcdef",
+      "--host-ipv6",
+      "192.0.2.1",
+      "--host-hostname",
+      "example.com",
+      "--host-resolver-network-resolver-ips",
+      "192.0.2.1",
+      "192.0.2.1",
+      "--host-resolver-network-tunnel-id",
+      "0123456789abcdef0123456789abcdef",
+      "--tls-settings-cert-verification-mode",
+      "second value &/?+ü",
+      "--http-port",
+      "2"
+    ],
+    "exitCode": 1,
+    "error": "Arguments host-ipv4 and host-ipv6 are mutually exclusive",
+    "requests": []
+  },
+  {
+    "case": "global quiet",
+    "argv": [
+      "workers-vpc",
+      "services",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--type",
+      "tcp",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--quiet"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/connectivity/directory/services",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "global zone",
+    "argv": [
+      "workers-vpc",
+      "services",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--type",
+      "tcp",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--zone",
+      "abcdef0123456789abcdef0123456789"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/connectivity/directory/services",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "global profile and mode",
+    "argv": [
+      "workers-vpc",
+      "services",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--type",
+      "tcp",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--profile",
+      "default",
+      "--mode",
+      "regression"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/connectivity/directory/services",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "local",
+    "argv": [
+      "workers-vpc",
+      "services",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--type",
+      "tcp",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--local"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "http://localhost/cdn-cgi/local/explorer/api/connectivity/directory/services",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "gzip, deflate",
+          "accept-language": "*",
+          "connection": "keep-alive",
+          "content-type": "application/json",
+          "host": "localhost",
+          "sec-fetch-mode": "cors",
+          "transfer-encoding": "chunked",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "local with persistence",
+    "argv": [
+      "workers-vpc",
+      "services",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--type",
+      "tcp",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--local",
+      "--persist-to",
+      "regression-state"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "http://localhost/cdn-cgi/local/explorer/api/connectivity/directory/services",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "gzip, deflate",
+          "accept-language": "*",
+          "connection": "keep-alive",
+          "content-type": "application/json",
+          "host": "localhost",
+          "sec-fetch-mode": "cors",
+          "transfer-encoding": "chunked",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "dry-run",
+    "argv": [
+      "workers-vpc",
+      "services",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--type",
+      "tcp",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--dry-run"
+    ],
+    "exitCode": 0,
+    "requests": []
+  },
+  {
+    "case": "body from file",
+    "argv": [
+      "workers-vpc",
+      "services",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--type",
+      "tcp",
+      "--body",
+      "@<body.json>"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/connectivity/directory/services",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "array body",
+    "argv": [
+      "workers-vpc",
+      "services",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--type",
+      "tcp",
+      "--body",
+      "[{\"regression\":\"first\"},{\"regression\":\"second\"}]"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/connectivity/directory/services",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "48",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": [
+          {
+            "regression": "first"
+          },
+          {
+            "regression": "second"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "case": "field flags",
+    "argv": [
+      "workers-vpc",
+      "services",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--type",
+      "tcp",
+      "--host-ipv4",
+      "192.0.2.1",
+      "--host-network-tunnel-id",
+      "0123456789abcdef0123456789abcdef",
+      "--host-ipv6",
+      "192.0.2.1",
+      "--host-hostname",
+      "example.com",
+      "--host-resolver-network-resolver-ips",
+      "192.0.2.1",
+      "--host-resolver-network-tunnel-id",
+      "0123456789abcdef0123456789abcdef",
+      "--tls-settings-cert-verification-mode",
+      "regression value &/?+ü",
+      "--http-port",
+      "1",
+      "--https-port",
+      "1",
+      "--app-protocol",
+      "postgresql",
+      "--tcp-port",
+      "1"
+    ],
+    "exitCode": 1,
+    "error": "Arguments host-ipv4 and host-ipv6 are mutually exclusive",
+    "requests": []
+  }
+]

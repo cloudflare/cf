@@ -1,0 +1,883 @@
+[
+  {
+    "case": "no-args",
+    "argv": [
+      "zones",
+      "automatic-platform-optimization",
+      "edit"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/settings/automatic_platform_optimization",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "2",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {}
+      }
+    ]
+  },
+  {
+    "case": "required",
+    "argv": [
+      "zones",
+      "automatic-platform-optimization",
+      "edit",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/settings/automatic_platform_optimization",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --value-cache-by-device-type",
+    "argv": [
+      "zones",
+      "automatic-platform-optimization",
+      "edit",
+      "--value-cache-by-device-type=true"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/settings/automatic_platform_optimization",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "39",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "value": {
+            "cache_by_device_type": true
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "--value-cache-by-device-type value 1",
+    "argv": [
+      "zones",
+      "automatic-platform-optimization",
+      "edit",
+      "--value-cache-by-device-type=false"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/settings/automatic_platform_optimization",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "40",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "value": {
+            "cache_by_device_type": false
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --value-cf",
+    "argv": [
+      "zones",
+      "automatic-platform-optimization",
+      "edit",
+      "--value-cf=true"
+    ],
+    "exitCode": 1,
+    "error": "Missing dependent arguments:\n value-cf -> value-enabled value-cf -> value-wordpress value-cf -> value-wp-plugin",
+    "requests": []
+  },
+  {
+    "case": "--value-cf value 1",
+    "argv": [
+      "zones",
+      "automatic-platform-optimization",
+      "edit",
+      "--value-cf=false"
+    ],
+    "exitCode": 1,
+    "error": "Missing dependent arguments:\n value-cf -> value-enabled value-cf -> value-wordpress value-cf -> value-wp-plugin",
+    "requests": []
+  },
+  {
+    "case": "only --value-enabled",
+    "argv": [
+      "zones",
+      "automatic-platform-optimization",
+      "edit",
+      "--value-enabled=true"
+    ],
+    "exitCode": 1,
+    "error": "Missing dependent arguments:\n value-enabled -> value-cf value-enabled -> value-wordpress value-enabled -> value-wp-plugin",
+    "requests": []
+  },
+  {
+    "case": "--value-enabled value 1",
+    "argv": [
+      "zones",
+      "automatic-platform-optimization",
+      "edit",
+      "--value-enabled=false"
+    ],
+    "exitCode": 1,
+    "error": "Missing dependent arguments:\n value-enabled -> value-cf value-enabled -> value-wordpress value-enabled -> value-wp-plugin",
+    "requests": []
+  },
+  {
+    "case": "only --value-hostnames",
+    "argv": [
+      "zones",
+      "automatic-platform-optimization",
+      "edit",
+      "--value-hostnames",
+      "example.com"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/settings/automatic_platform_optimization",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "39",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "value": {
+            "hostnames": [
+              "example.com"
+            ]
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --value-recheck",
+    "argv": [
+      "zones",
+      "automatic-platform-optimization",
+      "edit",
+      "--value-recheck=true"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/settings/automatic_platform_optimization",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "26",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "value": {
+            "recheck": true
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "--value-recheck value 1",
+    "argv": [
+      "zones",
+      "automatic-platform-optimization",
+      "edit",
+      "--value-recheck=false"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/settings/automatic_platform_optimization",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "27",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "value": {
+            "recheck": false
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --value-wordpress",
+    "argv": [
+      "zones",
+      "automatic-platform-optimization",
+      "edit",
+      "--value-wordpress=true"
+    ],
+    "exitCode": 1,
+    "error": "Missing dependent arguments:\n value-wordpress -> value-cf value-wordpress -> value-enabled value-wordpress -> value-wp-plugin",
+    "requests": []
+  },
+  {
+    "case": "--value-wordpress value 1",
+    "argv": [
+      "zones",
+      "automatic-platform-optimization",
+      "edit",
+      "--value-wordpress=false"
+    ],
+    "exitCode": 1,
+    "error": "Missing dependent arguments:\n value-wordpress -> value-cf value-wordpress -> value-enabled value-wordpress -> value-wp-plugin",
+    "requests": []
+  },
+  {
+    "case": "only --value-wp-plugin",
+    "argv": [
+      "zones",
+      "automatic-platform-optimization",
+      "edit",
+      "--value-wp-plugin=true"
+    ],
+    "exitCode": 1,
+    "error": "Missing dependent arguments:\n value-wp-plugin -> value-cf value-wp-plugin -> value-enabled value-wp-plugin -> value-wordpress",
+    "requests": []
+  },
+  {
+    "case": "--value-wp-plugin value 1",
+    "argv": [
+      "zones",
+      "automatic-platform-optimization",
+      "edit",
+      "--value-wp-plugin=false"
+    ],
+    "exitCode": 1,
+    "error": "Missing dependent arguments:\n value-wp-plugin -> value-cf value-wp-plugin -> value-enabled value-wp-plugin -> value-wordpress",
+    "requests": []
+  },
+  {
+    "case": "pairwise 1",
+    "argv": [
+      "zones",
+      "automatic-platform-optimization",
+      "edit",
+      "--value-cache-by-device-type=false",
+      "--value-cf=false",
+      "--value-enabled=false",
+      "--value-hostnames",
+      "example.com",
+      "example.com",
+      "--value-recheck=false",
+      "--value-wordpress=false",
+      "--value-wp-plugin=false"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/settings/automatic_platform_optimization",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "161",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "value": {
+            "cache_by_device_type": false,
+            "cf": false,
+            "enabled": false,
+            "hostnames": [
+              "example.com",
+              "example.com"
+            ],
+            "recheck": false,
+            "wordpress": false,
+            "wp_plugin": false
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 2",
+    "argv": [
+      "zones",
+      "automatic-platform-optimization",
+      "edit",
+      "--value-cf=true",
+      "--value-hostnames",
+      "example.com",
+      "--value-wordpress=true"
+    ],
+    "exitCode": 1,
+    "error": "Missing dependent arguments:\n value-cf -> value-enabled value-cf -> value-wp-plugin value-wordpress -> value-enabled value-wordpress -> value-wp-plugin",
+    "requests": []
+  },
+  {
+    "case": "pairwise 3",
+    "argv": [
+      "zones",
+      "automatic-platform-optimization",
+      "edit",
+      "--value-cache-by-device-type=false",
+      "--value-enabled=false",
+      "--value-recheck=false",
+      "--value-wp-plugin=false"
+    ],
+    "exitCode": 1,
+    "error": "Missing dependent arguments:\n value-enabled -> value-cf value-enabled -> value-wordpress value-wp-plugin -> value-cf value-wp-plugin -> value-wordpress",
+    "requests": []
+  },
+  {
+    "case": "pairwise 4",
+    "argv": [
+      "zones",
+      "automatic-platform-optimization",
+      "edit",
+      "--value-enabled=true",
+      "--value-hostnames",
+      "example.com",
+      "--value-wp-plugin=true"
+    ],
+    "exitCode": 1,
+    "error": "Missing dependent arguments:\n value-enabled -> value-cf value-enabled -> value-wordpress value-wp-plugin -> value-cf value-wp-plugin -> value-wordpress",
+    "requests": []
+  },
+  {
+    "case": "pairwise 5",
+    "argv": [
+      "zones",
+      "automatic-platform-optimization",
+      "edit",
+      "--value-cache-by-device-type=false",
+      "--value-cf=false",
+      "--value-recheck=false",
+      "--value-wordpress=false"
+    ],
+    "exitCode": 1,
+    "error": "Missing dependent arguments:\n value-cf -> value-enabled value-cf -> value-wp-plugin value-wordpress -> value-enabled value-wordpress -> value-wp-plugin",
+    "requests": []
+  },
+  {
+    "case": "pairwise 6",
+    "argv": [
+      "zones",
+      "automatic-platform-optimization",
+      "edit",
+      "--value-recheck=true",
+      "--value-wordpress=true",
+      "--value-wp-plugin=true"
+    ],
+    "exitCode": 1,
+    "error": "Missing dependent arguments:\n value-wordpress -> value-cf value-wordpress -> value-enabled value-wp-plugin -> value-cf value-wp-plugin -> value-enabled",
+    "requests": []
+  },
+  {
+    "case": "pairwise 7",
+    "argv": [
+      "zones",
+      "automatic-platform-optimization",
+      "edit",
+      "--value-cache-by-device-type=false",
+      "--value-cf=false",
+      "--value-enabled=false",
+      "--value-hostnames",
+      "example.com",
+      "example.com"
+    ],
+    "exitCode": 1,
+    "error": "Missing dependent arguments:\n value-cf -> value-wordpress value-cf -> value-wp-plugin value-enabled -> value-wordpress value-enabled -> value-wp-plugin",
+    "requests": []
+  },
+  {
+    "case": "global quiet",
+    "argv": [
+      "zones",
+      "automatic-platform-optimization",
+      "edit",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--quiet"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/settings/automatic_platform_optimization",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "global zone",
+    "argv": [
+      "zones",
+      "automatic-platform-optimization",
+      "edit",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--zone",
+      "abcdef0123456789abcdef0123456789"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/settings/automatic_platform_optimization",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "global profile and mode",
+    "argv": [
+      "zones",
+      "automatic-platform-optimization",
+      "edit",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--profile",
+      "default",
+      "--mode",
+      "regression"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/settings/automatic_platform_optimization",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "local",
+    "argv": [
+      "zones",
+      "automatic-platform-optimization",
+      "edit",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--local"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "http://localhost/cdn-cgi/local/explorer/api/zones/abcdef0123456789abcdef0123456789/settings/automatic_platform_optimization",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "gzip, deflate",
+          "accept-language": "*",
+          "connection": "keep-alive",
+          "content-type": "application/json",
+          "host": "localhost",
+          "sec-fetch-mode": "cors",
+          "transfer-encoding": "chunked",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "local with persistence",
+    "argv": [
+      "zones",
+      "automatic-platform-optimization",
+      "edit",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--local",
+      "--persist-to",
+      "regression-state"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "http://localhost/cdn-cgi/local/explorer/api/zones/abcdef0123456789abcdef0123456789/settings/automatic_platform_optimization",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "gzip, deflate",
+          "accept-language": "*",
+          "connection": "keep-alive",
+          "content-type": "application/json",
+          "host": "localhost",
+          "sec-fetch-mode": "cors",
+          "transfer-encoding": "chunked",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "zone by domain",
+    "argv": [
+      "zones",
+      "automatic-platform-optimization",
+      "edit",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--zone",
+      "regression-34e3f758e6fb.example.com"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/zones?name=regression-34e3f758e6fb.example.com&account.id=0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      },
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/settings/automatic_platform_optimization",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "dry-run",
+    "argv": [
+      "zones",
+      "automatic-platform-optimization",
+      "edit",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--dry-run"
+    ],
+    "exitCode": 0,
+    "requests": []
+  },
+  {
+    "case": "body from file",
+    "argv": [
+      "zones",
+      "automatic-platform-optimization",
+      "edit",
+      "--body",
+      "@<body.json>"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/settings/automatic_platform_optimization",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "array body",
+    "argv": [
+      "zones",
+      "automatic-platform-optimization",
+      "edit",
+      "--body",
+      "[{\"regression\":\"first\"},{\"regression\":\"second\"}]"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/settings/automatic_platform_optimization",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "56",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "0": {
+            "regression": "first"
+          },
+          "1": {
+            "regression": "second"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "field flags",
+    "argv": [
+      "zones",
+      "automatic-platform-optimization",
+      "edit",
+      "--value-cache-by-device-type=true",
+      "--value-cf=true",
+      "--value-enabled=true",
+      "--value-hostnames",
+      "example.com",
+      "--value-recheck=true",
+      "--value-wordpress=true",
+      "--value-wp-plugin=true"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/settings/automatic_platform_optimization",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "141",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "value": {
+            "cache_by_device_type": true,
+            "cf": true,
+            "enabled": true,
+            "hostnames": [
+              "example.com"
+            ],
+            "recheck": true,
+            "wordpress": true,
+            "wp_plugin": true
+          }
+        }
+      }
+    ]
+  }
+]

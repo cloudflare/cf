@@ -39,6 +39,7 @@ import {
 	type Obj,
 	obj,
 	quote,
+	stringify,
 	stringifyPretty,
 	trimEndMatches,
 	type Value,
@@ -408,7 +409,11 @@ class Walk {
 		const builder = builderLines(ctx);
 		const usage = leafUsage(method, resource, group, command);
 		const builderBody = `return yargs\n      .usage(${quote(usage)})\n${builder.join("\n")};`;
-		const declarations = "type Args = InferArgs<typeof builder>;\n";
+		const declarations =
+			"type Args = InferArgs<typeof builder>;\n" +
+			((op.bodyUnions?.length ?? 0) > 0 && ctx.derived.hasBodyParams
+				? `const bodyUnions: Parameters<typeof validateBodyUnions>[1] = ${stringify(op.bodyUnions ?? [])};\n`
+				: "");
 		const telemetryPath =
 			group !== undefined && group !== ""
 				? `${resource} ${group.replaceAll("/", " ")} ${method.name}`

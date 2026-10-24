@@ -278,13 +278,17 @@ export function dryRun(ctx: Ctx): string[] {
 			}
 			lines.push(`            ? ${parseBodyExpression(ctx)}`);
 			if (d.hasBodyParams) {
-				lines.push("            : compactBody(");
+				lines.push(
+					`            : ${(op.bodyUnions?.length ?? 0) > 0 ? "validateBodyUnions(" : ""}compactBody(`
+				);
 				const object = bodyObject(ctx, "\t\t\t\t");
 				object[object.length - 1] += preservedBodyPaths(ctx);
 				for (const line of object) {
 					lines.push(`              ${line}`);
 				}
-				lines.push("            ),");
+				lines.push(
+					`            )${(op.bodyUnions?.length ?? 0) > 0 ? ", bodyUnions)" : ""},`
+				);
 			} else {
 				lines.push("            : undefined,");
 			}
@@ -807,6 +811,9 @@ function bodyAssembly(ctx: Ctx): string[] {
 			);
 		}
 	}
+	if ((ctx.op.bodyUnions?.length ?? 0) > 0) {
+		lines.push("      validateBodyUnions(bodyData, bodyUnions);");
+	}
 	// Like a typed call, which sends a body that needs none of its fields
 	// empty, rather than leaving it out.
 	const opts = ["body: bodyData"];
@@ -1061,6 +1068,9 @@ export function imports(ctx: Ctx): Imports {
 	}
 	i.from(`${lib}/output.js`, ["formatOutput"]);
 	i.from(`${lib}/dry-run.js`, ["formatDryRun"]);
+	if ((ctx.op.bodyUnions?.length ?? 0) > 0 && d.hasBodyParams) {
+		i.from(`${lib}/body-unions.js`, ["validateBodyUnions"]);
+	}
 	i.from(`${lib}/progress.js`, ["withProgress"]);
 	i.from(`${lib}/telemetry/index.js`, ["runWithTelemetry"]);
 	i.typeFrom(`${lib}/telemetry/index.js`, ["ArgClassification"]);

@@ -12,6 +12,7 @@ import {
 	resolveAccountIdSilent,
 } from "#lib/auth.js";
 import { compactBody, parseBody, parseObjectArray } from "#lib/body-parser.js";
+import { validateBodyUnions } from "#lib/body-unions.js";
 import { formatDryRun } from "#lib/dry-run.js";
 import { resolveFileToken } from "#lib/input-validation.js";
 import { LOCAL_ACCOUNT_ID } from "#lib/local.js";
@@ -317,6 +318,44 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 }
 
 type Args = InferArgs<typeof builder>;
+const bodyUnions: Parameters<typeof validateBodyUnions>[1] = [
+	{
+		path: ["format"],
+		selector: "type",
+		variants: [
+			{
+				values: ["json"],
+				schema: {
+					type: "object",
+					properties: {
+						decimal_encoding: { enum: ["number", "string", "bytes"] },
+						timestamp_format: { enum: ["rfc3339", "unix_millis"] },
+						unstructured: { type: "boolean" },
+						compression: { enum: ["uncompressed", "gzip"] },
+						type: { enum: ["json"] },
+					},
+					required: ["type"],
+					additionalProperties: false,
+				},
+			},
+			{
+				values: ["parquet"],
+				schema: {
+					type: "object",
+					properties: {
+						compression: {
+							enum: ["uncompressed", "snappy", "gzip", "zstd", "lz4"],
+						},
+						row_group_bytes: { anyOf: [{ type: "number" }, { type: "null" }] },
+						type: { enum: ["parquet"] },
+					},
+					required: ["type"],
+					additionalProperties: false,
+				},
+			},
+		],
+	},
+];
 
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "create",
@@ -353,116 +392,123 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						body:
 							argv.body !== undefined
 								? parseBody(argv.body)
-								: compactBody({
-										config: {
-											account_id: resolveFileToken(
-												argv["sink-config-account-id"] as string | undefined,
-												"sink-config-account-id",
-												"text"
-											),
-											bucket: resolveFileToken(
-												argv["sink-config-bucket"] as string | undefined,
-												"sink-config-bucket",
-												"text"
-											),
-											credentials: {
-												access_key_id: resolveFileToken(
-													argv["sink-config-credentials-access-key-id"] as
-														| string
-														| undefined,
-													"sink-config-credentials-access-key-id",
+								: validateBodyUnions(
+										compactBody({
+											config: {
+												account_id: resolveFileToken(
+													argv["sink-config-account-id"] as string | undefined,
+													"sink-config-account-id",
 													"text"
 												),
-												secret_access_key: resolveFileToken(
-													argv["sink-config-credentials-secret-access-key"] as
+												bucket: resolveFileToken(
+													argv["sink-config-bucket"] as string | undefined,
+													"sink-config-bucket",
+													"text"
+												),
+												credentials: {
+													access_key_id: resolveFileToken(
+														argv["sink-config-credentials-access-key-id"] as
+															| string
+															| undefined,
+														"sink-config-credentials-access-key-id",
+														"text"
+													),
+													secret_access_key: resolveFileToken(
+														argv[
+															"sink-config-credentials-secret-access-key"
+														] as string | undefined,
+														"sink-config-credentials-secret-access-key",
+														"text"
+													),
+												},
+												file_naming: {
+													prefix: resolveFileToken(
+														argv["sink-config-file-naming-prefix"] as
+															| string
+															| undefined,
+														"sink-config-file-naming-prefix",
+														"text"
+													),
+													strategy: argv["sink-config-file-naming-strategy"],
+													suffix: resolveFileToken(
+														argv["sink-config-file-naming-suffix"] as
+															| string
+															| undefined,
+														"sink-config-file-naming-suffix",
+														"text"
+													),
+												},
+												jurisdiction: resolveFileToken(
+													argv["sink-config-jurisdiction"] as
 														| string
 														| undefined,
-													"sink-config-credentials-secret-access-key",
+													"sink-config-jurisdiction",
+													"text"
+												),
+												partitioning: {
+													time_pattern: resolveFileToken(
+														argv["sink-config-partitioning-time-pattern"] as
+															| string
+															| undefined,
+														"sink-config-partitioning-time-pattern",
+														"text"
+													),
+												},
+												path: resolveFileToken(
+													argv["sink-config-path"] as string | undefined,
+													"sink-config-path",
+													"text"
+												),
+												rolling_policy: {
+													file_size_bytes:
+														argv["sink-config-rolling-policy-file-size-bytes"],
+													inactivity_seconds:
+														argv[
+															"sink-config-rolling-policy-inactivity-seconds"
+														],
+													interval_seconds:
+														argv["sink-config-rolling-policy-interval-seconds"],
+												},
+												namespace: resolveFileToken(
+													argv["sink-config-namespace"] as string | undefined,
+													"sink-config-namespace",
+													"text"
+												),
+												table_name: resolveFileToken(
+													argv["sink-config-table-name"] as string | undefined,
+													"sink-config-table-name",
+													"text"
+												),
+												token: resolveFileToken(
+													argv["sink-config-token"] as string | undefined,
+													"sink-config-token",
 													"text"
 												),
 											},
-											file_naming: {
-												prefix: resolveFileToken(
-													argv["sink-config-file-naming-prefix"] as
-														| string
-														| undefined,
-													"sink-config-file-naming-prefix",
-													"text"
-												),
-												strategy: argv["sink-config-file-naming-strategy"],
-												suffix: resolveFileToken(
-													argv["sink-config-file-naming-suffix"] as
-														| string
-														| undefined,
-													"sink-config-file-naming-suffix",
-													"text"
-												),
+											format: {
+												decimal_encoding: argv["format-decimal-encoding"],
+												timestamp_format: argv["format-timestamp-format"],
+												unstructured: argv["format-unstructured"],
+												compression: argv["format-compression"],
+												type: argv["format-type"],
+												row_group_bytes: argv["format-row-group-bytes"],
 											},
-											jurisdiction: resolveFileToken(
-												argv["sink-config-jurisdiction"] as string | undefined,
-												"sink-config-jurisdiction",
+											name: resolveFileToken(
+												argv["name"] as string | undefined,
+												"name",
 												"text"
 											),
-											partitioning: {
-												time_pattern: resolveFileToken(
-													argv["sink-config-partitioning-time-pattern"] as
-														| string
-														| undefined,
-													"sink-config-partitioning-time-pattern",
-													"text"
+											schema: {
+												fields: parseObjectArray(
+													argv["schema-fields"],
+													"schema-fields"
 												),
+												inferred: argv["schema-inferred"],
 											},
-											path: resolveFileToken(
-												argv["sink-config-path"] as string | undefined,
-												"sink-config-path",
-												"text"
-											),
-											rolling_policy: {
-												file_size_bytes:
-													argv["sink-config-rolling-policy-file-size-bytes"],
-												inactivity_seconds:
-													argv["sink-config-rolling-policy-inactivity-seconds"],
-												interval_seconds:
-													argv["sink-config-rolling-policy-interval-seconds"],
-											},
-											namespace: resolveFileToken(
-												argv["sink-config-namespace"] as string | undefined,
-												"sink-config-namespace",
-												"text"
-											),
-											table_name: resolveFileToken(
-												argv["sink-config-table-name"] as string | undefined,
-												"sink-config-table-name",
-												"text"
-											),
-											token: resolveFileToken(
-												argv["sink-config-token"] as string | undefined,
-												"sink-config-token",
-												"text"
-											),
-										},
-										format: {
-											decimal_encoding: argv["format-decimal-encoding"],
-											timestamp_format: argv["format-timestamp-format"],
-											unstructured: argv["format-unstructured"],
-											compression: argv["format-compression"],
-											type: argv["format-type"],
-											row_group_bytes: argv["format-row-group-bytes"],
-										},
-										name: resolveFileToken(
-											argv["name"] as string | undefined,
-											"name",
-											"text"
-										),
-										schema: {
-											fields: parseObjectArray(
-												argv["schema-fields"],
-												"schema-fields"
-											),
-											inferred: argv["schema-inferred"],
-										},
-										type: argv["type"],
-									}),
+											type: argv["type"],
+										}),
+										bodyUnions
+									),
 						sensitiveBodyPaths: [
 							["config", "credentials", "secret_access_key"],
 							["config", "token"],
@@ -600,6 +646,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					},
 					type: argv["type"],
 				});
+				validateBodyUnions(bodyData, bodyUnions);
 				const result = await withProgress(`Creating`, async () =>
 					client.send(operation, { body: bodyData, account_id: accountId })
 				);

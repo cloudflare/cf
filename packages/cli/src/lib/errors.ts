@@ -46,6 +46,31 @@ function shortenUrl(url: string): string {
 	}
 }
 
+interface ApiMessage {
+	code?: number;
+	message?: string;
+}
+
+function apiMessages(value: unknown): ApiMessage[] {
+	if (!Array.isArray(value)) {
+		return [];
+	}
+	return value.flatMap<ApiMessage>((entry: unknown) => {
+		if (typeof entry === "string") {
+			return [{ message: entry }];
+		}
+		if (entry === null || typeof entry !== "object") {
+			return [];
+		}
+		const data = entry as Record<string, unknown>;
+		const code = typeof data.code === "number" ? data.code : undefined;
+		const message = typeof data.message === "string" ? data.message : undefined;
+		return code !== undefined || message !== undefined
+			? [{ code, message }]
+			: [];
+	});
+}
+
 /**
  * Render an error to stderr and return the value the caller should
  * throw.
@@ -89,16 +114,22 @@ export function handleError(error: unknown): unknown {
 		const statusText =
 			status === undefined ? "Envelope Error" : getStatusText(status);
 
-		// Extract per-error {code, message} entries from the raw API
-		// response envelope: {success:false, errors:[{code, message}, ...]}
-		type ApiErr = { code?: number; message?: string };
-		let apiErrs: ApiErr[] = [];
-		if (errorBody) {
-			const data = errorBody as Record<string, unknown>;
-			if (Array.isArray(data.errors)) {
-				apiErrs = data.errors as ApiErr[];
-			}
-		}
+		// Failed responses can put actionable details in the sibling messages
+		// array. Keep those after the errors, in the same stderr report.
+		const data =
+			errorBody !== null && typeof errorBody === "object"
+				? (errorBody as Record<string, unknown>)
+				: undefined;
+		const apiEntries = [
+			...apiMessages(data?.errors).map((entry) => ({
+				...entry,
+				isError: true,
+			})),
+			...apiMessages(data?.messages).map((entry) => ({
+				...entry,
+				isError: false,
+			})),
+		];
 
 		// Path-only form keeps the box narrow; cf only talks to a
 		// fixed set of Cloudflare API hosts so the host adds no info.
@@ -117,7 +148,7 @@ export function handleError(error: unknown): unknown {
 			status === undefined ? statusText : `${status} ${statusText}`;
 		const tailLine = reqLine ? `${statusBlurb} · ${reqLine}` : statusBlurb;
 
-		// Render each API error as:
+		// Render each API entry as:
 		//   [CODE]  message                              ← bold + error color
 		//           HTTP 404 Not Found · HTTP /path      ← dim, subordinated
 		// When colors are off, chalk's no-op proxy strips the styling
@@ -125,22 +156,23 @@ export function handleError(error: unknown): unknown {
 		// just plainer.
 		const tail = theme.muted(tailLine);
 		let content = "";
-		if (apiErrs.length > 0) {
-			content = apiErrs
+		if (apiEntries.length > 0) {
+			content = apiEntries
 				.map((err, idx) => {
 					const code =
 						typeof err.code === "number"
 							? theme.error(theme.bold(`[${err.code}]`))
-							: theme.error(theme.bold("[error]"));
+							: err.isError
+								? theme.error(theme.bold("[error]"))
+								: undefined;
 					const msg = theme.bold(err.message ?? "");
-					// Show the tail once, after the last error entry.
-					return idx === apiErrs.length - 1
-						? `${code} ${msg}\n${tail}`
-						: `${code} ${msg}`;
+					const line = code ? `${code} ${msg}` : msg;
+					// Show the tail once, after the last entry.
+					return idx === apiEntries.length - 1 ? `${line}\n${tail}` : line;
 				})
 				.join("\n\n");
 		} else {
-			// No structured errors — surface the client's own message, falling
+			// No structured details — surface the client's own message, falling
 			// back to the tail line, then subordinate the tail beneath it.
 			content = theme.error(theme.bold(error.message || tailLine));
 			if (error.message && tailLine) {

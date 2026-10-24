@@ -22,8 +22,8 @@ import { ApiError } from "#api";
  *    unchanged so `main()` can rethrow it and callers / tests can still
  *    inspect the original shape (status, code, message).
  *  - **APIError rendering.** The boxed report surfaces each
- *    `{code, message}` entry plus a status/request tail line, with the
- *    host stripped to a path-only request line.
+ *    `{code, message}` entry in errors and messages plus a status/request
+ *    tail line, with the host stripped to a path-only request line.
  *  - **Status hints.** 401 → `cf auth login`; 403 → token-permissions
  *    hint. (Per AGENTS.md these are status-level only — no per-code
  *    knowledge lives here.)
@@ -142,6 +142,79 @@ describe("handleError", () => {
 			expect(out).toContain("500 Internal Server Error");
 			expect(out).toContain("kaboom");
 		});
+
+		it("renders supplementary messages after errors and before the status", () => {
+			const err = new ApiError({
+				statusCode: 400,
+				body: {
+					success: false,
+					errors: [{ code: 11004, message: "posture.api.parameter.missing" }],
+					messages: [
+						{
+							code: 1001,
+							message: "Missing required parameter: 'destination_url'",
+						},
+						{ code: 1002, message: "Missing required parameter: 'name'" },
+					],
+				},
+			});
+
+			expect(handleError(err)).toBe(err);
+			const out = stderr();
+			expect(out.match(/\[\d+\]/g)).toEqual(["[11004]", "[1001]", "[1002]"]);
+			expect(out).toContain("posture.api.parameter.missing");
+			expect(out).toContain("Missing required parameter: 'destination_url'");
+			expect(out).toContain("Missing required parameter: 'name'");
+			expect(out.match(/400 Bad Request/g)).toHaveLength(1);
+		});
+
+		it("renders supplementary text without labelling it as another error", () => {
+			handleError(
+				new ApiError({
+					statusCode: 400,
+					body: {
+						errors: [{ message: "Request failed" }],
+						messages: [
+							"Missing parameter 'destination_url'",
+							{ message: "Use an HTTPS destination" },
+						],
+					},
+				})
+			);
+			const out = stderr();
+			expect(out).toContain("[error] Request failed");
+			expect(out).toContain("Missing parameter 'destination_url'");
+			expect(out).toContain("Use an HTTPS destination");
+			expect(out.match(/\[error\]/g)).toHaveLength(1);
+		});
+
+		it("renders messages when the response has no errors array", () => {
+			handleError(
+				new ApiError({
+					statusCode: 400,
+					body: { messages: [{ code: 1001, message: "Invalid parameter" }] },
+				})
+			);
+			expect(stderr()).toContain("[1001] Invalid parameter");
+			expect(stderr()).not.toContain("Body:");
+		});
+
+		it.each([undefined, null, [], {}, [null, 42, {}, { message: false }]])(
+			"ignores absent, empty, or malformed messages (%j)",
+			(messages) => {
+				handleError(
+					new ApiError({
+						statusCode: 400,
+						body: {
+							errors: [{ code: 1000, message: "Invalid input" }],
+							messages,
+						},
+					})
+				);
+				expect(stderr()).toContain("[1000] Invalid input");
+				expect(stderr()).not.toContain("[error]");
+			}
+		);
 
 		it("hints to log in on 401", () => {
 			handleError(

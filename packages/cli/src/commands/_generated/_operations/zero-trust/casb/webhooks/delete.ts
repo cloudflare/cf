@@ -8,5 +8,6 @@ export default {
 	errors: {
 		400: "BadRequestError",
 		409: "ConflictError",
+		429: "TooManyRequestsError",
 	},
 } as const;

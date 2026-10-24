@@ -8,5 +8,6 @@ export default {
 	query: ["page", "per_page", "status"],
 	errors: {
 		400: "BadRequestError",
+		429: "TooManyRequestsError",
 	},
 } as const;

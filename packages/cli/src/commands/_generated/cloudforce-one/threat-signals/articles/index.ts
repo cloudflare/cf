@@ -1,4 +1,5 @@
 import $aggregaterelevance from "./aggregate-relevance.js";
+import $aggregateseverity from "./aggregate-severity.js";
 import $bulkmarkread from "./bulk-mark-read.js";
 import $getcontent from "./get-content.js";
 import $get from "./get.js";
@@ -20,6 +21,7 @@ const command: CommandModule<CommonYargsOptions> = {
 	builder: (yargs) => {
 		return yargs
 			.command($aggregaterelevance)
+			.command($aggregateseverity)
 			.command($bulkmarkread)
 			.command($get)
 			.command($getcontent)

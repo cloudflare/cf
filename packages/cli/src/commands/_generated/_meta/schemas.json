@@ -26495,6 +26495,37 @@
 			"hasRequestBody": false,
 			"requestBodyFields": []
 		},
+		"cloudforce-one threat-signals articles aggregate-severity": {
+			"operationId": "cloudforce-one.threat-signals.articles.aggregate-severity",
+			"httpMethod": "GET",
+			"path": "/accounts/{account_id}/cloudforce-one/v2/threat-signals/articles/severity/aggregate",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [
+				{
+					"name": "published_after",
+					"type": "string",
+					"required": false
+				},
+				{
+					"name": "published_before",
+					"type": "string",
+					"required": false
+				},
+				{
+					"name": "min_relevance",
+					"type": "string",
+					"required": false
+				}
+			],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
 		"cloudforce-one threat-signals articles bulk-mark-read": {
 			"operationId": "cloudforce-one.threat-signals.articles.bulk-mark-read",
 			"httpMethod": "PATCH",
@@ -74523,6 +74554,18 @@
 					"type": "string",
 					"required": true,
 					"description": "Name of the preset to apply to this participant."
+				},
+				{
+					"name": "token-expires-on",
+					"type": "string",
+					"required": false,
+					"description": "RFC 3339 timestamp with a timezone at or after which the token cannot be used. Must be in the future. Defaults to not_before plus 100 days."
+				},
+				{
+					"name": "token-not-before",
+					"type": "string",
+					"required": false,
+					"description": "RFC 3339 timestamp with a timezone before which the token cannot be used. Defaults to the current time. May be in the past."
 				}
 			]
 		},
@@ -74704,8 +74747,58 @@
 				}
 			],
 			"queryParams": [],
-			"hasRequestBody": false,
-			"requestBodyFields": []
+			"hasRequestBody": true,
+			"requestBodyFields": [
+				{
+					"name": "expires-on",
+					"type": "string",
+					"required": false,
+					"description": "RFC 3339 timestamp with a timezone at or after which the token cannot be used. Must be in the future. Defaults to not_before plus 100 days."
+				},
+				{
+					"name": "not-before",
+					"type": "string",
+					"required": false,
+					"description": "RFC 3339 timestamp with a timezone before which the token cannot be used. Defaults to the current time. May be in the past."
+				}
+			]
+		},
+		"realtime kit meetings participants tokens revoke": {
+			"operationId": "realtime.kit.meetings.participants.tokens.revoke",
+			"httpMethod": "DELETE",
+			"path": "/accounts/{account_id}/realtime/kit/{app_id}/meetings/{meeting_id}/participants/{participant_id}/token",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "app_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "meeting_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "participant_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": true,
+			"requestBodyFields": [
+				{
+					"name": "token",
+					"type": "string",
+					"required": true,
+					"description": "The participant authentication token to revoke."
+				}
+			]
 		},
 		"realtime kit meetings participants update": {
 			"operationId": "realtime.kit.meetings.participants.update",
@@ -93888,7 +93981,7 @@
 					"name": "actor-id",
 					"type": "string",
 					"required": false,
-					"description": "Identifies the exact Durable Object actor to profile. Must be specified together with namespace_id. The actor must currently be active and running the requested Worker version."
+					"description": "Identifies the exact Durable Object actor to profile. Must be specified together with namespace_id. The actor must currently be active and running the requested version."
 				},
 				{
 					"name": "duration-ms",
@@ -100278,6 +100371,12 @@
 					"type": "string",
 					"required": false,
 					"description": "Which fields to use when ordering the findings. Provide as a JSON array of objects or @path/to/file.json."
+				},
+				{
+					"name": "product",
+					"type": "string",
+					"required": false,
+					"description": "Filter by finding's category product."
 				},
 				{
 					"name": "search",

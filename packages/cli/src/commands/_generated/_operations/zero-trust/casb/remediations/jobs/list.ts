@@ -21,5 +21,6 @@ export default {
 	joined: ["triggered_by_actor"],
 	errors: {
 		400: "BadRequestError",
+		429: "TooManyRequestsError",
 	},
 } as const;

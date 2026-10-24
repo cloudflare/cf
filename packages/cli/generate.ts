@@ -17,7 +17,7 @@ import type { ForgeOpenApiDocument } from "./generator/openapi.js";
 
 const bundle = process.env.FORGE_OPENAPI_BUNDLE;
 // Bump this SHA to generate the commands from a new release.
-const FORGE_OPENAPI_VERSION = "67c5887b849fdde3ac07438146fa92a0010e2f53";
+const FORGE_OPENAPI_VERSION = "d04a1ddd718bb1c91f79d3220174e5a16ed1cacd";
 const FORGE_OPENAPI_RELEASE = `openapi@${FORGE_OPENAPI_VERSION}`;
 const FORGE_OPENAPI_ASSET = "openapi.forge.json";
 const FORGE_OPENAPI_ASSET_URL = `https://github.com/cloudflare/forge/releases/download/${FORGE_OPENAPI_RELEASE}/${FORGE_OPENAPI_ASSET}`;

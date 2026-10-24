@@ -15,7 +15,7 @@
  *     separate stderr notice: the delegated child renders the banner
  *     (the global exits the moment it spawns the child) and keys off the
  *     `CF_DELEGATION` sentinel it was spawned with to append a dim
- *     "· delegated" tag to its banner.
+ *     "· local version" tag to its banner.
  *   - The parent also passes its own version (`CF_DELEGATING_CLI_VERSION`)
  *     and process ID (`CF_DELEGATION_PID`) so the child's telemetry can
  *     record which global cf handed off, and only when it handed off to
@@ -57,7 +57,7 @@ const PACKAGE_NAME = "cf";
  *      realpath check is the primary guard; this is the backstop);
  *   2. the banner (`renderPromptIntro`, src/lib/ui/banner.ts) — its
  *      presence means "this is a delegated child", which the dim
- *      "· delegated" headline tag reflects.
+ *      "· local version" headline tag reflects.
  */
 export const DELEGATION_SENTINEL = "CF_DELEGATION";
 

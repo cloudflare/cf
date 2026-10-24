@@ -4,7 +4,7 @@ import { renderPromptIntro } from "../../lib/ui/banner.js";
 /**
  * The banner doubles as cf's delegation indicator: when a global cf
  * delegates to a project-pinned copy, the delegated child appends a dim
- * "· delegated" tag to the headline so it's clear why the running
+ * "· local version" tag to the headline so it's clear why the running
  * version may differ from the global cf the user invoked. The signal is
  * the `CF_DELEGATION` sentinel the child is spawned with (see
  * lib/delegate.ts). `unstubEnvs: true` (vite.config.ts) auto-restores
@@ -16,17 +16,17 @@ describe("renderPromptIntro", () => {
 
 		const out = renderPromptIntro("1.2.3");
 		expect(out).toContain("v1.2.3");
-		expect(out).not.toMatch(/delegated/);
+		expect(out).not.toContain("local version");
 	});
 
-	it("appends a dim '· delegated' tag to the headline when delegated", () => {
+	it("appends a dim '· local version' tag to the headline when delegated", () => {
 		vi.stubEnv("CF_DELEGATION", "1");
 
 		const out = renderPromptIntro("1.2.3");
 		// Headline still shows the running (local) version…
 		expect(out).toContain("v1.2.3");
-		// …with a "delegated" tag appended.
-		expect(out).toMatch(/delegated/);
+		// …with a "local version" tag appended.
+		expect(out).toContain("local version");
 	});
 
 	it("adds a compact statusline note for an available update", () => {

@@ -35,7 +35,7 @@ export default [
 				type: "string",
 				required: false,
 				description:
-					"Path to a file containing secrets to upload with the version (JSON or .env format)",
+					"Path to a file containing secrets to upload with the version (JSON or .env format). Dotenv values expand $VAR and ${VAR}; process environment values override file values. Only use trusted dotenv secrets files: they can read and upload any process environment value. Escape literal dollar signs with \\$ or use JSON.",
 			},
 			{
 				name: "dry-run",

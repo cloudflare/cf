@@ -172,6 +172,10 @@ catalogs:
       version: 1.3.0
 
 overrides:
+  '@cloudflare/deploy-helpers>@cloudflare/config': 0.28.0
+  '@cloudflare/deploy-helpers>@cloudflare/containers-shared': 0.23.2
+  '@cloudflare/workers-utils': file:vendor/cloudflare-workers-utils-9d444f329a999e8fff31eed2c27a4719506a39c5.tgz
+  '@cloudflare/deploy-helpers>miniflare': 5.20261019.2-beta
   vite@*: npm:@voidzero-dev/vite-plus-core@1.3.0
   vitest@*: 5.0.5
 
@@ -291,8 +295,8 @@ importers:
         specifier: 0.23.2
         version: 0.23.2(patch_hash=ecd632c350c22e92f11dd426d4aec675be6515b0aa7e21f2ff1367e315e3ac59)(vitest@5.0.5)
       '@cloudflare/deploy-helpers':
-        specifier: 0.23.0
-        version: 0.23.0(patch_hash=c4686e94d76e7b217172959abe870d855311219631b439d142ced9e08743a6ca)(@types/node@25.9.9)(vitest@5.0.5)
+        specifier: https://pkg.pr.new/cloudflare/workers-sdk/@cloudflare/deploy-helpers@9d444f329a999e8fff31eed2c27a4719506a39c5
+        version: https://pkg.pr.new/cloudflare/workers-sdk/@cloudflare/deploy-helpers@9d444f329a999e8fff31eed2c27a4719506a39c5(patch_hash=c4686e94d76e7b217172959abe870d855311219631b439d142ced9e08743a6ca)(@types/node@25.9.9)(vitest@5.0.5)
       '@cloudflare/forge':
         specifier: https://pkg.pr.new/cloudflare/forge/@cloudflare/forge@260488a28036586904e9a020dea46a9bcdcea553
         version: https://pkg.pr.new/cloudflare/forge/@cloudflare/forge@260488a28036586904e9a020dea46a9bcdcea553(@bytecodealliance/jco@1.39.0)
@@ -300,8 +304,8 @@ importers:
         specifier: 0.15.0
         version: 0.15.0(msw@3.0.3(@types/node@25.9.9)(@voidzero-dev/vite-plus-core@1.3.0(@types/node@25.9.9)(esbuild@0.28.2)(tsx@4.21.0)(typescript@6.0.3)(unrun@0.2.39)(yaml@2.9.0))(graphql@16.14.2)(supports-color@10.2.2)(typescript@6.0.3))(vitest@5.0.5)
       '@cloudflare/workers-utils':
-        specifier: 0.48.0
-        version: 0.48.0(vitest@5.0.5)
+        specifier: file:../../vendor/cloudflare-workers-utils-9d444f329a999e8fff31eed2c27a4719506a39c5.tgz
+        version: file:vendor/cloudflare-workers-utils-9d444f329a999e8fff31eed2c27a4719506a39c5.tgz(vitest@5.0.5)
       '@types/node':
         specifier: 25.9.9
         version: 25.9.9
@@ -360,8 +364,8 @@ importers:
   packages/wrangler-tests:
     devDependencies:
       '@cloudflare/workers-utils':
-        specifier: 0.48.0
-        version: 0.48.0(vitest@5.0.5)
+        specifier: file:../../vendor/cloudflare-workers-utils-9d444f329a999e8fff31eed2c27a4719506a39c5.tgz
+        version: file:vendor/cloudflare-workers-utils-9d444f329a999e8fff31eed2c27a4719506a39c5.tgz(vitest@5.0.5)
       '@types/node':
         specifier: 25.9.9
         version: 25.9.9
@@ -717,8 +721,9 @@ packages:
     resolution: {integrity: sha512-d4smNzgpDsAuKRxlvnZTtcWLU9gPWyM+ubMcyE4hBctBxIoOflf3VG7Fs/FOJPICmTdBvrP5aUM+kwaU3O/FDw==}
     engines: {node: '>=22.0.0'}
 
-  '@cloudflare/deploy-helpers@0.23.0':
-    resolution: {integrity: sha512-cH8olRBc3PVwH0sLLH/ypKtEvkudPUKBnoWGlsJ3al6irxPhggnyS7uhh0ZcpRcBHlkBSaUjf162Cy6jr4114w==}
+  '@cloudflare/deploy-helpers@https://pkg.pr.new/cloudflare/workers-sdk/@cloudflare/deploy-helpers@9d444f329a999e8fff31eed2c27a4719506a39c5':
+    resolution: {integrity: sha512-JgxltzHtBPfqYaUFrN162Ui4SUVIHt2kJkSsd6uOcnJ1rZhMlAeYTVsxNg0kwGN1aKwxstdGo8NXVoJ3TJYTxg==, tarball: https://pkg.pr.new/cloudflare/workers-sdk/@cloudflare/deploy-helpers@9d444f329a999e8fff31eed2c27a4719506a39c5}
+    version: 0.23.0
 
   '@cloudflare/forge@https://pkg.pr.new/cloudflare/forge/@cloudflare/forge@260488a28036586904e9a020dea46a9bcdcea553':
     resolution: {integrity: sha512-9oykGiAQFNgFXPgrvHJLI7xwtEsAioJHzuS7IlDNqsrGAJKOD0YRHS+gF6mqSEEpunhohaMX29gxSPIQw8SFlA==, tarball: https://pkg.pr.new/cloudflare/forge/@cloudflare/forge@260488a28036586904e9a020dea46a9bcdcea553}
@@ -797,8 +802,9 @@ packages:
   '@cloudflare/workers-types@5.20261025.1':
     resolution: {integrity: sha512-tMRFCIZKRRieDIdAe38rpszuInDpG6ugnT8mHgJrBj8zR0EbdWeTkg8NunLhVfX3tpBatD0UXVbDuZfgZxe9Fg==}
 
-  '@cloudflare/workers-utils@0.48.0':
-    resolution: {integrity: sha512-FiBoW5vcrLp63VNcA8qZdx9c7D45+90DbpzY1xmzv4L+HvLlb2dPu3qlsh7HE4ClYID6h0VrnEhBXRPsj2STgQ==}
+  '@cloudflare/workers-utils@file:vendor/cloudflare-workers-utils-9d444f329a999e8fff31eed2c27a4719506a39c5.tgz':
+    resolution: {integrity: sha512-yD9ukypJJbKtrziA6z3R5kzqdjLfbRnwctClz2aeZ8d/Fa6NVb+YhlFXhWCa1Yk91wgDmEo38AvZvy45tZgq8w==, tarball: file:vendor/cloudflare-workers-utils-9d444f329a999e8fff31eed2c27a4719506a39c5.tgz}
+    version: 0.48.0
     peerDependencies:
       vitest: 5.0.5
     peerDependenciesMeta:
@@ -3676,6 +3682,10 @@ packages:
     resolution: {integrity: sha512-RYONW2MeafgYlkVOKYKkA/Ag7BmXqgIWCa8t1m0JcxrQg9pI9lEqRhAOruOBCbAohOa/gkCF+iPi9hrgvTzu6Q==}
     engines: {node: '>=20.18.1'}
 
+  undici@7.30.1:
+    resolution: {integrity: sha512-03KrMbjIFDWQR5RNPrSw3bd1r12JpyFQl9/yxjUbJtqkjmllqC5lFjZh6ujeuJCKr8EOQvRW872Oy/az+nLYxg==}
+    engines: {node: '>=20.18.1'}
+
   undici@8.12.2:
     resolution: {integrity: sha512-XtuDWVdqTLr3NAxm2ly9/hU6kUsJOgGh1RASzMBbsw6aWCOaQzHdW+QQDfdERjfJ2V5vL5pRPa4RetO9UfivDg==}
     engines: {node: '>=22.19.0'}
@@ -4223,7 +4233,7 @@ snapshots:
     dependencies:
       '@cloudflare/cli-shared-helpers': 0.2.8(vitest@5.0.5)
       '@cloudflare/config': 0.28.0
-      '@cloudflare/workers-utils': 0.48.0(vitest@5.0.5)
+      '@cloudflare/workers-utils': file:vendor/cloudflare-workers-utils-9d444f329a999e8fff31eed2c27a4719506a39c5.tgz(vitest@5.0.5)
     transitivePeerDependencies:
       - vitest
 
@@ -4234,7 +4244,7 @@ snapshots:
   '@cloudflare/cli-shared-helpers@0.2.8(vitest@5.0.5)':
     dependencies:
       '@clack/core': 1.2.0
-      '@cloudflare/workers-utils': 0.48.0(vitest@5.0.5)
+      '@cloudflare/workers-utils': file:vendor/cloudflare-workers-utils-9d444f329a999e8fff31eed2c27a4719506a39c5.tgz(vitest@5.0.5)
       chalk: 5.3.0
       ci-info: 4.4.0
       cross-spawn: 7.0.6
@@ -4253,16 +4263,16 @@ snapshots:
       '@cloudflare/build-output-utils': 0.9.4
       '@cloudflare/cli-shared-helpers': 0.2.8(vitest@5.0.5)
       '@cloudflare/config': 0.28.0
-      '@cloudflare/workers-utils': 0.48.0(vitest@5.0.5)
+      '@cloudflare/workers-utils': file:vendor/cloudflare-workers-utils-9d444f329a999e8fff31eed2c27a4719506a39c5.tgz(vitest@5.0.5)
     transitivePeerDependencies:
       - vitest
 
-  '@cloudflare/deploy-helpers@0.23.0(patch_hash=c4686e94d76e7b217172959abe870d855311219631b439d142ced9e08743a6ca)(@types/node@25.9.9)(vitest@5.0.5)':
+  '@cloudflare/deploy-helpers@https://pkg.pr.new/cloudflare/workers-sdk/@cloudflare/deploy-helpers@9d444f329a999e8fff31eed2c27a4719506a39c5(patch_hash=c4686e94d76e7b217172959abe870d855311219631b439d142ced9e08743a6ca)(@types/node@25.9.9)(vitest@5.0.5)':
     dependencies:
       '@cloudflare/cli-shared-helpers': 0.2.8(vitest@5.0.5)
       '@cloudflare/config': 0.28.0
       '@cloudflare/containers-shared': 0.23.2(patch_hash=ecd632c350c22e92f11dd426d4aec675be6515b0aa7e21f2ff1367e315e3ac59)(vitest@5.0.5)
-      '@cloudflare/workers-utils': 0.48.0(vitest@5.0.5)
+      '@cloudflare/workers-utils': file:vendor/cloudflare-workers-utils-9d444f329a999e8fff31eed2c27a4719506a39c5.tgz(vitest@5.0.5)
       blake3-wasm: 2.1.5
       chalk: 5.3.0
       command-exists: 1.2.9
@@ -4271,7 +4281,7 @@ snapshots:
       miniflare: 5.20261019.2-beta(@types/node@25.9.9)
       p-queue: 9.0.0
       pretty-bytes: 6.1.1
-      undici: 7.29.1
+      undici: 7.30.1
       ws: 8.21.0
     transitivePeerDependencies:
       - '@types/node'
@@ -4333,7 +4343,7 @@ snapshots:
 
   '@cloudflare/workers-auth@0.15.0(msw@3.0.3(@types/node@25.9.9)(@voidzero-dev/vite-plus-core@1.3.0(@types/node@25.9.9)(esbuild@0.28.2)(tsx@4.21.0)(typescript@6.0.3)(unrun@0.2.39)(yaml@2.9.0))(graphql@16.14.2)(supports-color@10.2.2)(typescript@6.0.3))(vitest@5.0.5)':
     dependencies:
-      '@cloudflare/workers-utils': 0.48.0(vitest@5.0.5)
+      '@cloudflare/workers-utils': file:vendor/cloudflare-workers-utils-9d444f329a999e8fff31eed2c27a4719506a39c5.tgz(vitest@5.0.5)
       undici: 7.29.1
     optionalDependencies:
       msw: 3.0.3(@types/node@25.9.9)(@voidzero-dev/vite-plus-core@1.3.0(@types/node@25.9.9)(esbuild@0.28.2)(tsx@4.21.0)(typescript@6.0.3)(unrun@0.2.39)(yaml@2.9.0))(graphql@16.14.2)(supports-color@10.2.2)(typescript@6.0.3)
@@ -4341,11 +4351,11 @@ snapshots:
 
   '@cloudflare/workers-types@5.20261025.1': {}
 
-  '@cloudflare/workers-utils@0.48.0(vitest@5.0.5)':
+  '@cloudflare/workers-utils@file:vendor/cloudflare-workers-utils-9d444f329a999e8fff31eed2c27a4719506a39c5.tgz(vitest@5.0.5)':
     dependencies:
       chalk: 5.3.0
       dotenv: 16.3.1
-      undici: 7.29.1
+      undici: 7.30.1
     optionalDependencies:
       vitest: 5.0.5(@types/node@25.9.9)(@vitest/browser-preview@5.0.5)(@vitest/ui@5.0.5)(@voidzero-dev/vite-plus-core@1.3.0(@types/node@25.9.9)(esbuild@0.28.2)(tsx@4.21.0)(typescript@6.0.3)(unrun@0.2.39)(yaml@2.9.0))(esbuild@0.28.2)(msw@3.0.3(@types/node@25.9.9)(@voidzero-dev/vite-plus-core@1.3.0(@types/node@25.9.9)(esbuild@0.28.2)(tsx@4.21.0)(typescript@6.0.3)(unrun@0.2.39)(yaml@2.9.0))(graphql@16.14.2)(supports-color@10.2.2)(typescript@6.0.3))(tsx@4.21.0)(typescript@6.0.3)(unrun@0.2.39)(yaml@2.9.0)
 
@@ -6580,6 +6590,8 @@ snapshots:
   undici-types@7.24.6: {}
 
   undici@7.29.1: {}
+
+  undici@7.30.1: {}
 
   undici@8.12.2: {}
 

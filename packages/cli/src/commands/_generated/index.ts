@@ -451,7 +451,7 @@ export const generatedCommands: GeneratedCommand[] = [
 			() => import("./email-domains/index.js"),
 			null
 		),
-		hideCommand: true,
+		hideCommand: false,
 	},
 	{
 		command: lazyCommand<CommonYargsOptions>(

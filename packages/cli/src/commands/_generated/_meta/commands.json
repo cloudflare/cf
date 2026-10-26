@@ -46668,7 +46668,7 @@
 			"httpMethod": "POST",
 			"apiPath": "/accounts/{account_id}/email/domains",
 			"operationId": "email-domains.create",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf email-domains delete",
@@ -46700,7 +46700,7 @@
 			"httpMethod": "DELETE",
 			"apiPath": "/accounts/{account_id}/email/domains/{email_domain_id}",
 			"operationId": "email-domains.delete",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf email-domains get",
@@ -46732,7 +46732,7 @@
 			"httpMethod": "GET",
 			"apiPath": "/accounts/{account_id}/email/domains/{email_domain_id}",
 			"operationId": "email-domains.get",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf email-domains list",
@@ -46781,7 +46781,7 @@
 			"httpMethod": "GET",
 			"apiPath": "/accounts/{account_id}/email/domains",
 			"operationId": "email-domains.list",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf email-domains verify",
@@ -46813,7 +46813,7 @@
 			"httpMethod": "POST",
 			"apiPath": "/accounts/{account_id}/email/domains/{email_domain_id}/verify",
 			"operationId": "email-domains.verify",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf email-routing addresses create",
@@ -52060,7 +52060,7 @@
 					"name": "name",
 					"type": "string",
 					"required": true,
-					"description": "The domain name within the zone. A wildcard is allowed only as the complete leftmost label (`*.example.com`) and requires the account wildcard Email Sending entitlement."
+					"description": "The domain name within the zone. A wildcard is allowed only as the complete leftmost label (`*.example.com`) and requires the account wildcard Email Sending entitlement. The derived Return-Path hostname, including its bounce prefix, must be at most 201 characters after ASCII conversion; wildcards use the base hostname."
 				},
 				{
 					"name": "dry-run",
@@ -52280,7 +52280,7 @@
 					"name": "name",
 					"type": "string",
 					"required": true,
-					"description": "The domain name within the zone. A wildcard is allowed only as the complete leftmost label (`*.example.com`) and requires the account wildcard Email Sending entitlement."
+					"description": "The domain name within the zone. A wildcard is allowed only as the complete leftmost label (`*.example.com`) and requires the account wildcard Email Sending entitlement. The derived Return-Path hostname, including its bounce prefix, must be at most 201 characters after ASCII conversion; wildcards use the base hostname."
 				},
 				{
 					"name": "dry-run",

@@ -1,7 +1,15 @@
+import { createCommandClient } from "../../lib/auth.js";
 import { readAuthCredentials } from "../../lib/oauth/index.js";
+import { describeSchemaFailure } from "../../lib/schema-cache.js";
 import { theme } from "../../lib/ui/index.js";
 import { log } from "../../lib/ui/log.js";
-import { formatScopeGroups, formatScopeSummary } from "./scope-groups.js";
+import { loadScopeCatalogue } from "./scope-catalogue.js";
+import {
+	formatScopeGroups,
+	formatScopeSummary,
+	hasProductScopes,
+} from "./scope-groups.js";
+import type { ScopeCatalogue } from "./scope-catalogue.js";
 import type { ArgumentsCamelCase, Argv, CommandModule } from "yargs";
 
 interface ScopesArgs {
@@ -31,7 +39,7 @@ const scopesCommand: CommandModule<object, ScopesArgs> = {
 			}) as Argv<ScopesArgs>;
 	},
 
-	handler: (argv: ArgumentsCamelCase<ScopesArgs>): void => {
+	handler: async (argv: ArgumentsCamelCase<ScopesArgs>): Promise<void> => {
 		if (process.env.CLOUDFLARE_API_TOKEN) {
 			log.warn(
 				"CLOUDFLARE_API_TOKEN is set, so its own permissions apply rather than OAuth scopes."
@@ -45,16 +53,27 @@ const scopesCommand: CommandModule<object, ScopesArgs> = {
 			return;
 		}
 
+		if (!hasProductScopes(scopes)) {
+			log.info(
+				"No product scopes granted. To log in with the default scopes, run:",
+				"cf auth login --force"
+			);
+			return;
+		}
+
+		let catalogue: ScopeCatalogue;
+		try {
+			catalogue = await loadScopeCatalogue(() => createCommandClient(argv));
+		} catch (err) {
+			log.warn(
+				`Couldn't load Cloudflare's scope catalogue (${describeSchemaFailure(err)}), so scopes are listed without product groups.`
+			);
+			console.log(scopes.join("\n"));
+			return;
+		}
+
 		if (argv.product === undefined && !argv.all && argv.filter === undefined) {
-			const summary = formatScopeSummary(scopes);
-			if (!summary) {
-				log.info(
-					"No product scopes granted. To log in with the default scopes, run:",
-					"cf auth login --force"
-				);
-				return;
-			}
-			console.log(summary);
+			console.log(formatScopeSummary(scopes, catalogue));
 			log.info(
 				"To see a product's permissions, or every product's, run:",
 				"cf auth scopes <product>",
@@ -64,7 +83,7 @@ const scopesCommand: CommandModule<object, ScopesArgs> = {
 		}
 
 		console.log(
-			formatScopeGroups(scopes, {
+			formatScopeGroups(scopes, catalogue, {
 				product: argv.product,
 				filter: argv.filter,
 			}) || theme.muted("No granted scopes match.")

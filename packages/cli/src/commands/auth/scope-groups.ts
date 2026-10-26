@@ -1,248 +1,91 @@
 import { DefaultScopeKeys } from "@cloudflare/workers-auth/cf";
 import { theme } from "../../lib/ui/index.js";
+import type { ScopeCatalogue } from "./scope-catalogue.js";
 
-// Cloudflare's own grouping, from the consent screen `cf auth login` shows.
-// Entries match a scope's resource (with `_` read as `-`) and anything under
-// it; one ending in `.` or `:` matches that spelling only, and one with an
-// action matches that scope only. The first match wins, so the specific
-// entries come before the general ones they share a prefix with.
-const PRODUCT_AREAS: [area: string, prefixes: string[]][] = [
-	[
-		"Cloudflare One / Zero Trust",
-		[
-			"access",
-			"argotunnel",
-			"casb",
-			"dex",
-			"dls",
-			"resource-library",
-			"sso-connector",
-			"teams",
-			"zone-access",
-		],
-	],
-	[
-		"Analytics & Logs",
-		[
-			"account-analytics",
-			"account-logs",
-			"analytics",
-			"auditlogs",
-			"dns-analytics",
-			"intel",
-			"logpush",
-			"logs",
-			"radar",
-			"zone-observability",
-		],
-	],
-	[
-		"Rules & Configuration",
-		[
-			"account-custom-error-rules",
-			"account-custom-pages",
-			"account-rule-lists",
-			"account-rulesets",
-			"config-settings",
-			"custom-errors",
-			"custom-pages",
-			"dynamic-redirect",
-			"managed-headers",
-			"mass-url-redirects",
-			"origin",
-			"payments-gateway",
-			"response-compression",
-			"select-configuration",
-			"snippets",
-			"transform-rules",
-			"zone-transform-rules",
-		],
-	],
-	[
-		"Cache & Performance",
-		[
-			"account-disable-esc",
-			"account-ssl-and-certificates",
-			"cache",
-			"ssl",
-			"zone-disable-esc",
-		],
-	],
-	[
-		"App Security",
-		[
-			"account-firewall-access-rules",
-			"account-security-center-insights",
-			"account-waf",
-			"api-gateway",
-			"bot-management",
-			"cfone",
-			"challenge-widgets",
-			"cloudforce-one",
-			"ddos",
-			"domain-page",
-			"field-extractor",
-			"firewall-services",
-			"fraud",
-			"http-applications",
-			"http-ddos-managed-ruleset",
-			"iot",
-			"l4-ddos-managed-ruleset",
-			"page-rules",
-			"page-shield",
-			"page.shield",
-			"precursor",
-			"reports",
-			"request-tracer",
-			"sanitize",
-			"secrets-store:",
-			"tag",
-			"trust-and-safety",
-			"url-scanner",
-			"zaraz",
-			"zone-security-center-insights",
-			"zone-waf",
-		],
-	],
-	[
-		"Network Services",
-		[
-			"account-waiting-rooms",
-			"address-maps",
-			"chinanetwork-steering",
-			"connectivity-directory",
-			"fbm",
-			"healthcheck",
-			"ip-prefix",
-			"lb",
-			"load",
-			"magic",
-			"pcaps-api",
-			"waiting-rooms",
-			"web3-hostnames",
-		],
-	],
-	[
-		"AI & Machine Learning",
-		[
-			"agw.",
-			"ai.",
-			"ai-search.",
-			"aiaudit.",
-			"aig.",
-			"firewall-for-ai",
-			"rag.",
-			"websearch",
-			"workers-ai",
-		],
-	],
-	["Media", ["calls", "images.", "moq", "stream"]],
-	[
-		"Email & Messaging",
-		[
-			"cloud-email-security",
-			"email-routing-account-rule",
-			"email-routing-address",
-			"email-routing-rule",
-			"email-routing-suppression",
-			"email-security-dmarcreports",
-			"email-sending.",
-		],
-	],
-	["DNS & Zones", ["account-dns-settings", "dns", "registrar", "zone"]],
-	[
-		"Developer Platform",
-		[
-			"agent-memory",
-			"agw",
-			"ai",
-			"aiaudit",
-			"aig",
-			"browser",
-			"cf-agents",
-			"cloud-connector",
-			"cloudchamber",
-			"connectivity",
-			"constellation",
-			"containers",
-			"d1",
-			"email-routing",
-			"email-sending",
-			"firstpartytags",
-			"flagship",
-			"hyperdrive",
-			"images",
-			"k2",
-			"mcp-portals",
-			"messaging",
-			"notebook-examples",
-			"page",
-			"pages",
-			"pipelines",
-			"pubsub",
-			"query-cache",
-			"queues",
-			"r2-catalog",
-			"rag",
-			"realtime",
-			"secrets-store",
-			"vectorize",
-			"workers",
-		],
-	],
-	[
-		"Account & Billing",
-		[
-			"account",
-			"apps",
-			"integration",
-			"memberships",
-			"notification",
-			"notifications",
-			"user",
-		],
-	],
-	["Other", ["artifacts", "resource-sharing"]],
-];
+// Headings for the catalogue's category slugs. A slug missing here is still
+// shown, title-cased.
+const CATEGORY_TITLES: Record<string, string> = {
+	account_and_billing: "Account & Billing",
+	ai_and_machine_learning: "AI & Machine Learning",
+	analytics_and_logs: "Analytics & Logs",
+	app_security: "App Security",
+	cache_and_performance: "Cache & Performance",
+	cloudflare_one_and_zero_trust: "Cloudflare One / Zero Trust",
+	developer_platform: "Developer Platform",
+	dns_and_zones: "DNS & Zones",
+	email_and_messaging: "Email & Messaging",
+	media: "Media",
+	network_services: "Network Services",
+	other: "Other",
+	rules_and_configuration: "Rules & Configuration",
+};
 
-// "Other" is listed last, so unmatched scopes join it rather than vanish.
-const AREA_NAMES = PRODUCT_AREAS.map(([area]) => area).sort((a, b) =>
-	a === "Other" ? 1 : b === "Other" ? -1 : a.localeCompare(b)
-);
+// The catalogue has no category for scopes it doesn't list, such as the
+// colon-spelled `d1:write`, so they are shown together rather than guessed.
+const UNCATEGORIZED = "Uncategorized";
+const LAST_AREAS = ["Other", UNCATEGORIZED];
+
 const DEFAULT_SCOPES = new Set<string>(DefaultScopeKeys);
 const READ_ACTIONS = new Set(["read", "metadata_read"]);
+const SCOPE_PATTERN = /^(.+)([.:])([^.:]+)$/;
+
+function categoryTitle(slug: string): string {
+	return (
+		CATEGORY_TITLES[slug] ??
+		slug
+			.split("_")
+			.map((word) =>
+				word === "and" ? "&" : word.charAt(0).toUpperCase() + word.slice(1)
+			)
+			.join(" ")
+	);
+}
+
+function compareAreas(a: string, b: string): number {
+	return LAST_AREAS.indexOf(a) - LAST_AREAS.indexOf(b) || a.localeCompare(b);
+}
 
 interface ParsedScope {
 	scope: string;
 	resource: string;
 	action: string;
+	/** The catalogue's name for the scope, such as "D1 Read". */
+	name?: string;
 }
 
 /**
- * Group scopes by product area. Scopes without an action, such as `openid`
- * and `offline_access`, grant no product access and are left out.
+ * Whether any scope grants product access. Scopes without an action, such
+ * as `openid` and `offline_access`, do not.
+ */
+export function hasProductScopes(scopes: readonly string[]): boolean {
+	return scopes.some((scope) => SCOPE_PATTERN.test(scope));
+}
+
+/**
+ * Group scopes by the catalogue's category for each. Scopes without an
+ * action grant no product access and are left out.
  */
 export function groupScopes(
-	scopes: readonly string[]
+	scopes: readonly string[],
+	catalogue: ScopeCatalogue
 ): Map<string, ParsedScope[]> {
 	const groups = new Map<string, ParsedScope[]>();
 	for (const scope of scopes) {
-		const match = /^(.+)([.:])([^.:]+)$/.exec(scope);
-		if (!match?.[1] || !match[2] || !match[3]) {
+		const match = SCOPE_PATTERN.exec(scope);
+		if (!match?.[1] || !match[3]) {
 			continue;
 		}
-		const resource = match[1].replaceAll("_", "-");
-		const key = resource + match[2] + match[3];
-		const area =
-			PRODUCT_AREAS.find(([, prefixes]) =>
-				prefixes.some(
-					(p) =>
-						key.startsWith(p) &&
-						(/[.:]$/.test(p) || /^([-.:]|$)/.test(key.slice(p.length)))
-				)
-			)?.[0] ?? "Other";
+		const entry = catalogue.get(scope);
+		const area = entry?.category
+			? categoryTitle(entry.category)
+			: UNCATEGORIZED;
 		const group = groups.get(area) ?? [];
-		group.push({ scope, resource, action: match[3] });
+		group.push({
+			scope,
+			resource: match[1],
+			action: match[3],
+			name: entry?.name,
+		});
 		groups.set(area, group);
 	}
 	return groups;
@@ -269,10 +112,13 @@ function countLabel(area: string, granted: ScopeGroups, defaults: ScopeGroups) {
  * One line per product area that has granted scopes, with its counts; empty
  * when no scope grants product access.
  */
-export function formatScopeSummary(scopes: readonly string[]): string {
-	const granted = groupScopes(scopes);
-	const defaults = groupScopes(DefaultScopeKeys);
-	const areas = AREA_NAMES.filter((area) => granted.has(area));
+export function formatScopeSummary(
+	scopes: readonly string[],
+	catalogue: ScopeCatalogue
+): string {
+	const granted = groupScopes(scopes, catalogue);
+	const defaults = groupScopes(DefaultScopeKeys, catalogue);
+	const areas = [...granted.keys()].sort(compareAreas);
 	if (areas.length === 0) {
 		return "";
 	}
@@ -290,30 +136,33 @@ export function formatScopeSummary(scopes: readonly string[]): string {
 const words = (text: string) =>
 	` ${text.toLowerCase().replace(/[^a-z0-9]+/g, " ")}`;
 
-// Scopes are displayed with `-` for `_`, so a filter copied from the output
-// must match either spelling.
+// Cloudflare spells scopes with both `-` and `_` (`workers-kv-storage.read`,
+// `workers_kv:write`), so a filter matches either spelling.
 const normalize = (text: string) => text.toLowerCase().replaceAll("_", "-");
 
 /**
  * Render scopes as one block per product area, highlighting non-read access.
  * `product` keeps the areas with a word starting with it, plus the scopes
- * whose resource has one, such as `workers`; `filter` keeps the scopes whose
- * name contains it.
+ * whose resource or catalogue name has one, such as `workers`; `filter`
+ * keeps the scopes whose id contains it.
  */
 export function formatScopeGroups(
 	scopes: readonly string[],
+	catalogue: ScopeCatalogue,
 	{ product = "", filter = "" } = {}
 ): string {
-	const granted = groupScopes(scopes);
-	const defaults = groupScopes(DefaultScopeKeys);
+	const granted = groupScopes(scopes, catalogue);
+	const defaults = groupScopes(DefaultScopeKeys, catalogue);
 	const blocks: string[] = [];
 
 	const term = words(product).trimEnd();
-	for (const area of AREA_NAMES) {
+	for (const area of [...granted.keys()].sort(compareAreas)) {
 		const areaMatches = words(area).includes(term);
 		const shown = (granted.get(area) ?? []).filter(
-			({ scope, resource }) =>
-				(areaMatches || words(resource).includes(term)) &&
+			({ scope, resource, name = "" }) =>
+				(areaMatches ||
+					words(resource).includes(term) ||
+					words(name).includes(term)) &&
 				normalize(scope).includes(normalize(filter))
 		);
 		if (shown.length === 0) {

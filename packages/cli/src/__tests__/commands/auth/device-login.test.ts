@@ -250,7 +250,7 @@ describe("cf auth device login", () => {
 		expect(std.err).toMatchInlineSnapshot(`
 			"●  Starting OAuth login flow...
 			●  Config file: /test/auth.json
-			│  Scopes: 6 across 2 products. Run cf auth scopes to view permissions."
+			│  Scopes: 6 granted. Run cf auth scopes to view them by product."
 		`);
 	});
 

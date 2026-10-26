@@ -12,7 +12,6 @@ import {
 import { theme } from "../../lib/ui/index.js";
 import { log } from "../../lib/ui/log.js";
 import { assertNoProfileFlag } from "./profiles.js";
-import { groupScopes } from "./scope-groups.js";
 import type { CommonYargsOptions } from "../../lib/cli-types.js";
 import type { ArgClassification } from "../../lib/telemetry/index.js";
 import type { ArgumentsCamelCase, Argv, CommandModule } from "yargs";
@@ -153,7 +152,7 @@ const loginCommand: CommandModule<object, LoginArgs> = {
 		if (state?.scopes) {
 			lines.push(
 				state.scopes.length > MAX_INLINE_SCOPES
-					? `${theme.info("Scopes:")} ${state.scopes.length} across ${groupScopes(state.scopes).size} products. Run ${theme.code("cf auth scopes")} to view permissions.`
+					? `${theme.info("Scopes:")} ${state.scopes.length} granted. Run ${theme.code("cf auth scopes")} to view them by product.`
 					: `${theme.info("Scopes:")} ${state.scopes.join(", ")}`
 			);
 		}

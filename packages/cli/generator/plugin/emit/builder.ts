@@ -6,6 +6,7 @@ import {
 	optionDefaults,
 	options as optionArgs,
 	positionals,
+	WORKER_ALIASES,
 } from "../args.js";
 import { kebab, obj, stringify, type Value } from "../js.js";
 import { type Ctx, escapeSingle } from "./index.js";
@@ -66,7 +67,8 @@ export function builderLines(ctx: Ctx): string[] {
 			option(name, [
 				["type", type],
 				["array", scalarArray ? true : undefined],
-				["alias", arg.isWorkerName ? "script-name" : undefined],
+				["alias", arg.isWorkerName ? WORKER_ALIASES : undefined],
+				["group", arg.isWorkerName && arg.positional ? "Options:" : undefined],
 				["description", arg.description],
 				["choices", arg.choices],
 				["default", defaults.get(arg.name)],

@@ -5,6 +5,7 @@
  * the single source of both the generated command and its metadata.
  */
 
+import { GLOBAL_OPTION_NAMES } from "../../src/lib/global-options.js";
 import {
 	GenerateError,
 	get,
@@ -427,21 +428,11 @@ export function derive(
 		: [];
 	// File flags must not shadow live globals, generated flags, or aliases.
 	const takenFlags = new Set<string>([
+		...GLOBAL_OPTION_NAMES,
 		...CLI_ONLY_OPTIONS,
 		"force",
-		"quiet",
-		"zone",
-		"profile",
-		"mode",
-		"help",
-		"version",
 		"text",
 		"f",
-		"q",
-		"z",
-		"m",
-		"h",
-		"v",
 		...(args.some((a) => a.isWorkerName) ? ["script-name"] : []),
 		...args.map((a) => kebab(a.name)),
 		...multipartFlagFields.map((f) => kebab(f.name)),

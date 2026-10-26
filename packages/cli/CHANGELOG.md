@@ -1,5 +1,59 @@
 # cf
 
+## 1.0.0-beta.22
+
+### Minor Changes
+
+- a7fa33c: Detect DeepSeek Harness as an AI coding agent.
+
+  Recognize commands run by DeepSeek Harness through its `DSH_SHELL` environment marker.
+  Capture the agent session ID when `DSH_SESSION_ID` is available.
+
+- 7993e1d: Update the generated command surface for Forge OpenAPI release
+  `67c5887b849fdde3ac07438146fa92a0010e2f53`.
+- 5ef0a6d: Update the generated command surface for Forge OpenAPI release
+  `708fba786988846438caab6d7540f4f5006a2a5f`.
+- f08f693: Update the generated command surface for Forge OpenAPI release
+  `cd7e523512a1ee2fb6b5b041daa68661e61c9119`.
+- 2c4ec34: Update the generated command surface for Forge OpenAPI release
+  `d04a1ddd718bb1c91f79d3220174e5a16ed1cacd`.
+- 54b5920: Update the generated command surface for Forge OpenAPI release
+  `e2386f5f515cf598f7ebdf682f2eeb60f43d9088`.
+
+### Patch Changes
+
+- a50dd58: Show additional API error messages on stderr
+
+  Include the response envelope's `messages` entries after `errors` when a request fails, so validation details such as missing parameter names are visible. Preserve the full envelope for `success: false` responses returned with a successful HTTP status, and keep successful-response output unchanged.
+
+- a251687: Clarify the banner when using a project's local cf version
+
+  Show `local version` instead of `delegated` when a global cf installation runs
+  the version installed in the project. This makes the banner easier to understand
+  without knowing how delegation works.
+
+- 947d0c9: Show the shell completions tip at most once, and never in CI
+
+  cf now saves that it has shown the tip before it prints it. If cf cannot write
+  its state file, the tip no longer appears on every run. CI runners that attach
+  a terminal no longer see the tip.
+
+- b31a9ea: Reject D1 migration names that cannot be stored on Windows
+
+  `cf d1 migrations create` now rejects names containing `:`, `*`, `?`, `"`,
+  `<`, `>`, or `|`. On NTFS a `:` wrote the SQL into a hidden alternate data
+  stream of an empty file, so the migration was never applied and the next one
+  reused its number. The other characters failed with a raw filesystem error.
+
+- 068bde2: Fix `cf deploy` for Python Workers with vendored packages
+
+  Upload Build Output modules under their manifest paths in `cf deploy`,
+  `cf workers versions create` and `cf previews deploy` instead of prefixing them
+  with `./`. Python Workers use module names as file paths without normalising
+  them, and import vendored packages from the `python_modules/` directory. With
+  the prefix, the vendored `workers` SDK was not on the import path, so
+  `from workers import ...` failed with `No module named 'workers'` (10021).
+
 ## 1.0.0-beta.21
 
 ### Minor Changes

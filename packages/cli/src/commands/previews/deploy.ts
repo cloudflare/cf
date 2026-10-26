@@ -15,15 +15,15 @@ import {
 	getCloudflareComplianceRegion,
 	writeOutput,
 } from "@cloudflare/workers-utils";
-import { getAuthToken } from "../../lib/auth-token.js";
+import { resolveBuildOutputAuth } from "../../lib/build-output-auth.js";
 import { BuildOutputConfigError } from "../../lib/build-output-error.js";
 import {
 	buildOutputWorkerOption,
 	parseWorkerConfig,
 	selectBuildOutputWorker,
+	validateBuildOutputAccount,
 	validateBuildOutputMode,
 } from "../../lib/build-output.js";
-import { getAccountId } from "../../lib/context.js";
 import { createDeployContext } from "../../lib/deploy-context.js";
 import { assembleBuildResult } from "../../lib/deploy-input.js";
 import { withCloudflareDotEnv } from "../../lib/dotenv.js";
@@ -102,20 +102,22 @@ async function deployPreviewBuildOutput(
 	const output = await readBuildOutput(process.cwd());
 	assertPreviewBuildOutputRootConfig(output.rootConfig);
 	validateBuildOutputMode(argv.mode, output.rootConfig.buildContext.mode);
+	validateBuildOutputAccount(
+		output.rootConfig.accountId,
+		argv["temporary-account"]
+	);
 	const worker = selectBuildOutputWorker(output.workers, argv.worker);
 	const { wranglerConfig, builtConfig } = parseWorkerConfig(
 		worker,
 		output.rootConfig
 	);
 
-	const authToken = await getAuthToken();
-	const accountId =
-		output.rootConfig.accountId ??
-		(await getAccountId({
-			isPreview: true,
-			skipProjectSettings: true,
-			complianceRegion: getCloudflareComplianceRegion(wranglerConfig),
-		}));
+	const complianceRegion = getCloudflareComplianceRegion(wranglerConfig);
+	const { authToken, accountId } = await resolveBuildOutputAuth({
+		accountId: output.rootConfig.accountId,
+		complianceRegion,
+		isPreview: true,
+	});
 	const deployContext = createDeployContext(authToken);
 	// TODO(cloudflare/cf#330): Let previewBuildOutput() return without printing.
 	// Until then, hide its summary so this command prints one clean JSON result.

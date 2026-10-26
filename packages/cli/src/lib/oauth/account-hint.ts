@@ -10,11 +10,9 @@ import {
 	findCloudflareConfig,
 } from "../project-settings.js";
 import { wrapPlain } from "../ui/blocks.js";
+import { GUIDE_WIDTH } from "../ui/log.js";
 import { theme } from "../ui/theme.js";
 import type { Writable } from "node:stream";
-
-/** clack prefixes message lines with a glyph and two spaces (`│  `). */
-const GUIDE_WIDTH = 3;
 
 export function printAccountConfigHint(
 	accountId: string,

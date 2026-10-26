@@ -86,6 +86,7 @@ const devCommand: CommandModule<CommonYargsOptions, DevArgs> = {
 					...getCloudflareRegistryEnvironment(),
 				},
 				args: modeArgs,
+				output: "inherit",
 			});
 			throw new CliExit(result.exitCode, { signal: result.signal });
 		}
@@ -94,7 +95,9 @@ const devCommand: CommandModule<CommonYargsOptions, DevArgs> = {
 
 		// Spawn and propagate the impl's exit code and termination signal.
 		// CliExit flows up to main() which lets bin/cf map to process.exit(code).
-		const result = await spawnImpl(picked, "dev", [...modeArgs, ...implArgs]);
+		const result = await spawnImpl(picked, "dev", [...modeArgs, ...implArgs], {
+			output: "inherit",
+		});
 		throw new CliExit(result.exitCode, { signal: result.signal });
 	},
 };

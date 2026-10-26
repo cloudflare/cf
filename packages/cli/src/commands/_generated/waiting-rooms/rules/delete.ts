@@ -84,7 +84,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						message: `This operation deletes the rule from the waiting room.`,
 					}))
 				) {
-					process.stderr.write("Aborted.\n");
 					return;
 				}
 

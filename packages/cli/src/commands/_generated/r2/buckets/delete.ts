@@ -87,7 +87,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						message: `This permanently deletes the empty R2 bucket and its configuration.`,
 					}))
 				) {
-					process.stderr.write("Aborted.\n");
 					return;
 				}
 

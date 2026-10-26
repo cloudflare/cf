@@ -1,4 +1,3 @@
-import * as clack from "@clack/prompts";
 import { readBuildOutput } from "@cloudflare/build-output-utils";
 import { prepareProject, runProjectCommand } from "../../lib/autoconfig.js";
 import {
@@ -6,7 +5,7 @@ import {
 	selectBuildOutputWorker,
 } from "../../lib/build-output.js";
 import { CliExit } from "../../lib/cli-exit.js";
-import { theme } from "../../lib/ui/index.js";
+import { log } from "../../lib/ui/log.js";
 import { resolveProjectImpl } from "../dev/impl.js";
 import { spawnImpl } from "../dev/spawn.js";
 import type { CommandOutputOptions } from "../../lib/autoconfig.js";
@@ -32,7 +31,7 @@ export async function runBuild(
 	{ worker: selectedWorker, dryRun = false, ...options }: RunBuildOptions = {},
 	ctx: { isPreview?: boolean } = {}
 ): Promise<"built" | "setup-needed"> {
-	const output = options.output ?? "stdout";
+	const output = options.output ?? "stderr";
 	const cwd = process.cwd();
 	const { details, configuration, setupNeeded } = await prepareProject(cwd, {
 		...options,
@@ -56,11 +55,7 @@ export async function runBuild(
 	}
 
 	if (output !== "silent") {
-		clack.log.message(theme.bold("Build"), {
-			symbol: theme.muted("├"),
-			spacing: 0,
-			output: output === "stderr" ? process.stderr : undefined,
-		});
+		log.section("Build");
 	}
 
 	const buildArgs = mode ? ["--mode", mode] : [];
@@ -74,10 +69,7 @@ export async function runBuild(
 	} else {
 		const picked = resolveProjectImpl(cwd);
 		if (output !== "silent") {
-			clack.log.message(`Delegating to ${formatImplName(picked)}`, {
-				spacing: 0,
-				output: output === "stderr" ? process.stderr : undefined,
-			});
+			log.message(`Delegating to ${formatImplName(picked)}`);
 		}
 		result = await spawnImpl(picked, "build", buildArgs, {
 			...options,
@@ -95,10 +87,7 @@ export async function runBuild(
 		rootConfig
 	);
 	if (output !== "silent") {
-		clack.log.success("Build complete", {
-			spacing: 0,
-			output: output === "stderr" ? process.stderr : undefined,
-		});
+		log.success("Build complete");
 	}
 	return "built";
 }

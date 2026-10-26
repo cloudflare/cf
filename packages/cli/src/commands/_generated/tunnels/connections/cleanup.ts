@@ -87,7 +87,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						message: `This operation removes Cloudflare Tunnel connections.`,
 					}))
 				) {
-					process.stderr.write("Aborted.\n");
 					return;
 				}
 

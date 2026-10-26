@@ -232,9 +232,9 @@ describe("email routing commands", () => {
 		it("should abort when user declines confirmation", async ({ expect }) => {
 			// No mockDisableEmailRouting — declining should mean no
 			// API call is fired (msw would error on an unhandled request,
-			// which is the assertion). cf prints "Aborted." via
-			// `process.stderr.write` rather than `console.error`, so
-			// it's not visible to `mockConsoleMethods`; verifying the
+			// which is the assertion). cf prints "Aborted." as clack's
+			// cancel line, which the clack mock swallows, so it's not
+			// visible to `mockConsoleMethods`; verifying the
 			// no-API-call side-effect is sufficient.
 			mockConfirm({
 				text: `This operation disables Email Routing and removes its DNS records. Continue?`,

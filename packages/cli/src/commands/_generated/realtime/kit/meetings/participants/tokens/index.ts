@@ -1,4 +1,5 @@
 import $refresh from "./refresh.js";
+import $revoke from "./revoke.js";
 import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * tokens command group
@@ -13,6 +14,7 @@ const command: CommandModule<CommonYargsOptions> = {
 	builder: (yargs) => {
 		return yargs
 			.command($refresh)
+			.command($revoke)
 			.demandCommand(1, "Please specify a subcommand");
 	},
 

@@ -87,7 +87,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						message: `This removes all lock rules from the R2 bucket, removing their protection against object deletion and overwriting.`,
 					}))
 				) {
-					process.stderr.write("Aborted.\n");
 					return;
 				}
 

@@ -83,7 +83,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						message: `This operation deletes the sending domain restriction and removes TLS enforcement for emails from this domain.`,
 					}))
 				) {
-					process.stderr.write("Aborted.\n");
 					return;
 				}
 

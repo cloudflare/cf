@@ -84,7 +84,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						message: `This operation deletes the selected content from the environment's cache.`,
 					}))
 				) {
-					process.stderr.write("Aborted.\n");
 					return;
 				}
 

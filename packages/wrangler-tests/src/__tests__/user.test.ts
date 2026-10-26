@@ -44,6 +44,12 @@ describe("User", () => {
 		it.skip("login works in a different environment");
 
 		it.todo('should error if the compliance region is not "public"');
+
+		// workers-auth clears cf's temporary-account cache after a successful
+		// login. This needs the same browser OAuth harness as the login case.
+		it.todo(
+			"should clear the cached temporary preview account when logging in"
+		);
 	});
 
 	it.todo(

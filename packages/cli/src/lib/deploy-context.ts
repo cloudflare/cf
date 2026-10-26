@@ -1,4 +1,3 @@
-import * as clack from "@clack/prompts";
 import {
 	fetchKVGetValueBase,
 	fetchListResultBase,
@@ -7,6 +6,7 @@ import {
 } from "@cloudflare/workers-utils";
 import { USER_AGENT } from "../version.js";
 import { confirm, prompt, select } from "./dialog.js";
+import { log } from "./ui/log.js";
 import type { DeployHelpersContext } from "@cloudflare/deploy-helpers";
 import type { Logger } from "@cloudflare/workers-utils";
 
@@ -29,8 +29,7 @@ export function createDeployContext(authToken: string): DeployHelpersContext {
 	const logger: Logger = {
 		loggerLevel: isDebug ? "debug" : "log",
 		debug: isDebug
-			? (...args: unknown[]) =>
-					clack.log.message(args.join(" "), { spacing: 0 })
+			? (...args: unknown[]) => log.message(args.join(" "))
 			: () => {},
 		// workers-utils' fetch layer routes potentially-sensitive payloads
 		// (request/response bodies, headers, auth tokens) through this
@@ -42,25 +41,18 @@ export function createDeployContext(authToken: string): DeployHelpersContext {
 		debugWithSanitization: isDebug
 			? (label: string, ...args: unknown[]) => {
 					if (getSanitizeLogs()) {
-						clack.log.message(
-							`${label} omitted; set WRANGLER_LOG_SANITIZE=false to include sanitized data`,
-							{ spacing: 0 }
+						log.message(
+							`${label} omitted; set WRANGLER_LOG_SANITIZE=false to include sanitized data`
 						);
 					} else {
-						clack.log.message([label, ...args].join(" "), {
-							spacing: 0,
-						});
+						log.message([label, ...args].join(" "));
 					}
 				}
 			: () => {},
-		log: (...args: unknown[]) =>
-			clack.log.message(args.join(" "), { spacing: 0 }),
-		info: (...args: unknown[]) =>
-			clack.log.message(args.join(" "), { spacing: 0 }),
-		warn: (...args: unknown[]) =>
-			clack.log.warn(String(args.join(" ")), { spacing: 0 }),
-		error: (...args: unknown[]) =>
-			clack.log.error(String(args.join(" ")), { spacing: 0 }),
+		log: (...args: unknown[]) => log.message(args.join(" ")),
+		info: (...args: unknown[]) => log.message(args.join(" ")),
+		warn: (...args: unknown[]) => log.warn(args.join(" ")),
+		error: (...args: unknown[]) => log.error(args.join(" ")),
 	};
 
 	// The fetch closures capture auth credentials and user-agent,

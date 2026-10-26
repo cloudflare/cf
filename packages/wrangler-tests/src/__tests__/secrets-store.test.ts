@@ -549,25 +549,28 @@ describe("secrets-store secrets commands", () => {
 			);
 		});
 
-		it("errors in duplicating a secret when no scopes passed", async ({
-			expect,
-		}) => {
-			let err: undefined | Error;
-			try {
+		// The API now allows omitted scopes to inherit the store's scopes, so
+		// Wrangler's required-scopes validation conflicts with cf's schema.
+		it.skip("errors in duplicating a secret when no scopes passed", async () => {});
+
+		it.for([
+			{ source: "flags", args: "--name DUPLICATE_KEY" },
+			{ source: "--body", args: `--body '{"name":"DUPLICATE_KEY"}'` },
+		])(
+			"duplicates a secret with inherited scopes using $source",
+			async ({ args }, { expect }) => {
+				const reqProm = mockSecretDuplicate();
 				await runWrangler(
 					"secrets-store secrets duplicate " +
 						"df3f6eb1159a4f10ac5fe836e2b8169c " +
 						"--store-id 850e0805c1084551bb46d150b5dfe414 " +
-						"--name DUPLICATE_KEY " +
-						`--comment 'wrangler secret update'`
+						args
 				);
-			} catch (e) {
-				err = e as Error;
+
+				await expect(reqProm).resolves.toEqual({ name: "DUPLICATE_KEY" });
+				expect(JSON.parse(std.out)).toMatchObject({ scopes: null });
 			}
-			expect(err?.message).toMatchInlineSnapshot(
-				`"--scopes is required (or pass --body with this field set)."`
-			);
-		});
+		);
 	});
 });
 
@@ -801,7 +804,7 @@ function mockSecretDuplicate(): Promise<Record<string, unknown>> {
 								store_id: "850e0805c1084551bb46d150b5dfe414",
 								name: "DB_KEY",
 								comment: reqBody.comment,
-								scopes: reqBody.scopes,
+								scopes: reqBody.scopes ?? null,
 								created: mockCreateDate.toISOString(),
 								modified: mockModifiedDate.toISOString(),
 								status: "pending",

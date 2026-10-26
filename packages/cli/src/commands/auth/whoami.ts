@@ -1,3 +1,4 @@
+import { detectAgentContext } from "../../lib/agent-context.js";
 import { getAuthToken } from "../../lib/auth-token.js";
 import {
 	fetchAuthorizedAccounts,
@@ -5,19 +6,20 @@ import {
 	readAuthCredentials,
 } from "../../lib/oauth/index.js";
 import { formatOutput } from "../../lib/output.js";
-import type { ArgumentsCamelCase, Argv, CommandModule } from "yargs";
+import { hint } from "../../lib/ui/index.js";
+import type { CommandModule } from "yargs";
 
-interface WhoamiArgs {}
-
-const whoamiCommand: CommandModule<object, WhoamiArgs> = {
+const whoamiCommand: CommandModule = {
 	command: "whoami",
 	describe: "Show current user and authentication status",
 
-	builder: (yargs: Argv): Argv<WhoamiArgs> => {
-		return yargs as Argv<WhoamiArgs>;
-	},
+	handler: async (argv): Promise<void> => {
+		if (argv["temporary-account"] || argv["event-code"] !== undefined) {
+			throw new Error(
+				"--temporary-account and --event-code are not supported by cf auth whoami."
+			);
+		}
 
-	handler: async (_argv: ArgumentsCamelCase<WhoamiArgs>): Promise<void> => {
 		// Determine the authentication source.
 		const envToken = process.env.CLOUDFLARE_API_TOKEN;
 		const stored = readAuthCredentials();
@@ -37,6 +39,13 @@ const whoamiCommand: CommandModule<object, WhoamiArgs> = {
 			token = await getAuthToken();
 		} catch {
 			formatOutput({ authenticated: false, error: "Not logged in" });
+			if (authSource === "none" && detectAgentContext().isAgentic) {
+				console.error(
+					hint(
+						'Ask the user: "I can put this online for 60 minutes without you signing in. To keep it, complete the temporary-account claim before it expires. Would you like me to deploy it that way?" (https://developers.cloudflare.com/workers/platform/claim-deployments/) If they agree, run `cf deploy --temporary-account`.'
+					)
+				);
+			}
 			return;
 		}
 

@@ -74,7 +74,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						message: `This operation stops every running migration job.`,
 					}))
 				) {
-					process.stderr.write("Aborted.\n");
 					return;
 				}
 

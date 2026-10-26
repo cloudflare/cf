@@ -28,7 +28,7 @@ import { runWithTelemetry } from "#lib/telemetry/index.js";
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
 		.usage(
-			"$0 flagship apps flags create <app-id>\n\nCreates a flag. Returns 409 if the key already exists. `type` is always inferred from variation values; legacy request-side values are ignored."
+			"$0 flagship apps flags create <app-id>\n\nCreates a flag. Returns 409 if the key already exists. `type` is always inferred from variation values; legacy request-side values are ignored. Optional `metadata` can be attached at creation."
 		)
 		.positional("app-id", {
 			type: "string",
@@ -54,6 +54,11 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			type: "string",
 			description:
 				"Unique identifier for the flag within an app. Used in all evaluation and SDK calls.",
+		})
+		.option("metadata", {
+			type: "string",
+			description:
+				"Key-value metadata associated with the flag. `null` or an empty object clears existing metadata; omission semantics depend on the endpoint (PUT clears it, PATCH preserves it). Provide as a JSON object or @path/to/file.json.",
 		})
 		.option("rules", {
 			type: "string",
@@ -130,6 +135,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 												"key",
 												"text"
 											),
+											metadata: parseJsonMap(argv["metadata"], "metadata"),
 											rules: parseObjectArray(argv["rules"], "rules"),
 											type: argv["type"],
 											variations: parseJsonMap(
@@ -138,7 +144,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 												true
 											),
 										},
-										[["variations"]]
+										[["metadata"], ["variations"]]
 									),
 					});
 					return;
@@ -208,11 +214,12 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 							"key",
 							"text"
 						),
+						metadata: parseJsonMap(argv["metadata"], "metadata"),
 						rules: parseObjectArray(argv["rules"], "rules"),
 						type: argv["type"],
 						variations: parseJsonMap(argv["variations"], "variations", true),
 					},
-					[["variations"]]
+					[["metadata"], ["variations"]]
 				);
 				const result = await withProgress(`Creating`, async () =>
 					client.send(operation, {

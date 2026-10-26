@@ -11,6 +11,7 @@ import {
 	renderPromptQuestion,
 	sanitizeTerminalText,
 	schemaToFlags,
+	unknownFlagNames,
 	validateFlagValue,
 	validateJsonSchema,
 	validateSupportedJsonSchema,
@@ -18,6 +19,30 @@ import {
 import type { JsonSchema } from "../../lib/schema-flags.js";
 
 describe("schema flags", () => {
+	it("omits the top-level temporary account flag from runtime schemas", () => {
+		const descriptors = schemaToFlags({
+			type: "object",
+			properties: {
+				temporary_account: { type: "boolean" },
+				settings: {
+					type: "object",
+					properties: { temporary_account: { type: "boolean" } },
+				},
+			},
+		});
+
+		expect(descriptors.map(({ name }) => name)).toEqual([
+			"settings-temporary-account",
+		]);
+		expect(
+			unknownFlagNames({
+				"temporary-account": false,
+				temporaryAccount: false,
+				"unknown-field": "value",
+			})
+		).toEqual(["unknown-field"]);
+	});
+
 	it("omits the reserved top-level mode but keeps scoped mode fields", () => {
 		const descriptors = schemaToFlags({
 			type: "object",

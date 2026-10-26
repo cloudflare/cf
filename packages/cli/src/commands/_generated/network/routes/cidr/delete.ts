@@ -79,7 +79,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						message: `This operation permanently deletes a private network route.`,
 					}))
 				) {
-					process.stderr.write("Aborted.\n");
 					return;
 				}
 

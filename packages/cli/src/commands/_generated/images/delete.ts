@@ -79,7 +79,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						message: `This operation will delete this image.`,
 					}))
 				) {
-					process.stderr.write("Aborted.\n");
 					return;
 				}
 

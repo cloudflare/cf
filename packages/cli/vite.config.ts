@@ -40,7 +40,7 @@ export default defineConfig({
 				cache: false,
 			},
 			"task:check:type": {
-				command: "tsgo --noEmit && tsgo --noEmit -p generator/plugin",
+				command: "tsrs --noEmit && tsrs --noEmit -p generator/plugin",
 				dependsOn: [
 					"task:generate",
 					{ task: "task:build", from: ["dependencies", "devDependencies"] },

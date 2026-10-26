@@ -24,6 +24,8 @@ export default {
 		"feed_category",
 		"source_type",
 		"tag_applied_by",
+		"pir_id",
+		"min_relevance",
 		"sort",
 	],
 } as const;

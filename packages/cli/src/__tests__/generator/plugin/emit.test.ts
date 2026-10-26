@@ -82,6 +82,23 @@ describe("descriptions", () => {
 	});
 });
 
+describe("delete confirmation", () => {
+	it("leaves the declined message to confirmDelete", () => {
+		const ctx = context(
+			method("delete", "things-delete"),
+			"things",
+			operation("delete", "/things/{thing_id}", {
+				pathParams: [param("thing_id")],
+			})
+		);
+		const output = handler(ctx).join("\n");
+		expect(output).toContain(
+			"if (!(await confirmDelete({ force: Boolean(argv.force) }))) {\n        return;\n      }"
+		);
+		expect(output).not.toContain("Aborted");
+	});
+});
+
 describe("telemetry", () => {
 	const flag = (name: string, type: ArgType, rest: Partial<Arg> = {}) =>
 		arg(name, type, { in: "body", path: [name] }, rest);

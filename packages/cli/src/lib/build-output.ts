@@ -41,6 +41,18 @@ export function validateBuildOutputMode(
 	}
 }
 
+/** A Build Output account is the deployment target, so it can't be replaced. */
+export function validateBuildOutputAccount(
+	accountId: string | undefined,
+	temporaryAccount: boolean
+): void {
+	if (accountId !== undefined && temporaryAccount) {
+		throw new BuildOutputConfigError(
+			`Temporary accounts can't be used when a specific account ID ("${accountId}") is set in your config file. Remove \`--temporary-account\` to use that account, or remove \`accountId\` from your config file and rebuild to use a temporary account.`
+		);
+	}
+}
+
 /** Selects a Build Output Worker for every workflow that consumes one. */
 export const buildOutputWorkerOption = {
 	type: "string",

@@ -9,6 +9,7 @@ export default {
 	errors: {
 		400: "BadRequestError",
 		404: "NotFoundError",
+		429: "TooManyRequestsError",
 		500: "InternalServerError",
 	},
 } as const;

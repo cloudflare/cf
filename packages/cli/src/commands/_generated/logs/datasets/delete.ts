@@ -102,7 +102,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						message: `This operation deletes a Log Explorer dataset for the account.`,
 					}))
 				) {
-					process.stderr.write("Aborted.\n");
 					return;
 				}
 

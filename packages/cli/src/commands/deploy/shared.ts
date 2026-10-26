@@ -1,4 +1,3 @@
-import * as clack from "@clack/prompts";
 import { readBuildOutput } from "@cloudflare/build-output-utils";
 import {
 	cleanupBuiltImages,
@@ -15,14 +14,14 @@ import {
 	getCloudflareComplianceRegion,
 	getDockerPath,
 } from "@cloudflare/workers-utils";
-import { getAuthToken } from "../../lib/auth-token.js";
+import { resolveBuildOutputAuth } from "../../lib/build-output-auth.js";
 import {
 	buildOutputWorkerOption,
 	parseWorkerConfig,
 	selectBuildOutputWorker,
+	validateBuildOutputAccount,
 	validateBuildOutputMode,
 } from "../../lib/build-output.js";
-import { getAccountId } from "../../lib/context.js";
 import { applyDependenciesInstrumentationEnv } from "../../lib/dependencies-instrumentation.js";
 import { createDeployContext } from "../../lib/deploy-context.js";
 import {
@@ -31,7 +30,7 @@ import {
 	createVersionsUploadProps,
 } from "../../lib/deploy-input.js";
 import { withCloudflareDotEnv } from "../../lib/dotenv.js";
-import { theme } from "../../lib/ui/index.js";
+import { log } from "../../lib/ui/log.js";
 import { runBuild } from "../build/index.js";
 import { createContainerDeployConfig } from "./containers.js";
 import type { CommonYargsOptions, InferArgs } from "../../lib/cli-types.js";
@@ -101,10 +100,10 @@ export async function runUpload(argv: UploadArgs, ctx: UploadCommand) {
 			dryRun: argv["dry-run"],
 		});
 		if (build === "setup-needed") {
-			clack.log.success("--dry-run: exiting now.");
+			log.success("--dry-run: exiting now.");
 			return;
 		}
-		clack.log.message("", { spacing: 0 });
+		log.message("");
 	}
 
 	return withCloudflareDotEnv(argv, () => uploadBuildOutput(argv, ctx));
@@ -130,6 +129,10 @@ async function uploadBuildOutput(argv: UploadArgs, ctx: UploadCommand) {
 		);
 	}
 	validateBuildOutputMode(argv.mode, rootConfig.buildContext.mode);
+	validateBuildOutputAccount(
+		rootConfig.accountId,
+		argv["temporary-account"] === true
+	);
 	const worker = selectBuildOutputWorker(workers, argv.worker);
 	const parsedWorker = parseWorkerConfig(worker, rootConfig);
 	const wranglerConfig = applyDependenciesInstrumentationEnv(
@@ -137,17 +140,12 @@ async function uploadBuildOutput(argv: UploadArgs, ctx: UploadCommand) {
 	);
 	const buildResult = assembleBuildResult(worker, parsedWorker.builtConfig);
 
-	// Resolve auth + account. Dry runs make no API requests: deploy-helpers
-	// skips its account-scoped checks (such as the latest-deployment lookup)
-	// only when no account is supplied, so leave it unresolved.
-	const authToken = argv["dry-run"] ? "" : await getAuthToken();
-	const accountId = argv["dry-run"]
-		? undefined
-		: (rootConfig.accountId ??
-			(await getAccountId({
-				skipProjectSettings: true,
-				complianceRegion: getCloudflareComplianceRegion(wranglerConfig),
-			})));
+	const complianceRegion = getCloudflareComplianceRegion(wranglerConfig);
+	const { authToken, accountId } = await resolveBuildOutputAuth({
+		accountId: rootConfig.accountId,
+		complianceRegion,
+		dryRun: argv["dry-run"],
+	});
 
 	// Initialize the deploy-helpers context.
 	const deployContext = createDeployContext(authToken);
@@ -184,10 +182,7 @@ async function uploadBuildOutput(argv: UploadArgs, ctx: UploadCommand) {
 			containerDeployConfig
 		);
 
-		clack.log.message(theme.bold("Deploy"), {
-			symbol: theme.muted("\u251C"),
-			spacing: 0,
-		});
+		log.section("Deploy");
 		({ versionId } = await deploy(props, wranglerConfig, buildResult, {
 			deployCommand: "cf deploy",
 			versionsDeployCommand:
@@ -217,10 +212,7 @@ async function uploadBuildOutput(argv: UploadArgs, ctx: UploadCommand) {
 			containerDeployConfig
 		);
 
-		clack.log.message(theme.bold("Upload"), {
-			symbol: theme.muted("\u251C"),
-			spacing: 0,
-		});
+		log.section("Upload");
 		({ versionId } = await versionsUpload(props, wranglerConfig, buildResult, {
 			deployCommand: "cf deploy",
 			versionsUploadCommand: "cf workers versions create",
@@ -253,6 +245,6 @@ async function uploadBuildOutput(argv: UploadArgs, ctx: UploadCommand) {
 	}
 
 	if (!argv["dry-run"]) {
-		clack.log.success(`${ctx.command} complete`);
+		log.success(`${ctx.command} complete`);
 	}
 }

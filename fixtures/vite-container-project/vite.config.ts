@@ -4,7 +4,7 @@ export default {
 	run: {
 		tasks: {
 			"task:check:type": {
-				command: "tsgo --noEmit",
+				command: "tsrs --noEmit",
 				dependsOn: [
 					{ task: "task:build", from: ["dependencies", "devDependencies"] },
 				],

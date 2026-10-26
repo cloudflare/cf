@@ -32,7 +32,7 @@ function queryOperation(name: string, sdkName?: string): OperationInfo {
 	});
 }
 
-/** A multipart POST whose fields include `mode` in three cases. */
+/** A multipart POST with reserved global flag names and an ordinary field. */
 function multipartOperation(): OperationInfo {
 	const field = (name: string, description: string): MultipartField => ({
 		name,
@@ -48,6 +48,8 @@ function multipartOperation(): OperationInfo {
 				field("mode", "Mode"),
 				field("Mode", "Mixed-case mode"),
 				field("MODE", "Uppercase mode"),
+				field("temporaryAccount", "Temporary account"),
+				field("eventCode", "Event code"),
 				field("label", "Label"),
 			],
 		},
@@ -113,6 +115,15 @@ describe("deriveArgsFromOp query flags", () => {
 			name: "mode",
 		});
 	});
+
+	it.each(["temporary_account", "temporaryAccount", "event_code", "eventCode"])(
+		"omits the reserved query field %s",
+		(name) => {
+			expect(derived(search(), "example", queryOperation(name)).args).toEqual(
+				[]
+			);
+		}
+	);
 
 	it("classifies by the wire name", () => {
 		const d = derived(
@@ -339,6 +350,18 @@ describe("deriveArgsFromOp path params", () => {
 });
 
 describe("deriveArgsFromOp body flags", () => {
+	it.each(["temporaryAccount", "eventCode"])(
+		"omits the reserved camelCase body field %s",
+		(name) => {
+			const op = operation("post", "/accounts/{account_id}/example", {
+				bodyParams: [bodyParam(name, "string", [name])],
+				hasRequestBody: true,
+				requestContentTypes: ["application/json"],
+			});
+			expect(derived(search(), "example", op).args).toEqual([]);
+		}
+	);
+
 	it("uses exact description overrides without inheriting parent object prose", () => {
 		const op = operation("put", "/accounts/{account_id}/example", {
 			bodyParams: [
@@ -423,7 +446,7 @@ describe("deriveArgsFromOp body flags", () => {
 });
 
 describe("deriveArgsFromOp multipart flags", () => {
-	it("omits reserved mode fields case-insensitively", () => {
+	it("omits reserved global fields after normalizing their names", () => {
 		const d = derived(search(), "example", multipartOperation());
 		expect(d.multipartFlagFields.map((f) => f.name)).toEqual(["label"]);
 	});

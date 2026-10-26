@@ -79,7 +79,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						message: `This operation deletes the blocked sender pattern and stops automatically blocking matching emails based on this rule.`,
 					}))
 				) {
-					process.stderr.write("Aborted.\n");
 					return;
 				}
 

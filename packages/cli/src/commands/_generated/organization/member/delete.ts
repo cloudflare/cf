@@ -79,7 +79,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						message: `Delete this organization membership? The member will lose access to this organization and its sub-organizations.`,
 					}))
 				) {
-					process.stderr.write("Aborted.\n");
 					return;
 				}
 

@@ -262,7 +262,9 @@ function flagName(name: string): string {
 
 function cliFlagName(name: string): string | undefined {
 	const flag = flagName(name);
-	return flag.toLowerCase() === "mode" ? undefined : flag;
+	return ["mode", "temporary-account", "event-code"].includes(kebab(flag))
+		? undefined
+		: flag;
 }
 
 function parameterFlagName(

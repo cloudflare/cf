@@ -1,14 +1,14 @@
 import { writeFile } from "node:fs/promises";
-import {
-	mockConsoleMethods,
-	runInTempDir,
-} from "@cloudflare/workers-utils/test-helpers";
+import { runInTempDir } from "@cloudflare/workers-utils/test-helpers";
 import { beforeEach, describe, expect, it, vi } from "vite-plus/test";
+import { mockOutputStreams } from "../../helpers/capture-output.js";
 import { runCf } from "../../helpers/run-cf.js";
 
 const sharedAuth = vi.hoisted(() => ({
 	activeProfile: "default",
-	credentials: undefined as { scopes: string[] } | undefined,
+	credentials: undefined as
+		| { oauth_token?: string; scopes: string[] }
+		| undefined,
 	login: vi.fn(),
 }));
 
@@ -19,12 +19,15 @@ const telemetryEvents = vi.hoisted(
 vi.mock("@cloudflare/workers-auth/cf", async (importOriginal) => ({
 	...(await importOriginal<Record<string, unknown>>()),
 	createCfAuth: () => ({
+		setTemporaryAllowed: vi.fn(),
 		setProfile: (profile: string) => {
 			sharedAuth.activeProfile = profile;
 		},
 		getActiveProfile: () => sharedAuth.activeProfile,
 		getCredentialStore: () => ({ path: () => "/test/auth.json" }),
 		readAuthCredentials: () => sharedAuth.credentials,
+		// Stored tokens never refresh, so they read as invalid or expired.
+		getOAuthTokenFromLocalState: async () => undefined,
 		login: sharedAuth.login,
 	}),
 }));
@@ -40,7 +43,7 @@ vi.mock("../../../lib/telemetry/dispatcher.js", () => ({
 
 describe("cf auth device login", () => {
 	runInTempDir();
-	const std = mockConsoleMethods();
+	const std = mockOutputStreams();
 
 	beforeEach(() => {
 		sharedAuth.activeProfile = "default";
@@ -99,15 +102,14 @@ describe("cf auth device login", () => {
 
 	it("loads file-sourced Cloudflare variables for login", async () => {
 		await writeFile(".env", "CLOUDFLARE_API_TOKEN=file-token");
-		let observedToken: string | undefined;
-		sharedAuth.login.mockImplementationOnce(async () => {
-			observedToken = process.env.CLOUDFLARE_API_TOKEN;
-			return false;
-		});
 
 		await runCf(["auth", "login", "--no-browser"]);
 
-		expect(observedToken).toBe("file-token");
+		expect(sharedAuth.login).not.toHaveBeenCalled();
+		expect(std.out).toBe("");
+		expect(std.err).toMatchInlineSnapshot(
+			`"▲  CLOUDFLARE_API_TOKEN is set and takes precedence. Unset it to log in via OAuth."`
+		);
 		expect(process.env.CLOUDFLARE_API_TOKEN).toBeUndefined();
 	});
 
@@ -155,6 +157,18 @@ describe("cf auth device login", () => {
 				device: true,
 				profile: "work",
 			}
+		);
+	});
+
+	it("confirms a new named profile and shows how to activate it", async () => {
+		std.setStderrTTY(true);
+
+		await runCf(["auth", "create", "work", "--no-browser"]);
+
+		expect(std.out).toBe("");
+		expect(std.err).toContain('✓ Profile "work" created.');
+		expect(std.err).toContain(
+			"●  To use this profile in a directory, run:\n\n   cf auth activate work"
 		);
 	});
 
@@ -213,8 +227,9 @@ describe("cf auth device login", () => {
 
 		await runCf(["auth", "login", "--no-browser"]);
 
-		expect(std.out).toContain("Scopes: one, two, three, four, five");
-		expect(std.out).not.toContain("cf auth whoami");
+		expect(std.out).toBe("");
+		expect(std.err).toContain("Scopes: one, two, three, four, five");
+		expect(std.err).not.toContain("cf auth scopes");
 	});
 
 	it("summarizes more than five selected scopes after login", async () => {
@@ -231,8 +246,41 @@ describe("cf auth device login", () => {
 
 		await runCf(["auth", "login", "--no-browser"]);
 
-		expect(std.out).toContain("Scopes: 6 across 2 products");
-		expect(std.out).toContain("Run cf auth scopes to view permissions.");
-		expect(std.out).not.toContain("d1:write");
+		expect(std.out).toBe("");
+		expect(std.err).toMatchInlineSnapshot(`
+			"●  Starting OAuth login flow...
+			●  Config file: /test/auth.json
+			│  Scopes: 6 across 2 products. Run cf auth scopes to view permissions."
+		`);
+	});
+
+	it("starts a fresh login when the stored tokens are invalid", async () => {
+		sharedAuth.credentials = { oauth_token: "expired", scopes: ["one"] };
+
+		await runCf(["auth", "login", "--no-browser"]);
+
+		expect(sharedAuth.login).toHaveBeenCalledOnce();
+		expect(std.out).toBe("");
+		expect(std.err).toMatchInlineSnapshot(`
+			"▲  Existing tokens are invalid or expired. Starting fresh login...
+			●  Starting OAuth login flow...
+			●  Config file: /test/auth.json
+			│  Scopes: one"
+		`);
+	});
+
+	it("re-authenticates with --force when already logged in", async () => {
+		sharedAuth.credentials = { oauth_token: "token", scopes: ["one"] };
+
+		await runCf(["auth", "login", "--force", "--no-browser"]);
+
+		expect(sharedAuth.login).toHaveBeenCalledOnce();
+		expect(std.out).toBe("");
+		expect(std.err).toMatchInlineSnapshot(`
+			"●  Re-authenticating...
+			●  Starting OAuth login flow...
+			●  Config file: /test/auth.json
+			│  Scopes: one"
+		`);
 	});
 });

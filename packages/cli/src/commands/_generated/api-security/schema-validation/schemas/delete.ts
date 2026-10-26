@@ -78,7 +78,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						message: `This operation permanently deletes the uploaded schema and removes its validation coverage.`,
 					}))
 				) {
-					process.stderr.write("Aborted.\n");
 					return;
 				}
 

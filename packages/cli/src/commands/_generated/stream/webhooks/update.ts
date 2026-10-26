@@ -94,7 +94,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						message: `Create a webhook for on-demand operations? Will replace previously configured webhook. Live input webhooks are handled via Notifications Service.`,
 					}))
 				) {
-					process.stderr.write("Aborted.\n");
 					return;
 				}
 

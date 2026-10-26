@@ -87,7 +87,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						message: `This operation stops the active livestream. Viewers lose the broadcast immediately.`,
 					}))
 				) {
-					process.stderr.write("Aborted.\n");
 					return;
 				}
 

@@ -11,5 +11,6 @@ export default {
 		401: "UnauthorizedError",
 		403: "ForbiddenError",
 		422: "UnprocessableEntityError",
+		429: "TooManyRequestsError",
 	},
 } as const;

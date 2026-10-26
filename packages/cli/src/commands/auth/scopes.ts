@@ -1,5 +1,6 @@
 import { readAuthCredentials } from "../../lib/oauth/index.js";
-import { hint, info, theme, warning } from "../../lib/ui/index.js";
+import { theme } from "../../lib/ui/index.js";
+import { log } from "../../lib/ui/log.js";
 import { formatScopeGroups, formatScopeSummary } from "./scope-groups.js";
 import type { ArgumentsCamelCase, Argv, CommandModule } from "yargs";
 
@@ -32,28 +33,24 @@ const scopesCommand: CommandModule<object, ScopesArgs> = {
 
 	handler: (argv: ArgumentsCamelCase<ScopesArgs>): void => {
 		if (process.env.CLOUDFLARE_API_TOKEN) {
-			console.log(
-				warning(
-					"CLOUDFLARE_API_TOKEN is set, so its own permissions apply rather than OAuth scopes."
-				)
+			log.warn(
+				"CLOUDFLARE_API_TOKEN is set, so its own permissions apply rather than OAuth scopes."
 			);
 			return;
 		}
 
 		const scopes = readAuthCredentials()?.scopes;
 		if (!scopes) {
-			console.log(
-				info(`Not logged in. Run ${theme.code("cf auth login")} to log in.`)
-			);
+			log.info("Not logged in. To log in, run:", "cf auth login");
 			return;
 		}
 
 		if (argv.product === undefined && !argv.all && argv.filter === undefined) {
 			console.log(formatScopeSummary(scopes));
-			console.log(
-				hint(
-					`Run ${theme.code("cf auth scopes <product>")} to see a product's permissions, or ${theme.code("cf auth scopes --all")} for every product.`
-				)
+			log.info(
+				"To see a product's permissions, or every product's, run:",
+				"cf auth scopes <product>",
+				"cf auth scopes --all"
 			);
 			return;
 		}

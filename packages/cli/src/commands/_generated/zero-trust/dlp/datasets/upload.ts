@@ -22,9 +22,9 @@ import { runWithTelemetry } from "#lib/telemetry/index.js";
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
 		.usage(
-			"$0 zero-trust dlp datasets upload <version>\n\nThis is used for single-column EDMv1 and Custom Word Lists. The EDM format can only be created in the Cloudflare dashboard. For other clients, this operation can only be used for non-secret Custom Word Lists. The body must be a UTF-8 encoded, newline (NL or CRNL) separated list of words to be matched."
+			"$0 zero-trust dlp datasets upload <dataset-version>\n\nThis is used for single-column EDMv1 and Custom Word Lists. The EDM format can only be created in the Cloudflare dashboard. For other clients, this operation can only be used for non-secret Custom Word Lists. The body must be a UTF-8 encoded, newline (NL or CRNL) separated list of words to be matched."
 		)
-		.positional("version", {
+		.positional("dataset-version", {
 			type: "string",
 			description: "Version",
 			demandOption: true,
@@ -53,7 +53,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 type Args = InferArgs<typeof builder>;
 
 const command: CommandModule<CommonYargsOptions, Args> = {
-	command: "upload <version>",
+	command: "upload <dataset-version>",
 	describe: "Upload a new version of a dataset",
 	builder,
 	handler: async (argv): Promise<void> =>
@@ -71,10 +71,10 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					formatDryRun({
 						command: "cf zero-trust dlp datasets upload",
 						method: "POST",
-						url: `https://api.cloudflare.com/client/v4/accounts/${__cfDryRunAccountId ?? "<account-id>"}/dlp/datasets/${argv["dataset-id"] == null ? "<dataset-id>" : encodeURIComponent(String(argv["dataset-id"]))}/upload/${argv["version"] == null ? "<version>" : encodeURIComponent(String(argv["version"]))}`,
+						url: `https://api.cloudflare.com/client/v4/accounts/${__cfDryRunAccountId ?? "<account-id>"}/dlp/datasets/${argv["dataset-id"] == null ? "<dataset-id>" : encodeURIComponent(String(argv["dataset-id"]))}/upload/${argv["dataset-version"] == null ? "<dataset-version>" : encodeURIComponent(String(argv["dataset-version"]))}`,
 						pathParams: {
 							"dataset-id": String(argv["dataset-id"] ?? ""),
-							version: String(argv["version"] ?? ""),
+							"dataset-version": String(argv["dataset-version"] ?? ""),
 						},
 						bodyKind: "octet-stream",
 						body: argv.body,
@@ -91,7 +91,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						requestApi<unknown>(
 							client,
 							"POST",
-							`/accounts/${accountId}/dlp/datasets/${encodeURIComponent(String(argv["dataset-id"]))}/upload/${encodeURIComponent(String(argv["version"]))}`,
+							`/accounts/${accountId}/dlp/datasets/${encodeURIComponent(String(argv["dataset-id"]))}/upload/${encodeURIComponent(String(argv["dataset-version"]))}`,
 							{
 								body: fileContent,
 								headers: { "Content-Type": "application/octet-stream" },
@@ -110,7 +110,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						requestApi<unknown>(
 							client,
 							"POST",
-							`/accounts/${accountId}/dlp/datasets/${encodeURIComponent(String(argv["dataset-id"]))}/upload/${encodeURIComponent(String(argv["version"]))}`,
+							`/accounts/${accountId}/dlp/datasets/${encodeURIComponent(String(argv["dataset-id"]))}/upload/${encodeURIComponent(String(argv["dataset-version"]))}`,
 							{
 								body: bodyData,
 								headers: { "Content-Type": "application/octet-stream" },

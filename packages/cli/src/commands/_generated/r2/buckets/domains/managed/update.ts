@@ -103,7 +103,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						message: `This changes public access to the R2 bucket through its r2.dev domain.`,
 					}))
 				) {
-					process.stderr.write("Aborted.\n");
 					return;
 				}
 

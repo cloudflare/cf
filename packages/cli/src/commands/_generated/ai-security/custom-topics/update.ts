@@ -88,7 +88,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						message: `This operation overwrites the AI Security for Apps custom topics for a zone.`,
 					}))
 				) {
-					process.stderr.write("Aborted.\n");
 					return;
 				}
 

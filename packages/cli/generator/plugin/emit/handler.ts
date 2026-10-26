@@ -363,7 +363,6 @@ function deleteConfirm(ctx: Ctx): string[] {
 	return [
 		"",
 		`      if (!(await confirmDelete(${opts}))) {`,
-		"        process.stderr.write('Aborted.\\n');",
 		"        return;",
 		"      }",
 	];

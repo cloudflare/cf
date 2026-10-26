@@ -83,7 +83,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						message: `Disable this live input? Active broadcasts will be terminated and future connections will be blocked until it is re-enabled.`,
 					}))
 				) {
-					process.stderr.write("Aborted.\n");
 					return;
 				}
 

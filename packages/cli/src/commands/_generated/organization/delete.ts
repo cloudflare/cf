@@ -73,7 +73,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						message: `Delete this empty organization? This action cannot be undone.`,
 					}))
 				) {
-					process.stderr.write("Aborted.\n");
 					return;
 				}
 

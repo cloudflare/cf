@@ -2,6 +2,7 @@ import { Readable } from "node:stream";
 import { afterEach, beforeEach } from "vite-plus/test";
 
 const ORIGINAL_STDOUT = process.stdout;
+const ORIGINAL_STDERR = process.stderr;
 const ORIGINAL_STDIN = process.stdin;
 
 /**
@@ -18,11 +19,11 @@ function emptyClosedStdin() {
 }
 
 /**
- * Mock `process.stdout.isTTY`
+ * Mock whether cf runs in a terminal (`isTTY` on stdin, stdout and stderr).
  */
 export function useMockIsTTY() {
 	/**
-	 * Explicitly set `process.stdout.isTTY` to a given value (or to a getter function).
+	 * Explicitly set `isTTY` to a given value (or to a getter function).
 	 */
 	const setIsTTY = (
 		isTTY:
@@ -30,6 +31,12 @@ export function useMockIsTTY() {
 			| { stdin: boolean | (() => boolean); stdout: boolean | (() => boolean) }
 	) => {
 		mockStdStream("stdout", ORIGINAL_STDOUT, isTTY);
+		// cf prompts on stderr, so stderr is a terminal whenever stdout is.
+		mockStdStream(
+			"stderr",
+			ORIGINAL_STDERR,
+			typeof isTTY === "boolean" ? isTTY : { ...isTTY, stderr: isTTY.stdout }
+		);
 		// For non-TTY stdin specifically, swap in an empty-closed Readable
 		// so cf's piped-input detection (`for await (const chunk of
 		// process.stdin)`) returns immediately rather than hanging.
@@ -44,11 +51,13 @@ export function useMockIsTTY() {
 
 	beforeEach(() => {
 		Object.defineProperty(process, "stdout", { value: ORIGINAL_STDOUT });
+		Object.defineProperty(process, "stderr", { value: ORIGINAL_STDERR });
 		Object.defineProperty(process, "stdin", { value: ORIGINAL_STDIN });
 	});
 
 	afterEach(() => {
 		Object.defineProperty(process, "stdout", { value: ORIGINAL_STDOUT });
+		Object.defineProperty(process, "stderr", { value: ORIGINAL_STDERR });
 		Object.defineProperty(process, "stdin", { value: ORIGINAL_STDIN });
 	});
 
@@ -66,16 +75,16 @@ export function useMockIsTTY() {
  *  - { [streamName]: () => boolean } - use this function as a getter for isTTY.
  */
 function mockStdStream<T extends object>(
-	streamName: "stdout" | "stdin",
+	streamName: "stdout" | "stderr" | "stdin",
 	originalStream: T,
 	isTTY:
 		| boolean
-		| { stdin: boolean | (() => boolean); stdout: boolean | (() => boolean) }
+		| Partial<Record<"stdin" | "stdout" | "stderr", boolean | (() => boolean)>>
 ) {
 	Object.defineProperty(process, streamName, {
 		value: createStdProxy(
 			originalStream,
-			typeof isTTY === "boolean" ? isTTY : isTTY[streamName]
+			typeof isTTY === "boolean" ? isTTY : (isTTY[streamName] ?? false)
 		),
 	});
 }

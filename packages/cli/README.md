@@ -67,7 +67,7 @@ Add `--local` to a supported command to run it against a short-lived Miniflare i
 
 ## Output
 
-Structured API results are pretty-printed JSON on stdout. Generated `binary` and `text` response kinds instead write their payload directly to stdout, preserving binary output for redirection; some binary commands provide `--text` for UTF-8 decoding. Null-result success markers go to stderr. On an interactive, color-capable TTY, clack progress animation uses stdout before the final payload; it is disabled for pipes, color-disabled terminals, or `CF_QUIET=1`. Pipe JSON results through `jq` for newline-delimited or filtered output.
+Structured API results are pretty-printed JSON on stdout. Generated `binary` and `text` response kinds instead write their payload directly to stdout, preserving binary output for redirection; some binary commands provide `--text` for UTF-8 decoding. Everything else goes to stderr: prompts, progress, notices, warnings, errors, null-result success markers, and the messages of commands such as `cf init`, `cf build` and `cf deploy`. A prompt still works while stdout is redirected, as long as stdin and stderr are terminals outside CI. Some confirmations in `cf deploy` and `cf workers triggers deploy` still ask only when stdout is a terminal, and go ahead without asking otherwise. Progress animation needs stdin and a color-capable stderr to be terminals outside CI, and is disabled by `CF_QUIET=1`. `--quiet` hides notices and success markers but never warnings or prompts. Pipe JSON results through `jq` for newline-delimited or filtered output.
 
 cf uses a semantic colour palette designed to remain legible on both light and
 dark terminal backgrounds. Set `NO_COLOR=1` to disable styling entirely.

@@ -112,7 +112,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						message: `This deletes event notification rules for the selected R2 bucket and queue. Without a request body, all rules for that bucket and queue are deleted.`,
 					}))
 				) {
-					process.stderr.write("Aborted.\n");
 					return;
 				}
 

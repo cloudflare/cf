@@ -1,6 +1,4 @@
-import { Console } from "node:console";
 import { constants } from "node:os";
-import * as clack from "@clack/prompts";
 import {
 	AutoConfigDetectionError,
 	getDetailsForAutoConfig,
@@ -12,6 +10,7 @@ import { CliExit } from "./cli-exit.js";
 import { confirm, prompt, select } from "./dialog.js";
 import { isNonInteractiveOrCI } from "./interactive.js";
 import { createChildProcessController } from "./process.js";
+import { log } from "./ui/log.js";
 import { maybeApplyVinextCommandOverrides } from "./vinext.js";
 import { maybeMigrateWranglerProject } from "./wrangler-migration.js";
 import type {
@@ -20,7 +19,12 @@ import type {
 	AutoConfigSummary,
 } from "@cloudflare/autoconfig";
 
-export type CommandOutput = "stdout" | "stderr" | "silent";
+/**
+ * Where a project command's own output goes. cf's messages go to stderr
+ * unless silent; "inherit" hands the terminal to the command, as `cf dev`
+ * does.
+ */
+export type CommandOutput = "inherit" | "stderr" | "silent";
 export interface CommandOutputOptions {
 	output?: CommandOutput;
 }
@@ -122,7 +126,7 @@ export async function prepareProject(
 	const migrationRan = await maybeMigrateWranglerProject(
 		cwd,
 		(text, confirmOptions) => context.dialogs.confirm(text, confirmOptions),
-		options.output,
+		options.output === "silent" ? "silent" : "stderr",
 		options.dryRun
 	);
 	if (migrationRan) {
@@ -155,7 +159,7 @@ export async function runProjectCommand(
 	cwd: string,
 	options: RunProjectCommandOptions = {}
 ): Promise<ProjectCommandResult> {
-	const output = options.output ?? "stdout";
+	const output = options.output ?? "stderr";
 	// The overrides are mostly internal plumbing (registry paths, build-output
 	// markers), so they are only listed when debugging delegation.
 	const environmentOverrides = process.env.DEBUG
@@ -171,12 +175,8 @@ export async function runProjectCommand(
 		?.map((arg) => JSON.stringify(arg))
 		.join(" ");
 	if (output !== "silent") {
-		clack.log.message(
-			`Delegating to ${command}${formattedArgs ? ` ${formattedArgs}` : ""}${environmentSuffix}`,
-			{
-				spacing: 0,
-				output: output === "stderr" ? process.stderr : undefined,
-			}
+		log.message(
+			`Delegating to ${command}${formattedArgs ? ` ${formattedArgs}` : ""}${environmentSuffix}`
 		);
 	}
 	const [file, ...commandArgs] = parseProjectCommand(command);
@@ -189,11 +189,11 @@ export async function runProjectCommand(
 			// with tinyexec's windowsHide default.
 			stdio: [
 				"inherit",
-				output === "stderr"
-					? process.stderr
+				output === "inherit"
+					? "inherit"
 					: output === "silent"
 						? "ignore"
-						: "inherit",
+						: process.stderr,
 				"inherit",
 			],
 		},
@@ -256,27 +256,19 @@ function parseProjectCommand(command: string): [string, ...string[]] {
 function createAutoConfigContext(
 	commandOptions: CommandOutputOptions = {}
 ): AutoConfigContext {
-	const output = commandOptions.output ?? "stdout";
-	const outputConsole =
-		output === "stderr"
-			? new Console({ stdout: process.stderr, stderr: process.stderr })
-			: console;
-	const log =
-		output === "silent" ? () => {} : outputConsole.log.bind(outputConsole);
-	const info =
-		output === "silent" ? () => {} : outputConsole.info.bind(outputConsole);
-	const dialogOutput = output === "stdout" ? undefined : process.stderr;
+	const output = commandOptions.output ?? "stderr";
+	const info = output === "silent" ? () => {} : console.error;
 	return {
 		logger: {
-			log,
+			log: info,
 			info,
-			warn: outputConsole.warn.bind(outputConsole),
+			warn: console.error,
 			debug: (...args) => {
 				if (process.env.DEBUG && output !== "silent") {
-					outputConsole.debug(...args);
+					console.error(...args);
 				}
 			},
-			error: outputConsole.error.bind(outputConsole),
+			error: console.error,
 		},
 		dialogs: {
 			confirm: (text, options) =>
@@ -284,7 +276,6 @@ function createAutoConfigContext(
 					defaultValue: options?.defaultValue ?? true,
 					fallbackValue:
 						options?.fallbackValue ?? options?.defaultValue ?? true,
-					output: dialogOutput,
 				}),
 			prompt: (text, options) =>
 				prompt(text, {
@@ -293,7 +284,6 @@ function createAutoConfigContext(
 					fallbackError:
 						"This command cannot be run in a non-interactive context",
 					validate: options?.validate,
-					output: dialogOutput,
 				}),
 			select: (text, options) =>
 				select(text, {
@@ -301,11 +291,10 @@ function createAutoConfigContext(
 					defaultOption: options.defaultOption,
 					fallbackError:
 						"This command cannot be run in a non-interactive context",
-					output: dialogOutput,
 				}),
 		},
 		runCommand: async (command, cwd, label) => {
-			log(`${label} Running: ${command}`);
+			info(`${label} Running: ${command}`);
 			const result = await runProjectCommand(command, cwd, commandOptions);
 			if (result.exitCode !== 0 || result.signal) {
 				throw new CliExit(result.exitCode, { signal: result.signal });

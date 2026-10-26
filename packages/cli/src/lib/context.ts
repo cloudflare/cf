@@ -2,13 +2,14 @@
  * Runtime context resolution.
  *
  * Account ID priority:
- *   1. CLOUDFLARE_ACCOUNT_ID environment variable
- *   2. account settings from cloudflare.config.ts's default export
- *   3. workers-auth account cache
- *   4. Interactive account picker / single-account auto-select
+ *   1. Temporary preview account when --temporary-account is requested
+ *   2. CLOUDFLARE_ACCOUNT_ID environment variable
+ *   3. account settings from cloudflare.config.ts's default export
+ *   4. workers-auth account cache
+ *   5. Interactive account picker / single-account auto-select
  *
- * Steps 1–3 are offline (`resolveAccountIdSilent`); only `getAccountId`
- * can enumerate accounts or ask.
+ * Configured sources 2–4 are offline (`resolveAccountIdSilent`); only
+ * `getAccountId` can provision, enumerate accounts, or ask.
  *
  * Zone priority:
  *   1. --zone / -z CLI flag
@@ -83,14 +84,20 @@ async function resolveAccountId(
  * or going looking for accounts when none of those is set.
  */
 export async function resolveAccountIdSilent(): Promise<string | undefined> {
+	// Lazily imported for the same dependency-cycle reason as getAccountId.
+	const { getActiveAccountId, isTemporaryAccountRequested } =
+		await import("./oauth/index.js");
+	// Configured accounts don't apply to a temporary account, and provisioning
+	// one is not silent.
+	if (isTemporaryAccountRequested()) {
+		return undefined;
+	}
 	const result = await resolveAccountId();
 	if (result) {
 		return result.value;
 	}
-	// The profile's cached account is priority 3 and costs nothing to read:
-	// no request, no prompt, no announcement. Lazily imported for the same
-	// dependency-cycle reason as getAccountId.
-	const { getActiveAccountId } = await import("./oauth/index.js");
+	// The profile's cached account costs nothing to read: no request, no
+	// prompt, no announcement.
 	try {
 		return getActiveAccountId();
 	} catch {
@@ -99,8 +106,8 @@ export async function resolveAccountIdSilent(): Promise<string | undefined> {
 }
 
 /**
- * Get account ID with priority resolution (env → settings → interactive picker
- * / single-account auto-select).
+ * Get account ID with priority resolution (temporary account → env → settings
+ * → interactive picker / single-account auto-select).
  *
  * @throws Error if no account ID is found
  */
@@ -109,15 +116,23 @@ export async function getAccountId(options?: {
 	skipProjectSettings?: boolean;
 	complianceRegion?: ComplianceRegion;
 }): Promise<string> {
+	// oauth/index also consumes compliance context. Import it lazily after this
+	// module has initialised to avoid a static context ↔ OAuth dependency cycle.
+	const {
+		getOrSelectAccountId,
+		isTemporaryAccountRequested,
+		requireTemporaryAccount,
+	} = await import("./oauth/index.js");
+	if (isTemporaryAccountRequested()) {
+		return (await requireTemporaryAccount(options)).accountId;
+	}
+
 	const result = await resolveAccountId(options);
 
 	if (result) {
 		announceAccount(result.value, getSourceDescription(result, "accountId"));
 	}
 
-	// oauth/index also consumes compliance context. Import it lazily after this
-	// module has initialised to avoid a static context ↔ OAuth dependency cycle.
-	const { getOrSelectAccountId } = await import("./oauth/index.js");
 	return getOrSelectAccountId(result?.value, options);
 }
 
@@ -203,8 +218,6 @@ const VALID_COMPLIANCE_REGIONS = ["public", "fedramp_high"] as const;
 
 export type ComplianceRegion = (typeof VALID_COMPLIANCE_REGIONS)[number];
 
-let complianceRegionConflictsReported = false;
-
 /**
  * Resolve the compliance region in the representation consumed by
  * workers-auth/workers-utils. cloudflare.config.ts uses `fedramp-high`, which
@@ -213,38 +226,23 @@ let complianceRegionConflictsReported = false;
 async function resolveComplianceRegion(
 	options: { isPreview?: boolean } = {}
 ): Promise<ComplianceRegion | undefined> {
+	const envRegion = normalizeComplianceRegion(
+		process.env.CLOUDFLARE_COMPLIANCE_REGION,
+		"CLOUDFLARE_COMPLIANCE_REGION"
+	);
+	if (envRegion) {
+		return envRegion;
+	}
+
 	const preloadedProjectSettings = getLoadedProjectSettings(undefined, options);
 	const projectSettings =
 		preloadedProjectSettings === undefined
 			? await loadProjectSettings(undefined, options)
 			: preloadedProjectSettings;
-	const configuredValue = projectSettings?.settings?.complianceRegion;
-	const configureRegion = normalizeComplianceRegion(
-		configuredValue,
+	return normalizeComplianceRegion(
+		projectSettings?.settings?.complianceRegion,
 		"cloudflare.config.ts"
 	);
-	const envValue = process.env.CLOUDFLARE_COMPLIANCE_REGION;
-	const envRegion = normalizeComplianceRegion(
-		envValue,
-		"CLOUDFLARE_COMPLIANCE_REGION"
-	);
-
-	if (!envRegion) {
-		return configureRegion;
-	}
-
-	if (
-		configureRegion &&
-		configureRegion !== envRegion &&
-		!complianceRegionConflictsReported
-	) {
-		complianceRegionConflictsReported = true;
-		console.warn(
-			`The compliance region was resolved to "${envValue}" from the \`CLOUDFLARE_COMPLIANCE_REGION\` environment variable, which takes precedence over the configured value "${configuredValue}" in \`cloudflare.config.ts\`.`
-		);
-	}
-
-	return envRegion;
 }
 
 /** Get the compliance region, defaulting to public. */

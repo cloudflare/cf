@@ -11,6 +11,12 @@ describe("detectAgentContext", () => {
 		["Qwen Code", { QWEN_CODE_SESSION_ID: "qwen-session" }, "qwen-code"],
 		["Pi", { PI_CODING_AGENT: "true" }, "pi"],
 		["Pi via AI_AGENT", { AI_AGENT: "pi" }, "pi"],
+		["DeepSeek Harness", { DSH_SHELL: "1" }, "deepseek-harness"],
+		[
+			"DeepSeek Harness with session",
+			{ DSH_SHELL: "1", DSH_SESSION_ID: "dsh-session" },
+			"deepseek-harness",
+		],
 		["Cursor Agent", { CURSOR_AGENT: "1" }, "cursor-agent"],
 		["Claude Code", { CLAUDECODE: "1" }, "claude-code"],
 		["Codex", { CODEX_THREAD_ID: "codex-thread" }, "codex"],

@@ -79,7 +79,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						message: `This operation deletes the selected Workers KV namespace and all of its key-value pairs.`,
 					}))
 				) {
-					process.stderr.write("Aborted.\n");
 					return;
 				}
 

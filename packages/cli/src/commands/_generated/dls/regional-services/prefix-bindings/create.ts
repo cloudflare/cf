@@ -23,7 +23,7 @@ import { runWithTelemetry } from "#lib/telemetry/index.js";
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
 		.usage(
-			"$0 dls regional-services prefix-bindings create\n\nCreate a DLS prefix binding"
+			"$0 dls regional-services prefix-bindings create\n\nBind a CIDR from a BYOIP prefix to a region. This requires the **IP Prefixes Write** permission in addition to **DLS Write**, because the binding is created against a BYOIP prefix in Addressing."
 		)
 		.option("cidr", {
 			type: "string",

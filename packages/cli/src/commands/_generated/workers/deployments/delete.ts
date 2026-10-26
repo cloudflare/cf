@@ -90,7 +90,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						message: `This will permanently delete the Worker deployment.`,
 					}))
 				) {
-					process.stderr.write("Aborted.\n");
 					return;
 				}
 

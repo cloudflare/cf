@@ -108,7 +108,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						message: `This operation may delete the selected content policies and stop evaluating emails against their patterns.`,
 					}))
 				) {
-					process.stderr.write("Aborted.\n");
 					return;
 				}
 

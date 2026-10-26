@@ -113,7 +113,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						message: `This permanently deletes the listed R2 objects. With the deprecated \`prefix\` parameter it deletes every object under that prefix, and an empty prefix empties the bucket.`,
 					}))
 				) {
-					process.stderr.write("Aborted.\n");
 					return;
 				}
 

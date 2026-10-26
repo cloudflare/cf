@@ -71,7 +71,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						message: `This operation deletes the user-level IP Access Rule and affects every zone owned by the user.`,
 					}))
 				) {
-					process.stderr.write("Aborted.\n");
 					return;
 				}
 

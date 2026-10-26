@@ -1,14 +1,12 @@
 import { writeAuthConfigFile } from "@cloudflare/workers-auth/cf";
-import {
-	mockConsoleMethods,
-	runInTempDir,
-} from "@cloudflare/workers-utils/test-helpers";
+import { runInTempDir } from "@cloudflare/workers-utils/test-helpers";
 import { beforeEach, describe, expect, it } from "vite-plus/test";
+import { mockOutputStreams } from "../../helpers/capture-output.js";
 import { runCf } from "../../helpers/run-cf.js";
 
 describe("cf auth scopes", () => {
 	runInTempDir();
-	const std = mockConsoleMethods();
+	const std = mockOutputStreams();
 
 	beforeEach(() => {
 		writeAuthConfigFile({
@@ -24,7 +22,7 @@ describe("cf auth scopes", () => {
 
 		expect(std.out).toMatch(/Developer Platform +3\/\d+/);
 		expect(std.out).toMatch(/DNS & Zones +1\/\d+/);
-		expect(std.out).toContain("cf auth scopes <product>");
+		expect(std.err).toContain("cf auth scopes <product>");
 		expect(std.out).not.toContain("d1");
 	});
 
@@ -46,6 +44,6 @@ describe("cf auth scopes", () => {
 	it("explains that an API token has no OAuth scopes", async () => {
 		await runCf(["auth", "scopes"], { CLOUDFLARE_API_TOKEN: "test-token" });
 
-		expect(std.out).toContain("CLOUDFLARE_API_TOKEN is set");
+		expect(std.err).toContain("CLOUDFLARE_API_TOKEN is set");
 	});
 });

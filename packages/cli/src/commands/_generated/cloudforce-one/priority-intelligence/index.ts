@@ -6,6 +6,7 @@ import $get from "./get.js";
 import $interests from "./interests/index.js";
 import $list from "./list.js";
 import $matches from "./matches/index.js";
+import $profile from "./profile/index.js";
 import $quota from "./quota/index.js";
 import $update from "./update.js";
 import type { CommonYargsOptions } from "#lib/cli-types.js";
@@ -30,6 +31,7 @@ const command: CommandModule<CommonYargsOptions> = {
 			.command($filters)
 			.command($interests)
 			.command($matches)
+			.command($profile)
 			.command($quota)
 			.demandCommand(1, "Please specify a subcommand");
 	},

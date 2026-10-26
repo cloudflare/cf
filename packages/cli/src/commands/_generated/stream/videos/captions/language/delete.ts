@@ -87,7 +87,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						message: `Remove this caption?`,
 					}))
 				) {
-					process.stderr.write("Aborted.\n");
 					return;
 				}
 

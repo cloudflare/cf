@@ -28,7 +28,7 @@ import { runWithTelemetry } from "#lib/telemetry/index.js";
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
 		.usage(
-			"$0 flagship apps flags update <flag-key>\n\nReplaces the entire flag definition. Omitted fields are dropped, not preserved — read before writing. The path key identifies the flag and cannot be renamed by changing the body `key`. Each update appends a changelog entry."
+			"$0 flagship apps flags update <flag-key>\n\nReplaces the entire flag definition. Omitted fields are cleared, not preserved — read before writing. The path key identifies the flag and cannot be renamed by changing the body `key`. A changelog entry is appended when the flag content actually changes; identical updates are no-ops."
 		)
 		.positional("flag-key", {
 			type: "string",
@@ -59,6 +59,11 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			type: "string",
 			description:
 				"Unique identifier for the flag within an app. Used in all evaluation and SDK calls.",
+		})
+		.option("metadata", {
+			type: "string",
+			description:
+				"Key-value metadata associated with the flag. `null` or an empty object clears existing metadata; omission semantics depend on the endpoint (PUT clears it, PATCH preserves it). Provide as a JSON object or @path/to/file.json.",
 		})
 		.option("rules", {
 			type: "string",
@@ -138,6 +143,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 												"key",
 												"text"
 											),
+											metadata: parseJsonMap(argv["metadata"], "metadata"),
 											rules: parseObjectArray(argv["rules"], "rules"),
 											type: argv["type"],
 											variations: parseJsonMap(
@@ -146,7 +152,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 												true
 											),
 										},
-										[["variations"]]
+										[["metadata"], ["variations"]]
 									),
 					});
 					return;
@@ -217,11 +223,12 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 							"key",
 							"text"
 						),
+						metadata: parseJsonMap(argv["metadata"], "metadata"),
 						rules: parseObjectArray(argv["rules"], "rules"),
 						type: argv["type"],
 						variations: parseJsonMap(argv["variations"], "variations", true),
 					},
-					[["variations"]]
+					[["metadata"], ["variations"]]
 				);
 				const result = await withProgress(`Updating`, async () =>
 					client.send(operation, {

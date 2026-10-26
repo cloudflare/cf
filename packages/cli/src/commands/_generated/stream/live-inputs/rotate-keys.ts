@@ -83,7 +83,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						message: `Rotate keys for this live input? Active broadcasts will be terminated. New broadcasts cannot start with outdated credentials.`,
 					}))
 				) {
-					process.stderr.write("Aborted.\n");
 					return;
 				}
 

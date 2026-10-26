@@ -131,7 +131,7 @@ describe("spawnImpl", () => {
 			description: "Test fixture",
 			manifest: "package.json",
 			binary: () => null,
-			installHint: "(test)",
+			installCommands: ["npm install a", "pnpm add a", "yarn add a"],
 		};
 		const broken: DiscoveredImpl = {
 			impl,
@@ -144,7 +144,7 @@ describe("spawnImpl", () => {
 		// call without re-deriving the precondition. The message
 		// surfaces the install hint so the user has a recovery path.
 		await expect(spawnImpl(broken, "dev", [])).rejects.toThrow(
-			/binary not found/
+			"binary not found.\nTry: `npm install a`, `pnpm add a`, or `yarn add a`"
 		);
 	});
 

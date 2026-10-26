@@ -101,7 +101,7 @@ describe("cf workers triggers deploy", () => {
 		expect(exitCode).toBe(0);
 		expect(buildDelegateWasCalled()).toBe(false);
 		expect(requests).toEqual([]);
-		expect(std.out).toContain("Autoconfig process run in dry-run mode");
+		expect(std.err).toContain("Autoconfig process run in dry-run mode");
 	});
 
 	it("builds and deploys scheduled triggers with --local=false", async () => {

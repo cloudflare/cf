@@ -69,7 +69,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						message: `Are you sure? This action cannot be undone.`,
 					}))
 				) {
-					process.stderr.write("Aborted.\n");
 					return;
 				}
 

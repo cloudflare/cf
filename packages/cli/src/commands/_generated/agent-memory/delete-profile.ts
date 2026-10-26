@@ -87,7 +87,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						message: `This operation deletes the profile along with all of its memories and messages.`,
 					}))
 				) {
-					process.stderr.write("Aborted.\n");
 					return;
 				}
 

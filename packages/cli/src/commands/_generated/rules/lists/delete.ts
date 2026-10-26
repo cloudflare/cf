@@ -79,7 +79,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						message: `This operation deletes the custom list and every item it contains.`,
 					}))
 				) {
-					process.stderr.write("Aborted.\n");
 					return;
 				}
 

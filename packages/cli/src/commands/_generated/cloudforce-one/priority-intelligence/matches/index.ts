@@ -1,4 +1,7 @@
+import $aggregateall from "./aggregate-all.js";
+import $aggregate from "./aggregate.js";
 import $list from "./list.js";
+import $series from "./series.js";
 import $update from "./update.js";
 import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
@@ -13,7 +16,10 @@ const command: CommandModule<CommonYargsOptions> = {
 
 	builder: (yargs) => {
 		return yargs
+			.command($aggregate)
+			.command($aggregateall)
 			.command($list)
+			.command($series)
 			.command($update)
 			.demandCommand(1, "Please specify a subcommand");
 	},

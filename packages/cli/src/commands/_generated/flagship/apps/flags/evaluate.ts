@@ -33,7 +33,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("context", {
 			type: "string",
 			description:
-				"Evaluation attributes keyed by name. Values may be any JSON value; the context supports up to 100 entries and 32 KB. Provide as a JSON object or @path/to/file.json.",
+				"Evaluation attributes keyed by name. Values may be any JSON value; the context supports up to 100 entries, nesting depth of 10, 10,000 values, and 32 KB. Provide as a JSON object or @path/to/file.json.",
 		})
 		.option("flag-key", {
 			type: "string",

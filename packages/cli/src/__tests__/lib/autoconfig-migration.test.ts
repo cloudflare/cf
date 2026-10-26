@@ -150,7 +150,7 @@ describe("project preparation", () => {
 		expect(mocks.maybeMigrateWranglerProject).toHaveBeenCalledWith(
 			"/project",
 			expect.any(Function),
-			undefined,
+			"stderr",
 			true
 		);
 	});
@@ -168,7 +168,7 @@ describe("project preparation", () => {
 		expect(mocks.maybeMigrateWranglerProject).toHaveBeenCalledWith(
 			"/project",
 			expect.any(Function),
-			undefined,
+			"stderr",
 			true
 		);
 		expect(mocks.getDetailsForAutoConfig).toHaveBeenCalledOnce();

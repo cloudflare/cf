@@ -8,5 +8,5 @@
 
 export { formatCommand, renderPromptIntro } from "./banner.js";
 export { errorBlock } from "./blocks.js";
-export { hint, info, success, warning } from "./format.js";
+export { hint, success, warning } from "./format.js";
 export { colorPalette, supportsColor, symbols, theme } from "./theme.js";

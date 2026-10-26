@@ -72,7 +72,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						message: `This operation turns off outgoing zone transfers for the primary zone, which means secondary zones will stop receiving updates.`,
 					}))
 				) {
-					process.stderr.write("Aborted.\n");
 					return;
 				}
 

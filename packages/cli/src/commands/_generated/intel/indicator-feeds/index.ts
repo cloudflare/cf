@@ -7,6 +7,7 @@ import $permissions from "./permissions/index.js";
 import $providers from "./providers/index.js";
 import $snapshots from "./snapshots/index.js";
 import $update from "./update.js";
+import $uploads from "./uploads/index.js";
 import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * indicator-feeds command group
@@ -30,6 +31,7 @@ const command: CommandModule<CommonYargsOptions> = {
 			.command($permissions)
 			.command($providers)
 			.command($snapshots)
+			.command($uploads)
 			.demandCommand(1, "Please specify a subcommand");
 	},
 

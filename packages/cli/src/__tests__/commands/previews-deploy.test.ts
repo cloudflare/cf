@@ -74,6 +74,7 @@ vi.mock("../../lib/build-output.js", async (importOriginal) => {
 		buildOutputWorkerOption: actual.buildOutputWorkerOption,
 		parseWorkerConfig: mocks.parseWorkerConfig,
 		selectBuildOutputWorker: actual.selectBuildOutputWorker,
+		validateBuildOutputAccount: actual.validateBuildOutputAccount,
 		validateBuildOutputMode: actual.validateBuildOutputMode,
 	};
 });

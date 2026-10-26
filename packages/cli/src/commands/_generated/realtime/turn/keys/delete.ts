@@ -79,7 +79,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						message: `This operation permanently deletes the TURN key. Clients using it can no longer generate credentials.`,
 					}))
 				) {
-					process.stderr.write("Aborted.\n");
 					return;
 				}
 

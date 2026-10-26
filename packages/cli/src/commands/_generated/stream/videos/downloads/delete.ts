@@ -88,7 +88,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						message: `Remove this download? It will need to be regenerated for future use.`,
 					}))
 				) {
-					process.stderr.write("Aborted.\n");
 					return;
 				}
 

@@ -55,6 +55,16 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "Name of the preset to apply to this participant.",
 			default: "group_call_host",
 		})
+		.option("token-expires-on", {
+			type: "string",
+			description:
+				"RFC 3339 timestamp with a timezone at or after which the token cannot be used. Must be in the future. Defaults to not_before plus 100 days.",
+		})
+		.option("token-not-before", {
+			type: "string",
+			description:
+				"RFC 3339 timestamp with a timezone before which the token cannot be used. Defaults to the current time. May be in the past.",
+		})
 		.option("dry-run", {
 			type: "boolean",
 			description: "Validate and show what would happen without executing",
@@ -117,6 +127,18 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 											"preset-name",
 											"text"
 										),
+										token: {
+											expires_on: resolveFileToken(
+												argv["token-expires-on"] as string | undefined,
+												"token-expires-on",
+												"text"
+											),
+											not_before: resolveFileToken(
+												argv["token-not-before"] as string | undefined,
+												"token-not-before",
+												"text"
+											),
+										},
 									}),
 					});
 					return;
@@ -173,6 +195,18 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						"preset-name",
 						"text"
 					),
+					token: {
+						expires_on: resolveFileToken(
+							argv["token-expires-on"] as string | undefined,
+							"token-expires-on",
+							"text"
+						),
+						not_before: resolveFileToken(
+							argv["token-not-before"] as string | undefined,
+							"token-not-before",
+							"text"
+						),
+					},
 				});
 				const result = await withProgress(`Creating`, async () =>
 					client.send(operation, {

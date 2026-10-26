@@ -114,10 +114,21 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"Assignment provenance filter. When combined with tag_id or tag_category_id, the matching assignment must have this provenance.",
 			choices: ["ai", "analyst", "system"],
 		})
+		.option("pir-id", {
+			type: "string",
+			description:
+				"Beta. Active Priority Intelligence Requirement to report, filter, and sort relevance by. Omit to use each article's most relevant active PIR. Returns a 400 error unless the PIR is active.",
+		})
+		.option("min-relevance", {
+			type: "string",
+			description:
+				"Beta. Return only articles at or above this relevance band for pir_id, or for any active PIR when pir_id is omitted. Excludes articles that have not been scored.",
+			choices: ["low", "medium", "high"],
+		})
 		.option("sort", {
 			type: "string",
 			description:
-				"Sort by fetched_at, published_at, or title. Prefix the field with - for descending order; defaults to -fetched_at.",
+				"Sort by fetched_at, published_at, title, or relevance (beta). Prefix the field with - for descending order; defaults to -fetched_at. -relevance lists the most relevant articles first, by pir_id or by each article's most relevant active PIR, with unscored articles last.",
 		})
 		.option("dry-run", {
 			type: "boolean",
@@ -142,6 +153,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						"include-total",
 						"source-type",
 						"tag-applied-by",
+						"min-relevance",
 						"dry-run",
 					],
 				} satisfies ArgClassification<Args>,
@@ -167,6 +179,8 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					feed_category: argv["feed-category"],
 					source_type: argv["source-type"],
 					tag_applied_by: argv["tag-applied-by"],
+					pir_id: argv["pir-id"],
+					min_relevance: argv["min-relevance"],
 					sort: argv["sort"],
 				};
 				if (argv.dryRun) {

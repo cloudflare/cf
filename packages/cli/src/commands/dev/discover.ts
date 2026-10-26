@@ -10,7 +10,7 @@
  * resolution); no file mutations, no network. If the manifest declares
  * an impl but the binary can't be resolved on disk, the result carries
  * a `binary: null` so the caller can surface a "declared but not
- * installed" error with the impl's `installHint`.
+ * installed" error with the impl's `installCommands`.
  */
 import { execFileSync } from "node:child_process";
 import { existsSync, readFileSync } from "node:fs";

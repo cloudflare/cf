@@ -79,7 +79,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						message: `This unsubscribes the account from the feed and permanently deletes its stored articles, including their extracted indicators, tags, and skill outputs.`,
 					}))
 				) {
-					process.stderr.write("Aborted.\n");
 					return;
 				}
 

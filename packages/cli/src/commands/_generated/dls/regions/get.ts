@@ -19,7 +19,9 @@ import { runWithTelemetry } from "#lib/telemetry/index.js";
 
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
-		.usage("$0 dls regions get <region-id>\n\nGet a DLS region")
+		.usage(
+			"$0 dls regions get <region-id>\n\nRetrieve a single DLS region (managed or custom) by ID or region key."
+		)
 		.positional("region-id", {
 			type: "string",
 			description:

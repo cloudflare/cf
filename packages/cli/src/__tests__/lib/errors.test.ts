@@ -1,4 +1,7 @@
-import { APIError as WorkersUtilsAPIError } from "@cloudflare/workers-utils";
+import {
+	UserError,
+	APIError as WorkersUtilsAPIError,
+} from "@cloudflare/workers-utils";
 import {
 	afterEach,
 	beforeEach,
@@ -7,7 +10,7 @@ import {
 	it,
 	vi,
 } from "vite-plus/test";
-import { handleError } from "../../lib/errors.js";
+import { handleError, MissingCredentialsError } from "../../lib/errors.js";
 import { ApiError } from "#api";
 
 /**
@@ -19,8 +22,8 @@ import { ApiError } from "#api";
  *    unchanged so `main()` can rethrow it and callers / tests can still
  *    inspect the original shape (status, code, message).
  *  - **APIError rendering.** The boxed report surfaces each
- *    `{code, message}` entry plus a status/request tail line, with the
- *    host stripped to a path-only request line.
+ *    `{code, message}` entry in errors and messages plus a status/request
+ *    tail line, with the host stripped to a path-only request line.
  *  - **Status hints.** 401 → `cf auth login`; 403 → token-permissions
  *    hint. (Per AGENTS.md these are status-level only — no per-code
  *    knowledge lives here.)
@@ -49,6 +52,52 @@ describe("handleError", () => {
 	it("returns the same error instance it was given (rethrow contract)", () => {
 		const err = new Error("boom");
 		expect(handleError(err)).toBe(err);
+	});
+
+	it("recommends a temporary account when credentials are missing", () => {
+		handleError(new MissingCredentialsError("No authentication token found."));
+		expect(stderr()).toContain("--temporary-account");
+
+		errSpy.mockClear();
+		handleError(
+			Object.assign(
+				new UserError("Authentication required; wording may change.", {
+					telemetryMessage: "cfetch auth login required",
+				}),
+				{ reason: "no-credentials-non-interactive" }
+			)
+		);
+		expect(stderr()).toContain("--temporary-account");
+	});
+
+	it("does not recommend a temporary account when OAuth credentials expire", () => {
+		errSpy.mockClear();
+		handleError(
+			Object.assign(
+				new UserError(
+					"Not logged in. Your auth token has expired and could not be refreshed, and the environment is non-interactive. Run `cf auth login` in an interactive terminal or set a CLOUDFLARE_API_TOKEN.",
+					{ telemetryMessage: "cfetch auth login required" }
+				),
+				{ reason: "token-expired-non-interactive" }
+			)
+		);
+		expect(stderr()).toContain("cf auth login");
+		expect(stderr()).not.toContain("--temporary-account");
+	});
+
+	it("does not recommend a temporary account for network or unrelated errors", () => {
+		errSpy.mockClear();
+		handleError(
+			new UserError(
+				"Not logged in. Your auth token has expired and could not be refreshed because the Cloudflare auth server could not be reached.",
+				{ telemetryMessage: "cfetch auth login required" }
+			)
+		);
+		expect(stderr()).not.toContain("--temporary-account");
+
+		errSpy.mockClear();
+		handleError(new Error("Request failed"));
+		expect(stderr()).not.toContain("--temporary-account");
 	});
 
 	describe("APIError", () => {
@@ -93,6 +142,79 @@ describe("handleError", () => {
 			expect(out).toContain("500 Internal Server Error");
 			expect(out).toContain("kaboom");
 		});
+
+		it("renders supplementary messages after errors and before the status", () => {
+			const err = new ApiError({
+				statusCode: 400,
+				body: {
+					success: false,
+					errors: [{ code: 11004, message: "posture.api.parameter.missing" }],
+					messages: [
+						{
+							code: 1001,
+							message: "Missing required parameter: 'destination_url'",
+						},
+						{ code: 1002, message: "Missing required parameter: 'name'" },
+					],
+				},
+			});
+
+			expect(handleError(err)).toBe(err);
+			const out = stderr();
+			expect(out.match(/\[\d+\]/g)).toEqual(["[11004]", "[1001]", "[1002]"]);
+			expect(out).toContain("posture.api.parameter.missing");
+			expect(out).toContain("Missing required parameter: 'destination_url'");
+			expect(out).toContain("Missing required parameter: 'name'");
+			expect(out.match(/400 Bad Request/g)).toHaveLength(1);
+		});
+
+		it("renders supplementary text without labelling it as another error", () => {
+			handleError(
+				new ApiError({
+					statusCode: 400,
+					body: {
+						errors: [{ message: "Request failed" }],
+						messages: [
+							"Missing parameter 'destination_url'",
+							{ message: "Use an HTTPS destination" },
+						],
+					},
+				})
+			);
+			const out = stderr();
+			expect(out).toContain("[error] Request failed");
+			expect(out).toContain("Missing parameter 'destination_url'");
+			expect(out).toContain("Use an HTTPS destination");
+			expect(out.match(/\[error\]/g)).toHaveLength(1);
+		});
+
+		it("renders messages when the response has no errors array", () => {
+			handleError(
+				new ApiError({
+					statusCode: 400,
+					body: { messages: [{ code: 1001, message: "Invalid parameter" }] },
+				})
+			);
+			expect(stderr()).toContain("[1001] Invalid parameter");
+			expect(stderr()).not.toContain("Body:");
+		});
+
+		it.each([undefined, null, [], {}, [null, 42, {}, { message: false }]])(
+			"ignores absent, empty, or malformed messages (%j)",
+			(messages) => {
+				handleError(
+					new ApiError({
+						statusCode: 400,
+						body: {
+							errors: [{ code: 1000, message: "Invalid input" }],
+							messages,
+						},
+					})
+				);
+				expect(stderr()).toContain("[1000] Invalid input");
+				expect(stderr()).not.toContain("[error]");
+			}
+		);
 
 		it("hints to log in on 401", () => {
 			handleError(

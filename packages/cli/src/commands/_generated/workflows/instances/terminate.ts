@@ -158,7 +158,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						message: `This operation terminates the running Workflow instance.`,
 					}))
 				) {
-					process.stderr.write("Aborted.\n");
 					return;
 				}
 

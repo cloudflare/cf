@@ -443,8 +443,8 @@ to know before editing `generator/plugin/`.
 - A `{account_or_zone}/{account_or_zone_id}` path pair is one command, not
   two: it runs against the account unless `--zone` is passed, and
   `CLOUDFLARE_ZONE_ID` is ignored. Its help says so (`ACCOUNT_OR_ZONE_HELP`).
-  `--dry-run` shows the chosen scope; like every dry run, it makes no request,
-  so a zone name stays a name in the previewed path.
+  `--dry-run` shows the chosen scope; like other generated dry runs, it makes
+  no request, so a zone name stays a name in the previewed path.
 - `paramOverride.positional: true` (forge schema) only promotes
   top-level body fields to positionals — does NOT affect path params.
 

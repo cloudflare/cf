@@ -27,7 +27,7 @@ import { runWithTelemetry } from "#lib/telemetry/index.js";
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
 		.usage(
-			"$0 tags account-resources update\n\nCreates or updates tags for a specific account or zone-level resource. Replaces all existing tags for the resource.\n\nRuns against your account. Pass --zone to run against a zone instead. CLOUDFLARE_ZONE_ID doesn't switch the scope."
+			"$0 tags account-resources update\n\nCreates or updates tags for a specific account or zone-level resource. Replaces all existing tags for the resource.\n\nRuns against your account. Pass --zone to run against a zone instead. CLOUDFLARE_ZONE_ID is ignored."
 		)
 		.option("if-match", {
 			type: "string",

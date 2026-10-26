@@ -22,7 +22,7 @@ import { runWithTelemetry } from "#lib/telemetry/index.js";
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
 		.usage(
-			"$0 rulesets versions delete <ruleset-version>\n\nDeletes an existing version of an account or zone ruleset.\n\nRuns against your account. Pass --zone to run against a zone instead. CLOUDFLARE_ZONE_ID doesn't switch the scope."
+			"$0 rulesets versions delete <ruleset-version>\n\nDeletes an existing version of an account or zone ruleset.\n\nRuns against your account. Pass --zone to run against a zone instead. CLOUDFLARE_ZONE_ID is ignored."
 		)
 		.positional("ruleset-version", {
 			type: "string",

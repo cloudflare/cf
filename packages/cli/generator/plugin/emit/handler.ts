@@ -305,7 +305,7 @@ export function dryRun(ctx: Ctx): string[] {
 
 /** How `auth` picks an account-or-zone command's scope, as its help says it. */
 export const ACCOUNT_OR_ZONE_HELP =
-	"Runs against your account. Pass --zone to run against a zone instead. CLOUDFLARE_ZONE_ID doesn't switch the scope.";
+	"Runs against your account. Pass --zone to run against a zone instead. CLOUDFLARE_ZONE_ID is ignored.";
 
 function auth(ctx: Ctx): string[] {
 	const lines = ["      const client = await createCommandClient(argv);"];

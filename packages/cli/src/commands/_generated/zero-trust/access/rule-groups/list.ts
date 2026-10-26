@@ -21,7 +21,7 @@ import { runWithTelemetry } from "#lib/telemetry/index.js";
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
 		.usage(
-			"$0 zero-trust access rule-groups list\n\nLists all Access groups.\n\nRuns against your account. Pass --zone to run against a zone instead. CLOUDFLARE_ZONE_ID doesn't switch the scope."
+			"$0 zero-trust access rule-groups list\n\nLists all Access groups.\n\nRuns against your account. Pass --zone to run against a zone instead. CLOUDFLARE_ZONE_ID is ignored."
 		)
 		.option("name", { type: "string", description: "The name of the group." })
 		.option("search", {

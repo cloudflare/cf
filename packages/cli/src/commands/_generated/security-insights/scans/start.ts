@@ -23,7 +23,7 @@ import { runWithTelemetry } from "#lib/telemetry/index.js";
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
 		.usage(
-			"$0 security-insights scans start\n\nInitiates an on-demand security scan for the entire account or zone, scanning all zones associated with the account or zone. Rate limited to 5 scans per account or zone per 24-hour window.\n\nRuns against your account. Pass --zone to run against a zone instead. CLOUDFLARE_ZONE_ID doesn't switch the scope."
+			"$0 security-insights scans start\n\nInitiates an on-demand security scan for the entire account or zone, scanning all zones associated with the account or zone. Rate limited to 5 scans per account or zone per 24-hour window.\n\nRuns against your account. Pass --zone to run against a zone instead. CLOUDFLARE_ZONE_ID is ignored."
 		)
 		.option("issue-type", {
 			type: "string",

@@ -21,7 +21,7 @@ import { runWithTelemetry } from "#lib/telemetry/index.js";
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
 		.usage(
-			"$0 logpush account-datasets jobs get <dataset-id>\n\nLists Logpush jobs for an account or zone for a dataset.\n\nRuns against your account. Pass --zone to run against a zone instead. CLOUDFLARE_ZONE_ID doesn't switch the scope."
+			"$0 logpush account-datasets jobs get <dataset-id>\n\nLists Logpush jobs for an account or zone for a dataset.\n\nRuns against your account. Pass --zone to run against a zone instead. CLOUDFLARE_ZONE_ID is ignored."
 		)
 		.positional("dataset-id", {
 			type: "string",

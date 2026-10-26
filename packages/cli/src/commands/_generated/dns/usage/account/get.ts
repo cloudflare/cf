@@ -21,7 +21,7 @@ import { runWithTelemetry } from "#lib/telemetry/index.js";
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
 		.usage(
-			"$0 dns usage account get\n\nGet the current DNS record usage and quota for an account or zone. May include internal DNS usage and quota.\n\nRuns against your account. Pass --zone to run against a zone instead. CLOUDFLARE_ZONE_ID doesn't switch the scope."
+			"$0 dns usage account get\n\nGet the current DNS record usage and quota for an account or zone. May include internal DNS usage and quota.\n\nRuns against your account. Pass --zone to run against a zone instead. CLOUDFLARE_ZONE_ID is ignored."
 		)
 		.option("dry-run", {
 			type: "boolean",

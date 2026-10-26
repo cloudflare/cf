@@ -5,9 +5,11 @@ import { theme } from "../../lib/ui/index.js";
 import { log } from "../../lib/ui/log.js";
 import { loadScopeCatalogue } from "./scope-catalogue.js";
 import {
+	areaTitles,
 	formatScopeGroups,
 	formatScopeSummary,
 	hasProductScopes,
+	matchesArea,
 } from "./scope-groups.js";
 import type { ScopeCatalogue } from "./scope-catalogue.js";
 import type { ArgumentsCamelCase, Argv, CommandModule } from "yargs";
@@ -26,7 +28,8 @@ const scopesCommand: CommandModule<object, ScopesArgs> = {
 		return yargs
 			.positional("product", {
 				type: "string",
-				description: "Show the permissions of the products matching this name",
+				description:
+					"Show the permissions in the product areas matching this name, such as dns or developer",
 			})
 			.option("all", {
 				type: "boolean",
@@ -78,6 +81,18 @@ const scopesCommand: CommandModule<object, ScopesArgs> = {
 				"To see a product's permissions, or every product's, run:",
 				"cf auth scopes <product>",
 				"cf auth scopes --all"
+			);
+			return;
+		}
+
+		const { product } = argv;
+		if (
+			product !== undefined &&
+			!areaTitles(catalogue).some((area) => matchesArea(area, product))
+		) {
+			log.info(
+				`No product area matches "${product}". To search scope names instead, run:`,
+				`cf auth scopes --filter ${product}`
 			);
 			return;
 		}

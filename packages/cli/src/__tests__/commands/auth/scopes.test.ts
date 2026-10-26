@@ -117,4 +117,12 @@ describe("cf auth scopes", () => {
 		expect(std.err).not.toContain("cf auth scopes <product>");
 		expect(catalogueRequests).toBe(0);
 	});
+
+	it("points at --filter when no product area matches", async () => {
+		await runCf(["auth", "scopes", "d1"], env);
+
+		expect(std.out).toBe("");
+		expect(std.err).toContain('No product area matches "d1".');
+		expect(std.err).toContain("cf auth scopes --filter d1");
+	});
 });

@@ -1,10 +1,12 @@
 import { DefaultScopeKeys } from "@cloudflare/workers-auth/cf";
 import { describe, expect, it } from "vite-plus/test";
 import {
+	areaTitles,
 	formatScopeGroups,
 	formatScopeSummary,
 	groupScopes,
 	hasProductScopes,
+	matchesArea,
 } from "../../../commands/auth/scope-groups.js";
 import type {
 	CatalogueScope,
@@ -140,34 +142,29 @@ describe("scope groups", () => {
 		).toContain("Cache & Performance");
 	});
 
-	it("matches products by resource and catalogue name as well as area", () => {
-		const granted = [
-			"workers-scripts.write",
-			"d1.read",
-			"dns.read",
-			"d1:write",
-		];
+	it("matches products by area only, leaving scope names to --filter", () => {
+		const granted = ["ssl-and-certificates.write", "workers-scripts.write"];
 
-		const workers = formatScopeGroups(granted, catalogue, {
-			product: "workers",
-		});
-		expect(workers).toContain("workers-scripts");
-		expect(workers).not.toContain("d1");
-		expect(workers).not.toContain("DNS");
-		// d1:write has no catalogue entry, so only its resource can match.
-		expect(formatScopeGroups(granted, catalogue, { product: "d1" }))
+		expect(formatScopeGroups(granted, catalogue, { product: "cache" }))
 			.toMatchInlineSnapshot(`
-			"Developer Platform (2/5)
-			  d1  read
-
-			Uncategorized (1/463)
-			  d1  write"
+			"Cache & Performance (1/1)
+			  ssl-and-certificates  write"
 		`);
+		expect(formatScopeGroups(granted, catalogue, { product: "workers" })).toBe(
+			""
+		);
 		expect(
-			formatScopeGroups(["ssl-and-certificates.write"], catalogue, {
-				product: "certificates",
-			})
-		).toContain("ssl-and-certificates");
+			formatScopeGroups(granted, catalogue, { filter: "workers" })
+		).toContain("workers-scripts");
+	});
+
+	it("lists every area heading the catalogue produces", () => {
+		const titles = areaTitles(catalogue);
+
+		expect(titles.at(-2)).toBe("Other");
+		expect(titles.at(-1)).toBe("Uncategorized");
+		expect(titles.some((area) => matchesArea(area, "zero"))).toBe(false);
+		expect(titles.some((area) => matchesArea(area, "dev"))).toBe(true);
 	});
 
 	it("filters on either spelling of a scope", () => {

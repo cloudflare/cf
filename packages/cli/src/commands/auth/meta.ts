@@ -108,7 +108,8 @@ export default [
 				position: 0,
 				type: "string",
 				required: false,
-				description: "Show the permissions of the products matching this name",
+				description:
+					"Show the permissions in the product areas matching this name, such as dns or developer",
 			},
 		],
 		options: [

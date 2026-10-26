@@ -49,8 +49,6 @@ interface ParsedScope {
 	scope: string;
 	resource: string;
 	action: string;
-	/** The catalogue's name for the scope, such as "D1 Read". */
-	name?: string;
 }
 
 /**
@@ -80,12 +78,7 @@ export function groupScopes(
 			? categoryTitle(entry.category)
 			: UNCATEGORIZED;
 		const group = groups.get(area) ?? [];
-		group.push({
-			scope,
-			resource: match[1],
-			action: match[3],
-			name: entry?.name,
-		});
+		group.push({ scope, resource: match[1], action: match[3] });
 		groups.set(area, group);
 	}
 	return groups;
@@ -140,11 +133,26 @@ const words = (text: string) =>
 // `workers_kv:write`), so a filter matches either spelling.
 const normalize = (text: string) => text.toLowerCase().replaceAll("_", "-");
 
+/** Whether a word in the area's heading starts with `product`. */
+export function matchesArea(area: string, product: string): boolean {
+	return words(area).includes(words(product).trimEnd());
+}
+
+/** Every area heading the catalogue's categories produce. */
+export function areaTitles(catalogue: ScopeCatalogue): string[] {
+	const titles = new Set([UNCATEGORIZED]);
+	for (const { category } of catalogue.values()) {
+		if (category) {
+			titles.add(categoryTitle(category));
+		}
+	}
+	return [...titles].sort(compareAreas);
+}
+
 /**
  * Render scopes as one block per product area, highlighting non-read access.
- * `product` keeps the areas with a word starting with it, plus the scopes
- * whose resource or catalogue name has one, such as `workers`; `filter`
- * keeps the scopes whose id contains it.
+ * `product` keeps the areas it matches (see `matchesArea`), `filter` the
+ * scopes whose id contains it.
  */
 export function formatScopeGroups(
 	scopes: readonly string[],
@@ -155,15 +163,12 @@ export function formatScopeGroups(
 	const defaults = groupScopes(DefaultScopeKeys, catalogue);
 	const blocks: string[] = [];
 
-	const term = words(product).trimEnd();
 	for (const area of [...granted.keys()].sort(compareAreas)) {
-		const areaMatches = words(area).includes(term);
-		const shown = (granted.get(area) ?? []).filter(
-			({ scope, resource, name = "" }) =>
-				(areaMatches ||
-					words(resource).includes(term) ||
-					words(name).includes(term)) &&
-				normalize(scope).includes(normalize(filter))
+		if (!matchesArea(area, product)) {
+			continue;
+		}
+		const shown = (granted.get(area) ?? []).filter(({ scope }) =>
+			normalize(scope).includes(normalize(filter))
 		);
 		if (shown.length === 0) {
 			continue;

@@ -132,6 +132,20 @@ describe("combined account-or-zone scope", () => {
 		});
 	});
 
+	it.each([
+		[["--zone", "--dry-run"]],
+		[["--zone=", "--dry-run"]],
+		[["--zone", "", "--dry-run"]],
+	])(
+		"rejects an empty zone in %j instead of switching scope",
+		async (flags) => {
+			await expect(
+				runCf(["load-balancers", "account", "list", ...flags], ENV)
+			).rejects.toThrow("--zone requires a non-empty value.");
+			expect(output.stdout()).toBe("");
+		}
+	);
+
 	it("does not expose either template placeholder as a command argument", () => {
 		const metadata = JSON.parse(
 			readFileSync(

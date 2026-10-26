@@ -451,7 +451,7 @@ export const generatedCommands: GeneratedCommand[] = [
 			() => import("./email-domains/index.js"),
 			null
 		),
-		hideCommand: true,
+		hideCommand: false,
 	},
 	{
 		command: lazyCommand<CommonYargsOptions>(
@@ -1250,15 +1250,6 @@ export const generatedCommands: GeneratedCommand[] = [
 			"zero-trust",
 			"Cloudflare's SASE platform — secure access, device posture, DLP, tunnels, gateway policies, and network segmentation",
 			() => import("./zero-trust/index.js"),
-			null
-		),
-		hideCommand: false,
-	},
-	{
-		command: lazyCommand<CommonYargsOptions>(
-			"zone",
-			"zone",
-			() => import("./zone/index.js"),
 			null
 		),
 		hideCommand: false,

@@ -36538,7 +36538,7 @@
 					"name": "name",
 					"type": "string",
 					"required": true,
-					"description": "The domain name within the zone. A wildcard is allowed only as the complete leftmost label (`*.example.com`) and requires the account wildcard Email Sending entitlement."
+					"description": "The domain name within the zone. A wildcard is allowed only as the complete leftmost label (`*.example.com`) and requires the account wildcard Email Sending entitlement. The derived Return-Path hostname, including its bounce prefix, must be at most 201 characters after ASCII conversion; wildcards use the base hostname."
 				}
 			]
 		},
@@ -36675,7 +36675,7 @@
 					"name": "name",
 					"type": "string",
 					"required": true,
-					"description": "The domain name within the zone. A wildcard is allowed only as the complete leftmost label (`*.example.com`) and requires the account wildcard Email Sending entitlement."
+					"description": "The domain name within the zone. A wildcard is allowed only as the complete leftmost label (`*.example.com`) and requires the account wildcard Email Sending entitlement. The derived Return-Path hostname, including its bounce prefix, must be at most 201 characters after ASCII conversion; wildcards use the base hostname."
 				}
 			]
 		},
@@ -113649,8 +113649,8 @@
 			"hasRequestBody": false,
 			"requestBodyFields": []
 		},
-		"zone activate": {
-			"operationId": "zone.activate",
+		"zones activation-check activate": {
+			"operationId": "zones.activation-check.activate",
 			"httpMethod": "PUT",
 			"path": "/zones/{zone_id}/activation_check",
 			"pathParams": [

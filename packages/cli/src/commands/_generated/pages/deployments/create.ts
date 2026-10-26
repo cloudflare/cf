@@ -75,6 +75,31 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			type: "string",
 			description:
 				"Hash of the Wrangler configuration file used for this deployment.",
+		})
+		.option("redirects", {
+			type: "string",
+			description:
+				"Literal content or @path/to/file for the `_redirects` form field. Redirects configuration file for the deployment.",
+		})
+		.option("routes-json", {
+			type: "string",
+			description:
+				"Literal content or @path/to/file for the `_routes.json` form field. Routes configuration file defining routing rules.",
+		})
+		.option("worker-bundle", {
+			type: "string",
+			description:
+				"Literal content or @path/to/file for the `_worker.bundle` form field. Worker bundle file in multipart/form-data format. Mutually exclusive with `_worker.js`.\nCannot specify both `_worker.js` and `_worker.bundle` in the same request.\nMaximum size: 25 MiB.\n",
+		})
+		.option("worker-js", {
+			type: "string",
+			description:
+				"Literal content or @path/to/file for the `_worker.js` form field. Worker JavaScript file. Mutually exclusive with `_worker.bundle`.\nCannot specify both `_worker.js` and `_worker.bundle` in the same request.\n",
+		})
+		.option("functions-filepath-routing-config-json", {
+			type: "string",
+			description:
+				"Literal content or @path/to/file for the `functions-filepath-routing-config.json` form field. Functions routing configuration file.",
 		});
 }
 
@@ -112,6 +137,12 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 							manifest: argv["manifest"],
 							"pages-build-output-dir": argv["pages-build-output-dir"],
 							"wrangler-config-hash": argv["wrangler-config-hash"],
+							redirects: argv["redirects"],
+							"routes-json": argv["routes-json"],
+							"worker-bundle": argv["worker-bundle"],
+							"worker-js": argv["worker-js"],
+							"functions-filepath-routing-config-json":
+								argv["functions-filepath-routing-config-json"],
 						},
 					});
 					return;
@@ -129,7 +160,12 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					argv["commit-message"] !== undefined ||
 					argv["manifest"] !== undefined ||
 					argv["pages-build-output-dir"] !== undefined ||
-					argv["wrangler-config-hash"] !== undefined
+					argv["wrangler-config-hash"] !== undefined ||
+					argv["redirects"] !== undefined ||
+					argv["routes-json"] !== undefined ||
+					argv["worker-bundle"] !== undefined ||
+					argv["worker-js"] !== undefined ||
+					argv["functions-filepath-routing-config-json"] !== undefined
 				) {
 					const formData = new FormData();
 					if (argv.file) {
@@ -219,6 +255,110 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 								) ?? ""
 							)
 						);
+					if (argv["redirects"] !== undefined) {
+						const value = String(argv["redirects"]);
+						if (value.startsWith("@")) {
+							const filePath = value.slice(1);
+							const fileContent = resolveFileToken(
+								value,
+								"redirects",
+								"binary"
+							) as Buffer<ArrayBuffer>;
+							formData.append(
+								"_redirects",
+								new Blob([fileContent]),
+								filePath.split(/[\\/]/).filter(Boolean).pop()
+							);
+						} else {
+							formData.append("_redirects", new Blob([value]), "_redirects");
+						}
+					}
+					if (argv["routes-json"] !== undefined) {
+						const value = String(argv["routes-json"]);
+						if (value.startsWith("@")) {
+							const filePath = value.slice(1);
+							const fileContent = resolveFileToken(
+								value,
+								"routes-json",
+								"binary"
+							) as Buffer<ArrayBuffer>;
+							formData.append(
+								"_routes.json",
+								new Blob([fileContent]),
+								filePath.split(/[\\/]/).filter(Boolean).pop()
+							);
+						} else {
+							formData.append(
+								"_routes.json",
+								new Blob([value]),
+								"_routes.json"
+							);
+						}
+					}
+					if (argv["worker-bundle"] !== undefined) {
+						const value = String(argv["worker-bundle"]);
+						if (value.startsWith("@")) {
+							const filePath = value.slice(1);
+							const fileContent = resolveFileToken(
+								value,
+								"worker-bundle",
+								"binary"
+							) as Buffer<ArrayBuffer>;
+							formData.append(
+								"_worker.bundle",
+								new Blob([fileContent]),
+								filePath.split(/[\\/]/).filter(Boolean).pop()
+							);
+						} else {
+							formData.append(
+								"_worker.bundle",
+								new Blob([value]),
+								"_worker.bundle"
+							);
+						}
+					}
+					if (argv["worker-js"] !== undefined) {
+						const value = String(argv["worker-js"]);
+						if (value.startsWith("@")) {
+							const filePath = value.slice(1);
+							const fileContent = resolveFileToken(
+								value,
+								"worker-js",
+								"binary"
+							) as Buffer<ArrayBuffer>;
+							formData.append(
+								"_worker.js",
+								new Blob([fileContent]),
+								filePath.split(/[\\/]/).filter(Boolean).pop()
+							);
+						} else {
+							formData.append("_worker.js", new Blob([value]), "_worker.js");
+						}
+					}
+					if (argv["functions-filepath-routing-config-json"] !== undefined) {
+						const value = String(
+							argv["functions-filepath-routing-config-json"]
+						);
+						if (value.startsWith("@")) {
+							const filePath = value.slice(1);
+							const fileContent = resolveFileToken(
+								value,
+								"functions-filepath-routing-config-json",
+								"binary"
+							) as Buffer<ArrayBuffer>;
+							formData.append(
+								"functions-filepath-routing-config.json",
+								new Blob([fileContent]),
+								filePath.split(/[\\/]/).filter(Boolean).pop()
+							);
+						} else {
+							formData.append(
+								"functions-filepath-routing-config.json",
+								new Blob([value]),
+								"functions-filepath-routing-config.json"
+							);
+						}
+					}
 					const result = await withProgress(`Creating`, async () =>
 						requestApi<unknown>(
 							client,

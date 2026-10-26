@@ -270,7 +270,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 								filePath.split(/[\\/]/).filter(Boolean).pop()
 							);
 						} else {
-							formData.append("_redirects", value);
+							formData.append("_redirects", new Blob([value]), "_redirects");
 						}
 					}
 					if (argv["routes-json"] !== undefined) {
@@ -288,7 +288,11 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 								filePath.split(/[\\/]/).filter(Boolean).pop()
 							);
 						} else {
-							formData.append("_routes.json", value);
+							formData.append(
+								"_routes.json",
+								new Blob([value]),
+								"_routes.json"
+							);
 						}
 					}
 					if (argv["worker-bundle"] !== undefined) {
@@ -306,7 +310,11 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 								filePath.split(/[\\/]/).filter(Boolean).pop()
 							);
 						} else {
-							formData.append("_worker.bundle", value);
+							formData.append(
+								"_worker.bundle",
+								new Blob([value]),
+								"_worker.bundle"
+							);
 						}
 					}
 					if (argv["worker-js"] !== undefined) {
@@ -324,7 +332,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 								filePath.split(/[\\/]/).filter(Boolean).pop()
 							);
 						} else {
-							formData.append("_worker.js", value);
+							formData.append("_worker.js", new Blob([value]), "_worker.js");
 						}
 					}
 					if (argv["functions-filepath-routing-config-json"] !== undefined) {
@@ -344,7 +352,11 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 								filePath.split(/[\\/]/).filter(Boolean).pop()
 							);
 						} else {
-							formData.append("functions-filepath-routing-config.json", value);
+							formData.append(
+								"functions-filepath-routing-config.json",
+								new Blob([value]),
+								"functions-filepath-routing-config.json"
+							);
 						}
 					}
 					const result = await withProgress(`Creating`, async () =>

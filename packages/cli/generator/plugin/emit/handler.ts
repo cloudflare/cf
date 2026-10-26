@@ -452,7 +452,9 @@ function multipart(ctx: Ctx): string[] {
 			`            formData.append(${quote(field.name)}, new Blob([fileContent]), filePath.split(/[\\\\/]/).filter(Boolean).pop());`
 		);
 		lines.push("          } else {");
-		lines.push(`            formData.append(${quote(field.name)}, value);`);
+		lines.push(
+			`            formData.append(${quote(field.name)}, new Blob([value]), ${quote(field.name)});`
+		);
 		lines.push("          }");
 		lines.push("        }");
 	}

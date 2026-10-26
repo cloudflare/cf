@@ -161,7 +161,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 								filePath.split(/[\\/]/).filter(Boolean).pop()
 							);
 						} else {
-							formData.append("source", value);
+							formData.append("source", new Blob([value]), "source");
 						}
 					}
 					const result = await withProgress(`Creating`, async () =>

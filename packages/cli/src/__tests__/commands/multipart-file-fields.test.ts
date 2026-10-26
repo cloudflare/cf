@@ -91,9 +91,21 @@ describe("multipart binary fields beyond the payload", () => {
 		expect(form.has("_headers")).toBe(false);
 	});
 
-	it.each([WORKER, "_worker.js", ""])(
-		"sends inline content %j without reading a file",
-		async (content) => {
+	it.each([
+		["worker-js", "_worker.js", WORKER],
+		["worker-js", "_worker.js", "_worker.js"],
+		["worker-js", "_worker.js", ""],
+		["routes-json", "_routes.json", ROUTES],
+		["redirects", "_redirects", "/old /new 301\n"],
+		["worker-bundle", "_worker.bundle", "--boundary\r\n// λ\n--boundary--\r\n"],
+		[
+			"functions-filepath-routing-config-json",
+			"functions-filepath-routing-config.json",
+			'{"routes":[]}\n',
+		],
+	])(
+		"uploads inline --%s content as a file named %s (%j)",
+		async (flag, field, content) => {
 			let form: FormData | undefined;
 			server.use(
 				http.post(DEPLOYMENTS_URL, async ({ request }) => {
@@ -102,11 +114,16 @@ describe("multipart binary fields beyond the payload", () => {
 				})
 			);
 			const { exitCode } = await runCf(
-				["pages", "deployments", "create", "site", "--worker-js", content],
+				["pages", "deployments", "create", "site", `--${flag}=${content}`],
 				ENV
 			);
 			expect(exitCode).toBe(0);
-			expect(form?.get("_worker.js")).toBe(content.replace(/\r?\n/g, "\r\n"));
+			const file = form?.get(field) as File;
+			expect(file).toBeInstanceOf(File);
+			expect(file.name).toBe(field);
+			expect(Buffer.from(await file.arrayBuffer())).toEqual(
+				Buffer.from(content)
+			);
 		}
 	);
 
@@ -279,40 +296,51 @@ describe("multipart binary fields beyond the payload", () => {
 		);
 	});
 
-	it("supports another multipart endpoint without a primary file", async () => {
-		let form: FormData | undefined;
-		server.use(
-			http.post(
-				`${TEST_BASE_URL}/accounts/test-account/cloudforce-one/v2/requests/threat-intelligence/rfi-id/assets/upload`,
-				async ({ request }) => {
-					form = await request.formData();
-					return HttpResponse.json({
-						success: true,
-						result: { id: "asset-id" },
-					});
-				}
-			)
-		);
-		await runCf(
-			[
-				"cloudforce-one",
-				"requests",
-				"assets",
-				"upload",
-				"rfi-id",
-				"--project-type",
-				"threat-intelligence",
-				"--source",
-				"@_worker.js",
-			],
-			ENV
-		);
-		if (!form) {
-			throw new Error("No asset upload request was sent");
+	it.each([
+		["@_worker.js", "_worker.js"],
+		[WORKER, "source"],
+	])(
+		"uploads source %j as a file named %s without a primary file",
+		async (source, filename) => {
+			let form: FormData | undefined;
+			server.use(
+				http.post(
+					`${TEST_BASE_URL}/accounts/test-account/cloudforce-one/v2/requests/threat-intelligence/rfi-id/assets/upload`,
+					async ({ request }) => {
+						form = await request.formData();
+						return HttpResponse.json({
+							success: true,
+							result: { id: "asset-id" },
+						});
+					}
+				)
+			);
+			await runCf(
+				[
+					"cloudforce-one",
+					"requests",
+					"assets",
+					"upload",
+					"rfi-id",
+					"--project-type",
+					"threat-intelligence",
+					"--source",
+					source,
+				],
+				ENV
+			);
+			if (!form) {
+				throw new Error("No asset upload request was sent");
+			}
+			const file = form.get("source") as File;
+			expect(file).toBeInstanceOf(File);
+			expect(file.name).toBe(filename);
+			expect(Buffer.from(await file.arrayBuffer())).toEqual(
+				Buffer.from(WORKER)
+			);
+			expect(form.has("file")).toBe(false);
 		}
-		expect(await (form.get("source") as File).text()).toBe(WORKER);
-		expect(form.has("file")).toBe(false);
-	});
+	);
 
 	it("publishes the new flags in the command catalog", () => {
 		const metadata = JSON.parse(

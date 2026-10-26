@@ -478,6 +478,8 @@ Format defaults to `text`; overlays opt into a different format via
 or opt out entirely via `fromFile: false`. Multipart string fields
 get the same treatment. Additional binary multipart fields also accept
 literal content or `@path`; file tokens preserve the file's bytes and filename.
+Both forms upload as file parts; inline content uses the original field name
+as its filename and preserves line endings.
 The primary payload retains the explicit `--file <path>` flag.
 
 `cf complete` currently completes commands, flags, and enum choices. It does not attach filesystem-completion metadata to `@file` values; users type the path themselves (and `@<TAB>` is not a documented completion contract).

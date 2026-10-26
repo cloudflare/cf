@@ -61,7 +61,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("source", {
 			type: "string",
 			description:
-				"Path to a file to upload as the `source` form field. The file to upload (can also use 'file')",
+				"Literal content or @path/to/file for the `source` form field. The file to upload (can also use 'file')",
 		});
 }
 
@@ -147,12 +147,22 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 							)
 						);
 					if (argv["source"] !== undefined) {
-						const filePath = String(argv["source"]);
-						formData.append(
-							"source",
-							new Blob([readFileForFlag(filePath)]),
-							filePath.split(/[\\/]/).filter(Boolean).pop()
-						);
+						const value = String(argv["source"]);
+						if (value.startsWith("@")) {
+							const filePath = value.slice(1);
+							const fileContent = resolveFileToken(
+								value,
+								"source",
+								"binary"
+							) as Buffer<ArrayBuffer>;
+							formData.append(
+								"source",
+								new Blob([fileContent]),
+								filePath.split(/[\\/]/).filter(Boolean).pop()
+							);
+						} else {
+							formData.append("source", value);
+						}
 					}
 					const result = await withProgress(`Creating`, async () =>
 						requestApi<unknown>(

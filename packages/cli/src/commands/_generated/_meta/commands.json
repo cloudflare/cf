@@ -29771,7 +29771,7 @@
 					"name": "source",
 					"type": "string",
 					"required": false,
-					"description": "Path to a file to upload as the `source` form field. The file to upload (can also use 'file')"
+					"description": "Literal content or @path/to/file for the `source` form field. The file to upload (can also use 'file')"
 				}
 			],
 			"category": "action",
@@ -83772,31 +83772,31 @@
 					"name": "redirects",
 					"type": "string",
 					"required": false,
-					"description": "Path to a file to upload as the `_redirects` form field. Redirects configuration file for the deployment."
+					"description": "Literal content or @path/to/file for the `_redirects` form field. Redirects configuration file for the deployment."
 				},
 				{
 					"name": "routes-json",
 					"type": "string",
 					"required": false,
-					"description": "Path to a file to upload as the `_routes.json` form field. Routes configuration file defining routing rules."
+					"description": "Literal content or @path/to/file for the `_routes.json` form field. Routes configuration file defining routing rules."
 				},
 				{
 					"name": "worker-bundle",
 					"type": "string",
 					"required": false,
-					"description": "Path to a file to upload as the `_worker.bundle` form field. Worker bundle file in multipart/form-data format. Mutually exclusive with `_worker.js`.\nCannot specify both `_worker.js` and `_worker.bundle` in the same request.\nMaximum size: 25 MiB.\n"
+					"description": "Literal content or @path/to/file for the `_worker.bundle` form field. Worker bundle file in multipart/form-data format. Mutually exclusive with `_worker.js`.\nCannot specify both `_worker.js` and `_worker.bundle` in the same request.\nMaximum size: 25 MiB.\n"
 				},
 				{
 					"name": "worker-js",
 					"type": "string",
 					"required": false,
-					"description": "Path to a file to upload as the `_worker.js` form field. Worker JavaScript file. Mutually exclusive with `_worker.bundle`.\nCannot specify both `_worker.js` and `_worker.bundle` in the same request.\n"
+					"description": "Literal content or @path/to/file for the `_worker.js` form field. Worker JavaScript file. Mutually exclusive with `_worker.bundle`.\nCannot specify both `_worker.js` and `_worker.bundle` in the same request.\n"
 				},
 				{
 					"name": "functions-filepath-routing-config-json",
 					"type": "string",
 					"required": false,
-					"description": "Path to a file to upload as the `functions-filepath-routing-config.json` form field. Functions routing configuration file."
+					"description": "Literal content or @path/to/file for the `functions-filepath-routing-config.json` form field. Functions routing configuration file."
 				}
 			],
 			"category": "create",

@@ -79,27 +79,27 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("redirects", {
 			type: "string",
 			description:
-				"Path to a file to upload as the `_redirects` form field. Redirects configuration file for the deployment.",
+				"Literal content or @path/to/file for the `_redirects` form field. Redirects configuration file for the deployment.",
 		})
 		.option("routes-json", {
 			type: "string",
 			description:
-				"Path to a file to upload as the `_routes.json` form field. Routes configuration file defining routing rules.",
+				"Literal content or @path/to/file for the `_routes.json` form field. Routes configuration file defining routing rules.",
 		})
 		.option("worker-bundle", {
 			type: "string",
 			description:
-				"Path to a file to upload as the `_worker.bundle` form field. Worker bundle file in multipart/form-data format. Mutually exclusive with `_worker.js`.\nCannot specify both `_worker.js` and `_worker.bundle` in the same request.\nMaximum size: 25 MiB.\n",
+				"Literal content or @path/to/file for the `_worker.bundle` form field. Worker bundle file in multipart/form-data format. Mutually exclusive with `_worker.js`.\nCannot specify both `_worker.js` and `_worker.bundle` in the same request.\nMaximum size: 25 MiB.\n",
 		})
 		.option("worker-js", {
 			type: "string",
 			description:
-				"Path to a file to upload as the `_worker.js` form field. Worker JavaScript file. Mutually exclusive with `_worker.bundle`.\nCannot specify both `_worker.js` and `_worker.bundle` in the same request.\n",
+				"Literal content or @path/to/file for the `_worker.js` form field. Worker JavaScript file. Mutually exclusive with `_worker.bundle`.\nCannot specify both `_worker.js` and `_worker.bundle` in the same request.\n",
 		})
 		.option("functions-filepath-routing-config-json", {
 			type: "string",
 			description:
-				"Path to a file to upload as the `functions-filepath-routing-config.json` form field. Functions routing configuration file.",
+				"Literal content or @path/to/file for the `functions-filepath-routing-config.json` form field. Functions routing configuration file.",
 		});
 }
 
@@ -256,46 +256,96 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 							)
 						);
 					if (argv["redirects"] !== undefined) {
-						const filePath = String(argv["redirects"]);
-						formData.append(
-							"_redirects",
-							new Blob([readFileForFlag(filePath)]),
-							filePath.split(/[\\/]/).filter(Boolean).pop()
-						);
+						const value = String(argv["redirects"]);
+						if (value.startsWith("@")) {
+							const filePath = value.slice(1);
+							const fileContent = resolveFileToken(
+								value,
+								"redirects",
+								"binary"
+							) as Buffer<ArrayBuffer>;
+							formData.append(
+								"_redirects",
+								new Blob([fileContent]),
+								filePath.split(/[\\/]/).filter(Boolean).pop()
+							);
+						} else {
+							formData.append("_redirects", value);
+						}
 					}
 					if (argv["routes-json"] !== undefined) {
-						const filePath = String(argv["routes-json"]);
-						formData.append(
-							"_routes.json",
-							new Blob([readFileForFlag(filePath)]),
-							filePath.split(/[\\/]/).filter(Boolean).pop()
-						);
+						const value = String(argv["routes-json"]);
+						if (value.startsWith("@")) {
+							const filePath = value.slice(1);
+							const fileContent = resolveFileToken(
+								value,
+								"routes-json",
+								"binary"
+							) as Buffer<ArrayBuffer>;
+							formData.append(
+								"_routes.json",
+								new Blob([fileContent]),
+								filePath.split(/[\\/]/).filter(Boolean).pop()
+							);
+						} else {
+							formData.append("_routes.json", value);
+						}
 					}
 					if (argv["worker-bundle"] !== undefined) {
-						const filePath = String(argv["worker-bundle"]);
-						formData.append(
-							"_worker.bundle",
-							new Blob([readFileForFlag(filePath)]),
-							filePath.split(/[\\/]/).filter(Boolean).pop()
-						);
+						const value = String(argv["worker-bundle"]);
+						if (value.startsWith("@")) {
+							const filePath = value.slice(1);
+							const fileContent = resolveFileToken(
+								value,
+								"worker-bundle",
+								"binary"
+							) as Buffer<ArrayBuffer>;
+							formData.append(
+								"_worker.bundle",
+								new Blob([fileContent]),
+								filePath.split(/[\\/]/).filter(Boolean).pop()
+							);
+						} else {
+							formData.append("_worker.bundle", value);
+						}
 					}
 					if (argv["worker-js"] !== undefined) {
-						const filePath = String(argv["worker-js"]);
-						formData.append(
-							"_worker.js",
-							new Blob([readFileForFlag(filePath)]),
-							filePath.split(/[\\/]/).filter(Boolean).pop()
-						);
+						const value = String(argv["worker-js"]);
+						if (value.startsWith("@")) {
+							const filePath = value.slice(1);
+							const fileContent = resolveFileToken(
+								value,
+								"worker-js",
+								"binary"
+							) as Buffer<ArrayBuffer>;
+							formData.append(
+								"_worker.js",
+								new Blob([fileContent]),
+								filePath.split(/[\\/]/).filter(Boolean).pop()
+							);
+						} else {
+							formData.append("_worker.js", value);
+						}
 					}
 					if (argv["functions-filepath-routing-config-json"] !== undefined) {
-						const filePath = String(
+						const value = String(
 							argv["functions-filepath-routing-config-json"]
 						);
-						formData.append(
-							"functions-filepath-routing-config.json",
-							new Blob([readFileForFlag(filePath)]),
-							filePath.split(/[\\/]/).filter(Boolean).pop()
-						);
+						if (value.startsWith("@")) {
+							const filePath = value.slice(1);
+							const fileContent = resolveFileToken(
+								value,
+								"functions-filepath-routing-config-json",
+								"binary"
+							) as Buffer<ArrayBuffer>;
+							formData.append(
+								"functions-filepath-routing-config.json",
+								new Blob([fileContent]),
+								filePath.split(/[\\/]/).filter(Boolean).pop()
+							);
+						} else {
+							formData.append("functions-filepath-routing-config.json", value);
+						}
 					}
 					const result = await withProgress(`Creating`, async () =>
 						requestApi<unknown>(

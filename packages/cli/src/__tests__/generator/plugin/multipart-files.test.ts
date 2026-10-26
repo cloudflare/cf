@@ -22,7 +22,7 @@ const multipartOperation = (fields: MultipartField[]): OperationInfo =>
 	});
 
 describe("binary multipart file flags", () => {
-	it("gives every binary field after the payload its own path flag", () => {
+	it("gives every binary field after the payload its own flag", () => {
 		const op = multipartOperation([
 			binary("_headers"),
 			binary("_worker.js"),
@@ -62,6 +62,8 @@ describe("binary multipart file flags", () => {
 				"_z",
 				"_profile",
 				"_mode",
+				"_temporary.account",
+				"_event.code",
 				"_m",
 				"_help",
 				"_h",

@@ -120,14 +120,14 @@ export interface Derived {
 	multipartFileFields: MultipartFileField[];
 }
 
-/** A binary field besides the payload, with its own path-valued flag. */
+/** A binary field besides the payload, accepting literal content or `@file`. */
 export interface MultipartFileField {
 	field: MultipartField;
 	flag: string;
 }
 
 export function multipartFileFlagDescription(field: MultipartField): string {
-	return `Path to a file to upload as the \`${field.name}\` form field. ${field.description}`;
+	return `Literal content or @path/to/file for the \`${field.name}\` form field. ${field.description}`;
 }
 
 export const positionals = (d: Derived): Arg[] =>

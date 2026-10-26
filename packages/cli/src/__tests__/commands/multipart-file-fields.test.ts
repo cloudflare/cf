@@ -15,7 +15,7 @@ import { runCf } from "../helpers/run-cf.js";
 
 /**
  * `--file` only fills the multipart payload field (`_headers` for Pages
- * deployments). Every other `format: binary` field needs its own path flag;
+ * deployments). Every other `format: binary` field needs its own flag;
  * before this, a Pages Direct Upload could not include `_worker.js`.
  */
 describe("multipart binary fields beyond the payload", () => {
@@ -68,9 +68,9 @@ describe("multipart binary fields beyond the payload", () => {
 				"--branch",
 				"main",
 				"--worker-js",
-				"_worker.js",
+				"@_worker.js",
 				"--routes-json",
-				"_routes.json",
+				"@_routes.json",
 				"--quiet",
 			],
 			ENV
@@ -89,6 +89,44 @@ describe("multipart binary fields beyond the payload", () => {
 		expect(await (form.get("_routes.json") as File).text()).toBe(ROUTES);
 		// The payload field is only sent when --file is passed.
 		expect(form.has("_headers")).toBe(false);
+	});
+
+	it.each([WORKER, "_worker.js", ""])(
+		"sends inline content %j without reading a file",
+		async (content) => {
+			let form: FormData | undefined;
+			server.use(
+				http.post(DEPLOYMENTS_URL, async ({ request }) => {
+					form = await request.formData();
+					return HttpResponse.json({ success: true, result: { id: "d1" } });
+				})
+			);
+			const { exitCode } = await runCf(
+				["pages", "deployments", "create", "site", "--worker-js", content],
+				ENV
+			);
+			expect(exitCode).toBe(0);
+			expect(form?.get("_worker.js")).toBe(content.replace(/\r?\n/g, "\r\n"));
+		}
+	);
+
+	it("uploads an empty file token consistently with other body flags", async () => {
+		writeFileSync("empty.js", "");
+		let form: FormData | undefined;
+		server.use(
+			http.post(DEPLOYMENTS_URL, async ({ request }) => {
+				form = await request.formData();
+				return HttpResponse.json({ success: true, result: { id: "d1" } });
+			})
+		);
+		await runCf(
+			["pages", "deployments", "create", "site", "--worker-js", "@empty.js"],
+			ENV
+		);
+		const worker = form?.get("_worker.js") as File;
+		expect(worker).toBeInstanceOf(File);
+		expect(worker.name).toBe("empty.js");
+		expect(worker.size).toBe(0);
 	});
 
 	it.each([
@@ -110,7 +148,7 @@ describe("multipart binary fields beyond the payload", () => {
 				"--manifest",
 				"{}",
 				`--${flag}`,
-				filename,
+				`@${filename}`,
 				"--dry-run",
 			],
 			ENV
@@ -122,14 +160,18 @@ describe("multipart binary fields beyond the payload", () => {
 			body: Record<string, unknown>;
 		};
 		expect(preview.bodyKind).toBe("multipart");
-		expect(preview.body[flag]).toBe(filename);
+		expect(preview.body[flag]).toBe(`@${filename}`);
 		expect(preview.body.manifest).toBe("{}");
 	});
 
-	it.each(["empty.js", "missing.js"])(
-		"rejects invalid file %s before sending the request",
-		async (filename) => {
-			writeFileSync("empty.js", "");
+	it.each([
+		["@", "must be followed by a file path"],
+		["@missing.js", "--worker-js: cannot read file"],
+		["@directory", "--worker-js: cannot read file"],
+	])(
+		"rejects invalid file token %s before sending the request",
+		async (token, message) => {
+			mkdirSync("directory");
 			let called = false;
 			server.use(
 				http.post(DEPLOYMENTS_URL, () => {
@@ -148,12 +190,12 @@ describe("multipart binary fields beyond the payload", () => {
 						"--manifest",
 						"{}",
 						"--worker-js",
-						filename,
+						token,
 						"--quiet",
 					],
 					ENV
 				)
-			).rejects.toThrow(`Cannot read invalid or empty file: ${filename}`);
+			).rejects.toThrow(message);
 			expect(called).toBe(false);
 		}
 	);
@@ -183,7 +225,7 @@ describe("multipart binary fields beyond the payload", () => {
 				"--manifest",
 				"{}",
 				`--${flag}`,
-				"input.bin",
+				"@input.bin",
 			],
 			ENV
 		);
@@ -222,7 +264,7 @@ describe("multipart binary fields beyond the payload", () => {
 				"--file",
 				"headers.txt",
 				"--worker-js",
-				path,
+				`@${path}`,
 			],
 			ENV
 		);
@@ -261,7 +303,7 @@ describe("multipart binary fields beyond the payload", () => {
 				"--project-type",
 				"threat-intelligence",
 				"--source",
-				"_worker.js",
+				"@_worker.js",
 			],
 			ENV
 		);

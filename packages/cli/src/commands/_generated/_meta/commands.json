@@ -20717,7 +20717,7 @@
 			"httpMethod": "POST",
 			"apiPath": "/zones/{zone_id}/bot_management/feedback",
 			"operationId": "bot-management.feedback.create",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf bot-management feedback list",
@@ -20741,7 +20741,7 @@
 			"httpMethod": "GET",
 			"apiPath": "/zones/{zone_id}/bot_management/feedback",
 			"operationId": "bot-management.feedback.list",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf bot-management get",
@@ -20765,7 +20765,7 @@
 			"httpMethod": "GET",
 			"apiPath": "/zones/{zone_id}/bot_management",
 			"operationId": "bot-management.get",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf bot-management update",
@@ -20973,7 +20973,7 @@
 			"httpMethod": "PUT",
 			"apiPath": "/zones/{zone_id}/bot_management",
 			"operationId": "bot-management.update",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf botnet-feed asn day-report",
@@ -37317,7 +37317,7 @@
 				"articles",
 				"aggregate-severity"
 			],
-			"description": "Beta. Counts the account's Threat Signals articles in each intrinsic severity band. An article's band is the severity level nearest its severity, from informational to critical. Articles without a severity are not counted. min_relevance counts only articles at or above a relevance band for any active Priority Intelligence Requirement. Like the article severity field, severity is reported only while the account has an active Priority Intelligence Requirement, including one the matcher paused; otherwise every count is zero. All counts are read together and are exact.",
+			"description": "Beta. Counts the account's Threat Signals articles in each intrinsic severity band. An article's band is the severity level nearest its severity, from informational to critical. Articles without a severity are not counted. Also counts, for each active Priority Intelligence Requirement, the articles scored against it. min_relevance counts only articles at or above a relevance band: overall, for any active PIR; per PIR, for that PIR, the same rule as the per-PIR relevance counts. pir_id counts for one active PIR only. Like the article severity field, severity is reported only while the account has an active Priority Intelligence Requirement, including one the matcher paused; otherwise every count is zero and priorities is empty. All counts are read together and are exact.",
 			"summary": "Count Threat Signals articles by severity band",
 			"usage": "cf cloudforce-one threat-signals articles aggregate-severity [options]",
 			"arguments": [],
@@ -37335,10 +37335,16 @@
 					"description": "Include articles published at or before this ISO 8601 date-time with Z or a numeric UTC offset; normalized to UTC."
 				},
 				{
+					"name": "pir-id",
+					"type": "string",
+					"required": false,
+					"description": "Beta. Active Priority Intelligence Requirement to count for. articles then counts only articles scored against it, min_relevance applies to its score, and priorities lists only it. Returns a 400 error unless the PIR is active."
+				},
+				{
 					"name": "min-relevance",
 					"type": "string",
 					"required": false,
-					"description": "Beta. Count only articles at or above this relevance band for any active Priority Intelligence Requirement, as the article list's min_relevance does without pir_id. Excludes articles that have not been scored against an active PIR.",
+					"description": "Beta. Count only articles at or above this relevance band: in articles, for any active Priority Intelligence Requirement, as the article list's min_relevance does without pir_id; in each priority, for that PIR. Excludes articles that have not been scored against an active PIR.",
 					"enum": ["low", "medium", "high"]
 				},
 				{
@@ -54355,7 +54361,7 @@
 			"httpMethod": "GET",
 			"apiPath": "/zones/{zone_id}/fraud_detection/settings",
 			"operationId": "fraud.get",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf fraud update",
@@ -54424,7 +54430,7 @@
 			"httpMethod": "PUT",
 			"apiPath": "/zones/{zone_id}/fraud_detection/settings",
 			"operationId": "fraud.update",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf google-tag-gateway config get",
@@ -151125,6 +151131,12 @@
 					"default": false
 				},
 				{
+					"name": "global-acceleration-allow-manual-override",
+					"type": "boolean",
+					"required": false,
+					"description": "Whether WARP users may manually override the automatic Global Acceleration decision. Defaults to true when not provided."
+				},
+				{
 					"name": "global-acceleration-api-endpoints",
 					"type": "string",
 					"required": false,
@@ -151489,6 +151501,12 @@
 					"description": "Whether to add Microsoft IPs to Split Tunnel exclusions."
 				},
 				{
+					"name": "global-acceleration-allow-manual-override",
+					"type": "boolean",
+					"required": false,
+					"description": "Whether WARP users may manually override the automatic Global Acceleration decision. Defaults to true when not provided."
+				},
+				{
 					"name": "global-acceleration-api-endpoints",
 					"type": "string",
 					"required": false,
@@ -151727,6 +151745,12 @@
 					"type": "boolean",
 					"required": false,
 					"description": "Whether to add Microsoft IPs to Split Tunnel exclusions."
+				},
+				{
+					"name": "global-acceleration-allow-manual-override",
+					"type": "boolean",
+					"required": false,
+					"description": "Whether WARP users may manually override the automatic Global Acceleration decision. Defaults to true when not provided."
 				},
 				{
 					"name": "global-acceleration-api-endpoints",

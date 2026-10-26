@@ -26518,6 +26518,11 @@
 					"required": false
 				},
 				{
+					"name": "pir_id",
+					"type": "string",
+					"required": false
+				},
+				{
 					"name": "min_relevance",
 					"type": "string",
 					"required": false
@@ -105322,6 +105327,12 @@
 					"description": "Whether to add Microsoft IPs to Split Tunnel exclusions."
 				},
 				{
+					"name": "global-acceleration-allow-manual-override",
+					"type": "boolean",
+					"required": false,
+					"description": "Whether WARP users may manually override the automatic Global Acceleration decision. Defaults to true when not provided."
+				},
+				{
 					"name": "global-acceleration-api-endpoints",
 					"type": "string",
 					"required": false,
@@ -105626,6 +105637,12 @@
 					"description": "Whether to add Microsoft IPs to Split Tunnel exclusions."
 				},
 				{
+					"name": "global-acceleration-allow-manual-override",
+					"type": "boolean",
+					"required": false,
+					"description": "Whether WARP users may manually override the automatic Global Acceleration decision. Defaults to true when not provided."
+				},
+				{
 					"name": "global-acceleration-api-endpoints",
 					"type": "string",
 					"required": false,
@@ -105841,6 +105858,12 @@
 					"type": "boolean",
 					"required": false,
 					"description": "Whether to add Microsoft IPs to Split Tunnel exclusions."
+				},
+				{
+					"name": "global-acceleration-allow-manual-override",
+					"type": "boolean",
+					"required": false,
+					"description": "Whether WARP users may manually override the automatic Global Acceleration decision. Defaults to true when not provided."
 				},
 				{
 					"name": "global-acceleration-api-endpoints",

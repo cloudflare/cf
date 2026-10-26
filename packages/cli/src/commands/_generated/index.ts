@@ -199,7 +199,7 @@ export const generatedCommands: GeneratedCommand[] = [
 			() => import("./bot-management/index.js"),
 			null
 		),
-		hideCommand: true,
+		hideCommand: false,
 	},
 	{
 		command: lazyCommand<CommonYargsOptions>(
@@ -514,7 +514,7 @@ export const generatedCommands: GeneratedCommand[] = [
 			() => import("./fraud/index.js"),
 			null
 		),
-		hideCommand: true,
+		hideCommand: false,
 	},
 	{
 		command: lazyCommand<CommonYargsOptions>(

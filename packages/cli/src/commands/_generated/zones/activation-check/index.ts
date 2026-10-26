@@ -1,14 +1,14 @@
 import $activate from "./activate.js";
 import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
- * zone command
- * @generated from apis/overlays/zone.ts
+ * activation-check command group
+ * @generated from apis/overlays/zones.ts
  */
 import type { CommandModule } from "yargs";
 
 const command: CommandModule<CommonYargsOptions> = {
-	command: "zone",
-	describe: "zone",
+	command: "activation-check",
+	describe: "Operations for activation-check",
 
 	builder: (yargs) => {
 		return yargs

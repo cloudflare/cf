@@ -5,16 +5,8 @@
  * hide a new field. One file per key, never a prefetched catalogue: the
  * key space is thousands of models, and a stale or corrupt entry should
  * only affect the key it belongs to.
- *
- * Lives under workers-auth's canonical config directory but in its own
- * subtree — `state.json` carries a cross-version compatibility contract
- * (see `lib/state.ts`) and cached schemas have no business in it.
  */
-import { createHash } from "node:crypto";
-import { mkdirSync, readFileSync, writeFileSync } from "node:fs";
-import { dirname, join } from "node:path";
-import { getCfConfigPath } from "@cloudflare/workers-auth/cf";
-import { VERSION } from "../version.js";
+import { readCached, writeCached } from "./disk-cache.js";
 import type { JsonSchema } from "./schema-flags.js";
 
 /** Total network budget for schema-backed help, including account discovery. */
@@ -26,11 +18,6 @@ export const SCHEMA_HELP_TIMEOUT_MS = 5000;
  * new field the same day.
  */
 const CACHE_TTL_MS = 60 * 60 * 1000;
-
-interface CacheEntry {
-	fetchedAt: number;
-	schema: JsonSchema;
-}
 
 function isJsonSchema(
 	value: unknown,
@@ -185,50 +172,23 @@ export function pickSchema(
 		: undefined;
 }
 
-function cachePath(namespace: string, keyParts: readonly string[]): string {
-	const digest = createHash("sha256")
-		.update([VERSION, ...keyParts].join(" "))
-		.digest("hex")
-		.slice(0, 32);
-	return join(getCfConfigPath(), "cache", namespace, `${digest}.json`);
-}
-
 /** A cached schema, if one is present and still fresh. */
 export function readCachedSchema(
 	namespace: string,
 	keyParts: readonly string[]
 ): JsonSchema | undefined {
-	try {
-		const entry = JSON.parse(
-			readFileSync(cachePath(namespace, keyParts), "utf-8")
-		) as CacheEntry;
-		return typeof entry?.fetchedAt === "number" &&
-			Date.now() - entry.fetchedAt <= CACHE_TTL_MS &&
-			isJsonSchema(entry.schema)
-			? entry.schema
-			: undefined;
-	} catch {
-		return undefined;
-	}
+	return readCached(namespace, keyParts, CACHE_TTL_MS, (value) =>
+		isJsonSchema(value) ? value : undefined
+	);
 }
 
-/**
- * Cache a schema. Failures are swallowed — a read-only home directory or
- * a sandboxed CI runner is normal, and a cache miss isn't worth surfacing.
- */
+/** Cache a schema for `readCachedSchema`. */
 export function writeCachedSchema(
 	namespace: string,
 	keyParts: readonly string[],
 	schema: JsonSchema
 ): void {
-	try {
-		const path = cachePath(namespace, keyParts);
-		mkdirSync(dirname(path), { recursive: true });
-		const entry: CacheEntry = { fetchedAt: Date.now(), schema };
-		writeFileSync(path, JSON.stringify(entry), "utf-8");
-	} catch {
-		/* ignore */
-	}
+	writeCached(namespace, keyParts, schema);
 }
 
 /** Describe a failed schema fetch in one clause. Never throws. */

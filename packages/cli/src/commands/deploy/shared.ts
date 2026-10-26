@@ -63,7 +63,7 @@ export function sharedUploadBuilder(yargs: Argv<CommonYargsOptions>) {
 		.option("secrets-file", {
 			type: "string",
 			description:
-				"Path to a file containing secrets to upload with the version (JSON or .env format). Dotenv values expand $VAR and ${VAR}; process environment values override file values. Only use trusted dotenv secrets files: they can read and upload any process environment value. Escape literal dollar signs with \\$ or use JSON.",
+				"Path to a file containing secrets to upload with the version (JSON or .env format). Dotenv values expand $VAR and ${VAR} using process environment values and earlier file values; process environment values override file values, including empty values. Only declared file keys are uploaded. Only use trusted dotenv secrets files: they can read and upload any process environment value. Escape literal dollar signs with \\$ or use JSON.",
 			requiresArg: true,
 		})
 		.option("dry-run", {

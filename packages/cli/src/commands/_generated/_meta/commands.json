@@ -162455,12 +162455,12 @@
 			"hideCommand": false
 		},
 		{
-			"command": "cf zone activate",
+			"command": "cf zones activation-check activate",
 			"name": "activate",
-			"fullPath": ["zone", "activate"],
+			"fullPath": ["zones", "activation-check", "activate"],
 			"description": "Triggeres a new activation check for a PENDING Zone. This can be triggered every 5 min for paygo/ent customers, every hour for FREE Zones.",
 			"summary": "Rerun the Activation Check",
-			"usage": "cf zone activate",
+			"usage": "cf zones activation-check activate",
 			"arguments": [],
 			"options": [
 				{
@@ -162475,7 +162475,7 @@
 			"hasRequestBody": false,
 			"httpMethod": "PUT",
 			"apiPath": "/zones/{zone_id}/activation_check",
-			"operationId": "zone.activate",
+			"operationId": "zones.activation-check.activate",
 			"hideCommand": false
 		},
 		{
@@ -165597,8 +165597,8 @@
 		"zero-trust users mfa": "Operations for users.mfa",
 		"zero-trust users mfa authenticators": "Operations for users.mfa.authenticators",
 		"zero-trust users passkeys": "Operations for users.passkeys",
-		"zone": "zone",
 		"zones": "Zones are domains on Cloudflare — list, create, and configure domain settings",
+		"zones activation-check": "Operations for activation-check",
 		"zones aegis": "Aegis operations",
 		"zones automatic-platform-optimization": "Operations for automatic-platform-optimization",
 		"zones binary-ast": "Operations for binary-ast",

@@ -1,4 +1,4 @@
-/** @generated from zone.activate */
+/** @generated from zones.activation-check.activate */
 import { path } from "#api";
 
 export default {

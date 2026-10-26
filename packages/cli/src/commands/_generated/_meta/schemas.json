@@ -113649,8 +113649,8 @@
 			"hasRequestBody": false,
 			"requestBodyFields": []
 		},
-		"zone activate": {
-			"operationId": "zone.activate",
+		"zones activation-check activate": {
+			"operationId": "zones.activation-check.activate",
 			"httpMethod": "PUT",
 			"path": "/zones/{zone_id}/activation_check",
 			"pathParams": [

@@ -1,9 +1,9 @@
-import operation from "../_operations/zone/activate.js";
+import operation from "../../_operations/zones/activation-check/activate.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * activate command
- * @generated from apis/overlays/zone.ts
+ * @generated from apis/overlays/zones.ts
  */
 import type { Argv, CommandModule } from "yargs";
 import { createCommandClient, getZoneId } from "#lib/auth.js";
@@ -15,7 +15,7 @@ import { runWithTelemetry } from "#lib/telemetry/index.js";
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
 		.usage(
-			"$0 zone activate\n\nTriggeres a new activation check for a PENDING Zone. This can be triggered every 5 min for paygo/ent customers, every hour for FREE Zones."
+			"$0 zones activation-check activate\n\nTriggeres a new activation check for a PENDING Zone. This can be triggered every 5 min for paygo/ent customers, every hour for FREE Zones."
 		)
 		.option("dry-run", {
 			type: "boolean",
@@ -33,7 +33,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
-				command: "zone activate",
+				command: "zones activation-check activate",
 				classification: {
 					safeFlags: ["dry-run"],
 				} satisfies ArgClassification<Args>,
@@ -42,7 +42,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			async () => {
 				if (argv.dryRun) {
 					formatDryRun({
-						command: "cf zone activate",
+						command: "cf zones activation-check activate",
 						method: "PUT",
 						url: `https://api.cloudflare.com/client/v4/zones/${argv.zone ?? argv.zoneId ?? "<zone>"}/activation_check`,
 						pathParams: {

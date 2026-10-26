@@ -1256,15 +1256,6 @@ export const generatedCommands: GeneratedCommand[] = [
 	},
 	{
 		command: lazyCommand<CommonYargsOptions>(
-			"zone",
-			"zone",
-			() => import("./zone/index.js"),
-			null
-		),
-		hideCommand: false,
-	},
-	{
-		command: lazyCommand<CommonYargsOptions>(
 			"zones",
 			"Zones are domains on Cloudflare — list, create, and configure domain settings",
 			() => import("./zones/index.js"),

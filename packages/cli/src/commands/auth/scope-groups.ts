@@ -250,16 +250,32 @@ export function groupScopes(
 
 type ScopeGroups = ReturnType<typeof groupScopes>;
 
+// Custom scopes are counted apart, so "n/total" only ever means defaults.
 function countLabel(area: string, granted: ScopeGroups, defaults: ScopeGroups) {
-	const count = granted.get(area)?.length ?? 0;
-	return `${count}/${defaults.get(area)?.length ?? count}`;
+	const entries = granted.get(area) ?? [];
+	const total = defaults.get(area)?.length ?? 0;
+	const fromDefaults = entries.filter(({ scope }) =>
+		DEFAULT_SCOPES.has(scope)
+	).length;
+	const custom = entries.length - fromDefaults;
+	const counts = total > 0 ? [`${fromDefaults}/${total}`] : [];
+	if (custom > 0) {
+		counts.push(`${custom} custom`);
+	}
+	return counts.join(" + ");
 }
 
-/** One line per product area that has granted scopes, with its counts. */
+/**
+ * One line per product area that has granted scopes, with its counts; empty
+ * when no scope grants product access.
+ */
 export function formatScopeSummary(scopes: readonly string[]): string {
 	const granted = groupScopes(scopes);
 	const defaults = groupScopes(DefaultScopeKeys);
 	const areas = AREA_NAMES.filter((area) => granted.has(area));
+	if (areas.length === 0) {
+		return "";
+	}
 	const width = Math.max(...areas.map((area) => area.length));
 	return areas
 		.map(
@@ -274,10 +290,15 @@ export function formatScopeSummary(scopes: readonly string[]): string {
 const words = (text: string) =>
 	` ${text.toLowerCase().replace(/[^a-z0-9]+/g, " ")}`;
 
+// Scopes are displayed with `-` for `_`, so a filter copied from the output
+// must match either spelling.
+const normalize = (text: string) => text.toLowerCase().replaceAll("_", "-");
+
 /**
  * Render scopes as one block per product area, highlighting non-read access.
- * `product` keeps the areas with a word starting with it, `filter` the scopes
- * whose name contains it.
+ * `product` keeps the areas with a word starting with it, plus the scopes
+ * whose resource has one, such as `workers`; `filter` keeps the scopes whose
+ * name contains it.
  */
 export function formatScopeGroups(
 	scopes: readonly string[],
@@ -287,13 +308,13 @@ export function formatScopeGroups(
 	const defaults = groupScopes(DefaultScopeKeys);
 	const blocks: string[] = [];
 
+	const term = words(product).trimEnd();
 	for (const area of AREA_NAMES) {
-		if (!words(area).includes(words(product).trimEnd())) {
-			continue;
-		}
-		const entries = granted.get(area) ?? [];
-		const shown = entries.filter(({ scope }) =>
-			scope.toLowerCase().includes(filter.toLowerCase())
+		const areaMatches = words(area).includes(term);
+		const shown = (granted.get(area) ?? []).filter(
+			({ scope, resource }) =>
+				(areaMatches || words(resource).includes(term)) &&
+				normalize(scope).includes(normalize(filter))
 		);
 		if (shown.length === 0) {
 			continue;

@@ -46,7 +46,15 @@ const scopesCommand: CommandModule<object, ScopesArgs> = {
 		}
 
 		if (argv.product === undefined && !argv.all && argv.filter === undefined) {
-			console.log(formatScopeSummary(scopes));
+			const summary = formatScopeSummary(scopes);
+			if (!summary) {
+				log.info(
+					"No product scopes granted. To log in with the default scopes, run:",
+					"cf auth login --force"
+				);
+				return;
+			}
+			console.log(summary);
 			log.info(
 				"To see a product's permissions, or every product's, run:",
 				"cf auth scopes <product>",

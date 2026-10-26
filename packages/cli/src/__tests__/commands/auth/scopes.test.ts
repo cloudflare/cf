@@ -46,4 +46,19 @@ describe("cf auth scopes", () => {
 
 		expect(std.err).toContain("CLOUDFLARE_API_TOKEN is set");
 	});
+
+	it("says when no product scopes are granted", async () => {
+		writeAuthConfigFile({
+			oauth_token: "oauth-token",
+			refresh_token: "refresh-token",
+			expiration_time: new Date(Date.now() + 3_600_000).toISOString(),
+			scopes: ["openid", "offline_access"],
+		});
+
+		await runCf(["auth", "scopes"]);
+
+		expect(std.out).toBe("");
+		expect(std.err).toContain("No product scopes granted.");
+		expect(std.err).not.toContain("cf auth scopes <product>");
+	});
 });

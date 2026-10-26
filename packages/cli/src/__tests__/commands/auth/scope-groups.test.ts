@@ -2,6 +2,7 @@ import { DefaultScopeKeys } from "@cloudflare/workers-auth/cf";
 import { describe, expect, it } from "vite-plus/test";
 import {
 	formatScopeGroups,
+	formatScopeSummary,
 	groupScopes,
 } from "../../../commands/auth/scope-groups.js";
 
@@ -77,9 +78,46 @@ describe("scope groups", () => {
 		expect(
 			formatScopeGroups(["d1:write", "d1.read", "hyperdrive-planetscale:setup"])
 		).toMatchInlineSnapshot(`
-			"Developer Platform (3/122)
+			"Developer Platform (2/122 + 1 custom)
 			  d1                      read, write
 			  hyperdrive-planetscale  setup (custom)"
 		`);
+	});
+
+	it("matches products by resource name as well as area", () => {
+		const scopes = ["workers-scripts.write", "d1.read", "dns.read"];
+
+		const workers = formatScopeGroups(scopes, { product: "workers" });
+		expect(workers).toContain("workers-scripts");
+		expect(workers).not.toContain("d1");
+		expect(workers).not.toContain("DNS");
+		expect(formatScopeGroups(scopes, { product: "d1" })).toContain("d1");
+	});
+
+	it("filters on the displayed spelling of a scope", () => {
+		const scopes = ["workers_kv:write", "workers-kv-storage.read"];
+
+		const shown = formatScopeGroups(scopes, { filter: "workers-kv" });
+		expect(shown).toMatch(/workers-kv +write/);
+		expect(shown).toMatch(/workers-kv-storage +read/);
+		expect(formatScopeGroups(scopes, { filter: "workers_kv" })).toMatch(
+			/workers-kv-storage +read/
+		);
+	});
+
+	it("counts custom scopes apart from defaults", () => {
+		const summary = formatScopeSummary([
+			"d1.read",
+			"hyperdrive-planetscale:setup",
+			"artifacts-custom.read",
+		]);
+
+		expect(summary).toMatch(/Developer Platform +1\/\d+ \+ 1 custom/);
+		expect(summary).not.toMatch(/2\/\d+/);
+	});
+
+	it("summarizes nothing when no scope grants product access", () => {
+		expect(formatScopeSummary([])).toBe("");
+		expect(formatScopeSummary(["openid", "offline_access"])).toBe("");
 	});
 });

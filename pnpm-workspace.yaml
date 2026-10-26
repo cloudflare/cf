@@ -8,7 +8,7 @@ patchedDependencies:
   "@cloudflare/deploy-helpers@*": patches/@cloudflare__deploy-helpers@0.20.1.patch
 
 # Prevent transitive deps from pulling from git / tarball URLs.
-# Direct deps (the pinned pkg.pr.new builds) are still allowed.
+# Direct deps (the pkg.pr.new @cloudflare/forge build) are still allowed.
 blockExoticSubdeps: true
 
 # Allow Cloudflare release batches before pnpm's maturity cutoff. Keep these
@@ -34,11 +34,6 @@ catalog:
   vite: npm:@voidzero-dev/vite-plus-core@1.3.0
   vite-plus: 1.3.0
 overrides:
-  # Keep the secrets-file prerelease on cf's existing dependencies until its npm release.
-  "@cloudflare/deploy-helpers>@cloudflare/config": "0.28.0"
-  "@cloudflare/deploy-helpers>@cloudflare/containers-shared": "0.23.2"
-  "@cloudflare/workers-utils": "file:vendor/cloudflare-workers-utils-9d444f329a999e8fff31eed2c27a4719506a39c5.tgz"
-  "@cloudflare/deploy-helpers>miniflare": "5.20261019.2-beta"
   vite@*: "catalog:"
   vitest@*: 5.0.5
 peerDependencyRules:

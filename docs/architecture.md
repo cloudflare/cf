@@ -733,15 +733,8 @@ library the plugin is written with — is not on npm. Forge's `Publish preview`
 workflow publishes a build to [pkg.pr.new](https://pkg.pr.new) from main
 pushes that change the package, and `packages/cli/package.json` pins one by
 commit: `https://pkg.pr.new/cloudflare/forge/@cloudflare/forge@<sha>`.
-`build-output-utils`, `config`, `containers-shared`, and `workers-auth` are
-installed from npm at exact versions. Until the dotenv secrets-file changes
-from workers-sdk #15955 reach npm, `deploy-helpers` uses the commit-pinned
-`9d444f329a999e8fff31eed2c27a4719506a39c5` pkg.pr.new build. Its matching
-`workers-utils` build is an unmodified tarball in `vendor/`, so pnpm's
-`blockExoticSubdeps` restriction stays enabled. Workspace overrides share that
-build and retain cf's existing versions of the other prerelease dependencies.
-After the npm release, replace both pins with npm versions and remove the
-temporary overrides and vendored tarball. See `vendor/README.md` for provenance.
+`build-output-utils`, `config`, `containers-shared`, `workers-auth`,
+`workers-utils`, and `deploy-helpers` are installed from npm at exact versions.
 Dependency patches are registered in `pnpm-workspace.yaml` under
 `patchedDependencies`; workers-auth is not patched.
 

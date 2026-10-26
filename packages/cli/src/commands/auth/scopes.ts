@@ -1,5 +1,8 @@
-import { createCommandClient } from "../../lib/auth.js";
-import { readAuthCredentials } from "../../lib/oauth/index.js";
+import { getAuthFromEnv } from "@cloudflare/workers-auth";
+import {
+	getActiveProfile,
+	readAuthCredentials,
+} from "../../lib/oauth/index.js";
 import { describeSchemaFailure } from "../../lib/schema-cache.js";
 import { theme } from "../../lib/ui/index.js";
 import { log } from "../../lib/ui/log.js";
@@ -11,10 +14,33 @@ import {
 	hasProductScopes,
 	matchesArea,
 } from "./scope-groups.js";
+import type { CommonYargsOptions } from "../../lib/cli-types.js";
 import type { ScopeCatalogue } from "./scope-catalogue.js";
 import type { ArgumentsCamelCase, Argv, CommandModule } from "yargs";
 
-interface ScopesArgs {
+// `cf auth login` only re-authenticates the default profile.
+function reloginCommand(force: boolean): string {
+	const profile = getActiveProfile();
+	if (profile !== "default") {
+		return `cf auth create ${profile}`;
+	}
+	return force ? "cf auth login --force" : "cf auth login";
+}
+
+// The schema-help wording points at CLOUDFLARE_API_TOKEN, which this command
+// never uses.
+function describeCatalogueFailure(err: unknown): string {
+	const status = (err as { statusCode?: number } | null)?.statusCode;
+	if (status === 401 || status === 403) {
+		return `your login was rejected; run ${theme.code(reloginCommand(true))} to log in again`;
+	}
+	return describeSchemaFailure(err);
+}
+
+interface ScopesArgs extends Pick<
+	CommonYargsOptions,
+	"temporary-account" | "event-code"
+> {
 	product?: string;
 	all?: boolean;
 	filter?: string;
@@ -43,32 +69,51 @@ const scopesCommand: CommandModule<object, ScopesArgs> = {
 	},
 
 	handler: async (argv: ArgumentsCamelCase<ScopesArgs>): Promise<void> => {
-		if (process.env.CLOUDFLARE_API_TOKEN) {
+		if (argv["temporary-account"] || argv["event-code"] !== undefined) {
+			throw new Error(
+				"--temporary-account and --event-code are not supported by cf auth scopes."
+			);
+		}
+
+		if (getAuthFromEnv({ allowGlobalAuthKey: false }) !== undefined) {
 			log.warn(
 				`${theme.code("CLOUDFLARE_API_TOKEN")} is set, so its own permissions apply rather than OAuth scopes.`
 			);
 			return;
 		}
 
-		const scopes = readAuthCredentials()?.scopes;
+		const credentials = readAuthCredentials();
+		if (credentials?.oauth_token === undefined) {
+			log.info(
+				`Not logged in. Run ${theme.code(reloginCommand(false))} to log in.`
+			);
+			return;
+		}
+
+		const { scopes } = credentials;
 		if (!scopes) {
-			log.info(`Not logged in. Run ${theme.code("cf auth login")} to log in.`);
+			log.info(
+				`This login didn't record its scopes. Run ${theme.code(reloginCommand(true))} to log in again.`
+			);
 			return;
 		}
 
 		if (!hasProductScopes(scopes)) {
 			log.info(
-				`No product scopes granted. Run ${theme.code("cf auth login --force")} to log in with the default scopes.`
+				`No product scopes granted. Run ${theme.code(reloginCommand(true))} to log in with the default scopes.`
 			);
 			return;
 		}
 
 		let catalogue: ScopeCatalogue;
 		try {
-			catalogue = await loadScopeCatalogue(() => createCommandClient(argv));
+			catalogue = await loadScopeCatalogue(async () => {
+				const { createCommandClient } = await import("../../lib/auth.js");
+				return createCommandClient(argv);
+			});
 		} catch (err) {
 			log.warn(
-				`Couldn't load Cloudflare's scope catalogue (${describeSchemaFailure(err)}), so scopes are listed without product groups.`
+				`Couldn't load Cloudflare's scope catalogue (${describeCatalogueFailure(err)}), so scopes are listed without product groups.`
 			);
 			console.log(scopes.join("\n"));
 			return;

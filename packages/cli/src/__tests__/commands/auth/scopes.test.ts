@@ -14,13 +14,16 @@ const catalogue = [
 
 const env = { CLOUDFLARE_API_BASE_URL: TEST_BASE_URL };
 
-function writeScopes(scopes: string[]): void {
-	writeAuthConfigFile({
-		oauth_token: "oauth-token",
-		refresh_token: "refresh-token",
-		expiration_time: new Date(Date.now() + 3_600_000).toISOString(),
-		scopes,
-	});
+function writeScopes(scopes?: string[], profile?: string): void {
+	writeAuthConfigFile(
+		{
+			oauth_token: "oauth-token",
+			refresh_token: "refresh-token",
+			expiration_time: new Date(Date.now() + 3_600_000).toISOString(),
+			...(scopes && { scopes }),
+		},
+		profile
+	);
 }
 
 describe("cf auth scopes", () => {
@@ -124,5 +127,77 @@ describe("cf auth scopes", () => {
 		expect(std.out).toBe("");
 		expect(std.err).toContain('No product area matches "d1".');
 		expect(std.err).toContain("cf auth scopes --filter d1");
+	});
+
+	it("keeps the catalogue when an entry is malformed", async () => {
+		server.use(
+			http.get(`${TEST_BASE_URL}/oauth/scopes`, () =>
+				HttpResponse.json({
+					success: true,
+					errors: [],
+					messages: [],
+					result: [
+						...catalogue,
+						{ id: "openid", name: "OpenID", category: null },
+						{ name: "No id" },
+					],
+				})
+			)
+		);
+
+		await runCf(["auth", "scopes"], env);
+
+		expect(std.err).not.toContain("Couldn't load");
+		expect(std.out).toMatch(/Developer Platform +2\/\d+/);
+	});
+
+	it("explains that the CF_API_TOKEN alias has no OAuth scopes", async () => {
+		await runCf(["auth", "scopes"], { CF_API_TOKEN: "test-token" });
+
+		expect(std.out).toBe("");
+		expect(std.err).toContain("CLOUDFLARE_API_TOKEN is set");
+		expect(catalogueRequests).toBe(0);
+	});
+
+	it("rejects --temporary-account", async () => {
+		await expect(
+			runCf(["auth", "scopes", "--temporary-account"], env)
+		).rejects.toThrow("--temporary-account and --event-code are not supported");
+		expect(catalogueRequests).toBe(0);
+	});
+
+	it("says when a login didn't record its scopes", async () => {
+		writeScopes();
+
+		await runCf(["auth", "scopes"], env);
+
+		expect(std.err).not.toContain("Not logged in");
+		expect(std.err).toContain("This login didn't record its scopes.");
+	});
+
+	it("points a named profile at cf auth create", async () => {
+		writeScopes(["openid"], "work");
+
+		await runCf(["auth", "scopes", "--profile", "work"], env);
+
+		expect(std.err).toContain("cf auth create work");
+		expect(std.err).not.toContain("cf auth login");
+	});
+
+	it("suggests logging in again when the catalogue fetch is rejected", async () => {
+		server.use(
+			http.get(`${TEST_BASE_URL}/oauth/scopes`, () =>
+				HttpResponse.json(
+					{ success: false, errors: [{ code: 10000, message: "denied" }] },
+					{ status: 401 }
+				)
+			)
+		);
+
+		await runCf(["auth", "scopes"], env);
+
+		expect(std.err).toContain("your login was rejected");
+		expect(std.err).toContain("cf auth login --force");
+		expect(std.err).not.toContain("CLOUDFLARE_API_TOKEN");
 	});
 });

@@ -132,6 +132,19 @@ describe("combined account-or-zone scope", () => {
 		});
 	});
 
+	it("explains how the scope is picked in help", async () => {
+		const help = async (command: string[]) => {
+			output.clear();
+			await runCf([...command, "--help"]);
+			return output.stdout().replace(/\s+/g, " ");
+		};
+		const scope =
+			"Runs against your account. Pass --zone to run against a zone instead. CLOUDFLARE_ZONE_ID doesn't switch the scope.";
+
+		expect(await help(["load-balancers", "account", "list"])).toContain(scope);
+		expect(await help(["zones", "list"])).not.toContain(scope);
+	});
+
 	it.each([
 		[["--zone", "--dry-run"]],
 		[["--zone=", "--dry-run"]],

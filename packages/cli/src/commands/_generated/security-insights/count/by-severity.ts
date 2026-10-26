@@ -21,7 +21,7 @@ import { runWithTelemetry } from "#lib/telemetry/index.js";
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
 		.usage(
-			"$0 security-insights count by-severity\n\nRetrieves Security Center insight counts aggregated by severity level (critical, high, medium, low)."
+			"$0 security-insights count by-severity\n\nRetrieves Security Center insight counts aggregated by severity level (critical, high, medium, low).\n\nRuns against your account. Pass --zone to run against a zone instead. CLOUDFLARE_ZONE_ID doesn't switch the scope."
 		)
 		.option("dismissed", { type: "boolean", description: "Dismissed" })
 		.option("issue-class", { type: "string", description: "Issue class" })

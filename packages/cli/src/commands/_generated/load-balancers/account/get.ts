@@ -21,7 +21,7 @@ import { runWithTelemetry } from "#lib/telemetry/index.js";
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
 		.usage(
-			"$0 load-balancers account get <load-balancer-id>\n\nFetch a single configured account or zone-scoped load balancer."
+			"$0 load-balancers account get <load-balancer-id>\n\nFetch a single configured account or zone-scoped load balancer.\n\nRuns against your account. Pass --zone to run against a zone instead. CLOUDFLARE_ZONE_ID doesn't switch the scope."
 		)
 		.positional("load-balancer-id", {
 			type: "string",

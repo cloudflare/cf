@@ -21,7 +21,7 @@ import { runWithTelemetry } from "#lib/telemetry/index.js";
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
 		.usage(
-			"$0 zero-trust access applications short-lived-certificates list\n\nLists short-lived certificate CAs and their public keys."
+			"$0 zero-trust access applications short-lived-certificates list\n\nLists short-lived certificate CAs and their public keys.\n\nRuns against your account. Pass --zone to run against a zone instead. CLOUDFLARE_ZONE_ID doesn't switch the scope."
 		)
 		.option("page", { type: "number", description: "Page number of results." })
 		.option("per-page", {

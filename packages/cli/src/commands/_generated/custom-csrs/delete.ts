@@ -22,7 +22,7 @@ import { runWithTelemetry } from "#lib/telemetry/index.js";
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
 		.usage(
-			"$0 custom-csrs delete <custom-csr-id>\n\nDelete a custom Certificate Signing Request (CSR) and its associated private key."
+			"$0 custom-csrs delete <custom-csr-id>\n\nDelete a custom Certificate Signing Request (CSR) and its associated private key.\n\nRuns against your account. Pass --zone to run against a zone instead. CLOUDFLARE_ZONE_ID doesn't switch the scope."
 		)
 		.positional("custom-csr-id", {
 			type: "string",

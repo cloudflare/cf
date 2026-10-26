@@ -23,7 +23,9 @@ import { runWithTelemetry } from "#lib/telemetry/index.js";
 
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
-		.usage("$0 rulesets create\n\nCreates a ruleset.")
+		.usage(
+			"$0 rulesets create\n\nCreates a ruleset.\n\nRuns against your account. Pass --zone to run against a zone instead. CLOUDFLARE_ZONE_ID doesn't switch the scope."
+		)
 		.option("validate-only", {
 			type: "boolean",
 			description:

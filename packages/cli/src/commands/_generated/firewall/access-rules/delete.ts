@@ -22,7 +22,7 @@ import { runWithTelemetry } from "#lib/telemetry/index.js";
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
 		.usage(
-			"$0 firewall access-rules delete <rule-id>\n\nDeletes an existing IP Access rule defined. Note: This operation will affect all zones in the account or zone."
+			"$0 firewall access-rules delete <rule-id>\n\nDeletes an existing IP Access rule defined. Note: This operation will affect all zones in the account or zone.\n\nRuns against your account. Pass --zone to run against a zone instead. CLOUDFLARE_ZONE_ID doesn't switch the scope."
 		)
 		.positional("rule-id", {
 			type: "string",

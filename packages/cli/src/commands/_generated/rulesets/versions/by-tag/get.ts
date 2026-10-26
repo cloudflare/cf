@@ -21,7 +21,7 @@ import { runWithTelemetry } from "#lib/telemetry/index.js";
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
 		.usage(
-			"$0 rulesets versions by-tag get <tag>\n\nFetches the rules of a managed account or zone ruleset version for a given tag."
+			"$0 rulesets versions by-tag get <tag>\n\nFetches the rules of a managed account or zone ruleset version for a given tag.\n\nRuns against your account. Pass --zone to run against a zone instead. CLOUDFLARE_ZONE_ID doesn't switch the scope."
 		)
 		.positional("tag", {
 			type: "string",

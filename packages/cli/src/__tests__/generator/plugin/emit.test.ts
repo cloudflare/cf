@@ -3,6 +3,7 @@ import { describe, expect, it } from "vite-plus/test";
 import yargs, { type Argv } from "yargs";
 import { builderLines } from "../../../../generator/plugin/emit/builder.js";
 import {
+	ACCOUNT_OR_ZONE_HELP,
 	bodyObject,
 	bodyPrompts,
 	dryRun,
@@ -78,6 +79,14 @@ describe("descriptions", () => {
 			)
 		).toBe(
 			"$0 test records nested list <id>\n\nFull first line.\nFull second line."
+		);
+	});
+
+	it("follows the description with how an account-or-zone command picks its scope", () => {
+		expect(
+			leafUsage(list(undefined, description), "test", undefined, "list", true)
+		).toBe(
+			`$0 test list\n\nFull first line.\nFull second line.\n\n${ACCOUNT_OR_ZONE_HELP}`
 		);
 	});
 });

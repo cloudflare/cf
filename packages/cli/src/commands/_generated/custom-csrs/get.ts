@@ -21,7 +21,7 @@ import { runWithTelemetry } from "#lib/telemetry/index.js";
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
 		.usage(
-			"$0 custom-csrs get <custom-csr-id>\n\nRetrieve details for a specific custom Certificate Signing Request (CSR)."
+			"$0 custom-csrs get <custom-csr-id>\n\nRetrieve details for a specific custom Certificate Signing Request (CSR).\n\nRuns against your account. Pass --zone to run against a zone instead. CLOUDFLARE_ZONE_ID doesn't switch the scope."
 		)
 		.positional("custom-csr-id", {
 			type: "string",

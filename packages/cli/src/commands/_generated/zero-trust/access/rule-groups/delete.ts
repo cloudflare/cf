@@ -22,7 +22,7 @@ import { runWithTelemetry } from "#lib/telemetry/index.js";
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
 		.usage(
-			"$0 zero-trust access rule-groups delete <group-id>\n\nDeletes an Access group."
+			"$0 zero-trust access rule-groups delete <group-id>\n\nDeletes an Access group.\n\nRuns against your account. Pass --zone to run against a zone instead. CLOUDFLARE_ZONE_ID doesn't switch the scope."
 		)
 		.positional("group-id", {
 			type: "string",

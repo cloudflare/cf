@@ -289,8 +289,14 @@ describe("send", () => {
 	});
 
 	test("throws an envelope's errors", async () => {
+		const body = {
+			success: false,
+			errors: [{ message: "a" }, "b"],
+			messages: [{ code: 1001, message: "More detail" }],
+			result: null,
+		};
 		const { client: c } = client(() =>
-			json({ success: false, errors: [{ message: "a" }, "b"], result: null })
+			json(body, 200, { "x-request-id": "r" })
 		);
 		await assert.rejects(
 			c.send({ method: "GET", path: () => "/a" }),
@@ -298,7 +304,9 @@ describe("send", () => {
 				assert.ok(error instanceof ApiError);
 				assert.equal(error.message, "a, b");
 				assert.equal(error.statusCode, undefined);
-				assert.equal(error.rawResponse?.status, 0);
+				assert.deepEqual(error.body, body);
+				assert.equal(error.rawResponse?.status, 200);
+				assert.equal(error.requestId, "r");
 				return true;
 			}
 		);
@@ -340,6 +348,28 @@ describe("send", () => {
 			(error: unknown) => {
 				assert.ok(error instanceof ApiError);
 				assert.equal(error.message, 'Status code: 404\nBody: "nope"');
+				return true;
+			}
+		);
+	});
+
+	test("preserves error details and status without a content-type header", async () => {
+		const body = {
+			success: false,
+			errors: [{ code: 7, message: "Invalid input" }],
+			messages: [{ code: 1001, message: "More detail" }],
+		};
+		const { client: c } = client(() => {
+			const response = json(body, 400);
+			response.headers.delete("content-type");
+			return response;
+		});
+		await assert.rejects(
+			c.send({ method: "GET", path: () => "/a" }),
+			(error: unknown) => {
+				assert.ok(error instanceof ApiError);
+				assert.equal(error.statusCode, 400);
+				assert.deepEqual(error.body, body);
 				return true;
 			}
 		);

@@ -5,6 +5,7 @@
  * the single source of both the generated command and its metadata.
  */
 
+import { GLOBAL_OPTION_NAMES } from "../../src/lib/global-options.js";
 import {
 	GenerateError,
 	get,
@@ -117,6 +118,17 @@ export interface Derived {
 	hasFileUpload: boolean;
 	multipart?: MultipartInfo;
 	multipartFlagFields: MultipartField[];
+	multipartFileFields: MultipartFileField[];
+}
+
+/** A binary field besides the payload, accepting literal content or `@file`. */
+export interface MultipartFileField {
+	field: MultipartField;
+	flag: string;
+}
+
+export function multipartFileFlagDescription(field: MultipartField): string {
+	return `Literal content or @path/to/file for the \`${field.name}\` form field. ${field.description}`;
 }
 
 export const positionals = (d: Derived): Arg[] =>
@@ -267,6 +279,15 @@ function cliFlagName(name: string): string | undefined {
 		: flag;
 }
 
+function multipartFileFlagName(name: string): string | undefined {
+	const flag = cliFlagName(name.replace(/^[_.]+/, ""));
+	if (flag === undefined) {
+		return undefined;
+	}
+	const normalized = kebab(flag);
+	return /^[a-z0-9][a-z0-9-]*$/.test(normalized) ? normalized : undefined;
+}
+
 function parameterFlagName(
 	name: string,
 	sdkName: string | undefined
@@ -405,6 +426,29 @@ export function derive(
 					cliFlagName(f.name) !== undefined
 			)
 		: [];
+	// File flags must not shadow live globals, generated flags, or aliases.
+	const takenFlags = new Set<string>([
+		...GLOBAL_OPTION_NAMES,
+		...CLI_ONLY_OPTIONS,
+		"force",
+		"text",
+		"f",
+		...(args.some((a) => a.isWorkerName) ? ["script-name"] : []),
+		...args.map((a) => kebab(a.name)),
+		...multipartFlagFields.map((f) => kebab(f.name)),
+	]);
+	const multipartFileFields: MultipartFileField[] = [];
+	for (const field of multipart?.fields ?? []) {
+		if (!field.isBinary || field.name === multipart?.payloadField) {
+			continue;
+		}
+		const flag = multipartFileFlagName(field.name);
+		if (flag === undefined || takenFlags.has(flag)) {
+			continue;
+		}
+		takenFlags.add(flag);
+		multipartFileFields.push({ field, flag });
+	}
 	return {
 		args,
 		optionalParentGroups,
@@ -415,6 +459,7 @@ export function derive(
 		hasFileUpload,
 		multipart,
 		multipartFlagFields,
+		multipartFileFields,
 	};
 }
 

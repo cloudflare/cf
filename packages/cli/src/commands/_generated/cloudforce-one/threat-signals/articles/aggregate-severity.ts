@@ -20,7 +20,7 @@ import { runWithTelemetry } from "#lib/telemetry/index.js";
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
 		.usage(
-			"$0 cloudforce-one threat-signals articles aggregate-severity\n\nBeta. Counts the account's Threat Signals articles in each intrinsic severity band. An article's band is the severity level nearest its severity, from informational to critical. Articles without a severity are not counted. min_relevance counts only articles at or above a relevance band for any active Priority Intelligence Requirement. Like the article severity field, severity is reported only while the account has an active Priority Intelligence Requirement, including one the matcher paused; otherwise every count is zero. All counts are read together and are exact."
+			"$0 cloudforce-one threat-signals articles aggregate-severity\n\nBeta. Counts the account's Threat Signals articles in each intrinsic severity band. An article's band is the severity level nearest its severity, from informational to critical. Articles without a severity are not counted. Also counts, for each active Priority Intelligence Requirement, the articles scored against it. min_relevance counts only articles at or above a relevance band: overall, for any active PIR; per PIR, for that PIR, the same rule as the per-PIR relevance counts. pir_id counts for one active PIR only. Like the article severity field, severity is reported only while the account has an active Priority Intelligence Requirement, including one the matcher paused; otherwise every count is zero and priorities is empty. All counts are read together and are exact."
 		)
 		.option("published-after", {
 			type: "string",
@@ -32,10 +32,15 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description:
 				"Include articles published at or before this ISO 8601 date-time with Z or a numeric UTC offset; normalized to UTC.",
 		})
+		.option("pir-id", {
+			type: "string",
+			description:
+				"Beta. Active Priority Intelligence Requirement to count for. articles then counts only articles scored against it, min_relevance applies to its score, and priorities lists only it. Returns a 400 error unless the PIR is active.",
+		})
 		.option("min-relevance", {
 			type: "string",
 			description:
-				"Beta. Count only articles at or above this relevance band for any active Priority Intelligence Requirement, as the article list's min_relevance does without pir_id. Excludes articles that have not been scored against an active PIR.",
+				"Beta. Count only articles at or above this relevance band: in articles, for any active Priority Intelligence Requirement, as the article list's min_relevance does without pir_id; in each priority, for that PIR. Excludes articles that have not been scored against an active PIR.",
 			choices: ["low", "medium", "high"],
 		})
 		.option("dry-run", {
@@ -64,6 +69,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				const queryParams: Record<string, unknown> = {
 					published_after: argv["published-after"],
 					published_before: argv["published-before"],
+					pir_id: argv["pir-id"],
 					min_relevance: argv["min-relevance"],
 				};
 				if (argv.dryRun) {

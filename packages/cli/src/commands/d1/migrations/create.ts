@@ -61,6 +61,14 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			);
 		}
 
+		// Migrations are shared through version control, so reject names Windows
+		// cannot store; NTFS would otherwise hide the SQL after `:` in a data stream.
+		if (/[:*?"<>|]/.test(migrationName)) {
+			throw new Error(
+				`The migration name ${JSON.stringify(argv.message)} contains a character that cannot be used in a file name (: * ? " < > |). Remove it and try again.`
+			);
+		}
+
 		const fileName = `${nextNumber}_${migrationName}.sql`;
 
 		// Make sure `apply` would actually pick the new file up — the default

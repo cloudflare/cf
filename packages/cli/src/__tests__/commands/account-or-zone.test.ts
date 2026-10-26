@@ -175,34 +175,35 @@ describe("combined account-or-zone scope", () => {
 		}
 	);
 
-	it("fails before any request when no account can be picked", async () => {
-		const accounts = [
-			{ id: "023e105f4ecef8ad9ca31a8372d0c353", name: "Acme Corp" },
-			{ id: "01a7362d577a6c3019a474fd6f485823", name: "Acme Staging" },
-		];
-		server.use(
-			http.get(`${TEST_BASE_URL}/accounts`, () =>
-				HttpResponse.json(createFetchResult(accounts))
-			),
-			http.get(`${TEST_BASE_URL}/memberships`, () =>
-				HttpResponse.json(
-					createFetchResult(accounts.map((account) => ({ account })))
+	// A zone name needs an account too: names are looked up in its zones.
+	it.each([[[]], [["--zone", "example.com"]]])(
+		"fails before any request when no account can be picked, with %j",
+		async (flags) => {
+			const accounts = [
+				{ id: "023e105f4ecef8ad9ca31a8372d0c353", name: "Acme Corp" },
+				{ id: "01a7362d577a6c3019a474fd6f485823", name: "Acme Staging" },
+			];
+			server.use(
+				http.get(`${TEST_BASE_URL}/accounts`, () =>
+					HttpResponse.json(createFetchResult(accounts))
+				),
+				http.get(`${TEST_BASE_URL}/memberships`, () =>
+					HttpResponse.json(
+						createFetchResult(accounts.map((account) => ({ account })))
+					)
 				)
-			)
-		);
-		const requests = loadBalancerRequests();
+			);
+			const requests = loadBalancerRequests();
 
-		const run = runCf(["load-balancers", "account", "list"], {
-			...ENV,
-			CLOUDFLARE_ACCOUNT_ID: undefined,
-		});
-
-		await expect(run).rejects.toThrow(
-			"unable to select one in non-interactive mode"
-		);
-		await expect(run).rejects.toThrow("CLOUDFLARE_ACCOUNT_ID");
-		expect(requests).toEqual([]);
-	});
+			await expect(
+				runCf(["load-balancers", "account", "list", ...flags], {
+					...ENV,
+					CLOUDFLARE_ACCOUNT_ID: undefined,
+				})
+			).rejects.toThrow("CLOUDFLARE_ACCOUNT_ID");
+			expect(requests).toEqual([]);
+		}
+	);
 
 	it("fails before any request when the --zone name isn't found", async () => {
 		server.use(

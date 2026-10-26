@@ -87,7 +87,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						message: `This operation deletes the webhook. Event delivery to it will stop.`,
 					}))
 				) {
-					process.stderr.write("Aborted.\n");
 					return;
 				}
 

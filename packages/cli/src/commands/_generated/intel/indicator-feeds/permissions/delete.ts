@@ -100,7 +100,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						message: `This operation destructively removes a permission entry.`,
 					}))
 				) {
-					process.stderr.write("Aborted.\n");
 					return;
 				}
 

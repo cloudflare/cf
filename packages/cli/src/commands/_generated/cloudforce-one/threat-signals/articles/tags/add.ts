@@ -27,10 +27,14 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		)
 		.positional("article-id", {
 			type: "string",
-			description: "Article ID",
+			description: "Threat Signals article UUID",
 			demandOption: true,
 		})
-		.option("tag-id", { type: "string", description: "The tag_id field" })
+		.option("tag-id", {
+			type: "string",
+			description:
+				"UUID of a tag from the account's catalog to apply to the article.",
+		})
 		.option("dry-run", {
 			type: "boolean",
 			description: "Validate and show what would happen without executing",
@@ -98,7 +102,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				if (argv["tag-id"] === undefined) {
 					argv["tag-id"] = await promptForRequiredField(
 						"tag-id",
-						"The tag_id field"
+						"UUID of a tag from the account's catalog to apply to the article."
 					);
 				}
 

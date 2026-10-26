@@ -22,7 +22,7 @@ import { runWithTelemetry } from "#lib/telemetry/index.js";
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
 		.usage(
-			"$0 cloudforce-one threat-signals feeds create\n\nSubscribes the account to a custom or curated Threat Signals feed."
+			"$0 cloudforce-one threat-signals feeds create\n\nSubscribes the account to a custom or curated Threat Signals feed. Adding a custom feed when the account is at its custom-feed limit returns 403 with `errors[0].reason` `threat_signals_feed_limit`, and `errors[0].custom_feed_limit` and `errors[0].custom_feed_count` give the limit and current count. Curated feeds are not subject to this limit."
 		)
 		.option("category-id", {
 			type: "string",
@@ -44,24 +44,35 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		)
 		.option("curated-feed-id", {
 			type: "string",
-			description: "The curated_feed_id field",
+			description:
+				"UUID of a curated feed to subscribe to. Provide exactly one of url or curated_feed_id. The account must have feed creation entitlement and not exceed feed allowance.",
 		})
 		.option("display-name", {
 			type: "string",
-			description: "The display_name field",
+			description:
+				"Override the feed's display name. Null clears it; omit to keep existing or derived value.",
 		})
 		.option("enabled", {
 			type: "boolean",
-			description: "The enabled field",
+			description: "Whether to actively poll the feed. Default true.",
 			default: true,
 		})
 		.option("poll-interval-s", {
 			type: "number",
-			description: "The poll_interval_s field",
+			description:
+				"Polling interval in seconds (60-86400). Default 300s (5 minutes).",
 			default: 300,
 		})
-		.option("title", { type: "string", description: "The title field" })
-		.option("url", { type: "string", description: "The url field" })
+		.option("title", {
+			type: "string",
+			description:
+				"Override the feed's title. Null clears it; omit to keep existing or derived value.",
+		})
+		.option("url", {
+			type: "string",
+			description:
+				"HTTPS RSS feed URL. Provide exactly one of url or curated_feed_id. The account must have feed creation entitlement and not exceed feed allowance.",
+		})
 		.option("dry-run", {
 			type: "boolean",
 			description: "Validate and show what would happen without executing",

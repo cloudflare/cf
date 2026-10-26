@@ -103,7 +103,45 @@ function prelude(ctx: Ctx): string[] {
 			}
 		}
 	}
+	const fields = ctx.derived.args.filter(isBody);
+	// A required body previously supplied through --body still needs explicit
+	// input when its only fields become optional JSON map flags.
+	if (
+		ctx.op.requestBodyMandatory &&
+		ctx.derived.hasBodyParams &&
+		fields.every((arg) => arg.type === "objectMap" && !arg.required)
+	) {
+		const missing = [
+			"argv.body",
+			...(ctx.derived.hasFileUpload ? ["argv.file"] : []),
+			...fields.map((a) => argvKey(a.name)),
+		]
+			.map((read) => `${read} === undefined`)
+			.join(" && ");
+		const flags = fields.map((arg) => `--${arg.name}`).join(", ");
+		lines.push(`      if (${missing}) {`);
+		lines.push(
+			`        throw new Error(${quote(`--body is required unless at least one JSON map flag is provided (${flags}).`)});`
+		);
+		lines.push("      }");
+	}
 	return lines;
+}
+
+function parseBodyExpression(ctx: Ctx): string {
+	const maps = bodyOptions(ctx.derived)
+		.filter((arg) => arg.type === "objectMap" && arg.required)
+		.map((arg) => ({ path: bodyPath(arg) ?? [], flag: arg.name }));
+	return maps.length > 0
+		? `parseBody(argv.body, ${stringify(maps)})`
+		: "parseBody(argv.body)";
+}
+
+function preservedBodyPaths(ctx: Ctx): string {
+	const paths = bodyOptions(ctx.derived)
+		.filter((arg) => arg.type === "objectMap")
+		.map((arg) => bodyPath(arg) ?? []);
+	return paths.length > 0 ? `, ${stringify(paths)}` : "";
 }
 
 export function dryRun(ctx: Ctx): string[] {
@@ -238,10 +276,12 @@ export function dryRun(ctx: Ctx): string[] {
 			} else {
 				lines.push("          body: argv.body !== undefined");
 			}
-			lines.push("            ? parseBody(argv.body)");
+			lines.push(`            ? ${parseBodyExpression(ctx)}`);
 			if (d.hasBodyParams) {
 				lines.push("            : compactBody(");
-				for (const line of bodyObject(ctx, "\t\t\t\t")) {
+				const object = bodyObject(ctx, "\t\t\t\t");
+				object[object.length - 1] += preservedBodyPaths(ctx);
+				for (const line of object) {
 					lines.push(`              ${line}`);
 				}
 				lines.push("            ),");
@@ -323,7 +363,6 @@ function deleteConfirm(ctx: Ctx): string[] {
 	return [
 		"",
 		`      if (!(await confirmDelete(${opts}))) {`,
-		"        process.stderr.write('Aborted.\\n');",
 		"        return;",
 		"      }",
 	];
@@ -504,7 +543,7 @@ function bodyBypass(ctx: Ctx): string[] {
 	const batch = batchSize(op);
 	const lines = ["", "      if (argv.body) {"];
 	if (json) {
-		lines.push("        const bodyData = parseBody(argv.body);");
+		lines.push(`        const bodyData = ${parseBodyExpression(ctx)};`);
 	} else {
 		lines.push(
 			"        // Endpoint does not accept application/json — send --body as raw bytes,"
@@ -619,10 +658,10 @@ export function bodyPrompts(ctx: Ctx): string[] {
 
 /**
  * The non-path positionals and required options that go into the body, as
- * their argv keys and API field names.
+ * their argument definitions and API field names.
  */
-function bodyFieldArgs(ctx: Ctx): [string, string][] {
-	const out: [string, string][] = [];
+function bodyFieldArgs(ctx: Ctx): [Arg, string][] {
+	const out: [Arg, string][] = [];
 	for (const arg of positionals(ctx.derived)) {
 		if (isPath(arg) || arg.isZone || arg.isWorkerName) {
 			continue;
@@ -632,21 +671,30 @@ function bodyFieldArgs(ctx: Ctx): [string, string][] {
 			path !== undefined && path.length === 1
 				? (path[0] as string)
 				: arg.name.replaceAll("-", "_");
-		out.push([arg.name, field]);
+		out.push([arg, field]);
 	}
 	for (const opt of ctx.requiredOptionArgs) {
 		if (isBody(opt)) {
 			continue;
 		}
-		out.push([opt.name, opt.name.replaceAll("-", "_")]);
+		out.push([opt, opt.name.replaceAll("-", "_")]);
 	}
 	return out;
 }
 
 /** `emitBodyArgValue`. */
 function bodyArgValue(arg: Arg, read: string): string {
+	if (arg.type === "scalarUnion") {
+		return `parseScalarValue(${read}, ${quote(arg.name)})`;
+	}
 	if (arg.type === "objectArray") {
 		return `parseObjectArray(${read}, ${quote(arg.name)})`;
+	}
+	if (arg.type === "nestedArray") {
+		return `parseNestedArray(${read}, ${quote(arg.name)})`;
+	}
+	if (arg.type === "objectMap") {
+		return `parseJsonMap(${read}, ${quote(arg.name)}${arg.required ? ", true" : ""})`;
 	}
 	// Enum flags resolve `@file` in their builder's coerce, before validation.
 	if (arg.fromFile !== undefined && !hasChoices(arg)) {
@@ -682,8 +730,8 @@ export function bodyObject(ctx: Ctx, indent: string): string[] {
 		}
 		add(path, bodyArgValue(arg, argvKey(arg.name)));
 	}
-	for (const [key, field] of bodyFieldArgs(ctx)) {
-		add([field], argvKey(key));
+	for (const [arg, field] of bodyFieldArgs(ctx)) {
+		add([field], bodyArgValue(arg, argvKey(arg.name)));
 	}
 	const emit = (tree: Tree, ind: string): string[] => {
 		const lines = ["{"];
@@ -731,7 +779,9 @@ function bodyAssembly(ctx: Ctx): string[] {
 	const typed = sdk.canEmitTypedBodyCall(ctx);
 	if (typed) {
 		lines.push("      const bodyData = compactBody(");
-		for (const line of bodyObject(ctx, "\t\t")) {
+		const object = bodyObject(ctx, "\t\t");
+		object[object.length - 1] += preservedBodyPaths(ctx);
+		for (const line of object) {
 			lines.push(`        ${line}`);
 		}
 		lines.push("      );");
@@ -749,10 +799,11 @@ function bodyAssembly(ctx: Ctx): string[] {
 				`      if (${read} !== undefined) setNestedValue(bodyData, [${p}], ${value});`
 			);
 		}
-		for (const [key, field] of bodyFieldArgs(ctx)) {
-			const read = argvKey(key);
+		for (const [arg, field] of bodyFieldArgs(ctx)) {
+			const read = argvKey(arg.name);
+			const value = bodyArgValue(arg, read);
 			lines.push(
-				`      if (${read} !== undefined) bodyData[${quote(field)}] = ${read};`
+				`      if (${read} !== undefined) bodyData[${quote(field)}] = ${value};`
 			);
 		}
 	}
@@ -805,7 +856,8 @@ function plainCall(ctx: Ctx): string[] {
 			lines.push(`      const qs = ${QS_FROM_PARAMS};`);
 			url = `\`${ctx.resolvedRequestPath}\${qs ? '?' + qs : ''}\``;
 		}
-		lines.push(...emitRawTail(ctx, "      ", url, []));
+		const parts = ctx.hasHeaders ? [`headers: ${HEADERS_GUARDED}`] : [];
+		lines.push(...emitRawTail(ctx, "      ", url, parts));
 	}
 	if (!ctx.isRawOutput && !unsatisfiable) {
 		const url = `\`${ctx.resolvedRequestPath}\``;
@@ -813,7 +865,8 @@ function plainCall(ctx: Ctx): string[] {
 			const opts: string[] = [];
 			if (d.hasBody) {
 				const fields = bodyFieldArgs(ctx).map(
-					([key, field]) => `'${field}': ${argvKey(key)}`
+					([arg, field]) =>
+						`'${field}': ${bodyArgValue(arg, argvKey(arg.name))}`
 				);
 				if (fields.length > 0) {
 					opts.push(`body: { ${fields.join(", ")} }`);
@@ -1015,7 +1068,8 @@ export function imports(ctx: Ctx): Imports {
 		i.from(`${lib}/raw-fetch.js`, ["fetchRawBytes", "writeRawOutput"]);
 	}
 	const bodyFlags = bodyOptions(d);
-	const flagsNeedToken = bodyFlags.some((a) => a.fromFile !== undefined);
+	const bodyArgs = [...bodyFlags, ...bodyFieldArgs(ctx).map(([arg]) => arg)];
+	const flagsNeedToken = bodyArgs.some((a) => a.fromFile !== undefined);
 	const nonJsonBody = d.hasBody && !acceptsJson(ctx);
 	const needsToken =
 		flagsNeedToken || d.multipartFlagFields.length > 0 || nonJsonBody;
@@ -1037,8 +1091,17 @@ export function imports(ctx: Ctx): Imports {
 		if (d.hasBodyParams) {
 			names.push("compactBody");
 		}
-		if (bodyFlags.some((a) => a.type === "objectArray")) {
+		if (bodyArgs.some((a) => a.type === "objectMap")) {
+			names.push("parseJsonMap");
+		}
+		if (bodyArgs.some((a) => a.type === "objectArray")) {
 			names.push("parseObjectArray");
+		}
+		if (bodyArgs.some((a) => a.type === "nestedArray")) {
+			names.push("parseNestedArray");
+		}
+		if (bodyArgs.some((a) => a.type === "scalarUnion")) {
+			names.push("parseScalarValue");
 		}
 		if (d.hasBodyParams && !sdk.canEmitTypedBodyCall(ctx)) {
 			names.push("setNestedValue");

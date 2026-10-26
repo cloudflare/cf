@@ -715,9 +715,8 @@ function describeLeaf(
 			.map(({ value, label }) => [String(value), label as string])
 	);
 	const flagName = path.map(fieldToFlag).join("-");
-	// `--mode` belongs to project configuration. Runtime API schemas may still
-	// contain a top-level mode until the upstream schemas reserve the name.
-	if (flagName === "mode") {
+	// These global flags belong to cf, not the runtime API schema.
+	if (["mode", "temporary-account", "event-code"].includes(flagName)) {
 		return undefined;
 	}
 	return {
@@ -1150,7 +1149,7 @@ export function renderFlagHelp(
 
 /** Flags cf itself owns; never read as request-body input. */
 const CF_FLAGS =
-	"_ $0 -- body dry-run dryRun help h local m mode persist-to persistTo profile quiet q version v zone z".split(
+	"_ $0 -- body dry-run dryRun event-code eventCode help h local m mode persist-to persistTo profile quiet q temporary-account temporaryAccount version v zone z".split(
 		" "
 	);
 

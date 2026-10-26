@@ -20,7 +20,7 @@ import { runWithTelemetry } from "#lib/telemetry/index.js";
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
 		.usage(
-			"$0 security-insights partners settings get <partner>\n\nReturns whether the account has enabled the selected partner integration. An integration that has never been configured is returned as disabled."
+			"$0 security-insights partners settings get <partner>\n\nReturns whether the account has enabled the selected partner integration and, if enabled, whether the account has been matched with the partner. An integration that has not been configured is returned as disabled."
 		)
 		.positional("partner", {
 			type: "string",

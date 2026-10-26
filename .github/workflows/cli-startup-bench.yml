@@ -31,10 +31,11 @@ jobs:
     timeout-minutes: 15
     steps:
       - name: Checkout head
-        uses: actions/checkout@v6
+        uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
         with:
           path: head
           fetch-depth: 1
+          persist-credentials: false
 
       - name: Filter changed paths
         id: changes
@@ -53,7 +54,7 @@ jobs:
 
       - name: Install dependencies (head)
         if: steps.changes.outputs.buildable == 'true'
-        uses: ./head/.github/actions/install-dependencies
+        uses: $/.github/actions/install-dependencies
         with:
           working-directory: head
 
@@ -67,15 +68,16 @@ jobs:
       # absolute number.
       - name: Checkout base ref
         if: github.event_name == 'pull_request' && steps.changes.outputs.buildable == 'true'
-        uses: actions/checkout@v6
+        uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
         with:
           ref: ${{ github.event.pull_request.base.sha }}
           path: base
           fetch-depth: 1
+          persist-credentials: false
 
       - name: Install dependencies (base)
         if: github.event_name == 'pull_request' && steps.changes.outputs.buildable == 'true'
-        uses: ./head/.github/actions/install-dependencies
+        uses: $/.github/actions/install-dependencies
         with:
           working-directory: base
 
@@ -119,7 +121,7 @@ jobs:
 
       - name: Upload raw hyperfine output
         if: steps.changes.outputs.buildable == 'true'
-        uses: actions/upload-artifact@v6
+        uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6
         with:
           name: cli-startup-bench
           path: |

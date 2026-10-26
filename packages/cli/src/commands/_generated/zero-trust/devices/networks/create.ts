@@ -28,12 +28,12 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.usage(
 			"$0 zero-trust devices networks create\n\nCreates a new device managed network."
 		)
-		.option("config-sha256", {
+		.option("network-config-sha256", {
 			type: "string",
 			description:
 				"The SHA-256 hash of the TLS certificate presented by the host found at tls_sockaddr. If absent, regular certificate verification (trusted roots, valid timestamp, etc) will be used to validate the certificate.",
 		})
-		.option("config-tls-sockaddr", {
+		.option("network-config-tls-sockaddr", {
 			type: "string",
 			description:
 				'A network address of the form "host:port" that the WARP client will use to detect the presence of a TLS host.',
@@ -90,13 +90,15 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 								: compactBody({
 										config: {
 											sha256: resolveFileToken(
-												argv["config-sha256"] as string | undefined,
-												"config-sha256",
+												argv["network-config-sha256"] as string | undefined,
+												"network-config-sha256",
 												"text"
 											),
 											tls_sockaddr: resolveFileToken(
-												argv["config-tls-sockaddr"] as string | undefined,
-												"config-tls-sockaddr",
+												argv["network-config-tls-sockaddr"] as
+													| string
+													| undefined,
+												"network-config-tls-sockaddr",
 												"text"
 											),
 										},
@@ -122,9 +124,9 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					formatOutput(result, { successLabel: `Created` });
 					return;
 				}
-				if (argv["config-tls-sockaddr"] === undefined) {
-					argv["config-tls-sockaddr"] = await promptForRequiredField(
-						"config-tls-sockaddr",
+				if (argv["network-config-tls-sockaddr"] === undefined) {
+					argv["network-config-tls-sockaddr"] = await promptForRequiredField(
+						"network-config-tls-sockaddr",
 						'A network address of the form "host:port" that the WARP client will use to detect the presence of a TLS host.'
 					);
 				}
@@ -146,13 +148,13 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				const bodyData = compactBody({
 					config: {
 						sha256: resolveFileToken(
-							argv["config-sha256"] as string | undefined,
-							"config-sha256",
+							argv["network-config-sha256"] as string | undefined,
+							"network-config-sha256",
 							"text"
 						),
 						tls_sockaddr: resolveFileToken(
-							argv["config-tls-sockaddr"] as string | undefined,
-							"config-tls-sockaddr",
+							argv["network-config-tls-sockaddr"] as string | undefined,
+							"network-config-tls-sockaddr",
 							"text"
 						),
 					},

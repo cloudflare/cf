@@ -1,0 +1,866 @@
+# Architecture and development reference
+
+Read the sections relevant
+to your task; repository-wide working rules remain in [AGENTS.md](../AGENTS.md).
+Paths below are relative to the repository root unless a section uses the
+`packages/cli/` layout. Implementation and tests are the source of truth.
+
+- [Layout](#layout), [where to edit](#where-to-edit), and
+  [library map](#library-map-packagesclisrclib)
+- [Tooling](#tooling), [pipeline](#pipeline), and [commands](#commands)
+- [Critical invariants](#critical-invariants) and
+  [generator conventions](#generator-conventions)
+- [UX conventions](#ux-conventions) and [global flags](#global-flags)
+- [Forge and OpenAPI updates](#forge-package-and-openapi-pin),
+  [dependency patches](#patched-deps), and
+  [annotations](#common-forge-side-annotations-cf-reads)
+- [Publishing](#publishing)
+
+## Layout
+
+```
+cf/
+├── packages/cli/       # cf — CLI + generator
+│   ├── src/
+│   │   ├── index.ts            # yargs entry; registers lazy-loaded generated
+│   │   │                       # commands + hand-written commands
+│   │   ├── dev.ts              # tsx entry wrapper (maps CliExit → process.exit);
+│   │   │                       # NOT the `cf dev` command
+│   │   ├── version.ts          # VERSION resolver from bundled package JSON
+│   │   ├── config.ts           # public config types / defineConfig entry
+│   │   ├── api/                # thin request runtime (`#api`): Client, ApiError
+│   │   ├── commands/
+│   │   │   ├── _generated/     # tracked generated source; rewritten by pnpm generate
+│   │   │   ├── hand-written.ts # central root/leaf/override/subgroup registry
+│   │   │   │                   # (plain data, imports nothing; the plugin bundles it)
+│   │   │   ├── root-commands.ts# each root's lazy loader + telemetry
+│   │   │   ├── auth/           # hand-written: login, logout, whoami, profiles
+│   │   │   ├── login/          # hidden `cf login` alias for `cf auth login`
+│   │   │   ├── cli/            # hand-written: search and telemetry settings
+│   │   │   ├── telemetry/      # implementation of `cf cli telemetry`
+│   │   │   ├── completions/    # hand-written: `cf complete` (@bomb.sh/tab)
+│   │   │   ├── dev/            # hand-written: `cf dev` (impl discovery + spawn)
+│   │   │   ├── build/          # hand-written: direct framework/delegate build
+│   │   │   ├── deploy/         # hand-written: `cf deploy` (Build Output → upload)
+│   │   │   ├── migrate/        # hand-written: Wrangler-to-cf config migration
+│   │   │   ├── previews/       # hand-written: `cf previews deploy`
+│   │   │   ├── init/           # hand-written: `cf init` / `cf init workers`
+│   │   │   │                   # (hello-world scaffold or autoconfig setup)
+│   │   │   ├── containers/     # hand-written: local image build/push leaves
+│   │   │   ├── tunnels/        # hand-written cloudflared-backed leaves
+│   │   │   ├── workers/check/          # hand-written local startup profiling leaf
+│   │   │   ├── workers/triggers/       # hand-written `cf workers triggers` subgroup
+│   │   │   ├── workers/versions/create/# hand-written Build Output leaf override
+│   │   │   ├── d1/migrations/  # hand-written: `cf d1 migrations` (spliced into
+│   │   │   │                   # the generated d1 tree — see hand-written.ts)
+│   │   │   ├── schema.ts       # hand-written: dump JSON-schema for an op
+│   │   │   └── tools.ts        # hand-written: list/print MCP tool definitions
+│   │   ├── lib/                # see "Library Map" below
+│   │   └── __tests__/          # vitest + MSW harness (unit + command tests)
+│   ├── generator/              # the forge plugin that generates the commands,
+│   │   │                       # and OpenAPI preparation for it
+│   │   ├── plugin/             # the plugin: OpenAPI model → yargs commands + metadata
+│   │   ├── index.ts            # the plugin's entry module: registry + meta.ts sidecars
+│   │   ├── cli.wasm            # gitignored; task:generate:plugin compiles index.ts
+│   │   ├── cli-audience.ts     # drops operations outside the cf-cli audience
+│   │   └── workers-secret-cli-compat.ts # temporary spec patch
+│   ├── e2e/                    # 114 JSON product fixtures +
+│   │                           # generated bash runner (run-e2e.sh) hitting a
+│   │                           # real Cloudflare account
+│   ├── bin/cf                  # binary entry — loads lightweight delegation,
+│   │                           # then imports dist/index.mjs when staying local
+│   ├── dist/                   # gitignored, written by Vite+ Pack (chunked ESM)
+│   ├── generate.ts             # OpenAPI fetch + preparation → forge --target wasm://<plugin>
+│   ├── vite.config.ts          # test and production ESM bundle config
+│   └── build-test.mjs          # compiled bundle for Wrangler compatibility tests
+├── packages/wrangler-tests/    # imported wrangler test corpus, using
+│                               # ../cli/dist/index.mjs (MSW-mocked)
+├── fixtures/                   # cf dev discovery fixtures (vite-plugin +
+│                               # wrangler-bundler projects)
+├── usecases/                   # per-command usage-scenario YAML catalogue
+├── patches/                    # pnpm patches: release publishing + Container image
+│                               # cleanup ownership
+├── scripts/                    # OpenAPI updater + Renovate changeset writers
+├── renovate.json5              # dependency updates, incl. the Forge package pin
+├── .github/workflows/          # CI, changesets publish, prerelease, benchmark,
+│                               # review, Renovate, Update OpenAPI
+├── pnpm-workspace.yaml         # dependency patches, catalogs, and build scripts
+├── package.json                # scripts/deps + pnpm version
+└── vite.config.ts              # Vite+ tasks, lint, and format settings
+```
+
+## Tooling
+
+Based on `workers-sdk` but using vite+ rather than turborepo:
+
+- **Vite+** — task orchestration, formatting, type-aware linting, Vitest,
+  and Pack bundling. Package `run.tasks` declare prerequisites; pnpm scripts
+  invoke them through `vp run`. Task caching is disabled while inputs and
+  outputs are audited; uncached tasks inherit the calling environment.
+- **tsrs** — type checking, no `tsc`.
+- **pnpm 12** with `blockExoticSubdeps` +
+  `allowBuilds: { esbuild: true, workerd: true }`.
+- **Vite+ Pack** — Rolldown-based ESM bundler. Outputs chunked `dist/*.mjs`
+  so command modules can be dynamically imported.
+
+Test infrastructure is split across two packages:
+
+- **`packages/cli/`** — first-class vitest harness at
+  `packages/cli/vite.config.ts` (`pool: "forks"`) driving in-package
+  unit + command-level tests under `src/__tests__/` (67 test files
+  covering auth, config, context, build-output, deploy, Workers check,
+  `cf dev` discovery/spawn, `--local`, plus MSW-mocked end-to-end command tests
+  for zones/kv/r2/d1). Helpers under `__tests__/helpers/` (`run-cf.ts`,
+  `msw.ts`, `mock-deploy-context.ts`, `serialize-form-data-entry.ts`).
+  `pnpm test` from the cli package. Filter to one file by passing its path
+  directly, for example `pnpm test src/__tests__/lib/local-e2e.test.ts`
+  (do not insert `--`, which causes Vitest to run the full suite).
+- **`packages/wrangler-tests/`** — the imported wrangler test corpus,
+  re-targeted at cf by aliasing `cf` → `../cli/dist/index.mjs` and
+  `@clack/prompts` → a dialog mock. Its test tasks depend on CLI generation
+  and a bundle that keeps mock-sensitive dependencies external. Uses MSW
+  for HTTP mocking.
+
+`.github/workflows/ci.yml` runs generation, repository checks, the CLI suite, and the Wrangler compatibility suite on every PR and push to `main` (for the Cloudflare-owned repository). Additional confidence:
+
+- The forge-side type system + the OpenAPI spec (every emitted command
+  and its `Operation` is type-checked against `#api`).
+- `pnpm check:type` (tsrs) across workspace packages, including the full
+  generated CLI tree and the container fixture. Dependency builds run first
+  so the fixture can resolve `cf/config` declarations.
+- `packages/cli/e2e/` — JSON fixtures driving a generated bash runner
+  (`packages/cli/e2e/_generated/run-e2e.sh`) that hits a real
+  Cloudflare account. Out-of-band; not run on every commit.
+- `cli-startup-bench.yml` — hyperfine benchmark of `cf --help` cold
+  start, posted as a sticky comment on PRs.
+
+## Pipeline
+
+```
+pnpm build
+  └─ vp run -r task:build
+       └─ cf#task:build (vp pack), after cf#task:generate
+            ├─ cf#task:generate:plugin
+            │    └─ forge-plugin build generator/index.ts -o generator/cli.wasm
+            └─ cf#task:generate: tsx packages/cli/generate.ts
+                 ├─ fetch pinned Forge OpenAPI release (or preview bundle)
+                 ├─ prepare it (hidden ops, account/zone routes, cf-cli audience)
+                 ├─ rm -rf _generated/
+                 ├─ forge openapi.json --target wasm://generator/cli.wasm --out _generated
+                 └─ vp fmt _generated/               # post-format emitted TS
+```
+
+forge (the `@cloudflare/forge` binary, installed from pkg.pr.new) parses
+the document; the command generator is a forge plugin that lives here, in
+`packages/cli/generator/plugin/`. It is TypeScript written against
+`@cloudflare/forge/plugin`, which `forge-plugin build` compiles to a
+WebAssembly component that forge runs. It walks forge's model of the
+operations, each top-level group's commands in parallel, and emits:
+
+- `src/commands/_generated/<resource>/<sub>/<op>.ts` — yargs command modules
+- `src/commands/_generated/_operations/<resource>/<group>/<op>.ts` — one
+  module per method, at its path in the group tree, whose default export is
+  its `Operation` (`d1.database.query` in `_operations/d1/database/query.ts`);
+  its command sends it, and hand-written code imports it as
+  `#operations/<resource>/<group>/<op>.js`
+- `src/commands/_generated/<resource>/index.ts` — resource indexes that statically import/register that selected root's sub-groups and leaves
+- `src/commands/_generated/index.ts` — top-level lazy registry
+  (`generatedCommands: GeneratedCommand[]`)
+- `src/commands/_generated/_meta/commands.json` — full command catalogue
+- `src/commands/_generated/_meta/hand-written-commands.json` — hand-written subset with root/leaf/subgroup/override provenance
+- `src/commands/_generated/_meta/schemas.json` — per-op JSON schemas
+
+`generate.ts` cleans the directory first; Vite+ formats afterward (kept
+out of the generator so it stays format-agnostic). A plugin reads nothing
+but the document, so its entry module, `generator/index.ts`, bundles what
+else it needs. It imports the hand-written registry,
+`src/commands/hand-written.ts`, directly: that module is plain data and
+imports nothing, and the root commands' loaders and telemetry live apart in
+`src/commands/root-commands.ts` so the bundle never follows them. It
+imports each command's `meta.ts` sidecar the same way, through
+`src/commands/hand-written-meta.ts`, whose types require exactly one typed
+sidecar per registered command. The `task:generate:plugin` Vite+ task,
+which `task:generate` depends on, runs `forge-plugin build` to compile the
+entry to the gitignored `generator/cli.wasm`. Running
+`generate.ts` directly requires that component to exist already.
+
+The commands send their requests through cf's thin runtime in `src/api/`
+(`Client`, `ApiError`, `Page`), imported as `#api`. It is ordinary hand-maintained
+source; the generator doesn't emit it. A typed call is
+`client.send(operation, request)`: `request` is one object of the path,
+query and body fields (a JSON body is its `body`), and the `Operation`
+literal says where each goes, how the response is read, and which status
+errors the operation declares. Commands whose request can't be expressed
+that way send a passthrough `requestApi` call instead.
+
+Shell completions are no longer generated — `cf complete` is backed by
+`@bomb.sh/tab`, which parses the command/option tree at runtime from
+the complete generated and hand-written `_meta/commands.json` catalogue (see
+`src/commands/completions/index.ts`).
+
+`pnpm build` runs Vite+ Pack, which:
+
+- Bundles `src/index.ts` to `dist/` as chunked ESM. Dynamic top-level-root imports provide the primary code-splitting boundaries; shared modules may be factored into additional chunks.
+- resolves the CLI version from the statically bundled package JSON import.
+- Its config can define `PACKAGE_PRERELEASE_LABEL`, but no current source module reads that identifier.
+- Copies `_meta/` next to `dist/` so `cf --help` works after `npm i -g`.
+- emits separate `index`, lightweight `delegate`, and public `config` entries; the config entry also receives declarations.
+
+## Where to Edit
+
+| Task                            | Location                                                                                                                                                                                                                                                          |
+| ------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Add/fix a generated command     | Overlay files in `@cloudflare/forge` — NOT in this repo. Edit forge; Renovate picks up the new main build.                                                                                                                                                        |
+| Add a generated-command rule    | `packages/cli/generator/plugin/` — emits handler body, arg shapes, batching, confirm prompts, etc.; rerun `pnpm generate`                                                                                                                                         |
+| New cross-product flag          | yargs middleware in `packages/cli/src/index.ts` (`--zone`, `--profile`, `--quiet`, `--local`, `--persist-to`)                                                                                                                                                     |
+| Hand-written command            | roots under `packages/cli/src/commands/{auth,build,cli,completions,dev,deploy,init,previews}/` plus `schema.ts` and `tools.ts`; generated-tree exceptions under `{access,ai,registrar,d1,tunnels,workers}/`; register every one in `src/commands/hand-written.ts` |
+| Hand-written metadata/emit      | per-command `meta.ts`, `packages/cli/src/commands/{hand-written,hand-written-meta,root-commands}.ts`                                                                                                                                                              |
+| `cf init` scaffold / setup      | `packages/cli/src/commands/init/{index,workers,template}.ts`                                                                                                                                                                                                      |
+| `cf dev` discovery / spawn      | `packages/cli/src/commands/dev/{discover,known-impls,spawn}.ts`                                                                                                                                                                                                   |
+| `cf deploy` pipeline            | `packages/cli/src/commands/deploy/index.ts` + `lib/{build-output,deploy-context,deploy-input}.ts`                                                                                                                                                                 |
+| Container image build / push    | `packages/cli/src/commands/containers/{build,push}/`                                                                                                                                                                                                              |
+| Auth / OAuth                    | `packages/cli/src/lib/auth.ts`, `packages/cli/src/lib/oauth/`                                                                                                                                                                                                     |
+| `cloudflare.config.ts` settings | `packages/cli/src/lib/project-settings.ts`                                                                                                                                                                                                                        |
+| Global CLI state                | `packages/cli/src/lib/state.ts` (shell-completion and telemetry state under workers-auth's canonical cf config directory)                                                                                                                                         |
+| Help formatting                 | yargs built-in (cf no longer overrides help)                                                                                                                                                                                                                      |
+| `--local` request routing       | `packages/cli/src/lib/{local,local-runtime}.ts`                                                                                                                                                                                                                   |
+| Local-install delegation        | `packages/cli/src/lib/delegate.ts`                                                                                                                                                                                                                                |
+| Output / spinner / errors       | `packages/cli/src/lib/{output,progress,errors,prompt}.ts`, `lib/ui/`                                                                                                                                                                                              |
+| Body parsing / dry-run          | `packages/cli/src/lib/{body-parser,dry-run,resolve}.ts`                                                                                                                                                                                                           |
+| Raw / non-JSON responses        | `packages/cli/src/lib/raw-fetch.ts`                                                                                                                                                                                                                               |
+| Generator logic                 | `packages/cli/generator/plugin/{args,emit,files}.ts`                                                                                                                                                                                                              |
+| Emitted-file shape              | `packages/cli/generator/plugin/files.ts`                                                                                                                                                                                                                          |
+| Request runtime                 | `packages/cli/src/api/` (imported as `#api`); hand-written commands import operations from `#operations/<path>.js`                                                                                                                                                |
+| Lint / format rules             | `vite.config.ts`                                                                                                                                                                                                                                                  |
+| Forge / OpenAPI bump            | Forge: Renovate `renovate/forge` PR; OpenAPI: `Update OpenAPI` workflow PR; by hand, edit the SHA, `pnpm install`, `pnpm generate`                                                                                                                                |
+| Patch a published dep           | `patches/*.patch` (created via `pnpm patch <pkg>`)                                                                                                                                                                                                                |
+
+## Library Map (`packages/cli/src/lib/`)
+
+| File                  | Purpose                                                                                                                                                                                                                                                                                                                                                                                                |
+| --------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `auth.ts`             | Token loader: `CLOUDFLARE_API_TOKEN` env (via `@cloudflare/workers-auth` `getAuthFromEnv`, global-key disabled) → cf OAuth token (refreshed). No stored API token, no Wrangler fallback. Also `createCommandClient`.                                                                                                                                                                                   |
+| `autoconfig.ts`       | Adapter around `@cloudflare/autoconfig` used by the hand-written init/build/dev setup flows                                                                                                                                                                                                                                                                                                            |
+| `oauth/`              | Thin façade over `@cloudflare/workers-auth/cf`: supplies cf's logger and prompt adapters while the shared package owns identity, scopes, callback handling, credential storage, refresh, and keyring support.                                                                                                                                                                                          |
+| `context.ts`          | `getAccountId` / `getZoneId` / `getComplianceRegion` runtime resolution                                                                                                                                                                                                                                                                                                                                |
+| `state.ts`            | Persists shell-completion and telemetry preferences in `~/.config/cloudflare/state.json`, using workers-auth's canonical cf path and JSON storage                                                                                                                                                                                                                                                      |
+| `body-parser.ts`      | JSON `--body` ingestion (including `@path`) and compacting; generated file handlers use `input-validation.ts` for `--file`                                                                                                                                                                                                                                                                             |
+| `request-headers.ts`  | User-Agent plus `X-CF-CLI-Mode` / detected-agent headers; authentication is owned by the API client/raw-fetch/auth layers                                                                                                                                                                                                                                                                              |
+| `dry-run.ts`          | `--dry-run` body-preview formatting (`bodyKind: 'json' \| 'multipart' \| 'octet-stream' \| 'none'`)                                                                                                                                                                                                                                                                                                    |
+| `errors.ts`           | `handleError`; APIError box; status-level hints (no per-code knowledge in `src/`)                                                                                                                                                                                                                                                                                                                      |
+| `output.ts`           | `formatOutput` (silent on null; `✓ <successLabel>` on TTY stderr via `printSuccess`); `--quiet` knob                                                                                                                                                                                                                                                                                                   |
+| `progress.ts`         | `withProgress(label, task)` clack braille/timer spinner on stderr; active only with color, stdin and stderr TTYs outside CI, and no `CF_QUIET=1`                                                                                                                                                                                                                                                       |
+| `prompt.ts`           | required text/enum/acknowledgement prompts; sensitivity is explicit OpenAPI/forge metadata, not a name regex; secret-only stdin ingestion; destructive confirmation                                                                                                                                                                                                                                    |
+| `session.ts`          | `openSession(version)` — idempotent once-per-process banner emission at interactive invocation startup; prompt helpers call it defensively                                                                                                                                                                                                                                                             |
+| `interactive.ts`      | `isNonInteractiveOrCI(output = stderr)` (stdin and `output` TTYs, outside CI; prompts and the spinner use stderr, JSON highlighting passes stdout) / `isCI` (via `ci-info`)                                                                                                                                                                                                                            |
+| `telemetry/`          | Opt-out preference and device state, product-agnostic argument/error sanitization, environment probes, lifecycle wrapping, and bounded Sparrow dispatch                                                                                                                                                                                                                                                |
+| `raw-fetch.ts`        | `fetchRawBytes` / `writeRawOutput` — bypasses the client's envelope decoding for generated `binary \| text` response kinds (e.g. `cf kv keys get`)                                                                                                                                                                                                                                                     |
+| `lazy-command.ts`     | `lazyCommand(command, describe, importer, telemetry)` — wraps a deferred `CommandModule`; telemetry is required or marked as handled by the imported command. **Critical for startup perf** — without it, every invocation pulls in all 178 generated root indexes.                                                                                                                                    |
+| `metadata.ts`         | `loadMeta()` loader + types for `_meta/*.json` (complete commands, hand-written provenance, and schemas); `isCommandsMetadata` guard                                                                                                                                                                                                                                                                   |
+| `local.ts`            | Dependency-free `--local` lazy runtime loading                                                                                                                                                                                                                                                                                                                                                         |
+| `local-runtime.ts`    | Local request rewriting, runtime lifecycle, and explorer dispatch; dynamically imported                                                                                                                                                                                                                                                                                                                |
+| `registry.ts`         | Shared dev-registry path resolution                                                                                                                                                                                                                                                                                                                                                                    |
+| `delegate.ts`         | local-install delegation (Wrangler-2 style): global cf re-execs a project-pinned local cf. `CF_DELEGATION` sentinel + `CF_DELEGATION_PID` (global cf's process ID; telemetry counts a run as delegated only when it matches the direct parent, or is absent from an older global cf) + `CF_DELEGATING_CLI_VERSION` (global version, read by telemetry) + realpath self-check + ephemeral-npx/dlx guard |
+| `build-output.ts`     | combines `readBuildOutput()`'s root config and `workers.default` from `.cloudflare/output/v0/workers/default/worker.config.json` and converts them into the deploy-helpers/Wrangler config shape (`convertToWranglerConfig` + `normalizeAndValidateConfig`) before deployment; owns `BuildOutputConfigError`, re-exports the package's `BuildOutputError`                                              |
+| `deploy-context.ts`   | builds the `DeployHelpersContext` (fetch/logger/confirm/prompt closures) bridging cf auth/UX to deploy-helpers' module globals                                                                                                                                                                                                                                                                         |
+| `deploy-input.ts`     | assembles `DeployProps` / `WorkerBuildResult` from build output (module-type mapping, routes, assets)                                                                                                                                                                                                                                                                                                  |
+| `dialog.ts`           | cf prompt/dialog adapter shared by hand-written orchestration                                                                                                                                                                                                                                                                                                                                          |
+| `cli-types.ts`        | shared yargs argv-shape helpers (`CommonYargsOptions`, `InferArgs`, `RemoveIndex`); modelled on wrangler's `yargs-types.ts`                                                                                                                                                                                                                                                                            |
+| `ui/blocks.ts`        | `errorBlock(...)` left-gutter / clack-style block rendering (replaced the old boxen-based `ui/box.ts`); `wrapPlain` per-line wrap                                                                                                                                                                                                                                                                      |
+| `ui/banner.ts`        | slim `renderPromptIntro(version)` headline and `formatCommand`; the old gradient/ASCII splash is removed                                                                                                                                                                                                                                                                                               |
+| `ui/theme.ts`         | background-neutral semantic colour palette and Chalk wrapper                                                                                                                                                                                                                                                                                                                                           |
+| `ui/format.ts`        | one-line `success`, `warning`, and `hint` helpers                                                                                                                                                                                                                                                                                                                                                      |
+| `ui/log.ts`           | stderr messages: clack notices (hidden by `--quiet`), warnings and flow lines, each notice or warning optionally followed by copyable commands; not re-exported from `ui/index.ts`                                                                                                                                                                                                                     |
+| `input-validation.ts` | yargs-time arg coercion + `resolveFileToken(value, fieldName, format)` for `@<path>` ingestion; runtime body/path validation                                                                                                                                                                                                                                                                           |
+| `resolve.ts`          | URL templating (path-param substitution), `isId`, `isValidDomainName`                                                                                                                                                                                                                                                                                                                                  |
+
+## Critical Invariants
+
+### `src/` is product-agnostic
+
+Outside the documented hand-written command exceptions and universal global resolver below, `packages/cli/src/` MUST NOT contain hard-coded API product names (d1, dns, zones, etc.) or product-specific behavior. `src/index.ts` loops over `generatedCommands` (each entry a lazy shell that imports its product's index on demand). Adding a new API product requires zero changes here — it's defined in forge's overlays and re-generates automatically.
+
+Practical extensions of this rule:
+
+- **No per-code error mapping.** `errors.ts` does status-level hints
+  (`401 → cf auth login`, `403 → check permissions`) only. Per-code
+  hints stay forge-side via overlays because the API itself is the source
+  of truth for error text.
+- **Limits, batching, confirmations** live in forge or in the OpenAPI
+  spec itself. Batching comes from the body schema's `maxItems`
+  (surfaced as `opInfo.maxItems`); destructive non-DELETE ops opt in
+  via `x-forge-require-confirmation: 'This operation …'`. The
+  generator's emitter is generic; forge supplies the per-method values.
+- **Universal zone resolution** is an intentional cross-cutting exception.
+  Global `--zone` accepts an ID or domain name; `context.ts` delegates names to
+  `resolve.ts`, which validates the domain and calls `client.zones.list()` for
+  the selected account. Keep this exception contained in those global
+  context/resolution helpers.
+- **Worker-name flag** (`--worker`, with `--script-name` as an alias) is a
+  generator-side product-scoped affordance, selected by
+  `resourceName === "workers"` in `isWorkerNameArg`. Add similar scoped checks
+  rather than spreading product names.
+- **Product-specific hand-written commands are documented exceptions.** Three
+  shadow generated leaves. Two exist because the request body's real schema sits behind a sibling
+  endpoint rather than in the spec:
+  `cf ai run` (per model, from `/ai/models/schema`) and
+  `cf registrar registrations create` (per TLD, from
+  `/registrar/extensions/{name}`, where the extension has to be derived
+  from the domain). A generated command can only offer the union of a few
+  shapes, accurate for none. Containment rules, the price of the
+  exceptions:
+  - Each lives in one directory under `src/commands/` plus one `leafOverride`
+    entry in the central `src/commands/hand-written.ts` registry.
+  - The generic half is product-agnostic: `lib/schema-flags.ts` (JSON
+    Schema → flags, help, validation) and `lib/schema-cache.ts` (per-key
+    TTL cache) know about JSON Schema and caching, not about models or
+    domains. Only the wiring — which endpoint, how to derive its key — is
+    per-command.
+  - Each carries a drift guard in `src/__tests__/`, because a hand-written
+    command no longer tracks the spec.
+  - `cf workers versions create` is the third leaf override. It substitutes the
+    Build Output upload workflow for the generated request-body handler; it is
+    not a runtime-schema example.
+  - `cf workers check` is a hand-written leaf added to the generated Workers
+    tree.
+    It runs the standard build unless `--prebuilt` is passed, then profiles the
+    default (or `--worker`-selected) Build Output Worker locally; there is no API
+    operation to derive it from.
+  - `cf workers types` is a hand-written leaf added to the generated Workers
+    tree. It is the bounded source-config exception: it validates the Worker in
+    the nearest `cloudflare.config.ts` and generates
+    `.cloudflare/types/index.d.ts`. `cf init` reuses its generator
+    (`generate.ts`) for a project it has just created and installed.
+  - `cf containers build` and `cf containers push` are hand-written leaves
+    added to the generated Containers tree. They wrap the shared Container
+    Docker and registry helpers; there are no OpenAPI operations for local
+    image build or push orchestration.
+  - `cf tunnels quick-start` and `cf tunnels run` are hand-written leaves
+    added to the generated Tunnels tree. They run the cf-managed cloudflared
+    binary; quick tunnels have no API operation, and running a named tunnel is
+    process orchestration rather than an API call. Keep their implementations
+    in `src/commands/tunnels/`.
+  - Process-backed `cf access` workflows are hand-written leaves added to the
+    generated Access tree. They delegate local browser, token, and proxy work
+    to the cf-managed cloudflared binary.
+  - The separate `d1/migrations` and `workers/triggers` subgroups are added
+    product-specific exceptions rather than shadowed leaves. They implement
+    filesystem bookkeeping and Build Output trigger orchestration absent from
+    one-shot OpenAPI operations.
+  - Generalising runtime-schema lookup into a forge annotation waits for **four
+    or more** examples; too few and the annotation gets fitted to one case. A
+    third runtime-schema entry is fine, a fourth means stopping to design it.
+
+### Lazy command registration
+
+Each generated top-level root and each hand-written root is registered via `lazyCommand` (`src/lib/lazy-command.ts`). The outer shell exposes only the `command` + `describe` strings yargs needs; selecting a root dynamically imports its root module/chunk. Within that selected generated root, index files statically import and register the full subtree. Without the outer lazy boundary, `cf --help` / `cf --version` / any command would eagerly load every generated root, the complete command catalogue, the API client, and every helper.
+
+Vite+ Pack preserves those dynamic root imports as code-split chunks (and may factor shared dependencies into additional chunks), so do not assume a strict one-chunk-per-root correspondence. Don't reintroduce eager top-level imports of `_generated/index.ts` from anywhere besides the lazy shell registration in `src/index.ts`.
+
+### Generator output (DO NOT EDIT)
+
+- `packages/cli/src/commands/_generated/` — yargs modules, `_operations/`
+  operation literals, and `_meta/` JSON
+
+Tracked in git and never safe to patch by hand. Every `pnpm generate` cleans, rewrites, and Vite+-formats `_generated/`. Make changes in Forge's OpenAPI or in the generator plugin (`packages/cli/generator/plugin/`), then regenerate and commit the resulting artifacts.
+
+GitHub collapses `_generated/` by default because it is marked `linguist-generated`, but AI reviewers must still review every changed file there.
+
+Shell-completion scripts are no longer generated — `cf complete`
+(`@bomb.sh/tab`) reads `_meta/commands.json` at runtime.
+
+### Source config access is command-scoped
+
+Normal cf startup and generated API commands read only `accountId` and
+`complianceRegion` from the default export in `cloudflare.config.ts`; they do
+not inspect or validate the `worker` or `containers` fields. Project resource
+config is otherwise the dev-server impl's domain. The bounded exception is
+`cf workers types`, which loads and validates the Worker definition to generate
+declarations. `cf init` reuses the same generator for a project it has just
+created and installed.
+
+This keeps Worker-definition validation lazy: `cf dns records list` cannot fail
+merely because a binding field in the configured Worker is invalid. Loading
+account settings still evaluates the TypeScript module and default config
+wrapper, so syntax, import, and
+top-level runtime errors can surface.
+
+What cf DOES read:
+
+- **Account settings from `cloudflare.config.ts`'s default export** for project
+  account and compliance-region defaults.
+- **The Worker definition from `cloudflare.config.ts`** only when running
+  `cf workers types`, including its compatibility date and flags for runtime
+  type generation, or when `cf init` generates types for the project it just
+  created.
+- **`~/.config/cloudflare/state.json`** records the shell-completion tip and
+  telemetry preferences. Owned by `lib/state.ts`.
+- **`~/.config/cloudflare/state/v3/`** stores cf's global Miniflare resources
+  for `--local` unless `--persist-to` overrides it.
+- **Build Output under `.cloudflare/output/v0/`** for `cf build`, `cf deploy`, `cf previews deploy`, `cf workers versions create`, `cf workers check`, and `cf workers triggers deploy`. A required top-level `config.json` carries account settings and `buildContext`; Worker directories contain `worker.config.json` and at least one of `bundle/` or `assets/`; Container directories contain `container.config.json`. The output Worker config has output-only manifest fields and no source entrypoint. `@cloudflare/build-output-utils` accepts additional Worker directories; `cf deploy`, `cf previews deploy`, `cf workers versions create`, `cf workers triggers deploy`, and `cf workers check` select one by configured name with `--worker <name>`, otherwise cf consumes the required `workers.default`. Always use `readBuildOutput()` rather than composing paths by hand.
+
+What cf does NOT read:
+
+- The `worker` field outside `cf workers types` type generation, or the
+  `containers` field from `cloudflare.config.ts`.
+- Other source resource config in any form, for any API command.
+- `package.json` worker config (none exists today; reserved for
+  the future).
+- Source binding manifests, durable-object class lists, and trigger lists. Project workflows may consume their built equivalents from Build Output.
+
+Outside the explicit type-generation workflow, if a feature seems to require cf to parse the source config,
+that's a signal to push it elsewhere — usually to the local-explorer
+API or to a forge annotation. Local mode is the worked example: `--local`
+derives resource identity from the request URL and sends the request to a
+cf-spawned Miniflare local-explorer instance over shared persisted state. It
+does not read the project's binding declarations.
+
+### Module Workers only
+
+cf supports only ES module Workers. The service-worker format
+(`addEventListener("fetch", …)`, no default export) is deprecated
+(see [Migrate to module Workers](https://developers.cloudflare.com/workers/reference/migrate-to-module-workers/))
+and unsupported. Do not design for it or flag service-worker regressions in
+review; for example, module upload names do not need to match the
+`__<sanitised name>` globals Wrangler's service-worker bundles expect.
+
+## Generator Conventions
+
+How the generator turns forge methods into yargs commands. Important
+to know before editing `generator/plugin/`.
+
+### Path-param routing
+
+- The **last** non-account/zone path param of the URL is the **subject**
+  → emitted as a positional `<name>`.
+- All earlier path params (containers) are demoted to required `--flag`s
+  with `demandOption: true`.
+- `list` and `bulk-*` operations have **no subject** — every path param
+  becomes a `--flag`.
+- `account_id` / `zone_id` are never positional — `account_id` is
+  resolved via `getAccountId` (local mode substitutes `LOCAL_ACCOUNT_ID`), `zone_id`
+  reuses the global `--zone` flag.
+- `paramOverride.positional: true` (forge schema) only promotes
+  top-level body fields to positionals — does NOT affect path params.
+
+### Subject = positional + arg shape
+
+- Each generated handler receives `args: <Op>Args` (a generated type
+  with all flags + positional). Positional name is the param's
+  `apiFieldPath[0]` lowercased.
+- `--body` is emitted for almost every request-body operation, including as an escape hatch alongside derived per-field flags. Explicit `--file` is much narrower: it appears on eligible binary, multipart, and other non-JSON upload paths (48 current leaves), not every operation with a body. Non-JSON binary content sends raw bytes with `Content-Type: application/octet-stream`.
+- Multipart endpoints get **per-field flags** if the schema is
+  introspectable: `--metadata`, `--creator`, etc. (`extractMultipartFields`
+  returns `{fields, payloadField}`). The payload field detection
+  precedence is `$ref`-matches-octet-stream → `format: binary` →
+  literally named `file`. Endpoints with dynamic keys
+  (worker-assets-upload) fall back to `--body`.
+- Body-required commands without `--body` and without per-field flags
+  fail with a clear "--body is required" error instead of an opaque
+  EOF API error.
+- Per-field-flag `demandOption: true` is suppressed when `--body` is
+  also supported (so `--body @file` isn't rejected by yargs for
+  missing required fields — handler-time enforcement instead).
+- Array-typed body params (e.g. KV bulk-get's `--keys`) emit
+  `array: true, string: true` so users can do `--keys k1 k2` instead
+  of fighting JSON-string-as-array.
+
+### `@file` token (universal file ingestion)
+
+Every string-typed body flag (and multipart string field) accepts
+`--<flag> @path/to/file`. The leading `@` triggers
+`resolveFileToken(value, fieldName, format)` from `lib/input-validation.ts`,
+which reads the file with the requested format (`text`, `binary`,
+`base64`, `json`). Bare values without `@` pass through unchanged.
+
+Format defaults to `text`; overlays opt into a different format via
+`paramOverride.fromFile = { format: 'json' | 'binary' | 'base64' }`,
+or opt out entirely via `fromFile: false`. Multipart string fields
+get the same treatment.
+
+`cf complete` currently completes commands, flags, and enum choices. It does not attach filesystem-completion metadata to `@file` values; users type the path themselves (and `@<TAB>` is not a documented completion contract).
+
+### Hand-written command directories
+
+`src/commands/hand-written.ts` is the single registry for root commands,
+generated-parent presentation overrides, leaf overrides, added leaf commands,
+and subgroups. It is plain, typed data that imports nothing, because the
+generator plugin bundles it. A root command's lazy loader and telemetry go in
+`src/commands/root-commands.ts`, keyed by its `dir`; the compiler requires
+exactly one entry there per registered root. `src/index.ts` derives its lazy
+root shells from the two; the generator plugin splices the non-root kinds into
+generated product trees, with their `meta.ts` sidecars.
+
+**Root command** (`kind: "root"`) — registered directly at `cf <name>` rather
+than inside a generated product. A root may itself be a leaf (`build`, `dev`) or
+own a command tree (`auth`, `cli`, `docs`); `root` describes its placement, not its
+shape.
+
+`cf docs search` is a hand-written root workflow using the documentation
+website's public AI Search endpoint, outside the platform API/SDK. It needs no
+Cloudflare credentials and returns ranked JSON page metadata. Agents fetch
+returned URLs with `Accept: text/markdown` to read complete pages.
+
+**Leaf override** (`kind: "leafOverride"`) — the spec _does_ describe the
+operation, but not well enough for a generated command to be useful. The
+generator keeps deriving the operation's identity (path, verb,
+operationId) and a `meta.ts` sidecar overrides only usage/flags/prose;
+the generated index imports the implementation from `#commands/<dir>`
+instead of its generated sibling. Current entries: `ai/run`,
+`registrar/registrations/create`, and `workers/versions/create`. The first two
+have bodies whose real schema sits behind a sibling endpoint; the third replaces
+a request-body-driven upload with the Build Output workflow shared by deploy.
+Each overridden leaf needs a spec drift guard in `src/__tests__/`.
+
+**Leaf command** (`kind: "leaf"`) — there is **no** spec operation, but a
+single executable leaf is added directly to a generated product. Its
+`meta.ts` carries one complete `CommandMeta`. Current entries are
+`workers/check`, which profiles a local Build Output Worker;
+`workers/types`, which generates types from source config; and
+`tunnels/quick-start` plus `tunnels/run`, which run cloudflared; and the
+process-backed Access leaves. None has an API endpoint.
+
+**Generated-parent override** (`kind: "parentOverride"`) — changes only the
+description and visibility of an existing generated product root. It does not
+replace generated commands or their implementations. The Access entry exposes
+the previously hidden generated root because process-backed leaves now give it
+a supported public command surface; its API leaves remain spec-derived.
+
+**Sub-group** (`kind: "subgroup"`) — there is **no** matching one-shot spec
+operation at all, so a whole tree is _added_ to a product's index rather than
+replacing anything. Nothing can be derived, so `meta.ts` carries a
+complete `CommandMeta[]`, one per leaf. Current entries: `d1/migrations` and
+`workers/triggers`.
+
+Reach for a sub-group only when the work genuinely is not an API
+operation. `d1 migrations` is a filesystem walk plus N calls to one endpoint,
+ordered and bookkept by rules OpenAPI cannot express; Workers trigger deploy
+builds a project and applies routes/crons from Build Output. Neither exists
+merely because a spec happens to be thin.
+
+Generalising the runtime-schema pattern into a forge annotation is deliberately deferred until there are four or more such examples. That threshold does not combine unrelated Build Output or migration workflows.
+
+`cf init [directory]` is the single explicit setup entry point; there is no separate `cf setup` or `cf workers setup`. It currently behaves exactly like `cf init workers [directory]`, the first product initializer, which `cf init --help` lists as `[default]`; other products can later add `cf init <product>` subcommands, and bare `cf init` is expected to become a selection menu of what to create. When the directory is omitted, cf asks for it (defaulting to the current directory); non-interactive runs must pass one, such as `.`. cf shows the absolute target directory (hidden by `--quiet`) before the package-manager choice or autoconfig, and every successful run ends with a `Next steps` list led by `cf dev` (`npx cf dev` when cf itself ran through `npx` or `pnpm dlx`). A missing directory, an empty directory, or one containing only `.git` receives the hello-world Worker scaffold (`cloudflare.config.ts` with a `WORLD` text binding, `vite.config.ts`, `src/index.ts`, `tsconfig.json`, `package.json`, `.gitignore`) built on the `@cloudflare/vite-plugin` v2 beta without Wrangler; dependencies are installed by default with a prompted or `--package-manager` choice. After a successful install, cf generates `.cloudflare/types/index.d.ts` through `commands/workers/types/generate.ts`, the generator behind `cf workers types`; a failure there is a warning, not an error. The template's `typecheck` script runs `cf workers types && tsc`, and its `tsconfig.json` includes `.cloudflare/types`. Any other non-empty directory is handed to autoconfig after cf changes into it, because autoconfig's package installs use the process working directory. `cf dev` and `cf build` still run autoconfig implicitly. Tunnel log streaming is the process-backed `cf tunnels tail` command; the generated tail-create API command only creates a tail descriptor.
+
+Hand-written commands with no generated parent (`auth/`, `build/`, `cli/`,
+`completions/`, `dev/`, `deploy/`, `init/`, `previews/`, plus top-level
+`schema.ts` and `tools.ts`) are `kind: "root"` entries and must not collide
+with a generated product name.
+
+Generation merges every hand-written leaf into the complete `_meta/commands.json` consumed by completions and tools. Generation additionally emits `_meta/hand-written-commands.json`, repeating only executable entries with their `root` / `leafOverride` / `leaf` / `subgroup` provenance and source directory. Presentation-only `parentOverride` entries do not represent commands and are not emitted there.
+
+Container SSH is a bounded hand-written leaf in `src/commands/containers/ssh`, registered in `hand-written.ts`. It adapts cf authentication to the same `@cloudflare/containers-shared` SSH options and transport used by Wrangler.
+
+`containers/images/list` and `containers/images/delete` are hand-written leaves
+registered with parent `containers/images`. They use the shared registry image
+operations from `@cloudflare/containers-shared`; cf supplies authentication,
+confirmation, and JSON output. Added leaves can target existing nested generated
+groups through slash-separated parent paths. Keep their sidecars and collision
+guards in sync. The image commands use the released
+`@cloudflare/containers-shared@0.20.3` package.
+
+### Deprecated methods
+
+`status: 'deprecated'` methods are **skipped entirely** at both leaf
+and group level (groups that become empty are pruned —
+forge's `cli` target). Rationale: they'll
+break at sunset; surfacing them encourages users to adopt doomed paths.
+
+### Confirmation, force, batching
+
+- DELETE operations get a `confirmDelete` prompt unless `--force` is passed. `--quiet` never confirms a destructive action. Non-interactive/CI contexts print the prompt and `pass --force` hint, then abort the handler.
+- `--force` / `-f` is auto-emitted for DELETE ops that don't already
+  have a forge `force` flag (cascade-delete semantics override).
+- Forge `x-forge-require-confirmation: 'This operation …'`
+  (`method.requireConfirmation`) extends the delete-confirm
+  treatment to destructive POST/PUT operations whose API verb
+  doesn't match the semantic (e.g. `cache zone-purge`,
+  `queues purge`, `cf workers-builds triggers purge-cache`, slurper-abort, vectorize
+  metadata-index drop, zero-trust device revokes, etc.). Generator's
+  `isDelete` predicate honours the annotation; spinner and success
+  labels switch to "Deleting" / "Deleted" automatically. The
+  annotation value is a "This operation …." sentence surfaced
+  verbatim in the prompt instead of the generic "This permanently
+  deletes the resource. Continue?" fallback.
+- An OpenAPI body-schema `maxItems: N` on an array-typed request
+  body (surfaced as `opInfo.maxItems`) splits the parsed body into
+  N-sized batches with a per-batch spinner ("Updating: batch
+  2/3"). No result aggregation — bulk ops are write-mostly; success
+  is silent with one final `✓ <successLabel>`. Replaces the
+  previous `x-forge-batch-size` annotation now that the OpenAPI
+  spec carries this directly on the body schema.
+
+### Strict yargs
+
+`yargs.strict()` handles unknown flags. There are no pre-yargs
+allowlists — yargs is authoritative. Keep it that way.
+
+### Output
+
+`formatOutput` is silent on null/undefined responses (the client unwraps
+`result`; null = `{success: true, result: null}`). Prints
+`✓ <successLabel>` on stderr when TTY. For structured output it unwraps list
+envelopes, pretty-prints JSON to stdout, and syntax-highlights when color
+is supported.
+
+For binary or non-JSON-shaped responses (KV values, R2 object bytes,
+signed-URL downloads), the generator derives
+`outputKind: 'binary' | 'text'` from response MIME types. It emits a code
+path that bypasses the client's response decoding and uses
+`fetchRawBytes` / `writeRawOutput` from `lib/raw-fetch.ts` to write
+the body verbatim to stdout. `--text` flips `binary` endpoints to UTF-8 decoded
+mode at runtime; `text` endpoints decode by default.
+
+### List pagination (intentional divergence)
+
+`cf <product> list` returns a single API page. cf does NOT
+auto-paginate today — callers receive truncated results when a
+resource has more than the API's default per-page limit. This is a
+**deliberate divergence** from Wrangler's many auto-paginating or explicit
+all-pages commands, though Wrangler itself is not uniform and some commands
+also return one page.
+
+Closing the gap is future work, gated on a forge annotation
+(`x-forge-list-pagination`) so the generator can emit a paginated
+loop only for ops that opt in. Until then, callers paginate manually via the per-API
+cursor / page flags the underlying op exposes.
+
+### Required-field interactive prompting
+
+When stdin is a TTY and a required body field isn't supplied:
+
+- **Plain string fields** → `clack.text` via `promptForRequiredField`.
+- **Fields marked `x-sensitive: true` by OpenAPI** →
+  `clack.password` (masked input). Forge exposes sensitivity to the generator;
+  flag-name heuristics are not used.
+- **Enum-typed fields** → `clack.select` via
+  `promptForRequiredEnumField`, with the allowed choices as options.
+- **Piped stdin for a sensitive field** → consumed verbatim as the value
+  (so `echo "hunter2" | cf workers secrets update X` works). Non-sensitive
+  required fields do not consume stdin implicitly.
+- **Non-TTY without a usable sensitive-field stdin value** → throws the standard
+  `--<flag> is required` error (with enum errors listing the
+  choices).
+
+This is the primary closure of wrangler's "interactive wizard" gap
+for the common case (single missing required field). Multi-step
+branching wizards (`pipelines setup`, `ai-search create`) require a bounded
+hand-written design or remain deliberately unsupported.
+
+## UX Conventions
+
+These have stabilised this repo's voice; preserve them.
+
+- **Banner:** `renderPromptIntro(version)` supplies the compact branded headline. `openSession` prints it once to stderr for an interactive command, including `--version`; bare cf uses the compact presentation directly. `--version` also prints the plain version to stdout.
+- **Terminal styling:** Use the semantic helpers in `lib/ui/theme.ts`
+  (`theme.brand`, `theme.info`, `theme.muted`, etc.) rather than importing
+  Chalk directly, calling explicit color methods, or hard-coding RGB/ANSI
+  values at call sites. If a new semantic purpose does not fit an existing
+  helper, add a role to the shared palette with light- and dark-background
+  contrast coverage.
+- **Account announcement:** `Using account: X (source)` only when `DEBUG` is any non-empty value. Avoids cluttering successful runs.
+- **Spinner:** Claude Code-style braille frames + elapsed timer; generated API
+  requests (GET + mutating) are wrapped in `withProgress`. Labels are
+  verb-only ("Creating", "Deleting", "Loading") — the command already
+  names the resource. It draws on stderr, animates only with color support
+  and with stdin and stderr TTYs outside CI, and `CF_QUIET=1` disables it.
+  The `--quiet` flag is not consulted.
+- **Error block:** APIError → `APIError` title; bold `[code]` in error color; bold message; dim `HTTP <status> <reason>` tail. `errorBlock` renders a clack-style left gutter and wraps plain text before applying color.
+- **Delete confirmation:** clack.confirm; only `--force` bypasses;
+  CI-friendly stderr message when non-interactive ("non-interactive;
+  pass --force to confirm"). A declined prompt closes with `└ Aborted.`
+- **Secret prompt:** clack.password (masks input).
+- **Success line:** `✓ <successLabel>` on stderr, hidden by `--quiet`;
+  null/undefined API results suppress stdout output entirely.
+- **Messages:** stdout carries only command output; everything else goes
+  to stderr, including prompts, spinners and the init, build and deploy
+  flows. Use `lib/ui/log.ts` for notices, warnings and flow lines and
+  `printSuccess` for success lines. A next step or fix goes on its own line
+  (the commands passed to `log.info` / `log.warn`); other commands in a
+  message are styled as code. `--quiet` hides notices and success lines,
+  never warnings, fixes or prompts.
+- **Splash screen:** bare `cf` prints the headline, a short getting-started list, and the docs link. Yargs owns root, group, and command help rendering.
+
+## Global Flags
+
+Live globals (`packages/cli/src/index.ts:buildCli`):
+
+| Flag                  | Alias | Purpose                                                         |
+| --------------------- | ----- | --------------------------------------------------------------- |
+| `--help`              | `-h`  | Show help                                                       |
+| `--version`           | `-v`  | Show plain version on stdout (branded banner on stderr)         |
+| `--quiet`             | `-q`  | Suppress non-essential output                                   |
+| `--zone`              | `-z`  | Zone ID or domain (overrides `CLOUDFLARE_ZONE_ID`)              |
+| `--profile`           | —     | Use a specific auth profile                                     |
+| `--mode`              | `-m`  | Mode used to evaluate `cloudflare.config.ts`                    |
+| `--temporary-account` | —     | Use a temporary account when unauthenticated (hidden from help) |
+| `--event-code`        | —     | Event code for a new temporary account (hidden from help)       |
+| `--local`             | —     | Run against cf's global local Miniflare state                   |
+| `--persist-to`        | —     | Override state directory (default `~/.config/cloudflare/state`) |
+
+There is no single global resolution order. Zone uses positional value → `--zone` → `CLOUDFLARE_ZONE_ID`; account uses `--temporary-account` → `CLOUDFLARE_ACCOUNT_ID` → project settings → cached/prompted workers-auth selection; compliance region uses its environment variable → project settings; and the token uses `--temporary-account` → `CLOUDFLARE_API_TOKEN` → stored OAuth credentials. `--temporary-account` is rejected when credentials already exist or with `--local`. Help never provisions a temporary account, and `cf auth whoami` rejects both temporary-account flags. `--event-code` requires `--temporary-account`, is sent only when a new account is created, and is never cached or printed. There are no `--account-id`, `--api-token`, or `--compliance-region` flags.
+
+`--mode` is supplied through the CLI and is available as `ctx.mode` when function-form configuration exports are evaluated.
+
+Generated commands additionally get (per-command, not global): `--dry-run` on every command (mutating and read — reads omit the body preview), `--body` on almost every body-accepting operation, explicit `--file` on eligible upload shapes, and `--force` / `-f` on destructive operations. String-shaped body flags accept the general `@path` ingestion convention unless Forge opts out.
+
+API fields that would emit an exact `--mode`, `--temporary-account`, or `--event-code` flag are omitted to avoid shadowing global flags. Body fields can still be supplied through `--body`; query, path, and header fields are temporarily unavailable.
+
+Structured API output is JSON; generated `binary`/`text` endpoints write their payload verbatim. There is no global output-format `--format`, `--json`, `--ndjson`, or `--fields` switch. Some generated leaves do expose `format` or `fields` as endpoint-specific API parameters. Callers needing ndjson pipe structured output through `jq -c '.[]'`.
+
+### Reserved and current collisions
+
+`src/index.ts` documents several names the project wants to reserve for cross-cutting features. This is a design constraint, not an enforced global deny-list: yargs scopes leaf options, and generated commands may otherwise expose reserved names sourced from OpenAPI. Do not introduce new collisions casually, but check the generated surface before describing a name as unavailable.
+
+| Flag               | Alias | Reserved for                                                         |
+| ------------------ | ----- | -------------------------------------------------------------------- |
+| `--remote`         | —     | Force production routing if local ever becomes the default           |
+| `--cwd`            | —     | Run as if from a different working directory                         |
+| `--config`         | `-c`  | Explicit Cloudflare config-file path                                 |
+| `--mode`           | `-m`  | Live global configuration and project-implementation mode            |
+| `--experimental-*` | —     | Namespace for opt-in feature gates                                   |
+| `--json`           | —     | Output-format toggle (claimed against future default-output changes) |
+| `--ndjson`         | —     | Output-format toggle                                                 |
+| `--pretty`         | —     | Output-format toggle                                                 |
+
+`--mode`, `--temporary-account`, and `--event-code` are registered globally and exact colliding API fields are omitted. `--remote` exists on a generated Pay Per Crawl command. The other exact names in this table are not registered as root/global options today and are normally rejected outside a leaf that defines them. The in-source design list is the `Reserved (future)` comment in `src/index.ts`; it does not itself register or reject options.
+
+## Forge package and OpenAPI pin
+
+`@cloudflare/forge` — the forge binary for every platform, which runs the
+plugin that generates the commands, and `@cloudflare/forge/plugin`, the
+library the plugin is written with — is not on npm. Forge's `Publish preview`
+workflow publishes a build to [pkg.pr.new](https://pkg.pr.new) from main
+pushes that change the package, and `packages/cli/package.json` pins one by
+commit: `https://pkg.pr.new/cloudflare/forge/@cloudflare/forge@<sha>`.
+`build-output-utils`, `config`, `containers-shared`, `workers-auth`,
+`workers-utils`, and `deploy-helpers` are installed from npm at exact versions.
+Dependency patches are registered in `pnpm-workspace.yaml` under
+`patchedDependencies`; workers-auth is not patched.
+
+The two Forge inputs are updated separately:
+
+- **The forge package SHA** — Renovate (`renovate.json5`'s `customManagers` /
+  `customDatasources`) follows the newest successful `publish-preview.yml` run
+  on Forge's main branch and opens a `renovate/forge` PR. Its post-upgrade
+  tasks refresh `pnpm-lock.yaml`, run `pnpm generate` against the unchanged
+  OpenAPI pin, and write a `patch` changeset with
+  `scripts/create-forge-changeset.mjs` when `_generated/` changed. Each command
+  must match `allowedCommands` in `.github/renovate-global.json`.
+- **`FORGE_OPENAPI_VERSION`** in `packages/cli/generate.ts` — the `Update OpenAPI`
+  workflow (`.github/workflows/update-openapi.yml`) runs `scripts/update-openapi.ts`
+  hourly and on a `forge-release-published` `repository_dispatch`. It pins the
+  latest `openapi@<sha>` Forge release, regenerates with the pinned forge
+  build, writes a `minor` changeset, and opens or refreshes the
+  `automation/update-forge` PR. The existing branch and concurrency group are
+  retained so the renamed workflow continues managing existing update PRs.
+
+Both PRs rewrite `_generated/`; whichever merges second is rebased or
+refreshed onto the new base and regenerated by its own automation.
+
+To move either pin by hand, edit the SHA, then run `pnpm install` and
+`pnpm generate`, and commit `pnpm-lock.yaml` and the regenerated output with it.
+
+When the Forge package publishes to npm: switch to the npm version and drop
+the `forge-main` custom manager and datasource.
+
+The containers-shared and deploy-helpers patches stay until those packages defer
+local image cleanup to cf's successful workflow boundary — see "Patched deps".
+
+## Patched deps
+
+Three dependency patches are registered in `pnpm-workspace.yaml#patchedDependencies`:
+
+- `patches/@changesets__cli@2.31.0.patch`
+- `patches/@cloudflare__containers-shared@0.20.3.patch`
+- `patches/@cloudflare__deploy-helpers@0.20.1.patch`
+
+The Changesets patch permits publishing prerelease state under `latest` and
+suppresses the non-latest-tag warning for that tag. The containers-shared and
+deploy-helpers patches defer local image cleanup until the complete upload
+succeeds so later failures remain retryable.
+
+## Common Forge-side Annotations cf Reads
+
+These live on forge methods (`methodBase` in
+`packages/forge/schema/schema.ts`) and are interpreted by cf's generator.
+Knowing the set helps when adding new behavior — prefer extending forge
+over adding switches in cf src/.
+
+| Annotation                                                                         | Status | Effect                                                                                                       |
+| ---------------------------------------------------------------------------------- | ------ | ------------------------------------------------------------------------------------------------------------ |
+| `status: 'deprecated'`                                                             | live   | Method (and possibly its group) skipped entirely                                                             |
+| body schema `maxItems: N`                                                          | live   | Generator emits batched-array codepath for bulk ops (sourced from OpenAPI; see `opInfo.maxItems`)            |
+| `x-forge-require-confirmation: 'This …'`                                           | live   | Treat a non-DELETE op as destructive (confirm prompt with the supplied message + `--force` + delete spinner) |
+| response MIME `application/octet-stream`                                           | live   | Bypass the client envelope; write response body verbatim to stdout (derived from response content type)      |
+| known text response MIME types (`text/plain`, `text/csv`, `text/html`, `text/vtt`) | live   | Same, but UTF-8 decode the body                                                                              |
+| `paramOverride.fromFile`                                                           | live   | Body string field accepts `--<flag> @path` with `format: text \| binary \| base64 \| json`                   |
+| `paramOverride.hidden`                                                             | live   | Param accepted but not surfaced in `--help`                                                                  |
+| `paramOverride.required`                                                           | live   | Promote optional OpenAPI param to required CLI flag                                                          |
+| `paramOverride.positional: true`                                                   | live   | Promote top-level body field to positional (NOT for path params)                                             |
+| `paramOverride.default`                                                            | live   | CLI default                                                                                                  |
+| `paramOverride.description`                                                        | live   | Override OpenAPI prose                                                                                       |
+| `x-fern-sdk-method-name`                                                           | live   | Resolved leaf command name                                                                                   |
+| `x-fern-sdk-group-name`                                                            | live   | Dot-separated command/group placement                                                                        |
+| `x-fern-parameter-name` (path/query/header parameter)                              | live   | Rename the parameter's flag or positional; the wire name and zone/worker handling are unchanged              |
+| `x-fern-property-name` (request-body property, any depth)                          | live   | Rename that segment of the body flag (e.g. `--mtls-certificate-id`); the JSON path is unchanged              |
+| `x-forge-aliases`                                                                  | live   | Re-emit a method under multiple `(group, name)` pairs                                                        |
+| `x-fern-ignore`                                                                    | live   | Drop the operation entirely                                                                                  |
+| `x-forge-hidden`                                                                   | live   | Hide the top-level root when every included operation is marked; selected descendant help remains visible    |
+| `x-forge-internal`                                                                 | live   | Explicitly retain a selected internal operation                                                              |
+| `x-forge-epilogue`                                                                 | live   | Help-screen epilogue                                                                                         |
+| `x-forge-args` / `x-forge-params`                                                  | live   | Full argument/parameter overrides                                                                            |
+| `x-sensitive: true`                                                                | live   | Mark a request field for masked prompting and secret-only stdin ingestion                                    |
+
+Names discussed in planning documents such as `paramOverride.derive`, `x-forge-job-poll`, `x-forge-pre-delete-checks`, `x-forge-confirm-typed-name`, `x-forge-success-message`, and `x-forge-list-pagination` are proposals only. They are not part of the current Forge schema and the generator does not read them.
+
+## Commands
+
+```bash
+pnpm install           # forge comes from its pinned pkg.pr.new build
+pnpm build             # pinned public OpenAPI → CLI and dist/
+pnpm dev               # tsx packages/cli/src/dev.ts
+pnpm check             # generation + dependency builds + workspace type checks + lint/format
+pnpm check:lint        # Vite+ lint --type-aware
+pnpm check:type        # workspace type checks, after generation and dependency builds
+pnpm check:format      # Vite+ format check
+pnpm fix               # Vite+ lint fix + format
+```
+
+Build, type-check, and test commands declare their prerequisites in each
+package's `vite.config.ts`, so package-scoped commands also prepare what they
+need. Use the shared `task:build` and `task:check:type` names for new workspace
+tasks so recursive root commands discover them, with pnpm scripts wrapping
+those tasks. Reference configured tasks directly in `dependsOn` (for example
+`cf#task:generate`) to share one task within the graph. Use dependency selectors
+for `task:build`, as in the container fixture's type-check. Pass focused test
+paths directly to `pnpm test`.
+
+End-to-end smoke tests against a real Cloudflare account:
+
+```bash
+export CLOUDFLARE_API_TOKEN=...
+export CLOUDFLARE_ACCOUNT_ID=...
+bash packages/cli/e2e/_generated/run-e2e.sh [--zone ZONE_ID] [--product NAME]
+```
+
+## Publishing
+
+Per-PR and per-`main`-commit prereleases via `.github/workflows/prerelease.yml` → [pkg-pr-new](https://pkg.pr.new). Install a published PR or commit with:
+
+```bash
+pnpm i https://pkg.pr.new/cloudflare/cf/cf@<sha>
+# or
+pnpm i https://pkg.pr.new/cloudflare/cf/cf@<branch-name>
+```
+
+The previous `publish-{alpha,,cf}.sh` scripts have been removed. Per-commit
+prereleases flow through pkg-pr-new. Versioned beta and stable releases use
+Changesets: `.github/workflows/changesets.yml` opens/updates the Version
+Packages PR when changesets exist and publishes to npm after that PR is merged.
+Publishing uses npm trusted publishing (OIDC), not a long-lived `NPM_TOKEN`.
+
+Vite+ Pack emits a minified bundle without source maps by default.
+`PACKAGE_PRERELEASE_LABEL` may be supplied to the pack `define` configuration,
+but no current source module reads it, so the binary does not self-report the
+branch or ref name.

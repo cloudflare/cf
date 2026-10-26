@@ -23,7 +23,7 @@ import { runWithTelemetry } from "#lib/telemetry/index.js";
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
 		.usage(
-			"$0 ai-search items sync <item-id>\n\nSyncs an item to an AI Search instance index."
+			"$0 ai-search items sync <item-id>\n\nSynchronizes an item to an AI Search instance index."
 		)
 		.positional("item-id", {
 			type: "string",
@@ -51,7 +51,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("wait-for-completion", {
 			type: "boolean",
 			description:
-				"Wait for indexing before responding. After processing, vector-indexed instances use any time remaining in a 25s wait budget to confirm Vectorize ingestion. Processing itself is not interrupted and can exceed that budget. If confirmation times out, the current item state is returned and background indexing continues. Defaults to false.",
+				"Wait for indexing before responding. After processing, vector-indexed instances use any time remaining in a 25s wait budget to confirm Vectorize ingestion. Processing itself continues uninterrupted and can exceed that budget. If confirmation times out, the response returns the current item state and background indexing continues. Defaults to false.",
 		})
 		.option("dry-run", {
 			type: "boolean",

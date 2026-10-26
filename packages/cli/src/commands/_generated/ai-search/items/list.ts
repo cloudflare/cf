@@ -38,7 +38,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("sort-by", {
 			type: "string",
 			description:
-				'Sort order for items. "status" (default) sorts by status priority then last_seen_at. "modified_at" sorts by file modification time (most recent first), falling back to created_at.',
+				'Sort order for items. "status" (default) sorts items according to status priority, then last_seen_at. "modified_at" sorts items according to file modification time (most recent first), falling back to created_at.',
 			choices: ["status", "modified_at"],
 		})
 		.option("status", {
@@ -56,21 +56,22 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("source", {
 			type: "string",
 			description:
-				'Filter items by source_id. Use "builtin" for uploaded files, or a source identifier like "web-crawler:https://example.com".',
+				'Return only items with this source_id. Use "builtin" for uploaded files, or a source identifier like "web-crawler:https://example.com".',
 		})
 		.option("metadata-filter", {
 			type: "string",
 			description:
-				'JSON-encoded metadata filter using Vectorize filter syntax. Examples: {"folder":"reports/"}, {"timestamp":{"$gte":1700000000000}}, {"folder":{"$in":["docs/","reports/"]}}',
+				'JSON-encoded metadata filter using Vectorize filter syntax. Examples: {"folder":"reports/"}, {"timestamp":{"$gte":1700000000000}}, {"folder":{"$in":["docs/","reports/"]}}.',
 		})
 		.option("item-id", {
 			type: "string",
-			description: "Filter items by their unique ID. Returns at most one item.",
+			description:
+				"Return only the item with this unique ID. Returns at most one item.",
 		})
 		.option("key", {
 			type: "string",
 			description:
-				"Filter items by their exact key (object key / filename). Keys are unique per source, so combine with `source` to disambiguate across data sources.",
+				"Return only items with this exact key (object key / filename). Each key is unique within a source, so combine with `source` to disambiguate across data sources.",
 		})
 		.option("dry-run", {
 			type: "boolean",

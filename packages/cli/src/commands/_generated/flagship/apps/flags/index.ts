@@ -4,6 +4,7 @@ import $delete from "./delete.js";
 import $evaluate from "./evaluate.js";
 import $get from "./get.js";
 import $list from "./list.js";
+import $patch from "./patch.js";
 import $update from "./update.js";
 import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
@@ -23,6 +24,7 @@ const command: CommandModule<CommonYargsOptions> = {
 			.command($evaluate)
 			.command($get)
 			.command($list)
+			.command($patch)
 			.command($update)
 			.command($changelog)
 			.demandCommand(1, "Please specify a subcommand");

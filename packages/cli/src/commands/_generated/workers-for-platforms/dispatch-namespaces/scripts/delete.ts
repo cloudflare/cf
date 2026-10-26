@@ -97,7 +97,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						message: `This will permanently delete the Workers for Platforms script.`,
 					}))
 				) {
-					process.stderr.write("Aborted.\n");
 					return;
 				}
 

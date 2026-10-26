@@ -11,7 +11,12 @@ import {
 	getAccountId,
 	resolveAccountIdSilent,
 } from "#lib/auth.js";
-import { compactBody, parseBody, parseObjectArray } from "#lib/body-parser.js";
+import {
+	compactBody,
+	parseBody,
+	parseJsonMap,
+	parseObjectArray,
+} from "#lib/body-parser.js";
 import { formatDryRun } from "#lib/dry-run.js";
 import { resolveFileToken } from "#lib/input-validation.js";
 import { LOCAL_ACCOUNT_ID } from "#lib/local.js";
@@ -23,7 +28,7 @@ import { runWithTelemetry } from "#lib/telemetry/index.js";
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
 		.usage(
-			"$0 flagship apps flags update <flag-key>\n\nReplaces the entire flag definition. Omitted fields are dropped, not preserved — read before writing. The path key identifies the flag and cannot be renamed by changing the body `key`. Each update appends a changelog entry."
+			"$0 flagship apps flags update <flag-key>\n\nReplaces the entire flag definition. Omitted fields are cleared, not preserved — read before writing. The path key identifies the flag and cannot be renamed by changing the body `key`. A changelog entry is appended when the flag content actually changes; identical updates are no-ops."
 		)
 		.positional("flag-key", {
 			type: "string",
@@ -55,6 +60,11 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description:
 				"Unique identifier for the flag within an app. Used in all evaluation and SDK calls.",
 		})
+		.option("metadata", {
+			type: "string",
+			description:
+				"Key-value metadata associated with the flag. `null` or an empty object clears existing metadata; omission semantics depend on the endpoint (PUT clears it, PATCH preserves it). Provide as a JSON object or @path/to/file.json.",
+		})
 		.option("rules", {
 			type: "string",
 			description:
@@ -67,6 +77,11 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			choices: ["boolean", "string", "number", "json"],
 		})
 		.coerce("type", (value) => resolveFileToken(value, "type", "text"))
+		.option("variations", {
+			type: "string",
+			description:
+				"Map of variation name to value. All values share the same type (boolean, string, number, or JSON object/array), and each serialized value stays within 10KB. Provide as a JSON object or @path/to/file.json.",
+		})
 		.option("dry-run", {
 			type: "boolean",
 			description: "Validate and show what would happen without executing",
@@ -107,27 +122,38 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						bodyKind: "json",
 						body:
 							argv.body !== undefined
-								? parseBody(argv.body)
-								: compactBody({
-										default_variation: resolveFileToken(
-											argv["default-variation"] as string | undefined,
-											"default-variation",
-											"text"
-										),
-										description: resolveFileToken(
-											argv["description"] as string | undefined,
-											"description",
-											"text"
-										),
-										enabled: argv["enabled"],
-										key: resolveFileToken(
-											argv["key"] as string | undefined,
-											"key",
-											"text"
-										),
-										rules: parseObjectArray(argv["rules"], "rules"),
-										type: argv["type"],
-									}),
+								? parseBody(argv.body, [
+										{ path: ["variations"], flag: "variations" },
+									])
+								: compactBody(
+										{
+											default_variation: resolveFileToken(
+												argv["default-variation"] as string | undefined,
+												"default-variation",
+												"text"
+											),
+											description: resolveFileToken(
+												argv["description"] as string | undefined,
+												"description",
+												"text"
+											),
+											enabled: argv["enabled"],
+											key: resolveFileToken(
+												argv["key"] as string | undefined,
+												"key",
+												"text"
+											),
+											metadata: parseJsonMap(argv["metadata"], "metadata"),
+											rules: parseObjectArray(argv["rules"], "rules"),
+											type: argv["type"],
+											variations: parseJsonMap(
+												argv["variations"],
+												"variations",
+												true
+											),
+										},
+										[["metadata"], ["variations"]]
+									),
 					});
 					return;
 				}
@@ -136,7 +162,9 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.accountId = accountId;
 
 				if (argv.body) {
-					const bodyData = parseBody(argv.body);
+					const bodyData = parseBody(argv.body, [
+						{ path: ["variations"], flag: "variations" },
+					]);
 					const result = await withProgress(`Updating`, async () =>
 						client.send(operation, {
 							body: bodyData,
@@ -170,28 +198,38 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						"--rules is required (or pass --body with this field set)."
 					);
 				}
+				if (argv["variations"] === undefined) {
+					throw new Error(
+						"--variations is required (or pass --body with this field set)."
+					);
+				}
 
 				// Assemble request body from individual flags
-				const bodyData = compactBody({
-					default_variation: resolveFileToken(
-						argv["default-variation"] as string | undefined,
-						"default-variation",
-						"text"
-					),
-					description: resolveFileToken(
-						argv["description"] as string | undefined,
-						"description",
-						"text"
-					),
-					enabled: argv["enabled"],
-					key: resolveFileToken(
-						argv["key"] as string | undefined,
-						"key",
-						"text"
-					),
-					rules: parseObjectArray(argv["rules"], "rules"),
-					type: argv["type"],
-				});
+				const bodyData = compactBody(
+					{
+						default_variation: resolveFileToken(
+							argv["default-variation"] as string | undefined,
+							"default-variation",
+							"text"
+						),
+						description: resolveFileToken(
+							argv["description"] as string | undefined,
+							"description",
+							"text"
+						),
+						enabled: argv["enabled"],
+						key: resolveFileToken(
+							argv["key"] as string | undefined,
+							"key",
+							"text"
+						),
+						metadata: parseJsonMap(argv["metadata"], "metadata"),
+						rules: parseObjectArray(argv["rules"], "rules"),
+						type: argv["type"],
+						variations: parseJsonMap(argv["variations"], "variations", true),
+					},
+					[["metadata"], ["variations"]]
+				);
 				const result = await withProgress(`Updating`, async () =>
 					client.send(operation, {
 						body: bodyData,

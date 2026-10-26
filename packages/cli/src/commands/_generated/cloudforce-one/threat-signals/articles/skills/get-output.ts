@@ -20,16 +20,17 @@ import { runWithTelemetry } from "#lib/telemetry/index.js";
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
 		.usage(
-			"$0 cloudforce-one threat-signals articles skills get-output <skill-id>\n\nRetrieves the stored output of a skill for a Threat Signals article."
+			"$0 cloudforce-one threat-signals articles skills get-output <skill-id>\n\nRetrieves the stored output of a skill for a Threat Signals article. The custom_output field is parsed JSON when the stored output is valid JSON, otherwise the raw string."
 		)
 		.positional("skill-id", {
 			type: "string",
-			description: "Skill ID",
+			description:
+				"Custom Skill UUID or a Managed Default Skill ID (IOC-context: default-ioc-context-skill)",
 			demandOption: true,
 		})
 		.option("article-id", {
 			type: "string",
-			description: "Article ID",
+			description: "Threat Signals article UUID",
 			demandOption: true,
 		})
 		.option("dry-run", {

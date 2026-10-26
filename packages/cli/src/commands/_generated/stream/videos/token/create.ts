@@ -147,7 +147,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						message: `Provision temporary token? For use at scale, consider creating a signing key instead.`,
 					}))
 				) {
-					process.stderr.write("Aborted.\n");
 					return;
 				}
 

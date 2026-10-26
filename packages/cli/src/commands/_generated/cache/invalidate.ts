@@ -78,7 +78,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						message: `This operation marks the selected content in the zone's cache as stale.`,
 					}))
 				) {
-					process.stderr.write("Aborted.\n");
 					return;
 				}
 

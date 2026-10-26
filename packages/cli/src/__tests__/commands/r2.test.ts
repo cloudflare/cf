@@ -60,6 +60,59 @@ describe("cf r2 buckets (network)", () => {
 		return errSpy.mock.calls.map((c: unknown[]) => String(c[0])).join("");
 	}
 
+	it.each([false, true])(
+		"objects get — sends jurisdiction and conditional headers (text=%s)",
+		async (text) => {
+			const bytes = Buffer.from("object contents");
+			let headers: Headers | undefined;
+			server.use(
+				http.get(
+					`${ACCT}/r2/buckets/assets/objects/example.txt`,
+					({ request }) => {
+						headers = request.headers;
+						return new HttpResponse(bytes, {
+							headers: { "Content-Type": "application/octet-stream" },
+						});
+					}
+				)
+			);
+			const output = vi
+				.spyOn(process.stdout, "write")
+				.mockImplementation(() => true);
+			try {
+				const { exitCode } = await runCf(
+					[
+						"r2",
+						"objects",
+						"get",
+						"example.txt",
+						"--bucket-name",
+						"assets",
+						"--cf-r2-jurisdiction",
+						"eu",
+						"--if-none-match",
+						'"etag"',
+						"--if-modified-since",
+						"Tue, 15 Jan 2024 10:30:00 GMT",
+						...(text ? ["--text"] : []),
+					],
+					ENV
+				);
+				expect(exitCode).toBe(0);
+				expect(headers?.get("cf-r2-jurisdiction")).toBe("eu");
+				expect(headers?.get("if-none-match")).toBe('"etag"');
+				expect(headers?.get("if-modified-since")).toBe(
+					"Tue, 15 Jan 2024 10:30:00 GMT"
+				);
+				expect(output).toHaveBeenCalledWith(
+					text ? bytes.toString("utf8") : bytes
+				);
+			} finally {
+				output.mockRestore();
+			}
+		}
+	);
+
 	it("list — unwraps the envelope and prints JSON", async () => {
 		server.use(
 			http.get(`${ACCT}/r2/buckets`, () =>

@@ -88,7 +88,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						message: `This operation toggles Leaked Credential Checks for a zone.`,
 					}))
 				) {
-					process.stderr.write("Aborted.\n");
 					return;
 				}
 

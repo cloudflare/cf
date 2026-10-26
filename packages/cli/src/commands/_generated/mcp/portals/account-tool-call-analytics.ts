@@ -38,6 +38,11 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description:
 				"Daily trailing-window size; defaults to 7 and is ignored for monthly",
 		})
+		.option("response-status", {
+			type: "string",
+			description: "Response status to count; 'all' counts every status",
+			choices: ["success", "error", "cached", "all"],
+		})
 		.option("dry-run", {
 			type: "boolean",
 			description: "Validate and show what would happen without executing",
@@ -56,7 +61,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			{
 				command: "mcp portals account-tool-call-analytics",
 				classification: {
-					safeFlags: ["granularity", "aggregate", "dry-run"],
+					safeFlags: ["granularity", "aggregate", "response-status", "dry-run"],
 				} satisfies ArgClassification<Args>,
 			},
 			argv as Record<string, unknown>,
@@ -66,6 +71,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					aggregate: argv["aggregate"],
 					tz: argv["tz"],
 					days: argv["days"],
+					response_status: argv["response-status"],
 				};
 				if (argv.dryRun) {
 					const __cfDryRunAccountId = await resolveAccountIdSilent();

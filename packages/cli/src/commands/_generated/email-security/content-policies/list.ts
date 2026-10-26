@@ -52,6 +52,11 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			type: "string",
 			description: "Filter by exact policy name.",
 		})
+		.option("expired", {
+			type: "boolean",
+			description:
+				"Filter to return only expired policies (`true`) or only policies that still apply (`false`). Omit to return both.",
+		})
 		.option("dry-run", {
 			type: "boolean",
 			description: "Validate and show what would happen without executing",
@@ -70,7 +75,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			{
 				command: "email-security content-policies list",
 				classification: {
-					safeFlags: ["order", "direction", "enabled", "dry-run"],
+					safeFlags: ["order", "direction", "enabled", "expired", "dry-run"],
 				} satisfies ArgClassification<Args>,
 			},
 			argv as Record<string, unknown>,
@@ -83,6 +88,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					direction: argv["direction"],
 					enabled: argv["enabled"],
 					name: argv["name"],
+					expired: argv["expired"],
 				};
 				if (argv.dryRun) {
 					const __cfDryRunAccountId = await resolveAccountIdSilent();

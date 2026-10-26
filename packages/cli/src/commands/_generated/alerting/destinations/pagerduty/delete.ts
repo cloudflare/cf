@@ -74,7 +74,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						message: `This operation deletes all PagerDuty services connected to the account.`,
 					}))
 				) {
-					process.stderr.write("Aborted.\n");
 					return;
 				}
 

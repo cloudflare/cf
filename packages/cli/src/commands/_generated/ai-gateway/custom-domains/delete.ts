@@ -87,7 +87,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						message: `This deletes the custom domain and its custom hostname. Requests to this hostname will stop reaching the gateway.`,
 					}))
 				) {
-					process.stderr.write("Aborted.\n");
 					return;
 				}
 

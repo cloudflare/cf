@@ -110,6 +110,175 @@ function listing(schema: Json) {
 }
 
 describe("the forge model", () => {
+	it("keeps UUID body fields and referenced UUID arrays as string flags", () => {
+		const files = generateFiles(
+			create(
+				{
+					type: "object",
+					required: ["id"],
+					properties: {
+						id: { type: "string", format: "uuid" },
+						parent_id: { type: "string", format: "uuid", nullable: true },
+						dataset_ids: {
+							type: "array",
+							minItems: 1,
+							maxItems: 50,
+							items: { $ref: "#/components/schemas/ID" },
+						},
+					},
+				},
+				{ ID: { type: "string", format: "uuid" } }
+			)
+		);
+		const code = files.get("things/create.ts") ?? "";
+		expect(code).toContain('.option(\'id\', {"type":"string"');
+		expect(code).toContain('.option(\'parent-id\', {"type":"string"');
+		expect(code).toContain(
+			'.option(\'dataset-ids\', {"type":"string","array":true'
+		);
+		expect(code).toContain("promptForRequiredField('id'");
+		expect(code).toContain('id: resolveFileToken(argv["id"]');
+		expect(code).toContain('parent_id: resolveFileToken(argv["parent-id"]');
+		expect(code).toContain('dataset_ids: argv["dataset-ids"]');
+		const metadata = JSON.parse(files.get("_meta/commands.json") ?? "{}");
+		expect(metadata.commands[0].options).toEqual(
+			expect.arrayContaining([
+				expect.objectContaining({ name: "id", type: "string", required: true }),
+				expect.objectContaining({ name: "parent-id", type: "string" }),
+				expect.objectContaining({ name: "dataset-ids", type: "string" }),
+			])
+		);
+	});
+
+	it.each([
+		{ type: "string", format: "uuid" },
+		{ type: "string", format: "uuid", nullable: true },
+		{
+			anyOf: [
+				{ type: "string", format: "uuid" },
+				{ type: "array", items: { type: "string", format: "uuid" } },
+			],
+		},
+	])("keeps UUID query parameters as strings: %j", (schema) => {
+		const files = generateFiles(listing(schema));
+		const schemas = JSON.parse(files.get("_meta/schemas.json") ?? "{}");
+		expect(schemas.schemas["things list"].queryParams[0].type).toBe("string");
+		expect(files.get("things/list.ts")).toContain(
+			'.option(\'status\', {"type":"string"'
+		);
+	});
+
+	it("retains required and optional scalar intersections and their enum constraints", () => {
+		const d = create(
+			{
+				type: "object",
+				required: ["vendor"],
+				properties: {
+					vendor: {
+						type: "string",
+						allOf: [
+							{ $ref: "#/components/schemas/Vendor" },
+							{ type: "string", description: "Asset vendor." },
+						],
+					},
+					severity: {
+						allOf: [
+							{ $ref: "#/components/schemas/Severity" },
+							{ type: "string", enum: ["High", "Low"] },
+						],
+					},
+				},
+			},
+			{
+				Vendor: { type: "string", enum: ["GITHUB", "SLACK"] },
+				Severity: {
+					type: "string",
+					enum: ["Critical", "High", "Medium", "Low"],
+				},
+			}
+		);
+		const files = generateFiles(d);
+		const code = files.get("things/create.ts") ?? "";
+		expect(code).toContain(".option('vendor'");
+		expect(code).toContain('"choices":["GITHUB","SLACK"]');
+		expect(code).toContain('"choices":["High","Low"]');
+		expect(code).toContain("promptForRequiredEnumField('vendor'");
+		expect(code).not.toContain("promptForRequiredEnumField('severity'");
+		expect(code).toContain('vendor: argv["vendor"]');
+		expect(code).toContain('severity: argv["severity"]');
+		const metadata = JSON.parse(files.get("_meta/commands.json") ?? "{}");
+		expect(metadata.commands[0].options).toEqual(
+			expect.arrayContaining([
+				expect.objectContaining({
+					name: "vendor",
+					required: true,
+					enum: ["GITHUB", "SLACK"],
+				}),
+				expect.objectContaining({
+					name: "severity",
+					required: false,
+					enum: ["High", "Low"],
+				}),
+			])
+		);
+	});
+
+	it("keeps same-kind scalar unions as enum flags", () => {
+		const files = generateFiles(
+			create({
+				type: "object",
+				properties: {
+					selection: {
+						oneOf: [
+							{ type: "string", enum: ["first"] },
+							{ type: "string", enum: ["second"] },
+						],
+					},
+				},
+			})
+		);
+		const code = files.get("things/create.ts") ?? "";
+		expect(code).toContain('"choices":["first","second"]');
+		expect(code).toContain('selection: argv["selection"]');
+		expect(code).not.toContain("parseScalarValue");
+	});
+
+	it.each(["oneOf", "anyOf"])(
+		"emits referenced scalar %s properties as typed scalar flags",
+		(union) => {
+			const files = generateFiles(
+				create(
+					{
+						type: "object",
+						properties: { fallback: { $ref: "#/components/schemas/Fallback" } },
+					},
+					{
+						Fallback: {
+							[union]: [{ type: "number" }, { type: "string", enum: ["veto"] }],
+						},
+					}
+				)
+			);
+			const code = files.get("things/create.ts") ?? "";
+			expect(code).toContain(".option('fallback'");
+			expect(code).toContain("parseScalarValue");
+			expect(code).toContain(
+				'fallback: parseScalarValue(argv["fallback"], "fallback")'
+			);
+			expect(code).not.toContain('"choices":["veto"]');
+			const metadata = JSON.parse(files.get("_meta/commands.json") ?? "{}");
+			expect(metadata.commands[0].options).toEqual(
+				expect.arrayContaining([
+					expect.objectContaining({
+						name: "fallback",
+						type: "string",
+						required: false,
+					}),
+				])
+			);
+		}
+	);
+
 	it("names commands in kebab-case, and joins the names into ids", () => {
 		const d = doc({
 			"/accounts/{account_id}/billing/setup": {
@@ -403,7 +572,7 @@ describe("the forge model", () => {
 				{
 					type: "object",
 					properties: {
-						settings: { type: "object", additionalProperties: true },
+						settings: { type: "array", items: { type: "boolean" } },
 					},
 				},
 				{},
@@ -421,7 +590,7 @@ describe("the forge model", () => {
 			create({
 				type: "object",
 				properties: {
-					settings: { type: "object", additionalProperties: true },
+					settings: { type: "array", items: { type: "boolean" } },
 				},
 			}),
 			"things/create.ts"
@@ -893,5 +1062,118 @@ describe("the forge model", () => {
 		const versions = command.options.find((o) => o["name"] === "versions");
 		expect(versions?.["type"]).toBe("string");
 		expect(versions?.["required"]).toBe(true);
+	});
+});
+
+describe("nested JSON array body flags", () => {
+	it.each([
+		[
+			"objects",
+			{ type: "object", properties: { value: { type: "string" } } },
+			"parseObjectArray",
+		],
+		[
+			"arrays",
+			{
+				type: "array",
+				items: { type: "object", properties: { value: { type: "string" } } },
+			},
+			"parseNestedArray",
+		],
+	])(
+		"retains required arrays of %s in an optional parent",
+		(_name, items, parser) => {
+			const d = create(
+				{
+					type: "object",
+					properties: {
+						settings: {
+							allOf: [{ $ref: "#/components/schemas/Settings" }],
+						},
+					},
+				},
+				{
+					Settings: {
+						type: "object",
+						required: ["entries", "labels"],
+						properties: {
+							entries: { type: "array", items },
+							labels: { type: "array", items: { type: "string" } },
+							version: { type: "integer" },
+						},
+					},
+				}
+			);
+			const files = generateFiles(d);
+			const code = files.get("things/create.ts") ?? "";
+			expect(code).toContain(
+				`${parser}(argv["settings-entries"], "settings-entries")`
+			);
+			expect(code).toContain(
+				"const missing = ['settings-entries', 'settings-labels']"
+			);
+			const commands = JSON.parse(
+				files.get("_meta/commands.json") ?? "{}"
+			) as CommandsFile;
+			const options = commands.commands.find(
+				(c) => c["command"] === "cf things create"
+			)?.["options"];
+			expect(options).toEqual(
+				expect.arrayContaining([
+					expect.objectContaining({
+						name: "settings-entries",
+						type: "string",
+						required: false,
+					}),
+				])
+			);
+			const schemas = JSON.parse(files.get("_meta/schemas.json") ?? "{}");
+			expect(schemas.schemas["things create"].requestBodyFields).toContainEqual(
+				expect.objectContaining({ name: "settings-entries", type: "string" })
+			);
+		}
+	);
+});
+
+describe("JSON map body flags", () => {
+	it("emits lossless map flags through references, allOf, and nested objects", () => {
+		const d = create(
+			{
+				type: "object",
+				properties: {
+					tags: {
+						allOf: [{ $ref: "#/components/schemas/Tags" }],
+						"x-fern-property-name": "labels",
+					},
+					settings: {
+						type: "object",
+						properties: { labels: { $ref: "#/components/schemas/Tags" } },
+					},
+				},
+				required: ["tags"],
+			},
+			{ Tags: { type: "object", additionalProperties: { type: "string" } } }
+		);
+		const code = file(d, "things/create.ts");
+		expect(code).toContain('parseJsonMap(argv["labels"], "labels", true)');
+		expect(code).toContain(
+			'parseJsonMap(argv["settings-labels"], "settings-labels")'
+		);
+		expect(code).toContain('[["tags"],["settings","labels"]]');
+		const options = meta(d, "cf things create")["options"] as Json[];
+		expect(options).toContainEqual(
+			expect.objectContaining({
+				name: "labels",
+				type: "string",
+				required: true,
+			})
+		);
+		expect(options).toContainEqual(
+			expect.objectContaining({
+				name: "settings-labels",
+				type: "string",
+				required: false,
+			})
+		);
 	});
 });

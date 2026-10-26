@@ -722,14 +722,6 @@ const groups = [
 	{
 		file: "logout.test.ts",
 		ancestors: ["logout"],
-		status: "skip",
-		names: [
-			"should clear a cached temporary preview account when not logged in via OAuth",
-		],
-	},
-	{
-		file: "logout.test.ts",
-		ancestors: ["logout"],
 		status: "todo",
 		names: [
 			"should clear the keyring entry, the encrypted file, and any plaintext TOML when keyring storage is active",
@@ -996,14 +988,6 @@ const groups = [
 			"cancel() discards a pending invocation",
 			"cancel() does not prevent later invocations",
 			"cancel() is a no-op when nothing is pending",
-		],
-	},
-	{
-		file: "whoami.test.ts",
-		ancestors: ["whoami"],
-		status: "skip",
-		names: [
-			"should suggest a temporary preview account when not authenticated",
 		],
 	},
 	{

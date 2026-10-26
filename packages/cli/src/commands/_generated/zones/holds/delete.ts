@@ -76,7 +76,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.zoneId = zoneId;
 
 				if (!(await confirmDelete({ force: Boolean(argv.force) }))) {
-					process.stderr.write("Aborted.\n");
 					return;
 				}
 

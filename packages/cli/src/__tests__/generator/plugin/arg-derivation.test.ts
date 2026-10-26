@@ -32,7 +32,7 @@ function queryOperation(name: string, sdkName?: string): OperationInfo {
 	});
 }
 
-/** A multipart POST whose fields include `mode` in three cases. */
+/** A multipart POST with reserved global flag names and an ordinary field. */
 function multipartOperation(): OperationInfo {
 	const field = (name: string, description: string): MultipartField => ({
 		name,
@@ -48,6 +48,8 @@ function multipartOperation(): OperationInfo {
 				field("mode", "Mode"),
 				field("Mode", "Mixed-case mode"),
 				field("MODE", "Uppercase mode"),
+				field("temporaryAccount", "Temporary account"),
+				field("eventCode", "Event code"),
 				field("label", "Label"),
 			],
 		},
@@ -114,6 +116,15 @@ describe("deriveArgsFromOp query flags", () => {
 		});
 	});
 
+	it.each(["temporary_account", "temporaryAccount", "event_code", "eventCode"])(
+		"omits the reserved query field %s",
+		(name) => {
+			expect(derived(search(), "example", queryOperation(name)).args).toEqual(
+				[]
+			);
+		}
+	);
+
 	it("classifies by the wire name", () => {
 		const d = derived(
 			search(),
@@ -149,6 +160,127 @@ describe("deriveArgsFromOp path params", () => {
 		["queue_id", "queue"],
 		["consumer_id", "consumer"],
 	];
+
+	it("keeps a defaulted path parameter optional beside a body positional", () => {
+		const op = pathOperation(
+			"/accounts/{account_id}/namespaces/{namespace}/things",
+			[["namespace", undefined]]
+		);
+		op.bodyParams = [
+			bodyParam("id", "string", ["id"], {
+				required: true,
+				description: "Thing ID",
+			}),
+		];
+		const d = derived(
+			method(
+				{ namespace: { default: "default" }, id: { positional: true } },
+				"create"
+			),
+			"example",
+			op
+		);
+		expect(d.args).toEqual([
+			expect.objectContaining({
+				name: "namespace",
+				required: false,
+				positional: false,
+				default: "default",
+				origin: { in: "path", name: "namespace" },
+			}),
+			expect.objectContaining({
+				name: "id",
+				required: true,
+				positional: true,
+				origin: { in: "body", path: ["id"] },
+			}),
+		]);
+	});
+
+	it.each(["default", ""])(
+		"never promotes a path parameter with default %j, even when explicitly positional",
+		(defaultValue) => {
+			const d = derived(
+				method(
+					{
+						consumer_id: {
+							default: defaultValue,
+							positional: true,
+							required: true,
+						},
+					},
+					"get"
+				),
+				"example",
+				pathOperation(consumerPath, renamed)
+			);
+			expect(find(d.args, "consumer")).toMatchObject({
+				positional: false,
+				required: false,
+				default: defaultValue,
+			});
+		}
+	);
+
+	it("honors an explicit optional flag override", () => {
+		const d = derived(
+			method(
+				{
+					consumer_id: {
+						required: false,
+						positional: false,
+						description: "Optional consumer",
+					},
+				},
+				"get"
+			),
+			"example",
+			pathOperation(consumerPath, renamed)
+		);
+		expect(find(d.args, "consumer")).toMatchObject({
+			positional: false,
+			required: false,
+			description: "Optional consumer",
+		});
+	});
+
+	it("honors explicit positional placement for a container parameter", () => {
+		const d = derived(
+			method(
+				{ queue_id: { positional: true }, consumer_id: { positional: false } },
+				"get"
+			),
+			"example",
+			pathOperation(consumerPath, renamed)
+		);
+		expect(d.args.map((a) => [a.name, a.positional])).toEqual([
+			["queue", true],
+			["consumer", false],
+		]);
+	});
+
+	it("honors required false for an optional positional", () => {
+		const d = derived(
+			method({ consumer_id: { required: false } }, "get"),
+			"example",
+			pathOperation(consumerPath, renamed)
+		);
+		expect(find(d.args, "consumer")).toMatchObject({
+			positional: true,
+			required: false,
+		});
+	});
+
+	it("treats an explicit null default as no default", () => {
+		const d = derived(
+			method({ consumer_id: { default: null } }, "get"),
+			"example",
+			pathOperation(consumerPath, renamed)
+		);
+		const consumer = find(d.args, "consumer");
+		expect(consumer).toMatchObject({ positional: true, required: true });
+		expect(consumer.default).toBeUndefined();
+	});
 
 	it("names the positional and demoted flag from sdkName", () => {
 		const d = derived(
@@ -218,6 +350,72 @@ describe("deriveArgsFromOp path params", () => {
 });
 
 describe("deriveArgsFromOp body flags", () => {
+	it.each(["temporaryAccount", "eventCode"])(
+		"omits the reserved camelCase body field %s",
+		(name) => {
+			const op = operation("post", "/accounts/{account_id}/example", {
+				bodyParams: [bodyParam(name, "string", [name])],
+				hasRequestBody: true,
+				requestContentTypes: ["application/json"],
+			});
+			expect(derived(search(), "example", op).args).toEqual([]);
+		}
+	);
+
+	it("uses exact description overrides without inheriting parent object prose", () => {
+		const op = operation("put", "/accounts/{account_id}/example", {
+			bodyParams: [
+				bodyParam("settings-enabled", "boolean", ["settings", "enabled"], {
+					description: "Enable the setting",
+				}),
+				bodyParam("settings-label", "string", ["settings", "label"], {
+					description: "API label",
+				}),
+			],
+			hasRequestBody: true,
+			requestContentTypes: ["application/json"],
+		});
+		const d = derived(
+			method(
+				{
+					settings: { description: "Settings as JSON" },
+					"settings.label": { description: "Choose a label" },
+				},
+				"update"
+			),
+			"example",
+			op
+		);
+		expect(find(d.args, "settings-enabled").description).toBe(
+			"Enable the setting"
+		);
+		expect(find(d.args, "settings-label").description).toBe("Choose a label");
+	});
+
+	it("uses a map description override and retains JSON input help", () => {
+		const op = operation("put", "/accounts/{account_id}/example", {
+			bodyParams: [
+				bodyParam("tags", "object", ["tags"], { description: "API prose" }),
+			],
+			hasRequestBody: true,
+			requestContentTypes: ["application/json"],
+		});
+		const d = derived(
+			method(
+				{ tags: { description: "Choose tags explicitly.", required: true } },
+				"update"
+			),
+			"example",
+			op
+		);
+		expect(find(d.args, "tags")).toMatchObject({
+			type: "objectMap",
+			required: true,
+			description:
+				"Choose tags explicitly. Provide as a JSON object or @path/to/file.json.",
+		});
+	});
+
 	it("uses forge's Fern-derived names for flags and conflicts", () => {
 		const op = operation("post", "/accounts/{account_id}/example", {
 			bodyParams: [
@@ -248,7 +446,7 @@ describe("deriveArgsFromOp body flags", () => {
 });
 
 describe("deriveArgsFromOp multipart flags", () => {
-	it("omits reserved mode fields case-insensitively", () => {
+	it("omits reserved global fields after normalizing their names", () => {
 		const d = derived(search(), "example", multipartOperation());
 		expect(d.multipartFlagFields.map((f) => f.name)).toEqual(["label"]);
 	});

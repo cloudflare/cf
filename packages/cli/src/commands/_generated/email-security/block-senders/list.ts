@@ -53,6 +53,11 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			type: "string",
 			description: "Filter by pattern value.",
 		})
+		.option("expired", {
+			type: "boolean",
+			description:
+				"Filter to return only expired patterns (`true`) or only patterns that still apply (`false`). Omit to return both.",
+		})
 		.option("dry-run", {
 			type: "boolean",
 			description: "Validate and show what would happen without executing",
@@ -71,7 +76,13 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			{
 				command: "email-security block-senders list",
 				classification: {
-					safeFlags: ["order", "direction", "pattern-type", "dry-run"],
+					safeFlags: [
+						"order",
+						"direction",
+						"pattern-type",
+						"expired",
+						"dry-run",
+					],
 				} satisfies ArgClassification<Args>,
 			},
 			argv as Record<string, unknown>,
@@ -84,6 +95,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					direction: argv["direction"],
 					pattern_type: argv["pattern-type"],
 					pattern: argv["pattern"],
+					expired: argv["expired"],
 				};
 				if (argv.dryRun) {
 					const __cfDryRunAccountId = await resolveAccountIdSilent();

@@ -83,7 +83,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						message: `This operation deletes the impersonation registry entry and stops protecting the identity from impersonation.`,
 					}))
 				) {
-					process.stderr.write("Aborted.\n");
 					return;
 				}
 

@@ -13,6 +13,7 @@ import { fileURLToPath, pathToFileURL } from "node:url";
 import { promisify } from "node:util";
 import { describe, expect, it } from "vite-plus/test";
 import { nodeScript } from "../../helpers/executable.js";
+import type { CommandOutput } from "../../../lib/autoconfig.js";
 
 const execute = promisify(execFile);
 const loader = pathToFileURL(
@@ -25,14 +26,14 @@ const spawnSource = new URL("../../../commands/dev/spawn.ts", import.meta.url);
 const projectSource = new URL("../../../lib/autoconfig.ts", import.meta.url);
 
 describe.skipIf(process.platform !== "win32")("Windows console Ctrl+C", () => {
-	it.each([
-		["implementation", "stdout"],
+	it.each<["implementation" | "framework", CommandOutput]>([
+		["implementation", "inherit"],
 		["implementation", "stderr"],
 		["implementation", "silent"],
-		["framework", "stdout"],
+		["framework", "inherit"],
 		["framework", "stderr"],
 		["framework", "silent"],
-	] as const)(
+	])(
 		"lets the %s delegate finish cleanup with %s output",
 		async (launcher, output) => {
 			const directory = mkdtempSync(join(tmpdir(), "cf console "));
@@ -73,7 +74,7 @@ const sigtermListeners = process.listenerCount("SIGTERM");
 const execution = ${
 					launcher === "implementation"
 						? `spawnImpl({
-  impl: { ecosystem: "npm", pkg: "test", installHint: "test" },
+  impl: { ecosystem: "npm", pkg: "test", installCommands: ["test"] },
   binary: ${JSON.stringify(delegate)},
   manifestPath: "test"
 }, "dev", [], { output: ${JSON.stringify(output)} })`

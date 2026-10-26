@@ -19,6 +19,22 @@ Command telemetry uses command-started and command-finished events containing:
 
 - The canonical command path (for example, `cf zones list`), without positional
   values.
+- When `cf` cannot match the arguments to a command, the kind of failure
+  (unknown subcommand, extra positional argument, a typo with a suggested
+  command, or no command), the part of the command path it recognised, and
+  whether that part is a complete command. Up to three unrecognised words are
+  included. Only the first can be included as written, and only when it is a
+  `cf` command name where a command name was expected; every later word, any
+  other first word, and any extra value after a complete command are replaced
+  by a category such as `<hex>`, `<uuid>`, `<domain>`, `<path>`, `<email>`, or
+  `<word>`. The number of unrecognised words, the suggested command name, and
+  the number of flags that are not `cf` options are also included. Those
+  flags, including unrecognised short flags such as `-x`, are counted, never
+  named. In a group of short flags such as `-xf`, reading stops at the first
+  unrecognised letter, because the rest may be its value. The command path
+  recorded for these events is the recognised group or command when there is
+  one, and `unknown command` when nothing at the top level was recognised or a
+  single unrecognised word follows a command.
 - The search query passed to `cf cli search` or `cf docs search`, to help us
   make sure relevant results are being returned. Queries are limited to 1,024
   characters in telemetry and included only in command-finished events.
@@ -27,7 +43,10 @@ Command telemetry uses command-started and command-finished events containing:
 - Command duration and its outcome (`success`, `error`, or `cancelled`).
 - Error class, HTTP status, and numeric Cloudflare API error codes when a
   command fails. Error messages and stack traces are not sent.
-- The `cf` version and prerelease label, when present.
+- The `cf` version and prerelease label, when present. When a global `cf`
+  hands a command to the `cf` version pinned by a project, the version is that
+  of the project's `cf`, and the global `cf` version is also recorded when the
+  project's `cf` supports it.
 - OS family and version, architecture, Node.js major version, and package
   manager.
 - Whether this is the first recorded use on the machine, and whether the
@@ -60,8 +79,10 @@ requests needed to carry out commands.
 Apart from the search queries described above, `cf` does not include account or
 zone identifiers, domain names, positional values, request or file contents,
 file paths, credentials, raw error messages, stack traces, or API response data
-in its command telemetry. Free-form flag values are redacted, and error
-reporting uses only the error class, status, and numeric codes described above.
+in its command telemetry. Free-form flag values are redacted, unrecognised
+command words are reduced to the categories described above unless they are
+`cf` command names, and error reporting uses only the error class, status, and
+numeric codes described above.
 
 ## How can I inspect what is sent?
 

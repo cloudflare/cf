@@ -6,6 +6,26 @@ import { hint } from "./ui/format.js";
 import { theme } from "./ui/theme.js";
 import { ApiError } from "#api";
 
+/** No API token, OAuth login, or temporary account is available. */
+export class MissingCredentialsError extends Error {}
+
+/**
+ * Only suggest a temporary account when credentials are missing. Stored OAuth
+ * credentials, even expired ones, prevent temporary-account creation.
+ */
+function isMissingCredentialsError(error: Error): boolean {
+	if (error instanceof MissingCredentialsError) {
+		return true;
+	}
+	// Structural matching also works when the shared package is bundled separately.
+	return (
+		"telemetryMessage" in error &&
+		error.telemetryMessage === "cfetch auth login required" &&
+		"reason" in error &&
+		error.reason === "no-credentials-non-interactive"
+	);
+}
+
 /**
  * Drop the protocol+host (and the `/client/v4` API-version prefix)
  * from a Cloudflare API URL so the path-only form fits inside the
@@ -24,6 +44,31 @@ function shortenUrl(url: string): string {
 	} catch {
 		return url;
 	}
+}
+
+interface ApiMessage {
+	code?: number;
+	message?: string;
+}
+
+function apiMessages(value: unknown): ApiMessage[] {
+	if (!Array.isArray(value)) {
+		return [];
+	}
+	return value.flatMap<ApiMessage>((entry: unknown) => {
+		if (typeof entry === "string") {
+			return [{ message: entry }];
+		}
+		if (entry === null || typeof entry !== "object") {
+			return [];
+		}
+		const data = entry as Record<string, unknown>;
+		const code = typeof data.code === "number" ? data.code : undefined;
+		const message = typeof data.message === "string" ? data.message : undefined;
+		return code !== undefined || message !== undefined
+			? [{ code, message }]
+			: [];
+	});
 }
 
 /**
@@ -69,16 +114,22 @@ export function handleError(error: unknown): unknown {
 		const statusText =
 			status === undefined ? "Envelope Error" : getStatusText(status);
 
-		// Extract per-error {code, message} entries from the raw API
-		// response envelope: {success:false, errors:[{code, message}, ...]}
-		type ApiErr = { code?: number; message?: string };
-		let apiErrs: ApiErr[] = [];
-		if (errorBody) {
-			const data = errorBody as Record<string, unknown>;
-			if (Array.isArray(data.errors)) {
-				apiErrs = data.errors as ApiErr[];
-			}
-		}
+		// Failed responses can put actionable details in the sibling messages
+		// array. Keep those after the errors, in the same stderr report.
+		const data =
+			errorBody !== null && typeof errorBody === "object"
+				? (errorBody as Record<string, unknown>)
+				: undefined;
+		const apiEntries = [
+			...apiMessages(data?.errors).map((entry) => ({
+				...entry,
+				isError: true,
+			})),
+			...apiMessages(data?.messages).map((entry) => ({
+				...entry,
+				isError: false,
+			})),
+		];
 
 		// Path-only form keeps the box narrow; cf only talks to a
 		// fixed set of Cloudflare API hosts so the host adds no info.
@@ -97,7 +148,7 @@ export function handleError(error: unknown): unknown {
 			status === undefined ? statusText : `${status} ${statusText}`;
 		const tailLine = reqLine ? `${statusBlurb} · ${reqLine}` : statusBlurb;
 
-		// Render each API error as:
+		// Render each API entry as:
 		//   [CODE]  message                              ← bold + error color
 		//           HTTP 404 Not Found · HTTP /path      ← dim, subordinated
 		// When colors are off, chalk's no-op proxy strips the styling
@@ -105,22 +156,23 @@ export function handleError(error: unknown): unknown {
 		// just plainer.
 		const tail = theme.muted(tailLine);
 		let content = "";
-		if (apiErrs.length > 0) {
-			content = apiErrs
+		if (apiEntries.length > 0) {
+			content = apiEntries
 				.map((err, idx) => {
 					const code =
 						typeof err.code === "number"
 							? theme.error(theme.bold(`[${err.code}]`))
-							: theme.error(theme.bold("[error]"));
+							: err.isError
+								? theme.error(theme.bold("[error]"))
+								: undefined;
 					const msg = theme.bold(err.message ?? "");
-					// Show the tail once, after the last error entry.
-					return idx === apiErrs.length - 1
-						? `${code} ${msg}\n${tail}`
-						: `${code} ${msg}`;
+					const line = code ? `${code} ${msg}` : msg;
+					// Show the tail once, after the last entry.
+					return idx === apiEntries.length - 1 ? `${line}\n${tail}` : line;
 				})
 				.join("\n\n");
 		} else {
-			// No structured errors — surface the client's own message, falling
+			// No structured details — surface the client's own message, falling
 			// back to the tail line, then subordinate the tail beneath it.
 			content = theme.error(theme.bold(error.message || tailLine));
 			if (error.message && tailLine) {
@@ -199,6 +251,14 @@ export function handleError(error: unknown): unknown {
 		const details =
 			process.env.DEBUG && error.stack ? sanitize(error.stack) : undefined;
 		console.error(errorBlock(error.message, details));
+		if (isMissingCredentialsError(error)) {
+			console.error(
+				"\n" +
+					hint(
+						"To continue without logging in, rerun this command with `--temporary-account`. cf will use a temporary account and print a claim URL."
+					)
+			);
+		}
 		return error;
 	}
 

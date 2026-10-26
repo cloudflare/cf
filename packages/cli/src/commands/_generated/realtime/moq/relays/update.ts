@@ -11,7 +11,7 @@ import {
 	getAccountId,
 	resolveAccountIdSilent,
 } from "#lib/auth.js";
-import { compactBody, parseBody } from "#lib/body-parser.js";
+import { compactBody, parseBody, parseObjectArray } from "#lib/body-parser.js";
 import { formatDryRun } from "#lib/dry-run.js";
 import { resolveFileToken } from "#lib/input-validation.js";
 import { LOCAL_ACCOUNT_ID } from "#lib/local.js";
@@ -29,9 +29,14 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "Relay unique identifier (32 hex characters).",
 			demandOption: true,
 		})
-		.option("config-upstreams-enabled", {
+		.option("relay-config-upstreams-enabled", {
 			type: "boolean",
 			description: "The config.upstreams.enabled field",
+		})
+		.option("relay-config-upstreams-upstreams", {
+			type: "string",
+			description:
+				"Ordered list of upstream MOQT server publishers. Each entry is an\nobject (not a bare string) so per-upstream configuration can be\nadded in the future without another breaking change.\n. Provide as a JSON array of objects or @path/to/file.json.",
 		})
 		.option("name", { type: "string", description: "The name field" })
 		.option("dry-run", {
@@ -56,7 +61,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			{
 				command: "realtime moq relays update",
 				classification: {
-					safeFlags: ["config-upstreams-enabled", "dry-run"],
+					safeFlags: ["relay-config-upstreams-enabled", "dry-run"],
 				} satisfies ArgClassification<Args>,
 			},
 			argv as Record<string, unknown>,
@@ -75,7 +80,11 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 								: compactBody({
 										config: {
 											upstreams: {
-												enabled: argv["config-upstreams-enabled"],
+												enabled: argv["relay-config-upstreams-enabled"],
+												upstreams: parseObjectArray(
+													argv["relay-config-upstreams-upstreams"],
+													"relay-config-upstreams-upstreams"
+												),
 											},
 										},
 										name: resolveFileToken(
@@ -108,7 +117,11 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				const bodyData = compactBody({
 					config: {
 						upstreams: {
-							enabled: argv["config-upstreams-enabled"],
+							enabled: argv["relay-config-upstreams-enabled"],
+							upstreams: parseObjectArray(
+								argv["relay-config-upstreams-upstreams"],
+								"relay-config-upstreams-upstreams"
+							),
 						},
 					},
 					name: resolveFileToken(

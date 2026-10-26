@@ -38,7 +38,7 @@ type MigrateArgs = InferArgs<typeof builder>;
 type MigrationBundler = NonNullable<MigrateArgs["bundler"]>;
 
 function printDetectedBundler(bundler: MigrationBundler): void {
-	console.log(
+	console.error(
 		theme.muted(
 			bundler === "vite"
 				? "Using the Vite bundler because @cloudflare/vite-plugin is declared. Pass --bundler wrangler to override."

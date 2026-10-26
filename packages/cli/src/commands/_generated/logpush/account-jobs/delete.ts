@@ -100,7 +100,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						message: `This operation deletes the Logpush job.`,
 					}))
 				) {
-					process.stderr.write("Aborted.\n");
 					return;
 				}
 

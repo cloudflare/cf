@@ -1,0 +1,9 @@
+rules:
+  dangerous-triggers:
+    ignore:
+      # The workflow admits only trusted contributors and Bonk independently
+      # verifies that the actor has write permission before doing any work.
+      - bonk.yml
+      # This pull_request_target workflow checks out only the trusted base
+      # revision and never executes code from the pull request.
+      - vouch.yml

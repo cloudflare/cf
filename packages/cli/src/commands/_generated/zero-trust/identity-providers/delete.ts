@@ -99,7 +99,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				}
 
 				if (!(await confirmDelete({ force: Boolean(argv.force) }))) {
-					process.stderr.write("Aborted.\n");
 					return;
 				}
 

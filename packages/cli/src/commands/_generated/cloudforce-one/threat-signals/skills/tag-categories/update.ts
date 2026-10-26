@@ -21,17 +21,19 @@ import { runWithTelemetry } from "#lib/telemetry/index.js";
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
 		.usage(
-			"$0 cloudforce-one threat-signals skills tag-categories update <skill-id>\n\nReplaces the tag categories the default tagging skill may choose tags from."
+			"$0 cloudforce-one threat-signals skills tag-categories update <skill-id>\n\nReplaces the Tag Categories the managed default tagging skill may select tags from. This configures the managed default tagging skill, not Custom Skills."
 		)
 		.positional("skill-id", {
 			type: "string",
-			description: "Skill ID",
+			description:
+				"Must be default-tagging-skill; configures the managed default tagging skill",
 			demandOption: true,
 		})
 		.option("category-uuids", {
 			type: "string",
 			array: true,
-			description: "The category_uuids field",
+			description:
+				"Up to 100 unique tag category UUIDs that the managed default tagging skill may select tags from.",
 		})
 		.option("dry-run", {
 			type: "boolean",

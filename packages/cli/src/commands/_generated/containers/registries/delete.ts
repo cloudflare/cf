@@ -79,7 +79,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						message: `This operation deletes the registry configuration. Containers will no longer be able to pull images from it.`,
 					}))
 				) {
-					process.stderr.write("Aborted.\n");
 					return;
 				}
 

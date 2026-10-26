@@ -79,7 +79,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						message: `This operation permanently deletes a Workers VPC connectivity service.`,
 					}))
 				) {
-					process.stderr.write("Aborted.\n");
 					return;
 				}
 

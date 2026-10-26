@@ -137,7 +137,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						message: `This operation revokes all access tokens for a user destructively.`,
 					}))
 				) {
-					process.stderr.write("Aborted.\n");
 					return;
 				}
 

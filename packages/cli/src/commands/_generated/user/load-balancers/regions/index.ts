@@ -8,7 +8,8 @@ import type { CommandModule } from "yargs";
 
 const command: CommandModule<CommonYargsOptions> = {
 	command: "regions",
-	describe: "Operations for load-balancers.regions",
+	describe:
+		"Geographic regions used for regional pool steering and traffic policies",
 
 	builder: (yargs) => {
 		return yargs.command($list).demandCommand(1, "Please specify a subcommand");

@@ -18,6 +18,7 @@ import { resolveFileToken } from "#lib/input-validation.js";
 import { LOCAL_ACCOUNT_ID } from "#lib/local.js";
 import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
+import { promptForRequiredField } from "#lib/prompt.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
 function builder(yargs: Argv<CommonYargsOptions>) {
@@ -38,6 +39,10 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("description", {
 			type: "string",
 			description: "An informative description of the ruleset.",
+		})
+		.option("id", {
+			type: "string",
+			description: "The unique ID of the ruleset.",
 		})
 		.option("name", {
 			type: "string",
@@ -71,6 +76,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"http_request_transform",
 				"http_response_cache_settings",
 				"http_response_compression",
+				"http_response_firewall_custom",
 				"http_response_firewall_managed",
 				"http_response_headers_transform",
 				"magic_transit",
@@ -143,6 +149,11 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 											"description",
 											"text"
 										),
+										id: resolveFileToken(
+											argv["id"] as string | undefined,
+											"id",
+											"text"
+										),
 										name: resolveFileToken(
 											argv["name"] as string | undefined,
 											"name",
@@ -190,6 +201,12 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					formatOutput(result, { successLabel: `Updated` });
 					return;
 				}
+				if (argv["id"] === undefined) {
+					argv["id"] = await promptForRequiredField(
+						"id",
+						"The unique ID of the ruleset."
+					);
+				}
 
 				// Assemble request body from individual flags
 				const bodyData = compactBody({
@@ -198,6 +215,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						"description",
 						"text"
 					),
+					id: resolveFileToken(argv["id"] as string | undefined, "id", "text"),
 					name: resolveFileToken(
 						argv["name"] as string | undefined,
 						"name",

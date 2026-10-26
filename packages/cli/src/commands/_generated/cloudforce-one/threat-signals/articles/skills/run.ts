@@ -22,16 +22,17 @@ import { runWithTelemetry } from "#lib/telemetry/index.js";
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
 		.usage(
-			"$0 cloudforce-one threat-signals articles skills run <skill-id>\n\nPaid customer operation that always persists a managed default skill or an assigned active custom skill result without exposing diagnostic model data."
+			"$0 cloudforce-one threat-signals articles skills run <skill-id>\n\nRun an active Custom Skill assigned to the article's feed, or run a managed default skill. Requires a paid Threat Signals subscription and the Cloudforce One Write permission. Always persists output; rerunning overwrites the previous result. Does not expose diagnostic model data or accept server-preview inputs."
 		)
 		.positional("skill-id", {
 			type: "string",
-			description: "Skill ID",
+			description:
+				"UUID of an active Custom Skill that is assigned to the article's feed, or a managed default skill ID. Requires a paid Threat Signals subscription and the Cloudforce One Write permission. Always persists output; rerunning overwrites the previous result. No diagnostic or server-preview inputs.",
 			demandOption: true,
 		})
 		.option("article-id", {
 			type: "string",
-			description: "Article ID",
+			description: "Threat Signals article UUID",
 			demandOption: true,
 		})
 		.option("dry-run", {
@@ -49,7 +50,7 @@ type Args = InferArgs<typeof builder>;
 
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "run <skill-id>",
-	describe: "Run and persist a Threat Signals article skill",
+	describe: "Run and persist skill output for a Threat Signals article",
 	builder,
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(

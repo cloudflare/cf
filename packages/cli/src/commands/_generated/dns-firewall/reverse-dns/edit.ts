@@ -11,7 +11,7 @@ import {
 	getAccountId,
 	resolveAccountIdSilent,
 } from "#lib/auth.js";
-import { parseBody } from "#lib/body-parser.js";
+import { compactBody, parseBody, parseJsonMap } from "#lib/body-parser.js";
 import { formatDryRun } from "#lib/dry-run.js";
 import { LOCAL_ACCOUNT_ID } from "#lib/local.js";
 import { formatOutput } from "#lib/output.js";
@@ -27,6 +27,11 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			type: "string",
 			description: "Identifier.",
 			demandOption: true,
+		})
+		.option("ptr", {
+			type: "string",
+			description:
+				"Map of cluster IP addresses to PTR record contents. Provide as a JSON object or @path/to/file.json.",
 		})
 		.option("dry-run", {
 			type: "boolean",
@@ -55,6 +60,11 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
+				if (argv.body === undefined && argv["ptr"] === undefined) {
+					throw new Error(
+						"--body is required unless at least one JSON map flag is provided (--ptr)."
+					);
+				}
 				if (argv.dryRun) {
 					const __cfDryRunAccountId = await resolveAccountIdSilent();
 					formatDryRun({
@@ -65,7 +75,15 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 							"dns-firewall-id": String(argv["dns-firewall-id"] ?? ""),
 						},
 						bodyKind: "json",
-						body: argv.body !== undefined ? parseBody(argv.body) : undefined,
+						body:
+							argv.body !== undefined
+								? parseBody(argv.body)
+								: compactBody(
+										{
+											ptr: parseJsonMap(argv["ptr"], "ptr"),
+										},
+										[["ptr"]]
+									),
 					});
 					return;
 				}
@@ -86,11 +104,21 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					return;
 				}
 
-				if (argv.body === undefined) {
-					throw new Error(
-						"--body is required for this command. Pass --body '<json>' or --body @path/to/file.json."
-					);
-				}
+				// Assemble request body from individual flags
+				const bodyData = compactBody(
+					{
+						ptr: parseJsonMap(argv["ptr"], "ptr"),
+					},
+					[["ptr"]]
+				);
+				const result = await withProgress(`Updating`, async () =>
+					client.send(operation, {
+						body: bodyData,
+						account_id: accountId,
+						dns_firewall_id: argv["dns-firewall-id"],
+					})
+				);
+				formatOutput(result, { successLabel: `Updated` });
 			}
 		),
 };

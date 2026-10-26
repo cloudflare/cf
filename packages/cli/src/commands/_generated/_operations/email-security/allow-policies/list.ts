@@ -17,5 +17,6 @@ export default {
 		"verify_sender",
 		"pattern_type",
 		"pattern",
+		"expired",
 	],
 } as const;

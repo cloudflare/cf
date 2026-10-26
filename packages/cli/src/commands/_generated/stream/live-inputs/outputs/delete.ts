@@ -89,7 +89,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						message: `Delete this output? Any active broadcast to this target will be terminated.`,
 					}))
 				) {
-					process.stderr.write("Aborted.\n");
 					return;
 				}
 

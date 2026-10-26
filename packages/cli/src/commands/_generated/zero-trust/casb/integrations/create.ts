@@ -11,7 +11,12 @@ import {
 	requestApi,
 	resolveAccountIdSilent,
 } from "#lib/auth.js";
-import { compactBody, parseBody, setNestedValue } from "#lib/body-parser.js";
+import {
+	compactBody,
+	parseBody,
+	parseJsonMap,
+	setNestedValue,
+} from "#lib/body-parser.js";
 import { formatDryRun } from "#lib/dry-run.js";
 import { readFileForFlag, resolveFileToken } from "#lib/input-validation.js";
 import { LOCAL_ACCOUNT_ID } from "#lib/local.js";
@@ -31,7 +36,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("application", {
 			type: "string",
 			description:
-				"Vendor/application slug (e.g., GOOGLE_WORKSPACE).\n\n* `ANTHROPIC` - ANTHROPIC\n* `AWS` - AWS\n* `BITBUCKET` - BITBUCKET\n* `BOX` - BOX\n* `CONFLUENCE` - CONFLUENCE\n* `DROPBOX` - DROPBOX\n* `GITHUB` - GITHUB\n* `GOOGLE_CLOUD_PLATFORM` - GOOGLE_CLOUD_PLATFORM\n* `GOOGLE_WORKSPACE` - GOOGLE_WORKSPACE\n* `JIRA` - JIRA\n* `MICROSOFT_INTERNAL` - MICROSOFT_INTERNAL\n* `OPENAI` - OPENAI\n* `SALESFORCE` - SALESFORCE\n* `SERVICENOW` - SERVICENOW\n* `SLACK` - SLACK",
+				"Vendor/application slug (e.g., GOOGLE_WORKSPACE).\n\n* `ANTHROPIC` - ANTHROPIC\n* `AWS` - AWS\n* `BITBUCKET` - BITBUCKET\n* `BOX` - BOX\n* `CONFLUENCE` - CONFLUENCE\n* `DROPBOX` - DROPBOX\n* `GITHUB` - GITHUB\n* `GOOGLE_CLOUD_PLATFORM` - GOOGLE_CLOUD_PLATFORM\n* `GOOGLE_WORKSPACE` - GOOGLE_WORKSPACE\n* `JIRA` - JIRA\n* `MICROSOFT_INTERNAL` - MICROSOFT_INTERNAL\n* `OPENAI` - OPENAI\n* `SALESFORCE` - SALESFORCE\n* `SERVICENOW` - SERVICENOW\n* `SLACK` - SLACK\n* `ZOOM` - ZOOM",
 			choices: [
 				"ANTHROPIC",
 				"AWS",
@@ -48,6 +53,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"SALESFORCE",
 				"SERVICENOW",
 				"SLACK",
+				"ZOOM",
 			],
 		})
 		.coerce("application", (value) =>
@@ -56,6 +62,11 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("auth-method", {
 			type: "string",
 			description: "Authentication method slug (uses default if omitted).",
+		})
+		.option("credentials", {
+			type: "string",
+			description:
+				"Credentials for the integration. Provide as a JSON object or @path/to/file.json.",
 		})
 		.option("dlp-profiles", {
 			type: "string",
@@ -72,7 +83,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			type: "string",
 			array: true,
 			description:
-				"List of use case or feature slugs to enroll (e.g., ['casb', 'ces', 'auto_remediation']).",
+				"List of use case or feature slugs to enroll. At least one use case (casb, ces) is required; auto_remediation may be added alongside casb (e.g., ['casb', 'ces', 'auto_remediation']).",
 		})
 		.option("dry-run", {
 			type: "boolean",
@@ -117,23 +128,33 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 							argv.file !== undefined
 								? { file: argv.file }
 								: argv.body !== undefined
-									? parseBody(argv.body)
-									: compactBody({
-											application: argv["application"],
-											auth_method: resolveFileToken(
-												argv["auth-method"] as string | undefined,
-												"auth-method",
-												"text"
-											),
-											dlp_profiles: argv["dlp-profiles"],
-											name: resolveFileToken(
-												argv["name"] as string | undefined,
-												"name",
-												"text"
-											),
-											permissions: argv["permissions"],
-											use_cases: argv["use-cases"],
-										}),
+									? parseBody(argv.body, [
+											{ path: ["credentials"], flag: "credentials" },
+										])
+									: compactBody(
+											{
+												application: argv["application"],
+												auth_method: resolveFileToken(
+													argv["auth-method"] as string | undefined,
+													"auth-method",
+													"text"
+												),
+												credentials: parseJsonMap(
+													argv["credentials"],
+													"credentials",
+													true
+												),
+												dlp_profiles: argv["dlp-profiles"],
+												name: resolveFileToken(
+													argv["name"] as string | undefined,
+													"name",
+													"text"
+												),
+												permissions: argv["permissions"],
+												use_cases: argv["use-cases"],
+											},
+											[["credentials"]]
+										),
 					});
 					return;
 				}
@@ -159,7 +180,9 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				}
 
 				if (argv.body) {
-					const bodyData = parseBody(argv.body);
+					const bodyData = parseBody(argv.body, [
+						{ path: ["credentials"], flag: "credentials" },
+					]);
 					const result = await withProgress(`Creating`, async () =>
 						requestApi<unknown>(
 							client,
@@ -174,7 +197,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				if (argv["application"] === undefined) {
 					argv["application"] = await promptForRequiredEnumField(
 						"application",
-						"Vendor/application slug (e.g., GOOGLE_WORKSPACE).  * \`ANTHROPIC\` - ANTHROPIC * \`AWS\` - AWS * \`BITBUCKET\` - BITBUCKET * \`BOX\` - BOX * \`CONFLUENCE\` - CONFLUENCE * \`DROPBOX\` - DROPBOX * \`GITHUB\` - GITHUB * \`GOOGLE_CLOUD_PLATFORM\` - GOOGLE_CLOUD_PLATFORM * \`GOOGLE_WORKSPACE\` - GOOGLE_WORKSPACE * \`JIRA\` - JIRA * \`MICROSOFT_INTERNAL\` - MICROSOFT_INTERNAL * \`OPENAI\` - OPENAI * \`SALESFORCE\` - SALESFORCE * \`SERVICENOW\` - SERVICENOW * \`SLACK\` - SLACK",
+						"Vendor/application slug (e.g., GOOGLE_WORKSPACE).  * \`ANTHROPIC\` - ANTHROPIC * \`AWS\` - AWS * \`BITBUCKET\` - BITBUCKET * \`BOX\` - BOX * \`CONFLUENCE\` - CONFLUENCE * \`DROPBOX\` - DROPBOX * \`GITHUB\` - GITHUB * \`GOOGLE_CLOUD_PLATFORM\` - GOOGLE_CLOUD_PLATFORM * \`GOOGLE_WORKSPACE\` - GOOGLE_WORKSPACE * \`JIRA\` - JIRA * \`MICROSOFT_INTERNAL\` - MICROSOFT_INTERNAL * \`OPENAI\` - OPENAI * \`SALESFORCE\` - SALESFORCE * \`SERVICENOW\` - SERVICENOW * \`SLACK\` - SLACK * \`ZOOM\` - ZOOM",
 						[
 							"ANTHROPIC",
 							"AWS",
@@ -191,13 +214,24 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 							"SALESFORCE",
 							"SERVICENOW",
 							"SLACK",
+							"ZOOM",
 						] as const
+					);
+				}
+				if (argv["credentials"] === undefined) {
+					throw new Error(
+						"--credentials is required (or pass --body with this field set)."
 					);
 				}
 				if (argv["name"] === undefined) {
 					argv["name"] = await promptForRequiredField(
 						"name",
 						"Name of the integration."
+					);
+				}
+				if (argv["use-cases"] === undefined) {
+					throw new Error(
+						"--use-cases is required (or pass --body with this field set)."
 					);
 				}
 
@@ -214,6 +248,12 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 							"auth-method",
 							"text"
 						)
+					);
+				if (argv["credentials"] !== undefined)
+					setNestedValue(
+						bodyData,
+						["credentials"],
+						parseJsonMap(argv["credentials"], "credentials", true)
 					);
 				if (argv["dlp-profiles"] !== undefined)
 					setNestedValue(bodyData, ["dlp_profiles"], argv["dlp-profiles"]);

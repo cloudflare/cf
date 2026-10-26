@@ -12,8 +12,12 @@ concurrency:
 
 jobs:
   roboreview:
-    # Triggered only by a 🤖 emoji in the comment body, from a non-bot author.
-    if: github.event.sender.type != 'Bot' && contains(github.event.comment.body, '🤖')
+    # Triggered only by a 🤖 emoji from a trusted repository contributor.
+    # The Bonk action independently verifies the actor has write permission.
+    if: |
+      github.event.sender.type != 'Bot' &&
+      contains(github.event.comment.body, '🤖') &&
+      contains(fromJSON('["COLLABORATOR", "MEMBER", "OWNER"]'), github.event.comment.author_association)
     runs-on: ubuntu-latest
     timeout-minutes: 60
     permissions:
@@ -23,9 +27,10 @@ jobs:
       pull-requests: write
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
         with:
           fetch-depth: 1
+          persist-credentials: false
 
       - name: Build prompt with triggering comment
         id: prompt
@@ -33,7 +38,7 @@ jobs:
           {
             DELIMITER=$(openssl rand -hex 16)
             echo "value<<$DELIMITER"
-            echo "You were invoked by @${{ github.event.comment.user.login }} on ${{ github.event.comment.html_url }}"
+            echo "You were invoked by @${COMMENT_USER} on ${COMMENT_URL}"
             echo ""
             echo "Their comment:"
             echo '```'
@@ -45,9 +50,11 @@ jobs:
           } >> "$GITHUB_OUTPUT"
         env:
           COMMENT_BODY: ${{ github.event.comment.body }}
+          COMMENT_URL: ${{ github.event.comment.html_url }}
+          COMMENT_USER: ${{ github.event.comment.user.login }}
 
       - name: Run Roboreview
-        uses: Cloudflare-Studio/ask-bonk/github@main
+        uses: Cloudflare-Studio/ask-bonk/github@2c20fe37255d2e0e186fb0e16dd2c5704e4116cf # main
         env:
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CF_AI_GATEWAY_ACCOUNT_ID }}
           CLOUDFLARE_GATEWAY_ID: ${{ secrets.CF_AI_GATEWAY_NAME }}

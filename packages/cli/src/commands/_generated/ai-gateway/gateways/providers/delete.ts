@@ -87,7 +87,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						message: `This deletes the stored provider key and its Secrets Store secret. Requests that rely on this key will stop authenticating with it.`,
 					}))
 				) {
-					process.stderr.write("Aborted.\n");
 					return;
 				}
 

@@ -27,7 +27,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.positional("version-id", {
 			type: "string",
 			description:
-				'Identifies the version by UUID or UUID prefix with a minimum length of eight characters. Use "latest" to select the most recently created version.',
+				'Identifies the version by UUID or UUID prefix with a minimum length of eight characters. Use "latest" to select the most recently created version, which may not be deployed. Use "latest-deployed" to profile a version in the active deployment. Versions are tried in order of traffic share until one has a loaded isolate.',
 			demandOption: true,
 		})
 		.option("worker-id", {
@@ -38,7 +38,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("actor-id", {
 			type: "string",
 			description:
-				"Identifies the exact Durable Object actor to profile. Must be specified together with namespace_id. The actor must currently be active and running the requested Worker version.",
+				"Identifies the exact Durable Object actor to profile. Must be specified together with namespace_id. The actor must currently be active and running the requested version.",
 		})
 		.option("duration-ms", {
 			type: "number",

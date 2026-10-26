@@ -12,7 +12,12 @@ import {
 	getZoneId,
 	resolveAccountIdSilent,
 } from "#lib/auth.js";
-import { compactBody, parseBody, parseObjectArray } from "#lib/body-parser.js";
+import {
+	compactBody,
+	parseBody,
+	parseJsonMap,
+	parseObjectArray,
+} from "#lib/body-parser.js";
 import { formatDryRun } from "#lib/dry-run.js";
 import { resolveFileToken } from "#lib/input-validation.js";
 import { LOCAL_ACCOUNT_ID } from "#lib/local.js";
@@ -34,6 +39,11 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			type: "boolean",
 			description:
 				"Extends zero-downtime failover of requests to healthy origins from alternate pools, when no healthy alternate exists in the same pool, according to the failover order defined by traffic and origin steering. When set false (the default) zero-downtime failover will only occur between origins within the same pool. See `session_affinity_attributes` for control over when sessions are broken or reassigned.",
+		})
+		.option("country-pools", {
+			type: "string",
+			description:
+				"A mapping of country codes to a list of pool IDs (ordered by their failover priority) for the given country. Any country not explicitly defined will fall back to using the corresponding region_pool mapping if it exists else to default_pools. Provide as a JSON object or @path/to/file.json.",
 		})
 		.option("default-pools", {
 			type: "string",
@@ -82,6 +92,11 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			array: true,
 			description: "List of networks where Load Balancer or Pool is enabled.",
 		})
+		.option("pop-pools", {
+			type: "string",
+			description:
+				"Enterprise only: A mapping of Cloudflare PoP identifiers to a list of pool IDs (ordered by their failover priority) for the PoP (datacenter). Any PoPs not explicitly defined will fall back to using the corresponding country_pool, then region_pool mapping if it exists else to default_pools. Provide as a JSON object or @path/to/file.json.",
+		})
 		.option("proxied", {
 			type: "boolean",
 			description:
@@ -91,6 +106,16 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			type: "number",
 			description:
 				"The default weight for pools in the load balancer that are not specified in the pool_weights map.",
+		})
+		.option("random-steering-pool-weights", {
+			type: "string",
+			description:
+				"A mapping of pool IDs to custom weights. The weight is relative to other pools in the load balancer. Provide as a JSON object or @path/to/file.json.",
+		})
+		.option("region-pools", {
+			type: "string",
+			description:
+				"A mapping of region codes to a list of pool IDs (ordered by their failover priority) for the given region. Any regions not explicitly defined will fall back to using default_pools. Provide as a JSON object or @path/to/file.json.",
 		})
 		.option("rules", {
 			type: "string",
@@ -242,56 +267,79 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						body:
 							argv.body !== undefined
 								? parseBody(argv.body)
-								: compactBody({
-										adaptive_routing: {
-											failover_across_pools:
-												argv["adaptive-routing-failover-across-pools"],
+								: compactBody(
+										{
+											adaptive_routing: {
+												failover_across_pools:
+													argv["adaptive-routing-failover-across-pools"],
+											},
+											country_pools: parseJsonMap(
+												argv["country-pools"],
+												"country-pools"
+											),
+											default_pools: argv["default-pools"],
+											description: resolveFileToken(
+												argv["description"] as string | undefined,
+												"description",
+												"text"
+											),
+											enabled: argv["enabled"],
+											fallback_pool: resolveFileToken(
+												argv["fallback-pool"] as string | undefined,
+												"fallback-pool",
+												"text"
+											),
+											location_strategy: {
+												mode: argv["location-strategy-mode"],
+												prefer_ecs: argv["location-strategy-prefer-ecs"],
+											},
+											name: resolveFileToken(
+												argv["name"] as string | undefined,
+												"name",
+												"text"
+											),
+											networks: argv["networks"],
+											pop_pools: parseJsonMap(argv["pop-pools"], "pop-pools"),
+											proxied: argv["proxied"],
+											random_steering: {
+												default_weight: argv["random-steering-default-weight"],
+												pool_weights: parseJsonMap(
+													argv["random-steering-pool-weights"],
+													"random-steering-pool-weights"
+												),
+											},
+											region_pools: parseJsonMap(
+												argv["region-pools"],
+												"region-pools"
+											),
+											rules: parseObjectArray(argv["rules"], "rules"),
+											session_affinity: argv["session-affinity"],
+											session_affinity_attributes: {
+												drain_duration:
+													argv["session-affinity-attributes-drain-duration"],
+												headers: argv["session-affinity-attributes-headers"],
+												require_all_headers:
+													argv[
+														"session-affinity-attributes-require-all-headers"
+													],
+												samesite: argv["session-affinity-attributes-samesite"],
+												secure: argv["session-affinity-attributes-secure"],
+												zero_downtime_failover:
+													argv[
+														"session-affinity-attributes-zero-downtime-failover"
+													],
+											},
+											session_affinity_ttl: argv["session-affinity-ttl"],
+											steering_policy: argv["steering-policy"],
+											ttl: argv["ttl"],
 										},
-										default_pools: argv["default-pools"],
-										description: resolveFileToken(
-											argv["description"] as string | undefined,
-											"description",
-											"text"
-										),
-										enabled: argv["enabled"],
-										fallback_pool: resolveFileToken(
-											argv["fallback-pool"] as string | undefined,
-											"fallback-pool",
-											"text"
-										),
-										location_strategy: {
-											mode: argv["location-strategy-mode"],
-											prefer_ecs: argv["location-strategy-prefer-ecs"],
-										},
-										name: resolveFileToken(
-											argv["name"] as string | undefined,
-											"name",
-											"text"
-										),
-										networks: argv["networks"],
-										proxied: argv["proxied"],
-										random_steering: {
-											default_weight: argv["random-steering-default-weight"],
-										},
-										rules: parseObjectArray(argv["rules"], "rules"),
-										session_affinity: argv["session-affinity"],
-										session_affinity_attributes: {
-											drain_duration:
-												argv["session-affinity-attributes-drain-duration"],
-											headers: argv["session-affinity-attributes-headers"],
-											require_all_headers:
-												argv["session-affinity-attributes-require-all-headers"],
-											samesite: argv["session-affinity-attributes-samesite"],
-											secure: argv["session-affinity-attributes-secure"],
-											zero_downtime_failover:
-												argv[
-													"session-affinity-attributes-zero-downtime-failover"
-												],
-										},
-										session_affinity_ttl: argv["session-affinity-ttl"],
-										steering_policy: argv["steering-policy"],
-										ttl: argv["ttl"],
-									}),
+										[
+											["country_pools"],
+											["pop_pools"],
+											["random_steering", "pool_weights"],
+											["region_pools"],
+										]
+									),
 					});
 					return;
 				}
@@ -326,53 +374,69 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				}
 
 				// Assemble request body from individual flags
-				const bodyData = compactBody({
-					adaptive_routing: {
-						failover_across_pools:
-							argv["adaptive-routing-failover-across-pools"],
+				const bodyData = compactBody(
+					{
+						adaptive_routing: {
+							failover_across_pools:
+								argv["adaptive-routing-failover-across-pools"],
+						},
+						country_pools: parseJsonMap(argv["country-pools"], "country-pools"),
+						default_pools: argv["default-pools"],
+						description: resolveFileToken(
+							argv["description"] as string | undefined,
+							"description",
+							"text"
+						),
+						enabled: argv["enabled"],
+						fallback_pool: resolveFileToken(
+							argv["fallback-pool"] as string | undefined,
+							"fallback-pool",
+							"text"
+						),
+						location_strategy: {
+							mode: argv["location-strategy-mode"],
+							prefer_ecs: argv["location-strategy-prefer-ecs"],
+						},
+						name: resolveFileToken(
+							argv["name"] as string | undefined,
+							"name",
+							"text"
+						),
+						networks: argv["networks"],
+						pop_pools: parseJsonMap(argv["pop-pools"], "pop-pools"),
+						proxied: argv["proxied"],
+						random_steering: {
+							default_weight: argv["random-steering-default-weight"],
+							pool_weights: parseJsonMap(
+								argv["random-steering-pool-weights"],
+								"random-steering-pool-weights"
+							),
+						},
+						region_pools: parseJsonMap(argv["region-pools"], "region-pools"),
+						rules: parseObjectArray(argv["rules"], "rules"),
+						session_affinity: argv["session-affinity"],
+						session_affinity_attributes: {
+							drain_duration:
+								argv["session-affinity-attributes-drain-duration"],
+							headers: argv["session-affinity-attributes-headers"],
+							require_all_headers:
+								argv["session-affinity-attributes-require-all-headers"],
+							samesite: argv["session-affinity-attributes-samesite"],
+							secure: argv["session-affinity-attributes-secure"],
+							zero_downtime_failover:
+								argv["session-affinity-attributes-zero-downtime-failover"],
+						},
+						session_affinity_ttl: argv["session-affinity-ttl"],
+						steering_policy: argv["steering-policy"],
+						ttl: argv["ttl"],
 					},
-					default_pools: argv["default-pools"],
-					description: resolveFileToken(
-						argv["description"] as string | undefined,
-						"description",
-						"text"
-					),
-					enabled: argv["enabled"],
-					fallback_pool: resolveFileToken(
-						argv["fallback-pool"] as string | undefined,
-						"fallback-pool",
-						"text"
-					),
-					location_strategy: {
-						mode: argv["location-strategy-mode"],
-						prefer_ecs: argv["location-strategy-prefer-ecs"],
-					},
-					name: resolveFileToken(
-						argv["name"] as string | undefined,
-						"name",
-						"text"
-					),
-					networks: argv["networks"],
-					proxied: argv["proxied"],
-					random_steering: {
-						default_weight: argv["random-steering-default-weight"],
-					},
-					rules: parseObjectArray(argv["rules"], "rules"),
-					session_affinity: argv["session-affinity"],
-					session_affinity_attributes: {
-						drain_duration: argv["session-affinity-attributes-drain-duration"],
-						headers: argv["session-affinity-attributes-headers"],
-						require_all_headers:
-							argv["session-affinity-attributes-require-all-headers"],
-						samesite: argv["session-affinity-attributes-samesite"],
-						secure: argv["session-affinity-attributes-secure"],
-						zero_downtime_failover:
-							argv["session-affinity-attributes-zero-downtime-failover"],
-					},
-					session_affinity_ttl: argv["session-affinity-ttl"],
-					steering_policy: argv["steering-policy"],
-					ttl: argv["ttl"],
-				});
+					[
+						["country_pools"],
+						["pop_pools"],
+						["random_steering", "pool_weights"],
+						["region_pools"],
+					]
+				);
 				const result = await withProgress(`Updating`, async () =>
 					client.send(operation, {
 						body: bodyData,

@@ -77,6 +77,10 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			type: "string",
 			description: "Specifies the R2 Bucket to store files.",
 		})
+		.option("destination-path-filename", {
+			type: "string",
+			description: "Specifies the name pattern to for individual data files.",
+		})
 		.option("destination-path-filepath", {
 			type: "string",
 			description: "Specifies the name pattern for directory.",
@@ -186,6 +190,13 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 												bucket: resolveFileToken(
 													argv["destination-path-bucket"] as string | undefined,
 													"destination-path-bucket",
+													"text"
+												),
+												filename: resolveFileToken(
+													argv["destination-path-filename"] as
+														| string
+														| undefined,
+													"destination-path-filename",
 													"text"
 												),
 												filepath: resolveFileToken(
@@ -319,6 +330,11 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 							bucket: resolveFileToken(
 								argv["destination-path-bucket"] as string | undefined,
 								"destination-path-bucket",
+								"text"
+							),
+							filename: resolveFileToken(
+								argv["destination-path-filename"] as string | undefined,
+								"destination-path-filename",
 								"text"
 							),
 							filepath: resolveFileToken(

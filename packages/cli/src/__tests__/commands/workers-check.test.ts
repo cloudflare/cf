@@ -1,5 +1,5 @@
 import { Buffer } from "node:buffer";
-import { existsSync, readFileSync, symlinkSync } from "node:fs";
+import { existsSync, readFileSync, readdirSync, symlinkSync } from "node:fs";
 import { readFile } from "node:fs/promises";
 import { join, resolve } from "node:path";
 import { fileURLToPath, pathToFileURL } from "node:url";
@@ -9,7 +9,14 @@ import {
 	runInTempDir,
 	seed,
 } from "@cloudflare/workers-utils/test-helpers";
-import { beforeEach, describe, expect, it, vi } from "vite-plus/test";
+import {
+	afterEach,
+	beforeEach,
+	describe,
+	expect,
+	it,
+	vi,
+} from "vite-plus/test";
 import { runCf } from "../helpers/run-cf.js";
 import {
 	buildDelegateWasCalled,
@@ -64,6 +71,31 @@ describe("cf workers check", () => {
 		vi.clearAllMocks();
 		vi.stubEnv("CLOUDFLARE_API_TOKEN", undefined);
 		vi.stubEnv("CLOUDFLARE_ACCOUNT_ID", undefined);
+	});
+
+	// Run before runInTempDir's cleanup removes the delegate's debug logs.
+	afterEach(({ task }) => {
+		if (task.result?.state !== "fail") {
+			return;
+		}
+		process.stderr.write(
+			`\nWorkers check diagnostics: ${JSON.stringify({
+				buildOutputWritten: existsSync(".cloudflare/output/v0/config.json"),
+				profilingStarted:
+					vi.mocked(startupProfile.analyseBundle).mock.calls.length > 0,
+				profileWritten: existsSync("worker-startup.cpuprofile"),
+			})}\n`
+		);
+		const logDir = resolve(".wrangler/logs");
+		if (existsSync(logDir)) {
+			for (const file of readdirSync(logDir)) {
+				if (file.endsWith(".log")) {
+					process.stderr.write(
+						`\nWrangler build log (${file}):\n${readFileSync(join(logDir, file), "utf8")}\n`
+					);
+				}
+			}
+		}
 	});
 
 	it("builds and profiles a Worker with modules and source maps", async () => {
@@ -130,6 +162,8 @@ describe("cf workers check", () => {
 		expect(output.note).toContain("measured locally");
 	});
 
+	// This runs a real Wrangler build (including type generation) before
+	// profiling. Cold Windows runners can exceed the unit tests' 30s budget.
 	it("builds and profiles a Worker from cloudflare.config.ts", async () => {
 		const publicEntry = resolveCloudflareConfigPublicEntry();
 		await seed({
@@ -169,7 +203,7 @@ describe("cf workers check", () => {
 				},
 			]),
 		});
-	});
+	}, 120_000);
 
 	it("preserves a nested entrypoint path when resolving relative modules", async () => {
 		await seed({

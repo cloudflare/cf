@@ -71,6 +71,10 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"Whether the policy is the account default. WARP group profiles cannot set this field.",
 			default: false,
 		})
+		.option("description", {
+			type: "string",
+			description: "A description of the policy.",
+		})
 		.option("disable-auto-fallback", {
 			type: "boolean",
 			description:
@@ -81,6 +85,12 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			type: "string",
 			description:
 				"List of DNS search suffixes to apply to clients. Suffixes are evaluated in order. Use an empty array to clear. Provide as a JSON array of objects or @path/to/file.json.",
+		})
+		.option("enable-device-credential-authentication", {
+			type: "boolean",
+			description:
+				"Determines whether the WARP client can silently reauthenticate the user with device credentials (Microsoft Entra) instead of prompting for browser-based reauthentication.",
+			default: false,
 		})
 		.option("enabled", {
 			type: "boolean",
@@ -305,6 +315,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						"browser-extension-config-proxy-enabled",
 						"default",
 						"disable-auto-fallback",
+						"enable-device-credential-authentication",
 						"enabled",
 						"exclude-office-ips",
 						"global-acceleration-autoswitch",
@@ -344,11 +355,18 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 										},
 										captive_portal: argv["captive-portal"],
 										default: argv["default"],
+										description: resolveFileToken(
+											argv["description"] as string | undefined,
+											"description",
+											"text"
+										),
 										disable_auto_fallback: argv["disable-auto-fallback"],
 										dns_search_suffixes: parseObjectArray(
 											argv["dns-search-suffixes"],
 											"dns-search-suffixes"
 										),
+										enable_device_credential_authentication:
+											argv["enable-device-credential-authentication"],
 										enabled: argv["enabled"],
 										exclude: parseObjectArray(argv["exclude"], "exclude"),
 										exclude_office_ips: argv["exclude-office-ips"],
@@ -443,11 +461,18 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					},
 					captive_portal: argv["captive-portal"],
 					default: argv["default"],
+					description: resolveFileToken(
+						argv["description"] as string | undefined,
+						"description",
+						"text"
+					),
 					disable_auto_fallback: argv["disable-auto-fallback"],
 					dns_search_suffixes: parseObjectArray(
 						argv["dns-search-suffixes"],
 						"dns-search-suffixes"
 					),
+					enable_device_credential_authentication:
+						argv["enable-device-credential-authentication"],
 					enabled: argv["enabled"],
 					exclude: parseObjectArray(argv["exclude"], "exclude"),
 					exclude_office_ips: argv["exclude-office-ips"],

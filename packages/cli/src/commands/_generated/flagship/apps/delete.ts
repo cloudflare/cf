@@ -79,7 +79,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						message: `Delete this Flagship app, all of its flags, and all changelog history? This action cannot be undone.`,
 					}))
 				) {
-					process.stderr.write("Aborted.\n");
 					return;
 				}
 

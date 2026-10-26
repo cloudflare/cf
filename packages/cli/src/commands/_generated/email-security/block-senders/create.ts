@@ -29,6 +29,11 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			"$0 email-security block-senders create\n\nCreates a new blocked sender pattern. Emails matching this pattern will be blocked from delivery. Patterns can be email addresses, domains, or IP addresses, and support regular expressions."
 		)
 		.option("comments", { type: "string", description: "The comments field" })
+		.option("expires-at", {
+			type: "string",
+			description:
+				"Timestamp at which the pattern expires. After this time, Email Security ignores the pattern. The value must lie in the future. Send `null` to clear the expiration.",
+		})
 		.option("is-regex", {
 			type: "boolean",
 			description:
@@ -92,6 +97,11 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 											"comments",
 											"text"
 										),
+										expires_at: resolveFileToken(
+											argv["expires-at"] as string | undefined,
+											"expires-at",
+											"text"
+										),
 										is_regex: argv["is-regex"],
 										pattern: resolveFileToken(
 											argv["pattern"] as string | undefined,
@@ -139,6 +149,11 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					comments: resolveFileToken(
 						argv["comments"] as string | undefined,
 						"comments",
+						"text"
+					),
+					expires_at: resolveFileToken(
+						argv["expires-at"] as string | undefined,
+						"expires-at",
 						"text"
 					),
 					is_regex: argv["is-regex"],

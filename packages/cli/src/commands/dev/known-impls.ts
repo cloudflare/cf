@@ -53,8 +53,8 @@ export interface KnownImpl {
 	manifest: string;
 	/** Resolve the impl's delegate binary path. */
 	binary(ctx: ImplResolutionContext): string | null;
-	/** Hint surfaced when the impl is the only known one and it isn't installed. */
-	installHint: string;
+	/** Commands that install the impl, any one of which works. */
+	installCommands: readonly string[];
 }
 
 /** Resolution context passed to `KnownImpl.binary`. Filled in by the discoverer. */
@@ -125,7 +125,7 @@ export const KNOWN_IMPLS: readonly KnownImpl[] = [
 			"Vite-based dev server (recommended for JavaScript/TypeScript)",
 		manifest: "package.json",
 		binary: npmBinaryResolver("cf-vite"),
-		installHint: "npm install --save-dev @cloudflare/vite-plugin@beta",
+		installCommands: ["npm install --save-dev @cloudflare/vite-plugin@beta"],
 	},
 	{
 		ecosystem: "npm",
@@ -138,7 +138,7 @@ export const KNOWN_IMPLS: readonly KnownImpl[] = [
 		description: "Wrangler-based dev server (legacy Worker projects)",
 		manifest: "package.json",
 		binary: npmBinaryResolver("cf-wrangler.js"),
-		installHint: "npm install --save-dev wrangler@latest",
+		installCommands: ["npm install --save-dev wrangler@latest"],
 	},
 	{
 		ecosystem: "pypi",
@@ -150,8 +150,10 @@ export const KNOWN_IMPLS: readonly KnownImpl[] = [
 		// path directly; this stub returns null and is unreachable in
 		// practice.
 		binary: () => null,
-		installHint:
-			"pip install cloudflare-py-dev-server   (or: uv add --dev cloudflare-py-dev-server)",
+		installCommands: [
+			"pip install cloudflare-py-dev-server",
+			"uv add --dev cloudflare-py-dev-server",
+		],
 	},
 	{
 		ecosystem: "cargo",
@@ -159,7 +161,7 @@ export const KNOWN_IMPLS: readonly KnownImpl[] = [
 		description: "Rust dev server (wasm-bindgen + workerd)",
 		manifest: "Cargo.toml",
 		binary: resolveCargoBinary,
-		installHint: "cargo install cloudflare-rs-dev-server",
+		installCommands: ["cargo install cloudflare-rs-dev-server"],
 	},
 ] as const;
 

@@ -107,7 +107,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						message: `Apply this tenant node batch?`,
 					}))
 				) {
-					process.stderr.write("Aborted.\n");
 					return;
 				}
 

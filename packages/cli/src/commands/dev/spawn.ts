@@ -3,7 +3,8 @@
  *
  * - cf locates the impl's delegate executable and invokes
  *   `<impl-binary> dev [argv]`.
- * - stdio is fully inherited; the impl owns the terminal.
+ * - `cf dev` inherits stdio, so the impl owns the terminal; `build` sends
+ *   the impl's stdout to stderr.
  * - cf forwards SIGINT / SIGTERM and exits with the impl's exit code.
  * - There is no protocol pipe, no JSON handshake, no capabilities
  *   negotiation. The `dev` subcommand either exists on the impl's
@@ -75,15 +76,18 @@ export async function spawnImpl(
 	argv: string[],
 	options: SpawnOptions = {}
 ): Promise<SpawnResult> {
-	const output = options.output ?? "stdout";
+	const output = options.output ?? "stderr";
 	const binary = discovered.binary;
 	if (!binary) {
 		// Caller (commands/dev/index.ts) checks this before calling, but
 		// we keep the guard here so the function is safe to call without
 		// re-deriving the precondition.
+		const commands = discovered.impl.installCommands.map(
+			(command) => `\`${command}\``
+		);
 		throw new Error(
 			`Cannot spawn ${discovered.impl.pkg}: binary not found.\n` +
-				`Try: ${discovered.impl.installHint}`
+				`Try: ${new Intl.ListFormat("en", { type: "disjunction" }).format(commands)}`
 		);
 	}
 
@@ -101,15 +105,15 @@ export async function spawnImpl(
 			// Inherited stdin/stderr keep the Windows console attached even
 			// with tinyexec's windowsHide default, so console Ctrl+C still works.
 			// Dev inherits stdout so the implementation owns the terminal. A
-			// composed one-shot command may instead route build output to stderr
-			// (preserving JSON stdout) or suppress non-error output under --quiet.
+			// one-shot command routes build output to stderr, keeping stdout
+			// for its own output, or suppresses it under --quiet.
 			stdio: [
 				"inherit",
-				output === "stderr"
-					? process.stderr
+				output === "inherit"
+					? "inherit"
 					: output === "silent"
 						? "ignore"
-						: "inherit",
+						: process.stderr,
 				"inherit",
 			],
 			// Pass cwd through implicitly via process.cwd(); the impl reads

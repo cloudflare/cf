@@ -79,7 +79,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						message: `This permanently deletes the custom provider and all of its pricing rules. Gateway requests that use \`custom-{slug}\` for this provider will stop routing.`,
 					}))
 				) {
-					process.stderr.write("Aborted.\n");
 					return;
 				}
 

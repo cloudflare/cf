@@ -2,6 +2,7 @@ import { isCancel, SelectPrompt } from "@clack/core";
 import * as clack from "@clack/prompts";
 import { VERSION } from "../version.js";
 import { CliExit } from "./cli-exit.js";
+import { wrapPromptMessage } from "./dialog.js";
 import { isNonInteractiveOrCI } from "./interactive.js";
 import { openSession } from "./session.js";
 import { sanitizeTerminalText } from "./ui/sanitize.js";
@@ -44,6 +45,7 @@ export async function selectAccount(
 	const prompt = new SelectPrompt({
 		options,
 		initialValue: options[0]?.value,
+		output: process.stderr,
 		render() {
 			const title = theme.bold("Select an account");
 
@@ -146,7 +148,9 @@ export async function promptForRequiredField(
 	const fallbackQuestion = `Enter value for --${flagName}`;
 	// If the caller provides a description it's more useful than the
 	// synthesized "Enter value for --flag" — show only the description.
-	const message = description || options?.question || fallbackQuestion;
+	const message = wrapPromptMessage(
+		description || options?.question || fallbackQuestion
+	);
 	const validate = (value: string | undefined): string | undefined =>
 		value && value.length > 0
 			? options?.validate?.(value)
@@ -159,10 +163,12 @@ export async function promptForRequiredField(
 					message,
 					mask: "•",
 					validate,
+					output: process.stderr,
 				})
 			: await clack.text({
 					message,
 					validate,
+					output: process.stderr,
 				});
 
 	if (isCancel(result) || typeof result !== "string") {
@@ -203,6 +209,7 @@ export async function promptForRequiredEnumField(
 	ensureSession();
 	const result = await clack.select({
 		message,
+		output: process.stderr,
 		options: choices.map((choice) => {
 			const ownLabel = Object.hasOwn(choiceLabels, choice)
 				? choiceLabels[choice]
@@ -244,6 +251,7 @@ export async function promptForAcknowledgement(
 	const result = await clack.confirm({
 		message: description || `Confirm --${flagName}`,
 		initialValue: false,
+		output: process.stderr,
 	});
 	if (isCancel(result)) {
 		throw new CliExit(130, { cancelled: true });
@@ -272,6 +280,7 @@ export async function confirm(
 	const result = await clack.confirm({
 		message: text,
 		initialValue: defaultValue,
+		output: process.stderr,
 	});
 	if (isCancel(result)) {
 		throw new CliExit(130, { cancelled: true });
@@ -293,7 +302,8 @@ export async function confirm(
  *   3. Interactive TTY → show a clack.confirm prompt with the resource
  *      type and id. Default answer is "no" (safe default for deletes).
  *
- * An interactive decline returns `false`; callers should skip the API call.
+ * An interactive decline closes the flow with `└ Aborted.` and returns
+ * `false`; callers should skip the API call.
  */
 export async function confirmDelete(
 	opts: { force?: boolean; message?: string } = {}
@@ -325,10 +335,15 @@ export async function confirmDelete(
 	const result = await clack.confirm({
 		message: question,
 		initialValue: false, // default to "no" — deletes are destructive
+		output: process.stderr,
 	});
 	if (isCancel(result)) {
 		// User hit ctrl+c. Treat like wrangler: exit non-zero.
 		throw new CliExit(130, { cancelled: true });
 	}
-	return result === true;
+	if (result !== true) {
+		clack.cancel("Aborted.", { output: process.stderr });
+		return false;
+	}
+	return true;
 }

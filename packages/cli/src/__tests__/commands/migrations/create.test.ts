@@ -106,6 +106,17 @@ describe("cf d1 migrations create", () => {
 		).rejects.toThrow(/path separator/);
 	});
 
+	// NTFS stores `a:b.sql` as an empty `a` with the SQL in a hidden stream.
+	it.each([":", "*", "?", '"', "<", ">", "|"])(
+		"rejects a message containing %s, which Windows cannot store in a file name",
+		async (char) => {
+			await expect(
+				runCf(["d1", "migrations", "create", `users${char} add email`], {})
+			).rejects.toThrow(/cannot be used in a file name/);
+			expect(fs.existsSync("migrations")).toBe(false);
+		}
+	);
+
 	it("creates the migrations directory when absent", async () => {
 		expect(fs.existsSync("custom")).toBe(false);
 

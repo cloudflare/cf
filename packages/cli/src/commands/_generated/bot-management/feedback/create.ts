@@ -7,7 +7,7 @@ import type { ArgClassification } from "#lib/telemetry/index.js";
  */
 import type { Argv, CommandModule } from "yargs";
 import { createCommandClient, getZoneId } from "#lib/auth.js";
-import { compactBody, parseBody } from "#lib/body-parser.js";
+import { compactBody, parseBody, parseJsonMap } from "#lib/body-parser.js";
 import { formatDryRun } from "#lib/dry-run.js";
 import { resolveFileToken } from "#lib/input-validation.js";
 import { formatOutput } from "#lib/output.js";
@@ -41,6 +41,21 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "The last_request_seen_at field",
 		})
 		.option("requests", { type: "number", description: "The requests field" })
+		.option("requests-by-attribute", {
+			type: "string",
+			description:
+				"Top attributes contributing to the feedback sample. Keys include topASNs, topCountries, topHosts, topIPs, topJA3Hashes, topJA4s, topPaths, topUserAgents. Provide as a JSON object or @path/to/file.json.",
+		})
+		.option("requests-by-score", {
+			type: "string",
+			description:
+				"Map of bot scores (1-99) to request counts. Sum must equal `requests`. Provide as a JSON object or @path/to/file.json.",
+		})
+		.option("requests-by-score-src", {
+			type: "string",
+			description:
+				"Map of score source to request counts. Sum must equal `requests`. Provide as a JSON object or @path/to/file.json.",
+		})
 		.option("subtype", { type: "string", description: "The subtype field" })
 		.option("type", {
 			type: "string",
@@ -86,36 +101,68 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						bodyKind: "json",
 						body:
 							argv.body !== undefined
-								? parseBody(argv.body)
-								: compactBody({
-										description: resolveFileToken(
-											argv["description"] as string | undefined,
-											"description",
-											"text"
-										),
-										expression: resolveFileToken(
-											argv["expression"] as string | undefined,
-											"expression",
-											"text"
-										),
-										first_request_seen_at: resolveFileToken(
-											argv["first-request-seen-at"] as string | undefined,
-											"first-request-seen-at",
-											"text"
-										),
-										last_request_seen_at: resolveFileToken(
-											argv["last-request-seen-at"] as string | undefined,
-											"last-request-seen-at",
-											"text"
-										),
-										requests: argv["requests"],
-										subtype: resolveFileToken(
-											argv["subtype"] as string | undefined,
-											"subtype",
-											"text"
-										),
-										type: argv["type"],
-									}),
+								? parseBody(argv.body, [
+										{
+											path: ["requests_by_attribute"],
+											flag: "requests-by-attribute",
+										},
+										{ path: ["requests_by_score"], flag: "requests-by-score" },
+										{
+											path: ["requests_by_score_src"],
+											flag: "requests-by-score-src",
+										},
+									])
+								: compactBody(
+										{
+											description: resolveFileToken(
+												argv["description"] as string | undefined,
+												"description",
+												"text"
+											),
+											expression: resolveFileToken(
+												argv["expression"] as string | undefined,
+												"expression",
+												"text"
+											),
+											first_request_seen_at: resolveFileToken(
+												argv["first-request-seen-at"] as string | undefined,
+												"first-request-seen-at",
+												"text"
+											),
+											last_request_seen_at: resolveFileToken(
+												argv["last-request-seen-at"] as string | undefined,
+												"last-request-seen-at",
+												"text"
+											),
+											requests: argv["requests"],
+											requests_by_attribute: parseJsonMap(
+												argv["requests-by-attribute"],
+												"requests-by-attribute",
+												true
+											),
+											requests_by_score: parseJsonMap(
+												argv["requests-by-score"],
+												"requests-by-score",
+												true
+											),
+											requests_by_score_src: parseJsonMap(
+												argv["requests-by-score-src"],
+												"requests-by-score-src",
+												true
+											),
+											subtype: resolveFileToken(
+												argv["subtype"] as string | undefined,
+												"subtype",
+												"text"
+											),
+											type: argv["type"],
+										},
+										[
+											["requests_by_attribute"],
+											["requests_by_score"],
+											["requests_by_score_src"],
+										]
+									),
 					});
 					return;
 				}
@@ -126,7 +173,11 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.zoneId = zoneId;
 
 				if (argv.body) {
-					const bodyData = parseBody(argv.body);
+					const bodyData = parseBody(argv.body, [
+						{ path: ["requests_by_attribute"], flag: "requests-by-attribute" },
+						{ path: ["requests_by_score"], flag: "requests-by-score" },
+						{ path: ["requests_by_score_src"], flag: "requests-by-score-src" },
+					]);
 					const result = await withProgress(`Creating`, async () =>
 						client.send(operation, { body: bodyData, zone_id: zoneId })
 					);
@@ -162,6 +213,21 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						"--requests is required (or pass --body with this field set)."
 					);
 				}
+				if (argv["requests-by-attribute"] === undefined) {
+					throw new Error(
+						"--requests-by-attribute is required (or pass --body with this field set)."
+					);
+				}
+				if (argv["requests-by-score"] === undefined) {
+					throw new Error(
+						"--requests-by-score is required (or pass --body with this field set)."
+					);
+				}
+				if (argv["requests-by-score-src"] === undefined) {
+					throw new Error(
+						"--requests-by-score-src is required (or pass --body with this field set)."
+					);
+				}
 				if (argv["type"] === undefined) {
 					argv["type"] = await promptForRequiredEnumField(
 						"type",
@@ -171,35 +237,57 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				}
 
 				// Assemble request body from individual flags
-				const bodyData = compactBody({
-					description: resolveFileToken(
-						argv["description"] as string | undefined,
-						"description",
-						"text"
-					),
-					expression: resolveFileToken(
-						argv["expression"] as string | undefined,
-						"expression",
-						"text"
-					),
-					first_request_seen_at: resolveFileToken(
-						argv["first-request-seen-at"] as string | undefined,
-						"first-request-seen-at",
-						"text"
-					),
-					last_request_seen_at: resolveFileToken(
-						argv["last-request-seen-at"] as string | undefined,
-						"last-request-seen-at",
-						"text"
-					),
-					requests: argv["requests"],
-					subtype: resolveFileToken(
-						argv["subtype"] as string | undefined,
-						"subtype",
-						"text"
-					),
-					type: argv["type"],
-				});
+				const bodyData = compactBody(
+					{
+						description: resolveFileToken(
+							argv["description"] as string | undefined,
+							"description",
+							"text"
+						),
+						expression: resolveFileToken(
+							argv["expression"] as string | undefined,
+							"expression",
+							"text"
+						),
+						first_request_seen_at: resolveFileToken(
+							argv["first-request-seen-at"] as string | undefined,
+							"first-request-seen-at",
+							"text"
+						),
+						last_request_seen_at: resolveFileToken(
+							argv["last-request-seen-at"] as string | undefined,
+							"last-request-seen-at",
+							"text"
+						),
+						requests: argv["requests"],
+						requests_by_attribute: parseJsonMap(
+							argv["requests-by-attribute"],
+							"requests-by-attribute",
+							true
+						),
+						requests_by_score: parseJsonMap(
+							argv["requests-by-score"],
+							"requests-by-score",
+							true
+						),
+						requests_by_score_src: parseJsonMap(
+							argv["requests-by-score-src"],
+							"requests-by-score-src",
+							true
+						),
+						subtype: resolveFileToken(
+							argv["subtype"] as string | undefined,
+							"subtype",
+							"text"
+						),
+						type: argv["type"],
+					},
+					[
+						["requests_by_attribute"],
+						["requests_by_score"],
+						["requests_by_score_src"],
+					]
+				);
 				const result = await withProgress(`Creating`, async () =>
 					client.send(operation, { body: bodyData, zone_id: zoneId })
 				);

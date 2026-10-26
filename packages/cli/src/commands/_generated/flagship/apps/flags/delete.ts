@@ -87,7 +87,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						message: `Delete this feature flag? After the deletion propagates, evaluation requests can no longer resolve it. This action cannot be undone.`,
 					}))
 				) {
-					process.stderr.write("Aborted.\n");
 					return;
 				}
 

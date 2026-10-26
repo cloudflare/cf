@@ -20,11 +20,11 @@ import { runWithTelemetry } from "#lib/telemetry/index.js";
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
 		.usage(
-			"$0 cloudforce-one threat-signals articles skills list\n\nLists active custom skills currently assigned to the article's feed and whether each has a stored output. Output content and skill configuration are retrieved separately."
+			"$0 cloudforce-one threat-signals articles skills list\n\nLists active custom skills currently assigned to the article's feed and whether each has a stored output. Output content and skill configuration are retrieved separately. Free Threat Signals accounts cannot read Custom Skills."
 		)
 		.option("article-id", {
 			type: "string",
-			description: "Article ID",
+			description: "Threat Signals article UUID",
 			demandOption: true,
 		})
 		.option("dry-run", {

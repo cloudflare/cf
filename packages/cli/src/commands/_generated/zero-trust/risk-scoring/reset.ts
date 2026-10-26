@@ -79,7 +79,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						message: `This operation wipes risk-scoring history.`,
 					}))
 				) {
-					process.stderr.write("Aborted.\n");
 					return;
 				}
 

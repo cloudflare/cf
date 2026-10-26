@@ -46,6 +46,7 @@ describe("cf zones list (network)", () => {
 
 	let logSpy: ReturnType<typeof vi.spyOn>;
 	let errSpy: ReturnType<typeof vi.spyOn>;
+	let errorLogSpy: ReturnType<typeof vi.spyOn>;
 
 	beforeEach(() => {
 		// formatOutput writes JSON via console.log; capture it.
@@ -53,16 +54,24 @@ describe("cf zones list (network)", () => {
 		// Silence the error box renderer (stderr) so failing-path tests
 		// don't spam the reporter.
 		errSpy = vi.spyOn(process.stderr, "write").mockImplementation(() => true);
+		errorLogSpy = vi.spyOn(console, "error").mockImplementation(() => {});
 	});
 
 	afterEach(() => {
 		logSpy.mockRestore();
 		errSpy.mockRestore();
+		errorLogSpy.mockRestore();
 	});
 
 	/** Join captured console.log args into a single string for assertions. */
 	function stdout(): string {
 		return logSpy.mock.calls.map((c: unknown[]) => String(c[0])).join("\n");
+	}
+
+	function stderr(): string {
+		return errorLogSpy.mock.calls
+			.map((c: unknown[]) => String(c[0]))
+			.join("\n");
 	}
 
 	it("unwraps the result envelope and prints it as JSON", async () => {
@@ -71,7 +80,7 @@ describe("cf zones list (network)", () => {
 				HttpResponse.json({
 					success: true,
 					errors: [],
-					messages: [],
+					messages: [{ code: 1001, message: "Informational notice" }],
 					result: [
 						{ id: "zone-1", name: "example.com" },
 						{ id: "zone-2", name: "example.org" },
@@ -88,6 +97,7 @@ describe("cf zones list (network)", () => {
 			{ id: "zone-1", name: "example.com" },
 			{ id: "zone-2", name: "example.org" },
 		]);
+		expect(stderr()).not.toContain("Informational notice");
 	});
 
 	it("stamps the bearer token and cf default headers on the request", async () => {
@@ -209,6 +219,63 @@ describe("cf zones list (network)", () => {
 		// Nothing should have been printed to stdout on the failure path.
 		expect(stdout()).toBe("");
 	});
+
+	it.each([400, 200])(
+		"prints messages on stderr for a failed envelope with HTTP %i",
+		async (status) => {
+			server.use(
+				http.get(`${TEST_BASE_URL}/zones`, () =>
+					HttpResponse.json(
+						{
+							success: false,
+							errors: [
+								{ code: 11004, message: "posture.api.parameter.missing" },
+							],
+							messages: [
+								{
+									code: 1001,
+									message: "Missing required parameter: 'destination_url'",
+								},
+							],
+						},
+						{ status }
+					)
+				)
+			);
+
+			await expect(runCf(["zones", "list"], ENV)).rejects.toThrow(
+				"posture.api.parameter.missing"
+			);
+			expect(stdout()).toBe("");
+			expect(stderr()).toContain("[11004] posture.api.parameter.missing");
+			expect(stderr()).toContain(
+				"[1001] Missing required parameter: 'destination_url'"
+			);
+			expect(stderr()).toContain("HTTP /zones");
+		}
+	);
+
+	it.each([
+		{ errors: [], messages: [] },
+		{ errors: [null, {}], messages: [{ message: false }], result: null },
+	])(
+		"prints a concise fallback when an envelope has no usable details (%j)",
+		async (details) => {
+			server.use(
+				http.get(`${TEST_BASE_URL}/zones`, () =>
+					HttpResponse.json({ success: false, ...details })
+				)
+			);
+
+			await expect(runCf(["zones", "list"], ENV)).rejects.toThrow(
+				"Cloudflare API request failed"
+			);
+			expect(stdout()).toBe("");
+			expect(stderr()).toContain("Cloudflare API request failed");
+			expect(stderr()).not.toContain("Body:");
+			expect(stderr()).not.toContain('"success"');
+		}
+	);
 
 	it("propagates a success:false envelope on 2xx", async () => {
 		server.use(

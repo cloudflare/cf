@@ -1,9 +1,8 @@
-import $bulkdelete from "./bulk-delete.js";
-import $bulkupdate from "./bulk-update.js";
+import $bulk from "./bulk/index.js";
 import $delete from "./delete.js";
 import $get from "./get.js";
 import $list from "./list.js";
-import $supportedregions from "./supported-regions.js";
+import $regions from "./regions/index.js";
 import $update from "./update.js";
 import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
@@ -18,13 +17,12 @@ const command: CommandModule<CommonYargsOptions> = {
 
 	builder: (yargs) => {
 		return yargs
-			.command($bulkdelete)
-			.command($bulkupdate)
 			.command($delete)
 			.command($get)
 			.command($list)
-			.command($supportedregions)
 			.command($update)
+			.command($bulk)
+			.command($regions)
 			.demandCommand(1, "Please specify a subcommand");
 	},
 

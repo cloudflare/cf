@@ -1,4 +1,5 @@
 import $edit from "./edit.js";
+import $get from "./get.js";
 import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * cloudflare-source command group
@@ -11,7 +12,10 @@ const command: CommandModule<CommonYargsOptions> = {
 	describe: "Operations for subnets.cloudflare-source",
 
 	builder: (yargs) => {
-		return yargs.command($edit).demandCommand(1, "Please specify a subcommand");
+		return yargs
+			.command($edit)
+			.command($get)
+			.demandCommand(1, "Please specify a subcommand");
 	},
 
 	handler: () => {},

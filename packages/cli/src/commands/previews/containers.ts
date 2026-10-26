@@ -13,13 +13,16 @@ import type {
 } from "@cloudflare/containers-shared";
 import type {
 	ContainerDeployConfig,
-	PreviewCallbacks,
+	PreviewOptions,
 } from "@cloudflare/deploy-helpers";
 import type { Config } from "@cloudflare/workers-utils";
 
 export function createPreviewContainerCallbacks(
 	containerDeployConfig: ContainerDeployConfig
-): PreviewCallbacks {
+): Pick<
+	PreviewOptions,
+	"getNormalizedContainerOptions" | "deployPreviewContainers"
+> {
 	return {
 		getNormalizedContainerOptions: async (config) =>
 			containerDeployConfig.standard.normalized.map((container) => ({
@@ -77,7 +80,13 @@ export function createPreviewContainerCallbacks(
 						options.localImageReferences?.get(container.class_name)
 					);
 					await apply(
-						{ imageRef, durable_object_namespace_id: namespaceId },
+						{
+							imageRef,
+							durable_object_namespace_id: namespaceId,
+							configFileName: "cloudflare.config.ts",
+							observabilityTargetPercentageField: "targetInstancePercentage",
+							observabilityTargetCountField: "targetInstanceCount",
+						},
 						container,
 						config,
 						accountId

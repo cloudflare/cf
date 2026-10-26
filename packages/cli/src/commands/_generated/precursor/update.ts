@@ -1,4 +1,3 @@
-import operation from "../_operations/precursor/update.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
@@ -6,10 +5,14 @@ import type { ArgClassification } from "#lib/telemetry/index.js";
  * @generated from apis/overlays/precursor.ts
  */
 import type { Argv, CommandModule } from "yargs";
-import { createCommandClient, getZoneId } from "#lib/auth.js";
-import { compactBody, parseBody, parseObjectArray } from "#lib/body-parser.js";
+import { createCommandClient, getZoneId, requestApi } from "#lib/auth.js";
+import {
+	compactBody,
+	parseBody,
+	parseObjectArray,
+	setNestedValue,
+} from "#lib/body-parser.js";
 import { formatDryRun } from "#lib/dry-run.js";
-import { resolveFileToken } from "#lib/input-validation.js";
 import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
@@ -17,21 +20,22 @@ import { runWithTelemetry } from "#lib/telemetry/index.js";
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
 		.usage(
-			"$0 precursor update\n\nUpdates the Precursor configuration for a zone. `default_mode` sets the zone-level enforcement mode. `enforcement_rules` is the ordered list of rules that override enforcement for matching requests. This is a partial update: only the fields present in the request body are changed. - Sending an empty array (`[]`) clears all enforcement rules. - At least one of `default_mode` or `enforcement_rules` must be present; an empty body (`{}`) is rejected with `400`. - Rule `id` is read-only (assigned by Cloudflare) and ignored on input. - Rule `mode` must be `min-friction` or `max-security` (`off` is not a valid rule mode; use `default_mode` to disable enforcement). - Rule `expression` is limited to 4000 characters. The limit applies to each rule individually, not to the combined size of all rules."
+			"$0 precursor update\n\nUpdates the Precursor configuration for a zone. `mode` controls whether Precursor detection is off, monitoring, or armed. `show_interstitial` controls the zone-level response when armed. `rules` is the ordered list of overrides for matching requests. This is a partial update: only the fields present in the request body are changed. - Sending an empty array (`[]`) clears all rules. - At least one of `mode`, `show_interstitial`, or `rules` must be present; an empty body (`{}`) is rejected with `400`. - Rule `id` is read-only (assigned by Cloudflare) and ignored on input. - Rule `show_interstitial` is required and controls the response for requests that match that rule. - Rule `expression` is limited to 4000 characters. The limit applies to each rule individually, not to the combined size of all rules."
 		)
-		.option("default-mode", {
+		.option("cloudflare-version", {
 			type: "string",
-			description:
-				"The zone-level Precursor enforcement mode applied to requests that do\nnot match a more specific enforcement rule.\n",
-			choices: ["off", "min-friction", "max-security"],
+			description: "Selects the split Precursor API schema.",
+			demandOption: true,
 		})
-		.coerce("default-mode", (value) =>
-			resolveFileToken(value, "default-mode", "text")
-		)
-		.option("enforcement-rules", {
+		.option("rules", {
 			type: "string",
 			description:
-				"The ordered list of enforcement rules for the zone. Provide as a JSON array of objects or @path/to/file.json.",
+				"The ordered list of Precursor rules for the zone. Provide as a JSON array of objects or @path/to/file.json.",
+		})
+		.option("show-interstitial", {
+			type: "boolean",
+			description:
+				"Whether Precursor shows an interstitial when it takes action on a\nrequest.\n",
 		})
 		.option("dry-run", {
 			type: "boolean",
@@ -55,11 +59,14 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			{
 				command: "precursor update",
 				classification: {
-					safeFlags: ["default-mode", "dry-run"],
+					safeFlags: ["show-interstitial", "dry-run"],
 				} satisfies ArgClassification<Args>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
+				const headers: Record<string, string> = {};
+				if (argv["cloudflare-version"] !== undefined)
+					headers["Cloudflare-Version"] = String(argv["cloudflare-version"]);
 				if (argv.dryRun) {
 					formatDryRun({
 						command: "cf precursor update",
@@ -73,11 +80,9 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 							argv.body !== undefined
 								? parseBody(argv.body)
 								: compactBody({
-										default_mode: argv["default-mode"],
-										enforcement_rules: parseObjectArray(
-											argv["enforcement-rules"],
-											"enforcement-rules"
-										),
+										rules: parseObjectArray(argv["rules"], "rules"),
+										show_interstitial: argv["show-interstitial"],
+										cloudflare_version: argv["cloudflare-version"],
 									}),
 					});
 					return;
@@ -91,22 +96,46 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				if (argv.body) {
 					const bodyData = parseBody(argv.body);
 					const result = await withProgress(`Updating`, async () =>
-						client.send(operation, { body: bodyData, zone_id: zoneId })
+						requestApi<unknown>(
+							client,
+							"PUT",
+							`/zones/${argv.zoneId}/precursor`,
+							{
+								body: bodyData,
+								headers: Object.keys(headers).length > 0 ? headers : undefined,
+							}
+						)
 					);
 					formatOutput(result, { successLabel: `Updated` });
 					return;
 				}
 
 				// Assemble request body from individual flags
-				const bodyData = compactBody({
-					default_mode: argv["default-mode"],
-					enforcement_rules: parseObjectArray(
-						argv["enforcement-rules"],
-						"enforcement-rules"
-					),
-				});
+				const bodyData: Record<string, unknown> = {};
+				if (argv["rules"] !== undefined)
+					setNestedValue(
+						bodyData,
+						["rules"],
+						parseObjectArray(argv["rules"], "rules")
+					);
+				if (argv["show-interstitial"] !== undefined)
+					setNestedValue(
+						bodyData,
+						["show_interstitial"],
+						argv["show-interstitial"]
+					);
+				if (argv["cloudflare-version"] !== undefined)
+					bodyData["cloudflare_version"] = argv["cloudflare-version"];
 				const result = await withProgress(`Updating`, async () =>
-					client.send(operation, { body: bodyData, zone_id: zoneId })
+					requestApi<unknown>(
+						client,
+						"PUT",
+						`/zones/${argv.zoneId}/precursor`,
+						{
+							body: bodyData,
+							headers: Object.keys(headers).length > 0 ? headers : undefined,
+						}
+					)
 				);
 				formatOutput(result, { successLabel: `Updated` });
 			}

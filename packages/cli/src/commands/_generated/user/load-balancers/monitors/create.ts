@@ -7,7 +7,7 @@ import type { ArgClassification } from "#lib/telemetry/index.js";
  */
 import type { Argv, CommandModule } from "yargs";
 import { createCommandClient } from "#lib/auth.js";
-import { compactBody, parseBody } from "#lib/body-parser.js";
+import { compactBody, parseBody, parseJsonMap } from "#lib/body-parser.js";
 import { formatDryRun } from "#lib/dry-run.js";
 import { resolveFileToken } from "#lib/input-validation.js";
 import { formatOutput } from "#lib/output.js";
@@ -57,6 +57,11 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description:
 				"Follow redirects if returned by the origin. This parameter is only valid for HTTP and HTTPS monitors.",
 			default: false,
+		})
+		.option("header", {
+			type: "string",
+			description:
+				"The HTTP request headers to send in the health check. It is recommended you set a Host header by default. The User-Agent header cannot be overridden. This parameter is only valid for HTTP and HTTPS monitors. Provide as a JSON object or @path/to/file.json.",
 		})
 		.option("interval", {
 			type: "number",
@@ -142,47 +147,51 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						body:
 							argv.body !== undefined
 								? parseBody(argv.body)
-								: compactBody({
-										allow_insecure: argv["allow-insecure"],
-										consecutive_down: argv["consecutive-down"],
-										consecutive_up: argv["consecutive-up"],
-										description: resolveFileToken(
-											argv["description"] as string | undefined,
-											"description",
-											"text"
-										),
-										expected_body: resolveFileToken(
-											argv["expected-body"] as string | undefined,
-											"expected-body",
-											"text"
-										),
-										expected_codes: resolveFileToken(
-											argv["expected-codes"] as string | undefined,
-											"expected-codes",
-											"text"
-										),
-										follow_redirects: argv["follow-redirects"],
-										interval: argv["interval"],
-										method: resolveFileToken(
-											argv["method"] as string | undefined,
-											"method",
-											"text"
-										),
-										path: resolveFileToken(
-											argv["path"] as string | undefined,
-											"path",
-											"text"
-										),
-										port: argv["port"],
-										probe_zone: resolveFileToken(
-											argv["probe-zone"] as string | undefined,
-											"probe-zone",
-											"text"
-										),
-										retries: argv["retries"],
-										timeout: argv["timeout"],
-										type: argv["type"],
-									}),
+								: compactBody(
+										{
+											allow_insecure: argv["allow-insecure"],
+											consecutive_down: argv["consecutive-down"],
+											consecutive_up: argv["consecutive-up"],
+											description: resolveFileToken(
+												argv["description"] as string | undefined,
+												"description",
+												"text"
+											),
+											expected_body: resolveFileToken(
+												argv["expected-body"] as string | undefined,
+												"expected-body",
+												"text"
+											),
+											expected_codes: resolveFileToken(
+												argv["expected-codes"] as string | undefined,
+												"expected-codes",
+												"text"
+											),
+											follow_redirects: argv["follow-redirects"],
+											header: parseJsonMap(argv["header"], "header"),
+											interval: argv["interval"],
+											method: resolveFileToken(
+												argv["method"] as string | undefined,
+												"method",
+												"text"
+											),
+											path: resolveFileToken(
+												argv["path"] as string | undefined,
+												"path",
+												"text"
+											),
+											port: argv["port"],
+											probe_zone: resolveFileToken(
+												argv["probe-zone"] as string | undefined,
+												"probe-zone",
+												"text"
+											),
+											retries: argv["retries"],
+											timeout: argv["timeout"],
+											type: argv["type"],
+										},
+										[["header"]]
+									),
 					});
 					return;
 				}
@@ -198,47 +207,51 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				}
 
 				// Assemble request body from individual flags
-				const bodyData = compactBody({
-					allow_insecure: argv["allow-insecure"],
-					consecutive_down: argv["consecutive-down"],
-					consecutive_up: argv["consecutive-up"],
-					description: resolveFileToken(
-						argv["description"] as string | undefined,
-						"description",
-						"text"
-					),
-					expected_body: resolveFileToken(
-						argv["expected-body"] as string | undefined,
-						"expected-body",
-						"text"
-					),
-					expected_codes: resolveFileToken(
-						argv["expected-codes"] as string | undefined,
-						"expected-codes",
-						"text"
-					),
-					follow_redirects: argv["follow-redirects"],
-					interval: argv["interval"],
-					method: resolveFileToken(
-						argv["method"] as string | undefined,
-						"method",
-						"text"
-					),
-					path: resolveFileToken(
-						argv["path"] as string | undefined,
-						"path",
-						"text"
-					),
-					port: argv["port"],
-					probe_zone: resolveFileToken(
-						argv["probe-zone"] as string | undefined,
-						"probe-zone",
-						"text"
-					),
-					retries: argv["retries"],
-					timeout: argv["timeout"],
-					type: argv["type"],
-				});
+				const bodyData = compactBody(
+					{
+						allow_insecure: argv["allow-insecure"],
+						consecutive_down: argv["consecutive-down"],
+						consecutive_up: argv["consecutive-up"],
+						description: resolveFileToken(
+							argv["description"] as string | undefined,
+							"description",
+							"text"
+						),
+						expected_body: resolveFileToken(
+							argv["expected-body"] as string | undefined,
+							"expected-body",
+							"text"
+						),
+						expected_codes: resolveFileToken(
+							argv["expected-codes"] as string | undefined,
+							"expected-codes",
+							"text"
+						),
+						follow_redirects: argv["follow-redirects"],
+						header: parseJsonMap(argv["header"], "header"),
+						interval: argv["interval"],
+						method: resolveFileToken(
+							argv["method"] as string | undefined,
+							"method",
+							"text"
+						),
+						path: resolveFileToken(
+							argv["path"] as string | undefined,
+							"path",
+							"text"
+						),
+						port: argv["port"],
+						probe_zone: resolveFileToken(
+							argv["probe-zone"] as string | undefined,
+							"probe-zone",
+							"text"
+						),
+						retries: argv["retries"],
+						timeout: argv["timeout"],
+						type: argv["type"],
+					},
+					[["header"]]
+				);
 				const result = await withProgress(`Creating`, async () =>
 					client.send(operation, { body: bodyData })
 				);

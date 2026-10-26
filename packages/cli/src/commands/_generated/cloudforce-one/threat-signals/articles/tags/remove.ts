@@ -25,12 +25,12 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		)
 		.positional("tag-id", {
 			type: "string",
-			description: "Tag ID",
+			description: "UUID of a tag from the account's catalog",
 			demandOption: true,
 		})
 		.option("article-id", {
 			type: "string",
-			description: "Article ID",
+			description: "Threat Signals article UUID",
 			demandOption: true,
 		})
 		.option("dry-run", {
@@ -82,7 +82,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.accountId = accountId;
 
 				if (!(await confirmDelete({ force: Boolean(argv.force) }))) {
-					process.stderr.write("Aborted.\n");
 					return;
 				}
 

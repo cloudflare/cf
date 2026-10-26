@@ -25,10 +25,13 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		)
 		.positional("article-id", {
 			type: "string",
-			description: "Article ID",
+			description: "Threat Signals article UUID",
 			demandOption: true,
 		})
-		.option("read", { type: "boolean", description: "The read field" })
+		.option("read", {
+			type: "boolean",
+			description: "True to mark the article read, false to mark unread.",
+		})
 		.option("dry-run", {
 			type: "boolean",
 			description: "Validate and show what would happen without executing",

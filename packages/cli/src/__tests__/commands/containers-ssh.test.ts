@@ -27,6 +27,7 @@ import {
 } from "../helpers/forge-cli.js";
 import { server, setupMsw, TEST_BASE_URL } from "../helpers/msw.js";
 import { runCf } from "../helpers/run-cf.js";
+import type * as InteractiveModule from "../../lib/interactive.js";
 import type * as ContainersShared from "@cloudflare/containers-shared";
 
 vi.mock("../../lib/session.js", async (importOriginal) => ({
@@ -37,6 +38,16 @@ vi.mock("../../lib/session.js", async (importOriginal) => ({
 vi.mock("../../lib/state.js", () => ({
 	readState: vi.fn(() => ({})),
 	updateState: vi.fn(),
+}));
+
+vi.mock("../../lib/interactive.js", async (importOriginal) => ({
+	...(await importOriginal<typeof InteractiveModule>()),
+	isCI: false,
+}));
+
+vi.mock("../../lib/update-check.js", () => ({
+	getUpdateNotice: vi.fn(),
+	maybeStartBackgroundUpdateCheck: vi.fn(),
 }));
 
 vi.mock("../../lib/agent-context.js", () => ({
@@ -169,7 +180,8 @@ describe("cf containers ssh", () => {
 		);
 		expect(initContainersSharedContext).toHaveBeenCalledOnce();
 		expect(sshCommand).toHaveBeenCalledWith(
-			expect.objectContaining({ id: "instance-id", command: [] })
+			expect.objectContaining({ id: "instance-id", command: [] }),
+			USER_AGENT
 		);
 	});
 	it("forwards stdio mode and arguments after -- literally", async () => {
@@ -190,7 +202,8 @@ describe("cf containers ssh", () => {
 				id: "instance-id",
 				stdio: true,
 				command: ["printf", "%s", "001", "--help", "--version"],
-			})
+			}),
+			USER_AGENT
 		);
 	});
 	it.each(["--version", "-v", "--quiet", "--stdio"])(
@@ -201,7 +214,8 @@ describe("cf containers ssh", () => {
 				quiet: false,
 			});
 			expect(sshCommand).toHaveBeenCalledWith(
-				expect.objectContaining({ command: ["printf", flag] })
+				expect.objectContaining({ command: ["printf", flag] }),
+				USER_AGENT
 			);
 			await vi.waitFor(() =>
 				expect(updateState).toHaveBeenCalledWith({
@@ -232,7 +246,8 @@ describe("cf containers ssh", () => {
 				configFile: "/tmp/config",
 				option: ["A=yes", "B=no"],
 				command: ["uname", "-a"],
-			})
+			}),
+			USER_AGENT
 		);
 	});
 	it("rejects local mode before authentication or SSH", async () => {

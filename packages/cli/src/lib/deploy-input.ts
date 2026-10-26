@@ -142,7 +142,14 @@ export function createTriggerProps(
 	config: Config,
 	accountId: string | undefined,
 	argv: { "dry-run": boolean }
-): TriggerProps {
+): Omit<
+	TriggerProps,
+	| "queueCreateCommand"
+	| "workersDevConfigFieldName"
+	| "workersDevConfigAssignment"
+	| "previewUrlsConfigFieldName"
+	| "previewUrlsConfigAssignment"
+> {
 	return {
 		config,
 		accountId,
@@ -267,8 +274,12 @@ export function assembleBuildResult(
 					? readFileSync(filePath)
 					: readFileSync(filePath, "utf8");
 
+			// Use the manifest key unchanged. The runtime normalises `./` in
+			// JavaScript module names, but Python Workers use module names as file
+			// paths without normalising them, so a `./python_modules/...` package
+			// is not on `sys.path`.
 			cfModules.push({
-				name: `./${name}`,
+				name,
 				filePath,
 				content: moduleContent,
 				type: OUTPUT_TO_CF_MODULE_TYPE[meta.type],

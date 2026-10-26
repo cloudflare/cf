@@ -4,6 +4,7 @@ import { resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import { runInTempDir, seed } from "@cloudflare/workers-utils/test-helpers";
 import { describe, expect, it } from "vite-plus/test";
+import pkg from "../../../package.json" with { type: "json" };
 import {
 	maybeDelegateFromProcess,
 	maybeDelegateToLocalInstall,
@@ -293,6 +294,119 @@ describe("maybeDelegateToLocalInstall", () => {
 		expect(
 			readFileSync(resolve(process.cwd(), "delegation.txt"), "utf-8")
 		).toBe("1");
+	});
+
+	// Telemetry in the child records which global cf handed off, and only
+	// when it handed off to that process directly. The sentinel itself stays
+	// a plain "1" so its existing readers are unchanged.
+	const recordDelegationEnvScript =
+		`import { writeFileSync } from "node:fs";\n` +
+		`writeFileSync("delegation-env.json", JSON.stringify({\n` +
+		`  sentinel: process.env.CF_DELEGATION ?? null,\n` +
+		`  version: process.env.CF_DELEGATING_CLI_VERSION ?? null,\n` +
+		`  pid: process.env.CF_DELEGATION_PID ?? null,\n` +
+		`  ppid: process.ppid,\n` +
+		`}));\n` +
+		`process.exit(0)\n`;
+	const readDelegationEnv = (file = "delegation-env.json") =>
+		JSON.parse(readFileSync(resolve(process.cwd(), file), "utf-8")) as {
+			sentinel: string | null;
+			version: string | null;
+			pid: string | null;
+			ppid: number;
+		};
+
+	it("passes the delegating cf's version and process ID to the child", async () => {
+		await seedLocalCf({ script: recordDelegationEnvScript });
+
+		const result = await maybeDelegateToLocalInstall({
+			cwd: process.cwd(),
+			argv: [],
+			env: process.env,
+			ownPackageJsonPath: OWN_PKG,
+		});
+
+		expect(result.delegated).toBe(true);
+		const recorded = readDelegationEnv();
+		expect(recorded).toMatchObject({
+			sentinel: "1",
+			version: pkg.version,
+			pid: String(process.pid),
+		});
+		// The child's telemetry relies on this match to trust the attribution.
+		expect(String(recorded.ppid)).toBe(recorded.pid);
+	});
+
+	it("overwrites inherited delegation values with its own", async () => {
+		await seedLocalCf({ script: recordDelegationEnvScript });
+
+		await maybeDelegateToLocalInstall({
+			cwd: process.cwd(),
+			argv: [],
+			env: {
+				...process.env,
+				CF_DELEGATING_CLI_VERSION: "0.0.1",
+				CF_DELEGATION_PID: "1",
+			},
+			ownPackageJsonPath: OWN_PKG,
+		});
+
+		expect(readDelegationEnv()).toMatchObject({
+			version: pkg.version,
+			pid: String(process.pid),
+		});
+	});
+
+	it("passes its package version rather than a CLI_VERSION override", async () => {
+		await seedLocalCf({ script: recordDelegationEnvScript });
+
+		await maybeDelegateToLocalInstall({
+			cwd: process.cwd(),
+			argv: [],
+			env: { ...process.env, CLI_VERSION: "2.3.4" },
+			ownPackageJsonPath: OWN_PKG,
+		});
+
+		expect(readDelegationEnv().version).toBe(pkg.version);
+	});
+
+	it("does not attribute delegation to a process the child spawns", async () => {
+		// The child spawns a nested process with its inherited environment,
+		// as a dev server or build tool would.
+		await seedLocalCf({
+			script:
+				`import { spawnSync } from "node:child_process";\n` +
+				`import { writeFileSync } from "node:fs";\n` +
+				`const record = ${JSON.stringify(
+					`require("node:fs").writeFileSync("nested-env.json", JSON.stringify({` +
+						`sentinel: process.env.CF_DELEGATION ?? null,` +
+						`version: process.env.CF_DELEGATING_CLI_VERSION ?? null,` +
+						`pid: process.env.CF_DELEGATION_PID ?? null,` +
+						`ppid: process.ppid}))`
+				)};\n` +
+				`spawnSync(process.execPath, ["-e", record], { stdio: "inherit" });\n` +
+				`writeFileSync("delegation-env.json", JSON.stringify({ ppid: process.ppid, pid: process.env.CF_DELEGATION_PID }));\n` +
+				`process.exit(0)\n`,
+		});
+
+		await maybeDelegateToLocalInstall({
+			cwd: process.cwd(),
+			argv: [],
+			env: process.env,
+			ownPackageJsonPath: OWN_PKG,
+		});
+
+		const child = readDelegationEnv();
+		const nested = readDelegationEnv("nested-env.json");
+		expect(String(child.ppid)).toBe(child.pid);
+		// The nested process inherits every variable, but its parent is the
+		// child rather than the global cf, so the process ID check rejects it.
+		expect(nested).toMatchObject({
+			sentinel: "1",
+			version: pkg.version,
+			pid: String(process.pid),
+		});
+		expect(String(nested.ppid)).not.toBe(nested.pid);
 	});
 
 	it("preserves the platform exit status of a self-terminated local cf", async () => {

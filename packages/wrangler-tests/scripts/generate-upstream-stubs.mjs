@@ -230,19 +230,6 @@ const skippedCases = new Map([
 		]),
 	],
 	[
-		"index.test.ts",
-		new Set([
-			"should not require temporary terms acceptance before root help",
-			"is rejected on commands that don't opt in",
-		]),
-	],
-	[
-		"logout.test.ts",
-		new Set([
-			"should clear a cached temporary preview account when not logged in via OAuth",
-		]),
-	],
-	[
 		"pages/deployment-delete.test.ts",
 		new Set(["should prefer CLOUDFLARE_ACCOUNT_ID over cached account id"]),
 	],
@@ -292,7 +279,6 @@ const skippedCases = new Map([
 	[
 		"user.test.ts",
 		new Set([
-			"should clear the cached temporary preview account when logging in",
 			"should send the `login user` metric when `--scopes` is provided",
 			"--use-keyring stores credentials in an encrypted file with a key in the OS keyring",
 			"--no-use-keyring scrubs encrypted credentials without writing them to plaintext, then the fresh login uses the file store",
@@ -319,12 +305,6 @@ const skippedCases = new Map([
 			"should error when `--callback-port` is passed alongside `--device`",
 			"should reject the incompatible flag combination before `--no-use-keyring` mutates any credential-storage state",
 			"should prefer config.account_id over env var and cache",
-		]),
-	],
-	[
-		"whoami.test.ts",
-		new Set([
-			"should suggest a temporary preview account when not authenticated",
 		]),
 	],
 	[

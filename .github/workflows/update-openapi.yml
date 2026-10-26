@@ -1,0 +1,53 @@
+name: Update OpenAPI
+
+# GitHub Actions cannot subscribe to releases in another repository. Poll
+# hourly by default; the spec publisher can avoid the polling delay by sending a
+# `forge-release-published` repository_dispatch event with a GitHub App or PAT.
+on:
+  schedule:
+    - cron: "23 * * * *"
+  workflow_dispatch:
+  repository_dispatch:
+    types: [forge-release-published]
+
+permissions:
+  contents: write
+  pull-requests: write
+
+concurrency:
+  # Retain the group and branch so existing updater runs and PRs stay managed.
+  group: update-forge
+  cancel-in-progress: false
+
+env:
+  UPDATE_BRANCH: automation/update-forge
+  BASE_BRANCH: main
+
+jobs:
+  update:
+    name: Update OpenAPI
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    env:
+      # The PAT makes PR creation and later branch updates emit the usual PR
+      # workflow events. github.token remains a useful fallback for forks.
+      GH_TOKEN: ${{ secrets.GH_ACCESS_TOKEN || github.token }}
+    steps:
+      - name: Checkout cf
+        uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+        with:
+          fetch-depth: 1
+          persist-credentials: false
+          ref: main
+          token: ${{ secrets.GH_ACCESS_TOKEN || github.token }}
+
+      - name: Set up Vite+, Node.js, and pnpm
+        uses: voidzero-dev/setup-vp@3754dd7dbdb32bd8f6d28b6043de13ad3a75f21f # v1.21.1
+        with:
+          node-version: "22"
+          run-install: true
+
+      - name: Update OpenAPI
+        run: node scripts/update-openapi.ts
+        env:
+          GITHUB_TOKEN: ${{ secrets.GH_ACCESS_TOKEN || github.token }}

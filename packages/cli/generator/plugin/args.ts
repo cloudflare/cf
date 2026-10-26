@@ -24,8 +24,8 @@ import type {
 
 /**
  * The kind of value an argument takes: an `enum` is a string from a fixed
- * list, an `array` repeated scalar values, and an `objectArray` one
- * JSON-valued flag holding an array of objects.
+ * list, an `array` repeated scalar values, and `objectArray`, `nestedArray`, and
+ * `objectMap` take JSON-valued flags holding structured arrays or a map.
  */
 export type ArgType =
 	| "string"
@@ -33,7 +33,10 @@ export type ArgType =
 	| "boolean"
 	| "enum"
 	| "array"
-	| "objectArray";
+	| "scalarUnion"
+	| "objectArray"
+	| "nestedArray"
+	| "objectMap";
 
 /** The type yargs is told, and that the metadata lists: enums and arrays are strings. */
 export function scalar(type: ArgType): "number" | "boolean" | "string" {
@@ -126,6 +129,45 @@ export const queryArgs = (d: Derived): Arg[] =>
 	d.args.filter((a) => a.origin.in === "query");
 export const headerArgs = (d: Derived): Arg[] =>
 	d.args.filter((a) => a.origin.in === "header");
+
+/** Defaults applied by yargs and advertised to metadata consumers. */
+export function optionDefaults(
+	d: Derived,
+	op: OperationInfo
+): Map<string, Value> {
+	const conflictFlags = new Set<string>();
+	for (const a of d.args) {
+		if (a.conflicts !== undefined && a.conflicts.length > 0) {
+			conflictFlags.add(kebab(a.name));
+			for (const name of a.conflicts) {
+				conflictFlags.add(kebab(name));
+			}
+		}
+	}
+	const partialUpdate = op.method === "patch" || op.method === "put";
+	const defaults = new Map<string, Value>();
+	for (const a of options(d)) {
+		const discriminator =
+			op.bodyDiscriminator !== undefined &&
+			a.origin.in === "body" &&
+			a.origin.path.length === 1 &&
+			a.origin.path[0] === op.bodyDiscriminator.field;
+		if (
+			a.default === undefined ||
+			a.type === "array" ||
+			a.type === "objectArray" ||
+			a.type === "nestedArray" ||
+			a.type === "objectMap" ||
+			a.type === "scalarUnion" ||
+			conflictFlags.has(kebab(a.name)) ||
+			(isBody(a) && partialUpdate && !discriminator)
+		) {
+			continue;
+		}
+		defaults.set(a.name, a.default);
+	}
+	return defaults;
+}
 
 /** Options that only the CLI uses, which never become body flags. */
 export const CLI_ONLY_OPTIONS: readonly string[] = [
@@ -220,7 +262,9 @@ function flagName(name: string): string {
 
 function cliFlagName(name: string): string | undefined {
 	const flag = flagName(name);
-	return flag.toLowerCase() === "mode" ? undefined : flag;
+	return ["mode", "temporary-account", "event-code"].includes(kebab(flag))
+		? undefined
+		: flag;
 }
 
 function parameterFlagName(
@@ -254,12 +298,20 @@ function descriptionFromName(name: string): string {
 
 function bodyArgType(type: string, itemType: string | undefined): ArgType {
 	switch (type) {
+		case "scalarUnion":
+			return "scalarUnion";
 		case "number":
 			return "number";
 		case "boolean":
 			return "boolean";
 		case "array":
-			return itemType === "object" ? "objectArray" : "array";
+			return itemType === "object"
+				? "objectArray"
+				: itemType === "array"
+					? "nestedArray"
+					: "array";
+		case "object":
+			return "objectMap";
 		default:
 			return "string";
 	}
@@ -482,7 +534,13 @@ function pathParams(
 		if (cls.isZone) {
 			continue;
 		}
-		const positional = !cls.isWorkerName && p === subject;
+		const defaultValue = o.nullish("default");
+		const subjectPositional = p === subject;
+		// Defaults fill URL segments without consuming a positional slot.
+		const positional =
+			!cls.isWorkerName &&
+			defaultValue === undefined &&
+			truthy(o.nullish("positional") ?? subjectPositional);
 		const emitted = cls.isWorkerName
 			? "worker"
 			: parameter
@@ -495,17 +553,17 @@ function pathParams(
 			o.string("description") ??
 			parameter?.description ??
 			descriptionFromName(p);
-		out.push(
-			arg(
-				emitted,
-				description,
-				"string",
-				true,
-				positional,
-				{ in: "path", name: p },
-				cls
-			)
+		const a = arg(
+			emitted,
+			description,
+			"string",
+			defaultValue === undefined && truthy(o.nullish("required") ?? true),
+			positional,
+			{ in: "path", name: p },
+			cls
 		);
+		a.default = defaultValue;
+		out.push(a);
 	}
 }
 
@@ -620,12 +678,9 @@ function bodyParams(
 			continue;
 		}
 		const joined = path.join(".");
-		const first = path[0] ?? "";
-		const byPath = get(overrides, joined);
-		const o =
-			byPath !== undefined && byPath !== null
-				? new Override(byPath)
-				: new Override(get(overrides, first));
+		// Field overrides target the exact wire path; parent objects do not
+		// supply types, validation, file handling, or defaults to their children.
+		const o = Override.of(overrides, joined);
 		const rawChoices = o.get("choices");
 		const overrideChoices = Array.isArray(rawChoices)
 			? (rawChoices as readonly Value[]).map(stringOf)
@@ -641,7 +696,9 @@ function bodyParams(
 			o.get("positional") === true &&
 			single &&
 			bp.type !== "boolean" &&
-			bp.itemType !== "object"
+			bp.type !== "object" &&
+			bp.itemType !== "object" &&
+			bp.itemType !== "array"
 		) {
 			const description =
 				o.string("description") ?? bp.description ?? `The ${path[0]} field`;
@@ -668,11 +725,7 @@ function bodyParams(
 		const effectiveType = o.get("array") === true ? "array" : bp.type;
 		const r = o.nullish("required");
 		const required = r === undefined ? bp.required : truthy(r);
-		let fromFileOverride = o.nullish("fromFile");
-		if (fromFileOverride === undefined && single) {
-			const v = get(get(overrides, first), "fromFile");
-			fromFileOverride = v === null ? undefined : v;
-		}
+		const fromFileOverride = o.nullish("fromFile");
 		let fromFile: Arg["fromFile"];
 		if (effectiveType !== "string" || fromFileOverride === false) {
 			fromFile = undefined;
@@ -697,16 +750,31 @@ function bodyParams(
 		const dflt = nestedUnderOptional ? undefined : effectiveDefault;
 		const bodyType = bodyArgType(effectiveType, bp.itemType);
 		const type: ArgType =
-			bodyType === "objectArray"
+			bodyType === "objectArray" ||
+			bodyType === "nestedArray" ||
+			bodyType === "objectMap"
 				? bodyType
 				: enumValues !== undefined
 					? "enum"
 					: bodyType;
-		const base = bp.description ?? `The ${joined} field`;
+		const base =
+			o.string("description") ?? bp.description ?? `The ${joined} field`;
 		let description = base;
 		if (type === "objectArray") {
 			const separator = /[.!?]$/.test(base) ? " " : ". ";
 			description = `${base}${separator}Provide as a JSON array of objects or @path/to/file.json.`;
+		}
+		if (type === "nestedArray") {
+			const separator = /[.!?]$/.test(base) ? " " : ". ";
+			description = `${base}${separator}Provide as a JSON array of arrays or @path/to/file.json.`;
+		}
+		if (type === "objectMap") {
+			const separator = /[.!?]\s*$/.test(base) ? " " : ". ";
+			description = `${base.trimEnd()}${separator}Provide as a JSON object or @path/to/file.json.`;
+		}
+		if (type === "scalarUnion") {
+			const separator = /[.!?]\s*$/.test(base) ? " " : ". ";
+			description = `${base.trimEnd()}${separator}Accepts a JSON scalar or plain string, or @path/to/file.`;
 		}
 		const a = arg(
 			name,

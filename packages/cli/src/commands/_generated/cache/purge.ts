@@ -78,7 +78,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						message: `This operation deletes the selected content from the zone's cache.`,
 					}))
 				) {
-					process.stderr.write("Aborted.\n");
 					return;
 				}
 

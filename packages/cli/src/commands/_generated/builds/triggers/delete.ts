@@ -79,7 +79,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						message: `This operation deletes the build trigger and cancels its unfinished builds.`,
 					}))
 				) {
-					process.stderr.write("Aborted.\n");
 					return;
 				}
 

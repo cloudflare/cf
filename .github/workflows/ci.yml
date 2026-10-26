@@ -2,7 +2,7 @@ name: CI
 
 # Three jobs on every PR, merge-queue candidate, and push to main:
 #
-#   check — `pnpm check` (generation, dependency builds, lint/format + tsgo) over
+#   check — `pnpm check` (generation, dependency builds, lint/format + tsrs) over
 #           the whole repo.
 #   cli   — the cf CLI's in-package vitest suite (packages/cli) on
 #           Linux, macOS, and Windows.
@@ -33,13 +33,13 @@ jobs:
     timeout-minutes: 15
     steps:
       - name: Checkout
-        uses: actions/checkout@v6
+        uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
         with:
           fetch-depth: 1
           persist-credentials: false
 
       - name: Install dependencies
-        uses: ./.github/actions/install-dependencies
+        uses: $/.github/actions/install-dependencies
 
       - name: Lint, type-check, and format-check
         run: pnpm check
@@ -58,16 +58,16 @@ jobs:
         run: git config --system core.longpaths true
 
       - name: Checkout
-        uses: actions/checkout@v6
+        uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
         with:
           fetch-depth: 1
           persist-credentials: false
 
       - name: Install dependencies
-        uses: ./.github/actions/install-dependencies
+        uses: $/.github/actions/install-dependencies
 
       - name: Test automation scripts
-        run: node --test scripts/update-forge.test.ts
+        run: node --test scripts/update-openapi.test.ts
 
       - name: Run cli tests
         run: pnpm --filter cf test
@@ -78,13 +78,13 @@ jobs:
     timeout-minutes: 15
     steps:
       - name: Checkout
-        uses: actions/checkout@v6
+        uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
         with:
           fetch-depth: 1
           persist-credentials: false
 
       - name: Install dependencies
-        uses: ./.github/actions/install-dependencies
+        uses: $/.github/actions/install-dependencies
 
       - name: Run Wrangler compatibility tests
         run: pnpm --filter @cloudflare/wrangler-tests test

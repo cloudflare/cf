@@ -108,7 +108,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						message: `This replaces the R2 bucket's lock rules. Removing or shortening retention can allow objects to be overwritten or deleted.`,
 					}))
 				) {
-					process.stderr.write("Aborted.\n");
 					return;
 				}
 

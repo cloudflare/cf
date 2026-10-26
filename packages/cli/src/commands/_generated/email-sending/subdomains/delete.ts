@@ -78,7 +78,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						message: `This operation disables sending and removes the subdomain's Email Sending DNS records.`,
 					}))
 				) {
-					process.stderr.write("Aborted.\n");
 					return;
 				}
 

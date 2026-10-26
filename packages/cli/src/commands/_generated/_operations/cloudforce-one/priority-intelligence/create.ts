@@ -8,6 +8,7 @@ export default {
 	body: "json",
 	response: false,
 	errors: {
+		400: "BadRequestError",
 		403: "ForbiddenError",
 		429: "TooManyRequestsError",
 	},

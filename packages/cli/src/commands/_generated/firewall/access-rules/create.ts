@@ -18,6 +18,7 @@ import { resolveFileToken } from "#lib/input-validation.js";
 import { LOCAL_ACCOUNT_ID } from "#lib/local.js";
 import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
+import { promptForRequiredEnumField } from "#lib/prompt.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
 function builder(yargs: Argv<CommonYargsOptions>) {
@@ -39,6 +40,20 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description:
 				"The IP address to match. This address will be compared to the IP address of incoming requests.",
 		})
+		.option("access-rule-mode", {
+			type: "string",
+			description: "The action to apply to a matched request.",
+			choices: [
+				"block",
+				"challenge",
+				"whitelist",
+				"js_challenge",
+				"managed_challenge",
+			],
+		})
+		.coerce("access-rule-mode", (value) =>
+			resolveFileToken(value, "access-rule-mode", "text")
+		)
 		.option("notes", {
 			type: "string",
 			description:
@@ -67,7 +82,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			{
 				command: "firewall access-rules create",
 				classification: {
-					safeFlags: ["configuration-target", "dry-run"],
+					safeFlags: ["configuration-target", "access-rule-mode", "dry-run"],
 				} satisfies ArgClassification<Args>,
 			},
 			argv as Record<string, unknown>,
@@ -101,6 +116,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 												"text"
 											),
 										},
+										mode: argv["access-rule-mode"],
 										notes: resolveFileToken(
 											argv["notes"] as string | undefined,
 											"notes",
@@ -138,6 +154,19 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					formatOutput(result, { successLabel: `Created` });
 					return;
 				}
+				if (argv["access-rule-mode"] === undefined) {
+					argv["access-rule-mode"] = await promptForRequiredEnumField(
+						"access-rule-mode",
+						"The action to apply to a matched request.",
+						[
+							"block",
+							"challenge",
+							"whitelist",
+							"js_challenge",
+							"managed_challenge",
+						] as const
+					);
+				}
 
 				// Assemble request body from individual flags
 				const bodyData = compactBody({
@@ -149,6 +178,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 							"text"
 						),
 					},
+					mode: argv["access-rule-mode"],
 					notes: resolveFileToken(
 						argv["notes"] as string | undefined,
 						"notes",

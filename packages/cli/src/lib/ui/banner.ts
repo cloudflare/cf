@@ -16,10 +16,10 @@ import type { UpdateNotice } from "../update-check.js";
  *     ──────────────────
  *
  * A project-pinned cf reached through global cf delegation adds a dim
- * `· delegated` tag so the running version is clear:
+ * `· local version` tag so the running version is clear:
  *
- *     🍊☁️  cf · v1.2.3 · delegated
- *     ─────────────────────────────
+ *     🍊☁️  cf · v1.2.3 · local version
+ *     ─────────────────────────────────
  *
  * Underline length tracks the visible width of the headline after ANSI
  * styling is stripped. Color styling follows the terminal settings.
@@ -32,11 +32,11 @@ export function renderPromptIntro(
 	const mark = "🍊☁️ ";
 
 	// A delegated child is spawned with DELEGATION_SENTINEL set (see
-	// lib/delegate.ts). When present, append a dim "· delegated" tag to
+	// lib/delegate.ts). When present, append a dim "· local version" tag to
 	// the headline; absent in normal runs, so the banner is unchanged for
 	// the common case.
 	const delegatedTag = process.env[DELEGATION_SENTINEL]
-		? ` ${theme.muted("·")} ${theme.muted("delegated")}`
+		? ` ${theme.muted("·")} ${theme.muted("local version")}`
 		: "";
 	const updateTag = update
 		? ` ${theme.muted("·")} ${theme.warning(`update available: v${update.latestVersion}`)}`

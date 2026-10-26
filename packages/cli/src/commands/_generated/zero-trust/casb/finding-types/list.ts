@@ -35,10 +35,61 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description:
 				"Filter finding types by vendor. Supports multiple comma-separated values. Each value may be either the vendor enum (GOOGLE_WORKSPACE) or the friendly name returned by the read routes (Google Workspace).",
 		})
+		.option("types", {
+			type: "string",
+			description:
+				"Filter finding types by category type. Supports multiple comma-separated, case-insensitive values.",
+		})
+		.option("origins", {
+			type: "string",
+			description:
+				"Filter finding types by origin. Supports multiple comma-separated, case-insensitive values.",
+		})
+		.option("severities", {
+			type: "string",
+			description:
+				"Filter finding types by severity. Supports multiple comma-separated, case-insensitive values.",
+		})
 		.option("search", {
 			type: "string",
 			description:
 				"Filter finding types by name or ID (case-insensitive substring match).",
+		})
+		.option("quarantined", {
+			type: "boolean",
+			description:
+				"When true, return only quarantined finding types; when false, return only non-quarantined finding types. Omit to return both.",
+		})
+		.option("min-updated-at", {
+			type: "string",
+			description:
+				"Return only finding types updated at or after this RFC 3339 timestamp (inclusive).",
+		})
+		.option("max-updated-at", {
+			type: "string",
+			description:
+				"Return only finding types updated at or before this RFC 3339 timestamp (inclusive).",
+		})
+		.option("order", {
+			type: "string",
+			description:
+				"Field to sort by (case-insensitive). Defaults to 'created'.\nName and vendor sorting is case-insensitive; vendor uses friendly provider names.\nAscending order: type Content then Posture; origin custom then system;\nseverity Low, Medium, High, Critical.",
+			choices: [
+				"created",
+				"updated",
+				"match_count",
+				"name",
+				"vendor",
+				"type",
+				"origin",
+				"severity",
+			],
+		})
+		.option("direction", {
+			type: "string",
+			description:
+				"Sort direction for the primary field. Defaults to 'desc'.\nTies are resolved by case-insensitive name, then ID, both ascending regardless of direction.",
+			choices: ["asc", "desc"],
 		})
 		.option("dry-run", {
 			type: "boolean",
@@ -58,7 +109,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			{
 				command: "zero-trust casb finding-types list",
 				classification: {
-					safeFlags: ["dry-run"],
+					safeFlags: ["quarantined", "order", "direction", "dry-run"],
 				} satisfies ArgClassification<Args>,
 			},
 			argv as Record<string, unknown>,
@@ -67,7 +118,15 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					page: argv["page"],
 					per_page: argv["per-page"],
 					vendors: argv["vendors"],
+					types: argv["types"],
+					origins: argv["origins"],
+					severities: argv["severities"],
 					search: argv["search"],
+					quarantined: argv["quarantined"],
+					min_updated_at: argv["min-updated-at"],
+					max_updated_at: argv["max-updated-at"],
+					order: argv["order"],
+					direction: argv["direction"],
 				};
 				if (argv.dryRun) {
 					const __cfDryRunAccountId = await resolveAccountIdSilent();

@@ -13,16 +13,17 @@ import {
 import {
 	getCloudflareApiBaseUrl,
 	getCloudflareComplianceRegion,
+	writeOutput,
 } from "@cloudflare/workers-utils";
-import { getAuthToken } from "../../lib/auth-token.js";
+import { resolveBuildOutputAuth } from "../../lib/build-output-auth.js";
 import { BuildOutputConfigError } from "../../lib/build-output-error.js";
 import {
 	buildOutputWorkerOption,
 	parseWorkerConfig,
 	selectBuildOutputWorker,
+	validateBuildOutputAccount,
 	validateBuildOutputMode,
 } from "../../lib/build-output.js";
-import { getAccountId } from "../../lib/context.js";
 import { createDeployContext } from "../../lib/deploy-context.js";
 import { assembleBuildResult } from "../../lib/deploy-input.js";
 import { withCloudflareDotEnv } from "../../lib/dotenv.js";
@@ -65,7 +66,7 @@ export function createPreviewDeployOutput(result: PreviewResult) {
 		preview_urls: result.preview.urls,
 		deployment_id: result.deployment.id,
 		deployment_urls: result.deployment.urls,
-	};
+	} as const;
 }
 
 export async function runPreviewDeploy(
@@ -101,20 +102,22 @@ async function deployPreviewBuildOutput(
 	const output = await readBuildOutput(process.cwd());
 	assertPreviewBuildOutputRootConfig(output.rootConfig);
 	validateBuildOutputMode(argv.mode, output.rootConfig.buildContext.mode);
+	validateBuildOutputAccount(
+		output.rootConfig.accountId,
+		argv["temporary-account"]
+	);
 	const worker = selectBuildOutputWorker(output.workers, argv.worker);
 	const { wranglerConfig, builtConfig } = parseWorkerConfig(
 		worker,
 		output.rootConfig
 	);
 
-	const authToken = await getAuthToken();
-	const accountId =
-		output.rootConfig.accountId ??
-		(await getAccountId({
-			isPreview: true,
-			skipProjectSettings: true,
-			complianceRegion: getCloudflareComplianceRegion(wranglerConfig),
-		}));
+	const complianceRegion = getCloudflareComplianceRegion(wranglerConfig);
+	const { authToken, accountId } = await resolveBuildOutputAuth({
+		accountId: output.rootConfig.accountId,
+		complianceRegion,
+		isPreview: true,
+	});
 	const deployContext = createDeployContext(authToken);
 	// TODO(cloudflare/cf#330): Let previewBuildOutput() return without printing.
 	// Until then, hide its summary so this command prints one clean JSON result.
@@ -172,7 +175,7 @@ async function deployPreviewBuildOutput(
 		);
 	}
 
-	return previewBuildOutput(
+	const result = await previewBuildOutput(
 		accountId,
 		{ name: previewName, json: true },
 		{
@@ -189,12 +192,19 @@ async function deployPreviewBuildOutput(
 			assets: worker.assetsDir ? { directory: worker.assetsDir } : undefined,
 		},
 		{
+			deployCommand: "cf deploy",
+			previewCommand: "cf previews deploy",
 			...createPreviewContainerCallbacks(containerDeployConfig),
 			verifyContainersScope: async () => {
 				await ApplicationsService.listApplications();
 			},
 		}
 	);
+	writeOutput({
+		...createPreviewDeployOutput(result),
+		worker_name: builtConfig.name ?? null,
+	});
+	return result;
 }
 
 const command: CommandModule<CommonYargsOptions, PreviewDeployArgs> = {

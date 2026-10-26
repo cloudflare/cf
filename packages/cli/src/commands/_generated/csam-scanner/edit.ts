@@ -7,7 +7,7 @@ import type { ArgClassification } from "#lib/telemetry/index.js";
  */
 import type { Argv, CommandModule } from "yargs";
 import { createCommandClient, getZoneId } from "#lib/auth.js";
-import { compactBody, parseBody } from "#lib/body-parser.js";
+import { compactBody, parseBody, parseJsonMap } from "#lib/body-parser.js";
 import { formatDryRun } from "#lib/dry-run.js";
 import { resolveFileToken } from "#lib/input-validation.js";
 import { formatOutput } from "#lib/output.js";
@@ -38,6 +38,11 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			type: "boolean",
 			description:
 				"Set to true to trigger re-sending the email verification.\nWrite-only; never appears in responses (omitted when false).\n",
+		})
+		.option("value-sources", {
+			type: "string",
+			description:
+				"Map of scanning sources and their enabled state. Provide as a JSON object or @path/to/file.json.",
 		})
 		.option("dry-run", {
 			type: "boolean",
@@ -78,18 +83,25 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						body:
 							argv.body !== undefined
 								? parseBody(argv.body)
-								: compactBody({
-										id: argv["id"],
-										value: {
-											email: resolveFileToken(
-												argv["value-email"] as string | undefined,
-												"value-email",
-												"text"
-											),
-											enabled: argv["value-enabled"],
-											resend_email: argv["value-resend-email"],
+								: compactBody(
+										{
+											id: argv["id"],
+											value: {
+												email: resolveFileToken(
+													argv["value-email"] as string | undefined,
+													"value-email",
+													"text"
+												),
+												enabled: argv["value-enabled"],
+												resend_email: argv["value-resend-email"],
+												sources: parseJsonMap(
+													argv["value-sources"],
+													"value-sources"
+												),
+											},
 										},
-									}),
+										[["value", "sources"]]
+									),
 					});
 					return;
 				}
@@ -109,18 +121,22 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				}
 
 				// Assemble request body from individual flags
-				const bodyData = compactBody({
-					id: argv["id"],
-					value: {
-						email: resolveFileToken(
-							argv["value-email"] as string | undefined,
-							"value-email",
-							"text"
-						),
-						enabled: argv["value-enabled"],
-						resend_email: argv["value-resend-email"],
+				const bodyData = compactBody(
+					{
+						id: argv["id"],
+						value: {
+							email: resolveFileToken(
+								argv["value-email"] as string | undefined,
+								"value-email",
+								"text"
+							),
+							enabled: argv["value-enabled"],
+							resend_email: argv["value-resend-email"],
+							sources: parseJsonMap(argv["value-sources"], "value-sources"),
+						},
 					},
-				});
+					[["value", "sources"]]
+				);
 				const result = await withProgress(`Updating`, async () =>
 					client.send(operation, { body: bodyData, zone_id: zoneId })
 				);

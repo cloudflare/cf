@@ -79,7 +79,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						message: `Permanently delete signing key? All tokens created with this key will become unauthorized!`,
 					}))
 				) {
-					process.stderr.write("Aborted.\n");
 					return;
 				}
 

@@ -11,7 +11,7 @@ import {
 	getAccountId,
 	resolveAccountIdSilent,
 } from "#lib/auth.js";
-import { compactBody, parseBody } from "#lib/body-parser.js";
+import { compactBody, parseBody, parseObjectArray } from "#lib/body-parser.js";
 import { formatDryRun } from "#lib/dry-run.js";
 import { resolveFileToken } from "#lib/input-validation.js";
 import { LOCAL_ACCOUNT_ID } from "#lib/local.js";
@@ -30,10 +30,20 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "UUID of the tunnel.",
 			demandOption: true,
 		})
-		.option("config-fnr-id", {
+		.option("mesh-config-fnr-id", {
 			type: "string",
 			description:
 				"Floating Network Resource ID — the secondary ENI that is moved between nodes on failover.",
+		})
+		.option("mesh-config-vips", {
+			type: "string",
+			description:
+				"VIPs to assign on the CloudflareWARP interface. Provide as a JSON array of objects or @path/to/file.json.",
+		})
+		.option("mesh-config-vips-previous", {
+			type: "string",
+			description:
+				"VIPs to clean up on demotion or version drift. Provide as a JSON array of objects or @path/to/file.json.",
 		})
 		.option("ha-mode", {
 			type: "string",
@@ -50,7 +60,13 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("body", {
 			type: "string",
 			description: "Raw JSON request body (bypasses individual flags)",
-		});
+		})
+		.conflicts("mesh-config-fnr-id", [
+			"mesh-config-vips",
+			"mesh-config-vips-previous",
+		])
+		.conflicts("mesh-config-vips", ["mesh-config-fnr-id"])
+		.conflicts("mesh-config-vips-previous", ["mesh-config-fnr-id"]);
 }
 
 type Args = InferArgs<typeof builder>;
@@ -83,9 +99,17 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 								: compactBody({
 										config: {
 											fnr_id: resolveFileToken(
-												argv["config-fnr-id"] as string | undefined,
-												"config-fnr-id",
+												argv["mesh-config-fnr-id"] as string | undefined,
+												"mesh-config-fnr-id",
 												"text"
+											),
+											vips: parseObjectArray(
+												argv["mesh-config-vips"],
+												"mesh-config-vips"
+											),
+											vips_previous: parseObjectArray(
+												argv["mesh-config-vips-previous"],
+												"mesh-config-vips-previous"
 											),
 										},
 										ha_mode: argv["ha-mode"],
@@ -121,9 +145,17 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				const bodyData = compactBody({
 					config: {
 						fnr_id: resolveFileToken(
-							argv["config-fnr-id"] as string | undefined,
-							"config-fnr-id",
+							argv["mesh-config-fnr-id"] as string | undefined,
+							"mesh-config-fnr-id",
 							"text"
+						),
+						vips: parseObjectArray(
+							argv["mesh-config-vips"],
+							"mesh-config-vips"
+						),
+						vips_previous: parseObjectArray(
+							argv["mesh-config-vips-previous"],
+							"mesh-config-vips-previous"
 						),
 					},
 					ha_mode: argv["ha-mode"],

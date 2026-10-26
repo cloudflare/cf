@@ -23,14 +23,21 @@ import { runWithTelemetry } from "#lib/telemetry/index.js";
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
 		.usage(
-			"$0 cloudforce-one threat-signals skills create\n\nCreates a custom AI skill for the account."
+			"$0 cloudforce-one threat-signals skills create\n\nCreates a Custom Skill for the account. Free Threat Signals accounts cannot create Custom Skills."
 		)
-		.option("name", { type: "string", description: "The name field" })
+		.option("name", {
+			type: "string",
+			description: "Custom Skill name (1–100 characters).",
+		})
 		.option("output-schema", {
 			type: "string",
-			description: "The output_schema field",
+			description: "JSON Schema serialized as a string (max 4096 characters).",
 		})
-		.option("prompt", { type: "string", description: "The prompt field" })
+		.option("prompt", {
+			type: "string",
+			description:
+				"AI prompt (1–4000 characters) defining the skill's instructions.",
+		})
 		.option("type", {
 			type: "string",
 			description:
@@ -111,18 +118,21 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					return;
 				}
 				if (argv["name"] === undefined) {
-					argv["name"] = await promptForRequiredField("name", "The name field");
+					argv["name"] = await promptForRequiredField(
+						"name",
+						"Custom Skill name (1–100 characters)."
+					);
 				}
 				if (argv["output-schema"] === undefined) {
 					argv["output-schema"] = await promptForRequiredField(
 						"output-schema",
-						"The output_schema field"
+						"JSON Schema serialized as a string (max 4096 characters)."
 					);
 				}
 				if (argv["prompt"] === undefined) {
 					argv["prompt"] = await promptForRequiredField(
 						"prompt",
-						"The prompt field"
+						"AI prompt (1–4000 characters) defining the skill's instructions."
 					);
 				}
 

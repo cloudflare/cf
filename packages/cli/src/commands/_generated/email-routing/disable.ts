@@ -89,7 +89,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						message: `This operation disables Email Routing and removes its DNS records.`,
 					}))
 				) {
-					process.stderr.write("Aborted.\n");
 					return;
 				}
 

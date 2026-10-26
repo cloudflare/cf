@@ -102,7 +102,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						message: `This operation invalidates every service token for the app.`,
 					}))
 				) {
-					process.stderr.write("Aborted.\n");
 					return;
 				}
 

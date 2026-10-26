@@ -20,16 +20,17 @@ import { runWithTelemetry } from "#lib/telemetry/index.js";
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
 		.usage(
-			"$0 cloudforce-one threat-signals feeds get-raw <feed-id>\n\nRetrieves the feed document fetched by the most recent poll."
+			"$0 cloudforce-one threat-signals feeds get-raw <feed-id>\n\nRetrieves the feed document fetched by the most recent poll as text/plain by default or application/xml when format is xml."
 		)
 		.positional("feed-id", {
 			type: "string",
-			description: "Feed ID",
+			description: "UUID of the Threat Signals feed",
 			demandOption: true,
 		})
 		.option("format", {
 			type: "string",
-			description: "Format",
+			description:
+				"Response format. Use xml for application/xml; omit it for the default text/plain response.",
 			choices: ["xml"],
 		})
 		.option("dry-run", {

@@ -254,6 +254,9 @@ const READ_SHAPED = [
 
 /** `buildLabels`. */
 function labels(httpMethod: string, method: string): [string, string] {
+	if (method === "validate" && httpMethod.toUpperCase() !== "DELETE") {
+		return ["Validating", "Validated"];
+	}
 	if (READ_SHAPED.includes(method)) {
 		return ["Loading", "Loaded"];
 	}
@@ -317,7 +320,9 @@ export function context(
 	const positionalStr = positional
 		.map((a) => {
 			const name = a.type === "array" ? `${a.name}...` : a.name;
-			return a.isZone || a.isWorkerName ? `[${name}]` : `<${name}>`;
+			return a.isZone || a.isWorkerName || !a.required
+				? `[${name}]`
+				: `<${name}>`;
 		})
 		.join(" ");
 	const command =

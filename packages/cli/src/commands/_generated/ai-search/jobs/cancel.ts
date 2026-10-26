@@ -23,7 +23,7 @@ import { runWithTelemetry } from "#lib/telemetry/index.js";
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
 		.usage(
-			"$0 ai-search jobs cancel <job-id>\n\nCancel an in-progress indexing job for an AI Search instance."
+			"$0 ai-search jobs cancel <job-id>\n\nCancels an in-progress indexing job for an AI Search instance."
 		)
 		.positional("job-id", {
 			type: "string",
@@ -111,7 +111,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						message: `This operation cancels the running indexing job.`,
 					}))
 				) {
-					process.stderr.write("Aborted.\n");
 					return;
 				}
 

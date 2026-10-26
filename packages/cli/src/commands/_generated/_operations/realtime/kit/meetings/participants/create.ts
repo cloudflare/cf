@@ -7,6 +7,7 @@ export default {
 		path`/accounts/${request.account_id}/realtime/kit/${request.app_id}/meetings/${request.meeting_id}/participants`,
 	body: "json",
 	errors: {
+		400: "BadRequestError",
 		500: "InternalServerError",
 	},
 } as const;

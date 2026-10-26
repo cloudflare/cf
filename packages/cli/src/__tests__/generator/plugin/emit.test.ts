@@ -1,4 +1,6 @@
+import { Script } from "node:vm";
 import { describe, expect, it } from "vite-plus/test";
+import yargs, { type Argv } from "yargs";
 import { builderLines } from "../../../../generator/plugin/emit/builder.js";
 import {
 	bodyObject,
@@ -7,6 +9,7 @@ import {
 	handler,
 	variantPromptBlock,
 } from "../../../../generator/plugin/emit/handler.js";
+import { context as emitContext } from "../../../../generator/plugin/emit/index.js";
 import {
 	leafUsage,
 	summary,
@@ -27,6 +30,28 @@ import type { Method } from "../../../../generator/plugin/commands.js";
 import type { OperationInfo } from "../../../../generator/plugin/operation.js";
 
 describe("descriptions", () => {
+	it("labels POST validation without claiming to create a resource", () => {
+		const ctx = context(
+			method("validate", "things-validate"),
+			"things",
+			operation("post", "/things/validate")
+		);
+		expect(ctx.progressLabel).toBe("Validating");
+		expect(ctx.successLabel).toBe("Validated");
+	});
+
+	it("retains destructive confirmation labels for validation operations", () => {
+		const ctx = context(
+			method("validate", "things-validate", {
+				requireConfirmation: "This operation deletes data.",
+			}),
+			"things",
+			operation("post", "/things/validate")
+		);
+		expect(ctx.progressLabel).toBe("Deleting");
+		expect(ctx.successLabel).toBe("Deleted");
+	});
+
 	const description = "Full first line.\nFull second line.";
 	const list = (s: string | undefined, d: string) =>
 		method("list", "test-list", { summary: s, description: d });
@@ -54,6 +79,23 @@ describe("descriptions", () => {
 		).toBe(
 			"$0 test records nested list <id>\n\nFull first line.\nFull second line."
 		);
+	});
+});
+
+describe("delete confirmation", () => {
+	it("leaves the declined message to confirmDelete", () => {
+		const ctx = context(
+			method("delete", "things-delete"),
+			"things",
+			operation("delete", "/things/{thing_id}", {
+				pathParams: [param("thing_id")],
+			})
+		);
+		const output = handler(ctx).join("\n");
+		expect(output).toContain(
+			"if (!(await confirmDelete({ force: Boolean(argv.force) }))) {\n        return;\n      }"
+		);
+		expect(output).not.toContain("Aborted");
 	});
 });
 
@@ -105,6 +147,29 @@ describe("dry run with mixed content", () => {
 			"body: argv.file !== undefined\n            ? { file: argv.file }\n            : argv.body !== undefined\n            ? parseBody(argv.body)"
 		);
 	});
+});
+
+describe("bodyless raw response emission", () => {
+	it.each(["application/octet-stream", "text/plain"])(
+		"forwards header flags for %s responses",
+		(contentType) => {
+			const ctx = context(
+				method("get", "things-get"),
+				"things",
+				operation("get", "/things", {
+					headerParams: [
+						param("If-None-Match", undefined, { required: false }),
+					],
+					responses: [["200", { content: [contentType] }]],
+				})
+			);
+			const output = handler(ctx).join("\n");
+			expect(output).toContain("fetchRawBytes(");
+			expect(output).toContain(
+				"headers: Object.keys(headers).length > 0 ? headers : undefined"
+			);
+		}
+	);
 });
 
 describe("protobuf response emission", () => {
@@ -344,6 +409,45 @@ describe("Fern names", () => {
 			resolvedRequestPath: ctx.resolvedRequestPath,
 		};
 	};
+
+	it.each([false, true])(
+		"honors required %j when parsing the emitted consumer positional",
+		async (required) => {
+			const [ctx, command] = emitContext(
+				method("get", "queues-get-consumer", {
+					params: { consumer_id: { required } },
+				}),
+				"example",
+				undefined,
+				renamedConsumerGet(),
+				"./"
+			);
+			expect(command).toBe(required ? "get <consumer>" : "get [consumer]");
+			const builder = new Script(
+				`(yargs) => yargs\n${builderLines(ctx).join("\n")}`
+			).runInNewContext() as (args: Argv) => Argv;
+			const parse = async (args: string[]) =>
+				yargs(args)
+					.exitProcess(false)
+					.fail((message, error) => {
+						throw error ?? new Error(message);
+					})
+					.command(command, "", builder, () => {})
+					.strict()
+					.parseAsync();
+			expect(
+				await parse(["get", "consumer-1", "--queue", "queue-1"])
+			).toMatchObject({ consumer: "consumer-1", queue: "queue-1" });
+			const omitted = parse(["get", "--queue", "queue-1"]);
+			if (required) {
+				await expect(omitted).rejects.toThrow(
+					"Not enough non-option arguments"
+				);
+			} else {
+				expect((await omitted).consumer).toBeUndefined();
+			}
+		}
+	);
 
 	it("reads renamed path args in the request and dry run", () => {
 		const { handler: h, builder } = emit(method("get", "queues-get-consumer"), {

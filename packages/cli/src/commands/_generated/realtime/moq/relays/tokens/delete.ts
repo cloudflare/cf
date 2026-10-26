@@ -87,7 +87,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						message: `Revoking this token blocks new connections that present it. Sessions already connected with it stay up.`,
 					}))
 				) {
-					process.stderr.write("Aborted.\n");
 					return;
 				}
 

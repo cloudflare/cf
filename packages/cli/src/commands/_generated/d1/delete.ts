@@ -77,7 +77,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						message: `This permanently deletes the D1 database and all of its data.`,
 					}))
 				) {
-					process.stderr.write("Aborted.\n");
 					return;
 				}
 

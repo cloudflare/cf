@@ -11,7 +11,7 @@ import {
 	getAccountId,
 	resolveAccountIdSilent,
 } from "#lib/auth.js";
-import { compactBody, parseBody } from "#lib/body-parser.js";
+import { compactBody, parseBody, parseObjectArray } from "#lib/body-parser.js";
 import { formatDryRun } from "#lib/dry-run.js";
 import { resolveFileToken } from "#lib/input-validation.js";
 import { LOCAL_ACCOUNT_ID } from "#lib/local.js";
@@ -342,6 +342,21 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			array: true,
 			description: "Usage depends on specific alert type",
 		})
+		.option("mechanisms-email", {
+			type: "string",
+			description:
+				"The mechanisms.email field. Provide as a JSON array of objects or @path/to/file.json.",
+		})
+		.option("mechanisms-pagerduty", {
+			type: "string",
+			description:
+				"The mechanisms.pagerduty field. Provide as a JSON array of objects or @path/to/file.json.",
+		})
+		.option("mechanisms-webhooks", {
+			type: "string",
+			description:
+				"The mechanisms.webhooks field. Provide as a JSON array of objects or @path/to/file.json.",
+		})
 		.option("name", { type: "string", description: "Name of the policy." })
 		.option("dry-run", {
 			type: "boolean",
@@ -442,6 +457,20 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 											where: argv["filters-where"],
 											zones: argv["filters-zones"],
 										},
+										mechanisms: {
+											email: parseObjectArray(
+												argv["mechanisms-email"],
+												"mechanisms-email"
+											),
+											pagerduty: parseObjectArray(
+												argv["mechanisms-pagerduty"],
+												"mechanisms-pagerduty"
+											),
+											webhooks: parseObjectArray(
+												argv["mechanisms-webhooks"],
+												"mechanisms-webhooks"
+											),
+										},
 										name: resolveFileToken(
 											argv["name"] as string | undefined,
 											"name",
@@ -529,6 +558,20 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						type: argv["filters-type"],
 						where: argv["filters-where"],
 						zones: argv["filters-zones"],
+					},
+					mechanisms: {
+						email: parseObjectArray(
+							argv["mechanisms-email"],
+							"mechanisms-email"
+						),
+						pagerduty: parseObjectArray(
+							argv["mechanisms-pagerduty"],
+							"mechanisms-pagerduty"
+						),
+						webhooks: parseObjectArray(
+							argv["mechanisms-webhooks"],
+							"mechanisms-webhooks"
+						),
 					},
 					name: resolveFileToken(
 						argv["name"] as string | undefined,

@@ -2620,13 +2620,6 @@
       }
     },
     {
-      "command": "cf zero-trust apps review-status-list",
-      "args": [],
-      "env": {
-        "scope": "account"
-      }
-    },
-    {
       "command": "cf zero-trust certificates list",
       "args": [],
       "env": {
@@ -2785,13 +2778,6 @@
       "args": ["placeholder_app_id", "placeholder_policy_id", "--dry-run"],
       "env": {
         "scope": "zone"
-      }
-    },
-    {
-      "command": "cf zero-trust apps review-status-update",
-      "args": ["--dry-run"],
-      "env": {
-        "scope": "account"
       }
     },
     {
@@ -7835,13 +7821,6 @@
       }
     },
     {
-      "command": "cf zero-trust apps review status list",
-      "args": [],
-      "env": {
-        "scope": "account"
-      }
-    },
-    {
       "command": "cf zero-trust certificates settings list",
       "args": [],
       "env": {
@@ -7965,13 +7944,6 @@
       "args": ["placeholder_app_id", "placeholder_policy_id", "--dry-run"],
       "env": {
         "scope": "zone"
-      }
-    },
-    {
-      "command": "cf zero-trust apps review status update",
-      "args": ["--dry-run"],
-      "env": {
-        "scope": "account"
       }
     },
     {

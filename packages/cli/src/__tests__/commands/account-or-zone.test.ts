@@ -78,6 +78,28 @@ describe("combined account-or-zone scope", () => {
 		expect(requested).toBe(true);
 	});
 
+	it.each([
+		[[], "accounts/test-account"],
+		[["--zone", ZONE_ID], `zones/${ZONE_ID}`],
+	])(
+		"resolves subscription scope from global context with %j",
+		async (flags, scope) => {
+			let requested = false;
+			server.use(
+				http.get(`${TEST_BASE_URL}/${scope}/subscriptions`, () => {
+					requested = true;
+					return HttpResponse.json({ success: true, result: [] });
+				})
+			);
+			const result = await runCf(
+				["accounts", "subscriptions", "get", ...flags],
+				ENV
+			);
+			expect(result.exitCode).toBe(0);
+			expect(requested).toBe(true);
+		}
+	);
+
 	it("previews the same account and zone scope selection", async () => {
 		await runCf(["load-balancers", "account", "list", "--dry-run"], ENV);
 		const accountPreview = JSON.parse(output.stdout()) as {

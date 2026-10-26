@@ -95,7 +95,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						message: `This operation removes the participant from the meeting and revokes their authentication token.`,
 					}))
 				) {
-					process.stderr.write("Aborted.\n");
 					return;
 				}
 

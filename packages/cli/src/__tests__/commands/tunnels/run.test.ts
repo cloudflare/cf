@@ -127,7 +127,8 @@ describe("cf tunnels run", () => {
 
 	it("does not keep the former cf tunnel root", async () => {
 		await expect(runCf(["tunnel", "run", UUID])).rejects.toThrow(
-			"Unknown commands: tunnel, run"
+			/Unknown commands: tunnel, run|Did you mean tunnels\?/
 		);
+		expect(runCloudflared).not.toHaveBeenCalled();
 	});
 });

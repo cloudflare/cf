@@ -19,7 +19,9 @@ import { runWithTelemetry } from "#lib/telemetry/index.js";
 
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
-		.usage("$0 dls regions list\n\nList DLS regions for an account")
+		.usage(
+			"$0 dls regions list\n\nList the DLS regions (managed and custom) available to an account."
+		)
 		.option("cursor", {
 			type: "string",
 			description:

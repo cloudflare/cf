@@ -45,21 +45,20 @@ const scopesCommand: CommandModule<object, ScopesArgs> = {
 	handler: async (argv: ArgumentsCamelCase<ScopesArgs>): Promise<void> => {
 		if (process.env.CLOUDFLARE_API_TOKEN) {
 			log.warn(
-				"CLOUDFLARE_API_TOKEN is set, so its own permissions apply rather than OAuth scopes."
+				`${theme.code("CLOUDFLARE_API_TOKEN")} is set, so its own permissions apply rather than OAuth scopes.`
 			);
 			return;
 		}
 
 		const scopes = readAuthCredentials()?.scopes;
 		if (!scopes) {
-			log.info("Not logged in. To log in, run:", "cf auth login");
+			log.info(`Not logged in. Run ${theme.code("cf auth login")} to log in.`);
 			return;
 		}
 
 		if (!hasProductScopes(scopes)) {
 			log.info(
-				"No product scopes granted. To log in with the default scopes, run:",
-				"cf auth login --force"
+				`No product scopes granted. Run ${theme.code("cf auth login --force")} to log in with the default scopes.`
 			);
 			return;
 		}
@@ -78,9 +77,7 @@ const scopesCommand: CommandModule<object, ScopesArgs> = {
 		if (argv.product === undefined && !argv.all && argv.filter === undefined) {
 			console.log(formatScopeSummary(scopes, catalogue));
 			log.info(
-				"To see a product's permissions, or every product's, run:",
-				"cf auth scopes <product>",
-				"cf auth scopes --all"
+				`Run ${theme.code("cf auth scopes <product>")} to see a product's permissions, or ${theme.code("cf auth scopes --all")} for every product.`
 			);
 			return;
 		}
@@ -91,8 +88,7 @@ const scopesCommand: CommandModule<object, ScopesArgs> = {
 			!areaTitles(catalogue).some((area) => matchesArea(area, product))
 		) {
 			log.info(
-				`No product area matches "${product}". To search scope names instead, run:`,
-				`cf auth scopes --filter ${product}`
+				`No product area matches "${product}". Run ${theme.code(`cf auth scopes --filter ${product}`)} to search scope names instead.`
 			);
 			return;
 		}

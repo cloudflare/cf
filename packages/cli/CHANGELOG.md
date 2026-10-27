@@ -1,5 +1,50 @@
 # cf
 
+## 1.0.0-beta.24
+
+### Minor Changes
+
+- 014eadd: Delegate development registry resolution to Miniflare
+
+  During the cf beta, stop overriding registry paths for `cf dev` and `--local`.
+  Miniflare v5 owns the default `<Cloudflare config directory>/dev-registry/v5`
+  and the `CLOUDFLARE_DEV_REGISTRY_PATH` override. cf no longer interprets
+  `CLOUDFLARE_REGISTRY_PATH` or translates registry settings for child processes;
+  exported environment variables reach the selected project tooling unchanged.
+
+  Wrangler retains its own default registry for compatibility. Set the same
+  `CLOUDFLARE_DEV_REGISTRY_PATH` for cf and compatible Wrangler/Vite processes when
+  they need to share development resources.
+
+- 6b19d0c: Upload every binary multipart field from a file
+
+  Generated multipart commands now add a flag for each `format: binary`
+  form field besides the payload that `--file` fills. For example,
+  `cf pages deployments create` accepts `--worker-js`, `--routes-json`,
+  `--redirects`, `--worker-bundle`, and
+  `--functions-filepath-routing-config-json`, so a Pages Direct Upload can
+  include an advanced-mode `_worker.js` with `--worker-js @./_worker.js`.
+  These flags accept literal content or `@path/to/file`, matching other body
+  flags while preserving uploaded file bytes and filenames. Both forms upload
+  as file parts; inline content uses the original form field name as its filename.
+  Before this change, `--file` only reached `_headers` and the other files
+  could not be sent.
+
+- 16a20a5: Update the generated command surface for Forge OpenAPI release
+  `e2b8c60b0222e9df2db7db83fdbf465f099a5189`.
+- ab93021: Update the generated command surface for Forge OpenAPI release
+  `fd89c869d0cfca05d431fa56fdec63ebe96e7c37`.
+- 2f2745f: Update the generated command surface for Forge OpenAPI release
+  `fdc1aa8a39e2e515f26c2fc6109d7e93050e811c`.
+
+### Patch Changes
+
+- 2e6c118: Explain dotenv variable expansion in `--secrets-file` help
+
+  Document how dotenv secrets files passed to `cf deploy` and `cf workers versions create` expand `$VAR` and `${VAR}` using process values and earlier file values. Process values override matching file keys, including explicitly empty values. Only keys declared in the secrets file are uploaded.
+
+  Explain how to escape literal dollar signs with a backslash (`PASSWORD=pa\$word`), or use JSON to preserve values exactly. Only use trusted dotenv secrets files, since references can read and upload any process environment value. JSON secrets files and API bulk-secret commands retain their existing behavior.
+
 ## 1.0.0-beta.23
 
 ### Minor Changes

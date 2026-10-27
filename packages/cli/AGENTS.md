@@ -47,7 +47,7 @@ second consumer.
 | Auth / token / OAuth        | `src/lib/auth.ts`, `src/lib/oauth/`                                                                                   |
 | Runtime value resolution    | `src/lib/context.ts`, `src/lib/resolve.ts`, `src/lib/project-settings.ts`                                             |
 | Global CLI state            | `src/lib/state.ts`                                                                                                    |
-| Local request routing       | `src/lib/local.ts`, `src/lib/local-runtime.ts`, `src/lib/registry.ts`                                                 |
+| Local request routing       | `src/lib/local.ts`, `src/lib/local-runtime.ts`                                                                        |
 | Build/deploy conversion     | `src/lib/{build-output,deploy-context,deploy-input}.ts`                                                               |
 | Help labels and flag groups | yargs configuration in `src/index.ts` (no custom renderer)                                                            |
 | Generator output shape      | `generator/plugin/` (rerun `pnpm generate`)                                                                           |

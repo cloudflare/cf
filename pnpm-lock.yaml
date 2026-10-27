@@ -263,8 +263,8 @@ importers:
         specifier: 2.1.5
         version: 2.1.5
       miniflare:
-        specifier: 5.20261023.0-beta
-        version: 5.20261023.0-beta(@types/node@25.9.9)
+        specifier: 5.20261023.1-beta
+        version: 5.20261023.1-beta(@types/node@25.9.9)
     devDependencies:
       '@bomb.sh/tab':
         specifier: 0.0.22
@@ -387,8 +387,8 @@ importers:
         specifier: ^7.2.0
         version: 7.2.0
       miniflare:
-        specifier: 5.20261023.0-beta
-        version: 5.20261023.0-beta(@types/node@25.9.9)
+        specifier: 5.20261023.1-beta
+        version: 5.20261023.1-beta(@types/node@25.9.9)
       msw:
         specifier: 3.0.3
         version: 3.0.3(@types/node@25.9.9)(esbuild@0.28.2)(graphql@16.14.2)(supports-color@10.2.2)(tsx@4.21.0)(typescript@6.0.3)(unrun@0.2.39)(yaml@2.9.0)
@@ -3205,6 +3205,10 @@ packages:
 
   miniflare@5.20261023.0-beta:
     resolution: {integrity: sha512-SHY8A98gCvmrnBLqABHRTSh3duAL1z+tHPRZu/tqxHFqVARrZ4oQis/ALYwp3XvzHvs6B/ff/CdcCafqP+cOFA==}
+    engines: {node: '>=22.0.0'}
+
+  miniflare@5.20261023.1-beta:
+    resolution: {integrity: sha512-hgm1AJhwC6W+iaRhvMnfs7bPOsxjKa8LXTFR2WVPA5qA9KhpyBd2LddmT+9M9tm65VZ8YWkwQGvB+cKbqJoKeA==}
     engines: {node: '>=22.0.0'}
 
   minimatch@10.2.6:
@@ -6030,6 +6034,19 @@ snapshots:
   mimic-fn@2.1.0: {}
 
   miniflare@5.20261023.0-beta(@types/node@25.9.9):
+    dependencies:
+      '@cspotcode/source-map-support': 0.8.1
+      sharp: 0.35.5(@types/node@25.9.9)
+      undici: 7.30.1
+      workerd: 1.20261023.1
+      ws: 8.21.0
+      youch: 4.1.0-beta.10
+    transitivePeerDependencies:
+      - '@types/node'
+      - bufferutil
+      - utf-8-validate
+
+  miniflare@5.20261023.1-beta(@types/node@25.9.9):
     dependencies:
       '@cspotcode/source-map-support': 0.8.1
       sharp: 0.35.5(@types/node@25.9.9)

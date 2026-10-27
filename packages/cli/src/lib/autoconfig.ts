@@ -160,8 +160,7 @@ export async function runProjectCommand(
 	options: RunProjectCommandOptions = {}
 ): Promise<ProjectCommandResult> {
 	const output = options.output ?? "stderr";
-	// The overrides are mostly internal plumbing (registry paths, build-output
-	// markers), so they are only listed when debugging delegation.
+	// Internal environment overrides are only listed when debugging delegation.
 	const environmentOverrides = process.env.DEBUG
 		? Object.entries(options.env ?? {})
 		: [];

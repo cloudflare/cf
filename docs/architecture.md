@@ -259,7 +259,6 @@ the complete generated and hand-written `_meta/commands.json` catalogue (see
 | `metadata.ts`         | `loadMeta()` loader + types for `_meta/*.json` (complete commands, hand-written provenance, and schemas); `isCommandsMetadata` guard                                                                                                                                                                                                                                                                   |
 | `local.ts`            | Dependency-free `--local` lazy runtime loading                                                                                                                                                                                                                                                                                                                                                         |
 | `local-runtime.ts`    | Local request rewriting, runtime lifecycle, and explorer dispatch; dynamically imported                                                                                                                                                                                                                                                                                                                |
-| `registry.ts`         | Shared dev-registry path resolution                                                                                                                                                                                                                                                                                                                                                                    |
 | `delegate.ts`         | local-install delegation (Wrangler-2 style): global cf re-execs a project-pinned local cf. `CF_DELEGATION` sentinel + `CF_DELEGATION_PID` (global cf's process ID; telemetry counts a run as delegated only when it matches the direct parent, or is absent from an older global cf) + `CF_DELEGATING_CLI_VERSION` (global version, read by telemetry) + realpath self-check + ephemeral-npx/dlx guard |
 | `build-output.ts`     | combines `readBuildOutput()`'s root config and `workers.default` from `.cloudflare/output/v0/workers/default/worker.config.json` and converts them into the deploy-helpers/Wrangler config shape (`convertToWranglerConfig` + `normalizeAndValidateConfig`) before deployment; owns `BuildOutputConfigError`, re-exports the package's `BuildOutputError`                                              |
 | `deploy-context.ts`   | builds the `DeployHelpersContext` (fetch/logger/confirm/prompt closures) bridging cf auth/UX to deploy-helpers' module globals                                                                                                                                                                                                                                                                         |
@@ -414,6 +413,16 @@ API or to a forge annotation. Local mode is the worked example: `--local`
 derives resource identity from the request URL and sends the request to a
 cf-spawned Miniflare local-explorer instance over shared persisted state. It
 does not read the project's binding declarations.
+
+Miniflare v5 owns development registry resolution. cf supplies no registry path
+to its local runtime and does not inject or translate registry environment
+variables for delegated project commands. The default is
+`<Cloudflare config directory>/dev-registry/v5`; set
+`CLOUDFLARE_DEV_REGISTRY_PATH` to override it. cf no longer interprets
+`CLOUDFLARE_REGISTRY_PATH`. Exported variables are inherited unchanged by project
+tooling, which owns any legacy variables it supports. Current Wrangler retains
+its legacy default, so cf, Vite v2, and compatible Wrangler processes need the
+same canonical override to share a registry when mixing those tools.
 
 ### Module Workers only
 

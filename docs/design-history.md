@@ -226,7 +226,9 @@ decision rule:
   tree. This reuse is deliberately deferred.
   The concurrent-writer half is closed by Miniflare Shared Storage
   (workers-sdk#15169), adopted via `unsafeEnableSharedStorage` +
-  `isolatedResourcePersistencePath` + `unsafeDevRegistryPath`.
+  `isolatedResourcePersistencePath`. Miniflare v5 now enables and resolves the
+  registry itself (workers-sdk#16494); cf no longer supplies registry paths or
+  injects registry environment variables into project tooling.
 - **R2 object parity is incomplete.** The generated
   `cf r2 buckets objects` surface supports get, upload, delete, list, and
   list-body bulk-delete through the REST API. Wrangler's S3-style `r2 object`

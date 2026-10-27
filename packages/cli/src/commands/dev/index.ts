@@ -8,7 +8,6 @@
  */
 import { prepareProject, runProjectCommand } from "../../lib/autoconfig.js";
 import { CliExit } from "../../lib/cli-exit.js";
-import { getCloudflareRegistryEnvironment } from "../../lib/registry.js";
 import { theme } from "../../lib/ui/index.js";
 import { resolveProjectImpl } from "./impl.js";
 import { spawnImpl } from "./spawn.js";
@@ -81,10 +80,7 @@ const devCommand: CommandModule<CommonYargsOptions, DevArgs> = {
 				);
 			}
 			const result = await runProjectCommand(details.devCommand, cwd, {
-				env: {
-					...details.env,
-					...getCloudflareRegistryEnvironment(),
-				},
+				env: details.env,
 				args: modeArgs,
 				output: "inherit",
 			});

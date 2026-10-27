@@ -17,7 +17,6 @@
  */
 import { constants } from "node:os";
 import { x } from "tinyexec";
-import { getCloudflareRegistryEnvironment } from "../../lib/registry.js";
 import type { CommandOutputOptions } from "../../lib/autoconfig.js";
 import type { DiscoveredImpl } from "./discover.js";
 
@@ -119,10 +118,7 @@ export async function spawnImpl(
 			// Pass cwd through implicitly via process.cwd(); the impl reads
 			// its own config from there. The impl also needs the user's full
 			// environment (PATH, NODE_OPTIONS, virtualenv markers, etc.), so
-			// we don't whitelist. Dev servers are always pointed at cf's
-			// resolved registry: existing Wrangler/Vite-based implementations
-			// consume WRANGLER_REGISTRY_PATH, while cf-native implementations
-			// consume CLOUDFLARE_REGISTRY_PATH. We also append
+			// we don't whitelist. We also append
 			// `--no-deprecation` to NODE_OPTIONS so transitive userland
 			// `punycode` deprecation warnings don't leak into the impl's
 			// terminal output. The impls themselves can't easily suppress
@@ -130,7 +126,7 @@ export async function spawnImpl(
 			// is the right place to set the env flag. Other deprecation
 			// warnings the user might actually want to see are sacrificed
 			// here in exchange for clean dev-server output.
-			env: implEnvironment(verb, options.env),
+			env: implEnvironment(options.env),
 		},
 	});
 
@@ -169,22 +165,13 @@ export async function spawnImpl(
 }
 
 function implEnvironment(
-	verb: string,
 	overrides: Readonly<NodeJS.ProcessEnv> = {}
 ): NodeJS.ProcessEnv {
-	const env = {
+	return {
 		...appendNodeOption(process.env, "--no-deprecation"),
 		...overrides,
 		// Shared integrations use this marker to select cf's auth profile.
 		CLOUDFLARE_CF_AUTH: "true",
-	};
-	if (verb !== "dev") {
-		return env;
-	}
-
-	return {
-		...env,
-		...getCloudflareRegistryEnvironment(env),
 	};
 }
 

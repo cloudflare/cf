@@ -44,12 +44,11 @@ export function useWorkflowPeer(): WorkflowPeer {
 		root = mkdtempSync(join(tmpdir(), "cf-workflow-peer-"));
 		const registryPath = join(root, "registry");
 		const persistTo = join(root, "state");
-		vi.stubEnv("CLOUDFLARE_REGISTRY_PATH", registryPath);
+		vi.stubEnv("CLOUDFLARE_DEV_REGISTRY_PATH", registryPath);
 
 		peer = new Miniflare({
 			unsafeLocalExplorer: true,
 			unsafeEnableSharedStorage: true,
-			unsafeDevRegistryPath: registryPath,
 			resourcePersistencePath: join(persistTo, "v3"),
 			isolatedResourcePersistencePath: join(root, "isolated"),
 			workers: [

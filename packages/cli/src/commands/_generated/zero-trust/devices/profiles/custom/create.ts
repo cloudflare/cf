@@ -107,6 +107,11 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "Whether to add Microsoft IPs to Split Tunnel exclusions.",
 			default: false,
 		})
+		.option("global-acceleration-allow-manual-override", {
+			type: "boolean",
+			description:
+				"Whether WARP users may manually override the automatic Global Acceleration decision. Defaults to true when not provided.",
+		})
 		.option("global-acceleration-api-endpoints", {
 			type: "string",
 			array: true,
@@ -255,6 +260,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		})
 		.check((argv) => {
 			const groupSet = [
+				"global-acceleration-allow-manual-override",
 				"global-acceleration-api-endpoints",
 				"global-acceleration-autoswitch",
 				"global-acceleration-enabled",
@@ -318,6 +324,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						"enable-device-credential-authentication",
 						"enabled",
 						"exclude-office-ips",
+						"global-acceleration-allow-manual-override",
 						"global-acceleration-autoswitch",
 						"global-acceleration-enabled",
 						"profile-type",
@@ -371,6 +378,8 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 										exclude: parseObjectArray(argv["exclude"], "exclude"),
 										exclude_office_ips: argv["exclude-office-ips"],
 										global_acceleration: {
+											allow_manual_override:
+												argv["global-acceleration-allow-manual-override"],
 											api_endpoints: argv["global-acceleration-api-endpoints"],
 											autoswitch: argv["global-acceleration-autoswitch"],
 											enabled: argv["global-acceleration-enabled"],
@@ -477,6 +486,8 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					exclude: parseObjectArray(argv["exclude"], "exclude"),
 					exclude_office_ips: argv["exclude-office-ips"],
 					global_acceleration: {
+						allow_manual_override:
+							argv["global-acceleration-allow-manual-override"],
 						api_endpoints: argv["global-acceleration-api-endpoints"],
 						autoswitch: argv["global-acceleration-autoswitch"],
 						enabled: argv["global-acceleration-enabled"],

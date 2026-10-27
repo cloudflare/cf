@@ -1,3 +1,4 @@
+import { secretsFileDescription } from "./secrets-file-description.js";
 import type { CommandMeta } from "../../lib/command-meta.js";
 
 export default [
@@ -34,8 +35,7 @@ export default [
 				name: "secrets-file",
 				type: "string",
 				required: false,
-				description:
-					"Path to a file containing secrets to upload with the version (JSON or .env format)",
+				description: secretsFileDescription,
 			},
 			{
 				name: "dry-run",

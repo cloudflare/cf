@@ -1,3 +1,4 @@
+import $activationcheck from "./activation-check/index.js";
 import $aegis from "./aegis/index.js";
 import $automaticplatformoptimization from "./automatic-platform-optimization/index.js";
 import $binaryast from "./binary-ast/index.js";
@@ -42,6 +43,7 @@ const command: CommandModule<CommonYargsOptions> = {
 			.command($edit)
 			.command($get)
 			.command($list)
+			.command($activationcheck)
 			.command($aegis)
 			.command($automaticplatformoptimization)
 			.command($binaryast)

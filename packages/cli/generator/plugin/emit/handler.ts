@@ -201,13 +201,19 @@ export function dryRun(ctx: Ctx): string[] {
 		for (const f of d.multipartFlagFields) {
 			pushUnique(bodyKeys, kebab(f.name));
 		}
+		for (const f of d.multipartFileFields) {
+			pushUnique(bodyKeys, f.flag);
+		}
 	}
 	const bodyEntries = bodyKeys.map((k) => `${quote(k)}: ${argvKey(k)}`);
 	const json = acceptsJson(ctx);
 	const multipartOnly =
 		d.multipart !== undefined &&
 		!op.requestContentTypes.includes("application/octet-stream");
-	const flagReads = d.multipartFlagFields.map((f) => argvKey(kebab(f.name)));
+	const flagReads = [
+		...d.multipartFlagFields.map((f) => argvKey(kebab(f.name))),
+		...d.multipartFileFields.map((f) => argvKey(f.flag)),
+	];
 	const usesMultipart =
 		flagReads.length === 0
 			? "false"
@@ -374,7 +380,10 @@ function multipart(ctx: Ctx): string[] {
 	if (!info) {
 		return [];
 	}
-	const reads = d.multipartFlagFields.map((f) => argvKey(kebab(f.name)));
+	const reads = [
+		...d.multipartFlagFields.map((f) => argvKey(kebab(f.name))),
+		...d.multipartFileFields.map((f) => argvKey(f.flag)),
+	];
 	const any =
 		reads.length === 0
 			? "false"
@@ -429,6 +438,25 @@ function multipart(ctx: Ctx): string[] {
 					`        if (${read} !== undefined) formData.append('${f.name}', String(${read}));`
 				);
 		}
+	}
+	for (const { field, flag } of d.multipartFileFields) {
+		const read = argvKey(flag);
+		lines.push(`        if (${read} !== undefined) {`);
+		lines.push(`          const value = String(${read});`);
+		lines.push("          if (value.startsWith('@')) {");
+		lines.push("            const filePath = value.slice(1);");
+		lines.push(
+			`            const fileContent = resolveFileToken(value, ${quote(flag)}, 'binary') as Buffer<ArrayBuffer>;`
+		);
+		lines.push(
+			`            formData.append(${quote(field.name)}, new Blob([fileContent]), filePath.split(/[\\\\/]/).filter(Boolean).pop());`
+		);
+		lines.push("          } else {");
+		lines.push(
+			`            formData.append(${quote(field.name)}, new Blob([value]), ${quote(field.name)});`
+		);
+		lines.push("          }");
+		lines.push("        }");
 	}
 	const url = `\`${ctx.resolvedRequestPath}\``;
 	if (ctx.isRawOutput) {
@@ -1072,7 +1100,10 @@ export function imports(ctx: Ctx): Imports {
 	const flagsNeedToken = bodyArgs.some((a) => a.fromFile !== undefined);
 	const nonJsonBody = d.hasBody && !acceptsJson(ctx);
 	const needsToken =
-		flagsNeedToken || d.multipartFlagFields.length > 0 || nonJsonBody;
+		flagsNeedToken ||
+		d.multipartFlagFields.length > 0 ||
+		d.multipartFileFields.length > 0 ||
+		nonJsonBody;
 	if (needsToken || d.hasFileUpload) {
 		const names: string[] = [];
 		if (needsToken) {

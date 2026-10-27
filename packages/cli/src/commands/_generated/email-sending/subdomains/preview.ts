@@ -23,7 +23,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("name", {
 			type: "string",
 			description:
-				"The domain name within the zone. A wildcard is allowed only as the complete leftmost label (`*.example.com`) and requires the account wildcard Email Sending entitlement.",
+				"The domain name within the zone. A wildcard is allowed only as the complete leftmost label (`*.example.com`) and requires the account wildcard Email Sending entitlement. The derived Return-Path hostname, including its bounce prefix, must be at most 201 characters after ASCII conversion; wildcards use the base hostname.",
 		})
 		.option("dry-run", {
 			type: "boolean",
@@ -91,7 +91,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				if (argv["name"] === undefined) {
 					argv["name"] = await promptForRequiredField(
 						"name",
-						"The domain name within the zone. A wildcard is allowed only as the complete leftmost label (\`*.example.com\`) and requires the account wildcard Email Sending entitlement."
+						"The domain name within the zone. A wildcard is allowed only as the complete leftmost label (\`*.example.com\`) and requires the account wildcard Email Sending entitlement. The derived Return-Path hostname, including its bounce prefix, must be at most 201 characters after ASCII conversion; wildcards use the base hostname."
 					);
 				}
 

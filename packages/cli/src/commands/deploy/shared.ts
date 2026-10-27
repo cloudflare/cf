@@ -33,6 +33,7 @@ import { withCloudflareDotEnv } from "../../lib/dotenv.js";
 import { log } from "../../lib/ui/log.js";
 import { runBuild } from "../build/index.js";
 import { createContainerDeployConfig } from "./containers.js";
+import { secretsFileDescription } from "./secrets-file-description.js";
 import type { CommonYargsOptions, InferArgs } from "../../lib/cli-types.js";
 import type { Argv } from "yargs";
 
@@ -62,8 +63,7 @@ export function sharedUploadBuilder(yargs: Argv<CommonYargsOptions>) {
 		})
 		.option("secrets-file", {
 			type: "string",
-			description:
-				"Path to a file containing secrets to upload with the version (JSON or .env format)",
+			description: secretsFileDescription,
 			requiresArg: true,
 		})
 		.option("dry-run", {

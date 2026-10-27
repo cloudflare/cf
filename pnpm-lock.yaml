@@ -387,8 +387,8 @@ importers:
         specifier: ^7.2.0
         version: 7.2.0
       miniflare:
-        specifier: 5.20261023.0-beta
-        version: 5.20261023.0-beta(@types/node@25.9.9)
+        specifier: 5.20261023.1-beta
+        version: 5.20261023.1-beta(@types/node@25.9.9)
       msw:
         specifier: 3.0.3
         version: 3.0.3(@types/node@25.9.9)(esbuild@0.28.2)(graphql@16.14.2)(supports-color@10.2.2)(tsx@4.21.0)(typescript@6.0.3)(unrun@0.2.39)(yaml@2.9.0)

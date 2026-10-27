@@ -109,7 +109,7 @@ export default [
 				type: "string",
 				required: false,
 				description:
-					"Show the permissions in the product areas matching this name, such as dns or developer",
+					"Show the granted permissions in product areas matching this name, such as dns or developer",
 			},
 		],
 		options: [
@@ -117,14 +117,15 @@ export default [
 				name: "all",
 				type: "boolean",
 				required: false,
-				description: "Show the permissions of every product",
+				description: "Show every granted permission, grouped by product",
 				default: false,
 			},
 			{
 				name: "filter",
 				type: "string",
 				required: false,
-				description: "Show only the permissions whose scope contains this term",
+				description:
+					"Show the granted permissions whose scope contains this term",
 			},
 			{
 				name: "dry-run",

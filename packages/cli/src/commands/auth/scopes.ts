@@ -55,16 +55,17 @@ const scopesCommand: CommandModule<object, ScopesArgs> = {
 			.positional("product", {
 				type: "string",
 				description:
-					"Show the permissions in the product areas matching this name, such as dns or developer",
+					"Show the granted permissions in product areas matching this name, such as dns or developer",
 			})
 			.option("all", {
 				type: "boolean",
-				description: "Show the permissions of every product",
+				description: "Show every granted permission, grouped by product",
 				default: false,
 			})
 			.option("filter", {
 				type: "string",
-				description: "Show only the permissions whose scope contains this term",
+				description:
+					"Show the granted permissions whose scope contains this term",
 			}) as Argv<ScopesArgs>;
 	},
 
@@ -122,7 +123,7 @@ const scopesCommand: CommandModule<object, ScopesArgs> = {
 		if (argv.product === undefined && !argv.all && argv.filter === undefined) {
 			console.log(formatScopeSummary(scopes, catalogue));
 			log.info(
-				`Run ${theme.code("cf auth scopes <product>")} to see a product's permissions, or ${theme.code("cf auth scopes --all")} for every product.`
+				`Run ${theme.code("cf auth scopes <product>")} to see a product's permissions, or ${theme.code("cf auth scopes --all")} for every granted product.`
 			);
 			return;
 		}

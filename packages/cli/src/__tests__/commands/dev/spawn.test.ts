@@ -1,7 +1,7 @@
 import { chmodSync, mkdtempSync, readFileSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
-import { describe, expect, it } from "vite-plus/test";
+import { describe, expect, it, vi } from "vite-plus/test";
 import { findKnownImpl } from "../../../commands/dev/known-impls.js";
 import {
 	normalizeSpawnExit,
@@ -98,31 +98,39 @@ describe("spawnImpl", () => {
 		]);
 	});
 
-	it("forces dev servers onto cf's registry", async () => {
-		const envFile = join(mkdtempSync(join(tmpdir(), "cf-spawn-env-")), "env");
-		const registryPath = join(tmpdir(), "cf-test-registry");
-		const previousCloudflare = process.env.CLOUDFLARE_REGISTRY_PATH;
-		process.env.CLOUDFLARE_REGISTRY_PATH = registryPath;
-
-		try {
+	it.each([
+		["cf-wrangler.js", false],
+		["cf-vite", false],
+		["cf-wrangler.js", true],
+		["cf-vite", true],
+	] as const)(
+		"inherits registry settings without rewriting them for %s (configured: %s)",
+		async (binaryName, configured) => {
+			const envFile = join(mkdtempSync(join(tmpdir(), "cf-spawn-env-")), "env");
+			const registryEnv = {
+				CLOUDFLARE_DEV_REGISTRY_PATH: configured
+					? "canonical registry"
+					: undefined,
+				CLOUDFLARE_REGISTRY_PATH: configured ? "legacy cf registry" : undefined,
+				WRANGLER_REGISTRY_PATH: configured ? "wrangler registry" : undefined,
+				MINIFLARE_REGISTRY_PATH: configured
+					? "legacy miniflare registry"
+					: undefined,
+			};
+			for (const [name, value] of Object.entries(registryEnv)) {
+				vi.stubEnv(name, value);
+			}
 			const fake = makeFakeImpl(
-				`require("node:fs").writeFileSync(${JSON.stringify(envFile)}, [process.env.CLOUDFLARE_REGISTRY_PATH, process.env.WRANGLER_REGISTRY_PATH, process.env.MINIFLARE_REGISTRY_PATH].join("\\n"))`
+				`require("node:fs").writeFileSync(${JSON.stringify(envFile)}, JSON.stringify(${JSON.stringify(Object.keys(registryEnv))}.map(name => process.env[name])))`,
+				binaryName
 			);
 			await spawnImpl(fake, "dev", []);
 
-			expect(readFileSync(envFile, "utf8").trim().split("\n")).toEqual([
-				registryPath,
-				registryPath,
-				registryPath,
-			]);
-		} finally {
-			if (previousCloudflare === undefined) {
-				delete process.env.CLOUDFLARE_REGISTRY_PATH;
-			} else {
-				process.env.CLOUDFLARE_REGISTRY_PATH = previousCloudflare;
-			}
+			expect(JSON.parse(readFileSync(envFile, "utf8"))).toEqual(
+				Object.values(registryEnv).map((value) => value ?? null)
+			);
 		}
-	});
+	);
 
 	it("throws when the impl has no resolved binary", async () => {
 		const impl: KnownImpl = {

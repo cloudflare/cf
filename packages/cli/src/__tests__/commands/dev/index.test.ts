@@ -340,43 +340,58 @@ describe("cf dev", () => {
 			);
 		});
 
-		it("runs a detected Vite dev command with its environment", async () => {
-			const logMessage = vi
-				.spyOn(clack.log, "message")
-				.mockImplementation(() => {});
-			const registryPath = resolve(process.cwd(), "shared-registry");
-			vi.stubEnv("CLOUDFLARE_REGISTRY_PATH", registryPath);
-			vi.stubEnv("DEBUG", "");
-			await seed({
-				"cloudflare.config.ts": "export default {};",
-				"package.json": JSON.stringify({
-					name: "vite-project",
-					dependencies: { vite: "^7.0.0" },
-				}),
-				"package-lock.json": "{}",
-				"node_modules/vite/package.json": JSON.stringify({
-					name: "vite",
-					version: "7.0.0",
-				}),
-				"node_modules/.bin/vite": nodeScript(
-					'require("node:fs").writeFileSync("env.out", [process.env.CLOUDFLARE_VITE_FORCE_BUILD_OUTPUT, process.env.CLOUDFLARE_REGISTRY_PATH, process.env.WRANGLER_REGISTRY_PATH, process.env.MINIFLARE_REGISTRY_PATH].join("\\n") + "\\n");'
-				),
-			});
-			makeExecutable("node_modules/.bin/vite", { npmBin: true });
+		it.each([false, true])(
+			"inherits registry settings for a detected Vite dev command (configured: %s)",
+			async (configured) => {
+				const logMessage = vi
+					.spyOn(clack.log, "message")
+					.mockImplementation(() => {});
+				const registryEnv = {
+					CLOUDFLARE_DEV_REGISTRY_PATH: configured
+						? "canonical registry"
+						: undefined,
+					CLOUDFLARE_REGISTRY_PATH: configured
+						? "legacy cf registry"
+						: undefined,
+					WRANGLER_REGISTRY_PATH: configured ? "wrangler registry" : undefined,
+					MINIFLARE_REGISTRY_PATH: configured
+						? "legacy miniflare registry"
+						: undefined,
+				};
+				for (const [name, value] of Object.entries(registryEnv)) {
+					vi.stubEnv(name, value);
+				}
+				vi.stubEnv("DEBUG", "");
+				await seed({
+					"cloudflare.config.ts": "export default {};",
+					"package.json": JSON.stringify({
+						name: "vite-project",
+						dependencies: { vite: "^7.0.0" },
+					}),
+					"package-lock.json": "{}",
+					"node_modules/vite/package.json": JSON.stringify({
+						name: "vite",
+						version: "7.0.0",
+					}),
+					"node_modules/.bin/vite": nodeScript(
+						`require("node:fs").writeFileSync("env.out", JSON.stringify(["CLOUDFLARE_VITE_FORCE_BUILD_OUTPUT", ...${JSON.stringify(Object.keys(registryEnv))}].map(name => process.env[name])));`
+					),
+				});
+				makeExecutable("node_modules/.bin/vite", { npmBin: true });
 
-			const result = await runCf(["dev"]);
+				const result = await runCf(["dev"]);
 
-			expect(result.exitCode).toBe(0);
-			expect(logMessage).toHaveBeenCalledWith("Delegating to npx vite", {
-				output: process.stderr,
-				spacing: 0,
-			});
-			expect(
-				readFileSync(resolve(process.cwd(), "env.out"), "utf8")
-					.trim()
-					.split("\n")
-			).toEqual(["true", registryPath, registryPath, registryPath]);
-		});
+				expect(result.exitCode).toBe(0);
+				expect(logMessage).toHaveBeenCalledWith("Delegating to npx vite", {
+					output: process.stderr,
+					spacing: 0,
+				});
+				expect(JSON.parse(readFileSync("env.out", "utf8"))).toEqual([
+					"true",
+					...Object.values(registryEnv).map((value) => value ?? null),
+				]);
+			}
+		);
 
 		it("formats delegation without environment overrides", async () => {
 			const logMessage = vi

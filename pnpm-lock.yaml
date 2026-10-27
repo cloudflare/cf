@@ -263,8 +263,8 @@ importers:
         specifier: 2.1.5
         version: 2.1.5
       miniflare:
-        specifier: 5.20261023.0-beta
-        version: 5.20261023.0-beta(@types/node@25.9.9)
+        specifier: https://pkg.pr.new/miniflare@a84b592b570587c876380e167aa9cc9c44ecfc08
+        version: https://pkg.pr.new/miniflare@a84b592b570587c876380e167aa9cc9c44ecfc08(@types/node@25.9.9)
     devDependencies:
       '@bomb.sh/tab':
         specifier: 0.0.22
@@ -3207,6 +3207,11 @@ packages:
     resolution: {integrity: sha512-SHY8A98gCvmrnBLqABHRTSh3duAL1z+tHPRZu/tqxHFqVARrZ4oQis/ALYwp3XvzHvs6B/ff/CdcCafqP+cOFA==}
     engines: {node: '>=22.0.0'}
 
+  miniflare@https://pkg.pr.new/miniflare@a84b592b570587c876380e167aa9cc9c44ecfc08:
+    resolution: {integrity: sha512-WOhagBPB0al+oq5SslOus/cowhIIHnkqhpMVac55//0fqVdJGiXpIBhzvz/MfaGPiUQKhnXot9XIylxANE2awA==, tarball: https://pkg.pr.new/miniflare@a84b592b570587c876380e167aa9cc9c44ecfc08}
+    version: 5.20261023.0-beta
+    engines: {node: '>=22.0.0'}
+
   minimatch@10.2.6:
     resolution: {integrity: sha512-vpLQEs+VLCr1nU0BXS07maYoFwlDAH0gngQuuttxIwutDFEMHq2blX+8vpgxDdK3J1PwjCJiep77OitTZ4Ll1A==}
     engines: {node: 18 || 20 || >=22}
@@ -6030,6 +6035,19 @@ snapshots:
   mimic-fn@2.1.0: {}
 
   miniflare@5.20261023.0-beta(@types/node@25.9.9):
+    dependencies:
+      '@cspotcode/source-map-support': 0.8.1
+      sharp: 0.35.5(@types/node@25.9.9)
+      undici: 7.30.1
+      workerd: 1.20261023.1
+      ws: 8.21.0
+      youch: 4.1.0-beta.10
+    transitivePeerDependencies:
+      - '@types/node'
+      - bufferutil
+      - utf-8-validate
+
+  miniflare@https://pkg.pr.new/miniflare@a84b592b570587c876380e167aa9cc9c44ecfc08(@types/node@25.9.9):
     dependencies:
       '@cspotcode/source-map-support': 0.8.1
       sharp: 0.35.5(@types/node@25.9.9)

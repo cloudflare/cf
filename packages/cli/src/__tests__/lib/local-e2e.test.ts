@@ -1,5 +1,7 @@
 import { mkdirSync, writeFileSync } from "node:fs";
+import { resolve } from "node:path";
 import { runInTempDir } from "@cloudflare/workers-utils/test-helpers";
+import { Miniflare } from "miniflare";
 import {
 	afterEach,
 	beforeEach,
@@ -79,6 +81,96 @@ describe("cf --local end to end", () => {
 			out.mock.calls.map((call: unknown[]) => String(call[0])).join("")
 		).toBe("hello");
 	}, 60_000);
+
+	it.each([false, true])(
+		"shares KV with a live Miniflare storage owner (canonical override: %s)",
+		async (override) => {
+			vi.stubEnv(
+				"CLOUDFLARE_DEV_REGISTRY_PATH",
+				override ? "shared registry" : undefined
+			);
+			vi.stubEnv("CLOUDFLARE_REGISTRY_PATH", "legacy cf registry");
+			vi.stubEnv("WRANGLER_REGISTRY_PATH", "legacy wrangler registry");
+			vi.stubEnv("MINIFLARE_REGISTRY_PATH", "legacy miniflare registry");
+			const peer = new Miniflare({
+				cf: false,
+				resourcePersistencePath: resolve("state", "v3"),
+				isolatedResourcePersistencePath: resolve("peer-isolated"),
+				unsafeEnableSharedStorage: true,
+				workers: [
+					{
+						config: {
+							name: "registry-peer",
+							compatibilityDate: "2026-08-15",
+							manifest: {
+								mainModule: "index.mjs",
+								modules: {
+									"index.mjs": {
+										type: "esm",
+										contents: `export default {
+									async fetch(request, env) {
+										if (request.method === "PUT") {
+											await env.KV.put("greeting", await request.text());
+											return new Response(null, { status: 204 });
+										}
+										return new Response(await env.KV.get("greeting"));
+									}
+								};`,
+									},
+								},
+							},
+							env: { KV: { type: "kv", id: "e2e-namespace" } },
+						},
+					},
+				],
+			});
+			try {
+				await peer.dispatchFetch("http://localhost/", {
+					method: "PUT",
+					body: "from peer",
+				});
+
+				const local = ["--local", "--persist-to", "state"];
+				await runCf(
+					[
+						"kv",
+						"keys",
+						"get",
+						"greeting",
+						"--namespace-id",
+						"e2e-namespace",
+						"--text",
+						...local,
+					],
+					{ CLOUDFLARE_API_TOKEN: undefined }
+				);
+				expect(
+					out.mock.calls.map((call: unknown[]) => String(call[0])).join("")
+				).toBe("from peer");
+
+				await runCf(
+					[
+						"kv",
+						"keys",
+						"put",
+						"greeting",
+						"--namespace-id",
+						"e2e-namespace",
+						"--body",
+						"from cf",
+						...local,
+					],
+					{ CLOUDFLARE_API_TOKEN: undefined }
+				);
+				expect(
+					await (await peer.dispatchFetch("http://localhost/")).text()
+				).toBe("from cf");
+			} finally {
+				await peer.dispose();
+			}
+		},
+		60_000
+	);
 
 	it("applies and lists persisted D1 migrations without credentials", async () => {
 		const databaseId = "38a2e1b9-3a45-4f6e-9d0c-8b7a6c5d4e3f";

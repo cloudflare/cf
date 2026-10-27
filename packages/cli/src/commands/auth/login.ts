@@ -152,7 +152,7 @@ const loginCommand: CommandModule<object, LoginArgs> = {
 		if (state?.scopes) {
 			lines.push(
 				state.scopes.length > MAX_INLINE_SCOPES
-					? `${theme.info("Scopes:")} ${state.scopes.length} granted. Run ${theme.code("cf auth scopes")} to view them by product.`
+					? `${theme.info("Scopes:")} ${state.scopes.length} granted. Run ${theme.code("cf auth whoami")} to see the full list or ${theme.code("cf auth scopes")} to view them by product.`
 					: `${theme.info("Scopes:")} ${state.scopes.join(", ")}`
 			);
 		}

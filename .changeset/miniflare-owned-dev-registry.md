@@ -12,5 +12,4 @@ exported environment variables reach the selected project tooling unchanged.
 
 Wrangler retains its own default registry for compatibility. Set the same
 `CLOUDFLARE_DEV_REGISTRY_PATH` for cf and compatible Wrangler/Vite processes when
-they need to share development resources. Pin the merged Miniflare registry
-implementation until it is available in a published npm beta.
+they need to share development resources.

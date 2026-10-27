@@ -73,7 +73,7 @@
 		"@cloudflare/config": "0.28.1",
 		"@cloudflare/runtime-types": "0.1.16",
 		"blake3-wasm": "2.1.5",
-		"miniflare": "https://pkg.pr.new/miniflare@a84b592b570587c876380e167aa9cc9c44ecfc08"
+		"miniflare": "5.20261023.1-beta"
 	},
 	"devDependencies": {
 		"@bomb.sh/tab": "0.0.22",

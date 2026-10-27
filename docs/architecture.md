@@ -424,9 +424,6 @@ tooling, which owns any legacy variables it supports. Current Wrangler retains
 its legacy default, so cf, Vite v2, and compatible Wrangler processes need the
 same canonical override to share a registry when mixing those tools.
 
-The Miniflare dependency temporarily uses the commit-pinned pkg.pr.new build
-from merged workers-sdk PR #16494 until an npm beta includes that implementation.
-
 ### Module Workers only
 
 cf supports only ES module Workers. The service-worker format

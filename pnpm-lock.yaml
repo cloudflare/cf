@@ -263,8 +263,8 @@ importers:
         specifier: 2.1.5
         version: 2.1.5
       miniflare:
-        specifier: https://pkg.pr.new/miniflare@a84b592b570587c876380e167aa9cc9c44ecfc08
-        version: https://pkg.pr.new/miniflare@a84b592b570587c876380e167aa9cc9c44ecfc08(@types/node@25.9.9)
+        specifier: 5.20261023.1-beta
+        version: 5.20261023.1-beta(@types/node@25.9.9)
     devDependencies:
       '@bomb.sh/tab':
         specifier: 0.0.22
@@ -3207,9 +3207,8 @@ packages:
     resolution: {integrity: sha512-SHY8A98gCvmrnBLqABHRTSh3duAL1z+tHPRZu/tqxHFqVARrZ4oQis/ALYwp3XvzHvs6B/ff/CdcCafqP+cOFA==}
     engines: {node: '>=22.0.0'}
 
-  miniflare@https://pkg.pr.new/miniflare@a84b592b570587c876380e167aa9cc9c44ecfc08:
-    resolution: {integrity: sha512-WOhagBPB0al+oq5SslOus/cowhIIHnkqhpMVac55//0fqVdJGiXpIBhzvz/MfaGPiUQKhnXot9XIylxANE2awA==, tarball: https://pkg.pr.new/miniflare@a84b592b570587c876380e167aa9cc9c44ecfc08}
-    version: 5.20261023.0-beta
+  miniflare@5.20261023.1-beta:
+    resolution: {integrity: sha512-hgm1AJhwC6W+iaRhvMnfs7bPOsxjKa8LXTFR2WVPA5qA9KhpyBd2LddmT+9M9tm65VZ8YWkwQGvB+cKbqJoKeA==}
     engines: {node: '>=22.0.0'}
 
   minimatch@10.2.6:
@@ -6047,7 +6046,7 @@ snapshots:
       - bufferutil
       - utf-8-validate
 
-  miniflare@https://pkg.pr.new/miniflare@a84b592b570587c876380e167aa9cc9c44ecfc08(@types/node@25.9.9):
+  miniflare@5.20261023.1-beta(@types/node@25.9.9):
     dependencies:
       '@cspotcode/source-map-support': 0.8.1
       sharp: 0.35.5(@types/node@25.9.9)

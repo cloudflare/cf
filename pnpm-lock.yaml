@@ -178,7 +178,7 @@ overrides:
 patchedDependencies:
   '@changesets/cli@2.31.0': 059d085279022eeb7f92871a182f71310e4891b62871cfedccb21b34f4bfcd27
   '@cloudflare/containers-shared@*': ecd632c350c22e92f11dd426d4aec675be6515b0aa7e21f2ff1367e315e3ac59
-  '@cloudflare/deploy-helpers@*': c4686e94d76e7b217172959abe870d855311219631b439d142ced9e08743a6ca
+  '@cloudflare/deploy-helpers@*': d2a590470d3c93c5ea8101c751a4f29e5d5a3b7c0207671968453b8968cabffd
 
 importers:
 
@@ -292,7 +292,7 @@ importers:
         version: 0.23.4(patch_hash=ecd632c350c22e92f11dd426d4aec675be6515b0aa7e21f2ff1367e315e3ac59)(vitest@5.0.5)
       '@cloudflare/deploy-helpers':
         specifier: 0.24.2
-        version: 0.24.2(patch_hash=c4686e94d76e7b217172959abe870d855311219631b439d142ced9e08743a6ca)(@types/node@25.9.9)(vitest@5.0.5)
+        version: 0.24.2(patch_hash=d2a590470d3c93c5ea8101c751a4f29e5d5a3b7c0207671968453b8968cabffd)(@types/node@25.9.9)(vitest@5.0.5)
       '@cloudflare/forge':
         specifier: https://pkg.pr.new/cloudflare/forge/@cloudflare/forge@260488a28036586904e9a020dea46a9bcdcea553
         version: https://pkg.pr.new/cloudflare/forge/@cloudflare/forge@260488a28036586904e9a020dea46a9bcdcea553(@bytecodealliance/jco@1.39.0)
@@ -4260,7 +4260,7 @@ snapshots:
     transitivePeerDependencies:
       - vitest
 
-  '@cloudflare/deploy-helpers@0.24.2(patch_hash=c4686e94d76e7b217172959abe870d855311219631b439d142ced9e08743a6ca)(@types/node@25.9.9)(vitest@5.0.5)':
+  '@cloudflare/deploy-helpers@0.24.2(patch_hash=d2a590470d3c93c5ea8101c751a4f29e5d5a3b7c0207671968453b8968cabffd)(@types/node@25.9.9)(vitest@5.0.5)':
     dependencies:
       '@cloudflare/cli-shared-helpers': 0.2.10(vitest@5.0.5)
       '@cloudflare/config': 0.29.0

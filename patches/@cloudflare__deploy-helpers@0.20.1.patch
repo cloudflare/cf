@@ -1,7 +1,7 @@
 diff --git a/dist/index.mjs b/dist/index.mjs
 --- a/dist/index.mjs
 +++ b/dist/index.mjs
-@@ -7333,13 +7333,8 @@
+@@ -7370,13 +7370,8 @@
        targetTag: builtImage.localTag,
        accountId,
        complianceConfig: config2,

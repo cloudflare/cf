@@ -80,10 +80,12 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		})
 		.option("id", {
 			type: "string",
+			array: true,
 			description: "Filter by a one or more device IDs.",
 		})
 		.option("tag", {
 			type: "string",
+			array: true,
 			description:
 				"Filter by one or more device tags in key:value format. Devices must match all provided tags.",
 		})

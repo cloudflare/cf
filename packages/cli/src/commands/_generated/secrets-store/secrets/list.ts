@@ -47,6 +47,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		})
 		.option("scopes", {
 			type: "string",
+			array: true,
 			description: "Only secrets with the given scopes will be returned.",
 		})
 		.option("dry-run", {

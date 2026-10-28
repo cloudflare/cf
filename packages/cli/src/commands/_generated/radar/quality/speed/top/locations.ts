@@ -23,25 +23,30 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		})
 		.option("name", {
 			type: "string",
+			array: true,
 			description: "Array of names used to label the series in the response.",
 		})
 		.option("date-end", {
 			type: "string",
+			array: true,
 			description:
 				"End of the date range (inclusive). Alternative to `dateRange`; provide together with `dateStart`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected.",
 		})
 		.option("asn", {
 			type: "string",
+			array: true,
 			description:
 				"Filters results by Autonomous System. Specify one or more Autonomous System Numbers (ASNs) as a comma-separated list. Prefix with `-` to exclude ASNs from results. For example, `-174, 3356` excludes results from AS174, but includes results from AS3356.",
 		})
 		.option("location", {
 			type: "string",
+			array: true,
 			description:
 				"Filters results by location. Specify a comma-separated list of alpha-2 codes. Prefix with `-` to exclude locations from results. For example, `-US,PT` excludes results from the US, but includes results from PT.",
 		})
 		.option("continent", {
 			type: "string",
+			array: true,
 			description:
 				"Filters results by continent. Specify a comma-separated list of alpha-2 codes. Prefix with `-` to exclude continents from results. For example, `-EU,NA` excludes results from EU, but includes results from NA.",
 		})

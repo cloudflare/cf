@@ -24,6 +24,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		)
 		.option("dataset-ids", {
 			type: "string",
+			array: true,
 			description:
 				"Array of dataset IDs to query categories from. If not provided, uses the default dataset.",
 		})

@@ -19,17 +19,20 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		)
 		.option("dimensions", {
 			type: "string",
+			array: true,
 			description:
 				"Can be used to break down the data by given attributes. Options are:\n\nDimension                 | Name                            | Example\n--------------------------|---------------------------------|--------------------------\nevent                     | Connection Event                | connect, progress, disconnect, originError, clientFiltered\nappID                     | Application ID                  | 40d67c87c6cd4b889a4fd57805225e85\ncoloName                  | Colo Name                       | SFO\nipVersion                 | IP version used by the client   | 4, 6.",
 		})
 		.option("sort", {
 			type: "string",
+			array: true,
 			description:
 				"The sort order for the result set; sort fields must be included in `metrics` or `dimensions`.",
 		})
 		.option("until", { type: "string", description: "Until" })
 		.option("metrics", {
 			type: "string",
+			array: true,
 			description:
 				"One or more metrics to compute. Options are:\n\nMetric                    | Name                                | Example                  | Unit\n--------------------------|-------------------------------------|--------------------------|--------------------------\ncount                     | Count of total events               | 1000                     | Count\nbytesIngress              | Sum of ingress bytes                | 1000                     | Sum\nbytesEgress               | Sum of egress bytes                 | 1000                     | Sum\ndurationAvg               | Average connection duration         | 1.0                      | Time in milliseconds\ndurationMedian            | Median connection duration          | 1.0                      | Time in milliseconds\nduration90th              | 90th percentile connection duration | 1.0                      | Time in milliseconds\nduration99th              | 99th percentile connection duration | 1.0                      | Time in milliseconds.",
 		})

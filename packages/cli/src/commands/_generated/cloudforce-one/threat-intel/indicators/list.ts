@@ -24,6 +24,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		)
 		.option("dataset-ids", {
 			type: "string",
+			array: true,
 			description:
 				"Dataset UUIDs to query, or one standalone scope value: 'all'/'*' or 'operational' for readable intelligence datasets (isAnalytics=false), or 'analytics' for readable analytics datasets (isAnalytics=true). If not provided, uses the default dataset.",
 		})
@@ -31,6 +32,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("page-size", { type: "number", description: "PageSize" })
 		.option("search", {
 			type: "string",
+			array: true,
 			description:
 				'Structured search as a JSON array of {field, op, value} objects. Searchable fields: value, indicatorType, uuid. Supports operators: equals, not, contains, startsWith, endsWith, gt, lt, gte, lte, like, in, find. Use the \'in\' operator with an array value to bulk-check up to 100 indicators in a single request, e.g. search=[{"field":"value","op":"in","value":["evil.com","bad.org"]}]. Multiple conditions are AND\'d together. Max 10 conditions per request.',
 		})
@@ -42,15 +44,18 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("indicator-type", { type: "string", description: "IndicatorType" })
 		.option("related-events", {
 			type: "string",
+			array: true,
 			description: "Filter by related event IDs",
 		})
 		.option("tags", {
 			type: "string",
+			array: true,
 			description:
 				"Filter by tag values or UUIDs. Indicators must have at least one of the specified tags (OR logic). Supports both tag UUID and tag value.",
 		})
 		.option("tag-search", {
 			type: "string",
+			array: true,
 			description:
 				'Structured tag-metadata filter as a JSON array of {field, op, value} objects. Operates against the per-dataset IndicatorTag mirror so you can find indicators by tag attributes (origin country, motive, sophistication, priority, etc.) without a separate Tags lookup. Common dashboard usage: drill from a country into indicators, e.g. tagSearch=[{"field":"originCountryISO","op":"in","value":["IR","CN"]}]. Country values may be passed as alpha-2, alpha-3, name, or alias (e.g. "iran"). Operators: equals, not, gt/gte/lt/lte (numeric only), contains/like/find/startsWith/endsWith (string only), in. AND-joined across entries; combined with `tags`, a matching tag must satisfy both. Max 10 entries per request, max 100 values per \'in\'. Performance notes: `originCountryISO` uses its B-tree index for equals/not/in. `priority` uses its B-tree index for numeric comparisons. Other string columns (`actorCategory`, `motive`, etc.) are case-insensitive and unindexed; current catalog size makes this a non-issue. `endsWith` and `aliasGroupNames` contains/like are leading-wildcard scans and slow on large result sets. `aliasGroupNames` matches on the JSON-encoded text, so substrings can cross alias boundaries ("apt28" also matches "apt280" when both appear in the same tag\'s alias list).',
 		})

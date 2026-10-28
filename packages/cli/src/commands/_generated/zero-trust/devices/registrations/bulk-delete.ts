@@ -25,6 +25,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		)
 		.option("id", {
 			type: "string",
+			array: true,
 			description: "A list of registration IDs to delete.",
 			demandOption: true,
 		})

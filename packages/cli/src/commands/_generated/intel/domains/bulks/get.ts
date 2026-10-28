@@ -24,6 +24,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		)
 		.option("domain", {
 			type: "string",
+			array: true,
 			description:
 				"Accepts multiple values like `?domain=cloudflare.com&domain=example.com`.",
 		})

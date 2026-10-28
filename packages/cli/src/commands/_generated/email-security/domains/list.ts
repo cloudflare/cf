@@ -51,6 +51,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		})
 		.option("domain", {
 			type: "string",
+			array: true,
 			description: "Domain names to filter by.",
 		})
 		.option("active-delivery-mode", {

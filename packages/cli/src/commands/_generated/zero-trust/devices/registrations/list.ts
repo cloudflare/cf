@@ -22,7 +22,11 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.usage(
 			"$0 zero-trust devices registrations list\n\nLists WARP registrations."
 		)
-		.option("user-id", { type: "string", description: "Filter by user ID." })
+		.option("user-id", {
+			type: "string",
+			array: true,
+			description: "Filter by user ID.",
+		})
 		.option("seen-after", {
 			type: "string",
 			description:
@@ -67,7 +71,11 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description:
 				"Opaque token indicating the starting position when requesting the next set of records. A cursor value can be obtained from the result_info.cursor field in the response.",
 		})
-		.option("id", { type: "string", description: "Filter by registration ID." })
+		.option("id", {
+			type: "string",
+			array: true,
+			description: "Filter by registration ID.",
+		})
 		.option("device-id", {
 			type: "string",
 			description: "Filter by WARP device ID.",

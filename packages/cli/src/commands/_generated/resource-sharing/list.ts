@@ -37,6 +37,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		})
 		.option("resource-types", {
 			type: "string",
+			array: true,
 			description: "Filter share resources by resource_types.",
 		})
 		.option("order", {
@@ -69,6 +70,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		})
 		.option("tag", {
 			type: "string",
+			array: true,
 			description:
 				"Filter shares by tag. Each value is either `key=value` (matches shares whose tags contain that key/value pair) or `key` alone (matches shares that have any value for that key). May be repeated; multiple `tag` parameters are ANDed together. Maximum 20 `tag` parameters per request.",
 		})

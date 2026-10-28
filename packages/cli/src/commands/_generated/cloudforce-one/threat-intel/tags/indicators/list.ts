@@ -29,6 +29,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		})
 		.option("dataset-ids", {
 			type: "string",
+			array: true,
 			description:
 				"Dataset UUIDs to scope to (repeat the param for multiple), or one standalone scope value: 'all'/'*' or 'operational' for readable intelligence datasets (isAnalytics=false), or 'analytics' for readable analytics datasets (isAnalytics=true). Analytics datasets do not expose tag associations, so 'analytics' returns an empty result. Omit for 'all'.",
 		})
@@ -37,11 +38,13 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("indicator-type", { type: "string", description: "IndicatorType" })
 		.option("related-event", {
 			type: "string",
+			array: true,
 			description:
 				"Filter indicators by related event UUID(s). Multiple UUIDs can be provided by repeating the parameter.",
 		})
 		.option("search", {
 			type: "string",
+			array: true,
 			description:
 				"Structured search as a JSON array of {field, op, value} objects. Searchable fields: value, indicatorType. Multiple conditions are AND'd together. Max 10 conditions per request.",
 		})

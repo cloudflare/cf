@@ -23,12 +23,20 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			"$0 magic-cloud-networking resources list\n\nList resources in the Resource Catalog (Closed Beta)."
 		)
 		.option("provider-id", { type: "string", description: "Provider ID" })
-		.option("resource-type", { type: "string", description: "Resource type" })
-		.option("resource-id", { type: "string", description: "Resource ID" })
+		.option("resource-type", {
+			type: "string",
+			array: true,
+			description: "Resource type",
+		})
+		.option("resource-id", {
+			type: "string",
+			array: true,
+			description: "Resource ID",
+		})
 		.option("region", { type: "string", description: "Region" })
 		.option("resource-group", { type: "string", description: "Resource group" })
 		.option("managed", { type: "boolean", description: "Managed" })
-		.option("search", { type: "string", description: "Search" })
+		.option("search", { type: "string", array: true, description: "Search" })
 		.option("order-by", {
 			type: "string",
 			description: 'One of ["id", "resource_type", "region"].',

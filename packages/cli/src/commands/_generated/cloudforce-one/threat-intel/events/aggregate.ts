@@ -30,6 +30,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		})
 		.option("dataset-id", {
 			type: "string",
+			array: true,
 			description:
 				"Dataset UUIDs to filter by, or one standalone scope value: 'all'/'*' or 'operational' for readable intelligence datasets (isAnalytics=false), or 'analytics' for readable analytics datasets (isAnalytics=true). Scope values query at most 50 datasets. If not provided, uses the default dataset.",
 		})

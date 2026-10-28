@@ -39,6 +39,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		})
 		.option("article-id", {
 			type: "string",
+			array: true,
 			description:
 				"Repeatable article UUID filter. Returns the union of matching account-owned articles; use this to list every Threat Signals article referenced by an indicator's sources.",
 		})
@@ -49,11 +50,13 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		})
 		.option("tag-id", {
 			type: "string",
+			array: true,
 			description:
 				"Repeatable tag UUID filter. An article matches any selected tag.",
 		})
 		.option("tag-category-id", {
 			type: "string",
+			array: true,
 			description:
 				"Repeatable tag-category UUID filter. An article matches any selected category; when tag_id is also present, the tag and category groups are ANDed.",
 		})

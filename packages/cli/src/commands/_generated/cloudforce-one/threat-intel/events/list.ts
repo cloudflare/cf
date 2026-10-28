@@ -27,9 +27,10 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description:
 				"Cursor for pagination. When provided, filters are embedded in the cursor so you only need to pass cursor and pageSize. Returned in the previous response's result_info.cursor field. Use cursor-based pagination for deep pagination (beyond 100,000 records) or for optimal performance.",
 		})
-		.option("search", { type: "string", description: "Search" })
+		.option("search", { type: "string", array: true, description: "Search" })
 		.option("search-branches", {
 			type: "string",
+			array: true,
 			description:
 				"JSON-encoded. OR branches of structured search filters. Filters within a branch are AND'd, branches are OR'd, and the result is AND'd with `search`: `AND(search) AND OR(AND(branch 1), ...)`. Max 8 branches of 1-10 conditions each. Not supported for analytics datasets, and `indicator` filters are not yet supported inside branches. Cursor pages carry the original branches, so do not resend them with `cursor`.",
 		})
@@ -50,6 +51,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		})
 		.option("dataset-id", {
 			type: "string",
+			array: true,
 			description:
 				"Dataset UUIDs to query, or one standalone scope value: 'all'/'*' or 'operational' for readable intelligence datasets (isAnalytics=false), or 'analytics' for readable analytics datasets (isAnalytics=true). Scope values query at most 50 datasets. If not provided, uses the default dataset.",
 		})

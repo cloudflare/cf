@@ -66,16 +66,19 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("search", { type: "string", description: "A search term." })
 		.option("remediation-statuses", {
 			type: "string",
+			array: true,
 			description:
 				"Filter finding instances by most recent remediation job status. Supports multiple comma-separated values.\nUse 'none' to filter instances with no remediation jobs or instances where the most recent job is stale.\nNote: Stale jobs (created before the instance's affliction_date) are ignored for filtering purposes, but are still included in the 'remediations' array with stale=true.",
 		})
 		.option("finding-instance-ids", {
 			type: "string",
+			array: true,
 			description:
 				"Filter finding instances by an array of finding instance IDs. Supports multiple comma-separated values.",
 		})
 		.option("asset-ids", {
 			type: "string",
+			array: true,
 			description:
 				"Filter finding instances by an array of asset IDs. Supports multiple comma-separated values.",
 		})

@@ -19,6 +19,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		)
 		.option("id", {
 			type: "string",
+			array: true,
 			description:
 				"Only return organizations with the specified IDs (ex. id=foo&id=bar). Send multiple elements\nby repeating the query value.",
 		})

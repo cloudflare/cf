@@ -24,6 +24,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		})
 		.option("status", {
 			type: "string",
+			array: true,
 			description: "Filter the list of memberships by membership status.",
 		})
 		.option("user-email", {

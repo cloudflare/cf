@@ -24,6 +24,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		)
 		.option("type", {
 			type: "string",
+			array: true,
 			description:
 				"Filters results by certificate type. Multiple types can be comma-separated.",
 		})

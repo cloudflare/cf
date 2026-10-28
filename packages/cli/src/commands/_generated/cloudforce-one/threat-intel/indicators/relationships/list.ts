@@ -34,11 +34,13 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		})
 		.option("search", {
 			type: "string",
+			array: true,
 			description:
 				'JSON array of {field, op, value} filters, AND-combined. Fields: entityType (other-end type), type (relationship type), confidence (0–100), metadata.<key>. Example: [{"field":"type","op":"equals","value":"appears_in"},{"field":"confidence","op":"gte","value":50}]',
 		})
 		.option("expand", {
 			type: "string",
+			array: true,
 			description:
 				"Comma-separated entity types to hydrate (event, indicator, tag).",
 		})

@@ -24,12 +24,24 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			"$0 security-insights count by-type\n\nRetrieves Security Center insight counts aggregated by insight type."
 		)
 		.option("dismissed", { type: "boolean", description: "Dismissed" })
-		.option("issue-class", { type: "string", description: "Issue class" })
-		.option("issue-type", { type: "string", description: "Issue type" })
-		.option("product", { type: "string", description: "Product" })
-		.option("source", { type: "string", description: "Source" })
-		.option("severity", { type: "string", description: "Severity" })
-		.option("subject", { type: "string", description: "Subject" })
+		.option("issue-class", {
+			type: "string",
+			array: true,
+			description: "Issue class",
+		})
+		.option("issue-type", {
+			type: "string",
+			array: true,
+			description: "Issue type",
+		})
+		.option("product", { type: "string", array: true, description: "Product" })
+		.option("source", { type: "string", array: true, description: "Source" })
+		.option("severity", {
+			type: "string",
+			array: true,
+			description: "Severity",
+		})
+		.option("subject", { type: "string", array: true, description: "Subject" })
 		.option("dry-run", {
 			type: "boolean",
 			description: "Validate and show what would happen without executing",

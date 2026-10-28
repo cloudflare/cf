@@ -46,6 +46,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("exclude-prefix", { type: "string", description: "Exclude prefix" })
 		.option("tun-types", {
 			type: "string",
+			array: true,
 			description: "The types of tunnels to filter by, separated by commas.",
 		})
 		.option("status", {

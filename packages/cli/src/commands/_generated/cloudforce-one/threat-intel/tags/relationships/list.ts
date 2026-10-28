@@ -29,16 +29,19 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		})
 		.option("datasets", {
 			type: "string",
+			array: true,
 			description:
 				"Comma-separated dataset UUIDs to scope to, or one standalone scope value: 'all'/'*' or 'operational' for readable intelligence datasets (isAnalytics=false), or 'analytics' for readable analytics datasets (isAnalytics=true). Analytics datasets do not expose tag associations, so 'analytics' returns an empty result. Omit for 'all'.",
 		})
 		.option("search", {
 			type: "string",
+			array: true,
 			description:
 				"JSON array of {field, op, value} filters (same as indicator list search).",
 		})
 		.option("expand", {
 			type: "string",
+			array: true,
 			description:
 				"Comma-separated entity types to hydrate (event, indicator, tag).",
 		})

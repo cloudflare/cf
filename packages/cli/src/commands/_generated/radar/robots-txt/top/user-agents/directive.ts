@@ -23,6 +23,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		})
 		.option("name", {
 			type: "string",
+			array: true,
 			description: "Array of names used to label the series in the response.",
 		})
 		.option("user-agent-category", {
@@ -32,10 +33,12 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		})
 		.option("date", {
 			type: "string",
+			array: true,
 			description: "Filters results by the specified array of dates.",
 		})
 		.option("domain-category", {
 			type: "string",
+			array: true,
 			description: "Filters results by domain category.",
 		})
 		.option("directive", {

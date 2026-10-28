@@ -32,21 +32,25 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		})
 		.option("vendors", {
 			type: "string",
+			array: true,
 			description:
 				"Filter finding types by vendor. Supports multiple comma-separated values. Each value may be either the vendor enum (GOOGLE_WORKSPACE) or the friendly name returned by the read routes (Google Workspace).",
 		})
 		.option("types", {
 			type: "string",
+			array: true,
 			description:
 				"Filter finding types by category type. Supports multiple comma-separated, case-insensitive values.",
 		})
 		.option("origins", {
 			type: "string",
+			array: true,
 			description:
 				"Filter finding types by origin. Supports multiple comma-separated, case-insensitive values.",
 		})
 		.option("severities", {
 			type: "string",
+			array: true,
 			description:
 				"Filter finding types by severity. Supports multiple comma-separated, case-insensitive values.",
 		})

@@ -48,6 +48,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		})
 		.option("asn", {
 			type: "string",
+			array: true,
 			description:
 				"Filters results by Autonomous System. Specify one or more Autonomous System Numbers (ASNs) as a comma-separated list. Prefix with `-` to exclude ASNs from results. For example, `-174, 3356` excludes results from AS174, but includes results from AS3356.",
 		})

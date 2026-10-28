@@ -29,6 +29,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		})
 		.option("device-id", {
 			type: "string",
+			array: true,
 			description:
 				"Optionally filter result stats to a specific device(s). Cannot be used in combination with colo param.",
 		})

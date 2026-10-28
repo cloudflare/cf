@@ -638,11 +638,9 @@ function queryParams(
 		const isEnum = p.enumValues !== undefined && p.enumValues.length > 0;
 		const type: ArgType = isEnum
 			? "enum"
-			: p.type === "number"
-				? "number"
-				: p.type === "boolean"
-					? "boolean"
-					: "string";
+			: p.type === "number" || p.type === "boolean" || p.type === "array"
+				? p.type
+				: "string";
 		const a = arg(
 			name,
 			description,

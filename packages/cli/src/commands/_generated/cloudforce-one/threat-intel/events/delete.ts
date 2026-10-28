@@ -30,6 +30,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		})
 		.option("event-ids", {
 			type: "string",
+			array: true,
 			description: "Array of Event IDs to delete.",
 			demandOption: true,
 		})

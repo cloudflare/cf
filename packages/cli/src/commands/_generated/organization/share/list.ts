@@ -37,6 +37,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		})
 		.option("resource-types", {
 			type: "string",
+			array: true,
 			description: "Filter share resources by resource_types.",
 		})
 		.option("order", {

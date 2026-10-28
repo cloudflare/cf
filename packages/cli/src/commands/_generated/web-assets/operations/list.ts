@@ -38,10 +38,12 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		})
 		.option("host", {
 			type: "string",
+			array: true,
 			description: "Filter results to only include the specified hosts.",
 		})
 		.option("method", {
 			type: "string",
+			array: true,
 			description: "Filter results to only include the specified HTTP methods.",
 		})
 		.option("endpoint", {
@@ -51,6 +53,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		})
 		.option("feature", {
 			type: "string",
+			array: true,
 			description:
 				"Add feature(s) to the results. The feature name that is given here corresponds to the resulting feature object. Have a look at the top-level object description for more details on the specific meaning.",
 		})

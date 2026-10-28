@@ -470,9 +470,9 @@ to know before editing `generator/plugin/`.
 - Per-field-flag `demandOption: true` is suppressed when `--body` is
   also supported (so `--body @file` isn't rejected by yargs for
   missing required fields — handler-time enforcement instead).
-- Array-typed body params (e.g. KV bulk-get's `--keys`) emit
-  `array: true, string: true` so users can do `--keys k1 k2` instead
-  of fighting JSON-string-as-array.
+- Array-typed body and query params (e.g. KV bulk-get's `--keys`) emit
+  `type: "string", array: true` so users can do `--keys k1 k2` or repeat
+  the flag. Query serialization follows the operation's `explode` setting.
 
 ### `@file` token (universal file ingestion)
 

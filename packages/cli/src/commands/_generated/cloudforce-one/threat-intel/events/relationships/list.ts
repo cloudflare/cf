@@ -43,6 +43,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		})
 		.option("indicator-type-ids", {
 			type: "string",
+			array: true,
 			description:
 				"An optional array of indicator type IDs to filter the results by.",
 		})

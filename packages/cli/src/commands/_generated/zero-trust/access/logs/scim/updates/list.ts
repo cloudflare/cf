@@ -41,38 +41,46 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		})
 		.option("idp-id", {
 			type: "string",
+			array: true,
 			description: "The unique Id of the IdP that has SCIM enabled.",
 			demandOption: true,
 		})
 		.option("status", {
 			type: "string",
+			array: true,
 			description: "The status of the SCIM request.",
 		})
 		.option("resource-type", {
 			type: "string",
+			array: true,
 			description: "The resource type of the SCIM request.",
 		})
 		.option("request-method", {
 			type: "string",
+			array: true,
 			description: "The request method of the SCIM request.",
 		})
 		.option("resource-user-email", {
 			type: "string",
+			array: true,
 			description:
 				"The email address of the SCIM User resource. Pass once for a single\nlookup (`?resource_user_email=A`) or repeat the parameter\n(`?resource_user_email=A&resource_user_email=B`) to filter by multiple\nemails in one request.",
 		})
 		.option("resource-group-name", {
 			type: "string",
+			array: true,
 			description:
 				"The display name of the SCIM Group resource. Pass once for a single\nlookup (`?resource_group_name=A`) or repeat the parameter\n(`?resource_group_name=A&resource_group_name=B`) to filter by multiple\ngroup names in one request.",
 		})
 		.option("cf-resource-id", {
 			type: "string",
+			array: true,
 			description:
 				"The unique Cloudflare-generated Id of the SCIM resource. Pass once for\na single lookup (`?cf_resource_id=A`) or repeat the parameter\n(`?cf_resource_id=A&cf_resource_id=B`) to filter by multiple resources\nin one request.",
 		})
 		.option("idp-resource-id", {
 			type: "string",
+			array: true,
 			description:
 				"The IdP-generated Id of the SCIM resource. Pass once for a single\nlookup (`?idp_resource_id=A`) or repeat the parameter\n(`?idp_resource_id=A&idp_resource_id=B`) to filter by multiple\nresources in one request.",
 		})

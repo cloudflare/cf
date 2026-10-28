@@ -25,20 +25,24 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		})
 		.option("name", {
 			type: "string",
+			array: true,
 			description: "Array of names used to label the series in the response.",
 		})
 		.option("date-range", {
 			type: "string",
+			array: true,
 			description:
 				"Filters results by relative date range ending at the current time, with each value producing a separate series. Use `<n>d` for days (up to `364d`) or `<n>w` for weeks (up to `52w`). Append `control` to request the equivalent previous period for comparison: the comparison window is shifted back by the current window's length rounded up to a whole number of weeks, so it keeps the same weekday alignment and does not overlap the current window (e.g. `7dcontrol` covers days -14 to -7, `10dcontrol` covers days -24 to -14). For example, pass `7d` and `7dcontrol` to compare this week with the previous week. All series must resolve to the same duration as the main series; relative ranges (including `control`) satisfy this automatically. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters).",
 		})
 		.option("date-start", {
 			type: "string",
+			array: true,
 			description:
 				"Start of the date range. Alternative to `dateRange`; provide together with `dateEnd`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected.",
 		})
 		.option("date-end", {
 			type: "string",
+			array: true,
 			description:
 				"End of the date range (inclusive). Alternative to `dateRange`; provide together with `dateStart`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected.",
 		})
@@ -49,69 +53,84 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		})
 		.option("ca", {
 			type: "string",
+			array: true,
 			description: "Filters results by certificate authority.",
 		})
 		.option("ca-owner", {
 			type: "string",
+			array: true,
 			description: "Filters results by certificate authority owner.",
 		})
 		.option("duration", {
 			type: "string",
+			array: true,
 			description: "Filters results by certificate duration.",
 		})
 		.option("entry-type", {
 			type: "string",
+			array: true,
 			description:
 				"Filters results by entry type (certificate vs. pre-certificate). Incompatible with the `tld` filter/dimension.",
 		})
 		.option("expiration-status", {
 			type: "string",
+			array: true,
 			description: "Filters results by expiration status (expired vs. valid).",
 		})
 		.option("has-ips", {
 			type: "string",
+			array: true,
 			description:
 				"Filters results based on whether the certificates are bound to specific IP addresses.",
 		})
 		.option("has-wildcards", {
 			type: "string",
+			array: true,
 			description:
 				"Filters results based on whether the certificates contain wildcard domains.",
 		})
 		.option("log", {
 			type: "string",
+			array: true,
 			description:
 				"Filters results by certificate log. Incompatible with the `tld` filter/dimension.",
 		})
 		.option("log-api", {
 			type: "string",
+			array: true,
 			description:
 				"Filters results by certificate log API (RFC6962 vs. static). Incompatible with the `tld` filter/dimension.",
 		})
 		.option("log-operator", {
 			type: "string",
+			array: true,
 			description:
 				"Filters results by certificate log operator. Incompatible with the `tld` filter/dimension.",
 		})
 		.option("public-key-algorithm", {
 			type: "string",
+			array: true,
 			description: "Filters results by public key algorithm.",
 		})
 		.option("signature-algorithm", {
 			type: "string",
+			array: true,
 			description: "Filters results by signature algorithm.",
 		})
 		.option("tld", {
 			type: "string",
+			array: true,
 			description:
 				"Filters results by top-level domain. Incompatible with the `log`, `logApi`, `logOperator`, and `entryType` filters/dimensions.",
 		})
 		.option("validation-level", {
 			type: "string",
+			array: true,
 			description: "Filters results by validation level.",
 		})
 		.option("unique-entries", {
 			type: "string",
+			array: true,
 			description:
 				"Specifies whether to filter out duplicate certificates and pre-certificates. Set to true for unique entries only.",
 		})

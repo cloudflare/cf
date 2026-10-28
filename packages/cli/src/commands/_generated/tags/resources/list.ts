@@ -29,6 +29,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		})
 		.option("type", {
 			type: "string",
+			array: true,
 			description:
 				"Filter by resource type. Can be repeated to filter by multiple types (OR logic). Example: ?type=zone&type=worker",
 		})
@@ -39,6 +40,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		})
 		.option("id", {
 			type: "string",
+			array: true,
 			description:
 				"Filter by resource ID. Can be repeated up to 50 times to filter by multiple IDs. Example: ?id=abc&id=def",
 		})
@@ -49,6 +51,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		})
 		.option("tag", {
 			type: "string",
+			array: true,
 			description:
 				"Filter resources by tag criteria. This parameter can be repeated multiple times, with AND logic between parameters.\n\nSupported syntax:\n- **Key-only**: `tag=<key>` - Resource must have the tag key (e.g., `tag=production`)\n- **Key-value**: `tag=<key>=<value>` - Resource must have the tag with specific value (e.g., `tag=env=prod`)\n- **Multiple values (OR)**: `tag=<key>=<v1>,<v2>` - Resource must have tag with any of the values (e.g., `tag=env=prod,staging`)\n- **Negate key-only**: `tag=!<key>` - Resource must not have the tag key (e.g., `tag=!archived`)\n- **Negate key-value**: `tag=<key>!=<value>` - Resource must not have the tag with specific value (e.g., `tag=region!=us-west-1`)\n\nMultiple tag parameters are combined with AND logic.",
 		})

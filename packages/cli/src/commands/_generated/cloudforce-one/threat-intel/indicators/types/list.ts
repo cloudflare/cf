@@ -24,6 +24,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		)
 		.option("dataset-ids", {
 			type: "string",
+			array: true,
 			description:
 				"Dataset UUIDs to query, or one standalone scope value: 'operational' for readable intelligence datasets (isAnalytics=false), 'analytics' for readable analytics datasets (isAnalytics=true), or 'all'/'*' for every readable dataset including analytics datasets. If not provided, queries all accessible datasets, including analytics datasets.",
 		})

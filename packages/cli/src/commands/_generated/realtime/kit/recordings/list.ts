@@ -73,6 +73,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		})
 		.option("status", {
 			type: "string",
+			array: true,
 			description: "Filter by one or more recording status",
 		})
 		.option("dry-run", {

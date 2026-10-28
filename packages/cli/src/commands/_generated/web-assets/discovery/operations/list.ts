@@ -27,10 +27,12 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		})
 		.option("host", {
 			type: "string",
+			array: true,
 			description: "Filter results to only include the specified hosts.",
 		})
 		.option("method", {
 			type: "string",
+			array: true,
 			description: "Filter results to only include the specified HTTP methods.",
 		})
 		.option("endpoint", {

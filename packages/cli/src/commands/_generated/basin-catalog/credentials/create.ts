@@ -79,6 +79,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 											"text"
 										),
 									}),
+						sensitiveBodyPaths: [["token"]],
 					});
 					return;
 				}
@@ -101,7 +102,8 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				if (argv["token"] === undefined) {
 					argv["token"] = await promptForRequiredField(
 						"token",
-						"Provides the Cloudflare API token for accessing R2."
+						"Provides the Cloudflare API token for accessing R2.",
+						{ kind: "secret" }
 					);
 				}
 

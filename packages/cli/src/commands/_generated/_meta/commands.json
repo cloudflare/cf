@@ -832,6 +832,12 @@
 					"description": "The data.zip_code field"
 				},
 				{
+					"name": "explanation",
+					"type": "string",
+					"required": false,
+					"description": "Optional explanation for a \"content_removed\" appeal, such as how the content was removed. Not accepted for other appeal types."
+				},
+				{
 					"name": "type",
 					"type": "string",
 					"required": false,
@@ -13035,7 +13041,7 @@
 			"command": "cf ai-security custom-topics update",
 			"name": "update",
 			"fullPath": ["ai-security", "custom-topics", "update"],
-			"description": "Update the custom topic list of the zone, overwriting it entirely with the topics in the request, so include every topic you want to keep. Changes can take up to a minute to propagate. Each entry has a `label`, used to reference the topic in rule expressions and analytics, and a `topic` description, which the classifier scores prompts against while AI Security for Apps is enabled. The following rules apply: - A zone can hold at most 20 topics. - `label` must be 2–20 characters, using only lowercase letters (a–z), digits (0–9), and hyphens. - `topic` must be 2–50 printable ASCII characters. - Labels must be unique within the zone, and so must topic descriptions.",
+			"description": "Update the custom topic list of the zone, overwriting it entirely with the topics in the request, so include every topic you want to keep. Changes can take up to a minute to propagate. Each entry has a `label`, used to reference the topic in rule expressions and analytics, and a `topic` description, which the classifier scores prompts against while AI Security for Apps is enabled. The following rules apply: - A zone can hold at most 20 topics. - `label` must be 2–20 characters, using only lowercase letters (a–z), digits (0–9), and hyphens. - `topic` must be 2–50 UTF-8 bytes. Text in any language is supported, including spaces, numbers, punctuation, and symbols. Tabs, line breaks, invalid text, and invisible formatting characters are not allowed. - Labels must be unique within the zone, and so must topic descriptions.",
 			"summary": "Update the AI Security for Apps custom topics of a zone.",
 			"usage": "cf ai-security custom-topics update [options]",
 			"arguments": [],
@@ -19339,7 +19345,7 @@
 			"fullPath": ["basin-catalog", "enable"],
 			"description": "Enable an R2 bucket as an Apache Iceberg catalog. This operation creates the necessary catalog infrastructure and activates the bucket for storing Iceberg metadata and data files.",
 			"summary": "Enable R2 bucket as a catalog",
-			"usage": "cf basin-catalog enable <bucket-name>",
+			"usage": "cf basin-catalog enable <bucket-name> [options]",
 			"arguments": [
 				{
 					"name": "bucket-name",
@@ -19351,15 +19357,27 @@
 			],
 			"options": [
 				{
+					"name": "credential-token",
+					"type": "string",
+					"required": false,
+					"description": "Provides the Cloudflare API token for accessing R2."
+				},
+				{
 					"name": "dry-run",
 					"type": "boolean",
 					"required": false,
 					"description": "Validate and show what would happen without executing",
 					"default": false
+				},
+				{
+					"name": "body",
+					"type": "string",
+					"required": false,
+					"description": "Raw JSON request body (bypasses individual flags)"
 				}
 			],
 			"category": "action",
-			"hasRequestBody": false,
+			"hasRequestBody": true,
 			"httpMethod": "POST",
 			"apiPath": "/accounts/{account_id}/basin-catalog/{bucket_name}/enable",
 			"operationId": "basin-catalog.enable",
@@ -35502,6 +35520,47 @@
 			"hideCommand": false
 		},
 		{
+			"command": "cf cloudforce-one threat-intel indicators bulk-delete",
+			"name": "bulk-delete",
+			"fullPath": [
+				"cloudforce-one",
+				"threat-intel",
+				"indicators",
+				"bulk-delete"
+			],
+			"description": "Deletes up to 200 indicators from a dataset. Pass the indicator UUIDs in `indicatorIds`; UUIDs that are not found are returned in `missingUUIDs`.",
+			"summary": "Delete indicators in bulk",
+			"usage": "cf cloudforce-one threat-intel indicators bulk-delete [options]",
+			"arguments": [],
+			"options": [
+				{
+					"name": "dataset-id",
+					"type": "string",
+					"required": true,
+					"description": "Dataset ID."
+				},
+				{
+					"name": "indicatorIds",
+					"type": "string",
+					"required": true,
+					"description": "Indicator UUIDs to delete, 1-200 per request."
+				},
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Validate and show what would happen without executing",
+					"default": false
+				}
+			],
+			"category": "action",
+			"hasRequestBody": false,
+			"httpMethod": "DELETE",
+			"apiPath": "/accounts/{account_id}/cloudforce-one/events/dataset/{dataset_id}/indicators",
+			"operationId": "cloudforce-one.threat-intel.indicators.bulk-delete",
+			"hideCommand": false
+		},
+		{
 			"command": "cf cloudforce-one threat-intel indicators create",
 			"name": "create",
 			"fullPath": ["cloudforce-one", "threat-intel", "indicators", "create"],
@@ -37315,7 +37374,7 @@
 				"articles",
 				"aggregate-relevance"
 			],
-			"description": "Beta. Counts the account's Threat Signals articles in each relevance band, for each active Priority Intelligence Requirement and across all of them. Uses the same PIRs as article relevance: active PIRs, including those the matcher paused; drafts and deleted PIRs are excluded. Articles not scored against a PIR are not counted for it. The combined counts place each article once, in the band of its best score, so they are not the sum of the per-PIR counts. All counts are read together and are exact.",
+			"description": "Beta. Counts the account's Threat Signals articles in each relevance band, for each active Priority Intelligence Requirement and across all of them. Uses the same PIRs as article relevance: active PIRs, including those the matcher paused; drafts and deleted PIRs are excluded. Articles not scored against a PIR are not counted for it. The combined counts place each article once, in the band of its best score, so they are not the sum of the per-PIR counts. read counts only read or only unread articles. All counts are read together and are exact.",
 			"summary": "Count Threat Signals articles by relevance band",
 			"usage": "cf cloudforce-one threat-signals articles aggregate-relevance [options]",
 			"arguments": [],
@@ -37331,6 +37390,12 @@
 					"type": "string",
 					"required": false,
 					"description": "Include articles published at or before this ISO 8601 date-time with Z or a numeric UTC offset; normalized to UTC."
+				},
+				{
+					"name": "read",
+					"type": "boolean",
+					"required": false,
+					"description": "Filter by read state. Accepts true, false, 1, or 0; omit to include read and unread articles."
 				},
 				{
 					"name": "dry-run",
@@ -37356,7 +37421,7 @@
 				"articles",
 				"aggregate-severity"
 			],
-			"description": "Beta. Counts the account's Threat Signals articles in each intrinsic severity band. An article's band is the severity level nearest its severity, from informational to critical. Articles without a severity are not counted. Also counts, for each active Priority Intelligence Requirement, the articles scored against it. min_relevance counts only articles at or above a relevance band: overall, for any active PIR; per PIR, for that PIR, the same rule as the per-PIR relevance counts. pir_id counts for one active PIR only. Like the article severity field, severity is reported only while the account has an active Priority Intelligence Requirement, including one the matcher paused; otherwise every count is zero and priorities is empty. All counts are read together and are exact.",
+			"description": "Beta. Counts the account's Threat Signals articles in each intrinsic severity band. An article's band is the one reported as its severity, from informational to critical. Articles without a severity are not counted. Also counts, for each active Priority Intelligence Requirement, the articles scored against it. min_relevance counts only articles at or above a relevance band: overall, for any active PIR; per PIR, for that PIR, the same rule as the per-PIR relevance counts. pir_id counts for one active PIR only. read counts only read or only unread articles, in both articles and priorities. Like the article severity field, severity is reported only while the account has an active Priority Intelligence Requirement, including one the matcher paused; otherwise every count is zero and priorities is empty. All counts are read together and are exact.",
 			"summary": "Count Threat Signals articles by severity band",
 			"usage": "cf cloudforce-one threat-signals articles aggregate-severity [options]",
 			"arguments": [],
@@ -37372,6 +37437,12 @@
 					"type": "string",
 					"required": false,
 					"description": "Include articles published at or before this ISO 8601 date-time with Z or a numeric UTC offset; normalized to UTC."
+				},
+				{
+					"name": "read",
+					"type": "boolean",
+					"required": false,
+					"description": "Filter by read state. Accepts true, false, 1, or 0; omit to include read and unread articles."
 				},
 				{
 					"name": "pir-id",
@@ -44706,7 +44777,7 @@
 			"command": "cf dns settings account nameserver-sets create",
 			"name": "create",
 			"fullPath": ["dns", "settings", "account", "nameserver-sets", "create"],
-			"description": "Creates an immutable Custom Nameserver Set. To change a set, create a new one, move any zone assignments, and delete the old set.",
+			"description": "Creates a named Custom Nameserver Set. Only the customer-defined name can be changed later. To change nameservers or addresses, create a new set, move any zone assignments, and delete the old set.",
 			"summary": "Create Custom Nameserver Set",
 			"usage": "cf dns settings account nameserver-sets create [options]",
 			"arguments": [],
@@ -44724,6 +44795,12 @@
 					"required": false,
 					"description": "Selects the account-specific IP set that supplies the nameserver addresses. Nameserver sets with the same `ip_set` and `advanced` value may reuse addresses; otherwise, they use disjoint address groups.",
 					"default": 1
+				},
+				{
+					"name": "name",
+					"type": "string",
+					"required": true,
+					"description": "Customer-defined name, unique within the account by exact string equality (case-sensitive, with no Unicode normalization). Must be valid UTF-8 and at most 255 UTF-8 bytes, not 255 characters. Only graphical Unicode characters are allowed; leading or trailing whitespace is rejected. The name can be changed without changing the set's nameservers or addresses."
 				},
 				{
 					"name": "nameservers",
@@ -44782,6 +44859,50 @@
 			"httpMethod": "DELETE",
 			"apiPath": "/accounts/{account_id}/dns_settings/nameserver_sets/{nameserver_set_id}",
 			"operationId": "dns.settings.account.nameserver-sets.delete",
+			"hideCommand": false
+		},
+		{
+			"command": "cf dns settings account nameserver-sets edit",
+			"name": "edit",
+			"fullPath": ["dns", "settings", "account", "nameserver-sets", "edit"],
+			"description": "Renames a Custom Nameserver Set owned by the account. Only name may be supplied; immutable and unknown fields are rejected even if unchanged. An empty object or the existing name is a successful no-op. Requires the account-scoped creation entitlements for the existing set.",
+			"summary": "Update Custom Nameserver Set",
+			"usage": "cf dns settings account nameserver-sets edit <nameserver-set-id> [options]",
+			"arguments": [
+				{
+					"name": "nameserver-set-id",
+					"position": 0,
+					"type": "string",
+					"required": true,
+					"description": "Identifier for a nameserver set."
+				}
+			],
+			"options": [
+				{
+					"name": "name",
+					"type": "string",
+					"required": false,
+					"description": "Customer-defined name, unique within the account by exact string equality (case-sensitive, with no Unicode normalization). Must be valid UTF-8 and at most 255 UTF-8 bytes, not 255 characters. Only graphical Unicode characters are allowed; leading or trailing whitespace is rejected. The name can be changed without changing the set's nameservers or addresses."
+				},
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Validate and show what would happen without executing",
+					"default": false
+				},
+				{
+					"name": "body",
+					"type": "string",
+					"required": false,
+					"description": "Raw JSON request body (bypasses individual flags)"
+				}
+			],
+			"category": "update",
+			"hasRequestBody": true,
+			"httpMethod": "PATCH",
+			"apiPath": "/accounts/{account_id}/dns_settings/nameserver_sets/{nameserver_set_id}",
+			"operationId": "dns.settings.account.nameserver-sets.edit",
 			"hideCommand": false
 		},
 		{
@@ -52774,7 +52895,7 @@
 			"httpMethod": "DELETE",
 			"apiPath": "/accounts/{account_id}/field_extractors/{extractor}",
 			"operationId": "field-extractors.delete",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf field-extractors get",
@@ -52806,7 +52927,7 @@
 			"httpMethod": "GET",
 			"apiPath": "/accounts/{account_id}/field_extractors/{extractor}",
 			"operationId": "field-extractors.get",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf field-extractors update",
@@ -52850,7 +52971,7 @@
 			"httpMethod": "PUT",
 			"apiPath": "/accounts/{account_id}/field_extractors/{extractor}",
 			"operationId": "field-extractors.update",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf firewall access-rules create",
@@ -53400,6 +53521,90 @@
 			"httpMethod": "PUT",
 			"apiPath": "/zones/{zone_id}/firewall/lockdowns/{lock_downs_id}",
 			"operationId": "firewall.lockdowns.update",
+			"hideCommand": false
+		},
+		{
+			"command": "cf firewall payload-logging delete",
+			"name": "delete",
+			"fullPath": ["firewall", "payload-logging", "delete"],
+			"description": "Deletes the payload logging public key of the account or zone.",
+			"summary": "Delete the payload logging key",
+			"usage": "cf firewall payload-logging delete",
+			"arguments": [],
+			"options": [
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Validate and show what would happen without executing",
+					"default": false
+				}
+			],
+			"category": "delete",
+			"hasRequestBody": false,
+			"httpMethod": "DELETE",
+			"apiPath": "/{account_or_zone}/{account_or_zone_id}/firewall/payload_logging/key",
+			"operationId": "firewall.payload-logging.delete",
+			"hideCommand": false
+		},
+		{
+			"command": "cf firewall payload-logging get",
+			"name": "get",
+			"fullPath": ["firewall", "payload-logging", "get"],
+			"description": "Fetches the public key that payload logging uses to encrypt matched payloads for the account or zone.",
+			"summary": "Get the payload logging key",
+			"usage": "cf firewall payload-logging get",
+			"arguments": [],
+			"options": [
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Validate and show what would happen without executing",
+					"default": false
+				}
+			],
+			"category": "read",
+			"hasRequestBody": false,
+			"httpMethod": "GET",
+			"apiPath": "/{account_or_zone}/{account_or_zone_id}/firewall/payload_logging/key",
+			"operationId": "firewall.payload-logging.get",
+			"hideCommand": false
+		},
+		{
+			"command": "cf firewall payload-logging update",
+			"name": "update",
+			"fullPath": ["firewall", "payload-logging", "update"],
+			"description": "Creates or replaces the public key that payload logging uses to encrypt matched payloads for the account or zone. It applies to every zone in the account or zone that has no zone key. Requires a plan that includes payload logging (Enterprise); otherwise it returns 403.",
+			"summary": "Set the payload logging key",
+			"usage": "cf firewall payload-logging update [options]",
+			"arguments": [],
+			"options": [
+				{
+					"name": "public-key",
+					"type": "string",
+					"required": true,
+					"description": "Defines the X25519 public key, as standard base64 of exactly 32 bytes, that encrypts matched payloads. Cloudflare stores only the public key; keep the private key to decrypt logged payloads."
+				},
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Validate and show what would happen without executing",
+					"default": false
+				},
+				{
+					"name": "body",
+					"type": "string",
+					"required": false,
+					"description": "Raw JSON request body (bypasses individual flags)"
+				}
+			],
+			"category": "update",
+			"hasRequestBody": true,
+			"httpMethod": "PUT",
+			"apiPath": "/{account_or_zone}/{account_or_zone_id}/firewall/payload_logging/key",
+			"operationId": "firewall.payload-logging.update",
 			"hideCommand": false
 		},
 		{
@@ -63467,6 +63672,7 @@
 					"enum": [
 						"access_requests",
 						"account_abuse_protection_events",
+						"ai_gateway_events",
 						"audit_logs",
 						"audit_logs_v2",
 						"biso_user_actions",
@@ -126470,7 +126676,7 @@
 			"httpMethod": "GET",
 			"apiPath": "/accounts/{account_id}/urlscanner/v2/responses/{response_id}",
 			"operationId": "url-scanner.responses.get",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf url-scanner scans bulk-create",
@@ -126500,7 +126706,7 @@
 			"httpMethod": "POST",
 			"apiPath": "/accounts/{account_id}/urlscanner/v2/bulk",
 			"operationId": "url-scanner.scans.bulk-create",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf url-scanner scans create",
@@ -126523,199 +126729,144 @@
 					"required": false,
 					"description": "Country to geo egress from",
 					"enum": [
-						"AF",
+						"AE",
 						"AL",
-						"DZ",
-						"AD",
-						"AO",
-						"AG",
-						"AR",
 						"AM",
-						"AU",
+						"AO",
+						"AR",
 						"AT",
+						"AU",
 						"AZ",
-						"BH",
-						"BD",
 						"BB",
-						"BY",
+						"BD",
 						"BE",
-						"BZ",
-						"BJ",
-						"BM",
-						"BT",
-						"BO",
-						"BA",
-						"BW",
-						"BR",
-						"BN",
-						"BG",
 						"BF",
-						"BI",
-						"KH",
-						"CM",
+						"BG",
+						"BH",
+						"BN",
+						"BO",
+						"BR",
+						"BT",
+						"BW",
+						"BY",
 						"CA",
-						"CV",
-						"KY",
-						"CF",
-						"TD",
-						"CL",
-						"CN",
-						"CO",
-						"KM",
-						"CG",
-						"CR",
+						"CD",
+						"CH",
 						"CI",
-						"HR",
-						"CU",
+						"CL",
+						"CM",
+						"CO",
+						"CR",
+						"CW",
 						"CY",
 						"CZ",
-						"CD",
-						"DK",
-						"DJ",
-						"DM",
-						"DO",
-						"EC",
-						"EG",
-						"SV",
-						"GQ",
-						"ER",
-						"EE",
-						"SZ",
-						"ET",
-						"FJ",
-						"FI",
-						"FR",
-						"GA",
-						"GE",
 						"DE",
+						"DJ",
+						"DK",
+						"DO",
+						"DZ",
+						"EC",
+						"EE",
+						"EG",
+						"ES",
+						"ET",
+						"FI",
+						"FJ",
+						"FR",
+						"GB",
+						"GD",
+						"GE",
 						"GH",
 						"GR",
-						"GL",
-						"GD",
 						"GT",
-						"GN",
-						"GW",
+						"GU",
 						"GY",
-						"HT",
+						"HK",
 						"HN",
+						"HR",
+						"HT",
 						"HU",
-						"IS",
-						"IN",
 						"ID",
-						"IR",
-						"IQ",
 						"IE",
 						"IL",
+						"IN",
+						"IQ",
+						"IS",
 						"IT",
 						"JM",
-						"JP",
 						"JO",
-						"KZ",
+						"JP",
 						"KE",
-						"KI",
-						"KW",
 						"KG",
+						"KH",
+						"KR",
+						"KW",
+						"KZ",
 						"LA",
-						"LV",
 						"LB",
-						"LS",
+						"LK",
 						"LR",
-						"LY",
-						"LI",
 						"LT",
 						"LU",
-						"MO",
-						"MG",
-						"MW",
-						"MY",
-						"MV",
-						"ML",
-						"MR",
-						"MU",
-						"MX",
-						"FM",
-						"MD",
-						"MC",
-						"MN",
-						"MS",
+						"LV",
 						"MA",
-						"MZ",
-						"MM",
-						"NA",
-						"NR",
-						"NP",
-						"NL",
-						"NZ",
-						"NI",
-						"NE",
-						"NG",
-						"KP",
+						"MD",
+						"MG",
 						"MK",
+						"MM",
+						"MN",
+						"MO",
+						"MT",
+						"MU",
+						"MV",
+						"MW",
+						"MX",
+						"MY",
+						"MZ",
+						"NA",
+						"NC",
+						"NG",
+						"NL",
 						"NO",
+						"NP",
+						"NZ",
 						"OM",
-						"PK",
-						"PS",
 						"PA",
-						"PG",
-						"PY",
 						"PE",
+						"PF",
 						"PH",
+						"PK",
 						"PL",
+						"PR",
+						"PS",
 						"PT",
+						"PY",
 						"QA",
+						"RE",
 						"RO",
+						"RS",
 						"RU",
 						"RW",
-						"SH",
-						"KN",
-						"LC",
-						"VC",
-						"WS",
-						"SM",
-						"ST",
 						"SA",
-						"SN",
-						"RS",
-						"SC",
-						"SL",
-						"SK",
-						"SI",
-						"SB",
-						"SO",
-						"ZA",
-						"KR",
-						"SS",
-						"ES",
-						"LK",
-						"SD",
-						"SR",
 						"SE",
-						"CH",
-						"SY",
-						"TW",
-						"TJ",
-						"TZ",
+						"SG",
+						"SI",
+						"SK",
+						"SN",
+						"SR",
 						"TH",
-						"BS",
-						"GM",
-						"TL",
-						"TG",
-						"TO",
-						"TT",
+						"TJ",
 						"TN",
 						"TR",
-						"TM",
-						"UG",
+						"TT",
+						"TW",
+						"TZ",
 						"UA",
-						"AE",
-						"GB",
+						"UG",
 						"US",
-						"UY",
 						"UZ",
-						"VU",
-						"VE",
 						"VN",
-						"YE",
+						"ZA",
 						"ZM",
 						"ZW"
 					]
@@ -126777,7 +126928,7 @@
 			"httpMethod": "POST",
 			"apiPath": "/accounts/{account_id}/urlscanner/v2/scan",
 			"operationId": "url-scanner.scans.create",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf url-scanner scans dom",
@@ -126809,7 +126960,7 @@
 			"httpMethod": "GET",
 			"apiPath": "/accounts/{account_id}/urlscanner/v2/dom/{scan_id}",
 			"operationId": "url-scanner.scans.dom",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf url-scanner scans get",
@@ -126841,7 +126992,7 @@
 			"httpMethod": "GET",
 			"apiPath": "/accounts/{account_id}/urlscanner/v2/result/{scan_id}",
 			"operationId": "url-scanner.scans.get",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf url-scanner scans har",
@@ -126873,7 +127024,7 @@
 			"httpMethod": "GET",
 			"apiPath": "/accounts/{account_id}/urlscanner/v2/har/{scan_id}",
 			"operationId": "url-scanner.scans.har",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf url-scanner scans list",
@@ -126909,7 +127060,7 @@
 			"httpMethod": "GET",
 			"apiPath": "/accounts/{account_id}/urlscanner/v2/search",
 			"operationId": "url-scanner.scans.list",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf url-scanner scans screenshot",
@@ -126948,7 +127099,7 @@
 			"httpMethod": "GET",
 			"apiPath": "/accounts/{account_id}/urlscanner/v2/screenshots/{scan_id}.png",
 			"operationId": "url-scanner.scans.screenshot",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf user audit-logs list",
@@ -140354,6 +140505,12 @@
 					"description": "The name of the Access policy."
 				},
 				{
+					"name": "policy-resolution-account-id",
+					"type": "string",
+					"required": false,
+					"description": "The account ID used to resolve policy resources and identity for cross-account WARP authentication. The account must be trusted by the account that owns this policy."
+				},
+				{
 					"name": "require",
 					"type": "string",
 					"required": false,
@@ -140587,6 +140744,12 @@
 					"type": "string",
 					"required": true,
 					"description": "The name of the Access policy."
+				},
+				{
+					"name": "policy-resolution-account-id",
+					"type": "string",
+					"required": false,
+					"description": "The account ID used to resolve policy resources and identity for cross-account WARP authentication. The account must be trusted by the account that owns this policy."
 				},
 				{
 					"name": "require",
@@ -161832,6 +161995,114 @@
 			"hideCommand": false
 		},
 		{
+			"command": "cf zero-trust organization trust-settings get",
+			"name": "get",
+			"fullPath": ["zero-trust", "organization", "trust-settings", "get"],
+			"description": "Returns the trust settings for your Zero Trust organization.",
+			"summary": "Get Zero Trust organization trust settings",
+			"usage": "cf zero-trust organization trust-settings get",
+			"arguments": [],
+			"options": [
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Validate and show what would happen without executing",
+					"default": false
+				}
+			],
+			"category": "read",
+			"hasRequestBody": false,
+			"httpMethod": "GET",
+			"apiPath": "/accounts/{account_id}/access/organizations/trust_settings",
+			"operationId": "zero-trust.organization.trust-settings.get",
+			"hideCommand": false
+		},
+		{
+			"command": "cf zero-trust organization trust-settings replace",
+			"name": "replace",
+			"fullPath": ["zero-trust", "organization", "trust-settings", "replace"],
+			"description": "Replaces the trust settings for your Zero Trust organization.",
+			"summary": "Replace Zero Trust organization trust settings",
+			"usage": "cf zero-trust organization trust-settings replace [options]",
+			"arguments": [],
+			"options": [
+				{
+					"name": "grant-trust-to-all-accounts-in-org",
+					"type": "boolean",
+					"required": true,
+					"description": "Whether all accounts in the organization are trusted to use this account's cross-account Access resources."
+				},
+				{
+					"name": "trusting-accounts",
+					"type": "string",
+					"required": false,
+					"description": "Explicit account IDs trusted to use this account's cross-account Access resources. At most 100 unique valid account IDs are accepted. Omitted from responses when empty."
+				},
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Validate and show what would happen without executing",
+					"default": false
+				},
+				{
+					"name": "body",
+					"type": "string",
+					"required": false,
+					"description": "Raw JSON request body (bypasses individual flags)"
+				}
+			],
+			"category": "action",
+			"hasRequestBody": true,
+			"httpMethod": "PUT",
+			"apiPath": "/accounts/{account_id}/access/organizations/trust_settings",
+			"operationId": "zero-trust.organization.trust-settings.replace",
+			"hideCommand": false
+		},
+		{
+			"command": "cf zero-trust organization trust-settings update",
+			"name": "update",
+			"fullPath": ["zero-trust", "organization", "trust-settings", "update"],
+			"description": "Updates the trust settings for your Zero Trust organization.",
+			"summary": "Update Zero Trust organization trust settings",
+			"usage": "cf zero-trust organization trust-settings update [options]",
+			"arguments": [],
+			"options": [
+				{
+					"name": "grant-trust-to-all-accounts-in-org",
+					"type": "boolean",
+					"required": false,
+					"description": "Whether all accounts in the organization are trusted to use this account's cross-account Access resources."
+				},
+				{
+					"name": "trusting-accounts",
+					"type": "string",
+					"required": false,
+					"description": "Explicit account IDs trusted to use this account's cross-account Access resources. At most 100 unique valid account IDs are accepted. Omitted from responses when empty."
+				},
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Validate and show what would happen without executing",
+					"default": false
+				},
+				{
+					"name": "body",
+					"type": "string",
+					"required": false,
+					"description": "Raw JSON request body (bypasses individual flags)"
+				}
+			],
+			"category": "update",
+			"hasRequestBody": true,
+			"httpMethod": "PATCH",
+			"apiPath": "/accounts/{account_id}/access/organizations/trust_settings",
+			"operationId": "zero-trust.organization.trust-settings.update",
+			"hideCommand": false
+		},
+		{
 			"command": "cf zero-trust organization update",
 			"name": "update",
 			"fullPath": ["zero-trust", "organization", "update"],
@@ -164904,6 +165175,7 @@
 		"firewall": "Legacy firewall rules, zone lockdowns, access rules, user-agent blocking, and WAF packages",
 		"firewall access-rules": "IP-based access rules that allow, block, challenge, or whitelist traffic globally or per-zone",
 		"firewall lockdowns": "Zone lockdown rules that restrict access to URLs by IP address or range",
+		"firewall payload-logging": "Account-level public key that WAF payload logging uses to encrypt matched payloads",
 		"firewall ua-rules": "Block or challenge requests based on the User-Agent header string",
 		"flagship": "flagship",
 		"flagship apps": "Operations for apps",
@@ -165686,6 +165958,7 @@
 		"zero-trust identity-providers scim users": "Operations for identity-providers.scim.users",
 		"zero-trust organization": "Operations for organization",
 		"zero-trust organization doh": "Operations for organization.doh",
+		"zero-trust organization trust-settings": "Operations for organization.trust-settings",
 		"zero-trust risk-scoring": "User Risk Scoring - retrieve and reset user risk scores",
 		"zero-trust risk-scoring behaviours": "User Risk Scoring - manage behaviors used to calculate user risk scores",
 		"zero-trust risk-scoring integrations": "User Risk Scoring - manage integrations that provide risk score signals",

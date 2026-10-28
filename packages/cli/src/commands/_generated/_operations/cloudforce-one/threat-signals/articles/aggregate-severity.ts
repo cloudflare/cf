@@ -5,5 +5,11 @@ export default {
 	method: "GET",
 	path: (request: Record<string, unknown>) =>
 		path`/accounts/${request.account_id}/cloudforce-one/v2/threat-signals/articles/severity/aggregate`,
-	query: ["published_after", "published_before", "pir_id", "min_relevance"],
+	query: [
+		"published_after",
+		"published_before",
+		"read",
+		"pir_id",
+		"min_relevance",
+	],
 } as const;

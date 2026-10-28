@@ -20,7 +20,7 @@ import { runWithTelemetry } from "#lib/telemetry/index.js";
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
 		.usage(
-			"$0 cloudforce-one threat-signals articles aggregate-relevance\n\nBeta. Counts the account's Threat Signals articles in each relevance band, for each active Priority Intelligence Requirement and across all of them. Uses the same PIRs as article relevance: active PIRs, including those the matcher paused; drafts and deleted PIRs are excluded. Articles not scored against a PIR are not counted for it. The combined counts place each article once, in the band of its best score, so they are not the sum of the per-PIR counts. All counts are read together and are exact."
+			"$0 cloudforce-one threat-signals articles aggregate-relevance\n\nBeta. Counts the account's Threat Signals articles in each relevance band, for each active Priority Intelligence Requirement and across all of them. Uses the same PIRs as article relevance: active PIRs, including those the matcher paused; drafts and deleted PIRs are excluded. Articles not scored against a PIR are not counted for it. The combined counts place each article once, in the band of its best score, so they are not the sum of the per-PIR counts. read counts only read or only unread articles. All counts are read together and are exact."
 		)
 		.option("published-after", {
 			type: "string",
@@ -31,6 +31,11 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			type: "string",
 			description:
 				"Include articles published at or before this ISO 8601 date-time with Z or a numeric UTC offset; normalized to UTC.",
+		})
+		.option("read", {
+			type: "boolean",
+			description:
+				"Filter by read state. Accepts true, false, 1, or 0; omit to include read and unread articles.",
 		})
 		.option("dry-run", {
 			type: "boolean",
@@ -50,7 +55,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			{
 				command: "cloudforce-one threat-signals articles aggregate-relevance",
 				classification: {
-					safeFlags: ["dry-run"],
+					safeFlags: ["read", "dry-run"],
 				} satisfies ArgClassification<Args>,
 			},
 			argv as Record<string, unknown>,
@@ -58,6 +63,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				const queryParams: Record<string, unknown> = {
 					published_after: argv["published-after"],
 					published_before: argv["published-before"],
+					read: argv["read"],
 				};
 				if (argv.dryRun) {
 					const __cfDryRunAccountId = await resolveAccountIdSilent();

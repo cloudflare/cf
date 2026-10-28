@@ -665,6 +665,12 @@
 					"description": "The data.zip_code field"
 				},
 				{
+					"name": "explanation",
+					"type": "string",
+					"required": false,
+					"description": "Optional explanation for a \"content_removed\" appeal, such as how the content was removed. Not accepted for other appeal types."
+				},
+				{
 					"name": "type",
 					"type": "string",
 					"required": false,
@@ -13529,8 +13535,15 @@
 				}
 			],
 			"queryParams": [],
-			"hasRequestBody": false,
-			"requestBodyFields": []
+			"hasRequestBody": true,
+			"requestBodyFields": [
+				{
+					"name": "credential-token",
+					"type": "string",
+					"required": false,
+					"description": "Provides the Cloudflare API token for accessing R2."
+				}
+			]
 		},
 		"basin-catalog get": {
 			"operationId": "basin-catalog.get",
@@ -25214,6 +25227,32 @@
 				}
 			]
 		},
+		"cloudforce-one threat-intel indicators bulk-delete": {
+			"operationId": "cloudforce-one.threat-intel.indicators.bulk-delete",
+			"httpMethod": "DELETE",
+			"path": "/accounts/{account_id}/cloudforce-one/events/dataset/{dataset_id}/indicators",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "dataset_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [
+				{
+					"name": "indicatorIds",
+					"type": "array",
+					"required": true
+				}
+			],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
 		"cloudforce-one threat-intel indicators create": {
 			"operationId": "cloudforce-one.threat-intel.indicators.create",
 			"httpMethod": "POST",
@@ -26490,6 +26529,11 @@
 					"name": "published_before",
 					"type": "string",
 					"required": false
+				},
+				{
+					"name": "read",
+					"type": "boolean",
+					"required": false
 				}
 			],
 			"hasRequestBody": false,
@@ -26515,6 +26559,11 @@
 				{
 					"name": "published_before",
 					"type": "string",
+					"required": false
+				},
+				{
+					"name": "read",
+					"type": "boolean",
 					"required": false
 				},
 				{
@@ -31333,6 +31382,12 @@
 					"description": "Selects the account-specific IP set that supplies the nameserver addresses. Nameserver sets with the same `ip_set` and `advanced` value may reuse addresses; otherwise, they use disjoint address groups."
 				},
 				{
+					"name": "name",
+					"type": "string",
+					"required": true,
+					"description": "Customer-defined name, unique within the account by exact string equality (case-sensitive, with no Unicode normalization). Must be valid UTF-8 and at most 255 UTF-8 bytes, not 255 characters. Only graphical Unicode characters are allowed; leading or trailing whitespace is rejected. The name can be changed without changing the set's nameservers or addresses."
+				},
+				{
 					"name": "nameservers",
 					"type": "string",
 					"required": true,
@@ -31359,6 +31414,33 @@
 			"queryParams": [],
 			"hasRequestBody": false,
 			"requestBodyFields": []
+		},
+		"dns settings account nameserver-sets edit": {
+			"operationId": "dns.settings.account.nameserver-sets.edit",
+			"httpMethod": "PATCH",
+			"path": "/accounts/{account_id}/dns_settings/nameserver_sets/{nameserver_set_id}",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "nameserver_set_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": true,
+			"requestBodyFields": [
+				{
+					"name": "name",
+					"type": "string",
+					"required": false,
+					"description": "Customer-defined name, unique within the account by exact string equality (case-sensitive, with no Unicode normalization). Must be valid UTF-8 and at most 255 UTF-8 bytes, not 255 characters. Only graphical Unicode characters are allowed; leading or trailing whitespace is rejected. The name can be changed without changing the set's nameservers or addresses."
+				}
+			]
 		},
 		"dns settings account nameserver-sets get": {
 			"operationId": "dns.settings.account.nameserver-sets.get",
@@ -37411,6 +37493,73 @@
 					"type": "string",
 					"required": true,
 					"description": "The URLs to include in the current WAF override. You can use wildcards. Each entered URL will be escaped before use, which means you can only use simple wildcard patterns."
+				}
+			]
+		},
+		"firewall payload-logging delete": {
+			"operationId": "firewall.payload-logging.delete",
+			"httpMethod": "DELETE",
+			"path": "/{account_or_zone}/{account_or_zone_id}/firewall/payload_logging/key",
+			"pathParams": [
+				{
+					"name": "account_or_zone",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "account_or_zone_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"firewall payload-logging get": {
+			"operationId": "firewall.payload-logging.get",
+			"httpMethod": "GET",
+			"path": "/{account_or_zone}/{account_or_zone_id}/firewall/payload_logging/key",
+			"pathParams": [
+				{
+					"name": "account_or_zone",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "account_or_zone_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"firewall payload-logging update": {
+			"operationId": "firewall.payload-logging.update",
+			"httpMethod": "PUT",
+			"path": "/{account_or_zone}/{account_or_zone_id}/firewall/payload_logging/key",
+			"pathParams": [
+				{
+					"name": "account_or_zone",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "account_or_zone_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": true,
+			"requestBodyFields": [
+				{
+					"name": "public-key",
+					"type": "string",
+					"required": true,
+					"description": "Defines the X25519 public key, as standard base64 of exactly 32 bytes, that encrypts matched payloads. Cloudflare stores only the public key; keep the private key to decrypt logged payloads."
 				}
 			]
 		},
@@ -97678,6 +97827,12 @@
 					"description": "The name of the Access policy."
 				},
 				{
+					"name": "policy-resolution-account-id",
+					"type": "string",
+					"required": false,
+					"description": "The account ID used to resolve policy resources and identity for cross-account WARP authentication. The account must be trusted by the account that owns this policy."
+				},
+				{
 					"name": "require",
 					"type": "string",
 					"required": false,
@@ -97859,6 +98014,12 @@
 					"type": "string",
 					"required": true,
 					"description": "The name of the Access policy."
+				},
+				{
+					"name": "policy-resolution-account-id",
+					"type": "string",
+					"required": false,
+					"description": "The account ID used to resolve policy resources and identity for cross-account WARP authentication. The account must be trusted by the account that owns this policy."
 				},
 				{
 					"name": "require",
@@ -113141,6 +113302,77 @@
 			"queryParams": [],
 			"hasRequestBody": false,
 			"requestBodyFields": []
+		},
+		"zero-trust organization trust-settings get": {
+			"operationId": "zero-trust.organization.trust-settings.get",
+			"httpMethod": "GET",
+			"path": "/accounts/{account_id}/access/organizations/trust_settings",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"zero-trust organization trust-settings replace": {
+			"operationId": "zero-trust.organization.trust-settings.replace",
+			"httpMethod": "PUT",
+			"path": "/accounts/{account_id}/access/organizations/trust_settings",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": true,
+			"requestBodyFields": [
+				{
+					"name": "grant-trust-to-all-accounts-in-org",
+					"type": "boolean",
+					"required": true,
+					"description": "Whether all accounts in the organization are trusted to use this account's cross-account Access resources."
+				},
+				{
+					"name": "trusting-accounts",
+					"type": "string",
+					"required": false,
+					"description": "Explicit account IDs trusted to use this account's cross-account Access resources. At most 100 unique valid account IDs are accepted. Omitted from responses when empty."
+				}
+			]
+		},
+		"zero-trust organization trust-settings update": {
+			"operationId": "zero-trust.organization.trust-settings.update",
+			"httpMethod": "PATCH",
+			"path": "/accounts/{account_id}/access/organizations/trust_settings",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": true,
+			"requestBodyFields": [
+				{
+					"name": "grant-trust-to-all-accounts-in-org",
+					"type": "boolean",
+					"required": false,
+					"description": "Whether all accounts in the organization are trusted to use this account's cross-account Access resources."
+				},
+				{
+					"name": "trusting-accounts",
+					"type": "string",
+					"required": false,
+					"description": "Explicit account IDs trusted to use this account's cross-account Access resources. At most 100 unique valid account IDs are accepted. Omitted from responses when empty."
+				}
+			]
 		},
 		"zero-trust organization update": {
 			"operationId": "zero-trust.organization.update",

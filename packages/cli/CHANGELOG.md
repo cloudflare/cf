@@ -1,5 +1,45 @@
 # cf
 
+## 1.0.0-beta.25
+
+### Minor Changes
+
+- 24e9142: Group OAuth scopes by product
+
+  `cf auth login` now summarizes granted scopes instead of hinting at the full list, and the new `cf auth scopes` command shows them in the product categories of Cloudflare's OAuth scope catalogue, which it caches for a day. Scopes the catalogue does not categorize are listed under Uncategorized. Pass a product name, `--all`, or `--filter <term>` to list the permissions, with non-read access highlighted and non-default scopes marked as custom. `cf auth whoami` is unchanged.
+
+- d11af6b: Update the generated command surface for Forge OpenAPI release
+  `c4fbef6545cc3ae3ef7724398dc12e1fecbd9183`.
+- b53a8be: Update the generated command surface for Forge OpenAPI release
+  `d35bb4402f3864b83e802be14ca7f58eb920528b`.
+
+### Patch Changes
+
+- cc21ffb: Preserve arrays in generated query parameter flags
+
+  Accept multiple values after a query array flag, such as `--ids first second`,
+  while retaining support for repeated flags. Parse single values as arrays and
+  preserve each operation's repeated-key or comma-separated query serialization.
+
+- 5db5ab3: Update dependencies published from the Workers SDK repository:
+
+  - `@cloudflare/autoconfig`: `0.8.1` → `0.8.2`
+  - `@cloudflare/build-output-utils`: `0.9.5` → `0.9.6`
+  - `@cloudflare/cli-shared-helpers`: `0.2.9` → `0.2.10`
+  - `@cloudflare/codemods`: `0.6.1` → `0.7.0`
+  - `@cloudflare/config`: `0.28.1` → `0.29.0`
+  - `@cloudflare/containers-shared`: `0.23.3` → `0.23.4`
+  - `@cloudflare/deploy-helpers`: `0.24.1` → `0.24.2`
+  - `@cloudflare/runtime-types`: `0.1.17` → `0.1.18`
+  - `@cloudflare/workers-auth`: `0.15.1` → `0.15.2`
+  - `@cloudflare/workers-utils`: `0.49.0` → `0.50.0`
+  - `miniflare`: `5.20261023.1-beta` → `5.20261023.2-beta`
+
+- 119b2a4: Update dependencies published from the Workers SDK repository:
+
+  - `@cloudflare/deploy-helpers`: `0.24.0` → `0.24.1`
+  - `@cloudflare/runtime-types`: `0.1.16` → `0.1.17`
+
 ## 1.0.0-beta.24
 
 ### Minor Changes

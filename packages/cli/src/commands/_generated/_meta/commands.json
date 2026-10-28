@@ -2300,6 +2300,30 @@
 			"hideCommand": false
 		},
 		{
+			"command": "cf accounts entitlements get",
+			"name": "get",
+			"fullPath": ["accounts", "entitlements", "get"],
+			"description": "Returns the list of entitlements (features and their allocations) for a given account or zone. Each entitlement describes a product feature the account or zone is permitted to use and the allocation value (boolean, count, range, enum, or string) that governs its behaviour.",
+			"summary": "Get account or zone Entitlements",
+			"usage": "cf accounts entitlements get",
+			"arguments": [],
+			"options": [
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Validate and show what would happen without executing",
+					"default": false
+				}
+			],
+			"category": "read",
+			"hasRequestBody": false,
+			"httpMethod": "GET",
+			"apiPath": "/{account_or_zone}/{account_or_zone_id}/entitlements",
+			"operationId": "accounts.entitlements.get",
+			"hideCommand": false
+		},
+		{
 			"command": "cf accounts get",
 			"name": "get",
 			"fullPath": ["accounts", "get"],
@@ -164825,6 +164849,7 @@
 		"accounts billing history": "Operations for billing.history",
 		"accounts billing payment-methods": "Operations for billing.payment-methods",
 		"accounts categories": "Browse the categories used to classify applications",
+		"accounts entitlements": "Operations for entitlements",
 		"accounts logs": "Operations for logs",
 		"accounts logs audit": "Operations for logs.audit",
 		"accounts members": "Operations for members",

@@ -1575,6 +1575,26 @@
 			"hasRequestBody": false,
 			"requestBodyFields": []
 		},
+		"accounts entitlements get": {
+			"operationId": "accounts.entitlements.get",
+			"httpMethod": "GET",
+			"path": "/{account_or_zone}/{account_or_zone_id}/entitlements",
+			"pathParams": [
+				{
+					"name": "account_or_zone",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "account_or_zone_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
 		"accounts get": {
 			"operationId": "accounts.get",
 			"httpMethod": "GET",

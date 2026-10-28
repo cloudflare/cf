@@ -393,6 +393,47 @@ describe("the forge model", () => {
 		expect(code).toContain(".conflicts('id', ['name'])");
 	});
 
+	it.each(["audio/mpeg", "audio/wav"])(
+		"preserves %s responses without a binary schema format",
+		(contentType) => {
+			const files = generateFiles(
+				doc({
+					"/speech": {
+						post: {
+							"x-fern-sdk-group-name": "speech",
+							"x-fern-sdk-method-name": "create",
+							summary: "Generate speech",
+							requestBody: {
+								content: {
+									"application/json": {
+										schema: {
+											type: "object",
+											properties: { prompt: { type: "string" } },
+										},
+									},
+								},
+							},
+							responses: {
+								"200": {
+									description: "Audio bytes",
+									content: { [contentType]: { schema: { type: "string" } } },
+								},
+							},
+						},
+					},
+				})
+			);
+			const command = files.get("speech/create.ts") ?? "";
+			expect(command).toContain("fetchRawBytes(");
+			expect(command).toContain("method: 'POST'");
+			expect(command).toContain("writeRawOutput(");
+			expect(command).not.toContain("formatOutput(");
+			expect(operation(files, "speech/create")).toContain(
+				'response: "binary-response"'
+			);
+		}
+	);
+
 	it("describes the operation a typed call sends", () => {
 		const textGet = doc({
 			"/accounts/{account_id}/things/{thing_id}": {

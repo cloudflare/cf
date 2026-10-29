@@ -1,4 +1,1 @@
 packages/cli/src/commands/_generated/** linguist-generated
-
-# Keep the executable shebang valid when packing on Windows.
-packages/cli/bin/cf text eol=lf

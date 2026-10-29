@@ -34,6 +34,9 @@ catalog:
   vite: npm:@voidzero-dev/vite-plus-core@1.4.0
   vite-plus: 1.4.0
 overrides:
+  # Use the published shared packages with the commit-pinned autoconfig preview.
+  "@cloudflare/autoconfig>@cloudflare/config": 0.29.0
+  "@cloudflare/autoconfig>@cloudflare/workers-utils": 0.50.0
   vite@*: "catalog:"
   vitest@*: 5.0.5
 peerDependencyRules:

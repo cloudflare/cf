@@ -33,8 +33,10 @@ const TEMPLATE_FILES = [
 	"cloudflare.config.ts",
 	"package.json",
 	"src",
+	"test",
 	"tsconfig.json",
 	"vite.config.ts",
+	"vitest.config.ts",
 ];
 
 const PNPM_USER_AGENT = "pnpm/10.27.0 npm/? node/v24.15.0 darwin arm64";
@@ -94,18 +96,23 @@ describe("cf init", () => {
 				name: "my-app",
 				private: true,
 				type: "module",
+				engines: { node: "^22.23.0 || ^24.22.0 || ^26.12.0" },
 				scripts: {
 					dev: "cf dev",
 					build: "cf build",
 					deploy: "cf deploy",
-					typecheck: "cf workers types && tsc",
+					check: "cf workers types && vp check",
+					format: "vp fmt",
+					test: "vp test",
+					typecheck: "cf workers types && vp check --no-fmt --no-lint",
 				},
 				devDependencies: {
-					"@cloudflare/vite-plugin":
-						WORKER_TEMPLATE_DEV_DEPENDENCIES["@cloudflare/vite-plugin"],
+					...WORKER_TEMPLATE_DEV_DEPENDENCIES,
 					cf: `^${VERSION}`,
-					typescript: WORKER_TEMPLATE_DEV_DEPENDENCIES.typescript,
+				},
+				overrides: {
 					vite: WORKER_TEMPLATE_DEV_DEPENDENCIES.vite,
+					vitest: WORKER_TEMPLATE_DEV_DEPENDENCIES.vitest,
 				},
 			});
 			const config = readFileSync("my-app/cloudflare.config.ts", "utf8");
@@ -126,6 +133,7 @@ describe("cf init", () => {
 			);
 			expect(readJson("my-app/tsconfig.json").include).toEqual([
 				"src",
+				"test",
 				"cloudflare.config.ts",
 				".cloudflare/types",
 			]);
@@ -143,6 +151,43 @@ describe("cf init", () => {
 			expect(stderr()).toMatch(/cf deploy\s+Deploy to Cloudflare/);
 			expect(stderr()).not.toContain("npm run dev");
 		});
+
+		it.each(["npm", "pnpm", "yarn", "bun"])(
+			"aligns plugin dependencies with Vite+ for %s",
+			async (packageManager) => {
+				await runCf([
+					"init",
+					"my-app",
+					"--no-install",
+					"--package-manager",
+					packageManager,
+				]);
+				const pkg = readJson("my-app/package.json");
+				const versions = {
+					vite: WORKER_TEMPLATE_DEV_DEPENDENCIES.vite,
+					vitest: WORKER_TEMPLATE_DEV_DEPENDENCIES.vitest,
+				};
+				if (packageManager === "pnpm") {
+					const workspace = readFileSync("my-app/pnpm-workspace.yaml", "utf8");
+					for (const [name, version] of Object.entries(versions)) {
+						expect(workspace).toContain(`${name}: ${JSON.stringify(version)}`);
+					}
+				} else {
+					expect(
+						pkg[packageManager === "yarn" ? "resolutions" : "overrides"]
+					).toEqual(versions);
+				}
+				expect(readFileSync("my-app/vitest.config.ts", "utf8")).toContain(
+					"experimental: { newConfig: true }"
+				);
+				expect(readFileSync("my-app/vite.config.ts", "utf8")).toContain(
+					"typeAware: true, typeCheck: true"
+				);
+				expect(readFileSync("my-app/test/index.test.ts", "utf8")).toContain(
+					"SELF.fetch"
+				);
+			}
+		);
 
 		it("uses the Vite plugin beta dist-tag without Wrangler", async () => {
 			await runCf(["init", "my-app", "--no-install"]);
@@ -296,9 +341,8 @@ describe("cf init", () => {
 	describe("dependency installation", () => {
 		it("installs with the package manager that launched cf", async () => {
 			vi.mocked(runProjectCommand).mockImplementationOnce(async () => {
-				expect(readFileSync("my-app/pnpm-workspace.yaml", "utf8")).toBe(
-					"# Approve build scripts needed by the generated Worker's dependencies.\n" +
-						"allowBuilds:\n  esbuild: true\n  workerd: true\n"
+				expect(readFileSync("my-app/pnpm-workspace.yaml", "utf8")).toContain(
+					"allowBuilds:\n  esbuild: true\n  workerd: true\n"
 				);
 				return { exitCode: 0 };
 			});

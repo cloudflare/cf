@@ -10,11 +10,18 @@ interface SearchDocument {
 	command: string;
 	summary: string;
 	description: string;
+	keywords: string;
 	context: string;
 }
 
 interface SearchArgs {
 	query: string;
+}
+
+// Hidden commands stay out of results as they stay out of help and
+// completions.
+function isSearchable(command: CommandMeta): boolean {
+	return !command.hideCommand && !command.search?.exclude;
 }
 
 function toSearchDocument(
@@ -28,6 +35,7 @@ function toSearchDocument(
 		command: command.command,
 		summary: command.summary || command.description.split("\n")[0] || "",
 		description: command.description,
+		keywords: command.search?.keywords?.join(" ") ?? "",
 		context: [
 			...parents.map((path) => descriptions[path] ?? ""),
 			...command.arguments.map((arg) => `${arg.name} ${arg.description}`),
@@ -42,11 +50,11 @@ export function searchCommands(
 	metadata: CommandsMetadata,
 	query: string
 ): Pick<SearchDocument, "command" | "summary">[] {
-	const documents = metadata.commands.map((command) =>
-		toSearchDocument(command, metadata.descriptions ?? {})
-	);
+	const documents = metadata.commands
+		.filter(isSearchable)
+		.map((command) => toSearchDocument(command, metadata.descriptions ?? {}));
 	const index = new MiniSearch<SearchDocument>({
-		fields: ["command", "summary", "description", "context"],
+		fields: ["command", "summary", "description", "keywords", "context"],
 		storeFields: ["command", "summary"],
 		idField: "command",
 	});
@@ -55,7 +63,13 @@ export function searchCommands(
 		.search(query, {
 			prefix: true,
 			fuzzy: 0.2,
-			boost: { command: 8, summary: 5, description: 2, context: 0.5 },
+			boost: {
+				command: 8,
+				summary: 5,
+				description: 2,
+				keywords: 5,
+				context: 0.5,
+			},
 		})
 		.slice(0, 5)
 		.map(({ command, summary }) => ({ command, summary }));

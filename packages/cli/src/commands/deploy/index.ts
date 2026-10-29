@@ -27,7 +27,8 @@ export type DeployArgs = InferArgs<typeof builder>;
 
 const deployCommand: CommandModule<CommonYargsOptions, DeployArgs> = {
 	command: "deploy",
-	describe: "Deploy a worker to Cloudflare",
+	describe:
+		"Deploy a Worker, static site, or full-stack application to Cloudflare",
 	builder,
 	handler: async (argv) => {
 		await runUpload(argv, { command: "Deploy" });

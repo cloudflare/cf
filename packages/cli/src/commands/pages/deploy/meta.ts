@@ -7,6 +7,8 @@ export default {
 	category: "action",
 	description: "Deploy a directory of static assets as a Pages deployment.",
 	usage: "cf pages deploy [directory]",
+	// Only redirects to `cf deploy`, so it must not compete with it.
+	search: { exclude: true },
 	arguments: [
 		{
 			name: "directory",

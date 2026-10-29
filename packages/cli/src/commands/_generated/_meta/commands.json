@@ -43000,8 +43000,20 @@
 			"name": "deploy",
 			"fullPath": ["deploy"],
 			"category": "action",
-			"description": "Deploy a worker to Cloudflare",
+			"description": "Deploy a Worker, static site, or full-stack application to Cloudflare",
 			"usage": "cf deploy [options]",
+			"search": {
+				"keywords": [
+					"pages",
+					"project",
+					"website",
+					"static",
+					"site",
+					"assets",
+					"frontend",
+					"full-stack"
+				]
+			},
 			"arguments": [],
 			"options": [
 				{
@@ -83988,6 +84000,9 @@
 			"category": "action",
 			"description": "Deploy a directory of static assets as a Pages deployment.",
 			"usage": "cf pages deploy [directory]",
+			"search": {
+				"exclude": true
+			},
 			"arguments": [
 				{
 					"name": "directory",
@@ -166023,7 +166038,7 @@
 		"login": "",
 		"build": "Build a project for Cloudflare",
 		"complete": "Generate and handle shell completions",
-		"deploy": "Deploy a project to Cloudflare",
+		"deploy": "Deploy a Worker, static site, or full-stack application to Cloudflare",
 		"dev": "Run the project's Cloudflare dev server",
 		"docs": "Search live Cloudflare documentation",
 		"init": "Create a new Cloudflare project or set up an existing one",

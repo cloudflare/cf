@@ -7,8 +7,21 @@ export default [
 		name: "deploy",
 		fullPath: ["deploy"],
 		category: "action",
-		description: "Deploy a worker to Cloudflare",
+		description:
+			"Deploy a Worker, static site, or full-stack application to Cloudflare",
 		usage: "cf deploy [options]",
+		search: {
+			keywords: [
+				"pages",
+				"project",
+				"website",
+				"static",
+				"site",
+				"assets",
+				"frontend",
+				"full-stack",
+			],
+		},
 		arguments: [],
 		options: [
 			{

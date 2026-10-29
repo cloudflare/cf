@@ -12,6 +12,7 @@ import { isNonInteractiveOrCI } from "./interactive.js";
 import { createChildProcessController } from "./process.js";
 import { log } from "./ui/log.js";
 import { maybeApplyVinextCommandOverrides } from "./vinext.js";
+import { maybeApplyVitePlusCommandOverrides } from "./vite-plus.js";
 import { maybeMigrateWranglerProject } from "./wrangler-migration.js";
 import type {
 	AutoConfigContext,
@@ -76,7 +77,9 @@ export async function analyzeProject(
 			target: "cf",
 			context,
 		});
-		return maybeApplyVinextCommandOverrides(details);
+		return maybeApplyVitePlusCommandOverrides(
+			maybeApplyVinextCommandOverrides(details)
+		);
 	} catch (error) {
 		if (error instanceof AutoConfigDetectionError) {
 			context.logger.debug("Autoconfig could not detect this project:", error);

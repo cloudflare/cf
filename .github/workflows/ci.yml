@@ -88,3 +88,39 @@ jobs:
 
       - name: Run Wrangler compatibility tests
         run: pnpm --filter @cloudflare/wrangler-tests test
+
+  init:
+    if: ${{ github.repository_owner == 'cloudflare' }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+        package-manager: [npm, pnpm]
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 15
+    steps:
+      - name: Checkout
+        uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+        with:
+          persist-credentials: false
+      - name: Install dependencies
+        uses: $/.github/actions/install-dependencies
+      - name: Build and pack the CLI under test
+        shell: bash
+        run: |
+          pnpm --filter cf build
+          pnpm --filter cf pack --pack-destination "$RUNNER_TEMP"
+      - name: Create and validate a standalone Worker
+        shell: bash
+        env:
+          PACKAGE_MANAGER: ${{ matrix.package-manager }}
+          CI: "true"
+        run: |
+          pnpm --filter cf dev init "$RUNNER_TEMP/starter" --no-install --package-manager "$PACKAGE_MANAGER"
+          cd "$RUNNER_TEMP/starter"
+          "$PACKAGE_MANAGER" install
+          "$PACKAGE_MANAGER" run check
+          "$PACKAGE_MANAGER" run test
+          "$PACKAGE_MANAGER" add --save-dev "$RUNNER_TEMP"/cf-*.tgz
+          "$PACKAGE_MANAGER" run build
+          npx --no-install cf deploy --dry-run

@@ -1,5 +1,29 @@
 # cf
 
+## 1.0.0-beta.26
+
+### Minor Changes
+
+- 45e01e0: Rank `cf deploy` first for static site and Pages deploy searches
+
+  `cf cli search` now leaves out commands hidden from help, and hand-written commands can add search keywords or be excluded from results through their metadata. `cf deploy` gains keywords for static sites, Pages projects, and full-stack applications, and its description now says it deploys all three. The advisory `cf pages deploy` command, which only points to `cf deploy`, no longer appears in search results.
+
+- 8f8a0ce: Update the generated command surface for Forge OpenAPI release
+  `e2d50301c8e4b04ebc02f6632c3a317d4960819d`.
+
+### Patch Changes
+
+- 0569848: Update dependencies published from the Workers SDK repository:
+
+  - `@cloudflare/autoconfig`: `0.8.2` → `0.8.3`
+  - `@cloudflare/cli-shared-helpers`: `0.2.10` → `0.3.0`
+  - `@cloudflare/containers-shared`: `0.23.4` → `0.23.5`
+  - `@cloudflare/deploy-helpers`: `0.24.2` → `0.24.3`
+  - `@cloudflare/runtime-types`: `0.1.18` → `0.1.19`
+  - `@cloudflare/workers-auth`: `0.15.2` → `0.15.3`
+  - `@cloudflare/workers-utils`: `0.50.0` → `0.50.1`
+  - `miniflare`: `5.20261023.2-beta` → `5.20261023.3-beta`
+
 ## 1.0.0-beta.25
 
 ### Minor Changes

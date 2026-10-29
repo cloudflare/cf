@@ -1,0 +1,39 @@
+packages/cli/src/__tests__/commands/cli-search.test.ts
+  s_c6564f2125f9b6::t_dcd97ff26431ab 9,12,40,56-160
+packages/cli/src/commands/_generated/_meta/commands.json
+  s_c6564f2125f9b6::t_e0ca02622ab620 43003,43005-43016,84003-84005,166041
+packages/cli/src/commands/_generated/_meta/hand-written-commands.json
+  s_c6564f2125f9b6::t_78cc690be99483 1128,1130-1141,1421-1423
+packages/cli/src/commands/cli/search.ts
+  s_c6564f2125f9b6::t_0fa2ddb79c0714 13,21-26,38,53-55,57,66-72
+packages/cli/src/commands/deploy/index.ts
+  s_c6564f2125f9b6::t_92892dec670eb9 30-31
+packages/cli/src/commands/hand-written.ts
+  s_c6564f2125f9b6::t_6eb921c1aa84d0 110-111
+packages/cli/src/commands/pages/deploy/meta.ts
+  s_c6564f2125f9b6::t_bd1c882e990c3d 10-11
+packages/cli/src/lib/command-meta.ts
+  s_c6564f2125f9b6::t_67d207b9d99167 53-60,93-94
+packages/cli/src/lib/metadata.ts
+  s_c6564f2125f9b6::t_c638902ae34517 38
+.changeset/cli-search-ranking.md
+  s_c6564f2125f9b6::t_8689956a6ad558 1-7
+packages/cli/src/commands/deploy/meta.ts
+  s_c6564f2125f9b6::t_f7d3d53b969966 10-11,13-24
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.10",
+  "base_commit_sha": "fbc7edb4b2167fa2a6968d6a9b7f74c3497599ac",
+  "prompts": {},
+  "sessions": {
+    "s_c6564f2125f9b6": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "6f08e8fe-6211-4a99-a7a3-e273992e9798",
+        "model": "unknown"
+      },
+      "human_author": "Matt TK Taylor <matttaylor@cloudflare.com>"
+    }
+  }
+}

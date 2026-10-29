@@ -177,6 +177,13 @@ describe("cf init", () => {
 						pkg[packageManager === "yarn" ? "resolutions" : "overrides"]
 					).toEqual(versions);
 				}
+				if (packageManager === "yarn") {
+					expect(readFileSync("my-app/.yarnrc.yml", "utf8")).toBe(
+						"nodeLinker: node-modules\n"
+					);
+				} else {
+					expect(existsSync("my-app/.yarnrc.yml")).toBe(false);
+				}
 				expect(readFileSync("my-app/vitest.config.ts", "utf8")).toContain(
 					"experimental: { newConfig: true }"
 				);

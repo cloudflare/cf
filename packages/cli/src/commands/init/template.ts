@@ -26,6 +26,9 @@ export function renderWorkerTemplate(
 		...(options.packageManager === "pnpm"
 			? { "pnpm-workspace.yaml": renderPnpmWorkspace() }
 			: {}),
+		...(options.packageManager === "yarn"
+			? { ".yarnrc.yml": "nodeLinker: node-modules\n" }
+			: {}),
 		"src/index.ts": renderEntrypoint(),
 		"test/index.test.ts": renderTest(),
 		"tsconfig.json": renderTsconfig(),

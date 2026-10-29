@@ -71,8 +71,6 @@ export async function analyzeProject(
 ): Promise<AutoConfigDetails | undefined> {
 	const context = createAutoConfigContext(options);
 	try {
-		// TODO: Consume the autoconfig release containing Vite+ command detection
-		// before merging: https://github.com/cloudflare/workers-sdk/pull/16588
 		const details = await getDetailsForAutoConfig({
 			projectPath: cwd,
 			target: "cf",

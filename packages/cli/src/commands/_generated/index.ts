@@ -136,7 +136,7 @@ export const generatedCommands: GeneratedCommand[] = [
 			() => import("./analytics-engine/index.js"),
 			null
 		),
-		hideCommand: true,
+		hideCommand: false,
 	},
 	{
 		command: lazyCommand<CommonYargsOptions>(

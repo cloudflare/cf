@@ -20,7 +20,7 @@ import { runWithTelemetry } from "#lib/telemetry/index.js";
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
 		.usage(
-			"$0 artifacts namespaces repos trees get <hash>\n\nReturns decoded entries for an immutable Git tree object. Tree responses are cacheable forever by hash."
+			"$0 artifacts namespaces repos trees get <hash>\n\nReturns decoded entries for an immutable Git tree object. A commit hash returns that commit's root tree; a blob or tag hash returns 422. Tree responses are cacheable forever by hash."
 		)
 		.positional("hash", {
 			type: "string",

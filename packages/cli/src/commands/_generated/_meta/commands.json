@@ -15248,7 +15248,7 @@
 			"httpMethod": "POST",
 			"apiPath": "/accounts/{account_id}/analytics_engine/sql",
 			"operationId": "analytics-engine.sql.query",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf api-security schema-validation schemas create",
@@ -18710,7 +18710,7 @@
 			"command": "cf artifacts namespaces repos trees get",
 			"name": "get",
 			"fullPath": ["artifacts", "namespaces", "repos", "trees", "get"],
-			"description": "Returns decoded entries for an immutable Git tree object. Tree responses are cacheable forever by hash.",
+			"description": "Returns decoded entries for an immutable Git tree object. A commit hash returns that commit's root tree; a blob or tag hash returns 422. Tree responses are cacheable forever by hash.",
 			"summary": "Read a Git tree",
 			"usage": "cf artifacts namespaces repos trees get <hash> [options]",
 			"arguments": [

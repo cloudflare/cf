@@ -35,7 +35,10 @@ export function renderWorkerTemplate(
 }
 
 function renderPnpmWorkspace(): string {
-	return `# Keep the toolchain used by plugins aligned with Vite+.
+	return `packages:
+  - "."
+
+# Keep the toolchain used by plugins aligned with Vite+.
 overrides:
   vite: ${JSON.stringify(WORKER_TEMPLATE_DEV_DEPENDENCIES.vite)}
   vitest: ${JSON.stringify(WORKER_TEMPLATE_DEV_DEPENDENCIES.vitest)}

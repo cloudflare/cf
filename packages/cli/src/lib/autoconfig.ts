@@ -12,7 +12,6 @@ import { isNonInteractiveOrCI } from "./interactive.js";
 import { createChildProcessController } from "./process.js";
 import { log } from "./ui/log.js";
 import { maybeApplyVinextCommandOverrides } from "./vinext.js";
-import { maybeApplyVitePlusCommandOverrides } from "./vite-plus.js";
 import { maybeMigrateWranglerProject } from "./wrangler-migration.js";
 import type {
 	AutoConfigContext,
@@ -72,14 +71,14 @@ export async function analyzeProject(
 ): Promise<AutoConfigDetails | undefined> {
 	const context = createAutoConfigContext(options);
 	try {
+		// TODO: Consume the autoconfig release containing Vite+ command detection
+		// before merging: https://github.com/cloudflare/workers-sdk/pull/16588
 		const details = await getDetailsForAutoConfig({
 			projectPath: cwd,
 			target: "cf",
 			context,
 		});
-		return maybeApplyVitePlusCommandOverrides(
-			maybeApplyVinextCommandOverrides(details)
-		);
+		return maybeApplyVinextCommandOverrides(details);
 	} catch (error) {
 		if (error instanceof AutoConfigDetectionError) {
 			context.logger.debug("Autoconfig could not detect this project:", error);

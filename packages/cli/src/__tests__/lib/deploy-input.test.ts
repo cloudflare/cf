@@ -336,6 +336,8 @@ describe("transforms Build Output Specification into deploy input", () => {
 		const { wranglerConfig } = parseWorkerConfig(worker, rootConfig);
 
 		const argv: DeployArgs = {
+			"durable-objects-code-update-mode": undefined,
+			"durable-objects-code-update-max-delay": undefined,
 			provision: true,
 			worker: undefined,
 			"dispatch-namespace": undefined,

@@ -25,6 +25,8 @@ import type {
 } from "@cloudflare/workers-utils";
 
 type DeployUploadArgs = SharedUploadArgs & {
+	"durable-objects-code-update-mode"?: "immediate" | "deferred";
+	"durable-objects-code-update-max-delay"?: number;
 	provision?: boolean;
 	"dispatch-namespace"?: string;
 	"containers-rollout"?: "immediate" | "gradual" | "none";
@@ -107,9 +109,17 @@ export function createDeployProps(
 	argv: DeployUploadArgs,
 	containers: ContainerDeployConfig
 ): DeployProps {
+	const mode = argv["durable-objects-code-update-mode"];
+	const strategy = mode
+		? { mode, max_delay: argv["durable-objects-code-update-max-delay"] }
+		: config.durable_objects.code_update_strategy;
 	return {
 		...createSharedProps(worker, config, accountId, argv, containers),
 		command: "deploy",
+		durableObjectsCodeUpdateStrategy:
+			strategy?.mode === "immediate"
+				? { mode: "immediate" }
+				: { mode: "deferred", max_delay: strategy?.max_delay ?? 300 },
 		resourcesProvision: argv.provision ?? true,
 		containersRollout: argv["containers-rollout"],
 		triggers: config.triggers?.crons,

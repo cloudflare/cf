@@ -25,6 +25,21 @@ export default [
 		arguments: [],
 		options: [
 			{
+				name: "durable-objects-code-update-mode",
+				type: "string",
+				required: false,
+				description:
+					"When active Durable Objects adopt new code (default: deferred)",
+				enum: ["immediate", "deferred"],
+			},
+			{
+				name: "durable-objects-code-update-max-delay",
+				type: "number",
+				required: false,
+				description:
+					"Maximum deferred update delay in seconds (default: 300, maximum: 86400)",
+			},
+			{
 				name: "prebuilt",
 				type: "boolean",
 				required: false,

@@ -79,6 +79,8 @@ export type SharedUploadArgs = InferArgs<typeof sharedUploadBuilder>;
 
 type UploadCommand = { command: "Deploy" } | { command: "Version upload" };
 type UploadArgs = SharedUploadArgs & {
+	"durable-objects-code-update-mode"?: "immediate" | "deferred";
+	"durable-objects-code-update-max-delay"?: number;
 	provision?: boolean;
 	"preview-alias"?: string;
 	"containers-rollout"?: "immediate" | "gradual" | "none";

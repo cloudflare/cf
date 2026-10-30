@@ -56,7 +56,15 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("tls-settings-cert-verification-mode", {
 			type: "string",
 			description:
-				'TLS certificate verification mode for the connection to the origin.\n\n- `"verify_full"` — verify certificate chain and hostname (default)\n- `"verify_ca"` — verify certificate chain only, skip hostname check\n- `"disabled"` — do not verify the server certificate at all',
+				'TLS certificate verification mode for the connection to the origin.\n\n- `"verify_full"` — verify certificate chain and hostname (default)\n- `"verify_ca"` — verify certificate chain only, skip hostname check\n- `"disabled"` — do not verify the server certificate at all\n\n`disabled` cannot be combined with `certificate_authority`: a custom CA is\nonly used to verify the server certificate.',
+		})
+		.option("tls-settings-certificate-authority", {
+			type: "string",
+			description: "UUID of the custom CA certificate or chain.",
+		})
+		.option("tls-settings-client-certificate", {
+			type: "string",
+			description: "UUID of the mTLS client certificate and private key.",
 		})
 		.option("type", {
 			type: "string",
@@ -126,9 +134,11 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			return true;
 		})
 		.check((argv) => {
-			const groupSet = ["tls-settings-cert-verification-mode"].some(
-				(k) => argv[k] !== undefined
-			);
+			const groupSet = [
+				"tls-settings-cert-verification-mode",
+				"tls-settings-certificate-authority",
+				"tls-settings-client-certificate",
+			].some((k) => argv[k] !== undefined);
 			if (groupSet) {
 				const missing = ["tls-settings-cert-verification-mode"].filter(
 					(k) => argv[k] === undefined
@@ -219,6 +229,20 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 												"tls-settings-cert-verification-mode",
 												"text"
 											),
+											certificate_authority: resolveFileToken(
+												argv["tls-settings-certificate-authority"] as
+													| string
+													| undefined,
+												"tls-settings-certificate-authority",
+												"text"
+											),
+											client_certificate: resolveFileToken(
+												argv["tls-settings-client-certificate"] as
+													| string
+													| undefined,
+												"tls-settings-client-certificate",
+												"text"
+											),
 										},
 										type: argv["type"],
 										http_port: argv["http-port"],
@@ -299,6 +323,16 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						cert_verification_mode: resolveFileToken(
 							argv["tls-settings-cert-verification-mode"] as string | undefined,
 							"tls-settings-cert-verification-mode",
+							"text"
+						),
+						certificate_authority: resolveFileToken(
+							argv["tls-settings-certificate-authority"] as string | undefined,
+							"tls-settings-certificate-authority",
+							"text"
+						),
+						client_certificate: resolveFileToken(
+							argv["tls-settings-client-certificate"] as string | undefined,
+							"tls-settings-client-certificate",
 							"text"
 						),
 					},

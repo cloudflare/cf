@@ -1,0 +1,2070 @@
+[
+  {
+    "case": "no-args",
+    "argv": [
+      "magic-cloud-networking",
+      "on-ramps",
+      "create"
+    ],
+    "exitCode": 1,
+    "error": "--cloud-type is required (one of: AWS, AZURE, GOOGLE). Pass --cloud-type <value> or run interactively.",
+    "requests": []
+  },
+  {
+    "case": "required",
+    "argv": [
+      "magic-cloud-networking",
+      "on-ramps",
+      "create",
+      "--cloud-type",
+      "AWS",
+      "--dynamic-routing=true",
+      "--install-routes-in-cloud=true",
+      "--install-routes-in-magic-wan=true",
+      "--name",
+      "regression value &/?+ü",
+      "--type",
+      "OnrampTypeSingle",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/magic/cloud/onramps",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --forwarded",
+    "argv": [
+      "magic-cloud-networking",
+      "on-ramps",
+      "create",
+      "--cloud-type",
+      "AWS",
+      "--dynamic-routing=true",
+      "--install-routes-in-cloud=true",
+      "--install-routes-in-magic-wan=true",
+      "--name",
+      "regression value &/?+ü",
+      "--type",
+      "OnrampTypeSingle",
+      "--forwarded",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/magic/cloud/onramps",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "168",
+          "content-type": "application/json",
+          "forwarded": "regression value &/?+ü",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "cloud_type": "AWS",
+          "dynamic_routing": true,
+          "install_routes_in_cloud": true,
+          "install_routes_in_magic_wan": true,
+          "name": "regression value &/?+ü",
+          "type": "OnrampTypeSingle"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --adopted-hub-id",
+    "argv": [
+      "magic-cloud-networking",
+      "on-ramps",
+      "create",
+      "--cloud-type",
+      "AWS",
+      "--dynamic-routing=true",
+      "--install-routes-in-cloud=true",
+      "--install-routes-in-magic-wan=true",
+      "--name",
+      "regression value &/?+ü",
+      "--type",
+      "OnrampTypeSingle",
+      "--adopted-hub-id",
+      "0123456789abcdef0123456789abcdef"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/magic/cloud/onramps",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "220",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "adopted_hub_id": "0123456789abcdef0123456789abcdef",
+          "cloud_type": "AWS",
+          "dynamic_routing": true,
+          "install_routes_in_cloud": true,
+          "install_routes_in_magic_wan": true,
+          "name": "regression value &/?+ü",
+          "type": "OnrampTypeSingle"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --attached-hubs",
+    "argv": [
+      "magic-cloud-networking",
+      "on-ramps",
+      "create",
+      "--cloud-type",
+      "AWS",
+      "--dynamic-routing=true",
+      "--install-routes-in-cloud=true",
+      "--install-routes-in-magic-wan=true",
+      "--name",
+      "regression value &/?+ü",
+      "--type",
+      "OnrampTypeSingle",
+      "--attached-hubs",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/magic/cloud/onramps",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "212",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "attached_hubs": [
+            "regression value &/?+ü"
+          ],
+          "cloud_type": "AWS",
+          "dynamic_routing": true,
+          "install_routes_in_cloud": true,
+          "install_routes_in_magic_wan": true,
+          "name": "regression value &/?+ü",
+          "type": "OnrampTypeSingle"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --attached-vpcs",
+    "argv": [
+      "magic-cloud-networking",
+      "on-ramps",
+      "create",
+      "--cloud-type",
+      "AWS",
+      "--dynamic-routing=true",
+      "--install-routes-in-cloud=true",
+      "--install-routes-in-magic-wan=true",
+      "--name",
+      "regression value &/?+ü",
+      "--type",
+      "OnrampTypeSingle",
+      "--attached-vpcs",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/magic/cloud/onramps",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "212",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "attached_vpcs": [
+            "regression value &/?+ü"
+          ],
+          "cloud_type": "AWS",
+          "dynamic_routing": true,
+          "install_routes_in_cloud": true,
+          "install_routes_in_magic_wan": true,
+          "name": "regression value &/?+ü",
+          "type": "OnrampTypeSingle"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --cloud-asn",
+    "argv": [
+      "magic-cloud-networking",
+      "on-ramps",
+      "create",
+      "--cloud-type",
+      "AWS",
+      "--dynamic-routing=true",
+      "--install-routes-in-cloud=true",
+      "--install-routes-in-magic-wan=true",
+      "--name",
+      "regression value &/?+ü",
+      "--type",
+      "OnrampTypeSingle",
+      "--cloud-asn",
+      "1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/magic/cloud/onramps",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "182",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "cloud_asn": 1,
+          "cloud_type": "AWS",
+          "dynamic_routing": true,
+          "install_routes_in_cloud": true,
+          "install_routes_in_magic_wan": true,
+          "name": "regression value &/?+ü",
+          "type": "OnrampTypeSingle"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --description",
+    "argv": [
+      "magic-cloud-networking",
+      "on-ramps",
+      "create",
+      "--cloud-type",
+      "AWS",
+      "--dynamic-routing=true",
+      "--install-routes-in-cloud=true",
+      "--install-routes-in-magic-wan=true",
+      "--name",
+      "regression value &/?+ü",
+      "--type",
+      "OnrampTypeSingle",
+      "--description",
+      "192.0.2.1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/magic/cloud/onramps",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "194",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "cloud_type": "AWS",
+          "description": "192.0.2.1",
+          "dynamic_routing": true,
+          "install_routes_in_cloud": true,
+          "install_routes_in_magic_wan": true,
+          "name": "regression value &/?+ü",
+          "type": "OnrampTypeSingle"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --hub-provider-id",
+    "argv": [
+      "magic-cloud-networking",
+      "on-ramps",
+      "create",
+      "--cloud-type",
+      "AWS",
+      "--dynamic-routing=true",
+      "--install-routes-in-cloud=true",
+      "--install-routes-in-magic-wan=true",
+      "--name",
+      "regression value &/?+ü",
+      "--type",
+      "OnrampTypeSingle",
+      "--hub-provider-id",
+      "0123456789abcdef0123456789abcdef"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/magic/cloud/onramps",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "221",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "cloud_type": "AWS",
+          "dynamic_routing": true,
+          "hub_provider_id": "0123456789abcdef0123456789abcdef",
+          "install_routes_in_cloud": true,
+          "install_routes_in_magic_wan": true,
+          "name": "regression value &/?+ü",
+          "type": "OnrampTypeSingle"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --manage-hub-to-hub-attachments",
+    "argv": [
+      "magic-cloud-networking",
+      "on-ramps",
+      "create",
+      "--cloud-type",
+      "AWS",
+      "--dynamic-routing=true",
+      "--install-routes-in-cloud=true",
+      "--install-routes-in-magic-wan=true",
+      "--name",
+      "regression value &/?+ü",
+      "--type",
+      "OnrampTypeSingle",
+      "--manage-hub-to-hub-attachments=true"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/magic/cloud/onramps",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "205",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "cloud_type": "AWS",
+          "dynamic_routing": true,
+          "install_routes_in_cloud": true,
+          "install_routes_in_magic_wan": true,
+          "manage_hub_to_hub_attachments": true,
+          "name": "regression value &/?+ü",
+          "type": "OnrampTypeSingle"
+        }
+      }
+    ]
+  },
+  {
+    "case": "--manage-hub-to-hub-attachments value 1",
+    "argv": [
+      "magic-cloud-networking",
+      "on-ramps",
+      "create",
+      "--cloud-type",
+      "AWS",
+      "--dynamic-routing=true",
+      "--install-routes-in-cloud=true",
+      "--install-routes-in-magic-wan=true",
+      "--name",
+      "regression value &/?+ü",
+      "--type",
+      "OnrampTypeSingle",
+      "--manage-hub-to-hub-attachments=false"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/magic/cloud/onramps",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "206",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "cloud_type": "AWS",
+          "dynamic_routing": true,
+          "install_routes_in_cloud": true,
+          "install_routes_in_magic_wan": true,
+          "manage_hub_to_hub_attachments": false,
+          "name": "regression value &/?+ü",
+          "type": "OnrampTypeSingle"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --manage-vpc-to-hub-attachments",
+    "argv": [
+      "magic-cloud-networking",
+      "on-ramps",
+      "create",
+      "--cloud-type",
+      "AWS",
+      "--dynamic-routing=true",
+      "--install-routes-in-cloud=true",
+      "--install-routes-in-magic-wan=true",
+      "--name",
+      "regression value &/?+ü",
+      "--type",
+      "OnrampTypeSingle",
+      "--manage-vpc-to-hub-attachments=true"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/magic/cloud/onramps",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "205",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "cloud_type": "AWS",
+          "dynamic_routing": true,
+          "install_routes_in_cloud": true,
+          "install_routes_in_magic_wan": true,
+          "manage_vpc_to_hub_attachments": true,
+          "name": "regression value &/?+ü",
+          "type": "OnrampTypeSingle"
+        }
+      }
+    ]
+  },
+  {
+    "case": "--manage-vpc-to-hub-attachments value 1",
+    "argv": [
+      "magic-cloud-networking",
+      "on-ramps",
+      "create",
+      "--cloud-type",
+      "AWS",
+      "--dynamic-routing=true",
+      "--install-routes-in-cloud=true",
+      "--install-routes-in-magic-wan=true",
+      "--name",
+      "regression value &/?+ü",
+      "--type",
+      "OnrampTypeSingle",
+      "--manage-vpc-to-hub-attachments=false"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/magic/cloud/onramps",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "206",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "cloud_type": "AWS",
+          "dynamic_routing": true,
+          "install_routes_in_cloud": true,
+          "install_routes_in_magic_wan": true,
+          "manage_vpc_to_hub_attachments": false,
+          "name": "regression value &/?+ü",
+          "type": "OnrampTypeSingle"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --region",
+    "argv": [
+      "magic-cloud-networking",
+      "on-ramps",
+      "create",
+      "--cloud-type",
+      "AWS",
+      "--dynamic-routing=true",
+      "--install-routes-in-cloud=true",
+      "--install-routes-in-magic-wan=true",
+      "--name",
+      "regression value &/?+ü",
+      "--type",
+      "OnrampTypeSingle",
+      "--region",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/magic/cloud/onramps",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "203",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "cloud_type": "AWS",
+          "dynamic_routing": true,
+          "install_routes_in_cloud": true,
+          "install_routes_in_magic_wan": true,
+          "name": "regression value &/?+ü",
+          "region": "regression value &/?+ü",
+          "type": "OnrampTypeSingle"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --vpc",
+    "argv": [
+      "magic-cloud-networking",
+      "on-ramps",
+      "create",
+      "--cloud-type",
+      "AWS",
+      "--dynamic-routing=true",
+      "--install-routes-in-cloud=true",
+      "--install-routes-in-magic-wan=true",
+      "--name",
+      "regression value &/?+ü",
+      "--type",
+      "OnrampTypeSingle",
+      "--vpc",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/magic/cloud/onramps",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "200",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "cloud_type": "AWS",
+          "dynamic_routing": true,
+          "install_routes_in_cloud": true,
+          "install_routes_in_magic_wan": true,
+          "name": "regression value &/?+ü",
+          "type": "OnrampTypeSingle",
+          "vpc": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "required --cloud-type value 1",
+    "argv": [
+      "magic-cloud-networking",
+      "on-ramps",
+      "create",
+      "--dynamic-routing=true",
+      "--install-routes-in-cloud=true",
+      "--install-routes-in-magic-wan=true",
+      "--name",
+      "regression value &/?+ü",
+      "--type",
+      "OnrampTypeSingle",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--cloud-type",
+      "AZURE"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/magic/cloud/onramps",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "required --cloud-type value 2",
+    "argv": [
+      "magic-cloud-networking",
+      "on-ramps",
+      "create",
+      "--dynamic-routing=true",
+      "--install-routes-in-cloud=true",
+      "--install-routes-in-magic-wan=true",
+      "--name",
+      "regression value &/?+ü",
+      "--type",
+      "OnrampTypeSingle",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--cloud-type",
+      "GOOGLE"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/magic/cloud/onramps",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "required --dynamic-routing value 1",
+    "argv": [
+      "magic-cloud-networking",
+      "on-ramps",
+      "create",
+      "--cloud-type",
+      "AWS",
+      "--install-routes-in-cloud=true",
+      "--install-routes-in-magic-wan=true",
+      "--name",
+      "regression value &/?+ü",
+      "--type",
+      "OnrampTypeSingle",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--dynamic-routing=false"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/magic/cloud/onramps",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "required --install-routes-in-cloud value 1",
+    "argv": [
+      "magic-cloud-networking",
+      "on-ramps",
+      "create",
+      "--cloud-type",
+      "AWS",
+      "--dynamic-routing=true",
+      "--install-routes-in-magic-wan=true",
+      "--name",
+      "regression value &/?+ü",
+      "--type",
+      "OnrampTypeSingle",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--install-routes-in-cloud=false"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/magic/cloud/onramps",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "required --install-routes-in-magic-wan value 1",
+    "argv": [
+      "magic-cloud-networking",
+      "on-ramps",
+      "create",
+      "--cloud-type",
+      "AWS",
+      "--dynamic-routing=true",
+      "--install-routes-in-cloud=true",
+      "--name",
+      "regression value &/?+ü",
+      "--type",
+      "OnrampTypeSingle",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--install-routes-in-magic-wan=false"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/magic/cloud/onramps",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "required --type value 1",
+    "argv": [
+      "magic-cloud-networking",
+      "on-ramps",
+      "create",
+      "--cloud-type",
+      "AWS",
+      "--dynamic-routing=true",
+      "--install-routes-in-cloud=true",
+      "--install-routes-in-magic-wan=true",
+      "--name",
+      "regression value &/?+ü",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--type",
+      "OnrampTypeHub"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/magic/cloud/onramps",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 0",
+    "argv": [
+      "magic-cloud-networking",
+      "on-ramps",
+      "create",
+      "--cloud-type",
+      "AWS",
+      "--dynamic-routing=true",
+      "--install-routes-in-cloud=true",
+      "--install-routes-in-magic-wan=true",
+      "--name",
+      "regression value &/?+ü",
+      "--type",
+      "OnrampTypeSingle"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/magic/cloud/onramps",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "168",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "cloud_type": "AWS",
+          "dynamic_routing": true,
+          "install_routes_in_cloud": true,
+          "install_routes_in_magic_wan": true,
+          "name": "regression value &/?+ü",
+          "type": "OnrampTypeSingle"
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 1",
+    "argv": [
+      "magic-cloud-networking",
+      "on-ramps",
+      "create",
+      "--cloud-type",
+      "AWS",
+      "--dynamic-routing=true",
+      "--install-routes-in-cloud=true",
+      "--install-routes-in-magic-wan=true",
+      "--name",
+      "regression value &/?+ü",
+      "--type",
+      "OnrampTypeSingle",
+      "--forwarded",
+      "second value &/?+ü",
+      "--adopted-hub-id",
+      "0123456789abcdef0123456789abcdef",
+      "--attached-hubs",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--attached-vpcs",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--cloud-asn",
+      "2",
+      "--description",
+      "192.0.2.1",
+      "--hub-provider-id",
+      "0123456789abcdef0123456789abcdef",
+      "--manage-hub-to-hub-attachments=false",
+      "--manage-vpc-to-hub-attachments=false",
+      "--region",
+      "second value &/?+ü",
+      "--vpc",
+      "second value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/magic/cloud/onramps",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "572",
+          "content-type": "application/json",
+          "forwarded": "second value &/?+ü",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "adopted_hub_id": "0123456789abcdef0123456789abcdef",
+          "attached_hubs": [
+            "second value &/?+ü",
+            "second value &/?+ü"
+          ],
+          "attached_vpcs": [
+            "second value &/?+ü",
+            "second value &/?+ü"
+          ],
+          "cloud_asn": 2,
+          "cloud_type": "AWS",
+          "description": "192.0.2.1",
+          "dynamic_routing": true,
+          "hub_provider_id": "0123456789abcdef0123456789abcdef",
+          "install_routes_in_cloud": true,
+          "install_routes_in_magic_wan": true,
+          "manage_hub_to_hub_attachments": false,
+          "manage_vpc_to_hub_attachments": false,
+          "name": "regression value &/?+ü",
+          "region": "second value &/?+ü",
+          "type": "OnrampTypeSingle",
+          "vpc": "second value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 2",
+    "argv": [
+      "magic-cloud-networking",
+      "on-ramps",
+      "create",
+      "--cloud-type",
+      "AWS",
+      "--dynamic-routing=true",
+      "--install-routes-in-cloud=true",
+      "--install-routes-in-magic-wan=true",
+      "--name",
+      "regression value &/?+ü",
+      "--type",
+      "OnrampTypeSingle",
+      "--adopted-hub-id",
+      "0123456789abcdef0123456789abcdef",
+      "--attached-vpcs",
+      "regression value &/?+ü",
+      "--description",
+      "192.0.2.1",
+      "--manage-hub-to-hub-attachments=true",
+      "--region",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/magic/cloud/onramps",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "362",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "adopted_hub_id": "0123456789abcdef0123456789abcdef",
+          "attached_vpcs": [
+            "regression value &/?+ü"
+          ],
+          "cloud_type": "AWS",
+          "description": "192.0.2.1",
+          "dynamic_routing": true,
+          "install_routes_in_cloud": true,
+          "install_routes_in_magic_wan": true,
+          "manage_hub_to_hub_attachments": true,
+          "name": "regression value &/?+ü",
+          "region": "regression value &/?+ü",
+          "type": "OnrampTypeSingle"
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 3",
+    "argv": [
+      "magic-cloud-networking",
+      "on-ramps",
+      "create",
+      "--cloud-type",
+      "AWS",
+      "--dynamic-routing=true",
+      "--install-routes-in-cloud=true",
+      "--install-routes-in-magic-wan=true",
+      "--name",
+      "regression value &/?+ü",
+      "--type",
+      "OnrampTypeSingle",
+      "--forwarded",
+      "second value &/?+ü",
+      "--attached-hubs",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--cloud-asn",
+      "2",
+      "--hub-provider-id",
+      "0123456789abcdef0123456789abcdef",
+      "--manage-vpc-to-hub-attachments=false",
+      "--vpc",
+      "second value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/magic/cloud/onramps",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "363",
+          "content-type": "application/json",
+          "forwarded": "second value &/?+ü",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "attached_hubs": [
+            "second value &/?+ü",
+            "second value &/?+ü"
+          ],
+          "cloud_asn": 2,
+          "cloud_type": "AWS",
+          "dynamic_routing": true,
+          "hub_provider_id": "0123456789abcdef0123456789abcdef",
+          "install_routes_in_cloud": true,
+          "install_routes_in_magic_wan": true,
+          "manage_vpc_to_hub_attachments": false,
+          "name": "regression value &/?+ü",
+          "type": "OnrampTypeSingle",
+          "vpc": "second value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 4",
+    "argv": [
+      "magic-cloud-networking",
+      "on-ramps",
+      "create",
+      "--cloud-type",
+      "AWS",
+      "--dynamic-routing=true",
+      "--install-routes-in-cloud=true",
+      "--install-routes-in-magic-wan=true",
+      "--name",
+      "regression value &/?+ü",
+      "--type",
+      "OnrampTypeSingle",
+      "--attached-hubs",
+      "regression value &/?+ü",
+      "--attached-vpcs",
+      "regression value &/?+ü",
+      "--hub-provider-id",
+      "0123456789abcdef0123456789abcdef",
+      "--manage-hub-to-hub-attachments=true",
+      "--vpc",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/magic/cloud/onramps",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "378",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "attached_hubs": [
+            "regression value &/?+ü"
+          ],
+          "attached_vpcs": [
+            "regression value &/?+ü"
+          ],
+          "cloud_type": "AWS",
+          "dynamic_routing": true,
+          "hub_provider_id": "0123456789abcdef0123456789abcdef",
+          "install_routes_in_cloud": true,
+          "install_routes_in_magic_wan": true,
+          "manage_hub_to_hub_attachments": true,
+          "name": "regression value &/?+ü",
+          "type": "OnrampTypeSingle",
+          "vpc": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 5",
+    "argv": [
+      "magic-cloud-networking",
+      "on-ramps",
+      "create",
+      "--cloud-type",
+      "AWS",
+      "--dynamic-routing=true",
+      "--install-routes-in-cloud=true",
+      "--install-routes-in-magic-wan=true",
+      "--name",
+      "regression value &/?+ü",
+      "--type",
+      "OnrampTypeSingle",
+      "--forwarded",
+      "second value &/?+ü",
+      "--adopted-hub-id",
+      "0123456789abcdef0123456789abcdef",
+      "--cloud-asn",
+      "2",
+      "--description",
+      "192.0.2.1",
+      "--manage-vpc-to-hub-attachments=false",
+      "--region",
+      "second value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/magic/cloud/onramps",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "329",
+          "content-type": "application/json",
+          "forwarded": "second value &/?+ü",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "adopted_hub_id": "0123456789abcdef0123456789abcdef",
+          "cloud_asn": 2,
+          "cloud_type": "AWS",
+          "description": "192.0.2.1",
+          "dynamic_routing": true,
+          "install_routes_in_cloud": true,
+          "install_routes_in_magic_wan": true,
+          "manage_vpc_to_hub_attachments": false,
+          "name": "regression value &/?+ü",
+          "region": "second value &/?+ü",
+          "type": "OnrampTypeSingle"
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 6",
+    "argv": [
+      "magic-cloud-networking",
+      "on-ramps",
+      "create",
+      "--cloud-type",
+      "AWS",
+      "--dynamic-routing=true",
+      "--install-routes-in-cloud=true",
+      "--install-routes-in-magic-wan=true",
+      "--name",
+      "regression value &/?+ü",
+      "--type",
+      "OnrampTypeSingle",
+      "--cloud-asn",
+      "1",
+      "--description",
+      "192.0.2.1",
+      "--hub-provider-id",
+      "0123456789abcdef0123456789abcdef",
+      "--manage-hub-to-hub-attachments=true"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/magic/cloud/onramps",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "298",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "cloud_asn": 1,
+          "cloud_type": "AWS",
+          "description": "192.0.2.1",
+          "dynamic_routing": true,
+          "hub_provider_id": "0123456789abcdef0123456789abcdef",
+          "install_routes_in_cloud": true,
+          "install_routes_in_magic_wan": true,
+          "manage_hub_to_hub_attachments": true,
+          "name": "regression value &/?+ü",
+          "type": "OnrampTypeSingle"
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 7",
+    "argv": [
+      "magic-cloud-networking",
+      "on-ramps",
+      "create",
+      "--cloud-type",
+      "AWS",
+      "--dynamic-routing=true",
+      "--install-routes-in-cloud=true",
+      "--install-routes-in-magic-wan=true",
+      "--name",
+      "regression value &/?+ü",
+      "--type",
+      "OnrampTypeSingle",
+      "--forwarded",
+      "second value &/?+ü",
+      "--adopted-hub-id",
+      "0123456789abcdef0123456789abcdef",
+      "--attached-hubs",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--attached-vpcs",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--manage-vpc-to-hub-attachments=false",
+      "--region",
+      "second value &/?+ü",
+      "--vpc",
+      "second value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/magic/cloud/onramps",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "441",
+          "content-type": "application/json",
+          "forwarded": "second value &/?+ü",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "adopted_hub_id": "0123456789abcdef0123456789abcdef",
+          "attached_hubs": [
+            "second value &/?+ü",
+            "second value &/?+ü"
+          ],
+          "attached_vpcs": [
+            "second value &/?+ü",
+            "second value &/?+ü"
+          ],
+          "cloud_type": "AWS",
+          "dynamic_routing": true,
+          "install_routes_in_cloud": true,
+          "install_routes_in_magic_wan": true,
+          "manage_vpc_to_hub_attachments": false,
+          "name": "regression value &/?+ü",
+          "region": "second value &/?+ü",
+          "type": "OnrampTypeSingle",
+          "vpc": "second value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 8",
+    "argv": [
+      "magic-cloud-networking",
+      "on-ramps",
+      "create",
+      "--cloud-type",
+      "AWS",
+      "--dynamic-routing=true",
+      "--install-routes-in-cloud=true",
+      "--install-routes-in-magic-wan=true",
+      "--name",
+      "regression value &/?+ü",
+      "--type",
+      "OnrampTypeSingle",
+      "--manage-vpc-to-hub-attachments=true",
+      "--region",
+      "regression value &/?+ü",
+      "--vpc",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/magic/cloud/onramps",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "272",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "cloud_type": "AWS",
+          "dynamic_routing": true,
+          "install_routes_in_cloud": true,
+          "install_routes_in_magic_wan": true,
+          "manage_vpc_to_hub_attachments": true,
+          "name": "regression value &/?+ü",
+          "region": "regression value &/?+ü",
+          "type": "OnrampTypeSingle",
+          "vpc": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 9",
+    "argv": [
+      "magic-cloud-networking",
+      "on-ramps",
+      "create",
+      "--cloud-type",
+      "AWS",
+      "--dynamic-routing=true",
+      "--install-routes-in-cloud=true",
+      "--install-routes-in-magic-wan=true",
+      "--name",
+      "regression value &/?+ü",
+      "--type",
+      "OnrampTypeSingle",
+      "--forwarded",
+      "second value &/?+ü",
+      "--adopted-hub-id",
+      "0123456789abcdef0123456789abcdef",
+      "--attached-hubs",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--attached-vpcs",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--cloud-asn",
+      "2",
+      "--description",
+      "192.0.2.1",
+      "--hub-provider-id",
+      "0123456789abcdef0123456789abcdef",
+      "--manage-hub-to-hub-attachments=false"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/magic/cloud/onramps",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "475",
+          "content-type": "application/json",
+          "forwarded": "second value &/?+ü",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "adopted_hub_id": "0123456789abcdef0123456789abcdef",
+          "attached_hubs": [
+            "second value &/?+ü",
+            "second value &/?+ü"
+          ],
+          "attached_vpcs": [
+            "second value &/?+ü",
+            "second value &/?+ü"
+          ],
+          "cloud_asn": 2,
+          "cloud_type": "AWS",
+          "description": "192.0.2.1",
+          "dynamic_routing": true,
+          "hub_provider_id": "0123456789abcdef0123456789abcdef",
+          "install_routes_in_cloud": true,
+          "install_routes_in_magic_wan": true,
+          "manage_hub_to_hub_attachments": false,
+          "name": "regression value &/?+ü",
+          "type": "OnrampTypeSingle"
+        }
+      }
+    ]
+  },
+  {
+    "case": "global quiet",
+    "argv": [
+      "magic-cloud-networking",
+      "on-ramps",
+      "create",
+      "--cloud-type",
+      "AWS",
+      "--dynamic-routing=true",
+      "--install-routes-in-cloud=true",
+      "--install-routes-in-magic-wan=true",
+      "--name",
+      "regression value &/?+ü",
+      "--type",
+      "OnrampTypeSingle",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--quiet"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/magic/cloud/onramps",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "global zone",
+    "argv": [
+      "magic-cloud-networking",
+      "on-ramps",
+      "create",
+      "--cloud-type",
+      "AWS",
+      "--dynamic-routing=true",
+      "--install-routes-in-cloud=true",
+      "--install-routes-in-magic-wan=true",
+      "--name",
+      "regression value &/?+ü",
+      "--type",
+      "OnrampTypeSingle",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--zone",
+      "abcdef0123456789abcdef0123456789"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/magic/cloud/onramps",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "global profile and mode",
+    "argv": [
+      "magic-cloud-networking",
+      "on-ramps",
+      "create",
+      "--cloud-type",
+      "AWS",
+      "--dynamic-routing=true",
+      "--install-routes-in-cloud=true",
+      "--install-routes-in-magic-wan=true",
+      "--name",
+      "regression value &/?+ü",
+      "--type",
+      "OnrampTypeSingle",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--profile",
+      "default",
+      "--mode",
+      "regression"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/magic/cloud/onramps",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "local",
+    "argv": [
+      "magic-cloud-networking",
+      "on-ramps",
+      "create",
+      "--cloud-type",
+      "AWS",
+      "--dynamic-routing=true",
+      "--install-routes-in-cloud=true",
+      "--install-routes-in-magic-wan=true",
+      "--name",
+      "regression value &/?+ü",
+      "--type",
+      "OnrampTypeSingle",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--local"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "http://localhost/cdn-cgi/local/explorer/api/magic/cloud/onramps",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "gzip, deflate",
+          "accept-language": "*",
+          "connection": "keep-alive",
+          "content-type": "application/json",
+          "host": "localhost",
+          "sec-fetch-mode": "cors",
+          "transfer-encoding": "chunked",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "local with persistence",
+    "argv": [
+      "magic-cloud-networking",
+      "on-ramps",
+      "create",
+      "--cloud-type",
+      "AWS",
+      "--dynamic-routing=true",
+      "--install-routes-in-cloud=true",
+      "--install-routes-in-magic-wan=true",
+      "--name",
+      "regression value &/?+ü",
+      "--type",
+      "OnrampTypeSingle",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--local",
+      "--persist-to",
+      "regression-state"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "http://localhost/cdn-cgi/local/explorer/api/magic/cloud/onramps",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "gzip, deflate",
+          "accept-language": "*",
+          "connection": "keep-alive",
+          "content-type": "application/json",
+          "host": "localhost",
+          "sec-fetch-mode": "cors",
+          "transfer-encoding": "chunked",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "dry-run",
+    "argv": [
+      "magic-cloud-networking",
+      "on-ramps",
+      "create",
+      "--cloud-type",
+      "AWS",
+      "--dynamic-routing=true",
+      "--install-routes-in-cloud=true",
+      "--install-routes-in-magic-wan=true",
+      "--name",
+      "regression value &/?+ü",
+      "--type",
+      "OnrampTypeSingle",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--dry-run"
+    ],
+    "exitCode": 0,
+    "requests": []
+  },
+  {
+    "case": "body from file",
+    "argv": [
+      "magic-cloud-networking",
+      "on-ramps",
+      "create",
+      "--cloud-type",
+      "AWS",
+      "--dynamic-routing=true",
+      "--install-routes-in-cloud=true",
+      "--install-routes-in-magic-wan=true",
+      "--name",
+      "regression value &/?+ü",
+      "--type",
+      "OnrampTypeSingle",
+      "--body",
+      "@<body.json>"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/magic/cloud/onramps",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "array body",
+    "argv": [
+      "magic-cloud-networking",
+      "on-ramps",
+      "create",
+      "--cloud-type",
+      "AWS",
+      "--dynamic-routing=true",
+      "--install-routes-in-cloud=true",
+      "--install-routes-in-magic-wan=true",
+      "--name",
+      "regression value &/?+ü",
+      "--type",
+      "OnrampTypeSingle",
+      "--body",
+      "[{\"regression\":\"first\"},{\"regression\":\"second\"}]"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/magic/cloud/onramps",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "48",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": [
+          {
+            "regression": "first"
+          },
+          {
+            "regression": "second"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "case": "field flags",
+    "argv": [
+      "magic-cloud-networking",
+      "on-ramps",
+      "create",
+      "--cloud-type",
+      "AWS",
+      "--dynamic-routing=true",
+      "--install-routes-in-cloud=true",
+      "--install-routes-in-magic-wan=true",
+      "--name",
+      "regression value &/?+ü",
+      "--type",
+      "OnrampTypeSingle",
+      "--forwarded",
+      "regression value &/?+ü",
+      "--adopted-hub-id",
+      "0123456789abcdef0123456789abcdef",
+      "--attached-hubs",
+      "regression value &/?+ü",
+      "--attached-vpcs",
+      "regression value &/?+ü",
+      "--cloud-asn",
+      "1",
+      "--description",
+      "192.0.2.1",
+      "--hub-provider-id",
+      "0123456789abcdef0123456789abcdef",
+      "--manage-hub-to-hub-attachments=true",
+      "--manage-vpc-to-hub-attachments=true",
+      "--region",
+      "regression value &/?+ü",
+      "--vpc",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/magic/cloud/onramps",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "542",
+          "content-type": "application/json",
+          "forwarded": "regression value &/?+ü",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "adopted_hub_id": "0123456789abcdef0123456789abcdef",
+          "attached_hubs": [
+            "regression value &/?+ü"
+          ],
+          "attached_vpcs": [
+            "regression value &/?+ü"
+          ],
+          "cloud_asn": 1,
+          "cloud_type": "AWS",
+          "description": "192.0.2.1",
+          "dynamic_routing": true,
+          "hub_provider_id": "0123456789abcdef0123456789abcdef",
+          "install_routes_in_cloud": true,
+          "install_routes_in_magic_wan": true,
+          "manage_hub_to_hub_attachments": true,
+          "manage_vpc_to_hub_attachments": true,
+          "name": "regression value &/?+ü",
+          "region": "regression value &/?+ü",
+          "type": "OnrampTypeSingle",
+          "vpc": "regression value &/?+ü"
+        }
+      }
+    ]
+  }
+]

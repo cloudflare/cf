@@ -1,0 +1,1487 @@
+[
+  {
+    "case": "no-args",
+    "argv": [
+      "workers-builds",
+      "workers",
+      "previews",
+      "edit"
+    ],
+    "exitCode": 1,
+    "error": "Not enough non-option arguments: got 0, need at least 1",
+    "requests": []
+  },
+  {
+    "case": "required",
+    "argv": [
+      "workers-builds",
+      "workers",
+      "previews",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--script-tag",
+      "192.0.2.1",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/builds/workers/192.0.2.1/previews/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --auto-build",
+    "argv": [
+      "workers-builds",
+      "workers",
+      "previews",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--script-tag",
+      "192.0.2.1",
+      "--auto-build=true"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/builds/workers/192.0.2.1/previews/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "19",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "auto_build": true
+        }
+      }
+    ]
+  },
+  {
+    "case": "--auto-build value 1",
+    "argv": [
+      "workers-builds",
+      "workers",
+      "previews",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--script-tag",
+      "192.0.2.1",
+      "--auto-build=false"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/builds/workers/192.0.2.1/previews/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "20",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "auto_build": false
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --auto-delete",
+    "argv": [
+      "workers-builds",
+      "workers",
+      "previews",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--script-tag",
+      "192.0.2.1",
+      "--auto-delete=true"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/builds/workers/192.0.2.1/previews/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "20",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "auto_delete": true
+        }
+      }
+    ]
+  },
+  {
+    "case": "--auto-delete value 1",
+    "argv": [
+      "workers-builds",
+      "workers",
+      "previews",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--script-tag",
+      "192.0.2.1",
+      "--auto-delete=false"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/builds/workers/192.0.2.1/previews/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "21",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "auto_delete": false
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --branch",
+    "argv": [
+      "workers-builds",
+      "workers",
+      "previews",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--script-tag",
+      "192.0.2.1",
+      "--branch",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/builds/workers/192.0.2.1/previews/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "36",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "branch": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --settings-build-caching-enabled",
+    "argv": [
+      "workers-builds",
+      "workers",
+      "previews",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--script-tag",
+      "192.0.2.1",
+      "--settings-build-caching-enabled=true"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/builds/workers/192.0.2.1/previews/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "43",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "settings": {
+            "build_caching_enabled": true
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "--settings-build-caching-enabled value 1",
+    "argv": [
+      "workers-builds",
+      "workers",
+      "previews",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--script-tag",
+      "192.0.2.1",
+      "--settings-build-caching-enabled=false"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/builds/workers/192.0.2.1/previews/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "44",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "settings": {
+            "build_caching_enabled": false
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --settings-build-command",
+    "argv": [
+      "workers-builds",
+      "workers",
+      "previews",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--script-tag",
+      "192.0.2.1",
+      "--settings-build-command",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/builds/workers/192.0.2.1/previews/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "56",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "settings": {
+            "build_command": "regression value &/?+ü"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --settings-build-token-uuid",
+    "argv": [
+      "workers-builds",
+      "workers",
+      "previews",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--script-tag",
+      "192.0.2.1",
+      "--settings-build-token-uuid",
+      "0123456789abcdef0123456789abcdef"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/builds/workers/192.0.2.1/previews/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "68",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "settings": {
+            "build_token_uuid": "0123456789abcdef0123456789abcdef"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --settings-deploy-command",
+    "argv": [
+      "workers-builds",
+      "workers",
+      "previews",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--script-tag",
+      "192.0.2.1",
+      "--settings-deploy-command",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/builds/workers/192.0.2.1/previews/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "57",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "settings": {
+            "deploy_command": "regression value &/?+ü"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --settings-path-excludes",
+    "argv": [
+      "workers-builds",
+      "workers",
+      "previews",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--script-tag",
+      "192.0.2.1",
+      "--settings-path-excludes",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/builds/workers/192.0.2.1/previews/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "58",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "settings": {
+            "path_excludes": [
+              "regression value &/?+ü"
+            ]
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --settings-path-includes",
+    "argv": [
+      "workers-builds",
+      "workers",
+      "previews",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--script-tag",
+      "192.0.2.1",
+      "--settings-path-includes",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/builds/workers/192.0.2.1/previews/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "58",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "settings": {
+            "path_includes": [
+              "regression value &/?+ü"
+            ]
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --settings-root-directory",
+    "argv": [
+      "workers-builds",
+      "workers",
+      "previews",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--script-tag",
+      "192.0.2.1",
+      "--settings-root-directory",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/builds/workers/192.0.2.1/previews/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "57",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "settings": {
+            "root_directory": "regression value &/?+ü"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 0",
+    "argv": [
+      "workers-builds",
+      "workers",
+      "previews",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--script-tag",
+      "192.0.2.1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/builds/workers/192.0.2.1/previews/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "2",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {}
+      }
+    ]
+  },
+  {
+    "case": "pairwise 1",
+    "argv": [
+      "workers-builds",
+      "workers",
+      "previews",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--script-tag",
+      "192.0.2.1",
+      "--auto-build=false",
+      "--auto-delete=false",
+      "--branch",
+      "second value &/?+ü",
+      "--settings-build-caching-enabled=false",
+      "--settings-build-command",
+      "second value &/?+ü",
+      "--settings-build-token-uuid",
+      "0123456789abcdef0123456789abcdef",
+      "--settings-deploy-command",
+      "second value &/?+ü",
+      "--settings-path-excludes",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--settings-path-includes",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--settings-root-directory",
+      "second value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/builds/workers/192.0.2.1/previews/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "408",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "auto_build": false,
+          "auto_delete": false,
+          "branch": "second value &/?+ü",
+          "settings": {
+            "build_caching_enabled": false,
+            "build_command": "second value &/?+ü",
+            "build_token_uuid": "0123456789abcdef0123456789abcdef",
+            "deploy_command": "second value &/?+ü",
+            "path_excludes": [
+              "second value &/?+ü",
+              "second value &/?+ü"
+            ],
+            "path_includes": [
+              "second value &/?+ü",
+              "second value &/?+ü"
+            ],
+            "root_directory": "second value &/?+ü"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 2",
+    "argv": [
+      "workers-builds",
+      "workers",
+      "previews",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--script-tag",
+      "192.0.2.1",
+      "--auto-delete=true",
+      "--settings-build-caching-enabled=true",
+      "--settings-build-token-uuid",
+      "0123456789abcdef0123456789abcdef",
+      "--settings-path-excludes",
+      "regression value &/?+ü",
+      "--settings-root-directory",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/builds/workers/192.0.2.1/previews/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "203",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "auto_delete": true,
+          "settings": {
+            "build_caching_enabled": true,
+            "build_token_uuid": "0123456789abcdef0123456789abcdef",
+            "path_excludes": [
+              "regression value &/?+ü"
+            ],
+            "root_directory": "regression value &/?+ü"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 3",
+    "argv": [
+      "workers-builds",
+      "workers",
+      "previews",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--script-tag",
+      "192.0.2.1",
+      "--auto-build=false",
+      "--branch",
+      "second value &/?+ü",
+      "--settings-build-command",
+      "second value &/?+ü",
+      "--settings-deploy-command",
+      "second value &/?+ü",
+      "--settings-path-includes",
+      "second value &/?+ü",
+      "second value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/builds/workers/192.0.2.1/previews/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "203",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "auto_build": false,
+          "branch": "second value &/?+ü",
+          "settings": {
+            "build_command": "second value &/?+ü",
+            "deploy_command": "second value &/?+ü",
+            "path_includes": [
+              "second value &/?+ü",
+              "second value &/?+ü"
+            ]
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 4",
+    "argv": [
+      "workers-builds",
+      "workers",
+      "previews",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--script-tag",
+      "192.0.2.1",
+      "--branch",
+      "regression value &/?+ü",
+      "--settings-build-caching-enabled=true",
+      "--settings-deploy-command",
+      "regression value &/?+ü",
+      "--settings-path-excludes",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/builds/workers/192.0.2.1/previews/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "165",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "branch": "regression value &/?+ü",
+          "settings": {
+            "build_caching_enabled": true,
+            "deploy_command": "regression value &/?+ü",
+            "path_excludes": [
+              "regression value &/?+ü"
+            ]
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 5",
+    "argv": [
+      "workers-builds",
+      "workers",
+      "previews",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--script-tag",
+      "192.0.2.1",
+      "--auto-build=false",
+      "--auto-delete=false",
+      "--settings-build-command",
+      "second value &/?+ü",
+      "--settings-build-token-uuid",
+      "0123456789abcdef0123456789abcdef",
+      "--settings-path-includes",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--settings-root-directory",
+      "second value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/builds/workers/192.0.2.1/previews/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "246",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "auto_build": false,
+          "auto_delete": false,
+          "settings": {
+            "build_command": "second value &/?+ü",
+            "build_token_uuid": "0123456789abcdef0123456789abcdef",
+            "path_includes": [
+              "second value &/?+ü",
+              "second value &/?+ü"
+            ],
+            "root_directory": "second value &/?+ü"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 6",
+    "argv": [
+      "workers-builds",
+      "workers",
+      "previews",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--script-tag",
+      "192.0.2.1",
+      "--settings-build-command",
+      "regression value &/?+ü",
+      "--settings-build-token-uuid",
+      "0123456789abcdef0123456789abcdef",
+      "--settings-deploy-command",
+      "regression value &/?+ü",
+      "--settings-path-excludes",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/builds/workers/192.0.2.1/previews/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "197",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "settings": {
+            "build_command": "regression value &/?+ü",
+            "build_token_uuid": "0123456789abcdef0123456789abcdef",
+            "deploy_command": "regression value &/?+ü",
+            "path_excludes": [
+              "regression value &/?+ü"
+            ]
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 7",
+    "argv": [
+      "workers-builds",
+      "workers",
+      "previews",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--script-tag",
+      "192.0.2.1",
+      "--auto-build=false",
+      "--auto-delete=false",
+      "--branch",
+      "second value &/?+ü",
+      "--settings-build-caching-enabled=false",
+      "--settings-path-includes",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--settings-root-directory",
+      "second value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/builds/workers/192.0.2.1/previews/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "215",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "auto_build": false,
+          "auto_delete": false,
+          "branch": "second value &/?+ü",
+          "settings": {
+            "build_caching_enabled": false,
+            "path_includes": [
+              "second value &/?+ü",
+              "second value &/?+ü"
+            ],
+            "root_directory": "second value &/?+ü"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 8",
+    "argv": [
+      "workers-builds",
+      "workers",
+      "previews",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--script-tag",
+      "192.0.2.1",
+      "--settings-path-includes",
+      "regression value &/?+ü",
+      "--settings-root-directory",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/builds/workers/192.0.2.1/previews/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "101",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "settings": {
+            "path_includes": [
+              "regression value &/?+ü"
+            ],
+            "root_directory": "regression value &/?+ü"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 9",
+    "argv": [
+      "workers-builds",
+      "workers",
+      "previews",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--script-tag",
+      "192.0.2.1",
+      "--auto-build=false",
+      "--auto-delete=false",
+      "--branch",
+      "second value &/?+ü",
+      "--settings-build-caching-enabled=false",
+      "--settings-build-command",
+      "second value &/?+ü",
+      "--settings-build-token-uuid",
+      "0123456789abcdef0123456789abcdef",
+      "--settings-deploy-command",
+      "second value &/?+ü",
+      "--settings-path-excludes",
+      "second value &/?+ü",
+      "second value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/builds/workers/192.0.2.1/previews/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "307",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "auto_build": false,
+          "auto_delete": false,
+          "branch": "second value &/?+ü",
+          "settings": {
+            "build_caching_enabled": false,
+            "build_command": "second value &/?+ü",
+            "build_token_uuid": "0123456789abcdef0123456789abcdef",
+            "deploy_command": "second value &/?+ü",
+            "path_excludes": [
+              "second value &/?+ü",
+              "second value &/?+ü"
+            ]
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "global quiet",
+    "argv": [
+      "workers-builds",
+      "workers",
+      "previews",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--script-tag",
+      "192.0.2.1",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--quiet"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/builds/workers/192.0.2.1/previews/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "global zone",
+    "argv": [
+      "workers-builds",
+      "workers",
+      "previews",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--script-tag",
+      "192.0.2.1",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--zone",
+      "abcdef0123456789abcdef0123456789"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/builds/workers/192.0.2.1/previews/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "global profile and mode",
+    "argv": [
+      "workers-builds",
+      "workers",
+      "previews",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--script-tag",
+      "192.0.2.1",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--profile",
+      "default",
+      "--mode",
+      "regression"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/builds/workers/192.0.2.1/previews/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "local",
+    "argv": [
+      "workers-builds",
+      "workers",
+      "previews",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--script-tag",
+      "192.0.2.1",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--local"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "http://localhost/cdn-cgi/local/explorer/api/builds/workers/192.0.2.1/previews/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "gzip, deflate",
+          "accept-language": "*",
+          "connection": "keep-alive",
+          "content-type": "application/json",
+          "host": "localhost",
+          "sec-fetch-mode": "cors",
+          "transfer-encoding": "chunked",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "local with persistence",
+    "argv": [
+      "workers-builds",
+      "workers",
+      "previews",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--script-tag",
+      "192.0.2.1",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--local",
+      "--persist-to",
+      "regression-state"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "http://localhost/cdn-cgi/local/explorer/api/builds/workers/192.0.2.1/previews/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "gzip, deflate",
+          "accept-language": "*",
+          "connection": "keep-alive",
+          "content-type": "application/json",
+          "host": "localhost",
+          "sec-fetch-mode": "cors",
+          "transfer-encoding": "chunked",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "dry-run",
+    "argv": [
+      "workers-builds",
+      "workers",
+      "previews",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--script-tag",
+      "192.0.2.1",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--dry-run"
+    ],
+    "exitCode": 0,
+    "requests": []
+  },
+  {
+    "case": "body from file",
+    "argv": [
+      "workers-builds",
+      "workers",
+      "previews",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--script-tag",
+      "192.0.2.1",
+      "--body",
+      "@<body.json>"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/builds/workers/192.0.2.1/previews/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "array body",
+    "argv": [
+      "workers-builds",
+      "workers",
+      "previews",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--script-tag",
+      "192.0.2.1",
+      "--body",
+      "[{\"regression\":\"first\"},{\"regression\":\"second\"}]"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/builds/workers/192.0.2.1/previews/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "56",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "0": {
+            "regression": "first"
+          },
+          "1": {
+            "regression": "second"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "field flags",
+    "argv": [
+      "workers-builds",
+      "workers",
+      "previews",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--script-tag",
+      "192.0.2.1",
+      "--auto-build=true",
+      "--auto-delete=true",
+      "--branch",
+      "regression value &/?+ü",
+      "--settings-build-caching-enabled=true",
+      "--settings-build-command",
+      "regression value &/?+ü",
+      "--settings-build-token-uuid",
+      "0123456789abcdef0123456789abcdef",
+      "--settings-deploy-command",
+      "regression value &/?+ü",
+      "--settings-path-excludes",
+      "regression value &/?+ü",
+      "--settings-path-includes",
+      "regression value &/?+ü",
+      "--settings-root-directory",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/builds/workers/192.0.2.1/previews/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "385",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "auto_build": true,
+          "auto_delete": true,
+          "branch": "regression value &/?+ü",
+          "settings": {
+            "build_caching_enabled": true,
+            "build_command": "regression value &/?+ü",
+            "build_token_uuid": "0123456789abcdef0123456789abcdef",
+            "deploy_command": "regression value &/?+ü",
+            "path_excludes": [
+              "regression value &/?+ü"
+            ],
+            "path_includes": [
+              "regression value &/?+ü"
+            ],
+            "root_directory": "regression value &/?+ü"
+          }
+        }
+      }
+    ]
+  }
+]

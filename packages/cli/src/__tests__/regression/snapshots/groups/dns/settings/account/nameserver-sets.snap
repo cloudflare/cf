@@ -1,0 +1,9 @@
+{
+  "argv": [
+    "dns",
+    "settings",
+    "account",
+    "nameserver-sets"
+  ],
+  "requests": []
+}

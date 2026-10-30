@@ -1,0 +1,2064 @@
+[
+  {
+    "case": "no-args",
+    "argv": [
+      "request-tracers",
+      "traces",
+      "create"
+    ],
+    "exitCode": 1,
+    "error": "--method is required. Pass --method <value> or run interactively.",
+    "requests": []
+  },
+  {
+    "case": "required",
+    "argv": [
+      "request-tracers",
+      "traces",
+      "create",
+      "--method",
+      "regression value &/?+ü",
+      "--url",
+      "https://example.com/a?x=1&y=two",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/request-tracer/trace",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --body-base64",
+    "argv": [
+      "request-tracers",
+      "traces",
+      "create",
+      "--method",
+      "regression value &/?+ü",
+      "--url",
+      "https://example.com/a?x=1&y=two",
+      "--body-base64",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/request-tracer/trace",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "120",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "body": {
+            "base64": "regression value &/?+ü"
+          },
+          "method": "regression value &/?+ü",
+          "url": "https://example.com/a?x=1&y=two"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --body-plain-text",
+    "argv": [
+      "request-tracers",
+      "traces",
+      "create",
+      "--method",
+      "regression value &/?+ü",
+      "--url",
+      "https://example.com/a?x=1&y=two",
+      "--body-plain-text",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/request-tracer/trace",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "124",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "body": {
+            "plain_text": "regression value &/?+ü"
+          },
+          "method": "regression value &/?+ü",
+          "url": "https://example.com/a?x=1&y=two"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --context-bot-score",
+    "argv": [
+      "request-tracers",
+      "traces",
+      "create",
+      "--method",
+      "regression value &/?+ü",
+      "--url",
+      "https://example.com/a?x=1&y=two",
+      "--context-bot-score",
+      "1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/request-tracer/trace",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "102",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "context": {
+            "bot_score": 1
+          },
+          "method": "regression value &/?+ü",
+          "url": "https://example.com/a?x=1&y=two"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --context-geoloc-city",
+    "argv": [
+      "request-tracers",
+      "traces",
+      "create",
+      "--method",
+      "regression value &/?+ü",
+      "--url",
+      "https://example.com/a?x=1&y=two",
+      "--context-geoloc-city",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/request-tracer/trace",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "132",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "context": {
+            "geoloc": {
+              "city": "regression value &/?+ü"
+            }
+          },
+          "method": "regression value &/?+ü",
+          "url": "https://example.com/a?x=1&y=two"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --context-geoloc-continent",
+    "argv": [
+      "request-tracers",
+      "traces",
+      "create",
+      "--method",
+      "regression value &/?+ü",
+      "--url",
+      "https://example.com/a?x=1&y=two",
+      "--context-geoloc-continent",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/request-tracer/trace",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "137",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "context": {
+            "geoloc": {
+              "continent": "regression value &/?+ü"
+            }
+          },
+          "method": "regression value &/?+ü",
+          "url": "https://example.com/a?x=1&y=two"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --context-geoloc-is-eu-country",
+    "argv": [
+      "request-tracers",
+      "traces",
+      "create",
+      "--method",
+      "regression value &/?+ü",
+      "--url",
+      "https://example.com/a?x=1&y=two",
+      "--context-geoloc-is-eu-country=true"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/request-tracer/trace",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "120",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "context": {
+            "geoloc": {
+              "is_eu_country": true
+            }
+          },
+          "method": "regression value &/?+ü",
+          "url": "https://example.com/a?x=1&y=two"
+        }
+      }
+    ]
+  },
+  {
+    "case": "--context-geoloc-is-eu-country value 1",
+    "argv": [
+      "request-tracers",
+      "traces",
+      "create",
+      "--method",
+      "regression value &/?+ü",
+      "--url",
+      "https://example.com/a?x=1&y=two",
+      "--context-geoloc-is-eu-country=false"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/request-tracer/trace",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "121",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "context": {
+            "geoloc": {
+              "is_eu_country": false
+            }
+          },
+          "method": "regression value &/?+ü",
+          "url": "https://example.com/a?x=1&y=two"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --context-geoloc-iso-code",
+    "argv": [
+      "request-tracers",
+      "traces",
+      "create",
+      "--method",
+      "regression value &/?+ü",
+      "--url",
+      "https://example.com/a?x=1&y=two",
+      "--context-geoloc-iso-code",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/request-tracer/trace",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "136",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "context": {
+            "geoloc": {
+              "iso_code": "regression value &/?+ü"
+            }
+          },
+          "method": "regression value &/?+ü",
+          "url": "https://example.com/a?x=1&y=two"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --context-geoloc-latitude",
+    "argv": [
+      "request-tracers",
+      "traces",
+      "create",
+      "--method",
+      "regression value &/?+ü",
+      "--url",
+      "https://example.com/a?x=1&y=two",
+      "--context-geoloc-latitude",
+      "1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/request-tracer/trace",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "112",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "context": {
+            "geoloc": {
+              "latitude": 1
+            }
+          },
+          "method": "regression value &/?+ü",
+          "url": "https://example.com/a?x=1&y=two"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --context-geoloc-longitude",
+    "argv": [
+      "request-tracers",
+      "traces",
+      "create",
+      "--method",
+      "regression value &/?+ü",
+      "--url",
+      "https://example.com/a?x=1&y=two",
+      "--context-geoloc-longitude",
+      "1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/request-tracer/trace",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "113",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "context": {
+            "geoloc": {
+              "longitude": 1
+            }
+          },
+          "method": "regression value &/?+ü",
+          "url": "https://example.com/a?x=1&y=two"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --context-geoloc-postal-code",
+    "argv": [
+      "request-tracers",
+      "traces",
+      "create",
+      "--method",
+      "regression value &/?+ü",
+      "--url",
+      "https://example.com/a?x=1&y=two",
+      "--context-geoloc-postal-code",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/request-tracer/trace",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "139",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "context": {
+            "geoloc": {
+              "postal_code": "regression value &/?+ü"
+            }
+          },
+          "method": "regression value &/?+ü",
+          "url": "https://example.com/a?x=1&y=two"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --context-geoloc-region-code",
+    "argv": [
+      "request-tracers",
+      "traces",
+      "create",
+      "--method",
+      "regression value &/?+ü",
+      "--url",
+      "https://example.com/a?x=1&y=two",
+      "--context-geoloc-region-code",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/request-tracer/trace",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "139",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "context": {
+            "geoloc": {
+              "region_code": "regression value &/?+ü"
+            }
+          },
+          "method": "regression value &/?+ü",
+          "url": "https://example.com/a?x=1&y=two"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --context-geoloc-subdivision-2-iso-code",
+    "argv": [
+      "request-tracers",
+      "traces",
+      "create",
+      "--method",
+      "regression value &/?+ü",
+      "--url",
+      "https://example.com/a?x=1&y=two",
+      "--context-geoloc-subdivision-2-iso-code",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/request-tracer/trace",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "150",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "context": {
+            "geoloc": {
+              "subdivision_2_iso_code": "regression value &/?+ü"
+            }
+          },
+          "method": "regression value &/?+ü",
+          "url": "https://example.com/a?x=1&y=two"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --context-geoloc-timezone",
+    "argv": [
+      "request-tracers",
+      "traces",
+      "create",
+      "--method",
+      "regression value &/?+ü",
+      "--url",
+      "https://example.com/a?x=1&y=two",
+      "--context-geoloc-timezone",
+      "2026-01-02T03:04:05Z"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/request-tracer/trace",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "133",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "context": {
+            "geoloc": {
+              "timezone": "2026-01-02T03:04:05Z"
+            }
+          },
+          "method": "regression value &/?+ü",
+          "url": "https://example.com/a?x=1&y=two"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --context-skip-challenge",
+    "argv": [
+      "request-tracers",
+      "traces",
+      "create",
+      "--method",
+      "regression value &/?+ü",
+      "--url",
+      "https://example.com/a?x=1&y=two",
+      "--context-skip-challenge=true"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/request-tracer/trace",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "110",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "context": {
+            "skip_challenge": true
+          },
+          "method": "regression value &/?+ü",
+          "url": "https://example.com/a?x=1&y=two"
+        }
+      }
+    ]
+  },
+  {
+    "case": "--context-skip-challenge value 1",
+    "argv": [
+      "request-tracers",
+      "traces",
+      "create",
+      "--method",
+      "regression value &/?+ü",
+      "--url",
+      "https://example.com/a?x=1&y=two",
+      "--context-skip-challenge=false"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/request-tracer/trace",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "111",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "context": {
+            "skip_challenge": false
+          },
+          "method": "regression value &/?+ü",
+          "url": "https://example.com/a?x=1&y=two"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --context-threat-score",
+    "argv": [
+      "request-tracers",
+      "traces",
+      "create",
+      "--method",
+      "regression value &/?+ü",
+      "--url",
+      "https://example.com/a?x=1&y=two",
+      "--context-threat-score",
+      "1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/request-tracer/trace",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "105",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "context": {
+            "threat_score": 1
+          },
+          "method": "regression value &/?+ü",
+          "url": "https://example.com/a?x=1&y=two"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --protocol",
+    "argv": [
+      "request-tracers",
+      "traces",
+      "create",
+      "--method",
+      "regression value &/?+ü",
+      "--url",
+      "https://example.com/a?x=1&y=two",
+      "--protocol",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/request-tracer/trace",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "113",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "method": "regression value &/?+ü",
+          "protocol": "regression value &/?+ü",
+          "url": "https://example.com/a?x=1&y=two"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --skip-response",
+    "argv": [
+      "request-tracers",
+      "traces",
+      "create",
+      "--method",
+      "regression value &/?+ü",
+      "--url",
+      "https://example.com/a?x=1&y=two",
+      "--skip-response=true"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/request-tracer/trace",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "97",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "method": "regression value &/?+ü",
+          "skip_response": true,
+          "url": "https://example.com/a?x=1&y=two"
+        }
+      }
+    ]
+  },
+  {
+    "case": "--skip-response value 1",
+    "argv": [
+      "request-tracers",
+      "traces",
+      "create",
+      "--method",
+      "regression value &/?+ü",
+      "--url",
+      "https://example.com/a?x=1&y=two",
+      "--skip-response=false"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/request-tracer/trace",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "98",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "method": "regression value &/?+ü",
+          "skip_response": false,
+          "url": "https://example.com/a?x=1&y=two"
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 0",
+    "argv": [
+      "request-tracers",
+      "traces",
+      "create",
+      "--method",
+      "regression value &/?+ü",
+      "--url",
+      "https://example.com/a?x=1&y=two"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/request-tracer/trace",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "76",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "method": "regression value &/?+ü",
+          "url": "https://example.com/a?x=1&y=two"
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 1",
+    "argv": [
+      "request-tracers",
+      "traces",
+      "create",
+      "--method",
+      "regression value &/?+ü",
+      "--url",
+      "https://example.com/a?x=1&y=two",
+      "--body-base64",
+      "second value &/?+ü",
+      "--body-plain-text",
+      "second value &/?+ü",
+      "--context-bot-score",
+      "2",
+      "--context-geoloc-city",
+      "second value &/?+ü",
+      "--context-geoloc-continent",
+      "second value &/?+ü",
+      "--context-geoloc-is-eu-country=false",
+      "--context-geoloc-iso-code",
+      "second value &/?+ü",
+      "--context-geoloc-latitude",
+      "2",
+      "--context-geoloc-longitude",
+      "2",
+      "--context-geoloc-postal-code",
+      "second value &/?+ü",
+      "--context-geoloc-region-code",
+      "second value &/?+ü",
+      "--context-geoloc-subdivision-2-iso-code",
+      "second value &/?+ü",
+      "--context-geoloc-timezone",
+      "2026-01-02T03:04:05Z",
+      "--context-skip-challenge=false",
+      "--context-threat-score",
+      "2",
+      "--protocol",
+      "second value &/?+ü",
+      "--skip-response=false"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/request-tracer/trace",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "581",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "body": {
+            "base64": "second value &/?+ü",
+            "plain_text": "second value &/?+ü"
+          },
+          "context": {
+            "bot_score": 2,
+            "geoloc": {
+              "city": "second value &/?+ü",
+              "continent": "second value &/?+ü",
+              "is_eu_country": false,
+              "iso_code": "second value &/?+ü",
+              "latitude": 2,
+              "longitude": 2,
+              "postal_code": "second value &/?+ü",
+              "region_code": "second value &/?+ü",
+              "subdivision_2_iso_code": "second value &/?+ü",
+              "timezone": "2026-01-02T03:04:05Z"
+            },
+            "skip_challenge": false,
+            "threat_score": 2
+          },
+          "method": "regression value &/?+ü",
+          "protocol": "second value &/?+ü",
+          "skip_response": false,
+          "url": "https://example.com/a?x=1&y=two"
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 2",
+    "argv": [
+      "request-tracers",
+      "traces",
+      "create",
+      "--method",
+      "regression value &/?+ü",
+      "--url",
+      "https://example.com/a?x=1&y=two",
+      "--body-plain-text",
+      "regression value &/?+ü",
+      "--context-geoloc-city",
+      "regression value &/?+ü",
+      "--context-geoloc-is-eu-country=true",
+      "--context-geoloc-latitude",
+      "1",
+      "--context-geoloc-postal-code",
+      "regression value &/?+ü",
+      "--context-geoloc-subdivision-2-iso-code",
+      "regression value &/?+ü",
+      "--context-skip-challenge=true",
+      "--protocol",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/request-tracer/trace",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "364",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "body": {
+            "plain_text": "regression value &/?+ü"
+          },
+          "context": {
+            "geoloc": {
+              "city": "regression value &/?+ü",
+              "is_eu_country": true,
+              "latitude": 1,
+              "postal_code": "regression value &/?+ü",
+              "subdivision_2_iso_code": "regression value &/?+ü"
+            },
+            "skip_challenge": true
+          },
+          "method": "regression value &/?+ü",
+          "protocol": "regression value &/?+ü",
+          "url": "https://example.com/a?x=1&y=two"
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 3",
+    "argv": [
+      "request-tracers",
+      "traces",
+      "create",
+      "--method",
+      "regression value &/?+ü",
+      "--url",
+      "https://example.com/a?x=1&y=two",
+      "--body-base64",
+      "second value &/?+ü",
+      "--context-bot-score",
+      "2",
+      "--context-geoloc-continent",
+      "second value &/?+ü",
+      "--context-geoloc-iso-code",
+      "second value &/?+ü",
+      "--context-geoloc-longitude",
+      "2",
+      "--context-geoloc-region-code",
+      "second value &/?+ü",
+      "--context-geoloc-timezone",
+      "2026-01-02T03:04:05Z",
+      "--context-threat-score",
+      "2",
+      "--skip-response=false"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/request-tracer/trace",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "343",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "body": {
+            "base64": "second value &/?+ü"
+          },
+          "context": {
+            "bot_score": 2,
+            "geoloc": {
+              "continent": "second value &/?+ü",
+              "iso_code": "second value &/?+ü",
+              "longitude": 2,
+              "region_code": "second value &/?+ü",
+              "timezone": "2026-01-02T03:04:05Z"
+            },
+            "threat_score": 2
+          },
+          "method": "regression value &/?+ü",
+          "skip_response": false,
+          "url": "https://example.com/a?x=1&y=two"
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 4",
+    "argv": [
+      "request-tracers",
+      "traces",
+      "create",
+      "--method",
+      "regression value &/?+ü",
+      "--url",
+      "https://example.com/a?x=1&y=two",
+      "--context-bot-score",
+      "1",
+      "--context-geoloc-city",
+      "regression value &/?+ü",
+      "--context-geoloc-iso-code",
+      "regression value &/?+ü",
+      "--context-geoloc-latitude",
+      "1",
+      "--context-geoloc-region-code",
+      "regression value &/?+ü",
+      "--context-geoloc-subdivision-2-iso-code",
+      "regression value &/?+ü",
+      "--context-threat-score",
+      "1",
+      "--protocol",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/request-tracer/trace",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "341",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "context": {
+            "bot_score": 1,
+            "geoloc": {
+              "city": "regression value &/?+ü",
+              "iso_code": "regression value &/?+ü",
+              "latitude": 1,
+              "region_code": "regression value &/?+ü",
+              "subdivision_2_iso_code": "regression value &/?+ü"
+            },
+            "threat_score": 1
+          },
+          "method": "regression value &/?+ü",
+          "protocol": "regression value &/?+ü",
+          "url": "https://example.com/a?x=1&y=two"
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 5",
+    "argv": [
+      "request-tracers",
+      "traces",
+      "create",
+      "--method",
+      "regression value &/?+ü",
+      "--url",
+      "https://example.com/a?x=1&y=two",
+      "--body-base64",
+      "second value &/?+ü",
+      "--body-plain-text",
+      "second value &/?+ü",
+      "--context-geoloc-continent",
+      "second value &/?+ü",
+      "--context-geoloc-is-eu-country=false",
+      "--context-geoloc-longitude",
+      "2",
+      "--context-geoloc-postal-code",
+      "second value &/?+ü",
+      "--context-geoloc-timezone",
+      "2026-01-02T03:04:05Z",
+      "--context-skip-challenge=false",
+      "--skip-response=false"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/request-tracer/trace",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "359",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "body": {
+            "base64": "second value &/?+ü",
+            "plain_text": "second value &/?+ü"
+          },
+          "context": {
+            "geoloc": {
+              "continent": "second value &/?+ü",
+              "is_eu_country": false,
+              "longitude": 2,
+              "postal_code": "second value &/?+ü",
+              "timezone": "2026-01-02T03:04:05Z"
+            },
+            "skip_challenge": false
+          },
+          "method": "regression value &/?+ü",
+          "skip_response": false,
+          "url": "https://example.com/a?x=1&y=two"
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 6",
+    "argv": [
+      "request-tracers",
+      "traces",
+      "create",
+      "--method",
+      "regression value &/?+ü",
+      "--url",
+      "https://example.com/a?x=1&y=two",
+      "--context-geoloc-continent",
+      "regression value &/?+ü",
+      "--context-geoloc-is-eu-country=true",
+      "--context-geoloc-iso-code",
+      "regression value &/?+ü",
+      "--context-geoloc-latitude",
+      "1",
+      "--context-geoloc-timezone",
+      "2026-01-02T03:04:05Z",
+      "--context-skip-challenge=true",
+      "--context-threat-score",
+      "1",
+      "--protocol",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/request-tracer/trace",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "318",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "context": {
+            "geoloc": {
+              "continent": "regression value &/?+ü",
+              "is_eu_country": true,
+              "iso_code": "regression value &/?+ü",
+              "latitude": 1,
+              "timezone": "2026-01-02T03:04:05Z"
+            },
+            "skip_challenge": true,
+            "threat_score": 1
+          },
+          "method": "regression value &/?+ü",
+          "protocol": "regression value &/?+ü",
+          "url": "https://example.com/a?x=1&y=two"
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 7",
+    "argv": [
+      "request-tracers",
+      "traces",
+      "create",
+      "--method",
+      "regression value &/?+ü",
+      "--url",
+      "https://example.com/a?x=1&y=two",
+      "--body-base64",
+      "second value &/?+ü",
+      "--body-plain-text",
+      "second value &/?+ü",
+      "--context-bot-score",
+      "2",
+      "--context-geoloc-city",
+      "second value &/?+ü",
+      "--context-geoloc-longitude",
+      "2",
+      "--context-geoloc-postal-code",
+      "second value &/?+ü",
+      "--context-geoloc-region-code",
+      "second value &/?+ü",
+      "--context-geoloc-subdivision-2-iso-code",
+      "second value &/?+ü",
+      "--skip-response=false"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/request-tracer/trace",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "372",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "body": {
+            "base64": "second value &/?+ü",
+            "plain_text": "second value &/?+ü"
+          },
+          "context": {
+            "bot_score": 2,
+            "geoloc": {
+              "city": "second value &/?+ü",
+              "longitude": 2,
+              "postal_code": "second value &/?+ü",
+              "region_code": "second value &/?+ü",
+              "subdivision_2_iso_code": "second value &/?+ü"
+            }
+          },
+          "method": "regression value &/?+ü",
+          "skip_response": false,
+          "url": "https://example.com/a?x=1&y=two"
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 8",
+    "argv": [
+      "request-tracers",
+      "traces",
+      "create",
+      "--method",
+      "regression value &/?+ü",
+      "--url",
+      "https://example.com/a?x=1&y=two",
+      "--context-geoloc-longitude",
+      "1",
+      "--context-geoloc-postal-code",
+      "regression value &/?+ü",
+      "--context-geoloc-region-code",
+      "regression value &/?+ü",
+      "--context-geoloc-subdivision-2-iso-code",
+      "regression value &/?+ü",
+      "--context-geoloc-timezone",
+      "2026-01-02T03:04:05Z",
+      "--context-skip-challenge=true",
+      "--context-threat-score",
+      "1",
+      "--protocol",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/request-tracer/trace",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "354",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "context": {
+            "geoloc": {
+              "longitude": 1,
+              "postal_code": "regression value &/?+ü",
+              "region_code": "regression value &/?+ü",
+              "subdivision_2_iso_code": "regression value &/?+ü",
+              "timezone": "2026-01-02T03:04:05Z"
+            },
+            "skip_challenge": true,
+            "threat_score": 1
+          },
+          "method": "regression value &/?+ü",
+          "protocol": "regression value &/?+ü",
+          "url": "https://example.com/a?x=1&y=two"
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 9",
+    "argv": [
+      "request-tracers",
+      "traces",
+      "create",
+      "--method",
+      "regression value &/?+ü",
+      "--url",
+      "https://example.com/a?x=1&y=two",
+      "--body-base64",
+      "second value &/?+ü",
+      "--body-plain-text",
+      "second value &/?+ü",
+      "--context-bot-score",
+      "2",
+      "--context-geoloc-city",
+      "second value &/?+ü",
+      "--context-geoloc-continent",
+      "second value &/?+ü",
+      "--context-geoloc-is-eu-country=false",
+      "--context-geoloc-iso-code",
+      "second value &/?+ü",
+      "--context-geoloc-latitude",
+      "2",
+      "--skip-response=false"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/request-tracer/trace",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "341",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "body": {
+            "base64": "second value &/?+ü",
+            "plain_text": "second value &/?+ü"
+          },
+          "context": {
+            "bot_score": 2,
+            "geoloc": {
+              "city": "second value &/?+ü",
+              "continent": "second value &/?+ü",
+              "is_eu_country": false,
+              "iso_code": "second value &/?+ü",
+              "latitude": 2
+            }
+          },
+          "method": "regression value &/?+ü",
+          "skip_response": false,
+          "url": "https://example.com/a?x=1&y=two"
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 11",
+    "argv": [
+      "request-tracers",
+      "traces",
+      "create",
+      "--method",
+      "regression value &/?+ü",
+      "--url",
+      "https://example.com/a?x=1&y=two",
+      "--body-base64",
+      "second value &/?+ü",
+      "--body-plain-text",
+      "second value &/?+ü",
+      "--context-bot-score",
+      "2",
+      "--context-geoloc-city",
+      "second value &/?+ü",
+      "--context-geoloc-continent",
+      "second value &/?+ü",
+      "--context-geoloc-is-eu-country=false",
+      "--context-geoloc-iso-code",
+      "second value &/?+ü",
+      "--context-geoloc-latitude",
+      "2",
+      "--context-geoloc-longitude",
+      "2",
+      "--context-geoloc-postal-code",
+      "second value &/?+ü",
+      "--context-geoloc-region-code",
+      "second value &/?+ü",
+      "--context-geoloc-subdivision-2-iso-code",
+      "second value &/?+ü",
+      "--context-geoloc-timezone",
+      "2026-01-02T03:04:05Z",
+      "--context-skip-challenge=false",
+      "--context-threat-score",
+      "2",
+      "--protocol",
+      "second value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/request-tracer/trace",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "559",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "body": {
+            "base64": "second value &/?+ü",
+            "plain_text": "second value &/?+ü"
+          },
+          "context": {
+            "bot_score": 2,
+            "geoloc": {
+              "city": "second value &/?+ü",
+              "continent": "second value &/?+ü",
+              "is_eu_country": false,
+              "iso_code": "second value &/?+ü",
+              "latitude": 2,
+              "longitude": 2,
+              "postal_code": "second value &/?+ü",
+              "region_code": "second value &/?+ü",
+              "subdivision_2_iso_code": "second value &/?+ü",
+              "timezone": "2026-01-02T03:04:05Z"
+            },
+            "skip_challenge": false,
+            "threat_score": 2
+          },
+          "method": "regression value &/?+ü",
+          "protocol": "second value &/?+ü",
+          "url": "https://example.com/a?x=1&y=two"
+        }
+      }
+    ]
+  },
+  {
+    "case": "global quiet",
+    "argv": [
+      "request-tracers",
+      "traces",
+      "create",
+      "--method",
+      "regression value &/?+ü",
+      "--url",
+      "https://example.com/a?x=1&y=two",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--quiet"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/request-tracer/trace",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "global zone",
+    "argv": [
+      "request-tracers",
+      "traces",
+      "create",
+      "--method",
+      "regression value &/?+ü",
+      "--url",
+      "https://example.com/a?x=1&y=two",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--zone",
+      "abcdef0123456789abcdef0123456789"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/request-tracer/trace",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "global profile and mode",
+    "argv": [
+      "request-tracers",
+      "traces",
+      "create",
+      "--method",
+      "regression value &/?+ü",
+      "--url",
+      "https://example.com/a?x=1&y=two",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--profile",
+      "default",
+      "--mode",
+      "regression"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/request-tracer/trace",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "local",
+    "argv": [
+      "request-tracers",
+      "traces",
+      "create",
+      "--method",
+      "regression value &/?+ü",
+      "--url",
+      "https://example.com/a?x=1&y=two",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--local"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "http://localhost/cdn-cgi/local/explorer/api/request-tracer/trace",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "gzip, deflate",
+          "accept-language": "*",
+          "connection": "keep-alive",
+          "content-type": "application/json",
+          "host": "localhost",
+          "sec-fetch-mode": "cors",
+          "transfer-encoding": "chunked",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "local with persistence",
+    "argv": [
+      "request-tracers",
+      "traces",
+      "create",
+      "--method",
+      "regression value &/?+ü",
+      "--url",
+      "https://example.com/a?x=1&y=two",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--local",
+      "--persist-to",
+      "regression-state"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "http://localhost/cdn-cgi/local/explorer/api/request-tracer/trace",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "gzip, deflate",
+          "accept-language": "*",
+          "connection": "keep-alive",
+          "content-type": "application/json",
+          "host": "localhost",
+          "sec-fetch-mode": "cors",
+          "transfer-encoding": "chunked",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "dry-run",
+    "argv": [
+      "request-tracers",
+      "traces",
+      "create",
+      "--method",
+      "regression value &/?+ü",
+      "--url",
+      "https://example.com/a?x=1&y=two",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--dry-run"
+    ],
+    "exitCode": 0,
+    "requests": []
+  },
+  {
+    "case": "body from file",
+    "argv": [
+      "request-tracers",
+      "traces",
+      "create",
+      "--method",
+      "regression value &/?+ü",
+      "--url",
+      "https://example.com/a?x=1&y=two",
+      "--body",
+      "@<body.json>"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/request-tracer/trace",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "array body",
+    "argv": [
+      "request-tracers",
+      "traces",
+      "create",
+      "--method",
+      "regression value &/?+ü",
+      "--url",
+      "https://example.com/a?x=1&y=two",
+      "--body",
+      "[{\"regression\":\"first\"},{\"regression\":\"second\"}]"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/request-tracer/trace",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "56",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "0": {
+            "regression": "first"
+          },
+          "1": {
+            "regression": "second"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "field flags",
+    "argv": [
+      "request-tracers",
+      "traces",
+      "create",
+      "--method",
+      "regression value &/?+ü",
+      "--url",
+      "https://example.com/a?x=1&y=two",
+      "--body-base64",
+      "regression value &/?+ü",
+      "--body-plain-text",
+      "regression value &/?+ü",
+      "--context-bot-score",
+      "1",
+      "--context-geoloc-city",
+      "regression value &/?+ü",
+      "--context-geoloc-continent",
+      "regression value &/?+ü",
+      "--context-geoloc-is-eu-country=true",
+      "--context-geoloc-iso-code",
+      "regression value &/?+ü",
+      "--context-geoloc-latitude",
+      "1",
+      "--context-geoloc-longitude",
+      "1",
+      "--context-geoloc-postal-code",
+      "regression value &/?+ü",
+      "--context-geoloc-region-code",
+      "regression value &/?+ü",
+      "--context-geoloc-subdivision-2-iso-code",
+      "regression value &/?+ü",
+      "--context-geoloc-timezone",
+      "2026-01-02T03:04:05Z",
+      "--context-skip-challenge=true",
+      "--context-threat-score",
+      "1",
+      "--protocol",
+      "regression value &/?+ü",
+      "--skip-response=true"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/request-tracer/trace",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "614",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "body": {
+            "base64": "regression value &/?+ü",
+            "plain_text": "regression value &/?+ü"
+          },
+          "context": {
+            "bot_score": 1,
+            "geoloc": {
+              "city": "regression value &/?+ü",
+              "continent": "regression value &/?+ü",
+              "is_eu_country": true,
+              "iso_code": "regression value &/?+ü",
+              "latitude": 1,
+              "longitude": 1,
+              "postal_code": "regression value &/?+ü",
+              "region_code": "regression value &/?+ü",
+              "subdivision_2_iso_code": "regression value &/?+ü",
+              "timezone": "2026-01-02T03:04:05Z"
+            },
+            "skip_challenge": true,
+            "threat_score": 1
+          },
+          "method": "regression value &/?+ü",
+          "protocol": "regression value &/?+ü",
+          "skip_response": true,
+          "url": "https://example.com/a?x=1&y=two"
+        }
+      }
+    ]
+  }
+]

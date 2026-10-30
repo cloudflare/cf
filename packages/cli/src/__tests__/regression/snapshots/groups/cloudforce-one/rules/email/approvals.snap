@@ -1,0 +1,9 @@
+{
+  "argv": [
+    "cloudforce-one",
+    "rules",
+    "email",
+    "approvals"
+  ],
+  "requests": []
+}

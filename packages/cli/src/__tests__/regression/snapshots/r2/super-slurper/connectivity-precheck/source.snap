@@ -1,0 +1,1266 @@
+[
+  {
+    "case": "no-args",
+    "argv": [
+      "r2",
+      "super-slurper",
+      "connectivity-precheck",
+      "source"
+    ],
+    "exitCode": 1,
+    "error": "--bucket is required. Pass --bucket <value> or run interactively.",
+    "requests": []
+  },
+  {
+    "case": "required",
+    "argv": [
+      "r2",
+      "super-slurper",
+      "connectivity-precheck",
+      "source",
+      "--bucket",
+      "regression value &/?+ü",
+      "--vendor",
+      "s3",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/slurper/source/connectivity-precheck",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --endpoint",
+    "argv": [
+      "r2",
+      "super-slurper",
+      "connectivity-precheck",
+      "source",
+      "--bucket",
+      "regression value &/?+ü",
+      "--vendor",
+      "s3",
+      "--endpoint",
+      "https://example.com/a?x=1&y=two"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/slurper/source/connectivity-precheck",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "95",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "bucket": "regression value &/?+ü",
+          "endpoint": "https://example.com/a?x=1&y=two",
+          "vendor": "s3"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --keys",
+    "argv": [
+      "r2",
+      "super-slurper",
+      "connectivity-precheck",
+      "source",
+      "--bucket",
+      "regression value &/?+ü",
+      "--vendor",
+      "s3",
+      "--keys",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/slurper/source/connectivity-precheck",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "85",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "bucket": "regression value &/?+ü",
+          "keys": [
+            "regression value &/?+ü"
+          ],
+          "vendor": "s3"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --path-prefix",
+    "argv": [
+      "r2",
+      "super-slurper",
+      "connectivity-precheck",
+      "source",
+      "--bucket",
+      "regression value &/?+ü",
+      "--vendor",
+      "s3",
+      "--path-prefix",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/slurper/source/connectivity-precheck",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "89",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "bucket": "regression value &/?+ü",
+          "pathPrefix": "regression value &/?+ü",
+          "vendor": "s3"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --region",
+    "argv": [
+      "r2",
+      "super-slurper",
+      "connectivity-precheck",
+      "source",
+      "--bucket",
+      "regression value &/?+ü",
+      "--vendor",
+      "s3",
+      "--region",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/slurper/source/connectivity-precheck",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "85",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "bucket": "regression value &/?+ü",
+          "region": "regression value &/?+ü",
+          "vendor": "s3"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --secret-access-key-id",
+    "argv": [
+      "r2",
+      "super-slurper",
+      "connectivity-precheck",
+      "source",
+      "--bucket",
+      "regression value &/?+ü",
+      "--vendor",
+      "s3",
+      "--secret-access-key-id",
+      "0123456789abcdef0123456789abcdef"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/slurper/source/connectivity-precheck",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "110",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "bucket": "regression value &/?+ü",
+          "secret": {
+            "accessKeyId": "0123456789abcdef0123456789abcdef"
+          },
+          "vendor": "s3"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --secret-secret-access-key",
+    "argv": [
+      "r2",
+      "super-slurper",
+      "connectivity-precheck",
+      "source",
+      "--bucket",
+      "regression value &/?+ü",
+      "--vendor",
+      "s3",
+      "--secret-secret-access-key",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/slurper/source/connectivity-precheck",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "105",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "bucket": "regression value &/?+ü",
+          "secret": {
+            "secretAccessKey": "regression value &/?+ü"
+          },
+          "vendor": "s3"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --secret-client-email",
+    "argv": [
+      "r2",
+      "super-slurper",
+      "connectivity-precheck",
+      "source",
+      "--bucket",
+      "regression value &/?+ü",
+      "--vendor",
+      "s3",
+      "--secret-client-email",
+      "regression@example.com"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/slurper/source/connectivity-precheck",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "100",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "bucket": "regression value &/?+ü",
+          "secret": {
+            "clientEmail": "regression@example.com"
+          },
+          "vendor": "s3"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --secret-private-key",
+    "argv": [
+      "r2",
+      "super-slurper",
+      "connectivity-precheck",
+      "source",
+      "--bucket",
+      "regression value &/?+ü",
+      "--vendor",
+      "s3",
+      "--secret-private-key",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/slurper/source/connectivity-precheck",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "100",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "bucket": "regression value &/?+ü",
+          "secret": {
+            "privateKey": "regression value &/?+ü"
+          },
+          "vendor": "s3"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --jurisdiction",
+    "argv": [
+      "r2",
+      "super-slurper",
+      "connectivity-precheck",
+      "source",
+      "--bucket",
+      "regression value &/?+ü",
+      "--vendor",
+      "s3",
+      "--jurisdiction",
+      "default"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/slurper/source/connectivity-precheck",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "75",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "bucket": "regression value &/?+ü",
+          "vendor": "s3",
+          "jurisdiction": "default"
+        }
+      }
+    ]
+  },
+  {
+    "case": "--jurisdiction value 1",
+    "argv": [
+      "r2",
+      "super-slurper",
+      "connectivity-precheck",
+      "source",
+      "--bucket",
+      "regression value &/?+ü",
+      "--vendor",
+      "s3",
+      "--jurisdiction",
+      "eu"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/slurper/source/connectivity-precheck",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "70",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "bucket": "regression value &/?+ü",
+          "vendor": "s3",
+          "jurisdiction": "eu"
+        }
+      }
+    ]
+  },
+  {
+    "case": "--jurisdiction value 2",
+    "argv": [
+      "r2",
+      "super-slurper",
+      "connectivity-precheck",
+      "source",
+      "--bucket",
+      "regression value &/?+ü",
+      "--vendor",
+      "s3",
+      "--jurisdiction",
+      "us"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/slurper/source/connectivity-precheck",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "70",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "bucket": "regression value &/?+ü",
+          "vendor": "s3",
+          "jurisdiction": "us"
+        }
+      }
+    ]
+  },
+  {
+    "case": "--jurisdiction value 3",
+    "argv": [
+      "r2",
+      "super-slurper",
+      "connectivity-precheck",
+      "source",
+      "--bucket",
+      "regression value &/?+ü",
+      "--vendor",
+      "s3",
+      "--jurisdiction",
+      "fedramp"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/slurper/source/connectivity-precheck",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "75",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "bucket": "regression value &/?+ü",
+          "vendor": "s3",
+          "jurisdiction": "fedramp"
+        }
+      }
+    ]
+  },
+  {
+    "case": "required --vendor value 1",
+    "argv": [
+      "r2",
+      "super-slurper",
+      "connectivity-precheck",
+      "source",
+      "--bucket",
+      "regression value &/?+ü",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--vendor",
+      "gcs"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/slurper/source/connectivity-precheck",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "required --vendor value 2",
+    "argv": [
+      "r2",
+      "super-slurper",
+      "connectivity-precheck",
+      "source",
+      "--bucket",
+      "regression value &/?+ü",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--vendor",
+      "r2"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/slurper/source/connectivity-precheck",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 0",
+    "argv": [
+      "r2",
+      "super-slurper",
+      "connectivity-precheck",
+      "source",
+      "--bucket",
+      "regression value &/?+ü",
+      "--vendor",
+      "s3"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/slurper/source/connectivity-precheck",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "50",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "bucket": "regression value &/?+ü",
+          "vendor": "s3"
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 1",
+    "argv": [
+      "r2",
+      "super-slurper",
+      "connectivity-precheck",
+      "source",
+      "--bucket",
+      "regression value &/?+ü",
+      "--vendor",
+      "s3",
+      "--endpoint",
+      "https://example.com/a?x=1&y=two",
+      "--keys",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--path-prefix",
+      "second value &/?+ü",
+      "--region",
+      "second value &/?+ü",
+      "--secret-access-key-id",
+      "0123456789abcdef0123456789abcdef",
+      "--secret-secret-access-key",
+      "second value &/?+ü",
+      "--secret-client-email",
+      "regression@example.com",
+      "--secret-private-key",
+      "second value &/?+ü",
+      "--jurisdiction",
+      "eu"
+    ],
+    "exitCode": 1,
+    "error": "Arguments endpoint and secret-client-email are mutually exclusive",
+    "requests": []
+  },
+  {
+    "case": "pairwise 2",
+    "argv": [
+      "r2",
+      "super-slurper",
+      "connectivity-precheck",
+      "source",
+      "--bucket",
+      "regression value &/?+ü",
+      "--vendor",
+      "s3",
+      "--keys",
+      "regression value &/?+ü",
+      "--region",
+      "regression value &/?+ü",
+      "--secret-secret-access-key",
+      "regression value &/?+ü",
+      "--secret-private-key",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 1,
+    "error": "Arguments region and secret-private-key are mutually exclusive",
+    "requests": []
+  },
+  {
+    "case": "pairwise 3",
+    "argv": [
+      "r2",
+      "super-slurper",
+      "connectivity-precheck",
+      "source",
+      "--bucket",
+      "regression value &/?+ü",
+      "--vendor",
+      "s3",
+      "--endpoint",
+      "https://example.com/a?x=1&y=two",
+      "--path-prefix",
+      "second value &/?+ü",
+      "--secret-access-key-id",
+      "0123456789abcdef0123456789abcdef",
+      "--secret-client-email",
+      "regression@example.com",
+      "--jurisdiction",
+      "eu"
+    ],
+    "exitCode": 1,
+    "error": "Arguments endpoint and secret-client-email are mutually exclusive",
+    "requests": []
+  },
+  {
+    "case": "pairwise 4",
+    "argv": [
+      "r2",
+      "super-slurper",
+      "connectivity-precheck",
+      "source",
+      "--bucket",
+      "regression value &/?+ü",
+      "--vendor",
+      "s3",
+      "--path-prefix",
+      "regression value &/?+ü",
+      "--region",
+      "regression value &/?+ü",
+      "--secret-client-email",
+      "regression@example.com",
+      "--secret-private-key",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 1,
+    "error": "Arguments region and secret-client-email are mutually exclusive",
+    "requests": []
+  },
+  {
+    "case": "pairwise 5",
+    "argv": [
+      "r2",
+      "super-slurper",
+      "connectivity-precheck",
+      "source",
+      "--bucket",
+      "regression value &/?+ü",
+      "--vendor",
+      "s3",
+      "--endpoint",
+      "https://example.com/a?x=1&y=two",
+      "--keys",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--secret-access-key-id",
+      "0123456789abcdef0123456789abcdef",
+      "--secret-secret-access-key",
+      "second value &/?+ü",
+      "--jurisdiction",
+      "eu"
+    ],
+    "exitCode": 1,
+    "error": "Arguments endpoint and jurisdiction are mutually exclusive",
+    "requests": []
+  },
+  {
+    "case": "pairwise 6",
+    "argv": [
+      "r2",
+      "super-slurper",
+      "connectivity-precheck",
+      "source",
+      "--bucket",
+      "regression value &/?+ü",
+      "--vendor",
+      "s3",
+      "--secret-access-key-id",
+      "0123456789abcdef0123456789abcdef",
+      "--secret-secret-access-key",
+      "regression value &/?+ü",
+      "--secret-client-email",
+      "regression@example.com",
+      "--secret-private-key",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 1,
+    "error": "Arguments secret-access-key-id and secret-client-email are mutually exclusive",
+    "requests": []
+  },
+  {
+    "case": "pairwise 7",
+    "argv": [
+      "r2",
+      "super-slurper",
+      "connectivity-precheck",
+      "source",
+      "--bucket",
+      "regression value &/?+ü",
+      "--vendor",
+      "s3",
+      "--endpoint",
+      "https://example.com/a?x=1&y=two",
+      "--keys",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--path-prefix",
+      "second value &/?+ü",
+      "--region",
+      "second value &/?+ü",
+      "--jurisdiction",
+      "eu"
+    ],
+    "exitCode": 1,
+    "error": "Arguments endpoint and jurisdiction are mutually exclusive",
+    "requests": []
+  },
+  {
+    "case": "pairwise 9",
+    "argv": [
+      "r2",
+      "super-slurper",
+      "connectivity-precheck",
+      "source",
+      "--bucket",
+      "regression value &/?+ü",
+      "--vendor",
+      "s3",
+      "--endpoint",
+      "https://example.com/a?x=1&y=two",
+      "--keys",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--path-prefix",
+      "second value &/?+ü",
+      "--region",
+      "second value &/?+ü",
+      "--secret-access-key-id",
+      "0123456789abcdef0123456789abcdef",
+      "--secret-secret-access-key",
+      "second value &/?+ü",
+      "--secret-client-email",
+      "regression@example.com",
+      "--secret-private-key",
+      "second value &/?+ü"
+    ],
+    "exitCode": 1,
+    "error": "Arguments endpoint and secret-client-email are mutually exclusive",
+    "requests": []
+  },
+  {
+    "case": "global quiet",
+    "argv": [
+      "r2",
+      "super-slurper",
+      "connectivity-precheck",
+      "source",
+      "--bucket",
+      "regression value &/?+ü",
+      "--vendor",
+      "s3",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--quiet"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/slurper/source/connectivity-precheck",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "global zone",
+    "argv": [
+      "r2",
+      "super-slurper",
+      "connectivity-precheck",
+      "source",
+      "--bucket",
+      "regression value &/?+ü",
+      "--vendor",
+      "s3",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--zone",
+      "abcdef0123456789abcdef0123456789"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/slurper/source/connectivity-precheck",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "global profile and mode",
+    "argv": [
+      "r2",
+      "super-slurper",
+      "connectivity-precheck",
+      "source",
+      "--bucket",
+      "regression value &/?+ü",
+      "--vendor",
+      "s3",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--profile",
+      "default",
+      "--mode",
+      "regression"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/slurper/source/connectivity-precheck",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "local",
+    "argv": [
+      "r2",
+      "super-slurper",
+      "connectivity-precheck",
+      "source",
+      "--bucket",
+      "regression value &/?+ü",
+      "--vendor",
+      "s3",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--local"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "http://localhost/cdn-cgi/local/explorer/api/slurper/source/connectivity-precheck",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "gzip, deflate",
+          "accept-language": "*",
+          "connection": "keep-alive",
+          "content-type": "application/json",
+          "host": "localhost",
+          "sec-fetch-mode": "cors",
+          "transfer-encoding": "chunked",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "local with persistence",
+    "argv": [
+      "r2",
+      "super-slurper",
+      "connectivity-precheck",
+      "source",
+      "--bucket",
+      "regression value &/?+ü",
+      "--vendor",
+      "s3",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--local",
+      "--persist-to",
+      "regression-state"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "http://localhost/cdn-cgi/local/explorer/api/slurper/source/connectivity-precheck",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "gzip, deflate",
+          "accept-language": "*",
+          "connection": "keep-alive",
+          "content-type": "application/json",
+          "host": "localhost",
+          "sec-fetch-mode": "cors",
+          "transfer-encoding": "chunked",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "dry-run",
+    "argv": [
+      "r2",
+      "super-slurper",
+      "connectivity-precheck",
+      "source",
+      "--bucket",
+      "regression value &/?+ü",
+      "--vendor",
+      "s3",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--dry-run"
+    ],
+    "exitCode": 0,
+    "requests": []
+  },
+  {
+    "case": "body from file",
+    "argv": [
+      "r2",
+      "super-slurper",
+      "connectivity-precheck",
+      "source",
+      "--bucket",
+      "regression value &/?+ü",
+      "--vendor",
+      "s3",
+      "--body",
+      "@<body.json>"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/slurper/source/connectivity-precheck",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "array body",
+    "argv": [
+      "r2",
+      "super-slurper",
+      "connectivity-precheck",
+      "source",
+      "--bucket",
+      "regression value &/?+ü",
+      "--vendor",
+      "s3",
+      "--body",
+      "[{\"regression\":\"first\"},{\"regression\":\"second\"}]"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/slurper/source/connectivity-precheck",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "48",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": [
+          {
+            "regression": "first"
+          },
+          {
+            "regression": "second"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "case": "field flags",
+    "argv": [
+      "r2",
+      "super-slurper",
+      "connectivity-precheck",
+      "source",
+      "--bucket",
+      "regression value &/?+ü",
+      "--vendor",
+      "s3",
+      "--endpoint",
+      "https://example.com/a?x=1&y=two",
+      "--keys",
+      "regression value &/?+ü",
+      "--path-prefix",
+      "regression value &/?+ü",
+      "--region",
+      "regression value &/?+ü",
+      "--secret-access-key-id",
+      "0123456789abcdef0123456789abcdef",
+      "--secret-secret-access-key",
+      "regression value &/?+ü",
+      "--secret-client-email",
+      "regression@example.com",
+      "--secret-private-key",
+      "regression value &/?+ü",
+      "--jurisdiction",
+      "default"
+    ],
+    "exitCode": 1,
+    "error": "Arguments endpoint and secret-client-email are mutually exclusive",
+    "requests": []
+  }
+]

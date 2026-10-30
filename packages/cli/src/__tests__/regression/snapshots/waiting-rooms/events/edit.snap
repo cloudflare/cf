@@ -1,0 +1,2026 @@
+[
+  {
+    "case": "no-args",
+    "argv": [
+      "waiting-rooms",
+      "events",
+      "edit"
+    ],
+    "exitCode": 1,
+    "error": "Not enough non-option arguments: got 0, need at least 1",
+    "requests": []
+  },
+  {
+    "case": "required",
+    "argv": [
+      "waiting-rooms",
+      "events",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--waiting-room-id",
+      "0123456789abcdef0123456789abcdef",
+      "--event-end-time",
+      "2026-01-02T03:04:05Z",
+      "--event-start-time",
+      "2026-01-02T03:04:05Z",
+      "--name",
+      "regression value &/?+ü",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/waiting_rooms/0123456789abcdef0123456789abcdef/events/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --custom-page-html",
+    "argv": [
+      "waiting-rooms",
+      "events",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--waiting-room-id",
+      "0123456789abcdef0123456789abcdef",
+      "--event-end-time",
+      "2026-01-02T03:04:05Z",
+      "--event-start-time",
+      "2026-01-02T03:04:05Z",
+      "--name",
+      "regression value &/?+ü",
+      "--custom-page-html",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/waiting_rooms/0123456789abcdef0123456789abcdef/events/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "161",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "custom_page_html": "regression value &/?+ü",
+          "event_end_time": "2026-01-02T03:04:05Z",
+          "event_start_time": "2026-01-02T03:04:05Z",
+          "name": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --description",
+    "argv": [
+      "waiting-rooms",
+      "events",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--waiting-room-id",
+      "0123456789abcdef0123456789abcdef",
+      "--event-end-time",
+      "2026-01-02T03:04:05Z",
+      "--event-start-time",
+      "2026-01-02T03:04:05Z",
+      "--name",
+      "regression value &/?+ü",
+      "--description",
+      "192.0.2.1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/waiting_rooms/0123456789abcdef0123456789abcdef/events/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "142",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "description": "192.0.2.1",
+          "event_end_time": "2026-01-02T03:04:05Z",
+          "event_start_time": "2026-01-02T03:04:05Z",
+          "name": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --disable-session-renewal",
+    "argv": [
+      "waiting-rooms",
+      "events",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--waiting-room-id",
+      "0123456789abcdef0123456789abcdef",
+      "--event-end-time",
+      "2026-01-02T03:04:05Z",
+      "--event-start-time",
+      "2026-01-02T03:04:05Z",
+      "--name",
+      "regression value &/?+ü",
+      "--disable-session-renewal=true"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/waiting_rooms/0123456789abcdef0123456789abcdef/events/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "147",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "disable_session_renewal": true,
+          "event_end_time": "2026-01-02T03:04:05Z",
+          "event_start_time": "2026-01-02T03:04:05Z",
+          "name": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "--disable-session-renewal value 1",
+    "argv": [
+      "waiting-rooms",
+      "events",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--waiting-room-id",
+      "0123456789abcdef0123456789abcdef",
+      "--event-end-time",
+      "2026-01-02T03:04:05Z",
+      "--event-start-time",
+      "2026-01-02T03:04:05Z",
+      "--name",
+      "regression value &/?+ü",
+      "--disable-session-renewal=false"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/waiting_rooms/0123456789abcdef0123456789abcdef/events/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "148",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "disable_session_renewal": false,
+          "event_end_time": "2026-01-02T03:04:05Z",
+          "event_start_time": "2026-01-02T03:04:05Z",
+          "name": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --new-users-per-minute",
+    "argv": [
+      "waiting-rooms",
+      "events",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--waiting-room-id",
+      "0123456789abcdef0123456789abcdef",
+      "--event-end-time",
+      "2026-01-02T03:04:05Z",
+      "--event-start-time",
+      "2026-01-02T03:04:05Z",
+      "--name",
+      "regression value &/?+ü",
+      "--new-users-per-minute",
+      "1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/waiting_rooms/0123456789abcdef0123456789abcdef/events/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "141",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "event_end_time": "2026-01-02T03:04:05Z",
+          "event_start_time": "2026-01-02T03:04:05Z",
+          "name": "regression value &/?+ü",
+          "new_users_per_minute": 1
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --prequeue-start-time",
+    "argv": [
+      "waiting-rooms",
+      "events",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--waiting-room-id",
+      "0123456789abcdef0123456789abcdef",
+      "--event-end-time",
+      "2026-01-02T03:04:05Z",
+      "--event-start-time",
+      "2026-01-02T03:04:05Z",
+      "--name",
+      "regression value &/?+ü",
+      "--prequeue-start-time",
+      "2026-01-02T03:04:05Z"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/waiting_rooms/0123456789abcdef0123456789abcdef/events/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "161",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "event_end_time": "2026-01-02T03:04:05Z",
+          "event_start_time": "2026-01-02T03:04:05Z",
+          "name": "regression value &/?+ü",
+          "prequeue_start_time": "2026-01-02T03:04:05Z"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --queueing-method",
+    "argv": [
+      "waiting-rooms",
+      "events",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--waiting-room-id",
+      "0123456789abcdef0123456789abcdef",
+      "--event-end-time",
+      "2026-01-02T03:04:05Z",
+      "--event-start-time",
+      "2026-01-02T03:04:05Z",
+      "--name",
+      "regression value &/?+ü",
+      "--queueing-method",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/waiting_rooms/0123456789abcdef0123456789abcdef/events/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "160",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "event_end_time": "2026-01-02T03:04:05Z",
+          "event_start_time": "2026-01-02T03:04:05Z",
+          "name": "regression value &/?+ü",
+          "queueing_method": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --session-duration",
+    "argv": [
+      "waiting-rooms",
+      "events",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--waiting-room-id",
+      "0123456789abcdef0123456789abcdef",
+      "--event-end-time",
+      "2026-01-02T03:04:05Z",
+      "--event-start-time",
+      "2026-01-02T03:04:05Z",
+      "--name",
+      "regression value &/?+ü",
+      "--session-duration",
+      "1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/waiting_rooms/0123456789abcdef0123456789abcdef/events/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "137",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "event_end_time": "2026-01-02T03:04:05Z",
+          "event_start_time": "2026-01-02T03:04:05Z",
+          "name": "regression value &/?+ü",
+          "session_duration": 1
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --shuffle-at-event-start",
+    "argv": [
+      "waiting-rooms",
+      "events",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--waiting-room-id",
+      "0123456789abcdef0123456789abcdef",
+      "--event-end-time",
+      "2026-01-02T03:04:05Z",
+      "--event-start-time",
+      "2026-01-02T03:04:05Z",
+      "--name",
+      "regression value &/?+ü",
+      "--shuffle-at-event-start=true"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/waiting_rooms/0123456789abcdef0123456789abcdef/events/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "146",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "event_end_time": "2026-01-02T03:04:05Z",
+          "event_start_time": "2026-01-02T03:04:05Z",
+          "name": "regression value &/?+ü",
+          "shuffle_at_event_start": true
+        }
+      }
+    ]
+  },
+  {
+    "case": "--shuffle-at-event-start value 1",
+    "argv": [
+      "waiting-rooms",
+      "events",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--waiting-room-id",
+      "0123456789abcdef0123456789abcdef",
+      "--event-end-time",
+      "2026-01-02T03:04:05Z",
+      "--event-start-time",
+      "2026-01-02T03:04:05Z",
+      "--name",
+      "regression value &/?+ü",
+      "--shuffle-at-event-start=false"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/waiting_rooms/0123456789abcdef0123456789abcdef/events/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "147",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "event_end_time": "2026-01-02T03:04:05Z",
+          "event_start_time": "2026-01-02T03:04:05Z",
+          "name": "regression value &/?+ü",
+          "shuffle_at_event_start": false
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --suspended",
+    "argv": [
+      "waiting-rooms",
+      "events",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--waiting-room-id",
+      "0123456789abcdef0123456789abcdef",
+      "--event-end-time",
+      "2026-01-02T03:04:05Z",
+      "--event-start-time",
+      "2026-01-02T03:04:05Z",
+      "--name",
+      "regression value &/?+ü",
+      "--suspended=true"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/waiting_rooms/0123456789abcdef0123456789abcdef/events/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "133",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "event_end_time": "2026-01-02T03:04:05Z",
+          "event_start_time": "2026-01-02T03:04:05Z",
+          "name": "regression value &/?+ü",
+          "suspended": true
+        }
+      }
+    ]
+  },
+  {
+    "case": "--suspended value 1",
+    "argv": [
+      "waiting-rooms",
+      "events",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--waiting-room-id",
+      "0123456789abcdef0123456789abcdef",
+      "--event-end-time",
+      "2026-01-02T03:04:05Z",
+      "--event-start-time",
+      "2026-01-02T03:04:05Z",
+      "--name",
+      "regression value &/?+ü",
+      "--suspended=false"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/waiting_rooms/0123456789abcdef0123456789abcdef/events/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "134",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "event_end_time": "2026-01-02T03:04:05Z",
+          "event_start_time": "2026-01-02T03:04:05Z",
+          "name": "regression value &/?+ü",
+          "suspended": false
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --total-active-users",
+    "argv": [
+      "waiting-rooms",
+      "events",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--waiting-room-id",
+      "0123456789abcdef0123456789abcdef",
+      "--event-end-time",
+      "2026-01-02T03:04:05Z",
+      "--event-start-time",
+      "2026-01-02T03:04:05Z",
+      "--name",
+      "regression value &/?+ü",
+      "--total-active-users",
+      "1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/waiting_rooms/0123456789abcdef0123456789abcdef/events/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "139",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "event_end_time": "2026-01-02T03:04:05Z",
+          "event_start_time": "2026-01-02T03:04:05Z",
+          "name": "regression value &/?+ü",
+          "total_active_users": 1
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --turnstile-action",
+    "argv": [
+      "waiting-rooms",
+      "events",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--waiting-room-id",
+      "0123456789abcdef0123456789abcdef",
+      "--event-end-time",
+      "2026-01-02T03:04:05Z",
+      "--event-start-time",
+      "2026-01-02T03:04:05Z",
+      "--name",
+      "regression value &/?+ü",
+      "--turnstile-action",
+      "log"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/waiting_rooms/0123456789abcdef0123456789abcdef/events/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "141",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "event_end_time": "2026-01-02T03:04:05Z",
+          "event_start_time": "2026-01-02T03:04:05Z",
+          "name": "regression value &/?+ü",
+          "turnstile_action": "log"
+        }
+      }
+    ]
+  },
+  {
+    "case": "--turnstile-action value 1",
+    "argv": [
+      "waiting-rooms",
+      "events",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--waiting-room-id",
+      "0123456789abcdef0123456789abcdef",
+      "--event-end-time",
+      "2026-01-02T03:04:05Z",
+      "--event-start-time",
+      "2026-01-02T03:04:05Z",
+      "--name",
+      "regression value &/?+ü",
+      "--turnstile-action",
+      "infinite_queue"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/waiting_rooms/0123456789abcdef0123456789abcdef/events/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "152",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "event_end_time": "2026-01-02T03:04:05Z",
+          "event_start_time": "2026-01-02T03:04:05Z",
+          "name": "regression value &/?+ü",
+          "turnstile_action": "infinite_queue"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --turnstile-mode",
+    "argv": [
+      "waiting-rooms",
+      "events",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--waiting-room-id",
+      "0123456789abcdef0123456789abcdef",
+      "--event-end-time",
+      "2026-01-02T03:04:05Z",
+      "--event-start-time",
+      "2026-01-02T03:04:05Z",
+      "--name",
+      "regression value &/?+ü",
+      "--turnstile-mode",
+      "off"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/waiting_rooms/0123456789abcdef0123456789abcdef/events/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "139",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "event_end_time": "2026-01-02T03:04:05Z",
+          "event_start_time": "2026-01-02T03:04:05Z",
+          "name": "regression value &/?+ü",
+          "turnstile_mode": "off"
+        }
+      }
+    ]
+  },
+  {
+    "case": "--turnstile-mode value 1",
+    "argv": [
+      "waiting-rooms",
+      "events",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--waiting-room-id",
+      "0123456789abcdef0123456789abcdef",
+      "--event-end-time",
+      "2026-01-02T03:04:05Z",
+      "--event-start-time",
+      "2026-01-02T03:04:05Z",
+      "--name",
+      "regression value &/?+ü",
+      "--turnstile-mode",
+      "invisible"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/waiting_rooms/0123456789abcdef0123456789abcdef/events/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "145",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "event_end_time": "2026-01-02T03:04:05Z",
+          "event_start_time": "2026-01-02T03:04:05Z",
+          "name": "regression value &/?+ü",
+          "turnstile_mode": "invisible"
+        }
+      }
+    ]
+  },
+  {
+    "case": "--turnstile-mode value 2",
+    "argv": [
+      "waiting-rooms",
+      "events",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--waiting-room-id",
+      "0123456789abcdef0123456789abcdef",
+      "--event-end-time",
+      "2026-01-02T03:04:05Z",
+      "--event-start-time",
+      "2026-01-02T03:04:05Z",
+      "--name",
+      "regression value &/?+ü",
+      "--turnstile-mode",
+      "visible_non_interactive"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/waiting_rooms/0123456789abcdef0123456789abcdef/events/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "159",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "event_end_time": "2026-01-02T03:04:05Z",
+          "event_start_time": "2026-01-02T03:04:05Z",
+          "name": "regression value &/?+ü",
+          "turnstile_mode": "visible_non_interactive"
+        }
+      }
+    ]
+  },
+  {
+    "case": "--turnstile-mode value 3",
+    "argv": [
+      "waiting-rooms",
+      "events",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--waiting-room-id",
+      "0123456789abcdef0123456789abcdef",
+      "--event-end-time",
+      "2026-01-02T03:04:05Z",
+      "--event-start-time",
+      "2026-01-02T03:04:05Z",
+      "--name",
+      "regression value &/?+ü",
+      "--turnstile-mode",
+      "visible_managed"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/waiting_rooms/0123456789abcdef0123456789abcdef/events/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "151",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "event_end_time": "2026-01-02T03:04:05Z",
+          "event_start_time": "2026-01-02T03:04:05Z",
+          "name": "regression value &/?+ü",
+          "turnstile_mode": "visible_managed"
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 0",
+    "argv": [
+      "waiting-rooms",
+      "events",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--waiting-room-id",
+      "0123456789abcdef0123456789abcdef",
+      "--event-end-time",
+      "2026-01-02T03:04:05Z",
+      "--event-start-time",
+      "2026-01-02T03:04:05Z",
+      "--name",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/waiting_rooms/0123456789abcdef0123456789abcdef/events/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "116",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "event_end_time": "2026-01-02T03:04:05Z",
+          "event_start_time": "2026-01-02T03:04:05Z",
+          "name": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 1",
+    "argv": [
+      "waiting-rooms",
+      "events",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--waiting-room-id",
+      "0123456789abcdef0123456789abcdef",
+      "--event-end-time",
+      "2026-01-02T03:04:05Z",
+      "--event-start-time",
+      "2026-01-02T03:04:05Z",
+      "--name",
+      "regression value &/?+ü",
+      "--custom-page-html",
+      "second value &/?+ü",
+      "--description",
+      "192.0.2.1",
+      "--disable-session-renewal=false",
+      "--new-users-per-minute",
+      "2",
+      "--prequeue-start-time",
+      "2026-01-02T03:04:05Z",
+      "--queueing-method",
+      "second value &/?+ü",
+      "--session-duration",
+      "2",
+      "--shuffle-at-event-start=false",
+      "--suspended=false",
+      "--total-active-users",
+      "2",
+      "--turnstile-action",
+      "infinite_queue",
+      "--turnstile-mode",
+      "invisible"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/waiting_rooms/0123456789abcdef0123456789abcdef/events/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "483",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "custom_page_html": "second value &/?+ü",
+          "description": "192.0.2.1",
+          "disable_session_renewal": false,
+          "event_end_time": "2026-01-02T03:04:05Z",
+          "event_start_time": "2026-01-02T03:04:05Z",
+          "name": "regression value &/?+ü",
+          "new_users_per_minute": 2,
+          "prequeue_start_time": "2026-01-02T03:04:05Z",
+          "queueing_method": "second value &/?+ü",
+          "session_duration": 2,
+          "shuffle_at_event_start": false,
+          "suspended": false,
+          "total_active_users": 2,
+          "turnstile_action": "infinite_queue",
+          "turnstile_mode": "invisible"
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 2",
+    "argv": [
+      "waiting-rooms",
+      "events",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--waiting-room-id",
+      "0123456789abcdef0123456789abcdef",
+      "--event-end-time",
+      "2026-01-02T03:04:05Z",
+      "--event-start-time",
+      "2026-01-02T03:04:05Z",
+      "--name",
+      "regression value &/?+ü",
+      "--description",
+      "192.0.2.1",
+      "--new-users-per-minute",
+      "1",
+      "--queueing-method",
+      "regression value &/?+ü",
+      "--shuffle-at-event-start=true",
+      "--total-active-users",
+      "1",
+      "--turnstile-mode",
+      "off"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/waiting_rooms/0123456789abcdef0123456789abcdef/events/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "287",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "description": "192.0.2.1",
+          "event_end_time": "2026-01-02T03:04:05Z",
+          "event_start_time": "2026-01-02T03:04:05Z",
+          "name": "regression value &/?+ü",
+          "new_users_per_minute": 1,
+          "queueing_method": "regression value &/?+ü",
+          "shuffle_at_event_start": true,
+          "total_active_users": 1,
+          "turnstile_mode": "off"
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 3",
+    "argv": [
+      "waiting-rooms",
+      "events",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--waiting-room-id",
+      "0123456789abcdef0123456789abcdef",
+      "--event-end-time",
+      "2026-01-02T03:04:05Z",
+      "--event-start-time",
+      "2026-01-02T03:04:05Z",
+      "--name",
+      "regression value &/?+ü",
+      "--custom-page-html",
+      "second value &/?+ü",
+      "--disable-session-renewal=false",
+      "--prequeue-start-time",
+      "2026-01-02T03:04:05Z",
+      "--session-duration",
+      "2",
+      "--suspended=false",
+      "--turnstile-action",
+      "infinite_queue"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/waiting_rooms/0123456789abcdef0123456789abcdef/events/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "309",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "custom_page_html": "second value &/?+ü",
+          "disable_session_renewal": false,
+          "event_end_time": "2026-01-02T03:04:05Z",
+          "event_start_time": "2026-01-02T03:04:05Z",
+          "name": "regression value &/?+ü",
+          "prequeue_start_time": "2026-01-02T03:04:05Z",
+          "session_duration": 2,
+          "suspended": false,
+          "turnstile_action": "infinite_queue"
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 4",
+    "argv": [
+      "waiting-rooms",
+      "events",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--waiting-room-id",
+      "0123456789abcdef0123456789abcdef",
+      "--event-end-time",
+      "2026-01-02T03:04:05Z",
+      "--event-start-time",
+      "2026-01-02T03:04:05Z",
+      "--name",
+      "regression value &/?+ü",
+      "--disable-session-renewal=true",
+      "--new-users-per-minute",
+      "1",
+      "--session-duration",
+      "1",
+      "--shuffle-at-event-start=true",
+      "--turnstile-action",
+      "log",
+      "--turnstile-mode",
+      "off"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/waiting_rooms/0123456789abcdef0123456789abcdef/events/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "271",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "disable_session_renewal": true,
+          "event_end_time": "2026-01-02T03:04:05Z",
+          "event_start_time": "2026-01-02T03:04:05Z",
+          "name": "regression value &/?+ü",
+          "new_users_per_minute": 1,
+          "session_duration": 1,
+          "shuffle_at_event_start": true,
+          "turnstile_action": "log",
+          "turnstile_mode": "off"
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 5",
+    "argv": [
+      "waiting-rooms",
+      "events",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--waiting-room-id",
+      "0123456789abcdef0123456789abcdef",
+      "--event-end-time",
+      "2026-01-02T03:04:05Z",
+      "--event-start-time",
+      "2026-01-02T03:04:05Z",
+      "--name",
+      "regression value &/?+ü",
+      "--custom-page-html",
+      "second value &/?+ü",
+      "--description",
+      "192.0.2.1",
+      "--prequeue-start-time",
+      "2026-01-02T03:04:05Z",
+      "--queueing-method",
+      "second value &/?+ü",
+      "--suspended=false",
+      "--total-active-users",
+      "2"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/waiting_rooms/0123456789abcdef0123456789abcdef/events/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "309",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "custom_page_html": "second value &/?+ü",
+          "description": "192.0.2.1",
+          "event_end_time": "2026-01-02T03:04:05Z",
+          "event_start_time": "2026-01-02T03:04:05Z",
+          "name": "regression value &/?+ü",
+          "prequeue_start_time": "2026-01-02T03:04:05Z",
+          "queueing_method": "second value &/?+ü",
+          "suspended": false,
+          "total_active_users": 2
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 6",
+    "argv": [
+      "waiting-rooms",
+      "events",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--waiting-room-id",
+      "0123456789abcdef0123456789abcdef",
+      "--event-end-time",
+      "2026-01-02T03:04:05Z",
+      "--event-start-time",
+      "2026-01-02T03:04:05Z",
+      "--name",
+      "regression value &/?+ü",
+      "--prequeue-start-time",
+      "2026-01-02T03:04:05Z",
+      "--queueing-method",
+      "regression value &/?+ü",
+      "--session-duration",
+      "1",
+      "--shuffle-at-event-start=true"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/waiting_rooms/0123456789abcdef0123456789abcdef/events/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "256",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "event_end_time": "2026-01-02T03:04:05Z",
+          "event_start_time": "2026-01-02T03:04:05Z",
+          "name": "regression value &/?+ü",
+          "prequeue_start_time": "2026-01-02T03:04:05Z",
+          "queueing_method": "regression value &/?+ü",
+          "session_duration": 1,
+          "shuffle_at_event_start": true
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 7",
+    "argv": [
+      "waiting-rooms",
+      "events",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--waiting-room-id",
+      "0123456789abcdef0123456789abcdef",
+      "--event-end-time",
+      "2026-01-02T03:04:05Z",
+      "--event-start-time",
+      "2026-01-02T03:04:05Z",
+      "--name",
+      "regression value &/?+ü",
+      "--custom-page-html",
+      "second value &/?+ü",
+      "--description",
+      "192.0.2.1",
+      "--disable-session-renewal=false",
+      "--new-users-per-minute",
+      "2",
+      "--suspended=false",
+      "--total-active-users",
+      "2",
+      "--turnstile-action",
+      "infinite_queue",
+      "--turnstile-mode",
+      "invisible"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/waiting_rooms/0123456789abcdef0123456789abcdef/events/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "346",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "custom_page_html": "second value &/?+ü",
+          "description": "192.0.2.1",
+          "disable_session_renewal": false,
+          "event_end_time": "2026-01-02T03:04:05Z",
+          "event_start_time": "2026-01-02T03:04:05Z",
+          "name": "regression value &/?+ü",
+          "new_users_per_minute": 2,
+          "suspended": false,
+          "total_active_users": 2,
+          "turnstile_action": "infinite_queue",
+          "turnstile_mode": "invisible"
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 8",
+    "argv": [
+      "waiting-rooms",
+      "events",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--waiting-room-id",
+      "0123456789abcdef0123456789abcdef",
+      "--event-end-time",
+      "2026-01-02T03:04:05Z",
+      "--event-start-time",
+      "2026-01-02T03:04:05Z",
+      "--name",
+      "regression value &/?+ü",
+      "--suspended=true",
+      "--total-active-users",
+      "1",
+      "--turnstile-action",
+      "log",
+      "--turnstile-mode",
+      "off"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/waiting_rooms/0123456789abcdef0123456789abcdef/events/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "204",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "event_end_time": "2026-01-02T03:04:05Z",
+          "event_start_time": "2026-01-02T03:04:05Z",
+          "name": "regression value &/?+ü",
+          "suspended": true,
+          "total_active_users": 1,
+          "turnstile_action": "log",
+          "turnstile_mode": "off"
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 9",
+    "argv": [
+      "waiting-rooms",
+      "events",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--waiting-room-id",
+      "0123456789abcdef0123456789abcdef",
+      "--event-end-time",
+      "2026-01-02T03:04:05Z",
+      "--event-start-time",
+      "2026-01-02T03:04:05Z",
+      "--name",
+      "regression value &/?+ü",
+      "--custom-page-html",
+      "second value &/?+ü",
+      "--description",
+      "192.0.2.1",
+      "--disable-session-renewal=false",
+      "--new-users-per-minute",
+      "2",
+      "--prequeue-start-time",
+      "2026-01-02T03:04:05Z",
+      "--queueing-method",
+      "second value &/?+ü",
+      "--session-duration",
+      "2",
+      "--shuffle-at-event-start=false"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/waiting_rooms/0123456789abcdef0123456789abcdef/events/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "377",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "custom_page_html": "second value &/?+ü",
+          "description": "192.0.2.1",
+          "disable_session_renewal": false,
+          "event_end_time": "2026-01-02T03:04:05Z",
+          "event_start_time": "2026-01-02T03:04:05Z",
+          "name": "regression value &/?+ü",
+          "new_users_per_minute": 2,
+          "prequeue_start_time": "2026-01-02T03:04:05Z",
+          "queueing_method": "second value &/?+ü",
+          "session_duration": 2,
+          "shuffle_at_event_start": false
+        }
+      }
+    ]
+  },
+  {
+    "case": "global quiet",
+    "argv": [
+      "waiting-rooms",
+      "events",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--waiting-room-id",
+      "0123456789abcdef0123456789abcdef",
+      "--event-end-time",
+      "2026-01-02T03:04:05Z",
+      "--event-start-time",
+      "2026-01-02T03:04:05Z",
+      "--name",
+      "regression value &/?+ü",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--quiet"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/waiting_rooms/0123456789abcdef0123456789abcdef/events/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "global zone",
+    "argv": [
+      "waiting-rooms",
+      "events",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--waiting-room-id",
+      "0123456789abcdef0123456789abcdef",
+      "--event-end-time",
+      "2026-01-02T03:04:05Z",
+      "--event-start-time",
+      "2026-01-02T03:04:05Z",
+      "--name",
+      "regression value &/?+ü",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--zone",
+      "abcdef0123456789abcdef0123456789"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/waiting_rooms/0123456789abcdef0123456789abcdef/events/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "global profile and mode",
+    "argv": [
+      "waiting-rooms",
+      "events",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--waiting-room-id",
+      "0123456789abcdef0123456789abcdef",
+      "--event-end-time",
+      "2026-01-02T03:04:05Z",
+      "--event-start-time",
+      "2026-01-02T03:04:05Z",
+      "--name",
+      "regression value &/?+ü",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--profile",
+      "default",
+      "--mode",
+      "regression"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/waiting_rooms/0123456789abcdef0123456789abcdef/events/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "local",
+    "argv": [
+      "waiting-rooms",
+      "events",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--waiting-room-id",
+      "0123456789abcdef0123456789abcdef",
+      "--event-end-time",
+      "2026-01-02T03:04:05Z",
+      "--event-start-time",
+      "2026-01-02T03:04:05Z",
+      "--name",
+      "regression value &/?+ü",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--local"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "http://localhost/cdn-cgi/local/explorer/api/zones/abcdef0123456789abcdef0123456789/waiting_rooms/0123456789abcdef0123456789abcdef/events/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "gzip, deflate",
+          "accept-language": "*",
+          "connection": "keep-alive",
+          "content-type": "application/json",
+          "host": "localhost",
+          "sec-fetch-mode": "cors",
+          "transfer-encoding": "chunked",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "local with persistence",
+    "argv": [
+      "waiting-rooms",
+      "events",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--waiting-room-id",
+      "0123456789abcdef0123456789abcdef",
+      "--event-end-time",
+      "2026-01-02T03:04:05Z",
+      "--event-start-time",
+      "2026-01-02T03:04:05Z",
+      "--name",
+      "regression value &/?+ü",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--local",
+      "--persist-to",
+      "regression-state"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "http://localhost/cdn-cgi/local/explorer/api/zones/abcdef0123456789abcdef0123456789/waiting_rooms/0123456789abcdef0123456789abcdef/events/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "gzip, deflate",
+          "accept-language": "*",
+          "connection": "keep-alive",
+          "content-type": "application/json",
+          "host": "localhost",
+          "sec-fetch-mode": "cors",
+          "transfer-encoding": "chunked",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "zone by domain",
+    "argv": [
+      "waiting-rooms",
+      "events",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--waiting-room-id",
+      "0123456789abcdef0123456789abcdef",
+      "--event-end-time",
+      "2026-01-02T03:04:05Z",
+      "--event-start-time",
+      "2026-01-02T03:04:05Z",
+      "--name",
+      "regression value &/?+ü",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--zone",
+      "regression-455e322be3e7.example.com"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/zones?name=regression-455e322be3e7.example.com&account.id=0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      },
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/waiting_rooms/0123456789abcdef0123456789abcdef/events/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "dry-run",
+    "argv": [
+      "waiting-rooms",
+      "events",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--waiting-room-id",
+      "0123456789abcdef0123456789abcdef",
+      "--event-end-time",
+      "2026-01-02T03:04:05Z",
+      "--event-start-time",
+      "2026-01-02T03:04:05Z",
+      "--name",
+      "regression value &/?+ü",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--dry-run"
+    ],
+    "exitCode": 0,
+    "requests": []
+  },
+  {
+    "case": "body from file",
+    "argv": [
+      "waiting-rooms",
+      "events",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--waiting-room-id",
+      "0123456789abcdef0123456789abcdef",
+      "--event-end-time",
+      "2026-01-02T03:04:05Z",
+      "--event-start-time",
+      "2026-01-02T03:04:05Z",
+      "--name",
+      "regression value &/?+ü",
+      "--body",
+      "@<body.json>"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/waiting_rooms/0123456789abcdef0123456789abcdef/events/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "array body",
+    "argv": [
+      "waiting-rooms",
+      "events",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--waiting-room-id",
+      "0123456789abcdef0123456789abcdef",
+      "--event-end-time",
+      "2026-01-02T03:04:05Z",
+      "--event-start-time",
+      "2026-01-02T03:04:05Z",
+      "--name",
+      "regression value &/?+ü",
+      "--body",
+      "[{\"regression\":\"first\"},{\"regression\":\"second\"}]"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/waiting_rooms/0123456789abcdef0123456789abcdef/events/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "48",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": [
+          {
+            "regression": "first"
+          },
+          {
+            "regression": "second"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "case": "field flags",
+    "argv": [
+      "waiting-rooms",
+      "events",
+      "edit",
+      "0123456789abcdef0123456789abcdef",
+      "--waiting-room-id",
+      "0123456789abcdef0123456789abcdef",
+      "--event-end-time",
+      "2026-01-02T03:04:05Z",
+      "--event-start-time",
+      "2026-01-02T03:04:05Z",
+      "--name",
+      "regression value &/?+ü",
+      "--custom-page-html",
+      "regression value &/?+ü",
+      "--description",
+      "192.0.2.1",
+      "--disable-session-renewal=true",
+      "--new-users-per-minute",
+      "1",
+      "--prequeue-start-time",
+      "2026-01-02T03:04:05Z",
+      "--queueing-method",
+      "regression value &/?+ü",
+      "--session-duration",
+      "1",
+      "--shuffle-at-event-start=true",
+      "--suspended=true",
+      "--total-active-users",
+      "1",
+      "--turnstile-action",
+      "log",
+      "--turnstile-mode",
+      "off"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/waiting_rooms/0123456789abcdef0123456789abcdef/events/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "471",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "custom_page_html": "regression value &/?+ü",
+          "description": "192.0.2.1",
+          "disable_session_renewal": true,
+          "event_end_time": "2026-01-02T03:04:05Z",
+          "event_start_time": "2026-01-02T03:04:05Z",
+          "name": "regression value &/?+ü",
+          "new_users_per_minute": 1,
+          "prequeue_start_time": "2026-01-02T03:04:05Z",
+          "queueing_method": "regression value &/?+ü",
+          "session_duration": 1,
+          "shuffle_at_event_start": true,
+          "suspended": true,
+          "total_active_users": 1,
+          "turnstile_action": "log",
+          "turnstile_mode": "off"
+        }
+      }
+    ]
+  }
+]

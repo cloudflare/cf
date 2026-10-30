@@ -1,0 +1,2292 @@
+[
+  {
+    "case": "no-args",
+    "argv": [
+      "ai-search",
+      "search"
+    ],
+    "exitCode": 1,
+    "error": "Not enough non-option arguments: got 0, need at least 2",
+    "requests": []
+  },
+  {
+    "case": "required",
+    "argv": [
+      "ai-search",
+      "search",
+      "0123456789abcdef0123456789abcdef",
+      "regression value &/?+ü",
+      "--namespace",
+      "regression value &/?+ü",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/regression%20value%20%26%2F%3F%2B%C3%BC/instances/0123456789abcdef0123456789abcdef/search",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --ai-search-options-cache-cache-threshold",
+    "argv": [
+      "ai-search",
+      "search",
+      "0123456789abcdef0123456789abcdef",
+      "regression value &/?+ü",
+      "--namespace",
+      "regression value &/?+ü",
+      "--ai-search-options-cache-cache-threshold",
+      "super_strict_match"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/regression%20value%20%26%2F%3F%2B%C3%BC/instances/0123456789abcdef0123456789abcdef/search",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "106",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "ai_search_options": {
+            "cache": {
+              "cache_threshold": "super_strict_match"
+            }
+          },
+          "query": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "--ai-search-options-cache-cache-threshold value 1",
+    "argv": [
+      "ai-search",
+      "search",
+      "0123456789abcdef0123456789abcdef",
+      "regression value &/?+ü",
+      "--namespace",
+      "regression value &/?+ü",
+      "--ai-search-options-cache-cache-threshold",
+      "close_enough"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/regression%20value%20%26%2F%3F%2B%C3%BC/instances/0123456789abcdef0123456789abcdef/search",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "100",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "ai_search_options": {
+            "cache": {
+              "cache_threshold": "close_enough"
+            }
+          },
+          "query": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "--ai-search-options-cache-cache-threshold value 2",
+    "argv": [
+      "ai-search",
+      "search",
+      "0123456789abcdef0123456789abcdef",
+      "regression value &/?+ü",
+      "--namespace",
+      "regression value &/?+ü",
+      "--ai-search-options-cache-cache-threshold",
+      "flexible_friend"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/regression%20value%20%26%2F%3F%2B%C3%BC/instances/0123456789abcdef0123456789abcdef/search",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "103",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "ai_search_options": {
+            "cache": {
+              "cache_threshold": "flexible_friend"
+            }
+          },
+          "query": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "--ai-search-options-cache-cache-threshold value 3",
+    "argv": [
+      "ai-search",
+      "search",
+      "0123456789abcdef0123456789abcdef",
+      "regression value &/?+ü",
+      "--namespace",
+      "regression value &/?+ü",
+      "--ai-search-options-cache-cache-threshold",
+      "anything_goes"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/regression%20value%20%26%2F%3F%2B%C3%BC/instances/0123456789abcdef0123456789abcdef/search",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "101",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "ai_search_options": {
+            "cache": {
+              "cache_threshold": "anything_goes"
+            }
+          },
+          "query": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --ai-search-options-cache-enabled",
+    "argv": [
+      "ai-search",
+      "search",
+      "0123456789abcdef0123456789abcdef",
+      "regression value &/?+ü",
+      "--namespace",
+      "regression value &/?+ü",
+      "--ai-search-options-cache-enabled=true"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/regression%20value%20%26%2F%3F%2B%C3%BC/instances/0123456789abcdef0123456789abcdef/search",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "82",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "ai_search_options": {
+            "cache": {
+              "enabled": true
+            }
+          },
+          "query": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "--ai-search-options-cache-enabled value 1",
+    "argv": [
+      "ai-search",
+      "search",
+      "0123456789abcdef0123456789abcdef",
+      "regression value &/?+ü",
+      "--namespace",
+      "regression value &/?+ü",
+      "--ai-search-options-cache-enabled=false"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/regression%20value%20%26%2F%3F%2B%C3%BC/instances/0123456789abcdef0123456789abcdef/search",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "83",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "ai_search_options": {
+            "cache": {
+              "enabled": false
+            }
+          },
+          "query": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --ai-search-options-query-rewrite-enabled",
+    "argv": [
+      "ai-search",
+      "search",
+      "0123456789abcdef0123456789abcdef",
+      "regression value &/?+ü",
+      "--namespace",
+      "regression value &/?+ü",
+      "--ai-search-options-query-rewrite-enabled=true"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/regression%20value%20%26%2F%3F%2B%C3%BC/instances/0123456789abcdef0123456789abcdef/search",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "90",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "ai_search_options": {
+            "query_rewrite": {
+              "enabled": true
+            }
+          },
+          "query": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "--ai-search-options-query-rewrite-enabled value 1",
+    "argv": [
+      "ai-search",
+      "search",
+      "0123456789abcdef0123456789abcdef",
+      "regression value &/?+ü",
+      "--namespace",
+      "regression value &/?+ü",
+      "--ai-search-options-query-rewrite-enabled=false"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/regression%20value%20%26%2F%3F%2B%C3%BC/instances/0123456789abcdef0123456789abcdef/search",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "91",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "ai_search_options": {
+            "query_rewrite": {
+              "enabled": false
+            }
+          },
+          "query": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --ai-search-options-query-rewrite-model",
+    "argv": [
+      "ai-search",
+      "search",
+      "0123456789abcdef0123456789abcdef",
+      "regression value &/?+ü",
+      "--namespace",
+      "regression value &/?+ü",
+      "--ai-search-options-query-rewrite-model",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/regression%20value%20%26%2F%3F%2B%C3%BC/instances/0123456789abcdef0123456789abcdef/search",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "109",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "ai_search_options": {
+            "query_rewrite": {
+              "model": "regression value &/?+ü"
+            }
+          },
+          "query": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --ai-search-options-query-rewrite-rewrite-prompt",
+    "argv": [
+      "ai-search",
+      "search",
+      "0123456789abcdef0123456789abcdef",
+      "regression value &/?+ü",
+      "--namespace",
+      "regression value &/?+ü",
+      "--ai-search-options-query-rewrite-rewrite-prompt",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/regression%20value%20%26%2F%3F%2B%C3%BC/instances/0123456789abcdef0123456789abcdef/search",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "118",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "ai_search_options": {
+            "query_rewrite": {
+              "rewrite_prompt": "regression value &/?+ü"
+            }
+          },
+          "query": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --ai-search-options-reranking-enabled",
+    "argv": [
+      "ai-search",
+      "search",
+      "0123456789abcdef0123456789abcdef",
+      "regression value &/?+ü",
+      "--namespace",
+      "regression value &/?+ü",
+      "--ai-search-options-reranking-enabled=true"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/regression%20value%20%26%2F%3F%2B%C3%BC/instances/0123456789abcdef0123456789abcdef/search",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "86",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "ai_search_options": {
+            "reranking": {
+              "enabled": true
+            }
+          },
+          "query": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "--ai-search-options-reranking-enabled value 1",
+    "argv": [
+      "ai-search",
+      "search",
+      "0123456789abcdef0123456789abcdef",
+      "regression value &/?+ü",
+      "--namespace",
+      "regression value &/?+ü",
+      "--ai-search-options-reranking-enabled=false"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/regression%20value%20%26%2F%3F%2B%C3%BC/instances/0123456789abcdef0123456789abcdef/search",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "87",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "ai_search_options": {
+            "reranking": {
+              "enabled": false
+            }
+          },
+          "query": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --ai-search-options-reranking-match-threshold",
+    "argv": [
+      "ai-search",
+      "search",
+      "0123456789abcdef0123456789abcdef",
+      "regression value &/?+ü",
+      "--namespace",
+      "regression value &/?+ü",
+      "--ai-search-options-reranking-match-threshold",
+      "1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/regression%20value%20%26%2F%3F%2B%C3%BC/instances/0123456789abcdef0123456789abcdef/search",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "91",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "ai_search_options": {
+            "reranking": {
+              "match_threshold": 1
+            }
+          },
+          "query": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --ai-search-options-reranking-model",
+    "argv": [
+      "ai-search",
+      "search",
+      "0123456789abcdef0123456789abcdef",
+      "regression value &/?+ü",
+      "--namespace",
+      "regression value &/?+ü",
+      "--ai-search-options-reranking-model",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/regression%20value%20%26%2F%3F%2B%C3%BC/instances/0123456789abcdef0123456789abcdef/search",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "105",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "ai_search_options": {
+            "reranking": {
+              "model": "regression value &/?+ü"
+            }
+          },
+          "query": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --ai-search-options-retrieval-context-expansion",
+    "argv": [
+      "ai-search",
+      "search",
+      "0123456789abcdef0123456789abcdef",
+      "regression value &/?+ü",
+      "--namespace",
+      "regression value &/?+ü",
+      "--ai-search-options-retrieval-context-expansion",
+      "1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/regression%20value%20%26%2F%3F%2B%C3%BC/instances/0123456789abcdef0123456789abcdef/search",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "93",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "ai_search_options": {
+            "retrieval": {
+              "context_expansion": 1
+            }
+          },
+          "query": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --ai-search-options-retrieval-fusion-method",
+    "argv": [
+      "ai-search",
+      "search",
+      "0123456789abcdef0123456789abcdef",
+      "regression value &/?+ü",
+      "--namespace",
+      "regression value &/?+ü",
+      "--ai-search-options-retrieval-fusion-method",
+      "max"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/regression%20value%20%26%2F%3F%2B%C3%BC/instances/0123456789abcdef0123456789abcdef/search",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "93",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "ai_search_options": {
+            "retrieval": {
+              "fusion_method": "max"
+            }
+          },
+          "query": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "--ai-search-options-retrieval-fusion-method value 1",
+    "argv": [
+      "ai-search",
+      "search",
+      "0123456789abcdef0123456789abcdef",
+      "regression value &/?+ü",
+      "--namespace",
+      "regression value &/?+ü",
+      "--ai-search-options-retrieval-fusion-method",
+      "rrf"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/regression%20value%20%26%2F%3F%2B%C3%BC/instances/0123456789abcdef0123456789abcdef/search",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "93",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "ai_search_options": {
+            "retrieval": {
+              "fusion_method": "rrf"
+            }
+          },
+          "query": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --ai-search-options-retrieval-keyword-match-mode",
+    "argv": [
+      "ai-search",
+      "search",
+      "0123456789abcdef0123456789abcdef",
+      "regression value &/?+ü",
+      "--namespace",
+      "regression value &/?+ü",
+      "--ai-search-options-retrieval-keyword-match-mode",
+      "and"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/regression%20value%20%26%2F%3F%2B%C3%BC/instances/0123456789abcdef0123456789abcdef/search",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "98",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "ai_search_options": {
+            "retrieval": {
+              "keyword_match_mode": "and"
+            }
+          },
+          "query": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "--ai-search-options-retrieval-keyword-match-mode value 1",
+    "argv": [
+      "ai-search",
+      "search",
+      "0123456789abcdef0123456789abcdef",
+      "regression value &/?+ü",
+      "--namespace",
+      "regression value &/?+ü",
+      "--ai-search-options-retrieval-keyword-match-mode",
+      "or"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/regression%20value%20%26%2F%3F%2B%C3%BC/instances/0123456789abcdef0123456789abcdef/search",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "97",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "ai_search_options": {
+            "retrieval": {
+              "keyword_match_mode": "or"
+            }
+          },
+          "query": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --ai-search-options-retrieval-match-threshold",
+    "argv": [
+      "ai-search",
+      "search",
+      "0123456789abcdef0123456789abcdef",
+      "regression value &/?+ü",
+      "--namespace",
+      "regression value &/?+ü",
+      "--ai-search-options-retrieval-match-threshold",
+      "1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/regression%20value%20%26%2F%3F%2B%C3%BC/instances/0123456789abcdef0123456789abcdef/search",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "91",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "ai_search_options": {
+            "retrieval": {
+              "match_threshold": 1
+            }
+          },
+          "query": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --ai-search-options-retrieval-max-num-results",
+    "argv": [
+      "ai-search",
+      "search",
+      "0123456789abcdef0123456789abcdef",
+      "regression value &/?+ü",
+      "--namespace",
+      "regression value &/?+ü",
+      "--ai-search-options-retrieval-max-num-results",
+      "1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/regression%20value%20%26%2F%3F%2B%C3%BC/instances/0123456789abcdef0123456789abcdef/search",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "91",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "ai_search_options": {
+            "retrieval": {
+              "max_num_results": 1
+            }
+          },
+          "query": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --ai-search-options-retrieval-retrieval-type",
+    "argv": [
+      "ai-search",
+      "search",
+      "0123456789abcdef0123456789abcdef",
+      "regression value &/?+ü",
+      "--namespace",
+      "regression value &/?+ü",
+      "--ai-search-options-retrieval-retrieval-type",
+      "vector"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/regression%20value%20%26%2F%3F%2B%C3%BC/instances/0123456789abcdef0123456789abcdef/search",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "97",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "ai_search_options": {
+            "retrieval": {
+              "retrieval_type": "vector"
+            }
+          },
+          "query": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "--ai-search-options-retrieval-retrieval-type value 1",
+    "argv": [
+      "ai-search",
+      "search",
+      "0123456789abcdef0123456789abcdef",
+      "regression value &/?+ü",
+      "--namespace",
+      "regression value &/?+ü",
+      "--ai-search-options-retrieval-retrieval-type",
+      "keyword"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/regression%20value%20%26%2F%3F%2B%C3%BC/instances/0123456789abcdef0123456789abcdef/search",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "98",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "ai_search_options": {
+            "retrieval": {
+              "retrieval_type": "keyword"
+            }
+          },
+          "query": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "--ai-search-options-retrieval-retrieval-type value 2",
+    "argv": [
+      "ai-search",
+      "search",
+      "0123456789abcdef0123456789abcdef",
+      "regression value &/?+ü",
+      "--namespace",
+      "regression value &/?+ü",
+      "--ai-search-options-retrieval-retrieval-type",
+      "hybrid"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/regression%20value%20%26%2F%3F%2B%C3%BC/instances/0123456789abcdef0123456789abcdef/search",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "97",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "ai_search_options": {
+            "retrieval": {
+              "retrieval_type": "hybrid"
+            }
+          },
+          "query": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --ai-search-options-retrieval-return-on-failure",
+    "argv": [
+      "ai-search",
+      "search",
+      "0123456789abcdef0123456789abcdef",
+      "regression value &/?+ü",
+      "--namespace",
+      "regression value &/?+ü",
+      "--ai-search-options-retrieval-return-on-failure=true"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/regression%20value%20%26%2F%3F%2B%C3%BC/instances/0123456789abcdef0123456789abcdef/search",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "96",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "ai_search_options": {
+            "retrieval": {
+              "return_on_failure": true
+            }
+          },
+          "query": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "--ai-search-options-retrieval-return-on-failure value 1",
+    "argv": [
+      "ai-search",
+      "search",
+      "0123456789abcdef0123456789abcdef",
+      "regression value &/?+ü",
+      "--namespace",
+      "regression value &/?+ü",
+      "--ai-search-options-retrieval-return-on-failure=false"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/regression%20value%20%26%2F%3F%2B%C3%BC/instances/0123456789abcdef0123456789abcdef/search",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "97",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "ai_search_options": {
+            "retrieval": {
+              "return_on_failure": false
+            }
+          },
+          "query": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --messages",
+    "argv": [
+      "ai-search",
+      "search",
+      "0123456789abcdef0123456789abcdef",
+      "regression value &/?+ü",
+      "--namespace",
+      "regression value &/?+ü",
+      "--messages",
+      "[{\"regression\":\"item\"}]"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/regression%20value%20%26%2F%3F%2B%C3%BC/instances/0123456789abcdef0123456789abcdef/search",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "70",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "messages": [
+            {
+              "regression": "item"
+            }
+          ],
+          "query": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 0",
+    "argv": [
+      "ai-search",
+      "search",
+      "0123456789abcdef0123456789abcdef",
+      "regression value &/?+ü",
+      "--namespace",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/regression%20value%20%26%2F%3F%2B%C3%BC/instances/0123456789abcdef0123456789abcdef/search",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "35",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "query": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 1",
+    "argv": [
+      "ai-search",
+      "search",
+      "0123456789abcdef0123456789abcdef",
+      "regression value &/?+ü",
+      "--namespace",
+      "regression value &/?+ü",
+      "--ai-search-options-cache-cache-threshold",
+      "close_enough",
+      "--ai-search-options-cache-enabled=false",
+      "--ai-search-options-query-rewrite-enabled=false",
+      "--ai-search-options-query-rewrite-model",
+      "second value &/?+ü",
+      "--ai-search-options-query-rewrite-rewrite-prompt",
+      "second value &/?+ü",
+      "--ai-search-options-reranking-enabled=false",
+      "--ai-search-options-reranking-match-threshold",
+      "2",
+      "--ai-search-options-reranking-model",
+      "second value &/?+ü",
+      "--ai-search-options-retrieval-context-expansion",
+      "2",
+      "--ai-search-options-retrieval-fusion-method",
+      "rrf",
+      "--ai-search-options-retrieval-keyword-match-mode",
+      "or",
+      "--ai-search-options-retrieval-match-threshold",
+      "2",
+      "--ai-search-options-retrieval-max-num-results",
+      "2",
+      "--ai-search-options-retrieval-retrieval-type",
+      "keyword",
+      "--ai-search-options-retrieval-return-on-failure=false",
+      "--messages",
+      "[{\"regression\":\"item\"}]"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/regression%20value%20%26%2F%3F%2B%C3%BC/instances/0123456789abcdef0123456789abcdef/search",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "511",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "ai_search_options": {
+            "cache": {
+              "cache_threshold": "close_enough",
+              "enabled": false
+            },
+            "query_rewrite": {
+              "enabled": false,
+              "model": "second value &/?+ü",
+              "rewrite_prompt": "second value &/?+ü"
+            },
+            "reranking": {
+              "enabled": false,
+              "match_threshold": 2,
+              "model": "second value &/?+ü"
+            },
+            "retrieval": {
+              "context_expansion": 2,
+              "fusion_method": "rrf",
+              "keyword_match_mode": "or",
+              "match_threshold": 2,
+              "max_num_results": 2,
+              "retrieval_type": "keyword",
+              "return_on_failure": false
+            }
+          },
+          "messages": [
+            {
+              "regression": "item"
+            }
+          ],
+          "query": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 2",
+    "argv": [
+      "ai-search",
+      "search",
+      "0123456789abcdef0123456789abcdef",
+      "regression value &/?+ü",
+      "--namespace",
+      "regression value &/?+ü",
+      "--ai-search-options-cache-enabled=true",
+      "--ai-search-options-query-rewrite-model",
+      "regression value &/?+ü",
+      "--ai-search-options-reranking-enabled=true",
+      "--ai-search-options-reranking-model",
+      "regression value &/?+ü",
+      "--ai-search-options-retrieval-fusion-method",
+      "max",
+      "--ai-search-options-retrieval-match-threshold",
+      "1",
+      "--ai-search-options-retrieval-retrieval-type",
+      "vector",
+      "--messages",
+      "[{\"regression\":\"item\"}]"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/regression%20value%20%26%2F%3F%2B%C3%BC/instances/0123456789abcdef0123456789abcdef/search",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "314",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "ai_search_options": {
+            "cache": {
+              "enabled": true
+            },
+            "query_rewrite": {
+              "model": "regression value &/?+ü"
+            },
+            "reranking": {
+              "enabled": true,
+              "model": "regression value &/?+ü"
+            },
+            "retrieval": {
+              "fusion_method": "max",
+              "match_threshold": 1,
+              "retrieval_type": "vector"
+            }
+          },
+          "messages": [
+            {
+              "regression": "item"
+            }
+          ],
+          "query": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 3",
+    "argv": [
+      "ai-search",
+      "search",
+      "0123456789abcdef0123456789abcdef",
+      "regression value &/?+ü",
+      "--namespace",
+      "regression value &/?+ü",
+      "--ai-search-options-cache-cache-threshold",
+      "close_enough",
+      "--ai-search-options-query-rewrite-enabled=false",
+      "--ai-search-options-query-rewrite-rewrite-prompt",
+      "second value &/?+ü",
+      "--ai-search-options-reranking-match-threshold",
+      "2",
+      "--ai-search-options-retrieval-context-expansion",
+      "2",
+      "--ai-search-options-retrieval-keyword-match-mode",
+      "or",
+      "--ai-search-options-retrieval-max-num-results",
+      "2",
+      "--ai-search-options-retrieval-return-on-failure=false"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/regression%20value%20%26%2F%3F%2B%C3%BC/instances/0123456789abcdef0123456789abcdef/search",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "315",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "ai_search_options": {
+            "cache": {
+              "cache_threshold": "close_enough"
+            },
+            "query_rewrite": {
+              "enabled": false,
+              "rewrite_prompt": "second value &/?+ü"
+            },
+            "reranking": {
+              "match_threshold": 2
+            },
+            "retrieval": {
+              "context_expansion": 2,
+              "keyword_match_mode": "or",
+              "max_num_results": 2,
+              "return_on_failure": false
+            }
+          },
+          "query": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 4",
+    "argv": [
+      "ai-search",
+      "search",
+      "0123456789abcdef0123456789abcdef",
+      "regression value &/?+ü",
+      "--namespace",
+      "regression value &/?+ü",
+      "--ai-search-options-query-rewrite-enabled=true",
+      "--ai-search-options-query-rewrite-model",
+      "regression value &/?+ü",
+      "--ai-search-options-reranking-match-threshold",
+      "1",
+      "--ai-search-options-reranking-model",
+      "regression value &/?+ü",
+      "--ai-search-options-retrieval-keyword-match-mode",
+      "and",
+      "--ai-search-options-retrieval-match-threshold",
+      "1",
+      "--ai-search-options-retrieval-return-on-failure=true",
+      "--messages",
+      "[{\"regression\":\"item\"}]"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/regression%20value%20%26%2F%3F%2B%C3%BC/instances/0123456789abcdef0123456789abcdef/search",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "313",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "ai_search_options": {
+            "query_rewrite": {
+              "enabled": true,
+              "model": "regression value &/?+ü"
+            },
+            "reranking": {
+              "match_threshold": 1,
+              "model": "regression value &/?+ü"
+            },
+            "retrieval": {
+              "keyword_match_mode": "and",
+              "match_threshold": 1,
+              "return_on_failure": true
+            }
+          },
+          "messages": [
+            {
+              "regression": "item"
+            }
+          ],
+          "query": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 5",
+    "argv": [
+      "ai-search",
+      "search",
+      "0123456789abcdef0123456789abcdef",
+      "regression value &/?+ü",
+      "--namespace",
+      "regression value &/?+ü",
+      "--ai-search-options-cache-cache-threshold",
+      "close_enough",
+      "--ai-search-options-cache-enabled=false",
+      "--ai-search-options-query-rewrite-rewrite-prompt",
+      "second value &/?+ü",
+      "--ai-search-options-reranking-enabled=false",
+      "--ai-search-options-retrieval-context-expansion",
+      "2",
+      "--ai-search-options-retrieval-fusion-method",
+      "rrf",
+      "--ai-search-options-retrieval-max-num-results",
+      "2",
+      "--ai-search-options-retrieval-retrieval-type",
+      "keyword"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/regression%20value%20%26%2F%3F%2B%C3%BC/instances/0123456789abcdef0123456789abcdef/search",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "308",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "ai_search_options": {
+            "cache": {
+              "cache_threshold": "close_enough",
+              "enabled": false
+            },
+            "query_rewrite": {
+              "rewrite_prompt": "second value &/?+ü"
+            },
+            "reranking": {
+              "enabled": false
+            },
+            "retrieval": {
+              "context_expansion": 2,
+              "fusion_method": "rrf",
+              "max_num_results": 2,
+              "retrieval_type": "keyword"
+            }
+          },
+          "query": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 6",
+    "argv": [
+      "ai-search",
+      "search",
+      "0123456789abcdef0123456789abcdef",
+      "regression value &/?+ü",
+      "--namespace",
+      "regression value &/?+ü",
+      "--ai-search-options-query-rewrite-rewrite-prompt",
+      "regression value &/?+ü",
+      "--ai-search-options-reranking-enabled=true",
+      "--ai-search-options-reranking-match-threshold",
+      "1",
+      "--ai-search-options-reranking-model",
+      "regression value &/?+ü",
+      "--ai-search-options-retrieval-max-num-results",
+      "1",
+      "--ai-search-options-retrieval-retrieval-type",
+      "vector",
+      "--ai-search-options-retrieval-return-on-failure=true",
+      "--messages",
+      "[{\"regression\":\"item\"}]"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/regression%20value%20%26%2F%3F%2B%C3%BC/instances/0123456789abcdef0123456789abcdef/search",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "321",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "ai_search_options": {
+            "query_rewrite": {
+              "rewrite_prompt": "regression value &/?+ü"
+            },
+            "reranking": {
+              "enabled": true,
+              "match_threshold": 1,
+              "model": "regression value &/?+ü"
+            },
+            "retrieval": {
+              "max_num_results": 1,
+              "retrieval_type": "vector",
+              "return_on_failure": true
+            }
+          },
+          "messages": [
+            {
+              "regression": "item"
+            }
+          ],
+          "query": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 7",
+    "argv": [
+      "ai-search",
+      "search",
+      "0123456789abcdef0123456789abcdef",
+      "regression value &/?+ü",
+      "--namespace",
+      "regression value &/?+ü",
+      "--ai-search-options-cache-cache-threshold",
+      "close_enough",
+      "--ai-search-options-cache-enabled=false",
+      "--ai-search-options-query-rewrite-enabled=false",
+      "--ai-search-options-query-rewrite-model",
+      "second value &/?+ü",
+      "--ai-search-options-retrieval-context-expansion",
+      "2",
+      "--ai-search-options-retrieval-fusion-method",
+      "rrf",
+      "--ai-search-options-retrieval-keyword-match-mode",
+      "or",
+      "--ai-search-options-retrieval-match-threshold",
+      "2"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/regression%20value%20%26%2F%3F%2B%C3%BC/instances/0123456789abcdef0123456789abcdef/search",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "284",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "ai_search_options": {
+            "cache": {
+              "cache_threshold": "close_enough",
+              "enabled": false
+            },
+            "query_rewrite": {
+              "enabled": false,
+              "model": "second value &/?+ü"
+            },
+            "retrieval": {
+              "context_expansion": 2,
+              "fusion_method": "rrf",
+              "keyword_match_mode": "or",
+              "match_threshold": 2
+            }
+          },
+          "query": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 8",
+    "argv": [
+      "ai-search",
+      "search",
+      "0123456789abcdef0123456789abcdef",
+      "regression value &/?+ü",
+      "--namespace",
+      "regression value &/?+ü",
+      "--ai-search-options-retrieval-context-expansion",
+      "1",
+      "--ai-search-options-retrieval-fusion-method",
+      "max",
+      "--ai-search-options-retrieval-keyword-match-mode",
+      "and",
+      "--ai-search-options-retrieval-match-threshold",
+      "1",
+      "--ai-search-options-retrieval-max-num-results",
+      "1",
+      "--ai-search-options-retrieval-retrieval-type",
+      "vector",
+      "--ai-search-options-retrieval-return-on-failure=true",
+      "--messages",
+      "[{\"regression\":\"item\"}]"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/regression%20value%20%26%2F%3F%2B%C3%BC/instances/0123456789abcdef0123456789abcdef/search",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "268",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "ai_search_options": {
+            "retrieval": {
+              "context_expansion": 1,
+              "fusion_method": "max",
+              "keyword_match_mode": "and",
+              "match_threshold": 1,
+              "max_num_results": 1,
+              "retrieval_type": "vector",
+              "return_on_failure": true
+            }
+          },
+          "messages": [
+            {
+              "regression": "item"
+            }
+          ],
+          "query": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 9",
+    "argv": [
+      "ai-search",
+      "search",
+      "0123456789abcdef0123456789abcdef",
+      "regression value &/?+ü",
+      "--namespace",
+      "regression value &/?+ü",
+      "--ai-search-options-cache-cache-threshold",
+      "close_enough",
+      "--ai-search-options-cache-enabled=false",
+      "--ai-search-options-query-rewrite-enabled=false",
+      "--ai-search-options-query-rewrite-model",
+      "second value &/?+ü",
+      "--ai-search-options-query-rewrite-rewrite-prompt",
+      "second value &/?+ü",
+      "--ai-search-options-reranking-enabled=false",
+      "--ai-search-options-reranking-match-threshold",
+      "2",
+      "--ai-search-options-reranking-model",
+      "second value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/regression%20value%20%26%2F%3F%2B%C3%BC/instances/0123456789abcdef0123456789abcdef/search",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "299",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "ai_search_options": {
+            "cache": {
+              "cache_threshold": "close_enough",
+              "enabled": false
+            },
+            "query_rewrite": {
+              "enabled": false,
+              "model": "second value &/?+ü",
+              "rewrite_prompt": "second value &/?+ü"
+            },
+            "reranking": {
+              "enabled": false,
+              "match_threshold": 2,
+              "model": "second value &/?+ü"
+            }
+          },
+          "query": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "global quiet",
+    "argv": [
+      "ai-search",
+      "search",
+      "0123456789abcdef0123456789abcdef",
+      "regression value &/?+ü",
+      "--namespace",
+      "regression value &/?+ü",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--quiet"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/regression%20value%20%26%2F%3F%2B%C3%BC/instances/0123456789abcdef0123456789abcdef/search",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "global zone",
+    "argv": [
+      "ai-search",
+      "search",
+      "0123456789abcdef0123456789abcdef",
+      "regression value &/?+ü",
+      "--namespace",
+      "regression value &/?+ü",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--zone",
+      "abcdef0123456789abcdef0123456789"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/regression%20value%20%26%2F%3F%2B%C3%BC/instances/0123456789abcdef0123456789abcdef/search",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "global profile and mode",
+    "argv": [
+      "ai-search",
+      "search",
+      "0123456789abcdef0123456789abcdef",
+      "regression value &/?+ü",
+      "--namespace",
+      "regression value &/?+ü",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--profile",
+      "default",
+      "--mode",
+      "regression"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/regression%20value%20%26%2F%3F%2B%C3%BC/instances/0123456789abcdef0123456789abcdef/search",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "local",
+    "argv": [
+      "ai-search",
+      "search",
+      "0123456789abcdef0123456789abcdef",
+      "regression value &/?+ü",
+      "--namespace",
+      "regression value &/?+ü",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--local"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "http://localhost/cdn-cgi/local/explorer/api/ai-search/namespaces/regression%20value%20%26%2F%3F%2B%C3%BC/instances/0123456789abcdef0123456789abcdef/search",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "gzip, deflate",
+          "accept-language": "*",
+          "connection": "keep-alive",
+          "content-type": "application/json",
+          "host": "localhost",
+          "sec-fetch-mode": "cors",
+          "transfer-encoding": "chunked",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "local with persistence",
+    "argv": [
+      "ai-search",
+      "search",
+      "0123456789abcdef0123456789abcdef",
+      "regression value &/?+ü",
+      "--namespace",
+      "regression value &/?+ü",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--local",
+      "--persist-to",
+      "regression-state"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "http://localhost/cdn-cgi/local/explorer/api/ai-search/namespaces/regression%20value%20%26%2F%3F%2B%C3%BC/instances/0123456789abcdef0123456789abcdef/search",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "gzip, deflate",
+          "accept-language": "*",
+          "connection": "keep-alive",
+          "content-type": "application/json",
+          "host": "localhost",
+          "sec-fetch-mode": "cors",
+          "transfer-encoding": "chunked",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "dry-run",
+    "argv": [
+      "ai-search",
+      "search",
+      "0123456789abcdef0123456789abcdef",
+      "regression value &/?+ü",
+      "--namespace",
+      "regression value &/?+ü",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--dry-run"
+    ],
+    "exitCode": 0,
+    "requests": []
+  },
+  {
+    "case": "body from file",
+    "argv": [
+      "ai-search",
+      "search",
+      "0123456789abcdef0123456789abcdef",
+      "regression value &/?+ü",
+      "--namespace",
+      "regression value &/?+ü",
+      "--body",
+      "@<body.json>"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/regression%20value%20%26%2F%3F%2B%C3%BC/instances/0123456789abcdef0123456789abcdef/search",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "array body",
+    "argv": [
+      "ai-search",
+      "search",
+      "0123456789abcdef0123456789abcdef",
+      "regression value &/?+ü",
+      "--namespace",
+      "regression value &/?+ü",
+      "--body",
+      "[{\"regression\":\"first\"},{\"regression\":\"second\"}]"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/regression%20value%20%26%2F%3F%2B%C3%BC/instances/0123456789abcdef0123456789abcdef/search",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "56",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "0": {
+            "regression": "first"
+          },
+          "1": {
+            "regression": "second"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "field flags",
+    "argv": [
+      "ai-search",
+      "search",
+      "0123456789abcdef0123456789abcdef",
+      "regression value &/?+ü",
+      "--namespace",
+      "regression value &/?+ü",
+      "--ai-search-options-cache-cache-threshold",
+      "super_strict_match",
+      "--ai-search-options-cache-enabled=true",
+      "--ai-search-options-query-rewrite-enabled=true",
+      "--ai-search-options-query-rewrite-model",
+      "regression value &/?+ü",
+      "--ai-search-options-query-rewrite-rewrite-prompt",
+      "regression value &/?+ü",
+      "--ai-search-options-reranking-enabled=true",
+      "--ai-search-options-reranking-match-threshold",
+      "1",
+      "--ai-search-options-reranking-model",
+      "regression value &/?+ü",
+      "--ai-search-options-retrieval-context-expansion",
+      "1",
+      "--ai-search-options-retrieval-fusion-method",
+      "max",
+      "--ai-search-options-retrieval-keyword-match-mode",
+      "and",
+      "--ai-search-options-retrieval-match-threshold",
+      "1",
+      "--ai-search-options-retrieval-max-num-results",
+      "1",
+      "--ai-search-options-retrieval-retrieval-type",
+      "vector",
+      "--ai-search-options-retrieval-return-on-failure=true",
+      "--messages",
+      "[{\"regression\":\"item\"}]"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/regression%20value%20%26%2F%3F%2B%C3%BC/instances/0123456789abcdef0123456789abcdef/search",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "525",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "ai_search_options": {
+            "cache": {
+              "cache_threshold": "super_strict_match",
+              "enabled": true
+            },
+            "query_rewrite": {
+              "enabled": true,
+              "model": "regression value &/?+ü",
+              "rewrite_prompt": "regression value &/?+ü"
+            },
+            "reranking": {
+              "enabled": true,
+              "match_threshold": 1,
+              "model": "regression value &/?+ü"
+            },
+            "retrieval": {
+              "context_expansion": 1,
+              "fusion_method": "max",
+              "keyword_match_mode": "and",
+              "match_threshold": 1,
+              "max_num_results": 1,
+              "retrieval_type": "vector",
+              "return_on_failure": true
+            }
+          },
+          "messages": [
+            {
+              "regression": "item"
+            }
+          ],
+          "query": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "alternate <query>",
+    "argv": [
+      "ai-search",
+      "search",
+      "0123456789abcdef0123456789abcdef",
+      "second value &/?+ü",
+      "--namespace",
+      "regression value &/?+ü",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/ai-search/namespaces/regression%20value%20%26%2F%3F%2B%C3%BC/instances/0123456789abcdef0123456789abcdef/search",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  }
+]

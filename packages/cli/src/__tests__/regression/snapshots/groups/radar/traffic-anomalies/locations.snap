@@ -1,0 +1,8 @@
+{
+  "argv": [
+    "radar",
+    "traffic-anomalies",
+    "locations"
+  ],
+  "requests": []
+}

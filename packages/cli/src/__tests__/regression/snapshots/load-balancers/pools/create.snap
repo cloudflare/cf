@@ -1,0 +1,2572 @@
+[
+  {
+    "case": "no-args",
+    "argv": [
+      "load-balancers",
+      "pools",
+      "create"
+    ],
+    "exitCode": 1,
+    "error": "--name is required. Pass --name <value> or run interactively.",
+    "requests": []
+  },
+  {
+    "case": "required",
+    "argv": [
+      "load-balancers",
+      "pools",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--origins",
+      "[{\"regression\":\"item\"}]",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/load_balancers/pools",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --description",
+    "argv": [
+      "load-balancers",
+      "pools",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--origins",
+      "[{\"regression\":\"item\"}]",
+      "--description",
+      "192.0.2.1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/load_balancers/pools",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "153",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "description": "192.0.2.1",
+          "enabled": true,
+          "minimum_origins": 1,
+          "name": "regression value &/?+ü",
+          "notification_email": "",
+          "origins": [
+            {
+              "regression": "item"
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --enabled",
+    "argv": [
+      "load-balancers",
+      "pools",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--origins",
+      "[{\"regression\":\"item\"}]",
+      "--enabled=true"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/load_balancers/pools",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "144",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "description": "",
+          "enabled": true,
+          "minimum_origins": 1,
+          "name": "regression value &/?+ü",
+          "notification_email": "",
+          "origins": [
+            {
+              "regression": "item"
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "--enabled value 1",
+    "argv": [
+      "load-balancers",
+      "pools",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--origins",
+      "[{\"regression\":\"item\"}]",
+      "--enabled=false"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/load_balancers/pools",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "145",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "description": "",
+          "enabled": false,
+          "minimum_origins": 1,
+          "name": "regression value &/?+ü",
+          "notification_email": "",
+          "origins": [
+            {
+              "regression": "item"
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --latitude",
+    "argv": [
+      "load-balancers",
+      "pools",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--origins",
+      "[{\"regression\":\"item\"}]",
+      "--latitude",
+      "1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/load_balancers/pools",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "157",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "description": "",
+          "enabled": true,
+          "latitude": 1,
+          "minimum_origins": 1,
+          "name": "regression value &/?+ü",
+          "notification_email": "",
+          "origins": [
+            {
+              "regression": "item"
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --load-shedding-default-percent",
+    "argv": [
+      "load-balancers",
+      "pools",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--origins",
+      "[{\"regression\":\"item\"}]",
+      "--load-shedding-default-percent",
+      "1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/load_balancers/pools",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "182",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "description": "",
+          "enabled": true,
+          "load_shedding": {
+            "default_percent": 1
+          },
+          "minimum_origins": 1,
+          "name": "regression value &/?+ü",
+          "notification_email": "",
+          "origins": [
+            {
+              "regression": "item"
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --load-shedding-default-policy",
+    "argv": [
+      "load-balancers",
+      "pools",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--origins",
+      "[{\"regression\":\"item\"}]",
+      "--load-shedding-default-policy",
+      "random"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/load_balancers/pools",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "188",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "description": "",
+          "enabled": true,
+          "load_shedding": {
+            "default_policy": "random"
+          },
+          "minimum_origins": 1,
+          "name": "regression value &/?+ü",
+          "notification_email": "",
+          "origins": [
+            {
+              "regression": "item"
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "--load-shedding-default-policy value 1",
+    "argv": [
+      "load-balancers",
+      "pools",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--origins",
+      "[{\"regression\":\"item\"}]",
+      "--load-shedding-default-policy",
+      "hash"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/load_balancers/pools",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "186",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "description": "",
+          "enabled": true,
+          "load_shedding": {
+            "default_policy": "hash"
+          },
+          "minimum_origins": 1,
+          "name": "regression value &/?+ü",
+          "notification_email": "",
+          "origins": [
+            {
+              "regression": "item"
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --load-shedding-session-percent",
+    "argv": [
+      "load-balancers",
+      "pools",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--origins",
+      "[{\"regression\":\"item\"}]",
+      "--load-shedding-session-percent",
+      "1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/load_balancers/pools",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "182",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "description": "",
+          "enabled": true,
+          "load_shedding": {
+            "session_percent": 1
+          },
+          "minimum_origins": 1,
+          "name": "regression value &/?+ü",
+          "notification_email": "",
+          "origins": [
+            {
+              "regression": "item"
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --load-shedding-session-policy",
+    "argv": [
+      "load-balancers",
+      "pools",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--origins",
+      "[{\"regression\":\"item\"}]",
+      "--load-shedding-session-policy",
+      "hash"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/load_balancers/pools",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "186",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "description": "",
+          "enabled": true,
+          "load_shedding": {
+            "session_policy": "hash"
+          },
+          "minimum_origins": 1,
+          "name": "regression value &/?+ü",
+          "notification_email": "",
+          "origins": [
+            {
+              "regression": "item"
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --longitude",
+    "argv": [
+      "load-balancers",
+      "pools",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--origins",
+      "[{\"regression\":\"item\"}]",
+      "--longitude",
+      "1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/load_balancers/pools",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "158",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "description": "",
+          "enabled": true,
+          "longitude": 1,
+          "minimum_origins": 1,
+          "name": "regression value &/?+ü",
+          "notification_email": "",
+          "origins": [
+            {
+              "regression": "item"
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --minimum-origins",
+    "argv": [
+      "load-balancers",
+      "pools",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--origins",
+      "[{\"regression\":\"item\"}]",
+      "--minimum-origins",
+      "1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/load_balancers/pools",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "144",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "description": "",
+          "enabled": true,
+          "minimum_origins": 1,
+          "name": "regression value &/?+ü",
+          "notification_email": "",
+          "origins": [
+            {
+              "regression": "item"
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --monitor",
+    "argv": [
+      "load-balancers",
+      "pools",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--origins",
+      "[{\"regression\":\"item\"}]",
+      "--monitor",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/load_balancers/pools",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "180",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "description": "",
+          "enabled": true,
+          "minimum_origins": 1,
+          "monitor": "regression value &/?+ü",
+          "name": "regression value &/?+ü",
+          "notification_email": "",
+          "origins": [
+            {
+              "regression": "item"
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --monitor-group",
+    "argv": [
+      "load-balancers",
+      "pools",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--origins",
+      "[{\"regression\":\"item\"}]",
+      "--monitor-group",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/load_balancers/pools",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "186",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "description": "",
+          "enabled": true,
+          "minimum_origins": 1,
+          "monitor_group": "regression value &/?+ü",
+          "name": "regression value &/?+ü",
+          "notification_email": "",
+          "origins": [
+            {
+              "regression": "item"
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --notification-email",
+    "argv": [
+      "load-balancers",
+      "pools",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--origins",
+      "[{\"regression\":\"item\"}]",
+      "--notification-email",
+      "regression@example.com"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/load_balancers/pools",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "166",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "description": "",
+          "enabled": true,
+          "minimum_origins": 1,
+          "name": "regression value &/?+ü",
+          "notification_email": "regression@example.com",
+          "origins": [
+            {
+              "regression": "item"
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --notification-filter-origin-disable",
+    "argv": [
+      "load-balancers",
+      "pools",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--origins",
+      "[{\"regression\":\"item\"}]",
+      "--notification-filter-origin-disable=true"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/load_balancers/pools",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "194",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "description": "",
+          "enabled": true,
+          "minimum_origins": 1,
+          "name": "regression value &/?+ü",
+          "notification_email": "",
+          "notification_filter": {
+            "origin": {
+              "disable": true
+            }
+          },
+          "origins": [
+            {
+              "regression": "item"
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "--notification-filter-origin-disable value 1",
+    "argv": [
+      "load-balancers",
+      "pools",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--origins",
+      "[{\"regression\":\"item\"}]",
+      "--notification-filter-origin-disable=false"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/load_balancers/pools",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "195",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "description": "",
+          "enabled": true,
+          "minimum_origins": 1,
+          "name": "regression value &/?+ü",
+          "notification_email": "",
+          "notification_filter": {
+            "origin": {
+              "disable": false
+            }
+          },
+          "origins": [
+            {
+              "regression": "item"
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --notification-filter-origin-healthy",
+    "argv": [
+      "load-balancers",
+      "pools",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--origins",
+      "[{\"regression\":\"item\"}]",
+      "--notification-filter-origin-healthy=true"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/load_balancers/pools",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "194",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "description": "",
+          "enabled": true,
+          "minimum_origins": 1,
+          "name": "regression value &/?+ü",
+          "notification_email": "",
+          "notification_filter": {
+            "origin": {
+              "healthy": true
+            }
+          },
+          "origins": [
+            {
+              "regression": "item"
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "--notification-filter-origin-healthy value 1",
+    "argv": [
+      "load-balancers",
+      "pools",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--origins",
+      "[{\"regression\":\"item\"}]",
+      "--notification-filter-origin-healthy=false"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/load_balancers/pools",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "195",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "description": "",
+          "enabled": true,
+          "minimum_origins": 1,
+          "name": "regression value &/?+ü",
+          "notification_email": "",
+          "notification_filter": {
+            "origin": {
+              "healthy": false
+            }
+          },
+          "origins": [
+            {
+              "regression": "item"
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --notification-filter-pool-disable",
+    "argv": [
+      "load-balancers",
+      "pools",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--origins",
+      "[{\"regression\":\"item\"}]",
+      "--notification-filter-pool-disable=true"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/load_balancers/pools",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "192",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "description": "",
+          "enabled": true,
+          "minimum_origins": 1,
+          "name": "regression value &/?+ü",
+          "notification_email": "",
+          "notification_filter": {
+            "pool": {
+              "disable": true
+            }
+          },
+          "origins": [
+            {
+              "regression": "item"
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "--notification-filter-pool-disable value 1",
+    "argv": [
+      "load-balancers",
+      "pools",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--origins",
+      "[{\"regression\":\"item\"}]",
+      "--notification-filter-pool-disable=false"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/load_balancers/pools",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "193",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "description": "",
+          "enabled": true,
+          "minimum_origins": 1,
+          "name": "regression value &/?+ü",
+          "notification_email": "",
+          "notification_filter": {
+            "pool": {
+              "disable": false
+            }
+          },
+          "origins": [
+            {
+              "regression": "item"
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --notification-filter-pool-healthy",
+    "argv": [
+      "load-balancers",
+      "pools",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--origins",
+      "[{\"regression\":\"item\"}]",
+      "--notification-filter-pool-healthy=true"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/load_balancers/pools",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "192",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "description": "",
+          "enabled": true,
+          "minimum_origins": 1,
+          "name": "regression value &/?+ü",
+          "notification_email": "",
+          "notification_filter": {
+            "pool": {
+              "healthy": true
+            }
+          },
+          "origins": [
+            {
+              "regression": "item"
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "--notification-filter-pool-healthy value 1",
+    "argv": [
+      "load-balancers",
+      "pools",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--origins",
+      "[{\"regression\":\"item\"}]",
+      "--notification-filter-pool-healthy=false"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/load_balancers/pools",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "193",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "description": "",
+          "enabled": true,
+          "minimum_origins": 1,
+          "name": "regression value &/?+ü",
+          "notification_email": "",
+          "notification_filter": {
+            "pool": {
+              "healthy": false
+            }
+          },
+          "origins": [
+            {
+              "regression": "item"
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --origin-steering-policy",
+    "argv": [
+      "load-balancers",
+      "pools",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--origins",
+      "[{\"regression\":\"item\"}]",
+      "--origin-steering-policy",
+      "random"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/load_balancers/pools",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "182",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "description": "",
+          "enabled": true,
+          "minimum_origins": 1,
+          "name": "regression value &/?+ü",
+          "notification_email": "",
+          "origin_steering": {
+            "policy": "random"
+          },
+          "origins": [
+            {
+              "regression": "item"
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "--origin-steering-policy value 1",
+    "argv": [
+      "load-balancers",
+      "pools",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--origins",
+      "[{\"regression\":\"item\"}]",
+      "--origin-steering-policy",
+      "hash"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/load_balancers/pools",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "180",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "description": "",
+          "enabled": true,
+          "minimum_origins": 1,
+          "name": "regression value &/?+ü",
+          "notification_email": "",
+          "origin_steering": {
+            "policy": "hash"
+          },
+          "origins": [
+            {
+              "regression": "item"
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "--origin-steering-policy value 2",
+    "argv": [
+      "load-balancers",
+      "pools",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--origins",
+      "[{\"regression\":\"item\"}]",
+      "--origin-steering-policy",
+      "least_outstanding_requests"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/load_balancers/pools",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "202",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "description": "",
+          "enabled": true,
+          "minimum_origins": 1,
+          "name": "regression value &/?+ü",
+          "notification_email": "",
+          "origin_steering": {
+            "policy": "least_outstanding_requests"
+          },
+          "origins": [
+            {
+              "regression": "item"
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "--origin-steering-policy value 3",
+    "argv": [
+      "load-balancers",
+      "pools",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--origins",
+      "[{\"regression\":\"item\"}]",
+      "--origin-steering-policy",
+      "least_connections"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/load_balancers/pools",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "193",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "description": "",
+          "enabled": true,
+          "minimum_origins": 1,
+          "name": "regression value &/?+ü",
+          "notification_email": "",
+          "origin_steering": {
+            "policy": "least_connections"
+          },
+          "origins": [
+            {
+              "regression": "item"
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 0",
+    "argv": [
+      "load-balancers",
+      "pools",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--origins",
+      "[{\"regression\":\"item\"}]"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/load_balancers/pools",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "144",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "description": "",
+          "enabled": true,
+          "minimum_origins": 1,
+          "name": "regression value &/?+ü",
+          "notification_email": "",
+          "origins": [
+            {
+              "regression": "item"
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 1",
+    "argv": [
+      "load-balancers",
+      "pools",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--origins",
+      "[{\"regression\":\"item\"}]",
+      "--description",
+      "192.0.2.1",
+      "--enabled=false",
+      "--latitude",
+      "2",
+      "--load-shedding-default-percent",
+      "2",
+      "--load-shedding-default-policy",
+      "hash",
+      "--load-shedding-session-percent",
+      "2",
+      "--load-shedding-session-policy",
+      "hash",
+      "--longitude",
+      "2",
+      "--minimum-origins",
+      "2",
+      "--monitor",
+      "second value &/?+ü",
+      "--monitor-group",
+      "second value &/?+ü",
+      "--notification-email",
+      "regression@example.com",
+      "--notification-filter-origin-disable=false",
+      "--notification-filter-origin-healthy=false",
+      "--notification-filter-pool-disable=false",
+      "--notification-filter-pool-healthy=false",
+      "--origin-steering-policy",
+      "hash"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/load_balancers/pools",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "523",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "description": "192.0.2.1",
+          "enabled": false,
+          "latitude": 2,
+          "load_shedding": {
+            "default_percent": 2,
+            "default_policy": "hash",
+            "session_percent": 2,
+            "session_policy": "hash"
+          },
+          "longitude": 2,
+          "minimum_origins": 2,
+          "monitor": "second value &/?+ü",
+          "monitor_group": "second value &/?+ü",
+          "name": "regression value &/?+ü",
+          "notification_email": "regression@example.com",
+          "notification_filter": {
+            "origin": {
+              "disable": false,
+              "healthy": false
+            },
+            "pool": {
+              "disable": false,
+              "healthy": false
+            }
+          },
+          "origin_steering": {
+            "policy": "hash"
+          },
+          "origins": [
+            {
+              "regression": "item"
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 2",
+    "argv": [
+      "load-balancers",
+      "pools",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--origins",
+      "[{\"regression\":\"item\"}]",
+      "--enabled=true",
+      "--load-shedding-default-percent",
+      "1",
+      "--load-shedding-session-percent",
+      "1",
+      "--longitude",
+      "1",
+      "--monitor",
+      "regression value &/?+ü",
+      "--notification-email",
+      "regression@example.com",
+      "--notification-filter-origin-healthy=true",
+      "--notification-filter-pool-healthy=true"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/load_balancers/pools",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "348",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "description": "",
+          "enabled": true,
+          "load_shedding": {
+            "default_percent": 1,
+            "session_percent": 1
+          },
+          "longitude": 1,
+          "minimum_origins": 1,
+          "monitor": "regression value &/?+ü",
+          "name": "regression value &/?+ü",
+          "notification_email": "regression@example.com",
+          "notification_filter": {
+            "origin": {
+              "healthy": true
+            },
+            "pool": {
+              "healthy": true
+            }
+          },
+          "origins": [
+            {
+              "regression": "item"
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 3",
+    "argv": [
+      "load-balancers",
+      "pools",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--origins",
+      "[{\"regression\":\"item\"}]",
+      "--description",
+      "192.0.2.1",
+      "--latitude",
+      "2",
+      "--load-shedding-default-policy",
+      "hash",
+      "--load-shedding-session-policy",
+      "hash",
+      "--minimum-origins",
+      "2",
+      "--monitor-group",
+      "second value &/?+ü",
+      "--notification-filter-origin-disable=false",
+      "--notification-filter-pool-disable=false",
+      "--origin-steering-policy",
+      "hash"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/load_balancers/pools",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "382",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "description": "192.0.2.1",
+          "enabled": true,
+          "latitude": 2,
+          "load_shedding": {
+            "default_policy": "hash",
+            "session_policy": "hash"
+          },
+          "minimum_origins": 2,
+          "monitor_group": "second value &/?+ü",
+          "name": "regression value &/?+ü",
+          "notification_email": "",
+          "notification_filter": {
+            "origin": {
+              "disable": false
+            },
+            "pool": {
+              "disable": false
+            }
+          },
+          "origin_steering": {
+            "policy": "hash"
+          },
+          "origins": [
+            {
+              "regression": "item"
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 4",
+    "argv": [
+      "load-balancers",
+      "pools",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--origins",
+      "[{\"regression\":\"item\"}]",
+      "--latitude",
+      "1",
+      "--load-shedding-default-percent",
+      "1",
+      "--load-shedding-session-policy",
+      "hash",
+      "--longitude",
+      "1",
+      "--monitor-group",
+      "regression value &/?+ü",
+      "--notification-email",
+      "regression@example.com",
+      "--notification-filter-pool-disable=true",
+      "--notification-filter-pool-healthy=true"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/load_balancers/pools",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "360",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "description": "",
+          "enabled": true,
+          "latitude": 1,
+          "load_shedding": {
+            "default_percent": 1,
+            "session_policy": "hash"
+          },
+          "longitude": 1,
+          "minimum_origins": 1,
+          "monitor_group": "regression value &/?+ü",
+          "name": "regression value &/?+ü",
+          "notification_email": "regression@example.com",
+          "notification_filter": {
+            "pool": {
+              "disable": true,
+              "healthy": true
+            }
+          },
+          "origins": [
+            {
+              "regression": "item"
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 5",
+    "argv": [
+      "load-balancers",
+      "pools",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--origins",
+      "[{\"regression\":\"item\"}]",
+      "--description",
+      "192.0.2.1",
+      "--enabled=false",
+      "--load-shedding-default-policy",
+      "hash",
+      "--load-shedding-session-percent",
+      "2",
+      "--minimum-origins",
+      "2",
+      "--monitor",
+      "second value &/?+ü",
+      "--notification-filter-origin-disable=false",
+      "--notification-filter-origin-healthy=false",
+      "--origin-steering-policy",
+      "hash"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/load_balancers/pools",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "351",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "description": "192.0.2.1",
+          "enabled": false,
+          "load_shedding": {
+            "default_policy": "hash",
+            "session_percent": 2
+          },
+          "minimum_origins": 2,
+          "monitor": "second value &/?+ü",
+          "name": "regression value &/?+ü",
+          "notification_email": "",
+          "notification_filter": {
+            "origin": {
+              "disable": false,
+              "healthy": false
+            }
+          },
+          "origin_steering": {
+            "policy": "hash"
+          },
+          "origins": [
+            {
+              "regression": "item"
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 6",
+    "argv": [
+      "load-balancers",
+      "pools",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--origins",
+      "[{\"regression\":\"item\"}]",
+      "--load-shedding-default-policy",
+      "random",
+      "--load-shedding-session-percent",
+      "1",
+      "--load-shedding-session-policy",
+      "hash",
+      "--longitude",
+      "1",
+      "--notification-filter-origin-disable=true",
+      "--notification-filter-origin-healthy=true",
+      "--notification-filter-pool-disable=true",
+      "--notification-filter-pool-healthy=true"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/load_balancers/pools",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "350",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "description": "",
+          "enabled": true,
+          "load_shedding": {
+            "default_policy": "random",
+            "session_percent": 1,
+            "session_policy": "hash"
+          },
+          "longitude": 1,
+          "minimum_origins": 1,
+          "name": "regression value &/?+ü",
+          "notification_email": "",
+          "notification_filter": {
+            "origin": {
+              "disable": true,
+              "healthy": true
+            },
+            "pool": {
+              "disable": true,
+              "healthy": true
+            }
+          },
+          "origins": [
+            {
+              "regression": "item"
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 7",
+    "argv": [
+      "load-balancers",
+      "pools",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--origins",
+      "[{\"regression\":\"item\"}]",
+      "--description",
+      "192.0.2.1",
+      "--enabled=false",
+      "--latitude",
+      "2",
+      "--load-shedding-default-percent",
+      "2",
+      "--minimum-origins",
+      "2",
+      "--monitor",
+      "second value &/?+ü",
+      "--monitor-group",
+      "second value &/?+ü",
+      "--notification-email",
+      "regression@example.com",
+      "--origin-steering-policy",
+      "hash"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/load_balancers/pools",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "333",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "description": "192.0.2.1",
+          "enabled": false,
+          "latitude": 2,
+          "load_shedding": {
+            "default_percent": 2
+          },
+          "minimum_origins": 2,
+          "monitor": "second value &/?+ü",
+          "monitor_group": "second value &/?+ü",
+          "name": "regression value &/?+ü",
+          "notification_email": "regression@example.com",
+          "origin_steering": {
+            "policy": "hash"
+          },
+          "origins": [
+            {
+              "regression": "item"
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 8",
+    "argv": [
+      "load-balancers",
+      "pools",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--origins",
+      "[{\"regression\":\"item\"}]",
+      "--minimum-origins",
+      "1",
+      "--monitor",
+      "regression value &/?+ü",
+      "--monitor-group",
+      "regression value &/?+ü",
+      "--notification-email",
+      "regression@example.com",
+      "--notification-filter-origin-disable=true",
+      "--notification-filter-origin-healthy=true",
+      "--notification-filter-pool-disable=true",
+      "--notification-filter-pool-healthy=true"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/load_balancers/pools",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "348",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "description": "",
+          "enabled": true,
+          "minimum_origins": 1,
+          "monitor": "regression value &/?+ü",
+          "monitor_group": "regression value &/?+ü",
+          "name": "regression value &/?+ü",
+          "notification_email": "regression@example.com",
+          "notification_filter": {
+            "origin": {
+              "disable": true,
+              "healthy": true
+            },
+            "pool": {
+              "disable": true,
+              "healthy": true
+            }
+          },
+          "origins": [
+            {
+              "regression": "item"
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 9",
+    "argv": [
+      "load-balancers",
+      "pools",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--origins",
+      "[{\"regression\":\"item\"}]",
+      "--description",
+      "192.0.2.1",
+      "--enabled=false",
+      "--latitude",
+      "2",
+      "--load-shedding-default-percent",
+      "2",
+      "--load-shedding-default-policy",
+      "hash",
+      "--load-shedding-session-percent",
+      "2",
+      "--load-shedding-session-policy",
+      "hash",
+      "--longitude",
+      "2",
+      "--origin-steering-policy",
+      "hash"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/load_balancers/pools",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "323",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "description": "192.0.2.1",
+          "enabled": false,
+          "latitude": 2,
+          "load_shedding": {
+            "default_percent": 2,
+            "default_policy": "hash",
+            "session_percent": 2,
+            "session_policy": "hash"
+          },
+          "longitude": 2,
+          "minimum_origins": 1,
+          "name": "regression value &/?+ü",
+          "notification_email": "",
+          "origin_steering": {
+            "policy": "hash"
+          },
+          "origins": [
+            {
+              "regression": "item"
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 11",
+    "argv": [
+      "load-balancers",
+      "pools",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--origins",
+      "[{\"regression\":\"item\"}]",
+      "--description",
+      "192.0.2.1",
+      "--enabled=false",
+      "--latitude",
+      "2",
+      "--load-shedding-default-percent",
+      "2",
+      "--load-shedding-default-policy",
+      "hash",
+      "--load-shedding-session-percent",
+      "2",
+      "--load-shedding-session-policy",
+      "hash",
+      "--longitude",
+      "2",
+      "--minimum-origins",
+      "2",
+      "--monitor",
+      "second value &/?+ü",
+      "--monitor-group",
+      "second value &/?+ü",
+      "--notification-email",
+      "regression@example.com",
+      "--notification-filter-origin-disable=false",
+      "--notification-filter-origin-healthy=false",
+      "--notification-filter-pool-disable=false",
+      "--notification-filter-pool-healthy=false"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/load_balancers/pools",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "487",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "description": "192.0.2.1",
+          "enabled": false,
+          "latitude": 2,
+          "load_shedding": {
+            "default_percent": 2,
+            "default_policy": "hash",
+            "session_percent": 2,
+            "session_policy": "hash"
+          },
+          "longitude": 2,
+          "minimum_origins": 2,
+          "monitor": "second value &/?+ü",
+          "monitor_group": "second value &/?+ü",
+          "name": "regression value &/?+ü",
+          "notification_email": "regression@example.com",
+          "notification_filter": {
+            "origin": {
+              "disable": false,
+              "healthy": false
+            },
+            "pool": {
+              "disable": false,
+              "healthy": false
+            }
+          },
+          "origins": [
+            {
+              "regression": "item"
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "global quiet",
+    "argv": [
+      "load-balancers",
+      "pools",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--origins",
+      "[{\"regression\":\"item\"}]",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--quiet"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/load_balancers/pools",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "global zone",
+    "argv": [
+      "load-balancers",
+      "pools",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--origins",
+      "[{\"regression\":\"item\"}]",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--zone",
+      "abcdef0123456789abcdef0123456789"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/load_balancers/pools",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "global profile and mode",
+    "argv": [
+      "load-balancers",
+      "pools",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--origins",
+      "[{\"regression\":\"item\"}]",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--profile",
+      "default",
+      "--mode",
+      "regression"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/load_balancers/pools",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "local",
+    "argv": [
+      "load-balancers",
+      "pools",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--origins",
+      "[{\"regression\":\"item\"}]",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--local"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "http://localhost/cdn-cgi/local/explorer/api/load_balancers/pools",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "gzip, deflate",
+          "accept-language": "*",
+          "connection": "keep-alive",
+          "content-type": "application/json",
+          "host": "localhost",
+          "sec-fetch-mode": "cors",
+          "transfer-encoding": "chunked",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "local with persistence",
+    "argv": [
+      "load-balancers",
+      "pools",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--origins",
+      "[{\"regression\":\"item\"}]",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--local",
+      "--persist-to",
+      "regression-state"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "http://localhost/cdn-cgi/local/explorer/api/load_balancers/pools",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "gzip, deflate",
+          "accept-language": "*",
+          "connection": "keep-alive",
+          "content-type": "application/json",
+          "host": "localhost",
+          "sec-fetch-mode": "cors",
+          "transfer-encoding": "chunked",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "dry-run",
+    "argv": [
+      "load-balancers",
+      "pools",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--origins",
+      "[{\"regression\":\"item\"}]",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--dry-run"
+    ],
+    "exitCode": 0,
+    "requests": []
+  },
+  {
+    "case": "body from file",
+    "argv": [
+      "load-balancers",
+      "pools",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--origins",
+      "[{\"regression\":\"item\"}]",
+      "--body",
+      "@<body.json>"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/load_balancers/pools",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "array body",
+    "argv": [
+      "load-balancers",
+      "pools",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--origins",
+      "[{\"regression\":\"item\"}]",
+      "--body",
+      "[{\"regression\":\"first\"},{\"regression\":\"second\"}]"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/load_balancers/pools",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "56",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "0": {
+            "regression": "first"
+          },
+          "1": {
+            "regression": "second"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "field flags",
+    "argv": [
+      "load-balancers",
+      "pools",
+      "create",
+      "--name",
+      "regression value &/?+ü",
+      "--origins",
+      "[{\"regression\":\"item\"}]",
+      "--description",
+      "192.0.2.1",
+      "--enabled=true",
+      "--latitude",
+      "1",
+      "--load-shedding-default-percent",
+      "1",
+      "--load-shedding-default-policy",
+      "random",
+      "--load-shedding-session-percent",
+      "1",
+      "--load-shedding-session-policy",
+      "hash",
+      "--longitude",
+      "1",
+      "--minimum-origins",
+      "1",
+      "--monitor",
+      "regression value &/?+ü",
+      "--monitor-group",
+      "regression value &/?+ü",
+      "--notification-email",
+      "regression@example.com",
+      "--notification-filter-origin-disable=true",
+      "--notification-filter-origin-healthy=true",
+      "--notification-filter-pool-disable=true",
+      "--notification-filter-pool-healthy=true",
+      "--origin-steering-policy",
+      "random"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "POST",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/load_balancers/pools",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "530",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "description": "192.0.2.1",
+          "enabled": true,
+          "latitude": 1,
+          "load_shedding": {
+            "default_percent": 1,
+            "default_policy": "random",
+            "session_percent": 1,
+            "session_policy": "hash"
+          },
+          "longitude": 1,
+          "minimum_origins": 1,
+          "monitor": "regression value &/?+ü",
+          "monitor_group": "regression value &/?+ü",
+          "name": "regression value &/?+ü",
+          "notification_email": "regression@example.com",
+          "notification_filter": {
+            "origin": {
+              "disable": true,
+              "healthy": true
+            },
+            "pool": {
+              "disable": true,
+              "healthy": true
+            }
+          },
+          "origin_steering": {
+            "policy": "random"
+          },
+          "origins": [
+            {
+              "regression": "item"
+            }
+          ]
+        }
+      }
+    ]
+  }
+]

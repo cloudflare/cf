@@ -1,0 +1,2280 @@
+[
+  {
+    "case": "no-args",
+    "argv": [
+      "spectrum",
+      "apps",
+      "update"
+    ],
+    "exitCode": 1,
+    "error": "Not enough non-option arguments: got 0, need at least 1",
+    "requests": []
+  },
+  {
+    "case": "required",
+    "argv": [
+      "spectrum",
+      "apps",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--protocol",
+      "regression value &/?+ü",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/spectrum/apps/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --argo-smart-routing",
+    "argv": [
+      "spectrum",
+      "apps",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--protocol",
+      "regression value &/?+ü",
+      "--argo-smart-routing=true"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/spectrum/apps/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "64",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "argo_smart_routing": true,
+          "protocol": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "--argo-smart-routing value 1",
+    "argv": [
+      "spectrum",
+      "apps",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--protocol",
+      "regression value &/?+ü",
+      "--argo-smart-routing=false"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/spectrum/apps/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "65",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "argo_smart_routing": false,
+          "protocol": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --dns-name",
+    "argv": [
+      "spectrum",
+      "apps",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--protocol",
+      "regression value &/?+ü",
+      "--dns-name",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/spectrum/apps/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "79",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "dns": {
+            "name": "regression value &/?+ü"
+          },
+          "protocol": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --dns-type",
+    "argv": [
+      "spectrum",
+      "apps",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--protocol",
+      "regression value &/?+ü",
+      "--dns-type",
+      "CNAME"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/spectrum/apps/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "61",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "dns": {
+            "type": "CNAME"
+          },
+          "protocol": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "--dns-type value 1",
+    "argv": [
+      "spectrum",
+      "apps",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--protocol",
+      "regression value &/?+ü",
+      "--dns-type",
+      "ADDRESS"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/spectrum/apps/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "63",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "dns": {
+            "type": "ADDRESS"
+          },
+          "protocol": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --edge-ips-connectivity",
+    "argv": [
+      "spectrum",
+      "apps",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--protocol",
+      "regression value &/?+ü",
+      "--edge-ips-connectivity",
+      "all"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/spectrum/apps/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "72",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "edge_ips": {
+            "connectivity": "all"
+          },
+          "protocol": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "--edge-ips-connectivity value 1",
+    "argv": [
+      "spectrum",
+      "apps",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--protocol",
+      "regression value &/?+ü",
+      "--edge-ips-connectivity",
+      "ipv4"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/spectrum/apps/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "73",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "edge_ips": {
+            "connectivity": "ipv4"
+          },
+          "protocol": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "--edge-ips-connectivity value 2",
+    "argv": [
+      "spectrum",
+      "apps",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--protocol",
+      "regression value &/?+ü",
+      "--edge-ips-connectivity",
+      "ipv6"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/spectrum/apps/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "73",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "edge_ips": {
+            "connectivity": "ipv6"
+          },
+          "protocol": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --edge-ips-type",
+    "argv": [
+      "spectrum",
+      "apps",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--protocol",
+      "regression value &/?+ü",
+      "--edge-ips-type",
+      "dynamic"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/spectrum/apps/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "68",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "edge_ips": {
+            "type": "dynamic"
+          },
+          "protocol": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "--edge-ips-type value 1",
+    "argv": [
+      "spectrum",
+      "apps",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--protocol",
+      "regression value &/?+ü",
+      "--edge-ips-type",
+      "static"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/spectrum/apps/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "67",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "edge_ips": {
+            "type": "static"
+          },
+          "protocol": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --edge-ips-ips",
+    "argv": [
+      "spectrum",
+      "apps",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--protocol",
+      "regression value &/?+ü",
+      "--edge-ips-ips",
+      "192.0.2.1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/spectrum/apps/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "71",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "edge_ips": {
+            "ips": [
+              "192.0.2.1"
+            ]
+          },
+          "protocol": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --ip-firewall",
+    "argv": [
+      "spectrum",
+      "apps",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--protocol",
+      "regression value &/?+ü",
+      "--ip-firewall=true"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/spectrum/apps/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "57",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "ip_firewall": true,
+          "protocol": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "--ip-firewall value 1",
+    "argv": [
+      "spectrum",
+      "apps",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--protocol",
+      "regression value &/?+ü",
+      "--ip-firewall=false"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/spectrum/apps/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "58",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "ip_firewall": false,
+          "protocol": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --origin-direct",
+    "argv": [
+      "spectrum",
+      "apps",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--protocol",
+      "regression value &/?+ü",
+      "--origin-direct",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/spectrum/apps/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "82",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "origin_direct": [
+            "regression value &/?+ü"
+          ],
+          "protocol": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --origin-dns-name",
+    "argv": [
+      "spectrum",
+      "apps",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--protocol",
+      "regression value &/?+ü",
+      "--origin-dns-name",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/spectrum/apps/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "86",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "origin_dns": {
+            "name": "regression value &/?+ü"
+          },
+          "protocol": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --origin-dns-ttl",
+    "argv": [
+      "spectrum",
+      "apps",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--protocol",
+      "regression value &/?+ü",
+      "--origin-dns-ttl",
+      "1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/spectrum/apps/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "61",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "origin_dns": {
+            "ttl": 1
+          },
+          "protocol": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --origin-dns-type",
+    "argv": [
+      "spectrum",
+      "apps",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--protocol",
+      "regression value &/?+ü",
+      "--origin-dns-type",
+      "A"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/spectrum/apps/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "64",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "origin_dns": {
+            "type": "A"
+          },
+          "protocol": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "--origin-dns-type value 1",
+    "argv": [
+      "spectrum",
+      "apps",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--protocol",
+      "regression value &/?+ü",
+      "--origin-dns-type",
+      "AAAA"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/spectrum/apps/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "67",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "origin_dns": {
+            "type": "AAAA"
+          },
+          "protocol": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "--origin-dns-type value 2",
+    "argv": [
+      "spectrum",
+      "apps",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--protocol",
+      "regression value &/?+ü",
+      "--origin-dns-type",
+      "SRV"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/spectrum/apps/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "66",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "origin_dns": {
+            "type": "SRV"
+          },
+          "protocol": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --origin-worker-id",
+    "argv": [
+      "spectrum",
+      "apps",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--protocol",
+      "regression value &/?+ü",
+      "--origin-worker-id",
+      "0123456789abcdef0123456789abcdef"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/spectrum/apps/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "92",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "origin_worker_id": "0123456789abcdef0123456789abcdef",
+          "protocol": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --proxy-protocol",
+    "argv": [
+      "spectrum",
+      "apps",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--protocol",
+      "regression value &/?+ü",
+      "--proxy-protocol",
+      "off"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/spectrum/apps/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "61",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "protocol": "regression value &/?+ü",
+          "proxy_protocol": "off"
+        }
+      }
+    ]
+  },
+  {
+    "case": "--proxy-protocol value 1",
+    "argv": [
+      "spectrum",
+      "apps",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--protocol",
+      "regression value &/?+ü",
+      "--proxy-protocol",
+      "v1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/spectrum/apps/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "60",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "protocol": "regression value &/?+ü",
+          "proxy_protocol": "v1"
+        }
+      }
+    ]
+  },
+  {
+    "case": "--proxy-protocol value 2",
+    "argv": [
+      "spectrum",
+      "apps",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--protocol",
+      "regression value &/?+ü",
+      "--proxy-protocol",
+      "v2"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/spectrum/apps/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "60",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "protocol": "regression value &/?+ü",
+          "proxy_protocol": "v2"
+        }
+      }
+    ]
+  },
+  {
+    "case": "--proxy-protocol value 3",
+    "argv": [
+      "spectrum",
+      "apps",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--protocol",
+      "regression value &/?+ü",
+      "--proxy-protocol",
+      "simple"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/spectrum/apps/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "64",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "protocol": "regression value &/?+ü",
+          "proxy_protocol": "simple"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --tls",
+    "argv": [
+      "spectrum",
+      "apps",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--protocol",
+      "regression value &/?+ü",
+      "--tls",
+      "off"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/spectrum/apps/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "50",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "protocol": "regression value &/?+ü",
+          "tls": "off"
+        }
+      }
+    ]
+  },
+  {
+    "case": "--tls value 1",
+    "argv": [
+      "spectrum",
+      "apps",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--protocol",
+      "regression value &/?+ü",
+      "--tls",
+      "flexible"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/spectrum/apps/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "55",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "protocol": "regression value &/?+ü",
+          "tls": "flexible"
+        }
+      }
+    ]
+  },
+  {
+    "case": "--tls value 2",
+    "argv": [
+      "spectrum",
+      "apps",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--protocol",
+      "regression value &/?+ü",
+      "--tls",
+      "full"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/spectrum/apps/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "51",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "protocol": "regression value &/?+ü",
+          "tls": "full"
+        }
+      }
+    ]
+  },
+  {
+    "case": "--tls value 3",
+    "argv": [
+      "spectrum",
+      "apps",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--protocol",
+      "regression value &/?+ü",
+      "--tls",
+      "strict"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/spectrum/apps/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "53",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "protocol": "regression value &/?+ü",
+          "tls": "strict"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --traffic-type",
+    "argv": [
+      "spectrum",
+      "apps",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--protocol",
+      "regression value &/?+ü",
+      "--traffic-type",
+      "direct"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/spectrum/apps/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "62",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "protocol": "regression value &/?+ü",
+          "traffic_type": "direct"
+        }
+      }
+    ]
+  },
+  {
+    "case": "--traffic-type value 1",
+    "argv": [
+      "spectrum",
+      "apps",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--protocol",
+      "regression value &/?+ü",
+      "--traffic-type",
+      "http"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/spectrum/apps/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "60",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "protocol": "regression value &/?+ü",
+          "traffic_type": "http"
+        }
+      }
+    ]
+  },
+  {
+    "case": "--traffic-type value 2",
+    "argv": [
+      "spectrum",
+      "apps",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--protocol",
+      "regression value &/?+ü",
+      "--traffic-type",
+      "https"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/spectrum/apps/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "61",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "protocol": "regression value &/?+ü",
+          "traffic_type": "https"
+        }
+      }
+    ]
+  },
+  {
+    "case": "--traffic-type value 3",
+    "argv": [
+      "spectrum",
+      "apps",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--protocol",
+      "regression value &/?+ü",
+      "--traffic-type",
+      "worker"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/spectrum/apps/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "62",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "protocol": "regression value &/?+ü",
+          "traffic_type": "worker"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --virtual-network-id",
+    "argv": [
+      "spectrum",
+      "apps",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--protocol",
+      "regression value &/?+ü",
+      "--virtual-network-id",
+      "0123456789abcdef0123456789abcdef"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/spectrum/apps/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "94",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "protocol": "regression value &/?+ü",
+          "virtual_network_id": "0123456789abcdef0123456789abcdef"
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 0",
+    "argv": [
+      "spectrum",
+      "apps",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--protocol",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/spectrum/apps/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "38",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "protocol": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 1",
+    "argv": [
+      "spectrum",
+      "apps",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--protocol",
+      "regression value &/?+ü",
+      "--argo-smart-routing=false",
+      "--dns-name",
+      "second value &/?+ü",
+      "--dns-type",
+      "ADDRESS",
+      "--edge-ips-connectivity",
+      "ipv4",
+      "--edge-ips-type",
+      "static",
+      "--edge-ips-ips",
+      "192.0.2.1",
+      "192.0.2.1",
+      "--ip-firewall=false",
+      "--origin-direct",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--origin-dns-name",
+      "second value &/?+ü",
+      "--origin-dns-ttl",
+      "2",
+      "--origin-dns-type",
+      "AAAA",
+      "--origin-worker-id",
+      "0123456789abcdef0123456789abcdef",
+      "--proxy-protocol",
+      "v1",
+      "--tls",
+      "flexible",
+      "--traffic-type",
+      "http",
+      "--virtual-network-id",
+      "0123456789abcdef0123456789abcdef"
+    ],
+    "exitCode": 1,
+    "error": "Arguments edge-ips-connectivity and edge-ips-ips are mutually exclusive",
+    "requests": []
+  },
+  {
+    "case": "pairwise 2",
+    "argv": [
+      "spectrum",
+      "apps",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--protocol",
+      "regression value &/?+ü",
+      "--dns-name",
+      "regression value &/?+ü",
+      "--edge-ips-connectivity",
+      "all",
+      "--edge-ips-ips",
+      "192.0.2.1",
+      "--origin-direct",
+      "regression value &/?+ü",
+      "--origin-dns-ttl",
+      "1",
+      "--origin-worker-id",
+      "0123456789abcdef0123456789abcdef",
+      "--tls",
+      "off",
+      "--virtual-network-id",
+      "0123456789abcdef0123456789abcdef"
+    ],
+    "exitCode": 1,
+    "error": "Arguments edge-ips-connectivity and edge-ips-ips are mutually exclusive",
+    "requests": []
+  },
+  {
+    "case": "pairwise 3",
+    "argv": [
+      "spectrum",
+      "apps",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--protocol",
+      "regression value &/?+ü",
+      "--argo-smart-routing=false",
+      "--dns-type",
+      "ADDRESS",
+      "--edge-ips-type",
+      "static",
+      "--ip-firewall=false",
+      "--origin-dns-name",
+      "second value &/?+ü",
+      "--origin-dns-type",
+      "AAAA",
+      "--proxy-protocol",
+      "v1",
+      "--traffic-type",
+      "http"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/spectrum/apps/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "241",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "argo_smart_routing": false,
+          "dns": {
+            "type": "ADDRESS"
+          },
+          "edge_ips": {
+            "type": "static"
+          },
+          "ip_firewall": false,
+          "origin_dns": {
+            "name": "second value &/?+ü",
+            "type": "AAAA"
+          },
+          "protocol": "regression value &/?+ü",
+          "proxy_protocol": "v1",
+          "traffic_type": "http"
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 4",
+    "argv": [
+      "spectrum",
+      "apps",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--protocol",
+      "regression value &/?+ü",
+      "--dns-type",
+      "CNAME",
+      "--edge-ips-connectivity",
+      "all",
+      "--ip-firewall=true",
+      "--origin-direct",
+      "regression value &/?+ü",
+      "--origin-dns-type",
+      "A",
+      "--origin-worker-id",
+      "0123456789abcdef0123456789abcdef",
+      "--traffic-type",
+      "direct",
+      "--virtual-network-id",
+      "0123456789abcdef0123456789abcdef"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/spectrum/apps/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "318",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "dns": {
+            "type": "CNAME"
+          },
+          "edge_ips": {
+            "connectivity": "all"
+          },
+          "ip_firewall": true,
+          "origin_direct": [
+            "regression value &/?+ü"
+          ],
+          "origin_dns": {
+            "type": "A"
+          },
+          "origin_worker_id": "0123456789abcdef0123456789abcdef",
+          "protocol": "regression value &/?+ü",
+          "traffic_type": "direct",
+          "virtual_network_id": "0123456789abcdef0123456789abcdef"
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 5",
+    "argv": [
+      "spectrum",
+      "apps",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--protocol",
+      "regression value &/?+ü",
+      "--argo-smart-routing=false",
+      "--dns-name",
+      "second value &/?+ü",
+      "--edge-ips-type",
+      "static",
+      "--edge-ips-ips",
+      "192.0.2.1",
+      "192.0.2.1",
+      "--origin-dns-name",
+      "second value &/?+ü",
+      "--origin-dns-ttl",
+      "2",
+      "--proxy-protocol",
+      "v1",
+      "--tls",
+      "flexible"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/spectrum/apps/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "254",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "argo_smart_routing": false,
+          "dns": {
+            "name": "second value &/?+ü"
+          },
+          "edge_ips": {
+            "type": "static",
+            "ips": [
+              "192.0.2.1",
+              "192.0.2.1"
+            ]
+          },
+          "origin_dns": {
+            "name": "second value &/?+ü",
+            "ttl": 2
+          },
+          "protocol": "regression value &/?+ü",
+          "proxy_protocol": "v1",
+          "tls": "flexible"
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 6",
+    "argv": [
+      "spectrum",
+      "apps",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--protocol",
+      "regression value &/?+ü",
+      "--edge-ips-type",
+      "dynamic",
+      "--edge-ips-ips",
+      "192.0.2.1",
+      "--ip-firewall=true",
+      "--origin-direct",
+      "regression value &/?+ü",
+      "--proxy-protocol",
+      "off",
+      "--tls",
+      "off",
+      "--traffic-type",
+      "direct",
+      "--virtual-network-id",
+      "0123456789abcdef0123456789abcdef"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/spectrum/apps/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "266",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "edge_ips": {
+            "type": "dynamic",
+            "ips": [
+              "192.0.2.1"
+            ]
+          },
+          "ip_firewall": true,
+          "origin_direct": [
+            "regression value &/?+ü"
+          ],
+          "protocol": "regression value &/?+ü",
+          "proxy_protocol": "off",
+          "tls": "off",
+          "traffic_type": "direct",
+          "virtual_network_id": "0123456789abcdef0123456789abcdef"
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 7",
+    "argv": [
+      "spectrum",
+      "apps",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--protocol",
+      "regression value &/?+ü",
+      "--argo-smart-routing=false",
+      "--dns-name",
+      "second value &/?+ü",
+      "--dns-type",
+      "ADDRESS",
+      "--edge-ips-connectivity",
+      "ipv4",
+      "--origin-dns-name",
+      "second value &/?+ü",
+      "--origin-dns-ttl",
+      "2",
+      "--origin-dns-type",
+      "AAAA",
+      "--origin-worker-id",
+      "0123456789abcdef0123456789abcdef"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/spectrum/apps/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "274",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "argo_smart_routing": false,
+          "dns": {
+            "name": "second value &/?+ü",
+            "type": "ADDRESS"
+          },
+          "edge_ips": {
+            "connectivity": "ipv4"
+          },
+          "origin_dns": {
+            "name": "second value &/?+ü",
+            "ttl": 2,
+            "type": "AAAA"
+          },
+          "origin_worker_id": "0123456789abcdef0123456789abcdef",
+          "protocol": "regression value &/?+ü"
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 8",
+    "argv": [
+      "spectrum",
+      "apps",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--protocol",
+      "regression value &/?+ü",
+      "--origin-dns-name",
+      "regression value &/?+ü",
+      "--origin-dns-ttl",
+      "1",
+      "--origin-dns-type",
+      "A",
+      "--origin-worker-id",
+      "0123456789abcdef0123456789abcdef",
+      "--proxy-protocol",
+      "off",
+      "--tls",
+      "off",
+      "--traffic-type",
+      "direct",
+      "--virtual-network-id",
+      "0123456789abcdef0123456789abcdef"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/spectrum/apps/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "274",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "origin_dns": {
+            "name": "regression value &/?+ü",
+            "ttl": 1,
+            "type": "A"
+          },
+          "origin_worker_id": "0123456789abcdef0123456789abcdef",
+          "protocol": "regression value &/?+ü",
+          "proxy_protocol": "off",
+          "tls": "off",
+          "traffic_type": "direct",
+          "virtual_network_id": "0123456789abcdef0123456789abcdef"
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 9",
+    "argv": [
+      "spectrum",
+      "apps",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--protocol",
+      "regression value &/?+ü",
+      "--argo-smart-routing=false",
+      "--dns-name",
+      "second value &/?+ü",
+      "--dns-type",
+      "ADDRESS",
+      "--edge-ips-connectivity",
+      "ipv4",
+      "--edge-ips-type",
+      "static",
+      "--edge-ips-ips",
+      "192.0.2.1",
+      "192.0.2.1",
+      "--ip-firewall=false",
+      "--origin-direct",
+      "second value &/?+ü",
+      "second value &/?+ü"
+    ],
+    "exitCode": 1,
+    "error": "Arguments edge-ips-connectivity and edge-ips-ips are mutually exclusive",
+    "requests": []
+  },
+  {
+    "case": "global quiet",
+    "argv": [
+      "spectrum",
+      "apps",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--protocol",
+      "regression value &/?+ü",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--quiet"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/spectrum/apps/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "global zone",
+    "argv": [
+      "spectrum",
+      "apps",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--protocol",
+      "regression value &/?+ü",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--zone",
+      "abcdef0123456789abcdef0123456789"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/spectrum/apps/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "global profile and mode",
+    "argv": [
+      "spectrum",
+      "apps",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--protocol",
+      "regression value &/?+ü",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--profile",
+      "default",
+      "--mode",
+      "regression"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/spectrum/apps/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "local",
+    "argv": [
+      "spectrum",
+      "apps",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--protocol",
+      "regression value &/?+ü",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--local"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "http://localhost/cdn-cgi/local/explorer/api/zones/abcdef0123456789abcdef0123456789/spectrum/apps/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "gzip, deflate",
+          "accept-language": "*",
+          "connection": "keep-alive",
+          "content-type": "application/json",
+          "host": "localhost",
+          "sec-fetch-mode": "cors",
+          "transfer-encoding": "chunked",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "local with persistence",
+    "argv": [
+      "spectrum",
+      "apps",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--protocol",
+      "regression value &/?+ü",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--local",
+      "--persist-to",
+      "regression-state"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "http://localhost/cdn-cgi/local/explorer/api/zones/abcdef0123456789abcdef0123456789/spectrum/apps/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "gzip, deflate",
+          "accept-language": "*",
+          "connection": "keep-alive",
+          "content-type": "application/json",
+          "host": "localhost",
+          "sec-fetch-mode": "cors",
+          "transfer-encoding": "chunked",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "zone by domain",
+    "argv": [
+      "spectrum",
+      "apps",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--protocol",
+      "regression value &/?+ü",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--zone",
+      "regression-b29673e9798f.example.com"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/zones?name=regression-b29673e9798f.example.com&account.id=0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      },
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/spectrum/apps/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "dry-run",
+    "argv": [
+      "spectrum",
+      "apps",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--protocol",
+      "regression value &/?+ü",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--dry-run"
+    ],
+    "exitCode": 0,
+    "requests": []
+  },
+  {
+    "case": "body from file",
+    "argv": [
+      "spectrum",
+      "apps",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--protocol",
+      "regression value &/?+ü",
+      "--body",
+      "@<body.json>"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/spectrum/apps/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "array body",
+    "argv": [
+      "spectrum",
+      "apps",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--protocol",
+      "regression value &/?+ü",
+      "--body",
+      "[{\"regression\":\"first\"},{\"regression\":\"second\"}]"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/spectrum/apps/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "48",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": [
+          {
+            "regression": "first"
+          },
+          {
+            "regression": "second"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "case": "field flags",
+    "argv": [
+      "spectrum",
+      "apps",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--protocol",
+      "regression value &/?+ü",
+      "--argo-smart-routing=true",
+      "--dns-name",
+      "regression value &/?+ü",
+      "--dns-type",
+      "CNAME",
+      "--edge-ips-connectivity",
+      "all",
+      "--edge-ips-type",
+      "dynamic",
+      "--edge-ips-ips",
+      "192.0.2.1",
+      "--ip-firewall=true",
+      "--origin-direct",
+      "regression value &/?+ü",
+      "--origin-dns-name",
+      "regression value &/?+ü",
+      "--origin-dns-ttl",
+      "1",
+      "--origin-dns-type",
+      "A",
+      "--origin-worker-id",
+      "0123456789abcdef0123456789abcdef",
+      "--proxy-protocol",
+      "off",
+      "--tls",
+      "off",
+      "--traffic-type",
+      "direct",
+      "--virtual-network-id",
+      "0123456789abcdef0123456789abcdef"
+    ],
+    "exitCode": 1,
+    "error": "Arguments edge-ips-connectivity and edge-ips-ips are mutually exclusive",
+    "requests": []
+  }
+]

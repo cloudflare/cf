@@ -1,0 +1,4779 @@
+[
+  {
+    "case": "no-args",
+    "argv": [
+      "waiting-rooms",
+      "update"
+    ],
+    "exitCode": 1,
+    "error": "Not enough non-option arguments: got 0, need at least 1",
+    "requests": []
+  },
+  {
+    "case": "required",
+    "argv": [
+      "waiting-rooms",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--host",
+      "regression value &/?+ü",
+      "--name",
+      "regression value &/?+ü",
+      "--new-users-per-minute",
+      "1",
+      "--total-active-users",
+      "1",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/waiting_rooms/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --additional-routes",
+    "argv": [
+      "waiting-rooms",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--host",
+      "regression value &/?+ü",
+      "--name",
+      "regression value &/?+ü",
+      "--new-users-per-minute",
+      "1",
+      "--total-active-users",
+      "1",
+      "--additional-routes",
+      "[{\"regression\":\"item\"}]"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/waiting_rooms/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "159",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "additional_routes": [
+            {
+              "regression": "item"
+            }
+          ],
+          "host": "regression value &/?+ü",
+          "name": "regression value &/?+ü",
+          "new_users_per_minute": 1,
+          "total_active_users": 1
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --cookie-attributes-samesite",
+    "argv": [
+      "waiting-rooms",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--host",
+      "regression value &/?+ü",
+      "--name",
+      "regression value &/?+ü",
+      "--new-users-per-minute",
+      "1",
+      "--total-active-users",
+      "1",
+      "--cookie-attributes-samesite",
+      "auto"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/waiting_rooms/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "155",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "cookie_attributes": {
+            "samesite": "auto"
+          },
+          "host": "regression value &/?+ü",
+          "name": "regression value &/?+ü",
+          "new_users_per_minute": 1,
+          "total_active_users": 1
+        }
+      }
+    ]
+  },
+  {
+    "case": "--cookie-attributes-samesite value 1",
+    "argv": [
+      "waiting-rooms",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--host",
+      "regression value &/?+ü",
+      "--name",
+      "regression value &/?+ü",
+      "--new-users-per-minute",
+      "1",
+      "--total-active-users",
+      "1",
+      "--cookie-attributes-samesite",
+      "lax"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/waiting_rooms/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "154",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "cookie_attributes": {
+            "samesite": "lax"
+          },
+          "host": "regression value &/?+ü",
+          "name": "regression value &/?+ü",
+          "new_users_per_minute": 1,
+          "total_active_users": 1
+        }
+      }
+    ]
+  },
+  {
+    "case": "--cookie-attributes-samesite value 2",
+    "argv": [
+      "waiting-rooms",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--host",
+      "regression value &/?+ü",
+      "--name",
+      "regression value &/?+ü",
+      "--new-users-per-minute",
+      "1",
+      "--total-active-users",
+      "1",
+      "--cookie-attributes-samesite",
+      "none"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/waiting_rooms/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "155",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "cookie_attributes": {
+            "samesite": "none"
+          },
+          "host": "regression value &/?+ü",
+          "name": "regression value &/?+ü",
+          "new_users_per_minute": 1,
+          "total_active_users": 1
+        }
+      }
+    ]
+  },
+  {
+    "case": "--cookie-attributes-samesite value 3",
+    "argv": [
+      "waiting-rooms",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--host",
+      "regression value &/?+ü",
+      "--name",
+      "regression value &/?+ü",
+      "--new-users-per-minute",
+      "1",
+      "--total-active-users",
+      "1",
+      "--cookie-attributes-samesite",
+      "strict"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/waiting_rooms/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "157",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "cookie_attributes": {
+            "samesite": "strict"
+          },
+          "host": "regression value &/?+ü",
+          "name": "regression value &/?+ü",
+          "new_users_per_minute": 1,
+          "total_active_users": 1
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --cookie-attributes-secure",
+    "argv": [
+      "waiting-rooms",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--host",
+      "regression value &/?+ü",
+      "--name",
+      "regression value &/?+ü",
+      "--new-users-per-minute",
+      "1",
+      "--total-active-users",
+      "1",
+      "--cookie-attributes-secure",
+      "auto"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/waiting_rooms/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "153",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "cookie_attributes": {
+            "secure": "auto"
+          },
+          "host": "regression value &/?+ü",
+          "name": "regression value &/?+ü",
+          "new_users_per_minute": 1,
+          "total_active_users": 1
+        }
+      }
+    ]
+  },
+  {
+    "case": "--cookie-attributes-secure value 1",
+    "argv": [
+      "waiting-rooms",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--host",
+      "regression value &/?+ü",
+      "--name",
+      "regression value &/?+ü",
+      "--new-users-per-minute",
+      "1",
+      "--total-active-users",
+      "1",
+      "--cookie-attributes-secure",
+      "always"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/waiting_rooms/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "155",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "cookie_attributes": {
+            "secure": "always"
+          },
+          "host": "regression value &/?+ü",
+          "name": "regression value &/?+ü",
+          "new_users_per_minute": 1,
+          "total_active_users": 1
+        }
+      }
+    ]
+  },
+  {
+    "case": "--cookie-attributes-secure value 2",
+    "argv": [
+      "waiting-rooms",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--host",
+      "regression value &/?+ü",
+      "--name",
+      "regression value &/?+ü",
+      "--new-users-per-minute",
+      "1",
+      "--total-active-users",
+      "1",
+      "--cookie-attributes-secure",
+      "never"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/waiting_rooms/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "154",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "cookie_attributes": {
+            "secure": "never"
+          },
+          "host": "regression value &/?+ü",
+          "name": "regression value &/?+ü",
+          "new_users_per_minute": 1,
+          "total_active_users": 1
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --cookie-suffix",
+    "argv": [
+      "waiting-rooms",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--host",
+      "regression value &/?+ü",
+      "--name",
+      "regression value &/?+ü",
+      "--new-users-per-minute",
+      "1",
+      "--total-active-users",
+      "1",
+      "--cookie-suffix",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/waiting_rooms/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "157",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "cookie_suffix": "regression value &/?+ü",
+          "host": "regression value &/?+ü",
+          "name": "regression value &/?+ü",
+          "new_users_per_minute": 1,
+          "total_active_users": 1
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --custom-page-html",
+    "argv": [
+      "waiting-rooms",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--host",
+      "regression value &/?+ü",
+      "--name",
+      "regression value &/?+ü",
+      "--new-users-per-minute",
+      "1",
+      "--total-active-users",
+      "1",
+      "--custom-page-html",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/waiting_rooms/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "160",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "custom_page_html": "regression value &/?+ü",
+          "host": "regression value &/?+ü",
+          "name": "regression value &/?+ü",
+          "new_users_per_minute": 1,
+          "total_active_users": 1
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --default-template-language",
+    "argv": [
+      "waiting-rooms",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--host",
+      "regression value &/?+ü",
+      "--name",
+      "regression value &/?+ü",
+      "--new-users-per-minute",
+      "1",
+      "--total-active-users",
+      "1",
+      "--default-template-language",
+      "en-US"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/waiting_rooms/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "151",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "default_template_language": "en-US",
+          "host": "regression value &/?+ü",
+          "name": "regression value &/?+ü",
+          "new_users_per_minute": 1,
+          "total_active_users": 1
+        }
+      }
+    ]
+  },
+  {
+    "case": "--default-template-language value 1",
+    "argv": [
+      "waiting-rooms",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--host",
+      "regression value &/?+ü",
+      "--name",
+      "regression value &/?+ü",
+      "--new-users-per-minute",
+      "1",
+      "--total-active-users",
+      "1",
+      "--default-template-language",
+      "es-ES"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/waiting_rooms/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "151",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "default_template_language": "es-ES",
+          "host": "regression value &/?+ü",
+          "name": "regression value &/?+ü",
+          "new_users_per_minute": 1,
+          "total_active_users": 1
+        }
+      }
+    ]
+  },
+  {
+    "case": "--default-template-language value 2",
+    "argv": [
+      "waiting-rooms",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--host",
+      "regression value &/?+ü",
+      "--name",
+      "regression value &/?+ü",
+      "--new-users-per-minute",
+      "1",
+      "--total-active-users",
+      "1",
+      "--default-template-language",
+      "de-DE"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/waiting_rooms/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "151",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "default_template_language": "de-DE",
+          "host": "regression value &/?+ü",
+          "name": "regression value &/?+ü",
+          "new_users_per_minute": 1,
+          "total_active_users": 1
+        }
+      }
+    ]
+  },
+  {
+    "case": "--default-template-language value 3",
+    "argv": [
+      "waiting-rooms",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--host",
+      "regression value &/?+ü",
+      "--name",
+      "regression value &/?+ü",
+      "--new-users-per-minute",
+      "1",
+      "--total-active-users",
+      "1",
+      "--default-template-language",
+      "fr-FR"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/waiting_rooms/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "151",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "default_template_language": "fr-FR",
+          "host": "regression value &/?+ü",
+          "name": "regression value &/?+ü",
+          "new_users_per_minute": 1,
+          "total_active_users": 1
+        }
+      }
+    ]
+  },
+  {
+    "case": "--default-template-language value 4",
+    "argv": [
+      "waiting-rooms",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--host",
+      "regression value &/?+ü",
+      "--name",
+      "regression value &/?+ü",
+      "--new-users-per-minute",
+      "1",
+      "--total-active-users",
+      "1",
+      "--default-template-language",
+      "it-IT"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/waiting_rooms/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "151",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "default_template_language": "it-IT",
+          "host": "regression value &/?+ü",
+          "name": "regression value &/?+ü",
+          "new_users_per_minute": 1,
+          "total_active_users": 1
+        }
+      }
+    ]
+  },
+  {
+    "case": "--default-template-language value 5",
+    "argv": [
+      "waiting-rooms",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--host",
+      "regression value &/?+ü",
+      "--name",
+      "regression value &/?+ü",
+      "--new-users-per-minute",
+      "1",
+      "--total-active-users",
+      "1",
+      "--default-template-language",
+      "ja-JP"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/waiting_rooms/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "151",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "default_template_language": "ja-JP",
+          "host": "regression value &/?+ü",
+          "name": "regression value &/?+ü",
+          "new_users_per_minute": 1,
+          "total_active_users": 1
+        }
+      }
+    ]
+  },
+  {
+    "case": "--default-template-language value 6",
+    "argv": [
+      "waiting-rooms",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--host",
+      "regression value &/?+ü",
+      "--name",
+      "regression value &/?+ü",
+      "--new-users-per-minute",
+      "1",
+      "--total-active-users",
+      "1",
+      "--default-template-language",
+      "ko-KR"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/waiting_rooms/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "151",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "default_template_language": "ko-KR",
+          "host": "regression value &/?+ü",
+          "name": "regression value &/?+ü",
+          "new_users_per_minute": 1,
+          "total_active_users": 1
+        }
+      }
+    ]
+  },
+  {
+    "case": "--default-template-language value 7",
+    "argv": [
+      "waiting-rooms",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--host",
+      "regression value &/?+ü",
+      "--name",
+      "regression value &/?+ü",
+      "--new-users-per-minute",
+      "1",
+      "--total-active-users",
+      "1",
+      "--default-template-language",
+      "pt-BR"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/waiting_rooms/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "151",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "default_template_language": "pt-BR",
+          "host": "regression value &/?+ü",
+          "name": "regression value &/?+ü",
+          "new_users_per_minute": 1,
+          "total_active_users": 1
+        }
+      }
+    ]
+  },
+  {
+    "case": "--default-template-language value 8",
+    "argv": [
+      "waiting-rooms",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--host",
+      "regression value &/?+ü",
+      "--name",
+      "regression value &/?+ü",
+      "--new-users-per-minute",
+      "1",
+      "--total-active-users",
+      "1",
+      "--default-template-language",
+      "zh-CN"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/waiting_rooms/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "151",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "default_template_language": "zh-CN",
+          "host": "regression value &/?+ü",
+          "name": "regression value &/?+ü",
+          "new_users_per_minute": 1,
+          "total_active_users": 1
+        }
+      }
+    ]
+  },
+  {
+    "case": "--default-template-language value 9",
+    "argv": [
+      "waiting-rooms",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--host",
+      "regression value &/?+ü",
+      "--name",
+      "regression value &/?+ü",
+      "--new-users-per-minute",
+      "1",
+      "--total-active-users",
+      "1",
+      "--default-template-language",
+      "zh-TW"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/waiting_rooms/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "151",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "default_template_language": "zh-TW",
+          "host": "regression value &/?+ü",
+          "name": "regression value &/?+ü",
+          "new_users_per_minute": 1,
+          "total_active_users": 1
+        }
+      }
+    ]
+  },
+  {
+    "case": "--default-template-language value 10",
+    "argv": [
+      "waiting-rooms",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--host",
+      "regression value &/?+ü",
+      "--name",
+      "regression value &/?+ü",
+      "--new-users-per-minute",
+      "1",
+      "--total-active-users",
+      "1",
+      "--default-template-language",
+      "nl-NL"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/waiting_rooms/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "151",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "default_template_language": "nl-NL",
+          "host": "regression value &/?+ü",
+          "name": "regression value &/?+ü",
+          "new_users_per_minute": 1,
+          "total_active_users": 1
+        }
+      }
+    ]
+  },
+  {
+    "case": "--default-template-language value 11",
+    "argv": [
+      "waiting-rooms",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--host",
+      "regression value &/?+ü",
+      "--name",
+      "regression value &/?+ü",
+      "--new-users-per-minute",
+      "1",
+      "--total-active-users",
+      "1",
+      "--default-template-language",
+      "pl-PL"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/waiting_rooms/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "151",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "default_template_language": "pl-PL",
+          "host": "regression value &/?+ü",
+          "name": "regression value &/?+ü",
+          "new_users_per_minute": 1,
+          "total_active_users": 1
+        }
+      }
+    ]
+  },
+  {
+    "case": "--default-template-language value 12",
+    "argv": [
+      "waiting-rooms",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--host",
+      "regression value &/?+ü",
+      "--name",
+      "regression value &/?+ü",
+      "--new-users-per-minute",
+      "1",
+      "--total-active-users",
+      "1",
+      "--default-template-language",
+      "id-ID"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/waiting_rooms/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "151",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "default_template_language": "id-ID",
+          "host": "regression value &/?+ü",
+          "name": "regression value &/?+ü",
+          "new_users_per_minute": 1,
+          "total_active_users": 1
+        }
+      }
+    ]
+  },
+  {
+    "case": "--default-template-language value 13",
+    "argv": [
+      "waiting-rooms",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--host",
+      "regression value &/?+ü",
+      "--name",
+      "regression value &/?+ü",
+      "--new-users-per-minute",
+      "1",
+      "--total-active-users",
+      "1",
+      "--default-template-language",
+      "tr-TR"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/waiting_rooms/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "151",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "default_template_language": "tr-TR",
+          "host": "regression value &/?+ü",
+          "name": "regression value &/?+ü",
+          "new_users_per_minute": 1,
+          "total_active_users": 1
+        }
+      }
+    ]
+  },
+  {
+    "case": "--default-template-language value 14",
+    "argv": [
+      "waiting-rooms",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--host",
+      "regression value &/?+ü",
+      "--name",
+      "regression value &/?+ü",
+      "--new-users-per-minute",
+      "1",
+      "--total-active-users",
+      "1",
+      "--default-template-language",
+      "ar-EG"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/waiting_rooms/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "151",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "default_template_language": "ar-EG",
+          "host": "regression value &/?+ü",
+          "name": "regression value &/?+ü",
+          "new_users_per_minute": 1,
+          "total_active_users": 1
+        }
+      }
+    ]
+  },
+  {
+    "case": "--default-template-language value 15",
+    "argv": [
+      "waiting-rooms",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--host",
+      "regression value &/?+ü",
+      "--name",
+      "regression value &/?+ü",
+      "--new-users-per-minute",
+      "1",
+      "--total-active-users",
+      "1",
+      "--default-template-language",
+      "ru-RU"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/waiting_rooms/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "151",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "default_template_language": "ru-RU",
+          "host": "regression value &/?+ü",
+          "name": "regression value &/?+ü",
+          "new_users_per_minute": 1,
+          "total_active_users": 1
+        }
+      }
+    ]
+  },
+  {
+    "case": "--default-template-language value 16",
+    "argv": [
+      "waiting-rooms",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--host",
+      "regression value &/?+ü",
+      "--name",
+      "regression value &/?+ü",
+      "--new-users-per-minute",
+      "1",
+      "--total-active-users",
+      "1",
+      "--default-template-language",
+      "fa-IR"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/waiting_rooms/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "151",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "default_template_language": "fa-IR",
+          "host": "regression value &/?+ü",
+          "name": "regression value &/?+ü",
+          "new_users_per_minute": 1,
+          "total_active_users": 1
+        }
+      }
+    ]
+  },
+  {
+    "case": "--default-template-language value 17",
+    "argv": [
+      "waiting-rooms",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--host",
+      "regression value &/?+ü",
+      "--name",
+      "regression value &/?+ü",
+      "--new-users-per-minute",
+      "1",
+      "--total-active-users",
+      "1",
+      "--default-template-language",
+      "bg-BG"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/waiting_rooms/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "151",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "default_template_language": "bg-BG",
+          "host": "regression value &/?+ü",
+          "name": "regression value &/?+ü",
+          "new_users_per_minute": 1,
+          "total_active_users": 1
+        }
+      }
+    ]
+  },
+  {
+    "case": "--default-template-language value 18",
+    "argv": [
+      "waiting-rooms",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--host",
+      "regression value &/?+ü",
+      "--name",
+      "regression value &/?+ü",
+      "--new-users-per-minute",
+      "1",
+      "--total-active-users",
+      "1",
+      "--default-template-language",
+      "hr-HR"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/waiting_rooms/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "151",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "default_template_language": "hr-HR",
+          "host": "regression value &/?+ü",
+          "name": "regression value &/?+ü",
+          "new_users_per_minute": 1,
+          "total_active_users": 1
+        }
+      }
+    ]
+  },
+  {
+    "case": "--default-template-language value 19",
+    "argv": [
+      "waiting-rooms",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--host",
+      "regression value &/?+ü",
+      "--name",
+      "regression value &/?+ü",
+      "--new-users-per-minute",
+      "1",
+      "--total-active-users",
+      "1",
+      "--default-template-language",
+      "cs-CZ"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/waiting_rooms/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "151",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "default_template_language": "cs-CZ",
+          "host": "regression value &/?+ü",
+          "name": "regression value &/?+ü",
+          "new_users_per_minute": 1,
+          "total_active_users": 1
+        }
+      }
+    ]
+  },
+  {
+    "case": "--default-template-language value 20",
+    "argv": [
+      "waiting-rooms",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--host",
+      "regression value &/?+ü",
+      "--name",
+      "regression value &/?+ü",
+      "--new-users-per-minute",
+      "1",
+      "--total-active-users",
+      "1",
+      "--default-template-language",
+      "da-DK"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/waiting_rooms/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "151",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "default_template_language": "da-DK",
+          "host": "regression value &/?+ü",
+          "name": "regression value &/?+ü",
+          "new_users_per_minute": 1,
+          "total_active_users": 1
+        }
+      }
+    ]
+  },
+  {
+    "case": "--default-template-language value 21",
+    "argv": [
+      "waiting-rooms",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--host",
+      "regression value &/?+ü",
+      "--name",
+      "regression value &/?+ü",
+      "--new-users-per-minute",
+      "1",
+      "--total-active-users",
+      "1",
+      "--default-template-language",
+      "fi-FI"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/waiting_rooms/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "151",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "default_template_language": "fi-FI",
+          "host": "regression value &/?+ü",
+          "name": "regression value &/?+ü",
+          "new_users_per_minute": 1,
+          "total_active_users": 1
+        }
+      }
+    ]
+  },
+  {
+    "case": "--default-template-language value 22",
+    "argv": [
+      "waiting-rooms",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--host",
+      "regression value &/?+ü",
+      "--name",
+      "regression value &/?+ü",
+      "--new-users-per-minute",
+      "1",
+      "--total-active-users",
+      "1",
+      "--default-template-language",
+      "lt-LT"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/waiting_rooms/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "151",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "default_template_language": "lt-LT",
+          "host": "regression value &/?+ü",
+          "name": "regression value &/?+ü",
+          "new_users_per_minute": 1,
+          "total_active_users": 1
+        }
+      }
+    ]
+  },
+  {
+    "case": "--default-template-language value 23",
+    "argv": [
+      "waiting-rooms",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--host",
+      "regression value &/?+ü",
+      "--name",
+      "regression value &/?+ü",
+      "--new-users-per-minute",
+      "1",
+      "--total-active-users",
+      "1",
+      "--default-template-language",
+      "lv-LV"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/waiting_rooms/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "151",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "default_template_language": "lv-LV",
+          "host": "regression value &/?+ü",
+          "name": "regression value &/?+ü",
+          "new_users_per_minute": 1,
+          "total_active_users": 1
+        }
+      }
+    ]
+  },
+  {
+    "case": "--default-template-language value 24",
+    "argv": [
+      "waiting-rooms",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--host",
+      "regression value &/?+ü",
+      "--name",
+      "regression value &/?+ü",
+      "--new-users-per-minute",
+      "1",
+      "--total-active-users",
+      "1",
+      "--default-template-language",
+      "ms-MY"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/waiting_rooms/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "151",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "default_template_language": "ms-MY",
+          "host": "regression value &/?+ü",
+          "name": "regression value &/?+ü",
+          "new_users_per_minute": 1,
+          "total_active_users": 1
+        }
+      }
+    ]
+  },
+  {
+    "case": "--default-template-language value 25",
+    "argv": [
+      "waiting-rooms",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--host",
+      "regression value &/?+ü",
+      "--name",
+      "regression value &/?+ü",
+      "--new-users-per-minute",
+      "1",
+      "--total-active-users",
+      "1",
+      "--default-template-language",
+      "nb-NO"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/waiting_rooms/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "151",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "default_template_language": "nb-NO",
+          "host": "regression value &/?+ü",
+          "name": "regression value &/?+ü",
+          "new_users_per_minute": 1,
+          "total_active_users": 1
+        }
+      }
+    ]
+  },
+  {
+    "case": "--default-template-language value 26",
+    "argv": [
+      "waiting-rooms",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--host",
+      "regression value &/?+ü",
+      "--name",
+      "regression value &/?+ü",
+      "--new-users-per-minute",
+      "1",
+      "--total-active-users",
+      "1",
+      "--default-template-language",
+      "ro-RO"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/waiting_rooms/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "151",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "default_template_language": "ro-RO",
+          "host": "regression value &/?+ü",
+          "name": "regression value &/?+ü",
+          "new_users_per_minute": 1,
+          "total_active_users": 1
+        }
+      }
+    ]
+  },
+  {
+    "case": "--default-template-language value 27",
+    "argv": [
+      "waiting-rooms",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--host",
+      "regression value &/?+ü",
+      "--name",
+      "regression value &/?+ü",
+      "--new-users-per-minute",
+      "1",
+      "--total-active-users",
+      "1",
+      "--default-template-language",
+      "el-GR"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/waiting_rooms/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "151",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "default_template_language": "el-GR",
+          "host": "regression value &/?+ü",
+          "name": "regression value &/?+ü",
+          "new_users_per_minute": 1,
+          "total_active_users": 1
+        }
+      }
+    ]
+  },
+  {
+    "case": "--default-template-language value 28",
+    "argv": [
+      "waiting-rooms",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--host",
+      "regression value &/?+ü",
+      "--name",
+      "regression value &/?+ü",
+      "--new-users-per-minute",
+      "1",
+      "--total-active-users",
+      "1",
+      "--default-template-language",
+      "he-IL"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/waiting_rooms/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "151",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "default_template_language": "he-IL",
+          "host": "regression value &/?+ü",
+          "name": "regression value &/?+ü",
+          "new_users_per_minute": 1,
+          "total_active_users": 1
+        }
+      }
+    ]
+  },
+  {
+    "case": "--default-template-language value 29",
+    "argv": [
+      "waiting-rooms",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--host",
+      "regression value &/?+ü",
+      "--name",
+      "regression value &/?+ü",
+      "--new-users-per-minute",
+      "1",
+      "--total-active-users",
+      "1",
+      "--default-template-language",
+      "hi-IN"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/waiting_rooms/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "151",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "default_template_language": "hi-IN",
+          "host": "regression value &/?+ü",
+          "name": "regression value &/?+ü",
+          "new_users_per_minute": 1,
+          "total_active_users": 1
+        }
+      }
+    ]
+  },
+  {
+    "case": "--default-template-language value 30",
+    "argv": [
+      "waiting-rooms",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--host",
+      "regression value &/?+ü",
+      "--name",
+      "regression value &/?+ü",
+      "--new-users-per-minute",
+      "1",
+      "--total-active-users",
+      "1",
+      "--default-template-language",
+      "hu-HU"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/waiting_rooms/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "151",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "default_template_language": "hu-HU",
+          "host": "regression value &/?+ü",
+          "name": "regression value &/?+ü",
+          "new_users_per_minute": 1,
+          "total_active_users": 1
+        }
+      }
+    ]
+  },
+  {
+    "case": "--default-template-language value 31",
+    "argv": [
+      "waiting-rooms",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--host",
+      "regression value &/?+ü",
+      "--name",
+      "regression value &/?+ü",
+      "--new-users-per-minute",
+      "1",
+      "--total-active-users",
+      "1",
+      "--default-template-language",
+      "sr-BA"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/waiting_rooms/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "151",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "default_template_language": "sr-BA",
+          "host": "regression value &/?+ü",
+          "name": "regression value &/?+ü",
+          "new_users_per_minute": 1,
+          "total_active_users": 1
+        }
+      }
+    ]
+  },
+  {
+    "case": "--default-template-language value 32",
+    "argv": [
+      "waiting-rooms",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--host",
+      "regression value &/?+ü",
+      "--name",
+      "regression value &/?+ü",
+      "--new-users-per-minute",
+      "1",
+      "--total-active-users",
+      "1",
+      "--default-template-language",
+      "sk-SK"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/waiting_rooms/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "151",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "default_template_language": "sk-SK",
+          "host": "regression value &/?+ü",
+          "name": "regression value &/?+ü",
+          "new_users_per_minute": 1,
+          "total_active_users": 1
+        }
+      }
+    ]
+  },
+  {
+    "case": "--default-template-language value 33",
+    "argv": [
+      "waiting-rooms",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--host",
+      "regression value &/?+ü",
+      "--name",
+      "regression value &/?+ü",
+      "--new-users-per-minute",
+      "1",
+      "--total-active-users",
+      "1",
+      "--default-template-language",
+      "sl-SI"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/waiting_rooms/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "151",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "default_template_language": "sl-SI",
+          "host": "regression value &/?+ü",
+          "name": "regression value &/?+ü",
+          "new_users_per_minute": 1,
+          "total_active_users": 1
+        }
+      }
+    ]
+  },
+  {
+    "case": "--default-template-language value 34",
+    "argv": [
+      "waiting-rooms",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--host",
+      "regression value &/?+ü",
+      "--name",
+      "regression value &/?+ü",
+      "--new-users-per-minute",
+      "1",
+      "--total-active-users",
+      "1",
+      "--default-template-language",
+      "sv-SE"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/waiting_rooms/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "151",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "default_template_language": "sv-SE",
+          "host": "regression value &/?+ü",
+          "name": "regression value &/?+ü",
+          "new_users_per_minute": 1,
+          "total_active_users": 1
+        }
+      }
+    ]
+  },
+  {
+    "case": "--default-template-language value 35",
+    "argv": [
+      "waiting-rooms",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--host",
+      "regression value &/?+ü",
+      "--name",
+      "regression value &/?+ü",
+      "--new-users-per-minute",
+      "1",
+      "--total-active-users",
+      "1",
+      "--default-template-language",
+      "tl-PH"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/waiting_rooms/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "151",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "default_template_language": "tl-PH",
+          "host": "regression value &/?+ü",
+          "name": "regression value &/?+ü",
+          "new_users_per_minute": 1,
+          "total_active_users": 1
+        }
+      }
+    ]
+  },
+  {
+    "case": "--default-template-language value 36",
+    "argv": [
+      "waiting-rooms",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--host",
+      "regression value &/?+ü",
+      "--name",
+      "regression value &/?+ü",
+      "--new-users-per-minute",
+      "1",
+      "--total-active-users",
+      "1",
+      "--default-template-language",
+      "th-TH"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/waiting_rooms/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "151",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "default_template_language": "th-TH",
+          "host": "regression value &/?+ü",
+          "name": "regression value &/?+ü",
+          "new_users_per_minute": 1,
+          "total_active_users": 1
+        }
+      }
+    ]
+  },
+  {
+    "case": "--default-template-language value 37",
+    "argv": [
+      "waiting-rooms",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--host",
+      "regression value &/?+ü",
+      "--name",
+      "regression value &/?+ü",
+      "--new-users-per-minute",
+      "1",
+      "--total-active-users",
+      "1",
+      "--default-template-language",
+      "uk-UA"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/waiting_rooms/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "151",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "default_template_language": "uk-UA",
+          "host": "regression value &/?+ü",
+          "name": "regression value &/?+ü",
+          "new_users_per_minute": 1,
+          "total_active_users": 1
+        }
+      }
+    ]
+  },
+  {
+    "case": "--default-template-language value 38",
+    "argv": [
+      "waiting-rooms",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--host",
+      "regression value &/?+ü",
+      "--name",
+      "regression value &/?+ü",
+      "--new-users-per-minute",
+      "1",
+      "--total-active-users",
+      "1",
+      "--default-template-language",
+      "vi-VN"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/waiting_rooms/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "151",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "default_template_language": "vi-VN",
+          "host": "regression value &/?+ü",
+          "name": "regression value &/?+ü",
+          "new_users_per_minute": 1,
+          "total_active_users": 1
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --description",
+    "argv": [
+      "waiting-rooms",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--host",
+      "regression value &/?+ü",
+      "--name",
+      "regression value &/?+ü",
+      "--new-users-per-minute",
+      "1",
+      "--total-active-users",
+      "1",
+      "--description",
+      "192.0.2.1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/waiting_rooms/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "141",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "description": "192.0.2.1",
+          "host": "regression value &/?+ü",
+          "name": "regression value &/?+ü",
+          "new_users_per_minute": 1,
+          "total_active_users": 1
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --disable-session-renewal",
+    "argv": [
+      "waiting-rooms",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--host",
+      "regression value &/?+ü",
+      "--name",
+      "regression value &/?+ü",
+      "--new-users-per-minute",
+      "1",
+      "--total-active-users",
+      "1",
+      "--disable-session-renewal=true"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/waiting_rooms/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "146",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "disable_session_renewal": true,
+          "host": "regression value &/?+ü",
+          "name": "regression value &/?+ü",
+          "new_users_per_minute": 1,
+          "total_active_users": 1
+        }
+      }
+    ]
+  },
+  {
+    "case": "--disable-session-renewal value 1",
+    "argv": [
+      "waiting-rooms",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--host",
+      "regression value &/?+ü",
+      "--name",
+      "regression value &/?+ü",
+      "--new-users-per-minute",
+      "1",
+      "--total-active-users",
+      "1",
+      "--disable-session-renewal=false"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/waiting_rooms/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "147",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "disable_session_renewal": false,
+          "host": "regression value &/?+ü",
+          "name": "regression value &/?+ü",
+          "new_users_per_minute": 1,
+          "total_active_users": 1
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --enabled-origin-commands",
+    "argv": [
+      "waiting-rooms",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--host",
+      "regression value &/?+ü",
+      "--name",
+      "regression value &/?+ü",
+      "--new-users-per-minute",
+      "1",
+      "--total-active-users",
+      "1",
+      "--enabled-origin-commands",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/waiting_rooms/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "169",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "enabled_origin_commands": [
+            "regression value &/?+ü"
+          ],
+          "host": "regression value &/?+ü",
+          "name": "regression value &/?+ü",
+          "new_users_per_minute": 1,
+          "total_active_users": 1
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --json-response-enabled",
+    "argv": [
+      "waiting-rooms",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--host",
+      "regression value &/?+ü",
+      "--name",
+      "regression value &/?+ü",
+      "--new-users-per-minute",
+      "1",
+      "--total-active-users",
+      "1",
+      "--json-response-enabled=true"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/waiting_rooms/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "144",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "host": "regression value &/?+ü",
+          "json_response_enabled": true,
+          "name": "regression value &/?+ü",
+          "new_users_per_minute": 1,
+          "total_active_users": 1
+        }
+      }
+    ]
+  },
+  {
+    "case": "--json-response-enabled value 1",
+    "argv": [
+      "waiting-rooms",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--host",
+      "regression value &/?+ü",
+      "--name",
+      "regression value &/?+ü",
+      "--new-users-per-minute",
+      "1",
+      "--total-active-users",
+      "1",
+      "--json-response-enabled=false"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/waiting_rooms/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "145",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "host": "regression value &/?+ü",
+          "json_response_enabled": false,
+          "name": "regression value &/?+ü",
+          "new_users_per_minute": 1,
+          "total_active_users": 1
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --path",
+    "argv": [
+      "waiting-rooms",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--host",
+      "regression value &/?+ü",
+      "--name",
+      "regression value &/?+ü",
+      "--new-users-per-minute",
+      "1",
+      "--total-active-users",
+      "1",
+      "--path",
+      "project"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/waiting_rooms/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "132",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "host": "regression value &/?+ü",
+          "name": "regression value &/?+ü",
+          "new_users_per_minute": 1,
+          "path": "project",
+          "total_active_users": 1
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --queue-all",
+    "argv": [
+      "waiting-rooms",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--host",
+      "regression value &/?+ü",
+      "--name",
+      "regression value &/?+ü",
+      "--new-users-per-minute",
+      "1",
+      "--total-active-users",
+      "1",
+      "--queue-all=true"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/waiting_rooms/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "132",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "host": "regression value &/?+ü",
+          "name": "regression value &/?+ü",
+          "new_users_per_minute": 1,
+          "queue_all": true,
+          "total_active_users": 1
+        }
+      }
+    ]
+  },
+  {
+    "case": "--queue-all value 1",
+    "argv": [
+      "waiting-rooms",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--host",
+      "regression value &/?+ü",
+      "--name",
+      "regression value &/?+ü",
+      "--new-users-per-minute",
+      "1",
+      "--total-active-users",
+      "1",
+      "--queue-all=false"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/waiting_rooms/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "133",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "host": "regression value &/?+ü",
+          "name": "regression value &/?+ü",
+          "new_users_per_minute": 1,
+          "queue_all": false,
+          "total_active_users": 1
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --queueing-method",
+    "argv": [
+      "waiting-rooms",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--host",
+      "regression value &/?+ü",
+      "--name",
+      "regression value &/?+ü",
+      "--new-users-per-minute",
+      "1",
+      "--total-active-users",
+      "1",
+      "--queueing-method",
+      "fifo"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/waiting_rooms/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "140",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "host": "regression value &/?+ü",
+          "name": "regression value &/?+ü",
+          "new_users_per_minute": 1,
+          "queueing_method": "fifo",
+          "total_active_users": 1
+        }
+      }
+    ]
+  },
+  {
+    "case": "--queueing-method value 1",
+    "argv": [
+      "waiting-rooms",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--host",
+      "regression value &/?+ü",
+      "--name",
+      "regression value &/?+ü",
+      "--new-users-per-minute",
+      "1",
+      "--total-active-users",
+      "1",
+      "--queueing-method",
+      "random"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/waiting_rooms/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "142",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "host": "regression value &/?+ü",
+          "name": "regression value &/?+ü",
+          "new_users_per_minute": 1,
+          "queueing_method": "random",
+          "total_active_users": 1
+        }
+      }
+    ]
+  },
+  {
+    "case": "--queueing-method value 2",
+    "argv": [
+      "waiting-rooms",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--host",
+      "regression value &/?+ü",
+      "--name",
+      "regression value &/?+ü",
+      "--new-users-per-minute",
+      "1",
+      "--total-active-users",
+      "1",
+      "--queueing-method",
+      "passthrough"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/waiting_rooms/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "147",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "host": "regression value &/?+ü",
+          "name": "regression value &/?+ü",
+          "new_users_per_minute": 1,
+          "queueing_method": "passthrough",
+          "total_active_users": 1
+        }
+      }
+    ]
+  },
+  {
+    "case": "--queueing-method value 3",
+    "argv": [
+      "waiting-rooms",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--host",
+      "regression value &/?+ü",
+      "--name",
+      "regression value &/?+ü",
+      "--new-users-per-minute",
+      "1",
+      "--total-active-users",
+      "1",
+      "--queueing-method",
+      "reject"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/waiting_rooms/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "142",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "host": "regression value &/?+ü",
+          "name": "regression value &/?+ü",
+          "new_users_per_minute": 1,
+          "queueing_method": "reject",
+          "total_active_users": 1
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --queueing-status-code",
+    "argv": [
+      "waiting-rooms",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--host",
+      "regression value &/?+ü",
+      "--name",
+      "regression value &/?+ü",
+      "--new-users-per-minute",
+      "1",
+      "--total-active-users",
+      "1",
+      "--queueing-status-code",
+      "1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/waiting_rooms/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "140",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "host": "regression value &/?+ü",
+          "name": "regression value &/?+ü",
+          "new_users_per_minute": 1,
+          "queueing_status_code": 1,
+          "total_active_users": 1
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --session-duration",
+    "argv": [
+      "waiting-rooms",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--host",
+      "regression value &/?+ü",
+      "--name",
+      "regression value &/?+ü",
+      "--new-users-per-minute",
+      "1",
+      "--total-active-users",
+      "1",
+      "--session-duration",
+      "1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/waiting_rooms/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "136",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "host": "regression value &/?+ü",
+          "name": "regression value &/?+ü",
+          "new_users_per_minute": 1,
+          "session_duration": 1,
+          "total_active_users": 1
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --suspended",
+    "argv": [
+      "waiting-rooms",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--host",
+      "regression value &/?+ü",
+      "--name",
+      "regression value &/?+ü",
+      "--new-users-per-minute",
+      "1",
+      "--total-active-users",
+      "1",
+      "--suspended=true"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/waiting_rooms/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "132",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "host": "regression value &/?+ü",
+          "name": "regression value &/?+ü",
+          "new_users_per_minute": 1,
+          "suspended": true,
+          "total_active_users": 1
+        }
+      }
+    ]
+  },
+  {
+    "case": "--suspended value 1",
+    "argv": [
+      "waiting-rooms",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--host",
+      "regression value &/?+ü",
+      "--name",
+      "regression value &/?+ü",
+      "--new-users-per-minute",
+      "1",
+      "--total-active-users",
+      "1",
+      "--suspended=false"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/waiting_rooms/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "133",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "host": "regression value &/?+ü",
+          "name": "regression value &/?+ü",
+          "new_users_per_minute": 1,
+          "suspended": false,
+          "total_active_users": 1
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --turnstile-action",
+    "argv": [
+      "waiting-rooms",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--host",
+      "regression value &/?+ü",
+      "--name",
+      "regression value &/?+ü",
+      "--new-users-per-minute",
+      "1",
+      "--total-active-users",
+      "1",
+      "--turnstile-action",
+      "log"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/waiting_rooms/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "140",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "host": "regression value &/?+ü",
+          "name": "regression value &/?+ü",
+          "new_users_per_minute": 1,
+          "total_active_users": 1,
+          "turnstile_action": "log"
+        }
+      }
+    ]
+  },
+  {
+    "case": "--turnstile-action value 1",
+    "argv": [
+      "waiting-rooms",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--host",
+      "regression value &/?+ü",
+      "--name",
+      "regression value &/?+ü",
+      "--new-users-per-minute",
+      "1",
+      "--total-active-users",
+      "1",
+      "--turnstile-action",
+      "infinite_queue"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/waiting_rooms/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "151",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "host": "regression value &/?+ü",
+          "name": "regression value &/?+ü",
+          "new_users_per_minute": 1,
+          "total_active_users": 1,
+          "turnstile_action": "infinite_queue"
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --turnstile-mode",
+    "argv": [
+      "waiting-rooms",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--host",
+      "regression value &/?+ü",
+      "--name",
+      "regression value &/?+ü",
+      "--new-users-per-minute",
+      "1",
+      "--total-active-users",
+      "1",
+      "--turnstile-mode",
+      "off"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/waiting_rooms/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "138",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "host": "regression value &/?+ü",
+          "name": "regression value &/?+ü",
+          "new_users_per_minute": 1,
+          "total_active_users": 1,
+          "turnstile_mode": "off"
+        }
+      }
+    ]
+  },
+  {
+    "case": "--turnstile-mode value 1",
+    "argv": [
+      "waiting-rooms",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--host",
+      "regression value &/?+ü",
+      "--name",
+      "regression value &/?+ü",
+      "--new-users-per-minute",
+      "1",
+      "--total-active-users",
+      "1",
+      "--turnstile-mode",
+      "invisible"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/waiting_rooms/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "144",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "host": "regression value &/?+ü",
+          "name": "regression value &/?+ü",
+          "new_users_per_minute": 1,
+          "total_active_users": 1,
+          "turnstile_mode": "invisible"
+        }
+      }
+    ]
+  },
+  {
+    "case": "--turnstile-mode value 2",
+    "argv": [
+      "waiting-rooms",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--host",
+      "regression value &/?+ü",
+      "--name",
+      "regression value &/?+ü",
+      "--new-users-per-minute",
+      "1",
+      "--total-active-users",
+      "1",
+      "--turnstile-mode",
+      "visible_non_interactive"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/waiting_rooms/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "158",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "host": "regression value &/?+ü",
+          "name": "regression value &/?+ü",
+          "new_users_per_minute": 1,
+          "total_active_users": 1,
+          "turnstile_mode": "visible_non_interactive"
+        }
+      }
+    ]
+  },
+  {
+    "case": "--turnstile-mode value 3",
+    "argv": [
+      "waiting-rooms",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--host",
+      "regression value &/?+ü",
+      "--name",
+      "regression value &/?+ü",
+      "--new-users-per-minute",
+      "1",
+      "--total-active-users",
+      "1",
+      "--turnstile-mode",
+      "visible_managed"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/waiting_rooms/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "150",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "host": "regression value &/?+ü",
+          "name": "regression value &/?+ü",
+          "new_users_per_minute": 1,
+          "total_active_users": 1,
+          "turnstile_mode": "visible_managed"
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 0",
+    "argv": [
+      "waiting-rooms",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--host",
+      "regression value &/?+ü",
+      "--name",
+      "regression value &/?+ü",
+      "--new-users-per-minute",
+      "1",
+      "--total-active-users",
+      "1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/waiting_rooms/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "115",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "host": "regression value &/?+ü",
+          "name": "regression value &/?+ü",
+          "new_users_per_minute": 1,
+          "total_active_users": 1
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 1",
+    "argv": [
+      "waiting-rooms",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--host",
+      "regression value &/?+ü",
+      "--name",
+      "regression value &/?+ü",
+      "--new-users-per-minute",
+      "1",
+      "--total-active-users",
+      "1",
+      "--additional-routes",
+      "[{\"regression\":\"item\"}]",
+      "--cookie-attributes-samesite",
+      "lax",
+      "--cookie-attributes-secure",
+      "always",
+      "--cookie-suffix",
+      "second value &/?+ü",
+      "--custom-page-html",
+      "second value &/?+ü",
+      "--default-template-language",
+      "es-ES",
+      "--description",
+      "192.0.2.1",
+      "--disable-session-renewal=false",
+      "--enabled-origin-commands",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--json-response-enabled=false",
+      "--path",
+      "project",
+      "--queue-all=false",
+      "--queueing-method",
+      "random",
+      "--queueing-status-code",
+      "2",
+      "--session-duration",
+      "2",
+      "--suspended=false",
+      "--turnstile-action",
+      "infinite_queue",
+      "--turnstile-mode",
+      "invisible"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/waiting_rooms/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "682",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "additional_routes": [
+            {
+              "regression": "item"
+            }
+          ],
+          "cookie_attributes": {
+            "samesite": "lax",
+            "secure": "always"
+          },
+          "cookie_suffix": "second value &/?+ü",
+          "custom_page_html": "second value &/?+ü",
+          "default_template_language": "es-ES",
+          "description": "192.0.2.1",
+          "disable_session_renewal": false,
+          "enabled_origin_commands": [
+            "second value &/?+ü",
+            "second value &/?+ü"
+          ],
+          "host": "regression value &/?+ü",
+          "json_response_enabled": false,
+          "name": "regression value &/?+ü",
+          "new_users_per_minute": 1,
+          "path": "project",
+          "queue_all": false,
+          "queueing_method": "random",
+          "queueing_status_code": 2,
+          "session_duration": 2,
+          "suspended": false,
+          "total_active_users": 1,
+          "turnstile_action": "infinite_queue",
+          "turnstile_mode": "invisible"
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 2",
+    "argv": [
+      "waiting-rooms",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--host",
+      "regression value &/?+ü",
+      "--name",
+      "regression value &/?+ü",
+      "--new-users-per-minute",
+      "1",
+      "--total-active-users",
+      "1",
+      "--cookie-attributes-samesite",
+      "auto",
+      "--cookie-suffix",
+      "regression value &/?+ü",
+      "--default-template-language",
+      "en-US",
+      "--disable-session-renewal=true",
+      "--json-response-enabled=true",
+      "--queue-all=true",
+      "--queueing-status-code",
+      "1",
+      "--suspended=true",
+      "--turnstile-mode",
+      "off"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/waiting_rooms/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "375",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "cookie_attributes": {
+            "samesite": "auto"
+          },
+          "cookie_suffix": "regression value &/?+ü",
+          "default_template_language": "en-US",
+          "disable_session_renewal": true,
+          "host": "regression value &/?+ü",
+          "json_response_enabled": true,
+          "name": "regression value &/?+ü",
+          "new_users_per_minute": 1,
+          "queue_all": true,
+          "queueing_status_code": 1,
+          "suspended": true,
+          "total_active_users": 1,
+          "turnstile_mode": "off"
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 3",
+    "argv": [
+      "waiting-rooms",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--host",
+      "regression value &/?+ü",
+      "--name",
+      "regression value &/?+ü",
+      "--new-users-per-minute",
+      "1",
+      "--total-active-users",
+      "1",
+      "--additional-routes",
+      "[{\"regression\":\"item\"}]",
+      "--cookie-attributes-secure",
+      "always",
+      "--custom-page-html",
+      "second value &/?+ü",
+      "--description",
+      "192.0.2.1",
+      "--enabled-origin-commands",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--path",
+      "project",
+      "--queueing-method",
+      "random",
+      "--session-duration",
+      "2",
+      "--turnstile-action",
+      "infinite_queue"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/waiting_rooms/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "439",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "additional_routes": [
+            {
+              "regression": "item"
+            }
+          ],
+          "cookie_attributes": {
+            "secure": "always"
+          },
+          "custom_page_html": "second value &/?+ü",
+          "description": "192.0.2.1",
+          "enabled_origin_commands": [
+            "second value &/?+ü",
+            "second value &/?+ü"
+          ],
+          "host": "regression value &/?+ü",
+          "name": "regression value &/?+ü",
+          "new_users_per_minute": 1,
+          "path": "project",
+          "queueing_method": "random",
+          "session_duration": 2,
+          "total_active_users": 1,
+          "turnstile_action": "infinite_queue"
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 4",
+    "argv": [
+      "waiting-rooms",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--host",
+      "regression value &/?+ü",
+      "--name",
+      "regression value &/?+ü",
+      "--new-users-per-minute",
+      "1",
+      "--total-active-users",
+      "1",
+      "--cookie-attributes-secure",
+      "auto",
+      "--cookie-suffix",
+      "regression value &/?+ü",
+      "--description",
+      "192.0.2.1",
+      "--disable-session-renewal=true",
+      "--path",
+      "project",
+      "--queue-all=true",
+      "--session-duration",
+      "1",
+      "--suspended=true"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/waiting_rooms/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "324",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "cookie_attributes": {
+            "secure": "auto"
+          },
+          "cookie_suffix": "regression value &/?+ü",
+          "description": "192.0.2.1",
+          "disable_session_renewal": true,
+          "host": "regression value &/?+ü",
+          "name": "regression value &/?+ü",
+          "new_users_per_minute": 1,
+          "path": "project",
+          "queue_all": true,
+          "session_duration": 1,
+          "suspended": true,
+          "total_active_users": 1
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 5",
+    "argv": [
+      "waiting-rooms",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--host",
+      "regression value &/?+ü",
+      "--name",
+      "regression value &/?+ü",
+      "--new-users-per-minute",
+      "1",
+      "--total-active-users",
+      "1",
+      "--additional-routes",
+      "[{\"regression\":\"item\"}]",
+      "--cookie-attributes-samesite",
+      "lax",
+      "--custom-page-html",
+      "second value &/?+ü",
+      "--default-template-language",
+      "es-ES",
+      "--enabled-origin-commands",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--json-response-enabled=false",
+      "--queueing-method",
+      "random",
+      "--queueing-status-code",
+      "2",
+      "--turnstile-action",
+      "infinite_queue",
+      "--turnstile-mode",
+      "invisible"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/waiting_rooms/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "494",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "additional_routes": [
+            {
+              "regression": "item"
+            }
+          ],
+          "cookie_attributes": {
+            "samesite": "lax"
+          },
+          "custom_page_html": "second value &/?+ü",
+          "default_template_language": "es-ES",
+          "enabled_origin_commands": [
+            "second value &/?+ü",
+            "second value &/?+ü"
+          ],
+          "host": "regression value &/?+ü",
+          "json_response_enabled": false,
+          "name": "regression value &/?+ü",
+          "new_users_per_minute": 1,
+          "queueing_method": "random",
+          "queueing_status_code": 2,
+          "total_active_users": 1,
+          "turnstile_action": "infinite_queue",
+          "turnstile_mode": "invisible"
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 6",
+    "argv": [
+      "waiting-rooms",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--host",
+      "regression value &/?+ü",
+      "--name",
+      "regression value &/?+ü",
+      "--new-users-per-minute",
+      "1",
+      "--total-active-users",
+      "1",
+      "--custom-page-html",
+      "regression value &/?+ü",
+      "--default-template-language",
+      "en-US",
+      "--description",
+      "192.0.2.1",
+      "--disable-session-renewal=true",
+      "--queueing-method",
+      "fifo",
+      "--queueing-status-code",
+      "1",
+      "--session-duration",
+      "1",
+      "--suspended=true"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/waiting_rooms/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "341",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "custom_page_html": "regression value &/?+ü",
+          "default_template_language": "en-US",
+          "description": "192.0.2.1",
+          "disable_session_renewal": true,
+          "host": "regression value &/?+ü",
+          "name": "regression value &/?+ü",
+          "new_users_per_minute": 1,
+          "queueing_method": "fifo",
+          "queueing_status_code": 1,
+          "session_duration": 1,
+          "suspended": true,
+          "total_active_users": 1
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 7",
+    "argv": [
+      "waiting-rooms",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--host",
+      "regression value &/?+ü",
+      "--name",
+      "regression value &/?+ü",
+      "--new-users-per-minute",
+      "1",
+      "--total-active-users",
+      "1",
+      "--additional-routes",
+      "[{\"regression\":\"item\"}]",
+      "--cookie-attributes-samesite",
+      "lax",
+      "--cookie-attributes-secure",
+      "always",
+      "--cookie-suffix",
+      "second value &/?+ü",
+      "--enabled-origin-commands",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--json-response-enabled=false",
+      "--path",
+      "project",
+      "--queue-all=false",
+      "--turnstile-action",
+      "infinite_queue",
+      "--turnstile-mode",
+      "invisible"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/waiting_rooms/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "456",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "additional_routes": [
+            {
+              "regression": "item"
+            }
+          ],
+          "cookie_attributes": {
+            "samesite": "lax",
+            "secure": "always"
+          },
+          "cookie_suffix": "second value &/?+ü",
+          "enabled_origin_commands": [
+            "second value &/?+ü",
+            "second value &/?+ü"
+          ],
+          "host": "regression value &/?+ü",
+          "json_response_enabled": false,
+          "name": "regression value &/?+ü",
+          "new_users_per_minute": 1,
+          "path": "project",
+          "queue_all": false,
+          "total_active_users": 1,
+          "turnstile_action": "infinite_queue",
+          "turnstile_mode": "invisible"
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 8",
+    "argv": [
+      "waiting-rooms",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--host",
+      "regression value &/?+ü",
+      "--name",
+      "regression value &/?+ü",
+      "--new-users-per-minute",
+      "1",
+      "--total-active-users",
+      "1",
+      "--enabled-origin-commands",
+      "regression value &/?+ü",
+      "--json-response-enabled=true",
+      "--path",
+      "project",
+      "--queue-all=true",
+      "--queueing-method",
+      "fifo",
+      "--queueing-status-code",
+      "1",
+      "--session-duration",
+      "1",
+      "--suspended=true"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/waiting_rooms/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "320",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "enabled_origin_commands": [
+            "regression value &/?+ü"
+          ],
+          "host": "regression value &/?+ü",
+          "json_response_enabled": true,
+          "name": "regression value &/?+ü",
+          "new_users_per_minute": 1,
+          "path": "project",
+          "queue_all": true,
+          "queueing_method": "fifo",
+          "queueing_status_code": 1,
+          "session_duration": 1,
+          "suspended": true,
+          "total_active_users": 1
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 9",
+    "argv": [
+      "waiting-rooms",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--host",
+      "regression value &/?+ü",
+      "--name",
+      "regression value &/?+ü",
+      "--new-users-per-minute",
+      "1",
+      "--total-active-users",
+      "1",
+      "--additional-routes",
+      "[{\"regression\":\"item\"}]",
+      "--cookie-attributes-samesite",
+      "lax",
+      "--cookie-attributes-secure",
+      "always",
+      "--cookie-suffix",
+      "second value &/?+ü",
+      "--custom-page-html",
+      "second value &/?+ü",
+      "--default-template-language",
+      "es-ES",
+      "--description",
+      "192.0.2.1",
+      "--disable-session-renewal=false",
+      "--turnstile-action",
+      "infinite_queue",
+      "--turnstile-mode",
+      "invisible"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/waiting_rooms/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "454",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "additional_routes": [
+            {
+              "regression": "item"
+            }
+          ],
+          "cookie_attributes": {
+            "samesite": "lax",
+            "secure": "always"
+          },
+          "cookie_suffix": "second value &/?+ü",
+          "custom_page_html": "second value &/?+ü",
+          "default_template_language": "es-ES",
+          "description": "192.0.2.1",
+          "disable_session_renewal": false,
+          "host": "regression value &/?+ü",
+          "name": "regression value &/?+ü",
+          "new_users_per_minute": 1,
+          "total_active_users": 1,
+          "turnstile_action": "infinite_queue",
+          "turnstile_mode": "invisible"
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 10",
+    "argv": [
+      "waiting-rooms",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--host",
+      "regression value &/?+ü",
+      "--name",
+      "regression value &/?+ü",
+      "--new-users-per-minute",
+      "1",
+      "--total-active-users",
+      "1",
+      "--turnstile-action",
+      "log",
+      "--turnstile-mode",
+      "off"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/waiting_rooms/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "163",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "host": "regression value &/?+ü",
+          "name": "regression value &/?+ü",
+          "new_users_per_minute": 1,
+          "total_active_users": 1,
+          "turnstile_action": "log",
+          "turnstile_mode": "off"
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 11",
+    "argv": [
+      "waiting-rooms",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--host",
+      "regression value &/?+ü",
+      "--name",
+      "regression value &/?+ü",
+      "--new-users-per-minute",
+      "1",
+      "--total-active-users",
+      "1",
+      "--additional-routes",
+      "[{\"regression\":\"item\"}]",
+      "--cookie-attributes-samesite",
+      "lax",
+      "--cookie-attributes-secure",
+      "always",
+      "--cookie-suffix",
+      "second value &/?+ü",
+      "--custom-page-html",
+      "second value &/?+ü",
+      "--default-template-language",
+      "es-ES",
+      "--description",
+      "192.0.2.1",
+      "--disable-session-renewal=false",
+      "--enabled-origin-commands",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--json-response-enabled=false",
+      "--path",
+      "project",
+      "--queue-all=false",
+      "--queueing-method",
+      "random",
+      "--queueing-status-code",
+      "2",
+      "--session-duration",
+      "2",
+      "--suspended=false"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/waiting_rooms/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "617",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "additional_routes": [
+            {
+              "regression": "item"
+            }
+          ],
+          "cookie_attributes": {
+            "samesite": "lax",
+            "secure": "always"
+          },
+          "cookie_suffix": "second value &/?+ü",
+          "custom_page_html": "second value &/?+ü",
+          "default_template_language": "es-ES",
+          "description": "192.0.2.1",
+          "disable_session_renewal": false,
+          "enabled_origin_commands": [
+            "second value &/?+ü",
+            "second value &/?+ü"
+          ],
+          "host": "regression value &/?+ü",
+          "json_response_enabled": false,
+          "name": "regression value &/?+ü",
+          "new_users_per_minute": 1,
+          "path": "project",
+          "queue_all": false,
+          "queueing_method": "random",
+          "queueing_status_code": 2,
+          "session_duration": 2,
+          "suspended": false,
+          "total_active_users": 1
+        }
+      }
+    ]
+  },
+  {
+    "case": "global quiet",
+    "argv": [
+      "waiting-rooms",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--host",
+      "regression value &/?+ü",
+      "--name",
+      "regression value &/?+ü",
+      "--new-users-per-minute",
+      "1",
+      "--total-active-users",
+      "1",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--quiet"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/waiting_rooms/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "global zone",
+    "argv": [
+      "waiting-rooms",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--host",
+      "regression value &/?+ü",
+      "--name",
+      "regression value &/?+ü",
+      "--new-users-per-minute",
+      "1",
+      "--total-active-users",
+      "1",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--zone",
+      "abcdef0123456789abcdef0123456789"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/waiting_rooms/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "global profile and mode",
+    "argv": [
+      "waiting-rooms",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--host",
+      "regression value &/?+ü",
+      "--name",
+      "regression value &/?+ü",
+      "--new-users-per-minute",
+      "1",
+      "--total-active-users",
+      "1",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--profile",
+      "default",
+      "--mode",
+      "regression"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/waiting_rooms/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "local",
+    "argv": [
+      "waiting-rooms",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--host",
+      "regression value &/?+ü",
+      "--name",
+      "regression value &/?+ü",
+      "--new-users-per-minute",
+      "1",
+      "--total-active-users",
+      "1",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--local"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "http://localhost/cdn-cgi/local/explorer/api/zones/abcdef0123456789abcdef0123456789/waiting_rooms/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "gzip, deflate",
+          "accept-language": "*",
+          "connection": "keep-alive",
+          "content-type": "application/json",
+          "host": "localhost",
+          "sec-fetch-mode": "cors",
+          "transfer-encoding": "chunked",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "local with persistence",
+    "argv": [
+      "waiting-rooms",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--host",
+      "regression value &/?+ü",
+      "--name",
+      "regression value &/?+ü",
+      "--new-users-per-minute",
+      "1",
+      "--total-active-users",
+      "1",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--local",
+      "--persist-to",
+      "regression-state"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "http://localhost/cdn-cgi/local/explorer/api/zones/abcdef0123456789abcdef0123456789/waiting_rooms/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "gzip, deflate",
+          "accept-language": "*",
+          "connection": "keep-alive",
+          "content-type": "application/json",
+          "host": "localhost",
+          "sec-fetch-mode": "cors",
+          "transfer-encoding": "chunked",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "zone by domain",
+    "argv": [
+      "waiting-rooms",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--host",
+      "regression value &/?+ü",
+      "--name",
+      "regression value &/?+ü",
+      "--new-users-per-minute",
+      "1",
+      "--total-active-users",
+      "1",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--zone",
+      "regression-aaa89542f3da.example.com"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/zones?name=regression-aaa89542f3da.example.com&account.id=0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      },
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/waiting_rooms/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "dry-run",
+    "argv": [
+      "waiting-rooms",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--host",
+      "regression value &/?+ü",
+      "--name",
+      "regression value &/?+ü",
+      "--new-users-per-minute",
+      "1",
+      "--total-active-users",
+      "1",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--dry-run"
+    ],
+    "exitCode": 0,
+    "requests": []
+  },
+  {
+    "case": "body from file",
+    "argv": [
+      "waiting-rooms",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--host",
+      "regression value &/?+ü",
+      "--name",
+      "regression value &/?+ü",
+      "--new-users-per-minute",
+      "1",
+      "--total-active-users",
+      "1",
+      "--body",
+      "@<body.json>"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/waiting_rooms/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "array body",
+    "argv": [
+      "waiting-rooms",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--host",
+      "regression value &/?+ü",
+      "--name",
+      "regression value &/?+ü",
+      "--new-users-per-minute",
+      "1",
+      "--total-active-users",
+      "1",
+      "--body",
+      "[{\"regression\":\"first\"},{\"regression\":\"second\"}]"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/waiting_rooms/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "48",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": [
+          {
+            "regression": "first"
+          },
+          {
+            "regression": "second"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "case": "field flags",
+    "argv": [
+      "waiting-rooms",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--host",
+      "regression value &/?+ü",
+      "--name",
+      "regression value &/?+ü",
+      "--new-users-per-minute",
+      "1",
+      "--total-active-users",
+      "1",
+      "--additional-routes",
+      "[{\"regression\":\"item\"}]",
+      "--cookie-attributes-samesite",
+      "auto",
+      "--cookie-attributes-secure",
+      "auto",
+      "--cookie-suffix",
+      "regression value &/?+ü",
+      "--custom-page-html",
+      "regression value &/?+ü",
+      "--default-template-language",
+      "en-US",
+      "--description",
+      "192.0.2.1",
+      "--disable-session-renewal=true",
+      "--enabled-origin-commands",
+      "regression value &/?+ü",
+      "--json-response-enabled=true",
+      "--path",
+      "project",
+      "--queue-all=true",
+      "--queueing-method",
+      "fifo",
+      "--queueing-status-code",
+      "1",
+      "--session-duration",
+      "1",
+      "--suspended=true",
+      "--turnstile-action",
+      "log",
+      "--turnstile-mode",
+      "off"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/waiting_rooms/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "648",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "additional_routes": [
+            {
+              "regression": "item"
+            }
+          ],
+          "cookie_attributes": {
+            "samesite": "auto",
+            "secure": "auto"
+          },
+          "cookie_suffix": "regression value &/?+ü",
+          "custom_page_html": "regression value &/?+ü",
+          "default_template_language": "en-US",
+          "description": "192.0.2.1",
+          "disable_session_renewal": true,
+          "enabled_origin_commands": [
+            "regression value &/?+ü"
+          ],
+          "host": "regression value &/?+ü",
+          "json_response_enabled": true,
+          "name": "regression value &/?+ü",
+          "new_users_per_minute": 1,
+          "path": "project",
+          "queue_all": true,
+          "queueing_method": "fifo",
+          "queueing_status_code": 1,
+          "session_duration": 1,
+          "suspended": true,
+          "total_active_users": 1,
+          "turnstile_action": "log",
+          "turnstile_mode": "off"
+        }
+      }
+    ]
+  }
+]

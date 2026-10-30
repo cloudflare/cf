@@ -1,0 +1,2934 @@
+[
+  {
+    "case": "no-args",
+    "argv": [
+      "smart-shield",
+      "health-checks",
+      "update"
+    ],
+    "exitCode": 1,
+    "error": "Not enough non-option arguments: got 0, need at least 1",
+    "requests": []
+  },
+  {
+    "case": "required",
+    "argv": [
+      "smart-shield",
+      "health-checks",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--errors",
+      "[{\"regression\":\"item\"}]",
+      "--messages",
+      "[{\"regression\":\"item\"}]",
+      "--success=true",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/smart_shield/healthchecks/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "57",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ],
+          "success": true
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --result-address",
+    "argv": [
+      "smart-shield",
+      "health-checks",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--errors",
+      "[{\"regression\":\"item\"}]",
+      "--messages",
+      "[{\"regression\":\"item\"}]",
+      "--success=true",
+      "--result-address",
+      "192.0.2.1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/smart_shield/healthchecks/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "117",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "errors": [
+            {
+              "regression": "item"
+            }
+          ],
+          "messages": [
+            {
+              "regression": "item"
+            }
+          ],
+          "result": {
+            "address": "192.0.2.1"
+          },
+          "success": true
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --result-check-regions",
+    "argv": [
+      "smart-shield",
+      "health-checks",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--errors",
+      "[{\"regression\":\"item\"}]",
+      "--messages",
+      "[{\"regression\":\"item\"}]",
+      "--success=true",
+      "--result-check-regions",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/smart_shield/healthchecks/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "139",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "errors": [
+            {
+              "regression": "item"
+            }
+          ],
+          "messages": [
+            {
+              "regression": "item"
+            }
+          ],
+          "result": {
+            "check_regions": [
+              "regression value &/?+ü"
+            ]
+          },
+          "success": true
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --result-consecutive-fails",
+    "argv": [
+      "smart-shield",
+      "health-checks",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--errors",
+      "[{\"regression\":\"item\"}]",
+      "--messages",
+      "[{\"regression\":\"item\"}]",
+      "--success=true",
+      "--result-consecutive-fails",
+      "1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/smart_shield/healthchecks/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "117",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "errors": [
+            {
+              "regression": "item"
+            }
+          ],
+          "messages": [
+            {
+              "regression": "item"
+            }
+          ],
+          "result": {
+            "consecutive_fails": 1
+          },
+          "success": true
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --result-consecutive-successes",
+    "argv": [
+      "smart-shield",
+      "health-checks",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--errors",
+      "[{\"regression\":\"item\"}]",
+      "--messages",
+      "[{\"regression\":\"item\"}]",
+      "--success=true",
+      "--result-consecutive-successes",
+      "1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/smart_shield/healthchecks/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "121",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "errors": [
+            {
+              "regression": "item"
+            }
+          ],
+          "messages": [
+            {
+              "regression": "item"
+            }
+          ],
+          "result": {
+            "consecutive_successes": 1
+          },
+          "success": true
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --result-description",
+    "argv": [
+      "smart-shield",
+      "health-checks",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--errors",
+      "[{\"regression\":\"item\"}]",
+      "--messages",
+      "[{\"regression\":\"item\"}]",
+      "--success=true",
+      "--result-description",
+      "192.0.2.1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/smart_shield/healthchecks/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "121",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "errors": [
+            {
+              "regression": "item"
+            }
+          ],
+          "messages": [
+            {
+              "regression": "item"
+            }
+          ],
+          "result": {
+            "description": "192.0.2.1"
+          },
+          "success": true
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --result-http-config-allow-insecure",
+    "argv": [
+      "smart-shield",
+      "health-checks",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--errors",
+      "[{\"regression\":\"item\"}]",
+      "--messages",
+      "[{\"regression\":\"item\"}]",
+      "--success=true",
+      "--result-http-config-allow-insecure=true"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/smart_shield/healthchecks/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "133",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "errors": [
+            {
+              "regression": "item"
+            }
+          ],
+          "messages": [
+            {
+              "regression": "item"
+            }
+          ],
+          "result": {
+            "http_config": {
+              "allow_insecure": true
+            }
+          },
+          "success": true
+        }
+      }
+    ]
+  },
+  {
+    "case": "--result-http-config-allow-insecure value 1",
+    "argv": [
+      "smart-shield",
+      "health-checks",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--errors",
+      "[{\"regression\":\"item\"}]",
+      "--messages",
+      "[{\"regression\":\"item\"}]",
+      "--success=true",
+      "--result-http-config-allow-insecure=false"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/smart_shield/healthchecks/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "134",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "errors": [
+            {
+              "regression": "item"
+            }
+          ],
+          "messages": [
+            {
+              "regression": "item"
+            }
+          ],
+          "result": {
+            "http_config": {
+              "allow_insecure": false
+            }
+          },
+          "success": true
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --result-http-config-expected-body",
+    "argv": [
+      "smart-shield",
+      "health-checks",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--errors",
+      "[{\"regression\":\"item\"}]",
+      "--messages",
+      "[{\"regression\":\"item\"}]",
+      "--success=true",
+      "--result-http-config-expected-body",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/smart_shield/healthchecks/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "153",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "errors": [
+            {
+              "regression": "item"
+            }
+          ],
+          "messages": [
+            {
+              "regression": "item"
+            }
+          ],
+          "result": {
+            "http_config": {
+              "expected_body": "regression value &/?+ü"
+            }
+          },
+          "success": true
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --result-http-config-expected-codes",
+    "argv": [
+      "smart-shield",
+      "health-checks",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--errors",
+      "[{\"regression\":\"item\"}]",
+      "--messages",
+      "[{\"regression\":\"item\"}]",
+      "--success=true",
+      "--result-http-config-expected-codes",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/smart_shield/healthchecks/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "156",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "errors": [
+            {
+              "regression": "item"
+            }
+          ],
+          "messages": [
+            {
+              "regression": "item"
+            }
+          ],
+          "result": {
+            "http_config": {
+              "expected_codes": [
+                "regression value &/?+ü"
+              ]
+            }
+          },
+          "success": true
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --result-http-config-follow-redirects",
+    "argv": [
+      "smart-shield",
+      "health-checks",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--errors",
+      "[{\"regression\":\"item\"}]",
+      "--messages",
+      "[{\"regression\":\"item\"}]",
+      "--success=true",
+      "--result-http-config-follow-redirects=true"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/smart_shield/healthchecks/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "135",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "errors": [
+            {
+              "regression": "item"
+            }
+          ],
+          "messages": [
+            {
+              "regression": "item"
+            }
+          ],
+          "result": {
+            "http_config": {
+              "follow_redirects": true
+            }
+          },
+          "success": true
+        }
+      }
+    ]
+  },
+  {
+    "case": "--result-http-config-follow-redirects value 1",
+    "argv": [
+      "smart-shield",
+      "health-checks",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--errors",
+      "[{\"regression\":\"item\"}]",
+      "--messages",
+      "[{\"regression\":\"item\"}]",
+      "--success=true",
+      "--result-http-config-follow-redirects=false"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/smart_shield/healthchecks/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "136",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "errors": [
+            {
+              "regression": "item"
+            }
+          ],
+          "messages": [
+            {
+              "regression": "item"
+            }
+          ],
+          "result": {
+            "http_config": {
+              "follow_redirects": false
+            }
+          },
+          "success": true
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --result-http-config-method",
+    "argv": [
+      "smart-shield",
+      "health-checks",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--errors",
+      "[{\"regression\":\"item\"}]",
+      "--messages",
+      "[{\"regression\":\"item\"}]",
+      "--success=true",
+      "--result-http-config-method",
+      "GET"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/smart_shield/healthchecks/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "126",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "errors": [
+            {
+              "regression": "item"
+            }
+          ],
+          "messages": [
+            {
+              "regression": "item"
+            }
+          ],
+          "result": {
+            "http_config": {
+              "method": "GET"
+            }
+          },
+          "success": true
+        }
+      }
+    ]
+  },
+  {
+    "case": "--result-http-config-method value 1",
+    "argv": [
+      "smart-shield",
+      "health-checks",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--errors",
+      "[{\"regression\":\"item\"}]",
+      "--messages",
+      "[{\"regression\":\"item\"}]",
+      "--success=true",
+      "--result-http-config-method",
+      "HEAD"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/smart_shield/healthchecks/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "127",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "errors": [
+            {
+              "regression": "item"
+            }
+          ],
+          "messages": [
+            {
+              "regression": "item"
+            }
+          ],
+          "result": {
+            "http_config": {
+              "method": "HEAD"
+            }
+          },
+          "success": true
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --result-http-config-path",
+    "argv": [
+      "smart-shield",
+      "health-checks",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--errors",
+      "[{\"regression\":\"item\"}]",
+      "--messages",
+      "[{\"regression\":\"item\"}]",
+      "--success=true",
+      "--result-http-config-path",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/smart_shield/healthchecks/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "144",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "errors": [
+            {
+              "regression": "item"
+            }
+          ],
+          "messages": [
+            {
+              "regression": "item"
+            }
+          ],
+          "result": {
+            "http_config": {
+              "path": "regression value &/?+ü"
+            }
+          },
+          "success": true
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --result-http-config-port",
+    "argv": [
+      "smart-shield",
+      "health-checks",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--errors",
+      "[{\"regression\":\"item\"}]",
+      "--messages",
+      "[{\"regression\":\"item\"}]",
+      "--success=true",
+      "--result-http-config-port",
+      "1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/smart_shield/healthchecks/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "120",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "errors": [
+            {
+              "regression": "item"
+            }
+          ],
+          "messages": [
+            {
+              "regression": "item"
+            }
+          ],
+          "result": {
+            "http_config": {
+              "port": 1
+            }
+          },
+          "success": true
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --result-interval",
+    "argv": [
+      "smart-shield",
+      "health-checks",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--errors",
+      "[{\"regression\":\"item\"}]",
+      "--messages",
+      "[{\"regression\":\"item\"}]",
+      "--success=true",
+      "--result-interval",
+      "1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/smart_shield/healthchecks/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "108",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "errors": [
+            {
+              "regression": "item"
+            }
+          ],
+          "messages": [
+            {
+              "regression": "item"
+            }
+          ],
+          "result": {
+            "interval": 1
+          },
+          "success": true
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --result-name",
+    "argv": [
+      "smart-shield",
+      "health-checks",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--errors",
+      "[{\"regression\":\"item\"}]",
+      "--messages",
+      "[{\"regression\":\"item\"}]",
+      "--success=true",
+      "--result-name",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/smart_shield/healthchecks/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "128",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "errors": [
+            {
+              "regression": "item"
+            }
+          ],
+          "messages": [
+            {
+              "regression": "item"
+            }
+          ],
+          "result": {
+            "name": "regression value &/?+ü"
+          },
+          "success": true
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --result-retries",
+    "argv": [
+      "smart-shield",
+      "health-checks",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--errors",
+      "[{\"regression\":\"item\"}]",
+      "--messages",
+      "[{\"regression\":\"item\"}]",
+      "--success=true",
+      "--result-retries",
+      "1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/smart_shield/healthchecks/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "107",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "errors": [
+            {
+              "regression": "item"
+            }
+          ],
+          "messages": [
+            {
+              "regression": "item"
+            }
+          ],
+          "result": {
+            "retries": 1
+          },
+          "success": true
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --result-suspended",
+    "argv": [
+      "smart-shield",
+      "health-checks",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--errors",
+      "[{\"regression\":\"item\"}]",
+      "--messages",
+      "[{\"regression\":\"item\"}]",
+      "--success=true",
+      "--result-suspended=true"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/smart_shield/healthchecks/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "112",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "errors": [
+            {
+              "regression": "item"
+            }
+          ],
+          "messages": [
+            {
+              "regression": "item"
+            }
+          ],
+          "result": {
+            "suspended": true
+          },
+          "success": true
+        }
+      }
+    ]
+  },
+  {
+    "case": "--result-suspended value 1",
+    "argv": [
+      "smart-shield",
+      "health-checks",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--errors",
+      "[{\"regression\":\"item\"}]",
+      "--messages",
+      "[{\"regression\":\"item\"}]",
+      "--success=true",
+      "--result-suspended=false"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/smart_shield/healthchecks/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "113",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "errors": [
+            {
+              "regression": "item"
+            }
+          ],
+          "messages": [
+            {
+              "regression": "item"
+            }
+          ],
+          "result": {
+            "suspended": false
+          },
+          "success": true
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --result-tcp-config-method",
+    "argv": [
+      "smart-shield",
+      "health-checks",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--errors",
+      "[{\"regression\":\"item\"}]",
+      "--messages",
+      "[{\"regression\":\"item\"}]",
+      "--success=true",
+      "--result-tcp-config-method",
+      "connection_established"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/smart_shield/healthchecks/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "144",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "errors": [
+            {
+              "regression": "item"
+            }
+          ],
+          "messages": [
+            {
+              "regression": "item"
+            }
+          ],
+          "result": {
+            "tcp_config": {
+              "method": "connection_established"
+            }
+          },
+          "success": true
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --result-tcp-config-port",
+    "argv": [
+      "smart-shield",
+      "health-checks",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--errors",
+      "[{\"regression\":\"item\"}]",
+      "--messages",
+      "[{\"regression\":\"item\"}]",
+      "--success=true",
+      "--result-tcp-config-port",
+      "1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/smart_shield/healthchecks/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "119",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "errors": [
+            {
+              "regression": "item"
+            }
+          ],
+          "messages": [
+            {
+              "regression": "item"
+            }
+          ],
+          "result": {
+            "tcp_config": {
+              "port": 1
+            }
+          },
+          "success": true
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --result-timeout",
+    "argv": [
+      "smart-shield",
+      "health-checks",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--errors",
+      "[{\"regression\":\"item\"}]",
+      "--messages",
+      "[{\"regression\":\"item\"}]",
+      "--success=true",
+      "--result-timeout",
+      "1"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/smart_shield/healthchecks/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "107",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "errors": [
+            {
+              "regression": "item"
+            }
+          ],
+          "messages": [
+            {
+              "regression": "item"
+            }
+          ],
+          "result": {
+            "timeout": 1
+          },
+          "success": true
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --result-type",
+    "argv": [
+      "smart-shield",
+      "health-checks",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--errors",
+      "[{\"regression\":\"item\"}]",
+      "--messages",
+      "[{\"regression\":\"item\"}]",
+      "--success=true",
+      "--result-type",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/smart_shield/healthchecks/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "128",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "errors": [
+            {
+              "regression": "item"
+            }
+          ],
+          "messages": [
+            {
+              "regression": "item"
+            }
+          ],
+          "result": {
+            "type": "regression value &/?+ü"
+          },
+          "success": true
+        }
+      }
+    ]
+  },
+  {
+    "case": "required --success value 1",
+    "argv": [
+      "smart-shield",
+      "health-checks",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--errors",
+      "[{\"regression\":\"item\"}]",
+      "--messages",
+      "[{\"regression\":\"item\"}]",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--success=false"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/smart_shield/healthchecks/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "57",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ],
+          "success": true
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 0",
+    "argv": [
+      "smart-shield",
+      "health-checks",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--errors",
+      "[{\"regression\":\"item\"}]",
+      "--messages",
+      "[{\"regression\":\"item\"}]",
+      "--success=true"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/smart_shield/healthchecks/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "84",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "errors": [
+            {
+              "regression": "item"
+            }
+          ],
+          "messages": [
+            {
+              "regression": "item"
+            }
+          ],
+          "success": true
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 1",
+    "argv": [
+      "smart-shield",
+      "health-checks",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--errors",
+      "[{\"regression\":\"item\"}]",
+      "--messages",
+      "[{\"regression\":\"item\"}]",
+      "--success=true",
+      "--result-address",
+      "192.0.2.1",
+      "--result-check-regions",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--result-consecutive-fails",
+      "2",
+      "--result-consecutive-successes",
+      "2",
+      "--result-description",
+      "192.0.2.1",
+      "--result-http-config-allow-insecure=false",
+      "--result-http-config-expected-body",
+      "second value &/?+ü",
+      "--result-http-config-expected-codes",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--result-http-config-follow-redirects=false",
+      "--result-http-config-method",
+      "HEAD",
+      "--result-http-config-path",
+      "second value &/?+ü",
+      "--result-http-config-port",
+      "2",
+      "--result-interval",
+      "2",
+      "--result-name",
+      "second value &/?+ü",
+      "--result-retries",
+      "2",
+      "--result-suspended=false",
+      "--result-tcp-config-method",
+      "connection_established",
+      "--result-tcp-config-port",
+      "2",
+      "--result-timeout",
+      "2",
+      "--result-type",
+      "second value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/smart_shield/healthchecks/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "643",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "errors": [
+            {
+              "regression": "item"
+            }
+          ],
+          "messages": [
+            {
+              "regression": "item"
+            }
+          ],
+          "result": {
+            "address": "192.0.2.1",
+            "check_regions": [
+              "second value &/?+ü",
+              "second value &/?+ü"
+            ],
+            "consecutive_fails": 2,
+            "consecutive_successes": 2,
+            "description": "192.0.2.1",
+            "http_config": {
+              "allow_insecure": false,
+              "expected_body": "second value &/?+ü",
+              "expected_codes": [
+                "second value &/?+ü",
+                "second value &/?+ü"
+              ],
+              "follow_redirects": false,
+              "method": "HEAD",
+              "path": "second value &/?+ü",
+              "port": 2
+            },
+            "interval": 2,
+            "name": "second value &/?+ü",
+            "retries": 2,
+            "suspended": false,
+            "tcp_config": {
+              "method": "connection_established",
+              "port": 2
+            },
+            "timeout": 2,
+            "type": "second value &/?+ü"
+          },
+          "success": true
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 2",
+    "argv": [
+      "smart-shield",
+      "health-checks",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--errors",
+      "[{\"regression\":\"item\"}]",
+      "--messages",
+      "[{\"regression\":\"item\"}]",
+      "--success=true",
+      "--result-check-regions",
+      "regression value &/?+ü",
+      "--result-consecutive-successes",
+      "1",
+      "--result-http-config-allow-insecure=true",
+      "--result-http-config-expected-codes",
+      "regression value &/?+ü",
+      "--result-http-config-method",
+      "GET",
+      "--result-http-config-port",
+      "1",
+      "--result-name",
+      "regression value &/?+ü",
+      "--result-suspended=true",
+      "--result-tcp-config-port",
+      "1",
+      "--result-type",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/smart_shield/healthchecks/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "379",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "errors": [
+            {
+              "regression": "item"
+            }
+          ],
+          "messages": [
+            {
+              "regression": "item"
+            }
+          ],
+          "result": {
+            "check_regions": [
+              "regression value &/?+ü"
+            ],
+            "consecutive_successes": 1,
+            "http_config": {
+              "allow_insecure": true,
+              "expected_codes": [
+                "regression value &/?+ü"
+              ],
+              "method": "GET",
+              "port": 1
+            },
+            "name": "regression value &/?+ü",
+            "suspended": true,
+            "tcp_config": {
+              "port": 1
+            },
+            "type": "regression value &/?+ü"
+          },
+          "success": true
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 3",
+    "argv": [
+      "smart-shield",
+      "health-checks",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--errors",
+      "[{\"regression\":\"item\"}]",
+      "--messages",
+      "[{\"regression\":\"item\"}]",
+      "--success=true",
+      "--result-address",
+      "192.0.2.1",
+      "--result-consecutive-fails",
+      "2",
+      "--result-description",
+      "192.0.2.1",
+      "--result-http-config-expected-body",
+      "second value &/?+ü",
+      "--result-http-config-follow-redirects=false",
+      "--result-http-config-path",
+      "second value &/?+ü",
+      "--result-interval",
+      "2",
+      "--result-retries",
+      "2",
+      "--result-tcp-config-method",
+      "connection_established",
+      "--result-timeout",
+      "2"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/smart_shield/healthchecks/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "359",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "errors": [
+            {
+              "regression": "item"
+            }
+          ],
+          "messages": [
+            {
+              "regression": "item"
+            }
+          ],
+          "result": {
+            "address": "192.0.2.1",
+            "consecutive_fails": 2,
+            "description": "192.0.2.1",
+            "http_config": {
+              "expected_body": "second value &/?+ü",
+              "follow_redirects": false,
+              "path": "second value &/?+ü"
+            },
+            "interval": 2,
+            "retries": 2,
+            "tcp_config": {
+              "method": "connection_established"
+            },
+            "timeout": 2
+          },
+          "success": true
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 4",
+    "argv": [
+      "smart-shield",
+      "health-checks",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--errors",
+      "[{\"regression\":\"item\"}]",
+      "--messages",
+      "[{\"regression\":\"item\"}]",
+      "--success=true",
+      "--result-consecutive-fails",
+      "1",
+      "--result-consecutive-successes",
+      "1",
+      "--result-http-config-expected-body",
+      "regression value &/?+ü",
+      "--result-http-config-expected-codes",
+      "regression value &/?+ü",
+      "--result-http-config-path",
+      "regression value &/?+ü",
+      "--result-http-config-port",
+      "1",
+      "--result-retries",
+      "1",
+      "--result-suspended=true",
+      "--result-timeout",
+      "1",
+      "--result-type",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/smart_shield/healthchecks/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "362",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "errors": [
+            {
+              "regression": "item"
+            }
+          ],
+          "messages": [
+            {
+              "regression": "item"
+            }
+          ],
+          "result": {
+            "consecutive_fails": 1,
+            "consecutive_successes": 1,
+            "http_config": {
+              "expected_body": "regression value &/?+ü",
+              "expected_codes": [
+                "regression value &/?+ü"
+              ],
+              "path": "regression value &/?+ü",
+              "port": 1
+            },
+            "retries": 1,
+            "suspended": true,
+            "timeout": 1,
+            "type": "regression value &/?+ü"
+          },
+          "success": true
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 5",
+    "argv": [
+      "smart-shield",
+      "health-checks",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--errors",
+      "[{\"regression\":\"item\"}]",
+      "--messages",
+      "[{\"regression\":\"item\"}]",
+      "--success=true",
+      "--result-address",
+      "192.0.2.1",
+      "--result-check-regions",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--result-description",
+      "192.0.2.1",
+      "--result-http-config-allow-insecure=false",
+      "--result-http-config-follow-redirects=false",
+      "--result-http-config-method",
+      "HEAD",
+      "--result-interval",
+      "2",
+      "--result-name",
+      "second value &/?+ü",
+      "--result-tcp-config-method",
+      "connection_established",
+      "--result-tcp-config-port",
+      "2"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/smart_shield/healthchecks/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "385",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "errors": [
+            {
+              "regression": "item"
+            }
+          ],
+          "messages": [
+            {
+              "regression": "item"
+            }
+          ],
+          "result": {
+            "address": "192.0.2.1",
+            "check_regions": [
+              "second value &/?+ü",
+              "second value &/?+ü"
+            ],
+            "description": "192.0.2.1",
+            "http_config": {
+              "allow_insecure": false,
+              "follow_redirects": false,
+              "method": "HEAD"
+            },
+            "interval": 2,
+            "name": "second value &/?+ü",
+            "tcp_config": {
+              "method": "connection_established",
+              "port": 2
+            }
+          },
+          "success": true
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 6",
+    "argv": [
+      "smart-shield",
+      "health-checks",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--errors",
+      "[{\"regression\":\"item\"}]",
+      "--messages",
+      "[{\"regression\":\"item\"}]",
+      "--success=true",
+      "--result-description",
+      "192.0.2.1",
+      "--result-http-config-allow-insecure=true",
+      "--result-http-config-expected-body",
+      "regression value &/?+ü",
+      "--result-http-config-expected-codes",
+      "regression value &/?+ü",
+      "--result-interval",
+      "1",
+      "--result-name",
+      "regression value &/?+ü",
+      "--result-retries",
+      "1",
+      "--result-suspended=true"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/smart_shield/healthchecks/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "321",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "errors": [
+            {
+              "regression": "item"
+            }
+          ],
+          "messages": [
+            {
+              "regression": "item"
+            }
+          ],
+          "result": {
+            "description": "192.0.2.1",
+            "http_config": {
+              "allow_insecure": true,
+              "expected_body": "regression value &/?+ü",
+              "expected_codes": [
+                "regression value &/?+ü"
+              ]
+            },
+            "interval": 1,
+            "name": "regression value &/?+ü",
+            "retries": 1,
+            "suspended": true
+          },
+          "success": true
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 7",
+    "argv": [
+      "smart-shield",
+      "health-checks",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--errors",
+      "[{\"regression\":\"item\"}]",
+      "--messages",
+      "[{\"regression\":\"item\"}]",
+      "--success=true",
+      "--result-address",
+      "192.0.2.1",
+      "--result-check-regions",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--result-consecutive-fails",
+      "2",
+      "--result-consecutive-successes",
+      "2",
+      "--result-http-config-follow-redirects=false",
+      "--result-http-config-method",
+      "HEAD",
+      "--result-http-config-path",
+      "second value &/?+ü",
+      "--result-http-config-port",
+      "2",
+      "--result-tcp-config-method",
+      "connection_established",
+      "--result-tcp-config-port",
+      "2",
+      "--result-timeout",
+      "2",
+      "--result-type",
+      "second value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/smart_shield/healthchecks/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "421",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "errors": [
+            {
+              "regression": "item"
+            }
+          ],
+          "messages": [
+            {
+              "regression": "item"
+            }
+          ],
+          "result": {
+            "address": "192.0.2.1",
+            "check_regions": [
+              "second value &/?+ü",
+              "second value &/?+ü"
+            ],
+            "consecutive_fails": 2,
+            "consecutive_successes": 2,
+            "http_config": {
+              "follow_redirects": false,
+              "method": "HEAD",
+              "path": "second value &/?+ü",
+              "port": 2
+            },
+            "tcp_config": {
+              "method": "connection_established",
+              "port": 2
+            },
+            "timeout": 2,
+            "type": "second value &/?+ü"
+          },
+          "success": true
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 8",
+    "argv": [
+      "smart-shield",
+      "health-checks",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--errors",
+      "[{\"regression\":\"item\"}]",
+      "--messages",
+      "[{\"regression\":\"item\"}]",
+      "--success=true",
+      "--result-http-config-follow-redirects=true",
+      "--result-http-config-method",
+      "GET",
+      "--result-http-config-path",
+      "regression value &/?+ü",
+      "--result-http-config-port",
+      "1",
+      "--result-interval",
+      "1",
+      "--result-name",
+      "regression value &/?+ü",
+      "--result-retries",
+      "1",
+      "--result-suspended=true"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/smart_shield/healthchecks/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "267",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "errors": [
+            {
+              "regression": "item"
+            }
+          ],
+          "messages": [
+            {
+              "regression": "item"
+            }
+          ],
+          "result": {
+            "http_config": {
+              "follow_redirects": true,
+              "method": "GET",
+              "path": "regression value &/?+ü",
+              "port": 1
+            },
+            "interval": 1,
+            "name": "regression value &/?+ü",
+            "retries": 1,
+            "suspended": true
+          },
+          "success": true
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 9",
+    "argv": [
+      "smart-shield",
+      "health-checks",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--errors",
+      "[{\"regression\":\"item\"}]",
+      "--messages",
+      "[{\"regression\":\"item\"}]",
+      "--success=true",
+      "--result-address",
+      "192.0.2.1",
+      "--result-check-regions",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--result-consecutive-fails",
+      "2",
+      "--result-consecutive-successes",
+      "2",
+      "--result-description",
+      "192.0.2.1",
+      "--result-http-config-allow-insecure=false",
+      "--result-http-config-expected-body",
+      "second value &/?+ü",
+      "--result-http-config-expected-codes",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--result-tcp-config-method",
+      "connection_established",
+      "--result-tcp-config-port",
+      "2",
+      "--result-timeout",
+      "2",
+      "--result-type",
+      "second value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/smart_shield/healthchecks/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "492",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "errors": [
+            {
+              "regression": "item"
+            }
+          ],
+          "messages": [
+            {
+              "regression": "item"
+            }
+          ],
+          "result": {
+            "address": "192.0.2.1",
+            "check_regions": [
+              "second value &/?+ü",
+              "second value &/?+ü"
+            ],
+            "consecutive_fails": 2,
+            "consecutive_successes": 2,
+            "description": "192.0.2.1",
+            "http_config": {
+              "allow_insecure": false,
+              "expected_body": "second value &/?+ü",
+              "expected_codes": [
+                "second value &/?+ü",
+                "second value &/?+ü"
+              ]
+            },
+            "tcp_config": {
+              "method": "connection_established",
+              "port": 2
+            },
+            "timeout": 2,
+            "type": "second value &/?+ü"
+          },
+          "success": true
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 10",
+    "argv": [
+      "smart-shield",
+      "health-checks",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--errors",
+      "[{\"regression\":\"item\"}]",
+      "--messages",
+      "[{\"regression\":\"item\"}]",
+      "--success=true",
+      "--result-tcp-config-method",
+      "connection_established",
+      "--result-tcp-config-port",
+      "1",
+      "--result-timeout",
+      "1",
+      "--result-type",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/smart_shield/healthchecks/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "198",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "errors": [
+            {
+              "regression": "item"
+            }
+          ],
+          "messages": [
+            {
+              "regression": "item"
+            }
+          ],
+          "result": {
+            "tcp_config": {
+              "method": "connection_established",
+              "port": 1
+            },
+            "timeout": 1,
+            "type": "regression value &/?+ü"
+          },
+          "success": true
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 11",
+    "argv": [
+      "smart-shield",
+      "health-checks",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--errors",
+      "[{\"regression\":\"item\"}]",
+      "--messages",
+      "[{\"regression\":\"item\"}]",
+      "--success=true",
+      "--result-address",
+      "192.0.2.1",
+      "--result-check-regions",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--result-consecutive-fails",
+      "2",
+      "--result-consecutive-successes",
+      "2",
+      "--result-description",
+      "192.0.2.1",
+      "--result-http-config-allow-insecure=false",
+      "--result-http-config-expected-body",
+      "second value &/?+ü",
+      "--result-http-config-expected-codes",
+      "second value &/?+ü",
+      "second value &/?+ü",
+      "--result-http-config-follow-redirects=false",
+      "--result-http-config-method",
+      "HEAD",
+      "--result-http-config-path",
+      "second value &/?+ü",
+      "--result-http-config-port",
+      "2",
+      "--result-interval",
+      "2",
+      "--result-name",
+      "second value &/?+ü",
+      "--result-retries",
+      "2",
+      "--result-suspended=false"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/smart_shield/healthchecks/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "544",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "errors": [
+            {
+              "regression": "item"
+            }
+          ],
+          "messages": [
+            {
+              "regression": "item"
+            }
+          ],
+          "result": {
+            "address": "192.0.2.1",
+            "check_regions": [
+              "second value &/?+ü",
+              "second value &/?+ü"
+            ],
+            "consecutive_fails": 2,
+            "consecutive_successes": 2,
+            "description": "192.0.2.1",
+            "http_config": {
+              "allow_insecure": false,
+              "expected_body": "second value &/?+ü",
+              "expected_codes": [
+                "second value &/?+ü",
+                "second value &/?+ü"
+              ],
+              "follow_redirects": false,
+              "method": "HEAD",
+              "path": "second value &/?+ü",
+              "port": 2
+            },
+            "interval": 2,
+            "name": "second value &/?+ü",
+            "retries": 2,
+            "suspended": false
+          },
+          "success": true
+        }
+      }
+    ]
+  },
+  {
+    "case": "global quiet",
+    "argv": [
+      "smart-shield",
+      "health-checks",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--errors",
+      "[{\"regression\":\"item\"}]",
+      "--messages",
+      "[{\"regression\":\"item\"}]",
+      "--success=true",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--quiet"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/smart_shield/healthchecks/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "57",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ],
+          "success": true
+        }
+      }
+    ]
+  },
+  {
+    "case": "global zone",
+    "argv": [
+      "smart-shield",
+      "health-checks",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--errors",
+      "[{\"regression\":\"item\"}]",
+      "--messages",
+      "[{\"regression\":\"item\"}]",
+      "--success=true",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--zone",
+      "abcdef0123456789abcdef0123456789"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/smart_shield/healthchecks/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "57",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ],
+          "success": true
+        }
+      }
+    ]
+  },
+  {
+    "case": "global profile and mode",
+    "argv": [
+      "smart-shield",
+      "health-checks",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--errors",
+      "[{\"regression\":\"item\"}]",
+      "--messages",
+      "[{\"regression\":\"item\"}]",
+      "--success=true",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--profile",
+      "default",
+      "--mode",
+      "regression"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/smart_shield/healthchecks/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "57",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ],
+          "success": true
+        }
+      }
+    ]
+  },
+  {
+    "case": "local",
+    "argv": [
+      "smart-shield",
+      "health-checks",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--errors",
+      "[{\"regression\":\"item\"}]",
+      "--messages",
+      "[{\"regression\":\"item\"}]",
+      "--success=true",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--local"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "http://localhost/cdn-cgi/local/explorer/api/zones/abcdef0123456789abcdef0123456789/smart_shield/healthchecks/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "gzip, deflate",
+          "accept-language": "*",
+          "connection": "keep-alive",
+          "content-type": "application/json",
+          "host": "localhost",
+          "sec-fetch-mode": "cors",
+          "transfer-encoding": "chunked",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ],
+          "success": true
+        }
+      }
+    ]
+  },
+  {
+    "case": "local with persistence",
+    "argv": [
+      "smart-shield",
+      "health-checks",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--errors",
+      "[{\"regression\":\"item\"}]",
+      "--messages",
+      "[{\"regression\":\"item\"}]",
+      "--success=true",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--local",
+      "--persist-to",
+      "regression-state"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "http://localhost/cdn-cgi/local/explorer/api/zones/abcdef0123456789abcdef0123456789/smart_shield/healthchecks/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "gzip, deflate",
+          "accept-language": "*",
+          "connection": "keep-alive",
+          "content-type": "application/json",
+          "host": "localhost",
+          "sec-fetch-mode": "cors",
+          "transfer-encoding": "chunked",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ],
+          "success": true
+        }
+      }
+    ]
+  },
+  {
+    "case": "zone by domain",
+    "argv": [
+      "smart-shield",
+      "health-checks",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--errors",
+      "[{\"regression\":\"item\"}]",
+      "--messages",
+      "[{\"regression\":\"item\"}]",
+      "--success=true",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--zone",
+      "regression-14cefdc5a4f3.example.com"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "GET",
+        "url": "https://api.test/client/v4/zones?name=regression-14cefdc5a4f3.example.com&account.id=0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": null
+      },
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/smart_shield/healthchecks/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "57",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ],
+          "success": true
+        }
+      }
+    ]
+  },
+  {
+    "case": "dry-run",
+    "argv": [
+      "smart-shield",
+      "health-checks",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--errors",
+      "[{\"regression\":\"item\"}]",
+      "--messages",
+      "[{\"regression\":\"item\"}]",
+      "--success=true",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--dry-run"
+    ],
+    "exitCode": 0,
+    "requests": []
+  },
+  {
+    "case": "body from file",
+    "argv": [
+      "smart-shield",
+      "health-checks",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--errors",
+      "[{\"regression\":\"item\"}]",
+      "--messages",
+      "[{\"regression\":\"item\"}]",
+      "--success=true",
+      "--body",
+      "@<body.json>"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/smart_shield/healthchecks/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "57",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ],
+          "success": true
+        }
+      }
+    ]
+  },
+  {
+    "case": "array body",
+    "argv": [
+      "smart-shield",
+      "health-checks",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--errors",
+      "[{\"regression\":\"item\"}]",
+      "--messages",
+      "[{\"regression\":\"item\"}]",
+      "--success=true",
+      "--body",
+      "[{\"regression\":\"first\"},{\"regression\":\"second\"}]"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/smart_shield/healthchecks/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "71",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "0": {
+            "regression": "first"
+          },
+          "1": {
+            "regression": "second"
+          },
+          "success": true
+        }
+      }
+    ]
+  },
+  {
+    "case": "field flags",
+    "argv": [
+      "smart-shield",
+      "health-checks",
+      "update",
+      "0123456789abcdef0123456789abcdef",
+      "--errors",
+      "[{\"regression\":\"item\"}]",
+      "--messages",
+      "[{\"regression\":\"item\"}]",
+      "--success=true",
+      "--result-address",
+      "192.0.2.1",
+      "--result-check-regions",
+      "regression value &/?+ü",
+      "--result-consecutive-fails",
+      "1",
+      "--result-consecutive-successes",
+      "1",
+      "--result-description",
+      "192.0.2.1",
+      "--result-http-config-allow-insecure=true",
+      "--result-http-config-expected-body",
+      "regression value &/?+ü",
+      "--result-http-config-expected-codes",
+      "regression value &/?+ü",
+      "--result-http-config-follow-redirects=true",
+      "--result-http-config-method",
+      "GET",
+      "--result-http-config-path",
+      "regression value &/?+ü",
+      "--result-http-config-port",
+      "1",
+      "--result-interval",
+      "1",
+      "--result-name",
+      "regression value &/?+ü",
+      "--result-retries",
+      "1",
+      "--result-suspended=true",
+      "--result-tcp-config-method",
+      "connection_established",
+      "--result-tcp-config-port",
+      "1",
+      "--result-timeout",
+      "1",
+      "--result-type",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PUT",
+        "url": "https://api.test/client/v4/zones/abcdef0123456789abcdef0123456789/smart_shield/healthchecks/0123456789abcdef0123456789abcdef",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "619",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "errors": [
+            {
+              "regression": "item"
+            }
+          ],
+          "messages": [
+            {
+              "regression": "item"
+            }
+          ],
+          "result": {
+            "address": "192.0.2.1",
+            "check_regions": [
+              "regression value &/?+ü"
+            ],
+            "consecutive_fails": 1,
+            "consecutive_successes": 1,
+            "description": "192.0.2.1",
+            "http_config": {
+              "allow_insecure": true,
+              "expected_body": "regression value &/?+ü",
+              "expected_codes": [
+                "regression value &/?+ü"
+              ],
+              "follow_redirects": true,
+              "method": "GET",
+              "path": "regression value &/?+ü",
+              "port": 1
+            },
+            "interval": 1,
+            "name": "regression value &/?+ü",
+            "retries": 1,
+            "suspended": true,
+            "tcp_config": {
+              "method": "connection_established",
+              "port": 1
+            },
+            "timeout": 1,
+            "type": "regression value &/?+ü"
+          },
+          "success": true
+        }
+      }
+    ]
+  }
+]

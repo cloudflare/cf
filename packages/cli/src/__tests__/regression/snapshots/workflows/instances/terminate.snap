@@ -1,0 +1,918 @@
+[
+  {
+    "case": "no-args",
+    "argv": [
+      "workflows",
+      "instances",
+      "terminate"
+    ],
+    "exitCode": 1,
+    "error": "Not enough non-option arguments: got 0, need at least 1",
+    "requests": []
+  },
+  {
+    "case": "required",
+    "argv": [
+      "workflows",
+      "instances",
+      "terminate",
+      "0123456789abcdef0123456789abcdef",
+      "--workflow-name",
+      "regression value &/?+ü",
+      "--status",
+      "pause",
+      "--force",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/workflows/regression%20value%20%26%2F%3F%2B%C3%BC/instances/0123456789abcdef0123456789abcdef/status",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --rollback",
+    "argv": [
+      "workflows",
+      "instances",
+      "terminate",
+      "0123456789abcdef0123456789abcdef",
+      "--workflow-name",
+      "regression value &/?+ü",
+      "--status",
+      "pause",
+      "--force",
+      "--rollback=true"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/workflows/regression%20value%20%26%2F%3F%2B%C3%BC/instances/0123456789abcdef0123456789abcdef/status",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "34",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "status": "pause",
+          "rollback": true
+        }
+      }
+    ]
+  },
+  {
+    "case": "--rollback value 1",
+    "argv": [
+      "workflows",
+      "instances",
+      "terminate",
+      "0123456789abcdef0123456789abcdef",
+      "--workflow-name",
+      "regression value &/?+ü",
+      "--status",
+      "pause",
+      "--force",
+      "--rollback=false"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/workflows/regression%20value%20%26%2F%3F%2B%C3%BC/instances/0123456789abcdef0123456789abcdef/status",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "35",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "status": "pause",
+          "rollback": false
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --from-count",
+    "argv": [
+      "workflows",
+      "instances",
+      "terminate",
+      "0123456789abcdef0123456789abcdef",
+      "--workflow-name",
+      "regression value &/?+ü",
+      "--status",
+      "pause",
+      "--force",
+      "--from-count",
+      "1"
+    ],
+    "exitCode": 1,
+    "error": "--from-name is required when any --from-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "only --from-name",
+    "argv": [
+      "workflows",
+      "instances",
+      "terminate",
+      "0123456789abcdef0123456789abcdef",
+      "--workflow-name",
+      "regression value &/?+ü",
+      "--status",
+      "pause",
+      "--force",
+      "--from-name",
+      "regression value &/?+ü"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/workflows/regression%20value%20%26%2F%3F%2B%C3%BC/instances/0123456789abcdef0123456789abcdef/status",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "60",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "status": "pause",
+          "from": {
+            "name": "regression value &/?+ü"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "only --from-type",
+    "argv": [
+      "workflows",
+      "instances",
+      "terminate",
+      "0123456789abcdef0123456789abcdef",
+      "--workflow-name",
+      "regression value &/?+ü",
+      "--status",
+      "pause",
+      "--force",
+      "--from-type",
+      "do"
+    ],
+    "exitCode": 1,
+    "error": "--from-name is required when any --from-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "--from-type value 1",
+    "argv": [
+      "workflows",
+      "instances",
+      "terminate",
+      "0123456789abcdef0123456789abcdef",
+      "--workflow-name",
+      "regression value &/?+ü",
+      "--status",
+      "pause",
+      "--force",
+      "--from-type",
+      "sleep"
+    ],
+    "exitCode": 1,
+    "error": "--from-name is required when any --from-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "--from-type value 2",
+    "argv": [
+      "workflows",
+      "instances",
+      "terminate",
+      "0123456789abcdef0123456789abcdef",
+      "--workflow-name",
+      "regression value &/?+ü",
+      "--status",
+      "pause",
+      "--force",
+      "--from-type",
+      "waitForEvent"
+    ],
+    "exitCode": 1,
+    "error": "--from-name is required when any --from-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "required --status value 1",
+    "argv": [
+      "workflows",
+      "instances",
+      "terminate",
+      "0123456789abcdef0123456789abcdef",
+      "--workflow-name",
+      "regression value &/?+ü",
+      "--force",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--status",
+      "resume"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/workflows/regression%20value%20%26%2F%3F%2B%C3%BC/instances/0123456789abcdef0123456789abcdef/status",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "required --status value 2",
+    "argv": [
+      "workflows",
+      "instances",
+      "terminate",
+      "0123456789abcdef0123456789abcdef",
+      "--workflow-name",
+      "regression value &/?+ü",
+      "--force",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--status",
+      "terminate"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/workflows/regression%20value%20%26%2F%3F%2B%C3%BC/instances/0123456789abcdef0123456789abcdef/status",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "required --status value 3",
+    "argv": [
+      "workflows",
+      "instances",
+      "terminate",
+      "0123456789abcdef0123456789abcdef",
+      "--workflow-name",
+      "regression value &/?+ü",
+      "--force",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--status",
+      "restart"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/workflows/regression%20value%20%26%2F%3F%2B%C3%BC/instances/0123456789abcdef0123456789abcdef/status",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 0",
+    "argv": [
+      "workflows",
+      "instances",
+      "terminate",
+      "0123456789abcdef0123456789abcdef",
+      "--workflow-name",
+      "regression value &/?+ü",
+      "--status",
+      "pause",
+      "--force"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/workflows/regression%20value%20%26%2F%3F%2B%C3%BC/instances/0123456789abcdef0123456789abcdef/status",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "18",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "status": "pause"
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 1",
+    "argv": [
+      "workflows",
+      "instances",
+      "terminate",
+      "0123456789abcdef0123456789abcdef",
+      "--workflow-name",
+      "regression value &/?+ü",
+      "--status",
+      "pause",
+      "--force",
+      "--rollback=false",
+      "--from-count",
+      "2",
+      "--from-name",
+      "second value &/?+ü",
+      "--from-type",
+      "sleep"
+    ],
+    "exitCode": 1,
+    "error": "Arguments rollback and from-count are mutually exclusive",
+    "requests": []
+  },
+  {
+    "case": "pairwise 2",
+    "argv": [
+      "workflows",
+      "instances",
+      "terminate",
+      "0123456789abcdef0123456789abcdef",
+      "--workflow-name",
+      "regression value &/?+ü",
+      "--status",
+      "pause",
+      "--force",
+      "--from-count",
+      "1",
+      "--from-type",
+      "do"
+    ],
+    "exitCode": 1,
+    "error": "--from-name is required when any --from-* flag is set",
+    "requests": []
+  },
+  {
+    "case": "pairwise 3",
+    "argv": [
+      "workflows",
+      "instances",
+      "terminate",
+      "0123456789abcdef0123456789abcdef",
+      "--workflow-name",
+      "regression value &/?+ü",
+      "--status",
+      "pause",
+      "--force",
+      "--rollback=false",
+      "--from-name",
+      "second value &/?+ü"
+    ],
+    "exitCode": 1,
+    "error": "Arguments rollback and from-name are mutually exclusive",
+    "requests": []
+  },
+  {
+    "case": "pairwise 4",
+    "argv": [
+      "workflows",
+      "instances",
+      "terminate",
+      "0123456789abcdef0123456789abcdef",
+      "--workflow-name",
+      "regression value &/?+ü",
+      "--status",
+      "pause",
+      "--force",
+      "--from-name",
+      "regression value &/?+ü",
+      "--from-type",
+      "do"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/workflows/regression%20value%20%26%2F%3F%2B%C3%BC/instances/0123456789abcdef0123456789abcdef/status",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "72",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "status": "pause",
+          "from": {
+            "name": "regression value &/?+ü",
+            "type": "do"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "case": "pairwise 5",
+    "argv": [
+      "workflows",
+      "instances",
+      "terminate",
+      "0123456789abcdef0123456789abcdef",
+      "--workflow-name",
+      "regression value &/?+ü",
+      "--status",
+      "pause",
+      "--force",
+      "--rollback=false",
+      "--from-count",
+      "2"
+    ],
+    "exitCode": 1,
+    "error": "Arguments rollback and from-count are mutually exclusive",
+    "requests": []
+  },
+  {
+    "case": "global quiet",
+    "argv": [
+      "workflows",
+      "instances",
+      "terminate",
+      "0123456789abcdef0123456789abcdef",
+      "--workflow-name",
+      "regression value &/?+ü",
+      "--status",
+      "pause",
+      "--force",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--quiet"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/workflows/regression%20value%20%26%2F%3F%2B%C3%BC/instances/0123456789abcdef0123456789abcdef/status",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "global zone",
+    "argv": [
+      "workflows",
+      "instances",
+      "terminate",
+      "0123456789abcdef0123456789abcdef",
+      "--workflow-name",
+      "regression value &/?+ü",
+      "--status",
+      "pause",
+      "--force",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--zone",
+      "abcdef0123456789abcdef0123456789"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/workflows/regression%20value%20%26%2F%3F%2B%C3%BC/instances/0123456789abcdef0123456789abcdef/status",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "global profile and mode",
+    "argv": [
+      "workflows",
+      "instances",
+      "terminate",
+      "0123456789abcdef0123456789abcdef",
+      "--workflow-name",
+      "regression value &/?+ü",
+      "--status",
+      "pause",
+      "--force",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--profile",
+      "default",
+      "--mode",
+      "regression"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/workflows/regression%20value%20%26%2F%3F%2B%C3%BC/instances/0123456789abcdef0123456789abcdef/status",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "local",
+    "argv": [
+      "workflows",
+      "instances",
+      "terminate",
+      "0123456789abcdef0123456789abcdef",
+      "--workflow-name",
+      "regression value &/?+ü",
+      "--status",
+      "pause",
+      "--force",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--local"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "http://localhost/cdn-cgi/local/explorer/api/workflows/regression%20value%20%26%2F%3F%2B%C3%BC/instances/0123456789abcdef0123456789abcdef/status",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "gzip, deflate",
+          "accept-language": "*",
+          "connection": "keep-alive",
+          "content-type": "application/json",
+          "host": "localhost",
+          "sec-fetch-mode": "cors",
+          "transfer-encoding": "chunked",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "local with persistence",
+    "argv": [
+      "workflows",
+      "instances",
+      "terminate",
+      "0123456789abcdef0123456789abcdef",
+      "--workflow-name",
+      "regression value &/?+ü",
+      "--status",
+      "pause",
+      "--force",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--local",
+      "--persist-to",
+      "regression-state"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "http://localhost/cdn-cgi/local/explorer/api/workflows/regression%20value%20%26%2F%3F%2B%C3%BC/instances/0123456789abcdef0123456789abcdef/status",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "gzip, deflate",
+          "accept-language": "*",
+          "connection": "keep-alive",
+          "content-type": "application/json",
+          "host": "localhost",
+          "sec-fetch-mode": "cors",
+          "transfer-encoding": "chunked",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "dry-run",
+    "argv": [
+      "workflows",
+      "instances",
+      "terminate",
+      "0123456789abcdef0123456789abcdef",
+      "--workflow-name",
+      "regression value &/?+ü",
+      "--status",
+      "pause",
+      "--force",
+      "--body",
+      "{\"regression\":\"body &/?+ü\",\"items\":[1,2]}",
+      "--dry-run"
+    ],
+    "exitCode": 0,
+    "requests": []
+  },
+  {
+    "case": "body from file",
+    "argv": [
+      "workflows",
+      "instances",
+      "terminate",
+      "0123456789abcdef0123456789abcdef",
+      "--workflow-name",
+      "regression value &/?+ü",
+      "--status",
+      "pause",
+      "--force",
+      "--body",
+      "@<body.json>"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/workflows/regression%20value%20%26%2F%3F%2B%C3%BC/instances/0123456789abcdef0123456789abcdef/status",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "42",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": {
+          "regression": "body &/?+ü",
+          "items": [
+            1,
+            2
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "case": "array body",
+    "argv": [
+      "workflows",
+      "instances",
+      "terminate",
+      "0123456789abcdef0123456789abcdef",
+      "--workflow-name",
+      "regression value &/?+ü",
+      "--status",
+      "pause",
+      "--force",
+      "--body",
+      "[{\"regression\":\"first\"},{\"regression\":\"second\"}]"
+    ],
+    "exitCode": 0,
+    "requests": [
+      {
+        "method": "PATCH",
+        "url": "https://api.test/client/v4/accounts/0123456789abcdef0123456789abcdef/workflows/regression%20value%20%26%2F%3F%2B%C3%BC/instances/0123456789abcdef0123456789abcdef/status",
+        "headers": {
+          "accept": "*/*",
+          "accept-encoding": "br, gzip, deflate",
+          "accept-language": "*",
+          "authorization": "Bearer regression-api-token",
+          "connection": "keep-alive",
+          "content-length": "48",
+          "content-type": "application/json",
+          "host": "api.test",
+          "sec-fetch-mode": "cors",
+          "user-agent": "cf-cli/<version>",
+          "x-cf-cli-agent": "codex",
+          "x-cf-cli-mode": "ci"
+        },
+        "body": [
+          {
+            "regression": "first"
+          },
+          {
+            "regression": "second"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "case": "field flags",
+    "argv": [
+      "workflows",
+      "instances",
+      "terminate",
+      "0123456789abcdef0123456789abcdef",
+      "--workflow-name",
+      "regression value &/?+ü",
+      "--status",
+      "pause",
+      "--force",
+      "--rollback=true",
+      "--from-count",
+      "1",
+      "--from-name",
+      "regression value &/?+ü",
+      "--from-type",
+      "do"
+    ],
+    "exitCode": 1,
+    "error": "Arguments rollback and from-count are mutually exclusive",
+    "requests": []
+  }
+]

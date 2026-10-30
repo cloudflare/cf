@@ -65,6 +65,7 @@
 		"build:test": "vp run task:build:test",
 		"check:type": "vp run task:check:type",
 		"test": "vp run task:test",
+		"test:regression": "vp test run --config regression.config.ts",
 		"test:watch": "vp run task:test:watch",
 		"test:imports": "vp run task:test:imports"
 	},

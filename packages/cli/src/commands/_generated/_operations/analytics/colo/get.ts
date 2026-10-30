@@ -4,6 +4,6 @@ import { path } from "#api";
 export default {
 	method: "GET",
 	path: (request: Record<string, unknown>) =>
-		path`/zones/${request.zone_identifier}/analytics/colos`,
+		path`/zones/${request.zone_id}/analytics/colos`,
 	query: ["until", "since", "continuous"],
 } as const;

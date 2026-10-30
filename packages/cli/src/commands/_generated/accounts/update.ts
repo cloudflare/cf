@@ -27,7 +27,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
 		.usage("$0 accounts update\n\nUpdate an existing account.")
 		.option("id", { type: "string", description: "Identifier" })
-		.option("name", { type: "string", description: "Account name" })
+		.option("name", { type: "string", description: "The name field" })
 		.option("settings-abuse-contact-email", {
 			type: "string",
 			description: "Sets an abuse contact email to notify for abuse reports.",
@@ -123,7 +123,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					argv["id"] = await promptForRequiredField("id", "Identifier");
 				}
 				if (argv["name"] === undefined) {
-					argv["name"] = await promptForRequiredField("name", "Account name");
+					argv["name"] = await promptForRequiredField("name", "The name field");
 				}
 				if (argv["type"] === undefined) {
 					argv["type"] = await promptForRequiredEnumField(

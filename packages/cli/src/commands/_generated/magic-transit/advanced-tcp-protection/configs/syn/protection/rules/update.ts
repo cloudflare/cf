@@ -39,6 +39,11 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description:
 				"The new mitigation type. Optional. Must be one of 'challenge' or 'retransmit'.",
 		})
+		.option("protection-mode", {
+			type: "string",
+			description:
+				"The new mode for SYN Protection. Optional. Must be one of 'enabled', 'disabled', 'monitoring'.",
+		})
 		.option("rate-sensitivity", {
 			type: "string",
 			description:
@@ -95,6 +100,11 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 											"mitigation-type",
 											"text"
 										),
+										mode: resolveFileToken(
+											argv["protection-mode"] as string | undefined,
+											"protection-mode",
+											"text"
+										),
 										rate_sensitivity: resolveFileToken(
 											argv["rate-sensitivity"] as string | undefined,
 											"rate-sensitivity",
@@ -131,6 +141,11 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					mitigation_type: resolveFileToken(
 						argv["mitigation-type"] as string | undefined,
 						"mitigation-type",
+						"text"
+					),
+					mode: resolveFileToken(
+						argv["protection-mode"] as string | undefined,
+						"protection-mode",
 						"text"
 					),
 					rate_sensitivity: resolveFileToken(

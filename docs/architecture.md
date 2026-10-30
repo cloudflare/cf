@@ -63,6 +63,7 @@ cf/
 │   │   ├── index.ts            # the plugin's entry module: registry + meta.ts sidecars
 │   │   ├── cli.wasm            # gitignored; task:generate:plugin compiles index.ts
 │   │   ├── cli-audience.ts     # drops operations outside the cf-cli audience
+│   │   ├── flag-names-cli-compat.ts # temporary flag names for clashing API fields
 │   │   └── workers-secret-cli-compat.ts # temporary spec patch
 │   ├── e2e/                    # 114 JSON product fixtures +
 │   │                           # generated bash runner (run-e2e.sh) hitting a
@@ -168,7 +169,7 @@ operations, each top-level group's commands in parallel, and emits:
   (`generatedCommands: GeneratedCommand[]`)
 - `src/commands/_generated/_meta/commands.json` — full command catalogue
 - `src/commands/_generated/_meta/hand-written-commands.json` — hand-written subset with root/leaf/subgroup/override provenance
-- `src/commands/_generated/_meta/schemas.json` — per-op JSON schemas
+- `src/commands/_generated/_meta/schemas.json` — per-op JSON schemas, with the flag that fills a path or query parameter when it has one
 
 `generate.ts` cleans the directory first; Vite+ formats afterward (kept
 out of the generator so it stays format-agnostic). A plugin reads nothing
@@ -722,26 +723,26 @@ There is no single global resolution order. Zone uses positional value → `--zo
 
 Generated commands additionally get (per-command, not global): `--dry-run` on every command (mutating and read — reads omit the body preview), `--body` on almost every body-accepting operation, explicit `--file` on eligible upload shapes, and `--force` / `-f` on destructive operations. String-shaped body flags accept the general `@path` ingestion convention unless Forge opts out.
 
-API fields that would emit an exact `--mode`, `--temporary-account`, or `--event-code` flag are omitted to avoid shadowing global flags. Body fields can still be supplied through `--body`; query, path, and header fields are temporarily unavailable.
+An API field never takes a flag cf owns. Its flag comes from `x-forge-params.<key>.flagName`, then its Fern name, then its wire name, and the wire name never changes. Generation fails, naming the operation, field, and flag, when that flag is reserved (see below) or is one cf adds to the command: `--dry-run`, `--body`, and `--force`/`-f` on every command, and `--file`, `--text`, and the `--script-name` alias where cf adds them. The fix is a descriptive `flagName` in the API schema; until it lands, `generator/flag-names-cli-compat.ts` holds guarded temporary names. Runtime-schema commands (`cf ai run`, `cf registrar registrations create`) move such a field to `--input-<flag>`, or leave it to `--body` when that name is taken too.
 
 Structured API output is JSON; generated `binary`/`text` endpoints write their payload verbatim. There is no global output-format `--format`, `--json`, `--ndjson`, or `--fields` switch. Some generated leaves do expose `format` or `fields` as endpoint-specific API parameters. Callers needing ndjson pipe structured output through `jq -c '.[]'`.
 
-### Reserved and current collisions
+### Reserved names
 
-`src/index.ts` documents several names the project wants to reserve for cross-cutting features. This is a design constraint, not an enforced global deny-list: yargs scopes leaf options, and generated commands may otherwise expose reserved names sourced from OpenAPI. Do not introduce new collisions casually, but check the generated surface before describing a name as unavailable.
+`flagOwnership` in `packages/cli/src/lib/global-options.ts` is the enforced policy, shared by the generator and the runtime-schema commands. Besides the live globals and their aliases, it reserves:
 
 | Flag               | Alias | Reserved for                                                         |
 | ------------------ | ----- | -------------------------------------------------------------------- |
 | `--remote`         | —     | Force production routing if local ever becomes the default           |
 | `--cwd`            | —     | Run as if from a different working directory                         |
 | `--config`         | `-c`  | Explicit Cloudflare config-file path                                 |
-| `--mode`           | `-m`  | Live global configuration and project-implementation mode            |
 | `--experimental-*` | —     | Namespace for opt-in feature gates                                   |
 | `--json`           | —     | Output-format toggle (claimed against future default-output changes) |
 | `--ndjson`         | —     | Output-format toggle                                                 |
 | `--pretty`         | —     | Output-format toggle                                                 |
+| any single letter  | —     | Aliases                                                              |
 
-`--mode`, `--temporary-account`, and `--event-code` are registered globally and exact colliding API fields are omitted. `--remote` exists on a generated Pay Per Crawl command. The other exact names in this table are not registered as root/global options today and are normally rejected outside a leaf that defines them. The in-source design list is the `Reserved (future)` comment in `src/index.ts`; it does not itself register or reject options.
+The future names are not registered as options, so cf rejects them as unknown. Add a new cross-cutting flag to `FUTURE_OPTION_NAMES` before shipping it; `pnpm generate` then lists every API field that would take it.
 
 ## Forge package and OpenAPI pin
 
@@ -828,6 +829,7 @@ over adding switches in cf src/.
 | `x-forge-internal`                                                                 | live   | Explicitly retain a selected internal operation                                                              |
 | `x-forge-epilogue`                                                                 | live   | Help-screen epilogue                                                                                         |
 | `x-forge-args` / `x-forge-params`                                                  | live   | Full argument/parameter overrides                                                                            |
+| `x-forge-params.<key>.flagName`                                                    | live   | Rename a path, query, header, body (dotted path), or form-data field's flag; wins over Fern names            |
 | `x-sensitive: true`                                                                | live   | Mark a request field for masked prompting and secret-only stdin ingestion                                    |
 
 Names discussed in planning documents such as `paramOverride.derive`, `x-forge-job-poll`, `x-forge-pre-delete-checks`, `x-forge-confirm-typed-name`, `x-forge-success-message`, and `x-forge-list-pagination` are proposals only. They are not part of the current Forge schema and the generator does not read them.

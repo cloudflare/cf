@@ -29521,7 +29521,7 @@
 			"arguments": [],
 			"options": [
 				{
-					"name": "profile",
+					"name": "organization-profile",
 					"type": "string",
 					"required": true,
 					"description": "Who the organization is: its name, brands, domains, sector, regions, key systems and suppliers. Shared by all of the account's PIRs to judge how relevant intelligence is to the organization."
@@ -66395,7 +66395,7 @@
 					"description": "Destroy"
 				},
 				{
-					"name": "force",
+					"name": "force-delete",
 					"type": "boolean",
 					"required": false,
 					"description": "Force"
@@ -67821,6 +67821,12 @@
 					"description": "The burst sensitivity. Must be one of 'low', 'medium', 'high'."
 				},
 				{
+					"name": "protection-mode",
+					"type": "string",
+					"required": true,
+					"description": "The mode for DNS Protection. Must be one of 'enabled', 'disabled', 'monitoring'."
+				},
+				{
 					"name": "name",
 					"type": "string",
 					"required": true,
@@ -68037,6 +68043,12 @@
 					"type": "string",
 					"required": false,
 					"description": "The new burst sensitivity. Optional. Must be one of 'low', 'medium', 'high'."
+				},
+				{
+					"name": "protection-mode",
+					"type": "string",
+					"required": false,
+					"description": "The new mode for DNS Protection. Optional. Must be one of 'enabled', 'disabled', 'monitoring'."
 				},
 				{
 					"name": "profile-sensitivity",
@@ -68707,6 +68719,12 @@
 					"description": "The filter expression."
 				},
 				{
+					"name": "filter-mode",
+					"type": "string",
+					"required": true,
+					"description": "The filter's mode. Must be one of 'enabled', 'disabled', 'monitoring'."
+				},
+				{
 					"name": "dry-run",
 					"type": "boolean",
 					"required": false,
@@ -68901,6 +68919,12 @@
 					"description": "The new filter expression. Optional."
 				},
 				{
+					"name": "filter-mode",
+					"type": "string",
+					"required": false,
+					"description": "The new mode for the filter. Optional. Must be one of 'enabled', 'disabled', 'monitoring'."
+				},
+				{
 					"name": "dry-run",
 					"type": "boolean",
 					"required": false,
@@ -68981,6 +69005,12 @@
 					"type": "string",
 					"required": false,
 					"description": "The type of mitigation. Must be one of 'challenge' or 'retransmit'. Optional. Defaults to 'challenge'."
+				},
+				{
+					"name": "protection-mode",
+					"type": "string",
+					"required": true,
+					"description": "The mode for SYN Protection. Must be one of 'enabled', 'disabled', 'monitoring'."
 				},
 				{
 					"name": "name",
@@ -69195,6 +69225,12 @@
 					"description": "The new mitigation type. Optional. Must be one of 'challenge' or 'retransmit'."
 				},
 				{
+					"name": "protection-mode",
+					"type": "string",
+					"required": false,
+					"description": "The new mode for SYN Protection. Optional. Must be one of 'enabled', 'disabled', 'monitoring'."
+				},
+				{
 					"name": "rate-sensitivity",
 					"type": "string",
 					"required": false,
@@ -69277,6 +69313,12 @@
 					"type": "string",
 					"required": true,
 					"description": "The filter expression."
+				},
+				{
+					"name": "filter-mode",
+					"type": "string",
+					"required": true,
+					"description": "The filter's mode. Must be one of 'enabled', 'disabled', 'monitoring'."
 				},
 				{
 					"name": "dry-run",
@@ -69477,6 +69519,12 @@
 					"description": "The new filter expression. Optional."
 				},
 				{
+					"name": "filter-mode",
+					"type": "string",
+					"required": false,
+					"description": "The new mode for the filter. Optional. Must be one of 'enabled', 'disabled', 'monitoring'."
+				},
+				{
 					"name": "dry-run",
 					"type": "boolean",
 					"required": false,
@@ -69553,6 +69601,12 @@
 					"type": "string",
 					"required": true,
 					"description": "The burst sensitivity. Must be one of 'low', 'medium', 'high'."
+				},
+				{
+					"name": "protection-mode",
+					"type": "string",
+					"required": true,
+					"description": "The mode for the TCP Flow Protection. Must be one of 'enabled', 'disabled', 'monitoring'."
 				},
 				{
 					"name": "name",
@@ -69763,6 +69817,12 @@
 					"type": "string",
 					"required": false,
 					"description": "The new burst sensitivity. Optional. Must be one of 'low', 'medium', 'high'."
+				},
+				{
+					"name": "protection-mode",
+					"type": "string",
+					"required": false,
+					"description": "The new mode for TCP Flow Protection. Optional. Must be one of 'enabled', 'disabled', 'monitoring'."
 				},
 				{
 					"name": "rate-sensitivity",
@@ -80538,6 +80598,13 @@
 					"enum": ["log", "linear"]
 				},
 				{
+					"name": "preview",
+					"type": "boolean",
+					"required": false,
+					"description": "When true, executes the query without persisting the results. Useful for validation or previewing.",
+					"default": false
+				},
+				{
 					"name": "granularity",
 					"type": "number",
 					"required": false,
@@ -80945,6 +81012,13 @@
 					"required": false,
 					"description": "Value-axis bucketing for chartType 'distribution'. Omitted or 'log': geometric buckets, best for heavy-tailed latency. 'linear': fixed-width buckets, clearer for narrow or additive ranges. Ignored for other chartTypes. The response echoes the scheme used in distribution.bucketMode.",
 					"enum": ["log", "linear"]
+				},
+				{
+					"name": "preview",
+					"type": "boolean",
+					"required": false,
+					"description": "When true, executes the query without persisting the results. Useful for validation or previewing.",
+					"default": false
 				},
 				{
 					"name": "granularity",
@@ -87458,6 +87532,13 @@
 					"type": "string",
 					"required": true,
 					"description": "Selects the split Precursor API schema."
+				},
+				{
+					"name": "detection-mode",
+					"type": "string",
+					"required": false,
+					"description": "Controls Precursor detection for the zone. `off` disables detection,\n`monitor` records detections without affecting bot scores, and `arm`\nallows detections to affect bot scores.\n",
+					"enum": ["off", "monitor", "arm"]
 				},
 				{
 					"name": "rules",

@@ -705,7 +705,8 @@ function wire(method: Method, info: Omit<OperationInfo, "wire">): Wire {
 			ct === "application/octet-stream" ||
 			ct === "application/pdf" ||
 			ct === "application/zip" ||
-			ct.startsWith("image/");
+			ct.startsWith("image/") ||
+			ct.startsWith("audio/");
 		if (binary) {
 			noResponse = false;
 			responseType = "binary-response";

@@ -181,47 +181,50 @@ describe("bodyless raw response emission", () => {
 	);
 });
 
-describe("protobuf response emission", () => {
-	it("writes profile bytes directly while sending the JSON request body", () => {
-		const op = operation(
-			"post",
-			"/accounts/{account_id}/workers/workers/{worker_id}/versions/{version_id}/profile",
-			{
-				pathParams: [
-					param("account_id"),
-					param("worker_id"),
-					param("version_id"),
-				],
-				bodyParams: [
-					bodyParam("duration_ms", "number", ["duration_ms"], {
-						required: true,
-					}),
-				],
-				hasRequestBody: true,
-				requestContentTypes: ["application/json"],
-				requestBodyRequired: ["duration_ms"],
-				responses: [["200", { content: ["application/vnd.google.protobuf"] }]],
-			}
-		);
-		const ctx = context(
-			method("profile", "workers.versions.profile"),
-			"workers",
-			op
-		);
-		expect(ctx.outputKind).toBe("binary");
-		const output = handler(ctx).join("\n");
-		expect(output).toContain("fetchRawBytes(");
-		expect(output).toContain("method: 'POST'");
-		expect(output).toContain("body: JSON.stringify(bodyData)");
-		expect(output).toContain(
-			"body: Object.keys(bodyData).length > 0 ? bodyData : undefined"
-		);
-		expect(output).toContain("contentType: 'application/json'");
-		expect(output).toContain(
-			"writeRawOutput(argv.text === true ? __cfRawBytes.toString('utf-8') : __cfRawBytes)"
-		);
-		expect(output).not.toContain("formatOutput(");
-	});
+describe("binary response emission", () => {
+	it.each(["application/vnd.google.protobuf", "audio/mpeg", "audio/wav"])(
+		"writes %s bytes directly while sending the JSON request body",
+		(contentType) => {
+			const op = operation(
+				"post",
+				"/accounts/{account_id}/workers/workers/{worker_id}/versions/{version_id}/profile",
+				{
+					pathParams: [
+						param("account_id"),
+						param("worker_id"),
+						param("version_id"),
+					],
+					bodyParams: [
+						bodyParam("duration_ms", "number", ["duration_ms"], {
+							required: true,
+						}),
+					],
+					hasRequestBody: true,
+					requestContentTypes: ["application/json"],
+					requestBodyRequired: ["duration_ms"],
+					responses: [["200", { content: [contentType] }]],
+				}
+			);
+			const ctx = context(
+				method("profile", "workers.versions.profile"),
+				"workers",
+				op
+			);
+			expect(ctx.outputKind).toBe("binary");
+			const output = handler(ctx).join("\n");
+			expect(output).toContain("fetchRawBytes(");
+			expect(output).toContain("method: 'POST'");
+			expect(output).toContain("body: JSON.stringify(bodyData)");
+			expect(output).toContain(
+				"body: Object.keys(bodyData).length > 0 ? bodyData : undefined"
+			);
+			expect(output).toContain("contentType: 'application/json'");
+			expect(output).toContain(
+				"writeRawOutput(argv.text === true ? __cfRawBytes.toString('utf-8') : __cfRawBytes)"
+			);
+			expect(output).not.toContain("formatOutput(");
+		}
+	);
 });
 
 describe("variant prompts", () => {

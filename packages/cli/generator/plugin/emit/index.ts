@@ -182,7 +182,10 @@ export function outputKind(op: OperationInfo): OutputKind {
 		);
 	}
 	if (
-		success.content.some((c) => BINARY.includes(c) || c.startsWith("image/"))
+		success.content.some(
+			(c) =>
+				BINARY.includes(c) || c.startsWith("image/") || c.startsWith("audio/")
+		)
 	) {
 		return "binary";
 	}

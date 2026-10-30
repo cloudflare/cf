@@ -18,7 +18,7 @@ import {
 	scalar,
 } from "./args.js";
 import { builderLines } from "./emit/builder.js";
-import { handler, imports } from "./emit/handler.js";
+import { ACCOUNT_OR_ZONE_HELP, handler, imports } from "./emit/handler.js";
 import { context, escapeSingle, outputKind } from "./emit/index.js";
 import { operationLiteral, operationPath, usesPathTag } from "./emit/sdk.js";
 import {
@@ -91,17 +91,22 @@ export function summary(method: Method): string {
 	return first === "" ? description : first;
 }
 
-/** `getLeafUsage`: the usage of a leaf command, followed by its full description. */
+/**
+ * `getLeafUsage`: the usage of a leaf command, followed by its full
+ * description and, for an account-or-zone command, how it picks its scope.
+ */
 export function leafUsage(
 	method: Method,
 	resource: string,
 	group: string | undefined,
-	command: string
+	command: string,
+	accountOrZone = false
 ): string {
 	const segments =
 		group === undefined ? [] : group.split("/").filter((s) => s !== "");
 	const path = ["$0", resource, ...segments, command];
-	return `${path.join(" ")}\n\n${method.description.trim()}`;
+	const usage = `${path.join(" ")}\n\n${method.description.trim()}`;
+	return accountOrZone ? `${usage}\n\n${ACCOUNT_OR_ZONE_HELP}` : usage;
 }
 
 /**
@@ -417,7 +422,13 @@ class Walk {
 		const handlerLines = handler(ctx);
 		const importSet = imports(ctx);
 		const builder = builderLines(ctx);
-		const usage = leafUsage(method, resource, group, command);
+		const usage = leafUsage(
+			method,
+			resource,
+			group,
+			command,
+			ctx.hasAccountOrZoneScope
+		);
 		const builderBody = `return yargs\n      .usage(${quote(usage)})\n${builder.join("\n")};`;
 		const declarations = "type Args = InferArgs<typeof builder>;\n";
 		const telemetryPath =

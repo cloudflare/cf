@@ -24,7 +24,7 @@ import { runWithTelemetry } from "#lib/telemetry/index.js";
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
 		.usage(
-			"$0 logpush account-validate origin create\n\nValidates logpull origin with logpull_options."
+			"$0 logpush account-validate origin create\n\nValidates logpull origin with logpull_options.\n\nRuns against your account. Pass --zone to run against a zone instead. CLOUDFLARE_ZONE_ID is ignored."
 		)
 		.option("logpull-options", {
 			type: "string",

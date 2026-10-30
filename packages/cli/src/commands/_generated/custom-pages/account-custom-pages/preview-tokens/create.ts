@@ -24,7 +24,7 @@ import { runWithTelemetry } from "#lib/telemetry/index.js";
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
 		.usage(
-			"$0 custom-pages account-custom-pages preview-tokens create\n\nCreates a signed JWT for previewing an account or zone-level custom page before it is published."
+			"$0 custom-pages account-custom-pages preview-tokens create\n\nCreates a signed JWT for previewing an account or zone-level custom page before it is published.\n\nRuns against your account. Pass --zone to run against a zone instead. CLOUDFLARE_ZONE_ID is ignored."
 		)
 		.option("act", {
 			type: "string",

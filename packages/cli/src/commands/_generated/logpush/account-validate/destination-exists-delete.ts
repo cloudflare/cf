@@ -24,7 +24,7 @@ import { runWithTelemetry } from "#lib/telemetry/index.js";
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
 		.usage(
-			"$0 logpush account-validate destination-exists-delete\n\nChecks if there is an existing job with a destination."
+			"$0 logpush account-validate destination-exists-delete\n\nChecks if there is an existing job with a destination.\n\nRuns against your account. Pass --zone to run against a zone instead. CLOUDFLARE_ZONE_ID is ignored."
 		)
 		.option("destination-conf", {
 			type: "string",

@@ -12,6 +12,17 @@ export const GLOBAL_OPTIONS = {
 		alias: "z",
 		description: "Zone ID or domain name (overrides CLOUDFLARE_ZONE_ID)",
 		global: true,
+		// Passing --zone switches account-or-zone commands to zone scope, so a
+		// missing value must fail here rather than leave a scope without an ID.
+		coerce: (zone: unknown) => {
+			if (Array.isArray(zone)) {
+				throw new Error("--zone can only be specified once.");
+			}
+			if (typeof zone !== "string" || zone === "") {
+				throw new Error("--zone requires a non-empty value.");
+			}
+			return zone;
+		},
 	},
 	profile: {
 		type: "string",

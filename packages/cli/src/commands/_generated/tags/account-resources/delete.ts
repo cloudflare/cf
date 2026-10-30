@@ -28,7 +28,7 @@ import { runWithTelemetry } from "#lib/telemetry/index.js";
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
 		.usage(
-			"$0 tags account-resources delete\n\nRemoves all tags from a specific account or zone-level resource."
+			"$0 tags account-resources delete\n\nRemoves all tags from a specific account or zone-level resource.\n\nRuns against your account. Pass --zone to run against a zone instead. CLOUDFLARE_ZONE_ID is ignored."
 		)
 		.option("if-match", {
 			type: "string",

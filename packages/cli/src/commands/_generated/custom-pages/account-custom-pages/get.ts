@@ -21,7 +21,7 @@ import { runWithTelemetry } from "#lib/telemetry/index.js";
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
 		.usage(
-			"$0 custom-pages account-custom-pages get <identifier>\n\nReturns the configuration for a custom page type."
+			"$0 custom-pages account-custom-pages get <identifier>\n\nReturns the configuration for a custom page type.\n\nRuns against your account. Pass --zone to run against a zone instead. CLOUDFLARE_ZONE_ID is ignored."
 		)
 		.positional("identifier", {
 			type: "string",

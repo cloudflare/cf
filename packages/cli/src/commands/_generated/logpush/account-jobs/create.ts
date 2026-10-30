@@ -24,7 +24,7 @@ import { runWithTelemetry } from "#lib/telemetry/index.js";
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
 		.usage(
-			"$0 logpush account-jobs create\n\nCreates a new Logpush job for an account or zone."
+			"$0 logpush account-jobs create\n\nCreates a new Logpush job for an account or zone.\n\nRuns against your account. Pass --zone to run against a zone instead. CLOUDFLARE_ZONE_ID is ignored."
 		)
 		.option("dataset", {
 			type: "string",

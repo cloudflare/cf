@@ -22,7 +22,7 @@ import { runWithTelemetry } from "#lib/telemetry/index.js";
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
 		.usage(
-			"$0 zero-trust access applications delete <app-id>\n\nDeletes an application from Access."
+			"$0 zero-trust access applications delete <app-id>\n\nDeletes an application from Access.\n\nRuns against your account. Pass --zone to run against a zone instead. CLOUDFLARE_ZONE_ID is ignored."
 		)
 		.positional("app-id", {
 			type: "string",

@@ -12,6 +12,7 @@ import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { filterForCliAudience } from "./generator/cli-audience.js";
 import { applyTemporaryFlagNames } from "./generator/flag-names-cli-compat.js";
+import { normalizeOpenApi } from "./generator/normalize.js";
 import { hasAccountOrZoneScope } from "./generator/util.js";
 import { preserveWorkersSecretUpdatePositional } from "./generator/workers-secret-cli-compat.js";
 import type { ForgeOpenApiDocument } from "./generator/openapi.js";
@@ -235,6 +236,11 @@ const tempDir = mkdtempSync(join(tmpdir(), "cf-openapi-"));
 try {
 	const openapiPath = join(tempDir, "openapi.json");
 	writeFileSync(openapiPath, JSON.stringify(source));
+	if (!normalizeOpenApi(forgeBin, openapiPath)) {
+		console.warn(
+			"[cf-generator] Installed Forge predates native metadata normalization"
+		);
+	}
 	rmSync(generatedDir, { recursive: true, force: true });
 	execFileSync(
 		process.execPath,

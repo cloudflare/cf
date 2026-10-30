@@ -15,7 +15,6 @@ import { createRequire } from "node:module";
 import { tmpdir } from "node:os";
 import { dirname, join, relative, sep } from "node:path";
 import { fileURLToPath } from "node:url";
-import { normalizeOpenApi } from "../../../generator/normalize.js";
 import { handWrittenMeta } from "../../commands/hand-written-meta.js";
 import {
 	type HandWrittenCommand,
@@ -218,7 +217,17 @@ export function generateFiles(
 		const openapi = JSON.stringify(doc);
 		const wasm = plugin();
 		try {
-			const normalized = normalizeOpenApi(forgeBin, openapi);
+			const supportsNormalize = /^\s+normalize\b/m.test(
+				execFileSync(process.execPath, [forgeBin, "--help"], {
+					encoding: "utf8",
+				})
+			);
+			const input = supportsNormalize
+				? execFileSync(process.execPath, [forgeBin, "normalize", "-"], {
+						encoding: "utf8",
+						input: openapi,
+					})
+				: openapi;
 			execFileSync(
 				process.execPath,
 				[
@@ -230,7 +239,7 @@ export function generateFiles(
 					join(dir, "out"),
 				],
 				{
-					input: normalized ?? openapi,
+					input,
 					stdio: ["pipe", "pipe", "pipe"],
 				}
 			);

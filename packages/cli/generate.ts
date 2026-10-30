@@ -1,4 +1,4 @@
-import { execFileSync } from "node:child_process";
+import { type ChildProcess, execFileSync, spawn } from "node:child_process";
 import {
 	existsSync,
 	readFileSync,
@@ -6,10 +6,10 @@ import {
 } from "node:fs";
 import { createRequire } from "node:module";
 import { dirname, join } from "node:path";
+import { Readable } from "node:stream";
 import { fileURLToPath } from "node:url";
 import { filterForCliAudience } from "./generator/cli-audience.js";
 import { applyTemporaryFlagNames } from "./generator/flag-names-cli-compat.js";
-import { normalizeOpenApi } from "./generator/normalize.js";
 import { hasAccountOrZoneScope } from "./generator/util.js";
 import { preserveWorkersSecretUpdatePositional } from "./generator/workers-secret-cli-compat.js";
 import type { ForgeOpenApiDocument } from "./generator/openapi.js";
@@ -35,6 +35,16 @@ type OpenApiObject = Record<string, unknown>;
 
 function isRecord(value: unknown): value is OpenApiObject {
 	return typeof value === "object" && value !== null && !Array.isArray(value);
+}
+
+function waitFor(child: ChildProcess, name: string): Promise<void> {
+	return new Promise((resolve, reject) => {
+		child.once("error", reject);
+		child.once("close", (code, signal) => {
+			if (code === 0) resolve();
+			else reject(new Error(`${name} exited with ${code ?? signal}`));
+		});
+	});
 }
 
 function resolveLocalParameter(
@@ -230,14 +240,8 @@ const generatedDir = fileURLToPath(
 	new URL("./src/commands/_generated", import.meta.url)
 );
 const openapi = JSON.stringify(source);
-const normalized = normalizeOpenApi(forgeBin, openapi);
-if (normalized === undefined) {
-	console.warn(
-		"[cf-generator] Installed Forge predates native metadata normalization"
-	);
-}
 rmSync(generatedDir, { recursive: true, force: true });
-execFileSync(
+const forge = spawn(
 	process.execPath,
 	[
 		forgeBin,
@@ -247,8 +251,26 @@ execFileSync(
 		"--out",
 		generatedDir,
 	],
-	{ input: normalized ?? openapi, stdio: ["pipe", "inherit", "inherit"] }
+	{ stdio: ["pipe", "inherit", "inherit"] }
 );
+const supportsNormalize = /^\s+normalize\b/m.test(
+	execFileSync(process.execPath, [forgeBin, "--help"], { encoding: "utf8" })
+);
+if (supportsNormalize) {
+	const normalize = spawn(process.execPath, [forgeBin, "normalize", "-"], {
+		stdio: ["pipe", "pipe", "inherit"],
+	});
+	Readable.from([openapi]).pipe(normalize.stdin!);
+	normalize.stdout!.pipe(forge.stdin!);
+	await Promise.all([
+		waitFor(normalize, "forge normalize"),
+		waitFor(forge, "forge"),
+	]);
+} else {
+	console.warn("[cf-generator] Installed Forge predates native metadata normalization");
+	Readable.from([openapi]).pipe(forge.stdin!);
+	await waitFor(forge, "forge");
+}
 console.log("CLI: generated commands");
 
 // Format generated TypeScript so diffs are reviewable.

@@ -121,6 +121,9 @@ Account ID is resolved from the environment, the account settings in
 OAuth profile. There are no `--account-id` or `--api-token` flags.
 Named OAuth profiles are selected by `--profile` or the nearest directory
 binding, with the default profile as fallback.
+`cf dev --profile <name>` passes the selection to framework commands and
+Cloudflare dev-server implementations through `CLOUDFLARE_AUTH_PROFILE` in
+the child environment, overriding any inherited value.
 
 ### Reserved cross-cutting names and current collisions
 

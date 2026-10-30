@@ -228,14 +228,7 @@ const openapi = JSON.stringify(source);
 rmSync(generatedDir, { recursive: true, force: true });
 const forge = spawn(
 	process.execPath,
-	[
-		forgeBin,
-		"-",
-		"--target",
-		`wasm://${pluginWasm}`,
-		"--out",
-		generatedDir,
-	],
+	[forgeBin, "-", "--target", `wasm://${pluginWasm}`, "--out", generatedDir],
 	{ stdio: ["pipe", "inherit", "inherit"] }
 );
 const normalize = spawn(process.execPath, [forgeBin, "normalize", "-"], {

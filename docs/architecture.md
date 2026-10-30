@@ -121,7 +121,7 @@ Test infrastructure is split across two packages:
   and a bundle that keeps mock-sensitive dependencies external. Uses MSW
   for HTTP mocking.
 
-`.github/workflows/ci.yml` runs generation, repository checks, the CLI suite, and the Wrangler compatibility suite on every PR and push to `main` (for the Cloudflare-owned repository). Additional confidence:
+`.github/workflows/ci.yml` runs generation, repository checks, the CLI suite, and the Wrangler compatibility suite on every PR, merge-queue candidate, and push to `main` (for the Cloudflare-owned repository). After `pnpm check` regenerates commands, the `check` job fails if `_generated/` has modified, deleted, or untracked files. This catches output that needs regenerating against the merged base before it reaches `main`. Additional confidence:
 
 - The forge-side type system + the OpenAPI spec (every emitted command
   and its `Operation` is type-checked against `#api`).

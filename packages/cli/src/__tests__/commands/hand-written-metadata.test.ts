@@ -49,6 +49,7 @@ describe("hand-written command metadata", () => {
 				"cf deploy",
 				"cf dev",
 				"cf docs search",
+				"cf feedback",
 				"cf init",
 				"cf init workers",
 				"cf migrate",
@@ -65,6 +66,7 @@ describe("hand-written command metadata", () => {
 			"cf deploy",
 			"cf dev",
 			"cf docs search",
+			"cf feedback",
 			"cf schema",
 			"cf tools",
 		]) {
@@ -180,7 +182,7 @@ describe("hand-written-only command metadata", () => {
 	);
 
 	it("contains only hand-written commands", () => {
-		expect(commands.size).toBe(51);
+		expect(commands.size).toBe(52);
 		expect(commands.has("cf pages deploy")).toBe(true);
 		expect(commands.has("cf tunnels diag")).toBe(true);
 		expect(commands.has("cf tunnels login")).toBe(true);
@@ -205,6 +207,7 @@ describe("hand-written-only command metadata", () => {
 				"cf containers push",
 				"cf deploy",
 				"cf docs search",
+				"cf feedback",
 				"cf init",
 				"cf init workers",
 				"cf migrate",

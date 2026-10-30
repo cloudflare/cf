@@ -67,6 +67,11 @@ const runtime = {
 		load: () => import("./docs/index.js"),
 		telemetry: { command: "docs", recordArgs: false },
 	},
+	feedback: {
+		load: () => import("./feedback/index.js"),
+		// The note, fields and report are free text; never record their values.
+		telemetry: { command: "feedback", recordArgs: false },
+	},
 	cli: {
 		load: () => import("./cli/index.js"),
 		telemetry: { command: "cli", recordArgs: false },

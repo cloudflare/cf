@@ -49,6 +49,7 @@ describe("hand-written command metadata", () => {
 				"cf deploy",
 				"cf dev",
 				"cf docs search",
+				"cf feedback",
 				"cf init",
 				"cf init workers",
 				"cf migrate",
@@ -65,6 +66,7 @@ describe("hand-written command metadata", () => {
 			"cf deploy",
 			"cf dev",
 			"cf docs search",
+			"cf feedback",
 			"cf schema",
 			"cf tools",
 		]) {
@@ -248,6 +250,7 @@ describe("hand-written-only command metadata", () => {
 				"cf containers push",
 				"cf deploy",
 				"cf docs search",
+				"cf feedback",
 				"cf init",
 				"cf init workers",
 				"cf migrate",

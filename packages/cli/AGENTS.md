@@ -71,11 +71,10 @@ Build and type-check tasks also build workspace dependencies first. `pnpm dev`
 starts the source entry without generation or bundling. Task caching is disabled.
 
 `pnpm generate` downloads the pinned Forge `openapi.forge.json` release asset
-(or reads a local bundle override), prepares it, normalizes compatibility
-metadata to native `x-forge-*` keys, and runs the forge binary with the
-generator plugin (`forge --target wasm://generator/cli.wasm`) into a cleared
-`src/commands/_generated/`; a post-step formats the emitted TypeScript. See
-"Generator plugin" below.
+(or reads a local bundle override), prepares it, and runs the forge
+binary with the generator plugin (`forge --target wasm://generator/cli.wasm`)
+into a cleared `src/commands/_generated/`; a post-step formats the emitted
+TypeScript. See "Generator plugin" below.
 
 ## Hand-Written Commands
 
@@ -160,9 +159,8 @@ The output is tracked in git, owned by `pnpm generate`, and must not be hand-edi
 `@cloudflare/forge/plugin`. Its entry module is `generator/index.ts`. The
 `task:generate:plugin` Vite+ task, which `task:generate` depends on, runs
 `forge-plugin build` (from `@cloudflare/forge`, with jco) to compile the
-entry to `generator/cli.wasm`, gitignored build output. `generate.ts` pipes the
-prepared document through `forge normalize -`, then runs that component with
-`forge --target wasm://...`. It runs in
+entry to `generator/cli.wasm`, gitignored build output. `generate.ts` then
+runs that component with `forge --target wasm://...`. It runs in
 a sandboxed JavaScript engine (QuickJS), so it may only use the language: no
 Node APIs, `Intl`, or I/O. `generator/plugin/tsconfig.json` type-checks it,
 entry module included, that way, as part of `check:type`.

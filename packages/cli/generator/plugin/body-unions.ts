@@ -4,12 +4,16 @@ import type { ObjectType, Type } from "@cloudflare/forge/plugin";
 
 export type BodyUnion = {
 	path: string[];
-	selector: string;
-	variants: { values: (string | number | boolean)[]; schema: Value }[];
-};
+} & (
+	| {
+			selector: string;
+			variants: { values: (string | number | boolean)[]; schema: Value }[];
+	  }
+	| { schema: Value }
+);
 
 // Distinct required enum values select a branch even without an OpenAPI
-// discriminator. Leave untagged unions to the existing flag derivation.
+// discriminator.
 function taggedMembers(
 	type: Type
 ): { selector: string; members: ObjectType[] } | undefined {
@@ -99,38 +103,46 @@ function schema(type: Type, active: readonly Type[] = []): Value {
 }
 
 export function bodyUnions(type: Type): BodyUnion[] {
-	const unions: BodyUnion[] = [];
-	const visit = (raw: Type, path: string[], active: readonly Type[]) => {
+	const visit = (
+		raw: Type,
+		path: string[],
+		active: readonly Type[]
+	): BodyUnion[] => {
 		const t = unwrapNull(deref(raw));
-		if (active.includes(t) || path.length > 4) return;
+		if (active.includes(t) || path.length > 4) return [];
 		const next = [...active, t];
 		const tagged = path.length > 0 ? taggedMembers(t) : undefined;
 		if (tagged) {
-			unions.push({
-				path,
-				selector: tagged.selector,
-				variants: tagged.members.map((member) => {
-					const field = member.fields.find(
-						(f) => f.wireName === tagged.selector
-					);
-					const enumType = field && unwrapNull(deref(field.type));
-					return {
-						values: enumType?.kind === "enum" ? [...enumType.values] : [],
-						schema: schema(member),
-					};
-				}),
-			});
-			// This schema already validates unions nested inside its branches.
-			return;
+			return [
+				{
+					path,
+					selector: tagged.selector,
+					variants: tagged.members.map((member) => {
+						const field = member.fields.find(
+							(f) => f.wireName === tagged.selector
+						);
+						const enumType = field && unwrapNull(deref(field.type));
+						return {
+							values: enumType?.kind === "enum" ? [...enumType.values] : [],
+							schema: schema(member),
+						};
+					}),
+				},
+			];
 		}
 		if (t.kind === "object") {
-			for (const field of t.fields) {
-				if (!field.readOnly) visit(field.type, [...path, field.wireName], next);
-			}
-		} else if (t.kind === "intersection") {
-			for (const member of t.members) visit(member, path, next);
+			return t.fields.flatMap((field) =>
+				field.readOnly ? [] : visit(field.type, [...path, field.wireName], next)
+			);
 		}
+		if (t.kind === "intersection" || t.kind === "union") {
+			const nested = t.members.flatMap((member) => visit(member, path, next));
+			// A nested union's requirements only apply within its outer alternative.
+			return t.kind === "union" && nested.length > 0
+				? [{ path, schema: schema(t) }]
+				: nested;
+		}
+		return [];
 	};
-	visit(type, [], []);
-	return unions;
+	return visit(type, [], []);
 }

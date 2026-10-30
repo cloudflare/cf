@@ -479,6 +479,12 @@ to know before editing `generator/plugin/`.
   `type: "string", array: true` so users can do `--keys k1 k2` or repeat
   the flag. Query serialization follows the operation's `explode` setting.
 
+Nested tagged unions are validated after per-field flags are assembled into
+the request's wire shape, before sending or showing a dry-run preview. The
+checks preserve enclosing union alternatives. Explicit `--body` input bypasses
+these projected union checks so callers can supply shapes the flags cannot
+represent; the API validates the supplied body.
+
 ### `@file` token (universal file ingestion)
 
 Every string-typed body flag (and multipart string field) accepts
@@ -659,6 +665,9 @@ When stdin is a TTY and a required body field isn't supplied:
 - **Non-TTY without a usable sensitive-field stdin value** → throws the standard
   `--<flag> is required` error (with enum errors listing the
   choices).
+
+Fields required only by a selected nested union branch fail body validation
+when missing, including on a TTY; they do not trigger interactive prompts.
 
 This is the primary closure of wrangler's "interactive wizard" gap
 for the common case (single missing required field). Multi-step

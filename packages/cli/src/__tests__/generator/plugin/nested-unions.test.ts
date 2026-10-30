@@ -41,7 +41,7 @@ function scope(explicit: boolean): Json {
 		],
 	};
 }
-function generate(explicit: boolean): Map<string, string> {
+function generate(schema: Json, schemas: Json = {}): Map<string, string> {
 	const paths: Json = {};
 	for (const [verb, name] of [
 		["post", "create"],
@@ -55,21 +55,7 @@ function generate(explicit: boolean): Map<string, string> {
 				requestBody: {
 					required: true,
 					content: {
-						"application/json": {
-							schema: {
-								type: "object",
-								properties: {
-									settings: {
-										type: "object",
-										properties: {
-											scope: explicit
-												? { $ref: "#/components/schemas/Scope" }
-												: scope(explicit),
-										},
-									},
-								},
-							},
-						},
+						"application/json": { schema },
 					},
 				},
 				responses: {
@@ -85,7 +71,7 @@ function generate(explicit: boolean): Map<string, string> {
 		openapi: "3.0.3",
 		info: { title: "Nested unions", version: "1" },
 		paths,
-		components: { schemas: explicit ? { Scope: scope(explicit) } : {} },
+		components: { schemas },
 	});
 }
 
@@ -109,6 +95,12 @@ function command(code: string) {
 		formatDryRun: preview,
 		operation: {},
 		createCommandClient: async () => ({ send }),
+		requestApi: async (
+			_client: unknown,
+			_method: string,
+			_path: string,
+			request: { body: unknown }
+		) => send({}, request),
 		runWithTelemetry: async (
 			_meta: unknown,
 			_argv: unknown,
@@ -138,7 +130,22 @@ describe.each([false, true])(
 	(explicit) => {
 		let files: Map<string, string>;
 		beforeAll(() => {
-			files = generate(explicit);
+			files = generate(
+				{
+					type: "object",
+					properties: {
+						settings: {
+							type: "object",
+							properties: {
+								scope: explicit
+									? { $ref: "#/components/schemas/Scope" }
+									: scope(explicit),
+							},
+						},
+					},
+				},
+				explicit ? { Scope: scope(explicit) } : {}
+			);
 		});
 		describe.each(["create", "update"])("%s", (name) => {
 			const flag = (suffix: string) => `--settings-scope-${suffix}`;
@@ -225,6 +232,251 @@ describe.each([false, true])(
 					).toEqual(body);
 				}
 			);
+			it.each([false, true])(
+				"lets --body bypass projected union validation (dry run: %s)",
+				async (dryRun) => {
+					const c = command(files.get(`things/${name}.ts`) ?? "");
+					const body = { settings: { scope: { type: "datasets" } } };
+					await c.run([
+						name,
+						"--body",
+						JSON.stringify(body),
+						...(dryRun ? ["--dry-run"] : []),
+					]);
+					expect(
+						dryRun
+							? c.preview.mock.calls[0]?.[0]?.body
+							: c.send.mock.calls[0]?.[1]?.body
+					).toEqual(body);
+				}
+			);
 		});
 	}
 );
+
+describe.each([false, true])("outer union (at root: %s)", (root) => {
+	let files: Map<string, string>;
+	beforeAll(() => {
+		const outer = {
+			oneOf: [
+				{
+					type: "object",
+					additionalProperties: false,
+					required: ["scope"],
+					properties: { scope: scope(false) },
+				},
+				{
+					type: "object",
+					additionalProperties: false,
+					required: ["fallback"],
+					properties: {
+						fallback: { type: "string" },
+						scope: {
+							type: "object",
+							additionalProperties: false,
+							required: ["type"],
+							properties: {
+								type: { type: "string", enum: ["default", "datasets"] },
+							},
+						},
+					},
+				},
+			],
+		};
+		files = generate(
+			root ? outer : { type: "object", properties: { settings: outer } }
+		);
+	});
+	for (const name of ["create", "update"]) {
+		it.each([false, true])(
+			`${name} preserves outer alternatives (dry run: %s)`,
+			async (dryRun) => {
+				const prefix = root ? "--" : "--settings-";
+				for (const [flags, expected] of [
+					[[`${prefix}scope-type`, "default"], { scope: { type: "default" } }],
+					[
+						[`${prefix}scope-type`, "datasets", `${prefix}scope-ids`, id],
+						{ scope: { type: "datasets", dataset_ids: [id] } },
+					],
+					[
+						[`${prefix}fallback`, "chosen", `${prefix}scope-type`, "datasets"],
+						{ fallback: "chosen", scope: { type: "datasets" } },
+					],
+				] as const) {
+					const c = command(files.get(`things/${name}.ts`) ?? "");
+					await c.run([name, ...flags, ...(dryRun ? ["--dry-run"] : [])]);
+					expect(
+						dryRun
+							? c.preview.mock.calls[0]?.[0]?.body
+							: c.send.mock.calls[0]?.[1]?.body
+					).toEqual(root ? expected : { settings: expected });
+				}
+			}
+		);
+		it.each([false, true])(
+			`${name} rejects invalid nested branches (dry run: %s)`,
+			async (dryRun) => {
+				const prefix = root ? "--" : "--settings-";
+				const c = command(files.get(`things/${name}.ts`) ?? "");
+				await expect(
+					c.run([
+						name,
+						`${prefix}scope-type`,
+						"datasets",
+						...(dryRun ? ["--dry-run"] : []),
+					])
+				).rejects.toThrow(root ? /Invalid request body/ : /Invalid settings/);
+				expect(c.send).not.toHaveBeenCalled();
+				expect(c.preview).not.toHaveBeenCalled();
+			}
+		);
+	}
+});
+
+describe("tagged union detection", () => {
+	it.each([
+		[
+			"overlapping enums",
+			{
+				oneOf: [
+					{
+						type: "object",
+						required: ["type"],
+						properties: { type: { enum: ["a"] } },
+					},
+					{
+						type: "object",
+						required: ["type"],
+						properties: { type: { enum: ["a", "b"] } },
+					},
+				],
+			},
+		],
+		[
+			"optional selector",
+			{
+				oneOf: [
+					{
+						type: "object",
+						required: ["type"],
+						properties: { type: { enum: ["a"] } },
+					},
+					{ type: "object", properties: { type: { enum: ["b"] } } },
+				],
+			},
+		],
+		[
+			"untagged objects",
+			{
+				oneOf: [
+					{ type: "object", properties: { name: { type: "string" } } },
+					{ type: "object", properties: { id: { type: "string" } } },
+				],
+			},
+		],
+		[
+			"non-object member",
+			{
+				oneOf: [
+					{
+						type: "object",
+						required: ["type"],
+						properties: { type: { enum: ["a"] } },
+					},
+					{ type: "string" },
+				],
+			},
+		],
+		[
+			"nonexclusive union",
+			{
+				anyOf: [
+					{
+						type: "object",
+						required: ["type"],
+						properties: { type: { enum: ["a"] } },
+					},
+					{
+						type: "object",
+						required: ["type"],
+						properties: { type: { enum: ["b"] } },
+					},
+				],
+			},
+		],
+		[
+			"single member",
+			{
+				oneOf: [
+					{
+						type: "object",
+						required: ["type"],
+						properties: { type: { enum: ["a"] } },
+					},
+				],
+			},
+		],
+	])("leaves %s without tagged validation", (_name, selection) => {
+		const files = generate({
+			type: "object",
+			properties: { label: { type: "string" }, scope: selection },
+		});
+		for (const name of ["create", "update"]) {
+			expect(files.get(`things/${name}.ts`)).not.toContain(
+				"validateBodyUnions"
+			);
+		}
+	});
+	it.each([false, true])(
+		"validates boolean selectors (dry run: %s)",
+		async (dryRun) => {
+			const files = generate({
+				type: "object",
+				properties: {
+					scope: {
+						oneOf: [
+							{
+								type: "object",
+								additionalProperties: false,
+								required: ["enabled"],
+								properties: { enabled: { type: "boolean", enum: [false] } },
+							},
+							{
+								type: "object",
+								additionalProperties: false,
+								required: ["enabled", "ids"],
+								properties: {
+									enabled: { type: "boolean", enum: [true] },
+									ids: { type: "array", items: { type: "string" } },
+								},
+							},
+						],
+					},
+				},
+			});
+			for (const name of ["create", "update"]) {
+				for (const [flags, expected] of [
+					[["--scope-enabled=false"], { enabled: false }],
+					[
+						["--scope-enabled", "--scope-ids", id],
+						{ enabled: true, ids: [id] },
+					],
+				] as const) {
+					const c = command(files.get(`things/${name}.ts`) ?? "");
+					await c.run([name, ...flags, ...(dryRun ? ["--dry-run"] : [])]);
+					expect(
+						dryRun
+							? c.preview.mock.calls[0]?.[0]?.body
+							: c.send.mock.calls[0]?.[1]?.body
+					).toEqual({ scope: expected });
+				}
+				const c = command(files.get(`things/${name}.ts`) ?? "");
+				await expect(
+					c.run([name, "--scope-enabled", ...(dryRun ? ["--dry-run"] : [])])
+				).rejects.toThrow(/ids.*required/);
+				expect(c.send).not.toHaveBeenCalled();
+				expect(c.preview).not.toHaveBeenCalled();
+			}
+		}
+	);
+});

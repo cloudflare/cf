@@ -1,7 +1,14 @@
 import { describe, expect, it } from "vite-plus/test";
 import { derive } from "../../../../generator/plugin/args.js";
+import { builderLines } from "../../../../generator/plugin/emit/builder.js";
 import { dryRun, handler } from "../../../../generator/plugin/emit/handler.js";
-import { context, method, operation, param } from "../../helpers/cli-plugin.js";
+import {
+	bodyParam,
+	context,
+	method,
+	operation,
+	param,
+} from "../../helpers/cli-plugin.js";
 import type {
 	MultipartField,
 	OperationInfo,
@@ -43,7 +50,7 @@ describe("binary multipart file flags", () => {
 			["_worker.js", "worker-js"],
 			["_routes.json", "routes-json"],
 		]);
-		expect(d.multipartFlagFields.map((field) => field.name)).toEqual([
+		expect(d.multipartFlagFields.map(({ field }) => field.name)).toEqual([
 			"branch",
 		]);
 	});
@@ -114,5 +121,60 @@ describe("binary multipart file flags", () => {
 		expect(dryRun(ctx).join("\n")).toContain(
 			"bodyKind: argv[\"source\"] !== undefined ? 'multipart' : 'octet-stream'"
 		);
+	});
+});
+
+describe("multipart field flag names", () => {
+	const text = (name: string): MultipartField => ({
+		name,
+		type: "string",
+		isBinary: false,
+		description: `${name} text`,
+	});
+	const renaming = (params: Record<string, { flagName: string }>) =>
+		method("upload", "example-upload", { params });
+
+	it("fills a form field from its flagName", () => {
+		const op = multipartOperation([binary("_headers"), text("label")]);
+		const ctx = context(
+			renaming({ label: { flagName: "form-label" } }),
+			"example",
+			op
+		);
+		expect(builderLines(ctx).join("\n")).toContain(".option('form-label', {");
+		const code = handler(ctx).join("\n");
+		expect(code).toContain(
+			"if (argv[\"form-label\"] !== undefined) formData.append('label'"
+		);
+		expect(code).not.toContain('argv["label"]');
+	});
+
+	it("shares one flag between a form field and its renamed JSON twin", () => {
+		const op = multipartOperation([binary("_headers"), text("label")]);
+		op.requestContentTypes = ["application/json", "multipart/form-data"];
+		op.bodyParams = [bodyParam("label", "string", ["label"])];
+		const ctx = context(
+			renaming({ label: { flagName: "display-label" } }),
+			"example",
+			op
+		);
+		const builder = builderLines(ctx).join("\n");
+		expect(builder.match(/\.option\('display-label'/g)).toHaveLength(1);
+		expect(builder).not.toContain("'label'");
+		expect(handler(ctx).join("\n")).toContain(
+			"if (argv[\"display-label\"] !== undefined) formData.append('label'"
+		);
+	});
+
+	it("names a binary field's flag from its flagName", () => {
+		const op = multipartOperation([binary("_headers"), binary("_worker.js")]);
+		const d = derive(
+			renaming({ "_worker.js": { flagName: "worker-script" } }),
+			"example",
+			op
+		);
+		expect(
+			d.multipartFileFields.map(({ field, flag }) => [field.name, flag])
+		).toEqual([["_worker.js", "worker-script"]]);
 	});
 });

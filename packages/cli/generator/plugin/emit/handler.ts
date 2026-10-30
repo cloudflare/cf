@@ -199,7 +199,7 @@ export function dryRun(ctx: Ctx): string[] {
 			pushUnique(bodyKeys, "file");
 		}
 		for (const f of d.multipartFlagFields) {
-			pushUnique(bodyKeys, kebab(f.name));
+			pushUnique(bodyKeys, f.flag);
 		}
 		for (const f of d.multipartFileFields) {
 			pushUnique(bodyKeys, f.flag);
@@ -211,7 +211,7 @@ export function dryRun(ctx: Ctx): string[] {
 		d.multipart !== undefined &&
 		!op.requestContentTypes.includes("application/octet-stream");
 	const flagReads = [
-		...d.multipartFlagFields.map((f) => argvKey(kebab(f.name))),
+		...d.multipartFlagFields.map((f) => argvKey(f.flag)),
 		...d.multipartFileFields.map((f) => argvKey(f.flag)),
 	];
 	const usesMultipart =
@@ -385,7 +385,7 @@ function multipart(ctx: Ctx): string[] {
 		return [];
 	}
 	const reads = [
-		...d.multipartFlagFields.map((f) => argvKey(kebab(f.name))),
+		...d.multipartFlagFields.map((f) => argvKey(f.flag)),
 		...d.multipartFileFields.map((f) => argvKey(f.flag)),
 	];
 	const any =
@@ -417,8 +417,7 @@ function multipart(ctx: Ctx): string[] {
 		`          formData.append('${payload}', argv.body);`,
 		"        }",
 	];
-	for (const f of d.multipartFlagFields) {
-		const flag = kebab(f.name);
+	for (const { field: f, flag } of d.multipartFlagFields) {
 		const read = argvKey(flag);
 		switch (f.type) {
 			case "object":

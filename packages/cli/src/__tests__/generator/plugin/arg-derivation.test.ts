@@ -445,10 +445,190 @@ describe("deriveArgsFromOp body flags", () => {
 	});
 });
 
+describe("x-forge-params flagName", () => {
+	const json = {
+		hasRequestBody: true,
+		requestContentTypes: ["application/json"],
+	};
+
+	it.each<[string, OperationInfo, string, Derived["args"][number]["origin"]]>([
+		[
+			"path",
+			pathOperation("/accounts/{account_id}/things/{thing_id}", [
+				["thing_id", undefined],
+			]),
+			"thing_id",
+			{ in: "path", name: "thing_id" },
+		],
+		[
+			"query",
+			queryOperation("mode", "search-mode"),
+			"mode",
+			{ in: "query", name: "mode" },
+		],
+		[
+			"header",
+			operation("get", "/accounts/{account_id}/example", {
+				headerParams: [param("cf-mode")],
+			}),
+			"cf-mode",
+			{ in: "header", name: "cf-mode" },
+		],
+		[
+			"top-level body",
+			operation("post", "/accounts/{account_id}/example", {
+				...json,
+				bodyParams: [bodyParam("mode", "string", ["mode"])],
+			}),
+			"mode",
+			{ in: "body", path: ["mode"] },
+		],
+		[
+			"nested body",
+			operation("post", "/accounts/{account_id}/example", {
+				...json,
+				bodyParams: [
+					bodyParam("settings-mode", "string", ["settings", "mode"]),
+				],
+			}),
+			"settings.mode",
+			{ in: "body", path: ["settings", "mode"] },
+		],
+	])(
+		"renames a %s field's flag and keeps its wire name",
+		(_, op, key, origin) => {
+			const d = derived(
+				method({ [key]: { flagName: "chosen-name" } }, "get"),
+				"example",
+				op
+			);
+			expect(find(d.args, "chosen-name").origin).toEqual(origin);
+		}
+	);
+
+	it("prefers flagName to the Fern name, and the Fern name to the wire name", () => {
+		const renamed = derived(
+			method({ mode: { flagName: "chosen-mode" } }, "search"),
+			"example",
+			queryOperation("mode", "search-mode")
+		);
+		expect(names(renamed.args)).toEqual(["chosen-mode"]);
+		const fern = derived(
+			search(),
+			"example",
+			queryOperation("mode", "search-mode")
+		);
+		expect(names(fern.args)).toEqual(["search-mode"]);
+	});
+
+	it("keeps oneOf conflicts and implies pointing at a renamed flag", () => {
+		const op = operation("post", "/accounts/{account_id}/example", {
+			...json,
+			bodyParams: [
+				bodyParam(
+					"mtls-certificate-id",
+					"string",
+					["mtls", "mtls_certificate_id"],
+					{
+						conflicts: ["token"],
+					}
+				),
+				bodyParam("token", "string", ["access_token"], {
+					implies: ["mtls-certificate-id"],
+				}),
+			],
+		});
+		const d = derived(
+			method({ access_token: { flagName: "access-token-value" } }, "create"),
+			"example",
+			op
+		);
+		expect(names(d.args)).toEqual([
+			"mtls-certificate-id",
+			"access-token-value",
+		]);
+		expect(d.args[0]?.conflicts).toEqual(["access-token-value"]);
+		expect(d.args[1]?.implies).toEqual(["mtls-certificate-id"]);
+	});
+
+	it("classifies a field by its name before the rename", () => {
+		const op = operation("post", "/accounts/{account_id}/example", {
+			...json,
+			bodyParams: [bodyParam("target", "string", ["target"])],
+		});
+		const d = derived(
+			method({ target: { flagName: "zone-id" } }, "create"),
+			"example",
+			op
+		);
+		expect(find(d.args, "zone-id").isZone).toBe(false);
+	});
+
+	it.each(["Search Query", "-mode", 7])(
+		"rejects the malformed flagName %j",
+		(flagName) => {
+			expect(() =>
+				derived(
+					method({ mode: { flagName } }, "search"),
+					"example",
+					queryOperation("mode", "search-mode")
+				)
+			).toThrow(
+				`GET /accounts/{account_id}/example (example-search): API fields need other CLI flag names:\n      query parameter \`mode\` has x-forge-params["mode"].flagName ${JSON.stringify(flagName)}, which is not a kebab-case flag name.`
+			);
+		}
+	);
+
+	it("rejects a flagName another field of the command already resolves to", () => {
+		const op = queryOperation("q", "query");
+		op.method = "post";
+		Object.assign(op, json);
+		op.bodyParams = [bodyParam("name", "string", ["name"])];
+		expect(() =>
+			derived(method({ q: { flagName: "name" } }, "search"), "example", op)
+		).toThrow(
+			'body field `name` and query parameter `q` (from x-forge-params["q"].flagName) both resolve to --name.'
+		);
+	});
+
+	it("keeps the first of two fields whose natural names match", () => {
+		const op = pathOperation("/accounts/{account_id}/queues/{queue_id}", [
+			["queue_id", undefined],
+		]);
+		op.method = "put";
+		Object.assign(op, json);
+		op.bodyParams = [bodyParam("queue-id", "string", ["queue_id"])];
+		const d = derived(method(undefined, "update"), "example", op);
+		expect(d.args.map((a) => a.origin)).toEqual([
+			{ in: "path", name: "queue_id" },
+		]);
+	});
+
+	it.each<[string, string, string, string]>([
+		["/zones/{zone_id}/things/{thing_id}", "example", "zone_id", "--zone"],
+		[
+			"/accounts/{account_id}/workers/scripts/{script_name}/settings",
+			"workers",
+			"script_name",
+			"--worker",
+		],
+	])(
+		"rejects a flagName on a parameter cf fills itself (%s)",
+		(path, resource, key, flag) => {
+			const op = pathOperation(path, [[key, undefined]]);
+			expect(() =>
+				derived(method({ [key]: { flagName: "chosen" } }, "get"), resource, op)
+			).toThrow(
+				`path parameter \`${key}\` is filled by ${flag}, so x-forge-params["${key}"].flagName has no effect. Remove it.`
+			);
+		}
+	);
+});
+
 describe("deriveArgsFromOp multipart flags", () => {
 	it("omits reserved global fields after normalizing their names", () => {
 		const d = derived(search(), "example", multipartOperation());
-		expect(d.multipartFlagFields.map((f) => f.name)).toEqual(["label"]);
+		expect(d.multipartFlagFields.map((f) => f.field.name)).toEqual(["label"]);
 	});
 });
 

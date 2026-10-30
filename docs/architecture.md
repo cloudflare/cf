@@ -145,9 +145,8 @@ pnpm build
             └─ cf#task:generate: tsx packages/cli/generate.ts
                  ├─ fetch pinned Forge OpenAPI release (or preview bundle)
                  ├─ prepare it (hidden ops, account/zone routes, cf-cli audience)
-                 ├─ forge normalize --write openapi.json
                  ├─ rm -rf _generated/
-                 ├─ forge openapi.json --target wasm://generator/cli.wasm --out _generated
+                 ├─ prepared JSON | forge normalize - | forge - --target wasm://generator/cli.wasm --out _generated
                  └─ vp fmt _generated/               # post-format emitted TS
 ```
 

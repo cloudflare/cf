@@ -160,9 +160,9 @@ The output is tracked in git, owned by `pnpm generate`, and must not be hand-edi
 `@cloudflare/forge/plugin`. Its entry module is `generator/index.ts`. The
 `task:generate:plugin` Vite+ task, which `task:generate` depends on, runs
 `forge-plugin build` (from `@cloudflare/forge`, with jco) to compile the
-entry to `generator/cli.wasm`, gitignored build output. `generate.ts` normalizes
-the prepared document with `forge normalize --write`, then runs that component
-with `forge --target wasm://...`. It runs in
+entry to `generator/cli.wasm`, gitignored build output. `generate.ts` pipes the
+prepared document through `forge normalize -`, then runs that component with
+`forge --target wasm://...`. It runs in
 a sandboxed JavaScript engine (QuickJS), so it may only use the language: no
 Node APIs, `Intl`, or I/O. `generator/plugin/tsconfig.json` type-checks it,
 entry module included, that way, as part of `check:type`.

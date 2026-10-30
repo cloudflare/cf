@@ -1,13 +1,10 @@
 import { execFileSync } from "node:child_process";
 import {
 	existsSync,
-	mkdtempSync,
 	readFileSync,
 	rmSync,
-	writeFileSync,
 } from "node:fs";
 import { createRequire } from "node:module";
-import { tmpdir } from "node:os";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { filterForCliAudience } from "./generator/cli-audience.js";
@@ -230,31 +227,26 @@ console.log(
 const generatedDir = fileURLToPath(
 	new URL("./src/commands/_generated", import.meta.url)
 );
-const tempDir = mkdtempSync(join(tmpdir(), "cf-openapi-"));
-try {
-	const openapiPath = join(tempDir, "openapi.json");
-	writeFileSync(openapiPath, JSON.stringify(source));
-	if (!normalizeOpenApi(forgeBin, openapiPath)) {
-		console.warn(
-			"[cf-generator] Installed Forge predates native metadata normalization"
-		);
-	}
-	rmSync(generatedDir, { recursive: true, force: true });
-	execFileSync(
-		process.execPath,
-		[
-			forgeBin,
-			openapiPath,
-			"--target",
-			`wasm://${pluginWasm}`,
-			"--out",
-			generatedDir,
-		],
-		{ stdio: "inherit" }
+const openapi = JSON.stringify(source);
+const normalized = normalizeOpenApi(forgeBin, openapi);
+if (normalized === undefined) {
+	console.warn(
+		"[cf-generator] Installed Forge predates native metadata normalization"
 	);
-} finally {
-	rmSync(tempDir, { recursive: true, force: true });
 }
+rmSync(generatedDir, { recursive: true, force: true });
+execFileSync(
+	process.execPath,
+	[
+		forgeBin,
+		"-",
+		"--target",
+		`wasm://${pluginWasm}`,
+		"--out",
+		generatedDir,
+	],
+	{ input: normalized ?? openapi, stdio: ["pipe", "inherit", "inherit"] }
+);
 console.log("CLI: generated commands");
 
 // Format generated TypeScript so diffs are reviewable.

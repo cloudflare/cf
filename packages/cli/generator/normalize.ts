@@ -8,18 +8,17 @@ import { execFileSync } from "node:child_process";
  */
 export function normalizeOpenApi(
 	forgeBin: string,
-	openapiPath: string
-): boolean {
+	openapi: string
+): string | undefined {
 	const help = execFileSync(process.execPath, [forgeBin, "--help"], {
 		encoding: "utf8",
 	});
 	if (!/^\s+normalize\b/m.test(help)) {
-		return false;
+		return undefined;
 	}
-	execFileSync(
+	return execFileSync(
 		process.execPath,
-		[forgeBin, "normalize", "--write", openapiPath],
-		{ stdio: "inherit" }
+		[forgeBin, "normalize", "-"],
+		{ encoding: "utf8", input: openapi }
 	);
-	return true;
 }

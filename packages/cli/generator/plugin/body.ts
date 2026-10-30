@@ -664,6 +664,8 @@ function oneOfConstraints(
 			requiredProperty(v.schema, param.apiFieldPath.slice(path.length))
 		);
 	}
+	// Optional settings alone do not establish mutually exclusive input shapes.
+	const inferConflicts = resolvedVariants.some((v) => v.required.length > 0);
 	for (const param of params) {
 		const containing = resolvedVariants.filter((v) =>
 			hasProperty(v.schema, param.apiFieldPath.slice(path.length))
@@ -672,6 +674,7 @@ function oneOfConstraints(
 		for (const other of params) {
 			if (other === param) continue;
 			if (
+				inferConflicts &&
 				!containing.some((v) =>
 					hasProperty(v.schema, other.apiFieldPath.slice(path.length))
 				)

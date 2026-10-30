@@ -91,27 +91,12 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			type: "string",
 			description: "Raw JSON request body (bypasses individual flags)",
 		})
-		.conflicts("enabled", [
-			"value-enabled",
-			"value-pool-id",
-			"value-cache-by-device-type",
-			"value-cf",
-			"value-hostnames",
-			"value-wordpress",
-			"value-wp-plugin",
-			"value-strict-transport-security-enabled",
-			"value-strict-transport-security-include-subdomains",
-			"value-strict-transport-security-max-age",
-			"value-strict-transport-security-nosniff",
-			"value-strict-transport-security-preload",
-		])
 		.conflicts("value-enabled", [
 			"value-strict-transport-security-enabled",
 			"value-strict-transport-security-include-subdomains",
 			"value-strict-transport-security-max-age",
 			"value-strict-transport-security-nosniff",
 			"value-strict-transport-security-preload",
-			"enabled",
 		])
 		.conflicts("value-pool-id", [
 			"value-cache-by-device-type",
@@ -124,7 +109,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			"value-strict-transport-security-max-age",
 			"value-strict-transport-security-nosniff",
 			"value-strict-transport-security-preload",
-			"enabled",
 		])
 		.conflicts("value-cache-by-device-type", [
 			"value-pool-id",
@@ -133,7 +117,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			"value-strict-transport-security-max-age",
 			"value-strict-transport-security-nosniff",
 			"value-strict-transport-security-preload",
-			"enabled",
 		])
 		.implies("value-cache-by-device-type", [
 			"value-enabled",
@@ -149,7 +132,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			"value-strict-transport-security-max-age",
 			"value-strict-transport-security-nosniff",
 			"value-strict-transport-security-preload",
-			"enabled",
 		])
 		.implies("value-cf", [
 			"value-enabled",
@@ -165,7 +147,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			"value-strict-transport-security-max-age",
 			"value-strict-transport-security-nosniff",
 			"value-strict-transport-security-preload",
-			"enabled",
 		])
 		.implies("value-hostnames", [
 			"value-enabled",
@@ -181,7 +162,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			"value-strict-transport-security-max-age",
 			"value-strict-transport-security-nosniff",
 			"value-strict-transport-security-preload",
-			"enabled",
 		])
 		.implies("value-wordpress", [
 			"value-enabled",
@@ -197,7 +177,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			"value-strict-transport-security-max-age",
 			"value-strict-transport-security-nosniff",
 			"value-strict-transport-security-preload",
-			"enabled",
 		])
 		.implies("value-wp-plugin", [
 			"value-enabled",
@@ -214,7 +193,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			"value-hostnames",
 			"value-wordpress",
 			"value-wp-plugin",
-			"enabled",
 		])
 		.conflicts("value-strict-transport-security-include-subdomains", [
 			"value-enabled",
@@ -224,7 +202,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			"value-hostnames",
 			"value-wordpress",
 			"value-wp-plugin",
-			"enabled",
 		])
 		.conflicts("value-strict-transport-security-max-age", [
 			"value-enabled",
@@ -234,7 +211,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			"value-hostnames",
 			"value-wordpress",
 			"value-wp-plugin",
-			"enabled",
 		])
 		.conflicts("value-strict-transport-security-nosniff", [
 			"value-enabled",
@@ -244,7 +220,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			"value-hostnames",
 			"value-wordpress",
 			"value-wp-plugin",
-			"enabled",
 		])
 		.conflicts("value-strict-transport-security-preload", [
 			"value-enabled",
@@ -254,7 +229,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			"value-hostnames",
 			"value-wordpress",
 			"value-wp-plugin",
-			"enabled",
 		]);
 }
 

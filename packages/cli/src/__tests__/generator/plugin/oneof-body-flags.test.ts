@@ -76,6 +76,10 @@ function generate(rootUnion: boolean) {
 				})),
 			}
 		: common;
+	return generateSchema(schema);
+}
+
+function generateSchema(schema: Record<string, unknown>) {
 	const files = generateFiles({
 		openapi: "3.0.3",
 		info: { title: "Union body flags", version: "1" },
@@ -103,58 +107,60 @@ function generate(rootUnion: boolean) {
 	return files.get("things/create.ts") ?? "";
 }
 
+function setup(code: string, initialFlags: string[] = []) {
+	const source = stripTypeScriptTypes(code)
+		.replace(/^import[\s\S]*?;\n/gm, "")
+		.replace("export default command;", "command;");
+	const requestBody = vi.fn();
+	const formatDryRun = vi.fn();
+	const command = new Script(source).runInNewContext({
+		compactBody,
+		parseBody,
+		setNestedValue,
+		resolveFileToken,
+		formatDryRun,
+		createCommandClient: async () => ({
+			send: async (_operation: unknown, request: { body: unknown }) =>
+				requestBody(request.body),
+		}),
+		requestApi: async (
+			_client: unknown,
+			_method: string,
+			_path: string,
+			request: { body: unknown }
+		) => requestBody(request.body),
+		operation: {},
+		formatOutput: () => {},
+		withProgress: async (_label: string, run: () => Promise<unknown>) => run(),
+		runWithTelemetry: (
+			_info: unknown,
+			_argv: unknown,
+			run: () => Promise<void>
+		) => run(),
+	}) as CommandModule;
+	const parse = async (flags: string[]) =>
+		yargs(["create", ...initialFlags, ...flags])
+			.locale("en")
+			.exitProcess(false)
+			.command(command)
+			.strict()
+			.fail((message, error) => {
+				throw error ?? new Error(message);
+			})
+			.parseAsync();
+	return { parse, requestBody, formatDryRun };
+}
+
 describe.each([false, true])(
 	"oneOf body flags (root union: %s)",
 	(rootUnion) => {
-		const source = stripTypeScriptTypes(generate(rootUnion))
-			.replace(/^import[\s\S]*?;\n/gm, "")
-			.replace("export default command;", "command;");
-		const setup = () => {
-			const requestBody = vi.fn();
-			const formatDryRun = vi.fn();
-			const command = new Script(source).runInNewContext({
-				compactBody,
-				parseBody,
-				setNestedValue,
-				resolveFileToken,
-				formatDryRun,
-				createCommandClient: async () => ({
-					send: async (_operation: unknown, request: { body: unknown }) =>
-						requestBody(request.body),
-				}),
-				requestApi: async (
-					_client: unknown,
-					_method: string,
-					_path: string,
-					request: { body: unknown }
-				) => requestBody(request.body),
-				operation: {},
-				formatOutput: () => {},
-				withProgress: async (_label: string, run: () => Promise<unknown>) =>
-					run(),
-				runWithTelemetry: (
-					_info: unknown,
-					_argv: unknown,
-					run: () => Promise<void>
-				) => run(),
-			}) as CommandModule;
-			const parse = async (flags: string[]) =>
-				yargs([
-					"create",
-					"--name",
-					"example-db",
-					...(rootUnion ? ["--type", "tcp"] : []),
-					...flags,
-				])
-					.exitProcess(false)
-					.command(command)
-					.strict()
-					.fail((message, error) => {
-						throw error ?? new Error(message);
-					})
-					.parseAsync();
-			return { parse, requestBody, formatDryRun };
-		};
+		const code = generate(rootUnion);
+		const setupCommand = () =>
+			setup(code, [
+				"--name",
+				"example-db",
+				...(rootUnion ? ["--type", "tcp"] : []),
+			]);
 
 		const hosts = [
 			{
@@ -201,7 +207,7 @@ describe.each([false, true])(
 						flags[index] ?? [],
 						["--body", JSON.stringify(expected)],
 					]) {
-						const { parse, requestBody, formatDryRun } = setup();
+						const { parse, requestBody, formatDryRun } = setupCommand();
 						await parse([...input, ...(dryRun ? ["--dry-run"] : [])]);
 						if (dryRun) {
 							expect(formatDryRun).toHaveBeenCalledWith(
@@ -227,16 +233,16 @@ describe.each([false, true])(
 		])(
 			"rejects incomplete or incompatible alternatives: %j",
 			async (...input) => {
-				const { parse, requestBody } = setup();
+				const { parse, requestBody } = setupCommand();
 				await expect(parse(input)).rejects.toThrow(
-					/Implications failed|mutually exclusive/
+					/Missing dependent arguments|mutually exclusive/
 				);
 				expect(requestBody).not.toHaveBeenCalled();
 			}
 		);
 
 		it("requires children only when their optional container is used", async () => {
-			const { parse, requestBody } = setup();
+			const { parse, requestBody } = setupCommand();
 			await expect(
 				parse([...(flags[0] ?? []), "--settings-label", "label"])
 			).rejects.toThrow("settings-key");
@@ -256,7 +262,7 @@ describe.each([false, true])(
 		});
 
 		it("accepts optional fields inside the hostname alternative", async () => {
-			const { parse, requestBody } = setup();
+			const { parse, requestBody } = setupCommand();
 			await parse([
 				...(flags[0] ?? []),
 				"--host-resolver-network-resolver-ips",
@@ -276,3 +282,101 @@ describe.each([false, true])(
 		});
 	}
 );
+
+describe("overlapping oneOf alternatives", () => {
+	const code = generateSchema({
+		oneOf: [
+			...[["left"], ["right"], ["left", "right"]].map((fields) => ({
+				type: "object",
+				required: [...fields, "key"],
+				properties: Object.fromEntries(
+					[...fields, "key", "label"].map((field) => [
+						field,
+						{ type: "string" },
+					])
+				),
+			})),
+			{
+				type: "object",
+				required: ["id"],
+				properties: { id: { type: "string" } },
+			},
+		],
+	});
+
+	it.each([["left"], ["right"], ["left", "right"]])(
+		"accepts fields that coexist in any alternative: %j",
+		async (...fields) => {
+			const { parse, requestBody } = setup(code);
+			await parse([
+				...fields.flatMap((field) => [`--${field}`, field]),
+				"--key",
+				"value",
+			]);
+			expect(requestBody).toHaveBeenCalledWith({
+				...Object.fromEntries(fields.map((field) => [field, field])),
+				key: "value",
+			});
+		}
+	);
+
+	it.each(["left", "right", "label"])(
+		"requires the shared dependency of %s",
+		async (field) => {
+			const { parse, requestBody } = setup(code);
+			await expect(parse([`--${field}`, "value"])).rejects.toThrow("key");
+			expect(requestBody).not.toHaveBeenCalled();
+		}
+	);
+
+	it("leaves alternative-specific requirements ambiguous for shared fields", async () => {
+		const { parse, requestBody } = setup(code);
+		await parse(["--label", "shared", "--key", "value"]);
+		expect(requestBody).toHaveBeenCalledWith({ label: "shared", key: "value" });
+	});
+
+	it("rejects fields that never coexist in an alternative", async () => {
+		const { parse, requestBody } = setup(code);
+		await expect(
+			parse(["--left", "left", "--key", "value", "--id", "id"])
+		).rejects.toThrow("mutually exclusive");
+		expect(requestBody).not.toHaveBeenCalled();
+	});
+});
+
+describe("oneOf alternatives with only optional settings", () => {
+	const code = generateSchema({
+		oneOf: [
+			{
+				type: "object",
+				properties: { enabled: { type: "boolean" }, label: { type: "string" } },
+			},
+			{
+				type: "object",
+				properties: { action: { type: "string" }, label: { type: "string" } },
+			},
+		],
+	});
+
+	it.each([false, true])(
+		"allows cross-alternative settings (enabled: %s)",
+		async (enabled) => {
+			const expected = { enabled, action: "allow", label: "cleanup" };
+			for (const flags of [
+				[
+					"--enabled",
+					String(enabled),
+					"--action",
+					"allow",
+					"--label",
+					"cleanup",
+				],
+				["--body", JSON.stringify(expected)],
+			]) {
+				const { parse, requestBody } = setup(code);
+				await parse(flags);
+				expect(requestBody).toHaveBeenCalledWith(expected);
+			}
+		}
+	);
+});

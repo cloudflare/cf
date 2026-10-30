@@ -148,10 +148,8 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "Raw JSON request body (bypasses individual flags)",
 		})
 		.implies("argo-smart-routing", ["traffic-type"])
-		.conflicts("edge-ips-connectivity", ["edge-ips-ips"])
 		.implies("edge-ips-connectivity", ["traffic-type"])
 		.implies("edge-ips-type", ["traffic-type"])
-		.conflicts("edge-ips-ips", ["edge-ips-connectivity"])
 		.implies("edge-ips-ips", ["traffic-type"])
 		.implies("ip-firewall", ["traffic-type"])
 		.implies("origin-dns-name", ["traffic-type"])

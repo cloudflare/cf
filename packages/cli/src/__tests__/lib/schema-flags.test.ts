@@ -16,11 +16,19 @@ import {
 	validateJsonSchema,
 	validateSupportedJsonSchema,
 } from "../../lib/schema-flags.js";
-import type { JsonSchema } from "../../lib/schema-flags.js";
+import type {
+	JsonSchema,
+	SchemaToFlagsOptions,
+} from "../../lib/schema-flags.js";
+
+const flags = (
+	schema: JsonSchema,
+	options: Partial<SchemaToFlagsOptions> = {}
+) => schemaToFlags(schema, { commandFlags: [], ...options });
 
 describe("schema flags", () => {
-	it("omits the top-level temporary account flag from runtime schemas", () => {
-		const descriptors = schemaToFlags({
+	it("moves a top-level field named after a global to --input-<flag>", () => {
+		const descriptors = flags({
 			type: "object",
 			properties: {
 				temporary_account: { type: "boolean" },
@@ -31,9 +39,17 @@ describe("schema flags", () => {
 			},
 		});
 
-		expect(descriptors.map(({ name }) => name)).toEqual([
-			"settings-temporary-account",
+		expect(descriptors.map(({ name, path }) => [name, path])).toEqual([
+			["input-temporary-account", ["temporary_account"]],
+			["settings-temporary-account", ["settings", "temporary_account"]],
 		]);
+		expect(
+			assembleBody(descriptors, {
+				"temporary-account": false,
+				temporaryAccount: false,
+				"input-temporary-account": true,
+			})
+		).toEqual({ body: { temporary_account: true }, errors: [] });
 		expect(
 			unknownFlagNames({
 				"temporary-account": false,
@@ -43,8 +59,8 @@ describe("schema flags", () => {
 		).toEqual(["unknown-field"]);
 	});
 
-	it("omits the reserved top-level mode but keeps scoped mode fields", () => {
-		const descriptors = schemaToFlags({
+	it("never reads the global --mode as the schema's mode", () => {
+		const descriptors = flags({
 			type: "object",
 			properties: {
 				mode: { type: "string" },
@@ -55,7 +71,10 @@ describe("schema flags", () => {
 			},
 		});
 
-		expect(descriptors.map(({ name }) => name)).toEqual(["guardrails-mode"]);
+		expect(descriptors.map(({ name }) => name)).toEqual([
+			"guardrails-mode",
+			"input-mode",
+		]);
 		expect(
 			assembleBody(descriptors, {
 				mode: "staging",
@@ -65,6 +84,59 @@ describe("schema flags", () => {
 			body: { guardrails: { mode: "readonly" } },
 			errors: [],
 		});
+		expect(
+			assembleBody(descriptors, { mode: "staging", "input-mode": "fast" })
+		).toEqual({ body: { mode: "fast" }, errors: [] });
+	});
+
+	it("moves fields named after the command's flags, single letters, and reserved names", () => {
+		const descriptors = schemaToFlags(
+			{
+				type: "object",
+				properties: {
+					force: { type: "boolean" },
+					n: { type: "number" },
+					json: { type: "boolean" },
+					experimental_gate: { type: "boolean" },
+					quiet: { type: "boolean" },
+					prompt: { type: "string" },
+				},
+			},
+			{ commandFlags: ["force", "f"] }
+		);
+		expect(descriptors.map(({ name, path }) => [name, path[0]])).toEqual([
+			["input-experimental-gate", "experimental_gate"],
+			["input-force", "force"],
+			["input-json", "json"],
+			["input-n", "n"],
+			["input-quiet", "quiet"],
+			["prompt", "prompt"],
+		]);
+	});
+
+	it("leaves a field to --body when --input-<flag> is taken too", () => {
+		const descriptors = flags({
+			type: "object",
+			properties: {
+				quiet: { type: "boolean" },
+				input_quiet: { type: "boolean" },
+				settings: {
+					type: "object",
+					properties: { quiet: { type: "boolean" } },
+				},
+			},
+		});
+		expect(descriptors.map(({ name, path }) => [name, path])).toEqual([
+			["input-quiet", ["input_quiet"]],
+			["settings-quiet", ["settings", "quiet"]],
+		]);
+		expect(
+			assembleBody(descriptors, { quiet: true, "input-quiet": false })
+		).toEqual({ body: { input_quiet: false }, errors: [] });
+	});
+
+	it("still reports a reserved future name as an unknown flag", () => {
+		expect(unknownFlagNames({ json: true, quiet: false })).toEqual(["json"]);
 	});
 
 	it("omits prototype-chain property paths while keeping safe siblings", () => {
@@ -72,7 +144,7 @@ describe("schema flags", () => {
 			type: "object",
 			properties: { polluted: { type: "string" } },
 		});
-		const descriptors = schemaToFlags({
+		const descriptors = flags({
 			type: "object",
 			properties: Object.fromEntries([
 				["safe", { type: "string" }],
@@ -137,7 +209,7 @@ describe("schema flags", () => {
 	it("preserves unsafe-looking data in ancestor flags and base bodies", () => {
 		const pollutionKey = "cfSchemaFlagsAncestorPolluted";
 		const objectPrototype = Object.prototype as Record<string, unknown>;
-		const descriptors = schemaToFlags({
+		const descriptors = flags({
 			type: "object",
 			required: ["container"],
 			properties: {
@@ -168,7 +240,7 @@ describe("schema flags", () => {
 	});
 
 	it("does not read dynamic flag values through Object.prototype", () => {
-		const descriptors = schemaToFlags({
+		const descriptors = flags({
 			type: "object",
 			properties: {
 				to_string: { type: "string" },
@@ -197,7 +269,7 @@ describe("schema flags", () => {
 	);
 
 	it("identifies a field when its description only explains a condition", () => {
-		const [descriptor] = schemaToFlags({
+		const [descriptor] = flags({
 			type: "object",
 			properties: {
 				company_number: {
@@ -214,7 +286,7 @@ describe("schema flags", () => {
 	});
 
 	it("does not repeat a schema title in a prompt", () => {
-		const [descriptor] = schemaToFlags({
+		const [descriptor] = flags({
 			type: "object",
 			properties: {
 				registrant_type: { type: "string", title: "Registrant Type" },
@@ -227,7 +299,7 @@ describe("schema flags", () => {
 	});
 
 	it("sanitizes terminal controls in runtime-schema prompt text", () => {
-		const [descriptor] = schemaToFlags({
+		const [descriptor] = flags({
 			type: "object",
 			properties: {
 				contact: {
@@ -248,7 +320,7 @@ describe("schema flags", () => {
 
 	it("sanitizes direct enum values in help and validation errors", () => {
 		const rawChoice = "LI\u001b\u202e\u2028\u2029MITED";
-		const descriptors = schemaToFlags({
+		const descriptors = flags({
 			type: "object",
 			properties: {
 				kind: {
@@ -270,7 +342,7 @@ describe("schema flags", () => {
 	});
 
 	it("identifies described enum fields such as .us nexus choices", () => {
-		const [descriptor] = schemaToFlags({
+		const [descriptor] = flags({
 			type: "object",
 			properties: {
 				nexus_category: {
@@ -318,7 +390,7 @@ describe("schema flags", () => {
 		);
 	});
 	it("preserves a required object whose flattened children are optional", () => {
-		const descriptors = schemaToFlags({
+		const descriptors = flags({
 			type: "object",
 			required: ["options"],
 			properties: {
@@ -366,7 +438,7 @@ describe("schema flags", () => {
 	});
 
 	it("requires nested fields when their optional container is supplied", () => {
-		const descriptors = schemaToFlags({
+		const descriptors = flags({
 			type: "object",
 			properties: {
 				contacts: {
@@ -476,7 +548,7 @@ describe("schema flags", () => {
 	});
 
 	it("detects conditional containers inside object-valued ancestor flags", () => {
-		const descriptors = schemaToFlags({
+		const descriptors = flags({
 			type: "object",
 			required: ["options"],
 			properties: {
@@ -518,7 +590,7 @@ describe("schema flags", () => {
 	});
 
 	it("rejects fractions for integer fields but accepts them for numbers", () => {
-		const descriptors = schemaToFlags({
+		const descriptors = flags({
 			type: "object",
 			properties: {
 				years: { type: "integer" },
@@ -533,7 +605,7 @@ describe("schema flags", () => {
 	});
 
 	it("parses @file values for unconstrained JSON fields", () => {
-		const descriptors = schemaToFlags({
+		const descriptors = flags({
 			type: "object",
 			properties: { schema: {} },
 		});
@@ -548,7 +620,7 @@ describe("schema flags", () => {
 	});
 
 	it("enforces boolean enum constraints", () => {
-		const descriptors = schemaToFlags({
+		const descriptors = flags({
 			type: "object",
 			properties: {
 				acknowledged: { type: "boolean", enum: [true] },
@@ -566,7 +638,7 @@ describe("schema flags", () => {
 	});
 
 	it("derives coercion from untyped const and enum values", () => {
-		const descriptors = schemaToFlags({
+		const descriptors = flags({
 			type: "object",
 			properties: {
 				acknowledged: { const: true },
@@ -591,7 +663,7 @@ describe("schema flags", () => {
 	});
 
 	it("validates enum constraints after resolving @file values", () => {
-		const descriptors = schemaToFlags({
+		const descriptors = flags({
 			type: "object",
 			properties: {
 				privacy_mode: { type: "string", enum: ["off"] },
@@ -608,7 +680,7 @@ describe("schema flags", () => {
 	});
 
 	it("uses titled const alternatives as labelled wire-value choices", () => {
-		const descriptors = schemaToFlags({
+		const descriptors = flags({
 			type: "object",
 			required: ["registrant_type"],
 			properties: {
@@ -649,7 +721,7 @@ describe("schema flags", () => {
 	});
 
 	it("sanitizes terminal controls in runtime-schema choice labels", () => {
-		const [descriptor] = schemaToFlags({
+		const [descriptor] = flags({
 			type: "object",
 			properties: {
 				registrant_type: {
@@ -670,7 +742,7 @@ describe("schema flags", () => {
 	});
 
 	it("uses only own choice labels when rendering help", () => {
-		const descriptors = schemaToFlags({
+		const descriptors = flags({
 			type: "object",
 			properties: {
 				kind: {
@@ -694,7 +766,7 @@ describe("schema flags", () => {
 	});
 
 	it("applies simple if/then required fields before submission", () => {
-		const descriptors = schemaToFlags({
+		const descriptors = flags({
 			type: "object",
 			properties: {
 				registrant_type: { type: "string" },
@@ -738,7 +810,7 @@ describe("schema flags", () => {
 	});
 
 	it("extracts direct object-level if/then requirements", () => {
-		const descriptors = schemaToFlags({
+		const descriptors = flags({
 			type: "object",
 			properties: {
 				registrant_type: { type: "string" },
@@ -771,7 +843,7 @@ describe("schema flags", () => {
 		const inheritedConditionProperties = Object.create({
 			selector: { const: "advanced" },
 		}) as Record<string, JsonSchema>;
-		const presenceDescriptors = schemaToFlags({
+		const presenceDescriptors = flags({
 			type: "object",
 			properties: {
 				selector: { type: "string" },
@@ -791,7 +863,7 @@ describe("schema flags", () => {
 			)
 		).toEqual(["detail"]);
 
-		const absentConsequentProperties = schemaToFlags({
+		const absentConsequentProperties = flags({
 			type: "object",
 			properties: { selector: { type: "string" } },
 			if: { required: ["selector"] },
@@ -805,7 +877,7 @@ describe("schema flags", () => {
 	});
 
 	it("surfaces optional then-only fields without weakening requirements", () => {
-		const descriptors = schemaToFlags({
+		const descriptors = flags({
 			type: "object",
 			properties: { kind: { type: "string" } },
 			if: {
@@ -863,7 +935,7 @@ describe("schema flags", () => {
 	])(
 		"coerces $predicateSchema.type conditional argv values",
 		({ predicateSchema, raw, coerced }) => {
-			const descriptors = schemaToFlags({
+			const descriptors = flags({
 				type: "object",
 				properties: {
 					selector: predicateSchema,
@@ -888,7 +960,7 @@ describe("schema flags", () => {
 	);
 
 	it("does not coerce conditional values from a JSON base body", () => {
-		const descriptors = schemaToFlags({
+		const descriptors = flags({
 			type: "object",
 			properties: {
 				enabled: { type: "boolean" },
@@ -906,7 +978,7 @@ describe("schema flags", () => {
 	});
 
 	it("coerces only exact conditional flags, not ancestor JSON flags", () => {
-		const descriptors = schemaToFlags({
+		const descriptors = flags({
 			type: "object",
 			required: ["settings"],
 			properties: {
@@ -941,7 +1013,7 @@ describe("schema flags", () => {
 			{ pattern: "^y" },
 			{ format: "email" },
 		] as const) {
-			const descriptors = schemaToFlags({
+			const descriptors = flags({
 				type: "object",
 				properties: {
 					kind: { type: "string" },
@@ -960,7 +1032,7 @@ describe("schema flags", () => {
 	});
 
 	it("extracts if/then requirements through nested allOf members", () => {
-		const descriptors = schemaToFlags({
+		const descriptors = flags({
 			type: "object",
 			properties: {
 				registrant_type: { type: "string" },
@@ -1020,7 +1092,7 @@ describe("schema flags", () => {
 	});
 
 	it("surfaces conditional-only fields through nested allOf members", () => {
-		const descriptors = schemaToFlags({
+		const descriptors = flags({
 			type: "object",
 			properties: {
 				contact_extensions: {
@@ -1121,7 +1193,7 @@ describe("schema flags", () => {
 	});
 
 	it("derives structural allOf fields as intersections", () => {
-		const descriptors = schemaToFlags({
+		const descriptors = flags({
 			allOf: [
 				{
 					type: "object",
@@ -1390,7 +1462,7 @@ describe("schema flags", () => {
 				type: "object",
 				properties: { value: constraint },
 			};
-			const [descriptor] = schemaToFlags(schema);
+			const [descriptor] = flags(schema);
 			if (!descriptor) {
 				throw new Error("Expected a value descriptor");
 			}
@@ -1414,7 +1486,7 @@ describe("schema flags", () => {
 				name: { type: "string", minLength: 2, maxLength: 2 },
 			},
 		};
-		const [name] = schemaToFlags(schema);
+		const [name] = flags(schema);
 		if (!name) {
 			throw new Error("Expected a name descriptor");
 		}
@@ -1433,7 +1505,7 @@ describe("schema flags", () => {
 	});
 
 	it("compares object and array const values structurally", () => {
-		const descriptors = schemaToFlags({
+		const descriptors = flags({
 			type: "object",
 			properties: {
 				metadata: {
@@ -1468,7 +1540,7 @@ describe("schema flags", () => {
 	});
 
 	it("validates object, array and null enum values structurally", () => {
-		const descriptors = schemaToFlags({
+		const descriptors = flags({
 			type: "object",
 			properties: {
 				registrant: {
@@ -1618,7 +1690,7 @@ describe("schema flags", () => {
 	});
 
 	it("coerces null-only fields to JSON null", () => {
-		const descriptors = schemaToFlags({
+		const descriptors = flags({
 			type: "object",
 			properties: {
 				unset: { type: "null" },
@@ -1669,7 +1741,7 @@ describe("schema flags", () => {
 				],
 			};
 
-			const descriptors = schemaToFlags(schema);
+			const descriptors = flags(schema);
 			expect(
 				descriptors.map(({ name, required, choices }) => ({
 					name,
@@ -1720,7 +1792,7 @@ describe("schema flags", () => {
 				nested = { allOf: [nested] };
 			}
 
-			const descriptors = schemaToFlags(nested);
+			const descriptors = flags(nested);
 			expect(
 				descriptors.map(({ name, required }) => ({ name, required }))
 			).toEqual([
@@ -1735,7 +1807,7 @@ describe("schema flags", () => {
 	);
 
 	it("keeps alternative-only nested fields optional", () => {
-		const descriptors = schemaToFlags({
+		const descriptors = flags({
 			type: "object",
 			required: ["contact"],
 			properties: {
@@ -1783,7 +1855,7 @@ describe("schema flags", () => {
 	});
 
 	it("does not apply branch-specific constraints to repeated paths", () => {
-		const descriptors = schemaToFlags({
+		const descriptors = flags({
 			oneOf: [
 				{
 					type: "object",
@@ -1830,7 +1902,7 @@ describe("schema flags", () => {
 	});
 
 	it("accepts different types and nested fields from every branch", () => {
-		const descriptors = schemaToFlags({
+		const descriptors = flags({
 			anyOf: [
 				{
 					type: "object",
@@ -1898,7 +1970,7 @@ describe("schema flags", () => {
 				[conditionalBranch, numericBranch],
 				[numericBranch, conditionalBranch],
 			]) {
-				const descriptors = schemaToFlags({ [keyword]: variants });
+				const descriptors = flags({ [keyword]: variants });
 				const value = descriptors.find(({ name }) => name === "value");
 
 				expect(value).toMatchObject({ type: "json", required: false });
@@ -1941,7 +2013,7 @@ describe("schema flags", () => {
 				],
 			};
 
-			const descriptors = schemaToFlags(schema);
+			const descriptors = flags(schema);
 			expect(
 				descriptors.map(({ name, required, requiredIf }) => ({
 					name,
@@ -1963,7 +2035,7 @@ describe("schema flags", () => {
 	);
 
 	it("uses JSON coercion for heterogeneous scalar unions", () => {
-		const descriptors = schemaToFlags({
+		const descriptors = flags({
 			type: "object",
 			properties: {
 				value: {
@@ -2003,7 +2075,7 @@ describe("schema flags", () => {
 					},
 				},
 			};
-			const descriptors = schemaToFlags(schema);
+			const descriptors = flags(schema);
 
 			expect(descriptors.map(({ name, type }) => ({ name, type }))).toEqual([
 				{ name: "value", type: "json" },
@@ -2049,7 +2121,7 @@ describe("schema flags", () => {
 					},
 				},
 			};
-			const descriptors = schemaToFlags(schema);
+			const descriptors = flags(schema);
 
 			expect(descriptors.map(({ name, type }) => ({ name, type }))).toEqual([
 				{ name: "value-id", type: "number" },
@@ -2083,7 +2155,7 @@ describe("schema flags", () => {
 					},
 				},
 			};
-			const descriptors = schemaToFlags(schema);
+			const descriptors = flags(schema);
 
 			expect(descriptors.map(({ name, type }) => ({ name, type }))).toEqual([
 				{ name: "value", type: "json" },
@@ -2125,7 +2197,7 @@ describe("schema flags", () => {
 					},
 				},
 			};
-			const descriptors = schemaToFlags(schema);
+			const descriptors = flags(schema);
 
 			expect(descriptors.map(({ name, type }) => ({ name, type }))).toEqual([
 				{ name: "value", type: "json" },
@@ -2169,7 +2241,7 @@ describe("schema flags", () => {
 					},
 				},
 			};
-			const descriptors = schemaToFlags(schema);
+			const descriptors = flags(schema);
 
 			expect(descriptors.map(({ name, type }) => ({ name, type }))).toEqual([
 				{ name: "value", type: "json" },

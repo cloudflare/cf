@@ -16,6 +16,7 @@
  */
 import { isDeepStrictEqual } from "node:util";
 import { setNestedValue } from "./body-parser.js";
+import { flagOwnership, GLOBAL_OPTION_NAMES } from "./global-options.js";
 import { resolveFileToken } from "./input-validation.js";
 import { sanitizeTerminalText } from "./ui/sanitize.js";
 import { theme } from "./ui/theme.js";
@@ -714,13 +715,8 @@ function describeLeaf(
 			.filter(({ value, label }) => label && label !== String(value))
 			.map(({ value, label }) => [String(value), label as string])
 	);
-	const flagName = path.map(fieldToFlag).join("-");
-	// These global flags belong to cf, not the runtime API schema.
-	if (["mode", "temporary-account", "event-code"].includes(flagName)) {
-		return undefined;
-	}
 	return {
-		name: flagName,
+		name: path.map(fieldToFlag).join("-"),
 		path,
 		type,
 		required,
@@ -786,12 +782,18 @@ function mergeDescriptors(
 export interface SchemaToFlagsOptions {
 	/** Field paths the command takes another way (e.g. as a positional). */
 	exclude?: readonly (readonly string[])[];
+	/**
+	 * Every flag the command registers itself, `--body` and `--dry-run`
+	 * included. A field whose flag cf or the command owns becomes
+	 * `--input-<flag>`, so help and the handler must pass the same list.
+	 */
+	commandFlags: readonly string[];
 }
 
 /** Flatten a request-body schema into flag descriptors. */
 export function schemaToFlags(
 	schema: JsonSchema,
-	options: SchemaToFlagsOptions = {}
+	options: SchemaToFlagsOptions
 ): FlagDescriptor[] {
 	const excluded = new Set(
 		(options.exclude ?? []).map((path) => path.join("."))
@@ -1046,13 +1048,38 @@ export function schemaToFlags(
 	};
 	walk(schema, []);
 
-	return [...found.values()].sort((a, b) =>
-		a.required === b.required
-			? a.name.localeCompare(b.name)
-			: a.required
-				? -1
-				: 1
+	return claimInputFlags([...found.values()], options.commandFlags).sort(
+		(a, b) =>
+			a.required === b.required
+				? a.name.localeCompare(b.name)
+				: a.required
+					? -1
+					: 1
 	);
+}
+
+/**
+ * Moves descriptors off flags cf or the command owns: a clashing field
+ * becomes `input-<flag>`. When that name is owned or taken too, the field
+ * gets no flag and stays reachable through `--body`.
+ */
+function claimInputFlags(
+	descriptors: readonly FlagDescriptor[],
+	commandFlags: readonly string[]
+): FlagDescriptor[] {
+	const owner = flagOwnership(commandFlags);
+	const taken = new Set(descriptors.map((d) => d.name));
+	return descriptors.flatMap((descriptor) => {
+		if (owner(descriptor.name) === undefined) {
+			return [descriptor];
+		}
+		const name = `input-${descriptor.name}`;
+		if (owner(name) !== undefined || taken.has(name)) {
+			return [];
+		}
+		taken.add(name);
+		return [{ ...descriptor, name }];
+	});
 }
 
 function pathsEqual(a: string[] | undefined, b: string[] | undefined): boolean {
@@ -1147,11 +1174,17 @@ export function renderFlagHelp(
 	return [theme.brand(sanitizeTerminalText(heading)), ...lines].join("\n");
 }
 
-/** Flags cf itself owns; never read as request-body input. */
-const CF_FLAGS =
-	"_ $0 -- body dry-run dryRun event-code eventCode help h local m mode persist-to persistTo profile quiet q temporary-account temporaryAccount version v zone z".split(
-		" "
-	);
+/**
+ * Argv keys cf's global options produce, in both spellings yargs uses; never
+ * read as request-body input. Reserved future names stay out, so `--json`
+ * is still an unknown flag rather than silently ignored.
+ */
+const CF_FLAGS = [
+	"_",
+	"$0",
+	"--",
+	...GLOBAL_OPTION_NAMES.flatMap((name) => [name, camelCase(name)]),
+];
 
 /** Read a descriptor's value, accepting either spelling yargs produces. */
 function readFlag(
@@ -2024,7 +2057,7 @@ export function validateSupportedJsonSchema(
 }
 
 export interface AssembleOptions {
-	/** Extra flags the command owns, beyond cf's globals. */
+	/** Flags the command owns, beyond cf's globals. */
 	reserved?: readonly string[];
 	/** Parsed input to preserve verbatim, with supplied flags overlaid on it. */
 	baseBody?: Record<string, unknown>;

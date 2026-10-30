@@ -60,6 +60,9 @@ const OWN_FLAGS = [
 	"f",
 	"prefer",
 	"contacts",
+	"body",
+	"dry-run",
+	"dryRun",
 ];
 
 const CHECK_HINT =
@@ -671,7 +674,13 @@ async function showHelp(argv: Args): Promise<void> {
 	);
 	console.log(
 		lookup.ok
-			? `\n${renderFlagHelp(schemaToFlags(lookup.schema, { exclude: [DOMAIN_FIELD] }), `Registration fields for .${lookup.extension}`)}`
+			? `\n${renderFlagHelp(
+					schemaToFlags(lookup.schema, {
+						exclude: [DOMAIN_FIELD],
+						commandFlags: OWN_FLAGS,
+					}),
+					`Registration fields for .${lookup.extension}`
+				)}`
 			: `\n${theme.muted(`Could not load the registration fields for ${displayDomain}: ${sanitizeTerminalText(lookup.reason)}.`)}`
 	);
 }
@@ -867,6 +876,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 		const registrationSchema = lookup.schema;
 		const descriptors = schemaToFlags(lookup.schema, {
 			exclude: [DOMAIN_FIELD],
+			commandFlags: OWN_FLAGS,
 		});
 		if (!body) {
 			if (

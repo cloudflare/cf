@@ -95,7 +95,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.conflicts("format", ["text"])
 		.implies("format", ["algorithm", "usages"])
 		.conflicts("key-base64", ["text"])
+		.implies("key-base64", ["algorithm", "format", "usages"])
 		.conflicts("key-jwk", ["text"])
+		.implies("key-jwk", ["algorithm", "format", "usages"])
 		.conflicts("usages", ["text"])
 		.implies("usages", ["algorithm", "format"]);
 }

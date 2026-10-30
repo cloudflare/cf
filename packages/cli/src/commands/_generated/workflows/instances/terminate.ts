@@ -76,29 +76,10 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		})
 		.conflicts("rollback", ["from-count", "from-name", "from-type"])
 		.conflicts("from-count", ["rollback"])
+		.implies("from-count", ["from-name"])
 		.conflicts("from-name", ["rollback"])
 		.conflicts("from-type", ["rollback"])
-		.check((argv) => {
-			const groupSet = ["from-count", "from-name", "from-type"].some(
-				(k) => argv[k] !== undefined
-			);
-			if (groupSet) {
-				const requiredConflicts: Record<string, string[]> = {
-					"from-name": ["rollback"],
-				};
-				const missing = ["from-name"].filter(
-					(k) =>
-						argv[k] === undefined &&
-						!(requiredConflicts[k] ?? []).some((x) => argv[x] !== undefined)
-				);
-				if (missing.length > 0) {
-					throw new Error(
-						`${missing.map((m) => "--" + m).join(", ")} ${missing.length === 1 ? "is" : "are"} required when any --from-* flag is set`
-					);
-				}
-			}
-			return true;
-		});
+		.implies("from-type", ["from-name"]);
 }
 
 type Args = InferArgs<typeof builder>;

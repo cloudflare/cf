@@ -100,11 +100,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			type: "string",
 			description: "Raw JSON request body (bypasses individual flags)",
 		})
-		.conflicts("integration-config-api-url", [
-			"integration-config-customer-id",
-			"integration-config-client-id",
-			"integration-config-client-secret",
-		])
 		.conflicts("integration-config-auth-url", [
 			"integration-config-customer-id",
 			"integration-config-client-key",
@@ -118,22 +113,19 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		])
 		.conflicts("integration-config-client-id", [
 			"integration-config-client-key",
-			"integration-config-customer-id",
 			"integration-config-access-client-id",
 			"integration-config-access-client-secret",
-			"integration-config-api-url",
 		])
-		.conflicts("integration-config-client-secret", [
-			"integration-config-access-client-id",
-			"integration-config-access-client-secret",
-			"integration-config-api-url",
+		.implies("integration-config-client-id", [
+			"integration-config-client-secret",
 		])
 		.conflicts("integration-config-customer-id", [
 			"integration-config-auth-url",
-			"integration-config-client-id",
-			"integration-config-api-url",
 			"integration-config-access-client-id",
 			"integration-config-access-client-secret",
+		])
+		.implies("integration-config-customer-id", [
+			"integration-config-client-secret",
 		])
 		.conflicts("integration-config-client-key", [
 			"integration-config-auth-url",
@@ -149,23 +141,19 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.conflicts("integration-config-access-client-id", [
 			"integration-config-auth-url",
 			"integration-config-client-id",
-			"integration-config-client-secret",
 			"integration-config-customer-id",
 			"integration-config-client-key",
 		])
 		.implies("integration-config-access-client-id", [
-			"integration-config-access-client-secret",
 			"integration-config-api-url",
 		])
 		.conflicts("integration-config-access-client-secret", [
 			"integration-config-auth-url",
 			"integration-config-client-id",
-			"integration-config-client-secret",
 			"integration-config-customer-id",
 			"integration-config-client-key",
 		])
 		.implies("integration-config-access-client-secret", [
-			"integration-config-access-client-id",
 			"integration-config-api-url",
 		]);
 }

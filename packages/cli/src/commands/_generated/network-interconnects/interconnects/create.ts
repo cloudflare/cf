@@ -66,6 +66,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		})
 		.conflicts("slot-id", ["bandwidth", "pairing-key"])
 		.conflicts("speed", ["bandwidth", "pairing-key"])
+		.implies("speed", ["slot-id"])
 		.conflicts("bandwidth", ["slot-id", "speed"])
 		.implies("bandwidth", ["pairing-key"])
 		.conflicts("pairing-key", ["slot-id", "speed"])

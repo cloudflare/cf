@@ -91,125 +91,170 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			type: "string",
 			description: "Raw JSON request body (bypasses individual flags)",
 		})
+		.conflicts("enabled", [
+			"value-enabled",
+			"value-pool-id",
+			"value-cache-by-device-type",
+			"value-cf",
+			"value-hostnames",
+			"value-wordpress",
+			"value-wp-plugin",
+			"value-strict-transport-security-enabled",
+			"value-strict-transport-security-include-subdomains",
+			"value-strict-transport-security-max-age",
+			"value-strict-transport-security-nosniff",
+			"value-strict-transport-security-preload",
+		])
+		.conflicts("value-enabled", [
+			"value-strict-transport-security-enabled",
+			"value-strict-transport-security-include-subdomains",
+			"value-strict-transport-security-max-age",
+			"value-strict-transport-security-nosniff",
+			"value-strict-transport-security-preload",
+			"enabled",
+		])
 		.conflicts("value-pool-id", [
 			"value-cache-by-device-type",
 			"value-cf",
 			"value-hostnames",
 			"value-wordpress",
 			"value-wp-plugin",
+			"value-strict-transport-security-enabled",
 			"value-strict-transport-security-include-subdomains",
 			"value-strict-transport-security-max-age",
 			"value-strict-transport-security-nosniff",
 			"value-strict-transport-security-preload",
+			"enabled",
 		])
 		.conflicts("value-cache-by-device-type", [
 			"value-pool-id",
+			"value-strict-transport-security-enabled",
 			"value-strict-transport-security-include-subdomains",
 			"value-strict-transport-security-max-age",
 			"value-strict-transport-security-nosniff",
 			"value-strict-transport-security-preload",
+			"enabled",
 		])
 		.implies("value-cache-by-device-type", [
+			"value-enabled",
 			"value-cf",
-			"value-strict-transport-security-enabled",
 			"value-hostnames",
 			"value-wordpress",
 			"value-wp-plugin",
 		])
 		.conflicts("value-cf", [
 			"value-pool-id",
+			"value-strict-transport-security-enabled",
 			"value-strict-transport-security-include-subdomains",
 			"value-strict-transport-security-max-age",
 			"value-strict-transport-security-nosniff",
 			"value-strict-transport-security-preload",
+			"enabled",
 		])
 		.implies("value-cf", [
+			"value-enabled",
 			"value-cache-by-device-type",
-			"value-strict-transport-security-enabled",
 			"value-hostnames",
 			"value-wordpress",
 			"value-wp-plugin",
 		])
 		.conflicts("value-hostnames", [
 			"value-pool-id",
+			"value-strict-transport-security-enabled",
 			"value-strict-transport-security-include-subdomains",
 			"value-strict-transport-security-max-age",
 			"value-strict-transport-security-nosniff",
 			"value-strict-transport-security-preload",
+			"enabled",
 		])
 		.implies("value-hostnames", [
+			"value-enabled",
 			"value-cache-by-device-type",
 			"value-cf",
-			"value-strict-transport-security-enabled",
 			"value-wordpress",
 			"value-wp-plugin",
 		])
 		.conflicts("value-wordpress", [
 			"value-pool-id",
+			"value-strict-transport-security-enabled",
 			"value-strict-transport-security-include-subdomains",
 			"value-strict-transport-security-max-age",
 			"value-strict-transport-security-nosniff",
 			"value-strict-transport-security-preload",
+			"enabled",
 		])
 		.implies("value-wordpress", [
+			"value-enabled",
 			"value-cache-by-device-type",
 			"value-cf",
-			"value-strict-transport-security-enabled",
 			"value-hostnames",
 			"value-wp-plugin",
 		])
 		.conflicts("value-wp-plugin", [
 			"value-pool-id",
+			"value-strict-transport-security-enabled",
 			"value-strict-transport-security-include-subdomains",
 			"value-strict-transport-security-max-age",
 			"value-strict-transport-security-nosniff",
 			"value-strict-transport-security-preload",
+			"enabled",
 		])
 		.implies("value-wp-plugin", [
+			"value-enabled",
 			"value-cache-by-device-type",
 			"value-cf",
-			"value-strict-transport-security-enabled",
 			"value-hostnames",
 			"value-wordpress",
 		])
-		.implies("value-strict-transport-security-enabled", [
+		.conflicts("value-strict-transport-security-enabled", [
+			"value-enabled",
+			"value-pool-id",
 			"value-cache-by-device-type",
 			"value-cf",
 			"value-hostnames",
 			"value-wordpress",
 			"value-wp-plugin",
+			"enabled",
 		])
 		.conflicts("value-strict-transport-security-include-subdomains", [
+			"value-enabled",
 			"value-pool-id",
 			"value-cache-by-device-type",
 			"value-cf",
 			"value-hostnames",
 			"value-wordpress",
 			"value-wp-plugin",
+			"enabled",
 		])
 		.conflicts("value-strict-transport-security-max-age", [
+			"value-enabled",
 			"value-pool-id",
 			"value-cache-by-device-type",
 			"value-cf",
 			"value-hostnames",
 			"value-wordpress",
 			"value-wp-plugin",
+			"enabled",
 		])
 		.conflicts("value-strict-transport-security-nosniff", [
+			"value-enabled",
 			"value-pool-id",
 			"value-cache-by-device-type",
 			"value-cf",
 			"value-hostnames",
 			"value-wordpress",
 			"value-wp-plugin",
+			"enabled",
 		])
 		.conflicts("value-strict-transport-security-preload", [
+			"value-enabled",
 			"value-pool-id",
 			"value-cache-by-device-type",
 			"value-cf",
 			"value-hostnames",
 			"value-wordpress",
 			"value-wp-plugin",
+			"enabled",
 		]);
 }
 

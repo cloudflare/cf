@@ -119,6 +119,14 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			type: "string",
 			description: "Raw JSON request body (bypasses individual flags)",
 		})
+		.conflicts("source-access-key-id", [
+			"source-client-email",
+			"source-private-key",
+			"source-account-key",
+			"source-account-name",
+			"source-container",
+			"source-sas-token",
+		])
 		.conflicts("source-bucket", [
 			"source-bucket-url",
 			"source-account-key",
@@ -135,8 +143,18 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			"source-container",
 			"source-sas-token",
 		])
+		.conflicts("source-secret-access-key", [
+			"source-client-email",
+			"source-private-key",
+			"source-account-key",
+			"source-account-name",
+			"source-container",
+			"source-sas-token",
+		])
 		.conflicts("source-client-email", [
+			"source-access-key-id",
 			"source-region",
+			"source-secret-access-key",
 			"source-bucket-url",
 			"source-account-key",
 			"source-account-name",
@@ -144,7 +162,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			"source-sas-token",
 		])
 		.conflicts("source-private-key", [
+			"source-access-key-id",
 			"source-region",
+			"source-secret-access-key",
 			"source-bucket-url",
 			"source-account-key",
 			"source-account-name",
@@ -162,29 +182,37 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			"source-sas-token",
 		])
 		.conflicts("source-account-key", [
+			"source-access-key-id",
 			"source-bucket",
 			"source-region",
+			"source-secret-access-key",
 			"source-client-email",
 			"source-private-key",
 			"source-bucket-url",
 		])
 		.conflicts("source-account-name", [
+			"source-access-key-id",
 			"source-bucket",
 			"source-region",
+			"source-secret-access-key",
 			"source-client-email",
 			"source-private-key",
 			"source-bucket-url",
 		])
 		.conflicts("source-container", [
+			"source-access-key-id",
 			"source-bucket",
 			"source-region",
+			"source-secret-access-key",
 			"source-client-email",
 			"source-private-key",
 			"source-bucket-url",
 		])
 		.conflicts("source-sas-token", [
+			"source-access-key-id",
 			"source-bucket",
 			"source-region",
+			"source-secret-access-key",
 			"source-client-email",
 			"source-private-key",
 			"source-bucket-url",

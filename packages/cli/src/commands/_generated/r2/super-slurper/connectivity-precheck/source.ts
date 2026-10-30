@@ -87,19 +87,23 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			"secret-private-key",
 			"jurisdiction",
 		])
+		.implies("endpoint", ["secret-access-key-id", "secret-secret-access-key"])
 		.conflicts("region", [
 			"secret-client-email",
 			"secret-private-key",
 			"jurisdiction",
 		])
+		.implies("region", ["secret-access-key-id", "secret-secret-access-key"])
 		.conflicts("secret-access-key-id", [
 			"secret-client-email",
 			"secret-private-key",
 		])
+		.implies("secret-access-key-id", ["secret-secret-access-key"])
 		.conflicts("secret-secret-access-key", [
 			"secret-client-email",
 			"secret-private-key",
 		])
+		.implies("secret-secret-access-key", ["secret-access-key-id"])
 		.conflicts("secret-client-email", [
 			"endpoint",
 			"region",
@@ -107,6 +111,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			"secret-secret-access-key",
 			"jurisdiction",
 		])
+		.implies("secret-client-email", ["secret-private-key"])
 		.conflicts("secret-private-key", [
 			"endpoint",
 			"region",
@@ -114,11 +119,16 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			"secret-secret-access-key",
 			"jurisdiction",
 		])
+		.implies("secret-private-key", ["secret-client-email"])
 		.conflicts("jurisdiction", [
 			"endpoint",
 			"region",
 			"secret-client-email",
 			"secret-private-key",
+		])
+		.implies("jurisdiction", [
+			"secret-access-key-id",
+			"secret-secret-access-key",
 		]);
 }
 

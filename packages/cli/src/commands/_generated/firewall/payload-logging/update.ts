@@ -24,7 +24,7 @@ import { runWithTelemetry } from "#lib/telemetry/index.js";
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
 		.usage(
-			"$0 firewall payload-logging update\n\nCreates or replaces the public key that payload logging uses to encrypt matched payloads for the account or zone. It applies to every zone in the account or zone that has no zone key. Requires a plan that includes payload logging (Enterprise); otherwise it returns 403."
+			"$0 firewall payload-logging update\n\nCreates or replaces the public key that payload logging uses to encrypt matched payloads for the account or zone. It applies to every zone in the account or zone that has no zone key. Requires a plan that includes payload logging (Enterprise); otherwise it returns 403.\n\nRuns against your account. Pass --zone to run against a zone instead. CLOUDFLARE_ZONE_ID is ignored."
 		)
 		.option("public-key", {
 			type: "string",

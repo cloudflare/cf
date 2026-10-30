@@ -215,22 +215,24 @@ export function generateFiles(
 			...spec,
 			info: { ...spec.info, version: JSON.stringify(config) },
 		};
-		const openapiPath = join(dir, "openapi.json");
-		writeFileSync(openapiPath, JSON.stringify(doc));
+		const openapi = JSON.stringify(doc);
 		const wasm = plugin();
 		try {
-			normalizeOpenApi(forgeBin, openapiPath);
+			const normalized = normalizeOpenApi(forgeBin, openapi);
 			execFileSync(
 				process.execPath,
 				[
 					forgeBin,
-					openapiPath,
+					"-",
 					"--target",
 					`wasm://${wasm}`,
 					"--out",
 					join(dir, "out"),
 				],
-				{ stdio: "pipe" }
+				{
+					input: normalized ?? openapi,
+					stdio: ["pipe", "pipe", "pipe"],
+				}
 			);
 		} catch (error) {
 			const stderr = (error as { stderr?: Buffer }).stderr?.toString() ?? "";

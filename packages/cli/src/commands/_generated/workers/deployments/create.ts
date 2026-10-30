@@ -13,6 +13,7 @@ import {
 	resolveAccountIdSilent,
 } from "#lib/auth.js";
 import { compactBody, parseBody, parseObjectArray } from "#lib/body-parser.js";
+import { validateBodyUnions } from "#lib/body-unions.js";
 import { formatDryRun } from "#lib/dry-run.js";
 import { resolveFileToken } from "#lib/input-validation.js";
 import { LOCAL_ACCOUNT_ID } from "#lib/local.js";
@@ -59,6 +60,35 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 }
 
 type Args = InferArgs<typeof builder>;
+const bodyUnions: Parameters<typeof validateBodyUnions>[1] = [
+	{
+		path: ["code_update_strategy"],
+		selector: "mode",
+		variants: [
+			{
+				values: ["immediate"],
+				schema: {
+					type: "object",
+					properties: { mode: { enum: ["immediate"] } },
+					required: ["mode"],
+					additionalProperties: false,
+				},
+			},
+			{
+				values: ["deferred"],
+				schema: {
+					type: "object",
+					properties: {
+						max_delay: { anyOf: [{ type: "number" }, { type: "null" }] },
+						mode: { enum: ["deferred"] },
+					},
+					required: ["mode"],
+					additionalProperties: false,
+				},
+			},
+		],
+	},
+];
 
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "create",
@@ -89,10 +119,13 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						body:
 							argv.body !== undefined
 								? parseBody(argv.body)
-								: compactBody({
-										strategy: argv["strategy"],
-										versions: parseObjectArray(argv["versions"], "versions"),
-									}),
+								: validateBodyUnions(
+										compactBody({
+											strategy: argv["strategy"],
+											versions: parseObjectArray(argv["versions"], "versions"),
+										}),
+										bodyUnions
+									),
 					});
 					return;
 				}
@@ -138,6 +171,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					strategy: argv["strategy"],
 					versions: parseObjectArray(argv["versions"], "versions"),
 				});
+				validateBodyUnions(bodyData, bodyUnions);
 				const qs = new URLSearchParams(
 					Object.entries(queryParams)
 						.filter(([, v]) => v !== undefined)

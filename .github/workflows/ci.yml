@@ -3,7 +3,7 @@ name: CI
 # Three jobs on every PR, merge-queue candidate, and push to main:
 #
 #   check — `pnpm check` (generation, dependency builds, lint/format + tsrs) over
-#           the whole repo.
+#           the whole repo, then verify generated commands are up to date.
 #   cli   — the cf CLI's in-package vitest suite (packages/cli) on
 #           Linux, macOS, and Windows.
 #   wrangler-tests — the canonical Wrangler compatibility corpus retargeted
@@ -43,6 +43,16 @@ jobs:
 
       - name: Lint, type-check, and format-check
         run: pnpm check
+
+      - name: Verify generated commands are up to date
+        shell: bash
+        run: |
+          if [[ -n "$(git status --porcelain --untracked-files=all -- packages/cli/src/commands/_generated)" ]]; then
+            git diff --stat -- packages/cli/src/commands/_generated
+            git status --short --untracked-files=all -- packages/cli/src/commands/_generated
+            echo "::error::Generated commands are out of date. Rebase onto main, run pnpm generate, and commit the changes."
+            exit 1
+          fi
 
   cli:
     if: ${{ github.repository_owner == 'cloudflare' }}

@@ -21,7 +21,7 @@ import { runWithTelemetry } from "#lib/telemetry/index.js";
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
 		.usage(
-			"$0 accounts entitlements get\n\nReturns the list of entitlements (features and their allocations) for a given account or zone. Each entitlement describes a product feature the account or zone is permitted to use and the allocation value (boolean, count, range, enum, or string) that governs its behaviour."
+			"$0 accounts entitlements get\n\nReturns the list of entitlements (features and their allocations) for a given account or zone. Each entitlement describes a product feature the account or zone is permitted to use and the allocation value (boolean, count, range, enum, or string) that governs its behaviour.\n\nRuns against your account. Pass --zone to run against a zone instead. CLOUDFLARE_ZONE_ID is ignored."
 		)
 		.option("dry-run", {
 			type: "boolean",

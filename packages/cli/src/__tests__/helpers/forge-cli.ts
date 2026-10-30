@@ -217,17 +217,11 @@ export function generateFiles(
 		const openapi = JSON.stringify(doc);
 		const wasm = plugin();
 		try {
-			const supportsNormalize = /^\s+normalize\b/m.test(
-				execFileSync(process.execPath, [forgeBin, "--help"], {
-					encoding: "utf8",
-				})
+			const input = execFileSync(
+				process.execPath,
+				[forgeBin, "normalize", "-"],
+				{ encoding: "utf8", input: openapi }
 			);
-			const input = supportsNormalize
-				? execFileSync(process.execPath, [forgeBin, "normalize", "-"], {
-						encoding: "utf8",
-						input: openapi,
-					})
-				: openapi;
 			execFileSync(
 				process.execPath,
 				[

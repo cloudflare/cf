@@ -1,9 +1,6 @@
-import { type ChildProcess, execFileSync, spawn } from "node:child_process";
-import {
-	existsSync,
-	readFileSync,
-	rmSync,
-} from "node:fs";
+import { execFileSync, spawn } from "node:child_process";
+import { once } from "node:events";
+import { existsSync, readFileSync, rmSync } from "node:fs";
 import { createRequire } from "node:module";
 import { dirname, join } from "node:path";
 import { Readable } from "node:stream";
@@ -34,16 +31,6 @@ type OpenApiObject = Record<string, unknown>;
 
 function isRecord(value: unknown): value is OpenApiObject {
 	return typeof value === "object" && value !== null && !Array.isArray(value);
-}
-
-function waitFor(child: ChildProcess, name: string): Promise<void> {
-	return new Promise((resolve, reject) => {
-		child.once("error", reject);
-		child.once("close", (code, signal) => {
-			if (code === 0) resolve();
-			else reject(new Error(`${name} exited with ${code ?? signal}`));
-		});
-	});
 }
 
 function resolveLocalParameter(
@@ -251,23 +238,20 @@ const forge = spawn(
 	],
 	{ stdio: ["pipe", "inherit", "inherit"] }
 );
-const supportsNormalize = /^\s+normalize\b/m.test(
-	execFileSync(process.execPath, [forgeBin, "--help"], { encoding: "utf8" })
-);
-if (supportsNormalize) {
-	const normalize = spawn(process.execPath, [forgeBin, "normalize", "-"], {
-		stdio: ["pipe", "pipe", "inherit"],
-	});
-	Readable.from([openapi]).pipe(normalize.stdin!);
-	normalize.stdout!.pipe(forge.stdin!);
-	await Promise.all([
-		waitFor(normalize, "forge normalize"),
-		waitFor(forge, "forge"),
-	]);
-} else {
-	console.warn("[cf-generator] Installed Forge predates native metadata normalization");
-	Readable.from([openapi]).pipe(forge.stdin!);
-	await waitFor(forge, "forge");
+const normalize = spawn(process.execPath, [forgeBin, "normalize", "-"], {
+	stdio: ["pipe", "pipe", "inherit"],
+});
+Readable.from([openapi]).pipe(normalize.stdin!);
+normalize.stdout!.pipe(forge.stdin!);
+const [[normalizeCode, normalizeSignal], [forgeCode, forgeSignal]] =
+	await Promise.all([once(normalize, "close"), once(forge, "close")]);
+if (normalizeCode !== 0) {
+	throw new Error(
+		`forge normalize exited with ${normalizeCode ?? normalizeSignal}`
+	);
+}
+if (forgeCode !== 0) {
+	throw new Error(`forge exited with ${forgeCode ?? forgeSignal}`);
 }
 console.log("CLI: generated commands");
 

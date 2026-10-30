@@ -86,7 +86,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("ai-search-options-reranking-match-threshold", {
 			type: "number",
 			description: "The ai_search_options.reranking.match_threshold field",
-			default: 0.4,
 		})
 		.option("ai-search-options-reranking-model", {
 			type: "string",
@@ -100,7 +99,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("ai-search-options-retrieval-context-expansion", {
 			type: "number",
 			description: "The ai_search_options.retrieval.context_expansion field",
-			default: 0,
 		})
 		.option("ai-search-options-retrieval-filters", {
 			type: "string",
@@ -157,7 +155,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("ai-search-options-retrieval-return-on-failure", {
 			type: "boolean",
 			description: "The ai_search_options.retrieval.return_on_failure field",
-			default: true,
 		})
 		.option("messages", {
 			type: "string",

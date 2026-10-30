@@ -126,7 +126,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"data-urls",
 				"data-zip-code",
 			].some((k) => argv[k] !== undefined);
-			if (groupSet) {
+			if (argv.body === undefined && groupSet) {
 				const missing = [
 					"data-city",
 					"data-country",

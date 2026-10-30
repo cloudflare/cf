@@ -849,7 +849,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"reg-who-request-reg-who-requested-data-elements",
 				"reg-who-request-reg-who-requestor-type",
 			].some((k) => argv[k] !== undefined);
-			if (groupSet) {
+			if (argv.body === undefined && groupSet) {
 				const requiredConflicts: Record<string, string[]> = {
 					"reg-who-request-reg-who-good-faith-affirmation": [
 						"address1",
@@ -965,7 +965,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				);
 				if (missing.length > 0) {
 					throw new Error(
-						`${missing.map((m) => "--" + m).join(", ")} ${missing.length === 1 ? "is" : "are"} required when any --reg_who_request-* flag is set`
+						`${missing.map((m) => "--" + m).join(", ")} ${missing.length === 1 ? "is" : "are"} required when any --reg-who-request-* flag is set`
 					);
 				}
 			}

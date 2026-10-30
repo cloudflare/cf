@@ -264,7 +264,24 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"sink-config-table-name",
 				"sink-config-token",
 			].some((k) => argv[k] !== undefined);
-			if (groupSet) {
+			if (argv.body === undefined && groupSet) {
+				const missing = ["sink-config-account-id", "sink-config-bucket"].filter(
+					(k) => argv[k] === undefined
+				);
+				if (missing.length > 0) {
+					throw new Error(
+						`${missing.map((m) => "--" + m).join(", ")} ${missing.length === 1 ? "is" : "are"} required when any --config-* flag is set`
+					);
+				}
+			}
+			return true;
+		})
+		.check((argv) => {
+			const groupSet = [
+				"sink-config-credentials-access-key-id",
+				"sink-config-credentials-secret-access-key",
+			].some((k) => argv[k] !== undefined);
+			if (argv.body === undefined && groupSet) {
 				const requiredConflicts: Record<string, string[]> = {
 					"sink-config-credentials-access-key-id": [
 						"sink-config-namespace",
@@ -278,8 +295,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 					],
 				};
 				const missing = [
-					"sink-config-account-id",
-					"sink-config-bucket",
 					"sink-config-credentials-access-key-id",
 					"sink-config-credentials-secret-access-key",
 				].filter(
@@ -289,7 +304,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				);
 				if (missing.length > 0) {
 					throw new Error(
-						`${missing.map((m) => "--" + m).join(", ")} ${missing.length === 1 ? "is" : "are"} required when any --config-* flag is set`
+						`${missing.map((m) => "--" + m).join(", ")} ${missing.length === 1 ? "is" : "are"} required when any --config-credentials-* flag is set`
 					);
 				}
 			}
@@ -304,7 +319,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"format-type",
 				"format-row-group-bytes",
 			].some((k) => argv[k] !== undefined);
-			if (groupSet) {
+			if (argv.body === undefined && groupSet) {
 				const missing = ["format-type"].filter((k) => argv[k] === undefined);
 				if (missing.length > 0) {
 					throw new Error(

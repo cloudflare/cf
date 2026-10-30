@@ -216,50 +216,16 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		})
 		.check((argv) => {
 			const groupSet = [
-				"settings-activity-log-enabled",
-				"settings-antivirus-enabled-download-phase",
-				"settings-antivirus-enabled-upload-phase",
-				"settings-antivirus-fail-closed",
-				"settings-antivirus-notification-settings-enabled",
-				"settings-antivirus-notification-settings-include-context",
-				"settings-antivirus-notification-settings-msg",
-				"settings-antivirus-notification-settings-support-url",
-				"settings-block-page-background-color",
-				"settings-block-page-enabled",
-				"settings-block-page-footer-text",
-				"settings-block-page-header-text",
-				"settings-block-page-include-context",
-				"settings-block-page-logo-path",
-				"settings-block-page-mailto-address",
-				"settings-block-page-mailto-subject",
-				"settings-block-page-mode",
-				"settings-block-page-name",
-				"settings-block-page-suppress-footer",
-				"settings-block-page-target-uri",
-				"settings-body-scanning-inspection-mode",
-				"settings-browser-isolation-non-identity-enabled",
-				"settings-browser-isolation-url-browser-isolation-enabled",
-				"settings-certificate-id",
 				"settings-custom-certificate-enabled",
 				"settings-custom-certificate-id",
-				"settings-extended-email-matching-enabled",
-				"settings-fips-tls",
-				"settings-host-selector-enabled",
-				"settings-inspection-mode",
-				"settings-max-ttl-secs",
-				"settings-protocol-detection-enabled",
-				"settings-sandbox-enabled",
-				"settings-sandbox-fallback-action",
-				"settings-tls-decrypt-enabled",
 			].some((k) => argv[k] !== undefined);
-			if (groupSet) {
-				const missing = [
-					"settings-certificate-id",
-					"settings-custom-certificate-enabled",
-				].filter((k) => argv[k] === undefined);
+			if (argv.body === undefined && groupSet) {
+				const missing = ["settings-custom-certificate-enabled"].filter(
+					(k) => argv[k] === undefined
+				);
 				if (missing.length > 0) {
 					throw new Error(
-						`${missing.map((m) => "--" + m).join(", ")} ${missing.length === 1 ? "is" : "are"} required when any --settings-* flag is set`
+						`${missing.map((m) => "--" + m).join(", ")} ${missing.length === 1 ? "is" : "are"} required when any --settings-custom-certificate-* flag is set`
 					);
 				}
 			}

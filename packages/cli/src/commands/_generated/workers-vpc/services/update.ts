@@ -105,37 +105,16 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.conflicts("tcp-port", ["http-port", "https-port"])
 		.check((argv) => {
 			const groupSet = [
-				"host-ipv4",
-				"host-network-tunnel-id",
-				"host-ipv6",
-				"host-hostname",
 				"host-resolver-network-resolver-ips",
 				"host-resolver-network-tunnel-id",
 			].some((k) => argv[k] !== undefined);
-			if (groupSet) {
-				const missing = [
-					"host-network-tunnel-id",
-					"host-resolver-network-tunnel-id",
-				].filter((k) => argv[k] === undefined);
-				if (missing.length > 0) {
-					throw new Error(
-						`${missing.map((m) => "--" + m).join(", ")} ${missing.length === 1 ? "is" : "are"} required when any --host-* flag is set`
-					);
-				}
-			}
-			return true;
-		})
-		.check((argv) => {
-			const groupSet = ["tls-settings-cert-verification-mode"].some(
-				(k) => argv[k] !== undefined
-			);
-			if (groupSet) {
-				const missing = ["tls-settings-cert-verification-mode"].filter(
+			if (argv.body === undefined && groupSet) {
+				const missing = ["host-resolver-network-tunnel-id"].filter(
 					(k) => argv[k] === undefined
 				);
 				if (missing.length > 0) {
 					throw new Error(
-						`${missing.map((m) => "--" + m).join(", ")} ${missing.length === 1 ? "is" : "are"} required when any --tls_settings-* flag is set`
+						`${missing.map((m) => "--" + m).join(", ")} ${missing.length === 1 ? "is" : "are"} required when any --host-resolver-network-* flag is set`
 					);
 				}
 			}

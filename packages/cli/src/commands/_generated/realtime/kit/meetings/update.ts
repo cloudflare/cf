@@ -228,35 +228,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("body", {
 			type: "string",
 			description: "Update meeting body",
-		})
-		.check((argv) => {
-			const groupSet = [
-				"recording-config-audio-config-channel",
-				"recording-config-audio-config-codec",
-				"recording-config-audio-config-export-file",
-				"recording-config-file-name-prefix",
-				"recording-config-live-streaming-config-rtmp-url",
-				"recording-config-max-seconds",
-				"recording-config-realtimekit-bucket-config-enabled",
-				"recording-config-storage-config-type",
-				"recording-config-video-config-codec",
-				"recording-config-video-config-export-file",
-				"recording-config-video-config-height",
-				"recording-config-video-config-watermark-position",
-				"recording-config-video-config-watermark-url",
-				"recording-config-video-config-width",
-			].some((k) => argv[k] !== undefined);
-			if (groupSet) {
-				const missing = [
-					"recording-config-realtimekit-bucket-config-enabled",
-				].filter((k) => argv[k] === undefined);
-				if (missing.length > 0) {
-					throw new Error(
-						`${missing.map((m) => "--" + m).join(", ")} ${missing.length === 1 ? "is" : "are"} required when any --recording_config-* flag is set`
-					);
-				}
-			}
-			return true;
 		});
 }
 

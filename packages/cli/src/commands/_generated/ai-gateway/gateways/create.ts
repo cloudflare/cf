@@ -376,7 +376,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			const groupSet = ["stripe-authorization", "stripe-usage-events"].some(
 				(k) => argv[k] !== undefined
 			);
-			if (groupSet) {
+			if (argv.body === undefined && groupSet) {
 				const missing = ["stripe-authorization", "stripe-usage-events"].filter(
 					(k) => argv[k] === undefined
 				);

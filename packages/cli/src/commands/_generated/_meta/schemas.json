@@ -56277,7 +56277,7 @@
 				{
 					"name": "parameters-order-by-value",
 					"type": "string",
-					"required": true,
+					"required": false,
 					"description": "Configure which Calculation to order the results by."
 				}
 			]
@@ -56396,7 +56396,7 @@
 				{
 					"name": "parameters-order-by-value",
 					"type": "string",
-					"required": true,
+					"required": false,
 					"description": "Configure which Calculation to order the results by."
 				}
 			]
@@ -60932,19 +60932,19 @@
 				{
 					"name": "destination-credentials-access-key-id",
 					"type": "string",
-					"required": true,
+					"required": false,
 					"description": "Specifies the R2 Bucket Access Key Id."
 				},
 				{
 					"name": "destination-credentials-endpoint",
 					"type": "string",
-					"required": true,
+					"required": false,
 					"description": "Specifies the R2 Endpoint."
 				},
 				{
 					"name": "destination-credentials-secret-access-key",
 					"type": "string",
-					"required": true,
+					"required": false,
 					"description": "Specifies the R2 Bucket Secret Access Key."
 				},
 				{
@@ -96224,13 +96224,13 @@
 				{
 					"name": "settings-context-enricher-escaped-worker-name",
 					"type": "string",
-					"required": true,
+					"required": false,
 					"description": "The settings.contextEnricher.escapedWorkerName field"
 				},
 				{
 					"name": "settings-context-enricher-worker-tag",
 					"type": "string",
-					"required": true,
+					"required": false,
 					"description": "The settings.contextEnricher.workerTag field"
 				},
 				{

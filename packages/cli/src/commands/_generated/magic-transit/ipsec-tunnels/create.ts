@@ -159,7 +159,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"bgp-import-filter-id",
 				"bgp-md5-key",
 			].some((k) => argv[k] !== undefined);
-			if (groupSet) {
+			if (argv.body === undefined && groupSet) {
 				const missing = ["bgp-customer-asn"].filter(
 					(k) => argv[k] === undefined
 				);

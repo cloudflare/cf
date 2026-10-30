@@ -187,40 +187,82 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"contacts-administrator-phone",
 				"contacts-administrator-postal-info-name",
 				"contacts-administrator-postal-info-organization",
+			].some((k) => argv[k] !== undefined);
+			if (argv.body === undefined && groupSet) {
+				const missing = [
+					"contacts-administrator-email",
+					"contacts-administrator-phone",
+					"contacts-administrator-postal-info-name",
+				].filter((k) => argv[k] === undefined);
+				if (missing.length > 0) {
+					throw new Error(
+						`${missing.map((m) => "--" + m).join(", ")} ${missing.length === 1 ? "is" : "are"} required when any --contacts-administrator-* flag is set`
+					);
+				}
+			}
+			return true;
+		})
+		.check((argv) => {
+			const groupSet = [
 				"contacts-billing-email",
 				"contacts-billing-fax",
 				"contacts-billing-phone",
 				"contacts-billing-postal-info-name",
 				"contacts-billing-postal-info-organization",
+			].some((k) => argv[k] !== undefined);
+			if (argv.body === undefined && groupSet) {
+				const missing = [
+					"contacts-billing-email",
+					"contacts-billing-phone",
+					"contacts-billing-postal-info-name",
+				].filter((k) => argv[k] === undefined);
+				if (missing.length > 0) {
+					throw new Error(
+						`${missing.map((m) => "--" + m).join(", ")} ${missing.length === 1 ? "is" : "are"} required when any --contacts-billing-* flag is set`
+					);
+				}
+			}
+			return true;
+		})
+		.check((argv) => {
+			const groupSet = [
 				"contacts-registrant-email",
 				"contacts-registrant-fax",
 				"contacts-registrant-phone",
 				"contacts-registrant-postal-info-name",
 				"contacts-registrant-postal-info-organization",
+			].some((k) => argv[k] !== undefined);
+			if (argv.body === undefined && groupSet) {
+				const missing = [
+					"contacts-registrant-email",
+					"contacts-registrant-phone",
+					"contacts-registrant-postal-info-name",
+				].filter((k) => argv[k] === undefined);
+				if (missing.length > 0) {
+					throw new Error(
+						`${missing.map((m) => "--" + m).join(", ")} ${missing.length === 1 ? "is" : "are"} required when any --contacts-registrant-* flag is set`
+					);
+				}
+			}
+			return true;
+		})
+		.check((argv) => {
+			const groupSet = [
 				"contacts-technical-email",
 				"contacts-technical-fax",
 				"contacts-technical-phone",
 				"contacts-technical-postal-info-name",
 				"contacts-technical-postal-info-organization",
 			].some((k) => argv[k] !== undefined);
-			if (groupSet) {
+			if (argv.body === undefined && groupSet) {
 				const missing = [
-					"contacts-administrator-email",
-					"contacts-administrator-phone",
-					"contacts-administrator-postal-info-name",
-					"contacts-billing-email",
-					"contacts-billing-phone",
-					"contacts-billing-postal-info-name",
-					"contacts-registrant-email",
-					"contacts-registrant-phone",
-					"contacts-registrant-postal-info-name",
 					"contacts-technical-email",
 					"contacts-technical-phone",
 					"contacts-technical-postal-info-name",
 				].filter((k) => argv[k] === undefined);
 				if (missing.length > 0) {
 					throw new Error(
-						`${missing.map((m) => "--" + m).join(", ")} ${missing.length === 1 ? "is" : "are"} required when any --contacts-* flag is set`
+						`${missing.map((m) => "--" + m).join(", ")} ${missing.length === 1 ? "is" : "are"} required when any --contacts-technical-* flag is set`
 					);
 				}
 			}

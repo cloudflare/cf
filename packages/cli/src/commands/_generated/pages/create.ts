@@ -376,68 +376,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		})
 		.check((argv) => {
 			const groupSet = [
-				"deployment-configs-preview-ai-bindings",
-				"deployment-configs-preview-always-use-latest-compatibility-date",
-				"deployment-configs-preview-analytics-engine-datasets",
-				"deployment-configs-preview-browsers",
-				"deployment-configs-preview-build-image-major-version",
-				"deployment-configs-preview-compatibility-date",
-				"deployment-configs-preview-compatibility-flags",
-				"deployment-configs-preview-d1-databases",
-				"deployment-configs-preview-durable-object-namespaces",
-				"deployment-configs-preview-env-vars",
-				"deployment-configs-preview-fail-open",
-				"deployment-configs-preview-hyperdrive-bindings",
-				"deployment-configs-preview-kv-namespaces",
-				"deployment-configs-preview-limits-cpu-ms",
-				"deployment-configs-preview-mtls-certificates",
-				"deployment-configs-preview-placement-mode",
-				"deployment-configs-preview-queue-producers",
-				"deployment-configs-preview-r2-buckets",
-				"deployment-configs-preview-services",
-				"deployment-configs-preview-usage-model",
-				"deployment-configs-preview-vectorize-bindings",
-				"deployment-configs-preview-wrangler-config-hash",
-				"deployment-configs-production-ai-bindings",
-				"deployment-configs-production-always-use-latest-compatibility-date",
-				"deployment-configs-production-analytics-engine-datasets",
-				"deployment-configs-production-browsers",
-				"deployment-configs-production-build-image-major-version",
-				"deployment-configs-production-compatibility-date",
-				"deployment-configs-production-compatibility-flags",
-				"deployment-configs-production-d1-databases",
-				"deployment-configs-production-durable-object-namespaces",
-				"deployment-configs-production-env-vars",
-				"deployment-configs-production-fail-open",
-				"deployment-configs-production-hyperdrive-bindings",
-				"deployment-configs-production-kv-namespaces",
-				"deployment-configs-production-limits-cpu-ms",
-				"deployment-configs-production-mtls-certificates",
-				"deployment-configs-production-placement-mode",
-				"deployment-configs-production-queue-producers",
-				"deployment-configs-production-r2-buckets",
-				"deployment-configs-production-services",
-				"deployment-configs-production-usage-model",
-				"deployment-configs-production-vectorize-bindings",
-				"deployment-configs-production-wrangler-config-hash",
-			].some((k) => argv[k] !== undefined);
-			if (groupSet) {
-				const missing = [
-					"deployment-configs-preview-limits-cpu-ms",
-					"deployment-configs-preview-placement-mode",
-					"deployment-configs-production-limits-cpu-ms",
-					"deployment-configs-production-placement-mode",
-				].filter((k) => argv[k] === undefined);
-				if (missing.length > 0) {
-					throw new Error(
-						`${missing.map((m) => "--" + m).join(", ")} ${missing.length === 1 ? "is" : "are"} required when any --deployment_configs-* flag is set`
-					);
-				}
-			}
-			return true;
-		})
-		.check((argv) => {
-			const groupSet = [
 				"source-config-deployments-enabled",
 				"source-config-owner",
 				"source-config-owner-id",
@@ -453,7 +391,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"source-config-repo-name",
 				"source-type",
 			].some((k) => argv[k] !== undefined);
-			if (groupSet) {
+			if (argv.body === undefined && groupSet) {
 				const missing = ["source-type"].filter((k) => argv[k] === undefined);
 				if (missing.length > 0) {
 					throw new Error(

@@ -220,7 +220,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"service-token-inactivity-enabled",
 				"service-token-inactivity-inactivity-threshold-days",
 			].some((k) => argv[k] !== undefined);
-			if (groupSet) {
+			if (argv.body === undefined && groupSet) {
 				const missing = [
 					"service-token-inactivity-action",
 					"service-token-inactivity-enabled",
@@ -228,7 +228,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				].filter((k) => argv[k] === undefined);
 				if (missing.length > 0) {
 					throw new Error(
-						`${missing.map((m) => "--" + m).join(", ")} ${missing.length === 1 ? "is" : "are"} required when any --service_token_inactivity-* flag is set`
+						`${missing.map((m) => "--" + m).join(", ")} ${missing.length === 1 ? "is" : "are"} required when any --service-token-inactivity-* flag is set`
 					);
 				}
 			}

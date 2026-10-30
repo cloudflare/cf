@@ -62,6 +62,8 @@ export interface Arg {
 	required: boolean;
 	positional: boolean;
 	origin: Origin;
+	/** The nearest optional body object containing this field. */
+	optionalParentPath?: readonly string[];
 	conflicts?: string[];
 	implies?: string[];
 	secret: boolean;
@@ -397,7 +399,7 @@ export function derive(
 	headerParams(args, op, workers);
 	bodyParams(args, op, overrides, workers);
 
-	const optionalParentGroups = optionalParents(args, op);
+	const optionalParentGroups = optionalParents(args);
 	const upper = op.method.toUpperCase();
 	const isMutating = upper !== "GET" && upper !== "HEAD";
 	const hasBody = isMutating && op.hasRequestBody;
@@ -478,53 +480,53 @@ export function downgradeOptionalParents(derived: Derived): void {
 	}
 }
 
-function optionalParents(
-	args: readonly Arg[],
-	op: OperationInfo
-): OptionalParentGroup[] {
-	interface Entry {
-		flag: string;
-		required: boolean;
-		hasDefault: boolean;
-	}
-	const byParent: [string, Entry[]][] = [];
-	for (const arg of args) {
-		if (!isBody(arg) || arg.positional) {
+function optionalParents(args: readonly Arg[]): OptionalParentGroup[] {
+	const bodyArgs = args.filter((arg) => isBody(arg) && !arg.positional);
+	const parentPaths: string[][] = [];
+	for (const arg of bodyArgs) {
+		if (!arg.required || arg.optionalParentPath === undefined) {
 			continue;
 		}
-		const path = bodyPath(arg);
-		if (path === undefined || path.length < 2) {
-			continue;
-		}
-		const entry: Entry = {
-			flag: arg.name,
-			required: arg.required,
-			hasDefault: arg.default !== undefined,
-		};
-		const parent = path[0] as string;
-		const existing = byParent.find(([p]) => p === parent);
-		if (existing) {
-			existing[1].push(entry);
-		} else {
-			byParent.push([parent, [entry]]);
+		const parentPath = arg.optionalParentPath;
+		if (!parentPaths.some((path) => samePath(path, parentPath))) {
+			parentPaths.push([...parentPath]);
 		}
 	}
-	const groups: OptionalParentGroup[] = [];
-	for (const [parent, entries] of byParent) {
-		if (op.requestBodyRequired.includes(parent)) {
-			continue;
-		}
-		const required = entries.filter((e) => e.required).map((e) => e.flag);
-		if (required.length === 0) {
-			continue;
-		}
-		groups.push({
-			parentName: parent,
-			groupSetFlags: entries.filter((e) => !e.hasDefault).map((e) => e.flag),
-			requiredFlags: required,
+
+	return parentPaths.map((parentPath) => {
+		const entries = bodyArgs.filter((arg) => {
+			const path = bodyPath(arg);
+			return path !== undefined && startsWithPath(path, parentPath);
 		});
-	}
-	return groups;
+		return {
+			parentName: parentPath.map(kebab).join("-"),
+			groupSetFlags: entries
+				.filter((arg) => arg.default === undefined)
+				.map((arg) => arg.name),
+			requiredFlags: bodyArgs
+				.filter(
+					(arg) =>
+						arg.required &&
+						arg.optionalParentPath !== undefined &&
+						samePath(arg.optionalParentPath, parentPath)
+				)
+				.map((arg) => arg.name),
+		};
+	});
+}
+
+function samePath(a: readonly string[], b: readonly string[]): boolean {
+	return a.length === b.length && a.every((segment, i) => segment === b[i]);
+}
+
+function startsWithPath(
+	path: readonly string[],
+	prefix: readonly string[]
+): boolean {
+	return (
+		path.length > prefix.length &&
+		prefix.every((segment, i) => segment === path[i])
+	);
 }
 
 function arg(
@@ -761,6 +763,9 @@ function bodyParams(
 				{ in: "body", path },
 				cls
 			);
+			if (bp.optionalParentPath !== null) {
+				a.optionalParentPath = bp.optionalParentPath;
+			}
 			a.choices = enumValues;
 			out.push(a);
 			continue;
@@ -788,8 +793,7 @@ function bodyParams(
 		} else {
 			effectiveDefault = bp.default;
 		}
-		const nestedUnderOptional =
-			path.length > 1 && !op.requestBodyRequired.includes(path[0] as string);
+		const nestedUnderOptional = bp.optionalParentPath !== null;
 		const dflt = nestedUnderOptional ? undefined : effectiveDefault;
 		const bodyType = bodyArgType(effectiveType, bp.itemType);
 		const type: ArgType =
@@ -828,6 +832,9 @@ function bodyParams(
 			{ in: "body", path },
 			cls
 		);
+		if (bp.optionalParentPath !== null) {
+			a.optionalParentPath = bp.optionalParentPath;
+		}
 		if (type === "enum") {
 			a.choices = enumValues;
 		}

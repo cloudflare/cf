@@ -82,7 +82,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 								: compactBody({
 										rules: parseObjectArray(argv["rules"], "rules"),
 										show_interstitial: argv["show-interstitial"],
-										cloudflare_version: argv["cloudflare-version"],
 									}),
 					});
 					return;
@@ -124,8 +123,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						["show_interstitial"],
 						argv["show-interstitial"]
 					);
-				if (argv["cloudflare-version"] !== undefined)
-					bodyData["cloudflare_version"] = argv["cloudflare-version"];
 				const result = await withProgress(`Updating`, async () =>
 					requestApi<unknown>(
 						client,

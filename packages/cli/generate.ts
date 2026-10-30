@@ -231,9 +231,11 @@ const forge = spawn(
 	[forgeBin, "-", "--target", `wasm://${pluginWasm}`, "--out", generatedDir],
 	{ stdio: ["pipe", "inherit", "inherit"] }
 );
-const normalize = spawn(process.execPath, [forgeBin, "normalize", "-"], {
-	stdio: ["pipe", "pipe", "inherit"],
-});
+const normalize = spawn(
+	process.execPath,
+	[forgeBin, "normalize", "--leave-old-extensions", "-"],
+	{ stdio: ["pipe", "pipe", "inherit"] }
+);
 Readable.from([openapi]).pipe(normalize.stdin!);
 normalize.stdout!.pipe(forge.stdin!);
 const [[normalizeCode, normalizeSignal], [forgeCode, forgeSignal]] =

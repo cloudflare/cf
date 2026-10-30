@@ -219,7 +219,7 @@ export function generateFiles(
 		try {
 			const input = execFileSync(
 				process.execPath,
-				[forgeBin, "normalize", "-"],
+				[forgeBin, "normalize", "--leave-old-extensions", "-"],
 				{ encoding: "utf8", input: openapi }
 			);
 			execFileSync(

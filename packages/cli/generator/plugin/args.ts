@@ -457,7 +457,7 @@ class FlagNames {
 			return;
 		}
 		throw new GenerateError(
-			`${this.where}: API fields need other CLI flag names:\n${this.clashes.map((c) => `      ${c}`).join("\n")}\n    A flagName renames only the CLI flag; the wire name stays.`
+			`${this.where}: API fields need other CLI flag names:\n${this.clashes.map((c) => `      ${c}`).join("\n")}\n    A flagName renames only the CLI flag; the wire name stays. Until the API schema sets one, add a guarded entry to packages/cli/generator/flag-names-cli-compat.ts.`
 		);
 	}
 }

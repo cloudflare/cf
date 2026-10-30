@@ -29521,7 +29521,7 @@
 			"arguments": [],
 			"options": [
 				{
-					"name": "profile",
+					"name": "organization-profile",
 					"type": "string",
 					"required": true,
 					"description": "Who the organization is: its name, brands, domains, sector, regions, key systems and suppliers. Shared by all of the account's PIRs to judge how relevant intelligence is to the organization."
@@ -66395,7 +66395,7 @@
 					"description": "Destroy"
 				},
 				{
-					"name": "force",
+					"name": "force-delete",
 					"type": "boolean",
 					"required": false,
 					"description": "Force"
@@ -87518,6 +87518,13 @@
 					"type": "string",
 					"required": true,
 					"description": "Selects the split Precursor API schema."
+				},
+				{
+					"name": "detection-mode",
+					"type": "string",
+					"required": false,
+					"description": "Controls Precursor detection for the zone. `off` disables detection,\n`monitor` records detections without affecting bot scores, and `arm`\nallows detections to affect bot scores.\n",
+					"enum": ["off", "monitor", "arm"]
 				},
 				{
 					"name": "rules",

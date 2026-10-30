@@ -29,10 +29,16 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			demandOption: true,
 		})
 		.option("destroy", { type: "boolean", description: "Destroy" })
-		.option("force", { type: "boolean", description: "Force" })
+		.option("force-delete", { type: "boolean", description: "Force" })
 		.option("dry-run", {
 			type: "boolean",
 			description: "Validate and show what would happen without executing",
+			default: false,
+		})
+		.option("force", {
+			type: "boolean",
+			alias: "f",
+			description: "Skip confirmation (useful in scripts and CI)",
 			default: false,
 		});
 }
@@ -48,14 +54,15 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			{
 				command: "magic-cloud-networking on-ramps delete",
 				classification: {
-					safeFlags: ["destroy", "force", "dry-run"],
+					safeFlags: ["destroy", "force-delete", "dry-run", "force"],
+					shortFlagAliases: { f: { canonical: "force", type: "boolean" } },
 				} satisfies ArgClassification<Args>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
 				const queryParams: Record<string, unknown> = {
 					destroy: argv["destroy"],
-					force: argv["force"],
+					force: argv["force-delete"],
 				};
 				if (argv.dryRun) {
 					const __cfDryRunAccountId = await resolveAccountIdSilent();

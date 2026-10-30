@@ -21135,7 +21135,7 @@
 			"hasRequestBody": true,
 			"requestBodyFields": [
 				{
-					"name": "profile",
+					"name": "organization-profile",
 					"type": "string",
 					"required": true,
 					"description": "Who the organization is: its name, brands, domains, sector, regions, key systems and suppliers. Shared by all of the account's PIRs to judge how relevant intelligence is to the organization."
@@ -61622,6 +61622,12 @@
 			"queryParams": [],
 			"hasRequestBody": true,
 			"requestBodyFields": [
+				{
+					"name": "detection-mode",
+					"type": "string",
+					"required": false,
+					"description": "Controls Precursor detection for the zone. `off` disables detection,\n`monitor` records detections without affecting bot scores, and `arm`\nallows detections to affect bot scores.\n"
+				},
 				{
 					"name": "rules",
 					"type": "string",

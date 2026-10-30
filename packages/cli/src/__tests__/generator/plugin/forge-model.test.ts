@@ -366,6 +366,101 @@ describe("the forge model", () => {
 		expect(code).toContain("promptForRequiredField('display-name'");
 	});
 
+	it("scopes nested required fields to their optional object", () => {
+		const code = file(
+			create({
+				type: "object",
+				properties: {
+					rule_settings: {
+						type: "object",
+						properties: {
+							add_headers: { type: "string" },
+							forward: {
+								type: "object",
+								required: ["worker_id"],
+								properties: {
+									enabled: { type: "boolean" },
+									worker_id: { type: "string" },
+								},
+							},
+							redirect: {
+								type: "object",
+								required: ["target_uri"],
+								properties: {
+									include_context: { type: "boolean" },
+									target_uri: { type: "string" },
+								},
+							},
+						},
+					},
+				},
+			}),
+			"things/create.ts"
+		);
+		expect(code).toContain(
+			"required when any --rule-settings-forward-* flag is set"
+		);
+		expect(code).toContain(
+			"required when any --rule-settings-redirect-* flag is set"
+		);
+		expect(code).not.toContain(
+			"required when any --rule-settings-* flag is set"
+		);
+	});
+
+	it("carries requirements through required nested objects", () => {
+		const code = file(
+			create({
+				type: "object",
+				properties: {
+					settings: {
+						type: "object",
+						required: ["format"],
+						properties: {
+							format: {
+								type: "object",
+								required: ["type"],
+								properties: { type: { type: "string" } },
+							},
+							label: { type: "string" },
+						},
+					},
+				},
+			}),
+			"things/create.ts"
+		);
+		expect(code).toContain("required when any --settings-* flag is set");
+		expect(code).toContain("const missing = ['settings-format-type']");
+	});
+
+	it("recognizes an optional nested object under a required object", () => {
+		const code = file(
+			create({
+				type: "object",
+				required: ["settings"],
+				properties: {
+					settings: {
+						type: "object",
+						properties: {
+							format: {
+								type: "object",
+								required: ["type"],
+								properties: {
+									compression: { type: "string" },
+									type: { type: "string" },
+								},
+							},
+							label: { type: "string" },
+						},
+					},
+				},
+			}),
+			"things/create.ts"
+		);
+		expect(code).toContain("required when any --settings-format-* flag is set");
+		expect(code).not.toContain("required when any --settings-* flag is set");
+	});
+
 	it("makes the members of a union conflict", () => {
 		const code = file(
 			create(

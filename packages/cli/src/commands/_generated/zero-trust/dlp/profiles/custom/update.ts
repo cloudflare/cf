@@ -102,14 +102,14 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"context-awareness-enabled",
 				"context-awareness-skip-files",
 			].some((k) => argv[k] !== undefined);
-			if (groupSet) {
+			if (argv.body === undefined && groupSet) {
 				const missing = [
 					"context-awareness-enabled",
 					"context-awareness-skip-files",
 				].filter((k) => argv[k] === undefined);
 				if (missing.length > 0) {
 					throw new Error(
-						`${missing.map((m) => "--" + m).join(", ")} ${missing.length === 1 ? "is" : "are"} required when any --context_awareness-* flag is set`
+						`${missing.map((m) => "--" + m).join(", ")} ${missing.length === 1 ? "is" : "are"} required when any --context-awareness-* flag is set`
 					);
 				}
 			}

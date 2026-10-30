@@ -148,22 +148,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("body", {
 			type: "string",
 			description: "Raw JSON request body (bypasses individual flags)",
-		})
-		.check((argv) => {
-			const groupSet = ["realtimekit-bucket-config-enabled"].some(
-				(k) => argv[k] !== undefined
-			);
-			if (groupSet) {
-				const missing = ["realtimekit-bucket-config-enabled"].filter(
-					(k) => argv[k] === undefined
-				);
-				if (missing.length > 0) {
-					throw new Error(
-						`${missing.map((m) => "--" + m).join(", ")} ${missing.length === 1 ? "is" : "are"} required when any --realtimekit_bucket_config-* flag is set`
-					);
-				}
-			}
-			return true;
 		});
 }
 

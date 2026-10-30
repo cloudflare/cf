@@ -114,7 +114,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("target-configuration-observability-logs-enabled", {
 			type: "boolean",
 			description: "The target_configuration.observability.logs.enabled field",
-			default: false,
 		})
 		.option("dry-run", {
 			type: "boolean",

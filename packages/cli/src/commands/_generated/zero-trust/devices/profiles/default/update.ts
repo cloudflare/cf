@@ -183,7 +183,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"global-acceleration-masque-endpoints",
 				"global-acceleration-wireguard-endpoints",
 			].some((k) => argv[k] !== undefined);
-			if (groupSet) {
+			if (argv.body === undefined && groupSet) {
 				const missing = [
 					"global-acceleration-api-endpoints",
 					"global-acceleration-enabled",
@@ -192,7 +192,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				].filter((k) => argv[k] === undefined);
 				if (missing.length > 0) {
 					throw new Error(
-						`${missing.map((m) => "--" + m).join(", ")} ${missing.length === 1 ? "is" : "are"} required when any --global_acceleration-* flag is set`
+						`${missing.map((m) => "--" + m).join(", ")} ${missing.length === 1 ? "is" : "are"} required when any --global-acceleration-* flag is set`
 					);
 				}
 			}
@@ -203,14 +203,14 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"virtual-networks-allowed",
 				"virtual-networks-default",
 			].some((k) => argv[k] !== undefined);
-			if (groupSet) {
+			if (argv.body === undefined && groupSet) {
 				const missing = [
 					"virtual-networks-allowed",
 					"virtual-networks-default",
 				].filter((k) => argv[k] === undefined);
 				if (missing.length > 0) {
 					throw new Error(
-						`${missing.map((m) => "--" + m).join(", ")} ${missing.length === 1 ? "is" : "are"} required when any --virtual_networks-* flag is set`
+						`${missing.map((m) => "--" + m).join(", ")} ${missing.length === 1 ? "is" : "are"} required when any --virtual-networks-* flag is set`
 					);
 				}
 			}

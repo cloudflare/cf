@@ -192,7 +192,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			const groupSet = ["authenticate-password", "authenticate-username"].some(
 				(k) => argv[k] !== undefined
 			);
-			if (groupSet) {
+			if (argv.body === undefined && groupSet) {
 				const missing = [
 					"authenticate-password",
 					"authenticate-username",
@@ -214,7 +214,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"viewport-is-mobile",
 				"viewport-width",
 			].some((k) => argv[k] !== undefined);
-			if (groupSet) {
+			if (argv.body === undefined && groupSet) {
 				const missing = ["viewport-height", "viewport-width"].filter(
 					(k) => argv[k] === undefined
 				);
@@ -233,13 +233,13 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"wait-for-selector-timeout",
 				"wait-for-selector-visible",
 			].some((k) => argv[k] !== undefined);
-			if (groupSet) {
+			if (argv.body === undefined && groupSet) {
 				const missing = ["wait-for-selector-selector"].filter(
 					(k) => argv[k] === undefined
 				);
 				if (missing.length > 0) {
 					throw new Error(
-						`${missing.map((m) => "--" + m).join(", ")} ${missing.length === 1 ? "is" : "are"} required when any --waitForSelector-* flag is set`
+						`${missing.map((m) => "--" + m).join(", ")} ${missing.length === 1 ? "is" : "are"} required when any --wait-for-selector-* flag is set`
 					);
 				}
 			}

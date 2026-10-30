@@ -124,19 +124,29 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			"source-secret-private-key",
 			"source-jurisdiction",
 		])
+		.implies("source-endpoint", [
+			"source-secret-access-key-id",
+			"source-secret-secret-access-key",
+		])
 		.conflicts("source-region", [
 			"source-secret-client-email",
 			"source-secret-private-key",
 			"source-jurisdiction",
 		])
+		.implies("source-region", [
+			"source-secret-access-key-id",
+			"source-secret-secret-access-key",
+		])
 		.conflicts("source-secret-access-key-id", [
 			"source-secret-client-email",
 			"source-secret-private-key",
 		])
+		.implies("source-secret-access-key-id", ["source-secret-secret-access-key"])
 		.conflicts("source-secret-secret-access-key", [
 			"source-secret-client-email",
 			"source-secret-private-key",
 		])
+		.implies("source-secret-secret-access-key", ["source-secret-access-key-id"])
 		.conflicts("source-secret-client-email", [
 			"source-endpoint",
 			"source-region",
@@ -144,6 +154,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			"source-secret-secret-access-key",
 			"source-jurisdiction",
 		])
+		.implies("source-secret-client-email", ["source-secret-private-key"])
 		.conflicts("source-secret-private-key", [
 			"source-endpoint",
 			"source-region",
@@ -151,11 +162,16 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			"source-secret-secret-access-key",
 			"source-jurisdiction",
 		])
+		.implies("source-secret-private-key", ["source-secret-client-email"])
 		.conflicts("source-jurisdiction", [
 			"source-endpoint",
 			"source-region",
 			"source-secret-client-email",
 			"source-secret-private-key",
+		])
+		.implies("source-jurisdiction", [
+			"source-secret-access-key-id",
+			"source-secret-secret-access-key",
 		])
 		.check((argv) => {
 			const groupSet = [

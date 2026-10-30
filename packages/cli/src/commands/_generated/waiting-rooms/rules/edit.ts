@@ -75,10 +75,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("body", {
 			type: "string",
 			description: "Raw JSON request body (bypasses individual flags)",
-		})
-		.conflicts("position-index", ["position-before", "position-after"])
-		.conflicts("position-before", ["position-index", "position-after"])
-		.conflicts("position-after", ["position-index", "position-before"]);
+		});
 }
 
 type Args = InferArgs<typeof builder>;

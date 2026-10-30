@@ -147,8 +147,19 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			type: "string",
 			description: "Raw JSON request body (bypasses individual flags)",
 		})
-		.conflicts("edge-ips-connectivity", ["edge-ips-ips"])
-		.conflicts("edge-ips-ips", ["edge-ips-connectivity"]);
+		.implies("argo-smart-routing", ["traffic-type"])
+		.implies("edge-ips-connectivity", ["traffic-type"])
+		.implies("edge-ips-type", ["traffic-type"])
+		.implies("edge-ips-ips", ["traffic-type"])
+		.implies("ip-firewall", ["traffic-type"])
+		.implies("origin-dns-name", ["traffic-type"])
+		.implies("origin-dns-ttl", ["traffic-type"])
+		.implies("origin-dns-type", ["traffic-type"])
+		.implies("origin-port", ["traffic-type"])
+		.implies("origin-worker-id", ["traffic-type"])
+		.implies("proxy-protocol", ["traffic-type"])
+		.implies("tls", ["traffic-type"])
+		.implies("virtual-network-id", ["traffic-type"]);
 }
 
 type Args = InferArgs<typeof builder>;

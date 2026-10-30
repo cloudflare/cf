@@ -56,6 +56,12 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			type: "string",
 			description: "Raw JSON request body (bypasses individual flags)",
 		})
+		.implies("value-cache-by-device-type", [
+			"value-cf",
+			"value-enabled",
+			"value-wordpress",
+			"value-wp-plugin",
+		])
 		.implies("value-cf", [
 			"value-enabled",
 			"value-wordpress",
@@ -63,6 +69,18 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		])
 		.implies("value-enabled", [
 			"value-cf",
+			"value-wordpress",
+			"value-wp-plugin",
+		])
+		.implies("value-hostnames", [
+			"value-cf",
+			"value-enabled",
+			"value-wordpress",
+			"value-wp-plugin",
+		])
+		.implies("value-recheck", [
+			"value-cf",
+			"value-enabled",
 			"value-wordpress",
 			"value-wp-plugin",
 		])

@@ -104,7 +104,12 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("body", {
 			type: "string",
 			description: "Raw JSON request body (bypasses individual flags)",
-		});
+		})
+		.implies("bcc-name", ["bcc-address"])
+		.implies("cc-name", ["cc-address"])
+		.implies("from-name", ["from-address"])
+		.implies("reply-to-name", ["reply-to-address"])
+		.implies("to-name", ["to-address"]);
 }
 
 type Args = InferArgs<typeof builder>;

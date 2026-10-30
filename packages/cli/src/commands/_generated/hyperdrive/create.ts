@@ -151,59 +151,248 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description:
 				"A request to create a Hyperdrive configuration using exactly one of caller-supplied origin credentials or a managed integration.",
 		})
-		.conflicts("origin-host", ["origin-service-id"])
+		.conflicts("integration-custom-database-name", [
+			"origin-database",
+			"origin-password",
+			"origin-scheme",
+			"origin-user",
+			"origin-host",
+			"origin-port",
+			"origin-access-client-id",
+			"origin-access-client-secret",
+			"origin-service-id",
+		])
+		.implies("integration-custom-database-name", [
+			"integration-database-branch-name",
+			"integration-database-name",
+			"integration-organization-name",
+			"integration-provider",
+			"integration-scheme",
+		])
+		.conflicts("integration-database-branch-name", [
+			"origin-database",
+			"origin-password",
+			"origin-scheme",
+			"origin-user",
+			"origin-host",
+			"origin-port",
+			"origin-access-client-id",
+			"origin-access-client-secret",
+			"origin-service-id",
+		])
+		.implies("integration-database-branch-name", [
+			"integration-database-name",
+			"integration-organization-name",
+			"integration-provider",
+			"integration-scheme",
+		])
+		.conflicts("integration-database-name", [
+			"origin-database",
+			"origin-password",
+			"origin-scheme",
+			"origin-user",
+			"origin-host",
+			"origin-port",
+			"origin-access-client-id",
+			"origin-access-client-secret",
+			"origin-service-id",
+		])
+		.implies("integration-database-name", [
+			"integration-database-branch-name",
+			"integration-organization-name",
+			"integration-provider",
+			"integration-scheme",
+		])
+		.conflicts("integration-organization-name", [
+			"origin-database",
+			"origin-password",
+			"origin-scheme",
+			"origin-user",
+			"origin-host",
+			"origin-port",
+			"origin-access-client-id",
+			"origin-access-client-secret",
+			"origin-service-id",
+		])
+		.implies("integration-organization-name", [
+			"integration-database-branch-name",
+			"integration-database-name",
+			"integration-provider",
+			"integration-scheme",
+		])
+		.conflicts("integration-provider", [
+			"origin-database",
+			"origin-password",
+			"origin-scheme",
+			"origin-user",
+			"origin-host",
+			"origin-port",
+			"origin-access-client-id",
+			"origin-access-client-secret",
+			"origin-service-id",
+		])
+		.implies("integration-provider", [
+			"integration-database-branch-name",
+			"integration-database-name",
+			"integration-organization-name",
+			"integration-scheme",
+		])
+		.conflicts("integration-scheme", [
+			"origin-database",
+			"origin-password",
+			"origin-scheme",
+			"origin-user",
+			"origin-host",
+			"origin-port",
+			"origin-access-client-id",
+			"origin-access-client-secret",
+			"origin-service-id",
+		])
+		.implies("integration-scheme", [
+			"integration-database-branch-name",
+			"integration-database-name",
+			"integration-organization-name",
+			"integration-provider",
+		])
+		.conflicts("origin-database", [
+			"integration-custom-database-name",
+			"integration-database-branch-name",
+			"integration-database-name",
+			"integration-organization-name",
+			"integration-provider",
+			"integration-scheme",
+		])
+		.implies("origin-database", [
+			"origin-password",
+			"origin-scheme",
+			"origin-user",
+		])
+		.conflicts("origin-password", [
+			"integration-custom-database-name",
+			"integration-database-branch-name",
+			"integration-database-name",
+			"integration-organization-name",
+			"integration-provider",
+			"integration-scheme",
+		])
+		.implies("origin-password", [
+			"origin-database",
+			"origin-scheme",
+			"origin-user",
+		])
+		.conflicts("origin-scheme", [
+			"integration-custom-database-name",
+			"integration-database-branch-name",
+			"integration-database-name",
+			"integration-organization-name",
+			"integration-provider",
+			"integration-scheme",
+		])
+		.implies("origin-scheme", [
+			"origin-database",
+			"origin-password",
+			"origin-user",
+		])
+		.conflicts("origin-user", [
+			"integration-custom-database-name",
+			"integration-database-branch-name",
+			"integration-database-name",
+			"integration-organization-name",
+			"integration-provider",
+			"integration-scheme",
+		])
+		.implies("origin-user", [
+			"origin-database",
+			"origin-password",
+			"origin-scheme",
+		])
+		.conflicts("origin-host", [
+			"origin-service-id",
+			"integration-custom-database-name",
+			"integration-database-branch-name",
+			"integration-database-name",
+			"integration-organization-name",
+			"integration-provider",
+			"integration-scheme",
+		])
+		.implies("origin-host", [
+			"origin-database",
+			"origin-password",
+			"origin-scheme",
+			"origin-user",
+		])
 		.conflicts("origin-port", [
 			"origin-access-client-id",
 			"origin-access-client-secret",
 			"origin-service-id",
+			"integration-custom-database-name",
+			"integration-database-branch-name",
+			"integration-database-name",
+			"integration-organization-name",
+			"integration-provider",
+			"integration-scheme",
 		])
-		.implies("origin-port", ["origin-host"])
-		.conflicts("origin-access-client-id", ["origin-port", "origin-service-id"])
-		.implies("origin-access-client-id", [
-			"origin-access-client-secret",
+		.implies("origin-port", [
 			"origin-host",
+			"origin-database",
+			"origin-password",
+			"origin-scheme",
+			"origin-user",
+		])
+		.conflicts("origin-access-client-id", [
+			"origin-port",
+			"origin-service-id",
+			"integration-custom-database-name",
+			"integration-database-branch-name",
+			"integration-database-name",
+			"integration-organization-name",
+			"integration-provider",
+			"integration-scheme",
+		])
+		.implies("origin-access-client-id", [
+			"origin-host",
+			"origin-access-client-secret",
+			"origin-database",
+			"origin-password",
+			"origin-scheme",
+			"origin-user",
 		])
 		.conflicts("origin-access-client-secret", [
 			"origin-port",
 			"origin-service-id",
+			"integration-custom-database-name",
+			"integration-database-branch-name",
+			"integration-database-name",
+			"integration-organization-name",
+			"integration-provider",
+			"integration-scheme",
 		])
 		.implies("origin-access-client-secret", [
-			"origin-access-client-id",
 			"origin-host",
+			"origin-access-client-id",
+			"origin-database",
+			"origin-password",
+			"origin-scheme",
+			"origin-user",
 		])
 		.conflicts("origin-service-id", [
 			"origin-host",
 			"origin-port",
 			"origin-access-client-id",
 			"origin-access-client-secret",
+			"integration-custom-database-name",
+			"integration-database-branch-name",
+			"integration-database-name",
+			"integration-organization-name",
+			"integration-provider",
+			"integration-scheme",
 		])
-		.check((argv) => {
-			const groupSet = [
-				"origin-database",
-				"origin-password",
-				"origin-scheme",
-				"origin-user",
-				"origin-host",
-				"origin-port",
-				"origin-access-client-id",
-				"origin-access-client-secret",
-				"origin-service-id",
-			].some((k) => argv[k] !== undefined);
-			if (groupSet) {
-				const missing = [
-					"origin-database",
-					"origin-password",
-					"origin-scheme",
-					"origin-user",
-				].filter((k) => argv[k] === undefined);
-				if (missing.length > 0) {
-					throw new Error(
-						`${missing.map((m) => "--" + m).join(", ")} ${missing.length === 1 ? "is" : "are"} required when any --origin-* flag is set`
-					);
-				}
-			}
-			return true;
-		});
+		.implies("origin-service-id", [
+			"origin-database",
+			"origin-password",
+			"origin-scheme",
+			"origin-user",
+		]);
 }
 
 type Args = InferArgs<typeof builder>;

@@ -362,7 +362,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			"state",
 		])
 		.conflicts("country", [
-			"justification",
 			"trademark-number",
 			"trademark-office",
 			"trademark-symbol",
@@ -376,18 +375,8 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			"reg-who-request-reg-who-request-type",
 			"reg-who-request-reg-who-requested-data-elements",
 			"reg-who-request-reg-who-requestor-type",
-			"original-work",
 		])
-		.implies("country", [
-			"address1",
-			"agent-name",
-			"agree",
-			"city",
-			"host-notification",
-			"original-work",
-			"signature",
-			"state",
-		])
+		.implies("country", ["host-notification"])
 		.conflicts("host-notification", [
 			"reg-who-request-reg-who-authorization-statement",
 			"reg-who-request-reg-who-good-faith-affirmation",
@@ -398,7 +387,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			"reg-who-request-reg-who-requestor-type",
 		])
 		.conflicts("original-work", [
-			"justification",
 			"trademark-number",
 			"trademark-office",
 			"trademark-symbol",
@@ -414,18 +402,8 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			"reg-who-request-reg-who-requested-data-elements",
 			"reg-who-request-reg-who-requestor-type",
 			"ncsei-subject-representation",
-			"country",
 		])
-		.implies("original-work", [
-			"address1",
-			"agent-name",
-			"agree",
-			"city",
-			"country",
-			"host-notification",
-			"signature",
-			"state",
-		])
+		.implies("original-work", ["host-notification"])
 		.conflicts("signature", [
 			"justification",
 			"trademark-number",
@@ -487,8 +465,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			"agent-name",
 			"agree",
 			"city",
-			"country",
-			"original-work",
 			"signature",
 			"state",
 			"reg-who-request-reg-who-authorization-statement",
@@ -500,6 +476,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			"reg-who-request-reg-who-requestor-type",
 			"ncsei-subject-representation",
 		])
+		.implies("justification", ["host-notification"])
 		.conflicts("trademark-number", [
 			"address1",
 			"agent-name",
@@ -606,6 +583,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			"reg-who-request-reg-who-requestor-type",
 			"ncsei-subject-representation",
 		])
+		.implies("destination-ips", ["host-notification", "justification"])
 		.conflicts("ports-protocols", [
 			"address1",
 			"agent-name",
@@ -628,6 +606,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			"reg-who-request-reg-who-requestor-type",
 			"ncsei-subject-representation",
 		])
+		.implies("ports-protocols", ["host-notification", "justification"])
 		.conflicts("source-ips", [
 			"address1",
 			"agent-name",
@@ -650,6 +629,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			"reg-who-request-reg-who-requestor-type",
 			"ncsei-subject-representation",
 		])
+		.implies("source-ips", ["host-notification", "justification"])
 		.conflicts("ncmec-notification", [
 			"address1",
 			"agent-name",
@@ -694,6 +674,13 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			"ncmec-notification",
 			"ncsei-subject-representation",
 		])
+		.implies("reg-who-request-reg-who-authorization-statement", [
+			"reg-who-request-reg-who-good-faith-affirmation",
+			"reg-who-request-reg-who-lawful-processing-agreement",
+			"reg-who-request-reg-who-legal-basis",
+			"reg-who-request-reg-who-request-type",
+			"reg-who-request-reg-who-requested-data-elements",
+		])
 		.conflicts("reg-who-request-reg-who-good-faith-affirmation", [
 			"address1",
 			"agent-name",
@@ -713,6 +700,12 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			"source-ips",
 			"ncmec-notification",
 			"ncsei-subject-representation",
+		])
+		.implies("reg-who-request-reg-who-good-faith-affirmation", [
+			"reg-who-request-reg-who-lawful-processing-agreement",
+			"reg-who-request-reg-who-legal-basis",
+			"reg-who-request-reg-who-request-type",
+			"reg-who-request-reg-who-requested-data-elements",
 		])
 		.conflicts("reg-who-request-reg-who-lawful-processing-agreement", [
 			"address1",
@@ -734,6 +727,12 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			"ncmec-notification",
 			"ncsei-subject-representation",
 		])
+		.implies("reg-who-request-reg-who-lawful-processing-agreement", [
+			"reg-who-request-reg-who-good-faith-affirmation",
+			"reg-who-request-reg-who-legal-basis",
+			"reg-who-request-reg-who-request-type",
+			"reg-who-request-reg-who-requested-data-elements",
+		])
 		.conflicts("reg-who-request-reg-who-legal-basis", [
 			"address1",
 			"agent-name",
@@ -753,6 +752,12 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			"source-ips",
 			"ncmec-notification",
 			"ncsei-subject-representation",
+		])
+		.implies("reg-who-request-reg-who-legal-basis", [
+			"reg-who-request-reg-who-good-faith-affirmation",
+			"reg-who-request-reg-who-lawful-processing-agreement",
+			"reg-who-request-reg-who-request-type",
+			"reg-who-request-reg-who-requested-data-elements",
 		])
 		.conflicts("reg-who-request-reg-who-request-type", [
 			"address1",
@@ -774,6 +779,12 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			"ncmec-notification",
 			"ncsei-subject-representation",
 		])
+		.implies("reg-who-request-reg-who-request-type", [
+			"reg-who-request-reg-who-good-faith-affirmation",
+			"reg-who-request-reg-who-lawful-processing-agreement",
+			"reg-who-request-reg-who-legal-basis",
+			"reg-who-request-reg-who-requested-data-elements",
+		])
 		.conflicts("reg-who-request-reg-who-requested-data-elements", [
 			"address1",
 			"agent-name",
@@ -794,6 +805,12 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			"ncmec-notification",
 			"ncsei-subject-representation",
 		])
+		.implies("reg-who-request-reg-who-requested-data-elements", [
+			"reg-who-request-reg-who-good-faith-affirmation",
+			"reg-who-request-reg-who-lawful-processing-agreement",
+			"reg-who-request-reg-who-legal-basis",
+			"reg-who-request-reg-who-request-type",
+		])
 		.conflicts("reg-who-request-reg-who-requestor-type", [
 			"address1",
 			"agent-name",
@@ -813,6 +830,13 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			"source-ips",
 			"ncmec-notification",
 			"ncsei-subject-representation",
+		])
+		.implies("reg-who-request-reg-who-requestor-type", [
+			"reg-who-request-reg-who-good-faith-affirmation",
+			"reg-who-request-reg-who-lawful-processing-agreement",
+			"reg-who-request-reg-who-legal-basis",
+			"reg-who-request-reg-who-request-type",
+			"reg-who-request-reg-who-requested-data-elements",
 		])
 		.conflicts("ncsei-subject-representation", [
 			"address1",
@@ -838,139 +862,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			"reg-who-request-reg-who-requested-data-elements",
 			"reg-who-request-reg-who-requestor-type",
 		])
-		.implies("ncsei-subject-representation", ["host-notification"])
-		.check((argv) => {
-			const groupSet = [
-				"reg-who-request-reg-who-authorization-statement",
-				"reg-who-request-reg-who-good-faith-affirmation",
-				"reg-who-request-reg-who-lawful-processing-agreement",
-				"reg-who-request-reg-who-legal-basis",
-				"reg-who-request-reg-who-request-type",
-				"reg-who-request-reg-who-requested-data-elements",
-				"reg-who-request-reg-who-requestor-type",
-			].some((k) => argv[k] !== undefined);
-			if (groupSet) {
-				const requiredConflicts: Record<string, string[]> = {
-					"reg-who-request-reg-who-good-faith-affirmation": [
-						"address1",
-						"agent-name",
-						"agree",
-						"city",
-						"country",
-						"host-notification",
-						"original-work",
-						"signature",
-						"state",
-						"justification",
-						"trademark-number",
-						"trademark-office",
-						"trademark-symbol",
-						"destination-ips",
-						"ports-protocols",
-						"source-ips",
-						"ncmec-notification",
-						"ncsei-subject-representation",
-					],
-					"reg-who-request-reg-who-lawful-processing-agreement": [
-						"address1",
-						"agent-name",
-						"agree",
-						"city",
-						"country",
-						"host-notification",
-						"original-work",
-						"signature",
-						"state",
-						"justification",
-						"trademark-number",
-						"trademark-office",
-						"trademark-symbol",
-						"destination-ips",
-						"ports-protocols",
-						"source-ips",
-						"ncmec-notification",
-						"ncsei-subject-representation",
-					],
-					"reg-who-request-reg-who-legal-basis": [
-						"address1",
-						"agent-name",
-						"agree",
-						"city",
-						"country",
-						"host-notification",
-						"original-work",
-						"signature",
-						"state",
-						"justification",
-						"trademark-number",
-						"trademark-office",
-						"trademark-symbol",
-						"destination-ips",
-						"ports-protocols",
-						"source-ips",
-						"ncmec-notification",
-						"ncsei-subject-representation",
-					],
-					"reg-who-request-reg-who-request-type": [
-						"address1",
-						"agent-name",
-						"agree",
-						"city",
-						"country",
-						"host-notification",
-						"original-work",
-						"signature",
-						"state",
-						"justification",
-						"trademark-number",
-						"trademark-office",
-						"trademark-symbol",
-						"destination-ips",
-						"ports-protocols",
-						"source-ips",
-						"ncmec-notification",
-						"ncsei-subject-representation",
-					],
-					"reg-who-request-reg-who-requested-data-elements": [
-						"address1",
-						"agent-name",
-						"agree",
-						"city",
-						"country",
-						"host-notification",
-						"original-work",
-						"signature",
-						"state",
-						"justification",
-						"trademark-number",
-						"trademark-office",
-						"trademark-symbol",
-						"destination-ips",
-						"ports-protocols",
-						"source-ips",
-						"ncmec-notification",
-						"ncsei-subject-representation",
-					],
-				};
-				const missing = [
-					"reg-who-request-reg-who-good-faith-affirmation",
-					"reg-who-request-reg-who-lawful-processing-agreement",
-					"reg-who-request-reg-who-legal-basis",
-					"reg-who-request-reg-who-request-type",
-					"reg-who-request-reg-who-requested-data-elements",
-				].filter(
-					(k) =>
-						argv[k] === undefined &&
-						!(requiredConflicts[k] ?? []).some((x) => argv[x] !== undefined)
-				);
-				if (missing.length > 0) {
-					throw new Error(
-						`${missing.map((m) => "--" + m).join(", ")} ${missing.length === 1 ? "is" : "are"} required when any --reg_who_request-* flag is set`
-					);
-				}
-			}
-			return true;
-		});
+		.implies("ncsei-subject-representation", ["host-notification"]);
 }
 
 type Args = InferArgs<typeof builder>;

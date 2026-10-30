@@ -118,77 +118,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("body", {
 			type: "string",
 			description: "Raw JSON request body (bypasses individual flags)",
-		})
-		.conflicts("source-bucket", [
-			"source-bucket-url",
-			"source-account-key",
-			"source-account-name",
-			"source-container",
-			"source-sas-token",
-		])
-		.conflicts("source-region", [
-			"source-client-email",
-			"source-private-key",
-			"source-bucket-url",
-			"source-account-key",
-			"source-account-name",
-			"source-container",
-			"source-sas-token",
-		])
-		.conflicts("source-client-email", [
-			"source-region",
-			"source-bucket-url",
-			"source-account-key",
-			"source-account-name",
-			"source-container",
-			"source-sas-token",
-		])
-		.conflicts("source-private-key", [
-			"source-region",
-			"source-bucket-url",
-			"source-account-key",
-			"source-account-name",
-			"source-container",
-			"source-sas-token",
-		])
-		.conflicts("source-bucket-url", [
-			"source-bucket",
-			"source-region",
-			"source-client-email",
-			"source-private-key",
-			"source-account-key",
-			"source-account-name",
-			"source-container",
-			"source-sas-token",
-		])
-		.conflicts("source-account-key", [
-			"source-bucket",
-			"source-region",
-			"source-client-email",
-			"source-private-key",
-			"source-bucket-url",
-		])
-		.conflicts("source-account-name", [
-			"source-bucket",
-			"source-region",
-			"source-client-email",
-			"source-private-key",
-			"source-bucket-url",
-		])
-		.conflicts("source-container", [
-			"source-bucket",
-			"source-region",
-			"source-client-email",
-			"source-private-key",
-			"source-bucket-url",
-		])
-		.conflicts("source-sas-token", [
-			"source-bucket",
-			"source-region",
-			"source-client-email",
-			"source-private-key",
-			"source-bucket-url",
-		]);
+		});
 }
 
 type Args = InferArgs<typeof builder>;

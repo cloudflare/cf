@@ -360,22 +360,18 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			"input-operational-state",
 			"input-score",
 		])
+		.implies("input-exists", ["input-operating-system", "input-path"])
 		.conflicts("input-operating-system", [
-			"input-id",
 			"input-check-disks",
 			"input-require-all",
-			"input-certificate-id",
-			"input-cn",
 			"input-update-window-days",
 			"input-compliance-status",
 			"input-connection-id",
 			"input-last-seen",
-			"input-operator",
 			"input-os",
 			"input-overall",
 			"input-sensor-config",
 			"input-state",
-			"input-version",
 			"input-version-operator",
 			"input-auth-state",
 			"input-count-operator",
@@ -432,6 +428,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			"input-operational-state",
 			"input-score",
 		])
+		.implies("input-path", ["input-operating-system"])
 		.conflicts("input-sha256", [
 			"input-id",
 			"input-domain",
@@ -473,6 +470,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			"input-operational-state",
 			"input-score",
 		])
+		.implies("input-sha256", ["input-operating-system", "input-path"])
 		.conflicts("input-thumbprint", [
 			"input-id",
 			"input-domain",
@@ -514,12 +512,12 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			"input-operational-state",
 			"input-score",
 		])
+		.implies("input-thumbprint", ["input-operating-system", "input-path"])
 		.conflicts("input-id", [
 			"input-exists",
 			"input-path",
 			"input-sha256",
 			"input-thumbprint",
-			"input-operating-system",
 			"input-domain",
 			"input-operator",
 			"input-os-distro-name",
@@ -603,12 +601,12 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			"input-operational-state",
 			"input-score",
 		])
+		.implies("input-domain", ["input-operating-system"])
 		.conflicts("input-operator", [
 			"input-exists",
 			"input-path",
 			"input-sha256",
 			"input-thumbprint",
-			"input-operating-system",
 			"input-id",
 			"input-domain",
 			"input-enabled",
@@ -623,7 +621,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			"input-subject-alternative-names",
 			"input-update-window-days",
 			"input-compliance-status",
-			"input-connection-id",
 			"input-auth-state",
 			"input-count-operator",
 			"input-issue-count",
@@ -668,6 +665,11 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			"input-operational-state",
 			"input-score",
 		])
+		.implies("input-os-distro-name", [
+			"input-operating-system",
+			"input-operator",
+			"input-version",
+		])
 		.conflicts("input-os-distro-revision", [
 			"input-exists",
 			"input-path",
@@ -707,6 +709,11 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			"input-network-status",
 			"input-operational-state",
 			"input-score",
+		])
+		.implies("input-os-distro-revision", [
+			"input-operating-system",
+			"input-operator",
+			"input-version",
 		])
 		.conflicts("input-os-version-extra", [
 			"input-exists",
@@ -748,12 +755,16 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			"input-operational-state",
 			"input-score",
 		])
+		.implies("input-os-version-extra", [
+			"input-operating-system",
+			"input-operator",
+			"input-version",
+		])
 		.conflicts("input-version", [
 			"input-exists",
 			"input-path",
 			"input-sha256",
 			"input-thumbprint",
-			"input-operating-system",
 			"input-id",
 			"input-domain",
 			"input-enabled",
@@ -768,7 +779,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			"input-subject-alternative-names",
 			"input-update-window-days",
 			"input-compliance-status",
-			"input-connection-id",
 			"input-auth-state",
 			"input-count-operator",
 			"input-issue-count",
@@ -783,7 +793,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			"input-operational-state",
 			"input-score",
 		])
-		.implies("input-version", ["input-operating-system", "input-operator"])
 		.conflicts("input-enabled", [
 			"input-exists",
 			"input-path",
@@ -919,7 +928,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		])
 		.conflicts("input-certificate-id", [
 			"input-exists",
-			"input-operating-system",
 			"input-path",
 			"input-sha256",
 			"input-thumbprint",
@@ -958,7 +966,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		])
 		.conflicts("input-cn", [
 			"input-exists",
-			"input-operating-system",
 			"input-path",
 			"input-sha256",
 			"input-thumbprint",
@@ -1035,8 +1042,8 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			"input-score",
 		])
 		.implies("input-check-private-key", [
-			"input-certificate-id",
 			"input-operating-system",
+			"input-certificate-id",
 		])
 		.conflicts("input-extended-key-usage", [
 			"input-exists",
@@ -1076,6 +1083,11 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			"input-operational-state",
 			"input-score",
 		])
+		.implies("input-extended-key-usage", [
+			"input-operating-system",
+			"input-certificate-id",
+			"input-check-private-key",
+		])
 		.conflicts("input-locations-paths", [
 			"input-exists",
 			"input-path",
@@ -1113,6 +1125,11 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			"input-network-status",
 			"input-operational-state",
 			"input-score",
+		])
+		.implies("input-locations-paths", [
+			"input-operating-system",
+			"input-certificate-id",
+			"input-check-private-key",
 		])
 		.conflicts("input-locations-trust-stores", [
 			"input-exists",
@@ -1152,6 +1169,11 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			"input-operational-state",
 			"input-score",
 		])
+		.implies("input-locations-trust-stores", [
+			"input-operating-system",
+			"input-certificate-id",
+			"input-check-private-key",
+		])
 		.conflicts("input-subject-alternative-names", [
 			"input-exists",
 			"input-path",
@@ -1189,6 +1211,11 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			"input-network-status",
 			"input-operational-state",
 			"input-score",
+		])
+		.implies("input-subject-alternative-names", [
+			"input-operating-system",
+			"input-certificate-id",
+			"input-check-private-key",
 		])
 		.conflicts("input-update-window-days", [
 			"input-exists",
@@ -1279,6 +1306,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			"input-operational-state",
 			"input-score",
 		])
+		.implies("input-compliance-status", ["input-connection-id"])
 		.conflicts("input-connection-id", [
 			"input-exists",
 			"input-operating-system",
@@ -1287,11 +1315,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			"input-thumbprint",
 			"input-id",
 			"input-domain",
-			"input-operator",
 			"input-os-distro-name",
 			"input-os-distro-revision",
 			"input-os-version-extra",
-			"input-version",
 			"input-enabled",
 			"input-check-disks",
 			"input-require-all",
@@ -1341,6 +1367,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			"input-operational-state",
 			"input-score",
 		])
+		.implies("input-last-seen", ["input-connection-id"])
 		.conflicts("input-os", [
 			"input-exists",
 			"input-operating-system",
@@ -1378,6 +1405,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			"input-operational-state",
 			"input-score",
 		])
+		.implies("input-os", ["input-connection-id"])
 		.conflicts("input-overall", [
 			"input-exists",
 			"input-operating-system",
@@ -1415,6 +1443,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			"input-operational-state",
 			"input-score",
 		])
+		.implies("input-overall", ["input-connection-id"])
 		.conflicts("input-sensor-config", [
 			"input-exists",
 			"input-operating-system",
@@ -1452,6 +1481,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			"input-operational-state",
 			"input-score",
 		])
+		.implies("input-sensor-config", ["input-connection-id"])
 		.conflicts("input-state", [
 			"input-exists",
 			"input-operating-system",
@@ -1489,6 +1519,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			"input-operational-state",
 			"input-score",
 		])
+		.implies("input-state", ["input-connection-id"])
 		.conflicts("input-version-operator", [
 			"input-exists",
 			"input-operating-system",
@@ -1526,6 +1557,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			"input-operational-state",
 			"input-score",
 		])
+		.implies("input-version-operator", ["input-connection-id"])
 		.conflicts("input-auth-state", [
 			"input-exists",
 			"input-operating-system",
@@ -1568,6 +1600,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			"input-operational-state",
 			"input-score",
 		])
+		.implies("input-auth-state", ["input-connection-id"])
 		.conflicts("input-count-operator", [
 			"input-exists",
 			"input-operating-system",
@@ -1610,6 +1643,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			"input-operational-state",
 			"input-score",
 		])
+		.implies("input-count-operator", ["input-connection-id"])
 		.conflicts("input-issue-count", [
 			"input-exists",
 			"input-operating-system",
@@ -1652,6 +1686,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			"input-operational-state",
 			"input-score",
 		])
+		.implies("input-issue-count", ["input-connection-id"])
 		.conflicts("input-eid-last-seen", [
 			"input-exists",
 			"input-operating-system",
@@ -1692,6 +1727,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			"input-operational-state",
 			"input-score",
 		])
+		.implies("input-eid-last-seen", ["input-connection-id"])
 		.conflicts("input-risk-level", [
 			"input-exists",
 			"input-operating-system",
@@ -1732,6 +1768,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			"input-operational-state",
 			"input-score",
 		])
+		.implies("input-risk-level", ["input-connection-id"])
 		.conflicts("input-score-operator", [
 			"input-exists",
 			"input-operating-system",
@@ -1772,6 +1809,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			"input-operational-state",
 			"input-score",
 		])
+		.implies("input-score-operator", ["input-connection-id"])
 		.conflicts("input-total-score", [
 			"input-exists",
 			"input-operating-system",
@@ -1812,6 +1850,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			"input-operational-state",
 			"input-score",
 		])
+		.implies("input-total-score", ["input-connection-id"])
 		.conflicts("input-active-threats", [
 			"input-exists",
 			"input-operating-system",
@@ -1851,6 +1890,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			"input-total-score",
 			"input-score",
 		])
+		.implies("input-active-threats", ["input-connection-id"])
 		.conflicts("input-infected", [
 			"input-exists",
 			"input-operating-system",
@@ -1890,6 +1930,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			"input-total-score",
 			"input-score",
 		])
+		.implies("input-infected", ["input-connection-id"])
 		.conflicts("input-is-active", [
 			"input-exists",
 			"input-operating-system",
@@ -1929,6 +1970,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			"input-total-score",
 			"input-score",
 		])
+		.implies("input-is-active", ["input-connection-id"])
 		.conflicts("input-network-status", [
 			"input-exists",
 			"input-operating-system",
@@ -1968,6 +2010,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			"input-total-score",
 			"input-score",
 		])
+		.implies("input-network-status", ["input-connection-id"])
 		.conflicts("input-operational-state", [
 			"input-exists",
 			"input-operating-system",
@@ -2007,6 +2050,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			"input-total-score",
 			"input-score",
 		])
+		.implies("input-operational-state", ["input-connection-id"])
 		.conflicts("input-score", [
 			"input-exists",
 			"input-operating-system",
@@ -2050,7 +2094,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			"input-network-status",
 			"input-operational-state",
 		])
-		.implies("input-score", ["input-connection-id", "input-operator"]);
+		.implies("input-score", ["input-operator", "input-connection-id"]);
 }
 
 type Args = InferArgs<typeof builder>;

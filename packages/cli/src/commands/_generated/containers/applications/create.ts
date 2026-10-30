@@ -146,14 +146,67 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description:
 				"Create a Containers application. Set \`scheduling_policy\` to \`default\` for a scheduler-backed application with deployment configuration, instance counts, constraints, versions, and rollouts. Set it to \`durable_object\` for a Durable Object-managed application where each Durable Object creates and manages the lifecycle of its container instance. For \`durable_object\` requests, supply \`name\`, \`scheduling_policy\`, and \`durable_objects\`, with optional \`configuration\` and top-level \`observability\` settings. ",
 		})
-		.conflicts("configuration-command", ["configuration-wrangler-ssh-port"])
-		.conflicts("configuration-entrypoint", ["configuration-wrangler-ssh-port"])
-		.conflicts("configuration-environment-variables", [
+		.conflicts("configuration-command", [
+			"configuration-wrangler-ssh-enabled",
 			"configuration-wrangler-ssh-port",
 		])
-		.conflicts("configuration-image", ["configuration-wrangler-ssh-port"])
-		.conflicts("configuration-instance-type", [
+		.implies("configuration-command", [
+			"configuration-image",
+			"instances",
+			"max-instances",
+		])
+		.conflicts("configuration-entrypoint", [
+			"configuration-wrangler-ssh-enabled",
 			"configuration-wrangler-ssh-port",
+		])
+		.implies("configuration-entrypoint", [
+			"configuration-image",
+			"instances",
+			"max-instances",
+		])
+		.conflicts("configuration-environment-variables", [
+			"configuration-wrangler-ssh-enabled",
+			"configuration-wrangler-ssh-port",
+		])
+		.implies("configuration-environment-variables", [
+			"configuration-image",
+			"instances",
+			"max-instances",
+		])
+		.conflicts("configuration-image", [
+			"configuration-wrangler-ssh-enabled",
+			"configuration-wrangler-ssh-port",
+		])
+		.implies("configuration-image", ["instances", "max-instances"])
+		.conflicts("configuration-instance-type", [
+			"configuration-wrangler-ssh-enabled",
+			"configuration-wrangler-ssh-port",
+		])
+		.implies("configuration-instance-type", [
+			"configuration-image",
+			"instances",
+			"max-instances",
+		])
+		.conflicts("configuration-observability-logs-enabled", [
+			"configuration-wrangler-ssh-enabled",
+			"configuration-wrangler-ssh-port",
+		])
+		.implies("configuration-observability-logs-enabled", [
+			"configuration-image",
+			"instances",
+			"max-instances",
+		])
+		.conflicts("configuration-wrangler-ssh-enabled", [
+			"configuration-command",
+			"configuration-entrypoint",
+			"configuration-environment-variables",
+			"configuration-image",
+			"configuration-instance-type",
+			"configuration-observability-logs-enabled",
+			"constraints-regions",
+			"instances",
+			"max-instances",
+			"rollout-active-grace-period",
 		])
 		.conflicts("configuration-wrangler-ssh-port", [
 			"configuration-command",
@@ -161,12 +214,21 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			"configuration-environment-variables",
 			"configuration-image",
 			"configuration-instance-type",
+			"configuration-observability-logs-enabled",
 			"constraints-regions",
 			"instances",
 			"max-instances",
 			"rollout-active-grace-period",
 		])
-		.conflicts("constraints-regions", ["configuration-wrangler-ssh-port"])
+		.conflicts("constraints-regions", [
+			"configuration-wrangler-ssh-enabled",
+			"configuration-wrangler-ssh-port",
+		])
+		.implies("constraints-regions", [
+			"configuration-image",
+			"instances",
+			"max-instances",
+		])
 		.conflicts("durable-objects-namespace-id", [
 			"durable-objects-class-name",
 			"durable-objects-script-name",
@@ -175,12 +237,24 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.implies("durable-objects-class-name", ["durable-objects-script-name"])
 		.conflicts("durable-objects-script-name", ["durable-objects-namespace-id"])
 		.implies("durable-objects-script-name", ["durable-objects-class-name"])
-		.conflicts("instances", ["configuration-wrangler-ssh-port"])
-		.implies("instances", ["max-instances"])
-		.conflicts("max-instances", ["configuration-wrangler-ssh-port"])
-		.implies("max-instances", ["instances"])
-		.conflicts("rollout-active-grace-period", [
+		.conflicts("instances", [
+			"configuration-wrangler-ssh-enabled",
 			"configuration-wrangler-ssh-port",
+		])
+		.implies("instances", ["configuration-image", "max-instances"])
+		.conflicts("max-instances", [
+			"configuration-wrangler-ssh-enabled",
+			"configuration-wrangler-ssh-port",
+		])
+		.implies("max-instances", ["configuration-image", "instances"])
+		.conflicts("rollout-active-grace-period", [
+			"configuration-wrangler-ssh-enabled",
+			"configuration-wrangler-ssh-port",
+		])
+		.implies("rollout-active-grace-period", [
+			"configuration-image",
+			"instances",
+			"max-instances",
 		]);
 }
 

@@ -83,59 +83,47 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "Raw JSON request body (bypasses individual flags)",
 		})
 		.conflicts("host-ipv4", [
-			"host-ipv6",
 			"host-hostname",
 			"host-resolver-network-resolver-ips",
+			"host-resolver-network-tunnel-id",
+		])
+		.implies("host-ipv4", ["host-network-tunnel-id"])
+		.conflicts("host-network-tunnel-id", [
+			"host-hostname",
+			"host-resolver-network-resolver-ips",
+			"host-resolver-network-tunnel-id",
 		])
 		.conflicts("host-ipv6", [
-			"host-ipv4",
 			"host-hostname",
 			"host-resolver-network-resolver-ips",
+			"host-resolver-network-tunnel-id",
 		])
-		.conflicts("host-hostname", ["host-ipv4", "host-ipv6"])
-		.conflicts("host-resolver-network-resolver-ips", ["host-ipv4", "host-ipv6"])
+		.implies("host-ipv6", ["host-network-tunnel-id"])
+		.conflicts("host-hostname", [
+			"host-ipv4",
+			"host-network-tunnel-id",
+			"host-ipv6",
+		])
+		.implies("host-hostname", ["host-resolver-network-tunnel-id"])
+		.conflicts("host-resolver-network-resolver-ips", [
+			"host-ipv4",
+			"host-network-tunnel-id",
+			"host-ipv6",
+		])
+		.implies("host-resolver-network-resolver-ips", [
+			"host-hostname",
+			"host-resolver-network-tunnel-id",
+		])
+		.conflicts("host-resolver-network-tunnel-id", [
+			"host-ipv4",
+			"host-network-tunnel-id",
+			"host-ipv6",
+		])
+		.implies("host-resolver-network-tunnel-id", ["host-hostname"])
 		.conflicts("http-port", ["app-protocol", "tcp-port"])
 		.conflicts("https-port", ["app-protocol", "tcp-port"])
 		.conflicts("app-protocol", ["http-port", "https-port"])
-		.conflicts("tcp-port", ["http-port", "https-port"])
-		.check((argv) => {
-			const groupSet = [
-				"host-ipv4",
-				"host-network-tunnel-id",
-				"host-ipv6",
-				"host-hostname",
-				"host-resolver-network-resolver-ips",
-				"host-resolver-network-tunnel-id",
-			].some((k) => argv[k] !== undefined);
-			if (groupSet) {
-				const missing = [
-					"host-network-tunnel-id",
-					"host-resolver-network-tunnel-id",
-				].filter((k) => argv[k] === undefined);
-				if (missing.length > 0) {
-					throw new Error(
-						`${missing.map((m) => "--" + m).join(", ")} ${missing.length === 1 ? "is" : "are"} required when any --host-* flag is set`
-					);
-				}
-			}
-			return true;
-		})
-		.check((argv) => {
-			const groupSet = ["tls-settings-cert-verification-mode"].some(
-				(k) => argv[k] !== undefined
-			);
-			if (groupSet) {
-				const missing = ["tls-settings-cert-verification-mode"].filter(
-					(k) => argv[k] === undefined
-				);
-				if (missing.length > 0) {
-					throw new Error(
-						`${missing.map((m) => "--" + m).join(", ")} ${missing.length === 1 ? "is" : "are"} required when any --tls_settings-* flag is set`
-					);
-				}
-			}
-			return true;
-		});
+		.conflicts("tcp-port", ["http-port", "https-port"]);
 }
 
 type Args = InferArgs<typeof builder>;

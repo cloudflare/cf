@@ -108,6 +108,42 @@ describe("delete confirmation", () => {
 	});
 });
 
+describe("an API force parameter on a delete", () => {
+	const op = () =>
+		operation("delete", "/things/{thing_id}", {
+			pathParams: [param("thing_id")],
+			queryParams: [
+				param("force", undefined, { type: "boolean", required: false }),
+			],
+		});
+
+	it("fails without a flagName instead of sharing cf's --force", () => {
+		expect(() =>
+			context(method("delete", "things-delete"), "things", op())
+		).toThrow(
+			"query parameter `force` → --force, which is a flag cf adds to this command."
+		);
+	});
+
+	it("keeps cf's --force for confirmation beside the renamed flag", () => {
+		const ctx = context(
+			method("delete", "things-delete", {
+				params: { force: { flagName: "force-delete" } },
+			}),
+			"things",
+			op()
+		);
+		const builder = builderLines(ctx).join("\n");
+		expect(builder).toContain('.option(\'force-delete\', {"type":"boolean"');
+		expect(builder).toContain(
+			'.option("force", {"type":"boolean","alias":"f","description":"Skip confirmation (useful in scripts and CI)","default":false})'
+		);
+		const code = handler(ctx).join("\n");
+		expect(code).toContain(`'force': argv["force-delete"]`);
+		expect(code).toContain("confirmDelete({ force: Boolean(argv.force) })");
+	});
+});
+
 describe("telemetry", () => {
 	const flag = (name: string, type: ArgType, rest: Partial<Arg> = {}) =>
 		arg(name, type, { in: "body", path: [name] }, rest);

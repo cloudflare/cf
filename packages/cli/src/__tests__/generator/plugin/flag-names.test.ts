@@ -92,4 +92,23 @@ describe("x-forge-params flagName through forge", () => {
 			'setNestedValue(bodyData, ["settings", "mode"], resolveFileToken(argv["settings-filter-mode"]'
 		);
 	});
+
+	it("reports every clashing operation of the catalogue in one error", () => {
+		const clashing = (name: string): Json => ({
+			...save({}),
+			"x-fern-sdk-method-name": name,
+			parameters: [
+				{ name: "profile", in: "query", schema: { type: "string" } },
+			],
+			requestBody: undefined,
+		});
+		expect(() =>
+			generate({
+				"/things/a": { get: clashing("first") },
+				"/things/b": { get: clashing("second") },
+			})
+		).toThrow(
+			/2 command\(s\) failed to generate[\s\S]*GET \/things\/a \(things\.first\)[\s\S]*GET \/things\/b \(things\.second\)/
+		);
+	});
 });

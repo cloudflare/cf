@@ -10,7 +10,6 @@ import {
 	ACCOUNT_PATH_PARAMS,
 	accountOrZoneLocal,
 	type Arg,
-	CLI_ONLY_OPTIONS,
 	type Derived,
 	derive,
 	downgradeOptionalParents,
@@ -305,11 +304,7 @@ export function context(
 	}
 	const requiredOptionArgs = options(derived).filter(
 		(o) =>
-			o.required &&
-			!CLI_ONLY_OPTIONS.includes(o.name) &&
-			o.origin.in !== "query" &&
-			!isPath(o) &&
-			!o.isWorkerName
+			o.required && o.origin.in !== "query" && !isPath(o) && !o.isWorkerName
 	);
 	const hasParams = queryArgs(derived).length > 0;
 	const hasHeaders = headerArgs(derived).length > 0;

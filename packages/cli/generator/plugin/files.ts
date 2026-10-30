@@ -439,12 +439,10 @@ class Walk {
 			group !== undefined && group !== ""
 				? `${resource} ${group.replaceAll("/", " ")} ${method.name}`
 				: `${resource} ${method.name}`;
-		const hasForce = ctx.derived.args.some((a) => a.name === "force");
 		const generatedForce =
-			(op.method === "delete" ||
-				(method.requireConfirmation !== undefined &&
-					method.requireConfirmation !== "")) &&
-			!hasForce;
+			op.method === "delete" ||
+			(method.requireConfirmation !== undefined &&
+				method.requireConfirmation !== "");
 		const safeFlags = telemetrySafeFlags(
 			ctx.derived.args,
 			generatedForce,

@@ -85,14 +85,11 @@ export function builderLines(ctx: Ctx): string[] {
 	lines.push(
 		`.option("dry-run", {"type":"boolean","description":"Validate and show what would happen without executing","default":false})`
 	);
-	const hasForce =
-		options.some((o) => o.name === "force") ||
-		positional.some((p) => p.name === "force");
 	const isDelete =
 		op.method === "delete" ||
 		(ctx.method.requireConfirmation !== undefined &&
 			ctx.method.requireConfirmation !== "");
-	if (isDelete && !hasForce) {
+	if (isDelete) {
 		lines.push(
 			`.option("force", {"type":"boolean","alias":"f","description":"Skip confirmation (useful in scripts and CI)","default":false})`
 		);
@@ -113,7 +110,7 @@ export function builderLines(ctx: Ctx): string[] {
 			`.option("text", {"type":"boolean","description":"Decode the response body as UTF-8 text instead of writing raw bytes","default":false})`
 		);
 	}
-	if (op.requestContentTypes.some((c) => c !== "application/json")) {
+	if (d.hasFileUpload) {
 		lines.push(
 			`.option("file", {"type":"string","description":"Path to a file to upload as the request body"})`
 		);

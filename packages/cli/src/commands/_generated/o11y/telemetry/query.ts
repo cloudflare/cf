@@ -55,6 +55,12 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.coerce("distribution-scale", (value) =>
 			resolveFileToken(value, "distribution-scale", "text")
 		)
+		.option("preview", {
+			type: "boolean",
+			description:
+				"When true, executes the query without persisting the results. Useful for validation or previewing.",
+			default: false,
+		})
 		.option("granularity", {
 			type: "number",
 			description:
@@ -235,6 +241,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						"chart-type",
 						"compare",
 						"distribution-scale",
+						"preview",
 						"ignore-series",
 						"parameters-filter-combination",
 						"parameters-needle-is-regex",
@@ -263,6 +270,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 										chartType: argv["chart-type"],
 										compare: argv["compare"],
 										distributionScale: argv["distribution-scale"],
+										dry: argv["preview"],
 										granularity: argv["granularity"],
 										ignoreSeries: argv["ignore-series"],
 										limit: argv["limit"],
@@ -361,6 +369,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					chartType: argv["chart-type"],
 					compare: argv["compare"],
 					distributionScale: argv["distribution-scale"],
+					dry: argv["preview"],
 					granularity: argv["granularity"],
 					ignoreSeries: argv["ignore-series"],
 					limit: argv["limit"],

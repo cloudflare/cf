@@ -5,7 +5,11 @@
  * the single source of both the generated command and its metadata.
  */
 
-import { GLOBAL_OPTION_NAMES } from "../../src/lib/global-options.js";
+import {
+	FLAG_OWNER_TEXT,
+	type FlagOwner,
+	flagOwnership,
+} from "../../src/lib/global-options.js";
 import {
 	GenerateError,
 	get,
@@ -16,13 +20,14 @@ import {
 	truthy,
 	type Value,
 } from "./js.js";
-import type { Method } from "./commands.js";
-import type {
-	MultipartField,
-	MultipartInfo,
-	OperationInfo,
-	ParameterInfo,
+import {
+	type MultipartField,
+	type MultipartInfo,
+	type OperationInfo,
+	outputKind,
+	type ParameterInfo,
 } from "./operation.js";
+import type { Method } from "./commands.js";
 
 /**
  * The kind of value an argument takes: an `enum` is a string from a fixed
@@ -184,20 +189,6 @@ export function optionDefaults(
 	return defaults;
 }
 
-/** Options that only the CLI uses, which never become body flags. */
-export const CLI_ONLY_OPTIONS: readonly string[] = [
-	"dry-run",
-	"body",
-	"file",
-	"local",
-	"remote",
-	"preview",
-	"persist-to",
-	"yes",
-	"output",
-	"table",
-];
-
 export const ACCOUNT_PATH_PARAMS: readonly string[] = [
 	"account_id",
 	"account_identifier",
@@ -273,13 +264,6 @@ export function pathParamReadKey(args: readonly Arg[], wire: string): string {
 
 function flagName(name: string): string {
 	return name.replace(/[_.]/g, "-");
-}
-
-function cliFlagName(name: string): string | undefined {
-	const flag = flagName(name);
-	return ["mode", "temporary-account", "event-code"].includes(kebab(flag))
-		? undefined
-		: flag;
 }
 
 function fileFlagSegment(name: string): string | undefined {
@@ -397,6 +381,26 @@ function describeField(at: FieldLocation): string {
 
 const KEBAB_FLAG = /^[a-z][a-z0-9]*(?:-[a-z0-9]+)*$/;
 
+/**
+ * `--dry-run`, `--body`, and `--force`/`-f` are cf's on every command, even
+ * where it doesn't emit them, so emitting one later can't create a clash.
+ */
+function cfOwnedFlags(facts: {
+	hasFileUpload: boolean;
+	binaryOutput: boolean;
+	workerArg: boolean;
+}): string[] {
+	return [
+		"dry-run",
+		"body",
+		"force",
+		"f",
+		...(facts.hasFileUpload ? ["file"] : []),
+		...(facts.binaryOutput ? ["text"] : []),
+		...(facts.workerArg ? ["script-name"] : []),
+	];
+}
+
 interface Claim {
 	at: FieldLocation;
 	flag: string;
@@ -406,17 +410,22 @@ interface Claim {
 /**
  * Names the API fields of one command. A field takes
  * `x-forge-params.<key>.flagName` when set, else its natural name (Fern
- * rename, else wire name). Clashes are recorded rather than thrown, so
- * `settle` reports all of an operation's at once.
+ * rename, else wire name), and must not be a flag cf owns. Clashes are
+ * recorded rather than thrown, so `assertNoClashes` reports all of an
+ * operation's at once.
  */
 class FlagNames {
 	private readonly claims: Claim[] = [];
 	private readonly clashes: string[] = [];
+	private readonly owner: (flag: string) => FlagOwner | undefined;
 
 	constructor(
 		private readonly where: string,
-		private readonly overrides: Overrides
-	) {}
+		private readonly overrides: Overrides,
+		cfFlags: readonly string[]
+	) {
+		this.owner = flagOwnership(cfFlags);
+	}
 
 	name(at: FieldLocation, natural: string): string {
 		const key = overrideKey(at);
@@ -432,6 +441,12 @@ class FlagNames {
 		}
 		const explicit = raw !== undefined;
 		const flag = explicit ? raw : natural;
+		const owner = this.owner(flag);
+		if (owner !== undefined) {
+			this.clashes.push(
+				`${describeField(at)} → --${kebab(flag)}${source(key, explicit)}, which ${FLAG_OWNER_TEXT[owner]}. ${explicit ? "Choose another flagName." : `Set x-forge-params["${key}"].flagName.`}`
+			);
+		}
 		const other = this.claims.find((c) => c.flag === kebab(flag));
 		if (other !== undefined && (explicit || other.explicit)) {
 			this.clashes.push(
@@ -477,9 +492,19 @@ export function derive(
 	}
 	const workers = resource === "workers";
 	const overrides: Overrides = method.params ?? {};
+	const hasFileUpload = op.requestContentTypes.some(
+		(c) => c !== "application/json"
+	);
 	const names = new FlagNames(
 		`${op.method.toUpperCase()} ${op.path} (${method.operationId})`,
-		overrides
+		overrides,
+		cfOwnedFlags({
+			hasFileUpload,
+			binaryOutput: outputKind(op) === "binary",
+			workerArg:
+				workers &&
+				templateParams(op.path).some((p) => isWorkerName(flagName(p))),
+		})
 	);
 	const args: Arg[] = [];
 	pathParams(args, op, overrides, method, workers, names);
@@ -502,9 +527,6 @@ export function derive(
 		!op.requestBodyIsArray &&
 		onlyJson;
 	const hasBodyParams = args.some(isBody) && isMutating;
-	const hasFileUpload = op.requestContentTypes.some(
-		(c) => c !== "application/json"
-	);
 	const multipart = op.requestContentTypes.includes("multipart/form-data")
 		? op.multipart
 		: undefined;
@@ -550,9 +572,7 @@ function formTextFlags(
 			twin === undefined
 				? names.name({ in: "form", name: field.name }, kebab(field.name))
 				: twin.name;
-		if (cliFlagName(flag) !== undefined) {
-			out.push({ field, flag: kebab(flag) });
-		}
+		out.push({ field, flag: kebab(flag) });
 	}
 	return out;
 }
@@ -563,14 +583,7 @@ function formFileFlags(
 	text: readonly MultipartFieldFlag[],
 	names: FlagNames
 ): MultipartFieldFlag[] {
-	// File flags must not shadow live globals, generated flags, or aliases.
 	const taken = new Set<string>([
-		...GLOBAL_OPTION_NAMES,
-		...CLI_ONLY_OPTIONS,
-		"force",
-		"text",
-		"f",
-		...(args.some((a) => a.isWorkerName) ? ["script-name"] : []),
 		...args.map((a) => kebab(a.name)),
 		...text.map((t) => t.flag),
 	]);
@@ -583,10 +596,8 @@ function formFileFlags(
 		if (natural === undefined) {
 			continue;
 		}
-		const flag = cliFlagName(
-			names.name({ in: "form", name: field.name }, natural)
-		);
-		if (flag === undefined || taken.has(flag)) {
+		const flag = names.name({ in: "form", name: field.name }, natural);
+		if (taken.has(flag)) {
 			continue;
 		}
 		taken.add(flag);
@@ -725,15 +736,10 @@ function pathParams(
 		}
 		const emitted = cls.isWorkerName
 			? "worker"
-			: cliFlagName(
-					names.name(
-						{ in: "path", name: p },
-						parameter ? naturalFlag(parameter) : flagName(p)
-					)
+			: names.name(
+					{ in: "path", name: p },
+					parameter ? naturalFlag(parameter) : flagName(p)
 				);
-		if (emitted === undefined) {
-			continue;
-		}
 		const description =
 			o.string("description") ??
 			parameter?.description ??
@@ -770,12 +776,7 @@ function queryParams(
 		const r = o.nullish("required");
 		const required = r === undefined ? p.required : truthy(r);
 		const dflt = o.nullish("default");
-		const name = cliFlagName(
-			names.name({ in: "query", name: p.name }, naturalFlag(p))
-		);
-		if (name === undefined) {
-			continue;
-		}
+		const name = names.name({ in: "query", name: p.name }, naturalFlag(p));
 		const description =
 			o.string("description") ?? p.description ?? descriptionFromName(p.name);
 		const isEnum = p.enumValues !== undefined && p.enumValues.length > 0;
@@ -810,12 +811,10 @@ function headerParams(
 	names: FlagNames
 ): void {
 	for (const hp of op.headerParams) {
-		const name = cliFlagName(
-			names.name({ in: "header", name: hp.name }, naturalFlag(hp).toLowerCase())
+		const name = names.name(
+			{ in: "header", name: hp.name },
+			naturalFlag(hp).toLowerCase()
 		);
-		if (name === undefined) {
-			continue;
-		}
 		if (out.some((a) => a.name === name)) {
 			continue;
 		}
@@ -863,14 +862,8 @@ function bodyParams(
 		if ((isZoneField || natural === "zone-id") && pathHasZone) {
 			continue;
 		}
-		const name = cliFlagName(names.name({ in: "body", path }, natural));
-		if (name === undefined) {
-			continue;
-		}
+		const name = names.name({ in: "body", path }, natural);
 		if (out.some((a) => a.name === name)) {
-			continue;
-		}
-		if (CLI_ONLY_OPTIONS.includes(name) || name === "body" || name === "file") {
 			continue;
 		}
 		if (name !== natural) {

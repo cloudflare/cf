@@ -34,7 +34,6 @@ describe("binary multipart file flags", () => {
 			binary("_headers"),
 			binary("_worker.js"),
 			binary("_routes.json"),
-			binary("file"),
 			binary("__"),
 			{
 				name: "branch",
@@ -55,36 +54,16 @@ describe("binary multipart file flags", () => {
 		]);
 	});
 
-	it("avoids globals, aliases, existing arguments, and duplicate normalized names", () => {
+	it("skips fields whose names can't be flags or whose flag another field has", () => {
 		const op = multipartOperation([
 			{ name: "label", type: "string", isBinary: false, description: "Label" },
 			...[
-				"_body",
-				"_file",
-				"_force",
-				"_f",
-				"_quiet",
-				"_q",
-				"_zone",
-				"_z",
-				"_profile",
-				"_mode",
-				"_temporary.account",
-				"_event.code",
-				"_m",
-				"_help",
-				"_h",
-				"_version",
-				"_v",
-				"_text",
-				"_local",
-				"_dry.run",
-				"_persist.to",
-				"_query",
 				"_label",
+				"_query",
 				"_worker.js",
 				"worker_js",
 				".routes.json",
+				"_text",
 				"__",
 				"-invalid",
 				"has space",
@@ -98,14 +77,52 @@ describe("binary multipart file flags", () => {
 		).toEqual([
 			["_worker.js", "worker-js"],
 			[".routes.json", "routes-json"],
+			["_text", "text"],
 		]);
+	});
+
+	it("rejects binary fields named after flags cf owns, in one error", () => {
+		const fields: [string, string][] = [
+			["_body", "body"],
+			["_file", "file"],
+			["_force", "force"],
+			["_f", "f"],
+			["_quiet", "quiet"],
+			["_zone", "zone"],
+			["_profile", "profile"],
+			["_mode", "mode"],
+			["_temporary.account", "temporary-account"],
+			["_event.code", "event-code"],
+			["_help", "help"],
+			["_version", "version"],
+			["_local", "local"],
+			["_dry.run", "dry-run"],
+			["_persist.to", "persist-to"],
+		];
+		const op = multipartOperation([
+			binary("_headers"),
+			...fields.map(([name]) => binary(name)),
+		]);
+		const error = (() => {
+			try {
+				derive(upload, "example", op);
+			} catch (err) {
+				return String(err);
+			}
+			return "";
+		})();
+		for (const [name, flag] of fields) {
+			expect(error).toContain(`form-data field \`${name}\` → --${flag}, which`);
+		}
 	});
 
 	it("does not shadow the worker script-name alias", () => {
 		const op = multipartOperation([binary("_script.name")]);
 		op.path = "/accounts/{account_id}/workers/scripts/{script_name}";
 		op.pathParams = [param("script_name")];
-		expect(derive(upload, "workers", op).multipartFileFields).toEqual([]);
+		expect(() => derive(upload, "workers", op)).toThrow(
+			"form-data field `_script.name` → --script-name, which is a flag cf adds to this command."
+		);
 	});
 
 	it("selects multipart for a binary flag when octet-stream is also accepted", () => {

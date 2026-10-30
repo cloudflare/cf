@@ -15,6 +15,7 @@ import { createRequire } from "node:module";
 import { tmpdir } from "node:os";
 import { dirname, join, relative, sep } from "node:path";
 import { fileURLToPath } from "node:url";
+import { normalizeOpenApi } from "../../../generator/normalize.js";
 import { handWrittenMeta } from "../../commands/hand-written-meta.js";
 import {
 	type HandWrittenCommand,
@@ -214,14 +215,16 @@ export function generateFiles(
 			...spec,
 			info: { ...spec.info, version: JSON.stringify(config) },
 		};
-		writeFileSync(join(dir, "openapi.json"), JSON.stringify(doc));
+		const openapiPath = join(dir, "openapi.json");
+		writeFileSync(openapiPath, JSON.stringify(doc));
 		const wasm = plugin();
 		try {
+			normalizeOpenApi(forgeBin, openapiPath);
 			execFileSync(
 				process.execPath,
 				[
 					forgeBin,
-					join(dir, "openapi.json"),
+					openapiPath,
 					"--target",
 					`wasm://${wasm}`,
 					"--out",

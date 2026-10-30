@@ -31,12 +31,13 @@ import {
 	replaceParams,
 	templateParams,
 } from "../js.js";
-import { type OperationInfo, response } from "../operation.js";
+import {
+	type OperationInfo,
+	type OutputKind,
+	outputKind,
+} from "../operation.js";
 import { variantPromptBlock } from "./handler.js";
 import type { Method } from "../commands.js";
-
-/** How a command's response is read. */
-export type OutputKind = "json" | "binary" | "text" | "websocket";
 
 /** Everything the emitters of one command read. */
 export interface Ctx {
@@ -151,48 +152,6 @@ export function argvKey(name: string): string {
 /** `argLocalIdent`. */
 export function argLocalIdent(name: string): string {
 	return kebab(name).replaceAll("-", "_");
-}
-
-const BINARY = [
-	"application/octet-stream",
-	"application/vnd.google.protobuf",
-	"application/zip",
-	"application/pdf",
-	"application/vnd.tcpdump.pcap",
-	"multipart/form-data",
-];
-const TEXT = ["text/plain", "text/csv", "text/html", "text/vtt"];
-
-/** `deriveOutputKind`. */
-export function outputKind(op: OperationInfo): OutputKind {
-	let success = ["200", "201", "202", "204"]
-		.map((s) => response(op, s))
-		.find((r) => r !== undefined);
-	if (success === undefined && response(op, "101") !== undefined) {
-		return "websocket";
-	}
-	const range = response(op, "2XX");
-	if (range !== undefined) {
-		success = range;
-	}
-	if (success === undefined) {
-		const found = op.responses.map(([s]) => s);
-		throw new GenerateError(
-			`No "success" responses found for:\n  ${op.method}:${op.path}\n Found: ${found.join(",")}`
-		);
-	}
-	if (
-		success.content.some(
-			(c) =>
-				BINARY.includes(c) || c.startsWith("image/") || c.startsWith("audio/")
-		)
-	) {
-		return "binary";
-	}
-	if (success.content.some((c) => TEXT.includes(c))) {
-		return "text";
-	}
-	return "json";
 }
 
 /** The context needed to substitute a path template's placeholders. */

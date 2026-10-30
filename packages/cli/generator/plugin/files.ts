@@ -19,7 +19,7 @@ import {
 } from "./args.js";
 import { builderLines } from "./emit/builder.js";
 import { ACCOUNT_OR_ZONE_HELP, handler, imports } from "./emit/handler.js";
-import { context, escapeSingle, outputKind } from "./emit/index.js";
+import { context, escapeSingle } from "./emit/index.js";
 import { operationLiteral, operationPath, usesPathTag } from "./emit/sdk.js";
 import {
 	type DryRun,
@@ -44,8 +44,12 @@ import {
 	trimEndMatches,
 	type Value,
 } from "./js.js";
+import {
+	type OperationInfo,
+	outputKind,
+	type ParameterInfo,
+} from "./operation.js";
 import type { Command, Group, Item, Method } from "./commands.js";
-import type { OperationInfo, ParameterInfo } from "./operation.js";
 
 /** A generated file. */
 export interface Out {

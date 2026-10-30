@@ -519,8 +519,14 @@ describe("nested body defaults", () => {
 		name: string,
 		path: string[],
 		required: boolean,
-		dflt?: string
-	) => bodyParam(name, "string", path, { required, default: dflt });
+		dflt?: string,
+		optionalParentPath: string[] | null = null
+	) =>
+		bodyParam(name, "string", path, {
+			required,
+			default: dflt,
+			optionalParentPath,
+		});
 	const createMethod = baseMethod("create", "test-create", {
 		description: "Create a test resource",
 	});
@@ -530,12 +536,13 @@ describe("nested body defaults", () => {
 	it("does not create an optional parent object", () => {
 		const op = create(
 			[
-				field("format-type", ["format", "type"], true),
+				field("format-type", ["format", "type"], true, undefined, ["format"]),
 				field(
 					"format-compression",
 					["format", "compression"],
 					false,
-					"uncompressed"
+					"uncompressed",
+					["format"]
 				),
 			],
 			[]
@@ -547,6 +554,68 @@ describe("nested body defaults", () => {
 				parentName: "format",
 				groupSetFlags: ["format-type", "format-compression"],
 				requiredFlags: ["format-type"],
+			},
+		]);
+	});
+
+	it("scopes requirements to the nearest optional object", () => {
+		const op = create(
+			[
+				field(
+					"rule-settings-add-headers",
+					["rule_settings", "add_headers"],
+					false,
+					undefined,
+					["rule_settings"]
+				),
+				field(
+					"rule-settings-forward-enabled",
+					["rule_settings", "forward", "enabled"],
+					false,
+					undefined,
+					["rule_settings", "forward"]
+				),
+				field(
+					"rule-settings-forward-worker-id",
+					["rule_settings", "forward", "worker_id"],
+					true,
+					undefined,
+					["rule_settings", "forward"]
+				),
+				field(
+					"rule-settings-redirect-include-context",
+					["rule_settings", "redirect", "include_context"],
+					false,
+					undefined,
+					["rule_settings", "redirect"]
+				),
+				field(
+					"rule-settings-redirect-target-uri",
+					["rule_settings", "redirect", "target_uri"],
+					true,
+					undefined,
+					["rule_settings", "redirect"]
+				),
+			],
+			[]
+		);
+		const d = derive(createMethod, "test", op);
+		expect(d.optionalParentGroups).toEqual([
+			{
+				parentName: "rule-settings-forward",
+				groupSetFlags: [
+					"rule-settings-forward-enabled",
+					"rule-settings-forward-worker-id",
+				],
+				requiredFlags: ["rule-settings-forward-worker-id"],
+			},
+			{
+				parentName: "rule-settings-redirect",
+				groupSetFlags: [
+					"rule-settings-redirect-include-context",
+					"rule-settings-redirect-target-uri",
+				],
+				requiredFlags: ["rule-settings-redirect-target-uri"],
 			},
 		]);
 	});

@@ -58,18 +58,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				'The new details of the organization. Only accepts updates to "name" currently.',
 		})
 		.check((argv) => {
-			const groupSet = ["parent-id"].some((k) => argv[k] !== undefined);
-			if (groupSet) {
-				const missing = ["parent-id"].filter((k) => argv[k] === undefined);
-				if (missing.length > 0) {
-					throw new Error(
-						`${missing.map((m) => "--" + m).join(", ")} ${missing.length === 1 ? "is" : "are"} required when any --parent-* flag is set`
-					);
-				}
-			}
-			return true;
-		})
-		.check((argv) => {
 			const groupSet = [
 				"profile-business-address",
 				"profile-business-email",
@@ -77,7 +65,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"profile-business-phone",
 				"profile-external-metadata",
 			].some((k) => argv[k] !== undefined);
-			if (groupSet) {
+			if (argv.body === undefined && groupSet) {
 				const missing = [
 					"profile-business-address",
 					"profile-business-email",

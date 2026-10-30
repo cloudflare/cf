@@ -464,7 +464,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			const groupSet = ["expiration-duration", "expiration-expires-at"].some(
 				(k) => argv[k] !== undefined
 			);
-			if (groupSet) {
+			if (argv.body === undefined && groupSet) {
 				const missing = ["expiration-expires-at"].filter(
 					(k) => argv[k] === undefined
 				);
@@ -478,66 +478,34 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		})
 		.check((argv) => {
 			const groupSet = [
-				"rule-settings-add-headers",
-				"rule-settings-allow-child-bypass",
-				"rule-settings-biso-admin-controls-copy",
-				"rule-settings-biso-admin-controls-dcp",
-				"rule-settings-biso-admin-controls-dd",
-				"rule-settings-biso-admin-controls-dk",
-				"rule-settings-biso-admin-controls-download",
-				"rule-settings-biso-admin-controls-dp",
-				"rule-settings-biso-admin-controls-du",
-				"rule-settings-biso-admin-controls-keyboard",
-				"rule-settings-biso-admin-controls-paste",
-				"rule-settings-biso-admin-controls-printing",
-				"rule-settings-biso-admin-controls-upload",
-				"rule-settings-biso-admin-controls-version",
-				"rule-settings-biso-admin-controls-wm-id",
 				"rule-settings-block-page-include-context",
 				"rule-settings-block-page-target-uri",
-				"rule-settings-block-page-enabled",
-				"rule-settings-block-reason",
-				"rule-settings-bypass-parent-rule",
-				"rule-settings-check-session-duration",
-				"rule-settings-check-session-enforce",
-				"rule-settings-delete-headers",
-				"rule-settings-dns-resolvers-ipv4",
-				"rule-settings-dns-resolvers-ipv6",
-				"rule-settings-egress-ipv4",
-				"rule-settings-egress-ipv4-fallback",
-				"rule-settings-egress-ipv6",
-				"rule-settings-forensic-copy-enabled",
-				"rule-settings-ignore-cname-category-matches",
-				"rule-settings-insecure-disable-dnssec-validation",
-				"rule-settings-ip-categories",
-				"rule-settings-ip-indicator-feeds",
-				"rule-settings-l4override-ip",
-				"rule-settings-l4override-port",
-				"rule-settings-notification-settings-enabled",
-				"rule-settings-notification-settings-include-context",
-				"rule-settings-notification-settings-msg",
-				"rule-settings-notification-settings-support-url",
-				"rule-settings-override-host",
-				"rule-settings-override-ips",
-				"rule-settings-payload-log-enabled",
-				"rule-settings-quarantine-file-types",
+			].some((k) => argv[k] !== undefined);
+			if (argv.body === undefined && groupSet) {
+				const missing = ["rule-settings-block-page-target-uri"].filter(
+					(k) => argv[k] === undefined
+				);
+				if (missing.length > 0) {
+					throw new Error(
+						`${missing.map((m) => "--" + m).join(", ")} ${missing.length === 1 ? "is" : "are"} required when any --rule-settings-block-page-* flag is set`
+					);
+				}
+			}
+			return true;
+		})
+		.check((argv) => {
+			const groupSet = [
 				"rule-settings-redirect-include-context",
 				"rule-settings-redirect-preserve-path-and-query",
 				"rule-settings-redirect-target-uri",
-				"rule-settings-resolve-dns-internally-fallback",
-				"rule-settings-resolve-dns-internally-view-id",
-				"rule-settings-resolve-dns-through-cloudflare",
-				"rule-settings-set-headers",
-				"rule-settings-untrusted-cert-action",
 			].some((k) => argv[k] !== undefined);
-			if (groupSet) {
-				const missing = [
-					"rule-settings-block-page-target-uri",
-					"rule-settings-redirect-target-uri",
-				].filter((k) => argv[k] === undefined);
+			if (argv.body === undefined && groupSet) {
+				const missing = ["rule-settings-redirect-target-uri"].filter(
+					(k) => argv[k] === undefined
+				);
 				if (missing.length > 0) {
 					throw new Error(
-						`${missing.map((m) => "--" + m).join(", ")} ${missing.length === 1 ? "is" : "are"} required when any --rule_settings-* flag is set`
+						`${missing.map((m) => "--" + m).join(", ")} ${missing.length === 1 ? "is" : "are"} required when any --rule-settings-redirect-* flag is set`
 					);
 				}
 			}

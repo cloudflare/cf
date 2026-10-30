@@ -82,7 +82,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			const groupSet = ["from-count", "from-name", "from-type"].some(
 				(k) => argv[k] !== undefined
 			);
-			if (groupSet) {
+			if (argv.body === undefined && groupSet) {
 				const requiredConflicts: Record<string, string[]> = {
 					"from-name": ["rollback"],
 				};

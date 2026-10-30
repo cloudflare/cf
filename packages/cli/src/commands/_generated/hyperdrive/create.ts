@@ -189,7 +189,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"origin-access-client-secret",
 				"origin-service-id",
 			].some((k) => argv[k] !== undefined);
-			if (groupSet) {
+			if (argv.body === undefined && groupSet) {
 				const missing = [
 					"origin-database",
 					"origin-password",

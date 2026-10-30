@@ -4,5 +4,5 @@ import { path } from "#api";
 export default {
 	method: "DELETE",
 	path: (request: Record<string, unknown>) =>
-		path`/tenants/${request.tenant_tag}/custom_ns/${request.custom_ns_id}`,
+		path`/tenants/${request.tenant_id}/custom_ns/${request.custom_ns_id}`,
 } as const;

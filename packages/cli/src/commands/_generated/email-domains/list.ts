@@ -20,7 +20,7 @@ import { runWithTelemetry } from "#lib/telemetry/index.js";
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
 		.usage(
-			"$0 email-domains list\n\nReturns account-scoped domain status. DNS records are omitted unless requested; exact hostname filtering may return several candidates; retain the EmailDomain ID for each enrollment. Available only to the configured OpenAI pilot account behind a default-off gate. Authentication failures may use the gateway error envelope."
+			"$0 email-domains list\n\nReturns account-scoped domain status. DNS records are omitted unless requested; exact hostname filtering may return several candidates; retain the EmailDomain ID for each enrollment. Available only to the configured OpenAI pilot account behind a default-off gate; while the gate is off, the pilot account gets 503 with error 2090 and Retry-After, and existing domains are unaffected. Unsupported methods return 405 with error 2091. Authentication failures may use the gateway error envelope."
 		)
 		.option("per-page", { type: "number", description: "Per page" })
 		.option("cursor", {

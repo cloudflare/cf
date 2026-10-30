@@ -3975,7 +3975,7 @@
 					"name": "name",
 					"type": "string",
 					"required": true,
-					"description": "Account name"
+					"description": "The name field"
 				},
 				{
 					"name": "settings-abuse-contact-email",
@@ -8261,7 +8261,7 @@
 					"name": "authentication",
 					"type": "boolean",
 					"required": false,
-					"description": "The authentication field"
+					"description": "Require authentication for gateway access. New gateways must have authentication enabled. Once enabled, authentication cannot be disabled."
 				},
 				{
 					"name": "byok-only",
@@ -8327,6 +8327,13 @@
 					"type": "string",
 					"required": false,
 					"description": "The guardrails.prompt.S13 field",
+					"enum": ["FLAG", "BLOCK"]
+				},
+				{
+					"name": "guardrails-prompt-s14",
+					"type": "string",
+					"required": false,
+					"description": "The guardrails.prompt.S14 field",
 					"enum": ["FLAG", "BLOCK"]
 				},
 				{
@@ -8425,6 +8432,13 @@
 					"type": "string",
 					"required": false,
 					"description": "The guardrails.response.S13 field",
+					"enum": ["FLAG", "BLOCK"]
+				},
+				{
+					"name": "guardrails-response-s14",
+					"type": "string",
+					"required": false,
+					"description": "The guardrails.response.S14 field",
 					"enum": ["FLAG", "BLOCK"]
 				},
 				{
@@ -9043,7 +9057,7 @@
 					"name": "authentication",
 					"type": "boolean",
 					"required": false,
-					"description": "The authentication field"
+					"description": "Require authentication for gateway access. New gateways must have authentication enabled. Once enabled, authentication cannot be disabled."
 				},
 				{
 					"name": "byok-only",
@@ -9109,6 +9123,13 @@
 					"type": "string",
 					"required": false,
 					"description": "The guardrails.prompt.S13 field",
+					"enum": ["FLAG", "BLOCK"]
+				},
+				{
+					"name": "guardrails-prompt-s14",
+					"type": "string",
+					"required": false,
+					"description": "The guardrails.prompt.S14 field",
 					"enum": ["FLAG", "BLOCK"]
 				},
 				{
@@ -9207,6 +9228,13 @@
 					"type": "string",
 					"required": false,
 					"description": "The guardrails.response.S13 field",
+					"enum": ["FLAG", "BLOCK"]
+				},
+				{
+					"name": "guardrails-response-s14",
+					"type": "string",
+					"required": false,
+					"description": "The guardrails.response.S14 field",
 					"enum": ["FLAG", "BLOCK"]
 				},
 				{
@@ -13179,7 +13207,7 @@
 			"httpMethod": "GET",
 			"apiPath": "/accounts/{account_id}/alerting/v3/available_alerts",
 			"operationId": "alerting.available-alerts.list",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf alerting destinations eligible get",
@@ -13203,7 +13231,7 @@
 			"httpMethod": "GET",
 			"apiPath": "/accounts/{account_id}/alerting/v3/destinations/eligible",
 			"operationId": "alerting.destinations.eligible.get",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf alerting destinations pagerduty create",
@@ -13227,7 +13255,7 @@
 			"httpMethod": "POST",
 			"apiPath": "/accounts/{account_id}/alerting/v3/destinations/pagerduty/connect",
 			"operationId": "alerting.destinations.pagerduty.create",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf alerting destinations pagerduty delete",
@@ -13251,7 +13279,7 @@
 			"httpMethod": "DELETE",
 			"apiPath": "/accounts/{account_id}/alerting/v3/destinations/pagerduty",
 			"operationId": "alerting.destinations.pagerduty.delete",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf alerting destinations pagerduty get",
@@ -13275,7 +13303,7 @@
 			"httpMethod": "GET",
 			"apiPath": "/accounts/{account_id}/alerting/v3/destinations/pagerduty",
 			"operationId": "alerting.destinations.pagerduty.get",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf alerting destinations pagerduty link",
@@ -13307,7 +13335,7 @@
 			"httpMethod": "GET",
 			"apiPath": "/accounts/{account_id}/alerting/v3/destinations/pagerduty/connect/{token_id}",
 			"operationId": "alerting.destinations.pagerduty.link",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf alerting destinations webhooks create",
@@ -13355,7 +13383,7 @@
 			"httpMethod": "POST",
 			"apiPath": "/accounts/{account_id}/alerting/v3/destinations/webhooks",
 			"operationId": "alerting.destinations.webhooks.create",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf alerting destinations webhooks delete",
@@ -13387,7 +13415,7 @@
 			"httpMethod": "DELETE",
 			"apiPath": "/accounts/{account_id}/alerting/v3/destinations/webhooks/{webhook_id}",
 			"operationId": "alerting.destinations.webhooks.delete",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf alerting destinations webhooks get",
@@ -13419,7 +13447,7 @@
 			"httpMethod": "GET",
 			"apiPath": "/accounts/{account_id}/alerting/v3/destinations/webhooks/{webhook_id}",
 			"operationId": "alerting.destinations.webhooks.get",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf alerting destinations webhooks list",
@@ -13443,7 +13471,7 @@
 			"httpMethod": "GET",
 			"apiPath": "/accounts/{account_id}/alerting/v3/destinations/webhooks",
 			"operationId": "alerting.destinations.webhooks.list",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf alerting destinations webhooks update",
@@ -13499,7 +13527,7 @@
 			"httpMethod": "PUT",
 			"apiPath": "/accounts/{account_id}/alerting/v3/destinations/webhooks/{webhook_id}",
 			"operationId": "alerting.destinations.webhooks.update",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf alerting history list",
@@ -13547,7 +13575,7 @@
 			"httpMethod": "GET",
 			"apiPath": "/accounts/{account_id}/alerting/v3/history",
 			"operationId": "alerting.history.list",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf alerting policies create",
@@ -13961,7 +13989,7 @@
 			"httpMethod": "POST",
 			"apiPath": "/accounts/{account_id}/alerting/v3/policies",
 			"operationId": "alerting.policies.create",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf alerting policies delete",
@@ -13993,7 +14021,7 @@
 			"httpMethod": "DELETE",
 			"apiPath": "/accounts/{account_id}/alerting/v3/policies/{policy_id}",
 			"operationId": "alerting.policies.delete",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf alerting policies email details",
@@ -14037,7 +14065,7 @@
 			"httpMethod": "GET",
 			"apiPath": "/accounts/{account_id}/alerting/v3/policies/{policy_id}/email/unsubscribe",
 			"operationId": "alerting.policies.email.details",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf alerting policies email unsubscribe",
@@ -14081,7 +14109,7 @@
 			"httpMethod": "POST",
 			"apiPath": "/accounts/{account_id}/alerting/v3/policies/{policy_id}/email/unsubscribe",
 			"operationId": "alerting.policies.email.unsubscribe",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf alerting policies get",
@@ -14113,7 +14141,7 @@
 			"httpMethod": "GET",
 			"apiPath": "/accounts/{account_id}/alerting/v3/policies/{policy_id}",
 			"operationId": "alerting.policies.get",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf alerting policies list",
@@ -14137,7 +14165,7 @@
 			"httpMethod": "GET",
 			"apiPath": "/accounts/{account_id}/alerting/v3/policies",
 			"operationId": "alerting.policies.list",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf alerting policies test",
@@ -14199,7 +14227,7 @@
 			"httpMethod": "POST",
 			"apiPath": "/accounts/{account_id}/alerting/v3/policies/{policy_id}/test",
 			"operationId": "alerting.policies.test",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf alerting policies update",
@@ -14620,7 +14648,7 @@
 			"httpMethod": "PUT",
 			"apiPath": "/accounts/{account_id}/alerting/v3/policies/{policy_id}",
 			"operationId": "alerting.policies.update",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf alerting silences create",
@@ -14650,7 +14678,7 @@
 			"httpMethod": "POST",
 			"apiPath": "/accounts/{account_id}/alerting/v3/silences",
 			"operationId": "alerting.silences.create",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf alerting silences delete",
@@ -14682,7 +14710,7 @@
 			"httpMethod": "DELETE",
 			"apiPath": "/accounts/{account_id}/alerting/v3/silences/{silence_id}",
 			"operationId": "alerting.silences.delete",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf alerting silences get",
@@ -14714,7 +14742,7 @@
 			"httpMethod": "GET",
 			"apiPath": "/accounts/{account_id}/alerting/v3/silences/{silence_id}",
 			"operationId": "alerting.silences.get",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf alerting silences list",
@@ -14738,7 +14766,7 @@
 			"httpMethod": "GET",
 			"apiPath": "/accounts/{account_id}/alerting/v3/silences",
 			"operationId": "alerting.silences.list",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf alerting silences update",
@@ -14768,7 +14796,7 @@
 			"httpMethod": "PUT",
 			"apiPath": "/accounts/{account_id}/alerting/v3/silences",
 			"operationId": "alerting.silences.update",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf analytics latency colos get",
@@ -18940,7 +18968,7 @@
 			"httpMethod": "GET",
 			"apiPath": "/accounts/{account_id}/audit_logs",
 			"operationId": "audit-logs.list",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf auth activate",
@@ -20501,6 +20529,322 @@
 			"httpMethod": "GET",
 			"apiPath": "/billing/rate_plans/{public_key}",
 			"operationId": "billing.rate-plans.get",
+			"hideCommand": false
+		},
+		{
+			"command": "cf billing spend-policies activity list",
+			"name": "list",
+			"fullPath": ["billing", "spend-policies", "activity", "list"],
+			"description": "Returns configuration history from immutable policy revisions for the account, including deleted policies. Entries contain before/after values and verified actor attribution. Pages use descending revision IDs, not event or commit order; refresh the first page for new entries. This cursor is not an incremental consumer checkpoint.",
+			"summary": "List Spend Policy Activity",
+			"usage": "cf billing spend-policies activity list [options]",
+			"arguments": [],
+			"options": [
+				{
+					"name": "limit",
+					"type": "number",
+					"required": false,
+					"description": "Maximum number of audit entries to return. Defaults to 50. Values above 100 are capped at 100 rather than rejected."
+				},
+				{
+					"name": "cursor",
+					"type": "string",
+					"required": false,
+					"description": "Opaque token from the preceding response's result_info.cursor. Pass it unchanged to retrieve older entries."
+				},
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Validate and show what would happen without executing",
+					"default": false
+				}
+			],
+			"category": "read",
+			"hasRequestBody": false,
+			"httpMethod": "GET",
+			"apiPath": "/accounts/{account_id}/billing/spend-policies/activity",
+			"operationId": "billing.spend-policies.activity.list",
+			"hideCommand": false
+		},
+		{
+			"command": "cf billing spend-policies audit list",
+			"name": "list",
+			"fullPath": ["billing", "spend-policies", "audit", "list"],
+			"description": "Returns the policy's evaluation history, newest first. At most one entry is recorded per trigger (`approaching_limit` or `limit_reached`), policy version and billing period, so a policy update can record a new entry without any change in balance. Disabled policies still return their history; deleted policies return `404`. There is no pagination: use `limit` to set how many entries come back.",
+			"summary": "List Spend Policy Audit Entries",
+			"usage": "cf billing spend-policies audit list [options]",
+			"arguments": [],
+			"options": [
+				{
+					"name": "policy-id",
+					"type": "string",
+					"required": true,
+					"description": "Identifies the spend policy."
+				},
+				{
+					"name": "limit",
+					"type": "number",
+					"required": false,
+					"description": "Maximum number of audit entries to return. Defaults to 50. Values above 100 are capped at 100 rather than rejected."
+				},
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Validate and show what would happen without executing",
+					"default": false
+				}
+			],
+			"category": "read",
+			"hasRequestBody": false,
+			"httpMethod": "GET",
+			"apiPath": "/accounts/{account_id}/billing/spend-policies/{policy_id}/audit",
+			"operationId": "billing.spend-policies.audit.list",
+			"hideCommand": false
+		},
+		{
+			"command": "cf billing spend-policies create",
+			"name": "create",
+			"fullPath": ["billing", "spend-policies", "create"],
+			"description": "Creates a spend policy. Each account can have only one enabled `usage_block` policy per product. A second one returns `409`. There is no limit on `notification` policies.",
+			"summary": "Create Spend Policy",
+			"usage": "cf billing spend-policies create [options]",
+			"arguments": [],
+			"options": [
+				{
+					"name": "action",
+					"type": "string",
+					"required": true,
+					"description": "The action taken when the threshold is reached. `notification` sends an email to `notification_email`. `usage_block` blocks further usage of the product until the end of the billing period. Raising the threshold above the current balance, disabling the policy, or deleting it lifts the block early.",
+					"enum": ["notification", "usage_block"]
+				},
+				{
+					"name": "enabled",
+					"type": "boolean",
+					"required": true,
+					"description": "Whether the policy is evaluated."
+				},
+				{
+					"name": "name",
+					"type": "string",
+					"required": true,
+					"description": "Display name of the policy. After surrounding whitespace is trimmed, it must be 1 to 200 bytes long. The value is stored as sent, untrimmed."
+				},
+				{
+					"name": "notification-email",
+					"type": "string",
+					"required": false,
+					"description": "Email address that receives notifications. Required when `action` is `notification`. When set, it must be a bare address (`user@example.com`); display-name forms such as `Name <user@example.com>` are rejected."
+				},
+				{
+					"name": "product-id",
+					"type": "string",
+					"required": true,
+					"description": "The product the policy applies to: `workers` or `durable_objects`. Each product's balance and policies are separate. Both products support `notification` and `usage_block` policies on create and update.",
+					"enum": ["workers", "durable_objects"]
+				},
+				{
+					"name": "threshold-cents",
+					"type": "number",
+					"required": true,
+					"description": "The spend threshold for the current billing period, in US cents. Must be greater than zero."
+				},
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Validate and show what would happen without executing",
+					"default": false
+				},
+				{
+					"name": "body",
+					"type": "string",
+					"required": false,
+					"description": "Raw JSON request body (bypasses individual flags)"
+				}
+			],
+			"category": "create",
+			"hasRequestBody": true,
+			"httpMethod": "POST",
+			"apiPath": "/accounts/{account_id}/billing/spend-policies",
+			"operationId": "billing.spend-policies.create",
+			"hideCommand": false
+		},
+		{
+			"command": "cf billing spend-policies delete",
+			"name": "delete",
+			"fullPath": ["billing", "spend-policies", "delete"],
+			"description": "Soft-deletes the spend policy. The policy is disabled and no longer appears in list, get or audit responses. The `If-Match` header must equal the policy's current `version`.",
+			"summary": "Delete Spend Policy",
+			"usage": "cf billing spend-policies delete <policy-id> [options]",
+			"arguments": [
+				{
+					"name": "policy-id",
+					"position": 0,
+					"type": "string",
+					"required": true,
+					"description": "Identifies the spend policy."
+				}
+			],
+			"options": [
+				{
+					"name": "if-match",
+					"type": "string",
+					"required": true,
+					"description": "The policy `version` the change is based on, as returned in `ETag`. Quoted (`\"3\"`) and bare (`3`) values are both accepted. Weak ETags (`W/\"3\"`) and `*` are not."
+				},
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Validate and show what would happen without executing",
+					"default": false
+				}
+			],
+			"category": "delete",
+			"hasRequestBody": false,
+			"httpMethod": "DELETE",
+			"apiPath": "/accounts/{account_id}/billing/spend-policies/{policy_id}",
+			"operationId": "billing.spend-policies.delete",
+			"hideCommand": false
+		},
+		{
+			"command": "cf billing spend-policies get",
+			"name": "get",
+			"fullPath": ["billing", "spend-policies", "get"],
+			"description": "Returns one spend policy. The `ETag` response header holds the current `version`; send it as `If-Match` on a later update or delete.",
+			"summary": "Get Spend Policy",
+			"usage": "cf billing spend-policies get <policy-id>",
+			"arguments": [
+				{
+					"name": "policy-id",
+					"position": 0,
+					"type": "string",
+					"required": true,
+					"description": "Identifies the spend policy."
+				}
+			],
+			"options": [
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Validate and show what would happen without executing",
+					"default": false
+				}
+			],
+			"category": "read",
+			"hasRequestBody": false,
+			"httpMethod": "GET",
+			"apiPath": "/accounts/{account_id}/billing/spend-policies/{policy_id}",
+			"operationId": "billing.spend-policies.get",
+			"hideCommand": false
+		},
+		{
+			"command": "cf billing spend-policies list",
+			"name": "list",
+			"fullPath": ["billing", "spend-policies", "list"],
+			"description": "Returns every spend policy on the account that has not been deleted, including disabled ones. Results are sorted by `name`, then `id`. There is no pagination.",
+			"summary": "List Spend Policies",
+			"usage": "cf billing spend-policies list",
+			"arguments": [],
+			"options": [
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Validate and show what would happen without executing",
+					"default": false
+				}
+			],
+			"category": "read",
+			"hasRequestBody": false,
+			"httpMethod": "GET",
+			"apiPath": "/accounts/{account_id}/billing/spend-policies",
+			"operationId": "billing.spend-policies.list",
+			"hideCommand": false
+		},
+		{
+			"command": "cf billing spend-policies update",
+			"name": "update",
+			"fullPath": ["billing", "spend-policies", "update"],
+			"description": "Replaces the whole spend policy. Every field is required, as on create; there are no partial updates and `PATCH` is not supported. The `If-Match` header must equal the policy's current `version`. On success, `version` goes up by one and the new value is returned in `ETag`.",
+			"summary": "Update Spend Policy",
+			"usage": "cf billing spend-policies update <policy-id> [options]",
+			"arguments": [
+				{
+					"name": "policy-id",
+					"position": 0,
+					"type": "string",
+					"required": true,
+					"description": "Identifies the spend policy."
+				}
+			],
+			"options": [
+				{
+					"name": "if-match",
+					"type": "string",
+					"required": true,
+					"description": "The policy `version` the change is based on, as returned in `ETag`. Quoted (`\"3\"`) and bare (`3`) values are both accepted. Weak ETags (`W/\"3\"`) and `*` are not."
+				},
+				{
+					"name": "action",
+					"type": "string",
+					"required": true,
+					"description": "The action taken when the threshold is reached. `notification` sends an email to `notification_email`. `usage_block` blocks further usage of the product until the end of the billing period. Raising the threshold above the current balance, disabling the policy, or deleting it lifts the block early.",
+					"enum": ["notification", "usage_block"]
+				},
+				{
+					"name": "enabled",
+					"type": "boolean",
+					"required": true,
+					"description": "Whether the policy is evaluated."
+				},
+				{
+					"name": "name",
+					"type": "string",
+					"required": true,
+					"description": "Display name of the policy. After surrounding whitespace is trimmed, it must be 1 to 200 bytes long. The value is stored as sent, untrimmed."
+				},
+				{
+					"name": "notification-email",
+					"type": "string",
+					"required": false,
+					"description": "Email address that receives notifications. Required when `action` is `notification`. When set, it must be a bare address (`user@example.com`); display-name forms such as `Name <user@example.com>` are rejected."
+				},
+				{
+					"name": "product-id",
+					"type": "string",
+					"required": true,
+					"description": "The product the policy applies to: `workers` or `durable_objects`. Each product's balance and policies are separate. Both products support `notification` and `usage_block` policies on create and update.",
+					"enum": ["workers", "durable_objects"]
+				},
+				{
+					"name": "threshold-cents",
+					"type": "number",
+					"required": true,
+					"description": "The spend threshold for the current billing period, in US cents. Must be greater than zero."
+				},
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Validate and show what would happen without executing",
+					"default": false
+				},
+				{
+					"name": "body",
+					"type": "string",
+					"required": false,
+					"description": "Raw JSON request body (bypasses individual flags)"
+				}
+			],
+			"category": "update",
+			"hasRequestBody": true,
+			"httpMethod": "PUT",
+			"apiPath": "/accounts/{account_id}/billing/spend-policies/{policy_id}",
+			"operationId": "billing.spend-policies.update",
 			"hideCommand": false
 		},
 		{
@@ -37752,6 +38096,12 @@
 					"enum": ["low", "medium", "high"]
 				},
 				{
+					"name": "severity",
+					"type": "string",
+					"required": false,
+					"description": "Beta. Repeatable intrinsic severity band filter. An article matches any selected band, the band reported as its severity. Excludes articles without a severity. Like the severity field, severity is reported only while the account has an active Priority Intelligence Requirement; otherwise no articles match."
+				},
+				{
 					"name": "sort",
 					"type": "string",
 					"required": false,
@@ -37814,6 +38164,44 @@
 			"httpMethod": "PATCH",
 			"apiPath": "/accounts/{account_id}/cloudforce-one/v2/threat-signals/articles/{article_id}",
 			"operationId": "cloudforce-one.threat-signals.articles.mark-read",
+			"hideCommand": false
+		},
+		{
+			"command": "cf cloudforce-one threat-signals articles reprocess",
+			"name": "reprocess",
+			"fullPath": ["cloudforce-one", "threat-signals", "articles", "reprocess"],
+			"description": "Synchronously re-runs every processing step for a Threat Signals article: content acquisition, summary, indicator extraction, CVE tags, IOC context, and default tags. Replaces the article's summary, AI tags, and indicators; indicators no longer found are removed. Creates a Threat Event only when the article has none; an existing Event is never updated. Takes over the article from any queued processing. Requires a paid Threat Signals subscription and the Cloudforce One Write permission.",
+			"summary": "Reprocess a Threat Signals article",
+			"usage": "cf cloudforce-one threat-signals articles reprocess <article-id>",
+			"arguments": [
+				{
+					"name": "article-id",
+					"position": 0,
+					"type": "string",
+					"required": true,
+					"description": "Threat Signals article UUID"
+				}
+			],
+			"options": [
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Validate and show what would happen without executing",
+					"default": false
+				},
+				{
+					"name": "body",
+					"type": "string",
+					"required": false,
+					"description": "Raw JSON request body (bypasses individual flags)"
+				}
+			],
+			"category": "action",
+			"hasRequestBody": true,
+			"httpMethod": "POST",
+			"apiPath": "/accounts/{account_id}/cloudforce-one/v2/threat-signals/articles/{article_id}/reprocess",
+			"operationId": "cloudforce-one.threat-signals.articles.reprocess",
 			"hideCommand": false
 		},
 		{
@@ -40875,7 +41263,7 @@
 			"command": "cf csam-scanner edit",
 			"name": "edit",
 			"fullPath": ["csam-scanner", "edit"],
-			"description": "Update the CSAM Scanner configuration for a zone. Allows enabling or disabling CSAM scanning, updating the notification email, and configuring scanning sources. When a new email is provided, email verification is triggered automatically. The `enabled` field is a toggle; the server may adjust it based on whether the notification email is verified. Returns 403 if the zone or account is locked by Trust & Safety.",
+			"description": "Update the CSAM Scanner configuration for a zone. Allows enabling or disabling CSAM scanning, updating the notification email, and configuring scanning sources. This is a partial update: fields omitted from `value` keep their current setting, and `sources` is merged per source (`null` clears all sources). Send an empty `email` to clear the notification address. When a new email is provided, email verification is triggered automatically. The `enabled` field is a toggle; the server may adjust it based on whether the notification email is verified. Returns 403 if the zone or account is locked by Trust & Safety.",
 			"summary": "Update CSAM Scanner setting",
 			"usage": "cf csam-scanner edit [options]",
 			"arguments": [],
@@ -44813,7 +45201,7 @@
 			"command": "cf dns settings account nameserver-sets create",
 			"name": "create",
 			"fullPath": ["dns", "settings", "account", "nameserver-sets", "create"],
-			"description": "Creates a named Custom Nameserver Set. Only the customer-defined name can be changed later. To change nameservers or addresses, create a new set, move any zone assignments, and delete the old set.",
+			"description": "Creates a named Custom Nameserver Set. Only the customer-defined name can be changed later. To change nameservers or addresses, create a new set, move any zone assignments, and delete the old set. For details, refer to [Nameserver sets](https://developers.cloudflare.com/dns/nameservers/custom-nameservers/nameserver-sets/).",
 			"summary": "Create Custom Nameserver Set",
 			"usage": "cf dns settings account nameserver-sets create [options]",
 			"arguments": [],
@@ -44869,7 +45257,7 @@
 			"command": "cf dns settings account nameserver-sets delete",
 			"name": "delete",
 			"fullPath": ["dns", "settings", "account", "nameserver-sets", "delete"],
-			"description": "Deletes an unassigned Custom Nameserver Set.",
+			"description": "Deletes an unassigned Custom Nameserver Set. For details, refer to [Nameserver sets](https://developers.cloudflare.com/dns/nameservers/custom-nameservers/nameserver-sets/).",
 			"summary": "Delete Custom Nameserver Set",
 			"usage": "cf dns settings account nameserver-sets delete <nameserver-set-id>",
 			"arguments": [
@@ -44945,7 +45333,7 @@
 			"command": "cf dns settings account nameserver-sets get",
 			"name": "get",
 			"fullPath": ["dns", "settings", "account", "nameserver-sets", "get"],
-			"description": "Gets a Custom Nameserver Set owned by an account.",
+			"description": "Gets a Custom Nameserver Set owned by an account. For details, refer to [Nameserver sets](https://developers.cloudflare.com/dns/nameservers/custom-nameservers/nameserver-sets/).",
 			"summary": "Get Custom Nameserver Set",
 			"usage": "cf dns settings account nameserver-sets get <nameserver-set-id>",
 			"arguments": [
@@ -44977,7 +45365,7 @@
 			"command": "cf dns settings account nameserver-sets list",
 			"name": "list",
 			"fullPath": ["dns", "settings", "account", "nameserver-sets", "list"],
-			"description": "Lists an account's Custom Nameserver Sets.",
+			"description": "Lists an account's Custom Nameserver Sets. For details, refer to [Nameserver sets](https://developers.cloudflare.com/dns/nameservers/custom-nameservers/nameserver-sets/).",
 			"summary": "List Custom Nameserver Sets",
 			"usage": "cf dns settings account nameserver-sets list [options]",
 			"arguments": [],
@@ -46837,10 +47225,52 @@
 			"hideCommand": false
 		},
 		{
+			"command": "cf email-domains changes",
+			"name": "changes",
+			"fullPath": ["email-domains", "changes"],
+			"description": "Returns retained domain-specific state changes and completed-removal tombstones in a transaction-safe opaque order. The top-level platform field is the current shared gate and must be combined with each domain's state. Store next_cursor after processing every response, and continue immediately while has_more is true. To take a checkpoint, request this operation with modified_since set to the current time, follow has_more to the end, and save the final next_cursor; it replays every change committed after the first of those requests. Initial bootstrap and error 2086 recovery take a checkpoint, list the full inventory, then replay from the saved checkpoint, so changes made during the inventory are not lost. Only a tombstone proves that a domain was removed. Available only to the configured OpenAI pilot account behind a default-off gate; while the gate is off, the pilot account gets 503 with error 2090 and Retry-After, and existing domains are unaffected. Unsupported methods return 405 with error 2091. Authentication failures may use the gateway error envelope.",
+			"summary": "List Email Domain changes",
+			"usage": "cf email-domains changes [options]",
+			"arguments": [],
+			"options": [
+				{
+					"name": "per-page",
+					"type": "number",
+					"required": false,
+					"description": "Maximum changes to return in one page."
+				},
+				{
+					"name": "cursor",
+					"type": "string",
+					"required": false,
+					"description": "Opaque cursor returned by the previous change page. Omit it for the first page."
+				},
+				{
+					"name": "modified-since",
+					"type": "string",
+					"required": false,
+					"description": "Optional RFC 3339 lower bound for the first request only. Values outside the retained history return error 2086. A value up to one minute ahead of the server clock is read as the current time; a later value returns 400."
+				},
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Validate and show what would happen without executing",
+					"default": false
+				}
+			],
+			"category": "action",
+			"hasRequestBody": false,
+			"httpMethod": "GET",
+			"apiPath": "/accounts/{account_id}/email/domain-changes",
+			"operationId": "email-domains.changes",
+			"hideCommand": false
+		},
+		{
 			"command": "cf email-domains create",
 			"name": "create",
 			"fullPath": ["email-domains", "create"],
-			"description": "Creates a candidate and four DNS instructions. Rejects hostnames whose assigned Return-Path exceeds 201 ASCII characters. Creation follows read-only checks of the saved provider bundle and published exclusion. Hostnames inside an active full Cloudflare DNS zone return the generic hostname conflict error 2083. No per-domain provider DNS writes occur. Customer DNS observations remain pending and mail remains inactive. Unverified candidates may share a hostname. Supply an account-unique client_reference to retry the same enrollment safely; reuse with a different hostname returns error 2083. Final public-DNS, namespace protection and runtime readiness are separate gates. Available only to the configured OpenAI pilot account behind a default-off gate. Authentication failures may use the gateway error envelope.",
+			"description": "Creates a candidate and four DNS instructions. Rejects hostnames with more than 16 labels or whose assigned Return-Path exceeds 201 ASCII characters; error 2077 names the hostname rule that failed. Creation follows read-only checks of the saved provider bundle and published exclusion. Hostnames inside an active full Cloudflare DNS zone, including zones under a PSL private suffix such as workers.dev, or held by another enrollment, return the generic hostname conflict error 2083. While an earlier enrollment of this account with the same hostname or client_reference is being deleted, create returns error 2084 with Retry-After set to the expected completion time. No per-domain provider DNS writes occur. Customer DNS observations remain pending and mail remains inactive. Unverified candidates may share a hostname. Supply an account-unique client_reference to retry the same enrollment safely; reuse with a different hostname returns error 2089. A full domain quota returns error 2081 and frees only when domains are deleted or candidates expire, so it is not retryable; the create rate limit returns 429 with error 2088 and Retry-After. Requests rejected before the Cloudflare zone check do not count toward the rate limit. Final public-DNS, namespace protection and runtime readiness are separate gates. Available only to the configured OpenAI pilot account behind a default-off gate; while the gate is off, the pilot account gets 503 with error 2090 and Retry-After, and existing domains are unaffected. Unsupported methods return 405 with error 2091. Authentication failures may use the gateway error envelope.",
 			"summary": "Create an Email Domain",
 			"usage": "cf email-domains create [options]",
 			"arguments": [],
@@ -46882,7 +47312,7 @@
 			"command": "cf email-domains delete",
 			"name": "delete",
 			"fullPath": ["email-domains", "delete"],
-			"description": "Requires an empty body. Unclaimed unpublished candidates are purged immediately. Claimed domains persist deleting state and retain claims until the deletion worker acknowledges safe revocation and token retirement. Repeated requests while deleting are idempotent. Available only to the configured OpenAI pilot account behind a default-off gate. Authentication failures may use the gateway error envelope.",
+			"description": "Requires an empty body. Unclaimed, unpublished candidates are removed immediately after token retirement. Acquired or published resources retain deleting state and claims until the deletion worker acknowledges safe revocation and token retirement: deletion completes after the last authorization FWDR may still hold has expired, up to about 31 minutes after the request. Until then the hostname and client_reference cannot be enrolled again. Repeated requests while deleting are idempotent. Retry-After is the expected time until GET returns 404; follow the Location header after it. Available only to the configured OpenAI pilot account behind a default-off gate; while the gate is off, the pilot account gets 503 with error 2090 and Retry-After, and existing domains are unaffected. Unsupported methods return 405 with error 2091. Authentication failures may use the gateway error envelope.",
 			"summary": "Delete an Email Domain",
 			"usage": "cf email-domains delete <email-domain-id>",
 			"arguments": [
@@ -46914,7 +47344,7 @@
 			"command": "cf email-domains get",
 			"name": "get",
 			"fullPath": ["email-domains", "get"],
-			"description": "Returns domain status and its four assigned DNS records. Shared provider health is reported by the capability states rather than duplicated on each DNS record. Expired unclaimed candidates and completed deletions return 404. Available only to the configured OpenAI pilot account behind a default-off gate. Authentication failures may use the gateway error envelope.",
+			"description": "Returns domain status and its four assigned DNS records. Shared provider health is reported by the capability states rather than duplicated on each DNS record. Expired unclaimed candidates and completed deletions return 404. Available only to the configured OpenAI pilot account behind a default-off gate; while the gate is off, the pilot account gets 503 with error 2090 and Retry-After, and existing domains are unaffected. Unsupported methods return 405 with error 2091. Authentication failures may use the gateway error envelope.",
 			"summary": "Get an Email Domain",
 			"usage": "cf email-domains get <email-domain-id>",
 			"arguments": [
@@ -46946,7 +47376,7 @@
 			"command": "cf email-domains list",
 			"name": "list",
 			"fullPath": ["email-domains", "list"],
-			"description": "Returns account-scoped domain status. DNS records are omitted unless requested; exact hostname filtering may return several candidates; retain the EmailDomain ID for each enrollment. Available only to the configured OpenAI pilot account behind a default-off gate. Authentication failures may use the gateway error envelope.",
+			"description": "Returns account-scoped domain status. DNS records are omitted unless requested; exact hostname filtering may return several candidates; retain the EmailDomain ID for each enrollment. Available only to the configured OpenAI pilot account behind a default-off gate; while the gate is off, the pilot account gets 503 with error 2090 and Retry-After, and existing domains are unaffected. Unsupported methods return 405 with error 2091. Authentication failures may use the gateway error envelope.",
 			"summary": "List Email Domains",
 			"usage": "cf email-domains list [options]",
 			"arguments": [],
@@ -46995,7 +47425,7 @@
 			"command": "cf email-domains verify",
 			"name": "verify",
 			"fullPath": ["email-domains", "verify"],
-			"description": "Requires an empty body. Schedules an expedited check and coalesces queued or leased work. It does not accept verification results, bypass activation gates, or perform customer DNS checks synchronously. Follow the Location header after Retry-After seconds until verification.observed_at appears or advances beyond the value in this 202 response; status may remain unchanged. Candidate expiry returns 404. Available only to the configured OpenAI pilot account behind a default-off gate. Authentication failures may use the gateway error envelope.",
+			"description": "Requires an empty body. Schedules an expedited check and coalesces queued or leased work. It does not accept verification results, bypass activation gates, or perform customer DNS checks synchronously. Follow the Location header after Retry-After seconds until verification.observed_at appears or advances beyond the value in this 202 response; status may remain unchanged. Candidate expiry returns 404. A repeat within 30 seconds returns error 2082 with the remaining cooldown in Retry-After. Only a request that schedules a check counts toward the account rate limit, error 2088. Available only to the configured OpenAI pilot account behind a default-off gate; while the gate is off, the pilot account gets 503 with error 2090 and Retry-After, and existing domains are unaffected. Unsupported methods return 405 with error 2091. Authentication failures may use the gateway error envelope.",
 			"summary": "Verify an Email Domain",
 			"usage": "cf email-domains verify <email-domain-id>",
 			"arguments": [
@@ -48000,7 +48430,7 @@
 					"name": "pattern",
 					"type": "string",
 					"required": true,
-					"description": "The pattern value to match. The format depends on `pattern_type`: a valid email address for EMAIL (e.g. `user@example.com`), a valid domain name for DOMAIN (e.g. `example.com`), or a plain IPv4 or IPv6 address or CIDR block for IP (e.g. `1.2.3.4`, `1.2.3.0/24`, `2606:4700:4700::1111`, or `2606:4700:4700::/48`); the API rejects private or unique-local, loopback, link-local, unspecified, and IPv4 broadcast addresses, including their IPv4-mapped IPv6 equivalents."
+					"description": "The pattern value to match. The format depends on `pattern_type`: a valid email address for EMAIL (e.g. `user@example.com`), a valid domain name for DOMAIN (e.g. `example.com`), or a plain IPv4 or IPv6 address or CIDR block for IP (e.g. `1.2.3.4`, `1.2.3.0/24`, `2606:4700:4700::1111`, or `2606:4700:4700::/48`); the API rejects private or unique-local, loopback, link-local, unspecified, and IPv4 broadcast addresses, including their IPv4-mapped IPv6 equivalents. The API also rejects a pattern that equals a domain onboarded to the account, ignoring case."
 				},
 				{
 					"name": "pattern-type",
@@ -48143,7 +48573,7 @@
 					"name": "pattern",
 					"type": "string",
 					"required": false,
-					"description": "The pattern value to match. The format depends on `pattern_type`: a valid email address for EMAIL (e.g. `user@example.com`), a valid domain name for DOMAIN (e.g. `example.com`), or a plain IPv4 or IPv6 address or CIDR block for IP (e.g. `1.2.3.4`, `1.2.3.0/24`, `2606:4700:4700::1111`, or `2606:4700:4700::/48`); the API rejects private or unique-local, loopback, link-local, unspecified, and IPv4 broadcast addresses, including their IPv4-mapped IPv6 equivalents."
+					"description": "The pattern value to match. The format depends on `pattern_type`: a valid email address for EMAIL (e.g. `user@example.com`), a valid domain name for DOMAIN (e.g. `example.com`), or a plain IPv4 or IPv6 address or CIDR block for IP (e.g. `1.2.3.4`, `1.2.3.0/24`, `2606:4700:4700::1111`, or `2606:4700:4700::/48`); the API rejects private or unique-local, loopback, link-local, unspecified, and IPv4 broadcast addresses, including their IPv4-mapped IPv6 equivalents. The API also rejects a pattern that equals a domain onboarded to the account, ignoring case."
 				},
 				{
 					"name": "pattern-type",
@@ -48385,7 +48815,7 @@
 					"name": "pattern",
 					"type": "string",
 					"required": true,
-					"description": "The pattern value to match. The format depends on `pattern_type`: a valid email address for EMAIL (e.g. `user@example.com`), a valid domain name for DOMAIN (e.g. `example.com`), or a plain IPv4 or IPv6 address or CIDR block for IP (e.g. `1.2.3.4`, `1.2.3.0/24`, `2606:4700:4700::1111`, or `2606:4700:4700::/48`); the API rejects private or unique-local, loopback, link-local, unspecified, and IPv4 broadcast addresses, including their IPv4-mapped IPv6 equivalents."
+					"description": "The pattern value to match. The format depends on `pattern_type`: a valid email address for EMAIL (e.g. `user@example.com`), a valid domain name for DOMAIN (e.g. `example.com`), or a plain IPv4 or IPv6 address or CIDR block for IP (e.g. `1.2.3.4`, `1.2.3.0/24`, `2606:4700:4700::1111`, or `2606:4700:4700::/48`); the API rejects private or unique-local, loopback, link-local, unspecified, and IPv4 broadcast addresses, including their IPv4-mapped IPv6 equivalents. The API also rejects a pattern that equals a domain onboarded to the account, ignoring case."
 				},
 				{
 					"name": "pattern-type",
@@ -65304,1724 +65734,6 @@
 			"hideCommand": false
 		},
 		{
-			"command": "cf magic-cloud-networking catalog-syncs create",
-			"name": "create",
-			"fullPath": ["magic-cloud-networking", "catalog-syncs", "create"],
-			"description": "Create a new Catalog Sync (Closed Beta).",
-			"summary": "Create Catalog Sync",
-			"usage": "cf magic-cloud-networking catalog-syncs create [options]",
-			"arguments": [],
-			"options": [
-				{
-					"name": "forwarded",
-					"type": "string",
-					"required": false,
-					"description": "The forwarded header"
-				},
-				{
-					"name": "description",
-					"type": "string",
-					"required": false,
-					"description": "The description field"
-				},
-				{
-					"name": "destination-type",
-					"type": "string",
-					"required": true,
-					"description": "The destination_type field",
-					"enum": ["NONE", "ZERO_TRUST_LIST"]
-				},
-				{
-					"name": "name",
-					"type": "string",
-					"required": true,
-					"description": "The name field"
-				},
-				{
-					"name": "policy",
-					"type": "string",
-					"required": false,
-					"description": "The policy field"
-				},
-				{
-					"name": "update-mode",
-					"type": "string",
-					"required": true,
-					"description": "The update_mode field",
-					"enum": ["AUTO", "MANUAL"]
-				},
-				{
-					"name": "dry-run",
-					"type": "boolean",
-					"required": false,
-					"description": "Validate and show what would happen without executing",
-					"default": false
-				},
-				{
-					"name": "body",
-					"type": "string",
-					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
-				}
-			],
-			"category": "create",
-			"hasRequestBody": true,
-			"httpMethod": "POST",
-			"apiPath": "/accounts/{account_id}/magic/cloud/catalog-syncs",
-			"operationId": "magic-cloud-networking.catalog-syncs.create",
-			"hideCommand": true
-		},
-		{
-			"command": "cf magic-cloud-networking catalog-syncs delete",
-			"name": "delete",
-			"fullPath": ["magic-cloud-networking", "catalog-syncs", "delete"],
-			"description": "Delete a Catalog Sync (Closed Beta).",
-			"summary": "Delete Catalog Sync",
-			"usage": "cf magic-cloud-networking catalog-syncs delete <sync-id> [options]",
-			"arguments": [
-				{
-					"name": "sync-id",
-					"position": 0,
-					"type": "string",
-					"required": true,
-					"description": "Sync ID"
-				}
-			],
-			"options": [
-				{
-					"name": "delete-destination",
-					"type": "boolean",
-					"required": false,
-					"description": "Delete destination"
-				},
-				{
-					"name": "dry-run",
-					"type": "boolean",
-					"required": false,
-					"description": "Validate and show what would happen without executing",
-					"default": false
-				}
-			],
-			"category": "delete",
-			"hasRequestBody": false,
-			"httpMethod": "DELETE",
-			"apiPath": "/accounts/{account_id}/magic/cloud/catalog-syncs/{sync_id}",
-			"operationId": "magic-cloud-networking.catalog-syncs.delete",
-			"hideCommand": true
-		},
-		{
-			"command": "cf magic-cloud-networking catalog-syncs edit",
-			"name": "edit",
-			"fullPath": ["magic-cloud-networking", "catalog-syncs", "edit"],
-			"description": "Update a Catalog Sync (Closed Beta).",
-			"summary": "Patch Catalog Sync",
-			"usage": "cf magic-cloud-networking catalog-syncs edit <sync-id> [options]",
-			"arguments": [
-				{
-					"name": "sync-id",
-					"position": 0,
-					"type": "string",
-					"required": true,
-					"description": "Sync ID"
-				}
-			],
-			"options": [
-				{
-					"name": "description",
-					"type": "string",
-					"required": false,
-					"description": "The description field"
-				},
-				{
-					"name": "name",
-					"type": "string",
-					"required": false,
-					"description": "The name field"
-				},
-				{
-					"name": "policy",
-					"type": "string",
-					"required": false,
-					"description": "The policy field"
-				},
-				{
-					"name": "update-mode",
-					"type": "string",
-					"required": false,
-					"description": "The update_mode field",
-					"enum": ["AUTO", "MANUAL"]
-				},
-				{
-					"name": "dry-run",
-					"type": "boolean",
-					"required": false,
-					"description": "Validate and show what would happen without executing",
-					"default": false
-				},
-				{
-					"name": "body",
-					"type": "string",
-					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
-				}
-			],
-			"category": "update",
-			"hasRequestBody": true,
-			"httpMethod": "PATCH",
-			"apiPath": "/accounts/{account_id}/magic/cloud/catalog-syncs/{sync_id}",
-			"operationId": "magic-cloud-networking.catalog-syncs.edit",
-			"hideCommand": true
-		},
-		{
-			"command": "cf magic-cloud-networking catalog-syncs get",
-			"name": "get",
-			"fullPath": ["magic-cloud-networking", "catalog-syncs", "get"],
-			"description": "Read a Catalog Sync (Closed Beta).",
-			"summary": "Read Catalog Sync",
-			"usage": "cf magic-cloud-networking catalog-syncs get <sync-id>",
-			"arguments": [
-				{
-					"name": "sync-id",
-					"position": 0,
-					"type": "string",
-					"required": true,
-					"description": "Sync ID"
-				}
-			],
-			"options": [
-				{
-					"name": "dry-run",
-					"type": "boolean",
-					"required": false,
-					"description": "Validate and show what would happen without executing",
-					"default": false
-				}
-			],
-			"category": "read",
-			"hasRequestBody": false,
-			"httpMethod": "GET",
-			"apiPath": "/accounts/{account_id}/magic/cloud/catalog-syncs/{sync_id}",
-			"operationId": "magic-cloud-networking.catalog-syncs.get",
-			"hideCommand": true
-		},
-		{
-			"command": "cf magic-cloud-networking catalog-syncs list",
-			"name": "list",
-			"fullPath": ["magic-cloud-networking", "catalog-syncs", "list"],
-			"description": "List Catalog Syncs (Closed Beta).",
-			"summary": "List Catalog Syncs",
-			"usage": "cf magic-cloud-networking catalog-syncs list",
-			"arguments": [],
-			"options": [
-				{
-					"name": "dry-run",
-					"type": "boolean",
-					"required": false,
-					"description": "Validate and show what would happen without executing",
-					"default": false
-				}
-			],
-			"category": "read",
-			"hasRequestBody": false,
-			"httpMethod": "GET",
-			"apiPath": "/accounts/{account_id}/magic/cloud/catalog-syncs",
-			"operationId": "magic-cloud-networking.catalog-syncs.list",
-			"hideCommand": true
-		},
-		{
-			"command": "cf magic-cloud-networking catalog-syncs prebuilt-policies list",
-			"name": "list",
-			"fullPath": [
-				"magic-cloud-networking",
-				"catalog-syncs",
-				"prebuilt-policies",
-				"list"
-			],
-			"description": "List prebuilt catalog sync policies (Closed Beta).",
-			"summary": "List Prebuilt Policies",
-			"usage": "cf magic-cloud-networking catalog-syncs prebuilt-policies list [options]",
-			"arguments": [],
-			"options": [
-				{
-					"name": "destination-type",
-					"type": "string",
-					"required": false,
-					"description": "Specify type of destination, omit to return all.",
-					"enum": ["NONE", "ZERO_TRUST_LIST"]
-				},
-				{
-					"name": "dry-run",
-					"type": "boolean",
-					"required": false,
-					"description": "Validate and show what would happen without executing",
-					"default": false
-				}
-			],
-			"category": "read",
-			"hasRequestBody": false,
-			"httpMethod": "GET",
-			"apiPath": "/accounts/{account_id}/magic/cloud/catalog-syncs/prebuilt-policies",
-			"operationId": "magic-cloud-networking.catalog-syncs.prebuilt-policies.list",
-			"hideCommand": true
-		},
-		{
-			"command": "cf magic-cloud-networking catalog-syncs refresh",
-			"name": "refresh",
-			"fullPath": ["magic-cloud-networking", "catalog-syncs", "refresh"],
-			"description": "Refresh a Catalog Sync's destination by running the sync policy against latest resource catalog (Closed Beta).",
-			"summary": "Run Catalog Sync",
-			"usage": "cf magic-cloud-networking catalog-syncs refresh <sync-id>",
-			"arguments": [
-				{
-					"name": "sync-id",
-					"position": 0,
-					"type": "string",
-					"required": true,
-					"description": "Sync ID"
-				}
-			],
-			"options": [
-				{
-					"name": "dry-run",
-					"type": "boolean",
-					"required": false,
-					"description": "Validate and show what would happen without executing",
-					"default": false
-				}
-			],
-			"category": "action",
-			"hasRequestBody": false,
-			"httpMethod": "POST",
-			"apiPath": "/accounts/{account_id}/magic/cloud/catalog-syncs/{sync_id}/refresh",
-			"operationId": "magic-cloud-networking.catalog-syncs.refresh",
-			"hideCommand": true
-		},
-		{
-			"command": "cf magic-cloud-networking catalog-syncs update",
-			"name": "update",
-			"fullPath": ["magic-cloud-networking", "catalog-syncs", "update"],
-			"description": "Update a Catalog Sync (Closed Beta).",
-			"summary": "Update Catalog Sync",
-			"usage": "cf magic-cloud-networking catalog-syncs update <sync-id> [options]",
-			"arguments": [
-				{
-					"name": "sync-id",
-					"position": 0,
-					"type": "string",
-					"required": true,
-					"description": "Sync ID"
-				}
-			],
-			"options": [
-				{
-					"name": "description",
-					"type": "string",
-					"required": false,
-					"description": "The description field"
-				},
-				{
-					"name": "name",
-					"type": "string",
-					"required": false,
-					"description": "The name field"
-				},
-				{
-					"name": "policy",
-					"type": "string",
-					"required": false,
-					"description": "The policy field"
-				},
-				{
-					"name": "update-mode",
-					"type": "string",
-					"required": false,
-					"description": "The update_mode field",
-					"enum": ["AUTO", "MANUAL"]
-				},
-				{
-					"name": "dry-run",
-					"type": "boolean",
-					"required": false,
-					"description": "Validate and show what would happen without executing",
-					"default": false
-				},
-				{
-					"name": "body",
-					"type": "string",
-					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
-				}
-			],
-			"category": "update",
-			"hasRequestBody": true,
-			"httpMethod": "PUT",
-			"apiPath": "/accounts/{account_id}/magic/cloud/catalog-syncs/{sync_id}",
-			"operationId": "magic-cloud-networking.catalog-syncs.update",
-			"hideCommand": true
-		},
-		{
-			"command": "cf magic-cloud-networking cloud-integrations create",
-			"name": "create",
-			"fullPath": ["magic-cloud-networking", "cloud-integrations", "create"],
-			"description": "Create a new Cloud Integration (Closed Beta).",
-			"summary": "Create Cloud Integration",
-			"usage": "cf magic-cloud-networking cloud-integrations create [options]",
-			"arguments": [],
-			"options": [
-				{
-					"name": "forwarded",
-					"type": "string",
-					"required": false,
-					"description": "The forwarded header"
-				},
-				{
-					"name": "cloud-type",
-					"type": "string",
-					"required": true,
-					"description": "The cloud_type field",
-					"enum": ["AWS", "AZURE", "GOOGLE", "CLOUDFLARE"]
-				},
-				{
-					"name": "description",
-					"type": "string",
-					"required": false,
-					"description": "The description field"
-				},
-				{
-					"name": "friendly-name",
-					"type": "string",
-					"required": true,
-					"description": "The friendly_name field"
-				},
-				{
-					"name": "dry-run",
-					"type": "boolean",
-					"required": false,
-					"description": "Validate and show what would happen without executing",
-					"default": false
-				},
-				{
-					"name": "body",
-					"type": "string",
-					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
-				}
-			],
-			"category": "create",
-			"hasRequestBody": true,
-			"httpMethod": "POST",
-			"apiPath": "/accounts/{account_id}/magic/cloud/providers",
-			"operationId": "magic-cloud-networking.cloud-integrations.create",
-			"hideCommand": true
-		},
-		{
-			"command": "cf magic-cloud-networking cloud-integrations delete",
-			"name": "delete",
-			"fullPath": ["magic-cloud-networking", "cloud-integrations", "delete"],
-			"description": "Delete a Cloud Integration (Closed Beta).",
-			"summary": "Delete Cloud Integration",
-			"usage": "cf magic-cloud-networking cloud-integrations delete <provider-id>",
-			"arguments": [
-				{
-					"name": "provider-id",
-					"position": 0,
-					"type": "string",
-					"required": true,
-					"description": "Provider ID"
-				}
-			],
-			"options": [
-				{
-					"name": "dry-run",
-					"type": "boolean",
-					"required": false,
-					"description": "Validate and show what would happen without executing",
-					"default": false
-				}
-			],
-			"category": "delete",
-			"hasRequestBody": false,
-			"httpMethod": "DELETE",
-			"apiPath": "/accounts/{account_id}/magic/cloud/providers/{provider_id}",
-			"operationId": "magic-cloud-networking.cloud-integrations.delete",
-			"hideCommand": true
-		},
-		{
-			"command": "cf magic-cloud-networking cloud-integrations discover",
-			"name": "discover",
-			"fullPath": ["magic-cloud-networking", "cloud-integrations", "discover"],
-			"description": "Run discovery for a Cloud Integration (Closed Beta).",
-			"summary": "Run Discovery",
-			"usage": "cf magic-cloud-networking cloud-integrations discover <provider-id> [options]",
-			"arguments": [
-				{
-					"name": "provider-id",
-					"position": 0,
-					"type": "string",
-					"required": true,
-					"description": "Provider ID"
-				}
-			],
-			"options": [
-				{
-					"name": "v2",
-					"type": "boolean",
-					"required": false,
-					"description": "V2"
-				},
-				{
-					"name": "dry-run",
-					"type": "boolean",
-					"required": false,
-					"description": "Validate and show what would happen without executing",
-					"default": false
-				}
-			],
-			"category": "action",
-			"hasRequestBody": false,
-			"httpMethod": "POST",
-			"apiPath": "/accounts/{account_id}/magic/cloud/providers/{provider_id}/discover",
-			"operationId": "magic-cloud-networking.cloud-integrations.discover",
-			"hideCommand": true
-		},
-		{
-			"command": "cf magic-cloud-networking cloud-integrations discover-all",
-			"name": "discover-all",
-			"fullPath": [
-				"magic-cloud-networking",
-				"cloud-integrations",
-				"discover-all"
-			],
-			"description": "Run discovery for all Cloud Integrations in an account (Closed Beta).",
-			"summary": "Run Discovery for All Integrations",
-			"usage": "cf magic-cloud-networking cloud-integrations discover-all",
-			"arguments": [],
-			"options": [
-				{
-					"name": "dry-run",
-					"type": "boolean",
-					"required": false,
-					"description": "Validate and show what would happen without executing",
-					"default": false
-				}
-			],
-			"category": "action",
-			"hasRequestBody": false,
-			"httpMethod": "POST",
-			"apiPath": "/accounts/{account_id}/magic/cloud/providers/discover",
-			"operationId": "magic-cloud-networking.cloud-integrations.discover-all",
-			"hideCommand": true
-		},
-		{
-			"command": "cf magic-cloud-networking cloud-integrations edit",
-			"name": "edit",
-			"fullPath": ["magic-cloud-networking", "cloud-integrations", "edit"],
-			"description": "Update a Cloud Integration (Closed Beta).",
-			"summary": "Patch Cloud Integration",
-			"usage": "cf magic-cloud-networking cloud-integrations edit <provider-id> [options]",
-			"arguments": [
-				{
-					"name": "provider-id",
-					"position": 0,
-					"type": "string",
-					"required": true,
-					"description": "Provider ID"
-				}
-			],
-			"options": [
-				{
-					"name": "aws-arn",
-					"type": "string",
-					"required": false,
-					"description": "The aws_arn field"
-				},
-				{
-					"name": "azure-subscription-id",
-					"type": "string",
-					"required": false,
-					"description": "The azure_subscription_id field"
-				},
-				{
-					"name": "azure-tenant-id",
-					"type": "string",
-					"required": false,
-					"description": "The azure_tenant_id field"
-				},
-				{
-					"name": "description",
-					"type": "string",
-					"required": false,
-					"description": "The description field"
-				},
-				{
-					"name": "friendly-name",
-					"type": "string",
-					"required": false,
-					"description": "The friendly_name field"
-				},
-				{
-					"name": "gcp-project-id",
-					"type": "string",
-					"required": false,
-					"description": "The gcp_project_id field"
-				},
-				{
-					"name": "gcp-service-account-email",
-					"type": "string",
-					"required": false,
-					"description": "The gcp_service_account_email field"
-				},
-				{
-					"name": "dry-run",
-					"type": "boolean",
-					"required": false,
-					"description": "Validate and show what would happen without executing",
-					"default": false
-				},
-				{
-					"name": "body",
-					"type": "string",
-					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
-				}
-			],
-			"category": "update",
-			"hasRequestBody": true,
-			"httpMethod": "PATCH",
-			"apiPath": "/accounts/{account_id}/magic/cloud/providers/{provider_id}",
-			"operationId": "magic-cloud-networking.cloud-integrations.edit",
-			"hideCommand": true
-		},
-		{
-			"command": "cf magic-cloud-networking cloud-integrations get",
-			"name": "get",
-			"fullPath": ["magic-cloud-networking", "cloud-integrations", "get"],
-			"description": "Read a Cloud Integration (Closed Beta).",
-			"summary": "Read Cloud Integration",
-			"usage": "cf magic-cloud-networking cloud-integrations get <provider-id> [options]",
-			"arguments": [
-				{
-					"name": "provider-id",
-					"position": 0,
-					"type": "string",
-					"required": true,
-					"description": "Provider ID"
-				}
-			],
-			"options": [
-				{
-					"name": "status",
-					"type": "boolean",
-					"required": false,
-					"description": "Status"
-				},
-				{
-					"name": "dry-run",
-					"type": "boolean",
-					"required": false,
-					"description": "Validate and show what would happen without executing",
-					"default": false
-				}
-			],
-			"category": "read",
-			"hasRequestBody": false,
-			"httpMethod": "GET",
-			"apiPath": "/accounts/{account_id}/magic/cloud/providers/{provider_id}",
-			"operationId": "magic-cloud-networking.cloud-integrations.get",
-			"hideCommand": true
-		},
-		{
-			"command": "cf magic-cloud-networking cloud-integrations initial-setup",
-			"name": "initial-setup",
-			"fullPath": [
-				"magic-cloud-networking",
-				"cloud-integrations",
-				"initial-setup"
-			],
-			"description": "Get initial configuration to complete Cloud Integration setup (Closed Beta).",
-			"summary": "Get Cloud Integration Setup Config",
-			"usage": "cf magic-cloud-networking cloud-integrations initial-setup <provider-id>",
-			"arguments": [
-				{
-					"name": "provider-id",
-					"position": 0,
-					"type": "string",
-					"required": true,
-					"description": "Provider ID"
-				}
-			],
-			"options": [
-				{
-					"name": "dry-run",
-					"type": "boolean",
-					"required": false,
-					"description": "Validate and show what would happen without executing",
-					"default": false
-				}
-			],
-			"category": "action",
-			"hasRequestBody": false,
-			"httpMethod": "GET",
-			"apiPath": "/accounts/{account_id}/magic/cloud/providers/{provider_id}/initial_setup",
-			"operationId": "magic-cloud-networking.cloud-integrations.initial-setup",
-			"hideCommand": true
-		},
-		{
-			"command": "cf magic-cloud-networking cloud-integrations list",
-			"name": "list",
-			"fullPath": ["magic-cloud-networking", "cloud-integrations", "list"],
-			"description": "List Cloud Integrations (Closed Beta).",
-			"summary": "List Cloud Integrations",
-			"usage": "cf magic-cloud-networking cloud-integrations list [options]",
-			"arguments": [],
-			"options": [
-				{
-					"name": "status",
-					"type": "boolean",
-					"required": false,
-					"description": "Status"
-				},
-				{
-					"name": "order-by",
-					"type": "string",
-					"required": false,
-					"description": "One of [\"updated_at\", \"id\", \"cloud_type\", \"name\"]."
-				},
-				{
-					"name": "desc",
-					"type": "boolean",
-					"required": false,
-					"description": "Desc"
-				},
-				{
-					"name": "cloudflare",
-					"type": "boolean",
-					"required": false,
-					"description": "Cloudflare"
-				},
-				{
-					"name": "dry-run",
-					"type": "boolean",
-					"required": false,
-					"description": "Validate and show what would happen without executing",
-					"default": false
-				}
-			],
-			"category": "read",
-			"hasRequestBody": false,
-			"httpMethod": "GET",
-			"apiPath": "/accounts/{account_id}/magic/cloud/providers",
-			"operationId": "magic-cloud-networking.cloud-integrations.list",
-			"hideCommand": true
-		},
-		{
-			"command": "cf magic-cloud-networking cloud-integrations update",
-			"name": "update",
-			"fullPath": ["magic-cloud-networking", "cloud-integrations", "update"],
-			"description": "Update a Cloud Integration (Closed Beta).",
-			"summary": "Update Cloud Integration",
-			"usage": "cf magic-cloud-networking cloud-integrations update <provider-id> [options]",
-			"arguments": [
-				{
-					"name": "provider-id",
-					"position": 0,
-					"type": "string",
-					"required": true,
-					"description": "Provider ID"
-				}
-			],
-			"options": [
-				{
-					"name": "aws-arn",
-					"type": "string",
-					"required": false,
-					"description": "The aws_arn field"
-				},
-				{
-					"name": "azure-subscription-id",
-					"type": "string",
-					"required": false,
-					"description": "The azure_subscription_id field"
-				},
-				{
-					"name": "azure-tenant-id",
-					"type": "string",
-					"required": false,
-					"description": "The azure_tenant_id field"
-				},
-				{
-					"name": "description",
-					"type": "string",
-					"required": false,
-					"description": "The description field"
-				},
-				{
-					"name": "friendly-name",
-					"type": "string",
-					"required": false,
-					"description": "The friendly_name field"
-				},
-				{
-					"name": "gcp-project-id",
-					"type": "string",
-					"required": false,
-					"description": "The gcp_project_id field"
-				},
-				{
-					"name": "gcp-service-account-email",
-					"type": "string",
-					"required": false,
-					"description": "The gcp_service_account_email field"
-				},
-				{
-					"name": "dry-run",
-					"type": "boolean",
-					"required": false,
-					"description": "Validate and show what would happen without executing",
-					"default": false
-				},
-				{
-					"name": "body",
-					"type": "string",
-					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
-				}
-			],
-			"category": "update",
-			"hasRequestBody": true,
-			"httpMethod": "PUT",
-			"apiPath": "/accounts/{account_id}/magic/cloud/providers/{provider_id}",
-			"operationId": "magic-cloud-networking.cloud-integrations.update",
-			"hideCommand": true
-		},
-		{
-			"command": "cf magic-cloud-networking on-ramps address-spaces edit",
-			"name": "edit",
-			"fullPath": [
-				"magic-cloud-networking",
-				"on-ramps",
-				"address-spaces",
-				"edit"
-			],
-			"description": "Update the Magic WAN Address Space (Closed Beta).",
-			"summary": "Patch Magic WAN Address Space",
-			"usage": "cf magic-cloud-networking on-ramps address-spaces edit [options]",
-			"arguments": [],
-			"options": [
-				{
-					"name": "prefixes",
-					"type": "string",
-					"required": true,
-					"description": "The prefixes field"
-				},
-				{
-					"name": "dry-run",
-					"type": "boolean",
-					"required": false,
-					"description": "Validate and show what would happen without executing",
-					"default": false
-				},
-				{
-					"name": "body",
-					"type": "string",
-					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
-				}
-			],
-			"category": "update",
-			"hasRequestBody": true,
-			"httpMethod": "PATCH",
-			"apiPath": "/accounts/{account_id}/magic/cloud/onramps/magic_wan_address_space",
-			"operationId": "magic-cloud-networking.on-ramps.address-spaces.edit",
-			"hideCommand": true
-		},
-		{
-			"command": "cf magic-cloud-networking on-ramps address-spaces list",
-			"name": "list",
-			"fullPath": [
-				"magic-cloud-networking",
-				"on-ramps",
-				"address-spaces",
-				"list"
-			],
-			"description": "Read the Magic WAN Address Space (Closed Beta).",
-			"summary": "Read Magic WAN Address Space",
-			"usage": "cf magic-cloud-networking on-ramps address-spaces list",
-			"arguments": [],
-			"options": [
-				{
-					"name": "dry-run",
-					"type": "boolean",
-					"required": false,
-					"description": "Validate and show what would happen without executing",
-					"default": false
-				}
-			],
-			"category": "read",
-			"hasRequestBody": false,
-			"httpMethod": "GET",
-			"apiPath": "/accounts/{account_id}/magic/cloud/onramps/magic_wan_address_space",
-			"operationId": "magic-cloud-networking.on-ramps.address-spaces.list",
-			"hideCommand": true
-		},
-		{
-			"command": "cf magic-cloud-networking on-ramps address-spaces update",
-			"name": "update",
-			"fullPath": [
-				"magic-cloud-networking",
-				"on-ramps",
-				"address-spaces",
-				"update"
-			],
-			"description": "Update the Magic WAN Address Space (Closed Beta).",
-			"summary": "Update Magic WAN Address Space",
-			"usage": "cf magic-cloud-networking on-ramps address-spaces update [options]",
-			"arguments": [],
-			"options": [
-				{
-					"name": "prefixes",
-					"type": "string",
-					"required": true,
-					"description": "The prefixes field"
-				},
-				{
-					"name": "dry-run",
-					"type": "boolean",
-					"required": false,
-					"description": "Validate and show what would happen without executing",
-					"default": false
-				},
-				{
-					"name": "body",
-					"type": "string",
-					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
-				}
-			],
-			"category": "update",
-			"hasRequestBody": true,
-			"httpMethod": "PUT",
-			"apiPath": "/accounts/{account_id}/magic/cloud/onramps/magic_wan_address_space",
-			"operationId": "magic-cloud-networking.on-ramps.address-spaces.update",
-			"hideCommand": true
-		},
-		{
-			"command": "cf magic-cloud-networking on-ramps apply",
-			"name": "apply",
-			"fullPath": ["magic-cloud-networking", "on-ramps", "apply"],
-			"description": "Apply an On-ramp (Closed Beta).",
-			"summary": "Apply On-ramp",
-			"usage": "cf magic-cloud-networking on-ramps apply <onramp-id>",
-			"arguments": [
-				{
-					"name": "onramp-id",
-					"position": 0,
-					"type": "string",
-					"required": true,
-					"description": "Onramp ID"
-				}
-			],
-			"options": [
-				{
-					"name": "dry-run",
-					"type": "boolean",
-					"required": false,
-					"description": "Validate and show what would happen without executing",
-					"default": false
-				}
-			],
-			"category": "action",
-			"hasRequestBody": false,
-			"httpMethod": "POST",
-			"apiPath": "/accounts/{account_id}/magic/cloud/onramps/{onramp_id}/apply",
-			"operationId": "magic-cloud-networking.on-ramps.apply",
-			"hideCommand": true
-		},
-		{
-			"command": "cf magic-cloud-networking on-ramps create",
-			"name": "create",
-			"fullPath": ["magic-cloud-networking", "on-ramps", "create"],
-			"description": "Create a new On-ramp (Closed Beta).",
-			"summary": "Create On-ramp",
-			"usage": "cf magic-cloud-networking on-ramps create [options]",
-			"arguments": [],
-			"options": [
-				{
-					"name": "forwarded",
-					"type": "string",
-					"required": false,
-					"description": "The forwarded header"
-				},
-				{
-					"name": "adopted-hub-id",
-					"type": "string",
-					"required": false,
-					"description": "The adopted_hub_id field"
-				},
-				{
-					"name": "attached-hubs",
-					"type": "string",
-					"required": false,
-					"description": "The attached_hubs field"
-				},
-				{
-					"name": "attached-vpcs",
-					"type": "string",
-					"required": false,
-					"description": "The attached_vpcs field"
-				},
-				{
-					"name": "cloud-asn",
-					"type": "number",
-					"required": false,
-					"description": "Sets the cloud-side ASN. If unset or zero, the cloud's default ASN takes effect."
-				},
-				{
-					"name": "cloud-type",
-					"type": "string",
-					"required": true,
-					"description": "The cloud_type field",
-					"enum": ["AWS", "AZURE", "GOOGLE"]
-				},
-				{
-					"name": "description",
-					"type": "string",
-					"required": false,
-					"description": "The description field"
-				},
-				{
-					"name": "dynamic-routing",
-					"type": "boolean",
-					"required": true,
-					"description": "Enables BGP routing. When enabling this feature, set both install_routes_in_cloud and install_routes_in_magic_wan to false."
-				},
-				{
-					"name": "hub-provider-id",
-					"type": "string",
-					"required": false,
-					"description": "The hub_provider_id field"
-				},
-				{
-					"name": "install-routes-in-cloud",
-					"type": "boolean",
-					"required": true,
-					"description": "The install_routes_in_cloud field"
-				},
-				{
-					"name": "install-routes-in-magic-wan",
-					"type": "boolean",
-					"required": true,
-					"description": "The install_routes_in_magic_wan field"
-				},
-				{
-					"name": "manage-hub-to-hub-attachments",
-					"type": "boolean",
-					"required": false,
-					"description": "The manage_hub_to_hub_attachments field"
-				},
-				{
-					"name": "manage-vpc-to-hub-attachments",
-					"type": "boolean",
-					"required": false,
-					"description": "The manage_vpc_to_hub_attachments field"
-				},
-				{
-					"name": "name",
-					"type": "string",
-					"required": true,
-					"description": "The name field"
-				},
-				{
-					"name": "region",
-					"type": "string",
-					"required": false,
-					"description": "The region field"
-				},
-				{
-					"name": "type",
-					"type": "string",
-					"required": true,
-					"description": "The type field",
-					"enum": ["OnrampTypeSingle", "OnrampTypeHub"]
-				},
-				{
-					"name": "vpc",
-					"type": "string",
-					"required": false,
-					"description": "The vpc field"
-				},
-				{
-					"name": "dry-run",
-					"type": "boolean",
-					"required": false,
-					"description": "Validate and show what would happen without executing",
-					"default": false
-				},
-				{
-					"name": "body",
-					"type": "string",
-					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
-				}
-			],
-			"category": "create",
-			"hasRequestBody": true,
-			"httpMethod": "POST",
-			"apiPath": "/accounts/{account_id}/magic/cloud/onramps",
-			"operationId": "magic-cloud-networking.on-ramps.create",
-			"hideCommand": true
-		},
-		{
-			"command": "cf magic-cloud-networking on-ramps delete",
-			"name": "delete",
-			"fullPath": ["magic-cloud-networking", "on-ramps", "delete"],
-			"description": "Delete an On-ramp (Closed Beta).",
-			"summary": "Delete On-ramp",
-			"usage": "cf magic-cloud-networking on-ramps delete <onramp-id> [options]",
-			"arguments": [
-				{
-					"name": "onramp-id",
-					"position": 0,
-					"type": "string",
-					"required": true,
-					"description": "Onramp ID"
-				}
-			],
-			"options": [
-				{
-					"name": "destroy",
-					"type": "boolean",
-					"required": false,
-					"description": "Destroy"
-				},
-				{
-					"name": "force",
-					"type": "boolean",
-					"required": false,
-					"description": "Force"
-				},
-				{
-					"name": "dry-run",
-					"type": "boolean",
-					"required": false,
-					"description": "Validate and show what would happen without executing",
-					"default": false
-				}
-			],
-			"category": "delete",
-			"hasRequestBody": false,
-			"httpMethod": "DELETE",
-			"apiPath": "/accounts/{account_id}/magic/cloud/onramps/{onramp_id}",
-			"operationId": "magic-cloud-networking.on-ramps.delete",
-			"hideCommand": true
-		},
-		{
-			"command": "cf magic-cloud-networking on-ramps edit",
-			"name": "edit",
-			"fullPath": ["magic-cloud-networking", "on-ramps", "edit"],
-			"description": "Update an On-ramp (Closed Beta).",
-			"summary": "Patch On-ramp",
-			"usage": "cf magic-cloud-networking on-ramps edit <onramp-id> [options]",
-			"arguments": [
-				{
-					"name": "onramp-id",
-					"position": 0,
-					"type": "string",
-					"required": true,
-					"description": "Onramp ID"
-				}
-			],
-			"options": [
-				{
-					"name": "attached-hubs",
-					"type": "string",
-					"required": false,
-					"description": "The attached_hubs field"
-				},
-				{
-					"name": "attached-vpcs",
-					"type": "string",
-					"required": false,
-					"description": "The attached_vpcs field"
-				},
-				{
-					"name": "description",
-					"type": "string",
-					"required": false,
-					"description": "The description field"
-				},
-				{
-					"name": "install-routes-in-cloud",
-					"type": "boolean",
-					"required": false,
-					"description": "The install_routes_in_cloud field"
-				},
-				{
-					"name": "install-routes-in-magic-wan",
-					"type": "boolean",
-					"required": false,
-					"description": "The install_routes_in_magic_wan field"
-				},
-				{
-					"name": "manage-hub-to-hub-attachments",
-					"type": "boolean",
-					"required": false,
-					"description": "The manage_hub_to_hub_attachments field"
-				},
-				{
-					"name": "manage-vpc-to-hub-attachments",
-					"type": "boolean",
-					"required": false,
-					"description": "The manage_vpc_to_hub_attachments field"
-				},
-				{
-					"name": "name",
-					"type": "string",
-					"required": false,
-					"description": "The name field"
-				},
-				{
-					"name": "vpc",
-					"type": "string",
-					"required": false,
-					"description": "The vpc field"
-				},
-				{
-					"name": "dry-run",
-					"type": "boolean",
-					"required": false,
-					"description": "Validate and show what would happen without executing",
-					"default": false
-				},
-				{
-					"name": "body",
-					"type": "string",
-					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
-				}
-			],
-			"category": "update",
-			"hasRequestBody": true,
-			"httpMethod": "PATCH",
-			"apiPath": "/accounts/{account_id}/magic/cloud/onramps/{onramp_id}",
-			"operationId": "magic-cloud-networking.on-ramps.edit",
-			"hideCommand": true
-		},
-		{
-			"command": "cf magic-cloud-networking on-ramps export",
-			"name": "export",
-			"fullPath": ["magic-cloud-networking", "on-ramps", "export"],
-			"description": "Export an On-ramp to terraform ready file(s) (Closed Beta).",
-			"summary": "Export as Terraform",
-			"usage": "cf magic-cloud-networking on-ramps export <onramp-id>",
-			"arguments": [
-				{
-					"name": "onramp-id",
-					"position": 0,
-					"type": "string",
-					"required": true,
-					"description": "Onramp ID"
-				}
-			],
-			"options": [
-				{
-					"name": "dry-run",
-					"type": "boolean",
-					"required": false,
-					"description": "Validate and show what would happen without executing",
-					"default": false
-				}
-			],
-			"category": "read",
-			"hasRequestBody": false,
-			"httpMethod": "POST",
-			"apiPath": "/accounts/{account_id}/magic/cloud/onramps/{onramp_id}/export",
-			"operationId": "magic-cloud-networking.on-ramps.export",
-			"hideCommand": true
-		},
-		{
-			"command": "cf magic-cloud-networking on-ramps get",
-			"name": "get",
-			"fullPath": ["magic-cloud-networking", "on-ramps", "get"],
-			"description": "Read an On-ramp (Closed Beta).",
-			"summary": "Read On-ramp",
-			"usage": "cf magic-cloud-networking on-ramps get <onramp-id> [options]",
-			"arguments": [
-				{
-					"name": "onramp-id",
-					"position": 0,
-					"type": "string",
-					"required": true,
-					"description": "Onramp ID"
-				}
-			],
-			"options": [
-				{
-					"name": "status",
-					"type": "boolean",
-					"required": false,
-					"description": "Status"
-				},
-				{
-					"name": "vpcs",
-					"type": "boolean",
-					"required": false,
-					"description": "Vpcs"
-				},
-				{
-					"name": "post-apply-resources",
-					"type": "boolean",
-					"required": false,
-					"description": "Post apply resources"
-				},
-				{
-					"name": "planned-resources",
-					"type": "boolean",
-					"required": false,
-					"description": "Planned resources"
-				},
-				{
-					"name": "dry-run",
-					"type": "boolean",
-					"required": false,
-					"description": "Validate and show what would happen without executing",
-					"default": false
-				}
-			],
-			"category": "read",
-			"hasRequestBody": false,
-			"httpMethod": "GET",
-			"apiPath": "/accounts/{account_id}/magic/cloud/onramps/{onramp_id}",
-			"operationId": "magic-cloud-networking.on-ramps.get",
-			"hideCommand": true
-		},
-		{
-			"command": "cf magic-cloud-networking on-ramps list",
-			"name": "list",
-			"fullPath": ["magic-cloud-networking", "on-ramps", "list"],
-			"description": "List On-ramps (Closed Beta).",
-			"summary": "List On-ramps",
-			"usage": "cf magic-cloud-networking on-ramps list [options]",
-			"arguments": [],
-			"options": [
-				{
-					"name": "order-by",
-					"type": "string",
-					"required": false,
-					"description": "One of [\"updated_at\", \"id\", \"cloud_type\", \"name\"]."
-				},
-				{
-					"name": "desc",
-					"type": "boolean",
-					"required": false,
-					"description": "Desc"
-				},
-				{
-					"name": "status",
-					"type": "boolean",
-					"required": false,
-					"description": "Status"
-				},
-				{
-					"name": "vpcs",
-					"type": "boolean",
-					"required": false,
-					"description": "Vpcs"
-				},
-				{
-					"name": "dry-run",
-					"type": "boolean",
-					"required": false,
-					"description": "Validate and show what would happen without executing",
-					"default": false
-				}
-			],
-			"category": "read",
-			"hasRequestBody": false,
-			"httpMethod": "GET",
-			"apiPath": "/accounts/{account_id}/magic/cloud/onramps",
-			"operationId": "magic-cloud-networking.on-ramps.list",
-			"hideCommand": true
-		},
-		{
-			"command": "cf magic-cloud-networking on-ramps plan",
-			"name": "plan",
-			"fullPath": ["magic-cloud-networking", "on-ramps", "plan"],
-			"description": "Plan an On-ramp (Closed Beta).",
-			"summary": "Plan On-ramp",
-			"usage": "cf magic-cloud-networking on-ramps plan <onramp-id>",
-			"arguments": [
-				{
-					"name": "onramp-id",
-					"position": 0,
-					"type": "string",
-					"required": true,
-					"description": "Onramp ID"
-				}
-			],
-			"options": [
-				{
-					"name": "dry-run",
-					"type": "boolean",
-					"required": false,
-					"description": "Validate and show what would happen without executing",
-					"default": false
-				}
-			],
-			"category": "action",
-			"hasRequestBody": false,
-			"httpMethod": "POST",
-			"apiPath": "/accounts/{account_id}/magic/cloud/onramps/{onramp_id}/plan",
-			"operationId": "magic-cloud-networking.on-ramps.plan",
-			"hideCommand": true
-		},
-		{
-			"command": "cf magic-cloud-networking on-ramps update",
-			"name": "update",
-			"fullPath": ["magic-cloud-networking", "on-ramps", "update"],
-			"description": "Update an On-ramp (Closed Beta).",
-			"summary": "Update On-ramp",
-			"usage": "cf magic-cloud-networking on-ramps update <onramp-id> [options]",
-			"arguments": [
-				{
-					"name": "onramp-id",
-					"position": 0,
-					"type": "string",
-					"required": true,
-					"description": "Onramp ID"
-				}
-			],
-			"options": [
-				{
-					"name": "attached-hubs",
-					"type": "string",
-					"required": false,
-					"description": "The attached_hubs field"
-				},
-				{
-					"name": "attached-vpcs",
-					"type": "string",
-					"required": false,
-					"description": "The attached_vpcs field"
-				},
-				{
-					"name": "description",
-					"type": "string",
-					"required": false,
-					"description": "The description field"
-				},
-				{
-					"name": "install-routes-in-cloud",
-					"type": "boolean",
-					"required": false,
-					"description": "The install_routes_in_cloud field"
-				},
-				{
-					"name": "install-routes-in-magic-wan",
-					"type": "boolean",
-					"required": false,
-					"description": "The install_routes_in_magic_wan field"
-				},
-				{
-					"name": "manage-hub-to-hub-attachments",
-					"type": "boolean",
-					"required": false,
-					"description": "The manage_hub_to_hub_attachments field"
-				},
-				{
-					"name": "manage-vpc-to-hub-attachments",
-					"type": "boolean",
-					"required": false,
-					"description": "The manage_vpc_to_hub_attachments field"
-				},
-				{
-					"name": "name",
-					"type": "string",
-					"required": false,
-					"description": "The name field"
-				},
-				{
-					"name": "vpc",
-					"type": "string",
-					"required": false,
-					"description": "The vpc field"
-				},
-				{
-					"name": "dry-run",
-					"type": "boolean",
-					"required": false,
-					"description": "Validate and show what would happen without executing",
-					"default": false
-				},
-				{
-					"name": "body",
-					"type": "string",
-					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
-				}
-			],
-			"category": "update",
-			"hasRequestBody": true,
-			"httpMethod": "PUT",
-			"apiPath": "/accounts/{account_id}/magic/cloud/onramps/{onramp_id}",
-			"operationId": "magic-cloud-networking.on-ramps.update",
-			"hideCommand": true
-		},
-		{
-			"command": "cf magic-cloud-networking resources export",
-			"name": "export",
-			"fullPath": ["magic-cloud-networking", "resources", "export"],
-			"description": "Export resources in the Resource Catalog as a JSON file (Closed Beta).",
-			"summary": "Export Resources",
-			"usage": "cf magic-cloud-networking resources export [options]",
-			"arguments": [],
-			"options": [
-				{
-					"name": "provider-id",
-					"type": "string",
-					"required": false,
-					"description": "Provider ID"
-				},
-				{
-					"name": "resource-type",
-					"type": "string",
-					"required": false,
-					"description": "Resource type"
-				},
-				{
-					"name": "resource-id",
-					"type": "string",
-					"required": false,
-					"description": "Resource ID"
-				},
-				{
-					"name": "region",
-					"type": "string",
-					"required": false,
-					"description": "Region"
-				},
-				{
-					"name": "resource-group",
-					"type": "string",
-					"required": false,
-					"description": "Resource group"
-				},
-				{
-					"name": "search",
-					"type": "string",
-					"required": false,
-					"description": "Search"
-				},
-				{
-					"name": "order-by",
-					"type": "string",
-					"required": false,
-					"description": "One of [\"id\", \"resource_type\", \"region\"]."
-				},
-				{
-					"name": "desc",
-					"type": "boolean",
-					"required": false,
-					"description": "Desc"
-				},
-				{
-					"name": "v2",
-					"type": "boolean",
-					"required": false,
-					"description": "V2"
-				},
-				{
-					"name": "dry-run",
-					"type": "boolean",
-					"required": false,
-					"description": "Validate and show what would happen without executing",
-					"default": false
-				}
-			],
-			"category": "read",
-			"hasRequestBody": false,
-			"httpMethod": "GET",
-			"apiPath": "/accounts/{account_id}/magic/cloud/resources/export",
-			"operationId": "magic-cloud-networking.resources.export",
-			"hideCommand": true
-		},
-		{
-			"command": "cf magic-cloud-networking resources get",
-			"name": "get",
-			"fullPath": ["magic-cloud-networking", "resources", "get"],
-			"description": "Read an resource from the Resource Catalog (Closed Beta).",
-			"summary": "Read Resource",
-			"usage": "cf magic-cloud-networking resources get <resource-id> [options]",
-			"arguments": [
-				{
-					"name": "resource-id",
-					"position": 0,
-					"type": "string",
-					"required": true,
-					"description": "Resource ID"
-				}
-			],
-			"options": [
-				{
-					"name": "v2",
-					"type": "boolean",
-					"required": false,
-					"description": "V2"
-				},
-				{
-					"name": "dry-run",
-					"type": "boolean",
-					"required": false,
-					"description": "Validate and show what would happen without executing",
-					"default": false
-				}
-			],
-			"category": "read",
-			"hasRequestBody": false,
-			"httpMethod": "GET",
-			"apiPath": "/accounts/{account_id}/magic/cloud/resources/{resource_id}",
-			"operationId": "magic-cloud-networking.resources.get",
-			"hideCommand": true
-		},
-		{
-			"command": "cf magic-cloud-networking resources list",
-			"name": "list",
-			"fullPath": ["magic-cloud-networking", "resources", "list"],
-			"description": "List resources in the Resource Catalog (Closed Beta).",
-			"summary": "List Resources",
-			"usage": "cf magic-cloud-networking resources list [options]",
-			"arguments": [],
-			"options": [
-				{
-					"name": "provider-id",
-					"type": "string",
-					"required": false,
-					"description": "Provider ID"
-				},
-				{
-					"name": "resource-type",
-					"type": "string",
-					"required": false,
-					"description": "Resource type"
-				},
-				{
-					"name": "resource-id",
-					"type": "string",
-					"required": false,
-					"description": "Resource ID"
-				},
-				{
-					"name": "region",
-					"type": "string",
-					"required": false,
-					"description": "Region"
-				},
-				{
-					"name": "resource-group",
-					"type": "string",
-					"required": false,
-					"description": "Resource group"
-				},
-				{
-					"name": "managed",
-					"type": "boolean",
-					"required": false,
-					"description": "Managed"
-				},
-				{
-					"name": "search",
-					"type": "string",
-					"required": false,
-					"description": "Search"
-				},
-				{
-					"name": "order-by",
-					"type": "string",
-					"required": false,
-					"description": "One of [\"id\", \"resource_type\", \"region\"]."
-				},
-				{
-					"name": "desc",
-					"type": "boolean",
-					"required": false,
-					"description": "Desc"
-				},
-				{
-					"name": "per-page",
-					"type": "number",
-					"required": false,
-					"description": "Per page"
-				},
-				{
-					"name": "page",
-					"type": "number",
-					"required": false,
-					"description": "Page"
-				},
-				{
-					"name": "cloudflare",
-					"type": "boolean",
-					"required": false,
-					"description": "Cloudflare"
-				},
-				{
-					"name": "v2",
-					"type": "boolean",
-					"required": false,
-					"description": "V2"
-				},
-				{
-					"name": "dry-run",
-					"type": "boolean",
-					"required": false,
-					"description": "Validate and show what would happen without executing",
-					"default": false
-				}
-			],
-			"category": "read",
-			"hasRequestBody": false,
-			"httpMethod": "GET",
-			"apiPath": "/accounts/{account_id}/magic/cloud/resources",
-			"operationId": "magic-cloud-networking.resources.list",
-			"hideCommand": true
-		},
-		{
-			"command": "cf magic-cloud-networking resources policy-preview",
-			"name": "policy-preview",
-			"fullPath": ["magic-cloud-networking", "resources", "policy-preview"],
-			"description": "Preview Rego query result against the latest resource catalog (Closed Beta).",
-			"summary": "Preview Rego Query",
-			"usage": "cf magic-cloud-networking resources policy-preview [options]",
-			"arguments": [],
-			"options": [
-				{
-					"name": "policy",
-					"type": "string",
-					"required": true,
-					"description": "The policy field"
-				},
-				{
-					"name": "dry-run",
-					"type": "boolean",
-					"required": false,
-					"description": "Validate and show what would happen without executing",
-					"default": false
-				},
-				{
-					"name": "body",
-					"type": "string",
-					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
-				}
-			],
-			"category": "action",
-			"hasRequestBody": true,
-			"httpMethod": "POST",
-			"apiPath": "/accounts/{account_id}/magic/cloud/resources/policy-preview",
-			"operationId": "magic-cloud-networking.resources.policy-preview",
-			"hideCommand": true
-		},
-		{
 			"command": "cf magic-network-monitoring configs create",
 			"name": "create",
 			"fullPath": ["magic-network-monitoring", "configs", "create"],
@@ -67821,6 +66533,12 @@
 					"description": "The burst sensitivity. Must be one of 'low', 'medium', 'high'."
 				},
 				{
+					"name": "protection-mode",
+					"type": "string",
+					"required": true,
+					"description": "The mode for DNS Protection. Must be one of 'enabled', 'disabled', 'monitoring'."
+				},
+				{
 					"name": "name",
 					"type": "string",
 					"required": true,
@@ -68037,6 +66755,12 @@
 					"type": "string",
 					"required": false,
 					"description": "The new burst sensitivity. Optional. Must be one of 'low', 'medium', 'high'."
+				},
+				{
+					"name": "protection-mode",
+					"type": "string",
+					"required": false,
+					"description": "The new mode for DNS Protection. Optional. Must be one of 'enabled', 'disabled', 'monitoring'."
 				},
 				{
 					"name": "profile-sensitivity",
@@ -68707,6 +67431,12 @@
 					"description": "The filter expression."
 				},
 				{
+					"name": "filter-mode",
+					"type": "string",
+					"required": true,
+					"description": "The filter's mode. Must be one of 'enabled', 'disabled', 'monitoring'."
+				},
+				{
 					"name": "dry-run",
 					"type": "boolean",
 					"required": false,
@@ -68901,6 +67631,12 @@
 					"description": "The new filter expression. Optional."
 				},
 				{
+					"name": "filter-mode",
+					"type": "string",
+					"required": false,
+					"description": "The new mode for the filter. Optional. Must be one of 'enabled', 'disabled', 'monitoring'."
+				},
+				{
 					"name": "dry-run",
 					"type": "boolean",
 					"required": false,
@@ -68981,6 +67717,12 @@
 					"type": "string",
 					"required": false,
 					"description": "The type of mitigation. Must be one of 'challenge' or 'retransmit'. Optional. Defaults to 'challenge'."
+				},
+				{
+					"name": "protection-mode",
+					"type": "string",
+					"required": true,
+					"description": "The mode for SYN Protection. Must be one of 'enabled', 'disabled', 'monitoring'."
 				},
 				{
 					"name": "name",
@@ -69195,6 +67937,12 @@
 					"description": "The new mitigation type. Optional. Must be one of 'challenge' or 'retransmit'."
 				},
 				{
+					"name": "protection-mode",
+					"type": "string",
+					"required": false,
+					"description": "The new mode for SYN Protection. Optional. Must be one of 'enabled', 'disabled', 'monitoring'."
+				},
+				{
 					"name": "rate-sensitivity",
 					"type": "string",
 					"required": false,
@@ -69277,6 +68025,12 @@
 					"type": "string",
 					"required": true,
 					"description": "The filter expression."
+				},
+				{
+					"name": "filter-mode",
+					"type": "string",
+					"required": true,
+					"description": "The filter's mode. Must be one of 'enabled', 'disabled', 'monitoring'."
 				},
 				{
 					"name": "dry-run",
@@ -69477,6 +68231,12 @@
 					"description": "The new filter expression. Optional."
 				},
 				{
+					"name": "filter-mode",
+					"type": "string",
+					"required": false,
+					"description": "The new mode for the filter. Optional. Must be one of 'enabled', 'disabled', 'monitoring'."
+				},
+				{
 					"name": "dry-run",
 					"type": "boolean",
 					"required": false,
@@ -69553,6 +68313,12 @@
 					"type": "string",
 					"required": true,
 					"description": "The burst sensitivity. Must be one of 'low', 'medium', 'high'."
+				},
+				{
+					"name": "protection-mode",
+					"type": "string",
+					"required": true,
+					"description": "The mode for the TCP Flow Protection. Must be one of 'enabled', 'disabled', 'monitoring'."
 				},
 				{
 					"name": "name",
@@ -69763,6 +68529,12 @@
 					"type": "string",
 					"required": false,
 					"description": "The new burst sensitivity. Optional. Must be one of 'low', 'medium', 'high'."
+				},
+				{
+					"name": "protection-mode",
+					"type": "string",
+					"required": false,
+					"description": "The new mode for TCP Flow Protection. Optional. Must be one of 'enabled', 'disabled', 'monitoring'."
 				},
 				{
 					"name": "rate-sensitivity",
@@ -73615,6 +72387,12 @@
 					"description": "The physport field"
 				},
 				{
+					"name": "remote-subnets",
+					"type": "string",
+					"required": false,
+					"description": "The remote_subnets field. Provide as a JSON array of objects or @path/to/file.json."
+				},
+				{
 					"name": "routed-subnets",
 					"type": "string",
 					"required": false,
@@ -73809,6 +72587,12 @@
 					"type": "number",
 					"required": false,
 					"description": "The physport field"
+				},
+				{
+					"name": "remote-subnets",
+					"type": "string",
+					"required": false,
+					"description": "The remote_subnets field. Provide as a JSON array of objects or @path/to/file.json."
 				},
 				{
 					"name": "routed-subnets",
@@ -74035,6 +72819,12 @@
 					"type": "number",
 					"required": false,
 					"description": "The physport field"
+				},
+				{
+					"name": "remote-subnets",
+					"type": "string",
+					"required": false,
+					"description": "The remote_subnets field. Provide as a JSON array of objects or @path/to/file.json."
 				},
 				{
 					"name": "routed-subnets",
@@ -75391,7 +74181,7 @@
 			"httpMethod": "DELETE",
 			"apiPath": "/zones/{zone_id}/managed_headers",
 			"operationId": "managed-transforms.delete",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf managed-transforms list",
@@ -75415,7 +74205,7 @@
 			"httpMethod": "GET",
 			"apiPath": "/zones/{zone_id}/managed_headers",
 			"operationId": "managed-transforms.list",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf managed-transforms update",
@@ -75457,7 +74247,7 @@
 			"httpMethod": "PATCH",
 			"apiPath": "/zones/{zone_id}/managed_headers",
 			"operationId": "managed-transforms.update",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf mcp portals account-tool-call-analytics",
@@ -75874,7 +74664,7 @@
 					"name": "client-secret",
 					"type": "string",
 					"required": false,
-					"description": "Pre-registered OAuth client_secret. Write-only - accepted on create/update when auth_credentials.auth_mode is 'manual'. Required when creating a manual OAuth server or converting an existing server to manual mode. Omit it on update to preserve the existing secret; provide it to rotate the secret. Stored AES-GCM-encrypted in server_oauth_secrets; never returned by read endpoints."
+					"description": "Provides 'client_secret' for a pre-registered OAuth client. This field is accepted on create or update only when 'auth_credentials.auth_mode' is 'manual'. It is required when creating an MCP server with manual OAuth credentials or changing an existing server to use manual OAuth credentials. Omit 'client_secret' on update to preserve the existing secret. Provide a new 'client_secret' to rotate the secret. The secret is never returned by read, create, or update requests."
 				},
 				{
 					"name": "description",
@@ -75898,7 +74688,7 @@
 					"name": "is-shared-oauth-callback-enabled",
 					"type": "boolean",
 					"required": false,
-					"description": "When true, the gateway worker uses the shared Cloudflare-owned OAuth callback endpoint as the redirect_uri for upstream on-behalf OAuth, instead of the customer portal hostname. Defaults to false (off); opt in per server by setting true.",
+					"description": "When true, per-user authorization uses the shared Cloudflare callback URL as the 'redirect_uri' instead of the portal callback URL. The default is false. Set 'is_shared_oauth_callback_enabled' to true to enable the shared Cloudflare callback URL for this MCP server.",
 					"default": false
 				},
 				{
@@ -76177,7 +74967,7 @@
 					"name": "client-secret",
 					"type": "string",
 					"required": false,
-					"description": "Pre-registered OAuth client_secret. Write-only - accepted on create/update when auth_credentials.auth_mode is 'manual'. Required when creating a manual OAuth server or converting an existing server to manual mode. Omit it on update to preserve the existing secret; provide it to rotate the secret. Stored AES-GCM-encrypted in server_oauth_secrets; never returned by read endpoints."
+					"description": "Provides 'client_secret' for a pre-registered OAuth client. This field is accepted on create or update only when 'auth_credentials.auth_mode' is 'manual'. It is required when creating an MCP server with manual OAuth credentials or changing an existing server to use manual OAuth credentials. Omit 'client_secret' on update to preserve the existing secret. Provide a new 'client_secret' to rotate the secret. The secret is never returned by read, create, or update requests."
 				},
 				{
 					"name": "description",
@@ -76189,7 +74979,7 @@
 					"name": "is-shared-oauth-callback-enabled",
 					"type": "boolean",
 					"required": false,
-					"description": "When true, the gateway worker uses the shared Cloudflare-owned OAuth callback endpoint as the redirect_uri for upstream on-behalf OAuth, instead of the customer portal hostname. Defaults to false (off); opt in per server by setting true."
+					"description": "When true, per-user authorization uses the shared Cloudflare callback URL as the 'redirect_uri' instead of the portal callback URL. The default is false. Set 'is_shared_oauth_callback_enabled' to true to enable the shared Cloudflare callback URL for this MCP server."
 				},
 				{
 					"name": "name",
@@ -83255,7 +82045,7 @@
 			"httpMethod": "POST",
 			"apiPath": "/zones/{zone_id}/pagerules",
 			"operationId": "page-rules.create",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf page-rules delete",
@@ -83287,7 +82077,7 @@
 			"httpMethod": "DELETE",
 			"apiPath": "/zones/{zone_id}/pagerules/{pagerule_id}",
 			"operationId": "page-rules.delete",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf page-rules edit",
@@ -83350,7 +82140,7 @@
 			"httpMethod": "PATCH",
 			"apiPath": "/zones/{zone_id}/pagerules/{pagerule_id}",
 			"operationId": "page-rules.edit",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf page-rules get",
@@ -83382,7 +82172,7 @@
 			"httpMethod": "GET",
 			"apiPath": "/zones/{zone_id}/pagerules/{pagerule_id}",
 			"operationId": "page-rules.get",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf page-rules list",
@@ -83434,7 +82224,7 @@
 			"httpMethod": "GET",
 			"apiPath": "/zones/{zone_id}/pagerules",
 			"operationId": "page-rules.list",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf page-rules update",
@@ -83497,7 +82287,7 @@
 			"httpMethod": "PUT",
 			"apiPath": "/zones/{zone_id}/pagerules/{pagerule_id}",
 			"operationId": "page-rules.update",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf pages build-cache purge",
@@ -105671,6 +104461,50 @@
 			"hideCommand": false
 		},
 		{
+			"command": "cf realtime kit apps update",
+			"name": "update",
+			"fullPath": ["realtime", "kit", "apps", "update"],
+			"description": "Update the name of an app in your account.",
+			"summary": "Update an app",
+			"usage": "cf realtime kit apps update <app-id> [options]",
+			"arguments": [
+				{
+					"name": "app-id",
+					"position": 0,
+					"type": "string",
+					"required": true,
+					"description": "App ID"
+				}
+			],
+			"options": [
+				{
+					"name": "name",
+					"type": "string",
+					"required": true,
+					"description": "The app name. Leading and trailing whitespace is removed, and the name must contain at least one non-whitespace character."
+				},
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Validate and show what would happen without executing",
+					"default": false
+				},
+				{
+					"name": "body",
+					"type": "string",
+					"required": false,
+					"description": "Raw JSON request body (bypasses individual flags)"
+				}
+			],
+			"category": "update",
+			"hasRequestBody": true,
+			"httpMethod": "PATCH",
+			"apiPath": "/accounts/{account_id}/realtime/kit/apps/{app_id}",
+			"operationId": "realtime.kit.apps.update",
+			"hideCommand": false
+		},
+		{
 			"command": "cf realtime kit livestreams get",
 			"name": "get",
 			"fullPath": ["realtime", "kit", "livestreams", "get"],
@@ -114462,74 +113296,6 @@
 			"hideCommand": false
 		},
 		{
-			"command": "cf rulesets entrypoint versions get",
-			"name": "get",
-			"fullPath": ["rulesets", "entrypoint", "versions", "get"],
-			"description": "Fetches a specific version of an account or zone entry point ruleset.",
-			"summary": "Get an account or zone entry point ruleset version",
-			"usage": "cf rulesets entrypoint versions get <ruleset-version> [options]",
-			"arguments": [
-				{
-					"name": "ruleset-version",
-					"position": 0,
-					"type": "string",
-					"required": true,
-					"description": "The version of the ruleset."
-				}
-			],
-			"options": [
-				{
-					"name": "phase",
-					"type": "string",
-					"required": true,
-					"description": "The phase of the ruleset."
-				},
-				{
-					"name": "dry-run",
-					"type": "boolean",
-					"required": false,
-					"description": "Validate and show what would happen without executing",
-					"default": false
-				}
-			],
-			"category": "read",
-			"hasRequestBody": false,
-			"httpMethod": "GET",
-			"apiPath": "/{account_or_zone}/{account_or_zone_id}/rulesets/phases/{ruleset_phase}/entrypoint/versions/{ruleset_version}",
-			"operationId": "rulesets.entrypoint.versions.get",
-			"hideCommand": false
-		},
-		{
-			"command": "cf rulesets entrypoint versions list",
-			"name": "list",
-			"fullPath": ["rulesets", "entrypoint", "versions", "list"],
-			"description": "Fetches the versions of an account or zone entry point ruleset.",
-			"summary": "List an account or zone entry point ruleset's versions",
-			"usage": "cf rulesets entrypoint versions list [options]",
-			"arguments": [],
-			"options": [
-				{
-					"name": "phase",
-					"type": "string",
-					"required": true,
-					"description": "The phase of the ruleset."
-				},
-				{
-					"name": "dry-run",
-					"type": "boolean",
-					"required": false,
-					"description": "Validate and show what would happen without executing",
-					"default": false
-				}
-			],
-			"category": "read",
-			"hasRequestBody": false,
-			"httpMethod": "GET",
-			"apiPath": "/{account_or_zone}/{account_or_zone_id}/rulesets/phases/{ruleset_phase}/entrypoint/versions",
-			"operationId": "rulesets.entrypoint.versions.list",
-			"hideCommand": false
-		},
-		{
 			"command": "cf rulesets get",
 			"name": "get",
 			"fullPath": ["rulesets", "get"],
@@ -114877,162 +113643,6 @@
 			"httpMethod": "PUT",
 			"apiPath": "/{account_or_zone}/{account_or_zone_id}/rulesets/{ruleset_id}",
 			"operationId": "rulesets.update",
-			"hideCommand": false
-		},
-		{
-			"command": "cf rulesets versions by-tag get",
-			"name": "get",
-			"fullPath": ["rulesets", "versions", "by-tag", "get"],
-			"description": "Fetches the rules of a managed account or zone ruleset version for a given tag.",
-			"summary": "List an account or zone ruleset version's rules by tag",
-			"usage": "cf rulesets versions by-tag get <tag> [options]",
-			"arguments": [
-				{
-					"name": "tag",
-					"position": 0,
-					"type": "string",
-					"required": true,
-					"description": "The category of a rule."
-				}
-			],
-			"options": [
-				{
-					"name": "id",
-					"type": "string",
-					"required": true,
-					"description": "The unique ID of the ruleset."
-				},
-				{
-					"name": "ruleset-version",
-					"type": "string",
-					"required": true,
-					"description": "The version of the ruleset."
-				},
-				{
-					"name": "dry-run",
-					"type": "boolean",
-					"required": false,
-					"description": "Validate and show what would happen without executing",
-					"default": false
-				}
-			],
-			"category": "read",
-			"hasRequestBody": false,
-			"httpMethod": "GET",
-			"apiPath": "/{account_or_zone}/{account_or_zone_id}/rulesets/{ruleset_id}/versions/{ruleset_version}/by_tag/{rule_tag}",
-			"operationId": "rulesets.versions.by-tag.get",
-			"hideCommand": false
-		},
-		{
-			"command": "cf rulesets versions delete",
-			"name": "delete",
-			"fullPath": ["rulesets", "versions", "delete"],
-			"description": "Deletes an existing version of an account or zone ruleset.",
-			"summary": "Delete an account or zone ruleset version",
-			"usage": "cf rulesets versions delete <ruleset-version> [options]",
-			"arguments": [
-				{
-					"name": "ruleset-version",
-					"position": 0,
-					"type": "string",
-					"required": true,
-					"description": "The version of the ruleset."
-				}
-			],
-			"options": [
-				{
-					"name": "id",
-					"type": "string",
-					"required": true,
-					"description": "The unique ID of the ruleset."
-				},
-				{
-					"name": "validate-only",
-					"type": "boolean",
-					"required": false,
-					"description": "Validates the request without persisting changes when set to `true`. Responses that normally return 200 return `result: null`; endpoints that normally return 204 continue to return 204."
-				},
-				{
-					"name": "dry-run",
-					"type": "boolean",
-					"required": false,
-					"description": "Validate and show what would happen without executing",
-					"default": false
-				}
-			],
-			"category": "delete",
-			"hasRequestBody": false,
-			"httpMethod": "DELETE",
-			"apiPath": "/{account_or_zone}/{account_or_zone_id}/rulesets/{ruleset_id}/versions/{ruleset_version}",
-			"operationId": "rulesets.versions.delete",
-			"hideCommand": false
-		},
-		{
-			"command": "cf rulesets versions get",
-			"name": "get",
-			"fullPath": ["rulesets", "versions", "get"],
-			"description": "Fetches a specific version of an account or zone ruleset.",
-			"summary": "Get an account or zone ruleset version",
-			"usage": "cf rulesets versions get <ruleset-version> [options]",
-			"arguments": [
-				{
-					"name": "ruleset-version",
-					"position": 0,
-					"type": "string",
-					"required": true,
-					"description": "The version of the ruleset."
-				}
-			],
-			"options": [
-				{
-					"name": "id",
-					"type": "string",
-					"required": true,
-					"description": "The unique ID of the ruleset."
-				},
-				{
-					"name": "dry-run",
-					"type": "boolean",
-					"required": false,
-					"description": "Validate and show what would happen without executing",
-					"default": false
-				}
-			],
-			"category": "read",
-			"hasRequestBody": false,
-			"httpMethod": "GET",
-			"apiPath": "/{account_or_zone}/{account_or_zone_id}/rulesets/{ruleset_id}/versions/{ruleset_version}",
-			"operationId": "rulesets.versions.get",
-			"hideCommand": false
-		},
-		{
-			"command": "cf rulesets versions list",
-			"name": "list",
-			"fullPath": ["rulesets", "versions", "list"],
-			"description": "Fetches the versions of an account or zone ruleset.",
-			"summary": "List an account or zone ruleset's versions",
-			"usage": "cf rulesets versions list [options]",
-			"arguments": [],
-			"options": [
-				{
-					"name": "id",
-					"type": "string",
-					"required": true,
-					"description": "The unique ID of the ruleset."
-				},
-				{
-					"name": "dry-run",
-					"type": "boolean",
-					"required": false,
-					"description": "Validate and show what would happen without executing",
-					"default": false
-				}
-			],
-			"category": "read",
-			"hasRequestBody": false,
-			"httpMethod": "GET",
-			"apiPath": "/{account_or_zone}/{account_or_zone_id}/rulesets/{ruleset_id}/versions",
-			"operationId": "rulesets.versions.list",
 			"hideCommand": false
 		},
 		{
@@ -117343,10 +115953,10 @@
 					"description": "The partner integration identifier."
 				},
 				{
-					"name": "page",
-					"type": "number",
+					"name": "cursor",
+					"type": "string",
 					"required": false,
-					"description": "Page number for premium partner asset results."
+					"description": "Opaque cursor from the previous response's `result_info.cursor`. Omit for the first page."
 				},
 				{
 					"name": "per-page",
@@ -117396,10 +116006,10 @@
 					"description": "The shadow-zone domain."
 				},
 				{
-					"name": "page",
-					"type": "number",
+					"name": "cursor",
+					"type": "string",
 					"required": false,
-					"description": "Page number for premium partner asset results."
+					"description": "Opaque cursor from the previous response's `result_info.cursor`. Omit for the first page."
 				},
 				{
 					"name": "per-page",
@@ -117438,10 +116048,10 @@
 					"description": "The partner integration identifier."
 				},
 				{
-					"name": "page",
-					"type": "number",
+					"name": "cursor",
+					"type": "string",
 					"required": false,
-					"description": "Page number for premium partner asset results."
+					"description": "Opaque cursor from the previous response's `result_info.cursor`. Omit for the first page."
 				},
 				{
 					"name": "per-page",
@@ -125212,10 +123822,10 @@
 			"fullPath": ["tenant-custom-nameservers", "create"],
 			"description": "Adds a custom nameserver for a tenant.",
 			"summary": "Add Tenant Custom Nameserver",
-			"usage": "cf tenant-custom-nameservers create <tenant-tag> [options]",
+			"usage": "cf tenant-custom-nameservers create <tenant-id> [options]",
 			"arguments": [
 				{
-					"name": "tenant-tag",
+					"name": "tenant-id",
 					"position": 0,
 					"type": "string",
 					"required": true,
@@ -125253,9 +123863,9 @@
 			"category": "create",
 			"hasRequestBody": true,
 			"httpMethod": "POST",
-			"apiPath": "/tenants/{tenant_tag}/custom_ns",
+			"apiPath": "/tenants/{tenant_id}/custom_ns",
 			"operationId": "tenant-custom-nameservers.create",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf tenant-custom-nameservers delete",
@@ -125275,7 +123885,7 @@
 			],
 			"options": [
 				{
-					"name": "tenant-tag",
+					"name": "tenant-id",
 					"type": "string",
 					"required": true,
 					"description": "Tenant identifier tag."
@@ -125291,9 +123901,9 @@
 			"category": "delete",
 			"hasRequestBody": false,
 			"httpMethod": "DELETE",
-			"apiPath": "/tenants/{tenant_tag}/custom_ns/{custom_ns_id}",
+			"apiPath": "/tenants/{tenant_id}/custom_ns/{custom_ns_id}",
 			"operationId": "tenant-custom-nameservers.delete",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf tenant-custom-nameservers get",
@@ -125301,10 +123911,10 @@
 			"fullPath": ["tenant-custom-nameservers", "get"],
 			"description": "Lists a tenant's custom nameservers.",
 			"summary": "List Tenant Custom Nameservers",
-			"usage": "cf tenant-custom-nameservers get <tenant-tag>",
+			"usage": "cf tenant-custom-nameservers get <tenant-id>",
 			"arguments": [
 				{
-					"name": "tenant-tag",
+					"name": "tenant-id",
 					"position": 0,
 					"type": "string",
 					"required": true,
@@ -125323,9 +123933,9 @@
 			"category": "read",
 			"hasRequestBody": false,
 			"httpMethod": "GET",
-			"apiPath": "/tenants/{tenant_tag}/custom_ns",
+			"apiPath": "/tenants/{tenant_id}/custom_ns",
 			"operationId": "tenant-custom-nameservers.get",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf tools",
@@ -126615,7 +125225,7 @@
 			"httpMethod": "DELETE",
 			"apiPath": "/zones/{zone_id}/url_normalization",
 			"operationId": "url-normalization.delete",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf url-normalization get",
@@ -126639,7 +125249,7 @@
 			"httpMethod": "GET",
 			"apiPath": "/zones/{zone_id}/url_normalization",
 			"operationId": "url-normalization.get",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf url-normalization update",
@@ -126683,7 +125293,7 @@
 			"httpMethod": "PUT",
 			"apiPath": "/zones/{zone_id}/url_normalization",
 			"operationId": "url-normalization.update",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf url-scanner responses get",
@@ -135365,7 +133975,7 @@
 			"httpMethod": "POST",
 			"apiPath": "/accounts/{account_id}/builds/workers/{script_tag}/migrate_to_previews",
 			"operationId": "workers-builds.workers.migrate-to-previews",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf workers-builds workers previews create-build",
@@ -135458,7 +134068,7 @@
 			"httpMethod": "POST",
 			"apiPath": "/accounts/{account_id}/builds/workers/{script_tag}/previews/{preview_id}/builds",
 			"operationId": "workers-builds.workers.previews.create-build",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf workers-builds workers previews edit",
@@ -135568,7 +134178,7 @@
 			"httpMethod": "PATCH",
 			"apiPath": "/accounts/{account_id}/builds/workers/{script_tag}/previews/{preview_id}",
 			"operationId": "workers-builds.workers.previews.edit",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf workers-builds workers previews get",
@@ -135606,7 +134216,7 @@
 			"httpMethod": "GET",
 			"apiPath": "/accounts/{account_id}/builds/workers/{script_tag}/previews/{preview_id}",
 			"operationId": "workers-builds.workers.previews.get",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf workers-builds workers previews list",
@@ -135648,7 +134258,7 @@
 			"httpMethod": "GET",
 			"apiPath": "/accounts/{account_id}/builds/workers/{script_tag}/previews",
 			"operationId": "workers-builds.workers.previews.list",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf workers-builds workers previews list-builds",
@@ -135698,7 +134308,7 @@
 			"httpMethod": "GET",
 			"apiPath": "/accounts/{account_id}/builds/workers/{script_tag}/previews/{preview_id}/builds",
 			"operationId": "workers-builds.workers.previews.list-builds",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf workers-for-platforms dispatch-namespaces create",
@@ -136624,7 +135234,19 @@
 					"name": "tls-settings-cert-verification-mode",
 					"type": "string",
 					"required": false,
-					"description": "TLS certificate verification mode for the connection to the origin.\n\n- `\"verify_full\"` — verify certificate chain and hostname (default)\n- `\"verify_ca\"` — verify certificate chain only, skip hostname check\n- `\"disabled\"` — do not verify the server certificate at all"
+					"description": "TLS certificate verification mode for the connection to the origin.\n\n- `\"verify_full\"` — verify certificate chain and hostname (default)\n- `\"verify_ca\"` — verify certificate chain only, skip hostname check\n- `\"disabled\"` — do not verify the server certificate at all\n\n`disabled` cannot be combined with `certificate_authority`: a custom CA is\nonly used to verify the server certificate."
+				},
+				{
+					"name": "tls-settings-certificate-authority",
+					"type": "string",
+					"required": false,
+					"description": "UUID of the custom CA certificate or chain."
+				},
+				{
+					"name": "tls-settings-client-certificate",
+					"type": "string",
+					"required": false,
+					"description": "UUID of the mTLS client certificate and private key."
 				},
 				{
 					"name": "type",
@@ -136849,7 +135471,19 @@
 					"name": "tls-settings-cert-verification-mode",
 					"type": "string",
 					"required": false,
-					"description": "TLS certificate verification mode for the connection to the origin.\n\n- `\"verify_full\"` — verify certificate chain and hostname (default)\n- `\"verify_ca\"` — verify certificate chain only, skip hostname check\n- `\"disabled\"` — do not verify the server certificate at all"
+					"description": "TLS certificate verification mode for the connection to the origin.\n\n- `\"verify_full\"` — verify certificate chain and hostname (default)\n- `\"verify_ca\"` — verify certificate chain only, skip hostname check\n- `\"disabled\"` — do not verify the server certificate at all\n\n`disabled` cannot be combined with `certificate_authority`: a custom CA is\nonly used to verify the server certificate."
+				},
+				{
+					"name": "tls-settings-certificate-authority",
+					"type": "string",
+					"required": false,
+					"description": "UUID of the custom CA certificate or chain."
+				},
+				{
+					"name": "tls-settings-client-certificate",
+					"type": "string",
+					"required": false,
+					"description": "UUID of the mTLS client certificate and private key."
 				},
 				{
 					"name": "type",
@@ -159949,7 +158583,8 @@
 						"egress",
 						"resolve",
 						"quarantine",
-						"redirect"
+						"redirect",
+						"forward"
 					]
 				},
 				{
@@ -160069,8 +158704,8 @@
 					"name": "rule-settings-biso-admin-controls-keyboard",
 					"type": "string",
 					"required": false,
-					"description": "Configure keyboard usage behavior. If this field is absent, keyboard usage remains enabled. Applies only when version == \"v2\".",
-					"enum": ["enabled", "disabled"]
+					"description": "Configure keyboard usage behavior. When set to enable_read_only_actions, only approved browser commands (find, copy, print, zoom, and select-all) may execute; other keyboard input is blocked from reaching the page. Copy and print remain subject to their independent controls. If this field is absent, keyboard usage remains enabled. Applies only when version == \"v2\". The enable_read_only_actions value requires an explicit version of \"v2\".",
+					"enum": ["enabled", "disabled", "enable_read_only_actions"]
 				},
 				{
 					"name": "rule-settings-biso-admin-controls-paste",
@@ -160189,6 +158824,12 @@
 					"type": "boolean",
 					"required": false,
 					"description": "Enable sending the copy to storage."
+				},
+				{
+					"name": "rule-settings-forward-worker-id",
+					"type": "string",
+					"required": false,
+					"description": "Specify the public Worker ID of the target Worker."
 				},
 				{
 					"name": "rule-settings-ignore-cname-category-matches",
@@ -160608,7 +159249,8 @@
 						"egress",
 						"resolve",
 						"quarantine",
-						"redirect"
+						"redirect",
+						"forward"
 					]
 				},
 				{
@@ -160725,8 +159367,8 @@
 					"name": "rule-settings-biso-admin-controls-keyboard",
 					"type": "string",
 					"required": false,
-					"description": "Configure keyboard usage behavior. If this field is absent, keyboard usage remains enabled. Applies only when version == \"v2\".",
-					"enum": ["enabled", "disabled"]
+					"description": "Configure keyboard usage behavior. When set to enable_read_only_actions, only approved browser commands (find, copy, print, zoom, and select-all) may execute; other keyboard input is blocked from reaching the page. Copy and print remain subject to their independent controls. If this field is absent, keyboard usage remains enabled. Applies only when version == \"v2\". The enable_read_only_actions value requires an explicit version of \"v2\".",
+					"enum": ["enabled", "disabled", "enable_read_only_actions"]
 				},
 				{
 					"name": "rule-settings-biso-admin-controls-paste",
@@ -160845,6 +159487,12 @@
 					"type": "boolean",
 					"required": false,
 					"description": "Enable sending the copy to storage."
+				},
+				{
+					"name": "rule-settings-forward-worker-id",
+					"type": "string",
+					"required": false,
+					"description": "Specify the public Worker ID of the target Worker."
 				},
 				{
 					"name": "rule-settings-ignore-cname-category-matches",
@@ -164982,6 +163630,9 @@
 		"billing addresses": "Operations for addresses",
 		"billing profiles": "Billing profile with payment method, address, and invoice preferences",
 		"billing rate-plans": "Operations for rate-plans",
+		"billing spend-policies": "Operations for spend-policies",
+		"billing spend-policies activity": "Operations for spend-policies.activity",
+		"billing spend-policies audit": "Operations for spend-policies.audit",
 		"billing usage": "Metered usage data for billed services — requests, bandwidth, and feature consumption",
 		"bot-management": "bot-management",
 		"bot-management feedback": "Operations for feedback",
@@ -165314,13 +163965,6 @@
 		"logs received": "Received log operations",
 		"logs received fields": "Operations for received.fields",
 		"logs retrieve": "Operations for retrieve",
-		"magic-cloud-networking": "magic-cloud-networking",
-		"magic-cloud-networking catalog-syncs": "Operations for catalog-syncs",
-		"magic-cloud-networking catalog-syncs prebuilt-policies": "Operations for catalog-syncs.prebuilt-policies",
-		"magic-cloud-networking cloud-integrations": "Operations for cloud-integrations",
-		"magic-cloud-networking on-ramps": "Operations for on-ramps",
-		"magic-cloud-networking on-ramps address-spaces": "Operations for on-ramps.address-spaces",
-		"magic-cloud-networking resources": "Operations for resources",
 		"magic-network-monitoring": "Flow-based network traffic monitoring with configurable alerting rules and VPC flow ingestion",
 		"magic-network-monitoring configs": "Account-level monitoring configuration — sampling rates, thresholds, and notification settings",
 		"magic-network-monitoring configs full": "Operations for configs.full",
@@ -165641,10 +164285,7 @@
 		"rules lists items": "Operations for lists.items",
 		"rulesets": "rulesets",
 		"rulesets entrypoint": "Operations for entrypoint",
-		"rulesets entrypoint versions": "Operations for entrypoint.versions",
 		"rulesets rules": "Operations for rules",
-		"rulesets versions": "Operations for versions",
-		"rulesets versions by-tag": "Operations for versions.by-tag",
 		"rum": "Real User Measurement (Web Analytics) — track page loads, Core Web Vitals, and visitor metrics",
 		"rum rules": "Rules that control which pages and paths are tracked by Web Analytics",
 		"rum site-info": "Web Analytics sites — register domains and get the JavaScript beacon snippet",

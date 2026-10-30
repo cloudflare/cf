@@ -4,6 +4,7 @@ import { existsSync, readFileSync, rmSync } from "node:fs";
 import { createRequire } from "node:module";
 import { dirname, join } from "node:path";
 import { Readable } from "node:stream";
+import { pipeline } from "node:stream/promises";
 import { fileURLToPath } from "node:url";
 import { filterForCliAudience } from "./generator/cli-audience.js";
 import { hasAccountOrZoneScope } from "./generator/util.js";
@@ -229,17 +230,22 @@ rmSync(generatedDir, { recursive: true, force: true });
 const forge = spawn(
 	process.execPath,
 	[forgeBin, "-", "--target", `wasm://${pluginWasm}`, "--out", generatedDir],
-	{ stdio: ["pipe", "inherit", "inherit"] }
+	{ stdio: ["pipe", "inherit", "inherit"] as const }
 );
 const normalize = spawn(
 	process.execPath,
 	[forgeBin, "normalize", "--leave-old-extensions", "-"],
-	{ stdio: ["pipe", "pipe", "inherit"] }
+	{ stdio: ["pipe", "pipe", "inherit"] as const }
 );
-Readable.from([openapi]).pipe(normalize.stdin!);
-normalize.stdout!.pipe(forge.stdin!);
+let pipelineError: Error | undefined;
+const transfer = Promise.all([
+	pipeline(Readable.from([openapi]), normalize.stdin),
+	pipeline(normalize.stdout, forge.stdin),
+]).catch((error: unknown) => {
+	pipelineError = error instanceof Error ? error : new Error(String(error));
+});
 const [[normalizeCode, normalizeSignal], [forgeCode, forgeSignal]] =
-	await Promise.all([once(normalize, "close"), once(forge, "close")]);
+	await Promise.all([once(normalize, "close"), once(forge, "close"), transfer]);
 if (normalizeCode !== 0) {
 	throw new Error(
 		`forge normalize exited with ${normalizeCode ?? normalizeSignal}`
@@ -247,6 +253,9 @@ if (normalizeCode !== 0) {
 }
 if (forgeCode !== 0) {
 	throw new Error(`forge exited with ${forgeCode ?? forgeSignal}`);
+}
+if (pipelineError !== undefined) {
+	throw pipelineError;
 }
 console.log("CLI: generated commands");
 

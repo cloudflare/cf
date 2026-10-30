@@ -294,8 +294,8 @@ importers:
         specifier: 0.24.3
         version: 0.24.3(patch_hash=d2a590470d3c93c5ea8101c751a4f29e5d5a3b7c0207671968453b8968cabffd)(@types/node@25.9.9)(vitest@5.0.5)
       '@cloudflare/forge':
-        specifier: https://pkg.pr.new/cloudflare/forge/@cloudflare/forge@260488a28036586904e9a020dea46a9bcdcea553
-        version: https://pkg.pr.new/cloudflare/forge/@cloudflare/forge@260488a28036586904e9a020dea46a9bcdcea553(@bytecodealliance/jco@1.39.0)
+        specifier: https://github.com/Swimburger/forge/releases/download/cf-462-forge-native-5bd8f6e/cloudflare-forge-0.1.0.tgz
+        version: https://github.com/Swimburger/forge/releases/download/cf-462-forge-native-5bd8f6e/cloudflare-forge-0.1.0.tgz(@bytecodealliance/jco@1.39.0)
       '@cloudflare/workers-auth':
         specifier: 0.15.3
         version: 0.15.3(msw@3.0.3(@types/node@25.9.9)(esbuild@0.28.2)(graphql@16.14.2)(supports-color@10.2.2)(tsx@4.21.0)(typescript@6.0.3)(unrun@0.2.39)(yaml@2.9.0))(vitest@5.0.5)
@@ -720,8 +720,8 @@ packages:
   '@cloudflare/deploy-helpers@0.24.3':
     resolution: {integrity: sha512-RWuBl5GjFHIpMFki4zXjIHMqkCMnFiu2+rtnoDc1Y/WVMf2oQyM9/ogaUE9JfRYAN0Z64nijxTEbAoCi0SkVDg==}
 
-  '@cloudflare/forge@https://pkg.pr.new/cloudflare/forge/@cloudflare/forge@260488a28036586904e9a020dea46a9bcdcea553':
-    resolution: {integrity: sha512-9oykGiAQFNgFXPgrvHJLI7xwtEsAioJHzuS7IlDNqsrGAJKOD0YRHS+gF6mqSEEpunhohaMX29gxSPIQw8SFlA==, tarball: https://pkg.pr.new/cloudflare/forge/@cloudflare/forge@260488a28036586904e9a020dea46a9bcdcea553}
+  '@cloudflare/forge@https://github.com/Swimburger/forge/releases/download/cf-462-forge-native-5bd8f6e/cloudflare-forge-0.1.0.tgz':
+    resolution: {integrity: sha512-R5FM9AXtCou+dU9qu72GQiPucv277Mrr+fSJ3L2W92wldSJgtMG4X/K660uHmxPYVbQ1JXKAQH9n7HCWIrhTQQ==, tarball: https://github.com/Swimburger/forge/releases/download/cf-462-forge-native-5bd8f6e/cloudflare-forge-0.1.0.tgz}
     version: 0.1.0
     engines: {node: '>=18'}
     hasBin: true
@@ -4282,7 +4282,7 @@ snapshots:
       - utf-8-validate
       - vitest
 
-  '@cloudflare/forge@https://pkg.pr.new/cloudflare/forge/@cloudflare/forge@260488a28036586904e9a020dea46a9bcdcea553(@bytecodealliance/jco@1.39.0)':
+  '@cloudflare/forge@https://github.com/Swimburger/forge/releases/download/cf-462-forge-native-5bd8f6e/cloudflare-forge-0.1.0.tgz(@bytecodealliance/jco@1.39.0)':
     optionalDependencies:
       '@bytecodealliance/jco': 1.39.0
 

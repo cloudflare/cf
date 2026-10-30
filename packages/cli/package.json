@@ -85,7 +85,7 @@
 		"@cloudflare/codemods": "0.7.0",
 		"@cloudflare/containers-shared": "0.23.5",
 		"@cloudflare/deploy-helpers": "0.24.3",
-		"@cloudflare/forge": "https://pkg.pr.new/cloudflare/forge/@cloudflare/forge@260488a28036586904e9a020dea46a9bcdcea553",
+		"@cloudflare/forge": "https://github.com/Swimburger/forge/releases/download/cf-462-forge-native-5bd8f6e/cloudflare-forge-0.1.0.tgz",
 		"@cloudflare/workers-auth": "0.15.3",
 		"@cloudflare/workers-utils": "0.50.1",
 		"@types/node": "25.9.9",

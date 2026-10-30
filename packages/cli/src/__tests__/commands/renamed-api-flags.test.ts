@@ -8,6 +8,7 @@ import {
 	it,
 	vi,
 } from "vite-plus/test";
+import { captureOutput } from "../helpers/capture-output.js";
 import { server, setupMsw, TEST_BASE_URL } from "../helpers/msw.js";
 import { runCf } from "../helpers/run-cf.js";
 
@@ -161,5 +162,22 @@ describe("API fields renamed off cf-owned flags", () => {
 			"--preview",
 		]);
 		expect(request.body).toMatchObject({ queryId: "q1", dry: true });
+	});
+});
+
+describe("cf schema", () => {
+	afterEach(() => vi.restoreAllMocks());
+
+	it("lists the flag that fills each query parameter", async () => {
+		const output = captureOutput();
+		await expect(
+			runCf(["schema", "firewall", "access-rules", "list"])
+		).resolves.toEqual({ exitCode: 0 });
+		const schema = JSON.parse(output.stdout()) as {
+			queryParams: { name: string; flag?: string }[];
+		};
+		expect(schema.queryParams).toContainEqual(
+			expect.objectContaining({ name: "mode", flag: "access-rule-mode" })
+		);
 	});
 });

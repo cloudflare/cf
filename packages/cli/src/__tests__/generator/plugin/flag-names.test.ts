@@ -79,6 +79,15 @@ describe("x-forge-params flagName through forge", () => {
 				"settings-filter-mode",
 			])
 		);
+		const { schemas } = JSON.parse(files.get("_meta/schemas.json") ?? "") as {
+			schemas: Record<string, Json>;
+		};
+		expect(schemas["things save"]).toMatchObject({
+			pathParams: [
+				{ name: "thing_id", flag: "thing", positional: true, type: "string" },
+			],
+			queryParams: [{ name: "q", flag: "search-query", type: "string" }],
+		});
 		const code = files.get("things/save.ts") ?? "";
 		expect(code).toContain(
 			'`/things/${encodeURIComponent(String(argv["thing"]))}'

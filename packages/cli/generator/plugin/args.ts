@@ -213,6 +213,10 @@ const WORKER_NAME_ARGS: readonly string[] = [
 	"script_name",
 ];
 
+export function isZonePathParam(name: string): boolean {
+	return ZONE_ARG_NAMES.includes(flagName(name));
+}
+
 export function isWorkerName(name: string): boolean {
 	return WORKER_NAME_ARGS.includes(name);
 }

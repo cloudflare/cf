@@ -9,12 +9,22 @@ import { loadMeta } from "../lib/metadata.js";
 import { formatOutput } from "../lib/output.js";
 import type { CommandModule } from "yargs";
 
+interface ParamInfo {
+	/** The wire name. */
+	name: string;
+	/** The flag or positional that fills it; absent when cf resolves the value itself. */
+	flag?: string;
+	positional?: true;
+	type: string;
+	required: boolean;
+}
+
 interface SchemaInfo {
 	operationId: string;
 	httpMethod: string;
 	path: string;
-	pathParams: { name: string; type: string; required: boolean }[];
-	queryParams: { name: string; type: string; required: boolean }[];
+	pathParams: ParamInfo[];
+	queryParams: ParamInfo[];
 	hasRequestBody: boolean;
 	requestBodyFields: {
 		name: string;

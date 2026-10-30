@@ -11,6 +11,7 @@ import {
 	downgradeOptionalParents,
 	isBody,
 	isWorkerName,
+	isZonePathParam,
 	multipartFileFlagDescription,
 	optionDefaults,
 	options as optionArgs,
@@ -381,14 +382,27 @@ class Walk {
 		}
 		const derived = derive(method, resource, op);
 		downgradeOptionalParents(derived);
-		const params = (list: readonly ParameterInfo[]): Value[] =>
-			list.map((p) =>
-				obj([
-					["name", p.name],
-					["type", p.type],
-					["required", p.required],
-				])
-			);
+		const params = (
+			list: readonly ParameterInfo[],
+			location: "path" | "query"
+		): Value[] =>
+			list.map((p) => {
+				const arg = derived.args.find(
+					(a) => a.origin.in === location && a.origin.name === p.name
+				);
+				const entry = obj([["name", p.name]]);
+				if (arg !== undefined) {
+					entry["flag"] = kebab(arg.name);
+				} else if (location === "path" && isZonePathParam(p.name)) {
+					entry["flag"] = "zone";
+				}
+				if (arg?.positional === true) {
+					entry["positional"] = true;
+				}
+				entry["type"] = p.type;
+				entry["required"] = p.required;
+				return entry;
+			});
 		const fields: Value[] = derived.args.filter(isBody).map((a) =>
 			obj([
 				["name", a.name],
@@ -401,8 +415,8 @@ class Walk {
 			["operationId", method.operationId],
 			["httpMethod", op.method.toUpperCase()],
 			["path", op.path],
-			["pathParams", params(op.pathParams)],
-			["queryParams", params(op.queryParams)],
+			["pathParams", params(op.pathParams, "path")],
+			["queryParams", params(op.queryParams, "query")],
 			["hasRequestBody", op.hasRequestBody],
 			["requestBodyFields", fields],
 		]);

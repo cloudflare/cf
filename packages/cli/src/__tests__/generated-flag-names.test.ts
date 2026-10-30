@@ -20,6 +20,20 @@ const owner = flagOwnership(["dry-run", "body", "force", "f"]);
 // API field.
 const CF_EMITTED = new Set(["dry-run", "body"]);
 
+interface ParamInfo {
+	name: string;
+	flag?: string;
+	positional?: true;
+}
+const schemas = schemasFile.schemas as Record<
+	string,
+	{
+		pathParams: ParamInfo[];
+		queryParams: ParamInfo[];
+		requestBodyFields: { name: string }[];
+	}
+>;
+
 const handWritten = new Set(
 	(handWrittenFile.commands as CommandMeta[]).map((c) => c.command)
 );
@@ -49,17 +63,54 @@ describe("generated flag names", () => {
 		expect(clashes).toEqual([]);
 	});
 
-	it("gives no request body field a flag cf owns", () => {
-		const clashes = Object.entries(
-			schemasFile.schemas as Record<
-				string,
-				{ requestBodyFields: { name: string }[] }
-			>
-		).flatMap(([command, schema]) =>
-			schema.requestBodyFields
-				.filter((field) => owner(field.name) !== undefined)
-				.map((field) => `${command} --${field.name}`)
+	it("gives no parameter or body field a flag cf owns", () => {
+		const clashes = Object.entries(schemas).flatMap(([command, schema]) =>
+			[
+				...schema.pathParams
+					.filter((p) => p.flag !== undefined && p.flag !== "zone")
+					.map((p) => p.flag),
+				...schema.queryParams.map((p) => p.flag),
+				...schema.requestBodyFields.map((field) => field.name),
+			]
+				.filter((flag) => flag !== undefined && owner(flag) !== undefined)
+				.map((flag) => `${command} --${flag}`)
 		);
 		expect(clashes).toEqual([]);
+	});
+
+	it.each([
+		[
+			"firewall access-rules list",
+			"queryParams",
+			{ name: "mode", flag: "access-rule-mode" },
+		],
+		[
+			"firewall access-rules list",
+			"queryParams",
+			{ name: "per_page", flag: "per-page" },
+		],
+		[
+			"magic-cloud-networking on-ramps delete",
+			"queryParams",
+			{ name: "force", flag: "force-delete" },
+		],
+		[
+			"magic-cloud-networking on-ramps delete",
+			"pathParams",
+			{ name: "onramp_id", flag: "onramp-id", positional: true },
+		],
+		["precursor update", "pathParams", { name: "zone_id", flag: "zone" }],
+	] as const)("maps %s %s to its flag", (command, location, param) => {
+		expect(schemas[command]?.[location]).toContainEqual(
+			expect.objectContaining(param)
+		);
+	});
+
+	it("names no flag for parameters cf resolves itself", () => {
+		const params = schemas["firewall access-rules list"]?.pathParams ?? [];
+		expect(params.map((p) => [p.name, p.flag])).toEqual([
+			["account_or_zone", undefined],
+			["account_or_zone_id", undefined],
+		]);
 	});
 });

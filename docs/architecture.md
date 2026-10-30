@@ -169,7 +169,7 @@ operations, each top-level group's commands in parallel, and emits:
   (`generatedCommands: GeneratedCommand[]`)
 - `src/commands/_generated/_meta/commands.json` — full command catalogue
 - `src/commands/_generated/_meta/hand-written-commands.json` — hand-written subset with root/leaf/subgroup/override provenance
-- `src/commands/_generated/_meta/schemas.json` — per-op JSON schemas, with the flag that fills each path and query parameter
+- `src/commands/_generated/_meta/schemas.json` — per-op JSON schemas, with the flag that fills a path or query parameter when it has one
 
 `generate.ts` cleans the directory first; Vite+ formats afterward (kept
 out of the generator so it stays format-agnostic). A plugin reads nothing
@@ -723,7 +723,7 @@ There is no single global resolution order. Zone uses positional value → `--zo
 
 Generated commands additionally get (per-command, not global): `--dry-run` on every command (mutating and read — reads omit the body preview), `--body` on almost every body-accepting operation, explicit `--file` on eligible upload shapes, and `--force` / `-f` on destructive operations. String-shaped body flags accept the general `@path` ingestion convention unless Forge opts out.
 
-An API field never takes a flag cf owns. Its flag comes from `x-forge-params.<key>.flagName`, then its Fern name, then its wire name, and the wire name never changes. Generation fails, naming the operation, field, and flag, when that flag is reserved (see below) or is one cf adds to the command: `--dry-run`, `--body`, and `--force`/`-f` on every command, `--file` and `--text` where cf adds them. The fix is a descriptive `flagName` in the API schema; until it lands, `generator/flag-names-cli-compat.ts` holds guarded temporary names. Runtime-schema commands (`cf ai run`, `cf registrar registrations create`) move such a field to `--input-<flag>`, or leave it to `--body` when that name is taken too.
+An API field never takes a flag cf owns. Its flag comes from `x-forge-params.<key>.flagName`, then its Fern name, then its wire name, and the wire name never changes. Generation fails, naming the operation, field, and flag, when that flag is reserved (see below) or is one cf adds to the command: `--dry-run`, `--body`, and `--force`/`-f` on every command, and `--file`, `--text`, and the `--script-name` alias where cf adds them. The fix is a descriptive `flagName` in the API schema; until it lands, `generator/flag-names-cli-compat.ts` holds guarded temporary names. Runtime-schema commands (`cf ai run`, `cf registrar registrations create`) move such a field to `--input-<flag>`, or leave it to `--body` when that name is taken too.
 
 Structured API output is JSON; generated `binary`/`text` endpoints write their payload verbatim. There is no global output-format `--format`, `--json`, `--ndjson`, or `--fields` switch. Some generated leaves do expose `format` or `fields` as endpoint-specific API parameters. Callers needing ndjson pipe structured output through `jq -c '.[]'`.
 

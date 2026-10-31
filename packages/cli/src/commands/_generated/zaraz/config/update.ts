@@ -203,7 +203,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		})
 		.option("body", {
 			type: "string",
-			description: "Zaraz configuration.",
+			description: "Raw JSON request body (bypasses individual flags)",
 		})
 		.check((argv) => {
 			const groupSet = [
@@ -323,7 +323,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 								? parseBody(argv.body, [
 										{ path: ["triggers"], flag: "triggers" },
 										{ path: ["variables"], flag: "variables" },
-										{ path: ["tools"], flag: "tools" },
 									])
 								: compactBody(
 										{
@@ -492,7 +491,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 												true
 											),
 											zarazVersion: argv["zaraz-version"],
-											tools: parseJsonMap(argv["tools"], "tools", true),
+											tools: parseJsonMap(argv["tools"], "tools"),
 										},
 										[
 											["consent", "buttonTextTranslations", "accept_all"],
@@ -523,7 +522,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					const bodyData = parseBody(argv.body, [
 						{ path: ["triggers"], flag: "triggers" },
 						{ path: ["variables"], flag: "variables" },
-						{ path: ["tools"], flag: "tools" },
 					]);
 					const result = await withProgress(`Updating`, async () =>
 						client.send(operation, { body: bodyData, zone_id: zoneId })
@@ -560,11 +558,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				if (argv["zaraz-version"] === undefined) {
 					throw new Error(
 						"--zaraz-version is required (or pass --body with this field set)."
-					);
-				}
-				if (argv["tools"] === undefined) {
-					throw new Error(
-						"--tools is required (or pass --body with this field set)."
 					);
 				}
 
@@ -713,7 +706,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						triggers: parseJsonMap(argv["triggers"], "triggers", true),
 						variables: parseJsonMap(argv["variables"], "variables", true),
 						zarazVersion: argv["zaraz-version"],
-						tools: parseJsonMap(argv["tools"], "tools", true),
+						tools: parseJsonMap(argv["tools"], "tools"),
 					},
 					[
 						["consent", "buttonTextTranslations", "accept_all"],

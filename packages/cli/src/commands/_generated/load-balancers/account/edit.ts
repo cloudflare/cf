@@ -212,8 +212,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		})
 		.option("body", {
 			type: "string",
-			description:
-				"The editable properties shared by load balancer create, update, and patch requests. Operations layer their own \`required\` constraints on top via \`allOf\`.",
+			description: "Raw JSON request body (bypasses individual flags)",
 		});
 }
 

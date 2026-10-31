@@ -28,12 +28,12 @@ import { runWithTelemetry } from "#lib/telemetry/index.js";
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
 		.usage(
-			"$0 ai-search multi-chat-completions <namespace>\n\nPerforms a chat completion request against multiple AI Search instances in parallel, merging retrieved content as context for generating a response."
+			"$0 ai-search multi-chat-completions\n\nPerforms a chat completion request against multiple AI Search instances in parallel, merging retrieved content as context for generating a response."
 		)
-		.positional("namespace", {
+		.option("namespace", {
 			type: "string",
 			description: "Namespace to use for this operation.",
-			demandOption: true,
+			default: "default",
 		})
 		.option("ai-search-options-cache-cache-threshold", {
 			type: "string",
@@ -177,7 +177,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 type Args = InferArgs<typeof builder>;
 
 const command: CommandModule<CommonYargsOptions, Args> = {
-	command: "multi-chat-completions <namespace>",
+	command: "multi-chat-completions",
 	describe: "Multi-Instance Chat Completions",
 	builder,
 	handler: async (argv): Promise<void> =>

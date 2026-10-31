@@ -743,21 +743,12 @@ export const generatedCommands: GeneratedCommand[] = [
 	},
 	{
 		command: lazyCommand<CommonYargsOptions>(
-			"oauth-clients",
-			"oauth-clients",
-			() => import("./oauth-clients/index.js"),
+			"observability",
+			"observability",
+			() => import("./observability/index.js"),
 			null
 		),
-		hideCommand: true,
-	},
-	{
-		command: lazyCommand<CommonYargsOptions>(
-			"oauth-scopes",
-			"oauth-scopes",
-			() => import("./oauth-scopes/index.js"),
-			null
-		),
-		hideCommand: true,
+		hideCommand: false,
 	},
 	{
 		command: lazyCommand<CommonYargsOptions>(
@@ -1079,15 +1070,6 @@ export const generatedCommands: GeneratedCommand[] = [
 			"tags",
 			"tags",
 			() => import("./tags/index.js"),
-			null
-		),
-		hideCommand: false,
-	},
-	{
-		command: lazyCommand<CommonYargsOptions>(
-			"tenant",
-			"tenant",
-			() => import("./tenant/index.js"),
 			null
 		),
 		hideCommand: false,

@@ -74,7 +74,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		})
 		.option("body", {
 			type: "string",
-			description: "Defines fields that all query types share.",
+			description: "Raw JSON request body (bypasses individual flags)",
 		});
 }
 

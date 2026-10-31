@@ -17,7 +17,6 @@ import { resolveFileToken } from "#lib/input-validation.js";
 import { LOCAL_ACCOUNT_ID } from "#lib/local.js";
 import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
-import { promptForRequiredField } from "#lib/prompt.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
 function builder(yargs: Argv<CommonYargsOptions>) {
@@ -163,17 +162,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					);
 					formatOutput(result, { successLabel: `Created` });
 					return;
-				}
-				if (argv["name"] === undefined) {
-					argv["name"] = await promptForRequiredField(
-						"name",
-						"DNS Firewall cluster name"
-					);
-				}
-				if (argv["upstream-ips"] === undefined) {
-					throw new Error(
-						"--upstream-ips is required (or pass --body with this field set)."
-					);
 				}
 
 				// Assemble request body from individual flags

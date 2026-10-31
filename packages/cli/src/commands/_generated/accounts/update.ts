@@ -25,9 +25,14 @@ import { runWithTelemetry } from "#lib/telemetry/index.js";
 
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
-		.usage("$0 accounts update\n\nUpdate an existing account.")
+		.usage(
+			"$0 accounts update\n\nUpdate an existing account. Account names are limited to 65 UTF-8 bytes."
+		)
 		.option("id", { type: "string", description: "Identifier" })
-		.option("name", { type: "string", description: "The name field" })
+		.option("name", {
+			type: "string",
+			description: "Account name, limited to 65 UTF-8 bytes.",
+		})
 		.option("settings-abuse-contact-email", {
 			type: "string",
 			description: "Sets an abuse contact email to notify for abuse reports.",
@@ -123,7 +128,10 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					argv["id"] = await promptForRequiredField("id", "Identifier");
 				}
 				if (argv["name"] === undefined) {
-					argv["name"] = await promptForRequiredField("name", "The name field");
+					argv["name"] = await promptForRequiredField(
+						"name",
+						"Account name, limited to 65 UTF-8 bytes."
+					);
 				}
 				if (argv["type"] === undefined) {
 					argv["type"] = await promptForRequiredEnumField(

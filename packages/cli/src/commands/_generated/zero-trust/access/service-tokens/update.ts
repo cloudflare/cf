@@ -12,7 +12,7 @@ import {
 	getZoneId,
 	resolveAccountIdSilent,
 } from "#lib/auth.js";
-import { compactBody, parseBody } from "#lib/body-parser.js";
+import { compactBody, parseBody, parseJsonMap } from "#lib/body-parser.js";
 import { formatDryRun } from "#lib/dry-run.js";
 import { resolveFileToken } from "#lib/input-validation.js";
 import { LOCAL_ACCOUNT_ID } from "#lib/local.js";
@@ -53,6 +53,11 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			type: "string",
 			description:
 				"The expiration of the previous `client_secret`. This can be modified at any point after a rotation. For example, you may extend it further into the future if you need more time to update services with the new secret; or move it into the past to immediately invalidate the previous token in case of compromise. Rotating a service token that was reported as leaked discards the previous secret entirely, so no grace period can be set.",
+		})
+		.option("tags", {
+			type: "string",
+			description:
+				"Tags associated with the service token, as key-value pairs. On update, replaces all existing tags. Provide as a JSON object or @path/to/file.json.",
 		})
 		.option("dry-run", {
 			type: "boolean",
@@ -102,27 +107,31 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						body:
 							argv.body !== undefined
 								? parseBody(argv.body)
-								: compactBody({
-										client_secret_version: argv["client-secret-version"],
-										duration: resolveFileToken(
-											argv["duration"] as string | undefined,
-											"duration",
-											"text"
-										),
-										enabled: argv["enabled"],
-										name: resolveFileToken(
-											argv["name"] as string | undefined,
-											"name",
-											"text"
-										),
-										previous_client_secret_expires_at: resolveFileToken(
-											argv["previous-client-secret-expires-at"] as
-												| string
-												| undefined,
-											"previous-client-secret-expires-at",
-											"text"
-										),
-									}),
+								: compactBody(
+										{
+											client_secret_version: argv["client-secret-version"],
+											duration: resolveFileToken(
+												argv["duration"] as string | undefined,
+												"duration",
+												"text"
+											),
+											enabled: argv["enabled"],
+											name: resolveFileToken(
+												argv["name"] as string | undefined,
+												"name",
+												"text"
+											),
+											previous_client_secret_expires_at: resolveFileToken(
+												argv["previous-client-secret-expires-at"] as
+													| string
+													| undefined,
+												"previous-client-secret-expires-at",
+												"text"
+											),
+											tags: parseJsonMap(argv["tags"], "tags"),
+										},
+										[["tags"]]
+									),
 					});
 					return;
 				}
@@ -157,25 +166,29 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				}
 
 				// Assemble request body from individual flags
-				const bodyData = compactBody({
-					client_secret_version: argv["client-secret-version"],
-					duration: resolveFileToken(
-						argv["duration"] as string | undefined,
-						"duration",
-						"text"
-					),
-					enabled: argv["enabled"],
-					name: resolveFileToken(
-						argv["name"] as string | undefined,
-						"name",
-						"text"
-					),
-					previous_client_secret_expires_at: resolveFileToken(
-						argv["previous-client-secret-expires-at"] as string | undefined,
-						"previous-client-secret-expires-at",
-						"text"
-					),
-				});
+				const bodyData = compactBody(
+					{
+						client_secret_version: argv["client-secret-version"],
+						duration: resolveFileToken(
+							argv["duration"] as string | undefined,
+							"duration",
+							"text"
+						),
+						enabled: argv["enabled"],
+						name: resolveFileToken(
+							argv["name"] as string | undefined,
+							"name",
+							"text"
+						),
+						previous_client_secret_expires_at: resolveFileToken(
+							argv["previous-client-secret-expires-at"] as string | undefined,
+							"previous-client-secret-expires-at",
+							"text"
+						),
+						tags: parseJsonMap(argv["tags"], "tags"),
+					},
+					[["tags"]]
+				);
 				const result = await withProgress(`Updating`, async () =>
 					client.send(operation, {
 						body: bodyData,

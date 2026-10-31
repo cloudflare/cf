@@ -28,16 +28,16 @@ import { runWithTelemetry } from "#lib/telemetry/index.js";
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
 		.usage(
-			"$0 ai-search multi-search <namespace> [query]\n\nPerforms a semantic search query against multiple AI Search instances in parallel, merging the retrieved results into a single ranked response."
+			"$0 ai-search multi-search [query]\n\nPerforms a semantic search query against multiple AI Search instances in parallel, merging the retrieved results into a single ranked response."
 		)
-		.positional("namespace", {
-			type: "string",
-			description: "Namespace to use for this operation.",
-			demandOption: true,
-		})
 		.positional("query", {
 			type: "string",
 			description: "Text to search for.",
+		})
+		.option("namespace", {
+			type: "string",
+			description: "Namespace to use for this operation.",
+			default: "default",
 		})
 		.option("ai-search-options-cache-cache-threshold", {
 			type: "string",
@@ -175,7 +175,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 type Args = InferArgs<typeof builder>;
 
 const command: CommandModule<CommonYargsOptions, Args> = {
-	command: "multi-search <namespace> [query]",
+	command: "multi-search [query]",
 	describe: "Multi-Instance Search",
 	builder,
 	handler: async (argv): Promise<void> =>

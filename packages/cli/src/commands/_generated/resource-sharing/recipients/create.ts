@@ -6,10 +6,15 @@ import type { ArgClassification } from "#lib/telemetry/index.js";
  * @generated from apis/overlays/resource-sharing.ts
  */
 import type { Argv, CommandModule } from "yargs";
-import { createCommandClient } from "#lib/auth.js";
+import {
+	createCommandClient,
+	getAccountId,
+	resolveAccountIdSilent,
+} from "#lib/auth.js";
 import { compactBody, parseBody } from "#lib/body-parser.js";
 import { formatDryRun } from "#lib/dry-run.js";
 import { resolveFileToken } from "#lib/input-validation.js";
+import { LOCAL_ACCOUNT_ID } from "#lib/local.js";
 import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
@@ -23,16 +28,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			type: "string",
 			description: "Share identifier tag.",
 			demandOption: true,
-		})
-		.option("account-id-path", {
-			type: "string",
-			description: "Account identifier.",
-			demandOption: true,
-		})
-		.option("account-id", {
-			type: "string",
-			description:
-				"Deprecated alias for `recipient_account_id`. Use `recipient_account_id` instead.\nThe body field collided with the URL path parameter of the same name, which prevented SDK generators from distinguishing the source account (in the URL) from the recipient account (in the body). Both names will continue to be accepted until 2027-05-26 (see `x-sunset`).\n",
 		})
 		.option("organization-id", {
 			type: "string",
@@ -71,24 +66,17 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			argv as Record<string, unknown>,
 			async () => {
 				if (argv.dryRun) {
+					const __cfDryRunAccountId = await resolveAccountIdSilent();
 					formatDryRun({
 						command: "cf resource-sharing recipients create",
 						method: "POST",
-						url: `https://api.cloudflare.com/client/v4/accounts/${argv["account-id-path"] == null ? "<account-id-path>" : encodeURIComponent(String(argv["account-id-path"]))}/shares/${argv["share-id"] == null ? "<share-id>" : encodeURIComponent(String(argv["share-id"]))}/recipients`,
-						pathParams: {
-							"account-id-path": String(argv["account-id-path"] ?? ""),
-							"share-id": String(argv["share-id"] ?? ""),
-						},
+						url: `https://api.cloudflare.com/client/v4/accounts/${__cfDryRunAccountId ?? "<account-id>"}/shares/${argv["share-id"] == null ? "<share-id>" : encodeURIComponent(String(argv["share-id"]))}/recipients`,
+						pathParams: { "share-id": String(argv["share-id"] ?? "") },
 						bodyKind: "json",
 						body:
 							argv.body !== undefined
 								? parseBody(argv.body)
 								: compactBody({
-										account_id: resolveFileToken(
-											argv["account-id"] as string | undefined,
-											"account-id",
-											"text"
-										),
 										organization_id: resolveFileToken(
 											argv["organization-id"] as string | undefined,
 											"organization-id",
@@ -104,13 +92,15 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					return;
 				}
 				const client = await createCommandClient(argv);
+				const accountId = argv.local ? LOCAL_ACCOUNT_ID : await getAccountId();
+				argv.accountId = accountId;
 
 				if (argv.body) {
 					const bodyData = parseBody(argv.body);
 					const result = await withProgress(`Creating`, async () =>
 						client.send(operation, {
 							body: bodyData,
-							account_id_path: argv["account-id-path"],
+							account_id: accountId,
 							share_id: argv["share-id"],
 						})
 					);
@@ -120,11 +110,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 
 				// Assemble request body from individual flags
 				const bodyData = compactBody({
-					account_id: resolveFileToken(
-						argv["account-id"] as string | undefined,
-						"account-id",
-						"text"
-					),
 					organization_id: resolveFileToken(
 						argv["organization-id"] as string | undefined,
 						"organization-id",
@@ -139,7 +124,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				const result = await withProgress(`Creating`, async () =>
 					client.send(operation, {
 						body: bodyData,
-						account_id_path: argv["account-id-path"],
+						account_id: accountId,
 						share_id: argv["share-id"],
 					})
 				);

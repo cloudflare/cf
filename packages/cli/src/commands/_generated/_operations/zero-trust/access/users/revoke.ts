@@ -5,5 +5,6 @@ export default {
 	method: "POST",
 	path: (request: Record<string, unknown>) =>
 		path`/${request.account_or_zone}/${request.account_or_zone_id}/access/organizations/revoke_user`,
+	query: ["devices"],
 	body: "json",
 } as const;

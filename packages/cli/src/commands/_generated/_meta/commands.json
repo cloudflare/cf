@@ -2218,7 +2218,7 @@
 			"command": "cf accounts create",
 			"name": "create",
 			"fullPath": ["accounts", "create"],
-			"description": "Create an Account. To create the Account within an Organization, provide `unit.id` and omit `standalone`. To create a standalone Free Account, provide `standalone: true` and omit `unit`. Providing both fields is invalid. If you omit both fields, Cloudflare can determine the destination only when the User is an administrator of exactly one Organization. Cloudflare creates the Account in that Organization; otherwise, the request returns an error.",
+			"description": "Create an Account. To create the Account within an Organization, provide `unit.id` and omit `standalone`. To create a standalone Free Account, provide `standalone: true` and omit `unit`. Providing both fields is invalid. If you omit both fields, Cloudflare can determine the destination only when the User is an administrator of exactly one Organization. Cloudflare creates the Account in that Organization; otherwise, the request returns an error. Account names are limited to 65 UTF-8 bytes.",
 			"summary": "Create an Account",
 			"usage": "cf accounts create [options]",
 			"arguments": [],
@@ -2233,7 +2233,7 @@
 					"name": "name",
 					"type": "string",
 					"required": true,
-					"description": "Account name"
+					"description": "Account name, limited to 65 UTF-8 bytes."
 				},
 				{
 					"name": "standalone",
@@ -3077,12 +3077,12 @@
 			"hideCommand": false
 		},
 		{
-			"command": "cf accounts organization list",
+			"command": "cf accounts organizations list",
 			"name": "list",
-			"fullPath": ["accounts", "organization", "list"],
+			"fullPath": ["accounts", "organizations", "list"],
 			"description": "Retrieve a list of the organizations that \"contain\" this account or are managing it. The returned list will be in order from \"root\" to \"leaf\", where the \"leaf\" will be the organization that _immediately_ contains the specified account.",
 			"summary": "List account organizations",
-			"usage": "cf accounts organization list",
+			"usage": "cf accounts organizations list",
 			"arguments": [],
 			"options": [
 				{
@@ -3097,14 +3097,14 @@
 			"hasRequestBody": false,
 			"httpMethod": "GET",
 			"apiPath": "/accounts/{account_id}/organizations",
-			"operationId": "accounts.organization.list",
+			"operationId": "accounts.organizations.list",
 			"hideCommand": false
 		},
 		{
 			"command": "cf accounts profile get",
 			"name": "get",
 			"fullPath": ["accounts", "profile", "get"],
-			"description": "Retrieves the business profile (name, email, phone, address, and external metadata) associated with this account's parent organization customer record. Profiles can be shared across accounts and organizations. Only available to members of an organization that contains the account.",
+			"description": "Retrieves the business profile (name, email, phone, address, and external metadata) associated with this account's customer record. Profiles can be shared across accounts and organizations. Only available to members of an organization that contains the account.",
 			"summary": "Get account profile",
 			"usage": "cf accounts profile get",
 			"arguments": [],
@@ -3128,7 +3128,7 @@
 			"command": "cf accounts profile update",
 			"name": "update",
 			"fullPath": ["accounts", "profile", "update"],
-			"description": "Updates the business profile (name, email, phone, address, and external metadata) associated with this account's parent organization customer record. Changes apply to every account and organization sharing that profile. Omitted or empty fields are left unchanged. Only available to members of an organization that contains the account.",
+			"description": "Partially updates the business profile (name, email, phone, address, and external metadata) associated with this account's parent organization customer record, creating the profile if it does not exist. Changes apply to every account and organization sharing that profile. Omitted, empty, or null fields are left unchanged. Each profile field is limited to 1,000 UTF-8 bytes. Only available to members of an organization that contains the account.",
 			"summary": "Update account profile",
 			"usage": "cf accounts profile update [options]",
 			"arguments": [],
@@ -3136,31 +3136,31 @@
 				{
 					"name": "business-address",
 					"type": "string",
-					"required": true,
+					"required": false,
 					"description": "The business_address field"
 				},
 				{
 					"name": "business-email",
 					"type": "string",
-					"required": true,
+					"required": false,
 					"description": "The business_email field"
 				},
 				{
 					"name": "business-name",
 					"type": "string",
-					"required": true,
+					"required": false,
 					"description": "The business_name field"
 				},
 				{
 					"name": "business-phone",
 					"type": "string",
-					"required": true,
+					"required": false,
 					"description": "The business_phone field"
 				},
 				{
 					"name": "external-metadata",
 					"type": "string",
-					"required": true,
+					"required": false,
 					"description": "The external_metadata field"
 				},
 				{
@@ -3960,7 +3960,7 @@
 			"command": "cf accounts update",
 			"name": "update",
 			"fullPath": ["accounts", "update"],
-			"description": "Update an existing account.",
+			"description": "Update an existing account. Account names are limited to 65 UTF-8 bytes.",
 			"summary": "Update Account",
 			"usage": "cf accounts update [options]",
 			"arguments": [],
@@ -3975,7 +3975,7 @@
 					"name": "name",
 					"type": "string",
 					"required": true,
-					"description": "The name field"
+					"description": "Account name, limited to 65 UTF-8 bytes."
 				},
 				{
 					"name": "settings-abuse-contact-email",
@@ -9907,8 +9907,9 @@
 				{
 					"name": "namespace",
 					"type": "string",
-					"required": true,
-					"description": "Namespace to use for this operation."
+					"required": false,
+					"description": "Namespace to use for this operation.",
+					"default": "default"
 				},
 				{
 					"name": "ai-search-options-cache-cache-threshold",
@@ -10072,24 +10073,24 @@
 			"fullPath": ["ai-search", "create"],
 			"description": "Create a new AI Search instance with the given configuration. If type is omitted or null, a non-blank HTTP(S) source infers web-crawler and any other source infers r2; r2 sources must name an existing bucket. A missing or blank source without a type creates a managed upload-only instance.",
 			"summary": "Create an AI Search instance.",
-			"usage": "cf ai-search create <namespace> <id> [options]",
+			"usage": "cf ai-search create <id> [options]",
 			"arguments": [
 				{
-					"name": "namespace",
-					"position": 0,
-					"type": "string",
-					"required": true,
-					"description": "Namespace to use for this operation."
-				},
-				{
 					"name": "id",
-					"position": 1,
+					"position": 0,
 					"type": "string",
 					"required": true,
 					"description": "Unique ID for the new AI Search instance."
 				}
 			],
 			"options": [
+				{
+					"name": "namespace",
+					"type": "string",
+					"required": false,
+					"description": "Namespace to use for this operation.",
+					"default": "default"
+				},
 				{
 					"name": "ai-gateway-id",
 					"type": "string",
@@ -10508,8 +10509,9 @@
 				{
 					"name": "namespace",
 					"type": "string",
-					"required": true,
-					"description": "Namespace to use for this operation."
+					"required": false,
+					"description": "Namespace to use for this operation.",
+					"default": "default"
 				},
 				{
 					"name": "dry-run",
@@ -10546,8 +10548,9 @@
 				{
 					"name": "namespace",
 					"type": "string",
-					"required": true,
-					"description": "Namespace to use for this operation."
+					"required": false,
+					"description": "Namespace to use for this operation.",
+					"default": "default"
 				},
 				{
 					"name": "dry-run",
@@ -10584,8 +10587,9 @@
 				{
 					"name": "namespace",
 					"type": "string",
-					"required": true,
-					"description": "Namespace to use for this operation."
+					"required": false,
+					"description": "Namespace to use for this operation.",
+					"default": "default"
 				},
 				{
 					"name": "instance-id",
@@ -10640,8 +10644,9 @@
 				{
 					"name": "namespace",
 					"type": "string",
-					"required": true,
-					"description": "Namespace to use for this operation."
+					"required": false,
+					"description": "Namespace to use for this operation.",
+					"default": "default"
 				},
 				{
 					"name": "instance-id",
@@ -10684,8 +10689,9 @@
 				{
 					"name": "namespace",
 					"type": "string",
-					"required": true,
-					"description": "Namespace to use for this operation."
+					"required": false,
+					"description": "Namespace to use for this operation.",
+					"default": "default"
 				},
 				{
 					"name": "instance-id",
@@ -10728,8 +10734,9 @@
 				{
 					"name": "namespace",
 					"type": "string",
-					"required": true,
-					"description": "Namespace to use for this operation."
+					"required": false,
+					"description": "Namespace to use for this operation.",
+					"default": "default"
 				},
 				{
 					"name": "instance-id",
@@ -10764,8 +10771,9 @@
 				{
 					"name": "namespace",
 					"type": "string",
-					"required": true,
-					"description": "Namespace to use for this operation."
+					"required": false,
+					"description": "Namespace to use for this operation.",
+					"default": "default"
 				},
 				{
 					"name": "instance-id",
@@ -10871,8 +10879,9 @@
 				{
 					"name": "namespace",
 					"type": "string",
-					"required": true,
-					"description": "Namespace to use for this operation."
+					"required": false,
+					"description": "Namespace to use for this operation.",
+					"default": "default"
 				},
 				{
 					"name": "instance-id",
@@ -10927,8 +10936,9 @@
 				{
 					"name": "namespace",
 					"type": "string",
-					"required": true,
-					"description": "Namespace to use for this operation."
+					"required": false,
+					"description": "Namespace to use for this operation.",
+					"default": "default"
 				},
 				{
 					"name": "instance-id",
@@ -10990,8 +11000,9 @@
 				{
 					"name": "namespace",
 					"type": "string",
-					"required": true,
-					"description": "Namespace to use for this operation."
+					"required": false,
+					"description": "Namespace to use for this operation.",
+					"default": "default"
 				},
 				{
 					"name": "dry-run",
@@ -11040,8 +11051,9 @@
 				{
 					"name": "namespace",
 					"type": "string",
-					"required": true,
-					"description": "Namespace to use for this operation."
+					"required": false,
+					"description": "Namespace to use for this operation.",
+					"default": "default"
 				},
 				{
 					"name": "key",
@@ -11103,8 +11115,9 @@
 				{
 					"name": "namespace",
 					"type": "string",
-					"required": true,
-					"description": "Namespace to use for this operation."
+					"required": false,
+					"description": "Namespace to use for this operation.",
+					"default": "default"
 				},
 				{
 					"name": "instance-id",
@@ -11160,8 +11173,9 @@
 				{
 					"name": "namespace",
 					"type": "string",
-					"required": true,
-					"description": "Namespace to use for this operation."
+					"required": false,
+					"description": "Namespace to use for this operation.",
+					"default": "default"
 				},
 				{
 					"name": "description",
@@ -11210,8 +11224,9 @@
 				{
 					"name": "namespace",
 					"type": "string",
-					"required": true,
-					"description": "Namespace to use for this operation."
+					"required": false,
+					"description": "Namespace to use for this operation.",
+					"default": "default"
 				},
 				{
 					"name": "instance-id",
@@ -11246,8 +11261,9 @@
 				{
 					"name": "namespace",
 					"type": "string",
-					"required": true,
-					"description": "Namespace to use for this operation."
+					"required": false,
+					"description": "Namespace to use for this operation.",
+					"default": "default"
 				},
 				{
 					"name": "instance-id",
@@ -11302,8 +11318,9 @@
 				{
 					"name": "namespace",
 					"type": "string",
-					"required": true,
-					"description": "Namespace to use for this operation."
+					"required": false,
+					"description": "Namespace to use for this operation.",
+					"default": "default"
 				},
 				{
 					"name": "instance-id",
@@ -11350,8 +11367,9 @@
 				{
 					"name": "namespace",
 					"type": "string",
-					"required": true,
-					"description": "Namespace to use for this operation."
+					"required": false,
+					"description": "Namespace to use for this operation.",
+					"default": "default"
 				},
 				{
 					"name": "page",
@@ -11426,8 +11444,9 @@
 				{
 					"name": "source-namespace",
 					"type": "string",
-					"required": true,
-					"description": "Namespace currently containing the instance."
+					"required": false,
+					"description": "Namespace currently containing the instance.",
+					"default": "default"
 				},
 				{
 					"name": "destination-namespace",
@@ -11462,17 +11481,16 @@
 			"fullPath": ["ai-search", "multi-chat-completions"],
 			"description": "Performs a chat completion request against multiple AI Search instances in parallel, merging retrieved content as context for generating a response.",
 			"summary": "Multi-Instance Chat Completions",
-			"usage": "cf ai-search multi-chat-completions <namespace> [options]",
-			"arguments": [
+			"usage": "cf ai-search multi-chat-completions [options]",
+			"arguments": [],
+			"options": [
 				{
 					"name": "namespace",
-					"position": 0,
 					"type": "string",
-					"required": true,
-					"description": "Namespace to use for this operation."
-				}
-			],
-			"options": [
+					"required": false,
+					"description": "Namespace to use for this operation.",
+					"default": "default"
+				},
 				{
 					"name": "ai-search-options-cache-cache-threshold",
 					"type": "string",
@@ -11641,24 +11659,24 @@
 			"fullPath": ["ai-search", "multi-search"],
 			"description": "Performs a semantic search query against multiple AI Search instances in parallel, merging the retrieved results into a single ranked response.",
 			"summary": "Multi-Instance Search",
-			"usage": "cf ai-search multi-search <namespace> [query] [options]",
+			"usage": "cf ai-search multi-search [query] [options]",
 			"arguments": [
 				{
-					"name": "namespace",
-					"position": 0,
-					"type": "string",
-					"required": true,
-					"description": "Namespace to use for this operation."
-				},
-				{
 					"name": "query",
-					"position": 1,
+					"position": 0,
 					"type": "string",
 					"required": false,
 					"description": "Text to search for."
 				}
 			],
 			"options": [
+				{
+					"name": "namespace",
+					"type": "string",
+					"required": false,
+					"description": "Namespace to use for this operation.",
+					"default": "default"
+				},
 				{
 					"name": "ai-search-options-cache-cache-threshold",
 					"type": "string",
@@ -12169,8 +12187,9 @@
 				{
 					"name": "namespace",
 					"type": "string",
-					"required": true,
-					"description": "Namespace to use for this operation."
+					"required": false,
+					"description": "Namespace to use for this operation.",
+					"default": "default"
 				},
 				{
 					"name": "dry-run",
@@ -12214,8 +12233,9 @@
 				{
 					"name": "namespace",
 					"type": "string",
-					"required": true,
-					"description": "Namespace to use for this operation."
+					"required": false,
+					"description": "Namespace to use for this operation.",
+					"default": "default"
 				},
 				{
 					"name": "ai-search-options-cache-cache-threshold",
@@ -12381,8 +12401,9 @@
 				{
 					"name": "namespace",
 					"type": "string",
-					"required": true,
-					"description": "Namespace to use for this operation."
+					"required": false,
+					"description": "Namespace to use for this operation.",
+					"default": "default"
 				},
 				{
 					"name": "dry-run",
@@ -12644,8 +12665,9 @@
 				{
 					"name": "namespace",
 					"type": "string",
-					"required": true,
-					"description": "Namespace to use for this operation."
+					"required": false,
+					"description": "Namespace to use for this operation.",
+					"default": "default"
 				},
 				{
 					"name": "ai-gateway-id",
@@ -21196,6 +21218,41 @@
 			"arguments": [],
 			"options": [
 				{
+					"name": "ai-agents-anthropic-agent",
+					"type": "string",
+					"required": false,
+					"description": "Action to apply to one supported personal AI agent.",
+					"enum": ["disabled", "block", "only_on_ad_pages"]
+				},
+				{
+					"name": "ai-agents-google-agent",
+					"type": "string",
+					"required": false,
+					"description": "Action to apply to one supported personal AI agent.",
+					"enum": ["disabled", "block", "only_on_ad_pages"]
+				},
+				{
+					"name": "ai-agents-instinct",
+					"type": "string",
+					"required": false,
+					"description": "Action to apply to one supported personal AI agent.",
+					"enum": ["disabled", "block", "only_on_ad_pages"]
+				},
+				{
+					"name": "ai-agents-muse",
+					"type": "string",
+					"required": false,
+					"description": "Action to apply to one supported personal AI agent.",
+					"enum": ["disabled", "block", "only_on_ad_pages"]
+				},
+				{
+					"name": "ai-agents-openai-agent",
+					"type": "string",
+					"required": false,
+					"description": "Action to apply to one supported personal AI agent.",
+					"enum": ["disabled", "block", "only_on_ad_pages"]
+				},
+				{
 					"name": "ai-bots-migration-opt-out",
 					"type": "boolean",
 					"required": false,
@@ -22887,7 +22944,7 @@
 					"type": "string",
 					"required": false,
 					"description": "The userAgent field",
-					"default": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36"
+					"default": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/152.0.0.0 Safari/537.36"
 				},
 				{
 					"name": "viewport-device-scale-factor",
@@ -23117,7 +23174,7 @@
 					"type": "string",
 					"required": false,
 					"description": "The userAgent field",
-					"default": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36"
+					"default": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/152.0.0.0 Safari/537.36"
 				},
 				{
 					"name": "viewport-device-scale-factor",
@@ -23371,7 +23428,7 @@
 					"type": "string",
 					"required": false,
 					"description": "The userAgent field",
-					"default": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36"
+					"default": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/152.0.0.0 Safari/537.36"
 				},
 				{
 					"name": "viewport-device-scale-factor",
@@ -23608,7 +23665,7 @@
 					"type": "string",
 					"required": false,
 					"description": "The userAgent field",
-					"default": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36"
+					"default": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/152.0.0.0 Safari/537.36"
 				},
 				{
 					"name": "viewport-device-scale-factor",
@@ -23845,7 +23902,7 @@
 					"type": "string",
 					"required": false,
 					"description": "The userAgent field",
-					"default": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36"
+					"default": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/152.0.0.0 Safari/537.36"
 				},
 				{
 					"name": "viewport-device-scale-factor",
@@ -24202,7 +24259,7 @@
 					"type": "string",
 					"required": false,
 					"description": "The userAgent field",
-					"default": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36"
+					"default": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/152.0.0.0 Safari/537.36"
 				},
 				{
 					"name": "viewport-device-scale-factor",
@@ -24438,7 +24495,7 @@
 					"type": "string",
 					"required": false,
 					"description": "The userAgent field",
-					"default": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36"
+					"default": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/152.0.0.0 Safari/537.36"
 				},
 				{
 					"name": "viewport-device-scale-factor",
@@ -24760,7 +24817,7 @@
 					"type": "string",
 					"required": false,
 					"description": "The userAgent field",
-					"default": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36"
+					"default": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/152.0.0.0 Safari/537.36"
 				},
 				{
 					"name": "viewport-device-scale-factor",
@@ -25069,7 +25126,7 @@
 					"type": "string",
 					"required": false,
 					"description": "The userAgent field",
-					"default": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36"
+					"default": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/152.0.0.0 Safari/537.36"
 				},
 				{
 					"name": "viewport-device-scale-factor",
@@ -34288,23 +34345,9 @@
 			"fullPath": ["cloudforce-one", "threat-intel", "events", "create"],
 			"description": "Creates an event. Without `datasetId`, the event is created in the default Cloudforce One Threat Events dataset. To create a dataset, use `threat-intel datasets create`.",
 			"summary": "Create an event",
-			"usage": "cf cloudforce-one threat-intel events create <account-id-path> [options]",
-			"arguments": [
-				{
-					"name": "account-id-path",
-					"position": 0,
-					"type": "string",
-					"required": true,
-					"description": "Account ID."
-				}
-			],
+			"usage": "cf cloudforce-one threat-intel events create [options]",
+			"arguments": [],
 			"options": [
-				{
-					"name": "account-id-body",
-					"type": "number",
-					"required": false,
-					"description": "The accountId field"
-				},
 				{
 					"name": "attacker",
 					"type": "string",
@@ -34450,7 +34493,7 @@
 			"category": "create",
 			"hasRequestBody": true,
 			"httpMethod": "POST",
-			"apiPath": "/accounts/{account_id_path}/cloudforce-one/events/create",
+			"apiPath": "/accounts/{account_id}/cloudforce-one/events/create",
 			"operationId": "cloudforce-one.threat-intel.events.create",
 			"hideCommand": false
 		},
@@ -38164,7 +38207,7 @@
 			"command": "cf cloudforce-one threat-signals articles reprocess",
 			"name": "reprocess",
 			"fullPath": ["cloudforce-one", "threat-signals", "articles", "reprocess"],
-			"description": "Synchronously re-runs every processing step for a Threat Signals article: content acquisition, summary, indicator extraction, CVE tags, IOC context, and default tags. Replaces the article's summary, AI tags, and indicators; indicators no longer found are removed. Creates a Threat Event only when the article has none; an existing Event is never updated. Takes over the article from any queued processing. Requires a paid Threat Signals subscription and the Cloudforce One Write permission.",
+			"description": "Synchronously re-runs every processing step for a Threat Signals article: pull content, clean content, extract IOCs, filter IOCs, summary, CVE tags, IOC context, article tags, and Event publication. Replaces the article's summary, AI tags, and indicators; indicators no longer found are removed. Creates a Threat Event only when the article has none; an existing Event is never updated. Takes over the article from any queued processing. Requires a paid Threat Signals subscription and the Cloudforce One Write permission.",
 			"summary": "Reprocess a Threat Signals article",
 			"usage": "cf cloudforce-one threat-signals articles reprocess <article-id>",
 			"arguments": [
@@ -46680,7 +46723,7 @@
 				{
 					"name": "name",
 					"type": "string",
-					"required": true,
+					"required": false,
 					"description": "DNS Firewall cluster name"
 				},
 				{
@@ -46705,7 +46748,7 @@
 				{
 					"name": "upstream-ips",
 					"type": "string",
-					"required": true,
+					"required": false,
 					"description": "The upstream_ips field"
 				},
 				{
@@ -56606,6 +56649,415 @@
 			"hideCommand": false
 		},
 		{
+			"command": "cf iam oauth-clients create",
+			"name": "create",
+			"fullPath": ["iam", "oauth-clients", "create"],
+			"description": "Create a new OAuth client for an account.",
+			"summary": "Create OAuth Client",
+			"usage": "cf iam oauth-clients create [options]",
+			"arguments": [],
+			"options": [
+				{
+					"name": "allowed-cors-origins",
+					"type": "string",
+					"required": false,
+					"description": "Array of allowed CORS origins."
+				},
+				{
+					"name": "client-name",
+					"type": "string",
+					"required": true,
+					"description": "Human-readable name of the OAuth client."
+				},
+				{
+					"name": "client-uri",
+					"type": "string",
+					"required": false,
+					"description": "URL of the home page of the client."
+				},
+				{
+					"name": "grant-types",
+					"type": "string",
+					"required": true,
+					"description": "Array of OAuth grant types the client is allowed to use. `authorization_code` is required; `refresh_token` may be included optionally."
+				},
+				{
+					"name": "logo-uri",
+					"type": "string",
+					"required": false,
+					"description": "URL of the client's logo."
+				},
+				{
+					"name": "optional-scopes",
+					"type": "string",
+					"required": false,
+					"description": "Scopes that the authorizing user may decline during consent. Each value must also appear in `scopes`. The scopes `openid`, `offline`, and `offline_access` cannot be optional."
+				},
+				{
+					"name": "policy-uri",
+					"type": "string",
+					"required": false,
+					"description": "URL that points to a privacy policy document."
+				},
+				{
+					"name": "post-logout-redirect-uris",
+					"type": "string",
+					"required": false,
+					"description": "Array of allowed post-logout redirect URIs."
+				},
+				{
+					"name": "redirect-uris",
+					"type": "string",
+					"required": true,
+					"description": "Array of allowed redirect URIs for the client."
+				},
+				{
+					"name": "response-types",
+					"type": "string",
+					"required": true,
+					"description": "Array of OAuth response types the client is allowed to use."
+				},
+				{
+					"name": "scopes",
+					"type": "string",
+					"required": true,
+					"description": "Array of OAuth scopes the client is allowed to request. Colon-delimited scopes are not accepted. Dot-delimited scopes are validated against available OAuth API scopes; simple identity scopes are allowed. Protocol scopes `offline_access` and `openid` are added or removed automatically based on `grant_types` and `response_types`."
+				},
+				{
+					"name": "token-endpoint-auth-method",
+					"type": "string",
+					"required": true,
+					"description": "The authentication method the client uses at the token endpoint.",
+					"enum": ["none", "client_secret_basic", "client_secret_post"]
+				},
+				{
+					"name": "tos-uri",
+					"type": "string",
+					"required": false,
+					"description": "URL that points to a terms of service document."
+				},
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Validate and show what would happen without executing",
+					"default": false
+				},
+				{
+					"name": "body",
+					"type": "string",
+					"required": false,
+					"description": "Raw JSON request body (bypasses individual flags)"
+				}
+			],
+			"category": "create",
+			"hasRequestBody": true,
+			"httpMethod": "POST",
+			"apiPath": "/accounts/{account_id}/oauth_clients",
+			"operationId": "iam.oauth-clients.create",
+			"hideCommand": true
+		},
+		{
+			"command": "cf iam oauth-clients delete",
+			"name": "delete",
+			"fullPath": ["iam", "oauth-clients", "delete"],
+			"description": "Delete an OAuth client.",
+			"summary": "Delete OAuth Client",
+			"usage": "cf iam oauth-clients delete <oauth-client-id>",
+			"arguments": [
+				{
+					"name": "oauth-client-id",
+					"position": 0,
+					"type": "string",
+					"required": true,
+					"description": "The unique identifier for an OAuth client."
+				}
+			],
+			"options": [
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Validate and show what would happen without executing",
+					"default": false
+				}
+			],
+			"category": "delete",
+			"hasRequestBody": false,
+			"httpMethod": "DELETE",
+			"apiPath": "/accounts/{account_id}/oauth_clients/{oauth_client_id}",
+			"operationId": "iam.oauth-clients.delete",
+			"hideCommand": true
+		},
+		{
+			"command": "cf iam oauth-clients delete-rotated-secret",
+			"name": "delete-rotated-secret",
+			"fullPath": ["iam", "oauth-clients", "delete-rotated-secret"],
+			"description": "Removes the old client secret after a rotation, keeping only the new one. Use this after you have updated your client configuration to use the new secret. The `has_rotated_secret` field on the client indicates whether there is an old secret to delete.",
+			"summary": "Delete Rotated OAuth Client Secret",
+			"usage": "cf iam oauth-clients delete-rotated-secret <oauth-client-id>",
+			"arguments": [
+				{
+					"name": "oauth-client-id",
+					"position": 0,
+					"type": "string",
+					"required": true,
+					"description": "The unique identifier for an OAuth client."
+				}
+			],
+			"options": [
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Validate and show what would happen without executing",
+					"default": false
+				}
+			],
+			"category": "action",
+			"hasRequestBody": false,
+			"httpMethod": "DELETE",
+			"apiPath": "/accounts/{account_id}/oauth_clients/{oauth_client_id}/rotate_secret",
+			"operationId": "iam.oauth-clients.delete-rotated-secret",
+			"hideCommand": true
+		},
+		{
+			"command": "cf iam oauth-clients get",
+			"name": "get",
+			"fullPath": ["iam", "oauth-clients", "get"],
+			"description": "Get details of a specific OAuth client.",
+			"summary": "OAuth Client Details",
+			"usage": "cf iam oauth-clients get <oauth-client-id>",
+			"arguments": [
+				{
+					"name": "oauth-client-id",
+					"position": 0,
+					"type": "string",
+					"required": true,
+					"description": "The unique identifier for an OAuth client."
+				}
+			],
+			"options": [
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Validate and show what would happen without executing",
+					"default": false
+				}
+			],
+			"category": "read",
+			"hasRequestBody": false,
+			"httpMethod": "GET",
+			"apiPath": "/accounts/{account_id}/oauth_clients/{oauth_client_id}",
+			"operationId": "iam.oauth-clients.get",
+			"hideCommand": true
+		},
+		{
+			"command": "cf iam oauth-clients list",
+			"name": "list",
+			"fullPath": ["iam", "oauth-clients", "list"],
+			"description": "List all OAuth clients for an account.",
+			"summary": "List OAuth Clients",
+			"usage": "cf iam oauth-clients list",
+			"arguments": [],
+			"options": [
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Validate and show what would happen without executing",
+					"default": false
+				}
+			],
+			"category": "read",
+			"hasRequestBody": false,
+			"httpMethod": "GET",
+			"apiPath": "/accounts/{account_id}/oauth_clients",
+			"operationId": "iam.oauth-clients.list",
+			"hideCommand": true
+		},
+		{
+			"command": "cf iam oauth-clients rotate-secret",
+			"name": "rotate-secret",
+			"fullPath": ["iam", "oauth-clients", "rotate-secret"],
+			"description": "Creates a second client secret so you can update your client configuration before deleting the old one. The `has_rotated_secret` field on the client will be set to `true`.",
+			"summary": "Rotate OAuth Client Secret",
+			"usage": "cf iam oauth-clients rotate-secret <oauth-client-id>",
+			"arguments": [
+				{
+					"name": "oauth-client-id",
+					"position": 0,
+					"type": "string",
+					"required": true,
+					"description": "The unique identifier for an OAuth client."
+				}
+			],
+			"options": [
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Validate and show what would happen without executing",
+					"default": false
+				}
+			],
+			"category": "action",
+			"hasRequestBody": false,
+			"httpMethod": "POST",
+			"apiPath": "/accounts/{account_id}/oauth_clients/{oauth_client_id}/rotate_secret",
+			"operationId": "iam.oauth-clients.rotate-secret",
+			"hideCommand": true
+		},
+		{
+			"command": "cf iam oauth-clients update",
+			"name": "update",
+			"fullPath": ["iam", "oauth-clients", "update"],
+			"description": "Update an existing OAuth client. Only include fields you want to update.",
+			"summary": "Update OAuth Client",
+			"usage": "cf iam oauth-clients update <oauth-client-id> [options]",
+			"arguments": [
+				{
+					"name": "oauth-client-id",
+					"position": 0,
+					"type": "string",
+					"required": true,
+					"description": "The unique identifier for an OAuth client."
+				}
+			],
+			"options": [
+				{
+					"name": "allowed-cors-origins",
+					"type": "string",
+					"required": false,
+					"description": "Array of allowed CORS origins."
+				},
+				{
+					"name": "client-name",
+					"type": "string",
+					"required": false,
+					"description": "Human-readable name of the OAuth client."
+				},
+				{
+					"name": "client-uri",
+					"type": "string",
+					"required": false,
+					"description": "URL of the home page of the client."
+				},
+				{
+					"name": "grant-types",
+					"type": "string",
+					"required": false,
+					"description": "Array of OAuth grant types the client is allowed to use. `authorization_code` is required; `refresh_token` may be included optionally."
+				},
+				{
+					"name": "logo-uri",
+					"type": "string",
+					"required": false,
+					"description": "URL of the client's logo."
+				},
+				{
+					"name": "optional-scopes",
+					"type": "string",
+					"required": false,
+					"description": "Scopes that the authorizing user may decline during consent. Each value must also appear in `scopes`. The scopes `openid`, `offline`, and `offline_access` cannot be optional."
+				},
+				{
+					"name": "policy-uri",
+					"type": "string",
+					"required": false,
+					"description": "URL that points to a privacy policy document."
+				},
+				{
+					"name": "post-logout-redirect-uris",
+					"type": "string",
+					"required": false,
+					"description": "Array of allowed post-logout redirect URIs."
+				},
+				{
+					"name": "redirect-uris",
+					"type": "string",
+					"required": false,
+					"description": "Array of allowed redirect URIs for the client."
+				},
+				{
+					"name": "response-types",
+					"type": "string",
+					"required": false,
+					"description": "Array of OAuth response types the client is allowed to use."
+				},
+				{
+					"name": "scopes",
+					"type": "string",
+					"required": false,
+					"description": "Array of OAuth scopes the client is allowed to request. Colon-delimited scopes are not accepted. Dot-delimited scopes are validated against available OAuth API scopes; simple identity scopes are allowed. Protocol scopes `offline_access` and `openid` are added or removed automatically based on `grant_types` and `response_types`."
+				},
+				{
+					"name": "token-endpoint-auth-method",
+					"type": "string",
+					"required": false,
+					"description": "The authentication method the client uses at the token endpoint.",
+					"enum": ["none", "client_secret_basic", "client_secret_post"]
+				},
+				{
+					"name": "tos-uri",
+					"type": "string",
+					"required": false,
+					"description": "URL that points to a terms of service document."
+				},
+				{
+					"name": "visibility",
+					"type": "string",
+					"required": false,
+					"description": "Promote the OAuth client from private to public visibility. Only `public` is accepted; demotion to `private` is not supported. Promotion requires a non-empty client name, logo URI, verified client URI host, and at least one non-identity scope.",
+					"enum": ["public"]
+				},
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Validate and show what would happen without executing",
+					"default": false
+				},
+				{
+					"name": "body",
+					"type": "string",
+					"required": false,
+					"description": "Raw JSON request body (bypasses individual flags)"
+				}
+			],
+			"category": "update",
+			"hasRequestBody": true,
+			"httpMethod": "PATCH",
+			"apiPath": "/accounts/{account_id}/oauth_clients/{oauth_client_id}",
+			"operationId": "iam.oauth-clients.update",
+			"hideCommand": true
+		},
+		{
+			"command": "cf iam oauth-scopes list",
+			"name": "list",
+			"fullPath": ["iam", "oauth-scopes", "list"],
+			"description": "List all available OAuth scopes. This endpoint requires authentication but has no authorization role requirements.",
+			"summary": "List OAuth Scopes",
+			"usage": "cf iam oauth-scopes list",
+			"arguments": [],
+			"options": [
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Validate and show what would happen without executing",
+					"default": false
+				}
+			],
+			"category": "read",
+			"hasRequestBody": false,
+			"httpMethod": "GET",
+			"apiPath": "/oauth/scopes",
+			"operationId": "iam.oauth-scopes.list",
+			"hideCommand": true
+		},
+		{
 			"command": "cf iam permission-groups get",
 			"name": "get",
 			"fullPath": ["iam", "permission-groups", "get"],
@@ -59423,23 +59875,9 @@
 			"fullPath": ["intel", "indicator-feeds", "providers", "create"],
 			"description": "Creates a new indicator feed provider for an account. Only available to Intel accounts.",
 			"summary": "Create indicator feed provider",
-			"usage": "cf intel indicator-feeds providers create <account-id-path> [options]",
-			"arguments": [
-				{
-					"name": "account-id-path",
-					"position": 0,
-					"type": "string",
-					"required": true,
-					"description": "Identifier"
-				}
-			],
+			"usage": "cf intel indicator-feeds providers create [options]",
+			"arguments": [],
 			"options": [
-				{
-					"name": "account-id-body",
-					"type": "number",
-					"required": true,
-					"description": "The numeric account ID to create the provider for. Distinct from the\npath `account_id` parameter, which carries the account identifier\nstring used for routing.\n"
-				},
 				{
 					"name": "name",
 					"type": "string",
@@ -59463,7 +59901,7 @@
 			"category": "create",
 			"hasRequestBody": true,
 			"httpMethod": "PUT",
-			"apiPath": "/accounts/{account_id_path}/intel/indicator-feeds/permissions/createProvider",
+			"apiPath": "/accounts/{account_id}/intel/indicator-feeds/permissions/createProvider",
 			"operationId": "intel.indicator-feeds.providers.create",
 			"hideCommand": false
 		},
@@ -80217,217 +80655,12 @@
 			"hideCommand": false
 		},
 		{
-			"command": "cf oauth-clients create",
-			"name": "create",
-			"fullPath": ["oauth-clients", "create"],
-			"description": "Create a new OAuth client for an account.",
-			"summary": "Create OAuth Client",
-			"usage": "cf oauth-clients create [options]",
-			"arguments": [],
-			"options": [
-				{
-					"name": "allowed-cors-origins",
-					"type": "string",
-					"required": false,
-					"description": "Array of allowed CORS origins."
-				},
-				{
-					"name": "client-name",
-					"type": "string",
-					"required": true,
-					"description": "Human-readable name of the OAuth client."
-				},
-				{
-					"name": "client-uri",
-					"type": "string",
-					"required": false,
-					"description": "URL of the home page of the client."
-				},
-				{
-					"name": "grant-types",
-					"type": "string",
-					"required": true,
-					"description": "Array of OAuth grant types the client is allowed to use. `authorization_code` is required; `refresh_token` may be included optionally."
-				},
-				{
-					"name": "logo-uri",
-					"type": "string",
-					"required": false,
-					"description": "URL of the client's logo."
-				},
-				{
-					"name": "optional-scopes",
-					"type": "string",
-					"required": false,
-					"description": "Scopes that the authorizing user may decline during consent. Each value must also appear in `scopes`. The scopes `openid`, `offline`, and `offline_access` cannot be optional."
-				},
-				{
-					"name": "policy-uri",
-					"type": "string",
-					"required": false,
-					"description": "URL that points to a privacy policy document."
-				},
-				{
-					"name": "post-logout-redirect-uris",
-					"type": "string",
-					"required": false,
-					"description": "Array of allowed post-logout redirect URIs."
-				},
-				{
-					"name": "redirect-uris",
-					"type": "string",
-					"required": true,
-					"description": "Array of allowed redirect URIs for the client."
-				},
-				{
-					"name": "response-types",
-					"type": "string",
-					"required": true,
-					"description": "Array of OAuth response types the client is allowed to use."
-				},
-				{
-					"name": "scopes",
-					"type": "string",
-					"required": true,
-					"description": "Array of OAuth scopes the client is allowed to request. Colon-delimited scopes are not accepted. Dot-delimited scopes are validated against available OAuth API scopes; simple identity scopes are allowed. Protocol scopes `offline_access` and `openid` are added or removed automatically based on `grant_types` and `response_types`."
-				},
-				{
-					"name": "token-endpoint-auth-method",
-					"type": "string",
-					"required": true,
-					"description": "The authentication method the client uses at the token endpoint.",
-					"enum": ["none", "client_secret_basic", "client_secret_post"]
-				},
-				{
-					"name": "tos-uri",
-					"type": "string",
-					"required": false,
-					"description": "URL that points to a terms of service document."
-				},
-				{
-					"name": "dry-run",
-					"type": "boolean",
-					"required": false,
-					"description": "Validate and show what would happen without executing",
-					"default": false
-				},
-				{
-					"name": "body",
-					"type": "string",
-					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
-				}
-			],
-			"category": "create",
-			"hasRequestBody": true,
-			"httpMethod": "POST",
-			"apiPath": "/accounts/{account_id}/oauth_clients",
-			"operationId": "oauth-clients.create",
-			"hideCommand": true
-		},
-		{
-			"command": "cf oauth-clients delete",
-			"name": "delete",
-			"fullPath": ["oauth-clients", "delete"],
-			"description": "Delete an OAuth client.",
-			"summary": "Delete OAuth Client",
-			"usage": "cf oauth-clients delete <oauth-client-id>",
-			"arguments": [
-				{
-					"name": "oauth-client-id",
-					"position": 0,
-					"type": "string",
-					"required": true,
-					"description": "The unique identifier for an OAuth client."
-				}
-			],
-			"options": [
-				{
-					"name": "dry-run",
-					"type": "boolean",
-					"required": false,
-					"description": "Validate and show what would happen without executing",
-					"default": false
-				}
-			],
-			"category": "delete",
-			"hasRequestBody": false,
-			"httpMethod": "DELETE",
-			"apiPath": "/accounts/{account_id}/oauth_clients/{oauth_client_id}",
-			"operationId": "oauth-clients.delete",
-			"hideCommand": true
-		},
-		{
-			"command": "cf oauth-clients delete-rotated-secret",
-			"name": "delete-rotated-secret",
-			"fullPath": ["oauth-clients", "delete-rotated-secret"],
-			"description": "Removes the old client secret after a rotation, keeping only the new one. Use this after you have updated your client configuration to use the new secret. The `has_rotated_secret` field on the client indicates whether there is an old secret to delete.",
-			"summary": "Delete Rotated OAuth Client Secret",
-			"usage": "cf oauth-clients delete-rotated-secret <oauth-client-id>",
-			"arguments": [
-				{
-					"name": "oauth-client-id",
-					"position": 0,
-					"type": "string",
-					"required": true,
-					"description": "The unique identifier for an OAuth client."
-				}
-			],
-			"options": [
-				{
-					"name": "dry-run",
-					"type": "boolean",
-					"required": false,
-					"description": "Validate and show what would happen without executing",
-					"default": false
-				}
-			],
-			"category": "action",
-			"hasRequestBody": false,
-			"httpMethod": "DELETE",
-			"apiPath": "/accounts/{account_id}/oauth_clients/{oauth_client_id}/rotate_secret",
-			"operationId": "oauth-clients.delete-rotated-secret",
-			"hideCommand": true
-		},
-		{
-			"command": "cf oauth-clients get",
+			"command": "cf observability usage-limit get",
 			"name": "get",
-			"fullPath": ["oauth-clients", "get"],
-			"description": "Get details of a specific OAuth client.",
-			"summary": "OAuth Client Details",
-			"usage": "cf oauth-clients get <oauth-client-id>",
-			"arguments": [
-				{
-					"name": "oauth-client-id",
-					"position": 0,
-					"type": "string",
-					"required": true,
-					"description": "The unique identifier for an OAuth client."
-				}
-			],
-			"options": [
-				{
-					"name": "dry-run",
-					"type": "boolean",
-					"required": false,
-					"description": "Validate and show what would happen without executing",
-					"default": false
-				}
-			],
-			"category": "read",
-			"hasRequestBody": false,
-			"httpMethod": "GET",
-			"apiPath": "/accounts/{account_id}/oauth_clients/{oauth_client_id}",
-			"operationId": "oauth-clients.get",
-			"hideCommand": true
-		},
-		{
-			"command": "cf oauth-clients list",
-			"name": "list",
-			"fullPath": ["oauth-clients", "list"],
-			"description": "List all OAuth clients for an account.",
-			"summary": "List OAuth Clients",
-			"usage": "cf oauth-clients list",
+			"fullPath": ["observability", "usage-limit", "get"],
+			"description": "Whether Workers Observability is keeping fewer of the account's events, usually because it passed its daily limit, and what that limit is. Daily limits reset at 00:00 UTC; paid accounts are brought back in stages over the following hours.",
+			"summary": "Get usage limit status",
+			"usage": "cf observability usage-limit get",
 			"arguments": [],
 			"options": [
 				{
@@ -80441,195 +80674,15 @@
 			"category": "read",
 			"hasRequestBody": false,
 			"httpMethod": "GET",
-			"apiPath": "/accounts/{account_id}/oauth_clients",
-			"operationId": "oauth-clients.list",
-			"hideCommand": true
-		},
-		{
-			"command": "cf oauth-clients rotate-secret",
-			"name": "rotate-secret",
-			"fullPath": ["oauth-clients", "rotate-secret"],
-			"description": "Creates a second client secret so you can update your client configuration before deleting the old one. The `has_rotated_secret` field on the client will be set to `true`.",
-			"summary": "Rotate OAuth Client Secret",
-			"usage": "cf oauth-clients rotate-secret <oauth-client-id>",
-			"arguments": [
-				{
-					"name": "oauth-client-id",
-					"position": 0,
-					"type": "string",
-					"required": true,
-					"description": "The unique identifier for an OAuth client."
-				}
-			],
-			"options": [
-				{
-					"name": "dry-run",
-					"type": "boolean",
-					"required": false,
-					"description": "Validate and show what would happen without executing",
-					"default": false
-				}
-			],
-			"category": "action",
-			"hasRequestBody": false,
-			"httpMethod": "POST",
-			"apiPath": "/accounts/{account_id}/oauth_clients/{oauth_client_id}/rotate_secret",
-			"operationId": "oauth-clients.rotate-secret",
-			"hideCommand": true
-		},
-		{
-			"command": "cf oauth-clients update",
-			"name": "update",
-			"fullPath": ["oauth-clients", "update"],
-			"description": "Update an existing OAuth client. Only include fields you want to update.",
-			"summary": "Update OAuth Client",
-			"usage": "cf oauth-clients update <oauth-client-id> [options]",
-			"arguments": [
-				{
-					"name": "oauth-client-id",
-					"position": 0,
-					"type": "string",
-					"required": true,
-					"description": "The unique identifier for an OAuth client."
-				}
-			],
-			"options": [
-				{
-					"name": "allowed-cors-origins",
-					"type": "string",
-					"required": false,
-					"description": "Array of allowed CORS origins."
-				},
-				{
-					"name": "client-name",
-					"type": "string",
-					"required": false,
-					"description": "Human-readable name of the OAuth client."
-				},
-				{
-					"name": "client-uri",
-					"type": "string",
-					"required": false,
-					"description": "URL of the home page of the client."
-				},
-				{
-					"name": "grant-types",
-					"type": "string",
-					"required": false,
-					"description": "Array of OAuth grant types the client is allowed to use. `authorization_code` is required; `refresh_token` may be included optionally."
-				},
-				{
-					"name": "logo-uri",
-					"type": "string",
-					"required": false,
-					"description": "URL of the client's logo."
-				},
-				{
-					"name": "optional-scopes",
-					"type": "string",
-					"required": false,
-					"description": "Scopes that the authorizing user may decline during consent. Each value must also appear in `scopes`. The scopes `openid`, `offline`, and `offline_access` cannot be optional."
-				},
-				{
-					"name": "policy-uri",
-					"type": "string",
-					"required": false,
-					"description": "URL that points to a privacy policy document."
-				},
-				{
-					"name": "post-logout-redirect-uris",
-					"type": "string",
-					"required": false,
-					"description": "Array of allowed post-logout redirect URIs."
-				},
-				{
-					"name": "redirect-uris",
-					"type": "string",
-					"required": false,
-					"description": "Array of allowed redirect URIs for the client."
-				},
-				{
-					"name": "response-types",
-					"type": "string",
-					"required": false,
-					"description": "Array of OAuth response types the client is allowed to use."
-				},
-				{
-					"name": "scopes",
-					"type": "string",
-					"required": false,
-					"description": "Array of OAuth scopes the client is allowed to request. Colon-delimited scopes are not accepted. Dot-delimited scopes are validated against available OAuth API scopes; simple identity scopes are allowed. Protocol scopes `offline_access` and `openid` are added or removed automatically based on `grant_types` and `response_types`."
-				},
-				{
-					"name": "token-endpoint-auth-method",
-					"type": "string",
-					"required": false,
-					"description": "The authentication method the client uses at the token endpoint.",
-					"enum": ["none", "client_secret_basic", "client_secret_post"]
-				},
-				{
-					"name": "tos-uri",
-					"type": "string",
-					"required": false,
-					"description": "URL that points to a terms of service document."
-				},
-				{
-					"name": "visibility",
-					"type": "string",
-					"required": false,
-					"description": "Promote the OAuth client from private to public visibility. Only `public` is accepted; demotion to `private` is not supported. Promotion requires a non-empty client name, logo URI, verified client URI host, and at least one non-identity scope.",
-					"enum": ["public"]
-				},
-				{
-					"name": "dry-run",
-					"type": "boolean",
-					"required": false,
-					"description": "Validate and show what would happen without executing",
-					"default": false
-				},
-				{
-					"name": "body",
-					"type": "string",
-					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
-				}
-			],
-			"category": "update",
-			"hasRequestBody": true,
-			"httpMethod": "PATCH",
-			"apiPath": "/accounts/{account_id}/oauth_clients/{oauth_client_id}",
-			"operationId": "oauth-clients.update",
-			"hideCommand": true
-		},
-		{
-			"command": "cf oauth-scopes list",
-			"name": "list",
-			"fullPath": ["oauth-scopes", "list"],
-			"description": "List all available OAuth scopes. This endpoint requires authentication but has no authorization role requirements.",
-			"summary": "List OAuth Scopes",
-			"usage": "cf oauth-scopes list",
-			"arguments": [],
-			"options": [
-				{
-					"name": "dry-run",
-					"type": "boolean",
-					"required": false,
-					"description": "Validate and show what would happen without executing",
-					"default": false
-				}
-			],
-			"category": "read",
-			"hasRequestBody": false,
-			"httpMethod": "GET",
-			"apiPath": "/oauth/scopes",
-			"operationId": "oauth-scopes.list",
-			"hideCommand": true
+			"apiPath": "/accounts/{account_id}/observability/usage/limit",
+			"operationId": "observability.usage-limit.get",
+			"hideCommand": false
 		},
 		{
 			"command": "cf organization account list",
 			"name": "list",
 			"fullPath": ["organization", "account", "list"],
-			"description": "Retrieve the accounts immediately attached to a specific organization. Accounts attached to sub-organizations are not included.",
+			"description": "Retrieve the accounts immediately attached to a specific organization. Accounts attached to sub-organizations are not included. Use `page_token` and `page_size` for cursor pagination, or provide `page` and `per_page` together for legacy offset pagination. Cursor pagination takes precedence when requested. The default response uses Account fields; `Accept: application/json; legacy=true` requests the LegacyAccount representation.",
 			"summary": "List organization accounts",
 			"usage": "cf organization account list [options]",
 			"arguments": [],
@@ -80644,7 +80697,7 @@
 					"name": "account-pubname",
 					"type": "string",
 					"required": false,
-					"description": "(case-insensitive) Filter the list of accounts to where the account_pubname is equal to\na particular string."
+					"description": "(case-sensitive) Filter the list of accounts to where the account_pubname is equal to\na particular string."
 				},
 				{
 					"name": "account-pubname-startsWith",
@@ -80668,7 +80721,7 @@
 					"name": "name",
 					"type": "string",
 					"required": false,
-					"description": "(case-insensitive) Filter the list of accounts to where the name is equal to a\nparticular string."
+					"description": "(case-sensitive) Filter the list of accounts to where the name is equal to a\nparticular string."
 				},
 				{
 					"name": "name-startsWith",
@@ -80689,10 +80742,17 @@
 					"description": "(case-insensitive) Filter the list of accounts to where the name contains a particular\nstring."
 				},
 				{
+					"name": "status",
+					"type": "string",
+					"required": false,
+					"description": "Filter accounts by lifecycle status. Defaults to `active`.",
+					"enum": ["active", "deleted"]
+				},
+				{
 					"name": "order-by",
 					"type": "string",
 					"required": false,
-					"description": "Field to order results by. Currently supported values: `account_name`.\nWhen not specified, results are ordered by internal account ID.",
+					"description": "Field to order results by. Currently supported values: `account_name`.",
 					"enum": ["account_name"]
 				},
 				{
@@ -80715,6 +80775,18 @@
 					"description": "Whether to calculate and return the exact result_info.total_size for cursor\npagination. Defaults to true. When false, total_size is omitted. page_size and\ninclude_total may change between pages; next_page_token remains the authoritative\ncontinuation signal.\nLegacy page/per_page requests always calculate total_count."
 				},
 				{
+					"name": "page",
+					"type": "number",
+					"required": false,
+					"description": "Legacy offset page number. Must be provided with `per_page`. Values below 1 are treated as\n1. Cursor pagination takes precedence when requested."
+				},
+				{
+					"name": "per-page",
+					"type": "number",
+					"required": false,
+					"description": "Legacy offset page size. Must be provided with `page`. Values are clamped to the range\n1-100. Cursor pagination takes precedence when requested."
+				},
+				{
 					"name": "page-token",
 					"type": "string",
 					"required": false,
@@ -80725,6 +80797,12 @@
 					"type": "number",
 					"required": false,
 					"description": "The amount of items to return. Defaults to 10."
+				},
+				{
+					"name": "accept",
+					"type": "string",
+					"required": false,
+					"description": "Request `application/json; legacy=true` for the LegacyAccount representation."
 				},
 				{
 					"name": "dry-run",
@@ -80745,7 +80823,7 @@
 			"command": "cf organization create",
 			"name": "create",
 			"fullPath": ["organization", "create"],
-			"description": "Create a new organization for a user. Sub-organization creation availability depends on the organization's capabilities.",
+			"description": "Create a new organization for a user. Sub-organization creation availability depends on the organization's capabilities. The optional `profile` object accepts partial profile details; its individual fields are not required. Organization names are limited to 65 UTF-8 bytes. Each profile field is limited to 1,000 UTF-8 bytes, and a non-empty business email must be valid. At least one of business name, address, phone, or email must be non-empty to persist a profile.",
 			"summary": "Create organization",
 			"usage": "cf organization create [options]",
 			"arguments": [],
@@ -80754,7 +80832,7 @@
 					"name": "name",
 					"type": "string",
 					"required": true,
-					"description": "The name field"
+					"description": "The Organization name, limited to 65 UTF-8 bytes."
 				},
 				{
 					"name": "parent-id",
@@ -80817,7 +80895,7 @@
 			"command": "cf organization delete",
 			"name": "delete",
 			"fullPath": ["organization", "delete"],
-			"description": "Delete an organization. The organization MUST be empty before deleting. It must not contain any sub-organizations, accounts, members or users. Sub-organization deletion availability depends on the organization's capabilities. **Access Control:** Restricted to enterprise organizations.",
+			"description": "Delete an organization. It must not contain active sub-organizations or accounts. A root organization must also have no active managed users. Sub-organization deletion availability depends on the organization's capabilities. **Access Control:** Root deletion is restricted to enterprise organizations.",
 			"summary": "Delete organization",
 			"usage": "cf organization delete <organization-id>",
 			"arguments": [
@@ -80932,7 +81010,7 @@
 			"command": "cf organization list",
 			"name": "list",
 			"fullPath": ["organization", "list"],
-			"description": "Retrieve a list of organizations a particular user has access to.",
+			"description": "Retrieve a list of organizations a particular user has access to. At most one of `containing.account`, `containing.user`, or `containing.organization` may be provided.",
 			"summary": "List organizations the user has access to",
 			"usage": "cf organization list [options]",
 			"arguments": [],
@@ -80992,6 +81070,26 @@
 					"description": "Filter the list of organizations to the ones that are a sub-organization\nof the specified organization.\n\n\"null\" is a valid value to provide for this parameter. It means \"where\nan organization has no parent (i.e. it is a 'root' organization).\""
 				},
 				{
+					"name": "member-email",
+					"type": "string",
+					"required": false,
+					"description": "Filter organizations to those where the given user, by email, is an active member of\nthat exact organization. This does not include hierarchy-derived access."
+				},
+				{
+					"name": "order-by",
+					"type": "string",
+					"required": false,
+					"description": "Field to order results by. Currently supported values: `name`.\nWhen not specified, results are ordered by hierarchy.",
+					"enum": ["name"]
+				},
+				{
+					"name": "direction",
+					"type": "string",
+					"required": false,
+					"description": "Sort direction for the `order_by` field. Defaults to `asc` when `order_by` is\nspecified.",
+					"enum": ["asc", "desc"]
+				},
+				{
 					"name": "page-token",
 					"type": "string",
 					"required": false,
@@ -81038,8 +81136,8 @@
 				{
 					"name": "members",
 					"type": "string",
-					"required": true,
-					"description": "The members field. Provide as a JSON array of objects or @path/to/file.json."
+					"required": false,
+					"description": "Omitted or null members are treated as an empty batch. Provide as a JSON array of objects or @path/to/file.json."
 				},
 				{
 					"name": "dry-run",
@@ -81079,13 +81177,6 @@
 				}
 			],
 			"options": [
-				{
-					"name": "member-status",
-					"type": "string",
-					"required": false,
-					"description": "The member.status field",
-					"enum": ["active", "canceled"]
-				},
 				{
 					"name": "member-user-email",
 					"type": "string",
@@ -81265,7 +81356,7 @@
 			"command": "cf organization profile get",
 			"name": "get",
 			"fullPath": ["organization", "profile", "get"],
-			"description": "Get an organizations profile if it exists.",
+			"description": "Retrieves the business profile (name, email, phone, address, and external metadata) associated with this organization's customer record. Profiles can be shared across accounts and organizations. Only available to members of the organization.",
 			"summary": "Get organization profile",
 			"usage": "cf organization profile get <organization-id>",
 			"arguments": [
@@ -81297,7 +81388,7 @@
 			"command": "cf organization profile update",
 			"name": "update",
 			"fullPath": ["organization", "profile", "update"],
-			"description": "Modify organization profile.",
+			"description": "Partially updates the business profile (name, email, phone, address, and external metadata) associated with this organization's customer record, creating the profile if it does not exist. Changes apply to every account and organization sharing that profile. Omitted, empty, or null fields are left unchanged. Each profile field is limited to 1,000 UTF-8 bytes. Only available to members of the organization.",
 			"summary": "Modify organization profile.",
 			"usage": "cf organization profile update <organization-id> [options]",
 			"arguments": [
@@ -81313,31 +81404,31 @@
 				{
 					"name": "business-address",
 					"type": "string",
-					"required": true,
+					"required": false,
 					"description": "The business_address field"
 				},
 				{
 					"name": "business-email",
 					"type": "string",
-					"required": true,
+					"required": false,
 					"description": "The business_email field"
 				},
 				{
 					"name": "business-name",
 					"type": "string",
-					"required": true,
+					"required": false,
 					"description": "The business_name field"
 				},
 				{
 					"name": "business-phone",
 					"type": "string",
-					"required": true,
+					"required": false,
 					"description": "The business_phone field"
 				},
 				{
 					"name": "external-metadata",
 					"type": "string",
-					"required": true,
+					"required": false,
 					"description": "The external_metadata field"
 				},
 				{
@@ -81448,7 +81539,7 @@
 			"command": "cf organization update",
 			"name": "update",
 			"fullPath": ["organization", "update"],
-			"description": "Update an organization's name.",
+			"description": "Update an organization's name. Supplying `parent_id` verifies the current parent; this endpoint cannot move an organization. Organization names are limited to 65 UTF-8 bytes.",
 			"summary": "Update organization",
 			"usage": "cf organization update <organization-id> [options]",
 			"arguments": [
@@ -81464,44 +81555,14 @@
 				{
 					"name": "name",
 					"type": "string",
-					"required": true,
-					"description": "The name field"
+					"required": false,
+					"description": "The Organization's display name, limited to 65 UTF-8 bytes. An omitted, empty, or unchanged value is a no-op."
 				},
 				{
 					"name": "parent-id",
 					"type": "string",
 					"required": false,
-					"description": "Organization ID"
-				},
-				{
-					"name": "profile-business-address",
-					"type": "string",
-					"required": false,
-					"description": "The profile.business_address field"
-				},
-				{
-					"name": "profile-business-email",
-					"type": "string",
-					"required": false,
-					"description": "The profile.business_email field"
-				},
-				{
-					"name": "profile-business-name",
-					"type": "string",
-					"required": false,
-					"description": "The profile.business_name field"
-				},
-				{
-					"name": "profile-business-phone",
-					"type": "string",
-					"required": false,
-					"description": "The profile.business_phone field"
-				},
-				{
-					"name": "profile-external-metadata",
-					"type": "string",
-					"required": false,
-					"description": "The profile.external_metadata field"
+					"description": "The current parent Organization ID. A different value is rejected; this endpoint cannot move an Organization."
 				},
 				{
 					"name": "dry-run",
@@ -106524,76 +106585,76 @@
 			],
 			"options": [
 				{
-					"name": "config-livestream-viewer-qualities",
+					"name": "preset-config-livestream-viewer-qualities",
 					"type": "string",
 					"required": false,
 					"description": "Livestream viewer quality levels."
 				},
 				{
-					"name": "config-max-screenshare-count",
+					"name": "preset-config-max-screenshare-count",
 					"type": "number",
 					"required": true,
 					"description": "Maximum number of screen shares that can be active at a given time"
 				},
 				{
-					"name": "config-max-video-streams-desktop",
+					"name": "preset-config-max-video-streams-desktop",
 					"type": "number",
 					"required": true,
 					"description": "Maximum number of video streams visible on desktop devices"
 				},
 				{
-					"name": "config-max-video-streams-mobile",
+					"name": "preset-config-max-video-streams-mobile",
 					"type": "number",
 					"required": true,
 					"description": "Maximum number of streams visible on mobile devices"
 				},
 				{
-					"name": "config-media-audio-enable-high-bitrate",
+					"name": "preset-config-media-audio-enable-high-bitrate",
 					"type": "boolean",
 					"required": false,
 					"description": "Enable High Quality Audio for your meetings"
 				},
 				{
-					"name": "config-media-audio-enable-stereo",
+					"name": "preset-config-media-audio-enable-stereo",
 					"type": "boolean",
 					"required": false,
 					"description": "Enable Stereo for your meetings"
 				},
 				{
-					"name": "config-media-screenshare-frame-rate",
+					"name": "preset-config-media-screenshare-frame-rate",
 					"type": "number",
 					"required": true,
 					"description": "Frame rate of screen share"
 				},
 				{
-					"name": "config-media-screenshare-quality",
+					"name": "preset-config-media-screenshare-quality",
 					"type": "string",
 					"required": true,
 					"description": "Quality of screen share ",
 					"enum": ["hd", "vga", "qvga", "fhd", "uhd"]
 				},
 				{
-					"name": "config-media-video-frame-rate",
+					"name": "preset-config-media-video-frame-rate",
 					"type": "number",
 					"required": true,
 					"description": "Frame rate of participants' video"
 				},
 				{
-					"name": "config-media-video-quality",
+					"name": "preset-config-media-video-quality",
 					"type": "string",
 					"required": true,
 					"description": "Video quality of participants",
 					"enum": ["hd", "vga", "qvga", "fhd", "uhd"]
 				},
 				{
-					"name": "config-media-video-simulcast",
+					"name": "preset-config-media-video-simulcast",
 					"type": "boolean",
 					"required": false,
 					"description": "Enable simulcast for participant videos.",
 					"default": false
 				},
 				{
-					"name": "config-view-type",
+					"name": "preset-config-view-type",
 					"type": "string",
 					"required": true,
 					"description": "Type of the meeting",
@@ -107107,75 +107168,75 @@
 					"description": "The app identifier tag."
 				},
 				{
-					"name": "config-livestream-viewer-qualities",
+					"name": "preset-config-livestream-viewer-qualities",
 					"type": "string",
 					"required": false,
 					"description": "Livestream viewer quality levels."
 				},
 				{
-					"name": "config-max-screenshare-count",
+					"name": "preset-config-max-screenshare-count",
 					"type": "number",
 					"required": true,
 					"description": "Maximum number of screen shares that can be active at a given time"
 				},
 				{
-					"name": "config-max-video-streams-desktop",
+					"name": "preset-config-max-video-streams-desktop",
 					"type": "number",
 					"required": true,
 					"description": "Maximum number of video streams visible on desktop devices"
 				},
 				{
-					"name": "config-max-video-streams-mobile",
+					"name": "preset-config-max-video-streams-mobile",
 					"type": "number",
 					"required": true,
 					"description": "Maximum number of streams visible on mobile devices"
 				},
 				{
-					"name": "config-media-audio-enable-high-bitrate",
+					"name": "preset-config-media-audio-enable-high-bitrate",
 					"type": "boolean",
 					"required": false,
 					"description": "Enable High Quality Audio for your meetings"
 				},
 				{
-					"name": "config-media-audio-enable-stereo",
+					"name": "preset-config-media-audio-enable-stereo",
 					"type": "boolean",
 					"required": false,
 					"description": "Enable Stereo for your meetings"
 				},
 				{
-					"name": "config-media-screenshare-frame-rate",
+					"name": "preset-config-media-screenshare-frame-rate",
 					"type": "number",
 					"required": true,
 					"description": "Frame rate of screen share"
 				},
 				{
-					"name": "config-media-screenshare-quality",
+					"name": "preset-config-media-screenshare-quality",
 					"type": "string",
 					"required": true,
 					"description": "Quality of screen share ",
 					"enum": ["hd", "vga", "qvga", "fhd", "uhd"]
 				},
 				{
-					"name": "config-media-video-frame-rate",
+					"name": "preset-config-media-video-frame-rate",
 					"type": "number",
 					"required": true,
 					"description": "Frame rate of participants' video"
 				},
 				{
-					"name": "config-media-video-quality",
+					"name": "preset-config-media-video-quality",
 					"type": "string",
 					"required": true,
 					"description": "Video quality of participants",
 					"enum": ["hd", "vga", "qvga", "fhd", "uhd"]
 				},
 				{
-					"name": "config-media-video-simulcast",
+					"name": "preset-config-media-video-simulcast",
 					"type": "boolean",
 					"required": false,
 					"description": "Enable simulcast for participant videos."
 				},
 				{
-					"name": "config-view-type",
+					"name": "preset-config-view-type",
 					"type": "string",
 					"required": true,
 					"description": "Type of the meeting",
@@ -107565,75 +107626,75 @@
 					"description": "The app identifier tag."
 				},
 				{
-					"name": "config-livestream-viewer-qualities",
+					"name": "preset-config-livestream-viewer-qualities",
 					"type": "string",
 					"required": false,
 					"description": "Livestream viewer quality levels."
 				},
 				{
-					"name": "config-max-screenshare-count",
+					"name": "preset-config-max-screenshare-count",
 					"type": "number",
 					"required": false,
 					"description": "Maximum number of screen shares that can be active at a given time"
 				},
 				{
-					"name": "config-max-video-streams-desktop",
+					"name": "preset-config-max-video-streams-desktop",
 					"type": "number",
 					"required": false,
 					"description": "Maximum number of video streams visible on desktop devices"
 				},
 				{
-					"name": "config-max-video-streams-mobile",
+					"name": "preset-config-max-video-streams-mobile",
 					"type": "number",
 					"required": false,
 					"description": "Maximum number of streams visible on mobile devices"
 				},
 				{
-					"name": "config-media-audio-enable-high-bitrate",
+					"name": "preset-config-media-audio-enable-high-bitrate",
 					"type": "boolean",
 					"required": false,
 					"description": "Enable High Quality Audio for your meetings"
 				},
 				{
-					"name": "config-media-audio-enable-stereo",
+					"name": "preset-config-media-audio-enable-stereo",
 					"type": "boolean",
 					"required": false,
 					"description": "Enable Stereo for your meetings"
 				},
 				{
-					"name": "config-media-screenshare-frame-rate",
+					"name": "preset-config-media-screenshare-frame-rate",
 					"type": "number",
 					"required": false,
 					"description": "Frame rate of screen share"
 				},
 				{
-					"name": "config-media-screenshare-quality",
+					"name": "preset-config-media-screenshare-quality",
 					"type": "string",
 					"required": false,
 					"description": "Quality of screen share ",
 					"enum": ["hd", "vga", "qvga", "fhd", "uhd"]
 				},
 				{
-					"name": "config-media-video-frame-rate",
+					"name": "preset-config-media-video-frame-rate",
 					"type": "number",
 					"required": false,
 					"description": "Frame rate of participants' video"
 				},
 				{
-					"name": "config-media-video-quality",
+					"name": "preset-config-media-video-quality",
 					"type": "string",
 					"required": false,
 					"description": "Video quality of participants",
 					"enum": ["hd", "vga", "qvga", "fhd", "uhd"]
 				},
 				{
-					"name": "config-media-video-simulcast",
+					"name": "preset-config-media-video-simulcast",
 					"type": "boolean",
 					"required": false,
 					"description": "Enable simulcast for participant videos."
 				},
 				{
-					"name": "config-view-type",
+					"name": "preset-config-view-type",
 					"type": "string",
 					"required": false,
 					"description": "Type of the meeting",
@@ -111732,7 +111793,7 @@
 			"fullPath": ["resource-sharing", "excluded-recipients", "create"],
 			"description": "Excludes a single account from an organization-targeted share. The share continues to target the entire organization, but the excluded account is skipped during reconciliation.",
 			"summary": "Trigger an account exclusion from a share",
-			"usage": "cf resource-sharing excluded-recipients create <share-id> [options]",
+			"usage": "cf resource-sharing excluded-recipients create <share-id>",
 			"arguments": [
 				{
 					"name": "share-id",
@@ -111743,18 +111804,6 @@
 				}
 			],
 			"options": [
-				{
-					"name": "account-id-path",
-					"type": "string",
-					"required": true,
-					"description": "Account identifier."
-				},
-				{
-					"name": "account-id",
-					"type": "string",
-					"required": true,
-					"description": "The account to exclude from the organization-targeted share."
-				},
 				{
 					"name": "dry-run",
 					"type": "boolean",
@@ -111772,7 +111821,7 @@
 			"category": "create",
 			"hasRequestBody": true,
 			"httpMethod": "POST",
-			"apiPath": "/accounts/{account_id_path}/shares/{share_id}/excluded-recipients",
+			"apiPath": "/accounts/{account_id}/shares/{share_id}/excluded-recipients",
 			"operationId": "resource-sharing.excluded-recipients.create",
 			"hideCommand": false
 		},
@@ -111862,12 +111911,6 @@
 			"arguments": [],
 			"options": [
 				{
-					"name": "account-id-path",
-					"type": "string",
-					"required": true,
-					"description": "Account identifier."
-				},
-				{
 					"name": "share-id",
 					"type": "string",
 					"required": true,
@@ -111896,7 +111939,7 @@
 			"category": "read",
 			"hasRequestBody": false,
 			"httpMethod": "GET",
-			"apiPath": "/accounts/{account_id_path}/shares/{share_id}/excluded-recipients",
+			"apiPath": "/accounts/{account_id}/shares/{share_id}/excluded-recipients",
 			"operationId": "resource-sharing.excluded-recipients.list",
 			"hideCommand": false
 		},
@@ -111906,7 +111949,7 @@
 			"fullPath": ["resource-sharing", "excluded-recipients", "update"],
 			"description": "Reconciles a share's excluded recipients to match the given list. Only valid for shares with `target_type=organization`.",
 			"summary": "Trigger excluded-account reconciliation on a share",
-			"usage": "cf resource-sharing excluded-recipients update <share-id> [options]",
+			"usage": "cf resource-sharing excluded-recipients update <share-id>",
 			"arguments": [
 				{
 					"name": "share-id",
@@ -111917,12 +111960,6 @@
 				}
 			],
 			"options": [
-				{
-					"name": "account-id-path",
-					"type": "string",
-					"required": true,
-					"description": "Account identifier."
-				},
 				{
 					"name": "dry-run",
 					"type": "boolean",
@@ -111940,7 +111977,7 @@
 			"category": "update",
 			"hasRequestBody": true,
 			"httpMethod": "PUT",
-			"apiPath": "/accounts/{account_id_path}/shares/{share_id}/excluded-recipients",
+			"apiPath": "/accounts/{account_id}/shares/{share_id}/excluded-recipients",
 			"operationId": "resource-sharing.excluded-recipients.update",
 			"hideCommand": false
 		},
@@ -112101,18 +112138,6 @@
 			],
 			"options": [
 				{
-					"name": "account-id-path",
-					"type": "string",
-					"required": true,
-					"description": "Account identifier."
-				},
-				{
-					"name": "account-id",
-					"type": "string",
-					"required": false,
-					"description": "Deprecated alias for `recipient_account_id`. Use `recipient_account_id` instead.\nThe body field collided with the URL path parameter of the same name, which prevented SDK generators from distinguishing the source account (in the URL) from the recipient account (in the body). Both names will continue to be accepted until 2027-05-26 (see `x-sunset`).\n"
-				},
-				{
 					"name": "organization-id",
 					"type": "string",
 					"required": false,
@@ -112141,7 +112166,7 @@
 			"category": "create",
 			"hasRequestBody": true,
 			"httpMethod": "POST",
-			"apiPath": "/accounts/{account_id_path}/shares/{share_id}/recipients",
+			"apiPath": "/accounts/{account_id}/shares/{share_id}/recipients",
 			"operationId": "resource-sharing.recipients.create",
 			"hideCommand": false
 		},
@@ -112237,12 +112262,6 @@
 			"arguments": [],
 			"options": [
 				{
-					"name": "account-id-path",
-					"type": "string",
-					"required": true,
-					"description": "Account identifier."
-				},
-				{
 					"name": "share-id",
 					"type": "string",
 					"required": true,
@@ -112277,7 +112296,7 @@
 			"category": "read",
 			"hasRequestBody": false,
 			"httpMethod": "GET",
-			"apiPath": "/accounts/{account_id_path}/shares/{share_id}/recipients",
+			"apiPath": "/accounts/{account_id}/shares/{share_id}/recipients",
 			"operationId": "resource-sharing.recipients.list",
 			"hideCommand": false
 		},
@@ -112287,7 +112306,7 @@
 			"fullPath": ["resource-sharing", "recipients", "update"],
 			"description": "Replaces the full recipient list for an account-targeted share. The server computes the diff between the current and desired recipients: new accounts are added, accounts no longer in the list are marked for disassociation, and unchanged accounts are left as-is. Returns an error if the share targets an organization (`target_type=organization`); org-targeted shares derive their recipients dynamically from org membership and cannot be modified through this endpoint.",
 			"summary": "Trigger recipient reconciliation on a share",
-			"usage": "cf resource-sharing recipients update <share-id> [options]",
+			"usage": "cf resource-sharing recipients update <share-id>",
 			"arguments": [
 				{
 					"name": "share-id",
@@ -112298,12 +112317,6 @@
 				}
 			],
 			"options": [
-				{
-					"name": "account-id-path",
-					"type": "string",
-					"required": true,
-					"description": "Account identifier."
-				},
 				{
 					"name": "dry-run",
 					"type": "boolean",
@@ -112321,7 +112334,7 @@
 			"category": "update",
 			"hasRequestBody": true,
 			"httpMethod": "PUT",
-			"apiPath": "/accounts/{account_id_path}/shares/{share_id}/recipients",
+			"apiPath": "/accounts/{account_id}/shares/{share_id}/recipients",
 			"operationId": "resource-sharing.recipients.update",
 			"hideCommand": false
 		},
@@ -123688,128 +123701,6 @@
 			"hideCommand": false
 		},
 		{
-			"command": "cf tenant account list",
-			"name": "list",
-			"fullPath": ["tenant", "account", "list"],
-			"description": "Lists the Cloudflare accounts associated with this tenant.",
-			"summary": "List tenant accounts",
-			"usage": "cf tenant account list [options]",
-			"arguments": [],
-			"options": [
-				{
-					"name": "tenant-id",
-					"type": "string",
-					"required": true,
-					"description": "The ID of the tenant whose accounts to list."
-				},
-				{
-					"name": "dry-run",
-					"type": "boolean",
-					"required": false,
-					"description": "Validate and show what would happen without executing",
-					"default": false
-				}
-			],
-			"category": "read",
-			"hasRequestBody": false,
-			"httpMethod": "GET",
-			"apiPath": "/tenants/{tenant_id}/accounts",
-			"operationId": "tenant.account.list",
-			"hideCommand": false
-		},
-		{
-			"command": "cf tenant account-type list",
-			"name": "list",
-			"fullPath": ["tenant", "account-type", "list"],
-			"description": "Lists the account types this tenant is allowed to provision.",
-			"summary": "List tenant account types",
-			"usage": "cf tenant account-type list [options]",
-			"arguments": [],
-			"options": [
-				{
-					"name": "tenant-id",
-					"type": "string",
-					"required": true,
-					"description": "The ID of the tenant whose available account types to list."
-				},
-				{
-					"name": "dry-run",
-					"type": "boolean",
-					"required": false,
-					"description": "Validate and show what would happen without executing",
-					"default": false
-				}
-			],
-			"category": "read",
-			"hasRequestBody": false,
-			"httpMethod": "GET",
-			"apiPath": "/tenants/{tenant_id}/account_types",
-			"operationId": "tenant.account-type.list",
-			"hideCommand": false
-		},
-		{
-			"command": "cf tenant entitlement list",
-			"name": "list",
-			"fullPath": ["tenant", "entitlement", "list"],
-			"description": "Retrieves the innate and custom entitlement allocations available to this tenant.",
-			"summary": "List tenant entitlements",
-			"usage": "cf tenant entitlement list [options]",
-			"arguments": [],
-			"options": [
-				{
-					"name": "tenant-id",
-					"type": "string",
-					"required": true,
-					"description": "The ID of the tenant whose entitlement allocations to retrieve."
-				},
-				{
-					"name": "dry-run",
-					"type": "boolean",
-					"required": false,
-					"description": "Validate and show what would happen without executing",
-					"default": false
-				}
-			],
-			"category": "read",
-			"hasRequestBody": false,
-			"httpMethod": "GET",
-			"apiPath": "/tenants/{tenant_id}/entitlements",
-			"operationId": "tenant.entitlement.list",
-			"hideCommand": false
-		},
-		{
-			"command": "cf tenant get",
-			"name": "get",
-			"fullPath": ["tenant", "get"],
-			"description": "Retrieves a tenant's identity, status, metadata, contacts, and organizational units.",
-			"summary": "Get tenant details",
-			"usage": "cf tenant get <tenant-id>",
-			"arguments": [
-				{
-					"name": "tenant-id",
-					"position": 0,
-					"type": "string",
-					"required": true,
-					"description": "The ID of the tenant to retrieve."
-				}
-			],
-			"options": [
-				{
-					"name": "dry-run",
-					"type": "boolean",
-					"required": false,
-					"description": "Validate and show what would happen without executing",
-					"default": false
-				}
-			],
-			"category": "read",
-			"hasRequestBody": false,
-			"httpMethod": "GET",
-			"apiPath": "/tenants/{tenant_id}",
-			"operationId": "tenant.get",
-			"hideCommand": false
-		},
-		{
 			"command": "cf tenant-custom-nameservers create",
 			"name": "create",
 			"fullPath": ["tenant-custom-nameservers", "create"],
@@ -128418,30 +128309,6 @@
 			"hideCommand": false
 		},
 		{
-			"command": "cf user tenant list",
-			"name": "list",
-			"fullPath": ["user", "tenant", "list"],
-			"description": "Retrieves list of tenants the authenticated user / method has access to.",
-			"summary": "List user tenants",
-			"usage": "cf user tenant list",
-			"arguments": [],
-			"options": [
-				{
-					"name": "dry-run",
-					"type": "boolean",
-					"required": false,
-					"description": "Validate and show what would happen without executing",
-					"default": false
-				}
-			],
-			"category": "read",
-			"hasRequestBody": false,
-			"httpMethod": "GET",
-			"apiPath": "/user/tenants",
-			"operationId": "user.tenant.list",
-			"hideCommand": false
-		},
-		{
 			"command": "cf user tokens create",
 			"name": "create",
 			"fullPath": ["user", "tokens", "create"],
@@ -131257,7 +131124,7 @@
 					"name": "state",
 					"type": "string",
 					"required": false,
-					"description": "Mark state of operation in API Discovery\n  * `review` - Mark operation as for review\n  * `ignored` - Mark operation as ignored\n",
+					"description": "Mark state of operation in API Discovery\n  * `review` - Mark operation as for review\n  * `ignored` - Mark operation as ignored",
 					"enum": ["review", "ignored"]
 				},
 				{
@@ -133058,6 +132925,19 @@
 					"type": "boolean",
 					"required": false,
 					"description": "If set to true, the deployment will be created even if normally blocked by something such rolling back to an older version when a secret has changed."
+				},
+				{
+					"name": "code-update-strategy-mode",
+					"type": "string",
+					"required": false,
+					"description": "Apply Durable Object code updates immediately.",
+					"enum": ["immediate", "deferred"]
+				},
+				{
+					"name": "code-update-strategy-max-delay",
+					"type": "number",
+					"required": false,
+					"description": "Set the maximum number of seconds to wait before forcing the update. When omitted, the default maximum delay applies."
 				},
 				{
 					"name": "strategy",
@@ -135973,10 +135853,16 @@
 					"required": false,
 					"description": "Validate and show what would happen without executing",
 					"default": false
+				},
+				{
+					"name": "body",
+					"type": "string",
+					"required": false,
+					"description": "Raw JSON request body (bypasses individual flags)"
 				}
 			],
 			"category": "action",
-			"hasRequestBody": false,
+			"hasRequestBody": true,
 			"httpMethod": "POST",
 			"apiPath": "/accounts/{account_id}/workflows/{workflow_name}/instances/{instance_id}/events/{event_type}",
 			"operationId": "workflows.instances.events.send",
@@ -136987,7 +136873,7 @@
 				{
 					"name": "tools",
 					"type": "string",
-					"required": true,
+					"required": false,
 					"description": "Tools set up under Zaraz configuration, where key is the alpha-numeric tool ID and value is the tool configuration object. Provide as a JSON object or @path/to/file.json."
 				},
 				{
@@ -139884,6 +139770,12 @@
 					"description": "The expiration of the previous `client_secret`. This can be modified at any point after a rotation. For example, you may extend it further into the future if you need more time to update services with the new secret; or move it into the past to immediately invalidate the previous token in case of compromise. Rotating a service token that was reported as leaked discards the previous secret entirely, so no grace period can be set."
 				},
 				{
+					"name": "tags",
+					"type": "string",
+					"required": false,
+					"description": "Tags associated with the service token, as key-value pairs. On update, replaces all existing tags. Provide as a JSON object or @path/to/file.json."
+				},
+				{
 					"name": "dry-run",
 					"type": "boolean",
 					"required": false,
@@ -140138,6 +140030,12 @@
 					"type": "string",
 					"required": false,
 					"description": "The expiration of the previous `client_secret`. This can be modified at any point after a rotation. For example, you may extend it further into the future if you need more time to update services with the new secret; or move it into the past to immediately invalidate the previous token in case of compromise. Rotating a service token that was reported as leaked discards the previous secret entirely, so no grace period can be set."
+				},
+				{
+					"name": "tags",
+					"type": "string",
+					"required": false,
+					"description": "Tags associated with the service token, as key-value pairs. On update, replaces all existing tags. Provide as a JSON object or @path/to/file.json."
 				},
 				{
 					"name": "dry-run",
@@ -160675,6 +160573,30 @@
 			"hideCommand": false
 		},
 		{
+			"command": "cf zero-trust organization trust-settings delete",
+			"name": "delete",
+			"fullPath": ["zero-trust", "organization", "trust-settings", "delete"],
+			"description": "Resets the trust settings for your Zero Trust organization.",
+			"summary": "Delete Zero Trust organization trust settings",
+			"usage": "cf zero-trust organization trust-settings delete",
+			"arguments": [],
+			"options": [
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Validate and show what would happen without executing",
+					"default": false
+				}
+			],
+			"category": "delete",
+			"hasRequestBody": false,
+			"httpMethod": "DELETE",
+			"apiPath": "/accounts/{account_id}/access/organizations/trust_settings",
+			"operationId": "zero-trust.organization.trust-settings.delete",
+			"hideCommand": false
+		},
+		{
 			"command": "cf zero-trust organization trust-settings get",
 			"name": "get",
 			"fullPath": ["zero-trust", "organization", "trust-settings", "get"],
@@ -163509,7 +163431,7 @@
 		"accounts logs": "Operations for logs",
 		"accounts logs audit": "Operations for logs.audit",
 		"accounts members": "Operations for members",
-		"accounts organization": "Operations for organization",
+		"accounts organizations": "View organizations associated with a Cloudflare account",
 		"accounts profile": "View and manage the profile for a Cloudflare account",
 		"accounts subscriptions": "View and manage plan subscriptions attached to this account",
 		"accounts tokens": "Create and manage scoped API tokens for programmatic access to the Cloudflare API",
@@ -163876,6 +163798,8 @@
 		"hyperdrive integration": "Operations for integration",
 		"hyperdrive integration planetscale": "Operations for integration.planetscale",
 		"iam": "Identity and access management — permission groups, resource groups, user groups, and SSO connectors",
+		"iam oauth-clients": "Operations for oauth-clients",
+		"iam oauth-scopes": "Operations for oauth-scopes",
 		"iam permission-groups": "View the permission groups that can be assigned to API tokens and policies",
 		"iam resource-groups": "Define scopes that limit which account resources a policy or token can access",
 		"iam sso": "Configure single sign-on connectors to authenticate account members through an external identity provider",
@@ -164053,8 +163977,8 @@
 		"o11y tracing": "Operations for tracing",
 		"o11y tracing rules": "Operations for tracing.rules",
 		"o11y tracing settings": "Operations for tracing.settings",
-		"oauth-clients": "oauth-clients",
-		"oauth-scopes": "oauth-scopes",
+		"observability": "observability",
+		"observability usage-limit": "Operations for usage-limit",
 		"organization": "organization",
 		"organization account": "Operations for account",
 		"organization invite": "Operations for invite",
@@ -164375,10 +164299,6 @@
 		"tags resources": "Operations for resources",
 		"tags summary": "Operations for summary",
 		"tags values": "Operations for values",
-		"tenant": "tenant",
-		"tenant account": "Operations for account",
-		"tenant account-type": "Operations for account-type",
-		"tenant entitlement": "Operations for entitlement",
 		"tenant-custom-nameservers": "tenant-custom-nameservers",
 		"tunnels": "tunnels",
 		"tunnels config": "Operations for config",
@@ -164416,7 +164336,6 @@
 		"user load-balancing-analytics events": "Origin health changes recorded by Load Balancing analytics",
 		"user memberships": "Operations for memberships",
 		"user subscriptions": "View and manage zone-level plan subscriptions owned by your user",
-		"user tenant": "Operations for tenant",
 		"user tokens": "Create and manage personal API tokens scoped to your user for programmatic API access",
 		"user tokens permission-groups": "Operations for tokens.permission-groups",
 		"vectorize": "Globally distributed vector database for building semantic search, recommendations, and RAG applications on Workers",

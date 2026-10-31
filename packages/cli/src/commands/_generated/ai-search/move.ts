@@ -33,7 +33,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("source-namespace", {
 			type: "string",
 			description: "Namespace currently containing the instance.",
-			demandOption: true,
+			default: "default",
 		})
 		.option("destination-namespace", {
 			type: "string",

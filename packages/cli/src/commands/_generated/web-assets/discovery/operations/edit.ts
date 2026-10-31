@@ -27,7 +27,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("state", {
 			type: "string",
 			description:
-				"Mark state of operation in API Discovery\n  * `review` - Mark operation as for review\n  * `ignored` - Mark operation as ignored\n",
+				"Mark state of operation in API Discovery\n  * `review` - Mark operation as for review\n  * `ignored` - Mark operation as ignored",
 			choices: ["review", "ignored"],
 		})
 		.coerce("state", (value) => resolveFileToken(value, "state", "text"))

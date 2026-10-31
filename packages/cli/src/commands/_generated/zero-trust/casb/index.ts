@@ -1,4 +1,5 @@
 import $applications from "./applications/index.js";
+import $assetschemas from "./asset-schemas/index.js";
 import $content from "./content/index.js";
 import $exports from "./exports/index.js";
 import $findingtypes from "./finding-types/index.js";
@@ -21,6 +22,7 @@ const command: CommandModule<CommonYargsOptions> = {
 	builder: (yargs) => {
 		return yargs
 			.command($applications)
+			.command($assetschemas)
 			.command($content)
 			.command($exports)
 			.command($findingtypes)

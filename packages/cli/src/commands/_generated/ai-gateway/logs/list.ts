@@ -50,7 +50,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "Order by direction",
 			choices: ["asc", "desc"],
 		})
-		.option("filters", { type: "string", description: "Filters" })
+		.option("filters", { type: "string", array: true, description: "Filters" })
 		.option("meta-info", { type: "boolean", description: "Meta info" })
 		.option("direction", {
 			type: "string",

@@ -83,6 +83,25 @@ describe("whoami", () => {
 		});
 	});
 
+	it("should suggest a temporary preview account when not authenticated", async ({
+		expect,
+	}) => {
+		vi.stubEnv("CLOUDFLARE_API_TOKEN", undefined);
+		vi.stubEnv("CLAUDECODE", "1");
+		await runWrangler("auth whoami");
+		expect(JSON.parse(std.out)).toMatchObject({ authenticated: false });
+		// cf gives agents instructions on stderr so stdout stays parseable JSON.
+		expect(std.err).toContain(
+			'Ask the user: "I can put this online for 60 minutes without you signing in. To keep it, complete the temporary-account claim before it expires. Would you like me to deploy it that way?"'
+		);
+		expect(std.err).toContain(
+			"https://developers.cloudflare.com/workers/platform/claim-deployments/"
+		);
+		expect(std.err).toContain(
+			"If they agree, run `cf deploy --temporary-account`"
+		);
+	});
+
 	it("should output JSON with API token auth type", async ({ expect }) => {
 		vi.stubEnv("CLOUDFLARE_API_TOKEN", "123456789");
 		await runWrangler("auth whoami");

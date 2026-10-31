@@ -20,16 +20,17 @@ import { runWithTelemetry } from "#lib/telemetry/index.js";
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
 		.usage(
-			"$0 cloudforce-one threat-signals articles get-content <article-id>\n\nRetrieves the stored body of a Threat Signals article as plain text or HTML."
+			"$0 cloudforce-one threat-signals articles get-content <article-id>\n\nRetrieves the stored content of a Threat Signals article, unchanged. Depending on how the article was captured from its source, the content is HTML, Markdown, or plain text. The format parameter sets only the response Content-Type; it does not convert the content."
 		)
 		.positional("article-id", {
 			type: "string",
-			description: "Article ID",
+			description: "Threat Signals article UUID",
 			demandOption: true,
 		})
 		.option("format", {
 			type: "string",
-			description: "Format",
+			description:
+				"Response Content-Type: text (the default) for text/plain or html for text/html. Neither value converts the content. html is deprecated; use text.",
 			choices: ["text", "html"],
 		})
 		.option("dry-run", {

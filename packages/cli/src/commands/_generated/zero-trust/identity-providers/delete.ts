@@ -22,7 +22,7 @@ import { runWithTelemetry } from "#lib/telemetry/index.js";
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
 		.usage(
-			"$0 zero-trust identity-providers delete <identity-provider-id>\n\nDeletes an identity provider from Access."
+			"$0 zero-trust identity-providers delete <identity-provider-id>\n\nDeletes an identity provider from Access.\n\nRuns against your account. Pass --zone to run against a zone instead. CLOUDFLARE_ZONE_ID is ignored."
 		)
 		.positional("identity-provider-id", {
 			type: "string",
@@ -99,7 +99,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				}
 
 				if (!(await confirmDelete({ force: Boolean(argv.force) }))) {
-					process.stderr.write("Aborted.\n");
 					return;
 				}
 

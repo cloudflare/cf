@@ -50,6 +50,14 @@ export interface ExampleMeta {
 	command: string;
 }
 
+/** How `cf cli search` treats a command, beyond matching its text. */
+export interface SearchMeta {
+	/** Intents the command serves that its name and description don't say; never displayed */
+	keywords?: string[];
+	/** Keeps the command out of results while leaving it runnable and in help */
+	exclude?: boolean;
+}
+
 /** Metadata for a command, as the generated `commands.json` lists it. */
 export interface CommandMeta {
 	/** Full command string (e.g., "cf dns records create") */
@@ -82,6 +90,8 @@ export interface CommandMeta {
 	hideCommand?: boolean;
 	/** Alternative names of the command */
 	aliases?: string[];
+	/** Search keywords and exclusion, set by hand-written sidecars */
+	search?: SearchMeta;
 }
 
 /**

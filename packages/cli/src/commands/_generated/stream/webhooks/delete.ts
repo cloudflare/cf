@@ -72,7 +72,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						message: `Delete this webhook? If recreated, the secret will change.`,
 					}))
 				) {
-					process.stderr.write("Aborted.\n");
 					return;
 				}
 

@@ -81,7 +81,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						message: `This operation deletes the namespace along with all memory profiles, memories, and sessions it contains.`,
 					}))
 				) {
-					process.stderr.write("Aborted.\n");
 					return;
 				}
 

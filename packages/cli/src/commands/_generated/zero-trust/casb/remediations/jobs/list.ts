@@ -52,6 +52,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		})
 		.option("triggered-by-actor", {
 			type: "string",
+			array: true,
 			description:
 				"Filter remediations by what kind of actor triggered them. Supports multiple comma-separated values.",
 		})

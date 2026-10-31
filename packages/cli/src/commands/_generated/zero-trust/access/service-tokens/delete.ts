@@ -22,7 +22,7 @@ import { runWithTelemetry } from "#lib/telemetry/index.js";
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
 		.usage(
-			"$0 zero-trust access service-tokens delete <service-token-id>\n\nDeletes a service token."
+			"$0 zero-trust access service-tokens delete <service-token-id>\n\nDeletes a service token.\n\nRuns against your account. Pass --zone to run against a zone instead. CLOUDFLARE_ZONE_ID is ignored."
 		)
 		.positional("service-token-id", {
 			type: "string",
@@ -97,7 +97,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				}
 
 				if (!(await confirmDelete({ force: Boolean(argv.force) }))) {
-					process.stderr.write("Aborted.\n");
 					return;
 				}
 

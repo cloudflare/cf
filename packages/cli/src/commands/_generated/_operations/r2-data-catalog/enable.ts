@@ -5,6 +5,7 @@ export default {
 	method: "POST",
 	path: (request: Record<string, unknown>) =>
 		path`/accounts/${request.account_id}/r2-catalog/${request.bucket_name}/enable`,
+	body: "json",
 	errors: {
 		400: "BadRequestError",
 		401: "UnauthorizedError",

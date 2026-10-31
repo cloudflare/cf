@@ -23,7 +23,7 @@ import { runWithTelemetry } from "#lib/telemetry/index.js";
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
 		.usage(
-			"$0 zero-trust access infrastructure audit-ssh-settings update\n\nUpdate Zero Trust Audit SSH and SSH with Access for Infrastructure settings for an account."
+			"$0 zero-trust access infrastructure audit-ssh-settings update\n\nUpdate SSH with Access for Infrastructure settings for an account."
 		)
 		.option("public-key", {
 			type: "string",

@@ -26,7 +26,7 @@ import { runWithTelemetry } from "#lib/telemetry/index.js";
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
 		.usage(
-			"$0 abuse-reports create <report-type>\n\nSubmit an abuse report of a particular type. Requires the abuse-reports entitlement on the account (Enterprise accounts have it by default; other accounts must request access) and an API token with the `Trust and Safety Write` permission. If the account is not entitled, the request is rejected with an HTTP `401` response (see below)."
+			"$0 abuse-reports create <report-type>\n\nSubmit an abuse report of a particular type. Requires the abuse-reports entitlement on the account (Enterprise accounts have it by default; other accounts must request access) and an API token with the `Trust and Safety Write` permission. If the account is not entitled, the request is rejected with an HTTP `401` response (see below). Delegated reports: In limited circumstances, Cloudflare works with select customers who have established abuse-handling programs. For these customers, Cloudflare may forward abuse reports directly and in full—including reporter contact information, comments, and supporting evidence—without redaction or preprocessing by Cloudflare. This allows the customer to investigate and respond using their own policies and processes. For delegated reports, the report—including contact information and comments—will be forwarded to the customer in full regardless of the `host_notification` and `owner_notification` values."
 		)
 		.positional("report-type", {
 			type: "string",
@@ -51,7 +51,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("comments", {
 			type: "string",
 			description:
-				"Any additional comments about the infringement not exceeding 2000 characters",
+				"Any additional comments about the infringement not exceeding 2000 characters. Comments are kept internal to Cloudflare and not shared with the host or customer as part of regular processing. For delegated reports, comments may be shared in full.",
 		})
 		.option("company", {
 			type: "string",
@@ -122,7 +122,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("host-notification", {
 			type: "string",
 			description:
-				"Notification type based on the abuse type. NOTE: Copyright (DMCA) and Trademark reports cannot be anonymous.\n",
+				"Notification type based on the abuse type. For delegated reports, the report—including contact information and comments—will be forwarded to the customer in full regardless of this value. NOTE: Copyright (DMCA) and Trademark reports cannot be anonymous.\n",
 			choices: ["send", "send-anon"],
 		})
 		.coerce("host-notification", (value) =>
@@ -136,7 +136,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("owner-notification", {
 			type: "string",
 			description:
-				"Notification type based on the abuse type. NOTE: Copyright (DMCA) and Trademark reports cannot be anonymous.\n",
+				"Notification type based on the abuse type. For delegated reports, the report—including contact information and comments—will be forwarded to the customer in full regardless of this value. NOTE: Copyright (DMCA) and Trademark reports cannot be anonymous.\n",
 			choices: ["send", "send-anon", "none"],
 		})
 		.coerce("owner-notification", (value) =>
@@ -362,7 +362,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			"state",
 		])
 		.conflicts("country", [
-			"justification",
 			"trademark-number",
 			"trademark-office",
 			"trademark-symbol",
@@ -376,18 +375,8 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			"reg-who-request-reg-who-request-type",
 			"reg-who-request-reg-who-requested-data-elements",
 			"reg-who-request-reg-who-requestor-type",
-			"original-work",
 		])
-		.implies("country", [
-			"address1",
-			"agent-name",
-			"agree",
-			"city",
-			"host-notification",
-			"original-work",
-			"signature",
-			"state",
-		])
+		.implies("country", ["host-notification"])
 		.conflicts("host-notification", [
 			"reg-who-request-reg-who-authorization-statement",
 			"reg-who-request-reg-who-good-faith-affirmation",
@@ -398,7 +387,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			"reg-who-request-reg-who-requestor-type",
 		])
 		.conflicts("original-work", [
-			"justification",
 			"trademark-number",
 			"trademark-office",
 			"trademark-symbol",
@@ -414,18 +402,8 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			"reg-who-request-reg-who-requested-data-elements",
 			"reg-who-request-reg-who-requestor-type",
 			"ncsei-subject-representation",
-			"country",
 		])
-		.implies("original-work", [
-			"address1",
-			"agent-name",
-			"agree",
-			"city",
-			"country",
-			"host-notification",
-			"signature",
-			"state",
-		])
+		.implies("original-work", ["host-notification"])
 		.conflicts("signature", [
 			"justification",
 			"trademark-number",
@@ -487,8 +465,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			"agent-name",
 			"agree",
 			"city",
-			"country",
-			"original-work",
 			"signature",
 			"state",
 			"reg-who-request-reg-who-authorization-statement",
@@ -500,6 +476,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			"reg-who-request-reg-who-requestor-type",
 			"ncsei-subject-representation",
 		])
+		.implies("justification", ["host-notification"])
 		.conflicts("trademark-number", [
 			"address1",
 			"agent-name",
@@ -606,6 +583,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			"reg-who-request-reg-who-requestor-type",
 			"ncsei-subject-representation",
 		])
+		.implies("destination-ips", ["host-notification", "justification"])
 		.conflicts("ports-protocols", [
 			"address1",
 			"agent-name",
@@ -628,6 +606,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			"reg-who-request-reg-who-requestor-type",
 			"ncsei-subject-representation",
 		])
+		.implies("ports-protocols", ["host-notification", "justification"])
 		.conflicts("source-ips", [
 			"address1",
 			"agent-name",
@@ -650,6 +629,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			"reg-who-request-reg-who-requestor-type",
 			"ncsei-subject-representation",
 		])
+		.implies("source-ips", ["host-notification", "justification"])
 		.conflicts("ncmec-notification", [
 			"address1",
 			"agent-name",
@@ -694,6 +674,13 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			"ncmec-notification",
 			"ncsei-subject-representation",
 		])
+		.implies("reg-who-request-reg-who-authorization-statement", [
+			"reg-who-request-reg-who-good-faith-affirmation",
+			"reg-who-request-reg-who-lawful-processing-agreement",
+			"reg-who-request-reg-who-legal-basis",
+			"reg-who-request-reg-who-request-type",
+			"reg-who-request-reg-who-requested-data-elements",
+		])
 		.conflicts("reg-who-request-reg-who-good-faith-affirmation", [
 			"address1",
 			"agent-name",
@@ -713,6 +700,12 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			"source-ips",
 			"ncmec-notification",
 			"ncsei-subject-representation",
+		])
+		.implies("reg-who-request-reg-who-good-faith-affirmation", [
+			"reg-who-request-reg-who-lawful-processing-agreement",
+			"reg-who-request-reg-who-legal-basis",
+			"reg-who-request-reg-who-request-type",
+			"reg-who-request-reg-who-requested-data-elements",
 		])
 		.conflicts("reg-who-request-reg-who-lawful-processing-agreement", [
 			"address1",
@@ -734,6 +727,12 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			"ncmec-notification",
 			"ncsei-subject-representation",
 		])
+		.implies("reg-who-request-reg-who-lawful-processing-agreement", [
+			"reg-who-request-reg-who-good-faith-affirmation",
+			"reg-who-request-reg-who-legal-basis",
+			"reg-who-request-reg-who-request-type",
+			"reg-who-request-reg-who-requested-data-elements",
+		])
 		.conflicts("reg-who-request-reg-who-legal-basis", [
 			"address1",
 			"agent-name",
@@ -753,6 +752,12 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			"source-ips",
 			"ncmec-notification",
 			"ncsei-subject-representation",
+		])
+		.implies("reg-who-request-reg-who-legal-basis", [
+			"reg-who-request-reg-who-good-faith-affirmation",
+			"reg-who-request-reg-who-lawful-processing-agreement",
+			"reg-who-request-reg-who-request-type",
+			"reg-who-request-reg-who-requested-data-elements",
 		])
 		.conflicts("reg-who-request-reg-who-request-type", [
 			"address1",
@@ -774,6 +779,12 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			"ncmec-notification",
 			"ncsei-subject-representation",
 		])
+		.implies("reg-who-request-reg-who-request-type", [
+			"reg-who-request-reg-who-good-faith-affirmation",
+			"reg-who-request-reg-who-lawful-processing-agreement",
+			"reg-who-request-reg-who-legal-basis",
+			"reg-who-request-reg-who-requested-data-elements",
+		])
 		.conflicts("reg-who-request-reg-who-requested-data-elements", [
 			"address1",
 			"agent-name",
@@ -794,6 +805,12 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			"ncmec-notification",
 			"ncsei-subject-representation",
 		])
+		.implies("reg-who-request-reg-who-requested-data-elements", [
+			"reg-who-request-reg-who-good-faith-affirmation",
+			"reg-who-request-reg-who-lawful-processing-agreement",
+			"reg-who-request-reg-who-legal-basis",
+			"reg-who-request-reg-who-request-type",
+		])
 		.conflicts("reg-who-request-reg-who-requestor-type", [
 			"address1",
 			"agent-name",
@@ -813,6 +830,13 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			"source-ips",
 			"ncmec-notification",
 			"ncsei-subject-representation",
+		])
+		.implies("reg-who-request-reg-who-requestor-type", [
+			"reg-who-request-reg-who-good-faith-affirmation",
+			"reg-who-request-reg-who-lawful-processing-agreement",
+			"reg-who-request-reg-who-legal-basis",
+			"reg-who-request-reg-who-request-type",
+			"reg-who-request-reg-who-requested-data-elements",
 		])
 		.conflicts("ncsei-subject-representation", [
 			"address1",
@@ -838,139 +862,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			"reg-who-request-reg-who-requested-data-elements",
 			"reg-who-request-reg-who-requestor-type",
 		])
-		.implies("ncsei-subject-representation", ["host-notification"])
-		.check((argv) => {
-			const groupSet = [
-				"reg-who-request-reg-who-authorization-statement",
-				"reg-who-request-reg-who-good-faith-affirmation",
-				"reg-who-request-reg-who-lawful-processing-agreement",
-				"reg-who-request-reg-who-legal-basis",
-				"reg-who-request-reg-who-request-type",
-				"reg-who-request-reg-who-requested-data-elements",
-				"reg-who-request-reg-who-requestor-type",
-			].some((k) => argv[k] !== undefined);
-			if (groupSet) {
-				const requiredConflicts: Record<string, string[]> = {
-					"reg-who-request-reg-who-good-faith-affirmation": [
-						"address1",
-						"agent-name",
-						"agree",
-						"city",
-						"country",
-						"host-notification",
-						"original-work",
-						"signature",
-						"state",
-						"justification",
-						"trademark-number",
-						"trademark-office",
-						"trademark-symbol",
-						"destination-ips",
-						"ports-protocols",
-						"source-ips",
-						"ncmec-notification",
-						"ncsei-subject-representation",
-					],
-					"reg-who-request-reg-who-lawful-processing-agreement": [
-						"address1",
-						"agent-name",
-						"agree",
-						"city",
-						"country",
-						"host-notification",
-						"original-work",
-						"signature",
-						"state",
-						"justification",
-						"trademark-number",
-						"trademark-office",
-						"trademark-symbol",
-						"destination-ips",
-						"ports-protocols",
-						"source-ips",
-						"ncmec-notification",
-						"ncsei-subject-representation",
-					],
-					"reg-who-request-reg-who-legal-basis": [
-						"address1",
-						"agent-name",
-						"agree",
-						"city",
-						"country",
-						"host-notification",
-						"original-work",
-						"signature",
-						"state",
-						"justification",
-						"trademark-number",
-						"trademark-office",
-						"trademark-symbol",
-						"destination-ips",
-						"ports-protocols",
-						"source-ips",
-						"ncmec-notification",
-						"ncsei-subject-representation",
-					],
-					"reg-who-request-reg-who-request-type": [
-						"address1",
-						"agent-name",
-						"agree",
-						"city",
-						"country",
-						"host-notification",
-						"original-work",
-						"signature",
-						"state",
-						"justification",
-						"trademark-number",
-						"trademark-office",
-						"trademark-symbol",
-						"destination-ips",
-						"ports-protocols",
-						"source-ips",
-						"ncmec-notification",
-						"ncsei-subject-representation",
-					],
-					"reg-who-request-reg-who-requested-data-elements": [
-						"address1",
-						"agent-name",
-						"agree",
-						"city",
-						"country",
-						"host-notification",
-						"original-work",
-						"signature",
-						"state",
-						"justification",
-						"trademark-number",
-						"trademark-office",
-						"trademark-symbol",
-						"destination-ips",
-						"ports-protocols",
-						"source-ips",
-						"ncmec-notification",
-						"ncsei-subject-representation",
-					],
-				};
-				const missing = [
-					"reg-who-request-reg-who-good-faith-affirmation",
-					"reg-who-request-reg-who-lawful-processing-agreement",
-					"reg-who-request-reg-who-legal-basis",
-					"reg-who-request-reg-who-request-type",
-					"reg-who-request-reg-who-requested-data-elements",
-				].filter(
-					(k) =>
-						argv[k] === undefined &&
-						!(requiredConflicts[k] ?? []).some((x) => argv[x] !== undefined)
-				);
-				if (missing.length > 0) {
-					throw new Error(
-						`${missing.map((m) => "--" + m).join(", ")} ${missing.length === 1 ? "is" : "are"} required when any --reg_who_request-* flag is set`
-					);
-				}
-			}
-			return true;
-		});
+		.implies("ncsei-subject-representation", ["host-notification"]);
 }
 
 type Args = InferArgs<typeof builder>;
@@ -1231,7 +1123,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				if (argv["owner-notification"] === undefined) {
 					argv["owner-notification"] = await promptForRequiredEnumField(
 						"owner-notification",
-						"Notification type based on the abuse type. NOTE: Copyright (DMCA) and Trademark reports cannot be anonymous. ",
+						"Notification type based on the abuse type. For delegated reports, the report—including contact information and comments—will be forwarded to the customer in full regardless of this value. NOTE: Copyright (DMCA) and Trademark reports cannot be anonymous. ",
 						["send", "send-anon", "none"] as const
 					);
 				}
@@ -1275,7 +1167,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				) {
 					argv["host-notification"] = await promptForRequiredField(
 						"host-notification",
-						"Notification type based on the abuse type. NOTE: Copyright (DMCA) and Trademark reports cannot be anonymous. ",
+						"Notification type based on the abuse type. For delegated reports, the report—including contact information and comments—will be forwarded to the customer in full regardless of this value. NOTE: Copyright (DMCA) and Trademark reports cannot be anonymous. ",
 						{ question: "Enter value for --host-notification" }
 					);
 				}
@@ -1309,7 +1201,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				) {
 					argv["host-notification"] = await promptForRequiredField(
 						"host-notification",
-						"Notification type based on the abuse type. NOTE: Copyright (DMCA) and Trademark reports cannot be anonymous. ",
+						"Notification type based on the abuse type. For delegated reports, the report—including contact information and comments—will be forwarded to the customer in full regardless of this value. NOTE: Copyright (DMCA) and Trademark reports cannot be anonymous. ",
 						{ question: "Enter value for --host-notification" }
 					);
 				}
@@ -1359,7 +1251,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				) {
 					argv["host-notification"] = await promptForRequiredField(
 						"host-notification",
-						"Notification type based on the abuse type. NOTE: Copyright (DMCA) and Trademark reports cannot be anonymous. ",
+						"Notification type based on the abuse type. For delegated reports, the report—including contact information and comments—will be forwarded to the customer in full regardless of this value. NOTE: Copyright (DMCA) and Trademark reports cannot be anonymous. ",
 						{ question: "Enter value for --host-notification" }
 					);
 				}
@@ -1379,7 +1271,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				) {
 					argv["host-notification"] = await promptForRequiredField(
 						"host-notification",
-						"Notification type based on the abuse type. NOTE: Copyright (DMCA) and Trademark reports cannot be anonymous. ",
+						"Notification type based on the abuse type. For delegated reports, the report—including contact information and comments—will be forwarded to the customer in full regardless of this value. NOTE: Copyright (DMCA) and Trademark reports cannot be anonymous. ",
 						{ question: "Enter value for --host-notification" }
 					);
 				}
@@ -1399,7 +1291,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				) {
 					argv["host-notification"] = await promptForRequiredField(
 						"host-notification",
-						"Notification type based on the abuse type. NOTE: Copyright (DMCA) and Trademark reports cannot be anonymous. ",
+						"Notification type based on the abuse type. For delegated reports, the report—including contact information and comments—will be forwarded to the customer in full regardless of this value. NOTE: Copyright (DMCA) and Trademark reports cannot be anonymous. ",
 						{ question: "Enter value for --host-notification" }
 					);
 				}
@@ -1429,7 +1321,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				) {
 					argv["host-notification"] = await promptForRequiredField(
 						"host-notification",
-						"Notification type based on the abuse type. NOTE: Copyright (DMCA) and Trademark reports cannot be anonymous. ",
+						"Notification type based on the abuse type. For delegated reports, the report—including contact information and comments—will be forwarded to the customer in full regardless of this value. NOTE: Copyright (DMCA) and Trademark reports cannot be anonymous. ",
 						{ question: "Enter value for --host-notification" }
 					);
 				}
@@ -1449,7 +1341,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				) {
 					argv["host-notification"] = await promptForRequiredField(
 						"host-notification",
-						"Notification type based on the abuse type. NOTE: Copyright (DMCA) and Trademark reports cannot be anonymous. ",
+						"Notification type based on the abuse type. For delegated reports, the report—including contact information and comments—will be forwarded to the customer in full regardless of this value. NOTE: Copyright (DMCA) and Trademark reports cannot be anonymous. ",
 						{ question: "Enter value for --host-notification" }
 					);
 				}

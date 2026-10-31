@@ -223,15 +223,7 @@ const groups = [
 		ancestors: ["deploy", "authentication"],
 		status: "skip",
 		names: [
-			"creates a temporary preview account in interactive mode when --temporary is passed",
-			"requires --temporary when --event-code is passed",
-			"rejects a blank event code",
-			"does not accept --event-code on versions upload",
-			"rejects repeated event codes without exposing their values",
-			"provisions an event account before deploying",
-			"aborts in interactive mode when the terms are not accepted",
 			"warns a user when they're authenticated with an API token in wrangler config file",
-			"throws when the user is already authenticated and requests a temporary account",
 		],
 	},
 	{
@@ -239,20 +231,6 @@ const groups = [
 		ancestors: ["deploy", "authentication", "with an alternative auth domain"],
 		status: "todo",
 		names: ["drops a user into the login flow if they're unauthenticated"],
-	},
-	{
-		file: "deploy/core.test.ts",
-		ancestors: ["deploy", "authentication", "with temporary preview accounts"],
-		status: "skip",
-		names: [
-			"creates a temporary preview account in non-interactive mode after printing terms notice",
-			"throws when an OAuth token is on disk, even if it is expired and cannot refresh",
-			"provisions the preview account against the staging API and caches it per-environment",
-			"reuses a cached temporary preview account for later temporary deploys",
-			"treats a malformed temporary preview account cache as a miss and refetches",
-			"should fail clearly if the temporary preview account request fails",
-			"fails the deploy when the proof-of-work challenge can't be obtained",
-		],
 	},
 	{
 		file: "deploy/core.test.ts",

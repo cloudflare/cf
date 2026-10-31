@@ -32,10 +32,12 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		})
 		.option("include", {
 			type: "string",
+			array: true,
 			description: "Search types included in results.",
 		})
 		.option("exclude", {
 			type: "string",
+			array: true,
 			description: "Search types excluded from results.",
 		})
 		.option("format", {

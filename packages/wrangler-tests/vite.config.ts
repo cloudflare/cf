@@ -8,7 +8,9 @@ const compatibilityTests = {
 	test: {
 		name: "compatibility",
 		clearMocks: false,
-		env: { TZ: "UTC" },
+		// The setup file mocks cf's `ci-info`, but workers-auth's prompts check a
+		// copy bundled into workers-utils. `CI=false` disables that copy too.
+		env: { TZ: "UTC", CI: "false" },
 		testTimeout: 15_000,
 		pool: "forks" as const,
 		isolate: false,

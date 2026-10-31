@@ -27,6 +27,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		})
 		.option("token-configuration", {
 			type: "string",
+			array: true,
 			description: "Select rules using any of these token configurations.",
 		})
 		.option("action", {

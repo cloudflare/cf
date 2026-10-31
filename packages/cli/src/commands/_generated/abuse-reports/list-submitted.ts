@@ -38,6 +38,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("id", { type: "string", description: "Filter by report code." })
 		.option("domain", {
 			type: "string",
+			array: true,
 			description:
 				"Filter by reported domain. This parameter can be specified multiple times.",
 		})
@@ -51,11 +52,13 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		})
 		.option("status", {
 			type: "string",
+			array: true,
 			description:
 				"Filter by submitter-facing status. This parameter can be specified multiple times.",
 		})
 		.option("type", {
 			type: "string",
+			array: true,
 			description:
 				"Filter by report type. This parameter can be specified multiple times.",
 		})

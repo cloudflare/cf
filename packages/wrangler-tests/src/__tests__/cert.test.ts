@@ -190,7 +190,7 @@ describe("wrangler", () => {
 			// Wrangler-only: the `cert` group label, the prose subcommands
 			// (`cert upload`, `cert list`, `cert delete`), and the help
 			// formatting are wrangler-specific. cf surfaces this product as
-			// `mtls-certificates` and emits its own help layout.
+			// `ssl mtls-certificates` and emits its own help layout.
 			describe.skip("help", () => {
 				it("should show the correct help text", () => {});
 			});
@@ -203,7 +203,7 @@ describe("wrangler", () => {
 					mockPostMTlsCertificate();
 
 					await runWrangler(
-						"mtls-certificates create --ca false --certificates @cert.pem --private-key @key.pem"
+						"ssl mtls-certificates create --ca false --certificates @cert.pem --private-key @key.pem"
 					);
 
 					expect(std.err).toMatchInlineSnapshot(`""`);
@@ -227,7 +227,7 @@ describe("wrangler", () => {
 					mockPostMTlsCertificate();
 
 					await runWrangler(
-						"mtls-certificates create --ca false --certificates @cert.pem --private-key @key.pem --name my-cert"
+						"ssl mtls-certificates create --ca false --certificates @cert.pem --private-key @key.pem --name my-cert"
 					);
 
 					expect(std.err).toMatchInlineSnapshot(`""`);
@@ -249,7 +249,7 @@ describe("wrangler", () => {
 					mockPostCaChainCertificate();
 
 					await runWrangler(
-						"mtls-certificates create --ca true --certificates @caCert.pem"
+						"ssl mtls-certificates create --ca true --certificates @caCert.pem"
 					);
 
 					expect(std.err).toMatchInlineSnapshot(`""`);
@@ -273,7 +273,7 @@ describe("wrangler", () => {
 					mockPostCaChainCertificate();
 
 					await runWrangler(
-						"mtls-certificates create --ca true --certificates @caCert.pem --name my-caCert"
+						"ssl mtls-certificates create --ca true --certificates @caCert.pem --name my-caCert"
 					);
 
 					expect(std.err).toMatchInlineSnapshot(`""`);
@@ -295,7 +295,7 @@ describe("wrangler", () => {
 				it("should list certificates", async ({ expect }) => {
 					mockGetMTlsCertificates();
 
-					await runWrangler("mtls-certificates list");
+					await runWrangler("ssl mtls-certificates list");
 
 					expect(std.err).toMatchInlineSnapshot(`""`);
 					expect(std.out).toMatchInlineSnapshot(`
@@ -322,7 +322,7 @@ describe("wrangler", () => {
 			});
 
 			describe("delete", () => {
-				// Wrangler-specific arg validation: cf's `mtls-certificates
+				// Wrangler-specific arg validation: cf's `ssl mtls-certificates
 				// delete` takes only a required positional <mtlsCertificateId>.
 				// There is no `--id` / `--name` flag pair, so the
 				// "must provide --id or --name" / "can't provide both" error
@@ -345,15 +345,15 @@ describe("wrangler", () => {
 						result: true,
 					});
 
-					await runWrangler("mtls-certificates delete 1234");
+					await runWrangler("ssl mtls-certificates delete 1234");
 
 					expect(std.err).toMatchInlineSnapshot(`""`);
 					expect(std.out).toMatchInlineSnapshot(`""`);
 				});
 
 				// Wrangler-only: cf has no name→id resolution path on delete.
-				// `mtls-certificates delete` takes a positional id; the user
-				// must look up the id (e.g. via `mtls-certificates list`)
+				// `ssl mtls-certificates delete` takes a positional id; the user
+				// must look up the id (e.g. via `ssl mtls-certificates list`)
 				// themselves.
 				it.skip("should delete certificate by name", async () => {});
 				it.skip("should not delete when certificate cannot be found by name", async () => {});
@@ -367,7 +367,7 @@ describe("wrangler", () => {
 						result: false,
 					});
 
-					await runWrangler("mtls-certificates delete 1234");
+					await runWrangler("ssl mtls-certificates delete 1234");
 					expect(std.err).toMatchInlineSnapshot(`""`);
 					expect(std.out).toMatchInlineSnapshot(`""`);
 					expect(mock.calls).toEqual(0);

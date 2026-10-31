@@ -21,6 +21,10 @@ export function outro(_message?: string): void {
 	// no-op
 }
 
+export function cancel(_message?: string): void {
+	// no-op
+}
+
 export function confirm(opts: { message: string; initialValue?: boolean }) {
 	return Promise.resolve(
 		_consumeConfirm({ message: opts.message, defaultValue: opts.initialValue })

@@ -3,6 +3,7 @@ import { describe, expect, it } from "vite-plus/test";
 import yargs, { type Argv } from "yargs";
 import { builderLines } from "../../../../generator/plugin/emit/builder.js";
 import {
+	ACCOUNT_OR_ZONE_HELP,
 	bodyObject,
 	bodyPrompts,
 	dryRun,
@@ -30,6 +31,28 @@ import type { Method } from "../../../../generator/plugin/commands.js";
 import type { OperationInfo } from "../../../../generator/plugin/operation.js";
 
 describe("descriptions", () => {
+	it("labels POST validation without claiming to create a resource", () => {
+		const ctx = context(
+			method("validate", "things-validate"),
+			"things",
+			operation("post", "/things/validate")
+		);
+		expect(ctx.progressLabel).toBe("Validating");
+		expect(ctx.successLabel).toBe("Validated");
+	});
+
+	it("retains destructive confirmation labels for validation operations", () => {
+		const ctx = context(
+			method("validate", "things-validate", {
+				requireConfirmation: "This operation deletes data.",
+			}),
+			"things",
+			operation("post", "/things/validate")
+		);
+		expect(ctx.progressLabel).toBe("Deleting");
+		expect(ctx.successLabel).toBe("Deleted");
+	});
+
 	const description = "Full first line.\nFull second line.";
 	const list = (s: string | undefined, d: string) =>
 		method("list", "test-list", { summary: s, description: d });
@@ -57,6 +80,31 @@ describe("descriptions", () => {
 		).toBe(
 			"$0 test records nested list <id>\n\nFull first line.\nFull second line."
 		);
+	});
+
+	it("follows the description with how an account-or-zone command picks its scope", () => {
+		expect(
+			leafUsage(list(undefined, description), "test", undefined, "list", true)
+		).toBe(
+			`$0 test list\n\nFull first line.\nFull second line.\n\n${ACCOUNT_OR_ZONE_HELP}`
+		);
+	});
+});
+
+describe("delete confirmation", () => {
+	it("leaves the declined message to confirmDelete", () => {
+		const ctx = context(
+			method("delete", "things-delete"),
+			"things",
+			operation("delete", "/things/{thing_id}", {
+				pathParams: [param("thing_id")],
+			})
+		);
+		const output = handler(ctx).join("\n");
+		expect(output).toContain(
+			"if (!(await confirmDelete({ force: Boolean(argv.force) }))) {\n        return;\n      }"
+		);
+		expect(output).not.toContain("Aborted");
 	});
 });
 
@@ -110,47 +158,73 @@ describe("dry run with mixed content", () => {
 	});
 });
 
-describe("protobuf response emission", () => {
-	it("writes profile bytes directly while sending the JSON request body", () => {
-		const op = operation(
-			"post",
-			"/accounts/{account_id}/workers/workers/{worker_id}/versions/{version_id}/profile",
-			{
-				pathParams: [
-					param("account_id"),
-					param("worker_id"),
-					param("version_id"),
-				],
-				bodyParams: [
-					bodyParam("duration_ms", "number", ["duration_ms"], {
-						required: true,
-					}),
-				],
-				hasRequestBody: true,
-				requestContentTypes: ["application/json"],
-				requestBodyRequired: ["duration_ms"],
-				responses: [["200", { content: ["application/vnd.google.protobuf"] }]],
-			}
-		);
-		const ctx = context(
-			method("profile", "workers.versions.profile"),
-			"workers",
-			op
-		);
-		expect(ctx.outputKind).toBe("binary");
-		const output = handler(ctx).join("\n");
-		expect(output).toContain("fetchRawBytes(");
-		expect(output).toContain("method: 'POST'");
-		expect(output).toContain("body: JSON.stringify(bodyData)");
-		expect(output).toContain(
-			"body: Object.keys(bodyData).length > 0 ? bodyData : undefined"
-		);
-		expect(output).toContain("contentType: 'application/json'");
-		expect(output).toContain(
-			"writeRawOutput(argv.text === true ? __cfRawBytes.toString('utf-8') : __cfRawBytes)"
-		);
-		expect(output).not.toContain("formatOutput(");
-	});
+describe("bodyless raw response emission", () => {
+	it.each(["application/octet-stream", "text/plain"])(
+		"forwards header flags for %s responses",
+		(contentType) => {
+			const ctx = context(
+				method("get", "things-get"),
+				"things",
+				operation("get", "/things", {
+					headerParams: [
+						param("If-None-Match", undefined, { required: false }),
+					],
+					responses: [["200", { content: [contentType] }]],
+				})
+			);
+			const output = handler(ctx).join("\n");
+			expect(output).toContain("fetchRawBytes(");
+			expect(output).toContain(
+				"headers: Object.keys(headers).length > 0 ? headers : undefined"
+			);
+		}
+	);
+});
+
+describe("binary response emission", () => {
+	it.each(["application/vnd.google.protobuf", "audio/mpeg", "audio/wav"])(
+		"writes %s bytes directly while sending the JSON request body",
+		(contentType) => {
+			const op = operation(
+				"post",
+				"/accounts/{account_id}/workers/workers/{worker_id}/versions/{version_id}/profile",
+				{
+					pathParams: [
+						param("account_id"),
+						param("worker_id"),
+						param("version_id"),
+					],
+					bodyParams: [
+						bodyParam("duration_ms", "number", ["duration_ms"], {
+							required: true,
+						}),
+					],
+					hasRequestBody: true,
+					requestContentTypes: ["application/json"],
+					requestBodyRequired: ["duration_ms"],
+					responses: [["200", { content: [contentType] }]],
+				}
+			);
+			const ctx = context(
+				method("profile", "workers.versions.profile"),
+				"workers",
+				op
+			);
+			expect(ctx.outputKind).toBe("binary");
+			const output = handler(ctx).join("\n");
+			expect(output).toContain("fetchRawBytes(");
+			expect(output).toContain("method: 'POST'");
+			expect(output).toContain("body: JSON.stringify(bodyData)");
+			expect(output).toContain(
+				"body: Object.keys(bodyData).length > 0 ? bodyData : undefined"
+			);
+			expect(output).toContain("contentType: 'application/json'");
+			expect(output).toContain(
+				"writeRawOutput(argv.text === true ? __cfRawBytes.toString('utf-8') : __cfRawBytes)"
+			);
+			expect(output).not.toContain("formatOutput(");
+		}
+	);
 });
 
 describe("variant prompts", () => {
@@ -249,6 +323,33 @@ describe("file-backed enum arguments", () => {
 });
 
 describe("passthrough body assembly", () => {
+	it("keeps required headers and query parameters out of the JSON body", () => {
+		const ctx = context(
+			method("update", "example-update"),
+			"example",
+			operation("put", "/things/{thing_id}", {
+				pathParams: [param("thing_id")],
+				queryParams: [param("validate")],
+				headerParams: [param("If-Match")],
+				bodyParams: [bodyParam("name", "string", ["name"], { required: true })],
+				hasRequestBody: true,
+				requestContentTypes: ["application/json"],
+				requestBodyRequired: ["name"],
+			})
+		);
+		const output = handler(ctx).join("\n");
+		const preview = dryRun(ctx).join("\n");
+
+		expect(output).toContain(
+			"headers['If-Match'] = String(argv[\"if-match\"])"
+		);
+		expect(output).toContain("'validate': argv[\"validate\"]");
+		expect(output).toContain('setNestedValue(bodyData, ["name"]');
+		expect(output).not.toContain('bodyData["if_match"]');
+		expect(output).not.toContain('bodyData["validate"]');
+		expect(preview).not.toContain('if_match: argv["if-match"]');
+	});
+
 	it("sends an assembled body even when no flag set a field", () => {
 		// A renamed path parameter keeps the command off the typed call.
 		const ctx = context(

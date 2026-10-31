@@ -13,6 +13,7 @@
  * the runtime's `Operation` describes.
  */
 
+import { bodyUnions, type BodyUnion } from "./body-unions.js";
 import { bodyProperties, discriminator, requiredNames } from "./body.js";
 import { nameWords, obj, type Obj, type Value } from "./js.js";
 import type {
@@ -142,6 +143,7 @@ export interface OperationInfo {
 	requestBodyDescription?: string;
 	multipart?: MultipartInfo;
 	bodyDiscriminator?: BodyDiscriminator;
+	bodyUnions?: BodyUnion[];
 	maxItems?: number;
 	requestBodyIsArray: boolean;
 	/** Each response by status: the success responses, then the others. */
@@ -213,6 +215,7 @@ export function resolve(method: Method): OperationInfo {
 		requestBodyDescription: body && requestBodyDescription(body),
 		multipart: body && multipart(body),
 		bodyDiscriminator: jsonResolved && discriminator(jsonResolved),
+		bodyUnions: jsonResolved && bodyUnions(jsonResolved),
 		maxItems: unwrapped?.kind === "array" ? unwrapped.maxItems : undefined,
 		requestBodyIsArray: isArray,
 		responses: [...method.responses, ...method.errors].map((r) => [
@@ -374,6 +377,7 @@ function simpleType(type: Type): string | undefined {
 				case "boolean":
 					return "boolean";
 				case "string":
+				case "uuid":
 				case "date":
 				case "date-time":
 				case "bytes":
@@ -704,7 +708,8 @@ function wire(method: Method, info: Omit<OperationInfo, "wire">): Wire {
 			ct === "application/octet-stream" ||
 			ct === "application/pdf" ||
 			ct === "application/zip" ||
-			ct.startsWith("image/");
+			ct.startsWith("image/") ||
+			ct.startsWith("audio/");
 		if (binary) {
 			noResponse = false;
 			responseType = "binary-response";

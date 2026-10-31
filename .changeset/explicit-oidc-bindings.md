@@ -1,5 +1,5 @@
 ---
-"cf": patch
+"cf": minor
 ---
 
 Support experimental workload identity through `bindings.identity({ audience })`.

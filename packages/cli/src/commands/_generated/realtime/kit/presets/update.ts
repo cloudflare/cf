@@ -11,7 +11,7 @@ import {
 	getAccountId,
 	resolveAccountIdSilent,
 } from "#lib/auth.js";
-import { compactBody, parseBody } from "#lib/body-parser.js";
+import { compactBody, parseBody, parseJsonMap } from "#lib/body-parser.js";
 import { formatDryRun } from "#lib/dry-run.js";
 import { resolveFileToken } from "#lib/input-validation.js";
 import { LOCAL_ACCOUNT_ID } from "#lib/local.js";
@@ -240,6 +240,11 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			type: "boolean",
 			description: "Can start plugins",
 		})
+		.option("permissions-plugins-config", {
+			type: "string",
+			description:
+				"Plugin configuration keyed by plugin UUID. Provide as a JSON object or @path/to/file.json.",
+		})
 		.option("permissions-polls-can-create", {
 			type: "boolean",
 			description: "Can create polls",
@@ -444,200 +449,210 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						body:
 							argv.body !== undefined
 								? parseBody(argv.body)
-								: compactBody({
-										config: {
-											livestream_viewer_qualities:
-												argv["config-livestream-viewer-qualities"],
-											max_screenshare_count:
-												argv["config-max-screenshare-count"],
-											max_video_streams: {
-												desktop: argv["config-max-video-streams-desktop"],
-												mobile: argv["config-max-video-streams-mobile"],
+								: compactBody(
+										{
+											config: {
+												livestream_viewer_qualities:
+													argv["config-livestream-viewer-qualities"],
+												max_screenshare_count:
+													argv["config-max-screenshare-count"],
+												max_video_streams: {
+													desktop: argv["config-max-video-streams-desktop"],
+													mobile: argv["config-max-video-streams-mobile"],
+												},
+												media: {
+													audio: {
+														enable_high_bitrate:
+															argv["config-media-audio-enable-high-bitrate"],
+														enable_stereo:
+															argv["config-media-audio-enable-stereo"],
+													},
+													screenshare: {
+														frame_rate:
+															argv["config-media-screenshare-frame-rate"],
+														quality: argv["config-media-screenshare-quality"],
+													},
+													video: {
+														frame_rate: argv["config-media-video-frame-rate"],
+														quality: argv["config-media-video-quality"],
+														simulcast: argv["config-media-video-simulcast"],
+													},
+												},
+												view_type: argv["config-view-type"],
 											},
-											media: {
-												audio: {
-													enable_high_bitrate:
-														argv["config-media-audio-enable-high-bitrate"],
-													enable_stereo:
-														argv["config-media-audio-enable-stereo"],
-												},
-												screenshare: {
-													frame_rate:
-														argv["config-media-screenshare-frame-rate"],
-													quality: argv["config-media-screenshare-quality"],
-												},
-												video: {
-													frame_rate: argv["config-media-video-frame-rate"],
-													quality: argv["config-media-video-quality"],
-													simulcast: argv["config-media-video-simulcast"],
-												},
-											},
-											view_type: argv["config-view-type"],
-										},
-										name: resolveFileToken(
-											argv["name"] as string | undefined,
-											"name",
-											"text"
-										),
-										permissions: {
-											accept_stage_requests:
-												argv["permissions-accept-stage-requests"],
-											accept_waiting_requests:
-												argv["permissions-accept-waiting-requests"],
-											can_accept_production_requests:
-												argv["permissions-can-accept-production-requests"],
-											can_change_participant_permissions:
-												argv["permissions-can-change-participant-permissions"],
-											can_edit_display_name:
-												argv["permissions-can-edit-display-name"],
-											can_livestream: argv["permissions-can-livestream"],
-											can_record: argv["permissions-can-record"],
-											can_spotlight: argv["permissions-can-spotlight"],
-											chat: {
-												private: {
-													can_receive:
-														argv["permissions-chat-private-can-receive"],
-													can_send: argv["permissions-chat-private-can-send"],
-													files: argv["permissions-chat-private-files"],
-													text: argv["permissions-chat-private-text"],
-												},
-												public: {
-													can_send: argv["permissions-chat-public-can-send"],
-													files: argv["permissions-chat-public-files"],
-													text: argv["permissions-chat-public-text"],
-												},
-											},
-											connected_meetings: {
-												can_alter_connected_meetings:
+											name: resolveFileToken(
+												argv["name"] as string | undefined,
+												"name",
+												"text"
+											),
+											permissions: {
+												accept_stage_requests:
+													argv["permissions-accept-stage-requests"],
+												accept_waiting_requests:
+													argv["permissions-accept-waiting-requests"],
+												can_accept_production_requests:
+													argv["permissions-can-accept-production-requests"],
+												can_change_participant_permissions:
 													argv[
-														"permissions-connected-meetings-can-alter-connected-meetings"
+														"permissions-can-change-participant-permissions"
 													],
-												can_switch_connected_meetings:
-													argv[
-														"permissions-connected-meetings-can-switch-connected-meetings"
-													],
-												can_switch_to_parent_meeting:
-													argv[
-														"permissions-connected-meetings-can-switch-to-parent-meeting"
-													],
-											},
-											disable_participant_audio:
-												argv["permissions-disable-participant-audio"],
-											disable_participant_screensharing:
-												argv["permissions-disable-participant-screensharing"],
-											disable_participant_video:
-												argv["permissions-disable-participant-video"],
-											hidden_participant:
-												argv["permissions-hidden-participant"],
-											is_recorder: argv["permissions-is-recorder"],
-											kick_participant: argv["permissions-kick-participant"],
-											media: {
-												audio: {
-													can_produce:
-														argv["permissions-media-audio-can-produce"],
+												can_edit_display_name:
+													argv["permissions-can-edit-display-name"],
+												can_livestream: argv["permissions-can-livestream"],
+												can_record: argv["permissions-can-record"],
+												can_spotlight: argv["permissions-can-spotlight"],
+												chat: {
+													private: {
+														can_receive:
+															argv["permissions-chat-private-can-receive"],
+														can_send: argv["permissions-chat-private-can-send"],
+														files: argv["permissions-chat-private-files"],
+														text: argv["permissions-chat-private-text"],
+													},
+													public: {
+														can_send: argv["permissions-chat-public-can-send"],
+														files: argv["permissions-chat-public-files"],
+														text: argv["permissions-chat-public-text"],
+													},
 												},
-												screenshare: {
-													can_produce:
-														argv["permissions-media-screenshare-can-produce"],
+												connected_meetings: {
+													can_alter_connected_meetings:
+														argv[
+															"permissions-connected-meetings-can-alter-connected-meetings"
+														],
+													can_switch_connected_meetings:
+														argv[
+															"permissions-connected-meetings-can-switch-connected-meetings"
+														],
+													can_switch_to_parent_meeting:
+														argv[
+															"permissions-connected-meetings-can-switch-to-parent-meeting"
+														],
 												},
-												video: {
-													can_produce:
-														argv["permissions-media-video-can-produce"],
+												disable_participant_audio:
+													argv["permissions-disable-participant-audio"],
+												disable_participant_screensharing:
+													argv["permissions-disable-participant-screensharing"],
+												disable_participant_video:
+													argv["permissions-disable-participant-video"],
+												hidden_participant:
+													argv["permissions-hidden-participant"],
+												is_recorder: argv["permissions-is-recorder"],
+												kick_participant: argv["permissions-kick-participant"],
+												media: {
+													audio: {
+														can_produce:
+															argv["permissions-media-audio-can-produce"],
+													},
+													screenshare: {
+														can_produce:
+															argv["permissions-media-screenshare-can-produce"],
+													},
+													video: {
+														can_produce:
+															argv["permissions-media-video-can-produce"],
+													},
+												},
+												pin_participant: argv["permissions-pin-participant"],
+												plugins: {
+													can_close: argv["permissions-plugins-can-close"],
+													can_edit_config:
+														argv["permissions-plugins-can-edit-config"],
+													can_start: argv["permissions-plugins-can-start"],
+													config: parseJsonMap(
+														argv["permissions-plugins-config"],
+														"permissions-plugins-config"
+													),
+												},
+												polls: {
+													can_create: argv["permissions-polls-can-create"],
+													can_view: argv["permissions-polls-can-view"],
+													can_vote: argv["permissions-polls-can-vote"],
+												},
+												recorder_type: argv["permissions-recorder-type"],
+												show_participant_list:
+													argv["permissions-show-participant-list"],
+												stage_access: argv["permissions-stage-access"],
+												stage_enabled: argv["permissions-stage-enabled"],
+												transcription_enabled:
+													argv["permissions-transcription-enabled"],
+												waiting_room_type:
+													argv["permissions-waiting-room-type"],
+											},
+											ui: {
+												design_tokens: {
+													border_radius: argv["ui-design-tokens-border-radius"],
+													border_width: argv["ui-design-tokens-border-width"],
+													colors: {
+														danger: resolveFileToken(
+															argv["ui-design-tokens-colors-danger"] as
+																| string
+																| undefined,
+															"ui-design-tokens-colors-danger",
+															"text"
+														),
+														success: resolveFileToken(
+															argv["ui-design-tokens-colors-success"] as
+																| string
+																| undefined,
+															"ui-design-tokens-colors-success",
+															"text"
+														),
+														text: resolveFileToken(
+															argv["ui-design-tokens-colors-text"] as
+																| string
+																| undefined,
+															"ui-design-tokens-colors-text",
+															"text"
+														),
+														text_on_brand: resolveFileToken(
+															argv["ui-design-tokens-colors-text-on-brand"] as
+																| string
+																| undefined,
+															"ui-design-tokens-colors-text-on-brand",
+															"text"
+														),
+														video_bg: resolveFileToken(
+															argv["ui-design-tokens-colors-video-bg"] as
+																| string
+																| undefined,
+															"ui-design-tokens-colors-video-bg",
+															"text"
+														),
+														warning: resolveFileToken(
+															argv["ui-design-tokens-colors-warning"] as
+																| string
+																| undefined,
+															"ui-design-tokens-colors-warning",
+															"text"
+														),
+													},
+													font_family: resolveFileToken(
+														argv["ui-design-tokens-font-family"] as
+															| string
+															| undefined,
+														"ui-design-tokens-font-family",
+														"text"
+													),
+													google_font: resolveFileToken(
+														argv["ui-design-tokens-google-font"] as
+															| string
+															| undefined,
+														"ui-design-tokens-google-font",
+														"text"
+													),
+													logo: resolveFileToken(
+														argv["ui-design-tokens-logo"] as string | undefined,
+														"ui-design-tokens-logo",
+														"text"
+													),
+													spacing_base: argv["ui-design-tokens-spacing-base"],
+													theme: argv["ui-design-tokens-theme"],
 												},
 											},
-											pin_participant: argv["permissions-pin-participant"],
-											plugins: {
-												can_close: argv["permissions-plugins-can-close"],
-												can_edit_config:
-													argv["permissions-plugins-can-edit-config"],
-												can_start: argv["permissions-plugins-can-start"],
-											},
-											polls: {
-												can_create: argv["permissions-polls-can-create"],
-												can_view: argv["permissions-polls-can-view"],
-												can_vote: argv["permissions-polls-can-vote"],
-											},
-											recorder_type: argv["permissions-recorder-type"],
-											show_participant_list:
-												argv["permissions-show-participant-list"],
-											stage_access: argv["permissions-stage-access"],
-											stage_enabled: argv["permissions-stage-enabled"],
-											transcription_enabled:
-												argv["permissions-transcription-enabled"],
-											waiting_room_type: argv["permissions-waiting-room-type"],
 										},
-										ui: {
-											design_tokens: {
-												border_radius: argv["ui-design-tokens-border-radius"],
-												border_width: argv["ui-design-tokens-border-width"],
-												colors: {
-													danger: resolveFileToken(
-														argv["ui-design-tokens-colors-danger"] as
-															| string
-															| undefined,
-														"ui-design-tokens-colors-danger",
-														"text"
-													),
-													success: resolveFileToken(
-														argv["ui-design-tokens-colors-success"] as
-															| string
-															| undefined,
-														"ui-design-tokens-colors-success",
-														"text"
-													),
-													text: resolveFileToken(
-														argv["ui-design-tokens-colors-text"] as
-															| string
-															| undefined,
-														"ui-design-tokens-colors-text",
-														"text"
-													),
-													text_on_brand: resolveFileToken(
-														argv["ui-design-tokens-colors-text-on-brand"] as
-															| string
-															| undefined,
-														"ui-design-tokens-colors-text-on-brand",
-														"text"
-													),
-													video_bg: resolveFileToken(
-														argv["ui-design-tokens-colors-video-bg"] as
-															| string
-															| undefined,
-														"ui-design-tokens-colors-video-bg",
-														"text"
-													),
-													warning: resolveFileToken(
-														argv["ui-design-tokens-colors-warning"] as
-															| string
-															| undefined,
-														"ui-design-tokens-colors-warning",
-														"text"
-													),
-												},
-												font_family: resolveFileToken(
-													argv["ui-design-tokens-font-family"] as
-														| string
-														| undefined,
-													"ui-design-tokens-font-family",
-													"text"
-												),
-												google_font: resolveFileToken(
-													argv["ui-design-tokens-google-font"] as
-														| string
-														| undefined,
-													"ui-design-tokens-google-font",
-													"text"
-												),
-												logo: resolveFileToken(
-													argv["ui-design-tokens-logo"] as string | undefined,
-													"ui-design-tokens-logo",
-													"text"
-												),
-												spacing_base: argv["ui-design-tokens-spacing-base"],
-												theme: argv["ui-design-tokens-theme"],
-											},
-										},
-									}),
+										[["permissions", "plugins", "config"]]
+									),
 					});
 					return;
 				}
@@ -660,175 +675,189 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				}
 
 				// Assemble request body from individual flags
-				const bodyData = compactBody({
-					config: {
-						livestream_viewer_qualities:
-							argv["config-livestream-viewer-qualities"],
-						max_screenshare_count: argv["config-max-screenshare-count"],
-						max_video_streams: {
-							desktop: argv["config-max-video-streams-desktop"],
-							mobile: argv["config-max-video-streams-mobile"],
+				const bodyData = compactBody(
+					{
+						config: {
+							livestream_viewer_qualities:
+								argv["config-livestream-viewer-qualities"],
+							max_screenshare_count: argv["config-max-screenshare-count"],
+							max_video_streams: {
+								desktop: argv["config-max-video-streams-desktop"],
+								mobile: argv["config-max-video-streams-mobile"],
+							},
+							media: {
+								audio: {
+									enable_high_bitrate:
+										argv["config-media-audio-enable-high-bitrate"],
+									enable_stereo: argv["config-media-audio-enable-stereo"],
+								},
+								screenshare: {
+									frame_rate: argv["config-media-screenshare-frame-rate"],
+									quality: argv["config-media-screenshare-quality"],
+								},
+								video: {
+									frame_rate: argv["config-media-video-frame-rate"],
+									quality: argv["config-media-video-quality"],
+									simulcast: argv["config-media-video-simulcast"],
+								},
+							},
+							view_type: argv["config-view-type"],
 						},
-						media: {
-							audio: {
-								enable_high_bitrate:
-									argv["config-media-audio-enable-high-bitrate"],
-								enable_stereo: argv["config-media-audio-enable-stereo"],
+						name: resolveFileToken(
+							argv["name"] as string | undefined,
+							"name",
+							"text"
+						),
+						permissions: {
+							accept_stage_requests: argv["permissions-accept-stage-requests"],
+							accept_waiting_requests:
+								argv["permissions-accept-waiting-requests"],
+							can_accept_production_requests:
+								argv["permissions-can-accept-production-requests"],
+							can_change_participant_permissions:
+								argv["permissions-can-change-participant-permissions"],
+							can_edit_display_name: argv["permissions-can-edit-display-name"],
+							can_livestream: argv["permissions-can-livestream"],
+							can_record: argv["permissions-can-record"],
+							can_spotlight: argv["permissions-can-spotlight"],
+							chat: {
+								private: {
+									can_receive: argv["permissions-chat-private-can-receive"],
+									can_send: argv["permissions-chat-private-can-send"],
+									files: argv["permissions-chat-private-files"],
+									text: argv["permissions-chat-private-text"],
+								},
+								public: {
+									can_send: argv["permissions-chat-public-can-send"],
+									files: argv["permissions-chat-public-files"],
+									text: argv["permissions-chat-public-text"],
+								},
 							},
-							screenshare: {
-								frame_rate: argv["config-media-screenshare-frame-rate"],
-								quality: argv["config-media-screenshare-quality"],
+							connected_meetings: {
+								can_alter_connected_meetings:
+									argv[
+										"permissions-connected-meetings-can-alter-connected-meetings"
+									],
+								can_switch_connected_meetings:
+									argv[
+										"permissions-connected-meetings-can-switch-connected-meetings"
+									],
+								can_switch_to_parent_meeting:
+									argv[
+										"permissions-connected-meetings-can-switch-to-parent-meeting"
+									],
 							},
-							video: {
-								frame_rate: argv["config-media-video-frame-rate"],
-								quality: argv["config-media-video-quality"],
-								simulcast: argv["config-media-video-simulcast"],
+							disable_participant_audio:
+								argv["permissions-disable-participant-audio"],
+							disable_participant_screensharing:
+								argv["permissions-disable-participant-screensharing"],
+							disable_participant_video:
+								argv["permissions-disable-participant-video"],
+							hidden_participant: argv["permissions-hidden-participant"],
+							is_recorder: argv["permissions-is-recorder"],
+							kick_participant: argv["permissions-kick-participant"],
+							media: {
+								audio: {
+									can_produce: argv["permissions-media-audio-can-produce"],
+								},
+								screenshare: {
+									can_produce:
+										argv["permissions-media-screenshare-can-produce"],
+								},
+								video: {
+									can_produce: argv["permissions-media-video-can-produce"],
+								},
+							},
+							pin_participant: argv["permissions-pin-participant"],
+							plugins: {
+								can_close: argv["permissions-plugins-can-close"],
+								can_edit_config: argv["permissions-plugins-can-edit-config"],
+								can_start: argv["permissions-plugins-can-start"],
+								config: parseJsonMap(
+									argv["permissions-plugins-config"],
+									"permissions-plugins-config"
+								),
+							},
+							polls: {
+								can_create: argv["permissions-polls-can-create"],
+								can_view: argv["permissions-polls-can-view"],
+								can_vote: argv["permissions-polls-can-vote"],
+							},
+							recorder_type: argv["permissions-recorder-type"],
+							show_participant_list: argv["permissions-show-participant-list"],
+							stage_access: argv["permissions-stage-access"],
+							stage_enabled: argv["permissions-stage-enabled"],
+							transcription_enabled: argv["permissions-transcription-enabled"],
+							waiting_room_type: argv["permissions-waiting-room-type"],
+						},
+						ui: {
+							design_tokens: {
+								border_radius: argv["ui-design-tokens-border-radius"],
+								border_width: argv["ui-design-tokens-border-width"],
+								colors: {
+									danger: resolveFileToken(
+										argv["ui-design-tokens-colors-danger"] as
+											| string
+											| undefined,
+										"ui-design-tokens-colors-danger",
+										"text"
+									),
+									success: resolveFileToken(
+										argv["ui-design-tokens-colors-success"] as
+											| string
+											| undefined,
+										"ui-design-tokens-colors-success",
+										"text"
+									),
+									text: resolveFileToken(
+										argv["ui-design-tokens-colors-text"] as string | undefined,
+										"ui-design-tokens-colors-text",
+										"text"
+									),
+									text_on_brand: resolveFileToken(
+										argv["ui-design-tokens-colors-text-on-brand"] as
+											| string
+											| undefined,
+										"ui-design-tokens-colors-text-on-brand",
+										"text"
+									),
+									video_bg: resolveFileToken(
+										argv["ui-design-tokens-colors-video-bg"] as
+											| string
+											| undefined,
+										"ui-design-tokens-colors-video-bg",
+										"text"
+									),
+									warning: resolveFileToken(
+										argv["ui-design-tokens-colors-warning"] as
+											| string
+											| undefined,
+										"ui-design-tokens-colors-warning",
+										"text"
+									),
+								},
+								font_family: resolveFileToken(
+									argv["ui-design-tokens-font-family"] as string | undefined,
+									"ui-design-tokens-font-family",
+									"text"
+								),
+								google_font: resolveFileToken(
+									argv["ui-design-tokens-google-font"] as string | undefined,
+									"ui-design-tokens-google-font",
+									"text"
+								),
+								logo: resolveFileToken(
+									argv["ui-design-tokens-logo"] as string | undefined,
+									"ui-design-tokens-logo",
+									"text"
+								),
+								spacing_base: argv["ui-design-tokens-spacing-base"],
+								theme: argv["ui-design-tokens-theme"],
 							},
 						},
-						view_type: argv["config-view-type"],
 					},
-					name: resolveFileToken(
-						argv["name"] as string | undefined,
-						"name",
-						"text"
-					),
-					permissions: {
-						accept_stage_requests: argv["permissions-accept-stage-requests"],
-						accept_waiting_requests:
-							argv["permissions-accept-waiting-requests"],
-						can_accept_production_requests:
-							argv["permissions-can-accept-production-requests"],
-						can_change_participant_permissions:
-							argv["permissions-can-change-participant-permissions"],
-						can_edit_display_name: argv["permissions-can-edit-display-name"],
-						can_livestream: argv["permissions-can-livestream"],
-						can_record: argv["permissions-can-record"],
-						can_spotlight: argv["permissions-can-spotlight"],
-						chat: {
-							private: {
-								can_receive: argv["permissions-chat-private-can-receive"],
-								can_send: argv["permissions-chat-private-can-send"],
-								files: argv["permissions-chat-private-files"],
-								text: argv["permissions-chat-private-text"],
-							},
-							public: {
-								can_send: argv["permissions-chat-public-can-send"],
-								files: argv["permissions-chat-public-files"],
-								text: argv["permissions-chat-public-text"],
-							},
-						},
-						connected_meetings: {
-							can_alter_connected_meetings:
-								argv[
-									"permissions-connected-meetings-can-alter-connected-meetings"
-								],
-							can_switch_connected_meetings:
-								argv[
-									"permissions-connected-meetings-can-switch-connected-meetings"
-								],
-							can_switch_to_parent_meeting:
-								argv[
-									"permissions-connected-meetings-can-switch-to-parent-meeting"
-								],
-						},
-						disable_participant_audio:
-							argv["permissions-disable-participant-audio"],
-						disable_participant_screensharing:
-							argv["permissions-disable-participant-screensharing"],
-						disable_participant_video:
-							argv["permissions-disable-participant-video"],
-						hidden_participant: argv["permissions-hidden-participant"],
-						is_recorder: argv["permissions-is-recorder"],
-						kick_participant: argv["permissions-kick-participant"],
-						media: {
-							audio: {
-								can_produce: argv["permissions-media-audio-can-produce"],
-							},
-							screenshare: {
-								can_produce: argv["permissions-media-screenshare-can-produce"],
-							},
-							video: {
-								can_produce: argv["permissions-media-video-can-produce"],
-							},
-						},
-						pin_participant: argv["permissions-pin-participant"],
-						plugins: {
-							can_close: argv["permissions-plugins-can-close"],
-							can_edit_config: argv["permissions-plugins-can-edit-config"],
-							can_start: argv["permissions-plugins-can-start"],
-						},
-						polls: {
-							can_create: argv["permissions-polls-can-create"],
-							can_view: argv["permissions-polls-can-view"],
-							can_vote: argv["permissions-polls-can-vote"],
-						},
-						recorder_type: argv["permissions-recorder-type"],
-						show_participant_list: argv["permissions-show-participant-list"],
-						stage_access: argv["permissions-stage-access"],
-						stage_enabled: argv["permissions-stage-enabled"],
-						transcription_enabled: argv["permissions-transcription-enabled"],
-						waiting_room_type: argv["permissions-waiting-room-type"],
-					},
-					ui: {
-						design_tokens: {
-							border_radius: argv["ui-design-tokens-border-radius"],
-							border_width: argv["ui-design-tokens-border-width"],
-							colors: {
-								danger: resolveFileToken(
-									argv["ui-design-tokens-colors-danger"] as string | undefined,
-									"ui-design-tokens-colors-danger",
-									"text"
-								),
-								success: resolveFileToken(
-									argv["ui-design-tokens-colors-success"] as string | undefined,
-									"ui-design-tokens-colors-success",
-									"text"
-								),
-								text: resolveFileToken(
-									argv["ui-design-tokens-colors-text"] as string | undefined,
-									"ui-design-tokens-colors-text",
-									"text"
-								),
-								text_on_brand: resolveFileToken(
-									argv["ui-design-tokens-colors-text-on-brand"] as
-										| string
-										| undefined,
-									"ui-design-tokens-colors-text-on-brand",
-									"text"
-								),
-								video_bg: resolveFileToken(
-									argv["ui-design-tokens-colors-video-bg"] as
-										| string
-										| undefined,
-									"ui-design-tokens-colors-video-bg",
-									"text"
-								),
-								warning: resolveFileToken(
-									argv["ui-design-tokens-colors-warning"] as string | undefined,
-									"ui-design-tokens-colors-warning",
-									"text"
-								),
-							},
-							font_family: resolveFileToken(
-								argv["ui-design-tokens-font-family"] as string | undefined,
-								"ui-design-tokens-font-family",
-								"text"
-							),
-							google_font: resolveFileToken(
-								argv["ui-design-tokens-google-font"] as string | undefined,
-								"ui-design-tokens-google-font",
-								"text"
-							),
-							logo: resolveFileToken(
-								argv["ui-design-tokens-logo"] as string | undefined,
-								"ui-design-tokens-logo",
-								"text"
-							),
-							spacing_base: argv["ui-design-tokens-spacing-base"],
-							theme: argv["ui-design-tokens-theme"],
-						},
-					},
-				});
+					[["permissions", "plugins", "config"]]
+				);
 				const result = await withProgress(`Updating`, async () =>
 					client.send(operation, {
 						body: bodyData,

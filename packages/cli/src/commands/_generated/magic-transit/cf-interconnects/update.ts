@@ -64,7 +64,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			type: "string",
 			array: true,
 			description:
-				"Prefixes in this list will be advertised to the customer device, in addition to the routes in the Magic routing table.",
+				"IPv4 prefixes in this list will be advertised to the customer device, in addition to the routes in the Magic\nrouting table. Each entry must be a network address in CIDR notation with no host bits set (for example\n`192.0.2.0/24`, not `192.0.2.1/24`) and must not repeat another entry.\n",
 		})
 		.option("bgp-import-filter-id", {
 			type: "string",

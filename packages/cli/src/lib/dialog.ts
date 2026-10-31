@@ -1,14 +1,31 @@
-import { isCancel } from "@clack/core";
+import { isCancel, wrapTextWithPrefix } from "@clack/core";
 import * as clack from "@clack/prompts";
 import { CliExit } from "./cli-exit.js";
 import { isNonInteractiveOrCI } from "./interactive.js";
+import { theme } from "./ui/theme.js";
+
+/**
+ * Wraps a text prompt's message to the stderr terminal it draws on. clack
+ * measures each frame against stdout, which has no width once redirected,
+ * and of its prompts only select and confirm wrap their own message.
+ */
+export function wrapPromptMessage(message: string): string {
+	if (process.stdout.columns || !process.stderr.columns) {
+		return message;
+	}
+	return wrapTextWithPrefix(
+		process.stderr,
+		message,
+		`${theme.muted("│")}  `,
+		""
+	);
+}
 
 export async function confirm(
 	text: string,
 	options: {
 		defaultValue: boolean;
 		fallbackValue?: boolean;
-		output?: NodeJS.WriteStream;
 	}
 ): Promise<boolean> {
 	if (isNonInteractiveOrCI()) {
@@ -18,7 +35,7 @@ export async function confirm(
 	const result = await clack.confirm({
 		message: text,
 		initialValue: options.defaultValue,
-		output: options.output,
+		output: process.stderr,
 	});
 
 	if (isCancel(result)) {
@@ -36,7 +53,6 @@ export async function prompt(
 		placeholder?: string;
 		fallbackValue?: string;
 		fallbackError?: string;
-		output?: NodeJS.WriteStream;
 		validate?: (value: string) => boolean | string | Promise<boolean | string>;
 	} = {}
 ): Promise<string> {
@@ -51,11 +67,11 @@ export async function prompt(
 	// validation, so validate after each prompt and retry when needed.
 	while (true) {
 		const result = await clack.text({
-			message: text,
+			message: wrapPromptMessage(text),
 			defaultValue: options.defaultValue,
 			initialValue: options.initialValue,
 			placeholder: options.placeholder,
-			output: options.output,
+			output: process.stderr,
 		});
 
 		if (isCancel(result)) {
@@ -82,7 +98,6 @@ export async function select<Value extends string>(
 		defaultOption?: number;
 		fallbackOption?: number;
 		fallbackError?: string;
-		output?: NodeJS.WriteStream;
 	}
 ): Promise<Value> {
 	if (isNonInteractiveOrCI()) {
@@ -110,7 +125,7 @@ export async function select<Value extends string>(
 		initialValue: options.choices[options.defaultOption ?? 0]?.value as
 			| string
 			| undefined,
-		output: options.output,
+		output: process.stderr,
 	});
 
 	if (isCancel(result)) {

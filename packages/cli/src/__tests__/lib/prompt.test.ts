@@ -1,3 +1,4 @@
+import { stripVTControlCharacters } from "node:util";
 import * as clack from "@clack/prompts";
 import {
 	afterEach,
@@ -16,6 +17,7 @@ import {
 } from "../../lib/prompt.js";
 
 vi.mock("@clack/prompts", () => ({
+	cancel: vi.fn(),
 	confirm: vi.fn(),
 	password: vi.fn(),
 	select: vi.fn(),
@@ -55,14 +57,14 @@ vi.mock("ci-info", () => ({ default: ciInfo }));
  */
 describe("prompt", () => {
 	let originalIsTTY: boolean | undefined;
-	let originalStdoutIsTTY: boolean | undefined;
+	let originalStderrIsTTY: boolean | undefined;
 	let writtenStderr: string[];
 	let originalStderrWrite: typeof process.stderr.write;
 	let originalCI: string | undefined;
 
 	beforeEach(() => {
 		originalIsTTY = process.stdin.isTTY;
-		originalStdoutIsTTY = process.stdout.isTTY;
+		originalStderrIsTTY = process.stderr.isTTY;
 		writtenStderr = [];
 		originalStderrWrite = process.stderr.write.bind(process.stderr);
 		// Capture stderr so we can assert on the "non-interactive" message
@@ -86,8 +88,8 @@ describe("prompt", () => {
 			value: originalIsTTY,
 			configurable: true,
 		});
-		Object.defineProperty(process.stdout, "isTTY", {
-			value: originalStdoutIsTTY,
+		Object.defineProperty(process.stderr, "isTTY", {
+			value: originalStderrIsTTY,
 			configurable: true,
 		});
 		(process.stderr.write as unknown) = originalStderrWrite;
@@ -103,7 +105,7 @@ describe("prompt", () => {
 			value,
 			configurable: true,
 		});
-		Object.defineProperty(process.stdout, "isTTY", {
+		Object.defineProperty(process.stderr, "isTTY", {
 			value,
 			configurable: true,
 		});
@@ -126,6 +128,7 @@ describe("prompt", () => {
 		).resolves.toBe("IND");
 		expect(clack.select).toHaveBeenCalledWith({
 			message: "Registrant Type",
+			output: process.stderr,
 			options: [
 				{ value: "LTD", label: "UK Limited Company" },
 				{ value: "IND", label: "UK Individual (representing self)" },
@@ -146,6 +149,7 @@ describe("prompt", () => {
 		).resolves.toBe("constructor");
 		expect(clack.select).toHaveBeenCalledWith({
 			message: "Kind",
+			output: process.stderr,
 			options: [
 				{ value: "toString", label: "toString" },
 				{ value: "constructor", label: "constructor" },
@@ -168,6 +172,7 @@ describe("prompt", () => {
 		).resolves.toBe(rawChoice);
 		expect(clack.select).toHaveBeenCalledWith({
 			message: "Registrant     Type",
+			output: process.stderr,
 			options: [{ value: rawChoice, label: "IN    D" }],
 		});
 	});
@@ -180,6 +185,96 @@ describe("prompt", () => {
 			promptForRequiredEnumField("registrant-type", "", [rawChoice])
 		).rejects.toThrow(
 			"--registrant-type is required (one of: IN    D). Pass --registrant-type <value> or run interactively."
+		);
+	});
+
+	it("prompts on stderr while stdout is redirected", async () => {
+		setTTY(true);
+		const stdoutIsTTY = process.stdout.isTTY;
+		Object.defineProperty(process.stdout, "isTTY", {
+			value: false,
+			configurable: true,
+		});
+		try {
+			vi.mocked(clack.text).mockResolvedValue("cache");
+
+			await expect(promptForRequiredField("title", "Title")).resolves.toBe(
+				"cache"
+			);
+			expect(vi.mocked(clack.text).mock.calls[0]?.[0]?.output).toBe(
+				process.stderr
+			);
+		} finally {
+			Object.defineProperty(process.stdout, "isTTY", {
+				value: stdoutIsTTY,
+				configurable: true,
+			});
+		}
+	});
+
+	it("does not prompt when stderr is not a terminal", async () => {
+		setTTY(true);
+		Object.defineProperty(process.stderr, "isTTY", {
+			value: false,
+			configurable: true,
+		});
+
+		await expect(promptForRequiredField("title", "Title")).rejects.toThrow(
+			"--title is required."
+		);
+		expect(clack.text).not.toHaveBeenCalled();
+	});
+
+	it("does not prompt when stdin can't be opened", async () => {
+		const stdin = vi.spyOn(process, "stdin", "get").mockImplementation(() => {
+			throw new Error("TTY initialization failed");
+		});
+		try {
+			await expect(promptForRequiredField("title", "Title")).rejects.toThrow(
+				"--title is required."
+			);
+		} finally {
+			stdin.mockRestore();
+		}
+		expect(clack.text).not.toHaveBeenCalled();
+	});
+
+	it("wraps a long message to stderr's width while stdout is redirected", async () => {
+		setTTY(true);
+		const stdoutColumns = process.stdout.columns;
+		const stderrColumns = process.stderr.columns;
+		Object.defineProperty(process.stdout, "columns", {
+			value: undefined,
+			configurable: true,
+		});
+		Object.defineProperty(process.stderr, "columns", {
+			value: 40,
+			configurable: true,
+		});
+		try {
+			vi.mocked(clack.text).mockResolvedValue("ops-alerts");
+
+			await promptForRequiredField(
+				"name",
+				"The name of the webhook destination. This will be included in the request body."
+			);
+		} finally {
+			Object.defineProperty(process.stdout, "columns", {
+				value: stdoutColumns,
+				configurable: true,
+			});
+			Object.defineProperty(process.stderr, "columns", {
+				value: stderrColumns,
+				configurable: true,
+			});
+		}
+
+		// clack draws the message after its "◆  " symbol.
+		const message = vi.mocked(clack.text).mock.lastCall?.[0]?.message ?? "";
+		const lines = `◆  ${stripVTControlCharacters(message)}`.split("\n");
+		expect(lines.length).toBeGreaterThan(1);
+		expect(Math.max(...lines.map((line) => line.length))).toBeLessThanOrEqual(
+			40
 		);
 	});
 
@@ -246,6 +341,7 @@ describe("prompt", () => {
 			expect(clack.confirm).toHaveBeenCalledWith({
 				message: "Continue?",
 				initialValue: true,
+				output: process.stderr,
 			});
 		});
 	});
@@ -299,6 +395,10 @@ describe("prompt", () => {
 		expect(clack.confirm).toHaveBeenCalledWith({
 			message: "This permanently deletes the resource. Continue?",
 			initialValue: false,
+			output: process.stderr,
+		});
+		expect(clack.cancel).toHaveBeenCalledWith("Aborted.", {
+			output: process.stderr,
 		});
 	});
 

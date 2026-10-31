@@ -50,7 +50,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "Order by direction",
 			choices: ["asc", "desc"],
 		})
-		.option("filters", { type: "string", description: "Filters" })
+		.option("filters", { type: "string", array: true, description: "Filters" })
 		.option("limit", { type: "number", description: "Limit" })
 		.option("dry-run", {
 			type: "boolean",
@@ -110,7 +110,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						message: `This permanently deletes every stored log entry on the gateway that matches the filters. Deleted logs cannot be recovered.`,
 					}))
 				) {
-					process.stderr.write("Aborted.\n");
 					return;
 				}
 

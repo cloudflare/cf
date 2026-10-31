@@ -1,5 +1,410 @@
 # cf
 
+## 1.0.0-beta.26
+
+### Minor Changes
+
+- 45e01e0: Rank `cf deploy` first for static site and Pages deploy searches
+
+  `cf cli search` now leaves out commands hidden from help, and hand-written commands can add search keywords or be excluded from results through their metadata. `cf deploy` gains keywords for static sites, Pages projects, and full-stack applications, and its description now says it deploys all three. The advisory `cf pages deploy` command, which only points to `cf deploy`, no longer appears in search results.
+
+- 8f8a0ce: Update the generated command surface for Forge OpenAPI release
+  `e2d50301c8e4b04ebc02f6632c3a317d4960819d`.
+
+### Patch Changes
+
+- 0569848: Update dependencies published from the Workers SDK repository:
+
+  - `@cloudflare/autoconfig`: `0.8.2` → `0.8.3`
+  - `@cloudflare/cli-shared-helpers`: `0.2.10` → `0.3.0`
+  - `@cloudflare/containers-shared`: `0.23.4` → `0.23.5`
+  - `@cloudflare/deploy-helpers`: `0.24.2` → `0.24.3`
+  - `@cloudflare/runtime-types`: `0.1.18` → `0.1.19`
+  - `@cloudflare/workers-auth`: `0.15.2` → `0.15.3`
+  - `@cloudflare/workers-utils`: `0.50.0` → `0.50.1`
+  - `miniflare`: `5.20261023.2-beta` → `5.20261023.3-beta`
+
+## 1.0.0-beta.25
+
+### Minor Changes
+
+- 24e9142: Group OAuth scopes by product
+
+  `cf auth login` now summarizes granted scopes instead of hinting at the full list, and the new `cf auth scopes` command shows them in the product categories of Cloudflare's OAuth scope catalogue, which it caches for a day. Scopes the catalogue does not categorize are listed under Uncategorized. Pass a product name, `--all`, or `--filter <term>` to list the permissions, with non-read access highlighted and non-default scopes marked as custom. `cf auth whoami` is unchanged.
+
+- d11af6b: Update the generated command surface for Forge OpenAPI release
+  `c4fbef6545cc3ae3ef7724398dc12e1fecbd9183`.
+- b53a8be: Update the generated command surface for Forge OpenAPI release
+  `d35bb4402f3864b83e802be14ca7f58eb920528b`.
+
+### Patch Changes
+
+- cc21ffb: Preserve arrays in generated query parameter flags
+
+  Accept multiple values after a query array flag, such as `--ids first second`,
+  while retaining support for repeated flags. Parse single values as arrays and
+  preserve each operation's repeated-key or comma-separated query serialization.
+
+- 5db5ab3: Update dependencies published from the Workers SDK repository:
+
+  - `@cloudflare/autoconfig`: `0.8.1` → `0.8.2`
+  - `@cloudflare/build-output-utils`: `0.9.5` → `0.9.6`
+  - `@cloudflare/cli-shared-helpers`: `0.2.9` → `0.2.10`
+  - `@cloudflare/codemods`: `0.6.1` → `0.7.0`
+  - `@cloudflare/config`: `0.28.1` → `0.29.0`
+  - `@cloudflare/containers-shared`: `0.23.3` → `0.23.4`
+  - `@cloudflare/deploy-helpers`: `0.24.1` → `0.24.2`
+  - `@cloudflare/runtime-types`: `0.1.17` → `0.1.18`
+  - `@cloudflare/workers-auth`: `0.15.1` → `0.15.2`
+  - `@cloudflare/workers-utils`: `0.49.0` → `0.50.0`
+  - `miniflare`: `5.20261023.1-beta` → `5.20261023.2-beta`
+
+- 119b2a4: Update dependencies published from the Workers SDK repository:
+
+  - `@cloudflare/deploy-helpers`: `0.24.0` → `0.24.1`
+  - `@cloudflare/runtime-types`: `0.1.16` → `0.1.17`
+
+## 1.0.0-beta.24
+
+### Minor Changes
+
+- 014eadd: Delegate development registry resolution to Miniflare
+
+  During the cf beta, stop overriding registry paths for `cf dev` and `--local`.
+  Miniflare v5 owns the default `<Cloudflare config directory>/dev-registry/v5`
+  and the `CLOUDFLARE_DEV_REGISTRY_PATH` override. cf no longer interprets
+  `CLOUDFLARE_REGISTRY_PATH` or translates registry settings for child processes;
+  exported environment variables reach the selected project tooling unchanged.
+
+  Wrangler retains its own default registry for compatibility. Set the same
+  `CLOUDFLARE_DEV_REGISTRY_PATH` for cf and compatible Wrangler/Vite processes when
+  they need to share development resources.
+
+- 6b19d0c: Upload every binary multipart field from a file
+
+  Generated multipart commands now add a flag for each `format: binary`
+  form field besides the payload that `--file` fills. For example,
+  `cf pages deployments create` accepts `--worker-js`, `--routes-json`,
+  `--redirects`, `--worker-bundle`, and
+  `--functions-filepath-routing-config-json`, so a Pages Direct Upload can
+  include an advanced-mode `_worker.js` with `--worker-js @./_worker.js`.
+  These flags accept literal content or `@path/to/file`, matching other body
+  flags while preserving uploaded file bytes and filenames. Both forms upload
+  as file parts; inline content uses the original form field name as its filename.
+  Before this change, `--file` only reached `_headers` and the other files
+  could not be sent.
+
+- 16a20a5: Update the generated command surface for Forge OpenAPI release
+  `e2b8c60b0222e9df2db7db83fdbf465f099a5189`.
+- ab93021: Update the generated command surface for Forge OpenAPI release
+  `fd89c869d0cfca05d431fa56fdec63ebe96e7c37`.
+- 2f2745f: Update the generated command surface for Forge OpenAPI release
+  `fdc1aa8a39e2e515f26c2fc6109d7e93050e811c`.
+
+### Patch Changes
+
+- 2e6c118: Explain dotenv variable expansion in `--secrets-file` help
+
+  Document how dotenv secrets files passed to `cf deploy` and `cf workers versions create` expand `$VAR` and `${VAR}` using process values and earlier file values. Process values override matching file keys, including explicitly empty values. Only keys declared in the secrets file are uploaded.
+
+  Explain how to escape literal dollar signs with a backslash (`PASSWORD=pa\$word`), or use JSON to preserve values exactly. Only use trusted dotenv secrets files, since references can read and upload any process environment value. JSON secrets files and API bulk-secret commands retain their existing behavior.
+
+## 1.0.0-beta.23
+
+### Minor Changes
+
+- dbbdcb3: Update the generated command surface for Forge OpenAPI release
+  `a3c32024372cc93b9572dd62cacaeb270e7221a4`.
+
+### Patch Changes
+
+- 255cd26: Update dependencies published from the Workers SDK repository:
+
+  - `@cloudflare/autoconfig`: `0.8.0` → `0.8.1`
+  - `@cloudflare/build-output-utils`: `0.9.4` → `0.9.5`
+  - `@cloudflare/cli-shared-helpers`: `0.2.8` → `0.2.9`
+  - `@cloudflare/codemods`: `0.6.0` → `0.6.1`
+  - `@cloudflare/config`: `0.28.0` → `0.28.1`
+  - `@cloudflare/containers-shared`: `0.23.2` → `0.23.3`
+  - `@cloudflare/deploy-helpers`: `0.23.0` → `0.24.0`
+  - `@cloudflare/runtime-types`: `0.1.15` → `0.1.16`
+  - `@cloudflare/workers-auth`: `0.15.0` → `0.15.1`
+  - `@cloudflare/workers-utils`: `0.48.0` → `0.49.0`
+  - `miniflare`: `5.20261019.2-beta` → `5.20261023.0-beta`
+
+## 1.0.0-beta.22
+
+### Minor Changes
+
+- a7fa33c: Detect DeepSeek Harness as an AI coding agent.
+
+  Recognize commands run by DeepSeek Harness through its `DSH_SHELL` environment marker.
+  Capture the agent session ID when `DSH_SESSION_ID` is available.
+
+- 7993e1d: Update the generated command surface for Forge OpenAPI release
+  `67c5887b849fdde3ac07438146fa92a0010e2f53`.
+- 5ef0a6d: Update the generated command surface for Forge OpenAPI release
+  `708fba786988846438caab6d7540f4f5006a2a5f`.
+- f08f693: Update the generated command surface for Forge OpenAPI release
+  `cd7e523512a1ee2fb6b5b041daa68661e61c9119`.
+- 2c4ec34: Update the generated command surface for Forge OpenAPI release
+  `d04a1ddd718bb1c91f79d3220174e5a16ed1cacd`.
+- 54b5920: Update the generated command surface for Forge OpenAPI release
+  `e2386f5f515cf598f7ebdf682f2eeb60f43d9088`.
+
+### Patch Changes
+
+- a50dd58: Show additional API error messages on stderr
+
+  Include the response envelope's `messages` entries after `errors` when a request fails, so validation details such as missing parameter names are visible. Preserve the full envelope for `success: false` responses returned with a successful HTTP status, and keep successful-response output unchanged.
+
+- a251687: Clarify the banner when using a project's local cf version
+
+  Show `local version` instead of `delegated` when a global cf installation runs
+  the version installed in the project. This makes the banner easier to understand
+  without knowing how delegation works.
+
+- 947d0c9: Show the shell completions tip at most once, and never in CI
+
+  cf now saves that it has shown the tip before it prints it. If cf cannot write
+  its state file, the tip no longer appears on every run. CI runners that attach
+  a terminal no longer see the tip.
+
+- b31a9ea: Reject D1 migration names that cannot be stored on Windows
+
+  `cf d1 migrations create` now rejects names containing `:`, `*`, `?`, `"`,
+  `<`, `>`, or `|`. On NTFS a `:` wrote the SQL into a hidden alternate data
+  stream of an empty file, so the migration was never applied and the next one
+  reused its number. The other characters failed with a raw filesystem error.
+
+- 068bde2: Fix `cf deploy` for Python Workers with vendored packages
+
+  Upload Build Output modules under their manifest paths in `cf deploy`,
+  `cf workers versions create` and `cf previews deploy` instead of prefixing them
+  with `./`. Python Workers use module names as file paths without normalising
+  them, and import vendored packages from the `python_modules/` directory. With
+  the prefix, the vendored `workers` SDK was not on the import path, so
+  `from workers import ...` failed with `No module named 'workers'` (10021).
+
+## 1.0.0-beta.21
+
+### Minor Changes
+
+- dcab54d: Move prompts, progress and workflow messages to stderr
+
+  Breaking change during the beta: prompts, confirmations and the progress
+  spinner now render on stderr, so they keep working while stdout is redirected,
+  as in `cf kv namespaces create > ns.json`, and a confirmation that used to fail
+  there now waits for an answer. Some confirmations in `cf deploy` and
+  `cf workers triggers deploy` still ask only when stdout is a terminal, and go
+  ahead without asking otherwise. Prompts and the spinner need stdin and stderr
+  to be terminals outside CI, so the spinner no longer swallows piped input, and
+  Ctrl+C or Esc during the spinner now exits with status 130 instead of 0.
+  `cf init`, `cf build`, `cf deploy`, `cf workers versions create` and
+  `cf workers triggers deploy` print their messages on stderr too, together
+  with the output of the build and install commands cf runs, so scripts that
+  read those messages from stdout must read stderr instead. `cf previews deploy`
+  no longer prints upload messages into its JSON output, and `cf dev` still
+  gives the dev server the whole terminal.
+
+  `--quiet` now also hides notices and the `✓` success line, but never warnings,
+  the commands that fix them, or prompts. A declined delete ends with
+  `└ Aborted.`, `cf init` prints its next steps below the closed flow so each
+  copies on its own, the first-run notices use clack info lines, and the
+  dev-server errors use the error frame with each install command on its own
+  line.
+
+- c440926: Record the global `cf` version in telemetry when it delegates to a project-pinned `cf`
+
+  When a globally installed `cf` hands a command to the copy a project pins, it
+  now passes its own version to that copy, which adds it to telemetry as
+  `globalCliVersion`. `cliVersion` remains the version of the `cf` that runs the
+  command, and `delegated` still marks delegated runs. Older global installs do
+  not pass a version, so the property is omitted for them.
+
+- b50a51a: Record sanitised detail about unrecognised commands in usage telemetry
+
+  When `cf` cannot match the arguments to a command, telemetry now records the
+  kind of failure, the recognised part of the command path, whether that part is
+  a complete command, and up to three unrecognised words. Only the first word can
+  be included as written, and only when it is a `cf` command name in a place
+  where a command name was expected; later words and anything else, including
+  any extra value after a complete command, are replaced by a category such as
+  `<hex>`, `<domain>`, or `<path>`. Unrecognised flags, including short flags such
+  as `-x`, are counted, never named.
+
+  Failures inside a group or command keep the `command` value they were reported
+  under before. Failures at the top level that were previously dropped – a typo
+  with a suggestion, several unknown words, or only flags with no command – are
+  now reported as unknown commands.
+
+- c761c0e: Update the generated command surface for Forge OpenAPI release
+  `2d3b9ab6825d7087ebe00a4b03c2ff219f08e4b4`.
+- af49ab3: Update the generated command surface for Forge OpenAPI release
+  `536d02b4bd5629be5333aea4cf1024680abac1ef`.
+- 4f7b6b4: Update the generated command surface for Forge OpenAPI release
+  `5de500b2959b09d00972516cac5a6c56aec4878a`.
+- 9b339a6: Update the generated command surface for Forge OpenAPI release
+  `880ff24a8d487f05651f6dc24f482b9845127c7f`.
+- 8e51747: Update the generated command surface for Forge OpenAPI release
+  `acc1cbed2ca3136244a31aee12f25fc6164566cc`.
+- 25ad929: Update the generated command surface for Forge OpenAPI release
+  `fdbc7d9b0fdce613501dd81cb37466fbaf0b7cca`.
+
+### Patch Changes
+
+- 09c9303: Update dependencies published from the Workers SDK repository:
+
+  - `@cloudflare/autoconfig`: `0.7.11` → `0.8.0`
+  - `@cloudflare/build-output-utils`: `0.9.3` → `0.9.4`
+  - `@cloudflare/cli-shared-helpers`: `0.2.7` → `0.2.8`
+  - `@cloudflare/codemods`: `0.5.1` → `0.6.0`
+  - `@cloudflare/config`: `0.27.0` → `0.28.0`
+  - `@cloudflare/containers-shared`: `0.23.1` → `0.23.2`
+  - `@cloudflare/deploy-helpers`: `0.22.1` → `0.23.0`
+  - `@cloudflare/runtime-types`: `0.1.14` → `0.1.15`
+  - `@cloudflare/workers-auth`: `0.14.1` → `0.15.0`
+  - `@cloudflare/workers-utils`: `0.47.3` → `0.48.0`
+  - `miniflare`: `5.20261019.1-beta` → `5.20261019.2-beta`
+
+- d4a5d17: Skip reading the compliance region from the config file when it is set in the environment
+
+  Resolve `CLOUDFLARE_COMPLIANCE_REGION` before project settings, matching the existing account ID priority. Commands with both `CLOUDFLARE_ACCOUNT_ID` and `CLOUDFLARE_COMPLIANCE_REGION` no longer evaluate a `cloudflare.config.ts` file solely to establish API context.
+
+## 1.0.0-beta.20
+
+### Minor Changes
+
+- 0050a39: Write hand-written command messages to stderr
+
+  Breaking change during the beta: `cf auth login`, `cf auth logout`, the auth
+  profile commands, `cf cli telemetry enable` / `disable` and `cf migrate` now
+  print their notices, warnings and success messages on stderr, so redirected or
+  piped stdout holds only command output, as with generated commands. The auth
+  and telemetry commands use clack's log lines and the `✓` success line, which,
+  as with generated commands, appears only when stderr is a terminal. A command
+  to run next is printed on its own line so it copies cleanly. `cf auth login`
+  with `CLOUDFLARE_API_TOKEN` set now warns once that the token takes
+  precedence, and `cf auth logout` no longer reports removing OAuth tokens that
+  it keeps while `CLOUDFLARE_API_TOKEN` is set.
+
+- 1dc3664: Require the latest minor releases of supported Node.js majors
+
+  Require Node.js 22.23.0, 24.22.0, or 26.12.0 and allow later releases within
+  each major. This is a breaking change during the 1.0 beta: earlier minor
+  releases and unlisted Node.js majors are no longer supported.
+
+- 116bcf4: Support temporary accounts with `--temporary-account`
+
+  Create or reuse a short-lived Cloudflare account without signing in. cf prints
+  a claim URL; use `--event-code` to redeem an event code during account creation.
+
+  Help, authentication checks, and dry runs never create accounts. `cf auth logout`
+  clears cached temporary accounts.
+
+- 38091b1: Update the generated command surface for Forge OpenAPI release
+  `59bd82aa6c349b9097e34621bd15c4ddf46d6dd1`.
+- be5d271: Update the generated command surface for Forge OpenAPI release
+  `939a69bb5ebb7cbe7a03260caf326a1838bfb9d6`.
+
+### Patch Changes
+
+- 02663da: Update dependencies published from the Workers SDK repository:
+
+  - `@cloudflare/autoconfig`: `0.7.10` → `0.7.11`
+  - `@cloudflare/cli-shared-helpers`: `0.2.6` → `0.2.7`
+  - `@cloudflare/containers-shared`: `0.23.0` → `0.23.1`
+  - `@cloudflare/deploy-helpers`: `0.22.0` → `0.22.1`
+  - `@cloudflare/runtime-types`: `0.1.13` → `0.1.14`
+  - `@cloudflare/workers-auth`: `0.14.0` → `0.14.1`
+  - `@cloudflare/workers-utils`: `0.47.2` → `0.47.3`
+  - `miniflare`: `5.20261019.0-beta` → `5.20261019.1-beta`
+
+## 1.0.0-beta.19
+
+### Minor Changes
+
+- 029b091: Add persisted keyring storage options to `cf auth login`
+
+  Use `--use-keyring` and `--no-use-keyring` to persist the OAuth credential-storage preference. Apply the preference before reading credentials so users can disable an unavailable keyring backend, and expose the option in help, completions, and tools.
+
+- 6fdb573: Update the generated command surface for Forge OpenAPI release
+  `15656f084dd7a0ada54f8f659c749a7248254b9f`.
+- e290be1: Update the generated command surface for Forge OpenAPI release
+  `843eae2fbf4fe774ef9c91021dd34017ac9c970a`.
+- b191479: Update the generated command surface for Forge OpenAPI release
+  `dfab495170fee6a8af2746ed4d624db8f9fe688a`.
+- a602697: Update the generated command surface for Forge OpenAPI release
+  `e91e65be9898b6bc400231f36ce77e8e7d5a02ab`.
+- c6fdafc: Update the generated command surface for Forge OpenAPI release
+  `ec19e9f82e219137a547ca40f48babe71c69e481`.
+
+### Patch Changes
+
+- 30de18f: Fix generated flags for composed scalar request fields.
+
+  Preserve enum fields expressed through `allOf` and expose scalar unions without
+  turning numeric or boolean values into strings, including when a field is supplied
+  as a positional argument. Report validation operations as
+  validating rather than creating resources.
+
+- ac222af: Accept nested object arrays and arrays of arrays as JSON body flags, including `--intent-clauses` and `--query-branches` for priority-intelligence create and update. Require these fields when sibling flags activate their optional parent object.
+- 6c67821: Apply body-field argument overrides only to their exact API field path, preventing parent object overrides from changing flattened child flags.
+- 526debf: Send header flags on bodyless raw-response commands, including the jurisdiction and conditional headers for `cf r2 objects get`.
+- 768a01d: Update dependencies published from the Workers SDK repository:
+
+  - `@cloudflare/codemods`: `0.5.0` → `0.5.1`
+  - `@cloudflare/containers-shared`: `0.22.1` → `0.23.0`
+  - `@cloudflare/deploy-helpers`: `0.21.0` → `0.22.0`
+  - `@cloudflare/runtime-types`: `0.1.12` → `0.1.13`
+  - `miniflare`: `5.20261012.1-beta` → `5.20261019.0-beta`
+
+## 1.0.0-beta.18
+
+### Minor Changes
+
+- ce05416: Add JSON map flags for API request fields.
+
+  Supply map fields as inline JSON objects or `@path/to/file.json`, preserving
+  empty maps and nested values. Required map fields must also be present when
+  using `--body`.
+
+- df8271c: Update the generated command surface for Forge OpenAPI release
+  `e9f3700b7760dcc75e0301e262015ccd516d78d3`.
+- b08875a: Update the generated command surface for Forge OpenAPI release
+  `f816e2612cac2b5489403d1011e8ff0d362d8cf0`.
+
+### Patch Changes
+
+- 6808c0f: Align command metadata defaults with CLI behavior
+
+  Only advertise defaults that generated commands actually apply, so `cf tools`
+  does not imply that omitted PATCH or PUT body flags reset existing settings.
+  Preserve discriminator defaults and omit defaults for conflicting, repeated,
+  and JSON-valued flags consistently with the command builder.
+
+- 00b7d2a: Update dependencies published from the Workers SDK repository:
+
+  - `@cloudflare/containers-shared`: `0.21.7` → `0.22.0`
+  - `@cloudflare/deploy-helpers`: `0.20.3` → `0.20.4`
+
+- 15af676: Update dependencies published from the Workers SDK repository:
+
+  - `@cloudflare/autoconfig`: `0.7.9` → `0.7.10`
+  - `@cloudflare/build-output-utils`: `0.9.2` → `0.9.3`
+  - `@cloudflare/config`: `0.26.0` → `0.27.0`
+  - `@cloudflare/containers-shared`: `0.22.0` → `0.22.1`
+  - `@cloudflare/deploy-helpers`: `0.20.4` → `0.21.0`
+  - `@cloudflare/runtime-types`: `0.1.11` → `0.1.12`
+  - `miniflare`: `5.20261012.0-beta` → `5.20261012.1-beta`
+
+- a54e630: Write Preview deployment results for Workers Builds
+
+  Append successful `cf previews deploy` results to the output file configured by
+  `WRANGLER_OUTPUT_FILE_DIRECTORY` or `WRANGLER_OUTPUT_FILE_PATH`, including the
+  selected Worker name and timestamp. This lets Workers Builds display Preview
+  and deployment URLs, including when the command uses `--quiet`.
+
 ## 1.0.0-beta.17
 
 ### Patch Changes

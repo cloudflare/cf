@@ -8,6 +8,10 @@ export default {
 	body: "json",
 	response: false,
 	errors: {
+		400: "BadRequestError",
+		403: "ForbiddenError",
 		404: "NotFoundError",
+		409: "ConflictError",
+		429: "TooManyRequestsError",
 	},
 } as const;

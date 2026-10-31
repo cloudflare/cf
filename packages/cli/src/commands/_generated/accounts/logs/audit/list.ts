@@ -24,201 +24,246 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		)
 		.option("account-name", {
 			type: "string",
+			array: true,
 			description: "Filters by the account name.",
 		})
 		.option("action-result", {
 			type: "string",
+			array: true,
 			description: "Filters by whether the action was successful or not.",
 		})
 		.option("action-type", {
 			type: "string",
+			array: true,
 			description: "Filters by the action type.",
 		})
 		.option("actor-context", {
 			type: "string",
+			array: true,
 			description:
 				"Filters by the actor context.\n- `api`: The action was performed through the API. The specific credential type was not recorded.\n- `api_key`: The action was authenticated with a Cloudflare Global API Key.\n- `api_token`: The action was authenticated with an API token.\n- `dash`: The action was performed through the Cloudflare dashboard.\n- `oauth`: The action was authenticated with an OAuth token.\n- `origin_ca_key`: The action was authenticated with an Origin CA key.",
 		})
 		.option("actor-email", {
 			type: "string",
+			array: true,
 			description: "Filters by the actor's email address.",
 		})
 		.option("actor-id", {
 			type: "string",
+			array: true,
 			description:
 				"Filters by the actor ID. This can be either the Account ID or User ID.",
 		})
 		.option("actor-ip-address", {
 			type: "string",
+			array: true,
 			description: "The IP address where the action was initiated.",
 		})
 		.option("actor-token-id", {
 			type: "string",
+			array: true,
 			description:
 				"Filters by the API token ID when the actor context is an api_token or oauth.",
 		})
 		.option("actor-token-name", {
 			type: "string",
+			array: true,
 			description:
 				"Filters by the API token name when the actor context is an api_token or oauth.",
 		})
 		.option("actor-type", {
 			type: "string",
+			array: true,
 			description: "Filters by the actor type.",
 		})
 		.option("audit-log-id", {
 			type: "string",
+			array: true,
 			description: "Finds a specific log by its ID.",
 		})
 		.option("id", {
 			type: "string",
+			array: true,
 			description: "Finds a specific log by its ID.",
 		})
 		.option("raw-cf-ray-id", {
 			type: "string",
+			array: true,
 			description: "Filters by the response CF Ray ID.",
 		})
 		.option("raw-method", {
 			type: "string",
+			array: true,
 			description: "The HTTP method for the API call.",
 		})
 		.option("raw-status-code", {
 			type: "string",
+			array: true,
 			description: "The response status code that was returned.",
 		})
 		.option("raw-uri", {
 			type: "string",
+			array: true,
 			description: "Filters by the request URI.",
 		})
 		.option("resource-id", {
 			type: "string",
+			array: true,
 			description: "Filters by the resource ID.",
 		})
 		.option("resource-product", {
 			type: "string",
+			array: true,
 			description:
 				"Filters audit logs by the Cloudflare product associated with the changed resource.",
 		})
 		.option("resource-type", {
 			type: "string",
+			array: true,
 			description:
 				"Filters audit logs based on the unique type of resource changed by the action.",
 		})
 		.option("resource-scope", {
 			type: "string",
+			array: true,
 			description:
 				"Filters by the resource scope, specifying whether the resource is associated with an user, an account, a zone, or a membership.",
 		})
 		.option("product-category", {
 			type: "string",
+			array: true,
 			description:
 				"Filters audit logs by one or more predefined product categories. Each product category expands into a curated set of resource_product values and is unioned with any explicit resource_product filter. Matched case-insensitively; unknown product categories return 400. Repeatable. Use the audit log product categories endpoint to discover the available values.",
 		})
 		.option("zone-id", {
 			type: "string",
+			array: true,
 			description: "Filters by the zone ID.",
 		})
 		.option("zone-name", {
 			type: "string",
+			array: true,
 			description: "Filters by the zone name associated with the change.",
 		})
 		.option("account-name-not", {
 			type: "string",
+			array: true,
 			description: "Filters out audit logs by the account name.",
 		})
 		.option("action-result-not", {
 			type: "string",
+			array: true,
 			description:
 				"Filters out audit logs by whether the action was successful or not.",
 		})
 		.option("action-type-not", {
 			type: "string",
+			array: true,
 			description: "Filters out audit logs by the action type.",
 		})
 		.option("actor-context-not", {
 			type: "string",
+			array: true,
 			description:
 				"Filters out audit logs by the actor context.\n- `api`: The action was performed through the API. The specific credential type was not recorded.\n- `api_key`: The action was authenticated with a Cloudflare Global API Key.\n- `api_token`: The action was authenticated with an API token.\n- `dash`: The action was performed through the Cloudflare dashboard.\n- `oauth`: The action was authenticated with an OAuth token.\n- `origin_ca_key`: The action was authenticated with an Origin CA key.",
 		})
 		.option("actor-email-not", {
 			type: "string",
+			array: true,
 			description: "Filters out audit logs by the actor's email address.",
 		})
 		.option("actor-id-not", {
 			type: "string",
+			array: true,
 			description:
 				"Filters out audit logs by the actor ID. This can be either the Account ID or User ID.",
 		})
 		.option("actor-ip-address-not", {
 			type: "string",
+			array: true,
 			description:
 				"Filters out audit logs IP address where the action was initiated.",
 		})
 		.option("actor-token-id-not", {
 			type: "string",
+			array: true,
 			description:
 				"Filters out audit logs by the API token ID when the actor context is an api_token or oauth.",
 		})
 		.option("actor-token-name-not", {
 			type: "string",
+			array: true,
 			description:
 				"Filters out audit logs by the API token name when the actor context is an api_token or oauth.",
 		})
 		.option("actor-type-not", {
 			type: "string",
+			array: true,
 			description: "Filters out audit logs by the actor type.",
 		})
 		.option("audit-log-id-not", {
 			type: "string",
+			array: true,
 			description: "Filters out audit logs by their IDs.",
 		})
 		.option("id-not", {
 			type: "string",
+			array: true,
 			description: "Filters out audit logs by their IDs.",
 		})
 		.option("raw-cf-ray-id-not", {
 			type: "string",
+			array: true,
 			description: "Filters out audit logs by the response CF Ray ID.",
 		})
 		.option("raw-method-not", {
 			type: "string",
+			array: true,
 			description:
 				"Filters out audit logs by the HTTP method for the API call.",
 		})
 		.option("raw-status-code-not", {
 			type: "string",
+			array: true,
 			description:
 				"Filters out audit logs by the response status code that was returned.",
 		})
 		.option("raw-uri-not", {
 			type: "string",
+			array: true,
 			description: "Filters out audit logs by the request URI.",
 		})
 		.option("resource-id-not", {
 			type: "string",
+			array: true,
 			description: "Filters out audit logs by the resource ID.",
 		})
 		.option("resource-product-not", {
 			type: "string",
+			array: true,
 			description:
 				"Filters out audit logs by the Cloudflare product associated with the changed resource.",
 		})
 		.option("resource-type-not", {
 			type: "string",
+			array: true,
 			description:
 				"Filters out audit logs based on the unique type of resource changed by the action.",
 		})
 		.option("resource-scope-not", {
 			type: "string",
+			array: true,
 			description:
 				"Filters out audit logs by the resource scope, specifying whether the resource is associated with an user, an account, a zone, or a membership.",
 		})
 		.option("zone-id-not", {
 			type: "string",
+			array: true,
 			description: "Filters out audit logs by the zone ID.",
 		})
 		.option("zone-name-not", {
 			type: "string",
+			array: true,
 			description:
 				"Filters out audit logs by the zone name associated with the change.",
 		})

@@ -29,12 +29,12 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "API UUID.",
 			demandOption: true,
 		})
-		.option("config-sha256", {
+		.option("network-config-sha256", {
 			type: "string",
 			description:
 				"The SHA-256 hash of the TLS certificate presented by the host found at tls_sockaddr. If absent, regular certificate verification (trusted roots, valid timestamp, etc) will be used to validate the certificate.",
 		})
-		.option("config-tls-sockaddr", {
+		.option("network-config-tls-sockaddr", {
 			type: "string",
 			description:
 				'A network address of the form "host:port" that the WARP client will use to detect the presence of a TLS host.',
@@ -60,11 +60,12 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "Raw JSON request body (bypasses individual flags)",
 		})
 		.check((argv) => {
-			const groupSet = ["config-sha256", "config-tls-sockaddr"].some(
-				(k) => argv[k] !== undefined
-			);
+			const groupSet = [
+				"network-config-sha256",
+				"network-config-tls-sockaddr",
+			].some((k) => argv[k] !== undefined);
 			if (groupSet) {
-				const missing = ["config-tls-sockaddr"].filter(
+				const missing = ["network-config-tls-sockaddr"].filter(
 					(k) => argv[k] === undefined
 				);
 				if (missing.length > 0) {
@@ -107,13 +108,15 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 								: compactBody({
 										config: {
 											sha256: resolveFileToken(
-												argv["config-sha256"] as string | undefined,
-												"config-sha256",
+												argv["network-config-sha256"] as string | undefined,
+												"network-config-sha256",
 												"text"
 											),
 											tls_sockaddr: resolveFileToken(
-												argv["config-tls-sockaddr"] as string | undefined,
-												"config-tls-sockaddr",
+												argv["network-config-tls-sockaddr"] as
+													| string
+													| undefined,
+												"network-config-tls-sockaddr",
 												"text"
 											),
 										},
@@ -148,13 +151,13 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				const bodyData = compactBody({
 					config: {
 						sha256: resolveFileToken(
-							argv["config-sha256"] as string | undefined,
-							"config-sha256",
+							argv["network-config-sha256"] as string | undefined,
+							"network-config-sha256",
 							"text"
 						),
 						tls_sockaddr: resolveFileToken(
-							argv["config-tls-sockaddr"] as string | undefined,
-							"config-tls-sockaddr",
+							argv["network-config-tls-sockaddr"] as string | undefined,
+							"network-config-tls-sockaddr",
 							"text"
 						),
 					},

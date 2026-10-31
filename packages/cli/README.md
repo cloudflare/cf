@@ -10,7 +10,8 @@ This is a beta preview. To learn more, see the [announcement blog post](https://
 npm install -g cf
 ```
 
-Requires Node.js 22 or newer.
+cf supports the latest minor release of each supported Node.js major version.
+See [package.json](package.json) for the supported versions.
 
 ## Quick start
 
@@ -39,6 +40,13 @@ cf resolves credentials in this order:
 Use `cf auth create`, `delete`, `activate`, `deactivate`, and `list` to manage
 named profiles. `cf auth login` and `cf auth logout` manage the default profile.
 
+Use `cf auth login --use-keyring` to encrypt OAuth credentials with a key stored
+in your OS keychain. The choice is saved across invocations and applies to all
+profiles. Use `cf auth login --no-use-keyring` to save a preference for plaintext
+storage. Unless `CLOUDFLARE_AUTH_USE_KEYRING=true` is set, this also removes saved
+encrypted credentials, so affected profiles must authenticate again.
+`CLOUDFLARE_AUTH_USE_KEYRING=true` or `false` overrides the saved preference.
+
 ## Projects
 
 `cf init [directory]` starts a project. If you leave out the directory, cf asks for one (use `cf init .` for the current directory in scripts). In a new or empty directory (only `.git` is allowed), it creates a hello-world Worker with `cloudflare.config.ts`, `vite.config.ts`, `src/index.ts`, `tsconfig.json`, `package.json`, and `.gitignore`, then installs dependencies with the package manager you choose (`--package-manager`, or `--no-install` to skip) and, once they are installed, generates Worker types in `.cloudflare/types/index.d.ts`. With `--no-install`, the types are generated later by `cf dev` or the project's `typecheck` script, which runs `cf workers types` and then `tsc`. In a directory that already contains files, it configures the existing project with autoconfig instead. Either way, it finishes with the next steps to run. `cf init workers [directory]` is the default initializer and currently does the same thing.
@@ -59,7 +67,7 @@ Add `--local` to a supported command to run it against a short-lived Miniflare i
 
 ## Output
 
-Structured API results are pretty-printed JSON on stdout. Generated `binary` and `text` response kinds instead write their payload directly to stdout, preserving binary output for redirection; some binary commands provide `--text` for UTF-8 decoding. Null-result success markers go to stderr. On an interactive, color-capable TTY, clack progress animation uses stdout before the final payload; it is disabled for pipes, color-disabled terminals, or `CF_QUIET=1`. Pipe JSON results through `jq` for newline-delimited or filtered output.
+Structured API results are pretty-printed JSON on stdout. Generated `binary` and `text` response kinds instead write their payload directly to stdout, preserving binary output for redirection; some binary commands provide `--text` for UTF-8 decoding. Everything else goes to stderr: prompts, progress, notices, warnings, errors, null-result success markers, and the messages of commands such as `cf init`, `cf build` and `cf deploy`. A prompt still works while stdout is redirected, as long as stdin and stderr are terminals outside CI. Some confirmations in `cf deploy` and `cf workers triggers deploy` still ask only when stdout is a terminal, and go ahead without asking otherwise. Progress animation needs stdin and a color-capable stderr to be terminals outside CI, and is disabled by `CF_QUIET=1`. `--quiet` hides notices and success markers but never warnings or prompts. Pipe JSON results through `jq` for newline-delimited or filtered output.
 
 cf uses a semantic colour palette designed to remain legible on both light and
 dark terminal backgrounds. Set `NO_COLOR=1` to disable styling entirely.

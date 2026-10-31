@@ -44,7 +44,7 @@ describe("cf deploy", () => {
 	});
 
 	describe("simple worker", () => {
-		it("uploads OIDC binding requests without provisioning identity grants", async () => {
+		it("uploads fixed-audience identity bindings without provisioning identities", async () => {
 			const requests = recordRequests();
 			const upload = mockWorkerUpload();
 			await seed({
@@ -54,14 +54,11 @@ describe("cf deploy", () => {
 						compatibilityFlags: ["workers_oidc"],
 						env: {
 							ORDERS: {
-								type: "oidc",
-								identity_id: "orders",
+								type: "identity",
 								audience: "urn:orders",
-								allowed_audiences: ["urn:orders", "urn:reports"],
 							},
 							REPORTS: {
-								type: "oidc",
-								identity_id: "reports",
+								type: "identity",
 								audience: "recipient",
 							},
 						},
@@ -79,15 +76,12 @@ describe("cf deploy", () => {
 				expect.arrayContaining([
 					{
 						name: "ORDERS",
-						type: "oidc",
-						identity_id: "orders",
+						type: "identity",
 						audience: "urn:orders",
-						allowed_audiences: ["urn:orders", "urn:reports"],
 					},
 					{
 						name: "REPORTS",
-						type: "oidc",
-						identity_id: "reports",
+						type: "identity",
 						audience: "recipient",
 					},
 				])
@@ -1006,12 +1000,12 @@ describe("cf deploy", () => {
 
 			expect(exitCode).toBe(0);
 			expect(upload.modules).toContain("index.js");
-			expect(upload.modules).toContain("./lib.cjs");
-			expect(upload.modules).toContain("./data.bin");
-			expect(upload.modules).toContain("./text.txt");
-			expect(upload.modules).toContain("./helper.wasm");
-			expect(upload.modules).toContain("./config.json");
-			expect(upload.modules).toContain("./app.py");
+			expect(upload.modules).toContain("lib.cjs");
+			expect(upload.modules).toContain("data.bin");
+			expect(upload.modules).toContain("text.txt");
+			expect(upload.modules).toContain("helper.wasm");
+			expect(upload.modules).toContain("config.json");
+			expect(upload.modules).toContain("app.py");
 			expect(std.out).toContain("Deployed");
 		});
 	});
@@ -1286,7 +1280,7 @@ describe("cf deploy", () => {
 			expect(existsSync("public/.assetsignore")).toBe(false);
 			expect(buildDelegateWasCalled()).toBe(false);
 			expect(requests).toEqual([]);
-			expect(std.out).toContain("Autoconfig process run in dry-run mode");
+			expect(std.err).toContain("Autoconfig process run in dry-run mode");
 		});
 
 		it("does not upload the worker", async () => {

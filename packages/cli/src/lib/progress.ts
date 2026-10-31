@@ -9,16 +9,14 @@
  *   │ ⠋  Creating secret on worker-ts (0.8s)
  *
  * Frames + elapsed-timer style preserved from cf's previous renderer
- * by passing braille frames + `indicator: "timer"` to clack. Silent
- * when stderr/stdout aren't TTYs and when `--quiet` / `CF_QUIET=1` is
- * set.
- *
- * Only wraps mutating requests (POST/PUT/PATCH/DELETE) so read-only
- * JSON output stays pristine for scripts piping to jq.
+ * by passing braille frames + `indicator: "timer"` to clack. It draws on
+ * stderr, and only when stdin and stderr are terminals outside CI and
+ * `CF_QUIET=1` is unset, so stdout stays clean for scripts piping to jq.
  */
 
 import { spinner as clackSpinner } from "@clack/prompts";
 import { VERSION } from "../version.js";
+import { isNonInteractiveOrCI } from "./interactive.js";
 import { terminalProgress } from "./osc-progress.js";
 import { openSession } from "./session.js";
 import { supportsColor } from "./ui/theme.js";
@@ -41,15 +39,16 @@ const BRAILLE_FRAMES = [
  * Should we render an animated spinner right now?
  *
  * False when:
- *   - stdout isn't a TTY (piping, CI, redirects)
+ *   - stdin or stderr isn't a TTY, or we're in CI. clack's spinner reads
+ *     stdin as keypresses, so it would swallow input piped into cf.
  *   - colors are disabled (NO_COLOR, dumb terminal)
  *   - CF_QUIET is set (honored by higher-level output helpers)
  */
 function canAnimate(): boolean {
-	if (!supportsColor()) {
+	if (!supportsColor(process.env, process.stderr.isTTY === true)) {
 		return false;
 	}
-	if (!process.stdout.isTTY) {
+	if (isNonInteractiveOrCI()) {
 		return false;
 	}
 	if (process.env.CF_QUIET === "1") {
@@ -87,10 +86,24 @@ export async function withProgress<T>(
 		indicator: "timer",
 		// 80ms per frame — same cadence as the previous renderer.
 		delay: 80,
+		output: process.stderr,
 	});
 
 	terminalProgress.setIndeterminate();
 	s.start(message);
+	// clack's spinner swallows SIGINT and SIGTERM, and reads a terminal's
+	// Ctrl+C or Esc as a cancel keypress that exits 0. Exit as an interrupted
+	// process would, so a pipeline or `&&` chain stops.
+	const interrupted = (signal: NodeJS.Signals) =>
+		process.exit(signal === "SIGTERM" ? 143 : 130);
+	const exiting = (code: number) => {
+		if (code === 0) {
+			process.exitCode = 130;
+		}
+	};
+	process.on("SIGINT", interrupted);
+	process.on("SIGTERM", interrupted);
+	process.on("exit", exiting);
 	try {
 		const result = await task();
 		terminalProgress.clear();
@@ -103,5 +116,9 @@ export async function withProgress<T>(
 		// rendering attaches to a known-good state.
 		s.error(message);
 		throw err;
+	} finally {
+		process.off("SIGINT", interrupted);
+		process.off("SIGTERM", interrupted);
+		process.off("exit", exiting);
 	}
 }

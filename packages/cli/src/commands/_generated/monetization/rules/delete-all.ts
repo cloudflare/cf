@@ -72,7 +72,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						message: `This operation deletes every Monetization Gateway rule for the zone.`,
 					}))
 				) {
-					process.stderr.write("Aborted.\n");
 					return;
 				}
 

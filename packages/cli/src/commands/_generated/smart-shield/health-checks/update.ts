@@ -7,7 +7,12 @@ import type { ArgClassification } from "#lib/telemetry/index.js";
  */
 import type { Argv, CommandModule } from "yargs";
 import { createCommandClient, getZoneId } from "#lib/auth.js";
-import { compactBody, parseBody, parseObjectArray } from "#lib/body-parser.js";
+import {
+	compactBody,
+	parseBody,
+	parseJsonMap,
+	parseObjectArray,
+} from "#lib/body-parser.js";
 import { formatDryRun } from "#lib/dry-run.js";
 import { resolveFileToken } from "#lib/input-validation.js";
 import { formatOutput } from "#lib/output.js";
@@ -78,6 +83,11 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("result-http-config-follow-redirects", {
 			type: "boolean",
 			description: "Follow redirects if the origin returns a 3xx status code.",
+		})
+		.option("result-http-config-header", {
+			type: "string",
+			description:
+				"The HTTP request headers to send in the health check. It is recommended you set a Host header by default. The User-Agent header cannot be overridden. Provide as a JSON object or @path/to/file.json.",
 		})
 		.option("result-http-config-method", {
 			type: "string",
@@ -190,67 +200,76 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						body:
 							argv.body !== undefined
 								? parseBody(argv.body)
-								: compactBody({
-										errors: parseObjectArray(argv["errors"], "errors"),
-										messages: parseObjectArray(argv["messages"], "messages"),
-										result: {
-											address: resolveFileToken(
-												argv["result-address"] as string | undefined,
-												"result-address",
-												"text"
-											),
-											check_regions: argv["result-check-regions"],
-											consecutive_fails: argv["result-consecutive-fails"],
-											consecutive_successes:
-												argv["result-consecutive-successes"],
-											description: resolveFileToken(
-												argv["result-description"] as string | undefined,
-												"result-description",
-												"text"
-											),
-											http_config: {
-												allow_insecure:
-													argv["result-http-config-allow-insecure"],
-												expected_body: resolveFileToken(
-													argv["result-http-config-expected-body"] as
-														| string
-														| undefined,
-													"result-http-config-expected-body",
+								: compactBody(
+										{
+											errors: parseObjectArray(argv["errors"], "errors"),
+											messages: parseObjectArray(argv["messages"], "messages"),
+											result: {
+												address: resolveFileToken(
+													argv["result-address"] as string | undefined,
+													"result-address",
 													"text"
 												),
-												expected_codes:
-													argv["result-http-config-expected-codes"],
-												follow_redirects:
-													argv["result-http-config-follow-redirects"],
-												method: argv["result-http-config-method"],
-												path: resolveFileToken(
-													argv["result-http-config-path"] as string | undefined,
-													"result-http-config-path",
+												check_regions: argv["result-check-regions"],
+												consecutive_fails: argv["result-consecutive-fails"],
+												consecutive_successes:
+													argv["result-consecutive-successes"],
+												description: resolveFileToken(
+													argv["result-description"] as string | undefined,
+													"result-description",
 													"text"
 												),
-												port: argv["result-http-config-port"],
+												http_config: {
+													allow_insecure:
+														argv["result-http-config-allow-insecure"],
+													expected_body: resolveFileToken(
+														argv["result-http-config-expected-body"] as
+															| string
+															| undefined,
+														"result-http-config-expected-body",
+														"text"
+													),
+													expected_codes:
+														argv["result-http-config-expected-codes"],
+													follow_redirects:
+														argv["result-http-config-follow-redirects"],
+													header: parseJsonMap(
+														argv["result-http-config-header"],
+														"result-http-config-header"
+													),
+													method: argv["result-http-config-method"],
+													path: resolveFileToken(
+														argv["result-http-config-path"] as
+															| string
+															| undefined,
+														"result-http-config-path",
+														"text"
+													),
+													port: argv["result-http-config-port"],
+												},
+												interval: argv["result-interval"],
+												name: resolveFileToken(
+													argv["result-name"] as string | undefined,
+													"result-name",
+													"text"
+												),
+												retries: argv["result-retries"],
+												suspended: argv["result-suspended"],
+												tcp_config: {
+													method: argv["result-tcp-config-method"],
+													port: argv["result-tcp-config-port"],
+												},
+												timeout: argv["result-timeout"],
+												type: resolveFileToken(
+													argv["result-type"] as string | undefined,
+													"result-type",
+													"text"
+												),
 											},
-											interval: argv["result-interval"],
-											name: resolveFileToken(
-												argv["result-name"] as string | undefined,
-												"result-name",
-												"text"
-											),
-											retries: argv["result-retries"],
-											suspended: argv["result-suspended"],
-											tcp_config: {
-												method: argv["result-tcp-config-method"],
-												port: argv["result-tcp-config-port"],
-											},
-											timeout: argv["result-timeout"],
-											type: resolveFileToken(
-												argv["result-type"] as string | undefined,
-												"result-type",
-												"text"
-											),
+											success: argv["success"],
 										},
-										success: argv["success"],
-									}),
+										[["result", "http_config", "header"]]
+									),
 					});
 					return;
 				}
@@ -289,61 +308,70 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				}
 
 				// Assemble request body from individual flags
-				const bodyData = compactBody({
-					errors: parseObjectArray(argv["errors"], "errors"),
-					messages: parseObjectArray(argv["messages"], "messages"),
-					result: {
-						address: resolveFileToken(
-							argv["result-address"] as string | undefined,
-							"result-address",
-							"text"
-						),
-						check_regions: argv["result-check-regions"],
-						consecutive_fails: argv["result-consecutive-fails"],
-						consecutive_successes: argv["result-consecutive-successes"],
-						description: resolveFileToken(
-							argv["result-description"] as string | undefined,
-							"result-description",
-							"text"
-						),
-						http_config: {
-							allow_insecure: argv["result-http-config-allow-insecure"],
-							expected_body: resolveFileToken(
-								argv["result-http-config-expected-body"] as string | undefined,
-								"result-http-config-expected-body",
+				const bodyData = compactBody(
+					{
+						errors: parseObjectArray(argv["errors"], "errors"),
+						messages: parseObjectArray(argv["messages"], "messages"),
+						result: {
+							address: resolveFileToken(
+								argv["result-address"] as string | undefined,
+								"result-address",
 								"text"
 							),
-							expected_codes: argv["result-http-config-expected-codes"],
-							follow_redirects: argv["result-http-config-follow-redirects"],
-							method: argv["result-http-config-method"],
-							path: resolveFileToken(
-								argv["result-http-config-path"] as string | undefined,
-								"result-http-config-path",
+							check_regions: argv["result-check-regions"],
+							consecutive_fails: argv["result-consecutive-fails"],
+							consecutive_successes: argv["result-consecutive-successes"],
+							description: resolveFileToken(
+								argv["result-description"] as string | undefined,
+								"result-description",
 								"text"
 							),
-							port: argv["result-http-config-port"],
+							http_config: {
+								allow_insecure: argv["result-http-config-allow-insecure"],
+								expected_body: resolveFileToken(
+									argv["result-http-config-expected-body"] as
+										| string
+										| undefined,
+									"result-http-config-expected-body",
+									"text"
+								),
+								expected_codes: argv["result-http-config-expected-codes"],
+								follow_redirects: argv["result-http-config-follow-redirects"],
+								header: parseJsonMap(
+									argv["result-http-config-header"],
+									"result-http-config-header"
+								),
+								method: argv["result-http-config-method"],
+								path: resolveFileToken(
+									argv["result-http-config-path"] as string | undefined,
+									"result-http-config-path",
+									"text"
+								),
+								port: argv["result-http-config-port"],
+							},
+							interval: argv["result-interval"],
+							name: resolveFileToken(
+								argv["result-name"] as string | undefined,
+								"result-name",
+								"text"
+							),
+							retries: argv["result-retries"],
+							suspended: argv["result-suspended"],
+							tcp_config: {
+								method: argv["result-tcp-config-method"],
+								port: argv["result-tcp-config-port"],
+							},
+							timeout: argv["result-timeout"],
+							type: resolveFileToken(
+								argv["result-type"] as string | undefined,
+								"result-type",
+								"text"
+							),
 						},
-						interval: argv["result-interval"],
-						name: resolveFileToken(
-							argv["result-name"] as string | undefined,
-							"result-name",
-							"text"
-						),
-						retries: argv["result-retries"],
-						suspended: argv["result-suspended"],
-						tcp_config: {
-							method: argv["result-tcp-config-method"],
-							port: argv["result-tcp-config-port"],
-						},
-						timeout: argv["result-timeout"],
-						type: resolveFileToken(
-							argv["result-type"] as string | undefined,
-							"result-type",
-							"text"
-						),
+						success: argv["success"],
 					},
-					success: argv["success"],
-				});
+					[["result", "http_config", "header"]]
+				);
 				const result = await withProgress(`Updating`, async () =>
 					client.send(operation, {
 						body: bodyData,

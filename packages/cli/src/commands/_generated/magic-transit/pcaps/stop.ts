@@ -77,7 +77,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						message: `This operation halts an in-progress full packet capture. Any unsaved capture data will be lost.`,
 					}))
 				) {
-					process.stderr.write("Aborted.\n");
 					return;
 				}
 

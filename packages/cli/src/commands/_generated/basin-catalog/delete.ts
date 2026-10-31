@@ -87,7 +87,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						message: `This removes catalog metadata. R2 bucket objects are retained.`,
 					}))
 				) {
-					process.stderr.write("Aborted.\n");
 					return;
 				}
 

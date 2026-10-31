@@ -36,7 +36,7 @@ An installed compatible `cf` can be used in place of the relative binary. cf fin
 node_modules/wrangler/bin/cf-wrangler.js dev
 ```
 
-The child inherits stdio and the project working directory. cf also supplies its auth marker and shared registry path, and relays SIGINT/SIGTERM.
+The child inherits stdio, the project working directory, and exported registry environment variables unchanged. cf supplies its auth marker and relays SIGINT/SIGTERM.
 
 The server prints its selected URL. Representative checks are:
 

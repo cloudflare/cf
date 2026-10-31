@@ -23,7 +23,7 @@ import { runWithTelemetry } from "#lib/telemetry/index.js";
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
 		.usage(
-			"$0 rulesets rules update <rule-id>\n\nUpdates an existing rule in an account or zone ruleset."
+			"$0 rulesets rules update <rule-id>\n\nUpdates an existing rule in an account or zone ruleset.\n\nRuns against your account. Pass --zone to run against a zone instead. CLOUDFLARE_ZONE_ID is ignored."
 		)
 		.positional("rule-id", {
 			type: "string",
@@ -63,10 +63,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("body", {
 			type: "string",
 			description: "Raw JSON request body (bypasses individual flags)",
-		})
-		.conflicts("position-before", ["position-after", "position-index"])
-		.conflicts("position-after", ["position-before", "position-index"])
-		.conflicts("position-index", ["position-before", "position-after"]);
+		});
 }
 
 type Args = InferArgs<typeof builder>;

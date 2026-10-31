@@ -99,7 +99,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						message: `This will permanently delete the Worker script secret.`,
 					}))
 				) {
-					process.stderr.write("Aborted.\n");
 					return;
 				}
 

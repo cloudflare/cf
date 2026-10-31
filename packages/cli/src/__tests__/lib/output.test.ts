@@ -124,6 +124,7 @@ describe("formatOutput", () => {
 
 	it("keeps piped JSON plain when FORCE_COLOR is set", () => {
 		setStdinTTY(true);
+		setStderrTTY(true);
 		setStdoutTTY(false);
 		withForcedColor(() => {
 			formatOutput({ name: "db" });
@@ -150,8 +151,22 @@ describe("formatOutput", () => {
 		});
 	});
 
+	it("keeps JSON plain when stdin can't be opened", () => {
+		setStdoutTTY(true);
+		const stdin = vi.spyOn(process, "stdin", "get").mockImplementation(() => {
+			throw new Error("TTY initialization failed");
+		});
+		try {
+			withForcedColor(() => formatOutput({ name: "db" }));
+		} finally {
+			stdin.mockRestore();
+		}
+		expect(logSpy).toHaveBeenCalledWith('{\n  "name": "db"\n}');
+	});
+
 	it("highlights JSON on an interactive TTY when FORCE_COLOR is set", () => {
 		setStdinTTY(true);
+		setStderrTTY(false);
 		setStdoutTTY(true);
 		withForcedColor(() => {
 			formatOutput({ name: "db" });
@@ -265,6 +280,25 @@ describe("formatOutput", () => {
 		const err = stderrWrite.join("");
 		expect(err).toContain("✓");
 		expect(err).toContain("Deleted namespace");
+	});
+
+	it("hides the ✓ line under --quiet", () => {
+		setStderrTTY(true);
+		const argv = process.argv;
+		process.argv = [
+			argv[0] ?? "node",
+			"cf",
+			"kv",
+			"namespaces",
+			"delete",
+			"--quiet",
+		];
+		try {
+			formatOutput(null, { successLabel: "Deleted namespace" });
+		} finally {
+			process.argv = argv;
+		}
+		expect(stderrWrite.join("")).toBe("");
 	});
 
 	it("treats undefined like null", () => {

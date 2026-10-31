@@ -96,7 +96,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						message: `This permanently deletes the specified object from the R2 bucket.`,
 					}))
 				) {
-					process.stderr.write("Aborted.\n");
 					return;
 				}
 

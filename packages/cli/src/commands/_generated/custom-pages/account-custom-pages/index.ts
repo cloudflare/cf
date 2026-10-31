@@ -1,3 +1,5 @@
+import $get from "./get.js";
+import $list from "./list.js";
 import $previewtokens from "./preview-tokens/index.js";
 import $update from "./update.js";
 import type { CommonYargsOptions } from "#lib/cli-types.js";
@@ -13,6 +15,8 @@ const command: CommandModule<CommonYargsOptions> = {
 
 	builder: (yargs) => {
 		return yargs
+			.command($get)
+			.command($list)
 			.command($update)
 			.command($previewtokens)
 			.demandCommand(1, "Please specify a subcommand");

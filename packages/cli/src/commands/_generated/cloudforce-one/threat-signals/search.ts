@@ -24,11 +24,20 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		)
 		.option("query", {
 			type: "string",
-			description: "Query",
+			description:
+				"Keyword and semantic article-search text, from 1 to 1000 characters.",
 			demandOption: true,
 		})
-		.option("max-results", { type: "string", description: "Max results" })
-		.option("feed-id", { type: "string", description: "Feed ID" })
+		.option("max-results", {
+			type: "string",
+			description:
+				"Maximum search matches to request, an integer from 1 to 50. Defaults to 20 when omitted or empty; multiple matches from one article can produce fewer returned articles.",
+		})
+		.option("feed-id", {
+			type: "string",
+			description:
+				"Optional feed UUID that restricts results to articles from that feed.",
+		})
 		.option("dry-run", {
 			type: "boolean",
 			description: "Validate and show what would happen without executing",

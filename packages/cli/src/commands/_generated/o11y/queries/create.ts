@@ -11,7 +11,7 @@ import {
 	getAccountId,
 	resolveAccountIdSilent,
 } from "#lib/auth.js";
-import { compactBody, parseBody } from "#lib/body-parser.js";
+import { compactBody, parseBody, parseObjectArray } from "#lib/body-parser.js";
 import { formatDryRun } from "#lib/dry-run.js";
 import { resolveFileToken } from "#lib/input-validation.js";
 import { LOCAL_ACCOUNT_ID } from "#lib/local.js";
@@ -28,6 +28,11 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "The description field",
 		})
 		.option("name", { type: "string", description: "Query name" })
+		.option("parameters-calculations", {
+			type: "string",
+			description:
+				"Create Calculations to compute as part of the query. Provide as a JSON array of objects or @path/to/file.json.",
+		})
 		.option("parameters-datasets", {
 			type: "string",
 			array: true,
@@ -43,6 +48,21 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.coerce("parameters-filter-combination", (value) =>
 			resolveFileToken(value, "parameters-filter-combination", "text")
 		)
+		.option("parameters-filters", {
+			type: "string",
+			description:
+				"Configure the Filters to apply to the query. Supports nested groups via kind: 'group'. Provide as a JSON array of objects or @path/to/file.json.",
+		})
+		.option("parameters-group-bys", {
+			type: "string",
+			description:
+				"Define how to group the results of the query. Provide as a JSON array of objects or @path/to/file.json.",
+		})
+		.option("parameters-havings", {
+			type: "string",
+			description:
+				"Configure the Having clauses that filter on calculations in the query result. Provide as a JSON array of objects or @path/to/file.json.",
+		})
 		.option("parameters-limit", {
 			type: "number",
 			description:
@@ -124,8 +144,24 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 											"text"
 										),
 										parameters: {
+											calculations: parseObjectArray(
+												argv["parameters-calculations"],
+												"parameters-calculations"
+											),
 											datasets: argv["parameters-datasets"],
 											filterCombination: argv["parameters-filter-combination"],
+											filters: parseObjectArray(
+												argv["parameters-filters"],
+												"parameters-filters"
+											),
+											groupBys: parseObjectArray(
+												argv["parameters-group-bys"],
+												"parameters-group-bys"
+											),
+											havings: parseObjectArray(
+												argv["parameters-havings"],
+												"parameters-havings"
+											),
 											limit: argv["parameters-limit"],
 											needle: {
 												isRegex: argv["parameters-needle-is-regex"],
@@ -187,8 +223,24 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						"text"
 					),
 					parameters: {
+						calculations: parseObjectArray(
+							argv["parameters-calculations"],
+							"parameters-calculations"
+						),
 						datasets: argv["parameters-datasets"],
 						filterCombination: argv["parameters-filter-combination"],
+						filters: parseObjectArray(
+							argv["parameters-filters"],
+							"parameters-filters"
+						),
+						groupBys: parseObjectArray(
+							argv["parameters-group-bys"],
+							"parameters-group-bys"
+						),
+						havings: parseObjectArray(
+							argv["parameters-havings"],
+							"parameters-havings"
+						),
 						limit: argv["parameters-limit"],
 						needle: {
 							isRegex: argv["parameters-needle-is-regex"],

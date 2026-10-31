@@ -35,6 +35,7 @@ export type {
 	CommandsMetadata,
 	ExampleMeta,
 	OptionMeta,
+	SearchMeta,
 } from "./command-meta.js";
 
 /**

@@ -25,6 +25,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		)
 		.option("id", {
 			type: "string",
+			array: true,
 			description: "A list of registration IDs to delete.",
 			demandOption: true,
 		})
@@ -78,7 +79,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.accountId = accountId;
 
 				if (!(await confirmDelete({ force: Boolean(argv.force) }))) {
-					process.stderr.write("Aborted.\n");
 					return;
 				}
 

@@ -1,3 +1,4 @@
+import $activationcheck from "./activation-check/index.js";
 import $aegis from "./aegis/index.js";
 import $automaticplatformoptimization from "./automatic-platform-optimization/index.js";
 import $binaryast from "./binary-ast/index.js";
@@ -8,6 +9,7 @@ import $fonts from "./fonts/index.js";
 import $get from "./get.js";
 import $h2prioritization from "./h2-prioritization/index.js";
 import $holds from "./holds/index.js";
+import $hostnames from "./hostnames/index.js";
 import $imageresizing from "./image-resizing/index.js";
 import $list from "./list.js";
 import $originh2maxstreams from "./origin-h2-max-streams/index.js";
@@ -41,12 +43,14 @@ const command: CommandModule<CommonYargsOptions> = {
 			.command($edit)
 			.command($get)
 			.command($list)
+			.command($activationcheck)
 			.command($aegis)
 			.command($automaticplatformoptimization)
 			.command($binaryast)
 			.command($fonts)
 			.command($h2prioritization)
 			.command($holds)
+			.command($hostnames)
 			.command($imageresizing)
 			.command($originh2maxstreams)
 			.command($originmaxhttpversion)

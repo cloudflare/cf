@@ -58,7 +58,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		})
 		.option("widget-mode", {
 			type: "string",
-			description: "Widget Mode",
+			description: "Widget mode",
 			choices: ["non-interactive", "invisible", "managed"],
 		})
 		.coerce("widget-mode", (value) =>
@@ -168,7 +168,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				if (argv["widget-mode"] === undefined) {
 					argv["widget-mode"] = await promptForRequiredEnumField(
 						"widget-mode",
-						"Widget Mode",
+						"Widget mode",
 						["non-interactive", "invisible", "managed"] as const
 					);
 				}

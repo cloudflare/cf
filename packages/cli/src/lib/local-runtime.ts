@@ -6,7 +6,6 @@ import { join, resolve } from "node:path";
 import { getCfConfigPath } from "@cloudflare/workers-auth/cf";
 import { Miniflare } from "miniflare";
 import { NO_LOCAL_EQUIVALENT } from "./local.js";
-import { getCloudflareRegistryPath } from "./registry.js";
 
 const COMPATIBILITY_DATE = "2026-08-15";
 const LOCAL_EXPLORER_URL = "http://localhost/cdn-cgi/local/explorer/api";
@@ -48,7 +47,6 @@ interface LocalSession {
 let session: LocalSession | undefined;
 
 function startSession(persistRoot: string): LocalSession {
-	const registryPath = getCloudflareRegistryPath();
 	const isolatedPersistRoot = mkdtempSync(
 		join(tmpdir(), `cf-local-isolated-${process.pid}-`)
 	);
@@ -61,7 +59,6 @@ function startSession(persistRoot: string): LocalSession {
 			resourcePersistencePath: persistRoot,
 			unsafeEnableSharedStorage: true,
 			isolatedResourcePersistencePath: isolatedPersistRoot,
-			unsafeDevRegistryPath: registryPath,
 			workers: [
 				{
 					config: {

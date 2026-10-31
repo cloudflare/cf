@@ -43,8 +43,11 @@ export function setNestedValue(
 	current[lastKey] = value;
 }
 
-export function compactBody<T>(value: unknown): T {
-	const compact = (item: unknown): unknown => {
+export function compactBody<T>(
+	value: unknown,
+	preservePaths: readonly (readonly string[])[] = []
+): T {
+	const compact = (item: unknown, path: readonly string[]): unknown => {
 		if (Array.isArray(item)) {
 			return item;
 		}
@@ -52,11 +55,18 @@ export function compactBody<T>(value: unknown): T {
 			return item;
 		}
 		const entries = Object.entries(item).flatMap(([key, child]) => {
-			const compacted = compact(child);
+			const childPath = [...path, key];
+			const preserve = preservePaths.some(
+				(p) =>
+					p.length === childPath.length &&
+					p.every((part, i) => part === childPath[i])
+			);
+			const compacted = preserve ? child : compact(child, childPath);
 			if (compacted === undefined) {
 				return [];
 			}
 			if (
+				!preserve &&
 				typeof compacted === "object" &&
 				compacted !== null &&
 				!Array.isArray(compacted) &&
@@ -68,7 +78,7 @@ export function compactBody<T>(value: unknown): T {
 		});
 		return Object.fromEntries(entries);
 	};
-	return compact(value) as T;
+	return compact(value, []) as T;
 }
 /**
  * Parse a raw JSON string from the --body flag.
@@ -113,14 +123,104 @@ function parseJson<T>(input: string, flagName: string): T {
 	}
 }
 
-export function parseBody<T = unknown>(input: string): T {
-	return parseJson<T>(input, "body");
+export function parseBody<T = unknown>(
+	input: string,
+	requiredMaps: readonly { path: readonly string[]; flag: string }[] = []
+): T {
+	const body = parseJson<unknown>(input, "body");
+	for (const { path, flag } of requiredMaps) {
+		let value: unknown = body;
+		for (const key of path) {
+			value =
+				isJsonObject(value) && Object.hasOwn(value, key)
+					? value[key]
+					: undefined;
+		}
+		if (!isJsonObject(value)) {
+			throw new Error(
+				`--body must include a JSON object at ${path.join(".")} (for --${flag}).`
+			);
+		}
+	}
+	return body as T;
+}
+
+function isJsonObject(value: unknown): value is Record<string, unknown> {
+	return value !== null && typeof value === "object" && !Array.isArray(value);
+}
+
+/** Keep JSON primitive types when a body flag accepts more than one scalar type. */
+export function parseScalarValue(
+	input: unknown,
+	flagName: string
+): string | number | boolean | undefined {
+	if (input === undefined) {
+		return undefined;
+	}
+	const flag = flagName.startsWith("--") ? flagName : `--${flagName}`;
+	if (typeof input !== "string") {
+		throw new Error(`${flag} must be provided once as a scalar value.`);
+	}
+	let text = input;
+	if (input.startsWith("@")) {
+		const path = input.slice(1);
+		if (path.length === 0) {
+			throw new Error(
+				`${flag} '@' must be followed by a file path (got empty path)`
+			);
+		}
+		try {
+			text = readFileSync(resolvePath(path), "utf-8");
+		} catch (err) {
+			const reason = err instanceof Error ? err.message : "unknown read error";
+			throw new Error(`${flag}: cannot read file at '${path}': ${reason}`);
+		}
+	}
+	let value: unknown;
+	try {
+		value = JSON.parse(text);
+	} catch {
+		return text;
+	}
+	if (
+		typeof value !== "string" &&
+		typeof value !== "number" &&
+		typeof value !== "boolean"
+	) {
+		throw new Error(`${flag} must be a JSON scalar or plain string.`);
+	}
+	return value;
+}
+
+/** Parse a map as one JSON object, retaining its keys and values verbatim. */
+export function parseJsonMap(
+	input: unknown,
+	flagName: string,
+	required = false
+): Record<string, unknown> | undefined {
+	const flag = flagName.startsWith("--") ? flagName : `--${flagName}`;
+	if (input === undefined) {
+		if (required) {
+			throw new Error(
+				`${flag} is required (or pass --body with this field set).`
+			);
+		}
+		return undefined;
+	}
+	if (typeof input !== "string") {
+		throw new Error(`${flag} must be provided once as a JSON object.`);
+	}
+	const value = parseJson<unknown>(input, flagName);
+	if (!isJsonObject(value)) {
+		throw new Error(`${flag} must be a JSON object.`);
+	}
+	return value;
 }
 
 /**
  * Parse one JSON-valued object-array body flag.
  *
- * Forge keeps direct request-body arrays of objects intact instead of
+ * Forge keeps request-body arrays of objects intact instead of
  * flattening their item properties. The generated command therefore accepts
  * the whole array as one JSON string (or `@file`) and validates only the shape
  * Forge promises: an array whose every item is a non-null JSON object. The API
@@ -130,6 +230,26 @@ export function parseObjectArray(
 	input: unknown,
 	flagName: string
 ): Record<string, unknown>[] | undefined {
+	return parseStructuredArray(input, flagName, "objects") as
+		| Record<string, unknown>[]
+		| undefined;
+}
+
+/** Parse an array of arrays without flattening its nested JSON values. */
+export function parseNestedArray(
+	input: unknown,
+	flagName: string
+): unknown[][] | undefined {
+	return parseStructuredArray(input, flagName, "arrays") as
+		| unknown[][]
+		| undefined;
+}
+
+function parseStructuredArray(
+	input: unknown,
+	flagName: string,
+	items: "objects" | "arrays"
+): unknown[] | undefined {
 	if (input === undefined) {
 		return undefined;
 	}
@@ -137,17 +257,17 @@ export function parseObjectArray(
 	const flag = flagName.startsWith("--") ? flagName : `--${flagName}`;
 	if (typeof input !== "string") {
 		throw new Error(
-			`${flag} must be provided once as a JSON array of objects.`
+			`${flag} must be provided once as a JSON array of ${items}.`
 		);
 	}
 	const value = parseJson<unknown>(input, flagName);
 	if (
 		!Array.isArray(value) ||
-		value.some(
-			(item) => item === null || typeof item !== "object" || Array.isArray(item)
+		value.some((item) =>
+			items === "arrays" ? !Array.isArray(item) : !isJsonObject(item)
 		)
 	) {
-		throw new Error(`${flag} must be a JSON array of objects.`);
+		throw new Error(`${flag} must be a JSON array of ${items}.`);
 	}
-	return value as Record<string, unknown>[];
+	return value;
 }

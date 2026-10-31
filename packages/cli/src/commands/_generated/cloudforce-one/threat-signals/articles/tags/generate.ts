@@ -24,7 +24,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		)
 		.positional("article-id", {
 			type: "string",
-			description: "Article ID",
+			description: "Threat Signals article UUID",
 			demandOption: true,
 		})
 		.option("dry-run", {

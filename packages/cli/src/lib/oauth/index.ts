@@ -2,7 +2,7 @@
  * cf's OAuth wiring.
  *
  * The shared package owns cf's identity, scopes, callback handling, credential
- * storage, refresh, and future keyring support. This module only supplies cf's
+ * storage, refresh, and keyring support. This module only supplies cf's
  * logger and prompt primitives, then preserves the façade consumed by commands.
  */
 import { isCancel } from "@clack/core";
@@ -10,6 +10,7 @@ import * as clack from "@clack/prompts";
 import {
 	createCfAuth,
 	createCfProfileStore,
+	setKeyringPreference as setSharedKeyringPreference,
 	validateScopeKeys,
 	type AuthContext,
 } from "@cloudflare/workers-auth/cf";
@@ -17,9 +18,12 @@ import { USER_AGENT, VERSION } from "../../version.js";
 import { hasQuietFlag } from "../args.js";
 import { CliExit } from "../cli-exit.js";
 import { getComplianceRegion, type ComplianceRegion } from "../context.js";
+import { wrapPromptMessage } from "../dialog.js";
+import { MissingCredentialsError } from "../errors.js";
 import { isNonInteractiveOrCI } from "../interactive.js";
 import { openSession } from "../session.js";
 import { printAccountConfigHint } from "./account-hint.js";
+import type { TemporaryAccountRequest } from "@cloudflare/workers-auth";
 
 const logger: AuthContext["logger"] = {
 	debug: (...args) => {
@@ -40,7 +44,10 @@ async function prompt(question: string): Promise<string> {
 		throw new NonInteractiveSelectionError();
 	}
 	openSession(VERSION);
-	const result = await clack.text({ message: question });
+	const result = await clack.text({
+		message: wrapPromptMessage(question),
+		output: process.stderr,
+	});
 	if (isCancel(result) || typeof result !== "string") {
 		throw new CliExit(130, { cancelled: true });
 	}
@@ -57,6 +64,7 @@ async function select(
 	openSession(VERSION);
 	const result = await clack.select({
 		message: text,
+		output: process.stderr,
 		options: options.choices.map(({ title, value }) => ({
 			label: title,
 			value,
@@ -84,16 +92,84 @@ const auth = createCfAuth({
 		error instanceof NonInteractiveSelectionError,
 });
 
+let temporaryAccountRequested = false;
+
+/**
+ * Record whether the user requested --temporary-account for this invocation.
+ * An event code applies only when creating a new account, not reusing one.
+ */
+export function setTemporaryAccountRequested(
+	requested: boolean,
+	request?: TemporaryAccountRequest
+): void {
+	temporaryAccountRequested = requested;
+	auth.setTemporaryAllowed(requested, request);
+}
+
+/** Whether the user requested --temporary-account for this invocation. */
+export function isTemporaryAccountRequested(): boolean {
+	return temporaryAccountRequested;
+}
+
+/**
+ * Provision or reuse this invocation's temporary preview account. workers-auth
+ * keeps it active for later calls and rejects it when credentials exist.
+ * Every invocation must opt in, even when an account is already cached.
+ */
+export async function requireTemporaryAccount(options?: {
+	isPreview?: boolean;
+	complianceRegion?: ComplianceRegion;
+}): Promise<{ accountId: string; apiToken: string }> {
+	if (!isTemporaryAccountRequested()) {
+		throw new Error("Temporary accounts require --temporary-account.");
+	}
+
+	try {
+		const accountId = await auth.requireAuth({
+			compliance_region:
+				options?.complianceRegion ?? (await getComplianceRegion(options)),
+		});
+		const { apiToken } = auth.requireApiToken() as { apiToken: string };
+		return { accountId, apiToken };
+	} catch (error) {
+		// workers-auth's shared temporary-account errors name Wrangler's
+		// `--temporary` flag. Keep cf's public spelling in those messages.
+		if (error instanceof Error) {
+			error.message = error.message.replaceAll(
+				/--temporary(?!-account)/g,
+				"--temporary-account"
+			);
+		}
+		throw error;
+	}
+}
+
 /** Resolve a configured, cached, or newly selected account ID. */
 export async function getOrSelectAccountId(
 	accountId?: string,
 	options?: { isPreview?: boolean; complianceRegion?: ComplianceRegion }
 ): Promise<string> {
-	return auth.getOrSelectAccountId({
-		account_id: accountId,
-		compliance_region:
-			options?.complianceRegion ?? (await getComplianceRegion(options)),
-	});
+	try {
+		return await auth.getOrSelectAccountId({
+			account_id: accountId,
+			compliance_region:
+				options?.complianceRegion ?? (await getComplianceRegion(options)),
+		});
+	} catch (error) {
+		// Older workers-auth releases omit the structured failure reason. Use
+		// credential state at this boundary rather than parsing their message.
+		if (
+			error instanceof Error &&
+			!("reason" in error) &&
+			"telemetryMessage" in error &&
+			error.telemetryMessage === "cfetch auth login required" &&
+			isNonInteractiveOrCI() &&
+			auth.getAPIToken() === undefined
+		) {
+			throw new MissingCredentialsError(error.message, { cause: error });
+		}
+		throw error;
+	}
 }
 
 /**
@@ -142,7 +218,10 @@ export async function login(opts?: {
 	);
 }
 
-/** Revoke the stored refresh token and delete cf's token file. */
+/**
+ * Clear any cached temporary account, then revoke the stored refresh token and
+ * delete cf's token file. Prints workers-auth's shared logout messages.
+ */
 export function logout(profile?: string): Promise<void> {
 	return auth.logout(profile);
 }
@@ -150,6 +229,14 @@ export function logout(profile?: string): Promise<void> {
 /** Set the auth profile used by subsequent credential lookups. */
 export function setProfile(profile: string): void {
 	auth.setProfile(profile);
+}
+
+/** Apply cf's global credential-storage preference through the shared auth layer. */
+export function setKeyringPreference(enabled: boolean): void {
+	setSharedKeyringPreference(enabled, {
+		logger,
+		getCredentialStore: () => auth.getCredentialStore(),
+	});
 }
 
 /** Return the auth profile selected for the current invocation. */

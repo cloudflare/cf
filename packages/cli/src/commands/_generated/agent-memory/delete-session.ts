@@ -93,7 +93,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						message: `This operation deletes all memories and messages tagged with this session ID.`,
 					}))
 				) {
-					process.stderr.write("Aborted.\n");
 					return;
 				}
 

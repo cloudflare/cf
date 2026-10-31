@@ -48,6 +48,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		})
 		.option("type", {
 			type: "string",
+			array: true,
 			description: "Filters results by entity type (LOCATION, AS, or ORIGIN).",
 		})
 		.option("data-source", {

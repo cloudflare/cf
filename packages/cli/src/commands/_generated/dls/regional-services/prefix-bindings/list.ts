@@ -20,7 +20,7 @@ import { runWithTelemetry } from "#lib/telemetry/index.js";
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
 		.usage(
-			"$0 dls regional-services prefix-bindings list\n\nList DLS prefix bindings for an account"
+			"$0 dls regional-services prefix-bindings list\n\nList the BYOIP prefix bindings configured for an account."
 		)
 		.option("cursor", {
 			type: "string",

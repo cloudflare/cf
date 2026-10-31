@@ -3,7 +3,8 @@
  *
  * - cf locates the impl's delegate executable and invokes
  *   `<impl-binary> dev [argv]`.
- * - stdio is fully inherited; the impl owns the terminal.
+ * - `cf dev` inherits stdio, so the impl owns the terminal; `build` sends
+ *   the impl's stdout to stderr.
  * - cf forwards SIGINT / SIGTERM and exits with the impl's exit code.
  * - There is no protocol pipe, no JSON handshake, no capabilities
  *   negotiation. The `dev` subcommand either exists on the impl's
@@ -16,7 +17,6 @@
  */
 import { constants } from "node:os";
 import { x } from "tinyexec";
-import { getCloudflareRegistryEnvironment } from "../../lib/registry.js";
 import type { CommandOutputOptions } from "../../lib/autoconfig.js";
 import type { DiscoveredImpl } from "./discover.js";
 
@@ -75,15 +75,18 @@ export async function spawnImpl(
 	argv: string[],
 	options: SpawnOptions = {}
 ): Promise<SpawnResult> {
-	const output = options.output ?? "stdout";
+	const output = options.output ?? "stderr";
 	const binary = discovered.binary;
 	if (!binary) {
 		// Caller (commands/dev/index.ts) checks this before calling, but
 		// we keep the guard here so the function is safe to call without
 		// re-deriving the precondition.
+		const commands = discovered.impl.installCommands.map(
+			(command) => `\`${command}\``
+		);
 		throw new Error(
 			`Cannot spawn ${discovered.impl.pkg}: binary not found.\n` +
-				`Try: ${discovered.impl.installHint}`
+				`Try: ${new Intl.ListFormat("en", { type: "disjunction" }).format(commands)}`
 		);
 	}
 
@@ -101,24 +104,21 @@ export async function spawnImpl(
 			// Inherited stdin/stderr keep the Windows console attached even
 			// with tinyexec's windowsHide default, so console Ctrl+C still works.
 			// Dev inherits stdout so the implementation owns the terminal. A
-			// composed one-shot command may instead route build output to stderr
-			// (preserving JSON stdout) or suppress non-error output under --quiet.
+			// one-shot command routes build output to stderr, keeping stdout
+			// for its own output, or suppresses it under --quiet.
 			stdio: [
 				"inherit",
-				output === "stderr"
-					? process.stderr
+				output === "inherit"
+					? "inherit"
 					: output === "silent"
 						? "ignore"
-						: "inherit",
+						: process.stderr,
 				"inherit",
 			],
 			// Pass cwd through implicitly via process.cwd(); the impl reads
 			// its own config from there. The impl also needs the user's full
 			// environment (PATH, NODE_OPTIONS, virtualenv markers, etc.), so
-			// we don't whitelist. Dev servers are always pointed at cf's
-			// resolved registry: existing Wrangler/Vite-based implementations
-			// consume WRANGLER_REGISTRY_PATH, while cf-native implementations
-			// consume CLOUDFLARE_REGISTRY_PATH. We also append
+			// we don't whitelist. We also append
 			// `--no-deprecation` to NODE_OPTIONS so transitive userland
 			// `punycode` deprecation warnings don't leak into the impl's
 			// terminal output. The impls themselves can't easily suppress
@@ -126,7 +126,7 @@ export async function spawnImpl(
 			// is the right place to set the env flag. Other deprecation
 			// warnings the user might actually want to see are sacrificed
 			// here in exchange for clean dev-server output.
-			env: implEnvironment(verb, options.env),
+			env: implEnvironment(options.env),
 		},
 	});
 
@@ -165,22 +165,13 @@ export async function spawnImpl(
 }
 
 function implEnvironment(
-	verb: string,
 	overrides: Readonly<NodeJS.ProcessEnv> = {}
 ): NodeJS.ProcessEnv {
-	const env = {
+	return {
 		...appendNodeOption(process.env, "--no-deprecation"),
 		...overrides,
 		// Shared integrations use this marker to select cf's auth profile.
 		CLOUDFLARE_CF_AUTH: "true",
-	};
-	if (verb !== "dev") {
-		return env;
-	}
-
-	return {
-		...env,
-		...getCloudflareRegistryEnvironment(env),
 	};
 }
 

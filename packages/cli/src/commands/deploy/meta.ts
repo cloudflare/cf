@@ -1,3 +1,4 @@
+import { secretsFileDescription } from "./secrets-file-description.js";
 import type { CommandMeta } from "../../lib/command-meta.js";
 
 export default [
@@ -6,8 +7,21 @@ export default [
 		name: "deploy",
 		fullPath: ["deploy"],
 		category: "action",
-		description: "Deploy a worker to Cloudflare",
+		description:
+			"Deploy a Worker, static site, or full-stack application to Cloudflare",
 		usage: "cf deploy [options]",
+		search: {
+			keywords: [
+				"pages",
+				"project",
+				"website",
+				"static",
+				"site",
+				"assets",
+				"frontend",
+				"full-stack",
+			],
+		},
 		arguments: [],
 		options: [
 			{
@@ -34,8 +48,7 @@ export default [
 				name: "secrets-file",
 				type: "string",
 				required: false,
-				description:
-					"Path to a file containing secrets to upload with the version (JSON or .env format)",
+				description: secretsFileDescription,
 			},
 			{
 				name: "dry-run",

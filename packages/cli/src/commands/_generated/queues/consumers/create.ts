@@ -83,7 +83,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		})
 		.conflicts("script-name", ["settings-visibility-timeout-ms"])
 		.conflicts("settings-max-concurrency", ["settings-visibility-timeout-ms"])
+		.implies("settings-max-concurrency", ["script-name"])
 		.conflicts("settings-max-wait-time-ms", ["settings-visibility-timeout-ms"])
+		.implies("settings-max-wait-time-ms", ["script-name"])
 		.conflicts("settings-visibility-timeout-ms", [
 			"script-name",
 			"settings-max-concurrency",

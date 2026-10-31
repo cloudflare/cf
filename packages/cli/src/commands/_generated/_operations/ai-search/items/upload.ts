@@ -4,8 +4,8 @@ import { path } from "#api";
 export default {
 	method: "POST",
 	path: (request: Record<string, unknown>) =>
-		path`/accounts/${request.account_id}/ai-search/namespaces/${request.name}/instances/${request.id}/items`,
-	pathParams: ["account_id", "name", "id"],
+		path`/accounts/${request.account_id}/ai-search/namespaces/${request.namespace}/instances/${request.id}/items`,
+	pathParams: ["account_id", "namespace", "id"],
 	body: "form",
 	errors: {
 		400: "BadRequestError",

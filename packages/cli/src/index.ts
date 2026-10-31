@@ -19,6 +19,7 @@ import {
 	shouldApplyCloudflareDotEnv,
 } from "./lib/dotenv.js";
 import { handleError } from "./lib/errors.js";
+import { BUILTIN_OPTIONS, GLOBAL_OPTIONS } from "./lib/global-options.js";
 import { withHandWrittenDryRun } from "./lib/hand-written-dry-run.js";
 import { lazyCommand, type LazyCommandImporter } from "./lib/lazy-command.js";
 import { disposeLocalRuntime } from "./lib/local.js";
@@ -33,67 +34,14 @@ import { renderPromptIntro } from "./lib/ui/banner.js";
 import { theme } from "./lib/ui/index.js";
 import { VERSION as version } from "./version.js";
 import type * as TelemetryModule from "./lib/telemetry/index.js";
+import type {
+	CommandResolutionFailure,
+	CommandResolutionFailureKind,
+} from "./lib/telemetry/types.js";
 import type { UpdateNotice } from "./lib/update-check.js";
 import type { Options } from "yargs";
 
 export { CliExit } from "./lib/cli-exit.js";
-
-const GLOBAL_OPTIONS = {
-	quiet: {
-		type: "boolean",
-		alias: "q",
-		description: "Suppress non-essential output",
-		global: true,
-		default: false,
-	},
-	zone: {
-		type: "string",
-		alias: "z",
-		description: "Zone ID or domain name (overrides CLOUDFLARE_ZONE_ID)",
-		global: true,
-	},
-	profile: {
-		type: "string",
-		description: "Use a specific auth profile",
-		requiresArg: true,
-		global: true,
-	},
-	mode: {
-		type: "string",
-		alias: "m",
-		description: "Mode used to evaluate project configuration",
-		requiresArg: true,
-		global: true,
-		coerce: (mode) => {
-			if (Array.isArray(mode)) {
-				throw new Error("--mode can only be specified once.");
-			}
-			if (mode === "") {
-				throw new Error("--mode requires a non-empty value.");
-			}
-			return mode;
-		},
-	},
-	// `--local` runs the command against cf's on-disk Miniflare state
-	// instead of the production API: cf spawns its own Miniflare over
-	// `--persist-to` (default `~/.config/cloudflare/state/v3`), dispatches to the
-	// local-explorer worker, and disposes it before exiting. No dev
-	// session needs to be running. Endpoints the explorer doesn't
-	// implement surface as a "no local equivalent" error.
-	local: {
-		type: "boolean",
-		description: "Use local resource simulations",
-		global: true,
-		default: false,
-	},
-	"persist-to": {
-		type: "string",
-		description:
-			"Directory holding local persisted state (default: ~/.config/cloudflare/state)",
-		requiresArg: true,
-		global: true,
-	},
-} satisfies Record<string, Options>;
 
 function globalFlagTakesValue(arg: string, nextArg?: string): boolean {
 	return Object.entries<Options>(GLOBAL_OPTIONS).some(([name, option]) => {
@@ -167,10 +115,11 @@ function decorateHelp(help: string, command: string | undefined): string {
 /**
  * Print a one-line hint about shell completions on the first TTY run.
  *
- * Persists `completions.prompted: true` in cf's global state so
- * subsequent runs stay silent. Suppressed when stderr isn't a TTY,
- * `--quiet` is set, the user is running `cf complete`, or they've
- * already been hinted. Modelled after `gh` / `git`.
+ * Persists `completions.prompted: true` in cf's global state before
+ * printing, so a state file cf cannot write suppresses the hint rather
+ * than repeating it on every run. Suppressed when stderr isn't a TTY,
+ * in CI, when `--quiet` is set, the user is running `cf complete`, or
+ * they've already been hinted. Modelled after `gh` / `git`.
  */
 async function maybeShowCompletionsHint(quiet = false): Promise<void> {
 	if (!process.stderr.isTTY) {
@@ -182,16 +131,19 @@ async function maybeShowCompletionsHint(quiet = false): Promise<void> {
 	if (commandName() === "complete") {
 		return;
 	}
+	const { isCI } = await import("./lib/interactive.js");
+	if (isCI) {
+		return;
+	}
 	const { readState, updateState } = await import("./lib/state.js");
 	if (readState().completions?.prompted) {
 		return;
 	}
-	process.stderr.write(
-		theme.muted(
-			"Tip: run `cf complete <bash|zsh|fish>` to install shell completions.\n"
-		)
-	);
 	updateState({ completions: { prompted: true } });
+	const { log } = await import("./lib/ui/log.js");
+	log.info(
+		`Tip: run ${theme.code("cf complete <bash|zsh|fish|powershell>")} to install shell completions.`
+	);
 }
 
 let telemetryModulePromise: Promise<typeof TelemetryModule> | undefined;
@@ -246,10 +198,9 @@ async function maybeShowTelemetryNotice(quiet = false): Promise<void> {
 		return;
 	}
 
-	process.stderr.write(
-		theme.muted(
-			"Cloudflare collects anonymous cf usage telemetry. Run `cf cli telemetry disable` to opt out.\n"
-		)
+	const { log } = await import("./lib/ui/log.js");
+	log.info(
+		`Cloudflare collects anonymous cf usage telemetry. Run ${theme.code("cf cli telemetry disable")} to opt out.`
 	);
 	setBannerLastShown(version);
 }
@@ -265,8 +216,78 @@ async function flushTelemetry(): Promise<void> {
 	}
 }
 
+// yargs words this singularly or plurally depending on the token count.
+const UNKNOWN_COMMAND_MESSAGE = /^Unknown commands?: /;
+const SUGGESTED_COMMAND_MESSAGE = /^Did you mean (.+)\?$/;
+const MISSING_COMMAND_MESSAGE = "You need to specify a command";
+
+// Only the singular form has historically been bucketed as an unknown
+// command; the plural keeps the resolved command name for continuity.
 function isUnknownCommandError(error: unknown): boolean {
 	return error instanceof Error && error.message.startsWith("Unknown command:");
+}
+
+interface YargsResolutionState {
+	parsed?: false | { argv?: { _?: unknown } };
+	getInternalMethods(): {
+		getContext(): { commands: unknown };
+		getCommandInstance(): { getCommands(): unknown };
+	};
+}
+
+/**
+ * Capture where command resolution stopped, read while yargs still holds the
+ * failing level's context (it resets after parsing). Returns the raw tokens;
+ * telemetry sanitises them before sending.
+ */
+function commandResolutionFailure(
+	yargsInstance: unknown,
+	message: string
+): CommandResolutionFailure | undefined {
+	const suggestedCommand = SUGGESTED_COMMAND_MESSAGE.exec(message)?.[1];
+	let kind: CommandResolutionFailureKind;
+	if (suggestedCommand !== undefined) {
+		kind = "suggested-command";
+	} else if (UNKNOWN_COMMAND_MESSAGE.test(message)) {
+		kind = "unknown-subcommand";
+	} else if (message === MISSING_COMMAND_MESSAGE) {
+		kind = "missing-command";
+	} else {
+		return undefined;
+	}
+
+	try {
+		const state = yargsInstance as YargsResolutionState;
+		const internals = state.getInternalMethods();
+		const knownCommand = internals.getContext().commands;
+		const subcommands = internals.getCommandInstance().getCommands();
+		const positionals = state.parsed ? state.parsed.argv?._ : undefined;
+		if (
+			!Array.isArray(knownCommand) ||
+			!knownCommand.every((command) => typeof command === "string") ||
+			!Array.isArray(subcommands)
+		) {
+			return undefined;
+		}
+		// A leaf has no subcommands, so yargs' strict-commands check reports any
+		// positional the leaf did not consume as an unknown command.
+		const knownCommandIsLeaf =
+			knownCommand.length > 0 && subcommands.length === 0;
+		return {
+			kind:
+				kind === "unknown-subcommand" && knownCommandIsLeaf
+					? "surplus-positional"
+					: kind,
+			knownCommand,
+			knownCommandIsLeaf,
+			unknownTokens: Array.isArray(positionals)
+				? positionals.slice(knownCommand.length).map(String)
+				: [],
+			...(suggestedCommand === undefined ? {} : { suggestedCommand }),
+		};
+	} catch {
+		return undefined;
+	}
 }
 
 function resolvedCommandName(yargsInstance: unknown): string | undefined {
@@ -298,17 +319,46 @@ function excludesTelemetry(command: string): boolean {
 	return root === "complete" || (root === "cli" && subcommand === "telemetry");
 }
 
+/**
+ * The command the user most likely meant: the recognised path, then the
+ * suggestion in place of the mistyped word. A typo such as
+ * `cf clii telemetry disable` still expresses telemetry opt-out intent.
+ */
+function intendedCommand(failure: CommandResolutionFailure): string {
+	const [first, ...rest] = failure.unknownTokens;
+	const next = failure.suggestedCommand ?? first;
+	return [
+		...failure.knownCommand,
+		...(next === undefined ? [] : [next]),
+		...rest,
+	]
+		.join(" ")
+		.toLowerCase();
+}
+
 async function reportParseErrorIfUnreported(
 	error: unknown,
-	resolvedCommand: string | undefined
+	resolvedCommand: string | undefined,
+	resolutionFailure?: CommandResolutionFailure
 ): Promise<void> {
 	if (wasCommandReported() || error instanceof CliExit) {
 		return;
 	}
-	const command = isUnknownCommandError(error) ? undefined : resolvedCommand;
+	// Failures below the root keep the bucketing they had before resolution
+	// detail was added, so existing per-command data stays comparable: only
+	// yargs' singular "Unknown command:" becomes an unknown command, while a
+	// suggestion or several unknown words keep the resolved command's name.
+	// Root failures had no command name and were dropped; they are now
+	// reported as unknown commands.
+	const isUnknownCommand =
+		isUnknownCommandError(error) ||
+		resolutionFailure?.knownCommand.length === 0;
+	const command = isUnknownCommand ? undefined : resolvedCommand;
 	if (
-		(command === undefined && !isUnknownCommandError(error)) ||
-		excludesTelemetry(command ?? commandPath().join(" "))
+		(command === undefined && !isUnknownCommand) ||
+		excludesTelemetry(command ?? commandPath().join(" ")) ||
+		(resolutionFailure !== undefined &&
+			excludesTelemetry(intendedCommand(resolutionFailure)))
 	) {
 		return;
 	}
@@ -319,12 +369,17 @@ async function reportParseErrorIfUnreported(
 		const { sanitizeError } =
 			await import("./lib/telemetry/error-sanitization.js");
 		const dispatcher = getTelemetryDispatcher();
+		if (!dispatcher.enabled) {
+			return;
+		}
+		const resolution = resolutionFailure
+			? await describeResolutionFailure(resolutionFailure)
+			: { argsUsed: [], argsCombination: "" };
 		const telemetryEventName = command ?? UNKNOWN_COMMAND_EVENT;
 		const base = {
 			command: telemetryEventName,
 			sanitizedArgs: {},
-			argsUsed: [],
-			argsCombination: "",
+			...resolution,
 		};
 		dispatcher.sendCommandEvent("cf command started", base);
 		dispatcher.sendCommandEvent("cf command finished", {
@@ -336,6 +391,16 @@ async function reportParseErrorIfUnreported(
 	} catch {
 		// Telemetry must not interfere with error reporting.
 	}
+}
+
+async function describeResolutionFailure(failure: CommandResolutionFailure) {
+	const { loadCommandVocabulary, sanitizeCommandResolution } =
+		await import("./lib/telemetry/command-resolution.js");
+	return sanitizeCommandResolution(
+		failure,
+		hideBin(process.argv),
+		loadCommandVocabulary(Object.keys(GLOBAL_OPTIONS))
+	);
 }
 
 async function reportHelpShown(command: string | undefined): Promise<void> {
@@ -432,6 +497,11 @@ interface PreparedUpdateCheck {
 
 interface BuildCliOptions {
 	onCommandResolved?: (command: string) => void;
+	/** Receives the error `.fail` is about to throw for a resolution failure. */
+	onCommandResolutionFailed?: (
+		failure: CommandResolutionFailure,
+		error: Error
+	) => void;
 	onHelpShown?: (command: string) => void;
 	updateCheck?: PreparedUpdateCheck;
 }
@@ -497,6 +567,8 @@ async function prepareUpdateCheck(): Promise<PreparedUpdateCheck | undefined> {
  *   --zone, -z            Zone ID or domain
  *   --profile             Use a specific auth profile
  *   --mode, -m            Mode used to evaluate project configuration
+ *   --temporary-account   Use a temporary preview account (hidden)
+ *   --event-code          Create the temporary account for an event (hidden)
  *   --local               Route via a cf-spawned Miniflare session
  *   --persist-to          Directory holding the local persisted state
  *
@@ -521,7 +593,12 @@ async function prepareUpdateCheck(): Promise<PreparedUpdateCheck | undefined> {
  * list in prose form.
  */
 export function buildCli(rawArgs: string[], options: BuildCliOptions = {}) {
-	const { onCommandResolved, onHelpShown, updateCheck } = options;
+	const {
+		onCommandResolved,
+		onCommandResolutionFailed,
+		onHelpShown,
+		updateCheck,
+	} = options;
 	let restoreCloudflareDotEnv: (() => void) | undefined;
 	const orange = (s: string) => theme.brand(s);
 	const delimiter = rawArgs.indexOf("--");
@@ -548,13 +625,13 @@ export function buildCli(rawArgs: string[], options: BuildCliOptions = {}) {
 			"Positionals:": orange("Positionals"),
 			"Examples:": orange("Examples"),
 		})
-		.help("help", "Show help")
-		.alias("h", "help")
+		.help("help", BUILTIN_OPTIONS.help.description)
+		.alias(BUILTIN_OPTIONS.help.alias, "help")
 		.options(GLOBAL_OPTIONS)
 		// Bucket the cross-cutting flags into one block so they don't
 		// intermix with per-command options on each --help screen.
 		.group(
-			[...Object.keys(GLOBAL_OPTIONS), "help", "version"],
+			[...Object.keys(GLOBAL_OPTIONS), ...Object.keys(BUILTIN_OPTIONS)],
 			orange("Global flags")
 		);
 
@@ -620,6 +697,15 @@ export function buildCli(rawArgs: string[], options: BuildCliOptions = {}) {
 				throw new Error("--persist-to can only be used with --local.");
 			}
 
+			if (argv["temporary-account"] && argv.local) {
+				throw new Error("--temporary-account cannot be used with --local.");
+			}
+			const eventCode = argv["event-code"];
+			// Never silently ignore an event code when real credentials apply.
+			if (eventCode !== undefined && !argv["temporary-account"]) {
+				throw new Error("--event-code requires --temporary-account.");
+			}
+
 			if (
 				resolvedCommand !== undefined &&
 				shouldApplyCloudflareDotEnv(resolvedCommand, argv.local)
@@ -630,7 +716,12 @@ export function buildCli(rawArgs: string[], options: BuildCliOptions = {}) {
 			// Local mode bypasses profile credentials, so resolving and displaying
 			// an active profile would be misleading.
 			if (!argv.local) {
-				const { resolveProfile } = await import("./lib/oauth/index.js");
+				const { resolveProfile, setTemporaryAccountRequested } =
+					await import("./lib/oauth/index.js");
+				setTemporaryAccountRequested(
+					argv["temporary-account"],
+					eventCode === undefined ? undefined : { eventCode }
+				);
 				const profile = resolveProfile(argv.profile);
 				printActiveProfileLine(profile);
 			}
@@ -641,8 +732,8 @@ export function buildCli(rawArgs: string[], options: BuildCliOptions = {}) {
 		.strictCommands()
 		.strictOptions()
 		.recommendCommands()
-		.version(version)
-		.alias("v", "version")
+		.version("version", BUILTIN_OPTIONS.version.description, version)
+		.alias(BUILTIN_OPTIONS.version.alias, "version")
 		.epilogue("For more information, visit https://developers.cloudflare.com/")
 		// Don't call process.exit on parse failures — surface as a thrown
 		// error so callers (bin/cf, dev.ts, tests) can handle it.
@@ -661,7 +752,7 @@ export function buildCli(rawArgs: string[], options: BuildCliOptions = {}) {
 			// Its usage list contains only commands visible at the current depth,
 			// so let parsing continue to the normal unknown-command failure when
 			// the recommendation is hidden.
-			const recommendation = /^Did you mean (.+)\?$/.exec(msg)?.[1];
+			const recommendation = SUGGESTED_COMMAND_MESSAGE.exec(msg)?.[1];
 			if (recommendation) {
 				const visibleCommands = (
 					yargsInstance as unknown as {
@@ -696,8 +787,13 @@ export function buildCli(rawArgs: string[], options: BuildCliOptions = {}) {
 			// command's help first so the user sees valid usage, then
 			// throw so the error block renders below it (closer to the
 			// prompt).
+			const error = new Error(msg);
+			const resolutionFailure = commandResolutionFailure(cli, msg);
+			if (resolutionFailure) {
+				onCommandResolutionFailed?.(resolutionFailure, error);
+			}
 			yargsInstance.showHelp("error");
-			throw new Error(msg);
+			throw error;
 		});
 
 	// Every depth can replace `.usage()`, so add the notice at the point
@@ -779,10 +875,16 @@ export async function main(): Promise<void> {
 	}
 
 	let resolvedCommand: string | undefined;
+	let resolutionFailure:
+		| { failure: CommandResolutionFailure; error: Error }
+		| undefined;
 	let helpShown: string | undefined;
 	const { cli, dispose } = buildCli(hideBin(process.argv), {
 		onCommandResolved: (command) => {
 			resolvedCommand = command;
+		},
+		onCommandResolutionFailed: (failure, error) => {
+			resolutionFailure = { failure, error };
 		},
 		onHelpShown: (command) => {
 			helpShown = command;
@@ -834,9 +936,15 @@ export async function main(): Promise<void> {
 				// Completion hints must not affect command behavior.
 			}
 		}
+		// Only use the captured failure for the error `.fail` threw with it.
+		const failure =
+			resolutionFailure !== undefined && resolutionFailure.error === err
+				? resolutionFailure.failure
+				: undefined;
 		await reportParseErrorIfUnreported(
 			err,
-			resolvedCommand ?? resolvedCommandName(cli)
+			resolvedCommand ?? resolvedCommandName(cli),
+			failure
 		);
 		throw handleError(err);
 	} finally {

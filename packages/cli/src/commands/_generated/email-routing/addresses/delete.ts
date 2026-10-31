@@ -83,7 +83,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						message: `This operation permanently deletes a destination address.`,
 					}))
 				) {
-					process.stderr.write("Aborted.\n");
 					return;
 				}
 

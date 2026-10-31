@@ -30,6 +30,8 @@ export interface CommonYargsOptions {
 	zone: string | undefined;
 	profile: string | undefined;
 	mode: string | undefined;
+	"temporary-account": boolean;
+	"event-code": string | undefined;
 	local: boolean;
 	"persist-to": string | undefined;
 }

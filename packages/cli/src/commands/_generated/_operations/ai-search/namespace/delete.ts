@@ -8,5 +8,6 @@ export default {
 	errors: {
 		400: "BadRequestError",
 		404: "NotFoundError",
+		409: "ConflictError",
 	},
 } as const;

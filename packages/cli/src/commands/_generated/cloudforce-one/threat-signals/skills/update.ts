@@ -22,24 +22,36 @@ import { runWithTelemetry } from "#lib/telemetry/index.js";
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
 		.usage(
-			"$0 cloudforce-one threat-signals skills update <skill-id>\n\nUpdates a custom skill. Default skills are read-only."
+			"$0 cloudforce-one threat-signals skills update <skill-id>\n\nUpdates a Custom Skill. Managed Default Skills cannot be updated. Free Threat Signals accounts cannot update Custom Skills."
 		)
 		.positional("skill-id", {
 			type: "string",
-			description: "Skill ID",
+			description: "Custom Skill UUID or a Managed Default Skill ID",
 			demandOption: true,
 		})
-		.option("skill-config", { type: "string", description: "The config field" })
+		.option("skill-config", {
+			type: "string",
+			description:
+				"Optional skill configuration (stored but not currently interpreted).",
+		})
 		.option("is-active", {
 			type: "boolean",
-			description: "The is_active field",
+			description:
+				"Whether the skill is active and eligible for feed assignment.",
 		})
-		.option("name", { type: "string", description: "The name field" })
+		.option("name", {
+			type: "string",
+			description: "Custom Skill name (1–100 characters).",
+		})
 		.option("output-schema", {
 			type: "string",
-			description: "The output_schema field",
+			description: "JSON Schema serialized as a string (max 4096 characters).",
 		})
-		.option("prompt", { type: "string", description: "The prompt field" })
+		.option("prompt", {
+			type: "string",
+			description:
+				"AI prompt (1–4000 characters) defining the skill's instructions.",
+		})
 		.option("dry-run", {
 			type: "boolean",
 			description: "Validate and show what would happen without executing",

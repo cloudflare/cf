@@ -4,7 +4,7 @@ import { path } from "#api";
 export default {
 	method: "PUT",
 	path: (request: Record<string, unknown>) =>
-		path`/accounts/${request.account_id}/ai-search/namespaces/${request.name}/instances/${request.id}/items`,
+		path`/accounts/${request.account_id}/ai-search/namespaces/${request.namespace}/instances/${request.id}/items`,
 	body: "json",
 	constants: {
 		next_action: "INDEX",

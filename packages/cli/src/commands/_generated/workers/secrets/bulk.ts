@@ -12,7 +12,12 @@ import {
 	requestApi,
 	resolveAccountIdSilent,
 } from "#lib/auth.js";
-import { parseBody } from "#lib/body-parser.js";
+import {
+	compactBody,
+	parseBody,
+	parseJsonMap,
+	setNestedValue,
+} from "#lib/body-parser.js";
 import { formatDryRun } from "#lib/dry-run.js";
 import { readFileForFlag } from "#lib/input-validation.js";
 import { LOCAL_ACCOUNT_ID } from "#lib/local.js";
@@ -29,6 +34,16 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			type: "string",
 			alias: "script-name",
 			description: "Name of the script.",
+		})
+		.option("secrets", {
+			type: "string",
+			description:
+				"Map of secret names to secret values:\n- Set to a secret object to create or update.\n- Set to `null` to delete.\n- Omit to leave unchanged. Provide as a JSON object or @path/to/file.json.",
+		})
+		.option("version-tags", {
+			type: "string",
+			description:
+				"Optional version tags to apply to the new script version. Provide as a JSON object or @path/to/file.json.",
 		})
 		.option("dry-run", {
 			type: "boolean",
@@ -62,6 +77,16 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
+				if (
+					argv.body === undefined &&
+					argv.file === undefined &&
+					argv["secrets"] === undefined &&
+					argv["version-tags"] === undefined
+				) {
+					throw new Error(
+						"--body is required unless at least one JSON map flag is provided (--secrets, --version-tags)."
+					);
+				}
 				if (argv.dryRun) {
 					const __cfDryRunAccountId = await resolveAccountIdSilent();
 					formatDryRun({
@@ -75,7 +100,16 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 								? { file: argv.file }
 								: argv.body !== undefined
 									? parseBody(argv.body)
-									: undefined,
+									: compactBody(
+											{
+												secrets: parseJsonMap(argv["secrets"], "secrets"),
+												version_tags: parseJsonMap(
+													argv["version-tags"],
+													"version-tags"
+												),
+											},
+											[["secrets"], ["version_tags"]]
+										),
 					});
 					return;
 				}
@@ -116,11 +150,29 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					return;
 				}
 
-				if (argv.body === undefined) {
-					throw new Error(
-						"--body is required for this command. Pass --body '<json>' or --body @path/to/file.json."
+				// Assemble request body from individual flags
+				const bodyData: Record<string, unknown> = {};
+				if (argv["secrets"] !== undefined)
+					setNestedValue(
+						bodyData,
+						["secrets"],
+						parseJsonMap(argv["secrets"], "secrets")
 					);
-				}
+				if (argv["version-tags"] !== undefined)
+					setNestedValue(
+						bodyData,
+						["version_tags"],
+						parseJsonMap(argv["version-tags"], "version-tags")
+					);
+				const result = await withProgress(`Updating`, async () =>
+					requestApi<unknown>(
+						client,
+						"PATCH",
+						`/accounts/${accountId}/workers/scripts/${scriptName}/secrets-bulk`,
+						{ body: bodyData }
+					)
+				);
+				formatOutput(result, { successLabel: `Updated` });
 			}
 		),
 };

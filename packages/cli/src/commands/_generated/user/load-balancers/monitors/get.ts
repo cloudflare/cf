@@ -15,7 +15,7 @@ import { runWithTelemetry } from "#lib/telemetry/index.js";
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
 		.usage(
-			"$0 user load-balancers monitors get <monitor-id>\n\nList a single configured monitor for a user."
+			"$0 user load-balancers monitors get <monitor-id>\n\nFetch a single configured monitor for a user."
 		)
 		.positional("monitor-id", {
 			type: "string",

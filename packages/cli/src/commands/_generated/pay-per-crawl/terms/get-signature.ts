@@ -22,7 +22,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.usage(
 			"$0 pay-per-crawl terms get-signature\n\nGets the account's pay-per-crawl terms signature status."
 		)
-		.option("remote", {
+		.option("refresh", {
 			type: "boolean",
 			description: "Refresh the signature status from Ironclad.",
 		})
@@ -44,13 +44,13 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			{
 				command: "pay-per-crawl terms get-signature",
 				classification: {
-					safeFlags: ["remote", "dry-run"],
+					safeFlags: ["refresh", "dry-run"],
 				} satisfies ArgClassification<Args>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
 				const queryParams: Record<string, unknown> = {
-					remote: argv["remote"],
+					remote: argv["refresh"],
 				};
 				if (argv.dryRun) {
 					const __cfDryRunAccountId = await resolveAccountIdSilent();

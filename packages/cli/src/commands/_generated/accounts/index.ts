@@ -3,6 +3,7 @@ import $billing from "./billing/index.js";
 import $categories from "./categories/index.js";
 import $create from "./create.js";
 import $delete from "./delete.js";
+import $entitlements from "./entitlements/index.js";
 import $get from "./get.js";
 import $list from "./list.js";
 import $logs from "./logs/index.js";
@@ -38,6 +39,7 @@ const command: CommandModule<CommonYargsOptions> = {
 			.command($applications)
 			.command($billing)
 			.command($categories)
+			.command($entitlements)
 			.command($logs)
 			.command($members)
 			.command($organization)

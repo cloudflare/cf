@@ -22,7 +22,7 @@ import { runWithTelemetry } from "#lib/telemetry/index.js";
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
 		.usage(
-			"$0 logs datasets delete <dataset-id>\n\nDeletes a Log Explorer dataset for the account or zone. Dataset deletion must not be protected."
+			"$0 logs datasets delete <dataset-id>\n\nDeletes a Log Explorer dataset for the account or zone. Dataset deletion must not be protected.\n\nRuns against your account. Pass --zone to run against a zone instead. CLOUDFLARE_ZONE_ID is ignored."
 		)
 		.positional("dataset-id", {
 			type: "string",
@@ -102,7 +102,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						message: `This operation deletes a Log Explorer dataset for the account.`,
 					}))
 				) {
-					process.stderr.write("Aborted.\n");
 					return;
 				}
 

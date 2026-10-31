@@ -22,18 +22,45 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.usage(
 			"$0 cloudforce-one threat-signals feeds list\n\nLists the account's Threat Signals feed subscriptions."
 		)
-		.option("page", { type: "number", description: "Page" })
-		.option("per-page", { type: "number", description: "Per page" })
-		.option("limit", { type: "number", description: "Limit" })
-		.option("sort", { type: "string", description: "Sort" })
-		.option("category", { type: "string", description: "Category" })
+		.option("page", {
+			type: "number",
+			description: "1-based page number. Minimum 1; defaults to 1.",
+		})
+		.option("per-page", {
+			type: "number",
+			description: "Number of feeds per page, from 1 to 100. Defaults to 20.",
+		})
+		.option("limit", {
+			type: "number",
+			description:
+				"Optional 1–100 alias for per_page. When provided, limit takes precedence.",
+		})
+		.option("sort", {
+			type: "string",
+			description:
+				"Sort by created_at, title, category, or url. Prefix the field with - for descending order; defaults to -created_at.",
+		})
+		.option("category", {
+			type: "string",
+			description:
+				"Exact feed-category filter, up to 100 characters. Omit to include all categories.",
+		})
 		.option("source-type", {
 			type: "string",
-			description: "Source type",
+			description:
+				"Filter by curated or custom feed source. Omit to include both source types.",
 			choices: ["curated", "custom"],
 		})
-		.option("enabled", { type: "boolean", description: "Enabled" })
-		.option("status", { type: "string", description: "Status" })
+		.option("enabled", {
+			type: "boolean",
+			description:
+				"Filter by enabled state. Accepts true, false, 1, or 0; omit to include enabled and disabled feeds.",
+		})
+		.option("status", {
+			type: "string",
+			description:
+				"Exact stored polling-status filter, such as active or error. Omit to include every status.",
+		})
 		.option("dry-run", {
 			type: "boolean",
 			description: "Validate and show what would happen without executing",

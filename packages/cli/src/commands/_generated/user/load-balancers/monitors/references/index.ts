@@ -8,7 +8,7 @@ import type { CommandModule } from "yargs";
 
 const command: CommandModule<CommonYargsOptions> = {
 	command: "references",
-	describe: "Load Balancers operations",
+	describe: "List load balancing resources that use a monitor",
 
 	builder: (yargs) => {
 		return yargs.command($list).demandCommand(1, "Please specify a subcommand");

@@ -21,7 +21,7 @@ import { runWithTelemetry } from "#lib/telemetry/index.js";
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
 		.usage(
-			"$0 rulesets entrypoint versions list\n\nFetches the versions of an account or zone entry point ruleset."
+			"$0 rulesets entrypoint versions list\n\nFetches the versions of an account or zone entry point ruleset.\n\nRuns against your account. Pass --zone to run against a zone instead. CLOUDFLARE_ZONE_ID is ignored."
 		)
 		.option("phase", {
 			type: "string",

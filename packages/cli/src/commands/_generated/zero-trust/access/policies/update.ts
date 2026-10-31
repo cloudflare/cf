@@ -111,6 +111,11 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			type: "string",
 			description: "The name of the Access policy.",
 		})
+		.option("policy-resolution-account-id", {
+			type: "string",
+			description:
+				"The account ID used to resolve policy resources and identity for cross-account WARP authentication. The account must be trusted by the account that owns this policy.",
+		})
 		.option("require", {
 			type: "string",
 			description:
@@ -214,6 +219,13 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 											"name",
 											"text"
 										),
+										policy_resolution_account_id: resolveFileToken(
+											argv["policy-resolution-account-id"] as
+												| string
+												| undefined,
+											"policy-resolution-account-id",
+											"text"
+										),
 										require: parseObjectArray(argv["require"], "require"),
 									}),
 					});
@@ -301,6 +313,11 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					name: resolveFileToken(
 						argv["name"] as string | undefined,
 						"name",
+						"text"
+					),
+					policy_resolution_account_id: resolveFileToken(
+						argv["policy-resolution-account-id"] as string | undefined,
+						"policy-resolution-account-id",
 						"text"
 					),
 					require: parseObjectArray(argv["require"], "require"),

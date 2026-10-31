@@ -3,7 +3,10 @@ import { describe, expect, it } from "vite-plus/test";
 import {
 	compactBody,
 	parseBody,
+	parseJsonMap,
+	parseNestedArray,
 	parseObjectArray,
+	parseScalarValue,
 	setNestedValue,
 } from "../../lib/body-parser.js";
 
@@ -82,6 +85,98 @@ describe("parseBody", () => {
 			await seed({ "bad.json": "{nope" });
 			expect(() => parseBody("@bad.json")).toThrow(
 				"Invalid JSON in --body. Expected valid JSON."
+			);
+		});
+	});
+});
+
+describe("parseScalarValue", () => {
+	it.each([
+		["0", 0],
+		["0.5", 0.5],
+		["-1", -1],
+		["veto", "veto"],
+		['"0.5"', "0.5"],
+		["true", true],
+		["false", false],
+		["", ""],
+	])("retains the scalar type of %s", (input, expected) => {
+		expect(parseScalarValue(input, "fallback")).toBe(expected);
+	});
+
+	it("leaves an omitted scalar unset", () => {
+		expect(parseScalarValue(undefined, "fallback")).toBeUndefined();
+	});
+
+	it.each(["null", "{}", "[]"])("rejects non-scalar JSON %s", (input) => {
+		expect(() => parseScalarValue(input, "fallback")).toThrow(
+			"--fallback must be a JSON scalar or plain string."
+		);
+	});
+
+	it("rejects repeated flags", () => {
+		expect(() => parseScalarValue(["0", "veto"], "fallback")).toThrow(
+			"--fallback must be provided once as a scalar value."
+		);
+	});
+
+	describe("@file ingestion", () => {
+		runInTempDir();
+		it("reads numbers and strings from paths with spaces and Unicode", async () => {
+			await seed({ "fallback ü.json": "0.5", "fallback.txt": "veto" });
+			expect(parseScalarValue("@fallback ü.json", "fallback")).toBe(0.5);
+			expect(parseScalarValue("@fallback.txt", "fallback")).toBe("veto");
+		});
+		it("reports empty and missing paths", () => {
+			expect(() => parseScalarValue("@", "fallback")).toThrow(
+				"--fallback '@' must be followed by a file path"
+			);
+			expect(() => parseScalarValue("@missing", "fallback")).toThrow(
+				"--fallback: cannot read file at 'missing'"
+			);
+		});
+	});
+});
+
+describe("parseNestedArray", () => {
+	it("retains nested arrays and their JSON values intact", () => {
+		const value = [
+			[{ field: "tags", value: ["example"], extra: null }],
+			[],
+			[[], [false, 0]],
+		];
+		expect(parseNestedArray(JSON.stringify(value), "branches")).toEqual(value);
+		expect(parseNestedArray("[]", "branches")).toEqual([]);
+		expect(parseNestedArray(undefined, "branches")).toBeUndefined();
+	});
+
+	it.each(["{}", "null", "1", "[null]", "[{}]", '["example"]'])(
+		"rejects inputs that are not arrays of arrays: %s",
+		(input) => {
+			expect(() => parseNestedArray(input, "branches")).toThrow(
+				"--branches must be a JSON array of arrays."
+			);
+		}
+	);
+
+	it("reports invalid JSON and repeated flags", () => {
+		expect(() => parseNestedArray("[[", "branches")).toThrow(
+			"Invalid JSON in --branches"
+		);
+		expect(() => parseNestedArray(["[]", "[]"], "branches")).toThrow(
+			"--branches must be provided once as a JSON array of arrays."
+		);
+	});
+
+	describe("@file ingestion", () => {
+		runInTempDir();
+		it("reads paths with spaces and Unicode", async () => {
+			await seed({ "branches ü.json": '[[{"value":"example"}]]' });
+			expect(parseNestedArray("@branches ü.json", "branches")).toEqual([
+				[{ value: "example" }],
+			]);
+			expect(() => parseNestedArray("@missing.json", "branches")).toThrow(
+				"--branches: cannot read file at 'missing.json'"
 			);
 		});
 	});
@@ -217,5 +312,112 @@ describe("compactBody", () => {
 				count: 0,
 			})
 		).toEqual({ values: [], nullable: null, enabled: false, count: 0 });
+	});
+});
+
+describe("JSON maps", () => {
+	runInTempDir();
+
+	it("parses maps without changing their keys or nested values", () => {
+		const json =
+			'{"env":"prod","empty":{},"nested":{"empty":{}},"__proto__":"value"}';
+		expect(parseJsonMap(json, "tags")).toEqual(JSON.parse(json));
+		expect(parseJsonMap("{}", "tags", true)).toEqual({});
+	});
+
+	it("reads a JSON map from a file whose path contains spaces", async () => {
+		await seed({ "tag inputs/tags.json": '{"env":"prod"}' });
+		expect(parseJsonMap("@tag inputs/tags.json", "tags")).toEqual({
+			env: "prod",
+		});
+	});
+
+	it("distinguishes an absent optional map from a required one", () => {
+		expect(parseJsonMap(undefined, "tags")).toBeUndefined();
+		expect(() => parseJsonMap(undefined, "tags", true)).toThrow(
+			"--tags is required"
+		);
+	});
+
+	it.each(["null", "[]", "1", "true", '"value"'])(
+		"rejects a non-object map: %s",
+		(input) => {
+			expect(() => parseJsonMap(input, "tags")).toThrow(
+				"--tags must be a JSON object."
+			);
+		}
+	);
+
+	it("rejects repeated flags and invalid JSON", () => {
+		expect(() => parseJsonMap(["{}", "{}"], "tags")).toThrow(
+			"--tags must be provided once"
+		);
+		expect(() => parseJsonMap("{bad", "tags")).toThrow(
+			"Invalid JSON in --tags"
+		);
+	});
+
+	it("retains explicit maps while removing absent generated parent objects", () => {
+		const value = {
+			settings: { tags: {}, absent: undefined },
+			other: {},
+			missing: undefined,
+		};
+		expect(compactBody(value, [["settings", "tags"]])).toEqual({
+			settings: { tags: {} },
+		});
+		const map = { empty: {}, nested: { empty: {} } };
+		expect(compactBody({ tags: map }, [["tags"]])).toEqual({ tags: map });
+		expect(compactBody({ tags: undefined }, [["tags"]])).toEqual({});
+	});
+
+	it("requires maps inside full request bodies, allowing an explicit empty map", () => {
+		const required = [{ path: ["settings", "tags"], flag: "settings-tags" }];
+		expect(parseBody('{"settings":{"tags":{}}}', required)).toEqual({
+			settings: { tags: {} },
+		});
+		for (const body of [
+			"{}",
+			'{"settings":{"tags":null}}',
+			'{"settings":{"tags":[]}}',
+		]) {
+			expect(() => parseBody(body, required)).toThrow(
+				"--body must include a JSON object at settings.tags"
+			);
+		}
+	});
+});
+
+describe("parseNestedArray", () => {
+	runInTempDir();
+
+	it("preserves nested JSON values and explicit empty arrays", async () => {
+		const value = [[{ field: "x", values: [1, false, null] }], []];
+		await seed({ "nested arrays.json": JSON.stringify(value) });
+		expect(parseNestedArray(JSON.stringify(value), "groups")).toEqual(value);
+		expect(parseNestedArray("@nested arrays.json", "groups")).toEqual(value);
+		expect(parseNestedArray("[]", "groups")).toEqual([]);
+		expect(parseNestedArray(undefined, "groups")).toBeUndefined();
+	});
+
+	it.each(["null", "{}", "[null]", "[1]", "[{}]"])(
+		"rejects non-array items in %s",
+		(input) => {
+			expect(() => parseNestedArray(input, "groups")).toThrow(
+				"--groups must be a JSON array of arrays."
+			);
+		}
+	);
+
+	it("names the flag in malformed JSON and repeated-flag errors", () => {
+		expect(() => parseNestedArray("[[", "groups")).toThrow(
+			"Invalid JSON in --groups."
+		);
+		expect(() => parseNestedArray(["[]", "[]"], "groups")).toThrow(
+			"--groups must be provided once as a JSON array of arrays."
+		);
+		expect(() => parseNestedArray("@missing.json", "groups")).toThrow(
+			"--groups: cannot read file"
+		);
 	});
 });

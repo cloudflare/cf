@@ -29,10 +29,12 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		})
 		.option("domain-category", {
 			type: "string",
+			array: true,
 			description: "Filters results by domain category.",
 		})
 		.option("name", {
 			type: "string",
+			array: true,
 			description: "Array of names used to label the series in the response.",
 		})
 		.option("format", {

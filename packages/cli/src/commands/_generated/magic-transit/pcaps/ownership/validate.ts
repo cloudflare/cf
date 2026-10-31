@@ -93,10 +93,10 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 
 				if (argv.body) {
 					const bodyData = parseBody(argv.body);
-					const result = await withProgress(`Creating`, async () =>
+					const result = await withProgress(`Validating`, async () =>
 						client.send(operation, { body: bodyData, account_id: accountId })
 					);
-					formatOutput(result, { successLabel: `Created` });
+					formatOutput(result, { successLabel: `Validated` });
 					return;
 				}
 				if (argv["destination-conf"] === undefined) {
@@ -125,10 +125,10 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						"text"
 					),
 				});
-				const result = await withProgress(`Creating`, async () =>
+				const result = await withProgress(`Validating`, async () =>
 					client.send(operation, { body: bodyData, account_id: accountId })
 				);
-				formatOutput(result, { successLabel: `Created` });
+				formatOutput(result, { successLabel: `Validated` });
 			}
 		),
 };

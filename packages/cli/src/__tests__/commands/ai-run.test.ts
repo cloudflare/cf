@@ -135,12 +135,12 @@ describe("cf ai run", () => {
 		});
 	}
 
-	function rawRunHandler(bytes: Uint8Array) {
+	function rawRunHandler(bytes: Uint8Array, contentType: string) {
 		return http.post(
 			/\/ai\/run$/,
 			() =>
 				new HttpResponse(bytes, {
-					headers: { "content-type": "audio/wav" },
+					headers: { "content-type": contentType },
 				})
 		);
 	}
@@ -168,18 +168,22 @@ describe("cf ai run", () => {
 		expect(stdout()).toContain("hi");
 	});
 
-	it("writes non-JSON model output as exact bytes", async () => {
-		const bytes = Uint8Array.from([82, 73, 70, 70, 0, 255, 128]);
-		const write = vi
-			.spyOn(process.stdout, "write")
-			.mockImplementation(() => true);
-		server.use(schemaHandler(), rawRunHandler(bytes));
+	it.each(["audio/mpeg", "audio/wav", "image/png", "application/octet-stream"])(
+		"writes %s model output as exact bytes",
+		async (contentType) => {
+			const bytes = Uint8Array.from([82, 73, 70, 70, 0, 255, 128]);
+			const write = vi
+				.spyOn(process.stdout, "write")
+				.mockImplementation(() => true);
+			server.use(schemaHandler(), rawRunHandler(bytes, contentType));
 
-		const { exitCode } = await run(MODEL, "--prompt", "hello");
+			const { exitCode } = await run(MODEL, "--prompt", "hello");
 
-		expect(exitCode).toBe(0);
-		expect(write).toHaveBeenCalledWith(Buffer.from(bytes));
-	});
+			expect(exitCode).toBe(0);
+			expect(write).toHaveBeenCalledWith(Buffer.from(bytes));
+			expect(stdout()).toBe("");
+		}
+	);
 
 	it("parses array and object flags as JSON values", async () => {
 		server.use(

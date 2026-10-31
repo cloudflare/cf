@@ -81,7 +81,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						message: `This operation deletes an existing Hyperdrive configuration.`,
 					}))
 				) {
-					process.stderr.write("Aborted.\n");
 					return;
 				}
 

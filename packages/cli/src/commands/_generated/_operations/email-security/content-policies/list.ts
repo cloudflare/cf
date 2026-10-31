@@ -13,5 +13,6 @@ export default {
 		"direction",
 		"enabled",
 		"name",
+		"expired",
 	],
 } as const;

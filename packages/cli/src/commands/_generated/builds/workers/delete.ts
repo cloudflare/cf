@@ -79,7 +79,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						message: `This operation deletes the Worker build configuration and its triggers, and cancels unfinished builds. The Worker is not deleted.`,
 					}))
 				) {
-					process.stderr.write("Aborted.\n");
 					return;
 				}
 

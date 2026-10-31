@@ -6,6 +6,7 @@ export default {
 	path: (request: Record<string, unknown>) =>
 		path`/accounts/${request.account_id}/ai-gateway/gateways/${request.id}`,
 	errors: {
+		400: "BadRequestError",
 		404: "NotFoundError",
 	},
 } as const;

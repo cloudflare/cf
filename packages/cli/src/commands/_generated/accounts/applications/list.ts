@@ -20,7 +20,7 @@ import { runWithTelemetry } from "#lib/telemetry/index.js";
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
 		.usage(
-			"$0 accounts applications list\n\nList the applications available to an account, both the applications Cloudflare curates and the custom applications the account has defined. Results are paginated. Use `filter` and `search` to narrow the list, `order_by` to sort it, and `fields` to reduce each result to only the properties you need. Use `lookup` to find complete application names mentioned in a rule sentence, ignoring case. Lookup does not correct misspellings. It ranks matches by relevance and uses the same filters, fields, and pagination as listing. `lookup` cannot be combined with `search`. Invalid UTF-8 or a NUL character (U+0000) in any query parameter name or value returns `400`. The authenticated principal must have access to the account identified by `account_id`."
+			"$0 accounts applications list\n\nList the applications available to an account, both the applications Cloudflare curates and the custom applications the account has defined. Results are paginated. Page with `cursor` so that applications added or removed between requests do not make other results repeat or go missing; `offset` paging can repeat or miss results when the list changes between requests. Use `filter` and `search` to narrow the list, `order_by` to sort it, and `fields` to reduce each result to only the properties you need. Use `lookup` to find complete application names mentioned in a rule sentence, ignoring case. Lookup does not correct misspellings. It ranks matches by relevance and uses the same filters, fields, and pagination as listing. `lookup` cannot be combined with `search`. Invalid UTF-8 or a NUL character (U+0000) in any query parameter name or value returns `400`. The authenticated principal must have access to the account identified by `account_id`."
 		)
 		.option("filter", {
 			type: "string",
@@ -35,7 +35,12 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("offset", {
 			type: "number",
 			description:
-				"Number of results to skip. Defaults to 0; negative values are clamped to 0.",
+				"Number of results to skip. Defaults to 0; negative values are clamped to 0. Ignored when `cursor` is provided.",
+		})
+		.option("cursor", {
+			type: "string",
+			description:
+				"Opaque value from `result_info.cursor` of the previous response. Returns the\nresults that follow it. Send the same `filter`, `search`, `lookup`, and\n`order_by` values as the request that returned it; `limit` and `fields` may\nchange. An empty value is the same as no cursor. A modified cursor, or one used\nwith different values, returns `400`.",
 		})
 		.option("order-by", {
 			type: "string",
@@ -84,6 +89,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					filter: argv["filter"],
 					limit: argv["limit"],
 					offset: argv["offset"],
+					cursor: argv["cursor"],
 					order_by: argv["order-by"],
 					search: argv["search"],
 					lookup: argv["lookup"],

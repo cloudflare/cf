@@ -94,7 +94,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						message: `This reverts the D1 database to a previous point in time. Data written after the bookmark will be lost.`,
 					}))
 				) {
-					process.stderr.write("Aborted.\n");
 					return;
 				}
 

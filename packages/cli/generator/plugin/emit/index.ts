@@ -182,7 +182,10 @@ export function outputKind(op: OperationInfo): OutputKind {
 		);
 	}
 	if (
-		success.content.some((c) => BINARY.includes(c) || c.startsWith("image/"))
+		success.content.some(
+			(c) =>
+				BINARY.includes(c) || c.startsWith("image/") || c.startsWith("audio/")
+		)
 	) {
 		return "binary";
 	}
@@ -254,6 +257,9 @@ const READ_SHAPED = [
 
 /** `buildLabels`. */
 function labels(httpMethod: string, method: string): [string, string] {
+	if (method === "validate" && httpMethod.toUpperCase() !== "DELETE") {
+		return ["Validating", "Validated"];
+	}
 	if (READ_SHAPED.includes(method)) {
 		return ["Loading", "Loaded"];
 	}

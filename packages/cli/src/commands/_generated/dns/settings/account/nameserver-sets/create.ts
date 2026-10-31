@@ -13,15 +13,17 @@ import {
 } from "#lib/auth.js";
 import { compactBody, parseBody, parseObjectArray } from "#lib/body-parser.js";
 import { formatDryRun } from "#lib/dry-run.js";
+import { resolveFileToken } from "#lib/input-validation.js";
 import { LOCAL_ACCOUNT_ID } from "#lib/local.js";
 import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
+import { promptForRequiredField } from "#lib/prompt.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
 		.usage(
-			"$0 dns settings account nameserver-sets create\n\nCreates an immutable Custom Nameserver Set. To change a set, create a new one, move any zone assignments, and delete the old set."
+			"$0 dns settings account nameserver-sets create\n\nCreates a named Custom Nameserver Set. Only the customer-defined name can be changed later. To change nameservers or addresses, create a new set, move any zone assignments, and delete the old set."
 		)
 		.option("advanced", {
 			type: "boolean",
@@ -34,6 +36,11 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description:
 				"Selects the account-specific IP set that supplies the nameserver addresses. Nameserver sets with the same `ip_set` and `advanced` value may reuse addresses; otherwise, they use disjoint address groups.",
 			default: 1,
+		})
+		.option("name", {
+			type: "string",
+			description:
+				"Customer-defined name, unique within the account by exact string equality (case-sensitive, with no Unicode normalization). Must be valid UTF-8 and at most 255 UTF-8 bytes, not 255 characters. Only graphical Unicode characters are allowed; leading or trailing whitespace is rejected. The name can be changed without changing the set's nameservers or addresses.",
 		})
 		.option("nameservers", {
 			type: "string",
@@ -81,6 +88,11 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 								: compactBody({
 										advanced: argv["advanced"],
 										ip_set: argv["ip-set"],
+										name: resolveFileToken(
+											argv["name"] as string | undefined,
+											"name",
+											"text"
+										),
 										nameservers: parseObjectArray(
 											argv["nameservers"],
 											"nameservers"
@@ -101,6 +113,12 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					formatOutput(result, { successLabel: `Created` });
 					return;
 				}
+				if (argv["name"] === undefined) {
+					argv["name"] = await promptForRequiredField(
+						"name",
+						"Customer-defined name, unique within the account by exact string equality (case-sensitive, with no Unicode normalization). Must be valid UTF-8 and at most 255 UTF-8 bytes, not 255 characters. Only graphical Unicode characters are allowed; leading or trailing whitespace is rejected. The name can be changed without changing the set's nameservers or addresses."
+					);
+				}
 				if (argv["nameservers"] === undefined) {
 					throw new Error(
 						"--nameservers is required (or pass --body with this field set)."
@@ -111,6 +129,11 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				const bodyData = compactBody({
 					advanced: argv["advanced"],
 					ip_set: argv["ip-set"],
+					name: resolveFileToken(
+						argv["name"] as string | undefined,
+						"name",
+						"text"
+					),
 					nameservers: parseObjectArray(argv["nameservers"], "nameservers"),
 				});
 				const result = await withProgress(`Creating`, async () =>

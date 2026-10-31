@@ -5,7 +5,6 @@ import $get from "./get.js";
 import $items from "./items/index.js";
 import $list from "./list.js";
 import $update from "./update.js";
-import $upload from "./upload.js";
 import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * lists command group
@@ -25,7 +24,6 @@ const command: CommandModule<CommonYargsOptions> = {
 			.command($get)
 			.command($list)
 			.command($update)
-			.command($upload)
 			.command($items)
 			.demandCommand(1, "Please specify a subcommand");
 	},

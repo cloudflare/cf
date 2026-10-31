@@ -11,7 +11,7 @@ import {
 	getAccountId,
 	resolveAccountIdSilent,
 } from "#lib/auth.js";
-import { compactBody, parseBody } from "#lib/body-parser.js";
+import { compactBody, parseBody, parseJsonMap } from "#lib/body-parser.js";
 import { formatDryRun } from "#lib/dry-run.js";
 import { resolveFileToken } from "#lib/input-validation.js";
 import { LOCAL_ACCOUNT_ID } from "#lib/local.js";
@@ -38,6 +38,11 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			type: "string",
 			description:
 				"Replacement advisory note. Send an empty string to clear it; omit to leave it unchanged.",
+		})
+		.option("scope", {
+			type: "string",
+			description:
+				"Not editable. Scope is fixed when the suppression is created; any value returns 400 with code `scope_immutable`. Delete and recreate the suppression to change it. Provide as a JSON object or @path/to/file.json.",
 		})
 		.option("dry-run", {
 			type: "boolean",
@@ -79,18 +84,22 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						body:
 							argv.body !== undefined
 								? parseBody(argv.body)
-								: compactBody({
-										expires_at: resolveFileToken(
-											argv["expires-at"] as string | undefined,
-											"expires-at",
-											"text"
-										),
-										note: resolveFileToken(
-											argv["note"] as string | undefined,
-											"note",
-											"text"
-										),
-									}),
+								: compactBody(
+										{
+											expires_at: resolveFileToken(
+												argv["expires-at"] as string | undefined,
+												"expires-at",
+												"text"
+											),
+											note: resolveFileToken(
+												argv["note"] as string | undefined,
+												"note",
+												"text"
+											),
+											scope: parseJsonMap(argv["scope"], "scope"),
+										},
+										[["scope"]]
+									),
 					});
 					return;
 				}
@@ -112,18 +121,22 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				}
 
 				// Assemble request body from individual flags
-				const bodyData = compactBody({
-					expires_at: resolveFileToken(
-						argv["expires-at"] as string | undefined,
-						"expires-at",
-						"text"
-					),
-					note: resolveFileToken(
-						argv["note"] as string | undefined,
-						"note",
-						"text"
-					),
-				});
+				const bodyData = compactBody(
+					{
+						expires_at: resolveFileToken(
+							argv["expires-at"] as string | undefined,
+							"expires-at",
+							"text"
+						),
+						note: resolveFileToken(
+							argv["note"] as string | undefined,
+							"note",
+							"text"
+						),
+						scope: parseJsonMap(argv["scope"], "scope"),
+					},
+					[["scope"]]
+				);
 				const result = await withProgress(`Updating`, async () =>
 					client.send(operation, {
 						body: bodyData,

@@ -27,6 +27,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		})
 		.option("fields", {
 			type: "string",
+			array: true,
 			description:
 				"Comma-separated list of fields to include in the response. When omitted,\nall fields are returned.",
 		})

@@ -49,6 +49,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("route-id", { type: "string", description: "UUID of the route." })
 		.option("tun-types", {
 			type: "string",
+			array: true,
 			description: "The types of tunnels to filter by, separated by commas.",
 		})
 		.option("virtual-network-id", {

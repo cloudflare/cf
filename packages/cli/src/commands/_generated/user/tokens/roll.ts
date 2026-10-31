@@ -69,7 +69,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						message: `Rolling this token will invalidate the current secret and generate a new one. Any integrations using the current secret will stop working.`,
 					}))
 				) {
-					process.stderr.write("Aborted.\n");
 					return;
 				}
 

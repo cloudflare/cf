@@ -88,6 +88,11 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			type: "string",
 			description: "The data.zip_code field",
 		})
+		.option("explanation", {
+			type: "string",
+			description:
+				'Optional explanation for a "content_removed" appeal, such as how the content was removed. Not accepted for other appeal types.',
+		})
 		.option("type", {
 			type: "string",
 			description: "The type of appeal being submitted.",
@@ -102,7 +107,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("body", {
 			type: "string",
 			description:
-				'Submit an appeal for a report. Provide either a list of mitigations to appeal, or an appeal type with its supporting details, but not both. When type is "counter_notice", the counter-notice details are required.',
+				'Submit an appeal for a report. Provide either a list of mitigations to appeal, or an appeal type with its supporting details, but not both. When type is "counter_notice", the counter-notice details are required. A "content_removed" appeal takes an optional explanation instead and is accepted only while the report is in its Notice and Takedown notice period (\`has_pending_notice\` on the eligibility response). Reports that allow a single appeal (\`max_appeals\` of 1) never have a notice period and accept it whenever \`appealable\` is true.',
 		})
 		.check((argv) => {
 			const groupSet = [
@@ -242,6 +247,11 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 												"text"
 											),
 										},
+										explanation: resolveFileToken(
+											argv["explanation"] as string | undefined,
+											"explanation",
+											"text"
+										),
 										type: argv["type"],
 									}),
 					});
@@ -327,6 +337,11 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 							"text"
 						),
 					},
+					explanation: resolveFileToken(
+						argv["explanation"] as string | undefined,
+						"explanation",
+						"text"
+					),
 					type: argv["type"],
 				});
 				const result = await withProgress(`Creating`, async () =>

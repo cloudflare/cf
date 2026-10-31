@@ -42,16 +42,19 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		})
 		.option("asn", {
 			type: "string",
+			array: true,
 			description:
 				"Filters results by Autonomous System Number. Specify one or more ASNs. Multiple values generate one series per ASN.",
 		})
 		.option("location", {
 			type: "string",
+			array: true,
 			description:
 				"Filters results by location. Specify a comma-separated list of alpha-2 location codes.",
 		})
 		.option("name", {
 			type: "string",
+			array: true,
 			description: "Array of names used to label the series in the response.",
 		})
 		.option("format", {

@@ -11,7 +11,7 @@ import {
 	getAccountId,
 	resolveAccountIdSilent,
 } from "#lib/auth.js";
-import { compactBody, parseBody } from "#lib/body-parser.js";
+import { compactBody, parseBody, parseObjectArray } from "#lib/body-parser.js";
 import { formatDryRun } from "#lib/dry-run.js";
 import { resolveFileToken } from "#lib/input-validation.js";
 import { LOCAL_ACCOUNT_ID } from "#lib/local.js";
@@ -28,6 +28,11 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.usage(
 			'$0 containers applications create\n\nCreate a Containers application. Use `scheduling_policy: "default"` for a scheduler-backed application. The Containers scheduler maintains the requested instance count and manages deployment configuration, placement, scaling, versions, and rollouts. Use `scheduling_policy: "durable_object"` for a Durable Object-managed application. Each Durable Object creates and manages the lifecycle of its container instance. Supply `name`, `scheduling_policy`, and `durable_objects`, with optional `configuration` and optional top-level `observability` settings. Deployment configuration, scaling, constraints, versions, and rollouts do not apply.'
 		)
+		.option("configuration-authorized-keys", {
+			type: "string",
+			description:
+				"The configuration.authorized_keys field. Provide as a JSON array of objects or @path/to/file.json.",
+		})
 		.option("configuration-command", {
 			type: "string",
 			array: true,
@@ -39,6 +44,11 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			array: true,
 			description:
 				"The entry point for the container, specifying the executable to run when the container starts.\nYou can override this at run-time. If you do, the default command from the image is ignored.\nSpecify both entrypoint and command at run-time to completely replace the image defaults.\n",
+		})
+		.option("configuration-environment-variables", {
+			type: "string",
+			description:
+				"Container environment variables. Provide as a JSON array of objects or @path/to/file.json.",
 		})
 		.option("configuration-image", {
 			type: "string",
@@ -120,7 +130,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("scheduling-policy", {
 			type: "string",
 			description:
-				"Selects a scheduler-backed application. Use `default` when the Containers\nscheduler should maintain the requested number of instances and manage deployment\nconfiguration, placement, scaling, versions, and rollouts.\n",
+				"Selects a scheduler-backed application. Use `default` when the Containers\nscheduler should maintain the requested number of instances and manage deployment\nconfiguration, placement, scaling, versions, and rollouts.",
 			choices: ["default", "durable_object"],
 		})
 		.coerce("scheduling-policy", (value) =>
@@ -136,25 +146,89 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description:
 				"Create a Containers application. Set \`scheduling_policy\` to \`default\` for a scheduler-backed application with deployment configuration, instance counts, constraints, versions, and rollouts. Set it to \`durable_object\` for a Durable Object-managed application where each Durable Object creates and manages the lifecycle of its container instance. For \`durable_object\` requests, supply \`name\`, \`scheduling_policy\`, and \`durable_objects\`, with optional \`configuration\` and top-level \`observability\` settings. ",
 		})
-		.conflicts("configuration-command", ["configuration-wrangler-ssh-port"])
-		.conflicts("configuration-entrypoint", ["configuration-wrangler-ssh-port"])
-		.conflicts("configuration-image", ["configuration-wrangler-ssh-port"])
-		.conflicts("configuration-instance-type", [
+		.conflicts("configuration-command", [
+			"configuration-wrangler-ssh-enabled",
 			"configuration-wrangler-ssh-port",
 		])
-		.conflicts("configuration-wrangler-ssh-port", [
+		.implies("configuration-command", [
+			"configuration-image",
+			"instances",
+			"max-instances",
+		])
+		.conflicts("configuration-entrypoint", [
+			"configuration-wrangler-ssh-enabled",
+			"configuration-wrangler-ssh-port",
+		])
+		.implies("configuration-entrypoint", [
+			"configuration-image",
+			"instances",
+			"max-instances",
+		])
+		.conflicts("configuration-environment-variables", [
+			"configuration-wrangler-ssh-enabled",
+			"configuration-wrangler-ssh-port",
+		])
+		.implies("configuration-environment-variables", [
+			"configuration-image",
+			"instances",
+			"max-instances",
+		])
+		.conflicts("configuration-image", [
+			"configuration-wrangler-ssh-enabled",
+			"configuration-wrangler-ssh-port",
+		])
+		.implies("configuration-image", ["instances", "max-instances"])
+		.conflicts("configuration-instance-type", [
+			"configuration-wrangler-ssh-enabled",
+			"configuration-wrangler-ssh-port",
+		])
+		.implies("configuration-instance-type", [
+			"configuration-image",
+			"instances",
+			"max-instances",
+		])
+		.conflicts("configuration-observability-logs-enabled", [
+			"configuration-wrangler-ssh-enabled",
+			"configuration-wrangler-ssh-port",
+		])
+		.implies("configuration-observability-logs-enabled", [
+			"configuration-image",
+			"instances",
+			"max-instances",
+		])
+		.conflicts("configuration-wrangler-ssh-enabled", [
 			"configuration-command",
 			"configuration-entrypoint",
+			"configuration-environment-variables",
 			"configuration-image",
 			"configuration-instance-type",
-			"constraints-jurisdiction",
+			"configuration-observability-logs-enabled",
 			"constraints-regions",
 			"instances",
 			"max-instances",
 			"rollout-active-grace-period",
 		])
-		.conflicts("constraints-jurisdiction", ["configuration-wrangler-ssh-port"])
-		.conflicts("constraints-regions", ["configuration-wrangler-ssh-port"])
+		.conflicts("configuration-wrangler-ssh-port", [
+			"configuration-command",
+			"configuration-entrypoint",
+			"configuration-environment-variables",
+			"configuration-image",
+			"configuration-instance-type",
+			"configuration-observability-logs-enabled",
+			"constraints-regions",
+			"instances",
+			"max-instances",
+			"rollout-active-grace-period",
+		])
+		.conflicts("constraints-regions", [
+			"configuration-wrangler-ssh-enabled",
+			"configuration-wrangler-ssh-port",
+		])
+		.implies("constraints-regions", [
+			"configuration-image",
+			"instances",
+			"max-instances",
+		])
 		.conflicts("durable-objects-namespace-id", [
 			"durable-objects-class-name",
 			"durable-objects-script-name",
@@ -163,12 +237,24 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.implies("durable-objects-class-name", ["durable-objects-script-name"])
 		.conflicts("durable-objects-script-name", ["durable-objects-namespace-id"])
 		.implies("durable-objects-script-name", ["durable-objects-class-name"])
-		.conflicts("instances", ["configuration-wrangler-ssh-port"])
-		.implies("instances", ["max-instances"])
-		.conflicts("max-instances", ["configuration-wrangler-ssh-port"])
-		.implies("max-instances", ["instances"])
-		.conflicts("rollout-active-grace-period", [
+		.conflicts("instances", [
+			"configuration-wrangler-ssh-enabled",
 			"configuration-wrangler-ssh-port",
+		])
+		.implies("instances", ["configuration-image", "max-instances"])
+		.conflicts("max-instances", [
+			"configuration-wrangler-ssh-enabled",
+			"configuration-wrangler-ssh-port",
+		])
+		.implies("max-instances", ["configuration-image", "instances"])
+		.conflicts("rollout-active-grace-period", [
+			"configuration-wrangler-ssh-enabled",
+			"configuration-wrangler-ssh-port",
+		])
+		.implies("rollout-active-grace-period", [
+			"configuration-image",
+			"instances",
+			"max-instances",
 		]);
 }
 
@@ -208,8 +294,16 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 								? parseBody(argv.body)
 								: compactBody({
 										configuration: {
+											authorized_keys: parseObjectArray(
+												argv["configuration-authorized-keys"],
+												"configuration-authorized-keys"
+											),
 											command: argv["configuration-command"],
 											entrypoint: argv["configuration-entrypoint"],
+											environment_variables: parseObjectArray(
+												argv["configuration-environment-variables"],
+												"configuration-environment-variables"
+											),
 											image: resolveFileToken(
 												argv["configuration-image"] as string | undefined,
 												"configuration-image",
@@ -298,7 +392,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				if (argv["scheduling-policy"] === undefined) {
 					argv["scheduling-policy"] = await promptForRequiredEnumField(
 						"scheduling-policy",
-						"Selects a scheduler-backed application. Use \`default\` when the Containers scheduler should maintain the requested number of instances and manage deployment configuration, placement, scaling, versions, and rollouts. ",
+						"Selects a scheduler-backed application. Use \`default\` when the Containers scheduler should maintain the requested number of instances and manage deployment configuration, placement, scaling, versions, and rollouts.",
 						["default", "durable_object"] as const
 					);
 				}
@@ -306,8 +400,16 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				// Assemble request body from individual flags
 				const bodyData = compactBody({
 					configuration: {
+						authorized_keys: parseObjectArray(
+							argv["configuration-authorized-keys"],
+							"configuration-authorized-keys"
+						),
 						command: argv["configuration-command"],
 						entrypoint: argv["configuration-entrypoint"],
+						environment_variables: parseObjectArray(
+							argv["configuration-environment-variables"],
+							"configuration-environment-variables"
+						),
 						image: resolveFileToken(
 							argv["configuration-image"] as string | undefined,
 							"configuration-image",

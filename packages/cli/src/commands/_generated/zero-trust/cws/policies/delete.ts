@@ -79,7 +79,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						message: `Delete this policy?`,
 					}))
 				) {
-					process.stderr.write("Aborted.\n");
 					return;
 				}
 

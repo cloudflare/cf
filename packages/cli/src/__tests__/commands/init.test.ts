@@ -43,13 +43,16 @@ describe("cf init", () => {
 	runInTempDir();
 	const std = mockConsoleMethods();
 	let stdout: () => string;
+	let stderr: () => string;
 
 	beforeEach(() => {
 		vi.clearAllMocks();
-		const write = vi
-			.spyOn(process.stdout, "write")
-			.mockImplementation(() => true);
-		stdout = () => write.mock.calls.map(([chunk]) => String(chunk)).join("");
+		const joined = (stream: NodeJS.WriteStream) => {
+			const write = vi.spyOn(stream, "write").mockImplementation(() => true);
+			return () => write.mock.calls.map(([chunk]) => String(chunk)).join("");
+		};
+		stdout = joined(process.stdout);
+		stderr = joined(process.stderr);
 		vi.mocked(isNonInteractiveOrCI).mockReturnValue(true);
 		vi.mocked(isEphemeralExecRun).mockReturnValue(false);
 		vi.mocked(runProjectCommand).mockResolvedValue({ exitCode: 0 });
@@ -129,15 +132,16 @@ describe("cf init", () => {
 			expect(runProjectCommand).not.toHaveBeenCalled();
 			expect(generateWorkerTypes).not.toHaveBeenCalled();
 			expect(select).not.toHaveBeenCalled();
-			expect(stdout()).toContain(
+			expect(stdout()).toBe("");
+			expect(stderr()).toContain(
 				`Creating a new Worker in ${resolve("my-app")}`
 			);
-			expect(stdout()).toContain("Next steps");
-			expect(stdout()).toContain("cd my-app");
-			expect(stdout()).toMatch(/npm install\s+Install dependencies/);
-			expect(stdout()).toMatch(/cf dev\s+Start a local development server/);
-			expect(stdout()).toMatch(/cf deploy\s+Deploy to Cloudflare/);
-			expect(stdout()).not.toContain("npm run dev");
+			// The steps sit below the closed guide, so each copies on its own.
+			expect(stderr()).toContain("└  Next steps\n\n   cd my-app\n");
+			expect(stderr()).toMatch(/npm install\s+Install dependencies/);
+			expect(stderr()).toMatch(/cf dev\s+Start a local development server/);
+			expect(stderr()).toMatch(/cf deploy\s+Deploy to Cloudflare/);
+			expect(stderr()).not.toContain("npm run dev");
 		});
 
 		it("uses the Vite plugin beta dist-tag without Wrangler", async () => {
@@ -191,8 +195,8 @@ describe("cf init", () => {
 			);
 			expect(readdirSync(".").sort()).toEqual(TEMPLATE_FILES);
 			expect(readJson("package.json").name).toBe("hello");
-			expect(stdout()).toContain(`Creating a new Worker in ${process.cwd()}`);
-			expect(stdout()).not.toContain("cd ");
+			expect(stderr()).toContain(`Creating a new Worker in ${process.cwd()}`);
+			expect(stderr()).not.toContain("cd ");
 		});
 
 		it("initializes the directory named at the prompt", async () => {
@@ -203,7 +207,7 @@ describe("cf init", () => {
 
 			expect(result.exitCode).toBe(0);
 			expect(readdirSync("prompted-app").sort()).toEqual(TEMPLATE_FILES);
-			expect(stdout()).toContain("cd prompted-app");
+			expect(stderr()).toContain("cd prompted-app");
 		});
 
 		it("does not ask for a directory that was passed", async () => {
@@ -220,8 +224,8 @@ describe("cf init", () => {
 
 			await runCf(["init", "my-app", "--no-install"]);
 
-			expect(stdout()).toMatch(/npx cf dev\s+Start a local development server/);
-			expect(stdout()).toMatch(/npx cf deploy\s+Deploy to Cloudflare/);
+			expect(stderr()).toMatch(/npx cf dev\s+Start a local development server/);
+			expect(stderr()).toMatch(/npx cf deploy\s+Deploy to Cloudflare/);
 		});
 
 		it("derives a valid Worker name from the directory", async () => {
@@ -229,7 +233,7 @@ describe("cf init", () => {
 
 			expect(result.exitCode).toBe(0);
 			expect(readJson("My Cool_App/package.json").name).toBe("my-cool-app");
-			expect(stdout()).toContain('cd "My Cool_App"');
+			expect(stderr()).toContain('cd "My Cool_App"');
 		});
 
 		it("initializes a directory that only contains .git", async () => {
@@ -307,8 +311,8 @@ describe("cf init", () => {
 				"pnpm install",
 				resolve("my-app")
 			);
-			expect(stdout()).toMatch(/cf dev\s+Start a local development server/);
-			expect(stdout()).not.toContain("Install dependencies");
+			expect(stderr()).toMatch(/cf dev\s+Start a local development server/);
+			expect(stderr()).not.toContain("Install dependencies");
 		});
 
 		it("writes pnpm build approvals when installation is skipped", async () => {
@@ -333,7 +337,7 @@ describe("cf init", () => {
 		it("shows the target directory when prompting for the package manager", async () => {
 			let outputBeforePrompt = "";
 			vi.mocked(select).mockImplementationOnce(async () => {
-				outputBeforePrompt = stdout();
+				outputBeforePrompt = stderr();
 				return "yarn";
 			});
 
@@ -392,8 +396,8 @@ describe("cf init", () => {
 
 			expect(result.exitCode).toBe(7);
 			expect(readdirSync("my-app").sort()).toEqual(TEMPLATE_FILES);
-			expect(stdout()).toContain("Dependency installation failed");
-			expect(stdout()).toContain("npm install");
+			expect(stderr()).toContain("Dependency installation failed");
+			expect(stderr()).toContain("npm install");
 			expect(generateWorkerTypes).not.toHaveBeenCalled();
 		});
 	});
@@ -415,7 +419,7 @@ describe("cf init", () => {
 			).toBeLessThan(
 				vi.mocked(generateWorkerTypes).mock.invocationCallOrder[0] ?? 0
 			);
-			expect(stdout()).toContain(
+			expect(stderr()).toContain(
 				`Generated types in ${join("my-app", TYPES_OUTPUT_PATH)}`
 			);
 		});
@@ -441,9 +445,9 @@ describe("cf init", () => {
 			});
 
 			expect(result.exitCode).toBe(0);
-			expect(stdout()).toContain("Could not generate types: workerd exited");
-			expect(stdout()).toContain("cf workers types");
-			expect(stdout()).toMatch(/cf dev\s+Start a local development server/);
+			expect(stderr()).toContain("Could not generate types: workerd exited");
+			expect(stderr()).toContain("cf workers types");
+			expect(stderr()).toMatch(/cf dev\s+Start a local development server/);
 		});
 
 		it("suggests npx cf when retrying after a one-shot runner", async () => {
@@ -456,7 +460,7 @@ describe("cf init", () => {
 				npm_config_user_agent: PNPM_USER_AGENT,
 			});
 
-			expect(stdout()).toContain("npx cf workers types");
+			expect(stderr()).toContain("npx cf workers types");
 		});
 	});
 
@@ -484,12 +488,12 @@ describe("cf init", () => {
 			expect(runProjectCommand).not.toHaveBeenCalled();
 			expect(generateWorkerTypes).not.toHaveBeenCalled();
 			expect(select).not.toHaveBeenCalled();
-			expect(stdout()).toContain(
+			expect(stderr()).toContain(
 				`Setting up the existing project in ${resolve("site")}`
 			);
-			expect(stdout()).toContain("Set up site for Cloudflare");
-			expect(stdout()).toContain("cd site");
-			expect(stdout()).toMatch(/cf dev\s+Start a local development server/);
+			expect(stderr()).toContain("Set up site for Cloudflare");
+			expect(stderr()).toContain("cd site");
+			expect(stderr()).toMatch(/cf dev\s+Start a local development server/);
 		});
 
 		it("leaves an already configured project unchanged", async () => {
@@ -506,9 +510,9 @@ describe("cf init", () => {
 				"cloudflare.config.ts",
 				"package.json",
 			]);
-			expect(stdout()).toContain("Found an existing Cloudflare configuration");
-			expect(stdout()).toContain("cd configured");
-			expect(stdout()).toMatch(/cf dev\s+Start a local development server/);
+			expect(stderr()).toContain("Found an existing Cloudflare configuration");
+			expect(stderr()).toContain("cd configured");
+			expect(stderr()).toMatch(/cf dev\s+Start a local development server/);
 		});
 
 		it("errors without writing when nothing can be detected", async () => {
@@ -519,7 +523,7 @@ describe("cf init", () => {
 			);
 			expect(readdirSync("misc")).toEqual([".DS_Store"]);
 			expect(configureProject).not.toHaveBeenCalled();
-			expect(stdout()).not.toContain("Next steps");
+			expect(stderr()).not.toContain("Next steps");
 		});
 
 		it("warns that new-project install flags do not apply", async () => {
@@ -528,7 +532,7 @@ describe("cf init", () => {
 			const result = await runCf(["init", "site", "--no-install"]);
 
 			expect(result.exitCode).toBe(0);
-			expect(stdout()).toContain("only apply when creating a new project");
+			expect(stderr()).toContain("only apply when creating a new project");
 			expect(configureProject).toHaveBeenCalledOnce();
 		});
 	});

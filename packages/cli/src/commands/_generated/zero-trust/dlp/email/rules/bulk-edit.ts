@@ -11,7 +11,7 @@ import {
 	getAccountId,
 	resolveAccountIdSilent,
 } from "#lib/auth.js";
-import { parseBody } from "#lib/body-parser.js";
+import { compactBody, parseBody, parseJsonMap } from "#lib/body-parser.js";
 import { formatDryRun } from "#lib/dry-run.js";
 import { LOCAL_ACCOUNT_ID } from "#lib/local.js";
 import { formatOutput } from "#lib/output.js";
@@ -23,6 +23,11 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.usage(
 			"$0 zero-trust dlp email rules bulk-edit\n\nReorders DLP email scanning rules by updating their priority values. Higher priority rules are evaluated first."
 		)
+		.option("new-priorities", {
+			type: "string",
+			description:
+				"The new_priorities field. Provide as a JSON object or @path/to/file.json.",
+		})
 		.option("dry-run", {
 			type: "boolean",
 			description: "Validate and show what would happen without executing",
@@ -58,7 +63,21 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						url: `https://api.cloudflare.com/client/v4/accounts/${__cfDryRunAccountId ?? "<account-id>"}/dlp/email/rules`,
 						pathParams: {},
 						bodyKind: "json",
-						body: argv.body !== undefined ? parseBody(argv.body) : undefined,
+						body:
+							argv.body !== undefined
+								? parseBody(argv.body, [
+										{ path: ["new_priorities"], flag: "new-priorities" },
+									])
+								: compactBody(
+										{
+											new_priorities: parseJsonMap(
+												argv["new-priorities"],
+												"new-priorities",
+												true
+											),
+										},
+										[["new_priorities"]]
+									),
 					});
 					return;
 				}
@@ -67,19 +86,36 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.accountId = accountId;
 
 				if (argv.body) {
-					const bodyData = parseBody(argv.body);
+					const bodyData = parseBody(argv.body, [
+						{ path: ["new_priorities"], flag: "new-priorities" },
+					]);
 					const result = await withProgress(`Updating`, async () =>
 						client.send(operation, { body: bodyData, account_id: accountId })
 					);
 					formatOutput(result, { successLabel: `Updated` });
 					return;
 				}
-
-				if (argv.body === undefined) {
+				if (argv["new-priorities"] === undefined) {
 					throw new Error(
-						"--body is required for this command. Pass --body '<json>' or --body @path/to/file.json."
+						"--new-priorities is required (or pass --body with this field set)."
 					);
 				}
+
+				// Assemble request body from individual flags
+				const bodyData = compactBody(
+					{
+						new_priorities: parseJsonMap(
+							argv["new-priorities"],
+							"new-priorities",
+							true
+						),
+					},
+					[["new_priorities"]]
+				);
+				const result = await withProgress(`Updating`, async () =>
+					client.send(operation, { body: bodyData, account_id: accountId })
+				);
+				formatOutput(result, { successLabel: `Updated` });
 			}
 		),
 };

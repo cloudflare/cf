@@ -19,6 +19,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		)
 		.option("service-category", {
 			type: "string",
+			array: true,
 			description: "Filters results by Internet service category.",
 		})
 		.option("limit", {
@@ -27,10 +28,12 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		})
 		.option("name", {
 			type: "string",
+			array: true,
 			description: "Array of names used to label the series in the response.",
 		})
 		.option("date", {
 			type: "string",
+			array: true,
 			description: "Filters results by the specified array of dates.",
 		})
 		.option("format", {

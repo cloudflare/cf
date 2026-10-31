@@ -87,7 +87,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						message: `Delete this tenant node?`,
 					}))
 				) {
-					process.stderr.write("Aborted.\n");
 					return;
 				}
 

@@ -1,6 +1,7 @@
 import $create from "./create.js";
 import $doh from "./doh/index.js";
 import $get from "./get.js";
+import $trustsettings from "./trust-settings/index.js";
 import $update from "./update.js";
 import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
@@ -19,6 +20,7 @@ const command: CommandModule<CommonYargsOptions> = {
 			.command($get)
 			.command($update)
 			.command($doh)
+			.command($trustsettings)
 			.demandCommand(1, "Please specify a subcommand");
 	},
 

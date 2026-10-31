@@ -11,6 +11,7 @@ import {
 	deleteCommand,
 	listCommand,
 } from "./profiles.js";
+import scopesCommand from "./scopes.js";
 import whoamiCommand from "./whoami.js";
 import type { Argv, CommandModule } from "yargs";
 
@@ -28,6 +29,7 @@ const authCommands: CommandModule & { describe: string } = {
 			)
 			.command(telemetryCommand(logoutCommand, "auth logout"))
 			.command(telemetryCommand(whoamiCommand, "auth whoami"))
+			.command(telemetryCommand(scopesCommand, "auth scopes", ["all"]))
 			.command(
 				telemetryCommand(createCommand, "auth create", ["browser", "device"])
 			)

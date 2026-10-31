@@ -26,6 +26,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("limit", { type: "string", description: "Limit" })
 		.option("query-id", {
 			type: "string",
+			array: true,
 			description:
 				"Query ID or comma-separated list of Query IDs. When multiple IDs are provided, matches are deduplicated across queries and each match includes a match_details array with per-match query metadata and dismissed state.",
 			demandOption: true,

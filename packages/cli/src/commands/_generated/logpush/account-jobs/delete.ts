@@ -21,7 +21,9 @@ import { runWithTelemetry } from "#lib/telemetry/index.js";
 
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
-		.usage("$0 logpush account-jobs delete <job-id>\n\nDeletes a Logpush job.")
+		.usage(
+			"$0 logpush account-jobs delete <job-id>\n\nDeletes a Logpush job.\n\nRuns against your account. Pass --zone to run against a zone instead. CLOUDFLARE_ZONE_ID is ignored."
+		)
 		.positional("job-id", {
 			type: "string",
 			description: "Unique id of the job.",
@@ -100,7 +102,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						message: `This operation deletes the Logpush job.`,
 					}))
 				) {
-					process.stderr.write("Aborted.\n");
 					return;
 				}
 

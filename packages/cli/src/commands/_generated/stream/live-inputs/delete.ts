@@ -83,7 +83,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						message: `Permanently delete this live input? It cannot be recreated.`,
 					}))
 				) {
-					process.stderr.write("Aborted.\n");
 					return;
 				}
 

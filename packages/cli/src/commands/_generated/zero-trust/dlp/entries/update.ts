@@ -13,11 +13,9 @@ import {
 } from "#lib/auth.js";
 import { compactBody, parseBody } from "#lib/body-parser.js";
 import { formatDryRun } from "#lib/dry-run.js";
-import { resolveFileToken } from "#lib/input-validation.js";
 import { LOCAL_ACCOUNT_ID } from "#lib/local.js";
 import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
-import { promptForRequiredEnumField } from "#lib/prompt.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
 function builder(yargs: Argv<CommonYargsOptions>) {
@@ -30,29 +28,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "Entry ID",
 			demandOption: true,
 		})
-		.option("description", {
-			type: "string",
-			description: "The description field",
-		})
-		.option("name", { type: "string", description: "The name field" })
-		.option("pattern-regex", {
-			type: "string",
-			description: "The pattern.regex field",
-		})
-		.option("pattern-validation", {
-			type: "string",
-			description: "The pattern.validation field",
-			choices: ["luhn"],
-		})
-		.coerce("pattern-validation", (value) =>
-			resolveFileToken(value, "pattern-validation", "text")
-		)
-		.option("type", {
-			type: "string",
-			description: "The type field",
-			choices: ["custom", "predefined", "integration"],
-		})
-		.coerce("type", (value) => resolveFileToken(value, "type", "text"))
 		.option("enabled", { type: "boolean", description: "The enabled field" })
 		.option("dry-run", {
 			type: "boolean",
@@ -62,20 +37,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("body", {
 			type: "string",
 			description: "Update to be applied to the entry.",
-		})
-		.check((argv) => {
-			const groupSet = ["pattern-regex", "pattern-validation"].some(
-				(k) => argv[k] !== undefined
-			);
-			if (groupSet) {
-				const missing = ["pattern-regex"].filter((k) => argv[k] === undefined);
-				if (missing.length > 0) {
-					throw new Error(
-						`${missing.map((m) => "--" + m).join(", ")} ${missing.length === 1 ? "is" : "are"} required when any --pattern-* flag is set`
-					);
-				}
-			}
-			return true;
 		});
 }
 
@@ -90,7 +51,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			{
 				command: "zero-trust dlp entries update",
 				classification: {
-					safeFlags: ["pattern-validation", "type", "enabled", "dry-run"],
+					safeFlags: ["enabled", "dry-run"],
 				} satisfies ArgClassification<Args>,
 			},
 			argv as Record<string, unknown>,
@@ -107,25 +68,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 							argv.body !== undefined
 								? parseBody(argv.body)
 								: compactBody({
-										description: resolveFileToken(
-											argv["description"] as string | undefined,
-											"description",
-											"text"
-										),
-										name: resolveFileToken(
-											argv["name"] as string | undefined,
-											"name",
-											"text"
-										),
-										pattern: {
-											regex: resolveFileToken(
-												argv["pattern-regex"] as string | undefined,
-												"pattern-regex",
-												"text"
-											),
-											validation: argv["pattern-validation"],
-										},
-										type: argv["type"],
 										enabled: argv["enabled"],
 									}),
 					});
@@ -147,13 +89,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					formatOutput(result, { successLabel: `Updated` });
 					return;
 				}
-				if (argv["type"] === undefined) {
-					argv["type"] = await promptForRequiredEnumField(
-						"type",
-						"The type field",
-						["custom", "predefined", "integration"] as const
-					);
-				}
 				if (argv["enabled"] === undefined) {
 					throw new Error(
 						"--enabled is required (or pass --body with this field set)."
@@ -162,25 +97,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 
 				// Assemble request body from individual flags
 				const bodyData = compactBody({
-					description: resolveFileToken(
-						argv["description"] as string | undefined,
-						"description",
-						"text"
-					),
-					name: resolveFileToken(
-						argv["name"] as string | undefined,
-						"name",
-						"text"
-					),
-					pattern: {
-						regex: resolveFileToken(
-							argv["pattern-regex"] as string | undefined,
-							"pattern-regex",
-							"text"
-						),
-						validation: argv["pattern-validation"],
-					},
-					type: argv["type"],
 					enabled: argv["enabled"],
 				});
 				const result = await withProgress(`Updating`, async () =>

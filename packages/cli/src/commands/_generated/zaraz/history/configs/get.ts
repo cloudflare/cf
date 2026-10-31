@@ -19,6 +19,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		)
 		.option("ids", {
 			type: "string",
+			array: true,
 			description: "Comma separated list of Zaraz configuration IDs.",
 			demandOption: true,
 		})

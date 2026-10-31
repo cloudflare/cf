@@ -41,7 +41,8 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		})
 		.option("public-endpoint-params-chat-completions-endpoint-disabled", {
 			type: "boolean",
-			description: "Disable chat completions endpoint for this public endpoint",
+			description:
+				"Disable chat completions endpoint for this public endpoint.",
 		})
 		.option("public-endpoint-params-custom-domains", {
 			type: "string",
@@ -62,7 +63,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			type: "string",
 			array: true,
 			description:
-				"Instance IDs exposed through the namespace public endpoint. Empty means nothing is searchable. Every ID must be an existing instance in this namespace, and the list cannot exceed the account's multi-instance search limit.",
+				"Instance IDs exposed through the namespace public endpoint. Empty means nothing is searchable. Every ID must reference an existing instance in this namespace, and the list must stay within the account's multi-instance search limit.",
 		})
 		.option("public-endpoint-params-mcp-description", {
 			type: "string",
@@ -70,7 +71,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		})
 		.option("public-endpoint-params-mcp-disabled", {
 			type: "boolean",
-			description: "Disable MCP endpoint for this public endpoint",
+			description: "Disable MCP endpoint for this public endpoint.",
 		})
 		.option("public-endpoint-params-rate-limit-period-ms", {
 			type: "number",
@@ -94,7 +95,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		)
 		.option("public-endpoint-params-search-endpoint-disabled", {
 			type: "boolean",
-			description: "Disable search endpoint for this public endpoint",
+			description: "Disable search endpoint for this public endpoint.",
 		})
 		.option("dry-run", {
 			type: "boolean",

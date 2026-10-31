@@ -102,6 +102,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		})
 		.option("tags", {
 			type: "string",
+			array: true,
 			description:
 				"Filters results by annotation tag. Matches annotations carrying at least one of the given tags.",
 		})

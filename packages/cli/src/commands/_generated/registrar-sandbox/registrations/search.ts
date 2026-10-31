@@ -30,6 +30,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		})
 		.option("extensions", {
 			type: "string",
+			array: true,
 			description:
 				"Limits results to specific domain extensions from the supported set. If not specified,\nreturns results across all supported extensions. Extensions not in the supported\nset are silently ignored.",
 		})

@@ -34,17 +34,6 @@ export function warning(message: string): string {
 }
 
 /**
- * Format an info message with info symbol.
- *
- * @example
- * console.log(info('Use --help for more options'));
- * // ℹ Use --help for more options
- */
-export function info(message: string): string {
-	return `${theme.info(symbols.info)} ${message}`;
-}
-
-/**
  * Format a hint/tip message with arrow prefix.
  *
  * @example

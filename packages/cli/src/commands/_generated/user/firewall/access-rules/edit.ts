@@ -24,6 +24,20 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "Unique identifier for a rule.",
 			demandOption: true,
 		})
+		.option("access-rule-mode", {
+			type: "string",
+			description: "The action to apply to a matched request.",
+			choices: [
+				"block",
+				"challenge",
+				"whitelist",
+				"js_challenge",
+				"managed_challenge",
+			],
+		})
+		.coerce("access-rule-mode", (value) =>
+			resolveFileToken(value, "access-rule-mode", "text")
+		)
 		.option("notes", {
 			type: "string",
 			description:
@@ -51,7 +65,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			{
 				command: "user firewall access-rules edit",
 				classification: {
-					safeFlags: ["dry-run"],
+					safeFlags: ["access-rule-mode", "dry-run"],
 				} satisfies ArgClassification<Args>,
 			},
 			argv as Record<string, unknown>,
@@ -67,6 +81,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 							argv.body !== undefined
 								? parseBody(argv.body)
 								: compactBody({
+										mode: argv["access-rule-mode"],
 										notes: resolveFileToken(
 											argv["notes"] as string | undefined,
 											"notes",
@@ -89,6 +104,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 
 				// Assemble request body from individual flags
 				const bodyData = compactBody({
+					mode: argv["access-rule-mode"],
 					notes: resolveFileToken(
 						argv["notes"] as string | undefined,
 						"notes",

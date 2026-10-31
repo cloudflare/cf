@@ -9,7 +9,6 @@
 import { prepareProject, runProjectCommand } from "../../lib/autoconfig.js";
 import { CliExit } from "../../lib/cli-exit.js";
 import { getActiveProfile } from "../../lib/oauth/index.js";
-import { getCloudflareRegistryEnvironment } from "../../lib/registry.js";
 import { theme } from "../../lib/ui/index.js";
 import { resolveProjectImpl } from "./impl.js";
 import { spawnImpl } from "./spawn.js";
@@ -90,10 +89,10 @@ const devCommand: CommandModule<CommonYargsOptions, DevArgs> = {
 			const result = await runProjectCommand(details.devCommand, cwd, {
 				env: {
 					...details.env,
-					...getCloudflareRegistryEnvironment(),
 					...authEnvironment,
 				},
 				args: modeArgs,
+				output: "inherit",
 			});
 			throw new CliExit(result.exitCode, { signal: result.signal });
 		}
@@ -104,6 +103,7 @@ const devCommand: CommandModule<CommonYargsOptions, DevArgs> = {
 		// CliExit flows up to main() which lets bin/cf map to process.exit(code).
 		const result = await spawnImpl(picked, "dev", [...modeArgs, ...implArgs], {
 			env: authEnvironment,
+			output: "inherit",
 		});
 		throw new CliExit(result.exitCode, { signal: result.signal });
 	},

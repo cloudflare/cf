@@ -22,7 +22,7 @@ import { runWithTelemetry } from "#lib/telemetry/index.js";
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
 		.usage(
-			"$0 security-insights dismiss <issue-id>\n\nArchives a Security Center insight for an account or zone, removing it from the active insights list while preserving historical data."
+			"$0 security-insights dismiss <issue-id>\n\nArchives a Security Center insight for an account or zone, removing it from the active insights list while preserving historical data.\n\nRuns against your account. Pass --zone to run against a zone instead. CLOUDFLARE_ZONE_ID is ignored."
 		)
 		.positional("issue-id", {
 			type: "string",

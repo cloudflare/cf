@@ -21,17 +21,18 @@ import { runWithTelemetry } from "#lib/telemetry/index.js";
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
 		.usage(
-			"$0 cloudforce-one threat-signals feeds skills update <feed-id>\n\nReplaces the ordered custom skills assigned to a Threat Signals feed."
+			"$0 cloudforce-one threat-signals feeds skills update <feed-id>\n\nReplaces the ordered custom skills assigned to a Threat Signals feed. Requires a paid Threat Signals subscription."
 		)
 		.positional("feed-id", {
 			type: "string",
-			description: "Feed ID",
+			description: "UUID of the Threat Signals feed",
 			demandOption: true,
 		})
 		.option("skill-ids", {
 			type: "string",
 			array: true,
-			description: "The skill_ids field",
+			description:
+				"Ordered array of Custom Skill UUIDs (max 20). Replaces the feed's custom skill assignments. Free accounts cannot assign custom skills. Managed default skills are unaffected.",
 		})
 		.option("dry-run", {
 			type: "boolean",

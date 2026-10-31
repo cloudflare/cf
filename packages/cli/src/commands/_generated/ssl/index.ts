@@ -1,7 +1,16 @@
 import $analyze from "./analyze/index.js";
 import $autoorigintlskex from "./auto-origin-tls-kex/index.js";
 import $automaticupgrader from "./automatic-upgrader/index.js";
+import $certificateauthorities from "./certificate-authorities/index.js";
 import $certificatepacks from "./certificate-packs/index.js";
+import $clientcertificates from "./client-certificates/index.js";
+import $ctalerting from "./ct-alerting/index.js";
+import $customcertificates from "./custom-certificates/index.js";
+import $dcvdelegation from "./dcv-delegation/index.js";
+import $keylesscertificates from "./keyless-certificates/index.js";
+import $mtlscertificates from "./mtls-certificates/index.js";
+import $origincacertificates from "./origin-ca-certificates/index.js";
+import $origintlsclientauth from "./origin-tls-client-auth/index.js";
 import $recommendations from "./recommendations/index.js";
 import $universal from "./universal/index.js";
 import $verification from "./verification/index.js";
@@ -22,7 +31,16 @@ const command: CommandModule<CommonYargsOptions> = {
 			.command($analyze)
 			.command($autoorigintlskex)
 			.command($automaticupgrader)
+			.command($certificateauthorities)
 			.command($certificatepacks)
+			.command($clientcertificates)
+			.command($ctalerting)
+			.command($customcertificates)
+			.command($dcvdelegation)
+			.command($keylesscertificates)
+			.command($mtlscertificates)
+			.command($origincacertificates)
+			.command($origintlsclientauth)
 			.command($recommendations)
 			.command($universal)
 			.command($verification)

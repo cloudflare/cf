@@ -1,5 +1,4 @@
 import $issuetypes from "./issue-types/index.js";
-import $issues from "./issues/index.js";
 import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * attack-surface-report command group
@@ -15,7 +14,6 @@ const command: CommandModule<CommonYargsOptions> = {
 	builder: (yargs) => {
 		return yargs
 			.command($issuetypes)
-			.command($issues)
 			.demandCommand(1, "Please specify a subcommand");
 	},
 

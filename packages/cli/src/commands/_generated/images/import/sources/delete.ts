@@ -79,7 +79,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						message: `This operation will delete this import source.`,
 					}))
 				) {
-					process.stderr.write("Aborted.\n");
 					return;
 				}
 

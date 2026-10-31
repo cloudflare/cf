@@ -81,7 +81,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						message: `This operation will delete this signing key. This will invalidate any URLs that are signed with this key.`,
 					}))
 				) {
-					process.stderr.write("Aborted.\n");
 					return;
 				}
 

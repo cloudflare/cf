@@ -79,7 +79,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						message: `This operation permanently deletes the completed, cancelled, or failed bulk action job from all list and detail endpoints.`,
 					}))
 				) {
-					process.stderr.write("Aborted.\n");
 					return;
 				}
 

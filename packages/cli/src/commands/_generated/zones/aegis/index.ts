@@ -1,3 +1,4 @@
+import $delete from "./delete.js";
 import $edit from "./edit.js";
 import $get from "./get.js";
 import type { CommonYargsOptions } from "#lib/cli-types.js";
@@ -13,6 +14,7 @@ const command: CommandModule<CommonYargsOptions> = {
 
 	builder: (yargs) => {
 		return yargs
+			.command($delete)
 			.command($edit)
 			.command($get)
 			.demandCommand(1, "Please specify a subcommand");

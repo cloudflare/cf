@@ -6,4 +6,7 @@ export default {
 	path: (request: Record<string, unknown>) =>
 		path`/accounts/${request.account_id}/devices/physical-devices/${request.device_id}`,
 	body: "json",
+	errors: {
+		409: "ConflictError",
+	},
 } as const;

@@ -99,7 +99,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						message: `This operation triggers a manual failover, changing the active connector for a Mesh node.`,
 					}))
 				) {
-					process.stderr.write("Aborted.\n");
 					return;
 				}
 

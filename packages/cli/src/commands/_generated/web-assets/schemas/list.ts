@@ -19,15 +19,18 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		)
 		.option("host", {
 			type: "string",
+			array: true,
 			description: "Receive schema only for the given host(s).",
 		})
 		.option("feature", {
 			type: "string",
+			array: true,
 			description:
 				"Add feature(s) to the results. The feature name that is given here corresponds to the resulting feature object. Have a look at the top-level object description for more details on the specific meaning.",
 		})
 		.option("include-schema-kind", {
 			type: "string",
+			array: true,
 			description: "Schema kinds to include in exported OpenAPI schemas.",
 		})
 		.option("dry-run", {

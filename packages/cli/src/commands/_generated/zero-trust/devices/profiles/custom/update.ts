@@ -83,6 +83,11 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description:
 				"List of DNS search suffixes to apply to clients. Suffixes are evaluated in order. Use an empty array to clear. Provide as a JSON array of objects or @path/to/file.json.",
 		})
+		.option("enable-device-credential-authentication", {
+			type: "boolean",
+			description:
+				"Determines whether the WARP client can silently reauthenticate the user with device credentials (Microsoft Entra) instead of prompting for browser-based reauthentication.",
+		})
 		.option("enabled", {
 			type: "boolean",
 			description: "Whether the policy will be applied to matching devices.",
@@ -95,6 +100,11 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("exclude-office-ips", {
 			type: "boolean",
 			description: "Whether to add Microsoft IPs to Split Tunnel exclusions.",
+		})
+		.option("global-acceleration-allow-manual-override", {
+			type: "boolean",
+			description:
+				"Whether WARP users may manually override the automatic Global Acceleration decision. Defaults to true when not provided.",
 		})
 		.option("global-acceleration-api-endpoints", {
 			type: "string",
@@ -228,6 +238,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		})
 		.check((argv) => {
 			const groupSet = [
+				"global-acceleration-allow-manual-override",
 				"global-acceleration-api-endpoints",
 				"global-acceleration-autoswitch",
 				"global-acceleration-enabled",
@@ -288,8 +299,10 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						"browser-extension-config-proxy-enabled",
 						"default",
 						"disable-auto-fallback",
+						"enable-device-credential-authentication",
 						"enabled",
 						"exclude-office-ips",
+						"global-acceleration-allow-manual-override",
 						"global-acceleration-autoswitch",
 						"global-acceleration-enabled",
 						"register-interface-ip-with-dns",
@@ -336,10 +349,14 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 											argv["dns-search-suffixes"],
 											"dns-search-suffixes"
 										),
+										enable_device_credential_authentication:
+											argv["enable-device-credential-authentication"],
 										enabled: argv["enabled"],
 										exclude: parseObjectArray(argv["exclude"], "exclude"),
 										exclude_office_ips: argv["exclude-office-ips"],
 										global_acceleration: {
+											allow_manual_override:
+												argv["global-acceleration-allow-manual-override"],
 											api_endpoints: argv["global-acceleration-api-endpoints"],
 											autoswitch: argv["global-acceleration-autoswitch"],
 											enabled: argv["global-acceleration-enabled"],
@@ -437,10 +454,14 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						argv["dns-search-suffixes"],
 						"dns-search-suffixes"
 					),
+					enable_device_credential_authentication:
+						argv["enable-device-credential-authentication"],
 					enabled: argv["enabled"],
 					exclude: parseObjectArray(argv["exclude"], "exclude"),
 					exclude_office_ips: argv["exclude-office-ips"],
 					global_acceleration: {
+						allow_manual_override:
+							argv["global-acceleration-allow-manual-override"],
 						api_endpoints: argv["global-acceleration-api-endpoints"],
 						autoswitch: argv["global-acceleration-autoswitch"],
 						enabled: argv["global-acceleration-enabled"],

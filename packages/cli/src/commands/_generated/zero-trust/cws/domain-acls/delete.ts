@@ -81,7 +81,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						message: `Delete this domain ACL?`,
 					}))
 				) {
-					process.stderr.write("Aborted.\n");
 					return;
 				}
 

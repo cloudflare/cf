@@ -29,15 +29,18 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		})
 		.option("name", {
 			type: "string",
+			array: true,
 			description: "Array of names used to label the series in the response.",
 		})
 		.option("rir", {
 			type: "string",
+			array: true,
 			description:
 				"Filter by Regional Internet Registry (RIR). Multiple RIRs generate multiple series.",
 		})
 		.option("location", {
 			type: "string",
+			array: true,
 			description:
 				"Filters results by location. Specify a comma-separated list of alpha-2 location codes.",
 		})

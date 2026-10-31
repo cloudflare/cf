@@ -13,5 +13,6 @@ export default {
 		"direction",
 		"pattern_type",
 		"pattern",
+		"expired",
 	],
 } as const;

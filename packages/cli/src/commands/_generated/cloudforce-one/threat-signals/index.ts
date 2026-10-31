@@ -1,8 +1,6 @@
 import $articles from "./articles/index.js";
 import $categories from "./categories/index.js";
-import $curatedfeeds from "./curated-feeds/index.js";
 import $feeds from "./feeds/index.js";
-import $health from "./health.js";
 import $indicators from "./indicators/index.js";
 import $search from "./search.js";
 import $skills from "./skills/index.js";
@@ -19,11 +17,9 @@ const command: CommandModule<CommonYargsOptions> = {
 
 	builder: (yargs) => {
 		return yargs
-			.command($health)
 			.command($search)
 			.command($articles)
 			.command($categories)
-			.command($curatedfeeds)
 			.command($feeds)
 			.command($indicators)
 			.command($skills)

@@ -143,6 +143,23 @@ const detectPi: AgentDetector = (environment) => {
 	});
 };
 
+// Evidence: https://github.com/deepseek-ai/deepseek-harness/blob/b13bbc027cccb7aa80ec36ce9c8bceee44acefa9/packages/shell/shell-env/src/index.ts#L158-L162
+const detectDeepSeekHarness: AgentDetector = (environment) => {
+	if (!isExact(environment, "DSH_SHELL", "1")) {
+		return null;
+	}
+	const signals = ["DSH_SHELL"];
+	const sessionId = value(environment, "DSH_SESSION_ID");
+	if (sessionId) {
+		signals.push("DSH_SESSION_ID");
+	}
+	return contractMatch(
+		{ id: "deepseek-harness", name: "DeepSeek Harness" },
+		signals,
+		{ sessionId }
+	);
+};
+
 // Evidence: Cursor Agent child-process environment contract. Verified 2026-09-02.
 const detectCursorAgent: AgentDetector = (environment) => {
 	if (!isExact(environment, "CURSOR_AGENT", "1")) {
@@ -280,6 +297,7 @@ export const agentDetectors: readonly AgentDetector[] = [
 	detectOpenCode,
 	detectQwenCode,
 	detectPi,
+	detectDeepSeekHarness,
 	detectCursorAgent,
 	detectClaudeCode,
 	detectCodex,

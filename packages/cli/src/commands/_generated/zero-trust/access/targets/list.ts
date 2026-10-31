@@ -61,11 +61,13 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		})
 		.option("ips", {
 			type: "string",
+			array: true,
 			description:
 				"Filters for targets that have any of the following IP addresses. Specify\n`ips` multiple times in query parameter to build list of candidates.",
 		})
 		.option("target-ids", {
 			type: "string",
+			array: true,
 			description:
 				"Filters for targets that have any of the following UUIDs. Specify\n`target_ids` multiple times in query parameter to build list of\ncandidates.",
 		})
@@ -96,6 +98,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		})
 		.option("tag", {
 			type: "string",
+			array: true,
 			description:
 				"Filter by tag key:value pairs. Multiple `tag` params are AND'd.\nFormat: `tag=key:value` (e.g., `tag=environment:production`).\nKey and value must both be non-empty; `tag=:value` and `tag=key:` return 400.",
 		})

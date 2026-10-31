@@ -26,9 +26,12 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("article-ids", {
 			type: "string",
 			array: true,
-			description: "The article_ids field",
+			description: "Array of article UUIDs to mark (1-50).",
 		})
-		.option("read", { type: "boolean", description: "The read field" })
+		.option("read", {
+			type: "boolean",
+			description: "True to mark read, false to mark unread.",
+		})
 		.option("dry-run", {
 			type: "boolean",
 			description: "Validate and show what would happen without executing",

@@ -8,5 +8,6 @@ export default {
 	errors: {
 		401: "UnauthorizedError",
 		403: "ForbiddenError",
+		429: "TooManyRequestsError",
 	},
 } as const;

@@ -11,7 +11,7 @@ import {
 	getAccountId,
 	resolveAccountIdSilent,
 } from "#lib/auth.js";
-import { compactBody, parseBody } from "#lib/body-parser.js";
+import { compactBody, parseBody, parseScalarValue } from "#lib/body-parser.js";
 import { formatDryRun } from "#lib/dry-run.js";
 import { resolveFileToken } from "#lib/input-validation.js";
 import { LOCAL_ACCOUNT_ID } from "#lib/local.js";
@@ -33,6 +33,16 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			type: "string",
 			description:
 				"The system reserves IDs that consist of the `cf_` prefix and exactly 64 lowercase hexadecimal characters.",
+		})
+		.option("instance-retention-error", {
+			type: "string",
+			description:
+				"Specifies the duration in milliseconds or as a string like '5 minutes'. Accepts a JSON scalar or plain string, or @path/to/file.",
+		})
+		.option("instance-retention-success", {
+			type: "string",
+			description:
+				"Specifies the duration in milliseconds or as a string like '5 minutes'. Accepts a JSON scalar or plain string, or @path/to/file.",
 		})
 		.option("location-hint", {
 			type: "string",
@@ -104,6 +114,16 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 											"instance-id",
 											"text"
 										),
+										instance_retention: {
+											error_retention: parseScalarValue(
+												argv["instance-retention-error"],
+												"instance-retention-error"
+											),
+											success_retention: parseScalarValue(
+												argv["instance-retention-success"],
+												"instance-retention-success"
+											),
+										},
 										location_hint: argv["location-hint"],
 										params: resolveFileToken(
 											argv["params"] as string | undefined,
@@ -138,6 +158,16 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						"instance-id",
 						"text"
 					),
+					instance_retention: {
+						error_retention: parseScalarValue(
+							argv["instance-retention-error"],
+							"instance-retention-error"
+						),
+						success_retention: parseScalarValue(
+							argv["instance-retention-success"],
+							"instance-retention-success"
+						),
+					},
 					location_hint: argv["location-hint"],
 					params: resolveFileToken(
 						argv["params"] as string | undefined,

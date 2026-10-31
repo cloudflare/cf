@@ -8,7 +8,6 @@
  */
 import { prepareProject, runProjectCommand } from "../../lib/autoconfig.js";
 import { CliExit } from "../../lib/cli-exit.js";
-import { getActiveProfile } from "../../lib/oauth/index.js";
 import { theme } from "../../lib/ui/index.js";
 import { resolveProjectImpl } from "./impl.js";
 import { spawnImpl } from "./spawn.js";
@@ -60,12 +59,6 @@ const devCommand: CommandModule<CommonYargsOptions, DevArgs> = {
 	handler: async (argv: ArgumentsCamelCase<DevArgs>): Promise<void> => {
 		const cwd = process.cwd();
 		const { details } = await prepareProject(cwd);
-		// The child resolves credentials itself. Forward only the parent's
-		// selection so explicit profiles also survive framework delegation.
-		const authEnvironment = {
-			CLOUDFLARE_CF_AUTH: "true",
-			CLOUDFLARE_DEV_AUTH_PROFILE: getActiveProfile(),
-		};
 
 		// Coerce yargs' (string | number)[] back to string[] for the
 		// child_process call. Numbers come from yargs auto-detecting
@@ -87,10 +80,7 @@ const devCommand: CommandModule<CommonYargsOptions, DevArgs> = {
 				);
 			}
 			const result = await runProjectCommand(details.devCommand, cwd, {
-				env: {
-					...details.env,
-					...authEnvironment,
-				},
+				env: details.env,
 				args: modeArgs,
 				output: "inherit",
 			});
@@ -102,7 +92,6 @@ const devCommand: CommandModule<CommonYargsOptions, DevArgs> = {
 		// Spawn and propagate the impl's exit code and termination signal.
 		// CliExit flows up to main() which lets bin/cf map to process.exit(code).
 		const result = await spawnImpl(picked, "dev", [...modeArgs, ...implArgs], {
-			env: authEnvironment,
 			output: "inherit",
 		});
 		throw new CliExit(result.exitCode, { signal: result.signal });

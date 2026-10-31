@@ -1,7 +1,6 @@
 import { readFileSync } from "node:fs";
 import { resolve } from "node:path";
 import * as clack from "@clack/prompts";
-import { writeAuthConfigFile } from "@cloudflare/workers-auth/cf";
 import {
 	mockConsoleMethods,
 	runInTempDir,
@@ -14,7 +13,6 @@ import {
 	runProjectCommand,
 	shouldRelayProjectCommandSignal,
 } from "../../../lib/autoconfig.js";
-import { getProfileStore } from "../../../lib/oauth/index.js";
 import { makeExecutable, nodeScript } from "../../helpers/executable.js";
 import { runCf } from "../../helpers/run-cf.js";
 
@@ -40,74 +38,6 @@ describe("cf dev", () => {
 	runInTempDir();
 	const std = mockConsoleMethods();
 	afterEach(() => vi.restoreAllMocks());
-
-	it.each([
-		["framework", "default"],
-		["framework", "directory"],
-		["framework", "explicit"],
-		["vite", "default"],
-		["vite", "directory"],
-		["vite", "explicit"],
-		["wrangler", "default"],
-		["wrangler", "directory"],
-		["wrangler", "explicit"],
-	] as const)(
-		"forwards %s authentication with the %s profile",
-		async (implementation, selection) => {
-			const script = nodeScript(
-				'require("node:fs").writeFileSync("auth.out", JSON.stringify([process.env.CLOUDFLARE_CF_AUTH, process.env.CLOUDFLARE_DEV_AUTH_PROFILE]));'
-			);
-			const packageName =
-				implementation === "framework"
-					? "astro"
-					: implementation === "vite"
-						? "@cloudflare/vite-plugin"
-						: "wrangler";
-			const version =
-				implementation === "framework"
-					? "5.0.0"
-					: implementation === "vite"
-						? "2.0.0-beta.1"
-						: "4.136.0";
-			const binary =
-				implementation === "framework"
-					? "node_modules/.bin/astro"
-					: `node_modules/${packageName}/bin/${implementation === "vite" ? "cf-vite" : "cf-wrangler.js"}`;
-			await seed({
-				"cloudflare.config.ts": `export default {worker: {name: "linked-worker", compatibilityFlags: ["workers_oidc"], env: {IDENTITY: {type: "identity", audience: "recipient"}}}};`,
-				"package.json": JSON.stringify({
-					dependencies: { [packageName]: version },
-				}),
-				"package-lock.json": "{}",
-				[`node_modules/${packageName}/package.json`]: JSON.stringify({
-					name: packageName,
-					version,
-				}),
-				[binary]: script,
-			});
-			makeExecutable(binary, { npmBin: implementation === "framework" });
-			if (selection !== "default") {
-				writeAuthConfigFile(
-					{
-						oauth_token: "stored-credential",
-						expiration_time: "2999-01-01T00:00:00.000Z",
-					},
-					"work"
-				);
-				getProfileStore().bindings.activate("work", process.cwd());
-			}
-			const args =
-				selection === "explicit" ? ["dev", "--profile", "default"] : ["dev"];
-			const result = await runCf(args, {
-				CLOUDFLARE_DEV_AUTH_PROFILE: "inherited-profile",
-			});
-			expect(result.exitCode).toBe(0);
-			expect(JSON.parse(readFileSync("auth.out", "utf8"))).toEqual([
-				"true",
-				selection === "directory" ? "work" : "default",
-			]);
-		}
-	);
 
 	describe("no impl declared", () => {
 		it("errors with install hints and exits 1 when no manifest exists", async () => {

@@ -689,8 +689,8 @@ export function bodyPrompts(ctx: Ctx): string[] {
 }
 
 /**
- * The non-path positionals and required options that go into the body, as
- * their argument definitions and API field names.
+ * The non-path positionals that go into the body, as their argument
+ * definitions and API field names.
  */
 function bodyFieldArgs(ctx: Ctx): [Arg, string][] {
 	const out: [Arg, string][] = [];
@@ -704,12 +704,6 @@ function bodyFieldArgs(ctx: Ctx): [Arg, string][] {
 				? (path[0] as string)
 				: arg.name.replaceAll("-", "_");
 		out.push([arg, field]);
-	}
-	for (const opt of ctx.requiredOptionArgs) {
-		if (isBody(opt)) {
-			continue;
-		}
-		out.push([opt, opt.name.replaceAll("-", "_")]);
 	}
 	return out;
 }

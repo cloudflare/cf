@@ -323,6 +323,33 @@ describe("file-backed enum arguments", () => {
 });
 
 describe("passthrough body assembly", () => {
+	it("keeps required headers and query parameters out of the JSON body", () => {
+		const ctx = context(
+			method("update", "example-update"),
+			"example",
+			operation("put", "/things/{thing_id}", {
+				pathParams: [param("thing_id")],
+				queryParams: [param("validate")],
+				headerParams: [param("If-Match")],
+				bodyParams: [bodyParam("name", "string", ["name"], { required: true })],
+				hasRequestBody: true,
+				requestContentTypes: ["application/json"],
+				requestBodyRequired: ["name"],
+			})
+		);
+		const output = handler(ctx).join("\n");
+		const preview = dryRun(ctx).join("\n");
+
+		expect(output).toContain(
+			"headers['If-Match'] = String(argv[\"if-match\"])"
+		);
+		expect(output).toContain("'validate': argv[\"validate\"]");
+		expect(output).toContain('setNestedValue(bodyData, ["name"]');
+		expect(output).not.toContain('bodyData["if_match"]');
+		expect(output).not.toContain('bodyData["validate"]');
+		expect(preview).not.toContain('if_match: argv["if-match"]');
+	});
+
 	it("sends an assembled body even when no flag set a field", () => {
 		// A renamed path parameter keeps the command off the typed call.
 		const ctx = context(

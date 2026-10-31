@@ -146,11 +146,12 @@ pnpm build
                  ├─ fetch pinned Forge OpenAPI release (or preview bundle)
                  ├─ prepare it (hidden ops, account/zone routes, cf-cli audience)
                  ├─ rm -rf _generated/
-                 ├─ forge openapi.json --target wasm://generator/cli.wasm --out _generated
+                 ├─ forge normalize --leave-old-extensions -
+                 │    └─ pipe normalized JSON into forge - --target wasm://generator/cli.wasm --out _generated
                  └─ vp fmt _generated/               # post-format emitted TS
 ```
 
-forge (the `@cloudflare/forge` binary, installed from pkg.pr.new) parses
+forge (the `@cloudflare/forge` binary, installed from a pinned preview) parses
 the document; the command generator is a forge plugin that lives here, in
 `packages/cli/generator/plugin/`. It is TypeScript written against
 `@cloudflare/forge/plugin`, which `forge-plugin build` compiles to a

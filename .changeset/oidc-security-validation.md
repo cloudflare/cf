@@ -2,7 +2,6 @@
 "cf": patch
 ---
 
-Use the reviewed Workers OIDC validation and local session checks.
-
-Update the SDK prerelease to reject malformed audiences, ambiguous bindings,
-and invalid local session audience policies before issuing tokens.
+Validate fixed audiences and independent WAG/HTTP limits. Local calls require
+current human OAuth and development permission for an existing named Worker.
+Keep credentials in the dev host and cache only the development session.

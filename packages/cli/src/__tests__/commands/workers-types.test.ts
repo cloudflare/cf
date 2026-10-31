@@ -79,6 +79,30 @@ describe("cf workers types", () => {
 		});
 	});
 
+	it.skipIf(!process.env.MINIFLARE_WORKERD_PATH)(
+		"generates the native caller API without receiver bindings",
+		async () => {
+			await seed({ "cloudflare.config.ts": workerConfig("2026-10-31", []) });
+			const actual = await vi.importActual<typeof runtimeTypes>(
+				"@cloudflare/runtime-types"
+			);
+			vi.mocked(runtimeTypes.generateRuntimeTypes).mockImplementationOnce(
+				actual.generateRuntimeTypes
+			);
+			await runCf(["workers", "types"]);
+			const generated = await readFile(TYPES_PATH, "utf8");
+			expect(generated).toContain("interface CloudflareIdentityContext");
+			expect(generated).toContain("type CloudflareServiceBindingCaller");
+			expect(generated).toContain('kind: "service-binding"');
+			expect(generated).toContain(
+				"caller(): Promise<CloudflareWorkloadIdentity | null>"
+			);
+			expect(generated).toContain(
+				"readonly identity: CloudflareIdentityContext"
+			);
+		}
+	);
+
 	it("generates types for a signing-only identity without an audience or profile", async () => {
 		await seed({
 			"cloudflare.config.ts": `export default { worker: {

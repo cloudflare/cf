@@ -76,6 +76,65 @@ describe("build output", () => {
 		);
 	});
 
+	it("omits script_name for same-Worker Durable Object bindings and keeps it for cross-Worker ones", async () => {
+		await seed({
+			".cloudflare/output/v0/config.json": rootConfig,
+			".cloudflare/output/v0/workers/default/worker.config.json":
+				JSON.stringify({
+					name: "site-dded",
+					compatibilityDate: "2026-04-25",
+					exports: {
+						EventIndex: {
+							type: "durable-object",
+							storage: "sqlite",
+						},
+					},
+					env: {
+						EVENTS: {
+							type: "durable-object",
+							// cf requires `worker` on bindings.durableObject, so
+							// it is always present in the built config, even
+							// when it names this same Worker.
+							worker: "site-dded",
+							exportName: "EventIndex",
+						},
+						OTHERS: {
+							type: "durable-object",
+							worker: "other-worker",
+							exportName: "OtherIndex",
+						},
+					},
+					manifest: {
+						type: "complete",
+						mainModule: "index.js",
+						modules: { "index.js": { type: "esm" } },
+					},
+				}),
+			".cloudflare/output/v0/workers/default/bundle/index.js": "",
+		});
+
+		const {
+			rootConfig: parsedRootConfig,
+			workers: { default: worker },
+		} = await readBuildOutput(process.cwd());
+		const { wranglerConfig } = parseWorkerConfig(worker, parsedRootConfig);
+
+		const bindings = wranglerConfig.durable_objects?.bindings ?? [];
+		const events = bindings.find((binding) => binding.name === "EVENTS");
+		const others = bindings.find((binding) => binding.name === "OTHERS");
+
+		// A binding to a class in the same Worker means the same thing with
+		// `script_name` equal to the Worker's own name as with no `script_name`
+		// at all, and the dashboard's remote config never sets it, so emitting
+		// it makes every post-dashboard deploy report a spurious config diff.
+		expect(events).toMatchObject({ class_name: "EventIndex" });
+		expect(events).not.toHaveProperty("script_name");
+		expect(others).toMatchObject({
+			class_name: "OtherIndex",
+			script_name: "other-worker",
+		});
+	});
+
 	it("keeps Build Output Containers separate from Worker validation", async () => {
 		await seed({
 			".cloudflare/output/v0/config.json": rootConfig,

@@ -69,7 +69,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"http-cors-origins",
 				"http-enabled",
 			].some((k) => argv[k] !== undefined);
-			if (argv.body === undefined && groupSet) {
+			if (!argv.body && groupSet) {
 				const missing = ["http-enabled"].filter((k) => argv[k] === undefined);
 				if (missing.length > 0) {
 					throw new Error(

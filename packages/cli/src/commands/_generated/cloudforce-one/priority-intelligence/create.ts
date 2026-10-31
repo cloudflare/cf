@@ -135,7 +135,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			const groupSet = ["dataset-scope-type", "dataset-scope-dataset-ids"].some(
 				(k) => argv[k] !== undefined
 			);
-			if (argv.body === undefined && groupSet) {
+			if (!argv.body && groupSet) {
 				const missing = ["dataset-scope-type"].filter(
 					(k) => argv[k] === undefined
 				);
@@ -153,7 +153,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"intent-indicators",
 				"intent-unsupported-terms",
 			].some((k) => argv[k] !== undefined);
-			if (argv.body === undefined && groupSet) {
+			if (!argv.body && groupSet) {
 				const missing = [
 					"intent-clauses",
 					"intent-indicators",
@@ -171,7 +171,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			const groupSet = ["query-branches", "query-version"].some(
 				(k) => argv[k] !== undefined
 			);
-			if (argv.body === undefined && groupSet) {
+			if (!argv.body && groupSet) {
 				const missing = ["query-branches"].filter((k) => argv[k] === undefined);
 				if (missing.length > 0) {
 					throw new Error(

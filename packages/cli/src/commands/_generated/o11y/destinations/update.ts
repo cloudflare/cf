@@ -67,7 +67,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"configuration-type",
 				"configuration-url",
 			].some((k) => argv[k] !== undefined);
-			if (argv.body === undefined && groupSet) {
+			if (!argv.body && groupSet) {
 				const missing = [
 					"configuration-headers",
 					"configuration-type",

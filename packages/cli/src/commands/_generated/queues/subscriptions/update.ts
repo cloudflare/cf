@@ -64,7 +64,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			const groupSet = ["destination-queue-id", "destination-type"].some(
 				(k) => argv[k] !== undefined
 			);
-			if (argv.body === undefined && groupSet) {
+			if (!argv.body && groupSet) {
 				const missing = ["destination-queue-id", "destination-type"].filter(
 					(k) => argv[k] === undefined
 				);

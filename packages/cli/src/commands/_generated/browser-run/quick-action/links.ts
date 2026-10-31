@@ -200,7 +200,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			const groupSet = ["authenticate-password", "authenticate-username"].some(
 				(k) => argv[k] !== undefined
 			);
-			if (argv.body === undefined && groupSet) {
+			if (!argv.body && groupSet) {
 				const missing = [
 					"authenticate-password",
 					"authenticate-username",
@@ -222,7 +222,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"viewport-is-mobile",
 				"viewport-width",
 			].some((k) => argv[k] !== undefined);
-			if (argv.body === undefined && groupSet) {
+			if (!argv.body && groupSet) {
 				const missing = ["viewport-height", "viewport-width"].filter(
 					(k) => argv[k] === undefined
 				);
@@ -241,7 +241,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"wait-for-selector-timeout",
 				"wait-for-selector-visible",
 			].some((k) => argv[k] !== undefined);
-			if (argv.body === undefined && groupSet) {
+			if (!argv.body && groupSet) {
 				const missing = ["wait-for-selector-selector"].filter(
 					(k) => argv[k] === undefined
 				);

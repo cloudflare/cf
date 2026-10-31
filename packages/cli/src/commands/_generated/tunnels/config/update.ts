@@ -133,7 +133,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"tunnel-config-origin-request-access-required",
 				"tunnel-config-origin-request-access-team-name",
 			].some((k) => argv[k] !== undefined);
-			if (argv.body === undefined && groupSet) {
+			if (!argv.body && groupSet) {
 				const missing = [
 					"tunnel-config-origin-request-access-aud-tag",
 					"tunnel-config-origin-request-access-team-name",

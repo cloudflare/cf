@@ -64,7 +64,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"network-config-sha256",
 				"network-config-tls-sockaddr",
 			].some((k) => argv[k] !== undefined);
-			if (argv.body === undefined && groupSet) {
+			if (!argv.body && groupSet) {
 				const missing = ["network-config-tls-sockaddr"].filter(
 					(k) => argv[k] === undefined
 				);

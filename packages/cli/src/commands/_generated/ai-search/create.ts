@@ -378,7 +378,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			const groupSet = ["index-method-keyword", "index-method-vector"].some(
 				(k) => argv[k] !== undefined
 			);
-			if (argv.body === undefined && groupSet) {
+			if (!argv.body && groupSet) {
 				const missing = ["index-method-keyword", "index-method-vector"].filter(
 					(k) => argv[k] === undefined
 				);
@@ -395,7 +395,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"metadata-created-from-emdash-plugin-type",
 				"metadata-created-from-emdash-plugin-version",
 			].some((k) => argv[k] !== undefined);
-			if (argv.body === undefined && groupSet) {
+			if (!argv.body && groupSet) {
 				const missing = [
 					"metadata-created-from-emdash-plugin-type",
 					"metadata-created-from-emdash-plugin-version",

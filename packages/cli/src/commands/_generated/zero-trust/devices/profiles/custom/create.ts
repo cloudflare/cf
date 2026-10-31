@@ -245,7 +245,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"browser-extension-config-proxy-control",
 				"browser-extension-config-proxy-enabled",
 			].some((k) => argv[k] !== undefined);
-			if (argv.body === undefined && groupSet) {
+			if (!argv.body && groupSet) {
 				const missing = [
 					"browser-extension-config-proxy-control",
 					"browser-extension-config-proxy-enabled",
@@ -267,7 +267,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"global-acceleration-masque-endpoints",
 				"global-acceleration-wireguard-endpoints",
 			].some((k) => argv[k] !== undefined);
-			if (argv.body === undefined && groupSet) {
+			if (!argv.body && groupSet) {
 				const missing = [
 					"global-acceleration-api-endpoints",
 					"global-acceleration-enabled",
@@ -287,7 +287,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"virtual-networks-allowed",
 				"virtual-networks-default",
 			].some((k) => argv[k] !== undefined);
-			if (argv.body === undefined && groupSet) {
+			if (!argv.body && groupSet) {
 				const missing = [
 					"virtual-networks-allowed",
 					"virtual-networks-default",

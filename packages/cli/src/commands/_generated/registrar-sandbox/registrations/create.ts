@@ -188,7 +188,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"contacts-administrator-postal-info-name",
 				"contacts-administrator-postal-info-organization",
 			].some((k) => argv[k] !== undefined);
-			if (argv.body === undefined && groupSet) {
+			if (!argv.body && groupSet) {
 				const missing = [
 					"contacts-administrator-email",
 					"contacts-administrator-phone",
@@ -210,7 +210,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"contacts-billing-postal-info-name",
 				"contacts-billing-postal-info-organization",
 			].some((k) => argv[k] !== undefined);
-			if (argv.body === undefined && groupSet) {
+			if (!argv.body && groupSet) {
 				const missing = [
 					"contacts-billing-email",
 					"contacts-billing-phone",
@@ -232,7 +232,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"contacts-registrant-postal-info-name",
 				"contacts-registrant-postal-info-organization",
 			].some((k) => argv[k] !== undefined);
-			if (argv.body === undefined && groupSet) {
+			if (!argv.body && groupSet) {
 				const missing = [
 					"contacts-registrant-email",
 					"contacts-registrant-phone",
@@ -254,7 +254,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"contacts-technical-postal-info-name",
 				"contacts-technical-postal-info-organization",
 			].some((k) => argv[k] !== undefined);
-			if (argv.body === undefined && groupSet) {
+			if (!argv.body && groupSet) {
 				const missing = [
 					"contacts-technical-email",
 					"contacts-technical-phone",

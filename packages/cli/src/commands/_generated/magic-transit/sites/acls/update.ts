@@ -112,7 +112,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"lan-1-port-ranges",
 				"lan-1-ports",
 			].some((k) => argv[k] !== undefined);
-			if (argv.body === undefined && groupSet) {
+			if (!argv.body && groupSet) {
 				const missing = ["lan-1-lan-id"].filter((k) => argv[k] === undefined);
 				if (missing.length > 0) {
 					throw new Error(
@@ -129,7 +129,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"lan-2-port-ranges",
 				"lan-2-ports",
 			].some((k) => argv[k] !== undefined);
-			if (argv.body === undefined && groupSet) {
+			if (!argv.body && groupSet) {
 				const missing = ["lan-2-lan-id"].filter((k) => argv[k] === undefined);
 				if (missing.length > 0) {
 					throw new Error(

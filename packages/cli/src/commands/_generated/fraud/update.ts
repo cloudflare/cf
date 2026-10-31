@@ -85,7 +85,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"authentication-settings-failure-criteria-kind",
 				"authentication-settings-failure-criteria-status-codes",
 			].some((k) => argv[k] !== undefined);
-			if (argv.body === undefined && groupSet) {
+			if (!argv.body && groupSet) {
 				const missing = [
 					"authentication-settings-failure-criteria-kind",
 				].filter((k) => argv[k] === undefined);
@@ -102,7 +102,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"authentication-settings-success-criteria-kind",
 				"authentication-settings-success-criteria-status-codes",
 			].some((k) => argv[k] !== undefined);
-			if (argv.body === undefined && groupSet) {
+			if (!argv.body && groupSet) {
 				const missing = [
 					"authentication-settings-success-criteria-kind",
 				].filter((k) => argv[k] === undefined);

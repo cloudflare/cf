@@ -219,7 +219,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"settings-custom-certificate-enabled",
 				"settings-custom-certificate-id",
 			].some((k) => argv[k] !== undefined);
-			if (argv.body === undefined && groupSet) {
+			if (!argv.body && groupSet) {
 				const missing = ["settings-custom-certificate-enabled"].filter(
 					(k) => argv[k] === undefined
 				);

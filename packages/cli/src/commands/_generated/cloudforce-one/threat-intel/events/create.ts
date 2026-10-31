@@ -122,7 +122,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"source-system",
 				"source-title",
 			].some((k) => argv[k] !== undefined);
-			if (argv.body === undefined && groupSet) {
+			if (!argv.body && groupSet) {
 				const missing = [
 					"source-resource-id",
 					"source-resource-type",

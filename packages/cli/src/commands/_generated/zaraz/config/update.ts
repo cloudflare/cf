@@ -211,7 +211,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"consent-button-text-translations-confirm-my-choices",
 				"consent-button-text-translations-reject-all",
 			].some((k) => argv[k] !== undefined);
-			if (argv.body === undefined && groupSet) {
+			if (!argv.body && groupSet) {
 				const missing = [
 					"consent-button-text-translations-accept-all",
 					"consent-button-text-translations-confirm-my-choices",
@@ -245,7 +245,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"consent-purposes-with-translations",
 				"consent-tcf-compliant",
 			].some((k) => argv[k] !== undefined);
-			if (argv.body === undefined && groupSet) {
+			if (!argv.body && groupSet) {
 				const missing = ["consent-enabled"].filter(
 					(k) => argv[k] === undefined
 				);
@@ -262,7 +262,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"settings-context-enricher-escaped-worker-name",
 				"settings-context-enricher-worker-tag",
 			].some((k) => argv[k] !== undefined);
-			if (argv.body === undefined && groupSet) {
+			if (!argv.body && groupSet) {
 				const missing = [
 					"settings-context-enricher-escaped-worker-name",
 					"settings-context-enricher-worker-tag",

@@ -188,7 +188,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"source-vendor",
 				"source-jurisdiction",
 			].some((k) => argv[k] !== undefined);
-			if (argv.body === undefined && groupSet) {
+			if (!argv.body && groupSet) {
 				const missing = ["source-bucket", "source-vendor"].filter(
 					(k) => argv[k] === undefined
 				);
@@ -208,7 +208,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"target-secret-secret-access-key",
 				"target-vendor",
 			].some((k) => argv[k] !== undefined);
-			if (argv.body === undefined && groupSet) {
+			if (!argv.body && groupSet) {
 				const missing = [
 					"target-bucket",
 					"target-secret-access-key-id",

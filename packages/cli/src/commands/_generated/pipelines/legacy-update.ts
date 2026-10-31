@@ -121,7 +121,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"destination-credentials-endpoint",
 				"destination-credentials-secret-access-key",
 			].some((k) => argv[k] !== undefined);
-			if (argv.body === undefined && groupSet) {
+			if (!argv.body && groupSet) {
 				const missing = [
 					"destination-credentials-access-key-id",
 					"destination-credentials-endpoint",

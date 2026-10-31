@@ -396,7 +396,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"source-config-repo-name",
 				"source-type",
 			].some((k) => argv[k] !== undefined);
-			if (argv.body === undefined && groupSet) {
+			if (!argv.body && groupSet) {
 				const missing = ["source-type"].filter((k) => argv[k] === undefined);
 				if (missing.length > 0) {
 					throw new Error(

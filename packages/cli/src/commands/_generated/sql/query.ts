@@ -61,7 +61,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			const groupSet = ["time-until", "time-since"].some(
 				(k) => argv[k] !== undefined
 			);
-			if (argv.body === undefined && groupSet) {
+			if (!argv.body && groupSet) {
 				const missing = ["time-since"].filter((k) => argv[k] === undefined);
 				if (missing.length > 0) {
 					throw new Error(

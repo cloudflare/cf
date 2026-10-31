@@ -136,7 +136,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"static-addressing-secondary-address",
 				"static-addressing-virtual-address",
 			].some((k) => argv[k] !== undefined);
-			if (argv.body === undefined && groupSet) {
+			if (!argv.body && groupSet) {
 				const missing = ["static-addressing-address"].filter(
 					(k) => argv[k] === undefined
 				);

@@ -102,7 +102,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"context-awareness-enabled",
 				"context-awareness-skip-files",
 			].some((k) => argv[k] !== undefined);
-			if (argv.body === undefined && groupSet) {
+			if (!argv.body && groupSet) {
 				const missing = [
 					"context-awareness-enabled",
 					"context-awareness-skip-files",

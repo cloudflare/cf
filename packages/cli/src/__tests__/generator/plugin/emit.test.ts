@@ -323,7 +323,7 @@ describe("file-backed enum arguments", () => {
 });
 
 describe("optional body-object validation", () => {
-	it("bypasses conditional flag validation when a raw body is supplied", async () => {
+	it("bypasses conditional flag validation only for a non-empty raw body", async () => {
 		const ctx = context(
 			method("create", "example-create"),
 			"example",
@@ -368,6 +368,20 @@ describe("optional body-object validation", () => {
 		await expect(
 			parse(["create", "--parameters-order-by-order", "asc"])
 		).rejects.toThrow("--parameters-order-by-value is required");
+		await expect(
+			parse(["create", "--body", "", "--parameters-order-by-order", "asc"])
+		).rejects.toThrow("--parameters-order-by-value is required");
+		await expect(
+			parse([
+				"create",
+				"--body",
+				"",
+				"--parameters-order-by-order",
+				"asc",
+				"--parameters-order-by-value",
+				"count",
+			])
+		).resolves.toMatchObject({ body: "" });
 		await expect(
 			parse(["create", "--body", "{}", "--parameters-order-by-order", "asc"])
 		).resolves.toMatchObject({ body: "{}" });

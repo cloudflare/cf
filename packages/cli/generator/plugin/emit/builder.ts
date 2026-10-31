@@ -195,7 +195,7 @@ export function builderLines(ctx: Ctx): string[] {
 		lines.push(
 			`        const groupSet = ${set}.some((k) => argv[k] !== undefined);`
 		);
-		lines.push("        if (argv.body === undefined && groupSet) {");
+		lines.push("        if (!argv.body && groupSet) {");
 		if (pairs.length === 0) {
 			lines.push(
 				`          const missing = ${required}.filter((k) => argv[k] === undefined);`

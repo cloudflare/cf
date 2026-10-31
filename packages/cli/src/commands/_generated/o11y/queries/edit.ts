@@ -107,7 +107,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"parameters-order-by-order",
 				"parameters-order-by-value",
 			].some((k) => argv[k] !== undefined);
-			if (argv.body === undefined && groupSet) {
+			if (!argv.body && groupSet) {
 				const missing = ["parameters-order-by-value"].filter(
 					(k) => argv[k] === undefined
 				);

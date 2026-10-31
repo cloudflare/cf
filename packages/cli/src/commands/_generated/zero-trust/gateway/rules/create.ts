@@ -464,7 +464,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			const groupSet = ["expiration-duration", "expiration-expires-at"].some(
 				(k) => argv[k] !== undefined
 			);
-			if (argv.body === undefined && groupSet) {
+			if (!argv.body && groupSet) {
 				const missing = ["expiration-expires-at"].filter(
 					(k) => argv[k] === undefined
 				);
@@ -481,7 +481,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"rule-settings-block-page-include-context",
 				"rule-settings-block-page-target-uri",
 			].some((k) => argv[k] !== undefined);
-			if (argv.body === undefined && groupSet) {
+			if (!argv.body && groupSet) {
 				const missing = ["rule-settings-block-page-target-uri"].filter(
 					(k) => argv[k] === undefined
 				);
@@ -499,7 +499,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"rule-settings-redirect-preserve-path-and-query",
 				"rule-settings-redirect-target-uri",
 			].some((k) => argv[k] !== undefined);
-			if (argv.body === undefined && groupSet) {
+			if (!argv.body && groupSet) {
 				const missing = ["rule-settings-redirect-target-uri"].filter(
 					(k) => argv[k] === undefined
 				);

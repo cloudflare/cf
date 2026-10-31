@@ -59,7 +59,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"profile-business-phone",
 				"profile-external-metadata",
 			].some((k) => argv[k] !== undefined);
-			if (argv.body === undefined && groupSet) {
+			if (!argv.body && groupSet) {
 				const missing = [
 					"profile-business-address",
 					"profile-business-email",

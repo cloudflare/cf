@@ -216,7 +216,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"service-token-inactivity-enabled",
 				"service-token-inactivity-inactivity-threshold-days",
 			].some((k) => argv[k] !== undefined);
-			if (argv.body === undefined && groupSet) {
+			if (!argv.body && groupSet) {
 				const missing = [
 					"service-token-inactivity-action",
 					"service-token-inactivity-enabled",

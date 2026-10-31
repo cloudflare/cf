@@ -90,7 +90,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"seed-repo-provider",
 				"seed-repo-repository",
 			].some((k) => argv[k] !== undefined);
-			if (argv.body === undefined && groupSet) {
+			if (!argv.body && groupSet) {
 				const missing = [
 					"seed-repo-owner",
 					"seed-repo-provider",

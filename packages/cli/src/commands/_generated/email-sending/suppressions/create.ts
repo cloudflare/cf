@@ -67,7 +67,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			const groupSet = ["scope-type", "scope-value"].some(
 				(k) => argv[k] !== undefined
 			);
-			if (groupSet) {
+			if (!argv.body && groupSet) {
 				const missing = ["scope-type"].filter((k) => argv[k] === undefined);
 				if (missing.length > 0) {
 					throw new Error(

@@ -91,7 +91,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"bgp-extra-prefixes",
 				"bgp-md5-key",
 			].some((k) => argv[k] !== undefined);
-			if (groupSet) {
+			if (!argv.body && groupSet) {
 				const missing = ["bgp-customer-asn", "bgp-extra-prefixes"].filter(
 					(k) => argv[k] === undefined
 				);

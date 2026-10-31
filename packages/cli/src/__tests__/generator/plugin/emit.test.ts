@@ -322,6 +322,72 @@ describe("file-backed enum arguments", () => {
 	});
 });
 
+describe("optional body-object validation", () => {
+	it("bypasses conditional flag validation only for a non-empty raw body", async () => {
+		const ctx = context(
+			method("create", "example-create"),
+			"example",
+			operation("post", "/example", {
+				bodyParams: [
+					bodyParam(
+						"parameters-order-by-order",
+						"string",
+						["parameters", "order_by", "order"],
+						{
+							required: true,
+							optionalParentPath: ["parameters", "order_by"],
+						}
+					),
+					bodyParam(
+						"parameters-order-by-value",
+						"string",
+						["parameters", "order_by", "value"],
+						{
+							required: true,
+							optionalParentPath: ["parameters", "order_by"],
+						}
+					),
+				],
+				hasRequestBody: true,
+				requestContentTypes: ["application/json"],
+			})
+		);
+		const builder = new Script(
+			`(yargs) => yargs\n${builderLines(ctx).join("\n")}`
+		).runInNewContext() as (args: Argv) => Argv;
+		const parse = async (args: string[]) =>
+			yargs(args)
+				.exitProcess(false)
+				.fail((message, error) => {
+					throw error ?? new Error(message);
+				})
+				.command("create", "", builder, () => {})
+				.strict()
+				.parseAsync();
+
+		await expect(
+			parse(["create", "--parameters-order-by-order", "asc"])
+		).rejects.toThrow("--parameters-order-by-value is required");
+		await expect(
+			parse(["create", "--body", "", "--parameters-order-by-order", "asc"])
+		).rejects.toThrow("--parameters-order-by-value is required");
+		await expect(
+			parse([
+				"create",
+				"--body",
+				"",
+				"--parameters-order-by-order",
+				"asc",
+				"--parameters-order-by-value",
+				"count",
+			])
+		).resolves.toMatchObject({ body: "" });
+		await expect(
+			parse(["create", "--body", "{}", "--parameters-order-by-order", "asc"])
+		).resolves.toMatchObject({ body: "{}" });
+	});
+});
+
 describe("passthrough body assembly", () => {
 	it("keeps required headers and query parameters out of the JSON body", () => {
 		const ctx = context(

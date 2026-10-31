@@ -101,6 +101,23 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("body", {
 			type: "string",
 			description: "Specify the new contents of the query.",
+		})
+		.check((argv) => {
+			const groupSet = [
+				"parameters-order-by-order",
+				"parameters-order-by-value",
+			].some((k) => argv[k] !== undefined);
+			if (!argv.body && groupSet) {
+				const missing = ["parameters-order-by-value"].filter(
+					(k) => argv[k] === undefined
+				);
+				if (missing.length > 0) {
+					throw new Error(
+						`${missing.map((m) => "--" + m).join(", ")} ${missing.length === 1 ? "is" : "are"} required when any --parameters-order-by-* flag is set`
+					);
+				}
+			}
+			return true;
 		});
 }
 
@@ -211,12 +228,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				}
 				if (argv["name"] === undefined) {
 					argv["name"] = await promptForRequiredField("name", "Query name");
-				}
-				if (argv["parameters-order-by-value"] === undefined) {
-					argv["parameters-order-by-value"] = await promptForRequiredField(
-						"parameters-order-by-value",
-						"Configure which Calculation to order the results by."
-					);
 				}
 
 				// Assemble request body from individual flags

@@ -175,7 +175,12 @@ export function builderLines(ctx: Ctx): string[] {
 		}
 	}
 	for (const group of d.optionalParentGroups) {
-		if (group.groupSetFlags.length === 0) {
+		if (
+			group.groupSetFlags.length === 0 ||
+			(group.requiredFlags.length === 1 &&
+				group.groupSetFlags.length === 1 &&
+				group.requiredFlags[0] === group.groupSetFlags[0])
+		) {
 			continue;
 		}
 		const set = `[${quoted(group.groupSetFlags)}]`;
@@ -190,7 +195,7 @@ export function builderLines(ctx: Ctx): string[] {
 		lines.push(
 			`        const groupSet = ${set}.some((k) => argv[k] !== undefined);`
 		);
-		lines.push("        if (groupSet) {");
+		lines.push("        if (!argv.body && groupSet) {");
 		if (pairs.length === 0) {
 			lines.push(
 				`          const missing = ${required}.filter((k) => argv[k] === undefined);`

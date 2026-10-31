@@ -84,7 +84,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"seed-repo-provider",
 				"seed-repo-repository",
 			].some((k) => argv[k] !== undefined);
-			if (groupSet) {
+			if (!argv.body && groupSet) {
 				const missing = [
 					"seed-repo-owner",
 					"seed-repo-provider",
@@ -92,7 +92,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				].filter((k) => argv[k] === undefined);
 				if (missing.length > 0) {
 					throw new Error(
-						`${missing.map((m) => "--" + m).join(", ")} ${missing.length === 1 ? "is" : "are"} required when any --seed_repo-* flag is set`
+						`${missing.map((m) => "--" + m).join(", ")} ${missing.length === 1 ? "is" : "are"} required when any --seed-repo-* flag is set`
 					);
 				}
 			}

@@ -136,13 +136,13 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"static-addressing-secondary-address",
 				"static-addressing-virtual-address",
 			].some((k) => argv[k] !== undefined);
-			if (groupSet) {
+			if (!argv.body && groupSet) {
 				const missing = ["static-addressing-address"].filter(
 					(k) => argv[k] === undefined
 				);
 				if (missing.length > 0) {
 					throw new Error(
-						`${missing.map((m) => "--" + m).join(", ")} ${missing.length === 1 ? "is" : "are"} required when any --static_addressing-* flag is set`
+						`${missing.map((m) => "--" + m).join(", ")} ${missing.length === 1 ? "is" : "are"} required when any --static-addressing-* flag is set`
 					);
 				}
 			}

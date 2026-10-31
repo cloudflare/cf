@@ -378,13 +378,13 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			const groupSet = ["index-method-keyword", "index-method-vector"].some(
 				(k) => argv[k] !== undefined
 			);
-			if (groupSet) {
+			if (!argv.body && groupSet) {
 				const missing = ["index-method-keyword", "index-method-vector"].filter(
 					(k) => argv[k] === undefined
 				);
 				if (missing.length > 0) {
 					throw new Error(
-						`${missing.map((m) => "--" + m).join(", ")} ${missing.length === 1 ? "is" : "are"} required when any --index_method-* flag is set`
+						`${missing.map((m) => "--" + m).join(", ")} ${missing.length === 1 ? "is" : "are"} required when any --index-method-* flag is set`
 					);
 				}
 			}
@@ -392,19 +392,17 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		})
 		.check((argv) => {
 			const groupSet = [
-				"metadata-created-from-aisearch-wizard",
 				"metadata-created-from-emdash-plugin-type",
 				"metadata-created-from-emdash-plugin-version",
-				"metadata-worker-domain",
 			].some((k) => argv[k] !== undefined);
-			if (groupSet) {
+			if (!argv.body && groupSet) {
 				const missing = [
 					"metadata-created-from-emdash-plugin-type",
 					"metadata-created-from-emdash-plugin-version",
 				].filter((k) => argv[k] === undefined);
 				if (missing.length > 0) {
 					throw new Error(
-						`${missing.map((m) => "--" + m).join(", ")} ${missing.length === 1 ? "is" : "are"} required when any --metadata-* flag is set`
+						`${missing.map((m) => "--" + m).join(", ")} ${missing.length === 1 ? "is" : "are"} required when any --metadata-created-from-emdash-plugin-* flag is set`
 					);
 				}
 			}

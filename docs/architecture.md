@@ -651,7 +651,12 @@ cursor / page flags the underlying op exposes.
 
 ### Required-field interactive prompting
 
-When stdin is a TTY and a required body field isn't supplied:
+Required fields inside an optional request-body object are validated only when a
+flag supplies that object. Omitting the object leaves those nested fields
+optional. Because yargs performs this validation before the handler, missing
+fields in a supplied optional object are rejected rather than prompted for.
+
+For other required body fields, when stdin is a TTY and the field is not supplied:
 
 - **Plain string fields** → `clack.text` via `promptForRequiredField`.
 - **Fields marked `x-sensitive: true` by OpenAPI** →

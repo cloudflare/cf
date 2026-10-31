@@ -49,6 +49,11 @@ export interface ParameterInfo {
 export interface BodyParamInfo {
 	name: string;
 	required: boolean;
+	/**
+	 * The nearest optional object containing this field. A required field is
+	 * required only when this object is present; defaults must not create it.
+	 */
+	optionalParentPath: readonly string[] | null;
 	type: string;
 	itemType?: string;
 	description?: string;

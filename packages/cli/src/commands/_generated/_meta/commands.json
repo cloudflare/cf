@@ -11503,8 +11503,7 @@
 					"name": "ai-search-options-reranking-match-threshold",
 					"type": "number",
 					"required": false,
-					"description": "The ai_search_options.reranking.match_threshold field",
-					"default": 0.4
+					"description": "The ai_search_options.reranking.match_threshold field"
 				},
 				{
 					"name": "ai-search-options-reranking-model",
@@ -11522,8 +11521,7 @@
 					"name": "ai-search-options-retrieval-context-expansion",
 					"type": "number",
 					"required": false,
-					"description": "The ai_search_options.retrieval.context_expansion field",
-					"default": 0
+					"description": "The ai_search_options.retrieval.context_expansion field"
 				},
 				{
 					"name": "ai-search-options-retrieval-filters",
@@ -11568,8 +11566,7 @@
 					"name": "ai-search-options-retrieval-return-on-failure",
 					"type": "boolean",
 					"required": false,
-					"description": "The ai_search_options.retrieval.return_on_failure field",
-					"default": true
+					"description": "The ai_search_options.retrieval.return_on_failure field"
 				},
 				{
 					"name": "messages",
@@ -11692,8 +11689,7 @@
 					"name": "ai-search-options-reranking-match-threshold",
 					"type": "number",
 					"required": false,
-					"description": "The ai_search_options.reranking.match_threshold field",
-					"default": 0.4
+					"description": "The ai_search_options.reranking.match_threshold field"
 				},
 				{
 					"name": "ai-search-options-reranking-model",
@@ -11711,8 +11707,7 @@
 					"name": "ai-search-options-retrieval-context-expansion",
 					"type": "number",
 					"required": false,
-					"description": "The ai_search_options.retrieval.context_expansion field",
-					"default": 0
+					"description": "The ai_search_options.retrieval.context_expansion field"
 				},
 				{
 					"name": "ai-search-options-retrieval-filters",
@@ -11757,8 +11752,7 @@
 					"name": "ai-search-options-retrieval-return-on-failure",
 					"type": "boolean",
 					"required": false,
-					"description": "The ai_search_options.retrieval.return_on_failure field",
-					"default": true
+					"description": "The ai_search_options.retrieval.return_on_failure field"
 				},
 				{
 					"name": "messages",
@@ -40167,8 +40161,7 @@
 					"name": "target-configuration-observability-logs-enabled",
 					"type": "boolean",
 					"required": false,
-					"description": "The target_configuration.observability.logs.enabled field",
-					"default": false
+					"description": "The target_configuration.observability.logs.enabled field"
 				},
 				{
 					"name": "dry-run",
@@ -80241,7 +80234,7 @@
 				{
 					"name": "parameters-order-by-value",
 					"type": "string",
-					"required": true,
+					"required": false,
 					"description": "Configure which Calculation to order the results by."
 				},
 				{
@@ -80391,7 +80384,7 @@
 				{
 					"name": "parameters-order-by-value",
 					"type": "string",
-					"required": true,
+					"required": false,
 					"description": "Configure which Calculation to order the results by."
 				},
 				{
@@ -86632,19 +86625,19 @@
 				{
 					"name": "destination-credentials-access-key-id",
 					"type": "string",
-					"required": true,
+					"required": false,
 					"description": "Specifies the R2 Bucket Access Key Id."
 				},
 				{
 					"name": "destination-credentials-endpoint",
 					"type": "string",
-					"required": true,
+					"required": false,
 					"description": "Specifies the R2 Endpoint."
 				},
 				{
 					"name": "destination-credentials-secret-access-key",
 					"type": "string",
-					"required": true,
+					"required": false,
 					"description": "Specifies the R2 Bucket Secret Access Key."
 				},
 				{
@@ -138258,13 +138251,13 @@
 				{
 					"name": "settings-context-enricher-escaped-worker-name",
 					"type": "string",
-					"required": true,
+					"required": false,
 					"description": "The settings.contextEnricher.escapedWorkerName field"
 				},
 				{
 					"name": "settings-context-enricher-worker-tag",
 					"type": "string",
-					"required": true,
+					"required": false,
 					"description": "The settings.contextEnricher.workerTag field"
 				},
 				{

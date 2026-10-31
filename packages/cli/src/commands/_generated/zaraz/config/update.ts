@@ -210,6 +210,26 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"consent-button-text-translations-accept-all",
 				"consent-button-text-translations-confirm-my-choices",
 				"consent-button-text-translations-reject-all",
+			].some((k) => argv[k] !== undefined);
+			if (!argv.body && groupSet) {
+				const missing = [
+					"consent-button-text-translations-accept-all",
+					"consent-button-text-translations-confirm-my-choices",
+					"consent-button-text-translations-reject-all",
+				].filter((k) => argv[k] === undefined);
+				if (missing.length > 0) {
+					throw new Error(
+						`${missing.map((m) => "--" + m).join(", ")} ${missing.length === 1 ? "is" : "are"} required when any --consent-button-text-translations-* flag is set`
+					);
+				}
+			}
+			return true;
+		})
+		.check((argv) => {
+			const groupSet = [
+				"consent-button-text-translations-accept-all",
+				"consent-button-text-translations-confirm-my-choices",
+				"consent-button-text-translations-reject-all",
 				"consent-company-email",
 				"consent-company-name",
 				"consent-company-street-address",
@@ -225,16 +245,31 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"consent-purposes-with-translations",
 				"consent-tcf-compliant",
 			].some((k) => argv[k] !== undefined);
-			if (groupSet) {
-				const missing = [
-					"consent-button-text-translations-accept-all",
-					"consent-button-text-translations-confirm-my-choices",
-					"consent-button-text-translations-reject-all",
-					"consent-enabled",
-				].filter((k) => argv[k] === undefined);
+			if (!argv.body && groupSet) {
+				const missing = ["consent-enabled"].filter(
+					(k) => argv[k] === undefined
+				);
 				if (missing.length > 0) {
 					throw new Error(
 						`${missing.map((m) => "--" + m).join(", ")} ${missing.length === 1 ? "is" : "are"} required when any --consent-* flag is set`
+					);
+				}
+			}
+			return true;
+		})
+		.check((argv) => {
+			const groupSet = [
+				"settings-context-enricher-escaped-worker-name",
+				"settings-context-enricher-worker-tag",
+			].some((k) => argv[k] !== undefined);
+			if (!argv.body && groupSet) {
+				const missing = [
+					"settings-context-enricher-escaped-worker-name",
+					"settings-context-enricher-worker-tag",
+				].filter((k) => argv[k] === undefined);
+				if (missing.length > 0) {
+					throw new Error(
+						`${missing.map((m) => "--" + m).join(", ")} ${missing.length === 1 ? "is" : "are"} required when any --settings-context-enricher-* flag is set`
 					);
 				}
 			}
@@ -511,22 +546,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					throw new Error(
 						"--settings-auto-inject-script is required (or pass --body with this field set)."
 					);
-				}
-				if (
-					argv["settings-context-enricher-escaped-worker-name"] === undefined
-				) {
-					argv["settings-context-enricher-escaped-worker-name"] =
-						await promptForRequiredField(
-							"settings-context-enricher-escaped-worker-name",
-							"The settings.contextEnricher.escapedWorkerName field"
-						);
-				}
-				if (argv["settings-context-enricher-worker-tag"] === undefined) {
-					argv["settings-context-enricher-worker-tag"] =
-						await promptForRequiredField(
-							"settings-context-enricher-worker-tag",
-							"The settings.contextEnricher.workerTag field"
-						);
 				}
 				if (argv["triggers"] === undefined) {
 					throw new Error(

@@ -88,7 +88,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"condition-operator",
 				"condition-type",
 			].some((k) => argv[k] !== undefined);
-			if (groupSet) {
+			if (!argv.body && groupSet) {
 				const missing = [
 					"condition-conditions",
 					"condition-operator",

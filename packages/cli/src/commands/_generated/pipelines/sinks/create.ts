@@ -299,7 +299,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"sink-config-table-name",
 				"sink-config-token",
 			].some((k) => argv[k] !== undefined);
-			if (groupSet) {
+			if (!argv.body && groupSet) {
 				const missing = ["sink-config-account-id", "sink-config-bucket"].filter(
 					(k) => argv[k] === undefined
 				);
@@ -320,7 +320,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"format-type",
 				"format-row-group-bytes",
 			].some((k) => argv[k] !== undefined);
-			if (groupSet) {
+			if (!argv.body && groupSet) {
 				const missing = ["format-type"].filter((k) => argv[k] === undefined);
 				if (missing.length > 0) {
 					throw new Error(

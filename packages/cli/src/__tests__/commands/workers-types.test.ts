@@ -60,6 +60,23 @@ describe("cf workers types", () => {
 		expect(JSON.parse(output.stdout())).toEqual({ path: TYPES_PATH });
 	});
 
+	it("generates types for a signing-only identity without an audience or profile", async () => {
+		await seed({
+			"cloudflare.config.ts": `export default { worker: {
+        name: "signing-only", compatibilityDate: "2026-10-31",
+        env: { IDENTITY: { type: "identity", request_signing: {
+          allowed_origins: ["https://api.example.com"], allowed_methods: ["GET"],
+        } } },
+      } };`,
+		});
+		await runCf(["workers", "types", "--include-runtime", "false"]);
+		const generated = await readFile(TYPES_PATH, "utf8");
+		expect(generated).toContain('import("cf/config").UnwrapConfig');
+		expect(generated).toContain('import("../../cloudflare.config").default');
+		expect(JSON.parse(output.stdout())).toEqual({ path: TYPES_PATH });
+		expect(runtimeTypes.generateRuntimeTypes).not.toHaveBeenCalled();
+	});
+
 	it("omits runtime types when --include-runtime=false", async () => {
 		await seed({ "cloudflare.config.ts": workerConfig() });
 

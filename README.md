@@ -15,3 +15,7 @@ npm i -g cf
 
 cf supports the latest minor release of each supported Node.js major version.
 See [package.json](package.json) for the supported versions.
+
+## Identity prototype
+
+The identity binding upload path supports signing-only bindings without an audience. Native caller tests require the companion workerd build through `MINIFLARE_WORKERD_PATH`. The installed runtime-types package still uses its published runtime: `cf workers types` does not yet include `ctx.identity.caller()`. Release this API only after pinning and testing a published runtime-types bundle with the matching workerd build.

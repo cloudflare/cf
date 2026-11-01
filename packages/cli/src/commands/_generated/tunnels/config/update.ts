@@ -129,33 +129,18 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		})
 		.check((argv) => {
 			const groupSet = [
-				"tunnel-config-ingress",
 				"tunnel-config-origin-request-access-aud-tag",
 				"tunnel-config-origin-request-access-required",
 				"tunnel-config-origin-request-access-team-name",
-				"tunnel-config-origin-request-ca-pool",
-				"tunnel-config-origin-request-connect-timeout",
-				"tunnel-config-origin-request-disable-chunked-encoding",
-				"tunnel-config-origin-request-http2origin",
-				"tunnel-config-origin-request-http-host-header",
-				"tunnel-config-origin-request-keep-alive-connections",
-				"tunnel-config-origin-request-keep-alive-timeout",
-				"tunnel-config-origin-request-match-snito-host",
-				"tunnel-config-origin-request-no-happy-eyeballs",
-				"tunnel-config-origin-request-no-tlsverify",
-				"tunnel-config-origin-request-origin-server-name",
-				"tunnel-config-origin-request-proxy-type",
-				"tunnel-config-origin-request-tcp-keep-alive",
-				"tunnel-config-origin-request-tls-timeout",
 			].some((k) => argv[k] !== undefined);
-			if (groupSet) {
+			if (!argv.body && groupSet) {
 				const missing = [
 					"tunnel-config-origin-request-access-aud-tag",
 					"tunnel-config-origin-request-access-team-name",
 				].filter((k) => argv[k] === undefined);
 				if (missing.length > 0) {
 					throw new Error(
-						`${missing.map((m) => "--" + m).join(", ")} ${missing.length === 1 ? "is" : "are"} required when any --config-* flag is set`
+						`${missing.map((m) => "--" + m).join(", ")} ${missing.length === 1 ? "is" : "are"} required when any --config-origin-request-access-* flag is set`
 					);
 				}
 			}

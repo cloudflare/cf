@@ -190,7 +190,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			type: "string",
 			description: "The userAgent field",
 			default:
-				"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36",
+				"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/152.0.0.0 Safari/537.36",
 		})
 		.option("viewport-device-scale-factor", {
 			type: "number",
@@ -249,7 +249,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			const groupSet = ["authenticate-password", "authenticate-username"].some(
 				(k) => argv[k] !== undefined
 			);
-			if (groupSet) {
+			if (!argv.body && groupSet) {
 				const missing = [
 					"authenticate-password",
 					"authenticate-username",
@@ -264,20 +264,13 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		})
 		.check((argv) => {
 			const groupSet = [
-				"screenshot-options-capture-beyond-viewport",
 				"screenshot-options-clip-height",
 				"screenshot-options-clip-scale",
 				"screenshot-options-clip-width",
 				"screenshot-options-clip-x",
 				"screenshot-options-clip-y",
-				"screenshot-options-from-surface",
-				"screenshot-options-full-page",
-				"screenshot-options-omit-background",
-				"screenshot-options-optimize-for-speed",
-				"screenshot-options-quality",
-				"screenshot-options-type",
 			].some((k) => argv[k] !== undefined);
-			if (groupSet) {
+			if (!argv.body && groupSet) {
 				const missing = [
 					"screenshot-options-clip-height",
 					"screenshot-options-clip-width",
@@ -286,7 +279,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				].filter((k) => argv[k] === undefined);
 				if (missing.length > 0) {
 					throw new Error(
-						`${missing.map((m) => "--" + m).join(", ")} ${missing.length === 1 ? "is" : "are"} required when any --screenshotOptions-* flag is set`
+						`${missing.map((m) => "--" + m).join(", ")} ${missing.length === 1 ? "is" : "are"} required when any --screenshot-options-clip-* flag is set`
 					);
 				}
 			}
@@ -301,7 +294,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"viewport-is-mobile",
 				"viewport-width",
 			].some((k) => argv[k] !== undefined);
-			if (groupSet) {
+			if (!argv.body && groupSet) {
 				const missing = ["viewport-height", "viewport-width"].filter(
 					(k) => argv[k] === undefined
 				);
@@ -320,13 +313,13 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"wait-for-selector-timeout",
 				"wait-for-selector-visible",
 			].some((k) => argv[k] !== undefined);
-			if (groupSet) {
+			if (!argv.body && groupSet) {
 				const missing = ["wait-for-selector-selector"].filter(
 					(k) => argv[k] === undefined
 				);
 				if (missing.length > 0) {
 					throw new Error(
-						`${missing.map((m) => "--" + m).join(", ")} ${missing.length === 1 ? "is" : "are"} required when any --waitForSelector-* flag is set`
+						`${missing.map((m) => "--" + m).join(", ")} ${missing.length === 1 ? "is" : "are"} required when any --wait-for-selector-* flag is set`
 					);
 				}
 			}

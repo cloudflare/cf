@@ -1621,7 +1621,7 @@
 					"name": "name",
 					"type": "string",
 					"required": true,
-					"description": "Account name"
+					"description": "Account name, limited to 65 UTF-8 bytes."
 				},
 				{
 					"name": "standalone",
@@ -2304,8 +2304,8 @@
 				}
 			]
 		},
-		"accounts organization list": {
-			"operationId": "accounts.organization.list",
+		"accounts organizations list": {
+			"operationId": "accounts.organizations.list",
 			"httpMethod": "GET",
 			"path": "/accounts/{account_id}/organizations",
 			"pathParams": [
@@ -2351,31 +2351,31 @@
 				{
 					"name": "business-address",
 					"type": "string",
-					"required": true,
+					"required": false,
 					"description": "The business_address field"
 				},
 				{
 					"name": "business-email",
 					"type": "string",
-					"required": true,
+					"required": false,
 					"description": "The business_email field"
 				},
 				{
 					"name": "business-name",
 					"type": "string",
-					"required": true,
+					"required": false,
 					"description": "The business_name field"
 				},
 				{
 					"name": "business-phone",
 					"type": "string",
-					"required": true,
+					"required": false,
 					"description": "The business_phone field"
 				},
 				{
 					"name": "external-metadata",
 					"type": "string",
-					"required": true,
+					"required": false,
 					"description": "The external_metadata field"
 				}
 			]
@@ -2992,7 +2992,7 @@
 					"name": "name",
 					"type": "string",
 					"required": true,
-					"description": "Account name"
+					"description": "Account name, limited to 65 UTF-8 bytes."
 				},
 				{
 					"name": "settings-abuse-contact-email",
@@ -6100,7 +6100,7 @@
 					"name": "authentication",
 					"type": "boolean",
 					"required": false,
-					"description": "The authentication field"
+					"description": "Require authentication for gateway access. New gateways must have authentication enabled. Once enabled, authentication cannot be disabled."
 				},
 				{
 					"name": "byok-only",
@@ -6161,6 +6161,12 @@
 					"type": "string",
 					"required": false,
 					"description": "The guardrails.prompt.S13 field"
+				},
+				{
+					"name": "guardrails-prompt-s14",
+					"type": "string",
+					"required": false,
+					"description": "The guardrails.prompt.S14 field"
 				},
 				{
 					"name": "guardrails-prompt-s2",
@@ -6245,6 +6251,12 @@
 					"type": "string",
 					"required": false,
 					"description": "The guardrails.response.S13 field"
+				},
+				{
+					"name": "guardrails-response-s14",
+					"type": "string",
+					"required": false,
+					"description": "The guardrails.response.S14 field"
 				},
 				{
 					"name": "guardrails-response-s2",
@@ -6737,7 +6749,7 @@
 					"name": "authentication",
 					"type": "boolean",
 					"required": false,
-					"description": "The authentication field"
+					"description": "Require authentication for gateway access. New gateways must have authentication enabled. Once enabled, authentication cannot be disabled."
 				},
 				{
 					"name": "byok-only",
@@ -6798,6 +6810,12 @@
 					"type": "string",
 					"required": false,
 					"description": "The guardrails.prompt.S13 field"
+				},
+				{
+					"name": "guardrails-prompt-s14",
+					"type": "string",
+					"required": false,
+					"description": "The guardrails.prompt.S14 field"
 				},
 				{
 					"name": "guardrails-prompt-s2",
@@ -6882,6 +6900,12 @@
 					"type": "string",
 					"required": false,
 					"description": "The guardrails.response.S13 field"
+				},
+				{
+					"name": "guardrails-response-s14",
+					"type": "string",
+					"required": false,
+					"description": "The guardrails.response.S14 field"
 				},
 				{
 					"name": "guardrails-response-s2",
@@ -7583,7 +7607,6 @@
 				{
 					"name": "namespace",
 					"flag": "namespace",
-					"positional": true,
 					"type": "string",
 					"required": true
 				}
@@ -8712,7 +8735,6 @@
 				{
 					"name": "name",
 					"flag": "namespace",
-					"positional": true,
 					"type": "string",
 					"required": true
 				}
@@ -8867,7 +8889,6 @@
 				{
 					"name": "name",
 					"flag": "namespace",
-					"positional": true,
 					"type": "string",
 					"required": true
 				}
@@ -15270,6 +15291,232 @@
 			"hasRequestBody": false,
 			"requestBodyFields": []
 		},
+		"billing spend-policies activity list": {
+			"operationId": "billing.spend-policies.activity.list",
+			"httpMethod": "GET",
+			"path": "/accounts/{account_id}/billing/spend-policies/activity",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [
+				{
+					"name": "limit",
+					"flag": "limit",
+					"type": "number",
+					"required": false
+				},
+				{
+					"name": "cursor",
+					"flag": "cursor",
+					"type": "string",
+					"required": false
+				}
+			],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"billing spend-policies audit list": {
+			"operationId": "billing.spend-policies.audit.list",
+			"httpMethod": "GET",
+			"path": "/accounts/{account_id}/billing/spend-policies/{policy_id}/audit",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "policy_id",
+					"flag": "policy-id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [
+				{
+					"name": "limit",
+					"flag": "limit",
+					"type": "number",
+					"required": false
+				}
+			],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"billing spend-policies create": {
+			"operationId": "billing.spend-policies.create",
+			"httpMethod": "POST",
+			"path": "/accounts/{account_id}/billing/spend-policies",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": true,
+			"requestBodyFields": [
+				{
+					"name": "action",
+					"type": "string",
+					"required": true,
+					"description": "The action taken when the threshold is reached. `notification` sends an email to `notification_email`. `usage_block` blocks further usage of the product until the end of the billing period. Raising the threshold above the current balance, disabling the policy, or deleting it lifts the block early."
+				},
+				{
+					"name": "enabled",
+					"type": "boolean",
+					"required": true,
+					"description": "Whether the policy is evaluated."
+				},
+				{
+					"name": "name",
+					"type": "string",
+					"required": true,
+					"description": "Display name of the policy. After surrounding whitespace is trimmed, it must be 1 to 200 bytes long. The value is stored as sent, untrimmed."
+				},
+				{
+					"name": "notification-email",
+					"type": "string",
+					"required": false,
+					"description": "Email address that receives notifications. Required when `action` is `notification`. When set, it must be a bare address (`user@example.com`); display-name forms such as `Name <user@example.com>` are rejected."
+				},
+				{
+					"name": "product-id",
+					"type": "string",
+					"required": true,
+					"description": "The product the policy applies to: `workers` or `durable_objects`. Each product's balance and policies are separate. Both products support `notification` and `usage_block` policies on create and update."
+				},
+				{
+					"name": "threshold-cents",
+					"type": "number",
+					"required": true,
+					"description": "The spend threshold for the current billing period, in US cents. Must be greater than zero."
+				}
+			]
+		},
+		"billing spend-policies delete": {
+			"operationId": "billing.spend-policies.delete",
+			"httpMethod": "DELETE",
+			"path": "/accounts/{account_id}/billing/spend-policies/{policy_id}",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "policy_id",
+					"flag": "policy-id",
+					"positional": true,
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"billing spend-policies get": {
+			"operationId": "billing.spend-policies.get",
+			"httpMethod": "GET",
+			"path": "/accounts/{account_id}/billing/spend-policies/{policy_id}",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "policy_id",
+					"flag": "policy-id",
+					"positional": true,
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"billing spend-policies list": {
+			"operationId": "billing.spend-policies.list",
+			"httpMethod": "GET",
+			"path": "/accounts/{account_id}/billing/spend-policies",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"billing spend-policies update": {
+			"operationId": "billing.spend-policies.update",
+			"httpMethod": "PUT",
+			"path": "/accounts/{account_id}/billing/spend-policies/{policy_id}",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "policy_id",
+					"flag": "policy-id",
+					"positional": true,
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": true,
+			"requestBodyFields": [
+				{
+					"name": "action",
+					"type": "string",
+					"required": true,
+					"description": "The action taken when the threshold is reached. `notification` sends an email to `notification_email`. `usage_block` blocks further usage of the product until the end of the billing period. Raising the threshold above the current balance, disabling the policy, or deleting it lifts the block early."
+				},
+				{
+					"name": "enabled",
+					"type": "boolean",
+					"required": true,
+					"description": "Whether the policy is evaluated."
+				},
+				{
+					"name": "name",
+					"type": "string",
+					"required": true,
+					"description": "Display name of the policy. After surrounding whitespace is trimmed, it must be 1 to 200 bytes long. The value is stored as sent, untrimmed."
+				},
+				{
+					"name": "notification-email",
+					"type": "string",
+					"required": false,
+					"description": "Email address that receives notifications. Required when `action` is `notification`. When set, it must be a bare address (`user@example.com`); display-name forms such as `Name <user@example.com>` are rejected."
+				},
+				{
+					"name": "product-id",
+					"type": "string",
+					"required": true,
+					"description": "The product the policy applies to: `workers` or `durable_objects`. Each product's balance and policies are separate. Both products support `notification` and `usage_block` policies on create and update."
+				},
+				{
+					"name": "threshold-cents",
+					"type": "number",
+					"required": true,
+					"description": "The spend threshold for the current billing period, in US cents. Must be greater than zero."
+				}
+			]
+		},
 		"billing usage get-account-billable-metrics": {
 			"operationId": "billing.usage.get-account-billable-metrics",
 			"httpMethod": "GET",
@@ -15551,6 +15798,36 @@
 			"queryParams": [],
 			"hasRequestBody": true,
 			"requestBodyFields": [
+				{
+					"name": "ai-agents-anthropic-agent",
+					"type": "string",
+					"required": false,
+					"description": "Action to apply to one supported personal AI agent."
+				},
+				{
+					"name": "ai-agents-google-agent",
+					"type": "string",
+					"required": false,
+					"description": "Action to apply to one supported personal AI agent."
+				},
+				{
+					"name": "ai-agents-instinct",
+					"type": "string",
+					"required": false,
+					"description": "Action to apply to one supported personal AI agent."
+				},
+				{
+					"name": "ai-agents-muse",
+					"type": "string",
+					"required": false,
+					"description": "Action to apply to one supported personal AI agent."
+				},
+				{
+					"name": "ai-agents-openai-agent",
+					"type": "string",
+					"required": false,
+					"description": "Action to apply to one supported personal AI agent."
+				},
 				{
 					"name": "ai-bots-migration-opt-out",
 					"type": "boolean",
@@ -25555,12 +25832,10 @@
 		"cloudforce-one threat-intel events create": {
 			"operationId": "cloudforce-one.threat-intel.events.create",
 			"httpMethod": "POST",
-			"path": "/accounts/{account_id_path}/cloudforce-one/events/create",
+			"path": "/accounts/{account_id}/cloudforce-one/events/create",
 			"pathParams": [
 				{
-					"name": "account_id_path",
-					"flag": "account-id-path",
-					"positional": true,
+					"name": "account_id",
 					"type": "string",
 					"required": true
 				}
@@ -25568,12 +25843,6 @@
 			"queryParams": [],
 			"hasRequestBody": true,
 			"requestBodyFields": [
-				{
-					"name": "account-id-body",
-					"type": "number",
-					"required": false,
-					"description": "The accountId field"
-				},
 				{
 					"name": "attacker",
 					"type": "string",
@@ -28377,6 +28646,12 @@
 					"required": false
 				},
 				{
+					"name": "severity",
+					"flag": "severity",
+					"type": "array",
+					"required": false
+				},
+				{
 					"name": "sort",
 					"flag": "sort",
 					"type": "string",
@@ -28414,6 +28689,28 @@
 					"description": "True to mark the article read, false to mark unread."
 				}
 			]
+		},
+		"cloudforce-one threat-signals articles reprocess": {
+			"operationId": "cloudforce-one.threat-signals.articles.reprocess",
+			"httpMethod": "POST",
+			"path": "/accounts/{account_id}/cloudforce-one/v2/threat-signals/articles/{article_id}/reprocess",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "article_id",
+					"flag": "article-id",
+					"positional": true,
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": true,
+			"requestBodyFields": []
 		},
 		"cloudforce-one threat-signals articles skills get-output": {
 			"operationId": "cloudforce-one.threat-signals.articles.skills.get-output",
@@ -34344,7 +34641,7 @@
 				{
 					"name": "name",
 					"type": "string",
-					"required": true,
+					"required": false,
 					"description": "DNS Firewall cluster name"
 				},
 				{
@@ -34368,7 +34665,7 @@
 				{
 					"name": "upstream-ips",
 					"type": "string",
-					"required": true,
+					"required": false,
 					"description": "The upstream_ips field"
 				},
 				{
@@ -34716,6 +35013,40 @@
 					"flag": "id",
 					"type": "string",
 					"required": true
+				}
+			],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"email-domains changes": {
+			"operationId": "email-domains.changes",
+			"httpMethod": "GET",
+			"path": "/accounts/{account_id}/email/domain-changes",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [
+				{
+					"name": "per_page",
+					"flag": "per-page",
+					"type": "number",
+					"required": false
+				},
+				{
+					"name": "cursor",
+					"flag": "cursor",
+					"type": "string",
+					"required": false
+				},
+				{
+					"name": "modified_since",
+					"flag": "modified-since",
+					"type": "string",
+					"required": false
 				}
 			],
 			"hasRequestBody": false,
@@ -35593,7 +35924,7 @@
 					"name": "pattern",
 					"type": "string",
 					"required": true,
-					"description": "The pattern value to match. The format depends on `pattern_type`: a valid email address for EMAIL (e.g. `user@example.com`), a valid domain name for DOMAIN (e.g. `example.com`), or a plain IPv4 or IPv6 address or CIDR block for IP (e.g. `1.2.3.4`, `1.2.3.0/24`, `2606:4700:4700::1111`, or `2606:4700:4700::/48`); the API rejects private or unique-local, loopback, link-local, unspecified, and IPv4 broadcast addresses, including their IPv4-mapped IPv6 equivalents."
+					"description": "The pattern value to match. The format depends on `pattern_type`: a valid email address for EMAIL (e.g. `user@example.com`), a valid domain name for DOMAIN (e.g. `example.com`), or a plain IPv4 or IPv6 address or CIDR block for IP (e.g. `1.2.3.4`, `1.2.3.0/24`, `2606:4700:4700::1111`, or `2606:4700:4700::/48`); the API rejects private or unique-local, loopback, link-local, unspecified, and IPv4 broadcast addresses, including their IPv4-mapped IPv6 equivalents. The API also rejects a pattern that equals a domain onboarded to the account, ignoring case."
 				},
 				{
 					"name": "pattern-type",
@@ -35710,7 +36041,7 @@
 					"name": "pattern",
 					"type": "string",
 					"required": false,
-					"description": "The pattern value to match. The format depends on `pattern_type`: a valid email address for EMAIL (e.g. `user@example.com`), a valid domain name for DOMAIN (e.g. `example.com`), or a plain IPv4 or IPv6 address or CIDR block for IP (e.g. `1.2.3.4`, `1.2.3.0/24`, `2606:4700:4700::1111`, or `2606:4700:4700::/48`); the API rejects private or unique-local, loopback, link-local, unspecified, and IPv4 broadcast addresses, including their IPv4-mapped IPv6 equivalents."
+					"description": "The pattern value to match. The format depends on `pattern_type`: a valid email address for EMAIL (e.g. `user@example.com`), a valid domain name for DOMAIN (e.g. `example.com`), or a plain IPv4 or IPv6 address or CIDR block for IP (e.g. `1.2.3.4`, `1.2.3.0/24`, `2606:4700:4700::1111`, or `2606:4700:4700::/48`); the API rejects private or unique-local, loopback, link-local, unspecified, and IPv4 broadcast addresses, including their IPv4-mapped IPv6 equivalents. The API also rejects a pattern that equals a domain onboarded to the account, ignoring case."
 				},
 				{
 					"name": "pattern-type",
@@ -35915,7 +36246,7 @@
 					"name": "pattern",
 					"type": "string",
 					"required": true,
-					"description": "The pattern value to match. The format depends on `pattern_type`: a valid email address for EMAIL (e.g. `user@example.com`), a valid domain name for DOMAIN (e.g. `example.com`), or a plain IPv4 or IPv6 address or CIDR block for IP (e.g. `1.2.3.4`, `1.2.3.0/24`, `2606:4700:4700::1111`, or `2606:4700:4700::/48`); the API rejects private or unique-local, loopback, link-local, unspecified, and IPv4 broadcast addresses, including their IPv4-mapped IPv6 equivalents."
+					"description": "The pattern value to match. The format depends on `pattern_type`: a valid email address for EMAIL (e.g. `user@example.com`), a valid domain name for DOMAIN (e.g. `example.com`), or a plain IPv4 or IPv6 address or CIDR block for IP (e.g. `1.2.3.4`, `1.2.3.0/24`, `2606:4700:4700::1111`, or `2606:4700:4700::/48`); the API rejects private or unique-local, loopback, link-local, unspecified, and IPv4 broadcast addresses, including their IPv4-mapped IPv6 equivalents. The API also rejects a pattern that equals a domain onboarded to the account, ignoring case."
 				},
 				{
 					"name": "pattern-type",
@@ -41876,6 +42207,319 @@
 				}
 			]
 		},
+		"iam oauth-clients create": {
+			"operationId": "iam.oauth-clients.create",
+			"httpMethod": "POST",
+			"path": "/accounts/{account_id}/oauth_clients",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": true,
+			"requestBodyFields": [
+				{
+					"name": "allowed-cors-origins",
+					"type": "string",
+					"required": false,
+					"description": "Array of allowed CORS origins."
+				},
+				{
+					"name": "client-name",
+					"type": "string",
+					"required": true,
+					"description": "Human-readable name of the OAuth client."
+				},
+				{
+					"name": "client-uri",
+					"type": "string",
+					"required": false,
+					"description": "URL of the home page of the client."
+				},
+				{
+					"name": "grant-types",
+					"type": "string",
+					"required": true,
+					"description": "Array of OAuth grant types the client is allowed to use. `authorization_code` is required; `refresh_token` may be included optionally."
+				},
+				{
+					"name": "logo-uri",
+					"type": "string",
+					"required": false,
+					"description": "URL of the client's logo."
+				},
+				{
+					"name": "optional-scopes",
+					"type": "string",
+					"required": false,
+					"description": "Scopes that the authorizing user may decline during consent. Each value must also appear in `scopes`. The scopes `openid`, `offline`, and `offline_access` cannot be optional."
+				},
+				{
+					"name": "policy-uri",
+					"type": "string",
+					"required": false,
+					"description": "URL that points to a privacy policy document."
+				},
+				{
+					"name": "post-logout-redirect-uris",
+					"type": "string",
+					"required": false,
+					"description": "Array of allowed post-logout redirect URIs."
+				},
+				{
+					"name": "redirect-uris",
+					"type": "string",
+					"required": true,
+					"description": "Array of allowed redirect URIs for the client."
+				},
+				{
+					"name": "response-types",
+					"type": "string",
+					"required": true,
+					"description": "Array of OAuth response types the client is allowed to use."
+				},
+				{
+					"name": "scopes",
+					"type": "string",
+					"required": true,
+					"description": "Array of OAuth scopes the client is allowed to request. Colon-delimited scopes are not accepted. Dot-delimited scopes are validated against available OAuth API scopes; simple identity scopes are allowed. Protocol scopes `offline_access` and `openid` are added or removed automatically based on `grant_types` and `response_types`."
+				},
+				{
+					"name": "token-endpoint-auth-method",
+					"type": "string",
+					"required": true,
+					"description": "The authentication method the client uses at the token endpoint."
+				},
+				{
+					"name": "tos-uri",
+					"type": "string",
+					"required": false,
+					"description": "URL that points to a terms of service document."
+				}
+			]
+		},
+		"iam oauth-clients delete": {
+			"operationId": "iam.oauth-clients.delete",
+			"httpMethod": "DELETE",
+			"path": "/accounts/{account_id}/oauth_clients/{oauth_client_id}",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "oauth_client_id",
+					"flag": "oauth-client-id",
+					"positional": true,
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"iam oauth-clients delete-rotated-secret": {
+			"operationId": "iam.oauth-clients.delete-rotated-secret",
+			"httpMethod": "DELETE",
+			"path": "/accounts/{account_id}/oauth_clients/{oauth_client_id}/rotate_secret",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "oauth_client_id",
+					"flag": "oauth-client-id",
+					"positional": true,
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"iam oauth-clients get": {
+			"operationId": "iam.oauth-clients.get",
+			"httpMethod": "GET",
+			"path": "/accounts/{account_id}/oauth_clients/{oauth_client_id}",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "oauth_client_id",
+					"flag": "oauth-client-id",
+					"positional": true,
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"iam oauth-clients list": {
+			"operationId": "iam.oauth-clients.list",
+			"httpMethod": "GET",
+			"path": "/accounts/{account_id}/oauth_clients",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"iam oauth-clients rotate-secret": {
+			"operationId": "iam.oauth-clients.rotate-secret",
+			"httpMethod": "POST",
+			"path": "/accounts/{account_id}/oauth_clients/{oauth_client_id}/rotate_secret",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "oauth_client_id",
+					"flag": "oauth-client-id",
+					"positional": true,
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"iam oauth-clients update": {
+			"operationId": "iam.oauth-clients.update",
+			"httpMethod": "PATCH",
+			"path": "/accounts/{account_id}/oauth_clients/{oauth_client_id}",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "oauth_client_id",
+					"flag": "oauth-client-id",
+					"positional": true,
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": true,
+			"requestBodyFields": [
+				{
+					"name": "allowed-cors-origins",
+					"type": "string",
+					"required": false,
+					"description": "Array of allowed CORS origins."
+				},
+				{
+					"name": "client-name",
+					"type": "string",
+					"required": false,
+					"description": "Human-readable name of the OAuth client."
+				},
+				{
+					"name": "client-uri",
+					"type": "string",
+					"required": false,
+					"description": "URL of the home page of the client."
+				},
+				{
+					"name": "grant-types",
+					"type": "string",
+					"required": false,
+					"description": "Array of OAuth grant types the client is allowed to use. `authorization_code` is required; `refresh_token` may be included optionally."
+				},
+				{
+					"name": "logo-uri",
+					"type": "string",
+					"required": false,
+					"description": "URL of the client's logo."
+				},
+				{
+					"name": "optional-scopes",
+					"type": "string",
+					"required": false,
+					"description": "Scopes that the authorizing user may decline during consent. Each value must also appear in `scopes`. The scopes `openid`, `offline`, and `offline_access` cannot be optional."
+				},
+				{
+					"name": "policy-uri",
+					"type": "string",
+					"required": false,
+					"description": "URL that points to a privacy policy document."
+				},
+				{
+					"name": "post-logout-redirect-uris",
+					"type": "string",
+					"required": false,
+					"description": "Array of allowed post-logout redirect URIs."
+				},
+				{
+					"name": "redirect-uris",
+					"type": "string",
+					"required": false,
+					"description": "Array of allowed redirect URIs for the client."
+				},
+				{
+					"name": "response-types",
+					"type": "string",
+					"required": false,
+					"description": "Array of OAuth response types the client is allowed to use."
+				},
+				{
+					"name": "scopes",
+					"type": "string",
+					"required": false,
+					"description": "Array of OAuth scopes the client is allowed to request. Colon-delimited scopes are not accepted. Dot-delimited scopes are validated against available OAuth API scopes; simple identity scopes are allowed. Protocol scopes `offline_access` and `openid` are added or removed automatically based on `grant_types` and `response_types`."
+				},
+				{
+					"name": "token-endpoint-auth-method",
+					"type": "string",
+					"required": false,
+					"description": "The authentication method the client uses at the token endpoint."
+				},
+				{
+					"name": "tos-uri",
+					"type": "string",
+					"required": false,
+					"description": "URL that points to a terms of service document."
+				},
+				{
+					"name": "visibility",
+					"type": "string",
+					"required": false,
+					"description": "Promote the OAuth client from private to public visibility. Only `public` is accepted; demotion to `private` is not supported. Promotion requires a non-empty client name, logo URI, verified client URI host, and at least one non-identity scope."
+				}
+			]
+		},
+		"iam oauth-scopes list": {
+			"operationId": "iam.oauth-scopes.list",
+			"httpMethod": "GET",
+			"path": "/oauth/scopes",
+			"pathParams": [],
+			"queryParams": [],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
 		"iam permission-groups get": {
 			"operationId": "iam.permission-groups.get",
 			"httpMethod": "GET",
@@ -43817,12 +44461,10 @@
 		"intel indicator-feeds providers create": {
 			"operationId": "intel.indicator-feeds.providers.create",
 			"httpMethod": "PUT",
-			"path": "/accounts/{account_id_path}/intel/indicator-feeds/permissions/createProvider",
+			"path": "/accounts/{account_id}/intel/indicator-feeds/permissions/createProvider",
 			"pathParams": [
 				{
-					"name": "account_id_path",
-					"flag": "account-id-path",
-					"positional": true,
+					"name": "account_id",
 					"type": "string",
 					"required": true
 				}
@@ -43830,12 +44472,6 @@
 			"queryParams": [],
 			"hasRequestBody": true,
 			"requestBodyFields": [
-				{
-					"name": "account-id-body",
-					"type": "number",
-					"required": true,
-					"description": "The numeric account ID to create the provider for. Distinct from the\npath `account_id` parameter, which carries the account identifier\nstring used for routing.\n"
-				},
 				{
 					"name": "name",
 					"type": "string",
@@ -48669,1305 +49305,6 @@
 			"hasRequestBody": false,
 			"requestBodyFields": []
 		},
-		"magic-cloud-networking catalog-syncs create": {
-			"operationId": "magic-cloud-networking.catalog-syncs.create",
-			"httpMethod": "POST",
-			"path": "/accounts/{account_id}/magic/cloud/catalog-syncs",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": true,
-			"requestBodyFields": [
-				{
-					"name": "description",
-					"type": "string",
-					"required": false,
-					"description": "The description field"
-				},
-				{
-					"name": "destination-type",
-					"type": "string",
-					"required": true,
-					"description": "The destination_type field"
-				},
-				{
-					"name": "name",
-					"type": "string",
-					"required": true,
-					"description": "The name field"
-				},
-				{
-					"name": "policy",
-					"type": "string",
-					"required": false,
-					"description": "The policy field"
-				},
-				{
-					"name": "update-mode",
-					"type": "string",
-					"required": true,
-					"description": "The update_mode field"
-				}
-			]
-		},
-		"magic-cloud-networking catalog-syncs delete": {
-			"operationId": "magic-cloud-networking.catalog-syncs.delete",
-			"httpMethod": "DELETE",
-			"path": "/accounts/{account_id}/magic/cloud/catalog-syncs/{sync_id}",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "sync_id",
-					"flag": "sync-id",
-					"positional": true,
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [
-				{
-					"name": "delete_destination",
-					"flag": "delete-destination",
-					"type": "boolean",
-					"required": false
-				}
-			],
-			"hasRequestBody": false,
-			"requestBodyFields": []
-		},
-		"magic-cloud-networking catalog-syncs edit": {
-			"operationId": "magic-cloud-networking.catalog-syncs.edit",
-			"httpMethod": "PATCH",
-			"path": "/accounts/{account_id}/magic/cloud/catalog-syncs/{sync_id}",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "sync_id",
-					"flag": "sync-id",
-					"positional": true,
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": true,
-			"requestBodyFields": [
-				{
-					"name": "description",
-					"type": "string",
-					"required": false,
-					"description": "The description field"
-				},
-				{
-					"name": "name",
-					"type": "string",
-					"required": false,
-					"description": "The name field"
-				},
-				{
-					"name": "policy",
-					"type": "string",
-					"required": false,
-					"description": "The policy field"
-				},
-				{
-					"name": "update-mode",
-					"type": "string",
-					"required": false,
-					"description": "The update_mode field"
-				}
-			]
-		},
-		"magic-cloud-networking catalog-syncs get": {
-			"operationId": "magic-cloud-networking.catalog-syncs.get",
-			"httpMethod": "GET",
-			"path": "/accounts/{account_id}/magic/cloud/catalog-syncs/{sync_id}",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "sync_id",
-					"flag": "sync-id",
-					"positional": true,
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": false,
-			"requestBodyFields": []
-		},
-		"magic-cloud-networking catalog-syncs list": {
-			"operationId": "magic-cloud-networking.catalog-syncs.list",
-			"httpMethod": "GET",
-			"path": "/accounts/{account_id}/magic/cloud/catalog-syncs",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": false,
-			"requestBodyFields": []
-		},
-		"magic-cloud-networking catalog-syncs prebuilt-policies list": {
-			"operationId": "magic-cloud-networking.catalog-syncs.prebuilt-policies.list",
-			"httpMethod": "GET",
-			"path": "/accounts/{account_id}/magic/cloud/catalog-syncs/prebuilt-policies",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [
-				{
-					"name": "destination_type",
-					"flag": "destination-type",
-					"type": "string",
-					"required": false
-				}
-			],
-			"hasRequestBody": false,
-			"requestBodyFields": []
-		},
-		"magic-cloud-networking catalog-syncs refresh": {
-			"operationId": "magic-cloud-networking.catalog-syncs.refresh",
-			"httpMethod": "POST",
-			"path": "/accounts/{account_id}/magic/cloud/catalog-syncs/{sync_id}/refresh",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "sync_id",
-					"flag": "sync-id",
-					"positional": true,
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": false,
-			"requestBodyFields": []
-		},
-		"magic-cloud-networking catalog-syncs update": {
-			"operationId": "magic-cloud-networking.catalog-syncs.update",
-			"httpMethod": "PUT",
-			"path": "/accounts/{account_id}/magic/cloud/catalog-syncs/{sync_id}",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "sync_id",
-					"flag": "sync-id",
-					"positional": true,
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": true,
-			"requestBodyFields": [
-				{
-					"name": "description",
-					"type": "string",
-					"required": false,
-					"description": "The description field"
-				},
-				{
-					"name": "name",
-					"type": "string",
-					"required": false,
-					"description": "The name field"
-				},
-				{
-					"name": "policy",
-					"type": "string",
-					"required": false,
-					"description": "The policy field"
-				},
-				{
-					"name": "update-mode",
-					"type": "string",
-					"required": false,
-					"description": "The update_mode field"
-				}
-			]
-		},
-		"magic-cloud-networking cloud-integrations create": {
-			"operationId": "magic-cloud-networking.cloud-integrations.create",
-			"httpMethod": "POST",
-			"path": "/accounts/{account_id}/magic/cloud/providers",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": true,
-			"requestBodyFields": [
-				{
-					"name": "cloud-type",
-					"type": "string",
-					"required": true,
-					"description": "The cloud_type field"
-				},
-				{
-					"name": "description",
-					"type": "string",
-					"required": false,
-					"description": "The description field"
-				},
-				{
-					"name": "friendly-name",
-					"type": "string",
-					"required": true,
-					"description": "The friendly_name field"
-				}
-			]
-		},
-		"magic-cloud-networking cloud-integrations delete": {
-			"operationId": "magic-cloud-networking.cloud-integrations.delete",
-			"httpMethod": "DELETE",
-			"path": "/accounts/{account_id}/magic/cloud/providers/{provider_id}",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "provider_id",
-					"flag": "provider-id",
-					"positional": true,
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": false,
-			"requestBodyFields": []
-		},
-		"magic-cloud-networking cloud-integrations discover": {
-			"operationId": "magic-cloud-networking.cloud-integrations.discover",
-			"httpMethod": "POST",
-			"path": "/accounts/{account_id}/magic/cloud/providers/{provider_id}/discover",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "provider_id",
-					"flag": "provider-id",
-					"positional": true,
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [
-				{
-					"name": "v2",
-					"flag": "v2",
-					"type": "boolean",
-					"required": false
-				}
-			],
-			"hasRequestBody": false,
-			"requestBodyFields": []
-		},
-		"magic-cloud-networking cloud-integrations discover-all": {
-			"operationId": "magic-cloud-networking.cloud-integrations.discover-all",
-			"httpMethod": "POST",
-			"path": "/accounts/{account_id}/magic/cloud/providers/discover",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": false,
-			"requestBodyFields": []
-		},
-		"magic-cloud-networking cloud-integrations edit": {
-			"operationId": "magic-cloud-networking.cloud-integrations.edit",
-			"httpMethod": "PATCH",
-			"path": "/accounts/{account_id}/magic/cloud/providers/{provider_id}",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "provider_id",
-					"flag": "provider-id",
-					"positional": true,
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": true,
-			"requestBodyFields": [
-				{
-					"name": "aws-arn",
-					"type": "string",
-					"required": false,
-					"description": "The aws_arn field"
-				},
-				{
-					"name": "azure-subscription-id",
-					"type": "string",
-					"required": false,
-					"description": "The azure_subscription_id field"
-				},
-				{
-					"name": "azure-tenant-id",
-					"type": "string",
-					"required": false,
-					"description": "The azure_tenant_id field"
-				},
-				{
-					"name": "description",
-					"type": "string",
-					"required": false,
-					"description": "The description field"
-				},
-				{
-					"name": "friendly-name",
-					"type": "string",
-					"required": false,
-					"description": "The friendly_name field"
-				},
-				{
-					"name": "gcp-project-id",
-					"type": "string",
-					"required": false,
-					"description": "The gcp_project_id field"
-				},
-				{
-					"name": "gcp-service-account-email",
-					"type": "string",
-					"required": false,
-					"description": "The gcp_service_account_email field"
-				}
-			]
-		},
-		"magic-cloud-networking cloud-integrations get": {
-			"operationId": "magic-cloud-networking.cloud-integrations.get",
-			"httpMethod": "GET",
-			"path": "/accounts/{account_id}/magic/cloud/providers/{provider_id}",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "provider_id",
-					"flag": "provider-id",
-					"positional": true,
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [
-				{
-					"name": "status",
-					"flag": "status",
-					"type": "boolean",
-					"required": false
-				}
-			],
-			"hasRequestBody": false,
-			"requestBodyFields": []
-		},
-		"magic-cloud-networking cloud-integrations initial-setup": {
-			"operationId": "magic-cloud-networking.cloud-integrations.initial-setup",
-			"httpMethod": "GET",
-			"path": "/accounts/{account_id}/magic/cloud/providers/{provider_id}/initial_setup",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "provider_id",
-					"flag": "provider-id",
-					"positional": true,
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": false,
-			"requestBodyFields": []
-		},
-		"magic-cloud-networking cloud-integrations list": {
-			"operationId": "magic-cloud-networking.cloud-integrations.list",
-			"httpMethod": "GET",
-			"path": "/accounts/{account_id}/magic/cloud/providers",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [
-				{
-					"name": "status",
-					"flag": "status",
-					"type": "boolean",
-					"required": false
-				},
-				{
-					"name": "order_by",
-					"flag": "order-by",
-					"type": "string",
-					"required": false
-				},
-				{
-					"name": "desc",
-					"flag": "desc",
-					"type": "boolean",
-					"required": false
-				},
-				{
-					"name": "cloudflare",
-					"flag": "cloudflare",
-					"type": "boolean",
-					"required": false
-				}
-			],
-			"hasRequestBody": false,
-			"requestBodyFields": []
-		},
-		"magic-cloud-networking cloud-integrations update": {
-			"operationId": "magic-cloud-networking.cloud-integrations.update",
-			"httpMethod": "PUT",
-			"path": "/accounts/{account_id}/magic/cloud/providers/{provider_id}",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "provider_id",
-					"flag": "provider-id",
-					"positional": true,
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": true,
-			"requestBodyFields": [
-				{
-					"name": "aws-arn",
-					"type": "string",
-					"required": false,
-					"description": "The aws_arn field"
-				},
-				{
-					"name": "azure-subscription-id",
-					"type": "string",
-					"required": false,
-					"description": "The azure_subscription_id field"
-				},
-				{
-					"name": "azure-tenant-id",
-					"type": "string",
-					"required": false,
-					"description": "The azure_tenant_id field"
-				},
-				{
-					"name": "description",
-					"type": "string",
-					"required": false,
-					"description": "The description field"
-				},
-				{
-					"name": "friendly-name",
-					"type": "string",
-					"required": false,
-					"description": "The friendly_name field"
-				},
-				{
-					"name": "gcp-project-id",
-					"type": "string",
-					"required": false,
-					"description": "The gcp_project_id field"
-				},
-				{
-					"name": "gcp-service-account-email",
-					"type": "string",
-					"required": false,
-					"description": "The gcp_service_account_email field"
-				}
-			]
-		},
-		"magic-cloud-networking on-ramps address-spaces edit": {
-			"operationId": "magic-cloud-networking.on-ramps.address-spaces.edit",
-			"httpMethod": "PATCH",
-			"path": "/accounts/{account_id}/magic/cloud/onramps/magic_wan_address_space",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": true,
-			"requestBodyFields": [
-				{
-					"name": "prefixes",
-					"type": "string",
-					"required": true,
-					"description": "The prefixes field"
-				}
-			]
-		},
-		"magic-cloud-networking on-ramps address-spaces list": {
-			"operationId": "magic-cloud-networking.on-ramps.address-spaces.list",
-			"httpMethod": "GET",
-			"path": "/accounts/{account_id}/magic/cloud/onramps/magic_wan_address_space",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": false,
-			"requestBodyFields": []
-		},
-		"magic-cloud-networking on-ramps address-spaces update": {
-			"operationId": "magic-cloud-networking.on-ramps.address-spaces.update",
-			"httpMethod": "PUT",
-			"path": "/accounts/{account_id}/magic/cloud/onramps/magic_wan_address_space",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": true,
-			"requestBodyFields": [
-				{
-					"name": "prefixes",
-					"type": "string",
-					"required": true,
-					"description": "The prefixes field"
-				}
-			]
-		},
-		"magic-cloud-networking on-ramps apply": {
-			"operationId": "magic-cloud-networking.on-ramps.apply",
-			"httpMethod": "POST",
-			"path": "/accounts/{account_id}/magic/cloud/onramps/{onramp_id}/apply",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "onramp_id",
-					"flag": "onramp-id",
-					"positional": true,
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": false,
-			"requestBodyFields": []
-		},
-		"magic-cloud-networking on-ramps create": {
-			"operationId": "magic-cloud-networking.on-ramps.create",
-			"httpMethod": "POST",
-			"path": "/accounts/{account_id}/magic/cloud/onramps",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": true,
-			"requestBodyFields": [
-				{
-					"name": "adopted-hub-id",
-					"type": "string",
-					"required": false,
-					"description": "The adopted_hub_id field"
-				},
-				{
-					"name": "attached-hubs",
-					"type": "string",
-					"required": false,
-					"description": "The attached_hubs field"
-				},
-				{
-					"name": "attached-vpcs",
-					"type": "string",
-					"required": false,
-					"description": "The attached_vpcs field"
-				},
-				{
-					"name": "cloud-asn",
-					"type": "number",
-					"required": false,
-					"description": "Sets the cloud-side ASN. If unset or zero, the cloud's default ASN takes effect."
-				},
-				{
-					"name": "cloud-type",
-					"type": "string",
-					"required": true,
-					"description": "The cloud_type field"
-				},
-				{
-					"name": "description",
-					"type": "string",
-					"required": false,
-					"description": "The description field"
-				},
-				{
-					"name": "dynamic-routing",
-					"type": "boolean",
-					"required": true,
-					"description": "Enables BGP routing. When enabling this feature, set both install_routes_in_cloud and install_routes_in_magic_wan to false."
-				},
-				{
-					"name": "hub-provider-id",
-					"type": "string",
-					"required": false,
-					"description": "The hub_provider_id field"
-				},
-				{
-					"name": "install-routes-in-cloud",
-					"type": "boolean",
-					"required": true,
-					"description": "The install_routes_in_cloud field"
-				},
-				{
-					"name": "install-routes-in-magic-wan",
-					"type": "boolean",
-					"required": true,
-					"description": "The install_routes_in_magic_wan field"
-				},
-				{
-					"name": "manage-hub-to-hub-attachments",
-					"type": "boolean",
-					"required": false,
-					"description": "The manage_hub_to_hub_attachments field"
-				},
-				{
-					"name": "manage-vpc-to-hub-attachments",
-					"type": "boolean",
-					"required": false,
-					"description": "The manage_vpc_to_hub_attachments field"
-				},
-				{
-					"name": "name",
-					"type": "string",
-					"required": true,
-					"description": "The name field"
-				},
-				{
-					"name": "region",
-					"type": "string",
-					"required": false,
-					"description": "The region field"
-				},
-				{
-					"name": "type",
-					"type": "string",
-					"required": true,
-					"description": "The type field"
-				},
-				{
-					"name": "vpc",
-					"type": "string",
-					"required": false,
-					"description": "The vpc field"
-				}
-			]
-		},
-		"magic-cloud-networking on-ramps delete": {
-			"operationId": "magic-cloud-networking.on-ramps.delete",
-			"httpMethod": "DELETE",
-			"path": "/accounts/{account_id}/magic/cloud/onramps/{onramp_id}",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "onramp_id",
-					"flag": "onramp-id",
-					"positional": true,
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [
-				{
-					"name": "destroy",
-					"flag": "destroy",
-					"type": "boolean",
-					"required": false
-				},
-				{
-					"name": "force",
-					"flag": "force-delete",
-					"type": "boolean",
-					"required": false
-				}
-			],
-			"hasRequestBody": false,
-			"requestBodyFields": []
-		},
-		"magic-cloud-networking on-ramps edit": {
-			"operationId": "magic-cloud-networking.on-ramps.edit",
-			"httpMethod": "PATCH",
-			"path": "/accounts/{account_id}/magic/cloud/onramps/{onramp_id}",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "onramp_id",
-					"flag": "onramp-id",
-					"positional": true,
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": true,
-			"requestBodyFields": [
-				{
-					"name": "attached-hubs",
-					"type": "string",
-					"required": false,
-					"description": "The attached_hubs field"
-				},
-				{
-					"name": "attached-vpcs",
-					"type": "string",
-					"required": false,
-					"description": "The attached_vpcs field"
-				},
-				{
-					"name": "description",
-					"type": "string",
-					"required": false,
-					"description": "The description field"
-				},
-				{
-					"name": "install-routes-in-cloud",
-					"type": "boolean",
-					"required": false,
-					"description": "The install_routes_in_cloud field"
-				},
-				{
-					"name": "install-routes-in-magic-wan",
-					"type": "boolean",
-					"required": false,
-					"description": "The install_routes_in_magic_wan field"
-				},
-				{
-					"name": "manage-hub-to-hub-attachments",
-					"type": "boolean",
-					"required": false,
-					"description": "The manage_hub_to_hub_attachments field"
-				},
-				{
-					"name": "manage-vpc-to-hub-attachments",
-					"type": "boolean",
-					"required": false,
-					"description": "The manage_vpc_to_hub_attachments field"
-				},
-				{
-					"name": "name",
-					"type": "string",
-					"required": false,
-					"description": "The name field"
-				},
-				{
-					"name": "vpc",
-					"type": "string",
-					"required": false,
-					"description": "The vpc field"
-				}
-			]
-		},
-		"magic-cloud-networking on-ramps export": {
-			"operationId": "magic-cloud-networking.on-ramps.export",
-			"httpMethod": "POST",
-			"path": "/accounts/{account_id}/magic/cloud/onramps/{onramp_id}/export",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "onramp_id",
-					"flag": "onramp-id",
-					"positional": true,
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": false,
-			"requestBodyFields": []
-		},
-		"magic-cloud-networking on-ramps get": {
-			"operationId": "magic-cloud-networking.on-ramps.get",
-			"httpMethod": "GET",
-			"path": "/accounts/{account_id}/magic/cloud/onramps/{onramp_id}",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "onramp_id",
-					"flag": "onramp-id",
-					"positional": true,
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [
-				{
-					"name": "status",
-					"flag": "status",
-					"type": "boolean",
-					"required": false
-				},
-				{
-					"name": "vpcs",
-					"flag": "vpcs",
-					"type": "boolean",
-					"required": false
-				},
-				{
-					"name": "post_apply_resources",
-					"flag": "post-apply-resources",
-					"type": "boolean",
-					"required": false
-				},
-				{
-					"name": "planned_resources",
-					"flag": "planned-resources",
-					"type": "boolean",
-					"required": false
-				}
-			],
-			"hasRequestBody": false,
-			"requestBodyFields": []
-		},
-		"magic-cloud-networking on-ramps list": {
-			"operationId": "magic-cloud-networking.on-ramps.list",
-			"httpMethod": "GET",
-			"path": "/accounts/{account_id}/magic/cloud/onramps",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [
-				{
-					"name": "order_by",
-					"flag": "order-by",
-					"type": "string",
-					"required": false
-				},
-				{
-					"name": "desc",
-					"flag": "desc",
-					"type": "boolean",
-					"required": false
-				},
-				{
-					"name": "status",
-					"flag": "status",
-					"type": "boolean",
-					"required": false
-				},
-				{
-					"name": "vpcs",
-					"flag": "vpcs",
-					"type": "boolean",
-					"required": false
-				}
-			],
-			"hasRequestBody": false,
-			"requestBodyFields": []
-		},
-		"magic-cloud-networking on-ramps plan": {
-			"operationId": "magic-cloud-networking.on-ramps.plan",
-			"httpMethod": "POST",
-			"path": "/accounts/{account_id}/magic/cloud/onramps/{onramp_id}/plan",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "onramp_id",
-					"flag": "onramp-id",
-					"positional": true,
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": false,
-			"requestBodyFields": []
-		},
-		"magic-cloud-networking on-ramps update": {
-			"operationId": "magic-cloud-networking.on-ramps.update",
-			"httpMethod": "PUT",
-			"path": "/accounts/{account_id}/magic/cloud/onramps/{onramp_id}",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "onramp_id",
-					"flag": "onramp-id",
-					"positional": true,
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": true,
-			"requestBodyFields": [
-				{
-					"name": "attached-hubs",
-					"type": "string",
-					"required": false,
-					"description": "The attached_hubs field"
-				},
-				{
-					"name": "attached-vpcs",
-					"type": "string",
-					"required": false,
-					"description": "The attached_vpcs field"
-				},
-				{
-					"name": "description",
-					"type": "string",
-					"required": false,
-					"description": "The description field"
-				},
-				{
-					"name": "install-routes-in-cloud",
-					"type": "boolean",
-					"required": false,
-					"description": "The install_routes_in_cloud field"
-				},
-				{
-					"name": "install-routes-in-magic-wan",
-					"type": "boolean",
-					"required": false,
-					"description": "The install_routes_in_magic_wan field"
-				},
-				{
-					"name": "manage-hub-to-hub-attachments",
-					"type": "boolean",
-					"required": false,
-					"description": "The manage_hub_to_hub_attachments field"
-				},
-				{
-					"name": "manage-vpc-to-hub-attachments",
-					"type": "boolean",
-					"required": false,
-					"description": "The manage_vpc_to_hub_attachments field"
-				},
-				{
-					"name": "name",
-					"type": "string",
-					"required": false,
-					"description": "The name field"
-				},
-				{
-					"name": "vpc",
-					"type": "string",
-					"required": false,
-					"description": "The vpc field"
-				}
-			]
-		},
-		"magic-cloud-networking resources export": {
-			"operationId": "magic-cloud-networking.resources.export",
-			"httpMethod": "GET",
-			"path": "/accounts/{account_id}/magic/cloud/resources/export",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [
-				{
-					"name": "provider_id",
-					"flag": "provider-id",
-					"type": "string",
-					"required": false
-				},
-				{
-					"name": "resource_type",
-					"flag": "resource-type",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "resource_id",
-					"flag": "resource-id",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "region",
-					"flag": "region",
-					"type": "string",
-					"required": false
-				},
-				{
-					"name": "resource_group",
-					"flag": "resource-group",
-					"type": "string",
-					"required": false
-				},
-				{
-					"name": "search",
-					"flag": "search",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "order_by",
-					"flag": "order-by",
-					"type": "string",
-					"required": false
-				},
-				{
-					"name": "desc",
-					"flag": "desc",
-					"type": "boolean",
-					"required": false
-				},
-				{
-					"name": "v2",
-					"flag": "v2",
-					"type": "boolean",
-					"required": false
-				}
-			],
-			"hasRequestBody": false,
-			"requestBodyFields": []
-		},
-		"magic-cloud-networking resources get": {
-			"operationId": "magic-cloud-networking.resources.get",
-			"httpMethod": "GET",
-			"path": "/accounts/{account_id}/magic/cloud/resources/{resource_id}",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "resource_id",
-					"flag": "resource-id",
-					"positional": true,
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [
-				{
-					"name": "v2",
-					"flag": "v2",
-					"type": "boolean",
-					"required": false
-				}
-			],
-			"hasRequestBody": false,
-			"requestBodyFields": []
-		},
-		"magic-cloud-networking resources list": {
-			"operationId": "magic-cloud-networking.resources.list",
-			"httpMethod": "GET",
-			"path": "/accounts/{account_id}/magic/cloud/resources",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [
-				{
-					"name": "provider_id",
-					"flag": "provider-id",
-					"type": "string",
-					"required": false
-				},
-				{
-					"name": "resource_type",
-					"flag": "resource-type",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "resource_id",
-					"flag": "resource-id",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "region",
-					"flag": "region",
-					"type": "string",
-					"required": false
-				},
-				{
-					"name": "resource_group",
-					"flag": "resource-group",
-					"type": "string",
-					"required": false
-				},
-				{
-					"name": "managed",
-					"flag": "managed",
-					"type": "boolean",
-					"required": false
-				},
-				{
-					"name": "search",
-					"flag": "search",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "order_by",
-					"flag": "order-by",
-					"type": "string",
-					"required": false
-				},
-				{
-					"name": "desc",
-					"flag": "desc",
-					"type": "boolean",
-					"required": false
-				},
-				{
-					"name": "per_page",
-					"flag": "per-page",
-					"type": "number",
-					"required": false
-				},
-				{
-					"name": "page",
-					"flag": "page",
-					"type": "number",
-					"required": false
-				},
-				{
-					"name": "cloudflare",
-					"flag": "cloudflare",
-					"type": "boolean",
-					"required": false
-				},
-				{
-					"name": "v2",
-					"flag": "v2",
-					"type": "boolean",
-					"required": false
-				}
-			],
-			"hasRequestBody": false,
-			"requestBodyFields": []
-		},
-		"magic-cloud-networking resources policy-preview": {
-			"operationId": "magic-cloud-networking.resources.policy-preview",
-			"httpMethod": "POST",
-			"path": "/accounts/{account_id}/magic/cloud/resources/policy-preview",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": true,
-			"requestBodyFields": [
-				{
-					"name": "policy",
-					"type": "string",
-					"required": true,
-					"description": "The policy field"
-				}
-			]
-		},
 		"magic-network-monitoring configs create": {
 			"operationId": "magic-network-monitoring.configs.create",
 			"httpMethod": "POST",
@@ -54570,6 +53907,12 @@
 					"description": "The physport field"
 				},
 				{
+					"name": "remote-subnets",
+					"type": "string",
+					"required": false,
+					"description": "The remote_subnets field. Provide as a JSON array of objects or @path/to/file.json."
+				},
+				{
 					"name": "routed-subnets",
 					"type": "string",
 					"required": false,
@@ -54739,6 +54082,12 @@
 					"type": "number",
 					"required": false,
 					"description": "The physport field"
+				},
+				{
+					"name": "remote-subnets",
+					"type": "string",
+					"required": false,
+					"description": "The remote_subnets field. Provide as a JSON array of objects or @path/to/file.json."
 				},
 				{
 					"name": "routed-subnets",
@@ -54931,6 +54280,12 @@
 					"type": "number",
 					"required": false,
 					"description": "The physport field"
+				},
+				{
+					"name": "remote-subnets",
+					"type": "string",
+					"required": false,
+					"description": "The remote_subnets field. Provide as a JSON array of objects or @path/to/file.json."
 				},
 				{
 					"name": "routed-subnets",
@@ -56326,7 +55681,7 @@
 					"name": "client-secret",
 					"type": "string",
 					"required": false,
-					"description": "Pre-registered OAuth client_secret. Write-only - accepted on create/update when auth_credentials.auth_mode is 'manual'. Required when creating a manual OAuth server or converting an existing server to manual mode. Omit it on update to preserve the existing secret; provide it to rotate the secret. Stored AES-GCM-encrypted in server_oauth_secrets; never returned by read endpoints."
+					"description": "Provides 'client_secret' for a pre-registered OAuth client. This field is accepted on create or update only when 'auth_credentials.auth_mode' is 'manual'. It is required when creating an MCP server with manual OAuth credentials or changing an existing server to use manual OAuth credentials. Omit 'client_secret' on update to preserve the existing secret. Provide a new 'client_secret' to rotate the secret. The secret is never returned by read, create, or update requests."
 				},
 				{
 					"name": "description",
@@ -56350,7 +55705,7 @@
 					"name": "is-shared-oauth-callback-enabled",
 					"type": "boolean",
 					"required": false,
-					"description": "When true, the gateway worker uses the shared Cloudflare-owned OAuth callback endpoint as the redirect_uri for upstream on-behalf OAuth, instead of the customer portal hostname. Defaults to false (off); opt in per server by setting true."
+					"description": "When true, per-user authorization uses the shared Cloudflare callback URL as the 'redirect_uri' instead of the portal callback URL. The default is false. Set 'is_shared_oauth_callback_enabled' to true to enable the shared Cloudflare callback URL for this MCP server."
 				},
 				{
 					"name": "name",
@@ -56562,7 +55917,7 @@
 					"name": "client-secret",
 					"type": "string",
 					"required": false,
-					"description": "Pre-registered OAuth client_secret. Write-only - accepted on create/update when auth_credentials.auth_mode is 'manual'. Required when creating a manual OAuth server or converting an existing server to manual mode. Omit it on update to preserve the existing secret; provide it to rotate the secret. Stored AES-GCM-encrypted in server_oauth_secrets; never returned by read endpoints."
+					"description": "Provides 'client_secret' for a pre-registered OAuth client. This field is accepted on create or update only when 'auth_credentials.auth_mode' is 'manual'. It is required when creating an MCP server with manual OAuth credentials or changing an existing server to use manual OAuth credentials. Omit 'client_secret' on update to preserve the existing secret. Provide a new 'client_secret' to rotate the secret. The secret is never returned by read, create, or update requests."
 				},
 				{
 					"name": "description",
@@ -56574,7 +55929,7 @@
 					"name": "is-shared-oauth-callback-enabled",
 					"type": "boolean",
 					"required": false,
-					"description": "When true, the gateway worker uses the shared Cloudflare-owned OAuth callback endpoint as the redirect_uri for upstream on-behalf OAuth, instead of the customer portal hostname. Defaults to false (off); opt in per server by setting true."
+					"description": "When true, per-user authorization uses the shared Cloudflare callback URL as the 'redirect_uri' instead of the portal callback URL. The default is false. Set 'is_shared_oauth_callback_enabled' to true to enable the shared Cloudflare callback URL for this MCP server."
 				},
 				{
 					"name": "name",
@@ -59592,7 +58947,7 @@
 				{
 					"name": "parameters-order-by-value",
 					"type": "string",
-					"required": true,
+					"required": false,
 					"description": "Configure which Calculation to order the results by."
 				}
 			]
@@ -59715,7 +59070,7 @@
 				{
 					"name": "parameters-order-by-value",
 					"type": "string",
-					"required": true,
+					"required": false,
 					"description": "Configure which Calculation to order the results by."
 				}
 			]
@@ -60525,170 +59880,10 @@
 			"hasRequestBody": false,
 			"requestBodyFields": []
 		},
-		"oauth-clients create": {
-			"operationId": "oauth-clients.create",
-			"httpMethod": "POST",
-			"path": "/accounts/{account_id}/oauth_clients",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": true,
-			"requestBodyFields": [
-				{
-					"name": "allowed-cors-origins",
-					"type": "string",
-					"required": false,
-					"description": "Array of allowed CORS origins."
-				},
-				{
-					"name": "client-name",
-					"type": "string",
-					"required": true,
-					"description": "Human-readable name of the OAuth client."
-				},
-				{
-					"name": "client-uri",
-					"type": "string",
-					"required": false,
-					"description": "URL of the home page of the client."
-				},
-				{
-					"name": "grant-types",
-					"type": "string",
-					"required": true,
-					"description": "Array of OAuth grant types the client is allowed to use. `authorization_code` is required; `refresh_token` may be included optionally."
-				},
-				{
-					"name": "logo-uri",
-					"type": "string",
-					"required": false,
-					"description": "URL of the client's logo."
-				},
-				{
-					"name": "optional-scopes",
-					"type": "string",
-					"required": false,
-					"description": "Scopes that the authorizing user may decline during consent. Each value must also appear in `scopes`. The scopes `openid`, `offline`, and `offline_access` cannot be optional."
-				},
-				{
-					"name": "policy-uri",
-					"type": "string",
-					"required": false,
-					"description": "URL that points to a privacy policy document."
-				},
-				{
-					"name": "post-logout-redirect-uris",
-					"type": "string",
-					"required": false,
-					"description": "Array of allowed post-logout redirect URIs."
-				},
-				{
-					"name": "redirect-uris",
-					"type": "string",
-					"required": true,
-					"description": "Array of allowed redirect URIs for the client."
-				},
-				{
-					"name": "response-types",
-					"type": "string",
-					"required": true,
-					"description": "Array of OAuth response types the client is allowed to use."
-				},
-				{
-					"name": "scopes",
-					"type": "string",
-					"required": true,
-					"description": "Array of OAuth scopes the client is allowed to request. Colon-delimited scopes are not accepted. Dot-delimited scopes are validated against available OAuth API scopes; simple identity scopes are allowed. Protocol scopes `offline_access` and `openid` are added or removed automatically based on `grant_types` and `response_types`."
-				},
-				{
-					"name": "token-endpoint-auth-method",
-					"type": "string",
-					"required": true,
-					"description": "The authentication method the client uses at the token endpoint."
-				},
-				{
-					"name": "tos-uri",
-					"type": "string",
-					"required": false,
-					"description": "URL that points to a terms of service document."
-				}
-			]
-		},
-		"oauth-clients delete": {
-			"operationId": "oauth-clients.delete",
-			"httpMethod": "DELETE",
-			"path": "/accounts/{account_id}/oauth_clients/{oauth_client_id}",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "oauth_client_id",
-					"flag": "oauth-client-id",
-					"positional": true,
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": false,
-			"requestBodyFields": []
-		},
-		"oauth-clients delete-rotated-secret": {
-			"operationId": "oauth-clients.delete-rotated-secret",
-			"httpMethod": "DELETE",
-			"path": "/accounts/{account_id}/oauth_clients/{oauth_client_id}/rotate_secret",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "oauth_client_id",
-					"flag": "oauth-client-id",
-					"positional": true,
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": false,
-			"requestBodyFields": []
-		},
-		"oauth-clients get": {
-			"operationId": "oauth-clients.get",
+		"observability usage-limit get": {
+			"operationId": "observability.usage-limit.get",
 			"httpMethod": "GET",
-			"path": "/accounts/{account_id}/oauth_clients/{oauth_client_id}",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "oauth_client_id",
-					"flag": "oauth-client-id",
-					"positional": true,
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": false,
-			"requestBodyFields": []
-		},
-		"oauth-clients list": {
-			"operationId": "oauth-clients.list",
-			"httpMethod": "GET",
-			"path": "/accounts/{account_id}/oauth_clients",
+			"path": "/accounts/{account_id}/observability/usage/limit",
 			"pathParams": [
 				{
 					"name": "account_id",
@@ -60696,144 +59891,6 @@
 					"required": true
 				}
 			],
-			"queryParams": [],
-			"hasRequestBody": false,
-			"requestBodyFields": []
-		},
-		"oauth-clients rotate-secret": {
-			"operationId": "oauth-clients.rotate-secret",
-			"httpMethod": "POST",
-			"path": "/accounts/{account_id}/oauth_clients/{oauth_client_id}/rotate_secret",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "oauth_client_id",
-					"flag": "oauth-client-id",
-					"positional": true,
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": false,
-			"requestBodyFields": []
-		},
-		"oauth-clients update": {
-			"operationId": "oauth-clients.update",
-			"httpMethod": "PATCH",
-			"path": "/accounts/{account_id}/oauth_clients/{oauth_client_id}",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "oauth_client_id",
-					"flag": "oauth-client-id",
-					"positional": true,
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": true,
-			"requestBodyFields": [
-				{
-					"name": "allowed-cors-origins",
-					"type": "string",
-					"required": false,
-					"description": "Array of allowed CORS origins."
-				},
-				{
-					"name": "client-name",
-					"type": "string",
-					"required": false,
-					"description": "Human-readable name of the OAuth client."
-				},
-				{
-					"name": "client-uri",
-					"type": "string",
-					"required": false,
-					"description": "URL of the home page of the client."
-				},
-				{
-					"name": "grant-types",
-					"type": "string",
-					"required": false,
-					"description": "Array of OAuth grant types the client is allowed to use. `authorization_code` is required; `refresh_token` may be included optionally."
-				},
-				{
-					"name": "logo-uri",
-					"type": "string",
-					"required": false,
-					"description": "URL of the client's logo."
-				},
-				{
-					"name": "optional-scopes",
-					"type": "string",
-					"required": false,
-					"description": "Scopes that the authorizing user may decline during consent. Each value must also appear in `scopes`. The scopes `openid`, `offline`, and `offline_access` cannot be optional."
-				},
-				{
-					"name": "policy-uri",
-					"type": "string",
-					"required": false,
-					"description": "URL that points to a privacy policy document."
-				},
-				{
-					"name": "post-logout-redirect-uris",
-					"type": "string",
-					"required": false,
-					"description": "Array of allowed post-logout redirect URIs."
-				},
-				{
-					"name": "redirect-uris",
-					"type": "string",
-					"required": false,
-					"description": "Array of allowed redirect URIs for the client."
-				},
-				{
-					"name": "response-types",
-					"type": "string",
-					"required": false,
-					"description": "Array of OAuth response types the client is allowed to use."
-				},
-				{
-					"name": "scopes",
-					"type": "string",
-					"required": false,
-					"description": "Array of OAuth scopes the client is allowed to request. Colon-delimited scopes are not accepted. Dot-delimited scopes are validated against available OAuth API scopes; simple identity scopes are allowed. Protocol scopes `offline_access` and `openid` are added or removed automatically based on `grant_types` and `response_types`."
-				},
-				{
-					"name": "token-endpoint-auth-method",
-					"type": "string",
-					"required": false,
-					"description": "The authentication method the client uses at the token endpoint."
-				},
-				{
-					"name": "tos-uri",
-					"type": "string",
-					"required": false,
-					"description": "URL that points to a terms of service document."
-				},
-				{
-					"name": "visibility",
-					"type": "string",
-					"required": false,
-					"description": "Promote the OAuth client from private to public visibility. Only `public` is accepted; demotion to `private` is not supported. Promotion requires a non-empty client name, logo URI, verified client URI host, and at least one non-identity scope."
-				}
-			]
-		},
-		"oauth-scopes list": {
-			"operationId": "oauth-scopes.list",
-			"httpMethod": "GET",
-			"path": "/oauth/scopes",
-			"pathParams": [],
 			"queryParams": [],
 			"hasRequestBody": false,
 			"requestBodyFields": []
@@ -60900,6 +59957,12 @@
 					"required": false
 				},
 				{
+					"name": "status",
+					"flag": "status",
+					"type": "string",
+					"required": false
+				},
+				{
 					"name": "order_by",
 					"flag": "order-by",
 					"type": "string",
@@ -60921,6 +59984,18 @@
 					"name": "include_total",
 					"flag": "include-total",
 					"type": "boolean",
+					"required": false
+				},
+				{
+					"name": "page",
+					"flag": "page",
+					"type": "number",
+					"required": false
+				},
+				{
+					"name": "per_page",
+					"flag": "per-page",
+					"type": "number",
 					"required": false
 				},
 				{
@@ -60951,7 +60026,7 @@
 					"name": "name",
 					"type": "string",
 					"required": true,
-					"description": "The name field"
+					"description": "The Organization name, limited to 65 UTF-8 bytes."
 				},
 				{
 					"name": "parent-id",
@@ -61116,6 +60191,24 @@
 					"required": false
 				},
 				{
+					"name": "member.email",
+					"flag": "member-email",
+					"type": "string",
+					"required": false
+				},
+				{
+					"name": "order_by",
+					"flag": "order-by",
+					"type": "string",
+					"required": false
+				},
+				{
+					"name": "direction",
+					"flag": "direction",
+					"type": "string",
+					"required": false
+				},
+				{
 					"name": "page_token",
 					"flag": "page-token",
 					"type": "string",
@@ -61150,8 +60243,8 @@
 				{
 					"name": "members",
 					"type": "string",
-					"required": true,
-					"description": "The members field. Provide as a JSON array of objects or @path/to/file.json."
+					"required": false,
+					"description": "Omitted or null members are treated as an empty batch. Provide as a JSON array of objects or @path/to/file.json."
 				}
 			]
 		},
@@ -61171,12 +60264,6 @@
 			"queryParams": [],
 			"hasRequestBody": true,
 			"requestBodyFields": [
-				{
-					"name": "member-status",
-					"type": "string",
-					"required": false,
-					"description": "The member.status field"
-				},
 				{
 					"name": "member-user-email",
 					"type": "string",
@@ -61326,31 +60413,31 @@
 				{
 					"name": "business-address",
 					"type": "string",
-					"required": true,
+					"required": false,
 					"description": "The business_address field"
 				},
 				{
 					"name": "business-email",
 					"type": "string",
-					"required": true,
+					"required": false,
 					"description": "The business_email field"
 				},
 				{
 					"name": "business-name",
 					"type": "string",
-					"required": true,
+					"required": false,
 					"description": "The business_name field"
 				},
 				{
 					"name": "business-phone",
 					"type": "string",
-					"required": true,
+					"required": false,
 					"description": "The business_phone field"
 				},
 				{
 					"name": "external-metadata",
 					"type": "string",
-					"required": true,
+					"required": false,
 					"description": "The external_metadata field"
 				}
 			]
@@ -61439,44 +60526,14 @@
 				{
 					"name": "name",
 					"type": "string",
-					"required": true,
-					"description": "The name field"
+					"required": false,
+					"description": "The Organization's display name, limited to 65 UTF-8 bytes. An omitted, empty, or unchanged value is a no-op."
 				},
 				{
 					"name": "parent-id",
 					"type": "string",
 					"required": false,
-					"description": "Organization ID"
-				},
-				{
-					"name": "profile-business-address",
-					"type": "string",
-					"required": false,
-					"description": "The profile.business_address field"
-				},
-				{
-					"name": "profile-business-email",
-					"type": "string",
-					"required": false,
-					"description": "The profile.business_email field"
-				},
-				{
-					"name": "profile-business-name",
-					"type": "string",
-					"required": false,
-					"description": "The profile.business_name field"
-				},
-				{
-					"name": "profile-business-phone",
-					"type": "string",
-					"required": false,
-					"description": "The profile.business_phone field"
-				},
-				{
-					"name": "profile-external-metadata",
-					"type": "string",
-					"required": false,
-					"description": "The profile.external_metadata field"
+					"description": "The current parent Organization ID. A different value is rejected; this endpoint cannot move an Organization."
 				}
 			]
 		},
@@ -64521,19 +63578,19 @@
 				{
 					"name": "destination-credentials-access-key-id",
 					"type": "string",
-					"required": true,
+					"required": false,
 					"description": "Specifies the R2 Bucket Access Key Id."
 				},
 				{
 					"name": "destination-credentials-endpoint",
 					"type": "string",
-					"required": true,
+					"required": false,
 					"description": "Specifies the R2 Endpoint."
 				},
 				{
 					"name": "destination-credentials-secret-access-key",
 					"type": "string",
-					"required": true,
+					"required": false,
 					"description": "Specifies the R2 Bucket Secret Access Key."
 				},
 				{
@@ -79425,6 +78482,35 @@
 			"hasRequestBody": false,
 			"requestBodyFields": []
 		},
+		"realtime kit apps update": {
+			"operationId": "realtime.kit.apps.update",
+			"httpMethod": "PATCH",
+			"path": "/accounts/{account_id}/realtime/kit/apps/{app_id}",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "app_id",
+					"flag": "app-id",
+					"positional": true,
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": true,
+			"requestBodyFields": [
+				{
+					"name": "name",
+					"type": "string",
+					"required": true,
+					"description": "The app name. Leading and trailing whitespace is removed, and the name must contain at least one non-whitespace character."
+				}
+			]
+		},
 		"realtime kit livestreams get": {
 			"operationId": "realtime.kit.livestreams.get",
 			"httpMethod": "GET",
@@ -81017,73 +80103,73 @@
 			"hasRequestBody": true,
 			"requestBodyFields": [
 				{
-					"name": "config-livestream-viewer-qualities",
+					"name": "preset-config-livestream-viewer-qualities",
 					"type": "string",
 					"required": false,
 					"description": "Livestream viewer quality levels."
 				},
 				{
-					"name": "config-max-screenshare-count",
+					"name": "preset-config-max-screenshare-count",
 					"type": "number",
 					"required": true,
 					"description": "Maximum number of screen shares that can be active at a given time"
 				},
 				{
-					"name": "config-max-video-streams-desktop",
+					"name": "preset-config-max-video-streams-desktop",
 					"type": "number",
 					"required": true,
 					"description": "Maximum number of video streams visible on desktop devices"
 				},
 				{
-					"name": "config-max-video-streams-mobile",
+					"name": "preset-config-max-video-streams-mobile",
 					"type": "number",
 					"required": true,
 					"description": "Maximum number of streams visible on mobile devices"
 				},
 				{
-					"name": "config-media-audio-enable-high-bitrate",
+					"name": "preset-config-media-audio-enable-high-bitrate",
 					"type": "boolean",
 					"required": false,
 					"description": "Enable High Quality Audio for your meetings"
 				},
 				{
-					"name": "config-media-audio-enable-stereo",
+					"name": "preset-config-media-audio-enable-stereo",
 					"type": "boolean",
 					"required": false,
 					"description": "Enable Stereo for your meetings"
 				},
 				{
-					"name": "config-media-screenshare-frame-rate",
+					"name": "preset-config-media-screenshare-frame-rate",
 					"type": "number",
 					"required": true,
 					"description": "Frame rate of screen share"
 				},
 				{
-					"name": "config-media-screenshare-quality",
+					"name": "preset-config-media-screenshare-quality",
 					"type": "string",
 					"required": true,
 					"description": "Quality of screen share "
 				},
 				{
-					"name": "config-media-video-frame-rate",
+					"name": "preset-config-media-video-frame-rate",
 					"type": "number",
 					"required": true,
 					"description": "Frame rate of participants' video"
 				},
 				{
-					"name": "config-media-video-quality",
+					"name": "preset-config-media-video-quality",
 					"type": "string",
 					"required": true,
 					"description": "Video quality of participants"
 				},
 				{
-					"name": "config-media-video-simulcast",
+					"name": "preset-config-media-video-simulcast",
 					"type": "boolean",
 					"required": false,
 					"description": "Enable simulcast for participant videos."
 				},
 				{
-					"name": "config-view-type",
+					"name": "preset-config-view-type",
 					"type": "string",
 					"required": true,
 					"description": "Type of the meeting"
@@ -81544,73 +80630,73 @@
 			"hasRequestBody": true,
 			"requestBodyFields": [
 				{
-					"name": "config-livestream-viewer-qualities",
+					"name": "preset-config-livestream-viewer-qualities",
 					"type": "string",
 					"required": false,
 					"description": "Livestream viewer quality levels."
 				},
 				{
-					"name": "config-max-screenshare-count",
+					"name": "preset-config-max-screenshare-count",
 					"type": "number",
 					"required": true,
 					"description": "Maximum number of screen shares that can be active at a given time"
 				},
 				{
-					"name": "config-max-video-streams-desktop",
+					"name": "preset-config-max-video-streams-desktop",
 					"type": "number",
 					"required": true,
 					"description": "Maximum number of video streams visible on desktop devices"
 				},
 				{
-					"name": "config-max-video-streams-mobile",
+					"name": "preset-config-max-video-streams-mobile",
 					"type": "number",
 					"required": true,
 					"description": "Maximum number of streams visible on mobile devices"
 				},
 				{
-					"name": "config-media-audio-enable-high-bitrate",
+					"name": "preset-config-media-audio-enable-high-bitrate",
 					"type": "boolean",
 					"required": false,
 					"description": "Enable High Quality Audio for your meetings"
 				},
 				{
-					"name": "config-media-audio-enable-stereo",
+					"name": "preset-config-media-audio-enable-stereo",
 					"type": "boolean",
 					"required": false,
 					"description": "Enable Stereo for your meetings"
 				},
 				{
-					"name": "config-media-screenshare-frame-rate",
+					"name": "preset-config-media-screenshare-frame-rate",
 					"type": "number",
 					"required": true,
 					"description": "Frame rate of screen share"
 				},
 				{
-					"name": "config-media-screenshare-quality",
+					"name": "preset-config-media-screenshare-quality",
 					"type": "string",
 					"required": true,
 					"description": "Quality of screen share "
 				},
 				{
-					"name": "config-media-video-frame-rate",
+					"name": "preset-config-media-video-frame-rate",
 					"type": "number",
 					"required": true,
 					"description": "Frame rate of participants' video"
 				},
 				{
-					"name": "config-media-video-quality",
+					"name": "preset-config-media-video-quality",
 					"type": "string",
 					"required": true,
 					"description": "Video quality of participants"
 				},
 				{
-					"name": "config-media-video-simulcast",
+					"name": "preset-config-media-video-simulcast",
 					"type": "boolean",
 					"required": false,
 					"description": "Enable simulcast for participant videos."
 				},
 				{
-					"name": "config-view-type",
+					"name": "preset-config-view-type",
 					"type": "string",
 					"required": true,
 					"description": "Type of the meeting"
@@ -81975,73 +81061,73 @@
 			"hasRequestBody": true,
 			"requestBodyFields": [
 				{
-					"name": "config-livestream-viewer-qualities",
+					"name": "preset-config-livestream-viewer-qualities",
 					"type": "string",
 					"required": false,
 					"description": "Livestream viewer quality levels."
 				},
 				{
-					"name": "config-max-screenshare-count",
+					"name": "preset-config-max-screenshare-count",
 					"type": "number",
 					"required": false,
 					"description": "Maximum number of screen shares that can be active at a given time"
 				},
 				{
-					"name": "config-max-video-streams-desktop",
+					"name": "preset-config-max-video-streams-desktop",
 					"type": "number",
 					"required": false,
 					"description": "Maximum number of video streams visible on desktop devices"
 				},
 				{
-					"name": "config-max-video-streams-mobile",
+					"name": "preset-config-max-video-streams-mobile",
 					"type": "number",
 					"required": false,
 					"description": "Maximum number of streams visible on mobile devices"
 				},
 				{
-					"name": "config-media-audio-enable-high-bitrate",
+					"name": "preset-config-media-audio-enable-high-bitrate",
 					"type": "boolean",
 					"required": false,
 					"description": "Enable High Quality Audio for your meetings"
 				},
 				{
-					"name": "config-media-audio-enable-stereo",
+					"name": "preset-config-media-audio-enable-stereo",
 					"type": "boolean",
 					"required": false,
 					"description": "Enable Stereo for your meetings"
 				},
 				{
-					"name": "config-media-screenshare-frame-rate",
+					"name": "preset-config-media-screenshare-frame-rate",
 					"type": "number",
 					"required": false,
 					"description": "Frame rate of screen share"
 				},
 				{
-					"name": "config-media-screenshare-quality",
+					"name": "preset-config-media-screenshare-quality",
 					"type": "string",
 					"required": false,
 					"description": "Quality of screen share "
 				},
 				{
-					"name": "config-media-video-frame-rate",
+					"name": "preset-config-media-video-frame-rate",
 					"type": "number",
 					"required": false,
 					"description": "Frame rate of participants' video"
 				},
 				{
-					"name": "config-media-video-quality",
+					"name": "preset-config-media-video-quality",
 					"type": "string",
 					"required": false,
 					"description": "Video quality of participants"
 				},
 				{
-					"name": "config-media-video-simulcast",
+					"name": "preset-config-media-video-simulcast",
 					"type": "boolean",
 					"required": false,
 					"description": "Enable simulcast for participant videos."
 				},
 				{
-					"name": "config-view-type",
+					"name": "preset-config-view-type",
 					"type": "string",
 					"required": false,
 					"description": "Type of the meeting"
@@ -85263,11 +84349,10 @@
 		"resource-sharing excluded-recipients create": {
 			"operationId": "resource-sharing.excluded-recipients.create",
 			"httpMethod": "POST",
-			"path": "/accounts/{account_id_path}/shares/{share_id}/excluded-recipients",
+			"path": "/accounts/{account_id}/shares/{share_id}/excluded-recipients",
 			"pathParams": [
 				{
-					"name": "account_id_path",
-					"flag": "account-id-path",
+					"name": "account_id",
 					"type": "string",
 					"required": true
 				},
@@ -85281,14 +84366,7 @@
 			],
 			"queryParams": [],
 			"hasRequestBody": true,
-			"requestBodyFields": [
-				{
-					"name": "account-id",
-					"type": "string",
-					"required": true,
-					"description": "The account to exclude from the organization-targeted share."
-				}
-			]
+			"requestBodyFields": []
 		},
 		"resource-sharing excluded-recipients delete": {
 			"operationId": "resource-sharing.excluded-recipients.delete",
@@ -85349,11 +84427,10 @@
 		"resource-sharing excluded-recipients list": {
 			"operationId": "resource-sharing.excluded-recipients.list",
 			"httpMethod": "GET",
-			"path": "/accounts/{account_id_path}/shares/{share_id}/excluded-recipients",
+			"path": "/accounts/{account_id}/shares/{share_id}/excluded-recipients",
 			"pathParams": [
 				{
-					"name": "account_id_path",
-					"flag": "account-id-path",
+					"name": "account_id",
 					"type": "string",
 					"required": true
 				},
@@ -85384,11 +84461,10 @@
 		"resource-sharing excluded-recipients update": {
 			"operationId": "resource-sharing.excluded-recipients.update",
 			"httpMethod": "PUT",
-			"path": "/accounts/{account_id_path}/shares/{share_id}/excluded-recipients",
+			"path": "/accounts/{account_id}/shares/{share_id}/excluded-recipients",
 			"pathParams": [
 				{
-					"name": "account_id_path",
-					"flag": "account-id-path",
+					"name": "account_id",
 					"type": "string",
 					"required": true
 				},
@@ -85524,11 +84600,10 @@
 		"resource-sharing recipients create": {
 			"operationId": "resource-sharing.recipients.create",
 			"httpMethod": "POST",
-			"path": "/accounts/{account_id_path}/shares/{share_id}/recipients",
+			"path": "/accounts/{account_id}/shares/{share_id}/recipients",
 			"pathParams": [
 				{
-					"name": "account_id_path",
-					"flag": "account-id-path",
+					"name": "account_id",
 					"type": "string",
 					"required": true
 				},
@@ -85543,12 +84618,6 @@
 			"queryParams": [],
 			"hasRequestBody": true,
 			"requestBodyFields": [
-				{
-					"name": "account-id",
-					"type": "string",
-					"required": false,
-					"description": "Deprecated alias for `recipient_account_id`. Use `recipient_account_id` instead.\nThe body field collided with the URL path parameter of the same name, which prevented SDK generators from distinguishing the source account (in the URL) from the recipient account (in the body). Both names will continue to be accepted until 2027-05-26 (see `x-sunset`).\n"
-				},
 				{
 					"name": "organization-id",
 					"type": "string",
@@ -85629,11 +84698,10 @@
 		"resource-sharing recipients list": {
 			"operationId": "resource-sharing.recipients.list",
 			"httpMethod": "GET",
-			"path": "/accounts/{account_id_path}/shares/{share_id}/recipients",
+			"path": "/accounts/{account_id}/shares/{share_id}/recipients",
 			"pathParams": [
 				{
-					"name": "account_id_path",
-					"flag": "account-id-path",
+					"name": "account_id",
 					"type": "string",
 					"required": true
 				},
@@ -85670,11 +84738,10 @@
 		"resource-sharing recipients update": {
 			"operationId": "resource-sharing.recipients.update",
 			"httpMethod": "PUT",
-			"path": "/accounts/{account_id_path}/shares/{share_id}/recipients",
+			"path": "/accounts/{account_id}/shares/{share_id}/recipients",
 			"pathParams": [
 				{
-					"name": "account_id_path",
-					"flag": "account-id-path",
+					"name": "account_id",
 					"type": "string",
 					"required": true
 				},
@@ -86372,65 +85439,6 @@
 				}
 			]
 		},
-		"rulesets entrypoint versions get": {
-			"operationId": "rulesets.entrypoint.versions.get",
-			"httpMethod": "GET",
-			"path": "/{account_or_zone}/{account_or_zone_id}/rulesets/phases/{ruleset_phase}/entrypoint/versions/{ruleset_version}",
-			"pathParams": [
-				{
-					"name": "account_or_zone",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "account_or_zone_id",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "ruleset_phase",
-					"flag": "phase",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "ruleset_version",
-					"flag": "ruleset-version",
-					"positional": true,
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": false,
-			"requestBodyFields": []
-		},
-		"rulesets entrypoint versions list": {
-			"operationId": "rulesets.entrypoint.versions.list",
-			"httpMethod": "GET",
-			"path": "/{account_or_zone}/{account_or_zone_id}/rulesets/phases/{ruleset_phase}/entrypoint/versions",
-			"pathParams": [
-				{
-					"name": "account_or_zone",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "account_or_zone_id",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "ruleset_phase",
-					"flag": "phase",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": false,
-			"requestBodyFields": []
-		},
 		"rulesets get": {
 			"operationId": "rulesets.get",
 			"httpMethod": "GET",
@@ -86713,144 +85721,6 @@
 					"description": "The list of rules in the ruleset. Provide as a JSON array of objects or @path/to/file.json."
 				}
 			]
-		},
-		"rulesets versions by-tag get": {
-			"operationId": "rulesets.versions.by-tag.get",
-			"httpMethod": "GET",
-			"path": "/{account_or_zone}/{account_or_zone_id}/rulesets/{ruleset_id}/versions/{ruleset_version}/by_tag/{rule_tag}",
-			"pathParams": [
-				{
-					"name": "account_or_zone",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "account_or_zone_id",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "ruleset_id",
-					"flag": "id",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "ruleset_version",
-					"flag": "ruleset-version",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "rule_tag",
-					"flag": "tag",
-					"positional": true,
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": false,
-			"requestBodyFields": []
-		},
-		"rulesets versions delete": {
-			"operationId": "rulesets.versions.delete",
-			"httpMethod": "DELETE",
-			"path": "/{account_or_zone}/{account_or_zone_id}/rulesets/{ruleset_id}/versions/{ruleset_version}",
-			"pathParams": [
-				{
-					"name": "account_or_zone",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "account_or_zone_id",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "ruleset_id",
-					"flag": "id",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "ruleset_version",
-					"flag": "ruleset-version",
-					"positional": true,
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [
-				{
-					"name": "dry_run",
-					"flag": "validate-only",
-					"type": "boolean",
-					"required": false
-				}
-			],
-			"hasRequestBody": false,
-			"requestBodyFields": []
-		},
-		"rulesets versions get": {
-			"operationId": "rulesets.versions.get",
-			"httpMethod": "GET",
-			"path": "/{account_or_zone}/{account_or_zone_id}/rulesets/{ruleset_id}/versions/{ruleset_version}",
-			"pathParams": [
-				{
-					"name": "account_or_zone",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "account_or_zone_id",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "ruleset_id",
-					"flag": "id",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "ruleset_version",
-					"flag": "ruleset-version",
-					"positional": true,
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": false,
-			"requestBodyFields": []
-		},
-		"rulesets versions list": {
-			"operationId": "rulesets.versions.list",
-			"httpMethod": "GET",
-			"path": "/{account_or_zone}/{account_or_zone_id}/rulesets/{ruleset_id}/versions",
-			"pathParams": [
-				{
-					"name": "account_or_zone",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "account_or_zone_id",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "ruleset_id",
-					"flag": "id",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": false,
-			"requestBodyFields": []
 		},
 		"rum rules bulk-create": {
 			"operationId": "rum.rules.bulk-create",
@@ -88648,9 +87518,9 @@
 			],
 			"queryParams": [
 				{
-					"name": "page",
-					"flag": "page",
-					"type": "number",
+					"name": "cursor",
+					"flag": "cursor",
+					"type": "string",
 					"required": false
 				},
 				{
@@ -88688,9 +87558,9 @@
 			],
 			"queryParams": [
 				{
-					"name": "page",
-					"flag": "page",
-					"type": "number",
+					"name": "cursor",
+					"flag": "cursor",
+					"type": "string",
 					"required": false
 				},
 				{
@@ -88722,9 +87592,9 @@
 			],
 			"queryParams": [
 				{
-					"name": "page",
-					"flag": "page",
-					"type": "number",
+					"name": "cursor",
+					"flag": "cursor",
+					"type": "string",
 					"required": false
 				},
 				{
@@ -94131,79 +93001,14 @@
 			"hasRequestBody": false,
 			"requestBodyFields": []
 		},
-		"tenant account list": {
-			"operationId": "tenant.account.list",
-			"httpMethod": "GET",
-			"path": "/tenants/{tenant_id}/accounts",
-			"pathParams": [
-				{
-					"name": "tenant_id",
-					"flag": "tenant-id",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": false,
-			"requestBodyFields": []
-		},
-		"tenant account-type list": {
-			"operationId": "tenant.account-type.list",
-			"httpMethod": "GET",
-			"path": "/tenants/{tenant_id}/account_types",
-			"pathParams": [
-				{
-					"name": "tenant_id",
-					"flag": "tenant-id",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": false,
-			"requestBodyFields": []
-		},
-		"tenant entitlement list": {
-			"operationId": "tenant.entitlement.list",
-			"httpMethod": "GET",
-			"path": "/tenants/{tenant_id}/entitlements",
-			"pathParams": [
-				{
-					"name": "tenant_id",
-					"flag": "tenant-id",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": false,
-			"requestBodyFields": []
-		},
-		"tenant get": {
-			"operationId": "tenant.get",
-			"httpMethod": "GET",
-			"path": "/tenants/{tenant_id}",
-			"pathParams": [
-				{
-					"name": "tenant_id",
-					"flag": "tenant-id",
-					"positional": true,
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": false,
-			"requestBodyFields": []
-		},
 		"tenant-custom-nameservers create": {
 			"operationId": "tenant-custom-nameservers.create",
 			"httpMethod": "POST",
-			"path": "/tenants/{tenant_tag}/custom_ns",
+			"path": "/tenants/{tenant_id}/custom_ns",
 			"pathParams": [
 				{
-					"name": "tenant_tag",
-					"flag": "tenant-tag",
+					"name": "tenant_id",
+					"flag": "tenant-id",
 					"positional": true,
 					"type": "string",
 					"required": true
@@ -94229,11 +93034,11 @@
 		"tenant-custom-nameservers delete": {
 			"operationId": "tenant-custom-nameservers.delete",
 			"httpMethod": "DELETE",
-			"path": "/tenants/{tenant_tag}/custom_ns/{custom_ns_id}",
+			"path": "/tenants/{tenant_id}/custom_ns/{custom_ns_id}",
 			"pathParams": [
 				{
-					"name": "tenant_tag",
-					"flag": "tenant-tag",
+					"name": "tenant_id",
+					"flag": "tenant-id",
 					"type": "string",
 					"required": true
 				},
@@ -94252,11 +93057,11 @@
 		"tenant-custom-nameservers get": {
 			"operationId": "tenant-custom-nameservers.get",
 			"httpMethod": "GET",
-			"path": "/tenants/{tenant_tag}/custom_ns",
+			"path": "/tenants/{tenant_id}/custom_ns",
 			"pathParams": [
 				{
-					"name": "tenant_tag",
-					"flag": "tenant-tag",
+					"name": "tenant_id",
+					"flag": "tenant-id",
 					"positional": true,
 					"type": "string",
 					"required": true
@@ -97195,15 +96000,6 @@
 				}
 			]
 		},
-		"user tenant list": {
-			"operationId": "user.tenant.list",
-			"httpMethod": "GET",
-			"path": "/user/tenants",
-			"pathParams": [],
-			"queryParams": [],
-			"hasRequestBody": false,
-			"requestBodyFields": []
-		},
 		"user tokens create": {
 			"operationId": "user.tokens.create",
 			"httpMethod": "POST",
@@ -99219,7 +98015,7 @@
 					"name": "state",
 					"type": "string",
 					"required": false,
-					"description": "Mark state of operation in API Discovery\n  * `review` - Mark operation as for review\n  * `ignored` - Mark operation as ignored\n"
+					"description": "Mark state of operation in API Discovery\n  * `review` - Mark operation as for review\n  * `ignored` - Mark operation as ignored"
 				}
 			]
 		},
@@ -100460,6 +99256,18 @@
 			],
 			"hasRequestBody": true,
 			"requestBodyFields": [
+				{
+					"name": "code-update-strategy-mode",
+					"type": "string",
+					"required": false,
+					"description": "Apply Durable Object code updates immediately."
+				},
+				{
+					"name": "code-update-strategy-max-delay",
+					"type": "number",
+					"required": false,
+					"description": "Set the maximum number of seconds to wait before forcing the update. When omitted, the default maximum delay applies."
+				},
 				{
 					"name": "strategy",
 					"type": "string",
@@ -101964,7 +100772,19 @@
 					"name": "tls-settings-cert-verification-mode",
 					"type": "string",
 					"required": false,
-					"description": "TLS certificate verification mode for the connection to the origin.\n\n- `\"verify_full\"` — verify certificate chain and hostname (default)\n- `\"verify_ca\"` — verify certificate chain only, skip hostname check\n- `\"disabled\"` — do not verify the server certificate at all"
+					"description": "TLS certificate verification mode for the connection to the origin.\n\n- `\"verify_full\"` — verify certificate chain and hostname (default)\n- `\"verify_ca\"` — verify certificate chain only, skip hostname check\n- `\"disabled\"` — do not verify the server certificate at all\n\n`disabled` cannot be combined with `certificate_authority`: a custom CA is\nonly used to verify the server certificate."
+				},
+				{
+					"name": "tls-settings-certificate-authority",
+					"type": "string",
+					"required": false,
+					"description": "UUID of the custom CA certificate or chain."
+				},
+				{
+					"name": "tls-settings-client-certificate",
+					"type": "string",
+					"required": false,
+					"description": "UUID of the mTLS client certificate and private key."
 				},
 				{
 					"name": "type",
@@ -102143,7 +100963,19 @@
 					"name": "tls-settings-cert-verification-mode",
 					"type": "string",
 					"required": false,
-					"description": "TLS certificate verification mode for the connection to the origin.\n\n- `\"verify_full\"` — verify certificate chain and hostname (default)\n- `\"verify_ca\"` — verify certificate chain only, skip hostname check\n- `\"disabled\"` — do not verify the server certificate at all"
+					"description": "TLS certificate verification mode for the connection to the origin.\n\n- `\"verify_full\"` — verify certificate chain and hostname (default)\n- `\"verify_ca\"` — verify certificate chain only, skip hostname check\n- `\"disabled\"` — do not verify the server certificate at all\n\n`disabled` cannot be combined with `certificate_authority`: a custom CA is\nonly used to verify the server certificate."
+				},
+				{
+					"name": "tls-settings-certificate-authority",
+					"type": "string",
+					"required": false,
+					"description": "UUID of the custom CA certificate or chain."
+				},
+				{
+					"name": "tls-settings-client-certificate",
+					"type": "string",
+					"required": false,
+					"description": "UUID of the mTLS client certificate and private key."
 				},
 				{
 					"name": "type",
@@ -102484,7 +101316,7 @@
 				}
 			],
 			"queryParams": [],
-			"hasRequestBody": false,
+			"hasRequestBody": true,
 			"requestBodyFields": []
 		},
 		"workflows instances get": {
@@ -103220,13 +102052,13 @@
 				{
 					"name": "settings-context-enricher-escaped-worker-name",
 					"type": "string",
-					"required": true,
+					"required": false,
 					"description": "The settings.contextEnricher.escapedWorkerName field"
 				},
 				{
 					"name": "settings-context-enricher-worker-tag",
 					"type": "string",
-					"required": true,
+					"required": false,
 					"description": "The settings.contextEnricher.workerTag field"
 				},
 				{
@@ -103322,7 +102154,7 @@
 				{
 					"name": "tools",
 					"type": "string",
-					"required": true,
+					"required": false,
 					"description": "Tools set up under Zaraz configuration, where key is the alpha-numeric tool ID and value is the tool configuration object. Provide as a JSON object or @path/to/file.json."
 				}
 			]
@@ -105517,6 +104349,12 @@
 					"type": "string",
 					"required": false,
 					"description": "The expiration of the previous `client_secret`. This can be modified at any point after a rotation. For example, you may extend it further into the future if you need more time to update services with the new secret; or move it into the past to immediately invalidate the previous token in case of compromise. Rotating a service token that was reported as leaked discards the previous secret entirely, so no grace period can be set."
+				},
+				{
+					"name": "tags",
+					"type": "string",
+					"required": false,
+					"description": "Tags associated with the service token, as key-value pairs. On update, replaces all existing tags. Provide as a JSON object or @path/to/file.json."
 				}
 			]
 		},
@@ -105725,6 +104563,12 @@
 					"type": "string",
 					"required": false,
 					"description": "The expiration of the previous `client_secret`. This can be modified at any point after a rotation. For example, you may extend it further into the future if you need more time to update services with the new secret; or move it into the past to immediately invalidate the previous token in case of compromise. Rotating a service token that was reported as leaked discards the previous secret entirely, so no grace period can be set."
+				},
+				{
+					"name": "tags",
+					"type": "string",
+					"required": false,
+					"description": "Tags associated with the service token, as key-value pairs. On update, replaces all existing tags. Provide as a JSON object or @path/to/file.json."
 				}
 			]
 		},
@@ -107038,15 +105882,16 @@
 					"required": true
 				}
 			],
-			"queryParams": [],
-			"hasRequestBody": true,
-			"requestBodyFields": [
+			"queryParams": [
 				{
 					"name": "devices",
+					"flag": "devices",
 					"type": "boolean",
-					"required": false,
-					"description": "When set to `true`, all devices associated with the user will be revoked."
-				},
+					"required": false
+				}
+			],
+			"hasRequestBody": true,
+			"requestBodyFields": [
 				{
 					"name": "email",
 					"type": "string",
@@ -119647,7 +118492,7 @@
 					"name": "rule-settings-biso-admin-controls-keyboard",
 					"type": "string",
 					"required": false,
-					"description": "Configure keyboard usage behavior. If this field is absent, keyboard usage remains enabled. Applies only when version == \"v2\"."
+					"description": "Configure keyboard usage behavior. When set to enable_read_only_actions, only approved browser commands (find, copy, print, zoom, and select-all) may execute; other keyboard input is blocked from reaching the page. Copy and print remain subject to their independent controls. If this field is absent, keyboard usage remains enabled. Applies only when version == \"v2\". The enable_read_only_actions value requires an explicit version of \"v2\"."
 				},
 				{
 					"name": "rule-settings-biso-admin-controls-paste",
@@ -119762,6 +118607,12 @@
 					"type": "boolean",
 					"required": false,
 					"description": "Enable sending the copy to storage."
+				},
+				{
+					"name": "rule-settings-forward-worker-id",
+					"type": "string",
+					"required": false,
+					"description": "Specify the public Worker ID of the target Worker."
 				},
 				{
 					"name": "rule-settings-ignore-cname-category-matches",
@@ -120211,7 +119062,7 @@
 					"name": "rule-settings-biso-admin-controls-keyboard",
 					"type": "string",
 					"required": false,
-					"description": "Configure keyboard usage behavior. If this field is absent, keyboard usage remains enabled. Applies only when version == \"v2\"."
+					"description": "Configure keyboard usage behavior. When set to enable_read_only_actions, only approved browser commands (find, copy, print, zoom, and select-all) may execute; other keyboard input is blocked from reaching the page. Copy and print remain subject to their independent controls. If this field is absent, keyboard usage remains enabled. Applies only when version == \"v2\". The enable_read_only_actions value requires an explicit version of \"v2\"."
 				},
 				{
 					"name": "rule-settings-biso-admin-controls-paste",
@@ -120326,6 +119177,12 @@
 					"type": "boolean",
 					"required": false,
 					"description": "Enable sending the copy to storage."
+				},
+				{
+					"name": "rule-settings-forward-worker-id",
+					"type": "string",
+					"required": false,
+					"description": "Specify the public Worker ID of the target Worker."
 				},
 				{
 					"name": "rule-settings-ignore-cname-category-matches",
@@ -121254,6 +120111,21 @@
 				},
 				{
 					"name": "account_or_zone_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"zero-trust organization trust-settings delete": {
+			"operationId": "zero-trust.organization.trust-settings.delete",
+			"httpMethod": "DELETE",
+			"path": "/accounts/{account_id}/access/organizations/trust_settings",
+			"pathParams": [
+				{
+					"name": "account_id",
 					"type": "string",
 					"required": true
 				}

@@ -103,32 +103,7 @@ describe("API fields renamed off cf-owned flags", () => {
 		});
 	});
 
-	it("sends --force-delete as the on-ramp force query, separate from cf's --force", async () => {
-		const forced = await run([
-			"magic-cloud-networking",
-			"on-ramps",
-			"delete",
-			"onramp-1",
-			"--force-delete",
-			"--force",
-		]);
-		expect(forced).toMatchObject({
-			method: "DELETE",
-			path: "/accounts/test-account/magic/cloud/onramps/onramp-1",
-			query: { force: "true" },
-		});
-		sent = [];
-		const confirmed = await run([
-			"magic-cloud-networking",
-			"on-ramps",
-			"delete",
-			"onramp-1",
-			"-f",
-		]);
-		expect(confirmed.query).toEqual({});
-	});
-
-	it("sends the upstream flagName --filter-mode as the body mode", async () => {
+	it("sends --filter-mode as the body mode", async () => {
 		const request = await run([
 			"magic-transit",
 			"advanced-tcp-protection",

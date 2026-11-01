@@ -59,22 +59,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("body", {
 			type: "string",
 			description: "Raw JSON request body (bypasses individual flags)",
-		})
-		.check((argv) => {
-			const groupSet = ["read-replication-mode"].some(
-				(k) => argv[k] !== undefined
-			);
-			if (groupSet) {
-				const missing = ["read-replication-mode"].filter(
-					(k) => argv[k] === undefined
-				);
-				if (missing.length > 0) {
-					throw new Error(
-						`${missing.map((m) => "--" + m).join(", ")} ${missing.length === 1 ? "is" : "are"} required when any --read_replication-* flag is set`
-					);
-				}
-			}
-			return true;
 		});
 }
 

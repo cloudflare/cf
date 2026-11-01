@@ -64,7 +64,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			const groupSet = ["tunnel-private-ip", "tunnel-vnet-id"].some(
 				(k) => argv[k] !== undefined
 			);
-			if (groupSet) {
+			if (!argv.body && groupSet) {
 				const missing = ["tunnel-private-ip", "tunnel-vnet-id"].filter(
 					(k) => argv[k] === undefined
 				);

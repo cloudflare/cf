@@ -66,7 +66,8 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			"mesh-config-vips-previous",
 		])
 		.conflicts("mesh-config-vips", ["mesh-config-fnr-id"])
-		.conflicts("mesh-config-vips-previous", ["mesh-config-fnr-id"]);
+		.conflicts("mesh-config-vips-previous", ["mesh-config-fnr-id"])
+		.implies("mesh-config-vips-previous", ["mesh-config-vips"]);
 }
 
 type Args = InferArgs<typeof builder>;

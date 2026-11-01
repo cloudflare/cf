@@ -89,31 +89,11 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			type: "string",
 			description: "Raw JSON request body (bypasses individual flags)",
 		})
-		.conflicts("source-model-name", [
-			"source-worker-name",
-			"source-script-tag",
-			"source-workflow-name",
-		])
-		.conflicts("source-worker-name", [
-			"source-model-name",
-			"source-script-tag",
-			"source-workflow-name",
-		])
-		.conflicts("source-script-tag", [
-			"source-model-name",
-			"source-worker-name",
-			"source-workflow-name",
-		])
-		.conflicts("source-workflow-name", [
-			"source-model-name",
-			"source-worker-name",
-			"source-script-tag",
-		])
 		.check((argv) => {
 			const groupSet = ["destination-queue-id", "destination-type"].some(
 				(k) => argv[k] !== undefined
 			);
-			if (groupSet) {
+			if (!argv.body && groupSet) {
 				const missing = ["destination-queue-id", "destination-type"].filter(
 					(k) => argv[k] === undefined
 				);

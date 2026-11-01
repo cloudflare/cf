@@ -6,13 +6,16 @@ import type { ArgClassification } from "#lib/telemetry/index.js";
  * @generated from apis/overlays/resource-sharing.ts
  */
 import type { Argv, CommandModule } from "yargs";
-import { createCommandClient } from "#lib/auth.js";
-import { compactBody, parseBody } from "#lib/body-parser.js";
+import {
+	createCommandClient,
+	getAccountId,
+	resolveAccountIdSilent,
+} from "#lib/auth.js";
+import { parseBody } from "#lib/body-parser.js";
 import { formatDryRun } from "#lib/dry-run.js";
-import { resolveFileToken } from "#lib/input-validation.js";
+import { LOCAL_ACCOUNT_ID } from "#lib/local.js";
 import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
-import { promptForRequiredField } from "#lib/prompt.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
 function builder(yargs: Argv<CommonYargsOptions>) {
@@ -24,16 +27,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			type: "string",
 			description: "Share identifier tag.",
 			demandOption: true,
-		})
-		.option("account-id-path", {
-			type: "string",
-			description: "Account identifier.",
-			demandOption: true,
-		})
-		.option("account-id", {
-			type: "string",
-			description:
-				"The account to exclude from the organization-targeted share.",
 		})
 		.option("dry-run", {
 			type: "boolean",
@@ -63,65 +56,39 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			argv as Record<string, unknown>,
 			async () => {
 				if (argv.dryRun) {
+					const __cfDryRunAccountId = await resolveAccountIdSilent();
 					formatDryRun({
 						command: "cf resource-sharing excluded-recipients create",
 						method: "POST",
-						url: `https://api.cloudflare.com/client/v4/accounts/${argv["account-id-path"] == null ? "<account-id-path>" : encodeURIComponent(String(argv["account-id-path"]))}/shares/${argv["share-id"] == null ? "<share-id>" : encodeURIComponent(String(argv["share-id"]))}/excluded-recipients`,
-						pathParams: {
-							"account-id-path": String(argv["account-id-path"] ?? ""),
-							"share-id": String(argv["share-id"] ?? ""),
-						},
+						url: `https://api.cloudflare.com/client/v4/accounts/${__cfDryRunAccountId ?? "<account-id>"}/shares/${argv["share-id"] == null ? "<share-id>" : encodeURIComponent(String(argv["share-id"]))}/excluded-recipients`,
+						pathParams: { "share-id": String(argv["share-id"] ?? "") },
 						bodyKind: "json",
-						body:
-							argv.body !== undefined
-								? parseBody(argv.body)
-								: compactBody({
-										account_id: resolveFileToken(
-											argv["account-id"] as string | undefined,
-											"account-id",
-											"text"
-										),
-									}),
+						body: argv.body !== undefined ? parseBody(argv.body) : undefined,
 					});
 					return;
 				}
 				const client = await createCommandClient(argv);
+				const accountId = argv.local ? LOCAL_ACCOUNT_ID : await getAccountId();
+				argv.accountId = accountId;
 
 				if (argv.body) {
 					const bodyData = parseBody(argv.body);
 					const result = await withProgress(`Creating`, async () =>
 						client.send(operation, {
 							body: bodyData,
-							account_id_path: argv["account-id-path"],
+							account_id: accountId,
 							share_id: argv["share-id"],
 						})
 					);
 					formatOutput(result, { successLabel: `Created` });
 					return;
 				}
-				if (argv["account-id"] === undefined) {
-					argv["account-id"] = await promptForRequiredField(
-						"account-id",
-						"The account to exclude from the organization-targeted share."
+
+				if (argv.body === undefined) {
+					throw new Error(
+						"--body is required for this command. Pass --body '<json>' or --body @path/to/file.json."
 					);
 				}
-
-				// Assemble request body from individual flags
-				const bodyData = compactBody({
-					account_id: resolveFileToken(
-						argv["account-id"] as string | undefined,
-						"account-id",
-						"text"
-					),
-				});
-				const result = await withProgress(`Creating`, async () =>
-					client.send(operation, {
-						body: bodyData,
-						account_id_path: argv["account-id-path"],
-						share_id: argv["share-id"],
-					})
-				);
-				formatOutput(result, { successLabel: `Created` });
 			}
 		),
 };

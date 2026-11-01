@@ -200,25 +200,16 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		})
 		.check((argv) => {
 			const groupSet = [
-				"parameters-calculations",
-				"parameters-datasets",
-				"parameters-filter-combination",
-				"parameters-filters",
-				"parameters-group-bys",
-				"parameters-havings",
-				"parameters-limit",
-				"parameters-needle-is-regex",
-				"parameters-needle-match-case",
 				"parameters-order-by-order",
 				"parameters-order-by-value",
 			].some((k) => argv[k] !== undefined);
-			if (groupSet) {
+			if (!argv.body && groupSet) {
 				const missing = ["parameters-order-by-value"].filter(
 					(k) => argv[k] === undefined
 				);
 				if (missing.length > 0) {
 					throw new Error(
-						`${missing.map((m) => "--" + m).join(", ")} ${missing.length === 1 ? "is" : "are"} required when any --parameters-* flag is set`
+						`${missing.map((m) => "--" + m).join(", ")} ${missing.length === 1 ? "is" : "are"} required when any --parameters-order-by-* flag is set`
 					);
 				}
 			}

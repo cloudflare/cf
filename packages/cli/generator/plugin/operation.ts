@@ -13,6 +13,7 @@
  * the runtime's `Operation` describes.
  */
 
+import { bodyUnions, type BodyUnion } from "./body-unions.js";
 import { bodyProperties, discriminator, requiredNames } from "./body.js";
 import { GenerateError, nameWords, obj, type Obj, type Value } from "./js.js";
 import type {
@@ -48,6 +49,11 @@ export interface ParameterInfo {
 export interface BodyParamInfo {
 	name: string;
 	required: boolean;
+	/**
+	 * The nearest optional object containing this field. A required field is
+	 * required only when this object is present; defaults must not create it.
+	 */
+	optionalParentPath: readonly string[] | null;
 	type: string;
 	itemType?: string;
 	description?: string;
@@ -142,6 +148,7 @@ export interface OperationInfo {
 	requestBodyDescription?: string;
 	multipart?: MultipartInfo;
 	bodyDiscriminator?: BodyDiscriminator;
+	bodyUnions?: BodyUnion[];
 	maxItems?: number;
 	requestBodyIsArray: boolean;
 	/** Each response by status: the success responses, then the others. */
@@ -258,6 +265,7 @@ export function resolve(method: Method): OperationInfo {
 		requestBodyDescription: body && requestBodyDescription(body),
 		multipart: body && multipart(body),
 		bodyDiscriminator: jsonResolved && discriminator(jsonResolved),
+		bodyUnions: jsonResolved && bodyUnions(jsonResolved),
 		maxItems: unwrapped?.kind === "array" ? unwrapped.maxItems : undefined,
 		requestBodyIsArray: isArray,
 		responses: [...method.responses, ...method.errors].map((r) => [

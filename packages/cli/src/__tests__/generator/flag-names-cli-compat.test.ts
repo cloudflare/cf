@@ -5,7 +5,6 @@ import type { ForgeOpenApiDocument } from "../../../generator/openapi.js";
 const PRECURSOR = "/zones/{zone_id}/precursor";
 const PROFILE =
 	"/accounts/{account_id}/cloudforce-one/v2/priority-intelligence/profile";
-const ONRAMP = "/accounts/{account_id}/magic/cloud/onramps/{onramp_id}";
 
 function document(): ForgeOpenApiDocument {
 	return {
@@ -37,20 +36,8 @@ function document(): ForgeOpenApiDocument {
 					},
 				},
 			},
-			[ONRAMP]: {
-				delete: {
-					operationId: "onramps-delete",
-					parameters: [
-						{ name: "destroy", in: "query", schema: { type: "boolean" } },
-						{ $ref: "#/components/parameters/force" },
-					],
-				},
-			},
 		},
 		components: {
-			parameters: {
-				force: { name: "force", in: "query", schema: { type: "boolean" } },
-			},
 			schemas: {
 				precursor_config: {
 					type: "object",
@@ -79,35 +66,34 @@ describe("applyTemporaryFlagNames", () => {
 		expect(overrides(doc, PROFILE, "put")).toEqual({
 			profile: { description: "Kept", flagName: "organization-profile" },
 		});
-		expect(overrides(doc, ONRAMP, "delete")).toEqual({
-			force: { flagName: "force-delete" },
-		});
 	});
 
 	it.each<[string, (doc: ForgeOpenApiDocument) => void, string]>([
 		[
 			"a missing operation",
 			(doc) => {
-				delete doc.paths?.[ONRAMP]?.delete;
+				delete doc.paths?.[PROFILE]?.put;
 			},
 			"operation missing",
 		],
 		[
 			"a renamed operation",
 			(doc) => {
-				const op = doc.paths?.[ONRAMP]?.delete;
+				const op = doc.paths?.[PROFILE]?.put;
 				if (op) {
-					op.operationId = "onramps-remove";
+					op.operationId = "put_PirProfileReplace";
 				}
 			},
-			'operationId is now "onramps-remove"',
+			'operationId is now "put_PirProfileReplace"',
 		],
 		[
 			"a missing field",
 			(doc) => {
-				const op = doc.paths?.[ONRAMP]?.delete;
+				const op = doc.paths?.[PROFILE]?.put;
 				if (op) {
-					op.parameters = [];
+					op.requestBody = {
+						content: { "application/json": { schema: { type: "object" } } },
+					};
 				}
 			},
 			"field missing",
@@ -123,18 +109,18 @@ describe("applyTemporaryFlagNames", () => {
 		[
 			"an upstream flagName",
 			(doc) => {
-				const op = doc.paths?.[ONRAMP]?.delete;
+				const op = doc.paths?.[PROFILE]?.put;
 				if (op) {
-					op["x-forge-params"] = { force: { flagName: "force-remove" } };
+					op["x-forge-params"] = { profile: { flagName: "org-profile" } };
 				}
 			},
-			'upstream now sets x-forge-params["force"].flagName',
+			'upstream now sets x-forge-params["profile"].flagName',
 		],
 	])("fails on %s without renaming anything", (_, change, reason) => {
 		const doc = document();
 		change(doc);
 		expect(() => applyTemporaryFlagNames(doc)).toThrow(reason);
-		expect(overrides(doc, PROFILE, "put")).toBeUndefined();
+		expect(overrides(doc, PRECURSOR, "put")).toBeUndefined();
 	});
 
 	it("reports every stale entry in one error", () => {

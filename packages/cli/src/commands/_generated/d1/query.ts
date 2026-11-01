@@ -54,6 +54,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "A single query object or a batch query object",
 		})
 		.conflicts("params", ["batch"])
+		.implies("params", ["sql"])
 		.conflicts("sql", ["batch"])
 		.conflicts("batch", ["params", "sql"]);
 }

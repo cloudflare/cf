@@ -90,14 +90,9 @@ describe("generated flag names", () => {
 			{ name: "per_page", flag: "per-page" },
 		],
 		[
-			"magic-cloud-networking on-ramps delete",
-			"queryParams",
-			{ name: "force", flag: "force-delete" },
-		],
-		[
-			"magic-cloud-networking on-ramps delete",
+			"abuse-reports appeals eligibility",
 			"pathParams",
-			{ name: "onramp_id", flag: "onramp-id", positional: true },
+			{ name: "report_id", flag: "report-id", positional: true },
 		],
 		["precursor update", "pathParams", { name: "zone_id", flag: "zone" }],
 	] as const)("maps %s %s to its flag", (command, location, param) => {

@@ -1,3 +1,5 @@
+import $oauthclients from "./oauth-clients/index.js";
+import $oauthscopes from "./oauth-scopes/index.js";
 import $permissiongroups from "./permission-groups/index.js";
 import $resourcegroups from "./resource-groups/index.js";
 import $sso from "./sso/index.js";
@@ -16,6 +18,8 @@ const command: CommandModule<CommonYargsOptions> = {
 
 	builder: (yargs) => {
 		return yargs
+			.command($oauthclients)
+			.command($oauthscopes)
 			.command($permissiongroups)
 			.command($resourcegroups)
 			.command($sso)

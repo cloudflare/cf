@@ -56,6 +56,11 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "A valid CIDR notation representing an IP range.",
 		})
 		.option("physport", { type: "number", description: "The physport field" })
+		.option("remote-subnets", {
+			type: "string",
+			description:
+				"The remote_subnets field. Provide as a JSON array of objects or @path/to/file.json.",
+		})
 		.option("routed-subnets", {
 			type: "string",
 			description:
@@ -131,13 +136,13 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"static-addressing-secondary-address",
 				"static-addressing-virtual-address",
 			].some((k) => argv[k] !== undefined);
-			if (groupSet) {
+			if (!argv.body && groupSet) {
 				const missing = ["static-addressing-address"].filter(
 					(k) => argv[k] === undefined
 				);
 				if (missing.length > 0) {
 					throw new Error(
-						`${missing.map((m) => "--" + m).join(", ")} ${missing.length === 1 ? "is" : "are"} required when any --static_addressing-* flag is set`
+						`${missing.map((m) => "--" + m).join(", ")} ${missing.length === 1 ? "is" : "are"} required when any --static-addressing-* flag is set`
 					);
 				}
 			}
@@ -191,6 +196,10 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 												),
 											},
 											physport: argv["physport"],
+											remote_subnets: parseObjectArray(
+												argv["remote-subnets"],
+												"remote-subnets"
+											),
 											routed_subnets: parseObjectArray(
 												argv["routed-subnets"],
 												"routed-subnets"
@@ -301,6 +310,10 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 							),
 						},
 						physport: argv["physport"],
+						remote_subnets: parseObjectArray(
+							argv["remote-subnets"],
+							"remote-subnets"
+						),
 						routed_subnets: parseObjectArray(
 							argv["routed-subnets"],
 							"routed-subnets"

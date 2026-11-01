@@ -17,6 +17,7 @@ import {
 	parseNestedArray,
 	parseObjectArray,
 } from "#lib/body-parser.js";
+import { validateBodyUnions } from "#lib/body-unions.js";
 import { formatDryRun } from "#lib/dry-run.js";
 import { resolveFileToken } from "#lib/input-validation.js";
 import { LOCAL_ACCOUNT_ID } from "#lib/local.js";
@@ -132,13 +133,13 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			const groupSet = ["dataset-scope-type", "dataset-scope-dataset-ids"].some(
 				(k) => argv[k] !== undefined
 			);
-			if (groupSet) {
+			if (!argv.body && groupSet) {
 				const missing = ["dataset-scope-type"].filter(
 					(k) => argv[k] === undefined
 				);
 				if (missing.length > 0) {
 					throw new Error(
-						`${missing.map((m) => "--" + m).join(", ")} ${missing.length === 1 ? "is" : "are"} required when any --dataset_scope-* flag is set`
+						`${missing.map((m) => "--" + m).join(", ")} ${missing.length === 1 ? "is" : "are"} required when any --dataset-scope-* flag is set`
 					);
 				}
 			}
@@ -150,7 +151,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"intent-indicators",
 				"intent-unsupported-terms",
 			].some((k) => argv[k] !== undefined);
-			if (groupSet) {
+			if (!argv.body && groupSet) {
 				const missing = [
 					"intent-clauses",
 					"intent-indicators",
@@ -168,7 +169,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			const groupSet = ["query-branches", "query-version"].some(
 				(k) => argv[k] !== undefined
 			);
-			if (groupSet) {
+			if (!argv.body && groupSet) {
 				const missing = ["query-branches"].filter((k) => argv[k] === undefined);
 				if (missing.length > 0) {
 					throw new Error(
@@ -181,6 +182,39 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 }
 
 type Args = InferArgs<typeof builder>;
+const bodyUnions: Parameters<typeof validateBodyUnions>[1] = [
+	{
+		path: ["dataset_scope"],
+		selector: "type",
+		variants: [
+			{
+				values: ["default"],
+				schema: {
+					type: "object",
+					properties: { type: { enum: ["default"] } },
+					required: ["type"],
+					additionalProperties: false,
+				},
+			},
+			{
+				values: ["datasets"],
+				schema: {
+					type: "object",
+					properties: {
+						dataset_ids: {
+							type: "array",
+							items: { type: "string" },
+							maxItems: 50,
+						},
+						type: { enum: ["datasets"] },
+					},
+					required: ["dataset_ids", "type"],
+					additionalProperties: false,
+				},
+			},
+		],
+	},
+];
 
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "update <priority-id>",
@@ -214,54 +248,57 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						body:
 							argv.body !== undefined
 								? parseBody(argv.body)
-								: compactBody({
-										confirm_query: argv["confirm-query"],
-										dataset_scope: {
-											type: argv["dataset-scope-type"],
-											dataset_ids: argv["dataset-scope-dataset-ids"],
-										},
-										digest_interval_hours: argv["digest-interval-hours"],
-										intent: {
-											clauses: parseObjectArray(
-												argv["intent-clauses"],
-												"intent-clauses"
+								: validateBodyUnions(
+										compactBody({
+											confirm_query: argv["confirm-query"],
+											dataset_scope: {
+												type: argv["dataset-scope-type"],
+												dataset_ids: argv["dataset-scope-dataset-ids"],
+											},
+											digest_interval_hours: argv["digest-interval-hours"],
+											intent: {
+												clauses: parseObjectArray(
+													argv["intent-clauses"],
+													"intent-clauses"
+												),
+												indicators: argv["intent-indicators"],
+												unsupported_terms: argv["intent-unsupported-terms"],
+											},
+											labels: argv["labels"],
+											model: resolveFileToken(
+												argv["model"] as string | undefined,
+												"model",
+												"text"
 											),
-											indicators: argv["intent-indicators"],
-											unsupported_terms: argv["intent-unsupported-terms"],
-										},
-										labels: argv["labels"],
-										model: resolveFileToken(
-											argv["model"] as string | undefined,
-											"model",
-											"text"
-										),
-										notification_mode: argv["notification-mode"],
-										priority: argv["priority"],
-										query: {
-											branches: parseNestedArray(
-												argv["query-branches"],
-												"query-branches"
+											notification_mode: argv["notification-mode"],
+											priority: argv["priority"],
+											query: {
+												branches: parseNestedArray(
+													argv["query-branches"],
+													"query-branches"
+												),
+												version: argv["query-version"],
+											},
+											query_source: argv["query-source"],
+											requirement: resolveFileToken(
+												argv["requirement"] as string | undefined,
+												"requirement",
+												"text"
 											),
-											version: argv["query-version"],
-										},
-										query_source: argv["query-source"],
-										requirement: resolveFileToken(
-											argv["requirement"] as string | undefined,
-											"requirement",
-											"text"
-										),
-										status: argv["status"],
-										title: resolveFileToken(
-											argv["title"] as string | undefined,
-											"title",
-											"text"
-										),
-										tlp: resolveFileToken(
-											argv["tlp"] as string | undefined,
-											"tlp",
-											"text"
-										),
-									}),
+											status: argv["status"],
+											title: resolveFileToken(
+												argv["title"] as string | undefined,
+												"title",
+												"text"
+											),
+											tlp: resolveFileToken(
+												argv["tlp"] as string | undefined,
+												"tlp",
+												"text"
+											),
+										}),
+										bodyUnions
+									),
 					});
 					return;
 				}
@@ -328,6 +365,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						"text"
 					),
 				});
+				validateBodyUnions(bodyData, bodyUnions);
 				const result = await withProgress(`Updating`, async () =>
 					client.send(operation, {
 						body: bodyData,

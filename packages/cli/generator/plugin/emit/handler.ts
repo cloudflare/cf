@@ -284,13 +284,17 @@ export function dryRun(ctx: Ctx): string[] {
 			}
 			lines.push(`            ? ${parseBodyExpression(ctx)}`);
 			if (d.hasBodyParams) {
-				lines.push("            : compactBody(");
+				lines.push(
+					`            : ${(op.bodyUnions?.length ?? 0) > 0 ? "validateBodyUnions(" : ""}compactBody(`
+				);
 				const object = bodyObject(ctx, "\t\t\t\t");
 				object[object.length - 1] += preservedBodyPaths(ctx);
 				for (const line of object) {
 					lines.push(`              ${line}`);
 				}
-				lines.push("            ),");
+				lines.push(
+					`            )${(op.bodyUnions?.length ?? 0) > 0 ? ", bodyUnions)" : ""},`
+				);
 			} else {
 				lines.push("            : undefined,");
 			}
@@ -688,8 +692,8 @@ export function bodyPrompts(ctx: Ctx): string[] {
 }
 
 /**
- * The non-path positionals and required options that go into the body, as
- * their argument definitions and API field names.
+ * The non-path positionals that go into the body, as their argument
+ * definitions and API field names.
  */
 function bodyFieldArgs(ctx: Ctx): [Arg, string][] {
 	const out: [Arg, string][] = [];
@@ -703,12 +707,6 @@ function bodyFieldArgs(ctx: Ctx): [Arg, string][] {
 				? (path[0] as string)
 				: arg.name.replaceAll("-", "_");
 		out.push([arg, field]);
-	}
-	for (const opt of ctx.requiredOptionArgs) {
-		if (isBody(opt)) {
-			continue;
-		}
-		out.push([opt, opt.name.replaceAll("-", "_")]);
 	}
 	return out;
 }
@@ -837,6 +835,9 @@ function bodyAssembly(ctx: Ctx): string[] {
 				`      if (${read} !== undefined) bodyData[${quote(field)}] = ${value};`
 			);
 		}
+	}
+	if ((ctx.op.bodyUnions?.length ?? 0) > 0) {
+		lines.push("      validateBodyUnions(bodyData, bodyUnions);");
 	}
 	// Like a typed call, which sends a body that needs none of its fields
 	// empty, rather than leaving it out.
@@ -1092,6 +1093,9 @@ export function imports(ctx: Ctx): Imports {
 	}
 	i.from(`${lib}/output.js`, ["formatOutput"]);
 	i.from(`${lib}/dry-run.js`, ["formatDryRun"]);
+	if ((ctx.op.bodyUnions?.length ?? 0) > 0 && d.hasBodyParams) {
+		i.from(`${lib}/body-unions.js`, ["validateBodyUnions"]);
+	}
 	i.from(`${lib}/progress.js`, ["withProgress"]);
 	i.from(`${lib}/telemetry/index.js`, ["runWithTelemetry"]);
 	i.typeFrom(`${lib}/telemetry/index.js`, ["ArgClassification"]);

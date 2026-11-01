@@ -23,7 +23,7 @@ import { runWithTelemetry } from "#lib/telemetry/index.js";
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
 		.usage(
-			"$0 dns settings account nameserver-sets create\n\nCreates a named Custom Nameserver Set. Only the customer-defined name can be changed later. To change nameservers or addresses, create a new set, move any zone assignments, and delete the old set."
+			"$0 dns settings account nameserver-sets create\n\nCreates a named Custom Nameserver Set. Only the customer-defined name can be changed later. To change nameservers or addresses, create a new set, move any zone assignments, and delete the old set. For details, refer to [Nameserver sets](https://developers.cloudflare.com/dns/nameservers/custom-nameservers/nameserver-sets/)."
 		)
 		.option("advanced", {
 			type: "boolean",

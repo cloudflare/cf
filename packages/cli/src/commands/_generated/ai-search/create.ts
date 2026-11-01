@@ -27,17 +27,17 @@ import { runWithTelemetry } from "#lib/telemetry/index.js";
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
 		.usage(
-			"$0 ai-search create <namespace> <id>\n\nCreate a new AI Search instance with the given configuration. If type is omitted or null, a non-blank HTTP(S) source infers web-crawler and any other source infers r2; r2 sources must name an existing bucket. A missing or blank source without a type creates a managed upload-only instance."
+			"$0 ai-search create <id>\n\nCreate a new AI Search instance with the given configuration. If type is omitted or null, a non-blank HTTP(S) source infers web-crawler and any other source infers r2; r2 sources must name an existing bucket. A missing or blank source without a type creates a managed upload-only instance."
 		)
-		.positional("namespace", {
-			type: "string",
-			description: "Namespace to use for this operation.",
-			demandOption: true,
-		})
 		.positional("id", {
 			type: "string",
 			description: "Unique ID for the new AI Search instance.",
 			demandOption: true,
+		})
+		.option("namespace", {
+			type: "string",
+			description: "Namespace to use for this operation.",
+			default: "default",
 		})
 		.option("ai-gateway-id", {
 			type: "string",
@@ -378,13 +378,13 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			const groupSet = ["index-method-keyword", "index-method-vector"].some(
 				(k) => argv[k] !== undefined
 			);
-			if (groupSet) {
+			if (!argv.body && groupSet) {
 				const missing = ["index-method-keyword", "index-method-vector"].filter(
 					(k) => argv[k] === undefined
 				);
 				if (missing.length > 0) {
 					throw new Error(
-						`${missing.map((m) => "--" + m).join(", ")} ${missing.length === 1 ? "is" : "are"} required when any --index_method-* flag is set`
+						`${missing.map((m) => "--" + m).join(", ")} ${missing.length === 1 ? "is" : "are"} required when any --index-method-* flag is set`
 					);
 				}
 			}
@@ -392,19 +392,17 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		})
 		.check((argv) => {
 			const groupSet = [
-				"metadata-created-from-aisearch-wizard",
 				"metadata-created-from-emdash-plugin-type",
 				"metadata-created-from-emdash-plugin-version",
-				"metadata-worker-domain",
 			].some((k) => argv[k] !== undefined);
-			if (groupSet) {
+			if (!argv.body && groupSet) {
 				const missing = [
 					"metadata-created-from-emdash-plugin-type",
 					"metadata-created-from-emdash-plugin-version",
 				].filter((k) => argv[k] === undefined);
 				if (missing.length > 0) {
 					throw new Error(
-						`${missing.map((m) => "--" + m).join(", ")} ${missing.length === 1 ? "is" : "are"} required when any --metadata-* flag is set`
+						`${missing.map((m) => "--" + m).join(", ")} ${missing.length === 1 ? "is" : "are"} required when any --metadata-created-from-emdash-plugin-* flag is set`
 					);
 				}
 			}
@@ -415,7 +413,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 type Args = InferArgs<typeof builder>;
 
 const command: CommandModule<CommonYargsOptions, Args> = {
-	command: "create <namespace> <id>",
+	command: "create <id>",
 	describe: "Create an AI Search instance.",
 	builder,
 	handler: async (argv): Promise<void> =>

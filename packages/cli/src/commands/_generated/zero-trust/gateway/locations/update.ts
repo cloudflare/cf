@@ -124,11 +124,11 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			const groupSet = ["max-ttl-mode", "max-ttl-ttl-secs"].some(
 				(k) => argv[k] !== undefined
 			);
-			if (groupSet) {
+			if (!argv.body && groupSet) {
 				const missing = ["max-ttl-mode"].filter((k) => argv[k] === undefined);
 				if (missing.length > 0) {
 					throw new Error(
-						`${missing.map((m) => "--" + m).join(", ")} ${missing.length === 1 ? "is" : "are"} required when any --max_ttl-* flag is set`
+						`${missing.map((m) => "--" + m).join(", ")} ${missing.length === 1 ? "is" : "are"} required when any --max-ttl-* flag is set`
 					);
 				}
 			}

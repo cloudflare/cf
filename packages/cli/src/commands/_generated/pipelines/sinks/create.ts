@@ -170,40 +170,70 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			"sink-config-table-name",
 			"sink-config-token",
 		])
+		.implies("sink-config-credentials-access-key-id", [
+			"sink-config-credentials-secret-access-key",
+		])
 		.conflicts("sink-config-credentials-secret-access-key", [
 			"sink-config-namespace",
 			"sink-config-table-name",
 			"sink-config-token",
+		])
+		.implies("sink-config-credentials-secret-access-key", [
+			"sink-config-credentials-access-key-id",
 		])
 		.conflicts("sink-config-file-naming-prefix", [
 			"sink-config-namespace",
 			"sink-config-table-name",
 			"sink-config-token",
 		])
+		.implies("sink-config-file-naming-prefix", [
+			"sink-config-credentials-access-key-id",
+			"sink-config-credentials-secret-access-key",
+		])
 		.conflicts("sink-config-file-naming-strategy", [
 			"sink-config-namespace",
 			"sink-config-table-name",
 			"sink-config-token",
+		])
+		.implies("sink-config-file-naming-strategy", [
+			"sink-config-credentials-access-key-id",
+			"sink-config-credentials-secret-access-key",
 		])
 		.conflicts("sink-config-file-naming-suffix", [
 			"sink-config-namespace",
 			"sink-config-table-name",
 			"sink-config-token",
 		])
+		.implies("sink-config-file-naming-suffix", [
+			"sink-config-credentials-access-key-id",
+			"sink-config-credentials-secret-access-key",
+		])
 		.conflicts("sink-config-jurisdiction", [
 			"sink-config-namespace",
 			"sink-config-table-name",
 			"sink-config-token",
+		])
+		.implies("sink-config-jurisdiction", [
+			"sink-config-credentials-access-key-id",
+			"sink-config-credentials-secret-access-key",
 		])
 		.conflicts("sink-config-partitioning-time-pattern", [
 			"sink-config-namespace",
 			"sink-config-table-name",
 			"sink-config-token",
 		])
+		.implies("sink-config-partitioning-time-pattern", [
+			"sink-config-credentials-access-key-id",
+			"sink-config-credentials-secret-access-key",
+		])
 		.conflicts("sink-config-path", [
 			"sink-config-namespace",
 			"sink-config-table-name",
 			"sink-config-token",
+		])
+		.implies("sink-config-path", [
+			"sink-config-credentials-access-key-id",
+			"sink-config-credentials-secret-access-key",
 		])
 		.conflicts("sink-config-namespace", [
 			"sink-config-credentials-access-key-id",
@@ -214,6 +244,10 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			"sink-config-jurisdiction",
 			"sink-config-partitioning-time-pattern",
 			"sink-config-path",
+		])
+		.implies("sink-config-namespace", [
+			"sink-config-table-name",
+			"sink-config-token",
 		])
 		.conflicts("sink-config-table-name", [
 			"sink-config-credentials-access-key-id",
@@ -264,28 +298,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"sink-config-table-name",
 				"sink-config-token",
 			].some((k) => argv[k] !== undefined);
-			if (groupSet) {
-				const requiredConflicts: Record<string, string[]> = {
-					"sink-config-credentials-access-key-id": [
-						"sink-config-namespace",
-						"sink-config-table-name",
-						"sink-config-token",
-					],
-					"sink-config-credentials-secret-access-key": [
-						"sink-config-namespace",
-						"sink-config-table-name",
-						"sink-config-token",
-					],
-				};
-				const missing = [
-					"sink-config-account-id",
-					"sink-config-bucket",
-					"sink-config-credentials-access-key-id",
-					"sink-config-credentials-secret-access-key",
-				].filter(
-					(k) =>
-						argv[k] === undefined &&
-						!(requiredConflicts[k] ?? []).some((x) => argv[x] !== undefined)
+			if (!argv.body && groupSet) {
+				const missing = ["sink-config-account-id", "sink-config-bucket"].filter(
+					(k) => argv[k] === undefined
 				);
 				if (missing.length > 0) {
 					throw new Error(
@@ -304,7 +319,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"format-type",
 				"format-row-group-bytes",
 			].some((k) => argv[k] !== undefined);
-			if (groupSet) {
+			if (!argv.body && groupSet) {
 				const missing = ["format-type"].filter((k) => argv[k] === undefined);
 				if (missing.length > 0) {
 					throw new Error(

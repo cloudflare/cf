@@ -6,9 +6,9 @@
  * and merged them into new ones, so they read forge's types through
  * `Schema`: a view of a type that answers what they asked of a schema, such
  * as its `type`, `properties` or `oneOf`, and that merged schemas can be
- * built as. Their rules are kept as they were, quirks included, since every
- * flag of the CLI follows from them: nested objects stop four levels down,
- * and a union's members conflict with each other.
+ * built as. This preserves the existing flag shapes, including the
+ * four-level limit on nested objects. Union constraints retain the full
+ * paths and requirements of each variant.
  *
  * Some of what they read is not in forge's model, and is read as near as it
  * can be: an exclusive union is read as a `oneOf`, and one that is not as an
@@ -24,7 +24,6 @@ import {
 	dedup,
 	isArrayIndex,
 	kebab,
-	last,
 	pushUnique,
 	setEntry,
 	type Value,
@@ -232,11 +231,19 @@ function scalarProperty(
 	prop: Prop,
 	flag: string,
 	path: string[],
-	required: boolean
+	required: boolean,
+	optionalParentPath: readonly string[] | null
 ): BodyParamInfo | undefined {
 	const scalar = scalarSchema(schema);
 	if (scalar !== undefined)
-		return scalarBodyParam(scalar, prop, flag, path, required);
+		return scalarBodyParam(
+			scalar,
+			prop,
+			flag,
+			path,
+			required,
+			optionalParentPath
+		);
 	const variants = schema.oneOf ?? schema.anyOf;
 	if (variants === undefined || variants.length === 0) return undefined;
 	const members = variants.map((variant) => scalarSchema(variant));
@@ -255,12 +262,14 @@ function scalarProperty(
 			prop,
 			flag,
 			path,
-			required
+			required,
+			optionalParentPath
 		);
 	}
 	return {
 		name: flag,
 		required,
+		optionalParentPath,
 		type: "scalarUnion",
 		apiFieldPath: path,
 		description: prop.description,
@@ -339,7 +348,8 @@ function arrayBodyParam(
 	prop: Prop,
 	name: string,
 	path: string[],
-	required: boolean
+	required: boolean,
+	optionalParentPath: readonly string[] | null
 ): BodyParamInfo | undefined {
 	const items = array.items;
 	if (!items) {
@@ -356,6 +366,7 @@ function arrayBodyParam(
 	const info: BodyParamInfo = {
 		name,
 		required,
+		optionalParentPath,
 		type: "array",
 		apiFieldPath: path,
 		sensitive: false,
@@ -374,11 +385,13 @@ function mapBodyParam(
 	prop: Prop,
 	name: string,
 	path: string[],
-	required: boolean
+	required: boolean,
+	optionalParentPath: readonly string[] | null
 ): BodyParamInfo {
 	return {
 		name,
 		required,
+		optionalParentPath,
 		type: "object",
 		apiFieldPath: path,
 		description: prop.description,
@@ -391,11 +404,13 @@ function scalarBodyParam(
 	prop: Prop,
 	name: string,
 	path: string[],
-	required: boolean
+	required: boolean,
+	optionalParentPath: readonly string[] | null
 ): BodyParamInfo {
 	return {
 		name,
 		required,
+		optionalParentPath,
 		type:
 			resolved.kind === "number"
 				? "number"
@@ -431,6 +446,7 @@ function propertiesFromSchema(
 	prefix: string,
 	path: readonly string[],
 	required: readonly string[],
+	optionalParentPath: readonly string[] | null,
 	depth: number
 ): BodyParamInfo[] {
 	if (depth > 3) {
@@ -453,22 +469,45 @@ function propertiesFromSchema(
 		const flag = prefix === "" ? segment : `${prefix}-${segment}`;
 		const current = [...path, name];
 		const isRequired = required.includes(name);
-		const scalar = scalarProperty(resolved, prop, flag, current, isRequired);
+		const scalar = scalarProperty(
+			resolved,
+			prop,
+			flag,
+			current,
+			isRequired,
+			optionalParentPath
+		);
 		if (scalar !== undefined) {
 			results.push(scalar);
 			continue;
 		}
 		if (resolved.oneOf !== undefined) {
+			const childOptionalParentPath = isRequired ? optionalParentPath : current;
 			results.push(
-				...oneOfConstraints(resolved.oneOf, flag, current, depth + 1)
+				...oneOfConstraints(
+					resolved.oneOf,
+					flag,
+					current,
+					childOptionalParentPath,
+					depth + 1
+				)
 			);
 			continue;
 		}
 		if (resolved.allOf !== undefined) {
 			const merged = flattenAllOf(resolved.allOf);
 			if (merged.oneOf !== undefined) {
+				const childOptionalParentPath = isRequired
+					? optionalParentPath
+					: current;
 				results.push(
-					...oneOfConstraints(merged.oneOf, flag, current, depth + 1)
+					...oneOfConstraints(
+						merged.oneOf,
+						flag,
+						current,
+						childOptionalParentPath,
+						depth + 1
+					)
 				);
 				continue;
 			}
@@ -477,15 +516,19 @@ function propertiesFromSchema(
 			const nested =
 				resolved.allOf !== undefined ? flattenAllOf(resolved.allOf) : resolved;
 			if (nested.map) {
-				results.push(mapBodyParam(prop, flag, current, isRequired));
+				results.push(
+					mapBodyParam(prop, flag, current, isRequired, optionalParentPath)
+				);
 				continue;
 			}
+			const childOptionalParentPath = isRequired ? optionalParentPath : current;
 			results.push(
 				...propertiesFromSchema(
 					nested,
 					flag,
 					current,
 					nested.required,
+					childOptionalParentPath,
 					depth + 1
 				)
 			);
@@ -494,9 +537,25 @@ function propertiesFromSchema(
 			resolved.kind === "number" ||
 			resolved.kind === "boolean"
 		) {
-			results.push(scalarBodyParam(resolved, prop, flag, current, isRequired));
+			results.push(
+				scalarBodyParam(
+					resolved,
+					prop,
+					flag,
+					current,
+					isRequired,
+					optionalParentPath
+				)
+			);
 		} else if (resolved.kind === "array" && resolved.items !== undefined) {
-			const info = arrayBodyParam(resolved, prop, flag, current, isRequired);
+			const info = arrayBodyParam(
+				resolved,
+				prop,
+				flag,
+				current,
+				isRequired,
+				optionalParentPath
+			);
 			if (info) {
 				results.push(info);
 			}
@@ -505,24 +564,52 @@ function propertiesFromSchema(
 	return results;
 }
 
-function variantPropNames(schema: Schema, depth: number): string[] {
-	const names: string[] = [];
-	if (depth > 3 || schema.properties === undefined) {
-		return names;
+function objectSchema(schema: Schema): Schema {
+	const resolved = resolve(schema);
+	return resolved.allOf === undefined ? resolved : flattenAllOf(resolved.allOf);
+}
+
+function hasProperty(schema: Schema, path: readonly string[]): boolean {
+	if (path.length === 0) return true;
+	const resolved = objectSchema(schema);
+	if (resolved.oneOf !== undefined) {
+		return resolved.oneOf.some((variant) => hasProperty(variant, path));
 	}
-	for (const prop of schema.properties) {
-		pushUnique(names, prop.name);
-		let resolved = resolve(prop.schema);
-		if (resolved.allOf !== undefined) {
-			resolved = flattenAllOf(resolved.allOf);
-		}
-		if (isObjectKind(resolved)) {
-			for (const deep of variantPropNames(resolved, depth + 1)) {
-				pushUnique(names, deep);
-			}
-		}
+	const prop = resolved.properties?.find((p) => p.name === path[0]);
+	return prop !== undefined && hasProperty(prop.schema, path.slice(1));
+}
+
+/** Optional containers impose requirements only when a flag inside them is set. */
+function requiredProperty(
+	schema: Schema,
+	path: readonly string[],
+	trigger: readonly string[] = []
+): boolean {
+	const resolved = objectSchema(schema);
+	if (resolved.oneOf !== undefined) {
+		const variants = resolved.oneOf.filter((v) => hasProperty(v, trigger));
+		return (
+			variants.length > 0 &&
+			variants.every((v) => requiredProperty(v, path, trigger))
+		);
 	}
-	return names;
+	const [name, ...rest] = path;
+	const prop = resolved.properties?.find((p) => p.name === name);
+	if (prop === undefined || name === undefined) return false;
+	if (
+		!resolved.required.includes(name) &&
+		!(rest.length > 0 && trigger[0] === name)
+	) {
+		return false;
+	}
+	return (
+		rest.length === 0 ||
+		requiredProperty(
+			prop.schema,
+			rest,
+			trigger[0] === name ? trigger.slice(1) : []
+		)
+	);
 }
 
 function mergeEnumSchemas(a: Prop, b: Prop): Prop | undefined {
@@ -577,26 +664,22 @@ function deepMergeObjects(a: Prop, b: Prop): Prop | undefined {
 }
 
 /**
- * `deriveOneOfConstraints`: the flags of a union, with the flags unique to
- * one variant conflicting with those unique to another.
+ * Infer only constraints shared by every variant that accepts a flag.
  */
 function oneOfConstraints(
 	variants: readonly Schema[],
 	prefix: string,
 	path: readonly string[],
+	optionalParentPath: readonly string[] | null,
 	depth: number
 ): BodyParamInfo[] {
 	if (depth > 3) {
 		return [];
 	}
 	const resolvedVariants = variants.map((variant) => {
-		let resolved = resolve(variant);
-		if (resolved.allOf !== undefined) {
-			resolved = flattenAllOf(resolved.allOf);
-		}
+		const resolved = objectSchema(variant);
 		return {
 			schema: resolved,
-			props: variantPropNames(resolved, 0),
 			required: dedup(resolved.required),
 		};
 	});
@@ -634,82 +717,42 @@ function oneOfConstraints(
 		prefix,
 		path,
 		common,
+		optionalParentPath,
 		depth
 	);
 
-	// The last segment of each flag's API path, to the flag's name. A later
-	// flag with the same segment replaces an earlier one.
-	const propToFlag: [string, string][] = [];
-	for (const p of params) {
-		const tail = last(p.apiFieldPath);
-		if (tail !== undefined && tail !== "") {
-			setEntry(propToFlag, tail, p.name);
-		}
+	for (const param of params) {
+		param.required = resolvedVariants.every((v) =>
+			requiredProperty(v.schema, param.apiFieldPath.slice(path.length))
+		);
 	}
-	const flagOf = (n: string) => propToFlag.find(([k]) => k === n)?.[1];
-	const flags = (names: readonly string[]) =>
-		names.map(flagOf).filter((f): f is string => f !== undefined && f !== "");
-
-	for (let i = 0; i < resolvedVariants.length; i++) {
-		for (let j = i + 1; j < resolvedVariants.length; j++) {
-			const vi = resolvedVariants[i] as (typeof resolvedVariants)[number];
-			const vj = resolvedVariants[j] as (typeof resolvedVariants)[number];
-			const uniqueI = vi.props.filter((n) => !vj.props.includes(n));
-			const uniqueJ = vj.props.filter((n) => !vi.props.includes(n));
-			if (uniqueI.length === 0 || uniqueJ.length === 0) {
-				continue;
-			}
-			const flagsI = flags(uniqueI);
-			const flagsJ = flags(uniqueJ);
-			for (const param of params) {
-				const tail = last(param.apiFieldPath);
-				if (tail === undefined || tail === "") {
-					continue;
-				}
-				if (uniqueI.includes(tail)) {
-					param.conflicts = dedup([...(param.conflicts ?? []), ...flagsJ]);
-				}
-				if (uniqueJ.includes(tail)) {
-					param.conflicts = dedup([...(param.conflicts ?? []), ...flagsI]);
-				}
-			}
-		}
-	}
-
-	const specificCount: [string, number][] = [];
-	for (const v of resolvedVariants) {
-		for (const name of v.required) {
-			if (common.includes(name)) {
-				continue;
-			}
-			const entry = specificCount.find(([k]) => k === name);
-			if (entry) {
-				entry[1]++;
-			} else {
-				specificCount.push([name, 1]);
-			}
-		}
-	}
-	for (const v of resolvedVariants) {
-		const specific = v.required.filter((n) => !common.includes(n));
-		if (specific.length <= 1) {
-			continue;
-		}
-		for (const prop of specific) {
-			if ((specificCount.find(([k]) => k === prop)?.[1] ?? 0) > 1) {
-				continue;
-			}
-			const flag = flagOf(prop);
-			if (flag === undefined || flag === "") {
-				continue;
-			}
-			const param = params.find((p) => p.name === flag);
-			if (!param) {
-				continue;
-			}
-			const others = flags(specific.filter((n) => n !== prop));
-			if (others.length > 0) {
-				param.implies = dedup([...(param.implies ?? []), ...others]);
+	// Optional settings alone do not establish mutually exclusive input shapes.
+	const inferConflicts = resolvedVariants.some((v) => v.required.length > 0);
+	for (const param of params) {
+		const containing = resolvedVariants.filter((v) =>
+			hasProperty(v.schema, param.apiFieldPath.slice(path.length))
+		);
+		if (containing.length === 0) continue;
+		for (const other of params) {
+			if (other === param) continue;
+			if (
+				inferConflicts &&
+				!containing.some((v) =>
+					hasProperty(v.schema, other.apiFieldPath.slice(path.length))
+				)
+			) {
+				param.conflicts = dedup([...(param.conflicts ?? []), other.name]);
+			} else if (
+				!other.required &&
+				containing.every((v) =>
+					requiredProperty(
+						v.schema,
+						other.apiFieldPath.slice(path.length),
+						param.apiFieldPath.slice(path.length)
+					)
+				)
+			) {
+				param.implies = dedup([...(param.implies ?? []), other.name]);
 			}
 		}
 	}
@@ -723,7 +766,7 @@ export function bodyProperties(type: Type): BodyParamInfo[] {
 		resolved = flattenAllOf(resolved.allOf);
 	}
 	if (resolved.oneOf !== undefined && resolved.properties === undefined) {
-		return oneOfConstraints(resolved.oneOf, "", [], 0);
+		return oneOfConstraints(resolved.oneOf, "", [], null, 0);
 	}
 	const required = resolved.required;
 	const results: BodyParamInfo[] = [];
@@ -735,37 +778,67 @@ export function bodyProperties(type: Type): BodyParamInfo[] {
 		const prefix = flagSegment(raw);
 		const path = [raw.name];
 		const isRequired = required.includes(raw.name);
-		const scalar = scalarProperty(prop, raw, prefix, path, isRequired);
+		const scalar = scalarProperty(prop, raw, prefix, path, isRequired, null);
 		if (scalar !== undefined) {
 			results.push(scalar);
 			continue;
 		}
 		if (prop.oneOf !== undefined) {
-			results.push(...oneOfConstraints(prop.oneOf, prefix, path, 1));
+			results.push(
+				...oneOfConstraints(
+					prop.oneOf,
+					prefix,
+					path,
+					isRequired ? null : path,
+					1
+				)
+			);
 			continue;
 		}
 		if (prop.allOf !== undefined) {
 			const merged = flattenAllOf(prop.allOf);
 			if (merged.map) {
-				results.push(mapBodyParam(raw, prefix, path, isRequired));
+				results.push(mapBodyParam(raw, prefix, path, isRequired, null));
 				continue;
 			}
 			if (merged.oneOf !== undefined) {
-				results.push(...oneOfConstraints(merged.oneOf, prefix, path, 1));
+				results.push(
+					...oneOfConstraints(
+						merged.oneOf,
+						prefix,
+						path,
+						isRequired ? null : path,
+						1
+					)
+				);
 			} else {
 				results.push(
-					...propertiesFromSchema(merged, prefix, path, merged.required, 1)
+					...propertiesFromSchema(
+						merged,
+						prefix,
+						path,
+						merged.required,
+						isRequired ? null : path,
+						1
+					)
 				);
 			}
 			continue;
 		}
 		if (prop.map) {
-			results.push(mapBodyParam(raw, prefix, path, isRequired));
+			results.push(mapBodyParam(raw, prefix, path, isRequired, null));
 			continue;
 		}
 		if (isObjectKind(prop)) {
 			results.push(
-				...propertiesFromSchema(prop, prefix, path, prop.required, 1)
+				...propertiesFromSchema(
+					prop,
+					prefix,
+					path,
+					prop.required,
+					isRequired ? null : path,
+					1
+				)
 			);
 			continue;
 		}
@@ -774,9 +847,9 @@ export function bodyProperties(type: Type): BodyParamInfo[] {
 			prop.kind === "number" ||
 			prop.kind === "boolean"
 		) {
-			results.push(scalarBodyParam(prop, raw, prefix, path, isRequired));
+			results.push(scalarBodyParam(prop, raw, prefix, path, isRequired, null));
 		} else if (prop.kind === "array" && prop.items !== undefined) {
-			const info = arrayBodyParam(prop, raw, prefix, path, isRequired);
+			const info = arrayBodyParam(prop, raw, prefix, path, isRequired, null);
 			if (info) {
 				results.push(info);
 			}

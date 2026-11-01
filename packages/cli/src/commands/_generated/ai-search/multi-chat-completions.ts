@@ -28,12 +28,12 @@ import { runWithTelemetry } from "#lib/telemetry/index.js";
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
 		.usage(
-			"$0 ai-search multi-chat-completions <namespace>\n\nPerforms a chat completion request against multiple AI Search instances in parallel, merging retrieved content as context for generating a response."
+			"$0 ai-search multi-chat-completions\n\nPerforms a chat completion request against multiple AI Search instances in parallel, merging retrieved content as context for generating a response."
 		)
-		.positional("namespace", {
+		.option("namespace", {
 			type: "string",
 			description: "Namespace to use for this operation.",
-			demandOption: true,
+			default: "default",
 		})
 		.option("ai-search-options-cache-cache-threshold", {
 			type: "string",
@@ -82,7 +82,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("ai-search-options-reranking-match-threshold", {
 			type: "number",
 			description: "The ai_search_options.reranking.match_threshold field",
-			default: 0.4,
 		})
 		.option("ai-search-options-reranking-model", {
 			type: "string",
@@ -96,7 +95,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("ai-search-options-retrieval-context-expansion", {
 			type: "number",
 			description: "The ai_search_options.retrieval.context_expansion field",
-			default: 0,
 		})
 		.option("ai-search-options-retrieval-filters", {
 			type: "string",
@@ -153,7 +151,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("ai-search-options-retrieval-return-on-failure", {
 			type: "boolean",
 			description: "The ai_search_options.retrieval.return_on_failure field",
-			default: true,
 		})
 		.option("messages", {
 			type: "string",
@@ -180,7 +177,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 type Args = InferArgs<typeof builder>;
 
 const command: CommandModule<CommonYargsOptions, Args> = {
-	command: "multi-chat-completions <namespace>",
+	command: "multi-chat-completions",
 	describe: "Multi-Instance Chat Completions",
 	builder,
 	handler: async (argv): Promise<void> =>

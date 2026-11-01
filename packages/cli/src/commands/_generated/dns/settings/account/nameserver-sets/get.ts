@@ -20,7 +20,7 @@ import { runWithTelemetry } from "#lib/telemetry/index.js";
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
 		.usage(
-			"$0 dns settings account nameserver-sets get <nameserver-set-id>\n\nGets a Custom Nameserver Set owned by an account."
+			"$0 dns settings account nameserver-sets get <nameserver-set-id>\n\nGets a Custom Nameserver Set owned by an account. For details, refer to [Nameserver sets](https://developers.cloudflare.com/dns/nameservers/custom-nameservers/nameserver-sets/)."
 		)
 		.positional("nameserver-set-id", {
 			type: "string",

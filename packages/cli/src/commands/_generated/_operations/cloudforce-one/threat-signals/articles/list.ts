@@ -26,6 +26,7 @@ export default {
 		"tag_applied_by",
 		"pir_id",
 		"min_relevance",
+		"severity",
 		"sort",
 	],
 } as const;

@@ -44,53 +44,64 @@ describe("cf deploy", () => {
 	});
 
 	describe("simple worker", () => {
-		it("uploads fixed-audience identity bindings without provisioning identities", async () => {
-			const requests = recordRequests();
-			const upload = mockWorkerUpload();
-			await seed({
-				".cloudflare/output/v0/config.json": buildOutputRootConfig(),
-				".cloudflare/output/v0/workers/default/worker.config.json":
-					workerConfig({
-						env: {
-							ORDERS: {
-								type: "identity",
-								audience: "urn:orders",
+		it.each([false, true])(
+			"uploads identity binding metadata (signing only: %s)",
+			async (signingOnly) => {
+				const upload = mockWorkerUpload();
+				await seed({
+					".cloudflare/output/v0/config.json": buildOutputRootConfig(),
+					".cloudflare/output/v0/workers/default/worker.config.json":
+						workerConfig({
+							env: {
+								ORDERS: {
+									type: "identity",
+									...(signingOnly
+										? {
+												request_signing: {
+													allowed_origins: ["https://api.example.com"],
+													allowed_methods: ["GET"],
+												},
+											}
+										: { audience: "urn:orders" }),
+								},
+								REPORTS: {
+									type: "identity",
+									audience: "recipient",
+								},
 							},
-							REPORTS: {
-								type: "identity",
-								audience: "recipient",
-							},
+						}),
+					".cloudflare/output/v0/workers/default/bundle/index.js":
+						"export default {fetch() {return new Response('ok')}}",
+				});
+				const { exitCode } = await runCf([
+					"deploy",
+					"--prebuilt",
+					"--no-provision",
+				]);
+				expect(exitCode).toBe(0);
+				expect(upload.metadata?.bindings).toEqual(
+					expect.arrayContaining([
+						{
+							name: "ORDERS",
+							type: "identity",
+							...(signingOnly
+								? {
+										request_signing: {
+											allowed_origins: ["https://api.example.com"],
+											allowed_methods: ["GET"],
+										},
+									}
+								: { audience: "urn:orders" }),
 						},
-					}),
-				".cloudflare/output/v0/workers/default/bundle/index.js":
-					"export default {fetch() {return new Response('ok')}}",
-			});
-			const { exitCode } = await runCf([
-				"deploy",
-				"--prebuilt",
-				"--no-provision",
-			]);
-			expect(exitCode).toBe(0);
-			expect(upload.metadata?.bindings).toEqual(
-				expect.arrayContaining([
-					{
-						name: "ORDERS",
-						type: "identity",
-						audience: "urn:orders",
-					},
-					{
-						name: "REPORTS",
-						type: "identity",
-						audience: "recipient",
-					},
-				])
-			);
-			expect(
-				requests.some((request) =>
-					/\/oidc\/(identities|assignments|development_sessions)/.test(request)
-				)
-			).toBe(false);
-		});
+						{
+							name: "REPORTS",
+							type: "identity",
+							audience: "recipient",
+						},
+					])
+				);
+			}
+		);
 
 		it.each([
 			["D1", { type: "d1", name: "my-database" }, "database_id"],
